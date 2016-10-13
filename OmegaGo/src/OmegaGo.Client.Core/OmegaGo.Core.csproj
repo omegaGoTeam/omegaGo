@@ -8,8 +8,8 @@
     <ProjectGuid>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmegaGo.Client.Core</RootNamespace>
-    <AssemblyName>OmegaGo.Client.Core</AssemblyName>
+    <RootNamespace>OmegaGo.Core</RootNamespace>
+    <AssemblyName>OmegaGo.Core</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,8 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Online\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\IAI.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameTree.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

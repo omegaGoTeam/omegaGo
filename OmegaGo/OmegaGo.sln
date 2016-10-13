@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{802324CC-222A-494C-9654-1D5CBA991D59}"
 EndProject
@@ -11,9 +11,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{CCBA62
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{C12088AE-6F9C-4AA7-B084-9DE88336F528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.Client.Core", "src\OmegaGo.Client.Core\OmegaGo.Client.Core.csproj", "{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.Core", "src\OmegaGo.Client.Core\OmegaGo.Core.csproj", "{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.Client.Core.Tests", "tests\OmegaGo.Client.Core.Tests\OmegaGo.Client.Core.Tests.csproj", "{4C6CFF15-3E8A-4577-879D-76546884124D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{93C9AD3D-72A7-4A96-98F5-E67F55DC3E54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{293E5D16-7BFA-46CC-A48D-F3A9E8A258DF}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Users\Soothsilver\Desktop\GoTextProtocolSpecification.pdf = ..\..\Users\Soothsilver\Desktop\GoTextProtocolSpecification.pdf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,7 +43,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{802324CC-222A-494C-9654-1D5CBA991D59} = {39D1E82F-C1EA-49C2-8E2B-53A647EDB482}
 		{C12088AE-6F9C-4AA7-B084-9DE88336F528} = {39D1E82F-C1EA-49C2-8E2B-53A647EDB482}
-		{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2} = {802324CC-222A-494C-9654-1D5CBA991D59}
 		{4C6CFF15-3E8A-4577-879D-76546884124D} = {802324CC-222A-494C-9654-1D5CBA991D59}
+		{293E5D16-7BFA-46CC-A48D-F3A9E8A258DF} = {93C9AD3D-72A7-4A96-98F5-E67F55DC3E54}
 	EndGlobalSection
 EndGlobal
