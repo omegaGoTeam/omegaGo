@@ -50,8 +50,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Shared\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
+      <Project>{dafe0a61-6d7c-4423-8a23-d59d774a8fc2}</Project>
+      <Name>OmegaGo.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
