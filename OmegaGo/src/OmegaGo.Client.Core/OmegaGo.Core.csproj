@@ -38,6 +38,8 @@
     <Folder Include="Online\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agents\IAgent.cs" />
+    <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\IAI.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameTree.cs" />

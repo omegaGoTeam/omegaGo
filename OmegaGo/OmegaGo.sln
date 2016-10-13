@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{293E5D16-7BFA-46CC-A48D-F3A9E8A258DF}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Users\Soothsilver\Desktop\GoTextProtocolSpecification.pdf = ..\..\Users\Soothsilver\Desktop\GoTextProtocolSpecification.pdf
+		..\..\Users\Soothsilver\Desktop\a\IGS-Compatible Old Protocol Specification.html = ..\..\Users\Soothsilver\Desktop\a\IGS-Compatible Old Protocol Specification.html
 	EndProjectSection
 EndProject
 Global
