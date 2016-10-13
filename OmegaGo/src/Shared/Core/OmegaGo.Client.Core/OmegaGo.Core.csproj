@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Agents\IAgent.cs" />
+    <Compile Include="Agents\OnlineAgent.cs" />
+    <Compile Include="AI\IAI.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameTree.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
