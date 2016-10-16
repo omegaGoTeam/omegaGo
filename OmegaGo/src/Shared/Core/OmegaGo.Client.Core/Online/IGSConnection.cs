@@ -48,6 +48,8 @@ namespace OmegaGo.Core.Online
 
         public override bool Login(string username, string password)
         {
+            if (username == null) throw new ArgumentNullException(nameof(username));
+            if (password == null) throw new ArgumentNullException(nameof(password));
             EnsureConnected();
             return false;
         }

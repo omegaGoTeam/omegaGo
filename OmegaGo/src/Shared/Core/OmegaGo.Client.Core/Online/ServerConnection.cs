@@ -31,6 +31,7 @@ namespace OmegaGo.Core.Online
         /// Sends a log message that should be displayed to the user using the program.
         /// </summary>
         public event Action<string> LogEvent;
+
         protected void OnLogEvent(string message)
         {
             LogEvent?.Invoke(message);
