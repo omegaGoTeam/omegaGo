@@ -12,8 +12,15 @@ namespace PetrTestOnlineConnection
         static void Main(string[] args)
         {
             IgsConnection connection = new IgsConnection();
+            connection.LogEvent += Connection_LogEvent;
             Console.Write("Pinging server: ");
             Console.WriteLine(connection.Hello());
+            Console.ReadKey();
+        }
+
+        private static void Connection_LogEvent(string obj)
+        {
+            Console.WriteLine("INCOMING: " + obj);
         }
     }
 }

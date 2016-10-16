@@ -25,5 +25,11 @@ namespace OmegaGo.Core
         /// The game tree associated with the game. Each game has exactly one associated game tree.
         /// </summary>
         public GameTree GameTree;
+
+        public Game()
+        {
+            Players = new List<Core.Player>();
+            GameTree = new Core.GameTree();
+        }
     }
 }
