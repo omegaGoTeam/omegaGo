@@ -155,6 +155,7 @@ namespace OmegaGo.Core.Online
         ///<summary>
         ///IGSChannel yelling
         ///</summary>
-        Yell = 32
+        Yell = 32,
+        Unknown
     }
 }

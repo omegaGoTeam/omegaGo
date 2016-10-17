@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core;
 using OmegaGo.Core.Online;
 
 namespace PetrTestOnlineConnection
@@ -11,19 +12,28 @@ namespace PetrTestOnlineConnection
     {
         static void Main(string[] args)
         {
-            float a = 0.5f;
-            float b = 0.5f;
-            float c = a + b;
-            float d = c + 2;
-            float e = d + b;
+            //TryOGS();
+            TryIGS();
+        }
+
+/*        private static void TryOGS()
+        {
+            throw new NotImplementedException();
+        }
+        */
+        private static async void TryIGS()
+        {
             IgsConnection connection = new IgsConnection();
             connection.LogEvent += Connection_LogEvent;
-            Console.Write("Connecting: ");
+            Console.Write("== CONNECTING ==");
+            Console.WriteLine();
             connection.EnsureConnected();
-            Console.ReadKey();
+            Console.WriteLine();
+            Console.WriteLine("== LOGGING IN ==");
             connection.Login("OmegaGoBot", "123456789");
-            Console.ReadKey();
-            connection.SendRawText("games");
+            Console.WriteLine("== VIEWING GAMES ==");
+            List<Game> games = connection.ListGamesInProgress().Result;
+            Console.WriteLine($"MANY GAMES LOADED: {games.Count} IN TOTAL");
             Console.ReadKey();
         }
 

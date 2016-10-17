@@ -30,6 +30,10 @@ namespace OmegaGo.Core
         /// The server this game occurs on, if any.
         /// </summary>
         public ServerConnection Server;
+        /// <summary>
+        /// The game's identification number on the server.
+        /// </summary>
+        public int ServerId;
         public int NumberOfMovesPlayed;
         public int BoardSize;
         public int NumberOfHandicapStones;
