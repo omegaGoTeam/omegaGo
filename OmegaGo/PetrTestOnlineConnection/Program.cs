@@ -11,6 +11,11 @@ namespace PetrTestOnlineConnection
     {
         static void Main(string[] args)
         {
+            float a = 0.5f;
+            float b = 0.5f;
+            float c = a + b;
+            float d = c + 2;
+            float e = d + b;
             IgsConnection connection = new IgsConnection();
             connection.LogEvent += Connection_LogEvent;
             Console.Write("Connecting: ");
@@ -24,7 +29,7 @@ namespace PetrTestOnlineConnection
 
         private static void Connection_LogEvent(string obj)
         {
-            Console.WriteLine(obj);
+            Console.WriteLine("INCOMING: " + obj);
         }
     }
 }

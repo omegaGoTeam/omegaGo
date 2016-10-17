@@ -42,6 +42,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameTree.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="Online\IgsCode.cs" />
     <Compile Include="Online\IgsConnection.cs" />
     <Compile Include="Online\ServerConnection.cs" />
     <Compile Include="Player.cs" />

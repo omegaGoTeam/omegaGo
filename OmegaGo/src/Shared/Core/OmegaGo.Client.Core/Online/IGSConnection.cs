@@ -22,6 +22,7 @@ namespace OmegaGo.Core.Online
         private TcpSocketClient client;
         private StreamWriter streamWriter;
         private StreamReader streamReader;
+        private List<Game> gamesInProgressOnIgs;
 
         public void EnsureConnected()
         {
@@ -39,21 +40,40 @@ namespace OmegaGo.Core.Online
         {
             this.streamWriter.WriteLine(command);
         }
+        /*
+        public override async Task<IEnumerable<Game>> ListGamesInProgress()
+        {
+            
+            //this.gamesInProgressOnIgs = new List<Core.Game>();
+            //while
+            //this.streamWriter.WriteLine("games");
+            
+
+        }*/
+        public override void Observe(Game game)
+        {
+            base.Observe(game);
+        }
 
         private async void HandleIncomingData(StreamReader sr)
         {
             string line = await sr.ReadLineAsync();
+            line = line.Trim();
             OnLogEvent(line);
+            if (line != "")
+            {
+                string[] split = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string firstWord = split[0];
+                int firstWordAsInteger;
+                if (int.TryParse(firstWord, out firstWordAsInteger))
+                {
+                    IgsCode code = (IgsCode)firstWordAsInteger;
+
+                }
+            }
             HandleIncomingData(sr);
         }
         
-        public void LoginAsGuest()
-        {
-            EnsureConnected();
-            streamWriter.WriteLine("guest");
-            streamWriter.Flush();
-        }
-
         public override bool Login(string username, string password)
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
@@ -62,7 +82,7 @@ namespace OmegaGo.Core.Online
             streamWriter.WriteLine("login");
             streamWriter.WriteLine(username);
             streamWriter.WriteLine(password);
-            return false;
+            return true;
         }
     }
 }

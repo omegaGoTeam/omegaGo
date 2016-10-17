@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online;
 
 namespace OmegaGo.Core
 {
@@ -25,6 +26,20 @@ namespace OmegaGo.Core
         /// The game tree associated with the game. Each game has exactly one associated game tree.
         /// </summary>
         public GameTree GameTree;
+        /// <summary>
+        /// The server this game occurs on, if any.
+        /// </summary>
+        public ServerConnection Server;
+        public int NumberOfMovesPlayed;
+        public int BoardSize;
+        public int NumberOfHandicapStones;
+        /// <summary>
+        /// The komi value is the number of points added to White's score at the end of the game. We can afford to use float here, 
+        /// because it can only be integers and half-integers, and in any case, the komi value is only ever added or subtracted,
+        /// never multiplied or divided.
+        /// </summary>
+        public float KomiValue;
+        public int NumberOfObservers;
 
         public Game()
         {
