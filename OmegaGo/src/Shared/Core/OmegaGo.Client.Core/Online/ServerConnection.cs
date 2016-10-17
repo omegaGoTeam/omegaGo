@@ -44,5 +44,7 @@ namespace OmegaGo.Core.Online
         {
             LogEvent?.Invoke(message);
         }
+
+        public abstract string ShortName { get;  }
     }
 }

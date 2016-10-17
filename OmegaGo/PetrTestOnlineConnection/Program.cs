@@ -13,7 +13,7 @@ namespace PetrTestOnlineConnection
         static void Main(string[] args)
         {
             //TryOGS();
-            TryIGS();
+            TryIgs();
         }
 
 /*        private static void TryOGS()
@@ -21,7 +21,7 @@ namespace PetrTestOnlineConnection
             throw new NotImplementedException();
         }
         */
-        private static async void TryIGS()
+        private static void TryIgs()
         {
             IgsConnection connection = new IgsConnection();
             connection.LogEvent += Connection_LogEvent;

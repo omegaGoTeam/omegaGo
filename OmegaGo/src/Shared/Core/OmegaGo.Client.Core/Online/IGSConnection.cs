@@ -96,6 +96,8 @@ namespace OmegaGo.Core.Online
             base.Observe(game);
         }
 
+        public override string ShortName => "IGS";
+
         private async void HandleIncomingData(StreamReader sr)
         {
             string line = await sr.ReadLineAsync();

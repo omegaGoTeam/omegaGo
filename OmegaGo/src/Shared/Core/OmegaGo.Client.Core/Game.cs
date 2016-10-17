@@ -50,5 +50,10 @@ namespace OmegaGo.Core
             Players = new List<Core.Player>();
             GameTree = new Core.GameTree();
         }
+
+        public override string ToString()
+        {
+            return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + " vs. " + Players[1].Name + " (" + NumberOfObservers + " observers)";
+        }
     }
 }
