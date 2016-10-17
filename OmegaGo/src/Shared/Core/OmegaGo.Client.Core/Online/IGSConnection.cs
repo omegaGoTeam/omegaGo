@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Online
             if (client != null) return;
 
             client = new TcpSocketClient();
-            client.ConnectAsync("igs.joyjoy.net", 6969).Wait();
+            Task.Run(() => client.ConnectAsync("igs.joyjoy.net", 6969)).Wait();
             this.streamWriter = new StreamWriter(this.client.WriteStream);
             this.streamReader = new StreamReader(this.client.ReadStream);
             this.streamWriter.AutoFlush = true;

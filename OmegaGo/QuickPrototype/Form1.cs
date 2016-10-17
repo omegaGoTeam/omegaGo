@@ -23,14 +23,14 @@ namespace QuickPrototype
 
         private void Igs_LogEvent(string obj)
         {
-            this.tbConsole.AppendText(Environment.NewLine + obj);
+           this.tbConsole.AppendText(Environment.NewLine + obj);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            List<Game> games = igs.ListGamesInProgress().Result;
-            this.lbGames.Items.Clear();
-            this.lbGames.Items.AddRange(games.ToArray());
+            List<Game> games = await igs.ListGamesInProgress();
+                    this.lbGames.Items.Clear();
+                    this.lbGames.Items.AddRange(games.ToArray());
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -48,7 +48,12 @@ namespace QuickPrototype
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.EnsureConnected();
-            igs.Login("OmegaGoBot", "123456789");
+            //igs.Login("OmegaGoBot", "123456789");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            igs.SendRawText("toggle client");
         }
     }
 }
