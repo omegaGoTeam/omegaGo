@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
-    public class GameTree
+    public class Move
     {
-        // Vita
+        public Color WhoMoves;
+        public Coordinates Coordinates;
     }
 }

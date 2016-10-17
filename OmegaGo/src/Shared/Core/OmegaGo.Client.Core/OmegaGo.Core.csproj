@@ -37,8 +37,11 @@
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\IAI.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Coordinates.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameTree.cs" />
+    <Compile Include="Move.cs" />
     <Compile Include="Online\IgsConnection.cs" />
     <Compile Include="Online\ServerConnection.cs" />
     <Compile Include="Player.cs" />
@@ -56,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Online\IGS Server Response Codes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

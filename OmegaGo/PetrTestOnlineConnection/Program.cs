@@ -13,14 +13,18 @@ namespace PetrTestOnlineConnection
         {
             IgsConnection connection = new IgsConnection();
             connection.LogEvent += Connection_LogEvent;
-            Console.Write("Pinging server: ");
-            Console.WriteLine(connection.Hello());
+            Console.Write("Connecting: ");
+            connection.EnsureConnected();
+            Console.ReadKey();
+            connection.Login("OmegaGoBot", "123456789");
+            Console.ReadKey();
+            connection.SendRawText("games");
             Console.ReadKey();
         }
 
         private static void Connection_LogEvent(string obj)
         {
-            Console.WriteLine("INCOMING: " + obj);
+            Console.WriteLine(obj);
         }
     }
 }

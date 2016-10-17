@@ -15,7 +15,7 @@ namespace OmegaGo.Core
     /// 
     /// TODO It is yet to be decided whether a tsumego problem will also qualify as a Game instance. 
     /// </summary>
-    class Game
+    public class Game
     {
         /// <summary>
         /// In ordinary games, this list will have exactly two players. If we ever add multiplayer games, this could include more players.

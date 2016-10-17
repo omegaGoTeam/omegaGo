@@ -8,14 +8,6 @@ namespace OmegaGo.Core.Online
 {
     public abstract class ServerConnection
     {
-        /// <summary>
-        /// Asks the server to send some information to tell us that it's alive.
-        /// </summary>
-        /// <returns>Some information from the server.</returns>
-        public virtual string Hello()
-        {
-            throw new Exception("This method was not overriden.");
-        }
 
         /// <summary>
         /// Attempts to log in the user to the server associated with this class. If is succeeds, the class instance remembers the login data and establishes 
@@ -25,6 +17,22 @@ namespace OmegaGo.Core.Online
         /// <param name="password">User's password.</param>
         /// <returns>True if the server permitted the login.</returns>
         public abstract bool Login(string username, string password);
+
+        public virtual IEnumerable<Game> ListGamesInProgress()
+        {
+            yield break;
+        }
+        public virtual void Observe(Game game)
+        {
+        }
+
+        public event Action<Game, Move> IncomingMove;
+
+        protected void OnIncomingMove(Game game, Move move)
+        {
+            IncomingMove?.Invoke(game, move);
+        }
+         
 
 
         /// <summary>

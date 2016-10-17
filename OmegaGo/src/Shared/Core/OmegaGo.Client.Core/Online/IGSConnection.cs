@@ -18,32 +18,40 @@ namespace OmegaGo.Core.Online
     /// <seealso cref="OmegaGo.Core.Online.ServerConnection" />
     public class IgsConnection : ServerConnection
     {
+        // TODO switch prompt mode when necessary
         private TcpSocketClient client;
         private StreamWriter streamWriter;
+        private StreamReader streamReader;
 
-        private void EnsureConnected()
+        public void EnsureConnected()
         {
             if (client != null) return;
+
             client = new TcpSocketClient();
             client.ConnectAsync("igs.joyjoy.net", 6969).Wait();
             this.streamWriter = new StreamWriter(this.client.WriteStream);
-            StreamReader sr = new StreamReader(client.ReadStream);
+            this.streamReader = new StreamReader(this.client.ReadStream);
+            this.streamWriter.AutoFlush = true;
             this.streamWriter.WriteLine("guest");
-            CopyInput(sr);
+            HandleIncomingData(this.streamReader);
+        }
+        public void SendRawText(string command)
+        {
+            this.streamWriter.WriteLine(command);
         }
 
-        private async void CopyInput(StreamReader sr)
+        private async void HandleIncomingData(StreamReader sr)
         {
             string line = await sr.ReadLineAsync();
             OnLogEvent(line);
-            CopyInput(sr);
+            HandleIncomingData(sr);
         }
-
-        public override string Hello()
+        
+        public void LoginAsGuest()
         {
             EnsureConnected();
-            streamWriter.WriteLine("help");
-            return "DONE";
+            streamWriter.WriteLine("guest");
+            streamWriter.Flush();
         }
 
         public override bool Login(string username, string password)
@@ -51,6 +59,9 @@ namespace OmegaGo.Core.Online
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
             EnsureConnected();
+            streamWriter.WriteLine("login");
+            streamWriter.WriteLine(username);
+            streamWriter.WriteLine(password);
             return false;
         }
     }

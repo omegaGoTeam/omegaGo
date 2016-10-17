@@ -1,6 +1,6 @@
 ﻿namespace OmegaGo.Core
 {
-    class Player
+    public class Player
     {
 
     }

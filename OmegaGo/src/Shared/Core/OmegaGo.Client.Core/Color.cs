@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
-    public class GameTree
+    /// <summary>
+    /// Represents a color of stones in a game of two-player Go.
+    /// </summary>
+    public enum Color
     {
-        // Vita
+        Black,
+        White
     }
 }

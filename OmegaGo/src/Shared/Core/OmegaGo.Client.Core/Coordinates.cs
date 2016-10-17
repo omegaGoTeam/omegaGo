@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
-    public class GameTree
+    public class Coordinates
     {
-        // Vita
+        public int X;
+        public int Y;
     }
 }
