@@ -45,11 +45,14 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameTree.cs" />
+    <Compile Include="GameTreeNode.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Online\Igs\IgsCode.cs" />
     <Compile Include="Online\Igs\IgsConnection.cs" />
     <Compile Include="Online\ServerConnection.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="PositionRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,7 +75,9 @@
   <ItemGroup>
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sgf\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
