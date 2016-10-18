@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Extensions
 {
-    static class ExtensionMethods
+    static class StringExtensions
     {
         public static int AsInteger(this string text)
         {

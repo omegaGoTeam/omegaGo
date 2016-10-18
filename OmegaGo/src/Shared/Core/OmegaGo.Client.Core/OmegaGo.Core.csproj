@@ -42,7 +42,7 @@
     <Compile Include="AI\IAI.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Coordinates.cs" />
-    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameTree.cs" />
     <Compile Include="Move.cs" />

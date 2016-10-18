@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core.Extensions;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online
