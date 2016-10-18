@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core;
 using OmegaGo.Core.Online;
+using OmegaGo.Core.Online.Igs;
 
 namespace PetrTestOnlineConnection
 {

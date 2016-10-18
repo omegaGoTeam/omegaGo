@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
 using Sockets.Plugin;
 
-namespace OmegaGo.Core.Online
+namespace OmegaGo.Core.Online.Igs
 {
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information

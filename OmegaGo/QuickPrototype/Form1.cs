@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.Online;
+using OmegaGo.Core.Online.Igs;
 
 namespace QuickPrototype
 {

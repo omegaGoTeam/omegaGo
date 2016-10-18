@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OmegaGo.Core.Online;
+using OmegaGo.Core.Online.Igs;
 
-namespace OmegaGo.Client.Core.Tests.Online
+namespace OmegaGo.Client.Core.Tests.Online.Igs
 {
     [TestClass]
     public class IgsConnectionTests
