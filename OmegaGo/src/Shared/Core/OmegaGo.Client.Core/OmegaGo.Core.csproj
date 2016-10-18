@@ -36,6 +36,9 @@
   <ItemGroup>
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
+    <Compile Include="AI\AICapabilities.cs" />
+    <Compile Include="AI\AIDecision.cs" />
+    <Compile Include="AI\AIPreMoveInformation.cs" />
     <Compile Include="AI\IAI.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Coordinates.cs" />

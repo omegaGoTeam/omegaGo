@@ -18,9 +18,9 @@ namespace OmegaGo.Core.Online
         /// <returns>True if the server permitted the login.</returns>
         public abstract bool Login(string username, string password);
 
-        public virtual async Task<List<Game>> ListGamesInProgress()
+        public virtual Task<List<Game>> ListGamesInProgress()
         {
-            return new List<Game>();
+            return Task.FromResult(new List<Game>());
         }
         public virtual void Observe(Game game)
         {

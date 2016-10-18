@@ -11,6 +11,7 @@ namespace OmegaGo.Core
     /// </summary>
     public enum Color
     {
+        None,
         Black,
         White
     }
