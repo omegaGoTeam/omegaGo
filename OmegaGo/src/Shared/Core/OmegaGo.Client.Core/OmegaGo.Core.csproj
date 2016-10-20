@@ -44,6 +44,8 @@
     <Compile Include="Coordinates.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameBoardSize.cs" />
+    <Compile Include="GameState\IGameTreeSerializer.cs" />
     <Compile Include="GameTree.cs" />
     <Compile Include="GameTreeNode.cs" />
     <Compile Include="Move.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="PositionRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sgf\SgfParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sockets.Plugin, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -75,9 +78,7 @@
   <ItemGroup>
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sgf\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

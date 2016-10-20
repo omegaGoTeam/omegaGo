@@ -66,7 +66,7 @@ namespace OmegaGo.Core
         public string Source { get; set; }
 
         // SZ: root
-        public int Size { get; set; }
+        public GameBoardSize Size { get; set; }
 
         // TM: game-info
         public double TimeLimit { get; set; }
