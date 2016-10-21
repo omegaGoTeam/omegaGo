@@ -2,9 +2,9 @@ using MvvmCross.WindowsUWP.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class MainView : ViewBase
+    public sealed partial class MainMenuView : ViewBase
     {
-        public MainView()
+        public MainMenuView()
         {
             this.InitializeComponent();
         }

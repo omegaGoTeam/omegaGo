@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -15,6 +16,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Platform;
+using OmegaGo.UI.Infrasturcture;
+using OmegaGo.UI.Infrasturcture.Bootstrap;
+using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -23,6 +27,8 @@ namespace OmegaGo.UI.WindowsUniversal
     /// </summary>
     sealed partial class App : Application
     {
+        private Frame _rootFrame = null;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -40,45 +46,59 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Init( e );
+        }
+
+        private async void Init( LaunchActivatedEventArgs e )
+        {
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+            if ( System.Diagnostics.Debugger.IsAttached )
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            Frame rootFrame = Window.Current.Content as Frame;
+            _rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if ( _rootFrame == null )
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
+                _rootFrame = new Frame();
+                // Set the default language
+                _rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[ 0 ];
 
-                rootFrame.NavigationFailed += OnNavigationFailed;
+                _rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                //  Display an extended splash screen if app was not previously running.
+                if ( e.PreviousExecutionState != ApplicationExecutionState.Running )
                 {
-                    //TODO: Load state from previously suspended application
-                }
 
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                }
             }
 
-            if (e.PrelaunchActivated == false)
+            if ( e.PrelaunchActivated == false )
             {
-                if (rootFrame.Content == null)
-                {
-                    var setup = new Setup( rootFrame );
-                    setup.Initialize();
-
-                    var start = Mvx.Resolve<MvvmCross.Core.ViewModels.IMvxAppStart>();
-                    start.Start();
+                if ( _rootFrame.Content == null )
+                {                                        
+                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen( e.SplashScreen, false );
+                    _rootFrame.Content = extendedSplash;
+                    Window.Current.Content = _rootFrame;
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+                await InitializeMvvmCrossAsync();
             }
+        }
+
+        private async Task InitializeMvvmCrossAsync()
+        {
+            if ( _rootFrame == null ) throw new NullReferenceException("Root frame is not initialized"); 
+            var setup = new Setup( _rootFrame );
+            setup.Initialize();
+
+            var start = Mvx.Resolve<IAsyncAppStart>();
+            await start.StartAsync();
         }
 
         /// <summary>

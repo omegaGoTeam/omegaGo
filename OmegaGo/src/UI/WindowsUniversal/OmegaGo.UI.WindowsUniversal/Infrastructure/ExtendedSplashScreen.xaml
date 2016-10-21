@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="OmegaGo.UI.WindowsUniversal.Infrastructure.ExtendedSplashScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.Infrastructure"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+        <Canvas>
+            <Image x:Name="extendedSplashImage" Source="/Assets/SplashScreen.png"/>
+            <ProgressRing Name="splashProgressRing" Foreground="White" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" />
+        </Canvas>
+    </Grid>
+</Page>

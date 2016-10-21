@@ -2,6 +2,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 using OmegaGo.UI.Infrasturcture;
+using OmegaGo.UI.Infrasturcture.Bootstrap;
 
 namespace OmegaGo.UI
 {
@@ -14,7 +15,7 @@ namespace OmegaGo.UI
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
-            Mvx.RegisterType<IMvxAppStart, OmegaGoAppStart>();
+            Mvx.RegisterType<IAsyncAppStart, OmegaGoAppStart>();
         }
     }
 }
