@@ -51,6 +51,25 @@ namespace OmegaGo.Core
             GameTree = new Core.GameTree();
         }
 
+        /// <summary>
+        /// Tells the online connection to give us information about the current game state and to push new moves as they happen.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">This game is not an online game.</exception>
+        public void StartObserving()
+        {
+            if (Server == null) throw new InvalidOperationException("This game is not an online game.");
+            Server.StartObserving(this);
+        }
+        /// <summary>
+        /// Tells the online connection to stop pushing information about the game.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">This game is not an online game.</exception>
+        public void StopObserving()
+        {
+            if (Server == null) throw new InvalidOperationException("This game is not an online game.");
+            Server.EndObserving(this);
+        }
+
         public override string ToString()
         {
             return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + " vs. " + Players[1].Name + " (" + NumberOfObservers + " observers)";

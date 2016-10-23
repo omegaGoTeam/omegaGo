@@ -22,7 +22,10 @@ namespace OmegaGo.Core.Online
         {
             return Task.FromResult(new List<Game>());
         }
-        public virtual void Observe(Game game)
+        public virtual void StartObserving(Game game)
+        {
+        }
+        public virtual void EndObserving(Game game)
         {
         }
 

@@ -25,6 +25,7 @@ namespace OmegaGo.Core.Online.Igs
         private StreamWriter streamWriter;
         private StreamReader streamReader;
         private List<Game> gamesInProgressOnIgs;
+        private List<Game> gamesBeingObserved = new List<Game>();
         private BufferBlock<string> incomingLines = new BufferBlock<string>();
 
         public void EnsureConnected()
@@ -41,12 +42,13 @@ namespace OmegaGo.Core.Online.Igs
         }
         public void SendRawText(string command)
         {
+            EnsureConnected();
             this.streamWriter.WriteLine(command);
         }
         
         public override async Task<List<Game>> ListGamesInProgress()
         {
-            
+            EnsureConnected();
             this.gamesInProgressOnIgs = new List<Core.Game>();
             string line;
             bool atLeastOneGamePassed = false;
@@ -75,7 +77,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             return await incomingLines.ReceiveAsync();
         }
-        public IgsCode ExtractCodeFromLine(string line)
+        private IgsCode ExtractCodeFromLine(string line)
         {
             if (line != "")
             {
@@ -90,9 +92,25 @@ namespace OmegaGo.Core.Online.Igs
             }
             return IgsCode.Unknown;
         }
-        public override void Observe(Game game)
+
+        public override void StartObserving(Game game)
         {
-            base.Observe(game);
+            if (gamesBeingObserved.Contains(game))
+            {
+                // We are already observing this game.
+                return; 
+            }
+            gamesBeingObserved.Add(game);
+            streamWriter.WriteLine("observe " + game.ServerId);
+        }
+        public override void EndObserving(Game game)
+        {
+            if (!gamesBeingObserved.Contains(game))
+            {
+                throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
+            }
+            gamesBeingObserved.Remove(game);
+            streamWriter.WriteLine("observe " + game.ServerId);
         }
 
         public override string ShortName => "IGS";

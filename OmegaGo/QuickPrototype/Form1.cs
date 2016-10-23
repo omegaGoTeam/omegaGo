@@ -56,5 +56,26 @@ namespace QuickPrototype
         {
             igs.SendRawText("toggle client");
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (this.lbGames.SelectedItem != null)
+            {
+                Game game = (Game)lbGames.SelectedItem;
+                game.StartObserving();
+                this.lbObservedGames.Items.Add(game);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (this.lbObservedGames.SelectedItem != null)
+            {
+
+                Game game = (Game)lbGames.SelectedItem;
+                game.StopObserving();
+                this.lbObservedGames.Items.Remove(game);
+            }
+        }
     }
 }
