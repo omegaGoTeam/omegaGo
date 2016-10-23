@@ -49,7 +49,7 @@ namespace QuickPrototype
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.EnsureConnected();
-            //igs.Login("OmegaGoBot", "123456789");
+            igs.Login("Soothie", "Alliance");
         }
 
         private void button6_Click(object sender, EventArgs e)

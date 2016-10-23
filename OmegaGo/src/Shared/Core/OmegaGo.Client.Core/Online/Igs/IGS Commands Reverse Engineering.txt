@@ -1,0 +1,357 @@
+﻿1 0 Requesting username...
+1 1 Requesting password...
+1 5 You are in the main menu. Requesting a command...
+5 An error occurred.
+
+-------------------------------------------------------------------------------
+Comprehensive list of commands from "help" (some are missing and undocumented):
+-------------------------------------------------------------------------------
+
+
+README         decline        info           rating         stored
+Summary        defs           kibitz         ratingstats    teach
+addresschange  delete         komi           refresh        team
+addtime        done           language       regchange      tell
+adjourn        entry          last           reghistory     tgmatch
+admin          erase          load           register       time
+alias          etiquette      look           RegMessage     title
+all            exit           mail           request        tmatch
+automatch      FAQ            match          reset          TOC
+ayt            find           message        resign         toggle
+beep           free           moves          results        tokens
+best           freegame       notify         save           trail
+bet            ftp            observe        say            translate
+byoyomi        games          pass           score          underrated
+CC             go             password       sealed         undo
+channel        goboard        players        sgf            unobserve
+chars          goematch       pmatch         sgfviewing     uptime
+chatter        gteach         probability    shogi          usage
+chinesechess   handicap       progame        shogirules     user
+choice         help           psmail         shogirules1    watching
+client         igs            quit           shout          who
+commands       IGStitles      rank           stats          yell
+coords         index          ranksupport    status
+
+-------------------------------------------------------------------------------
+Short description of commands:
+-------------------------------------------------------------------------------
+
+        Welcome to the Internet Go Server (IGS) at igs.joyjoy.net 6969
+            The IGS WEB page is located at:  http://www.pandanet.co.jp/English/
+
+ This document is a short summary of all the IGS commands and supporting help
+ messages.  Please review the commands and other documents separately for a
+ full description.  For a list of all the IGS commands, type:  help commands
+ When  wanting to view the description of a command (or document), precede
+ the command with the word 'help':
+
+         Examples:  help tell   help match   help stats   help
+
+ 'help' can be shortened to: '?'
+
+         Examples:  ? tell   ? match   ? stats   ?
+
+ Almost any IGS command, document, or announcement, can be mailed by using
+ the 'mail' command.  'mail' uses the registration address, or 'stats'
+ address. 'mail me <filename>' will send the requested file.
+
+        Example: to receive a copy of the 'who' command description,
+        use:  mail me who
+
+ The IGS help files are purely for IGS usage only. If you are using a client
+ please be aware some clients do not make use of all the IGS commands and
+ function in a "client mode".  In this case switch to a non-client mode.
+
+ All the help messages have a description, or usage, on how to use the
+ command. Often there are square brackets [ ] or angle brackets < >
+ enclosing an argument.
+
+        Example:  stats [playername]    match <opponentname>
+
+ Square brackets mean the argument may not be required, and angle brackets
+ mean the argument is required. The brackets are not part of the command,
+ and should be omitted.
+
+        Examples:  stats   stats tim    match tim
+
+ Most commands on IGS can be abbreviated, unless there is conflict with
+ another command with the same beginning letters.
+
+        Example, the command 'kibitz' can be abbreviated as kibi or kib.
+
+ If the abbreviation chosen is too short, a message will appear saying the
+ command was ambiguous and needs more characters. Notice, however, the 'stats'
+ command cannot be abbreviated because of a conflict with the 'status'
+ command.   'stat' would be ambiguous.
+
+
+ addresschange:  This is the 'register' command. The 'register' command can
+ be used to create a new account on IGS, or the update the email address of
+ an existing account.
+
+ addtime:  Adds extra time to an opponent's clock during a game.
+
+ adjourn:  Request an adjournment during a game.
+
+ admin:  Lists the email address of the IGS administrators.
+
+ aga:  The American Go Association information.
+
+ alias:  To shorten a command or command sequence to a simpler form.
+
+ all:  List all the observers of a particular game.
+
+ automatch:  An alternative 'match' command to start a game using a preferred
+ set of defaults, such as board size and times.  Used in conjunction with the
+ 'defs' command.
+
+ ayt:  Prints a 'yes' at your terminal to let you know you are still
+ connected to IGS.
+
+ beep:  Sends a beep, or bell sound to another person on IGS.
+
+ best:  A listing of players by rank.
+
+ bet:  Used to compare observers' and players' moves.
+
+ byoyomi:  Overtime after the initial time expires.
+
+ CC:  Same as 'chinesechess'.  The Chinese Chess coordinate system on IGS.
+
+ channel:  Channels are a forum, or meeting places, where people are able to
+ gather and communicate with each other.
+
+ chars:  The characters used to draw the board.
+
+ chatter:  Commentary during games that does not get recorded in the game
+ record.
+
+ chinesechess:  Same as 'CC'. The Chinese Chess coordinate system on IGS.
+
+ choice:  For setting the type of game preference on IGS. Go is the default
+ but other choices are 'shogi' (Japanese Chess) and 'chinesechess'.
+
+ client:  A replacement interface for IGS, usually a graphical representation
+ instead of a text based interface.
+
+ commands:  The commands used on IGS to interact with other people and IGS.
+
+ coords:  The coordinate system used on IGS to place moves on the board.
+
+ decline:  Refuses a match, after one is offered.
+
+ defs:  Changes the default settings for the 'automatch' command, such as
+ preferred board size, times, etc.
+
+ delete:  Deletes an adjourned or 'stored' game. It takes both players to
+ delete an unfinished game.
+
+ done:  Used at the end of scoring a game. After both players enter 'done',
+ the game will be scored. The results _cannot_ be changed afterwards.
+
+ entry:  A short explanation on how to enter the rating system.
+
+ etiquette:  A set of guidelines intended to address some general Go
+ etiquette, as well as the special issues that arise from playing on the
+ Internet Go Server, aka IGS.
+
+ erase:  Erases _all_ messages left for an account by other people.
+
+ exit:  Same as 'quit', departure from IGS.
+
+ FAQ:  Common questions and answers document about the rating system.
+
+ find:  A tool for locating other people on IGS by account name and email
+ address.
+
+ free:  Allows non-rated games to be played.
+
+ freegame:  An overview of playing non-rated games on IGS.
+
+ ftp:  A minimal explanation for using ftp (File Transfer Protocol).
+
+ games:  Lists games currently in progress.
+
+ go:  The coordinate system on IGS for playing Go games.
+
+ goboard:  An ascii, or text, representation of the Go board, and coordinate
+ system.
+
+ goematch:  Used for starting Go games on IGS using the GOE rules of Go. Also
+ known as the SST (Stones & Space = Territory) Laws of Go, and the Ing Rules
+ of Go.
+
+ gteach:  Similar to the 'teach' command, but uses the GOE rules of Go. Used
+ for teaching and reviewing games. One person inputs the moves.
+
+ handicap:  Allows Black to place handicap stones on the board.
+
+ help:  Basic IGS commands and quick introduction to using IGS commands.
+
+ igs:  Condensed listing of all players currently on IGS.
+
+ IGStitles:  Listing of the titles, and title holders, for some major IGS
+ tournaments.
+
+ index:  Lists games by selected players available for automatic replay by
+ using the 'request' command.
+
+ info:  Allows people to enter information in the 'stats'.
+
+ kibitz:  Game commentary usually made by the observers of a game.  The
+ commentary is recorded in the game record.  See also:  chatter
+
+ komi:  Changes the default komi of 5.5 to another value.
+
+ language:  Sets the 'language' preference.  English is the default.
+
+ last:  Displays the last time a person entered IGS.
+
+ load:  Restarts an adjourned game.
+
+ look:  Displays a 'stored' game.
+
+ mail:  Used to email completed game records (sgf), help messages, and
+ most announcements to the address listed in 'stats'.
+
+ match:  Basic command for starting a game with another player.  At the end
+ of a game, both players must remove _all_ the dead stones.
+
+ message:  Reads messages and allows people to leave messages with other
+ players.
+
+ moves:  Lists all the moves of a given game number.
+
+ notify:  Gives notice to you when a particular player has entered IGS.
+
+ observe:  Allows one to observe a game in progress.
+
+ pass:  Used to make a pass move during a game.
+
+ password:  Changes the current password to a new password.
+
+ players:  Similar to the 'who' command.  Lists all the people currently
+ logged into IGS.
+
+ pmatch:  Similar to the 'match' command, but uses the GOE (Ing Rules) rules
+ of Go.  Primarily for professional GOE tournaments on IGS.  Commentary from
+ the observers is not recorded in the game record.
+
+ probability:  Calculates a player's odds against another player.
+
+ progame:  Guideline for playing professional Go players on IGS.
+
+ psmail:  Similar to the 'mail' program, but will only send a PostScript (TM)
+ record of a completed game.
+
+ quit:  Same as 'exit', departure from IGS.
+
+ rank:  Sets a player's rank.
+
+ ranksupport:  Displays the supported ranks on IGS, and displays the "rating'
+ equivalent.
+
+ rating:  A rank calculated by IGS and given to a player. "Rated" players on
+ IGS have a * symbol after their rank.
+
+ ratingstats:  The daily statistics on the rating system.
+
+ refresh:  Redraws a game board during play or observation.
+
+ regchange:  Displays the most recent email address change players have
+ made to their 'stats'.
+
+ history:  Displays all email changes a player has made to his 'stats'.
+
+ register:  Registers new accounts on IGS, and allows registered people to
+ update their email address.
+
+ RegMessage:  The IGS registration letter.  Contains important information
+ and the usage policy.  Probably one of the more important documents on IGS
+ and also the least read.
+
+ request:  Automatically replays selected games listed by 'index'.
+
+ reset:  Changes the won/lost record in the 'stats', but has no affect on
+ the ratings.
+
+ resign:  Lets a player resign a game in progress, or a 'stored' game.
+
+ results:  Lists completed games results.
+
+ save:  Allows players in a game to save the current board position.
+
+ say:  Can be used by players in a game to send messages to each other, and
+ the messages are recorded in the game record.
+
+ score:  Scores a game.
+
+ sealed:  Allows the next move in an adjourned game to be sealed.
+
+ sgf:  sgf stands for "Smart Go Format".  Completed games are saved as sgf
+ files, and can be reviewed by sgf readers.
+
+ sgfviewing:  Useful information on sgf readers.
+
+ shogi:  Japanese chess
+
+ shogirules:  Japanese chess rules.
+
+ match julnem W 11 10 10
+
+ shogirules1:  Japanese chess rules illustrated.
+
+ shout:  Broadcasts your message to all players with 'shout' _enabled_.
+
+ stats:  Lists information about players.
+
+ status:  Shows a board position. This information is primarily for clients.
+
+ stored:  Displays a person's adjourned, or stored, games.
+
+ teach:  A teaching and game reviewing tool.  One person enters all the moves
+
+ team:  Allows 4 and 6 player Go games.  2 against 2, or 3 against 3.
+
+ tell:  The basic command for talking to another person on IGS.
+
+ tgmatch:  Exactly like the 'goematch' command, except _incoming_ 'tell'
+ messages are blocked. Primarily for GOE tournament games.
+
+ time:  Displays how much time is left in a game.
+
+ TOC:  The Table of Contents for details on the IGS rating system.
+
+ toggle:  Used to set various options and defaults for a person's account.
+
+ tokens:  Smart Go Format (sgf) notation.
+
+ trail:  Automatically observe any game by a particular player.
+
+ translate:  Utility with several languages to translate many Go terms.
+
+ underrated:  Useful information on underrated players.
+
+ undo:  Use to undo an opponent's last move.
+
+ unobserve:  Stops observing a game, or games, you are observing.
+
+ uptime:  IGS statistics.
+
+ usage:  A part of the IGS registration letter, or RegMessage, on IGS
+ policies and usage.
+
+ user:  Similar to the 'who' command, but primarily for listing players
+ on IGS by country.
+
+ watching:  Displays the game numbers being observed by you.
+
+ who:  Lists all the players currently logged into IGS.
+
+ yell:  Used for communication in the 'channels'.
+
+   . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+
+ If this document is too long for your terminal, use:  mail me Summary
+

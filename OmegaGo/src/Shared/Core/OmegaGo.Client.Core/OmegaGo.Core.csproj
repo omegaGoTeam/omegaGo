@@ -76,6 +76,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
   </ItemGroup>
   <ItemGroup />
