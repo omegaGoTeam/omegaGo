@@ -16,6 +16,8 @@ namespace QuickPrototype
     public partial class Form1 : Form
     {
         private IgsConnection igs = new IgsConnection();
+        private List<Game> games;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +31,7 @@ namespace QuickPrototype
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            List<Game> games = await igs.ListGamesInProgress();
+                    games = await igs.ListGamesInProgress();
                     this.lbGames.Items.Clear();
                     this.lbGames.Items.AddRange(games.ToArray());
         }
@@ -37,14 +39,26 @@ namespace QuickPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             this.igs.SendRawText(this.tbCommand.Text);
+            this.tbCommand.Clear();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
-            igs.EnsureConnected();
+            igs.IncomingChatMessage += Igs_IncomingChatMessage;
+            igs.Beep += Igs_Beep;
             igs.Login("OmegaGo1", "123456789");
+        }
+
+        private void Igs_Beep()
+        {
+            System.Media.SystemSounds.Beep.Play();
+        }
+
+        private void Igs_IncomingChatMessage(string obj)
+        {
+            this.lbChat.Items.Add("INCOMING: " + obj);
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -76,15 +90,34 @@ namespace QuickPrototype
         private async void bSendMessage_Click(object sender, EventArgs e)
         {
             bool success = await igs.Tell(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
-            if (!success)
+            if (success)
             {
-                ReportError("An outgoing Tell message was not sent.");
+                this.lbChat.Items.Add("OUTGOING to " + this.cbMessageRecipient.Text + ": " + this.tbChatMessage.Text);
+            } else { 
+                ReportError("An outgoing Tell message was not sent (user '" + this.cbMessageRecipient.Text + "' not online?).");
             }
         }
 
         private void ReportError(string error)
         {
-            this.tbConsole.AppendText(Environment.NewLine + "ERROR: " + error);
+            MessageBox.Show( error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void tbCommand_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.button4_Click(sender, EventArgs.Empty);
+            }
+        }
+
+        private void bSortGames_Click(object sender, EventArgs e)
+        {
+            games.Sort((g1, g2) => g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
+            games.Reverse();
+
+            this.lbGames.Items.Clear();
+            this.lbGames.Items.AddRange(games.ToArray());
         }
     }
 }

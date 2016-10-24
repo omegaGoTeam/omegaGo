@@ -1,13 +1,32 @@
 ﻿namespace OmegaGo.Core.Online.Igs
 {
+    /// <summary>
+    /// When IGS is in "client mode", each line it sends (besides lines printed after a "FILE" output line) begins with an <see cref="IgsCode"/> number. 
+    /// </summary>
     public enum IgsCode
     {
         ///<summary>
-        ///\7 telnet
+        /// A prompt. A prompt always terminates a block of lines sent by the IGS server.
+        /// 
+        /// <para>
+        /// Prompt lines have a single argument, which may be:
+        /// <list type="bullet">
+        /// <item>0 - Requesting username</item>
+        /// <item>1 - Requesting password</item>
+        /// <item>5 - Requesting general command</item>
+        /// <item>6 - You are playing a game</item>
+        /// <item>8 - You are observing a game</item>
+        /// </list> 
+        /// </para> 
+        ///</summary>
+        Prompt = 1,
+        ///<summary>
+        /// A beep line contains the non-printable \7 "bell" character and is printed by the server when it wants the player's attention,
+        /// perhaps because a chat message arrived or a player made a move.
         ///</summary>
         Beep = 2,
         ///<summary>
-        ///Board being drawn
+        /// Board being drawn
         ///</summary>
         Board = 3,
         ///<summary>
@@ -15,7 +34,11 @@
         ///</summary>
         Down = 4,
         ///<summary>
-        ///An error reported
+        /// The server is reporting an error. This error should be reported to the client, and sometimes automatic action should be taken on it.
+        /// Known errors are:
+        /// <list type="bullet">
+        /// <item>"Cannot find recipient" - when trying to Tell to an offline or nonexistent user</item>
+        /// </list>
         ///</summary>
         Error = 5,
         ///<summary>
@@ -23,7 +46,7 @@
         ///</summary>
         Fil = 6,
         ///<summary>
-        ///Games listing
+        /// This line contains basic information about a single game that's being played.
         ///</summary>
         Games = 7,
         ///<summary>
@@ -31,7 +54,7 @@
         ///</summary>
         Help = 8,
         ///<summary>
-        ///Generic info
+        /// A general informational message. Sometimes we can ignore these, othertimes they contain valuable information
         ///</summary>
         Info = 9,
         ///<summary>
@@ -63,10 +86,6 @@
         ///</summary>
         Observe = 16,
         ///<summary>
-        ///A Prompt (never)
-        ///</summary>
-        Prompt = 1,
-        ///<summary>
         ///Refresh of a board
         ///</summary>
         Refresh = 17,
@@ -83,17 +102,9 @@
         ///</summary>
         Score = 20,
         ///<summary>
-        ///SGF variation
-        ///</summary>
-        Sgf = 34,
-        ///<summary>
         ///Shout string
         ///</summary>
         Shout = 21,
-        ///<summary>
-        ///Shout string
-        ///</summary>
-        Show = 29,
         ///<summary>
         ///Current Game status
         ///</summary>
@@ -103,17 +114,9 @@
         ///</summary>
         Stored = 23,
         ///<summary>
-        ///teaching game
-        ///</summary>
-        Teach = 33,
-        ///<summary>
-        ///Tell string
+        /// Someone sends us, directly, a chat message that will not be recorded in any log, using IGS's "tell" command.
         ///</summary>
         Tell = 24,
-        ///<summary>
-        ///your . string
-        ///</summary>
-        Dot = 40,
         ///<summary>
         ///Thist report
         ///</summary>
@@ -123,14 +126,6 @@
         ///</summary>
         Tim = 26,
         ///<summary>
-        ///Translation info
-        ///</summary>
-        Trans = 30,
-        ///<summary>
-        ///tic tac toe
-        ///</summary>
-        Ttt = 37,
-        ///<summary>
         ///who command
         ///</summary>
         Who = 27,
@@ -139,17 +134,44 @@
         ///</summary>
         Undo = 28,
         ///<summary>
-        ///Long user report
+        ///Shout string
         ///</summary>
-        User = 42,
+        Show = 29,
         ///<summary>
-        ///IGS Version
+        ///Translation info
         ///</summary>
-        Version = 39,
+        Trans = 30,
         ///<summary>
         ///IGSChannel yelling
         ///</summary>
         Yell = 32,
+        ///<summary>
+        ///teaching game
+        ///</summary>
+        Teach = 33,
+        ///<summary>
+        ///SGF variation
+        ///</summary>
+        Sgf = 34,
+        ///<summary>
+        ///tic tac toe
+        ///</summary>
+        Ttt = 37,
+        ///<summary>
+        /// IGS Version - we will summarily ignore this line.
+        ///</summary>
+        Version = 39,
+        ///<summary>
+        ///your . string
+        ///</summary>
+        Dot = 40,
+        ///<summary>
+        ///Long user report
+        ///</summary>
+        User = 42,
+        /// <summary>
+        /// An unrecognized IGS line code
+        /// </summary>
         Unknown
     }
 }

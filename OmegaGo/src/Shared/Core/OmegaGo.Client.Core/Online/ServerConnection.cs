@@ -30,7 +30,6 @@ namespace OmegaGo.Core.Online
         }
 
         public event Action<Game, Move> IncomingMove;
-
         protected void OnIncomingMove(Game game, Move move)
         {
             IncomingMove?.Invoke(game, move);

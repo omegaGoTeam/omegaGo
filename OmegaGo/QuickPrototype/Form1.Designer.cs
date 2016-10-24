@@ -41,13 +41,14 @@
             this.button7 = new System.Windows.Forms.Button();
             this.cbMessageRecipient = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lbChat = new System.Windows.Forms.ListBox();
             this.bSendMessage = new System.Windows.Forms.Button();
             this.tbChatMessage = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.bSortGames = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -110,9 +111,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(727, 184);
+            this.button4.Location = new System.Drawing.Point(727, 178);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(116, 20);
+            this.button4.Size = new System.Drawing.Size(116, 23);
             this.button4.TabIndex = 6;
             this.button4.Text = "Send Command";
             this.button4.UseVisualStyleBackColor = true;
@@ -120,11 +121,12 @@
             // 
             // tbCommand
             // 
-            this.tbCommand.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.tbCommand.Location = new System.Drawing.Point(349, 184);
+            this.tbCommand.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbCommand.Location = new System.Drawing.Point(350, 178);
             this.tbCommand.Name = "tbCommand";
-            this.tbCommand.Size = new System.Drawing.Size(371, 20);
+            this.tbCommand.Size = new System.Drawing.Size(371, 23);
             this.tbCommand.TabIndex = 7;
+            this.tbCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommand_KeyDown);
             // 
             // button6
             // 
@@ -155,15 +157,16 @@
             // 
             // cbMessageRecipient
             // 
+            this.cbMessageRecipient.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbMessageRecipient.FormattingEnabled = true;
             this.cbMessageRecipient.Location = new System.Drawing.Point(20, 41);
             this.cbMessageRecipient.Name = "cbMessageRecipient";
-            this.cbMessageRecipient.Size = new System.Drawing.Size(172, 21);
+            this.cbMessageRecipient.Size = new System.Drawing.Size(172, 23);
             this.cbMessageRecipient.TabIndex = 12;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listBox1);
+            this.groupBox1.Controls.Add(this.lbChat);
             this.groupBox1.Controls.Add(this.bSendMessage);
             this.groupBox1.Controls.Add(this.tbChatMessage);
             this.groupBox1.Controls.Add(this.label2);
@@ -176,13 +179,13 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Global Chat";
             // 
-            // listBox1
+            // lbChat
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(20, 94);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(547, 108);
-            this.listBox1.TabIndex = 17;
+            this.lbChat.FormattingEnabled = true;
+            this.lbChat.Location = new System.Drawing.Point(20, 94);
+            this.lbChat.Name = "lbChat";
+            this.lbChat.Size = new System.Drawing.Size(547, 108);
+            this.lbChat.TabIndex = 17;
             // 
             // bSendMessage
             // 
@@ -196,9 +199,10 @@
             // 
             // tbChatMessage
             // 
+            this.tbChatMessage.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbChatMessage.Location = new System.Drawing.Point(208, 42);
             this.tbChatMessage.Name = "tbChatMessage";
-            this.tbChatMessage.Size = new System.Drawing.Size(359, 20);
+            this.tbChatMessage.Size = new System.Drawing.Size(359, 23);
             this.tbChatMessage.TabIndex = 15;
             // 
             // label2
@@ -238,11 +242,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Debug/Technical";
             // 
+            // bSortGames
+            // 
+            this.bSortGames.Location = new System.Drawing.Point(22, 408);
+            this.bSortGames.Name = "bSortGames";
+            this.bSortGames.Size = new System.Drawing.Size(218, 26);
+            this.bSortGames.TabIndex = 16;
+            this.bSortGames.Text = "Sort by observer count, descending.";
+            this.bSortGames.UseVisualStyleBackColor = true;
+            this.bSortGames.Click += new System.EventHandler(this.bSortGames_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
+            this.Controls.Add(this.bSortGames);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
@@ -282,13 +297,14 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ComboBox cbMessageRecipient;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox lbChat;
         private System.Windows.Forms.Button bSendMessage;
         private System.Windows.Forms.TextBox tbChatMessage;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button bSortGames;
     }
 }
 
