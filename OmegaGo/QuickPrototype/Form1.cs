@@ -41,15 +41,10 @@ namespace QuickPrototype
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.EnsureConnected();
-            igs.Login("Soothie", "Alliance");
+            igs.Login("OmegaGo1", "123456789");
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -76,6 +71,20 @@ namespace QuickPrototype
                 game.StopObserving();
                 this.lbObservedGames.Items.Remove(game);
             }
+        }
+
+        private async void bSendMessage_Click(object sender, EventArgs e)
+        {
+            bool success = await igs.Tell(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
+            if (!success)
+            {
+                ReportError("An outgoing Tell message was not sent.");
+            }
+        }
+
+        private void ReportError(string error)
+        {
+            this.tbConsole.AppendText(Environment.NewLine + "ERROR: " + error);
         }
     }
 }
