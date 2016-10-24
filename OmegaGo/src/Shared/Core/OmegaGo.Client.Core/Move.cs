@@ -8,7 +8,21 @@ namespace OmegaGo.Core
 {
     public class Move
     {
+        public bool UnknownMove;
         public Color WhoMoves;
-        public Coordinates Coordinates;
+        public Position Coordinates;
+
+        public static Move CreateUnknownMove()
+        {
+            return new Move() { UnknownMove = true };
+        }
+        public static Move Create(Color whoMoves, Position where)
+        {
+            return new Move()
+            {
+                WhoMoves = whoMoves,
+                Coordinates = where
+            };
+        }
     }
 }

@@ -51,6 +51,24 @@ namespace OmegaGo.Core
             GameTree = new Core.GameTree();
         }
 
+        public List<Move> PrimaryTimeline = new List<Move>();
+
+        public void ForceMoveInHistory(int moveIndex, Move move)
+        {
+            while (PrimaryTimeline.Count <= moveIndex - 1)
+            {
+                PrimaryTimeline.Add(Move.CreateUnknownMove());
+            }
+            PrimaryTimeline[moveIndex - 1] = move;
+            OnBoardNeedsRefreshing();
+        }
+
+        public event Action BoardNeedsRefreshing;
+        private void OnBoardNeedsRefreshing()
+        {
+            BoardNeedsRefreshing?.Invoke();
+        }
+
         /// <summary>
         /// Tells the online connection to give us information about the current game state and to push new moves as they happen.
         /// </summary>

@@ -13,12 +13,12 @@ using OmegaGo.Core.Online.Igs;
 
 namespace QuickPrototype
 {
-    public partial class Form1 : Form
+    public partial class PrimaryForm : Form
     {
         private IgsConnection igs = new IgsConnection();
         private List<Game> games;
 
-        public Form1()
+        public PrimaryForm()
         {
             InitializeComponent();
 
@@ -42,7 +42,7 @@ namespace QuickPrototype
             this.tbCommand.Clear();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void PrimaryForm_Load(object sender, EventArgs e)
         {
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
@@ -78,6 +78,9 @@ namespace QuickPrototype
             {
                 Game game = (Game)lbGames.SelectedItem;
                 game.StartObserving();
+                igs.RefreshBoard(game);
+                InGameForm observing = new InGameForm(game, igs);
+                observing.Show();
                 this.lbObservedGames.Items.Add(game);
             }
         }

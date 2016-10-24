@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core
 {
     // TODO Keep struct or switch to class?
+
+    /// <summary>
+    /// Represents a single intersection on a Go board. For example, the position [1, 0] is the intersection 1 point to the right of the intersection in the topleft corner of the board. 
+    /// </summary>
     public struct Position
     {
         // We need to be able to easily translate 

@@ -113,7 +113,7 @@ namespace OmegaGo.Core.Online.Igs
             }
 
         }
-        public override void StartObserving(Game game)
+        public override async void StartObserving(Game game)
         {
             if (gamesBeingObserved.Contains(game))
             {
@@ -121,7 +121,7 @@ namespace OmegaGo.Core.Online.Igs
                 return; 
             }
             gamesBeingObserved.Add(game);
-            streamWriter.WriteLine("observe " + game.ServerId);
+            await MakeRequest("observe " + game.ServerId);
         }
         public override void EndObserving(Game game)
         {
@@ -158,6 +158,7 @@ namespace OmegaGo.Core.Online.Igs
             this.streamWriter.AutoFlush = true;
             this.streamWriter.WriteLine("guest");
             this.streamWriter.WriteLine("toggle client on");
+            this.streamWriter.WriteLine("toggle quiet on");
             HandleIncomingData(this.streamReader);
         }
         private IgsCode ExtractCodeFromLine(string line)
@@ -313,5 +314,11 @@ namespace OmegaGo.Core.Online.Igs
 
         // Interface requirements
         public override string ShortName => "IGS";
+
+        public async void RefreshBoard(Game game)
+        {
+            List<IgsLine> moves = await MakeRequest("moves " + game.ServerId);
+            
+        }
     }
 }

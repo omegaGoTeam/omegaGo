@@ -1,6 +1,6 @@
 ﻿namespace QuickPrototype
 {
-    partial class Form1
+    partial class PrimaryForm
     {
         /// <summary>
         /// Required designer variable.
@@ -249,7 +249,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "IGS Tester";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.PrimaryForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
