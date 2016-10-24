@@ -50,7 +50,7 @@
         ///</summary>
         Games = 7,
         ///<summary>
-        ///Help file
+        /// A line containing the string "8 File" is sent at the beginning and end of each response to a successful "help" command.
         ///</summary>
         Help = 8,
         ///<summary>
@@ -102,7 +102,8 @@
         ///</summary>
         Score = 20,
         ///<summary>
-        ///Shout string
+        /// Someone broadcasts a message to ALL online players. A shout message may have the form !name!: message, or !!name!!: message if sent 
+        /// by an administrator.
         ///</summary>
         Shout = 21,
         ///<summary>
@@ -115,6 +116,7 @@
         Stored = 23,
         ///<summary>
         /// Someone sends us, directly, a chat message that will not be recorded in any log, using IGS's "tell" command.
+        /// The message will have the form *name*: message
         ///</summary>
         Tell = 24,
         ///<summary>

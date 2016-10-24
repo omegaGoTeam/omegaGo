@@ -48,7 +48,13 @@ namespace QuickPrototype
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
+            igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.Login("OmegaGo1", "123456789");
+        }
+
+        private void Igs_IncomingShoutMessage(string obj)
+        {
+            this.lbChat.Items.Add("SOMEBODY SHOUTS: " + obj);
         }
 
         private void Igs_Beep()

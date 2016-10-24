@@ -211,6 +211,12 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterruptMessage = true;
                     continue;
                 }
+                if (code == IgsCode.Shout)
+                {
+                    HandleIncomingShoutMessage(line);
+                    weAreHandlingAnInterruptMessage = true;
+                    continue;
+                }
                 
                 
 
@@ -220,6 +226,11 @@ namespace OmegaGo.Core.Online.Igs
                     this.requestInProgress?.IncomingLines.Post(igsLine);
                 }
             }
+        }
+
+        private void HandleIncomingShoutMessage(string line)
+        {
+            OnIncomingShoutMessage(line);
         }
 
         private void HandleIncomingChatMessage(string line)
@@ -263,6 +274,11 @@ namespace OmegaGo.Core.Online.Igs
         protected void OnIncomingChatMessage(string line)
         {
             IncomingChatMessage?.Invoke(line);
+        }
+        public event Action<string> IncomingShoutMessage;
+        protected void OnIncomingShoutMessage(string line)
+        {
+            IncomingShoutMessage?.Invoke(line);
         }
         public event Action Beep;
         protected void OnBeep()
