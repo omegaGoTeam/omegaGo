@@ -26,9 +26,6 @@ namespace PetrTestOnlineConnection
         {
             IgsConnection connection = new IgsConnection();
             connection.LogEvent += Connection_LogEvent;
-            Console.Write("== CONNECTING ==");
-            Console.WriteLine();
-            connection.EnsureConnected();
             Console.WriteLine();
             Console.WriteLine("== LOGGING IN ==");
             connection.Login("OmegaGoBot", "123456789");

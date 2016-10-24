@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Online.Igs
         public override async Task<List<Game>> ListGamesInProgress()
         {
             EnsureConnected();
-            this.gamesInProgressOnIgs = new List<Core.Game>();
+            this.gamesInProgressOnIgs = new List<Game>();
             List<IgsLine> lines = await MakeRequest("games");
             foreach(IgsLine line in lines)
             {
@@ -109,7 +109,7 @@ namespace OmegaGo.Core.Online.Igs
             catch (FormatException)
             {
                 Debug.WriteLine(line);
-                return new Core.Game();
+                return new Game();
             }
 
         }
@@ -157,6 +157,7 @@ namespace OmegaGo.Core.Online.Igs
             this.streamReader = new StreamReader(this.client.ReadStream);
             this.streamWriter.AutoFlush = true;
             this.streamWriter.WriteLine("guest");
+            this.streamWriter.WriteLine("toggle client on");
             HandleIncomingData(this.streamReader);
         }
         private IgsCode ExtractCodeFromLine(string line)
@@ -189,10 +190,12 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 line = line.Trim();
+
                 // IGS occasionally sends blank lines, I don't know why. They serve no reason.
                 if (line == "") continue; 
+
                 IgsCode code = ExtractCodeFromLine(line);
-                IgsLine igsLine = new Igs.IgsLine(code, line);
+                IgsLine igsLine = new IgsLine(code, line);
                 OnLogEvent(line);
                 if (weAreHandlingAnInterruptMessage && code == IgsCode.Prompt)
                 {
@@ -228,19 +231,16 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private void HandleIncomingShoutMessage(string line)
-        {
-            OnIncomingShoutMessage(line);
-        }
 
-        private void HandleIncomingChatMessage(string line)
+        /// <summary>
+        /// Enqueues the <paramref name="command"/> to be sent over Telnet to the IGS SERVER,
+        /// then asynchronously receives the entirety of the server's response to this command.
+        /// </summary>
+        /// <param name="command">The command to send over Telnet.</param>
+        /// <returns></returns>
+        private async Task<List<IgsLine>> MakeRequest(string command)
         {
-            OnIncomingChatMessage(line);
-        }
-
-        private async Task<List<IgsLine>> MakeRequest(string sayWhat)
-        {
-            IgsRequest request = new Igs.IgsRequest(sayWhat);
+            IgsRequest request = new IgsRequest(command);
             this.outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
             List<IgsLine> lines = await request.GetAllLines();
@@ -253,8 +253,14 @@ namespace OmegaGo.Core.Online.Igs
             return lines;
 
         }
+        /// <summary>
+        /// This method is called whenever a new command request is enqueued to be sent to the IGS SERVER and also whenever
+        /// a command request becomes completed. The method will determine whether the channel is currently free (i.e. no other command
+        /// is being executed) and if so, if there are any command requests in the queue, the earliest one is dequeued and executed.
+        /// </summary>
         private void ExecuteRequestFromQueue()
         {
+            
             lock (this.mutex)
             {
                 if (this.requestInProgress == null)
@@ -269,55 +275,43 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-
+        #region Chat
+        private void HandleIncomingShoutMessage(string line)
+        {
+            OnIncomingShoutMessage(line);
+        }
+        private void HandleIncomingChatMessage(string line)
+        {
+            OnIncomingChatMessage(line);
+        }
+        /// <summary>
+        /// Occurs when a player send a message directly to us.
+        /// </summary>
         public event Action<string> IncomingChatMessage;
-        protected void OnIncomingChatMessage(string line)
+        private void OnIncomingChatMessage(string line)
         {
             IncomingChatMessage?.Invoke(line);
         }
+        /// <summary>
+        /// Occurs when any user broadcasts a SHOUT message to all online users that don't have receiving SHOUTs disabled.
+        /// </summary>
         public event Action<string> IncomingShoutMessage;
-        protected void OnIncomingShoutMessage(string line)
+        private void OnIncomingShoutMessage(string line)
         {
             IncomingShoutMessage?.Invoke(line);
         }
+        #endregion
+
+        /// <summary>
+        /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 
+        /// </summary>
         public event Action Beep;
-        protected void OnBeep()
+        private void OnBeep()
         {
             Beep?.Invoke();
         }
 
         // Interface requirements
         public override string ShortName => "IGS";
-    }
-    public class IgsRequest
-    {
-        public string Command;
-        public IgsRequest(string command) { Command = command; }
-        public BufferBlock<IgsLine> IncomingLines = new BufferBlock<IgsLine>();
-
-        public async Task<List<IgsLine>> GetAllLines()
-        {
-            List<IgsLine> lines = new List<Igs.IgsLine>();
-            while (true)
-            {
-                IgsLine line = await IncomingLines.ReceiveAsync();
-                if (line.Code == IgsCode.Prompt)
-                {
-                    break;
-                }
-                lines.Add(line);
-            }
-            return lines;
-        }
-    }
-    public class IgsLine
-    {
-        public IgsCode Code;
-        public string EntireLine;
-        public IgsLine(IgsCode code, string line)
-        {
-            Code = code;
-            EntireLine = line;
-        }
     }
 }

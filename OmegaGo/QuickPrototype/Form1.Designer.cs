@@ -36,7 +36,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tbCommand = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
             this.lbUsers = new System.Windows.Forms.ListBox();
             this.button7 = new System.Windows.Forms.Button();
             this.cbMessageRecipient = new System.Windows.Forms.ComboBox();
@@ -47,10 +46,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.bSortGames = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -127,16 +124,6 @@
             this.tbCommand.Size = new System.Drawing.Size(371, 23);
             this.tbCommand.TabIndex = 7;
             this.tbCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommand_KeyDown);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(17, 19);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(159, 31);
-            this.button6.TabIndex = 9;
-            this.button6.Text = "Toggle Client Mode";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // lbUsers
             // 
@@ -232,16 +219,6 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Telnet console:";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.button6);
-            this.groupBox2.Location = new System.Drawing.Point(555, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(192, 114);
-            this.groupBox2.TabIndex = 15;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Debug/Technical";
-            // 
             // bSortGames
             // 
             this.bSortGames.Location = new System.Drawing.Point(22, 408);
@@ -258,7 +235,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
             this.Controls.Add(this.bSortGames);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button7);
@@ -276,7 +252,6 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -292,7 +267,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox tbCommand;
-        private System.Windows.Forms.Button button6;
         private System.Windows.Forms.ListBox lbUsers;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ComboBox cbMessageRecipient;
@@ -303,7 +277,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button bSortGames;
     }
 }
