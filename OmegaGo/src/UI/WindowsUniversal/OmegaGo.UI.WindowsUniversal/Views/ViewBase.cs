@@ -21,10 +21,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(Frame.CanGoBack)
+            if ( Frame.CanGoBack )
             {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Visible;
                 SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
 
             base.OnNavigatedTo(e);
