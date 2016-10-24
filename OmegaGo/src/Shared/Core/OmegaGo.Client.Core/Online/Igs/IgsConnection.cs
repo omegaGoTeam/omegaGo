@@ -114,7 +114,6 @@ namespace OmegaGo.Core.Online.Igs
         }
 
         public override string ShortName => "IGS";
-
         private async void HandleIncomingData(StreamReader sr)
         {
             string line = await sr.ReadLineAsync();
@@ -123,7 +122,6 @@ namespace OmegaGo.Core.Online.Igs
             incomingLines.Post(line);
             HandleIncomingData(sr);
         }
-        
         public override bool Login(string username, string password)
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
@@ -134,7 +132,6 @@ namespace OmegaGo.Core.Online.Igs
             streamWriter.WriteLine(password);
             return true;
         }
-
         public Game CreateGameFromTelnetLine(string line)
         {
             Regex regex = new Regex(@"7 \[ *([0-9]+)] *([^[]+) \[([^]]+)\] vs. *([^[]+) \[([^]]+)\] \( *([0-9]+) *([0-9]+) *([0-9]+) *([-0-9.]+) *([0-9]+) *([A-Z]*)\) *\( *([0-9]+)\)");
@@ -178,6 +175,20 @@ namespace OmegaGo.Core.Online.Igs
                 return new Core.Game();
             }
 
+        }
+
+        /// <summary>
+        /// Sends a private message to the specified user using the 'tell' feature of IGS.
+        /// </summary>
+        /// <param name="recipient">The recipient.</param>
+        /// <param name="message">The message.</param>
+        /// <returns>True if the message was delivered.</returns>
+        public Task<bool> Tell(string recipient, string message)
+        {
+            return Task.Run(() =>
+            {
+                return false;
+            });
         }
     }
 }
