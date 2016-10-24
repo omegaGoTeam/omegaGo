@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.UI.ViewModels;
 
-namespace OmegaGo.UI.Infrasturcture.Bootstrap
+namespace OmegaGo.UI.Infrastructure.Bootstrap
 {
     /// <summary>
     /// Handles the application's start

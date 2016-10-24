@@ -1,8 +1,8 @@
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
-using OmegaGo.UI.Infrasturcture;
-using OmegaGo.UI.Infrasturcture.Bootstrap;
+using OmegaGo.UI.Infrastructure;
+using OmegaGo.UI.Infrastructure.Bootstrap;
 
 namespace OmegaGo.UI
 {

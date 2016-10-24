@@ -1,6 +1,9 @@
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsUWP.Platform;
+using OmegaGo.UI.Services;
+using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
 
 namespace OmegaGo.UI.WindowsUniversal
@@ -19,6 +22,14 @@ namespace OmegaGo.UI.WindowsUniversal
         protected override IMvxTrace CreateDebugTrace()
         {
             return new DebugTrace();
+        }
+
+        protected override void InitializeFirstChance()
+        {
+            // Register File service
+            Mvx.LazyConstructAndRegisterSingleton<IFileService>(() => new FileService());
+
+            base.InitializeFirstChance();
         }
     }
 }

@@ -16,8 +16,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Platform;
-using OmegaGo.UI.Infrasturcture;
-using OmegaGo.UI.Infrasturcture.Bootstrap;
+using OmegaGo.UI.Infrastructure;
+using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal

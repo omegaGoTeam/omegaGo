@@ -9,5 +9,19 @@ namespace OmegaGo.UI.ViewModels
 {
     public class ViewModelBase : MvxViewModel
     {
+        private IMvxCommand _goBackCommand;
+
+        public IMvxCommand GoBackCommand
+        {
+            get
+            {
+                if (_goBackCommand == null)
+                {
+                    _goBackCommand = new MvxCommand(() => this.Close(this));
+                }
+
+                return _goBackCommand;
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.UI.Infrasturcture.Bootstrap
+﻿namespace OmegaGo.UI.Infrastructure.Bootstrap
 {
     /// <summary>
     /// Application start arguments

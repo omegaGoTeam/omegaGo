@@ -4,10 +4,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.WindowsUWP.Views;
+using Windows.UI.Xaml.Navigation;
+using OmegaGo.UI.ViewModels;
+using Windows.UI.Core;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public class ViewBase : MvxWindowsPage
     {
+        // This all is NOT final! Although works
+        // TODO Consult with El Martin
+        public ViewBase()
+        {
+
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if(Frame.CanGoBack)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested -= BackRequested;
+            base.OnNavigatingFrom(e);
+        }
+
+        private void BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                var vm = ViewModel as ViewModelBase;
+                if (vm != null)
+                {
+                    e.Handled = true;
+                    vm.GoBackCommand.Execute(null);
+                }
+            }
+        }
     }
 }

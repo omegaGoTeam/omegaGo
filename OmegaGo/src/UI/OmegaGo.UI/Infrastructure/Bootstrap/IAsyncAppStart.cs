@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace OmegaGo.UI.Infrasturcture.Bootstrap
+namespace OmegaGo.UI.Infrastructure.Bootstrap
 {
     /// <summary>
     /// Handles the start of the app asynchronously
