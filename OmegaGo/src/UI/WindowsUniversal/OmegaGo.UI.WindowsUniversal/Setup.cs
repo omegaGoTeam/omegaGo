@@ -27,7 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal
         protected override void InitializeFirstChance()
         {
             // Register File service
-            Mvx.LazyConstructAndRegisterSingleton<IFileService>(() => new FileService());
+            Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
 
             base.InitializeFirstChance();
         }
