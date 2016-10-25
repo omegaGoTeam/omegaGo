@@ -23,5 +23,7 @@
             this.Code = code;
             this.EntireLine = line;
         }
+
+        public override string ToString() => EntireLine;
     }
 }

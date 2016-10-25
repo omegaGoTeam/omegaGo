@@ -47,7 +47,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.bSortGames = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lbMatchRequests = new System.Windows.Forms.ListBox();
+            this.bAcceptRequest = new System.Windows.Forms.Button();
+            this.bRejectRequest = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbMatchRecipient = new System.Windows.Forms.ComboBox();
+            this.nBoardSize = new System.Windows.Forms.NumericUpDown();
+            this.button5 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -87,6 +101,7 @@
             this.tbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbConsole.Size = new System.Drawing.Size(580, 267);
             this.tbConsole.TabIndex = 3;
+            this.tbConsole.WordWrap = false;
             // 
             // lbObservedGames
             // 
@@ -141,9 +156,12 @@
             this.button7.TabIndex = 11;
             this.button7.Text = "Refresh list of users";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // cbMessageRecipient
             // 
+            this.cbMessageRecipient.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbMessageRecipient.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbMessageRecipient.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.cbMessageRecipient.FormattingEnabled = true;
             this.cbMessageRecipient.Location = new System.Drawing.Point(20, 41);
@@ -229,11 +247,137 @@
             this.bSortGames.UseVisualStyleBackColor = true;
             this.bSortGames.Click += new System.EventHandler(this.bSortGames_Click);
             // 
-            // Form1
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.bRejectRequest);
+            this.groupBox2.Controls.Add(this.bAcceptRequest);
+            this.groupBox2.Controls.Add(this.lbMatchRequests);
+            this.groupBox2.Location = new System.Drawing.Point(591, 478);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(230, 212);
+            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Incoming match requests";
+            // 
+            // lbMatchRequests
+            // 
+            this.lbMatchRequests.FormattingEnabled = true;
+            this.lbMatchRequests.Location = new System.Drawing.Point(7, 25);
+            this.lbMatchRequests.Name = "lbMatchRequests";
+            this.lbMatchRequests.Size = new System.Drawing.Size(217, 121);
+            this.lbMatchRequests.TabIndex = 0;
+            // 
+            // bAcceptRequest
+            // 
+            this.bAcceptRequest.BackColor = System.Drawing.Color.YellowGreen;
+            this.bAcceptRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.bAcceptRequest.Location = new System.Drawing.Point(7, 153);
+            this.bAcceptRequest.Name = "bAcceptRequest";
+            this.bAcceptRequest.Size = new System.Drawing.Size(136, 33);
+            this.bAcceptRequest.TabIndex = 1;
+            this.bAcceptRequest.Text = "Accept";
+            this.bAcceptRequest.UseVisualStyleBackColor = false;
+            // 
+            // bRejectRequest
+            // 
+            this.bRejectRequest.Location = new System.Drawing.Point(149, 153);
+            this.bRejectRequest.Name = "bRejectRequest";
+            this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
+            this.bRejectRequest.TabIndex = 2;
+            this.bRejectRequest.Text = "Reject";
+            this.bRejectRequest.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.button5);
+            this.groupBox3.Controls.Add(this.nBoardSize);
+            this.groupBox3.Controls.Add(this.cbMatchRecipient);
+            this.groupBox3.Location = new System.Drawing.Point(827, 478);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(268, 212);
+            this.groupBox3.TabIndex = 18;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Request a match";
+            // 
+            // cbMatchRecipient
+            // 
+            this.cbMatchRecipient.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbMatchRecipient.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbMatchRecipient.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cbMatchRecipient.FormattingEnabled = true;
+            this.cbMatchRecipient.Location = new System.Drawing.Point(74, 25);
+            this.cbMatchRecipient.Name = "cbMatchRecipient";
+            this.cbMatchRecipient.Size = new System.Drawing.Size(172, 23);
+            this.cbMatchRecipient.TabIndex = 18;
+            // 
+            // nBoardSize
+            // 
+            this.nBoardSize.Location = new System.Drawing.Point(74, 55);
+            this.nBoardSize.Maximum = new decimal(new int[] {
+            19,
+            0,
+            0,
+            0});
+            this.nBoardSize.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nBoardSize.Name = "nBoardSize";
+            this.nBoardSize.Size = new System.Drawing.Size(172, 20);
+            this.nBoardSize.TabIndex = 19;
+            this.nBoardSize.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(43, 131);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(182, 40);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Request match (match)";
+            this.button5.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Opponent:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 57);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(59, 13);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "Board size:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 90);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(197, 26);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "No handicaps. \r\nTiming will be 10/10 Canadian byo-yomi.";
+            // 
+            // PrimaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.bSortGames);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox1);
@@ -247,11 +391,15 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lbGames);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "PrimaryForm";
             this.Text = "IGS Tester";
             this.Load += new System.EventHandler(this.PrimaryForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,6 +426,17 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button bSortGames;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button bRejectRequest;
+        private System.Windows.Forms.Button bAcceptRequest;
+        private System.Windows.Forms.ListBox lbMatchRequests;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.NumericUpDown nBoardSize;
+        private System.Windows.Forms.ComboBox cbMatchRecipient;
     }
 }
 

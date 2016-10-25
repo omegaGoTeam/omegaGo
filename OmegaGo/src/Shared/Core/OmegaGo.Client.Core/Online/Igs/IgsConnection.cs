@@ -140,10 +140,23 @@ namespace OmegaGo.Core.Online.Igs
         /// <returns>True if the message was delivered.</returns>
         public async Task<bool> Tell(string recipient, string message)
         {
+            EnsureConnected();
             List<IgsLine> result = await MakeRequest("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
-
+        public async Task<List<IgsUser>> ListOnlinePlayers()
+        {
+            EnsureConnected();
+            List<IgsLine> users = await MakeRequest("user");
+            var returnedUsers = new List<IgsUser>();
+            foreach(var line in users)
+            {
+                if (line.Code != IgsCode.User) continue; // Comment
+                if (line.EntireLine.EndsWith("Language")) continue; // Example
+                returnedUsers.Add(CreateUserFromTelnetLine(line.EntireLine));
+            }
+            return returnedUsers;
+        }
         // Internal synchronization management
         private System.Collections.Concurrent.ConcurrentQueue<IgsRequest> outgoingRequests = new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest requestInProgress;
@@ -177,7 +190,35 @@ namespace OmegaGo.Core.Online.Igs
             return IgsCode.Unknown;
         }
         private object mutex = new object();
+
+        Regex regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.][-A-Za-z .]{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
+        private IgsUser CreateUserFromTelnetLine(string line)
+        {
+            Match match = regexUser.Match(line);
+            if (!match.Success)
+            {
+                throw new Exception("IGS SERVER returned invalid user string.");
+            }
+            /*
+             *  1 - Name
+             *  2 - Country
+             *  3 - Rank
+             *  4 - Calculated or self-described rank?
+             *  5 - Flags
+             * 
+             */
         
+                IgsUser user = new IgsUser()
+                {
+                    Name = match.Groups[1].Value,
+                    Country = match.Groups[2].Value,
+                    Rank = match.Groups[3].Value.StartsWith(" ") ? match.Groups[3].Value.Substring(1) : match.Groups[3].Value,
+                    LookingForAGame = match.Groups[5].Value.Contains("!"),
+                    RejectsRequests = match.Groups[5].Value.Contains("X")
+                };
+                return user;
+          
+        }
         private async void HandleIncomingData(StreamReader sr)
         {
             bool weAreHandlingAnInterruptMessage = false;
@@ -320,5 +361,7 @@ namespace OmegaGo.Core.Online.Igs
             List<IgsLine> moves = await MakeRequest("moves " + game.ServerId);
             
         }
+
+       
     }
 }

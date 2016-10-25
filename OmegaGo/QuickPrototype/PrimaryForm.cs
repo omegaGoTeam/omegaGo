@@ -128,5 +128,17 @@ namespace QuickPrototype
             this.lbGames.Items.Clear();
             this.lbGames.Items.AddRange(games.ToArray());
         }
+
+        private async void button7_Click(object sender, EventArgs e)
+        {
+            List<IgsUser> users = await igs.ListOnlinePlayers();
+            this.lbUsers.Items.Clear();
+            this.lbUsers.Items.AddRange(users.ToArray());
+
+            this.cbMatchRecipient.Items.Clear();
+            this.cbMatchRecipient.Items.AddRange(users.Select(usr => usr.Name).ToArray());
+            this.cbMessageRecipient.Items.Clear();
+            this.cbMessageRecipient.Items.AddRange(users.Select(usr => usr.Name).ToArray());
+        }
     }
 }

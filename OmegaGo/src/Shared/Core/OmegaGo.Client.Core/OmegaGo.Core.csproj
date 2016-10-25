@@ -53,6 +53,7 @@
     <Compile Include="Online\Igs\IgsConnection.cs" />
     <Compile Include="Online\Igs\IgsLine.cs" />
     <Compile Include="Online\Igs\IgsRequest.cs" />
+    <Compile Include="Online\Igs\IgsUser.cs" />
     <Compile Include="Online\ServerConnection.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Position.cs" />
