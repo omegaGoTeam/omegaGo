@@ -29,6 +29,8 @@ namespace QuickPrototype
             RefreshBoard();
         }
 
+        private char[,] truePositions = new char[19, 19];
+
         private void RefreshBoard()
         {
             char[,] positions = new char[19, 19];
@@ -46,6 +48,10 @@ namespace QuickPrototype
                         case OmegaGo.Core.Color.White:
                             positions[x, y] = 'o';
                             break;
+                    }
+                    foreach(Position capture in move.Captures)
+                    {
+                        positions[capture.X, capture.Y] = '.';
                     }
                 }
             }
@@ -65,7 +71,8 @@ namespace QuickPrototype
                 }
                 sb.AppendLine();
             }
-            this.textBox1.Text = sb.ToString();
+            truePositions = positions;
+            this.pictureBox1.Refresh();
         }
 
         private void Game_BoardNeedsRefreshing()
@@ -76,6 +83,46 @@ namespace QuickPrototype
         private void button1_Click(object sender, EventArgs e)
         {
             igs.RefreshBoard(game);
+        }
+
+        private void InGameForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            for (int x = 0; x < 19; x++)
+            {
+                e.Graphics.DrawLine(Pens.Black, 0, x * 20 + 10, 19 * 20, x * 20 + 10);
+                e.Graphics.DrawLine(Pens.Black, x * 20 + 10, 0, x * 20 + 10, 19 * 20);
+            }
+            for (int x = 0; x < 19; x++)
+            {
+                for (int y = 0; y < 19; y++)
+                {
+                    Brush brush = null;
+                    if (truePositions[x, y] == 'x')
+                    {
+                        brush = Brushes.Black;
+                    }
+                    else if (truePositions[x, y] == 'o')
+                    {
+                        brush = Brushes.White;
+                    }
+                    if (brush != null)
+                    {
+                        var r = new Rectangle(x * 20+ 2, y * 20 + 2, 16, 16);
+                        e.Graphics.FillRectangle(brush, r);
+                        e.Graphics.DrawRectangle(Pens.Black, r);
+                    }
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            igs.SendRawText("moves " + game.ServerId);
         }
     }
 }

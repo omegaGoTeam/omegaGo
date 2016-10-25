@@ -158,6 +158,7 @@ namespace OmegaGo.Core.Online.Igs
             return returnedUsers;
         }
         // Internal synchronization management
+        private Game IncomingMovesAreForThisGame;
         private System.Collections.Concurrent.ConcurrentQueue<IgsRequest> outgoingRequests = new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest requestInProgress;
         private void EnsureConnected()
@@ -262,6 +263,12 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterruptMessage = true;
                     continue;
                 }
+                if (code == IgsCode.Move)
+                {
+                    HandleIncomingMove(igsLine);
+                    weAreHandlingAnInterruptMessage = true;
+                    continue;
+                }
                 
                 
 
@@ -272,6 +279,42 @@ namespace OmegaGo.Core.Online.Igs
                 }
             }
         }
+
+        private void HandleIncomingMove(IgsLine igsLine)
+        {
+            string trim = igsLine.PureLine.Trim();
+            if (trim.StartsWith("Game "))
+            {
+                string trim2 = trim.Substring("Game ".Length);
+                int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
+                Game whatGame = gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
+                if (whatGame == null)
+                {
+                    whatGame = new Game();
+                    whatGame.ServerId = gameNumber;
+                    whatGame.Server = this;
+                    gamesInProgressOnIgs.Add(whatGame);
+                }
+                IncomingMovesAreForThisGame = whatGame;
+            }
+            else
+            {
+                Match match = regexMove.Match(trim);
+                string moveIndex = match.Groups[1].Value;
+                string mover = match.Groups[2].Value;
+                string coordinates = match.Groups[3].Value;
+                string captures = match.Groups[4].Value;
+                Move move = Move.Create(mover == "B" ? Color.Black : Color.White,
+                    Position.FromIGSCoordinates(coordinates));
+                string[] captureSplit = captures.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach(string capture in captureSplit)
+                {
+                    move.Captures.Add(Position.FromIGSCoordinates(capture));
+                }
+                IncomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
+            }
+        }
+        Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
         /// <summary>
@@ -295,6 +338,13 @@ namespace OmegaGo.Core.Online.Igs
             return lines;
 
         }
+        private void MakeUnattendedRequest(string command)
+        {
+            IgsRequest request = new IgsRequest(command);
+            request.Unattended = true;
+            this.outgoingRequests.Enqueue(request);
+            ExecuteRequestFromQueue();
+        }
         /// <summary>
         /// This method is called whenever a new command request is enqueued to be sent to the IGS SERVER and also whenever
         /// a command request becomes completed. The method will determine whether the channel is currently free (i.e. no other command
@@ -310,8 +360,15 @@ namespace OmegaGo.Core.Online.Igs
                     IgsRequest dequeuedItem;
                     if (this.outgoingRequests.TryDequeue(out dequeuedItem))
                     {
-                        this.requestInProgress = dequeuedItem;
+                        if (!dequeuedItem.Unattended)
+                        {
+                            this.requestInProgress = dequeuedItem;
+                        }
                         this.streamWriter.WriteLine(dequeuedItem.Command);
+                        if (dequeuedItem.Unattended)
+                        {
+                            ExecuteRequestFromQueue();
+                        }
                     }
                 }
             }
@@ -356,10 +413,9 @@ namespace OmegaGo.Core.Online.Igs
         // Interface requirements
         public override string ShortName => "IGS";
 
-        public async void RefreshBoard(Game game)
+        public void RefreshBoard(Game game)
         {
-            List<IgsLine> moves = await MakeRequest("moves " + game.ServerId);
-            
+            MakeUnattendedRequest("moves " + game.ServerId);
         }
 
        

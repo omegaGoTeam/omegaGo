@@ -9,7 +9,8 @@ namespace OmegaGo.Core
     // TODO Keep struct or switch to class?
 
     /// <summary>
-    /// Represents a single intersection on a Go board. For example, the position [1, 0] is the intersection 1 point to the right of the intersection in the topleft corner of the board. 
+    /// Represents a single intersection on a Go board.
+    /// TO SPECIFY AND CHECK: For example, the position [1, 0] is the intersection 1 point to the right of the intersection in the topleft corner of the board. 
     /// </summary>
     public struct Position
     {
@@ -63,6 +64,22 @@ namespace OmegaGo.Core
             int tablePos = (int)c - BEGINASCII;
 
             return tablePos;
+        }
+
+        public static Position FromIGSCoordinates(string coordinates)
+        {
+            char xc = coordinates[0];
+            int y = int.Parse(coordinates.Substring(1)) - 1;
+            int x = (int)(xc - 'A');
+            if (xc >= 'J')
+            {
+                x--;
+            }
+            return new Position
+            {
+                _x = x,
+                _y = y
+            };
         }
     }
 }

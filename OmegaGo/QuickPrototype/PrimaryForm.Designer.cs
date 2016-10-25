@@ -58,10 +58,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -371,12 +374,29 @@
             this.label6.TabIndex = 23;
             this.label6.Text = "No handicaps. \r\nTiming will be 10/10 Canadian byo-yomi.";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Location = new System.Drawing.Point(700, 519);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(279, 130);
+            this.panel1.TabIndex = 19;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(101, 53);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Not yet working";
+            // 
             // PrimaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.bSortGames);
             this.Controls.Add(this.label3);
@@ -391,6 +411,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lbGames);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.groupBox3);
             this.Name = "PrimaryForm";
             this.Text = "IGS Tester";
             this.Load += new System.EventHandler(this.PrimaryForm_Load);
@@ -400,6 +421,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -437,6 +460,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.NumericUpDown nBoardSize;
         private System.Windows.Forms.ComboBox cbMatchRecipient;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label7;
     }
 }
 

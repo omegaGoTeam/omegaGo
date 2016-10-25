@@ -11,6 +11,7 @@ namespace OmegaGo.Core
         public bool UnknownMove;
         public Color WhoMoves;
         public Position Coordinates;
+        public List<Position> Captures = new List<Position>();
 
         public static Move CreateUnknownMove()
         {

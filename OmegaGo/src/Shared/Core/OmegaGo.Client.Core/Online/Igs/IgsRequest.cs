@@ -27,6 +27,8 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public BufferBlock<IgsLine> IncomingLines = new BufferBlock<IgsLine>();
 
+        public bool Unattended;
+
         /// <summary>
         /// The returned task waits until the IGS SERVER sends all the response data to our command, terminated by a prompt line, and then
         /// it returns this data as a <see cref="List{T}"/>.
