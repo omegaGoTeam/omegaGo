@@ -15,6 +15,7 @@ namespace QuickPrototype
 {
     public partial class PrimaryForm : Form
     {
+        // You create this twice? O.o ^^
         private IgsConnection igs = new IgsConnection();
         private List<Game> games;
 
@@ -44,6 +45,7 @@ namespace QuickPrototype
 
         private void PrimaryForm_Load(object sender, EventArgs e)
         {
+            // You create this twice? O.o ^^
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
