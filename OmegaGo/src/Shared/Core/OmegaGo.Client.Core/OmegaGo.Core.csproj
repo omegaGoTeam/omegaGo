@@ -48,6 +48,7 @@
     <Compile Include="GameState\IGameTreeSerializer.cs" />
     <Compile Include="GameTree.cs" />
     <Compile Include="GameTreeNode.cs" />
+    <Compile Include="IntersectionState.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Online\Igs\IgsCode.cs" />
     <Compile Include="Online\Igs\IgsConnection.cs" />
