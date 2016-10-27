@@ -19,6 +19,11 @@ namespace OmegaGo.Core
         public List<string> AddBlack { get; set; }
         public List<string> AddWhite { get; set; }
 
+        /// <summary>
+        /// Describes current state of the entire game board
+        /// </summary>
+        public IntersectionState[,] BoardState { get; set; }
+
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 
         public List<KeyValuePair<Position, string>> Labels { get; set; }

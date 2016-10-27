@@ -27,12 +27,18 @@
             <Button Content="Singleplayer" 
                     Command="{Binding Path=NavigateToSingleplayer}"
                     HorizontalAlignment="Stretch" />
+            <Button Content="Game Creation" 
+                    Command="{Binding Path=NavigateToGameCreation}"
+                    HorizontalAlignment="Stretch" />
             <Button Content="Multiplayer" 
                     Command="{Binding Path=NavigateToMultiplayerDashboard}"
                     HorizontalAlignment="Stretch" />
             <Button Content="Library"
                     Command="{Binding Path=NavigateToLibrary}"
                     HorizontalAlignment="Stretch"/>
+            <Button Content="Statistics" 
+                    Command="{Binding Path=NavigateToStatistics}"
+                    HorizontalAlignment="Stretch" />
             <Button Content="Settings" 
                     Command="{Binding Path=NavigateToSettings}"
                     HorizontalAlignment="Stretch" />

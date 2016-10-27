@@ -1,0 +1,31 @@
+﻿<Window x:Class="OmegaGo.DesktopPrototype.InGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OmegaGo.DesktopPrototype"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Title="InGameWindow" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Height="60">
+            <Label Content="Go board:" x:Name="label1" />
+            <Button Content="Refresh" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,10,0" Width="75" Click="Refresh_Click" />
+            <Button Content="Refresh board from server" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,36,10,0" Click="RefreshFromServer_Click" />
+        </Grid>
+
+        <Grid Grid.Row="1" Background="Gray">
+            <Viewbox Stretch="Uniform">
+                <local:DrawBoard x:Name="gameCanvas"
+                         Grid.Row="1" 
+                         SnapsToDevicePixels="True" />
+            </Viewbox>
+        </Grid>
+        
+    </Grid>
+</Window>

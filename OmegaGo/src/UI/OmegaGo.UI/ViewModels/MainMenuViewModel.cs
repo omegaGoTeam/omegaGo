@@ -11,8 +11,10 @@ namespace OmegaGo.UI.ViewModels
     {
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
+        private IMvxCommand _navigateToGameCreation;
         private IMvxCommand _navigateToMultiplayerDashboard;
         private IMvxCommand _navigateToLibrary;
+        private IMvxCommand _navigateToStatistics;
         private IMvxCommand _navigateToSettings;
         private IMvxCommand _navigateToAbout;
 
@@ -42,6 +44,19 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public IMvxCommand NavigateToGameCreation
+        {
+            get
+            {
+                if (_navigateToGameCreation == null)
+                {
+                    _navigateToGameCreation = new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
+                }
+
+                return _navigateToGameCreation;
+            }
+        }
+
         public IMvxCommand NavigateToMultiplayerDashboard
         {
             get
@@ -65,6 +80,19 @@ namespace OmegaGo.UI.ViewModels
                 }
 
                 return _navigateToLibrary;
+            }
+        }
+
+        public IMvxCommand NavigateToStatistics
+        {
+            get
+            {
+                if (_navigateToStatistics == null)
+                {
+                    _navigateToStatistics = new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
+                }
+
+                return _navigateToStatistics;
             }
         }
 
