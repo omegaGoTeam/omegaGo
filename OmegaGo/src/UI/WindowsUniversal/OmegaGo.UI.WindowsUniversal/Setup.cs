@@ -28,7 +28,7 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             // Register File service
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
-
+            
             base.InitializeFirstChance();
         }
     }

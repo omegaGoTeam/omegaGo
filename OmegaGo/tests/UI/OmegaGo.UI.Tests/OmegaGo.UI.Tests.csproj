@@ -51,6 +51,34 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Localization\LocalizationServiceTestResources.cs.Designer.cs">
+      <DependentUpon>LocalizationServiceTestResources.cs.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Services\Localization\LocalizationServiceTestResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizationServiceTestResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Localization\LocalizationServiceTests.cs" />
+    <Compile Include="Services\Localization\TestLocalizationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\UI\OmegaGo.UI\OmegaGo.UI.csproj">
+      <Project>{8823de70-5dc6-4151-84b4-0fc27e83eabd}</Project>
+      <Name>OmegaGo.UI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Services\Localization\LocalizationServiceTestResources.cs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizationServiceTestResources.cs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Services\Localization\LocalizationServiceTestResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizationServiceTestResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
