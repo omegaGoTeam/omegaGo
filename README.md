@@ -1,2 +1,2 @@
-#Omega Go Documentation
+#Omega Go
 ##[Developer documentation](Docs/Developer/README.md)
