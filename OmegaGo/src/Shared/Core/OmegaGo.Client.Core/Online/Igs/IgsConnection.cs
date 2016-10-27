@@ -305,11 +305,11 @@ namespace OmegaGo.Core.Online.Igs
                 string coordinates = match.Groups[3].Value;
                 string captures = match.Groups[4].Value;
                 Move move = Move.Create(mover == "B" ? Color.Black : Color.White,
-                    Position.FromIGSCoordinates(coordinates));
+                    Position.FromIgsCoordinates(coordinates));
                 string[] captureSplit = captures.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach(string capture in captureSplit)
                 {
-                    move.Captures.Add(Position.FromIGSCoordinates(capture));
+                    move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
                 IncomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
             }

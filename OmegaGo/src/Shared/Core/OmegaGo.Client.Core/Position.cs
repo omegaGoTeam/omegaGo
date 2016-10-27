@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core
 {
     // TODO Keep struct or switch to class?
+    //   Petr: I suggest keeping struct. There is no reason as regards code clarity or simpleness to pick over the other, I think, and it's small immutable
+    //         data object. There are sometimes structs.
+    // TODO Petr: I suggest making this immutable.
 
     /// <summary>
     /// Represents a single intersection on a Go board.
-    /// TO SPECIFY AND CHECK: For example, the position [1, 0] is the intersection 1 point to the right of the intersection in the topleft corner of the board. 
+    /// The position [1, 0], for example, represents the position B1 on the board.
     /// </summary>
     public struct Position
     {
@@ -28,12 +31,18 @@ namespace OmegaGo.Core
         private int _x;
         private int _y;
 
+        /// <summary>
+        /// Gets or sets the letter-based coordinate that is usually put first (e.g. the "C" in "C6"). It is zero-based, i.e. it would be "2" for C6.
+        /// </summary>
         public int X
         {
             get { return _x; }
             set { _x = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the number-based coordinate that usually goes second (e.g. the "13" in "F13"). It is zero-based, i.e. it would be "12" for F13.
+        /// </summary>
         public int Y
         {
             get { return _y; }
@@ -66,11 +75,26 @@ namespace OmegaGo.Core
             return tablePos;
         }
 
-        public static Position FromIGSCoordinates(string coordinates)
+        /// <summary>
+        /// Creates a new <see cref="Position"/> instance from coordinates given in the IGS format. The IGS format coordinates go from A1 to Z25, with
+        /// the letter "I" being skipped. IGS coordinates are used by the IGS server. 
+        /// </summary>
+        /// <param name="coordinates">Coordinates in the IGS format.</param>
+        public static Position FromIgsCoordinates(string coordinates)
         {
+            if (coordinates == null) throw new ArgumentNullException(nameof(coordinates));
+            if (coordinates.Length < 2 || coordinates.Length > 3) throw new ArgumentException(nameof(coordinates));
+            if (coordinates[0] < 'A' || coordinates[0] > 'Z' || coordinates[0] == 'I')
+                throw new ArgumentException(nameof(coordinates));
+
+            int y;
+            if (!int.TryParse(coordinates.Substring(1), out y))
+            {
+                throw new ArgumentException(nameof(coordinates));
+            }
+
             char xc = coordinates[0];
-            int y = int.Parse(coordinates.Substring(1)) - 1;
-            int x = (int)(xc - 'A');
+            int x = xc - 'A';
             if (xc >= 'J')
             {
                 x--;
