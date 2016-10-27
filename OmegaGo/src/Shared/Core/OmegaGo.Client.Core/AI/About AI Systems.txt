@@ -1,0 +1,4 @@
+﻿There will be multiple AI programs of varying strength in this folder.
+
+Some programs may share the same classes, these will be put into the Common subfolders. 
+Some AI players may be modified versions of programs written by non-team-members.

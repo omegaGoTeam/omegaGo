@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI
 {
-    interface IAI
+    /// <summary>
+    /// Represents an AI program that can intelligently play Go by making moves in response to requests by
+    /// the controller application.
+    /// </summary>
+    interface IAIProgram
     {
         /// <summary>
         /// Gets a structure that informs the core what actions, rulesets and features the AI is capable of.
         /// </summary>
         AICapabilities Capabilities { get; }
-
-        void SetDifficulty(int difficulty);
-
+        
         Task<AIDecision> RequestMove (AIPreMoveInformation gameState);
     }
 }

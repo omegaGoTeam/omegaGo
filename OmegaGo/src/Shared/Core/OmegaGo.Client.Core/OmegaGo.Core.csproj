@@ -39,7 +39,9 @@
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AIDecision.cs" />
     <Compile Include="AI\AIPreMoveInformation.cs" />
-    <Compile Include="AI\IAI.cs" />
+    <Compile Include="AI\Common\FastBoard.cs" />
+    <Compile Include="AI\Defeatist\Defeatist.cs" />
+    <Compile Include="AI\IAIProgram.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
@@ -78,10 +80,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AI\About AI Systems.txt" />
+    <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="AI\Random\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.AI
+namespace OmegaGo.Core.AI.Common
 {
-    class AICapabilities
+    class FastBoard
     {
-
     }
 }
