@@ -1,4 +1,5 @@
 ﻿All files in this folder and subfolders written exclusively by team members are released under the MIT license.
+
 Specific subfolders may be modified versions of programs created by non-team members. Each such subfolder will
 have a statement about its license.
 

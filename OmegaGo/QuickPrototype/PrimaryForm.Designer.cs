@@ -48,23 +48,30 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bSortGames = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbMatchRequests = new System.Windows.Forms.ListBox();
-            this.bAcceptRequest = new System.Windows.Forms.Button();
             this.bRejectRequest = new System.Windows.Forms.Button();
+            this.bAcceptRequest = new System.Windows.Forms.Button();
+            this.lbMatchRequests = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbMatchRecipient = new System.Windows.Forms.ComboBox();
-            this.nBoardSize = new System.Windows.Forms.NumericUpDown();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
+            this.nBoardSize = new System.Windows.Forms.NumericUpDown();
+            this.cbMatchRecipient = new System.Windows.Forms.ComboBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.cbBlack = new System.Windows.Forms.ComboBox();
+            this.cbWhite = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.nLocalBoardSize = new System.Windows.Forms.NumericUpDown();
+            this.bPlayLocal = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nLocalBoardSize)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -262,13 +269,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Incoming match requests";
             // 
-            // lbMatchRequests
+            // bRejectRequest
             // 
-            this.lbMatchRequests.FormattingEnabled = true;
-            this.lbMatchRequests.Location = new System.Drawing.Point(7, 25);
-            this.lbMatchRequests.Name = "lbMatchRequests";
-            this.lbMatchRequests.Size = new System.Drawing.Size(217, 121);
-            this.lbMatchRequests.TabIndex = 0;
+            this.bRejectRequest.Location = new System.Drawing.Point(149, 153);
+            this.bRejectRequest.Name = "bRejectRequest";
+            this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
+            this.bRejectRequest.TabIndex = 2;
+            this.bRejectRequest.Text = "Reject";
+            this.bRejectRequest.UseVisualStyleBackColor = true;
             // 
             // bAcceptRequest
             // 
@@ -281,14 +289,13 @@
             this.bAcceptRequest.Text = "Accept";
             this.bAcceptRequest.UseVisualStyleBackColor = false;
             // 
-            // bRejectRequest
+            // lbMatchRequests
             // 
-            this.bRejectRequest.Location = new System.Drawing.Point(149, 153);
-            this.bRejectRequest.Name = "bRejectRequest";
-            this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
-            this.bRejectRequest.TabIndex = 2;
-            this.bRejectRequest.Text = "Reject";
-            this.bRejectRequest.UseVisualStyleBackColor = true;
+            this.lbMatchRequests.FormattingEnabled = true;
+            this.lbMatchRequests.Location = new System.Drawing.Point(7, 25);
+            this.lbMatchRequests.Name = "lbMatchRequests";
+            this.lbMatchRequests.Size = new System.Drawing.Size(217, 121);
+            this.lbMatchRequests.TabIndex = 0;
             // 
             // groupBox3
             // 
@@ -305,16 +312,41 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Request a match";
             // 
-            // cbMatchRecipient
+            // label6
             // 
-            this.cbMatchRecipient.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cbMatchRecipient.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbMatchRecipient.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.cbMatchRecipient.FormattingEnabled = true;
-            this.cbMatchRecipient.Location = new System.Drawing.Point(74, 25);
-            this.cbMatchRecipient.Name = "cbMatchRecipient";
-            this.cbMatchRecipient.Size = new System.Drawing.Size(172, 23);
-            this.cbMatchRecipient.TabIndex = 18;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 90);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(197, 26);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "No handicaps. \r\nTiming will be 10/10 Canadian byo-yomi.";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 57);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(59, 13);
+            this.label5.TabIndex = 22;
+            this.label5.Text = "Board size:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 29);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Opponent:";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(43, 131);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(182, 40);
+            this.button5.TabIndex = 20;
+            this.button5.Text = "Request match (match)";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // nBoardSize
             // 
@@ -338,65 +370,122 @@
             0,
             0});
             // 
-            // button5
+            // cbMatchRecipient
             // 
-            this.button5.Location = new System.Drawing.Point(43, 131);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(182, 40);
-            this.button5.TabIndex = 20;
-            this.button5.Text = "Request match (match)";
-            this.button5.UseVisualStyleBackColor = true;
+            this.cbMatchRecipient.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cbMatchRecipient.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbMatchRecipient.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.cbMatchRecipient.FormattingEnabled = true;
+            this.cbMatchRecipient.Location = new System.Drawing.Point(74, 25);
+            this.cbMatchRecipient.Name = "cbMatchRecipient";
+            this.cbMatchRecipient.Size = new System.Drawing.Size(172, 23);
+            this.cbMatchRecipient.TabIndex = 18;
             // 
-            // label4
+            // groupBox4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 29);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Opponent:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 57);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 13);
-            this.label5.TabIndex = 22;
-            this.label5.Text = "Board size:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(36, 90);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(197, 26);
-            this.label6.TabIndex = 23;
-            this.label6.Text = "No handicaps. \r\nTiming will be 10/10 Canadian byo-yomi.";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Location = new System.Drawing.Point(700, 519);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(279, 130);
-            this.panel1.TabIndex = 19;
+            this.groupBox4.Controls.Add(this.bPlayLocal);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.cbWhite);
+            this.groupBox4.Controls.Add(this.nLocalBoardSize);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.cbBlack);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Location = new System.Drawing.Point(521, 12);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(322, 138);
+            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = " Local Play ";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(101, 53);
+            this.label7.Location = new System.Drawing.Point(23, 29);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 0;
-            this.label7.Text = "Not yet working";
+            this.label7.Text = "Black:";
+            // 
+            // cbBlack
+            // 
+            this.cbBlack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBlack.FormattingEnabled = true;
+            this.cbBlack.Items.AddRange(new object[] {
+            "Human",
+            "Defeatist"});
+            this.cbBlack.Location = new System.Drawing.Point(92, 26);
+            this.cbBlack.Name = "cbBlack";
+            this.cbBlack.Size = new System.Drawing.Size(121, 21);
+            this.cbBlack.TabIndex = 1;
+            // 
+            // cbWhite
+            // 
+            this.cbWhite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWhite.FormattingEnabled = true;
+            this.cbWhite.Items.AddRange(new object[] {
+            "Human",
+            "Defeatist"});
+            this.cbWhite.Location = new System.Drawing.Point(92, 53);
+            this.cbWhite.Name = "cbWhite";
+            this.cbWhite.Size = new System.Drawing.Size(121, 21);
+            this.cbWhite.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(23, 56);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "White:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(5, 82);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Board size:";
+            // 
+            // nLocalBoardSize
+            // 
+            this.nLocalBoardSize.Location = new System.Drawing.Point(92, 80);
+            this.nLocalBoardSize.Maximum = new decimal(new int[] {
+            19,
+            0,
+            0,
+            0});
+            this.nLocalBoardSize.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nLocalBoardSize.Name = "nLocalBoardSize";
+            this.nLocalBoardSize.Size = new System.Drawing.Size(121, 20);
+            this.nLocalBoardSize.TabIndex = 24;
+            this.nLocalBoardSize.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
+            // bPlayLocal
+            // 
+            this.bPlayLocal.Location = new System.Drawing.Point(70, 109);
+            this.bPlayLocal.Name = "bPlayLocal";
+            this.bPlayLocal.Size = new System.Drawing.Size(116, 23);
+            this.bPlayLocal.TabIndex = 20;
+            this.bPlayLocal.Text = "Play Go";
+            this.bPlayLocal.UseVisualStyleBackColor = true;
+            this.bPlayLocal.Click += new System.EventHandler(this.bPlayLocal_Click);
             // 
             // PrimaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.bSortGames);
             this.Controls.Add(this.label3);
@@ -421,8 +510,9 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nBoardSize)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nLocalBoardSize)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -460,7 +550,13 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.NumericUpDown nBoardSize;
         private System.Windows.Forms.ComboBox cbMatchRecipient;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button bPlayLocal;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cbWhite;
+        private System.Windows.Forms.NumericUpDown nLocalBoardSize;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cbBlack;
         private System.Windows.Forms.Label label7;
     }
 }

@@ -10,7 +10,7 @@ namespace OmegaGo.Core.AI
     /// Represents an AI program that can intelligently play Go by making moves in response to requests by
     /// the controller application.
     /// </summary>
-    interface IAIProgram
+    public interface IAIProgram
     {
         /// <summary>
         /// Gets a structure that informs the core what actions, rulesets and features the AI is capable of.

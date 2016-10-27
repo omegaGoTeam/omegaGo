@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
+using OmegaGo.Core.Agents;
+using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 
@@ -15,8 +17,7 @@ namespace QuickPrototype
 {
     public partial class PrimaryForm : Form
     {
-        // You create this twice? O.o ^^
-        private IgsConnection igs = new IgsConnection();
+        private IgsConnection igs;
         private List<Game> games;
 
         public PrimaryForm()
@@ -46,12 +47,17 @@ namespace QuickPrototype
         private void PrimaryForm_Load(object sender, EventArgs e)
         {
             // You create this twice? O.o ^^
+            //   -- Thanks for alerting me. ^^
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.Login("OmegaGo1", "123456789");
+            this.cbWhite.SelectedIndex = 0;
+            this.cbBlack.SelectedIndex = 0;
+
+
         }
 
         private void Igs_IncomingShoutMessage(string obj)
@@ -141,6 +147,39 @@ namespace QuickPrototype
             this.cbMatchRecipient.Items.AddRange(users.Select(usr => usr.Name).ToArray());
             this.cbMessageRecipient.Items.Clear();
             this.cbMessageRecipient.Items.AddRange(users.Select(usr => usr.Name).ToArray());
+        }
+
+        private void bPlayLocal_Click(object sender, EventArgs e)
+        {
+            Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR");
+            Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR");
+            
+
+            Game localGame = new Game
+            {
+                BoardSize = (int) this.nBoardSize.Value,
+                NumberOfMovesPlayed = 0
+            };
+            localGame.Players.Add(playerBlack);
+            localGame.Players.Add(playerWhite);
+            localGame.Server = null;
+            InGameForm ingameForm = new InGameForm(localGame, null);
+            playerBlack.Agent = CreateAgentFromString(ingameForm, this.cbBlack.Text);
+            playerWhite.Agent = CreateAgentFromString(ingameForm, this.cbWhite.Text);
+            ingameForm.ShowDialog();
+        }
+
+        private IAgent CreateAgentFromString(InGameForm form, string text)
+        {
+            switch (text)
+            {
+                case "Human":
+                    return new InGameFormGuiAgent(form);
+                case "Defeatist":
+                    return new AIAgent(new Defeatist());
+            }
+            throw new Exception("This agent cannot be handled yet.")
+                ;
         }
     }
 }

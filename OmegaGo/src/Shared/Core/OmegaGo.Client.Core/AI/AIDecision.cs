@@ -9,7 +9,7 @@ namespace OmegaGo.Core.AI
     /// <summary>
     /// Represents a decision made by an AI program in response to a move request.
     /// </summary>
-    class AIDecision
+    public class AIDecision
     {
         public AIDecisionKind Kind { get; private set; }
         public Move Move { get; private set; }
@@ -33,7 +33,8 @@ namespace OmegaGo.Core.AI
             };
         } 
     }
-    enum AIDecisionKind
+
+    public enum AIDecisionKind
     {
         Move,
         Resign

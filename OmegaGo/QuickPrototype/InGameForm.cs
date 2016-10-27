@@ -6,8 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 using OmegaGo.Core;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 
 namespace QuickPrototype
@@ -24,7 +26,7 @@ namespace QuickPrototype
             InitializeComponent();
             this.game = game;
             this.igs = igs;
-            this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
+            Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
             game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
         }
@@ -34,7 +36,7 @@ namespace QuickPrototype
         private void RefreshBoard()
         {
             char[,] positions = new char[19, 19];
-            foreach (Move move in this.game.PrimaryTimeline)
+            foreach (Move move in game.PrimaryTimeline)
             {
                 if (!move.UnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
                 {
@@ -72,7 +74,7 @@ namespace QuickPrototype
                 sb.AppendLine();
             }
             truePositions = positions;
-            this.pictureBox1.Refresh();
+            pictureBox1.Refresh();
         }
 
         private void Game_BoardNeedsRefreshing()
@@ -87,7 +89,39 @@ namespace QuickPrototype
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
+            if (this.game.Server == null)
+            {
+                LoopDecisionRequest();
+            }
+        }
 
+        private Player playerToMove;
+
+        private async void LoopDecisionRequest()
+        {
+            this.lblTurnPlayer.Text = "Black";
+            playerToMove = game.Players[0];
+            while (true)
+            {
+                this.lblTurnPlayer.Text = playerToMove.Name;
+                AIDecision decision = await playerToMove.Agent.RequestMove();
+                if (decision.Kind == AIDecisionKind.Resign)
+                {
+                    this.panelEnd.Visible = true;
+                    this.lblEndCaption.Text = playerToMove + " resigned!";
+                    this.lblGameEndReason.Text = "The player resignation reason: '" + decision.Explanation + "'";
+                    break;
+                }
+                if (decision.Kind == AIDecisionKind.Move)
+                {
+                    if (decision.Move.Kind == MoveKind.PlaceStone)
+                    {
+                        this.game.PrimaryTimeline.Add(decision.Move);
+                        this.RefreshBoard();
+                    }
+                }
+                playerToMove = game.OpponentOf(playerToMove);
+            }
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -123,6 +157,41 @@ namespace QuickPrototype
         private void button2_Click(object sender, EventArgs e)
         {
             igs.SendRawText("moves " + game.ServerId);
+        }
+
+        private void bPASS_Click(object sender, EventArgs e)
+        {
+            ((InGameFormGuiAgent) playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new OmegaGo.Core.Move()
+            {
+                Kind = MoveKind.Pass,
+                WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
+            }, "User clicked 'PASS'."));
+        }
+
+        private void bRESIGN_Click(object sender, EventArgs e)
+        {
+            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.Resign("User clicked 'RESIGN'."));
+        }
+
+        private void bMakeMove_Click(object sender, EventArgs e)
+        {
+            string coordinates = this.tbInputMove.Text;
+            Position position;
+            try
+            {
+                position = Position.FromIgsCoordinates(coordinates);
+            }
+            catch
+            {
+                MessageBox.Show("Those are not valid coordinates.");
+                return;
+            }
+            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new OmegaGo.Core.Move()
+            {
+                Kind = MoveKind.PlaceStone,
+                Coordinates = position,
+                WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
+            }, "User entered these coordinates."));
         }
     }
 }

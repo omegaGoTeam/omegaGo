@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI
 {
-    class AICapabilities
+    public class AICapabilities
     {
 
     }

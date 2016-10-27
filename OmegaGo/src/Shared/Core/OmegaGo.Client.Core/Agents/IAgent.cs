@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI;
 
 namespace OmegaGo.Core.Agents
 {
-    interface IAgent
+    public interface IAgent
     {
+        Task<AIDecision> RequestMove();
     }
 }

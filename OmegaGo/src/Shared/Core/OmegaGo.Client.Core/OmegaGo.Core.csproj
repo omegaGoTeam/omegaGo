@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Agents\AIAgent.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
@@ -81,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
+    <Content Include="AI\Common\Licensing.txt" />
+    <Content Include="AI\Joker23\Licensing.txt" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />

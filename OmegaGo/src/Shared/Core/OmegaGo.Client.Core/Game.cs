@@ -47,8 +47,8 @@ namespace OmegaGo.Core
 
         public Game()
         {
-            Players = new List<Core.Player>();
-            GameTree = new Core.GameTree();
+            Players = new List<Player>();
+            GameTree = new GameTree();
         }
 
         public List<Move> PrimaryTimeline = new List<Move>();
@@ -78,6 +78,21 @@ namespace OmegaGo.Core
             if (Server == null) throw new InvalidOperationException("This game is not an online game.");
             Server.StartObserving(this);
         }
+
+        /// <summary>
+        /// Returns the opponent of the specified player in this game.
+        /// </summary>
+        /// <param name="player">The player whose opponent we wish to learn about.</param>
+        public Player OpponentOf(Player player)
+        {
+            if (player == Players[0])
+                return Players[1];
+            else if (player == Players[1])
+                return Players[0];
+            else
+                throw new ArgumentException("The specified player does not belong to this game.", nameof(player));
+        }
+
         /// <summary>
         /// Tells the online connection to stop pushing information about the game.
         /// </summary>

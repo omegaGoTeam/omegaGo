@@ -1,0 +1,3 @@
+﻿Parts of code in this folder and subfolders were adapted from joker23's code under the MIT license.
+
+https://github.com/joker23/GoAI/

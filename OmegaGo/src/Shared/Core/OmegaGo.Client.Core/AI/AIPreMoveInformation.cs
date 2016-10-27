@@ -9,7 +9,7 @@ namespace OmegaGo.Core.AI
     /// <summary>
     /// Represents a request for the AI to make a move. Data in this class provides the AI with all the infromation it needs to decide on what it thinks is the best move.
     /// </summary>
-    class AIPreMoveInformation
+    public class AIPreMoveInformation
     {
         /// <summary>
         /// The player whose turn it is. The AI will make a move for this player.
