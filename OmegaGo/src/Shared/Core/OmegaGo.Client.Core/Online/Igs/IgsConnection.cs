@@ -192,7 +192,7 @@ namespace OmegaGo.Core.Online.Igs
         }
         private object mutex = new object();
 
-        Regex regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.][-A-Za-z .]{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
+        Regex regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.].{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
         private IgsUser CreateUserFromTelnetLine(string line)
         {
             Match match = regexUser.Match(line);
