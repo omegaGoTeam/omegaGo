@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C74C218D-8499-4E5A-AC6A-A782FE743A23}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IgsPopulationDiscovery</RootNamespace>
-    <AssemblyName>IgsPopulationDiscovery</AssemblyName>
+    <RootNamespace>QuickPrototype</RootNamespace>
+    <AssemblyName>QuickPrototype</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,24 +43,68 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InGameForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InGameForm.Designer.cs">
+      <DependentUpon>InGameForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InGameFormGuiAgent.cs" />
+    <Compile Include="PrimaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrimaryForm.Designer.cs">
+      <DependentUpon>PrimaryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="InGameForm.resx">
+      <DependentUpon>InGameForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PrimaryForm.resx">
+      <DependentUpon>PrimaryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Shared\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
-      <Project>{dafe0a61-6d7c-4423-8a23-d59d774a8fc2}</Project>
+    <ProjectReference Include="..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
+      <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
       <Name>OmegaGo.Core</Name>
     </ProjectReference>
   </ItemGroup>
