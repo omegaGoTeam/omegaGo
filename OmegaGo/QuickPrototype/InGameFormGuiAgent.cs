@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 
@@ -20,7 +21,7 @@ namespace QuickPrototype
             this.inGameForm = form;
         }
 
-        public async Task<AIDecision> RequestMove()
+        public async Task<AIDecision> RequestMove(Game game)
         {
             this.inGameForm.groupboxMoveMaker.Visible = true;
             AIDecision decision = await DecisionsToMake.ReceiveAsync();

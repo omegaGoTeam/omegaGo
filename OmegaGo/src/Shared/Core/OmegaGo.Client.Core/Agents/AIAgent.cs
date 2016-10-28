@@ -16,9 +16,24 @@ namespace OmegaGo.Core.Agents
             this.aiProgram = aiProgram;
         }
 
-        public Task<AIDecision> RequestMove()
+        public Task<AIDecision> RequestMove(Game game)
         {
-            return aiProgram.RequestMove(null);
+            Color[,] createdBoard = new Color[game.BoardSize, game.BoardSize];
+            foreach (Move move in game.PrimaryTimeline)
+            {
+                if (move.Kind == MoveKind.PlaceStone)
+                {
+                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
+                }
+            }
+
+            return aiProgram.RequestMove(new AIPreMoveInformation(
+                game.Players[0].Agent == this ? Color.Black : Color.White,
+                createdBoard,
+                game.BoardSize,
+                new TimeSpan(0,0,2),
+                10
+                ));
         }
     }
 }

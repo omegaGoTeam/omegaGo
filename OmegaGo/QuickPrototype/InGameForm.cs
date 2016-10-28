@@ -104,7 +104,7 @@ namespace QuickPrototype
             while (true)
             {
                 this.lblTurnPlayer.Text = playerToMove.Name;
-                AIDecision decision = await playerToMove.Agent.RequestMove();
+                AIDecision decision = await playerToMove.Agent.RequestMove(game);
                 if (decision.Kind == AIDecisionKind.Resign)
                 {
                     this.panelEnd.Visible = true;

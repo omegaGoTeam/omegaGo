@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI.Defeatist;
+using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 
@@ -177,6 +178,8 @@ namespace QuickPrototype
                     return new InGameFormGuiAgent(form);
                 case "Defeatist":
                     return new AIAgent(new Defeatist());
+                case "Random":
+                    return new AIAgent(new RandomAI());
             }
             throw new Exception("This agent cannot be handled yet.")
                 ;

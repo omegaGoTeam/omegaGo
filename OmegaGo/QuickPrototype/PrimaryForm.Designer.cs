@@ -412,7 +412,8 @@
             this.cbBlack.FormattingEnabled = true;
             this.cbBlack.Items.AddRange(new object[] {
             "Human",
-            "Defeatist"});
+            "Defeatist",
+            "Random"});
             this.cbBlack.Location = new System.Drawing.Point(92, 26);
             this.cbBlack.Name = "cbBlack";
             this.cbBlack.Size = new System.Drawing.Size(121, 21);
@@ -424,7 +425,8 @@
             this.cbWhite.FormattingEnabled = true;
             this.cbWhite.Items.AddRange(new object[] {
             "Human",
-            "Defeatist"});
+            "Defeatist",
+            "Random"});
             this.cbWhite.Location = new System.Drawing.Point(92, 53);
             this.cbWhite.Name = "cbWhite";
             this.cbWhite.Size = new System.Drawing.Size(121, 21);
