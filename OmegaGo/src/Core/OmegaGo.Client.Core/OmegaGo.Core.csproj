@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
