@@ -6,49 +6,212 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
+    //TODO comments!
     public class Ruleset
     {
         public int Score;
+        public static int BoardWidth, BoardHeight;
 
-        public void startGame() {
+        public static void startGame(int width, int height)
+        {
+            BoardWidth = width;
+            BoardHeight = height;
             throw new NotImplementedException();
         }
 
-        public void PutHandicapStone(Move moveToMake) {
+        public static void PutHandicapStone(Move moveToMake)
+        {
             throw new NotImplementedException();
         }
 
-        public bool controlMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history) {
-            throw new NotImplementedException();
-            //return true;
+        public MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        {
+            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
+            {
+                return MoveResult.OccupiedPosition;
+            }
+            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            {
+                return MoveResult.Ko;
+            }
+            else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            {
+                return MoveResult.SelfCapture;
+            }
+            else
+            {
+                return MoveResult.Legal;
+            }
+
         }
 
-        public GameBoard ControlCaptureAndRemoveStones(GameBoard currentBoard) {
+        //TODO control!
+        public Color[,] ControlCaptureAndRemoveStones(Color[,] currentBoard)
+        {
+            bool[,] Liberty = FillLibertyTable(currentBoard);
+
+            //control if group has liberty
+            for (int i = 0; i < BoardWidth; i++) {
+                for (int j = 0; j < BoardHeight; j++)
+                {
+                    if (Liberty[i, j] == false) {
+                        List<Position> group = new List<Position>();
+                        bool groupHasLiberty = false;
+                        Position p = new Position();
+                        p.X = i;
+                        p.Y = j;
+                        GetGroup(ref group, ref groupHasLiberty,p, currentBoard, Liberty);
+
+                        //if group has liberty, setup true liberty for all; else remove the group from the board
+                        for (int k = 0; k < group.Count; k++)
+                        {
+                            Position groupMember = group.ElementAt(k);
+                            if (groupHasLiberty)
+                            {
+                                Liberty[groupMember.X, groupMember.Y] = true;
+                            }
+                            else
+                            {
+                                currentBoard[groupMember.X, groupMember.Y] = Color.None;
+                            }
+                        }
+                     }
+                }
+            }
+   
+            return currentBoard;
+        }
+
+        public bool[,] FillLibertyTable(Color[,] currentBoard)
+        {
+            bool[,] Liberty = new bool[BoardWidth, BoardHeight];
+
+            //control if position has liberty
+            for (int i = 0; i < BoardWidth; i++)
+            {
+                for (int j = 0; j < BoardHeight; j++)
+                {
+                    bool emptyNeighbour = false;
+                    //it has empty left neighbour
+                    if (i > 0 && currentBoard[i - 1, j] == Color.None)
+                    {
+                        emptyNeighbour = true;
+                    }
+                    else if (i < BoardWidth - 1 && currentBoard[i + 1, j] == Color.None) //it has empty right neighbour
+                    {
+                        emptyNeighbour = true;
+                    }
+                    else if (j > 0 && currentBoard[i, j - 1] == Color.None) //it has empty up neighbour
+                    {
+                        emptyNeighbour = true;
+                    }
+                    else if (j < BoardHeight - 1 && currentBoard[i, j + 1] == Color.None) //it has empty bottom neighbour
+                    {
+                        emptyNeighbour = true;
+                    }
+                    Liberty[i, j] = emptyNeighbour;
+                }
+            }
+
+            return Liberty;
+        }
+
+        //TODO control!
+        public void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, Color[,] currentBoard, bool[,] Liberty)
+        {
+            Color currentColor = currentBoard[pos.X, pos.Y];
+            group.Add(pos);
+
+            if (Liberty[pos.X, pos.Y])
+                hasLiberty = true;
+
+            if (pos.X < BoardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor) //has same right neighbour
+            {
+                Position newp = new Position();
+                newp.X = pos.X + 1;
+                newp.Y = pos.Y;
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard, Liberty);
+            }
+            if (pos.Y < BoardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor) //has same bottom neighbour
+            {
+                Position newp= new Position();
+                newp.X = pos.X;
+                newp.Y = pos.Y + 1;
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard,Liberty);
+            }
+            
+        }
+
+        public bool AreBoardsEqual(Color[,] b1, Color[,] b2)
+        {
+            for (int i = 0; i < BoardWidth; i++)
+            {
+                for (int j = 0; j < BoardHeight; j++)
+                {
+                    if (b1[i, j] != b2[i, j])
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        public int CountScore(Color[,] currentBoard)
+        {
             throw new NotImplementedException();
         }
 
-        public int CountScore(GameBoard currentBoard) {
-            throw new NotImplementedException();
+        private MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        {
+            for (int i = 0; i < history.Count; i++)
+            {
+                if (AreBoardsEqual(history.ElementAt(i), currentBoard))
+                    return MoveResult.Ko;
+            }
+            return MoveResult.Legal;
         }
 
-        private bool IsLegal(Move moveToMake) {
-            throw new NotImplementedException();
+        private MoveResult IsPositionOccupied(Color[,] currentBoard, Move moveToMake)
+        {
+            Position p = moveToMake.Coordinates;
+            if (currentBoard[p.X, p.Y] != Color.None)
+            {
+                return MoveResult.OccupiedPosition;
+            }
+            else
+            {
+                return MoveResult.Legal;
+            }
+            
         }
 
-        private bool IsKo(GameBoard currentBoard, Move moveToMake, GameBoard[] history) {
-            //TODO: return code/type of illegal move
-            throw new NotImplementedException();
-        }
+        private MoveResult IsSelfCapture(Color[,] currentBoard, Move moveToMake) 
+        {
+            Position p = moveToMake.Coordinates;
+            List<Position> group = new List<Position>();
+            bool groupHasLiberty = false;
 
-        private bool IsOccupiedPosition(GameBoard currentBoard, Move moveToMake) {
-            //TODO: return code/type of illegal move
-            throw new NotImplementedException();
-        }
+            currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
+            bool[,] Liberty = FillLibertyTable(currentBoard);
+            GetGroup(ref group, ref groupHasLiberty, p, currentBoard, Liberty);
+            if (groupHasLiberty)
+            {
+                return MoveResult.Legal;
+            }
+            else
+            {
+                return MoveResult.SelfCapture;
+            }
 
-        private bool IsSelfCapture(GameBoard currentBoard, Move ) {
-            //TODO: return code/type of illegal move
-            throw new NotImplementedException();
         }
+    }
+
+    public enum MoveResult
+    {
+        Legal,
+        OccupiedPosition,
+        Ko,
+        SelfCapture
     }
 }
 
