@@ -39,6 +39,10 @@
       <Project>{dafe0a61-6d7c-4423-8a23-d59d774a8fc2}</Project>
       <Name>OmegaGo.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OmegaGo.UI.Resources\OmegaGo.UI.Resources.csproj">
+      <Project>{ce437ef0-7319-4caa-8539-8d9d8e3e0fcb}</Project>
+      <Name>OmegaGo.UI.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
@@ -48,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Localization\ILocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizationService.cs" />
+    <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />

@@ -7,6 +7,8 @@ using MvvmCross.WindowsUWP.Views;
 using Windows.UI.Xaml.Navigation;
 using OmegaGo.UI.ViewModels;
 using Windows.UI.Core;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -53,5 +55,13 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 }
             }
         }
+
+
+        private Localizer _localizer = null;
+
+        /// <summary>
+        /// Localizer for the ViewModel
+        /// </summary>
+        public Localizer Localizer => _localizer ?? ( _localizer = new Localizer() );
     }
 }

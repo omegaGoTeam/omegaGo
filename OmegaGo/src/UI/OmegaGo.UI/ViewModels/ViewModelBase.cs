@@ -4,24 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.ViewModels
 {
+    /// <summary>
+    /// Base for all ViewModels in the app
+    /// </summary>
     public class ViewModelBase : MvxViewModel
     {
         private IMvxCommand _goBackCommand;
 
-        public IMvxCommand GoBackCommand
-        {
-            get
-            {
-                if (_goBackCommand == null)
-                {
-                    _goBackCommand = new MvxCommand(() => this.Close(this));
-                }
+        /// <summary>
+        /// Provides back navigation
+        /// </summary>
+        public IMvxCommand GoBackCommand => _goBackCommand ?? ( _goBackCommand = new MvxCommand( () => this.Close( this ) ) );
 
-                return _goBackCommand;
-            }
-        }
+        private Localizer _localizer = null;
+
+        /// <summary>
+        /// Localizer for the ViewModel
+        /// </summary>
+        public Localizer Localizer => _localizer ?? ( _localizer = new Localizer() );
     }
 }

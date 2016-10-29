@@ -9,7 +9,7 @@ namespace OmegaGo.UI.Tests.Services.Localization
 {
     internal class TestLocalizationService : LocalizationService
     {
-        public TestLocalizationService() : base( LocalizationServiceTestResources.ResourceManager )
+        public TestLocalizationService () : base( LocalizationServiceTestResources.ResourceManager )
         {
         }
 
