@@ -40,4 +40,4 @@ The Resource files should be stored in the `OmegaGo.UI.Resources` assembly. To c
 
 Main resource file for UI strings is `OmegaGo.UI.Resources.LocalizedStrings`. Unless you need to group strings for some specific purpose together, I recommend to add your strings here. 
 
-The `OmegaGo.UI.Services.Localization.Localizer` class is provided for simple usage with `LocalizedStrings` resources. This class is also available as a property of both the `ViewBase` and `ViewModelBase` classes in the UI, so that it is possible to use it anytime required in the UI. 
+The `OmegaGo.UI.Services.Localization.Localizer` class is provided for simple usage with `LocalizedStrings` resources. This class is also available as a property of both the `ViewBase` and `ViewModelBase` classes in the UI, so that it is possible to use it anytime required in the UI.
