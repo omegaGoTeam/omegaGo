@@ -8,7 +8,7 @@
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OmegaGo.UI.WindowsUniversal</RootNamespace>
-    <AssemblyName>OmegaGo.UI.WindowsUniversal</AssemblyName>
+    <AssemblyName>WQ</AssemblyName>
     <DefaultLanguage>en</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>

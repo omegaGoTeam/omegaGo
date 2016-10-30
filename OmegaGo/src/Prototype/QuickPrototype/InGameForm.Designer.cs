@@ -39,11 +39,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tbInputMove = new System.Windows.Forms.TextBox();
             this.groupboxMoveMaker = new System.Windows.Forms.GroupBox();
-            this.bPASS = new System.Windows.Forms.Button();
             this.bRESIGN = new System.Windows.Forms.Button();
+            this.bPASS = new System.Windows.Forms.Button();
             this.panelEnd = new System.Windows.Forms.Panel();
-            this.lblEndCaption = new System.Windows.Forms.Label();
             this.lblGameEndReason = new System.Windows.Forms.Label();
+            this.lblEndCaption = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -76,7 +76,9 @@
             this.pictureBox1.Size = new System.Drawing.Size(474, 411);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             // 
             // button2
             // 
@@ -159,16 +161,6 @@
             this.groupboxMoveMaker.Text = "GuiAgent";
             this.groupboxMoveMaker.Visible = false;
             // 
-            // bPASS
-            // 
-            this.bPASS.Location = new System.Drawing.Point(15, 147);
-            this.bPASS.Name = "bPASS";
-            this.bPASS.Size = new System.Drawing.Size(83, 35);
-            this.bPASS.TabIndex = 11;
-            this.bPASS.Text = "PASS";
-            this.bPASS.UseVisualStyleBackColor = true;
-            this.bPASS.Click += new System.EventHandler(this.bPASS_Click);
-            // 
             // bRESIGN
             // 
             this.bRESIGN.BackColor = System.Drawing.Color.Coral;
@@ -180,6 +172,16 @@
             this.bRESIGN.Text = "Resign";
             this.bRESIGN.UseVisualStyleBackColor = false;
             this.bRESIGN.Click += new System.EventHandler(this.bRESIGN_Click);
+            // 
+            // bPASS
+            // 
+            this.bPASS.Location = new System.Drawing.Point(15, 147);
+            this.bPASS.Name = "bPASS";
+            this.bPASS.Size = new System.Drawing.Size(83, 35);
+            this.bPASS.TabIndex = 11;
+            this.bPASS.Text = "PASS";
+            this.bPASS.UseVisualStyleBackColor = true;
+            this.bPASS.Click += new System.EventHandler(this.bPASS_Click);
             // 
             // panelEnd
             // 
@@ -193,6 +195,15 @@
             this.panelEnd.TabIndex = 12;
             this.panelEnd.Visible = false;
             // 
+            // lblGameEndReason
+            // 
+            this.lblGameEndReason.AutoSize = true;
+            this.lblGameEndReason.Location = new System.Drawing.Point(10, 36);
+            this.lblGameEndReason.Name = "lblGameEndReason";
+            this.lblGameEndReason.Size = new System.Drawing.Size(120, 13);
+            this.lblGameEndReason.TabIndex = 13;
+            this.lblGameEndReason.Text = "Why did the game end?";
+            // 
             // lblEndCaption
             // 
             this.lblEndCaption.AutoSize = true;
@@ -203,20 +214,11 @@
             this.lblEndCaption.TabIndex = 0;
             this.lblEndCaption.Text = "Game ended.";
             // 
-            // lblGameEndReason
-            // 
-            this.lblGameEndReason.AutoSize = true;
-            this.lblGameEndReason.Location = new System.Drawing.Point(10, 36);
-            this.lblGameEndReason.Name = "lblGameEndReason";
-            this.lblGameEndReason.Size = new System.Drawing.Size(120, 13);
-            this.lblGameEndReason.TabIndex = 13;
-            this.lblGameEndReason.Text = "Why did the game end?";
-            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(775, 581);
+            this.ClientSize = new System.Drawing.Size(728, 581);
             this.Controls.Add(this.panelEnd);
             this.Controls.Add(this.groupboxMoveMaker);
             this.Controls.Add(this.lblTurnPlayer);

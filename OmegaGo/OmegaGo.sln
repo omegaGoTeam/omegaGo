@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sideprojects", "Sideproject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IgsPopulationDiscovery", "src\Sideprojects\IgsPopulationDiscovery\IgsPopulationDiscovery.csproj", "{C74C218D-8499-4E5A-AC6A-A782FE743A23}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{20954D73-CABB-4CC6-9F37-5706EFDFBA31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docs", "..\Docs\Docs.csproj", "{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -193,6 +197,14 @@ Global
 		{C74C218D-8499-4E5A-AC6A-A782FE743A23}.Release|x64.Build.0 = Release|Any CPU
 		{C74C218D-8499-4E5A-AC6A-A782FE743A23}.Release|x86.ActiveCfg = Release|Any CPU
 		{C74C218D-8499-4E5A-AC6A-A782FE743A23}.Release|x86.Build.0 = Release|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,5 +220,6 @@ Global
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9} = {640F5E74-E38A-488F-9EB5-FF12F353DD55}
 		{CE437EF0-7319-4CAA-8539-8D9D8E3E0FCB} = {A3245683-3877-400D-B46F-3D7FE5733ADB}
 		{C74C218D-8499-4E5A-AC6A-A782FE743A23} = {CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}
+		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9} = {20954D73-CABB-4CC6-9F37-5706EFDFBA31}
 	EndGlobalSection
 EndGlobal

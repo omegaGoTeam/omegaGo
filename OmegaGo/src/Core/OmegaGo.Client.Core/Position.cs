@@ -99,11 +99,37 @@ namespace OmegaGo.Core
             {
                 x--;
             }
-            return new Position
+            return new Position(x, y - 1);
+        }
+
+        /// <summary>
+        /// Converts a zero-based numeric coordinate to IGS-style character coordinates, omitting the 'I' in the alphabet.
+        /// </summary>
+        /// <param name="xCoordinate">The coordinate, usually the X (horizontal) coordinate.</param>
+        /// <exception cref="System.ArgumentException">We only support boards of sizes up to 25x25.</exception>
+        public static char IntToIgsChar(int xCoordinate)
+        {
+            if (xCoordinate < 0 || xCoordinate >= 25) throw new ArgumentException("We only support boards of sizes up to 25x25.", nameof(xCoordinate));
+
+            char result = (char)('A' + xCoordinate);
+            if (result >= 'I')
             {
-                _x = x,
-                _y = y
-            };
+                result = (char)(result + 1);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Returns the position int the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
+        /// </summary>
+        public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
+
+        public Position(int x, int y)
+        {
+            this._x = x;
+            this._y = y;
         }
     }
+
+
 }
