@@ -16,7 +16,15 @@ namespace OmegaGo.Core
         /// An intersection has the color <see cref="None"/> if there is no stone placed upon it.
         /// </summary>
         None,
+        /// <summary>
+        /// The player who plays black stones always goes first. In games outside tournaments, Black is usually the
+        /// weaker player of the two and receives handicap stones or compensation points to make the match more even.
+        /// </summary>
         Black,
+        /// <summary>
+        /// The player who plays white stones always goes second. In some ruleses (specifically, AGA), the white player
+        /// is required to make the last pass.
+        /// </summary>
         White
     }
 }
