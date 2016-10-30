@@ -59,13 +59,13 @@
             this.nBoardSize = new System.Windows.Forms.NumericUpDown();
             this.cbMatchRecipient = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.cbBlack = new System.Windows.Forms.ComboBox();
-            this.cbWhite = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.nLocalBoardSize = new System.Windows.Forms.NumericUpDown();
             this.bPlayLocal = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cbWhite = new System.Windows.Forms.ComboBox();
+            this.nLocalBoardSize = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbBlack = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -397,27 +397,24 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Local Play ";
             // 
-            // label7
+            // bPlayLocal
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(23, 29);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(37, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Black:";
+            this.bPlayLocal.Location = new System.Drawing.Point(70, 109);
+            this.bPlayLocal.Name = "bPlayLocal";
+            this.bPlayLocal.Size = new System.Drawing.Size(116, 23);
+            this.bPlayLocal.TabIndex = 20;
+            this.bPlayLocal.Text = "Play Go";
+            this.bPlayLocal.UseVisualStyleBackColor = true;
+            this.bPlayLocal.Click += new System.EventHandler(this.bPlayLocal_Click);
             // 
-            // cbBlack
+            // label9
             // 
-            this.cbBlack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBlack.FormattingEnabled = true;
-            this.cbBlack.Items.AddRange(new object[] {
-            "Human",
-            "Defeatist",
-            "Random"});
-            this.cbBlack.Location = new System.Drawing.Point(92, 26);
-            this.cbBlack.Name = "cbBlack";
-            this.cbBlack.Size = new System.Drawing.Size(121, 21);
-            this.cbBlack.TabIndex = 1;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(5, 82);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Board size:";
             // 
             // cbWhite
             // 
@@ -431,24 +428,6 @@
             this.cbWhite.Name = "cbWhite";
             this.cbWhite.Size = new System.Drawing.Size(121, 21);
             this.cbWhite.TabIndex = 3;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(23, 56);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(38, 13);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "White:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(5, 82);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 13);
-            this.label9.TabIndex = 25;
-            this.label9.Text = "Board size:";
             // 
             // nLocalBoardSize
             // 
@@ -472,15 +451,36 @@
             0,
             0});
             // 
-            // bPlayLocal
+            // label8
             // 
-            this.bPlayLocal.Location = new System.Drawing.Point(70, 109);
-            this.bPlayLocal.Name = "bPlayLocal";
-            this.bPlayLocal.Size = new System.Drawing.Size(116, 23);
-            this.bPlayLocal.TabIndex = 20;
-            this.bPlayLocal.Text = "Play Go";
-            this.bPlayLocal.UseVisualStyleBackColor = true;
-            this.bPlayLocal.Click += new System.EventHandler(this.bPlayLocal_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(23, 56);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "White:";
+            // 
+            // cbBlack
+            // 
+            this.cbBlack.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBlack.FormattingEnabled = true;
+            this.cbBlack.Items.AddRange(new object[] {
+            "Human",
+            "Defeatist",
+            "Random"});
+            this.cbBlack.Location = new System.Drawing.Point(92, 26);
+            this.cbBlack.Name = "cbBlack";
+            this.cbBlack.Size = new System.Drawing.Size(121, 21);
+            this.cbBlack.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(23, 29);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Black:";
             // 
             // PrimaryForm
             // 
@@ -504,7 +504,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Name = "PrimaryForm";
-            this.Text = "IGS Tester";
+            this.Text = "Gameplay Prototype Main Form";
             this.Load += new System.EventHandler(this.PrimaryForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
