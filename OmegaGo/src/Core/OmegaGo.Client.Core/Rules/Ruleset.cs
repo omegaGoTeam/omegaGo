@@ -198,9 +198,9 @@ namespace OmegaGo.Core.Rules
 
         protected void CountTerritory(Color[,] currentBoard)
         {
-            Territory[,] regions= new Territory[BoardHeight,BoardWidth];
+            Territory[,] regions = new Territory[BoardHeight, BoardWidth];
 
-            for (int i = 0; i < BoardHeight;i++)
+            for (int i = 0; i < BoardHeight; i++)
             {
                 for (int j = 0; j < BoardWidth; j++)
                 {
@@ -216,13 +216,14 @@ namespace OmegaGo.Core.Rules
         protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, Color[,] currentBoard)
         {
             region.Add(pos);
-            if (pos.X < BoardWidth - 1 ) //has same right neighbour
+            if (pos.X < BoardWidth - 1) //has same right neighbour
             {
                 Position newp = new Position();
                 newp.X = pos.X + 1;
                 newp.Y = pos.Y;
 
-                switch (currentBoard[pos.X + 1, pos.Y]) {
+                switch (currentBoard[pos.X + 1, pos.Y])
+                {
                     case Color.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
@@ -242,14 +243,14 @@ namespace OmegaGo.Core.Rules
                         //TODO Exception
                         break;
                 }
-                
+
             }
-            if (pos.Y < BoardHeight - 1 ) //has same upper neighbour
+            if (pos.Y < BoardHeight - 1) //has same upper neighbour
             {
                 Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
-                switch (currentBoard[pos.X, pos.Y+1])
+                switch (currentBoard[pos.X, pos.Y + 1])
                 {
                     case Color.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
@@ -294,3 +295,4 @@ namespace OmegaGo.Core.Rules
         Neutral,
         Unknown
     }
+}

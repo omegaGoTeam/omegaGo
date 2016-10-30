@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Rules;
 
 namespace QuickPrototype
 {
