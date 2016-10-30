@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Rules
         public abstract void PutHandicapStone(Move moveToMake);
 
         public abstract MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history);
-        
+
         //TODO control!
         public Color[,] ControlCaptureAndRemoveStones(Color[,] currentBoard)
         {
@@ -81,11 +81,11 @@ namespace OmegaGo.Core.Rules
                     {
                         emptyNeighbour = true;
                     }
-                    else if (j > 0 && currentBoard[i, j - 1] == Color.None) //it has empty up neighbour
+                    else if (j > 0 && currentBoard[i, j - 1] == Color.None) //it has empty bottom neighbour
                     {
                         emptyNeighbour = true;
                     }
-                    else if (j < BoardHeight - 1 && currentBoard[i, j + 1] == Color.None) //it has empty bottom neighbour
+                    else if (j < BoardHeight - 1 && currentBoard[i, j + 1] == Color.None) //it has empty upper neighbour
                     {
                         emptyNeighbour = true;
                     }
@@ -141,7 +141,7 @@ namespace OmegaGo.Core.Rules
         protected MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
             int boardHistoryCount = history.Count;
-            if (boardHistoryCount>=2 &&  AreBoardsEqual(history.ElementAt(boardHistoryCount-2), currentBoard))
+            if (boardHistoryCount >= 2 && AreBoardsEqual(history.ElementAt(boardHistoryCount - 2), currentBoard))
                 return MoveResult.Ko;
 
             return MoveResult.Legal;
