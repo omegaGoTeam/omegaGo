@@ -4,63 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Rules
 {
     //TODO comments!
-    public class Ruleset
+    public abstract class Ruleset
     {
         public int Score;
-        public static int BoardWidth, BoardHeight;
+        public int BoardWidth, BoardHeight;
 
-        public static void startGame(int width, int height)
+        public void startGame(int width, int height)
         {
             BoardWidth = width;
             BoardHeight = height;
             throw new NotImplementedException();
         }
 
-        public static void PutHandicapStone(Move moveToMake)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void PutHandicapStone(Move moveToMake);
 
-        public MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
-        {
-            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
-            {
-                return MoveResult.OccupiedPosition;
-            }
-            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
-            {
-                return MoveResult.Ko;
-            }
-            else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
-            {
-                return MoveResult.SelfCapture;
-            }
-            else
-            {
-                return MoveResult.Legal;
-            }
-
-        }
-
+        public abstract MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history);
+        
         //TODO control!
         public Color[,] ControlCaptureAndRemoveStones(Color[,] currentBoard)
         {
             bool[,] Liberty = FillLibertyTable(currentBoard);
 
             //control if group has liberty
-            for (int i = 0; i < BoardWidth; i++) {
+            for (int i = 0; i < BoardWidth; i++)
+            {
                 for (int j = 0; j < BoardHeight; j++)
                 {
-                    if (Liberty[i, j] == false) {
+                    if (Liberty[i, j] == false)
+                    {
                         List<Position> group = new List<Position>();
                         bool groupHasLiberty = false;
                         Position p = new Position();
                         p.X = i;
                         p.Y = j;
-                        GetGroup(ref group, ref groupHasLiberty,p, currentBoard, Liberty);
+                        GetGroup(ref group, ref groupHasLiberty, p, currentBoard, Liberty);
 
                         //if group has liberty, setup true liberty for all; else remove the group from the board
                         for (int k = 0; k < group.Count; k++)
@@ -75,10 +55,10 @@ namespace OmegaGo.Core
                                 currentBoard[groupMember.X, groupMember.Y] = Color.None;
                             }
                         }
-                     }
+                    }
                 }
             }
-   
+
             return currentBoard;
         }
 
@@ -132,14 +112,14 @@ namespace OmegaGo.Core
                 newp.Y = pos.Y;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard, Liberty);
             }
-            if (pos.Y < BoardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor) //has same bottom neighbour
+            if (pos.Y < BoardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor) //has same upper neighbour
             {
-                Position newp= new Position();
+                Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard,Liberty);
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard, Liberty);
             }
-            
+
         }
 
         public bool AreBoardsEqual(Color[,] b1, Color[,] b2)
@@ -156,22 +136,28 @@ namespace OmegaGo.Core
             return true;
         }
 
-        public int CountScore(Color[,] currentBoard)
+        public abstract int CountScore(Color[,] currentBoard);
+
+        protected MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
-            throw new NotImplementedException();
+            int boardHistoryCount = history.Count;
+            if (boardHistoryCount>=2 &&  AreBoardsEqual(history.ElementAt(boardHistoryCount-2), currentBoard))
+                return MoveResult.Ko;
+
+            return MoveResult.Legal;
         }
 
-        private MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        protected MoveResult IsSuperKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
             for (int i = 0; i < history.Count; i++)
             {
                 if (AreBoardsEqual(history.ElementAt(i), currentBoard))
-                    return MoveResult.Ko;
+                    return MoveResult.SuperKo;
             }
             return MoveResult.Legal;
         }
 
-        private MoveResult IsPositionOccupied(Color[,] currentBoard, Move moveToMake)
+        protected MoveResult IsPositionOccupied(Color[,] currentBoard, Move moveToMake)
         {
             Position p = moveToMake.Coordinates;
             if (currentBoard[p.X, p.Y] != Color.None)
@@ -182,10 +168,10 @@ namespace OmegaGo.Core
             {
                 return MoveResult.Legal;
             }
-            
+
         }
 
-        private MoveResult IsSelfCapture(Color[,] currentBoard, Move moveToMake) 
+        protected MoveResult IsSelfCapture(Color[,] currentBoard, Move moveToMake)
         {
             Position p = moveToMake.Coordinates;
             List<Position> group = new List<Position>();
@@ -211,7 +197,7 @@ namespace OmegaGo.Core
         Legal,
         OccupiedPosition,
         Ko,
+        SuperKo,
         SelfCapture
     }
 }
-
