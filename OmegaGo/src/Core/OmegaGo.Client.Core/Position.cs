@@ -99,11 +99,7 @@ namespace OmegaGo.Core
             {
                 x--;
             }
-            return new Position
-            {
-                _x = x,
-                _y = y - 1
-            };
+            return new Position(x, y - 1);
         }
 
         /// <summary>
@@ -135,5 +131,5 @@ namespace OmegaGo.Core
         }
     }
 
-    
+
 }

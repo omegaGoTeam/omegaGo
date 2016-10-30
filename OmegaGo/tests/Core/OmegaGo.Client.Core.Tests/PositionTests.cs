@@ -28,7 +28,6 @@ namespace OmegaGo.Client.Core.Tests
             Assert.AreEqual('J', Position.IntToIgsChar(8));
             Assert.AreEqual('C', Position.IntToIgsChar(2));
             Assert.AreEqual('Y', Position.IntToIgsChar(23));
-
         }
     }
 }
