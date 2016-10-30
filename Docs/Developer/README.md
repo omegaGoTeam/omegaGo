@@ -1,2 +1,2 @@
-#Omega Go Developer Documentation
-##[Internationalization](Internationalization.md)
+# Omega Go Developer Documentation
+## [Internationalization](Internationalization.md)
