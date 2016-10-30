@@ -124,16 +124,25 @@ namespace QuickPrototype
             }
         }
 
+        private Font fontBasic = new Font(FontFamily.GenericSansSerif, 8);
+
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            for (int x = 0; x < 19; x++)
+            e.Graphics.DrawRectangle(Pens.Black, new Rectangle(e.ClipRectangle.X, e.ClipRectangle.Y, e.ClipRectangle.Width-1,e.ClipRectangle.Height-1));
+
+            int OFX = 20;
+            int OFY = 20;
+            int boardSize =  this.game.BoardSize;
+            for (int x = 0; x < boardSize; x++)
             {
-                e.Graphics.DrawLine(Pens.Black, 0, x * 20 + 10, 19 * 20, x * 20 + 10);
-                e.Graphics.DrawLine(Pens.Black, x * 20 + 10, 0, x * 20 + 10, 19 * 20);
+                e.Graphics.DrawLine(Pens.Black, 0 + OFX, x * 20 + 10+OFY, boardSize * 20 + OFX , x * 20 + 10+OFY);
+                e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + OFX, 0+OFY, x * 20 + 10 + OFX, boardSize * 20+OFY);
+                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), fontBasic, Brushes.Black, OFX + x * 20 + 3, 3);
+                e.Graphics.DrawString((boardSize - x).ToString(), fontBasic, Brushes.Black, 3, OFX + x * 20 + 3);
             }
-            for (int x = 0; x < 19; x++)
+            for (int x = 0; x < boardSize; x++)
             {
-                for (int y = 0; y < 19; y++)
+                for (int y = 0; y < boardSize; y++)
                 {
                     Brush brush = null;
                     if (truePositions[x, y] == 'x')
@@ -146,7 +155,7 @@ namespace QuickPrototype
                     }
                     if (brush != null)
                     {
-                        var r = new Rectangle(x * 20+ 2, y * 20 + 2, 16, 16);
+                        var r = new Rectangle(x * 20 + 2+OFX, (boardSize-y-1) * 20 + 2+OFY, 16, 16);
                         e.Graphics.FillRectangle(brush, r);
                         e.Graphics.DrawRectangle(Pens.Black, r);
                     }
