@@ -44,6 +44,9 @@
             this.panelEnd = new System.Windows.Forms.Panel();
             this.lblGameEndReason = new System.Windows.Forms.Label();
             this.lblEndCaption = new System.Windows.Forms.Label();
+            this.chEnforceRules = new System.Windows.Forms.CheckBox();
+            this.tbSystemMessage = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -122,7 +125,7 @@
             // 
             // bMakeMove
             // 
-            this.bMakeMove.Location = new System.Drawing.Point(14, 86);
+            this.bMakeMove.Location = new System.Drawing.Point(14, 79);
             this.bMakeMove.Name = "bMakeMove";
             this.bMakeMove.Size = new System.Drawing.Size(174, 55);
             this.bMakeMove.TabIndex = 8;
@@ -214,11 +217,41 @@
             this.lblEndCaption.TabIndex = 0;
             this.lblEndCaption.Text = "Game ended.";
             // 
+            // chEnforceRules
+            // 
+            this.chEnforceRules.AutoSize = true;
+            this.chEnforceRules.Location = new System.Drawing.Point(496, 76);
+            this.chEnforceRules.Name = "chEnforceRules";
+            this.chEnforceRules.Size = new System.Drawing.Size(93, 17);
+            this.chEnforceRules.TabIndex = 13;
+            this.chEnforceRules.Text = "Enforce Rules";
+            this.chEnforceRules.UseVisualStyleBackColor = true;
+            // 
+            // tbSystemMessage
+            // 
+            this.tbSystemMessage.Location = new System.Drawing.Point(187, 16);
+            this.tbSystemMessage.Name = "tbSystemMessage";
+            this.tbSystemMessage.ReadOnly = true;
+            this.tbSystemMessage.Size = new System.Drawing.Size(449, 20);
+            this.tbSystemMessage.TabIndex = 14;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(68, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(113, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Last System Message:";
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(704, 581);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.tbSystemMessage);
+            this.Controls.Add(this.chEnforceRules);
             this.Controls.Add(this.panelEnd);
             this.Controls.Add(this.groupboxMoveMaker);
             this.Controls.Add(this.lblTurnPlayer);
@@ -257,5 +290,8 @@
         private System.Windows.Forms.Label lblGameEndReason;
         private System.Windows.Forms.Label lblEndCaption;
         public System.Windows.Forms.GroupBox groupboxMoveMaker;
+        private System.Windows.Forms.CheckBox chEnforceRules;
+        private System.Windows.Forms.TextBox tbSystemMessage;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -16,6 +16,8 @@ namespace OmegaGo.Core.Rules
         {
             BoardWidth = gbSize.Width;
             BoardHeight = gbSize.Height;
+            return;
+            // TODO Petr: I'll just comment this out for a while so I can get it at least somewhat working.
             throw new NotImplementedException();
         }
 
@@ -277,15 +279,6 @@ namespace OmegaGo.Core.Rules
 
         }
 
-    }
-
-    public enum MoveResult
-    {
-        Legal,
-        OccupiedPosition,
-        Ko,
-        SuperKo,
-        SelfCapture
     }
 
     public enum Territory
