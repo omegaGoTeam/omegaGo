@@ -162,6 +162,27 @@ namespace QuickPrototype
                 }
             }
         }
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+        
+        }
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            int BoardSize = game.BoardSize;
+            int OFX = 20;
+            int OFY = 20;
+            int x = (e.X - 2 - OFX) / 20;
+            int BoardSizeMinusYMinus1 = (e.Y - 2 - OFY) / 20;
+            int BoardSizeMinusY = BoardSizeMinusYMinus1 + 1;
+            int y = -(BoardSizeMinusYMinus1 - BoardSize);
+
+            this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
+            if (playerToMove.Agent is InGameFormGuiAgent)
+            {
+                this.bMakeMove_Click(sender, EventArgs.Empty);
+            }
+        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -202,5 +223,7 @@ namespace QuickPrototype
                 WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
             }, "User entered these coordinates."));
         }
+
+  
     }
 }
