@@ -12,10 +12,10 @@ namespace OmegaGo.Core.Rules
         public int Score;
         public int BoardWidth, BoardHeight;
 
-        public void startGame(int width, int height)
+        public void startGame(Player white, Player black, GameBoardSize gbSize)
         {
-            BoardWidth = width;
-            BoardHeight = height;
+            BoardWidth = gbSize.Width;
+            BoardHeight = gbSize.Height;
             throw new NotImplementedException();
         }
 
@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Rules
 
         public abstract MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history);
 
-        //TODO control!
+        //TODO test!
         public Color[,] ControlCaptureAndRemoveStones(Color[,] currentBoard)
         {
             bool[,] Liberty = FillLibertyTable(currentBoard);
@@ -62,7 +62,7 @@ namespace OmegaGo.Core.Rules
             return currentBoard;
         }
 
-        public bool[,] FillLibertyTable(Color[,] currentBoard)
+        protected bool[,] FillLibertyTable(Color[,] currentBoard)
         {
             bool[,] Liberty = new bool[BoardWidth, BoardHeight];
 
@@ -96,8 +96,8 @@ namespace OmegaGo.Core.Rules
             return Liberty;
         }
 
-        //TODO control!
-        public void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, Color[,] currentBoard, bool[,] Liberty)
+        //TODO test!
+        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, Color[,] currentBoard, bool[,] Liberty)
         {
             Color currentColor = currentBoard[pos.X, pos.Y];
             group.Add(pos);
@@ -135,8 +135,6 @@ namespace OmegaGo.Core.Rules
 
             return true;
         }
-
-        public abstract int CountScore(Color[,] currentBoard);
 
         protected MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
@@ -190,6 +188,94 @@ namespace OmegaGo.Core.Rules
             }
 
         }
+
+        public abstract int CountScore(Color[,] currentBoard);
+
+        protected void CountArea(Color[,] currentBoard)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected void CountTerritory(Color[,] currentBoard)
+        {
+            Territory[,] regions= new Territory[BoardHeight,BoardWidth];
+
+            for (int i = 0; i < BoardHeight;i++)
+            {
+                for (int j = 0; j < BoardWidth; j++)
+                {
+                    regions[i, j] = Territory.Unknown;
+                }
+            }
+
+            //TODO: call GetRegion
+            throw new NotImplementedException();
+
+        }
+
+        protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, Color[,] currentBoard)
+        {
+            region.Add(pos);
+            if (pos.X < BoardWidth - 1 ) //has same right neighbour
+            {
+                Position newp = new Position();
+                newp.X = pos.X + 1;
+                newp.Y = pos.Y;
+
+                switch (currentBoard[pos.X + 1, pos.Y]) {
+                    case Color.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
+                        break;
+                    case Color.Black:
+                        if (regionBelongsTo == Territory.White)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.Black;
+                        break;
+                    case Color.White:
+                        if (regionBelongsTo == Territory.Black)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.White;
+                        break;
+                    default:
+                        //TODO Exception
+                        break;
+                }
+                
+            }
+            if (pos.Y < BoardHeight - 1 ) //has same upper neighbour
+            {
+                Position newp = new Position();
+                newp.X = pos.X;
+                newp.Y = pos.Y + 1;
+                switch (currentBoard[pos.X, pos.Y+1])
+                {
+                    case Color.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
+                        break;
+                    case Color.Black:
+                        if (regionBelongsTo == Territory.White)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.Black;
+                        break;
+                    case Color.White:
+                        if (regionBelongsTo == Territory.Black)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.White;
+                        break;
+                    default:
+                        //TODO Exception
+                        break;
+                }
+            }
+            //TODO control left, upper neighbour
+            throw new NotImplementedException();
+
+        }
+
     }
 
     public enum MoveResult
@@ -200,4 +286,11 @@ namespace OmegaGo.Core.Rules
         SuperKo,
         SelfCapture
     }
-}
+
+    public enum Territory
+    {
+        White,
+        Black,
+        Neutral,
+        Unknown
+    }
