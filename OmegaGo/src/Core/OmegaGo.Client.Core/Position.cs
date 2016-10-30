@@ -127,5 +127,13 @@ namespace OmegaGo.Core
         /// Returns the position int the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
         /// </summary>
         public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
+
+        public Position(int x, int y)
+        {
+            this._x = x;
+            this._y = y;
+        }
     }
+
+    
 }
