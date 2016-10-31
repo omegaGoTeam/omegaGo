@@ -12,22 +12,33 @@ namespace IgsPopulationDiscovery
     {
         static void Main(string[] args)
         {
+            AsyncMain();
+        }
+        public static async void AsyncMain() { 
             IgsConnection igs = new IgsConnection();
-            igs.Login("OmegaGo1", "123456789");
+            await igs.Connect();
+            await igs.Login("OmegaGo1", "123456789");
             Console.Title = "IGS Population Discovery";
-
             Console.WriteLine("Press ENTER when you think login has been accomplished...");
             Console.ReadLine();
 
-
-
             while (true)
             {
-                var users = igs.ListOnlinePlayers().Result;
-                int count = users.Count;
-                TryAppendCount(count);
-                Console.WriteLine(count + " players are now online.");
-                Thread.Sleep(60*1000);
+                try
+                {
+                    var users = igs.ListOnlinePlayers().Result;
+                    int count = users.Count;
+                    TryAppendCount(count);
+                    Console.WriteLine(count + " players are now online.");
+                    Thread.Sleep(60 * 1000);
+                }
+                catch
+                {
+                    Console.WriteLine("Connection lost. Attempting to reestablish...");
+                    await igs.Connect();
+                    await igs.Login("OmegaGo1", "123456789");
+                    Thread.Sleep(60 * 1000);
+                }
             }
         }
 

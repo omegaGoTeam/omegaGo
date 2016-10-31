@@ -145,7 +145,7 @@ namespace OmegaGo.DesktopPrototype
 
         private void SendCommand_Click(object sender, RoutedEventArgs e)
         {
-            _igsConnection.SendRawText(this.tbCommand.Text);
+            _igsConnection.DEBUG_SendRawText(this.tbCommand.Text);
             this.tbCommand.Clear();
         }
 

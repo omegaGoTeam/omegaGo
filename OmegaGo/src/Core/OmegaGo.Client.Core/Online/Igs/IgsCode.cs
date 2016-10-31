@@ -176,4 +176,12 @@
         /// </summary>
         Unknown
     }
+    enum IgsPromptCode
+    {
+        Username = 0,
+        Password = 1,
+        General = 5,
+        Playing = 6,
+        Observing = 8
+    }
 }

@@ -27,6 +27,7 @@ namespace QuickPrototype
         public InGameForm(Game game, IgsConnection igs)
         {
             InitializeComponent();
+
             this.game = game;
             this.igs = igs;
             Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
@@ -215,7 +216,7 @@ namespace QuickPrototype
 
         private void button2_Click(object sender, EventArgs e)
         {
-            igs.SendRawText("moves " + game.ServerId);
+            igs.DEBUG_SendRawText("moves " + game.ServerId);
         }
 
         private void bPASS_Click(object sender, EventArgs e)

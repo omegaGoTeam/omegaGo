@@ -29,7 +29,7 @@ namespace OmegaGo.Core.AI.Joker23
             return location;
         }
 
-        public void setLocation() {
+        public void setLocation(JokerPoint location) {
             this.location = location;
         }
 

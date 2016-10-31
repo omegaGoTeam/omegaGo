@@ -94,7 +94,7 @@ namespace OmegaGo.DesktopPrototype
 
         private void RefreshFromServer_Click(object sender, RoutedEventArgs e)
         {
-            _igsConnection.SendRawText("moves " + _game.ServerId);
+            _igsConnection.DEBUG_SendRawText("moves " + _game.ServerId);
         }
     }
 }

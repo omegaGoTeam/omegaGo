@@ -42,24 +42,28 @@ namespace QuickPrototype
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.igs.SendRawText(this.tbCommand.Text);
+            this.igs.DEBUG_SendRawText(this.tbCommand.Text);
             this.tbCommand.Clear();
         }
 
-        private void PrimaryForm_Load(object sender, EventArgs e)
+        private async void PrimaryForm_Load(object sender, EventArgs e)
         {
-            // You create this twice? O.o ^^
-            //   -- Thanks for alerting me. ^^
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
-            igs.Login("OmegaGo1", "123456789");
             this.cbWhite.SelectedIndex = 0;
             this.cbBlack.SelectedIndex = 0;
-
-
+            if (!await igs.Connect())
+            {
+                MessageBox.Show("Connection to IGS failed.");
+                return;
+            }
+            if (!await igs.Login("OmegaGo1", "123456789"))
+            {
+                MessageBox.Show("Login failed.");
+            }
         }
 
         private void Igs_IncomingShoutMessage(string obj)
@@ -79,7 +83,7 @@ namespace QuickPrototype
 
         private void button6_Click(object sender, EventArgs e)
         {
-            igs.SendRawText("toggle client");
+            igs.DEBUG_SendRawText("toggle client");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -186,6 +190,18 @@ namespace QuickPrototype
             }
             throw new Exception("This agent cannot be handled yet.")
                 ;
+        }
+
+        private async void button6_Click_1(object sender, EventArgs e)
+        {
+            Igs_LogEvent("CONNECT() RESULT: " + await this.igs.Connect());
+            Igs_LogEvent("LOGIN() RESULT: " + await this.igs.Login("OmegaGo1", "123456789"));
+        }
+
+        private async void button8_Click(object sender, EventArgs e)
+        {
+            await this.igs.Disconnect();
+            Igs_LogEvent("DISCONNECTED.");
         }
     }
 }

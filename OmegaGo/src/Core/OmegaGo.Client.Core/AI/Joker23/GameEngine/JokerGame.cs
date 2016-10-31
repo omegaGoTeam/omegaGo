@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+#pragma warning disable 219
 
 namespace OmegaGo.Core.AI.Joker23 {
     public class JokerGame {

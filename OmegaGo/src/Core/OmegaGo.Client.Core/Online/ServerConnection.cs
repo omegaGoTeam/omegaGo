@@ -9,6 +9,7 @@ namespace OmegaGo.Core.Online
     public abstract class ServerConnection
     {
 
+        /*
         /// <summary>
         /// Attempts to log in the user to the server associated with this class. If is succeeds, the class instance remembers the login data and establishes 
         /// the connection.
@@ -17,7 +18,7 @@ namespace OmegaGo.Core.Online
         /// <param name="password">User's password.</param>
         /// <returns>True if the server permitted the login.</returns>
         public abstract bool Login(string username, string password);
-
+        */
         public virtual Task<List<Game>> ListGamesInProgress()
         {
             return Task.FromResult(new List<Game>());
@@ -48,5 +49,6 @@ namespace OmegaGo.Core.Online
         }
 
         public abstract string ShortName { get;  }
+        
     }
 }

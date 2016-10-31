@@ -173,7 +173,14 @@ In client mode, all lines sent by the server, except for when the server is send
 
 * 1 - Prompt
 * 5 - Error Message
-* 8 - File Begins or Ends
+* 8 - Help File Begins or Ends
    * IGS may send one or more files in response to a command, usually in response to the `help` command. These files are different in that they are copied verbatim, as ASCII text, and the lines of these files do not begin with an IGS reply code. However, at the beginning and end of each sent file, there will be the line `8 File`.
+   * Sometimes, the server also sends files otherwise, especially as the message of the day introduction, with the `9 File` beginning and ending line.
 * 9 - General Informational Message
+
+## Additional sources
+
+Some information on the protocol may also be found at these pages:
+* http://web.archive.org/web/20050310114628/nngs.cosmic.org/help.html
+* http://senseis.xmp.net/?IGS
 
