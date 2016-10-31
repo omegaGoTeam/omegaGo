@@ -178,7 +178,11 @@ namespace OmegaGo.Core.Online.Igs
                 this._streamWriter = new StreamWriter(this._client.WriteStream);
                 this._streamReader = new StreamReader(this._client.ReadStream);
                 this._streamWriter.AutoFlush = true;
-                HandleIncomingData(this._streamReader);
+#pragma warning disable 4014
+                HandleIncomingData(this._streamReader).ContinueWith(t => {
+                    // Fail silently.
+                }, TaskContinuationOptions.OnlyOnFaulted);
+#pragma warning restore 4014
                 this._composure = IgsComposure.InitialHandshake;
                 this._streamWriter.WriteLine("guest");
                 this._streamWriter.WriteLine("toggle client on");
@@ -251,7 +255,7 @@ namespace OmegaGo.Core.Online.Igs
                 return user;
           
         }
-        private async void HandleIncomingData(StreamReader sr)
+        private async Task HandleIncomingData(StreamReader sr)
         {
             bool weAreHandlingAnInterruptMessage = false;
             while (true)

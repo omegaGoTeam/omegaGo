@@ -12,15 +12,14 @@ namespace IgsPopulationDiscovery
     {
         static void Main(string[] args)
         {
-            AsyncMain();
+            AsyncMain().Wait();
         }
-        public static async void AsyncMain() { 
+        public static async Task AsyncMain() { 
             IgsConnection igs = new IgsConnection();
             await igs.Connect();
             await igs.Login("OmegaGo1", "123456789");
             Console.Title = "IGS Population Discovery";
-            Console.WriteLine("Press ENTER when you think login has been accomplished...");
-            Console.ReadLine();
+            Console.WriteLine("Login accomplished.");
 
             while (true)
             {
@@ -34,10 +33,20 @@ namespace IgsPopulationDiscovery
                 }
                 catch
                 {
-                    Console.WriteLine("Connection lost. Attempting to reestablish...");
-                    await igs.Connect();
-                    await igs.Login("OmegaGo1", "123456789");
-                    Thread.Sleep(60 * 1000);
+                    tryAgain:
+                    try
+                    {
+                        Console.WriteLine("Connection lost. Attempting to reestablish...");
+                        igs = new IgsConnection();
+                        await igs.Connect();
+                        await igs.Login("OmegaGo1", "123456789");
+                        Thread.Sleep(2 * 1000);
+                    } catch
+                    {
+                        Console.WriteLine("Failed again.");
+                        Thread.Sleep(5 * 1000);
+                        goto tryAgain;
+                    }
                 }
             }
         }
