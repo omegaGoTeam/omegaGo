@@ -208,15 +208,34 @@ namespace OmegaGo.Core.Rules
                 }
             }
 
-            //TODO: call GetRegion
-            throw new NotImplementedException();
+            for (int i = 0; i < BoardHeight; i++)
+            {
+                for (int j = 0; j < BoardWidth; j++)
+                {
+                    if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== Color.None)
+                    {
+                        List<Position> region = new List<Position>();
+                        Territory regionBelongsTo = Territory.Unknown;
+                        Position p = new Position();
+                        p.X = i;
+                        p.Y = j;
+                        GetRegion(ref region,ref regionBelongsTo,p,currentBoard);
 
+                        for (int k = 0; k < region.Count; k++)
+                        {
+                            Position regionMember = region.ElementAt(k);
+                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;    
+                        }
+
+                    }
+                }
+            }
         }
 
         protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, Color[,] currentBoard)
         {
             region.Add(pos);
-            if (pos.X < BoardWidth - 1 ) //has same right neighbour
+            if (pos.X < BoardWidth - 1 ) //has right neighbour
             {
                 Position newp = new Position();
                 newp.X = pos.X + 1;
@@ -244,7 +263,7 @@ namespace OmegaGo.Core.Rules
                 }
                 
             }
-            if (pos.Y < BoardHeight - 1 ) //has same upper neighbour
+            if (pos.Y < BoardHeight - 1 ) //has upper neighbour
             {
                 Position newp = new Position();
                 newp.X = pos.X;
@@ -271,9 +290,53 @@ namespace OmegaGo.Core.Rules
                         break;
                 }
             }
-            //TODO control left, upper neighbour
-            throw new NotImplementedException();
-
+            if (pos.X > 0) //has left neighbour
+            {
+                switch (currentBoard[pos.X-1, pos.Y])
+                {
+                    case Color.Black:
+                        if (regionBelongsTo == Territory.White)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.Black;
+                        break;
+                    case Color.White:
+                        if (regionBelongsTo == Territory.Black)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.White;
+                        break;
+                    case Color.None:
+                        break;
+                    default:
+                        //TODO Exception
+                        break;
+                }
+            }
+            if (pos.Y > 0) //has bottom neighbour
+            {
+                switch (currentBoard[pos.X, pos.Y-1])
+                {
+                    case Color.Black:
+                        if (regionBelongsTo == Territory.White)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.Black;
+                        break;
+                    case Color.White:
+                        if (regionBelongsTo == Territory.Black)
+                            regionBelongsTo = Territory.Neutral;
+                        else if (regionBelongsTo == Territory.Unknown)
+                            regionBelongsTo = Territory.White;
+                        break;
+                    case Color.None:
+                        break;
+                    default:
+                        //TODO Exception
+                        break;
+                }
+            }
+            
         }
 
     }
@@ -284,7 +347,8 @@ namespace OmegaGo.Core.Rules
         OccupiedPosition,
         Ko,
         SuperKo,
-        SelfCapture
+        SelfCapture,
+        LifeDeadConfirmationPhase
     }
 
     public enum Territory

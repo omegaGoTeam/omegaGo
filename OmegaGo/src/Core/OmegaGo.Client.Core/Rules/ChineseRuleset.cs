@@ -8,6 +8,8 @@ namespace OmegaGo.Core.Rules
 {
     public class ChineseRuleset : Ruleset
     {
+        private bool IsPreviousMovePass = false;
+
         public override void PutHandicapStone(Move moveToMake)
         {
             throw new NotImplementedException();
@@ -15,25 +17,40 @@ namespace OmegaGo.Core.Rules
 
         public override MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
-            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
+            if (moveToMake.Kind == MoveKind.Pass && IsPreviousMovePass)
             {
-                return MoveResult.OccupiedPosition;
+                //TODO check if opponents score increases according to Chinese rules
+                return MoveResult.LifeDeadConfirmationPhase;
             }
-            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (moveToMake.Kind == MoveKind.Pass)
             {
-                return MoveResult.Ko;
-            }
-            else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
-            {
-                return MoveResult.SuperKo;
-            }
-            else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
-            {
-                return MoveResult.SelfCapture;
-            }
-            else
-            {
+                //TODO check if opponents score increases according to Chinese rules
+                IsPreviousMovePass = true;
                 return MoveResult.Legal;
+            }
+            else {
+                IsPreviousMovePass = false;
+
+                if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
+                {
+                    return MoveResult.OccupiedPosition;
+                }
+                else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+                {
+                    return MoveResult.Ko;
+                }
+                else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+                {
+                    return MoveResult.SuperKo;
+                }
+                else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+                {
+                    return MoveResult.SelfCapture;
+                }
+                else
+                {
+                    return MoveResult.Legal;
+                }
             }
         }
 
