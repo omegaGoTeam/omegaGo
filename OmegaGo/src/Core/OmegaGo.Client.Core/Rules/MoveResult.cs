@@ -29,6 +29,10 @@
         /// The move is illegal because it is suicidal - it would not cause any capture of opponent's stones and, 
         /// conversely, the stone it placed would be immediately captured.
         /// </summary>
-        SelfCapture
+        SelfCapture,
+        /// <summary>
+        /// Two consecutive passes signal the end of the game. After two passes, the players marks stones as life or dead in the Confirmation phase.
+        /// </summary>
+        LifeDeadConfirmationPhase
     }
 }
