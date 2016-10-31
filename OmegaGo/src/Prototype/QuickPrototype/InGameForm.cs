@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Rules;
+using GoColor = OmegaGo.Core.Color;
 
 namespace QuickPrototype
 {
@@ -18,8 +20,9 @@ namespace QuickPrototype
     {
         private Game game;
         private IgsConnection igs;
-
-       
+        private Player playerToMove;
+        private GoColor[,] truePositions = new GoColor[19, 19];
+        private Font fontBasic = new Font(FontFamily.GenericSansSerif, 8);
 
         public InGameForm(Game game, IgsConnection igs)
         {
@@ -30,72 +33,6 @@ namespace QuickPrototype
             game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
         }
-
-        private char[,] truePositions = new char[19, 19];
-
-        private void RefreshBoard()
-        {
-            char[,] positions = new char[19, 19];
-            foreach (Move move in game.PrimaryTimeline)
-            {
-                if (!move.UnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
-                {
-                    int x = move.Coordinates.X;
-                    int y = move.Coordinates.Y;
-                    switch (move.WhoMoves)
-                    {
-                        case OmegaGo.Core.Color.Black:
-                            positions[x, y] = 'x';
-                            break;
-                        case OmegaGo.Core.Color.White:
-                            positions[x, y] = 'o';
-                            break;
-                    }
-                    foreach(Position capture in move.Captures)
-                    {
-                        positions[capture.X, capture.Y] = '.';
-                    }
-                }
-            }
-            StringBuilder sb = new StringBuilder();
-            for (int y = 0; y < 19;y++)
-            {
-                for (int x = 0; x < 19; x++)
-                {
-                    if (positions[x,y] == 'x' || positions[x,y] == 'o')
-                    {
-                        sb.Append(positions[x, y]);
-                    }
-                    else
-                    {
-                        sb.Append('.');
-                    }
-                }
-                sb.AppendLine();
-            }
-            truePositions = positions;
-            pictureBox1.Refresh();
-        }
-
-        private void Game_BoardNeedsRefreshing()
-        {
-            RefreshBoard();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            igs.RefreshBoard(game);
-        }
-
-        private void InGameForm_Load(object sender, EventArgs e)
-        {
-            if (this.game.Server == null)
-            {
-                LoopDecisionRequest();
-            }
-        }
-
-        private Player playerToMove;
 
         private async void LoopDecisionRequest()
         {
@@ -114,48 +51,141 @@ namespace QuickPrototype
                 }
                 if (decision.Kind == AIDecisionKind.Move)
                 {
+                    Move moveToMake = decision.Move;
+                    if (this.chEnforceRules.Checked)
+                    {
+                        // So far, we're not providing Ko information
+                        MoveResult canWeMakeIt =
+                            game.Ruleset.ControlMove(truePositions, moveToMake, new List<GoColor[,]>());
+                        if (canWeMakeIt != MoveResult.Legal)
+                        {
+                            switch (canWeMakeIt)
+                            {
+                                case MoveResult.Ko:
+                                    SetLastSystemMessage("Illegal Move - Ko");
+                                    break;
+                                case MoveResult.OccupiedPosition:
+                                    SetLastSystemMessage("That intersection is already occupied!");
+                                    break;
+                                case MoveResult.SelfCapture:
+                                    SetLastSystemMessage("Illegal Move - Suicide");
+                                    break;
+                                case MoveResult.SuperKo:
+                                    SetLastSystemMessage("Illegal Move - Superko");
+                                    break;
+
+                            }
+                            continue;
+                        }
+                    }
+
                     if (decision.Move.Kind == MoveKind.PlaceStone)
                     {
                         this.game.PrimaryTimeline.Add(decision.Move);
                         this.RefreshBoard();
+                        SetLastSystemMessage("");
+                    }
+                    else if (decision.Move.Kind == MoveKind.Pass)
+                    {
+                        SetLastSystemMessage(playerToMove + " passed!");
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                     }
                 }
                 playerToMove = game.OpponentOf(playerToMove);
             }
         }
+        private void RefreshBoard()
+        {
+            GoColor[,] positions = new GoColor[19, 19];
+            foreach (Move move in game.PrimaryTimeline)
+            {
+                if (!move.UnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
+                {
+                    int x = move.Coordinates.X;
+                    int y = move.Coordinates.Y;
+                    switch (move.WhoMoves)
+                    {
+                        case OmegaGo.Core.Color.Black:
+                            positions[x, y] = GoColor.Black;
+                            break;
+                        case OmegaGo.Core.Color.White:
+                            positions[x, y] = GoColor.White;
+                            break;
+                    }
+                    foreach (Position capture in move.Captures)
+                    {
+                        positions[capture.X, capture.Y] = GoColor.None;
+                    }
+                }
+            }
+            truePositions = positions;
+            pictureBox1.Refresh();
+        }
 
-        private Font fontBasic = new Font(FontFamily.GenericSansSerif, 8);
+
+
+        public void SetLastSystemMessage(string text)
+        {
+            this.tbSystemMessage.Text = text;
+        }
+
+
+        /********************* EVENTS **************************/
+
+        private void Game_BoardNeedsRefreshing()
+        {
+            RefreshBoard();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            igs.RefreshBoard(game);
+        }
+
+
+        private void InGameForm_Load(object sender, EventArgs e)
+        {
+            if (this.game.Server == null)
+            {
+                LoopDecisionRequest();
+            }
+        }
+
+
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawRectangle(Pens.Black, new Rectangle(e.ClipRectangle.X, e.ClipRectangle.Y, e.ClipRectangle.Width-1,e.ClipRectangle.Height-1));
 
-            int OFX = 20;
-            int OFY = 20;
-            int boardSize =  this.game.BoardSize;
+            const int ofx = 20;
+            const int ofy = 20;
+            int boardSize =  this.game.SquareBoardSize;
             for (int x = 0; x < boardSize; x++)
             {
-                e.Graphics.DrawLine(Pens.Black, 0 + OFX, x * 20 + 10+OFY, boardSize * 20 + OFX , x * 20 + 10+OFY);
-                e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + OFX, 0+OFY, x * 20 + 10 + OFX, boardSize * 20+OFY);
-                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), fontBasic, Brushes.Black, OFX + x * 20 + 3, 3);
-                e.Graphics.DrawString((boardSize - x).ToString(), fontBasic, Brushes.Black, 3, OFX + x * 20 + 3);
+                e.Graphics.DrawLine(Pens.Black, 0 + ofx, x * 20 + 10+ofy, boardSize * 20 + ofx , x * 20 + 10+ofy);
+                e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + ofx, 0+ofy, x * 20 + 10 + ofx, boardSize * 20+ofy);
+                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
+                e.Graphics.DrawString((boardSize - x).ToString(), fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
             }
             for (int x = 0; x < boardSize; x++)
             {
                 for (int y = 0; y < boardSize; y++)
                 {
                     Brush brush = null;
-                    if (truePositions[x, y] == 'x')
+                    if (truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
                     }
-                    else if (truePositions[x, y] == 'o')
+                    else if (truePositions[x, y] == GoColor.White)
                     {
                         brush = Brushes.White;
                     }
                     if (brush != null)
                     {
-                        var r = new Rectangle(x * 20 + 2+OFX, (boardSize-y-1) * 20 + 2+OFY, 16, 16);
+                        var r = new Rectangle(x * 20 + 2+ofx, (boardSize-y-1) * 20 + 2+ofy, 16, 16);
                         e.Graphics.FillRectangle(brush, r);
                         e.Graphics.DrawRectangle(Pens.Black, r);
                     }
@@ -169,13 +199,12 @@ namespace QuickPrototype
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
-            int BoardSize = game.BoardSize;
-            int OFX = 20;
-            int OFY = 20;
-            int x = (e.X - 2 - OFX) / 20;
-            int BoardSizeMinusYMinus1 = (e.Y - 2 - OFY) / 20;
-            int BoardSizeMinusY = BoardSizeMinusYMinus1 + 1;
-            int y = -(BoardSizeMinusYMinus1 - BoardSize);
+            int boardSize = game.SquareBoardSize;
+            const int ofx = 20;
+            const int ofy = 20;
+            int x = (e.X - 2 - ofx) / 20;
+            int boardSizeMinusYMinus1 = (e.Y - 2 - ofy) / 20;
+            int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
             if (playerToMove.Agent is InGameFormGuiAgent)
@@ -191,7 +220,7 @@ namespace QuickPrototype
 
         private void bPASS_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent) playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new OmegaGo.Core.Move()
+            ((InGameFormGuiAgent) playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.Pass,
                 WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
@@ -216,7 +245,7 @@ namespace QuickPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new OmegaGo.Core.Move()
+            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.PlaceStone,
                 Coordinates = position,

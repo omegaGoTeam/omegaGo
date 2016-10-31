@@ -13,6 +13,7 @@ using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Rules;
 
 namespace QuickPrototype
 {
@@ -158,9 +159,11 @@ namespace QuickPrototype
 
             Game localGame = new Game
             {
-                BoardSize = (int) this.nBoardSize.Value,
+                SquareBoardSize = (int) this.nBoardSize.Value,
                 NumberOfMovesPlayed = 0
             };
+            localGame.Ruleset = new ChineseRuleset();
+            localGame.Ruleset.startGame(playerWhite, playerBlack, localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
             localGame.Server = null;

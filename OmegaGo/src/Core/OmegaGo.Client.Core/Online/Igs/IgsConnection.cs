@@ -99,7 +99,7 @@ namespace OmegaGo.Core.Online.Igs
                     new Player(match.Groups[2].Value, match.Groups[3].Value)
                 },
                     NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
-                    BoardSize = match.Groups[7].Value.AsInteger(),
+                    SquareBoardSize = match.Groups[7].Value.AsInteger(),
                     NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
                     KomiValue = match.Groups[9].Value.AsFloat(),
                     NumberOfObservers = match.Groups[12].Value.AsInteger()

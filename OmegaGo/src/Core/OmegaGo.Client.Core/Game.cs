@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core
 {
@@ -34,8 +35,36 @@ namespace OmegaGo.Core
         /// The game's identification number on the server.
         /// </summary>
         public int ServerId;
+        /// <summary>
+        /// The number of moves that have been played. At the beginning, this is zero. Handicap moves do not count.
+        /// TODO maybe make handicap moves count
+        /// </summary>
         public int NumberOfMovesPlayed;
-        public int BoardSize;
+        /// <summary>
+        /// The size of the game board. Cannot change during the game. Initialized during game creation.
+        /// </summary>
+        public GameBoardSize BoardSize;
+        public int SquareBoardSize
+        {
+            get
+            {
+                if (BoardSize.IsSquare)
+                {
+                    return BoardSize.Width;
+                }
+                throw new InvalidOperationException("The board of this game is not square.");
+            }
+            set
+            {
+                BoardSize = new GameBoardSize(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the ruleset that governs this game. In the future, this should never be null. For now, we're prototyping.
+        /// </summary>
+        public Ruleset Ruleset { get; set; }
+
         public int NumberOfHandicapStones;
         /// <summary>
         /// The komi value is the number of points added to White's score at the end of the game. We can afford to use float here, 

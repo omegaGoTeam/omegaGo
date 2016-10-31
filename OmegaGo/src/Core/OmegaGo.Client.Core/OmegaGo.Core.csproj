@@ -65,6 +65,7 @@
     <Compile Include="Rules\AGARuleset.cs" />
     <Compile Include="Rules\ChineseRuleset.cs" />
     <Compile Include="Rules\JapaneseRuleset.cs" />
+    <Compile Include="Rules\MoveResult.cs" />
     <Compile Include="Rules\Ruleset.cs" />
     <Compile Include="Sgf\SgfParser.cs" />
   </ItemGroup>

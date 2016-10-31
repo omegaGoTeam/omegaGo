@@ -6,7 +6,9 @@ namespace OmegaGo.Core
     {
         public string Name;
         public string Rank;
+        public int Score;
         public IAgent Agent;
+
         public Player(string name, string rank)
         {
             Name = name;
