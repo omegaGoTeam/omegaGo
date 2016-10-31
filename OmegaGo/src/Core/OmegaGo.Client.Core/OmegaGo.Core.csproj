@@ -84,12 +84,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AI\Joker23\LICENSE" />
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
     <Content Include="AI\Common\Licensing.txt" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Game.java" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Move.java" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Rules.java" />
+    <Content Include="AI\Joker23\Java originals\Players\AlphaBetaPlayer.java" />
+    <Content Include="AI\Joker23\Java originals\Players\HueristicPlayer.java" />
+    <Content Include="AI\Joker23\Java originals\Players\Human.java" />
+    <Content Include="AI\Joker23\Java originals\Players\Player.java" />
+    <Content Include="AI\Joker23\Java originals\Players\PlayerFactory.java" />
+    <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
     <Content Include="AI\Joker23\Licensing.txt" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />

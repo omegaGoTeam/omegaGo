@@ -12,6 +12,9 @@ using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
 {
+    // TODO make it reconnect automatically when connection is interrupted
+
+
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
     /// about which user is logged in.
