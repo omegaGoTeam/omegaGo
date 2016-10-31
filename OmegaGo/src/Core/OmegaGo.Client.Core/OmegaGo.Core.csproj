@@ -108,6 +108,7 @@
     <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
     <Content Include="AI\Joker23\Licensing.txt" />
     <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
+    <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
