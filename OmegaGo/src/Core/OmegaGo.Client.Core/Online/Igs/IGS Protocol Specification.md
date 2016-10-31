@@ -122,12 +122,58 @@ Not all toggles are described in this help file. Most notably, the `newundo` and
 
 * TODO nmatch
 * TODO newundo
+### login
+```
+Usage:  login
 
+    Login will put you back at the 'Login:' prompt, waiting for you
+    to type an account name in again.
+```
+### quit
+Synonym: `exit`
+
+Terminates your Telnet connection.
+
+```
+Usage:  quit
+
+
+        'quit' will exit you from IGS. If you are playing a game, 'quit'
+        will attempt to 'save' your game.
+
+           To leave IGS, enter:   quit
+```
+### games
+```
+Usage: games [game number]
+
+ The 'games' command lists games currently in progress.  White is always
+ shown first.  Entering  games  will list _all_ games in progress, but if
+ a game _number_ is supplied, only that game will be listed.
+        Example:  game 56
+
+[##]  white name [ rk ]      black name [ rk ] (Move size H Komi BY FR) (###)
+[56]       HUH00 [ 5d*] vs.       nomad [ 5d*] (224   19  0  0.5 12  I) ( 95)
+
+ In the header, ## is the game number, followed by:
+   white player, rank, black player, rank, number of moves played, board size
+   handicap amount, komi value, byo-yomi period, flag, and the number of
+   people observing the game.
+ The  'F and R'  (FR) flags:
+   If a game is a free game, there is a 'F' under the F column.
+   If a game is a teaching game, there is a 'T' under the F column.
+   If a game is a tournament game, there is a '*' under the F column.
+   The type of game will be listed in the 'R' column.   The types of games
+   are (I) for IGS Go games, (C) for chinese chess, (G) GOE Go games,
+   (P) GOE Pro Go game <pmatch game>, and (S) for shogi
+```
  
 ## List of reply codes
 In client mode, all lines sent by the server, except for when the server is sending a file, will begin with a code followed by a single space. This is the list of codes used by IGS.
 
 * 1 - Prompt
 * 5 - Error Message
+* 8 - File Begins or Ends
+   * IGS may send one or more files in response to a command, usually in response to the `help` command. These files are different in that they are copied verbatim, as ASCII text, and the lines of these files do not begin with an IGS reply code. However, at the beginning and end of each sent file, there will be the line `8 File`.
 * 9 - General Informational Message
 
