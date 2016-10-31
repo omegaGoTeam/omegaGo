@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Agents
 
         public Task<AIDecision> RequestMove(Game game)
         {
-            Color[,] createdBoard = new Color[game.BoardSize, game.BoardSize];
+            Color[,] createdBoard = new Color[game.SquareBoardSize, game.SquareBoardSize];
             foreach (Move move in game.PrimaryTimeline)
             {
                 if (move.Kind == MoveKind.PlaceStone)
@@ -30,7 +30,7 @@ namespace OmegaGo.Core.Agents
             return aiProgram.RequestMove(new AIPreMoveInformation(
                 game.Players[0].Agent == this ? Color.Black : Color.White,
                 createdBoard,
-                game.BoardSize,
+                game.SquareBoardSize,
                 new TimeSpan(0,0,2),
                 10
                 ));

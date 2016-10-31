@@ -43,8 +43,11 @@
     <Compile Include="AI\Common\FastBoard.cs" />
     <Compile Include="AI\Defeatist\Defeatist.cs" />
     <Compile Include="AI\IAIProgram.cs" />
+    <Compile Include="AI\Joker23\JokerExtensionMethods.cs" />
+    <Compile Include="AI\Joker23\JokerPoint.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="CoreDebug.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameBoardSize.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="Rules\AGARuleset.cs" />
     <Compile Include="Rules\ChineseRuleset.cs" />
     <Compile Include="Rules\JapaneseRuleset.cs" />
+    <Compile Include="Rules\MoveResult.cs" />
     <Compile Include="Rules\Ruleset.cs" />
     <Compile Include="Sgf\SgfParser.cs" />
   </ItemGroup>
@@ -83,13 +87,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AI\Joker23\LICENSE" />
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
     <Content Include="AI\Common\Licensing.txt" />
+    <Compile Include="AI\Joker23\GameEngine\JokerGame.cs" />
+    <Compile Include="AI\Joker23\GameEngine\JokerMove.cs" />
+    <Compile Include="AI\Joker23\GameEngine\JokerRules.cs" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Game.java" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Move.java" />
+    <Content Include="AI\Joker23\Java originals\GameEngine\Rules.java" />
+    <Content Include="AI\Joker23\Java originals\Players\AlphaBetaPlayer.java" />
+    <Content Include="AI\Joker23\Java originals\Players\HueristicPlayer.java" />
+    <Content Include="AI\Joker23\Java originals\Players\Human.java" />
+    <Content Include="AI\Joker23\Java originals\Players\Player.java" />
+    <Content Include="AI\Joker23\Java originals\Players\PlayerFactory.java" />
+    <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
     <Content Include="AI\Joker23\Licensing.txt" />
+    <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
+    <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />

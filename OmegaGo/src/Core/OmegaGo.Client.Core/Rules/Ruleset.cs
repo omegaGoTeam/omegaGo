@@ -16,6 +16,8 @@ namespace OmegaGo.Core.Rules
         {
             BoardWidth = gbSize.Width;
             BoardHeight = gbSize.Height;
+            return;
+            // TODO Petr: I'll just comment this out for a while so I can get it at least somewhat working.
             throw new NotImplementedException();
         }
 
@@ -198,9 +200,9 @@ namespace OmegaGo.Core.Rules
 
         protected void CountTerritory(Color[,] currentBoard)
         {
-            Territory[,] regions= new Territory[BoardHeight,BoardWidth];
+            Territory[,] regions = new Territory[BoardHeight, BoardWidth];
 
-            for (int i = 0; i < BoardHeight;i++)
+            for (int i = 0; i < BoardHeight; i++)
             {
                 for (int j = 0; j < BoardWidth; j++)
                 {
@@ -225,7 +227,7 @@ namespace OmegaGo.Core.Rules
                         {
                             Position regionMember = region.ElementAt(k);
                             regions[regionMember.X, regionMember.Y] = regionBelongsTo;    
-                        }
+        }
 
                     }
                 }
@@ -241,7 +243,8 @@ namespace OmegaGo.Core.Rules
                 newp.X = pos.X + 1;
                 newp.Y = pos.Y;
 
-                switch (currentBoard[pos.X + 1, pos.Y]) {
+                switch (currentBoard[pos.X + 1, pos.Y])
+                {
                     case Color.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
@@ -268,7 +271,7 @@ namespace OmegaGo.Core.Rules
                 Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
-                switch (currentBoard[pos.X, pos.Y+1])
+                switch (currentBoard[pos.X, pos.Y + 1])
                 {
                     case Color.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
@@ -336,7 +339,7 @@ namespace OmegaGo.Core.Rules
                         break;
                 }
             }
-            
+
         }
 
     }
@@ -358,3 +361,4 @@ namespace OmegaGo.Core.Rules
         Neutral,
         Unknown
     }
+}
