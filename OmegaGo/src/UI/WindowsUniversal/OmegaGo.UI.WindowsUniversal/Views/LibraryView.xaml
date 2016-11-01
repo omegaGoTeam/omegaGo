@@ -16,9 +16,46 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
         <TextBlock Text="Library" 
+                   Grid.Row="0"
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="5">
+            <Button Content="Load" Command="{x:Bind Path=VM.LoadCommand}"/>
+            <Button Content="Load Folder" Command="{x:Bind Path=VM.LoadFolderCommand}" Margin="5,0,0,0" />
+            <TextBlock Text="Filter by source"
+                       VerticalAlignment="Center"
+                       Margin="5,0,0,0"/>
+            <ComboBox ItemsSource="{x:Bind Path=VM.GameSource}"
+                      SelectedIndex="{x:Bind Path=VM.SelectedGameSourceItemIndex, Mode=TwoWay}"
+                      Margin="5,0,0,0"/>
+            <Button Content="Delete selection" Command="{x:Bind Path=VM.DeleteSelectionCommand}"
+                    Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <GridView x:Name="GameListView"
+                  Grid.Row="2"
+                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="15" Background="WhiteSmoke" CornerRadius="15" >
+                        <TextBlock Text="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+
+        <Grid Grid.Row="4" Padding="5">
+            <Button Content="Back" />
+        </Grid>
     </Grid>
 </views:ViewBase>
