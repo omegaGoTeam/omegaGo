@@ -62,20 +62,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Omega Go.
+        ///   Looks up a localized string similar to Board Size.
         /// </summary>
-        public static string AppName {
+        public static string BoardSize {
             get {
-                return ResourceManager.GetString("AppName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hello world! And FU!.
-        /// </summary>
-        public static string HelloString {
-            get {
-                return ResourceManager.GetString("HelloString", resourceCulture);
+                return ResourceManager.GetString("BoardSize", resourceCulture);
             }
         }
     }

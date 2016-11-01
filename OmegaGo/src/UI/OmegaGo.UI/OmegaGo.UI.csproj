@@ -35,13 +35,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
+      <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
+      <Name>OmegaGo.UI.Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
       <Project>{dafe0a61-6d7c-4423-8a23-d59d774a8fc2}</Project>
       <Name>OmegaGo.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmegaGo.UI.Resources\OmegaGo.UI.Resources.csproj">
-      <Project>{ce437ef0-7319-4caa-8539-8d9d8e3e0fcb}</Project>
-      <Name>OmegaGo.UI.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

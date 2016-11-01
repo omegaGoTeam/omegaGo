@@ -1,4 +1,4 @@
-﻿using OmegaGo.UI.Resources;
+﻿using OmegaGo.UI.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +19,7 @@ namespace OmegaGo.UI.Services.Localization
         {
             
         }
+
+        public string BoardSize => LocalizeCaller();
     }
 }

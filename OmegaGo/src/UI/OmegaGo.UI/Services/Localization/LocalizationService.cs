@@ -24,9 +24,9 @@ namespace OmegaGo.UI.Services.Localization
         /// Localization service constructor
         /// </summary>
         /// <param name="resourceManager">Resource manager for the required resource file</param>
-        public LocalizationService( ResourceManager resourceManager )
+        public LocalizationService(ResourceManager resourceManager)
         {
-            if ( resourceManager == null ) throw new ArgumentNullException( nameof( resourceManager ) );
+            if (resourceManager == null) throw new ArgumentNullException(nameof(resourceManager));
 
             _resourceManager = resourceManager;
         }
@@ -36,14 +36,14 @@ namespace OmegaGo.UI.Services.Localization
         /// </summary>
         /// <param name="key">Resource key</param>
         /// <returns>Localization or key if not found</returns>
-        public string this[ string key ] => GetString( key );
+        public string this[string key] => GetString(key);
 
         /// <summary>
         /// Returns a translation for a given resource key under default thread culture
         /// </summary>
         /// <param name="key">Key</param>
         /// <returns>Localization or key if not found</returns>
-        public string GetString( string key = "" ) => GetString( key, CultureInfo.CurrentUICulture );
+        public string GetString(string key = "") => GetString(key, CultureInfo.CurrentUICulture );
 
 
         /// <summary>
