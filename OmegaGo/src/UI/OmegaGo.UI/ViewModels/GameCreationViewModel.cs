@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvvmCross.Core.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameCreationViewModel : ViewModelBase
     {
+        private IMvxCommand _navigateToGame;
+
+        public GameCreationViewModel()
+        {
+
+        }
+
+        public IMvxCommand NavigateToGame => _navigateToGame ?? (_navigateToGame = new MvxCommand(() => ShowViewModel<GameViewModel>()));
     }
 }

@@ -7,6 +7,14 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock Text="Tutorial" 
                    HorizontalAlignment="Center"
