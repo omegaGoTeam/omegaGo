@@ -95,6 +95,7 @@
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>

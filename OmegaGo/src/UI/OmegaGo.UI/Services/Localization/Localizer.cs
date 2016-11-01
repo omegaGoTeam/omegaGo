@@ -21,5 +21,39 @@ namespace OmegaGo.UI.Services.Localization
         }
 
         public string BoardSize => LocalizeCaller();
+
+        public string Settings => LocalizeCaller();
+
+        public string Library => LocalizeCaller();
+
+        public string Load => LocalizeCaller();
+
+        public string Loading => LocalizeCaller();
+
+        public string Back => LocalizeCaller();
+
+        public string Open => LocalizeCaller();
+
+        public string Delete => LocalizeCaller();
+
+        public string Select => LocalizeCaller();
+
+        public string Rename => LocalizeCaller();
+
+        public string UserInterface => LocalizeCaller();
+
+        public string Sounds => LocalizeCaller();
+
+        public string Language => LocalizeCaller();
+
+        public string Gameplay => LocalizeCaller();
+
+        public string Assistant => LocalizeCaller();
+
+        public string FilterBySource => LocalizeCaller();
+
+        public string LoadFolder => LocalizeCaller();
+
+        public string DeleteSelection => LocalizeCaller();
     }
 }

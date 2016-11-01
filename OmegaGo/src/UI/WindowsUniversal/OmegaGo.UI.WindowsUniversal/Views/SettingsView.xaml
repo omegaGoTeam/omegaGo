@@ -15,10 +15,14 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Settings" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
-    </Grid>
+    <Pivot Title="{x:Bind Localizer.Settings}">
+        <Pivot.TitleTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding}" FontSize="34" FontWeight="Light" />
+            </DataTemplate>
+        </Pivot.TitleTemplate>
+        <PivotItem Header="{x:Bind Localizer.UserInterface}">
+            
+        </PivotItem>
+    </Pivot>    
 </views:ViewBase>
