@@ -20,9 +20,9 @@ namespace OmegaGo.Core.AI
         /// </summary>
         public Color[,] Board { get; }
         /// <summary>
-        /// Size of the board in intersections. This will usually be "9", "13" or "19".
+        /// Size of the board in intersections. This will usually be "9x9", "13x13" or "19x19".
         /// </summary>
-        public int BoardSize { get; }
+        public GameBoardSize BoardSize { get; }
         /// <summary>
         /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,
         /// it may provide its decision earlier or later. If it doesn't provide a decision by this time, the
@@ -43,7 +43,7 @@ namespace OmegaGo.Core.AI
         /// <param name="boardSize">Size of the board in intersections. This will usually be "9", "13" or "19".</param>
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
-        public AIPreMoveInformation(Color aiColor, Color[,] board, int boardSize, TimeSpan timeLimit, int difficulty)
+        public AIPreMoveInformation(Color aiColor, Color[,] board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty)
         {
             Difficulty = difficulty;
             AIColor = aiColor;

@@ -10,7 +10,7 @@ namespace IgsPopulationDiscovery
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             AsyncMain().Wait();
         }
@@ -49,6 +49,7 @@ namespace IgsPopulationDiscovery
                     }
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         private static void TryAppendCount(int count)
@@ -56,7 +57,7 @@ namespace IgsPopulationDiscovery
             try
             {
                 System.IO.File.AppendAllLines("igsUserCount.csv",
-                    new string[] {DateTime.Now.ToShortTimeString() + ";" + count});
+                    new[] {DateTime.Now.ToShortTimeString() + ";" + count});
             }
             catch
             {

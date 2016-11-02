@@ -11,6 +11,74 @@
           <target state="translated">Velikost Hrací Plochy</target>
           <note from="MultilingualBuild" annotates="source" priority="2">:-)</note>
         </trans-unit>
+        <trans-unit id="Assistant" translate="yes" xml:space="preserve">
+          <source>Assistant</source>
+          <target state="new">Assistant</target>
+        </trans-unit>
+        <trans-unit id="Back" translate="yes" xml:space="preserve">
+          <source>Back</source>
+          <target state="new">Back</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="DeleteSelection" translate="yes" xml:space="preserve">
+          <source>Delete selection</source>
+          <target state="new">Delete selection</target>
+        </trans-unit>
+        <trans-unit id="FilterBySource" translate="yes" xml:space="preserve">
+          <source>Filter by source</source>
+          <target state="new">Filter by source</target>
+        </trans-unit>
+        <trans-unit id="Gameplay" translate="yes" xml:space="preserve">
+          <source>Gameplay</source>
+          <target state="new">Gameplay</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="new">Language</target>
+        </trans-unit>
+        <trans-unit id="Library" translate="yes" xml:space="preserve">
+          <source>Library</source>
+          <target state="new">Library</target>
+        </trans-unit>
+        <trans-unit id="Load" translate="yes" xml:space="preserve">
+          <source>Load</source>
+          <target state="new">Load</target>
+        </trans-unit>
+        <trans-unit id="LoadFolder" translate="yes" xml:space="preserve">
+          <source>Load folder</source>
+          <target state="new">Load folder</target>
+        </trans-unit>
+        <trans-unit id="Loading" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="new">Loading...</target>
+        </trans-unit>
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="new">Open</target>
+        </trans-unit>
+        <trans-unit id="Rename" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="new">Rename</target>
+        </trans-unit>
+        <trans-unit id="Select" translate="yes" xml:space="preserve">
+          <source>Select</source>
+          <target state="new">Select</target>
+        </trans-unit>
+        <trans-unit id="Settings" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="Sounds" translate="yes" xml:space="preserve">
+          <source>Sounds</source>
+          <target state="new">Sounds</target>
+        </trans-unit>
+        <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
+          <source>User interface</source>
+          <target state="new">User interface</target>
+        </trans-unit>
       </group>
     </body>
   </file>

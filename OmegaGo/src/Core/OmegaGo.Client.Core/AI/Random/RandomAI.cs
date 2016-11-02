@@ -7,11 +7,14 @@ using OmegaGo.Core.AI.Common;
 
 namespace OmegaGo.Core.AI.Random
 {
-    public class RandomAI : IAIProgram
+    public class RandomAI : AiProgramBase
     {
-        public AICapabilities Capabilities => new AICapabilities();
+        
+
         private System.Random rgen = new System.Random();
-        public Task<AIDecision> RequestMove(AIPreMoveInformation gameState)
+        public override string Name => "Random";
+
+        public override Task<AIDecision> RequestMove(AIPreMoveInformation gameState)
         {
             List<Position> possibleIntersections = FastBoard.GetAllLegalMoves(gameState.Board);
             if (possibleIntersections.Count == 0)

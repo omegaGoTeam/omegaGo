@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 using OmegaGo.Core;
+using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
@@ -53,6 +54,16 @@ namespace QuickPrototype
                 if (decision.Kind == AIDecisionKind.Move)
                 {
                     Move moveToMake = decision.Move;
+
+                    if (moveToMake.Kind == MoveKind.PlaceStone)
+                    {
+                        if (moveToMake.Coordinates.X < 0 || moveToMake.Coordinates.Y < 0 ||
+                            moveToMake.Coordinates.X >= game.BoardSize.Width || moveToMake.Coordinates.Y >= game.BoardSize.Height)
+                        {
+                            SetLastSystemMessage("Illegal Move - Outside the board");
+                            continue;
+                        }  
+                    }
                     if (this.chEnforceRules.Checked)
                     {
                         // So far, we're not providing Ko information
@@ -76,7 +87,18 @@ namespace QuickPrototype
                                     break;
 
                             }
-                            continue;
+                            if (playerToMove.Agent is AIAgent)
+                            {
+                                // AI should be forced to make a random move.
+                                // TODO
+                                SetLastSystemMessage("Accepting Illegal Move from AI!");
+
+                            }
+                            else
+                            {
+                                // Player should have another try.
+                                continue;
+                            }
                         }
                     }
 
@@ -151,6 +173,8 @@ namespace QuickPrototype
         {
             if (this.game.Server == null)
             {
+                this.button1.Enabled = false;
+                this.button2.Enabled = false;
                 LoopDecisionRequest();
             }
         }
@@ -176,6 +200,7 @@ namespace QuickPrototype
                 for (int y = 0; y < boardSize; y++)
                 {
                     Brush brush = null;
+                    var r = new Rectangle(x * 20 + 2 + ofx, (boardSize - y - 1) * 20 + 2 + ofy, 16, 16);
                     if (truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
@@ -186,9 +211,14 @@ namespace QuickPrototype
                     }
                     if (brush != null)
                     {
-                        var r = new Rectangle(x * 20 + 2+ofx, (boardSize-y-1) * 20 + 2+ofy, 16, 16);
                         e.Graphics.FillRectangle(brush, r);
                         e.Graphics.DrawRectangle(Pens.Black, r);
+                    }
+                    if (r.Contains(mouseX, mouseY))
+                    {
+                        Rectangle larger = r;
+                        larger.Inflate(3, 3);
+                        e.Graphics.DrawRectangle(new Pen(Brushes.Blue, 3), larger);
                     }
                 }
             }
@@ -254,6 +284,14 @@ namespace QuickPrototype
             }, "User entered these coordinates."));
         }
 
-  
+        int mouseX;
+        int mouseY;
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            mouseX = e.X;
+            mouseY = e.Y;
+            pictureBox1.Refresh();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace OmegaGo.Core.Agents
             return aiProgram.RequestMove(new AIPreMoveInformation(
                 game.Players[0].Agent == this ? Color.Black : Color.White,
                 createdBoard,
-                game.SquareBoardSize,
+                game.BoardSize,
                 new TimeSpan(0,0,2),
                 10
                 ));

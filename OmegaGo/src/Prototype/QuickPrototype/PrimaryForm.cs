@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.Agents;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
+// ReSharper disable CoVariantArrayConversion
 
 namespace QuickPrototype
 {
@@ -48,6 +50,13 @@ namespace QuickPrototype
 
         private async void PrimaryForm_Load(object sender, EventArgs e)
         {
+            this.cbBlack.Items.Clear();
+            this.cbBlack.Items.Add("Human");
+            this.cbBlack.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhite.Items.Clear();
+            this.cbWhite.Items.Add("Human");
+            this.cbWhite.Items.AddRange(AISystems.AiPrograms.ToArray());
+
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
@@ -172,24 +181,23 @@ namespace QuickPrototype
             localGame.Players.Add(playerWhite);
             localGame.Server = null;
             InGameForm ingameForm = new InGameForm(localGame, null);
-            playerBlack.Agent = CreateAgentFromString(ingameForm, this.cbBlack.Text);
-            playerWhite.Agent = CreateAgentFromString(ingameForm, this.cbWhite.Text);
+            playerBlack.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem);
+            playerWhite.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem);
             ingameForm.ShowDialog();
         }
 
-        private IAgent CreateAgentFromString(InGameForm form, string text)
+        private IAgent CreateAgentFromComboboxObject(InGameForm form, object text)
         {
-            switch (text)
+            if (text is string && ((string)text) == "Human")
             {
-                case "Human":
-                    return new InGameFormGuiAgent(form);
-                case "Defeatist":
-                    return new AIAgent(new Defeatist());
-                case "Random":
-                    return new AIAgent(new RandomAI());
+                return new InGameFormGuiAgent(form);
             }
-            throw new Exception("This agent cannot be handled yet.")
-                ;
+            if (text is IAIProgram)
+            {
+                IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(text.GetType());
+                return new AIAgent(newInstance);
+            }
+            throw new Exception("This agent cannot be handled yet.");
         }
 
         private async void button6_Click_1(object sender, EventArgs e)

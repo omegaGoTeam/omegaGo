@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI
         /// Gets a structure that informs the core what actions, rulesets and features the AI is capable of.
         /// </summary>
         AICapabilities Capabilities { get; }
-        
+        string Name { get; }
         Task<AIDecision> RequestMove (AIPreMoveInformation gameState);
     }
 }
