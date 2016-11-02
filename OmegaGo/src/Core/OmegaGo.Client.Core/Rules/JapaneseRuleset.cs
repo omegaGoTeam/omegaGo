@@ -8,7 +8,11 @@ namespace OmegaGo.Core.Rules
 {
     public class JapaneseRuleset : Ruleset
     {
-        private bool IsPreviousMovePass = false;
+        private bool _isPreviousMovePass = false;
+        private int _komi;
+        private int _whiteScore;
+        private int _blackScore;
+        private int _numberOfHandicapStone;
 
         public override void PutHandicapStone(Move moveToMake)
         {
@@ -17,19 +21,19 @@ namespace OmegaGo.Core.Rules
 
         public override MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
         {
-            if (moveToMake.Kind == MoveKind.Pass && IsPreviousMovePass)
+            if (moveToMake.Kind == MoveKind.Pass && _isPreviousMovePass)
             {
-                //TODO check if opponents score increases according to Japanese rules
+                //TODO check whether opponents score increases according to Japanese rules
                 return MoveResult.LifeDeadConfirmationPhase;
             }
             else if (moveToMake.Kind == MoveKind.Pass)
             {
-                //TODO check if opponents score increases according to Japanese rules
-                IsPreviousMovePass = true;
+                //TODO check whether opponents score increases according to Japanese rules
+                _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }
             else {
-                IsPreviousMovePass = false;
+                _isPreviousMovePass = false;
 
                 if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
                 {
