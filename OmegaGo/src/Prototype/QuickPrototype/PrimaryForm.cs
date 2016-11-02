@@ -172,7 +172,7 @@ namespace QuickPrototype
 
             Game localGame = new Game
             {
-                SquareBoardSize = (int) this.nBoardSize.Value,
+                SquareBoardSize = (int) this.nLocalBoardSize.Value,
                 NumberOfMovesPlayed = 0
             };
             localGame.Ruleset = new ChineseRuleset();
