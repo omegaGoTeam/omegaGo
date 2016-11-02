@@ -15,6 +15,8 @@ namespace OmegaGo.Core
     /// <summary>
     /// Represents a single intersection on a Go board.
     /// The position [1, 0], for example, represents the position B1 on the board.
+    /// 
+    /// Whenever the game board is represented as a two-dimensional array, the first coordinate is the column ("X-coordinate") and the second coordinate is the row ("Y-coordinate"). For example, "currentBoard[2,5]" refers to the intersection C6, i.e. position [2,5].
     /// </summary>
     public struct Position
     {
