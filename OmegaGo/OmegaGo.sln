@@ -35,6 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Docs", "..\Docs\Docs.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.UI.Localization", "OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj", "{E81A29F8-6942-4E1E-A27C-524FA68CEBAE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Oakfoam", "Oakfoam", "{D2A843E5-5EC6-4C8A-88E3-1968A049FAA8}"
+	ProjectSection(SolutionItems) = preProject
+		Notes.txt = Notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,5 +226,6 @@ Global
 		{C74C218D-8499-4E5A-AC6A-A782FE743A23} = {CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}
 		{AA5DE2F1-3138-46BA-8C4A-4AF1D854DBB9} = {20954D73-CABB-4CC6-9F37-5706EFDFBA31}
 		{E81A29F8-6942-4E1E-A27C-524FA68CEBAE} = {A3245683-3877-400D-B46F-3D7FE5733ADB}
+		{D2A843E5-5EC6-4C8A-88E3-1968A049FAA8} = {CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}
 	EndGlobalSection
 EndGlobal

@@ -127,6 +127,11 @@ namespace OmegaGo.Core
         /// </summary>
         public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Position"/> struct.
+        /// </summary>
+        /// <param name="x">The zero-based x-coordinate ("column").</param>
+        /// <param name="y">The zero-based y-coordinate ("row").</param>
         public Position(int x, int y)
         {
             this._x = x;

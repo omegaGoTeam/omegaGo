@@ -47,6 +47,9 @@
             this.chEnforceRules = new System.Windows.Forms.CheckBox();
             this.tbSystemMessage = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.tbLog = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.bRefreshPicture = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -128,7 +131,7 @@
             // 
             this.bMakeMove.Location = new System.Drawing.Point(14, 79);
             this.bMakeMove.Name = "bMakeMove";
-            this.bMakeMove.Size = new System.Drawing.Size(174, 55);
+            this.bMakeMove.Size = new System.Drawing.Size(174, 62);
             this.bMakeMove.TabIndex = 8;
             this.bMakeMove.Text = "Make move";
             this.bMakeMove.UseVisualStyleBackColor = true;
@@ -245,11 +248,42 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Last System Message:";
             // 
+            // tbLog
+            // 
+            this.tbLog.Location = new System.Drawing.Point(699, 320);
+            this.tbLog.Multiline = true;
+            this.tbLog.Name = "tbLog";
+            this.tbLog.ReadOnly = true;
+            this.tbLog.Size = new System.Drawing.Size(322, 249);
+            this.tbLog.TabIndex = 16;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(711, 299);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 13);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "System Log:";
+            // 
+            // bRefreshPicture
+            // 
+            this.bRefreshPicture.Location = new System.Drawing.Point(363, 459);
+            this.bRefreshPicture.Name = "bRefreshPicture";
+            this.bRefreshPicture.Size = new System.Drawing.Size(116, 23);
+            this.bRefreshPicture.TabIndex = 18;
+            this.bRefreshPicture.Text = "Refresh Local Board";
+            this.bRefreshPicture.UseVisualStyleBackColor = true;
+            this.bRefreshPicture.Click += new System.EventHandler(this.bRefreshPicture_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 581);
+            this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.bRefreshPicture);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.tbLog);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tbSystemMessage);
             this.Controls.Add(this.chEnforceRules);
@@ -294,5 +328,8 @@
         private System.Windows.Forms.CheckBox chEnforceRules;
         private System.Windows.Forms.TextBox tbSystemMessage;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbLog;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button bRefreshPicture;
     }
 }

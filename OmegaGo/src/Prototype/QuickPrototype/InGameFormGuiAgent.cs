@@ -13,7 +13,7 @@ namespace QuickPrototype
     class InGameFormGuiAgent : IAgent
     {
         private readonly InGameForm inGameForm;
-        public BufferBlock<AIDecision> DecisionsToMake = new BufferBlock<AIDecision>();
+        public BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
 
 
         public InGameFormGuiAgent(InGameForm form)
@@ -21,12 +21,14 @@ namespace QuickPrototype
             this.inGameForm = form;
         }
 
-        public async Task<AIDecision> RequestMove(Game game)
+        public async Task<AgentDecision> RequestMove(Game game)
         {
             this.inGameForm.groupboxMoveMaker.Visible = true;
-            AIDecision decision = await DecisionsToMake.ReceiveAsync();
+            AgentDecision decision = await DecisionsToMake.ReceiveAsync();
             this.inGameForm.groupboxMoveMaker.Visible = false;
             return decision;
         }
+
+        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
     }
 }

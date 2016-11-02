@@ -42,6 +42,13 @@ namespace OmegaGo.Core
                 Kind = MoveKind.PlaceStone
             };
         }
+        public override string ToString()
+        {
+            if (Kind == MoveKind.Pass) return "PASS";
+            else if (Kind == MoveKind.PlaceStone) return Coordinates.ToString();
+            else if (Kind == MoveKind.Unknown) return "UNKNOWN";
+            else throw new Exception("This move kind does not exist.");
+        }
     }
 
     /// <summary>

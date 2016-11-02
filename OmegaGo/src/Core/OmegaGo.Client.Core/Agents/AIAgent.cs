@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Agents
             this.aiProgram = aiProgram;
         }
 
-        public Task<AIDecision> RequestMove(Game game)
+        public Task<AgentDecision> RequestMove(Game game)
         {
             Color[,] createdBoard = new Color[game.SquareBoardSize, game.SquareBoardSize];
             foreach (Move move in game.PrimaryTimeline)
@@ -36,5 +36,7 @@ namespace OmegaGo.Core.Agents
                 game.PrimaryTimeline
                 ));
         }
+
+        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
     }
 }

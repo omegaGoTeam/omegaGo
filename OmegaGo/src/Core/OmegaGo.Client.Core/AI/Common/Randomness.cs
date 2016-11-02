@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI.Common
 {
-    class Randomness
+    public class Randomness
     {
         private static System.Random rgen = new System.Random();
         public static int Next(int maximum)

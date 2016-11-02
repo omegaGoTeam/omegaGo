@@ -31,7 +31,8 @@
         /// </summary>
         SelfCapture,
         /// <summary>
-        /// Two consecutive passes signal the end of the game. After two passes, the players marks stones as life or dead in the Confirmation phase.
+        /// This move is the second of the two consecutive passes that signal the end of the game.
+        /// After two passes, the players marks stones as life or dead in the Confirmation phase.
         /// </summary>
         LifeDeadConfirmationPhase
     }

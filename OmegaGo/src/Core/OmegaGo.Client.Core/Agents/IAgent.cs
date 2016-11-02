@@ -9,6 +9,7 @@ namespace OmegaGo.Core.Agents
 {
     public interface IAgent
     {
-        Task<AIDecision> RequestMove(Game game);
+        Task<AgentDecision> RequestMove(Game game);
+        IllegalMoveHandling HowToHandleIllegalMove { get; }
     }
 }

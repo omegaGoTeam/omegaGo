@@ -13,9 +13,10 @@ namespace OmegaGo.Core
     public enum Color : byte
     {
         /// <summary>
-        /// An intersection has the color <see cref="None"/> if there is no stone placed upon it.
+        /// An intersection has the color <see cref="None"/> if there is no stone placed upon it. 
+        /// It is NECESSARY for this enum value to be the first so that boards are initialized with it.
         /// </summary>
-        None,
+        None = 0,
         /// <summary>
         /// The player who plays black stones always goes first. In games outside tournaments, Black is usually the
         /// weaker player of the two and receives handicap stones or compensation points to make the match more even.

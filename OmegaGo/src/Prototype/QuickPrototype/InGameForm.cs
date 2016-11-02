@@ -13,24 +13,27 @@ using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.AI.Common;
 using GoColor = OmegaGo.Core.Color;
 
 namespace QuickPrototype
 {
     public partial class InGameForm : Form
     {
-        private Game game;
-        private IgsConnection igs;
-        private Player playerToMove;
-        private GoColor[,] truePositions = new GoColor[19, 19];
-        private Font fontBasic = new Font(FontFamily.GenericSansSerif, 8);
+        private Game _game;
+        private IgsConnection _igs;
+        private Player _playerToMove;
+        private GoColor[,] _truePositions = new GoColor[19, 19];
+        private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
+        private int _mouseX;
+        private int _mouseY;
 
         public InGameForm(Game game, IgsConnection igs)
         {
             InitializeComponent();
 
-            this.game = game;
-            this.igs = igs;
+            _game = game;
+            _igs = igs;
             Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
             game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
@@ -38,103 +41,149 @@ namespace QuickPrototype
 
         private async void LoopDecisionRequest()
         {
-            this.lblTurnPlayer.Text = "Black";
-            playerToMove = game.Players[0];
+            lblTurnPlayer.Text = "Black";
+            _playerToMove = _game.Players[0];
             while (true)
             {
-                this.lblTurnPlayer.Text = playerToMove.Name;
-                AIDecision decision = await playerToMove.Agent.RequestMove(game);
-                if (decision.Kind == AIDecisionKind.Resign)
+                lblTurnPlayer.Text = _playerToMove.Name;
+                SystemLog("Asking " + _playerToMove + " to make a move...");
+                AgentDecision decision = await _playerToMove.Agent.RequestMove(_game);
+                SystemLog(_playerToMove + " does: " + decision);
+
+                if (decision.Kind == AgentDecisionKind.Resign)
                 {
-                    this.panelEnd.Visible = true;
-                    this.lblEndCaption.Text = playerToMove + " resigned!";
-                    this.lblGameEndReason.Text = "The player resignation reason: '" + decision.Explanation + "'";
+                    panelEnd.Visible = true;
+                    lblEndCaption.Text = _playerToMove + " resigned!";
+                    lblGameEndReason.Text = "The player resignation reason: '" + decision.Explanation + "'";
+                    SystemLog("Game is over by resignation.");
                     break;
                 }
-                if (decision.Kind == AIDecisionKind.Move)
+                if (decision.Kind == AgentDecisionKind.Move)
                 {
                     Move moveToMake = decision.Move;
-
+                    bool willWeAcceptTheMove = true;
                     if (moveToMake.Kind == MoveKind.PlaceStone)
                     {
                         if (moveToMake.Coordinates.X < 0 || moveToMake.Coordinates.Y < 0 ||
-                            moveToMake.Coordinates.X >= game.BoardSize.Width || moveToMake.Coordinates.Y >= game.BoardSize.Height)
+                            moveToMake.Coordinates.X >= _game.BoardSize.Width || moveToMake.Coordinates.Y >= _game.BoardSize.Height)
                         {
-                            SetLastSystemMessage("Illegal Move - Outside the board");
-                            continue;
-                        }  
+                            SystemLog("Illegal Move - Outside the board");
+                            willWeAcceptTheMove = false;
+                        }
                     }
-                    if (this.chEnforceRules.Checked)
+                    if (willWeAcceptTheMove)
                     {
                         // So far, we're not providing Ko information
                         MoveResult canWeMakeIt =
-                            game.Ruleset.ControlMove(truePositions, moveToMake, new List<GoColor[,]>());
-                        if (canWeMakeIt != MoveResult.Legal)
+                            _game.Ruleset?.ControlMove(_truePositions, moveToMake, new List<GoColor[,]>()) ?? MoveResult.Legal;
+                        // If there is no ruleset, moves are automatically legal.
+                        if (canWeMakeIt != MoveResult.Legal && canWeMakeIt != MoveResult.LifeDeadConfirmationPhase)
                         {
+                            willWeAcceptTheMove = false;
                             switch (canWeMakeIt)
                             {
                                 case MoveResult.Ko:
-                                    SetLastSystemMessage("Illegal Move - Ko");
+                                    SystemLog("Illegal Move - Ko");
                                     break;
                                 case MoveResult.OccupiedPosition:
-                                    SetLastSystemMessage("That intersection is already occupied!");
+                                    SystemLog("That intersection is already occupied!");
                                     break;
                                 case MoveResult.SelfCapture:
-                                    SetLastSystemMessage("Illegal Move - Suicide");
+                                    SystemLog("Illegal Move - Suicide");
                                     break;
                                 case MoveResult.SuperKo:
-                                    SetLastSystemMessage("Illegal Move - Superko");
+                                    SystemLog("Illegal Move - Superko");
                                     break;
-
-                            }
-                            if (playerToMove.Agent is AIAgent)
-                            {
-                                // AI should be forced to make a random move.
-                                // TODO
-                                SetLastSystemMessage("Accepting Illegal Move from AI!");
-
-                            }
-                            else
-                            {
-                                // Player should have another try.
-                                continue;
                             }
                         }
                     }
+                    if (!willWeAcceptTheMove)
+                    {
+                        if (this._igs == null)
+                        {
+                            if (this.chEnforceRules.Checked || MessageBox.Show("The player " + _playerToMove + " made a move (" + moveToMake + ") that the ruleset thinks is illegal. Should the move be PERMITTED?", "Allow illegal move?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                            {
+                                // Move is forbidden.
+                                if (_playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
+                                {
+                                    SystemLog("Illegal move - retrying.");
+                                    continue; // retry
+                                }
+                                else if (_playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
+                                {
 
+                                    SystemLog("Illegal move - making a random move instead.");
+                                    GoColor actorColor = (_playerToMove == _game.Players[0]) ? GoColor.Black : GoColor.White;
+                                    List<Position> possibleMoves = _game.Ruleset.GetAllLegalMoves(actorColor,
+                                        _truePositions, new List<GoColor[,]>()); // TODO add history
+                                    if (possibleMoves.Count == 0)
+                                    {
+                                        SystemLog("NO MORE MOVES!");
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
+                                        decision = AgentDecision.MakeMove(OmegaGo.Core.Move.Create(actorColor, randomTargetposition),
+                                            "A random made was move because the AI supplied an illegal move.");
+                                    }
+                                }
+                                else
+                                {
+                                    throw new Exception("This agent does not provide information on how to handle its illegal move.");
+                                }
+                            }
+                            else
+                            {
+                                // Server overrides rules.
+                            }
+                        }
+                        else
+                        {
+                            // Ok.
+                        }
+                    }
                     if (decision.Move.Kind == MoveKind.PlaceStone)
                     {
-                        this.game.PrimaryTimeline.Add(decision.Move);
-                        this.RefreshBoard();
-                        SetLastSystemMessage("");
+                        _game.PrimaryTimeline.Add(decision.Move);
+                        // TODO capture stones
                     }
                     else if (decision.Move.Kind == MoveKind.Pass)
                     {
-                        SetLastSystemMessage(playerToMove + " passed!");
+                        SystemLog(_playerToMove + " passed!");
                     }
                     else
                     {
                         throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                     }
+
+                    RefreshBoard();
+                    _playerToMove = _game.OpponentOf(_playerToMove);
                 }
-                playerToMove = game.OpponentOf(playerToMove);
+
             }
         }
+
+        private void SystemLog(string logline)
+        {
+            tbLog.AppendText(logline + Environment.NewLine);
+        }
+
         private void RefreshBoard()
         {
             GoColor[,] positions = new GoColor[19, 19];
-            foreach (Move move in game.PrimaryTimeline)
+            foreach (Move move in _game.PrimaryTimeline)
             {
-                if (!move.UnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
+                if (!move.UnknownMove && move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
                     switch (move.WhoMoves)
                     {
-                        case OmegaGo.Core.Color.Black:
+                        case GoColor.Black:
                             positions[x, y] = GoColor.Black;
                             break;
-                        case OmegaGo.Core.Color.White:
+                        case GoColor.White:
                             positions[x, y] = GoColor.White;
                             break;
                     }
@@ -144,15 +193,14 @@ namespace QuickPrototype
                     }
                 }
             }
-            truePositions = positions;
+            _truePositions = positions;
             pictureBox1.Refresh();
         }
 
 
-
         public void SetLastSystemMessage(string text)
         {
-            this.tbSystemMessage.Text = text;
+            tbSystemMessage.Text = text;
         }
 
 
@@ -165,16 +213,16 @@ namespace QuickPrototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            igs.RefreshBoard(game);
+            _igs.RefreshBoard(_game);
         }
 
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
-            if (this.game.Server == null)
+            if (_game.Server == null)
             {
-                this.button1.Enabled = false;
-                this.button2.Enabled = false;
+                button1.Enabled = false;
+                button2.Enabled = false;
                 LoopDecisionRequest();
             }
         }
@@ -187,13 +235,13 @@ namespace QuickPrototype
 
             const int ofx = 20;
             const int ofy = 20;
-            int boardSize =  this.game.SquareBoardSize;
+            int boardSize = _game.SquareBoardSize;
             for (int x = 0; x < boardSize; x++)
             {
                 e.Graphics.DrawLine(Pens.Black, 0 + ofx, x * 20 + 10+ofy, boardSize * 20 + ofx , x * 20 + 10+ofy);
                 e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + ofx, 0+ofy, x * 20 + 10 + ofx, boardSize * 20+ofy);
-                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
-                e.Graphics.DrawString((boardSize - x).ToString(), fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
+                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), _fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
+                e.Graphics.DrawString((boardSize - x).ToString(), _fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
             }
             for (int x = 0; x < boardSize; x++)
             {
@@ -201,11 +249,11 @@ namespace QuickPrototype
                 {
                     Brush brush = null;
                     var r = new Rectangle(x * 20 + 2 + ofx, (boardSize - y - 1) * 20 + 2 + ofy, 16, 16);
-                    if (truePositions[x, y] == GoColor.Black)
+                    if (_truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
                     }
-                    else if (truePositions[x, y] == GoColor.White)
+                    else if (_truePositions[x, y] == GoColor.White)
                     {
                         brush = Brushes.White;
                     }
@@ -214,7 +262,7 @@ namespace QuickPrototype
                         e.Graphics.FillRectangle(brush, r);
                         e.Graphics.DrawRectangle(Pens.Black, r);
                     }
-                    if (r.Contains(mouseX, mouseY))
+                    if (r.Contains(_mouseX, _mouseY))
                     {
                         Rectangle larger = r;
                         larger.Inflate(3, 3);
@@ -230,42 +278,42 @@ namespace QuickPrototype
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
-            int boardSize = game.SquareBoardSize;
+            int boardSize = _game.SquareBoardSize;
             const int ofx = 20;
             const int ofy = 20;
             int x = (e.X - 2 - ofx) / 20;
             int boardSizeMinusYMinus1 = (e.Y - 2 - ofy) / 20;
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
-            this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (playerToMove.Agent is InGameFormGuiAgent)
+            tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
+            if (_playerToMove.Agent is InGameFormGuiAgent)
             {
-                this.bMakeMove_Click(sender, EventArgs.Empty);
+                bMakeMove_Click(sender, EventArgs.Empty);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            igs.DEBUG_SendRawText("moves " + game.ServerId);
+            _igs.DEBUG_SendRawText("moves " + _game.ServerId);
         }
 
         private void bPASS_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent) playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new Move()
+            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.Pass,
-                WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
+                WhoMoves = _playerToMove == _game.Players[0] ? GoColor.Black : GoColor.White
             }, "User clicked 'PASS'."));
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.Resign("User clicked 'RESIGN'."));
+            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
         {
-            string coordinates = this.tbInputMove.Text;
+            string coordinates = tbInputMove.Text;
             Position position;
             try
             {
@@ -276,22 +324,25 @@ namespace QuickPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            ((InGameFormGuiAgent)playerToMove.Agent).DecisionsToMake.Post(AIDecision.MakeMove(new Move()
+            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.PlaceStone,
                 Coordinates = position,
-                WhoMoves = playerToMove == game.Players[0] ? OmegaGo.Core.Color.Black : OmegaGo.Core.Color.White
+                WhoMoves = _playerToMove == _game.Players[0] ? GoColor.Black : GoColor.White
             }, "User entered these coordinates."));
         }
 
-        int mouseX;
-        int mouseY;
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            mouseX = e.X;
-            mouseY = e.Y;
+            _mouseX = e.X;
+            _mouseY = e.Y;
             pictureBox1.Refresh();
+        }
+
+        private void bRefreshPicture_Click(object sender, EventArgs e)
+        {
+            RefreshBoard();
         }
     }
 }

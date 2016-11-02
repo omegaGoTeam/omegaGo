@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
+    /// <summary>
+    /// Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode"/>s
+    /// with each node having only a single child. In game analysis, the game tree may be an actual tree.
+    /// </summary>
     public sealed class GameTreeNode
     {
         // Information taken from official SGF file definition
@@ -28,7 +32,10 @@ namespace OmegaGo.Core
         // public List<Shape> Figures { get; set; } - Implement Shape 
         public List<KeyValuePair<Position, string>> Labels { get; set; }
 
-        public List<Move> Moves { get; set; }
+        /// <summary>
+        /// Gets or sets the move that caused this <see cref="GameTreeNode"/> to exist. 
+        /// </summary>
+        public Move Move { get; set; }
 
         /*
          *  When there is more than one recorded move after a move, 

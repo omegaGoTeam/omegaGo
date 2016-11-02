@@ -342,6 +342,27 @@ namespace OmegaGo.Core.Rules
 
         }
 
+        /// <summary>
+        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// </summary>
+        /// <param name="player">The player who wants to make a move.</param>
+        /// <param name="currentBoard">The current full board position.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns></returns>
+        public List<Position> GetAllLegalMoves(Color player, Color[,] currentBoard, List<Color[,]> history)
+        {
+            List<Position> possiblePositions = new List<Core.Position>();
+            for (int x = 0; x < BoardWidth; x++) 
+                for (int y = 0; y < BoardHeight; y++)
+                {
+                    if (ControlMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    {
+                        possiblePositions.Add(new Core.Position(x, y));
+                    }
+                }
+
+            return possiblePositions;
+        }
     }
 
     public enum Territory
