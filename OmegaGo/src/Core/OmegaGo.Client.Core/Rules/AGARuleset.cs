@@ -8,7 +8,12 @@ namespace OmegaGo.Core.Rules
 {
     public class AGARuleset : Ruleset
     {
-        private bool IsPreviousMovePass = false;
+        private bool _isPreviousMovePass = false;
+        private int _komi;
+        private int _whiteScore;
+        private int _blackScore;
+        private int _numberOfHandicapStone;
+
         public override void PutHandicapStone(Move moveToMake)
         {
             throw new NotImplementedException();
@@ -19,7 +24,7 @@ namespace OmegaGo.Core.Rules
         //TODO what if white passes first, then black passes? 
         //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
         //What should I do? Just give 1 stone (point) to Black and return MoveResult.LifeDeadConfirmationPhase?
-            if (moveToMake.Kind == MoveKind.Pass && IsPreviousMovePass)
+            if (moveToMake.Kind == MoveKind.Pass && _isPreviousMovePass)
             {
                 //TODO increase opponent score
                 return MoveResult.LifeDeadConfirmationPhase;
@@ -27,11 +32,11 @@ namespace OmegaGo.Core.Rules
             else if (moveToMake.Kind == MoveKind.Pass)
             {
                 //TODO increase opponent score
-                IsPreviousMovePass = true;
+                _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }
             else {
-                IsPreviousMovePass = false;
+                _isPreviousMovePass = false;
 
                 if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
                 {
