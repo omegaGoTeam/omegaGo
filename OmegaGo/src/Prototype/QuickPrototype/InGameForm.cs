@@ -75,7 +75,7 @@ namespace QuickPrototype
                     {
                         // So far, we're not providing Ko information
                         MoveResult canWeMakeIt =
-                            _game.Ruleset?.ControlMove(_truePositions, moveToMake, new List<GoColor[,]>()) ?? MoveResult.Legal;
+                            _game.Ruleset?.ControlMove(FastBoard.CloneBoard(_truePositions), moveToMake, new List<GoColor[,]>()) ?? MoveResult.Legal;
                         // If there is no ruleset, moves are automatically legal.
                         if (canWeMakeIt != MoveResult.Legal && canWeMakeIt != MoveResult.LifeDeadConfirmationPhase)
                         {
@@ -115,7 +115,7 @@ namespace QuickPrototype
                                     SystemLog("Illegal move - making a random move instead.");
                                     GoColor actorColor = (_playerToMove == _game.Players[0]) ? GoColor.Black : GoColor.White;
                                     List<Position> possibleMoves = _game.Ruleset.GetAllLegalMoves(actorColor,
-                                        _truePositions, new List<GoColor[,]>()); // TODO add history
+                                        FastBoard.CloneBoard(_truePositions), new List<GoColor[,]>()); // TODO add history
                                     if (possibleMoves.Count == 0)
                                     {
                                         SystemLog("NO MORE MOVES!");
@@ -145,6 +145,7 @@ namespace QuickPrototype
                     }
                     if (decision.Move.Kind == MoveKind.PlaceStone)
                     {
+                        SystemLog("Adding " + decision.Move + " to primary timeline.");
                         _game.PrimaryTimeline.Add(decision.Move);
                         // TODO capture stones
                     }
@@ -167,6 +168,7 @@ namespace QuickPrototype
         private void SystemLog(string logline)
         {
             tbLog.AppendText(logline + Environment.NewLine);
+            tbSystemMessage.Text = logline;
         }
 
         private void RefreshBoard()
@@ -197,11 +199,7 @@ namespace QuickPrototype
             pictureBox1.Refresh();
         }
 
-
-        public void SetLastSystemMessage(string text)
-        {
-            tbSystemMessage.Text = text;
-        }
+        
 
 
         /********************* EVENTS **************************/
@@ -343,6 +341,19 @@ namespace QuickPrototype
         private void bRefreshPicture_Click(object sender, EventArgs e)
         {
             RefreshBoard();
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            var timeline = _game.PrimaryTimeline;
+            _game.PrimaryTimeline = new List<OmegaGo.Core.Move>();
+            foreach(Move move in timeline)
+            {
+                _game.PrimaryTimeline.Add(move);
+                RefreshBoard();
+                await Task.Delay(25);
+            }
+
         }
     }
 }

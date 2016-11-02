@@ -50,6 +50,7 @@
             this.tbLog = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.bRefreshPicture = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -224,6 +225,8 @@
             // chEnforceRules
             // 
             this.chEnforceRules.AutoSize = true;
+            this.chEnforceRules.Checked = true;
+            this.chEnforceRules.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chEnforceRules.Location = new System.Drawing.Point(496, 76);
             this.chEnforceRules.Name = "chEnforceRules";
             this.chEnforceRules.Size = new System.Drawing.Size(93, 17);
@@ -276,11 +279,22 @@
             this.bRefreshPicture.UseVisualStyleBackColor = true;
             this.bRefreshPicture.Click += new System.EventHandler(this.bRefreshPicture_Click);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(241, 459);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(116, 23);
+            this.button3.TabIndex = 19;
+            this.button3.Text = "Timelapse";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.bRefreshPicture);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tbLog);
@@ -331,5 +345,6 @@
         private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button bRefreshPicture;
+        private System.Windows.Forms.Button button3;
     }
 }
