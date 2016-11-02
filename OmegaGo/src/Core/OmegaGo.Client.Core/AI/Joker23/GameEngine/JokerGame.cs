@@ -20,8 +20,8 @@ namespace OmegaGo.Core.AI.Joker23 {
 
         protected int height;               // height
         protected int width;                // width
-        protected char[,] board;           // representation of the board
-        protected LinkedList<JokerMove> moves;  // list of moves
+        public char[,] board;           // representation of the board
+        public LinkedList<JokerMove> moves;  // list of moves
         protected HashSet<String> seenBoardStates;   // past board states
         protected JokerPlayer p1, p2;
 
@@ -38,8 +38,7 @@ namespace OmegaGo.Core.AI.Joker23 {
             this.width = width;
             this.moves = new LinkedList<JokerMove>();
             this.seenBoardStates = new HashSet<String>();
-
-            // TODO I suspect that width and height here might need to be reversed
+            
 
             board = new char[height, width];
             for (int i = 0; i < height; i++) {
@@ -141,6 +140,8 @@ namespace OmegaGo.Core.AI.Joker23 {
             }
 
             if (!Rules.isMoveLegal(color, row, col, board)) {
+                // Occupation check only
+                // No suicide check!
                 return false;
             }
 
@@ -149,6 +150,7 @@ namespace OmegaGo.Core.AI.Joker23 {
             boardCopy[row,col] = color;
 
             if (seenBoardStates.Contains(Rules.serializeBoardState(boardCopy, height, width))) {
+                // Superko check
                 return false;
             }
 

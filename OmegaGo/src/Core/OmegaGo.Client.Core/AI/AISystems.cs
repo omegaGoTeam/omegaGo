@@ -12,7 +12,8 @@ namespace OmegaGo.Core.AI
         {
             new Defeatist.Defeatist(),
             new Random.RandomAI(),
-            new Joker23.RandomPlayerWrapper()
+            new Joker23.RandomPlayerWrapper(),
+            new Joker23.HeuristicPlayerWrapper()
         };
     }
 }

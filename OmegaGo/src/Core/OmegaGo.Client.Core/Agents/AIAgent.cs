@@ -32,7 +32,8 @@ namespace OmegaGo.Core.Agents
                 createdBoard,
                 game.BoardSize,
                 new TimeSpan(0,0,2),
-                10
+                10,
+                game.PrimaryTimeline
                 ));
         }
     }

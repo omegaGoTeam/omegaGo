@@ -32,5 +32,12 @@ namespace OmegaGo.Core.AI.Joker23
             }
             return jokerBoard;
         }
+        public static void ArraysFill<T>(T[] array, T val)
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = val;
+            }
+        }
     }
 }

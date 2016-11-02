@@ -43,10 +43,12 @@
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="AI\Common\FastBoard.cs" />
+    <Compile Include="AI\Common\Randomness.cs" />
     <Compile Include="AI\Defeatist\Defeatist.cs" />
     <Compile Include="AI\IAIProgram.cs" />
     <Compile Include="AI\Joker23\JokerExtensionMethods.cs" />
     <Compile Include="AI\Joker23\JokerPoint.cs" />
+    <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
     <Compile Include="Color.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="AI\Joker23\GameEngine\JokerGame.cs" />
     <Compile Include="AI\Joker23\GameEngine\JokerMove.cs" />
     <Compile Include="AI\Joker23\GameEngine\JokerRules.cs" />
+    <Compile Include="AI\Joker23\AiUtil.cs" />
     <Content Include="AI\Joker23\Java originals\GameEngine\Game.java" />
     <Content Include="AI\Joker23\Java originals\GameEngine\Move.java" />
     <Content Include="AI\Joker23\Java originals\GameEngine\Rules.java" />
@@ -111,9 +114,11 @@
     <Content Include="AI\Joker23\Java originals\Players\Player.java" />
     <Content Include="AI\Joker23\Java originals\Players\PlayerFactory.java" />
     <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
+    <Content Include="AI\Joker23\Java originals\Util\AiUtil.java" />
     <Content Include="AI\Joker23\Licensing.txt" />
     <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
+    <Compile Include="AI\Joker23\Players\HeuristicPlayer.cs" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
