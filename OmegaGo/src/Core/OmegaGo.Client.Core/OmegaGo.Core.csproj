@@ -49,11 +49,13 @@
     <Compile Include="AI\IAIProgram.cs" />
     <Compile Include="AI\Joker23\JokerExtensionMethods.cs" />
     <Compile Include="AI\Joker23\JokerPoint.cs" />
+    <Compile Include="AI\Joker23\Players\AlphaBetaPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="CoreDebug.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameBoardSize.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
     <Compile Include="AI\Joker23\Players\HeuristicPlayer.cs" />
+    <Compile Include="AI\Joker23\Players\AlphaBetaPlayer.cs" />
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
