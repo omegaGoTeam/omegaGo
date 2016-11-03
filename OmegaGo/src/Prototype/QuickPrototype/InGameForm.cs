@@ -114,8 +114,11 @@ namespace QuickPrototype
 
                                     SystemLog("Illegal move - making a random move instead.");
                                     GoColor actorColor = (_playerToMove == _game.Players[0]) ? GoColor.Black : GoColor.White;
-                                    List<Position> possibleMoves = _game.Ruleset.GetAllLegalMoves(actorColor,
-                                        FastBoard.CloneBoard(_truePositions), new List<GoColor[,]>()); // TODO add history
+                                    List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(actorColor,
+                                        FastBoard.CloneBoard(_truePositions), new List<GoColor[,]>()) ??
+                                                                   new List<Position>();
+                                    
+                                    // TODO add history
                                     if (possibleMoves.Count == 0)
                                     {
                                         SystemLog("NO MORE MOVES!");
@@ -125,7 +128,7 @@ namespace QuickPrototype
                                     {
                                         Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
                                         decision = AgentDecision.MakeMove(OmegaGo.Core.Move.Create(actorColor, randomTargetposition),
-                                            "A random made was move because the AI supplied an illegal move.");
+                                            "A random move was made because the AI supplied an illegal move.");
                                     }
                                 }
                                 else
