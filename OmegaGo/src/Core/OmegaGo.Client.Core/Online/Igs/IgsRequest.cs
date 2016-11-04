@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Gets the command that should be sent to the server.
         /// </summary>
         public string Command { get; }
-        public IgsRequest(string command) { this.Command = command; }
+        public IgsRequest(string command) { Command = command; }
 
         /// <summary>
         /// As new lines arrive from the server, if the <see cref="IgsConnection"/> believes that they belong to this request,
@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Online.Igs
             List<IgsLine> lines = new List<IgsLine>();
             while (true)
             {
-                IgsLine line = await this.IncomingLines.ReceiveAsync();
+                IgsLine line = await IncomingLines.ReceiveAsync();
                 if (line.Code == IgsCode.Prompt)
                 {
                     break;

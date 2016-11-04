@@ -20,8 +20,8 @@
 
         public IgsLine(IgsCode code, string line)
         {
-            this.Code = code;
-            this.EntireLine = line;
+            Code = code;
+            EntireLine = line;
         }
 
         public override string ToString() => EntireLine;

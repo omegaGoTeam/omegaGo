@@ -53,13 +53,13 @@ namespace OmegaGo.Core.Online.Igs
 
         // Status
         private List<Game> _gamesInProgressOnIgs;
-        private List<Game> _gamesBeingObserved = new List<Game>();
+        private readonly List<Game> _gamesBeingObserved = new List<Game>();
         // Internal synchronization management
         private Game _incomingMovesAreForThisGame;
-        private System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
+        private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
             new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest _requestInProgress;
-        private object _mutex = new object();
+        private readonly object _mutex = new object();
         private IgsComposure _composureBackingField = IgsComposure.Disconnected;
         private IgsComposure _composure
         {
@@ -73,7 +73,7 @@ namespace OmegaGo.Core.Online.Igs
                 }
             }
         }
-        private object _mutexComposureRegained = new object();
+        private readonly object _mutexComposureRegained = new object();
         enum IgsComposure
         {
             Disconnected,
@@ -93,7 +93,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="command">The command to send to IGS.</param>
         public void DEBUG_SendRawText(string command)
         {
-            this._streamWriter.WriteLine(command);
+            _streamWriter.WriteLine(command);
         }
         /// <summary>
         /// Connects to IGS at the specified host and port and logs in as a guest account. If we are already connected,
@@ -104,9 +104,9 @@ namespace OmegaGo.Core.Online.Igs
         /// <returns></returns>
         public async Task<bool> Connect(string hostname = ServerLocations.IgsPrimary, int port = ServerLocations.IgsPortPrimary)
         {
-            this._hostname = hostname;
-            this._port = port;
-            this._shouldBeConnected = true;
+            _hostname = hostname;
+            _port = port;
+            _shouldBeConnected = true;
             try
             {
                 await EnsureConnected();
@@ -119,9 +119,9 @@ namespace OmegaGo.Core.Online.Igs
         }
         public async Task Disconnect()
         {
-            this._shouldBeConnected = false;
-            await this._client.DisconnectAsync();
-            this._client = null;
+            _shouldBeConnected = false;
+            await _client.DisconnectAsync();
+            _client = null;
         }
         /// <summary>
         /// Unlike other methods, this is not always thread-safe. 
@@ -133,18 +133,18 @@ namespace OmegaGo.Core.Online.Igs
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
             await EnsureConnected();
-            this._composure = IgsComposure.LoggingIn;
-            this._username = username;
-            this._password = password;
-            this._loginError = null;
-            this._streamWriter.WriteLine("login");
-            this._streamWriter.WriteLine(this._username);
-            this._streamWriter.WriteLine(this._password);
+            _composure = IgsComposure.LoggingIn;
+            _username = username;
+            _password = password;
+            _loginError = null;
+            _streamWriter.WriteLine("login");
+            _streamWriter.WriteLine(_username);
+            _streamWriter.WriteLine(_password);
             await WaitUntilComposureChangesAsync();
             if (_composure == IgsComposure.Confused)
             {
-                await this._client.DisconnectAsync();
-                this._client = null;
+                await _client.DisconnectAsync();
+                _client = null;
                 return false;
             }
             if (_loginError != null)
@@ -161,32 +161,32 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         private async Task EnsureConnected()
         {
-            if (this._client != null)
+            if (_client != null)
             {
                 // We are likely to still be connected.
                 return;
             }
-            if (!this._shouldBeConnected)
+            if (!_shouldBeConnected)
             {
                 throw new Exception("A method was called that requires an IGS connection but the 'Connect()' method was not called; or maybe 'Disconnect()' was called.");
             }
-            this._client = new TcpSocketClient();
+            _client = new TcpSocketClient();
             try
             {
-                await this._client.ConnectAsync(_hostname, _port);
+                await _client.ConnectAsync(_hostname, _port);
 
-                this._streamWriter = new StreamWriter(this._client.WriteStream);
-                this._streamReader = new StreamReader(this._client.ReadStream);
-                this._streamWriter.AutoFlush = true;
+                _streamWriter = new StreamWriter(_client.WriteStream);
+                _streamReader = new StreamReader(_client.ReadStream);
+                _streamWriter.AutoFlush = true;
 #pragma warning disable 4014
-                HandleIncomingData(this._streamReader).ContinueWith(t => {
+                HandleIncomingData(_streamReader).ContinueWith(t => {
                     // Fail silently.
                 }, TaskContinuationOptions.OnlyOnFaulted);
 #pragma warning restore 4014
-                this._composure = IgsComposure.InitialHandshake;
-                this._streamWriter.WriteLine("guest");
-                this._streamWriter.WriteLine("toggle client on");
-                await this.WaitUntilComposureChangesAsync();
+                _composure = IgsComposure.InitialHandshake;
+                _streamWriter.WriteLine("guest");
+                _streamWriter.WriteLine("toggle client on");
+                await WaitUntilComposureChangesAsync();
             }
             catch
             {
@@ -196,12 +196,12 @@ namespace OmegaGo.Core.Online.Igs
 
         private Task WaitUntilComposureChangesAsync()
         {
-            IgsComposure originalComposure = this._composure;
+            IgsComposure originalComposure = _composure;
             return Task.Run(() =>
             {
                 lock (_mutexComposureRegained)
                 {
-                    while (this._composure == originalComposure)
+                    while (_composure == originalComposure)
                     {
                         Monitor.Wait(_mutexComposureRegained);
                     }
@@ -227,10 +227,10 @@ namespace OmegaGo.Core.Online.Igs
 
 
 
-        private Regex _regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.].{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
+        private readonly Regex _regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.].{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
         private IgsUser CreateUserFromTelnetLine(string line)
         {
-            Match match = this._regexUser.Match(line);
+            Match match = _regexUser.Match(line);
             if (!match.Success)
             {
                 throw new Exception("IGS SERVER returned invalid user string.");
@@ -255,119 +255,24 @@ namespace OmegaGo.Core.Online.Igs
                 return user;
           
         }
-        private async Task HandleIncomingData(StreamReader sr)
-        {
-            bool weAreHandlingAnInterruptMessage = false;
-            while (true)
-            {
-                string line = await sr.ReadLineAsync();
-                if (line == null)
-                {
-                    OnLogEvent("The connection has been terminated."); 
-                    // TODO add thread safety
-                    this._client = null;
-                    return;
-                }
-                line = line.Trim();
-
-                // IGS occasionally sends blank lines, I don't know why. They serve no reason.
-                if (line == "") continue;
-
-                IgsCode code = ExtractCodeFromLine(line);
-                IgsLine igsLine = new IgsLine(code, line);
-                OnLogEvent(line);
-
-                switch (_composure)
-                {
-                    case IgsComposure.Confused:
-                    case IgsComposure.Ok:
-                    case IgsComposure.Disconnected:
-                        // No special mode.
-                        break;
-                    case IgsComposure.InitialHandshake:
-                        if (igsLine.EntireLine.Trim() == "1 5")
-                        {
-                            _composure = IgsComposure.Ok;
-                            continue;
-                        }
-                        else
-                        {
-                            // Ignore.
-                            continue;
-                        }
-                    case IgsComposure.LoggingIn:
-                        if (igsLine.EntireLine.Contains("Invalid password."))
-                        {
-                            _loginError = "The password is incorrect.";
-                        }
-                        if (igsLine.EntireLine.Contains("This is a guest account."))
-                        {
-                            _loginError = "The username does not exist.";
-                        }
-                        if (igsLine.EntireLine.Contains("1 5"))
-                        {
-                            _composure = IgsComposure.Ok;
-                            continue;
-                        }
-                        break;
-
-                }
-
-                if (weAreHandlingAnInterruptMessage && code == IgsCode.Prompt)
-                {
-                    // Interrupt message is over, let's wait for a new message
-                    weAreHandlingAnInterruptMessage = false;
-                    continue;
-                }
-                if (code == IgsCode.Beep)
-                {
-                    OnBeep();
-                    continue;
-                }
-                if (code == IgsCode.Tell)
-                {
-                    HandleIncomingChatMessage(line);
-                    weAreHandlingAnInterruptMessage = true;
-                    continue;
-                }
-                if (code == IgsCode.Shout)
-                {
-                    HandleIncomingShoutMessage(line);
-                    weAreHandlingAnInterruptMessage = true;
-                    continue;
-                }
-                if (code == IgsCode.Move)
-                {
-                    HandleIncomingMove(igsLine);
-                    weAreHandlingAnInterruptMessage = true;
-                    continue;
-                }
-                
-                
-
-                // We cannot handle this generally - let's hand it off to whoever made the request for this information.
-                lock (this._mutex)
-                {
-                    this._requestInProgress?.IncomingLines.Post(igsLine);
-                }
-            }
-        }
-        private void HandleIncomingMove(IgsLine igsLine)
+       private void HandleIncomingMove(IgsLine igsLine)
         {
             string trim = igsLine.PureLine.Trim();
             if (trim.StartsWith("Game "))
             {
                 string trim2 = trim.Substring("Game ".Length);
                 int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
-                Game whatGame = this._gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
+                Game whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
                 if (whatGame == null)
                 {
-                    whatGame = new Game();
-                    whatGame.ServerId = gameNumber;
-                    whatGame.Server = this;
-                    this._gamesInProgressOnIgs.Add(whatGame);
+                    whatGame = new Game
+                    {
+                        ServerId = gameNumber,
+                        Server = this
+                    };
+                    _gamesInProgressOnIgs.Add(whatGame);
                 }
-                this._incomingMovesAreForThisGame = whatGame;
+                _incomingMovesAreForThisGame = whatGame;
             }
             else
             {
@@ -383,10 +288,10 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                this._incomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
+                _incomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
             }
         }
-        private Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
+        private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
         /// <summary>
@@ -398,13 +303,13 @@ namespace OmegaGo.Core.Online.Igs
         private async Task<List<IgsLine>> MakeRequest(string command)
         {
             IgsRequest request = new IgsRequest(command);
-            this._outgoingRequests.Enqueue(request);
+            _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
             List<IgsLine> lines = await request.GetAllLines();
-            lock (this._mutex)
+            lock (_mutex)
             {
-                Debug.Assert(this._requestInProgress == request);
-                this._requestInProgress = null;
+                Debug.Assert(_requestInProgress == request);
+                _requestInProgress = null;
             }
             ExecuteRequestFromQueue();
             return lines;
@@ -412,9 +317,8 @@ namespace OmegaGo.Core.Online.Igs
         }
         private void MakeUnattendedRequest(string command)
         {
-            IgsRequest request = new IgsRequest(command);
-            request.Unattended = true;
-            this._outgoingRequests.Enqueue(request);
+            IgsRequest request = new IgsRequest(command) {Unattended = true};
+            _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
         }
         /// <summary>
@@ -428,18 +332,18 @@ namespace OmegaGo.Core.Online.Igs
         private void ExecuteRequestFromQueue()
         {
             
-            lock (this._mutex)
+            lock (_mutex)
             {
-                if (this._requestInProgress == null)
+                if (_requestInProgress == null)
                 {
                     IgsRequest dequeuedItem;
-                    if (this._outgoingRequests.TryDequeue(out dequeuedItem))
+                    if (_outgoingRequests.TryDequeue(out dequeuedItem))
                     {
                         if (!dequeuedItem.Unattended)
                         {
-                            this._requestInProgress = dequeuedItem;
+                            _requestInProgress = dequeuedItem;
                         }
-                        this._streamWriter.WriteLine(dequeuedItem.Command);
+                        _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {
                             ExecuteRequestFromQueue();
@@ -484,7 +388,15 @@ namespace OmegaGo.Core.Online.Igs
         {
             Beep?.Invoke();
         }
-
+        /// <summary>
+        /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
+        /// current request for which we're expecting a reply.
+        /// </summary>
+        public event Action<string> UnhandledLine;
+        private void OnUnhandledLine(string unhandledLine)
+        {
+            UnhandledLine?.Invoke(unhandledLine);
+        }
 
 
 

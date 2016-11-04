@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Online.Igs
         public override async Task<List<Game>> ListGamesInProgress()
         {
             await EnsureConnected();
-            this._gamesInProgressOnIgs = new List<Game>();
+            _gamesInProgressOnIgs = new List<Game>();
             List<IgsLine> lines = await MakeRequest("games");
             foreach (IgsLine line in lines)
             {
@@ -25,10 +25,10 @@ namespace OmegaGo.Core.Online.Igs
                         // This is the example line.
                         continue;
                     }
-                    this._gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
+                    _gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return this._gamesInProgressOnIgs;
+            return _gamesInProgressOnIgs;
         }
         private Game CreateGameFromTelnetLine(string line)
         {
@@ -77,22 +77,22 @@ namespace OmegaGo.Core.Online.Igs
         }
         public override async void StartObserving(Game game)
         {
-            if (this._gamesBeingObserved.Contains(game))
+            if (_gamesBeingObserved.Contains(game))
             {
                 // We are already observing this game.
                 return;
             }
-            this._gamesBeingObserved.Add(game);
+            _gamesBeingObserved.Add(game);
             await MakeRequest("observe " + game.ServerId);
         }
         public override void EndObserving(Game game)
         {
-            if (!this._gamesBeingObserved.Contains(game))
+            if (!_gamesBeingObserved.Contains(game))
             {
                 throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
             }
-            this._gamesBeingObserved.Remove(game);
-            this._streamWriter.WriteLine("observe " + game.ServerId);
+            _gamesBeingObserved.Remove(game);
+            _streamWriter.WriteLine("observe " + game.ServerId);
         }
         /// <summary>
         /// Sends a private message to the specified user using the 'tell' feature of IGS.

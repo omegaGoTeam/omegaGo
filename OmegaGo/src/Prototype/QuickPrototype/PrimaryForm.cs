@@ -61,6 +61,7 @@ namespace QuickPrototype
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
+            igs.UnhandledLine += Igs_UnhandledLine;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             this.cbWhite.SelectedIndex = 0;
             this.cbBlack.SelectedIndex = 0;
@@ -73,6 +74,11 @@ namespace QuickPrototype
             {
                 MessageBox.Show("Login failed.");
             }
+        }
+
+        private void Igs_UnhandledLine(string obj)
+        {
+            this.lbChat.Items.Add("UNHANDLED LINE: " + obj);
         }
 
         private void Igs_IncomingShoutMessage(string obj)
@@ -183,7 +189,7 @@ namespace QuickPrototype
             InGameForm ingameForm = new InGameForm(localGame, null);
             playerBlack.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem);
             playerWhite.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem);
-            ingameForm.ShowDialog();
+            ingameForm.Show();
         }
 
         private IAgent CreateAgentFromComboboxObject(InGameForm form, object text)
