@@ -15,6 +15,8 @@ using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
+using Color = OmegaGo.Core.Color;
+
 // ReSharper disable CoVariantArrayConversion
 
 namespace QuickPrototype
@@ -174,14 +176,14 @@ namespace QuickPrototype
         {
             Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR");
             Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR");
-            
+
 
             Game localGame = new Game
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
-                NumberOfMovesPlayed = 0
+                NumberOfMovesPlayed = 0,
+                Ruleset = new ChineseRuleset()
             };
-            localGame.Ruleset = new ChineseRuleset();
             localGame.Ruleset.startGame(playerWhite, playerBlack, localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
@@ -216,6 +218,26 @@ namespace QuickPrototype
         {
             await this.igs.Disconnect();
             Igs_LogEvent("DISCONNECTED.");
+        }
+
+        private async void button5_Click(object sender, EventArgs e)
+        {
+           bool result = await igs.RequestBasicMatch(
+                this.cbMatchRecipient.Text,
+                Color.Black,
+                (int) this.nBoardSize.Value,
+                10,
+                10
+                );
+            if (result)
+            {
+                MessageBox.Show("Match successfully requested.");
+            }
+            else
+            {
+                MessageBox.Show("Failed to request a match.", "Match not request", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

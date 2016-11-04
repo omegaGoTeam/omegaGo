@@ -55,6 +55,7 @@
     <Compile Include="AI\Random\RandomAI.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="CoreDebug.cs" />
+    <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game.cs" />

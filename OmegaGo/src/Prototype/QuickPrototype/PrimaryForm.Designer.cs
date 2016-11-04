@@ -80,7 +80,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(244, 33);
+            this.button1.Size = new System.Drawing.Size(245, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "Refresh list of games";
             this.button1.UseVisualStyleBackColor = true;
@@ -321,7 +321,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(197, 26);
             this.label6.TabIndex = 23;
-            this.label6.Text = "No handicaps. \r\nTiming will be 10/10 Canadian byo-yomi.";
+            this.label6.Text = "No handicaps.  You play Black.\r\nTiming will be 10/10 Canadian byo-yomi.";
             // 
             // label5
             // 
@@ -349,6 +349,7 @@
             this.button5.TabIndex = 20;
             this.button5.Text = "Request match (match)";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // nBoardSize
             // 

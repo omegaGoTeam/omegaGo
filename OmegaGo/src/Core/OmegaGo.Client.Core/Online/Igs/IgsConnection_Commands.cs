@@ -119,5 +119,18 @@ namespace OmegaGo.Core.Online.Igs
             }
             return returnedUsers;
         }
+
+        public async Task<bool> RequestBasicMatch(
+            string opponent, 
+            Color yourColor, 
+            int boardSize, 
+            int mainTime,
+            int byoyomiMinutes)
+        {
+            var lines = await
+                MakeRequest("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
+                            " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
+            return !lines.Any(line => line.Code == IgsCode.Error);
+        }
     }
 }

@@ -102,7 +102,7 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 if (code == IgsCode.Info)
                 {
-                    if (igsLine.PureLine.Contains("!!PANDANET!!"))
+                    if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
                     {
                         // Advertisement
                         weAreHandlingAnInterruptMessage = true;
