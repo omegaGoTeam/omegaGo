@@ -272,7 +272,7 @@
             // 
             // bRefreshPicture
             // 
-            this.bRefreshPicture.Location = new System.Drawing.Point(363, 459);
+            this.bRefreshPicture.Location = new System.Drawing.Point(370, 47);
             this.bRefreshPicture.Name = "bRefreshPicture";
             this.bRefreshPicture.Size = new System.Drawing.Size(116, 23);
             this.bRefreshPicture.TabIndex = 18;
@@ -282,7 +282,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(241, 459);
+            this.button3.Location = new System.Drawing.Point(248, 47);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 23);
             this.button3.TabIndex = 19;

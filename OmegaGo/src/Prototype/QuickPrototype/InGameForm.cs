@@ -352,6 +352,7 @@ namespace QuickPrototype
 
         private async void button3_Click(object sender, EventArgs e)
         {
+            // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
             var timeline = _game.PrimaryTimeline;
             _game.PrimaryTimeline = new List<OmegaGo.Core.Move>();
             foreach(Move move in timeline)

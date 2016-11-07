@@ -59,6 +59,12 @@ namespace QuickPrototype
             this.cbWhite.Items.Clear();
             this.cbWhite.Items.Add("Human");
             this.cbWhite.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhoPlaysOnline.Items.Clear();
+            this.cbWhoPlaysOnline.Items.Add("Human");
+            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhite.SelectedIndex = 0;
+            this.cbBlack.SelectedIndex = 0;
+            this.cbWhoPlaysOnline.SelectedIndex = 0;
 
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
@@ -67,8 +73,6 @@ namespace QuickPrototype
             igs.UnhandledLine += Igs_UnhandledLine;
             igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
-            this.cbWhite.SelectedIndex = 0;
-            this.cbBlack.SelectedIndex = 0;
             if (!await igs.Connect())
             {
                 MessageBox.Show("Connection to IGS failed.");
