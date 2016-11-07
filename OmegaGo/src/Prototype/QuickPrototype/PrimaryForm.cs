@@ -249,8 +249,13 @@ namespace QuickPrototype
 
         private async void bRejectRequest_Click(object sender, EventArgs e)
         {
-            if (this.lbMatchRequests.SelectedItem != null) {
-                if (! await igs.DeclineMatchRequest((IgsMatchRequest)this.lbMatchRequests.SelectedItem))
+            IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
+            if (selectedItem != null) {
+                if (await igs.DeclineMatchRequest(selectedItem))
+                {
+                    this.lbMatchRequests.Items.Remove(selectedItem);
+                }
+                else
                 {
                     Fail("Match request cannot be declined.");
                 }

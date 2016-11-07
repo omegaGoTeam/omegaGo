@@ -135,9 +135,11 @@ namespace OmegaGo.Core.Online.Igs
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
 
-        public Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
         {
-            return Task.FromResult(false);
+            List<IgsLine> lines = await MakeRequest(matchRequest.RejectCommand);
+            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
+            return !lines.Any(line => line.Code == IgsCode.Error);
         }
     }
 }
