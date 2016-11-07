@@ -93,11 +93,13 @@ namespace OmegaGo.Core
             IAgent agent = player.Agent;
             agent.ForceHistoricMove(moveIndex, move);
 
+            /*
             while (PrimaryTimeline.Count <= moveIndex - 1)
             {
                 PrimaryTimeline.Add(Move.CreateUnknownMove());
             }
             PrimaryTimeline[moveIndex - 1] = move;
+            */
             OnBoardNeedsRefreshing();
         }
 

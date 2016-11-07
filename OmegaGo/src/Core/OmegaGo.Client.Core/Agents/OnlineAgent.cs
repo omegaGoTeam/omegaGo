@@ -11,13 +11,7 @@ namespace OmegaGo.Core.Agents
     {
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
 
-        public IllegalMoveHandling HowToHandleIllegalMove
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
 
         public void ForceHistoricMove(int moveIndex, Move move)
         {
@@ -37,7 +31,7 @@ namespace OmegaGo.Core.Agents
                 {
                     return AgentDecision.MakeMove(this._storedMoves[game.NumberOfMovesPlayed + 1], "The server sent this information.");
                 }
-                await Task.Yield(); // TODO refactor
+                await Task.Delay(1000); // TODO refactor
             }
         }
     }

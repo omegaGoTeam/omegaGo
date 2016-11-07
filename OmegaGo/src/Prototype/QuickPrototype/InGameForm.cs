@@ -41,7 +41,7 @@ namespace QuickPrototype
 
         private async void LoopDecisionRequest()
         {
-            lblTurnPlayer.Text = "Black";
+            _game.NumberOfMovesPlayed = 0;
             _playerToMove = _game.Players[0];
             while (true)
             {
@@ -96,6 +96,10 @@ namespace QuickPrototype
                                     break;
                             }
                         }
+                    }
+                    if (_playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+                    {
+                        willWeAcceptTheMove = true;
                     }
                     if (!willWeAcceptTheMove)
                     {
@@ -160,7 +164,7 @@ namespace QuickPrototype
                     {
                         throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                     }
-
+                    _game.NumberOfMovesPlayed++;
                     RefreshBoard();
                     _playerToMove = _game.OpponentOf(_playerToMove);
                 }
@@ -224,8 +228,8 @@ namespace QuickPrototype
             {
                 button1.Enabled = false;
                 button2.Enabled = false;
-                LoopDecisionRequest();
             }
+            LoopDecisionRequest();
         }
 
 
