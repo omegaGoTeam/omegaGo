@@ -267,5 +267,10 @@ namespace QuickPrototype
             MessageBox.Show(v, "Error", MessageBoxButtons.OK,
                        MessageBoxIcon.Error);
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            igs.DEBUG_MakeUnattendedRequest(this.tbCommand.Text);
+        }
     }
 }

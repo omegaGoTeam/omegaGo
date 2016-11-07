@@ -141,5 +141,10 @@ namespace OmegaGo.Core.Online.Igs
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
+
+        public void DEBUG_MakeUnattendedRequest(string command)
+        {
+            MakeUnattendedRequest(command);
+        }
     }
 }

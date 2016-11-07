@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Online.Igs
     {
         private async Task HandleIncomingData(StreamReader sr)
         {
+            bool thisRequestIsObservationStart = false;
             bool weAreHandlingAnInterruptMessage = false;
             while (true)
             {
@@ -78,6 +79,10 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterruptMessage = false;
                     continue;
                 }
+                if (code == IgsCode.Prompt)
+                {
+                    thisRequestIsObservationStart = false;
+                }
                 if (code == IgsCode.Beep)
                 {
                     OnBeep();
@@ -97,8 +102,11 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 if (code == IgsCode.Move)
                 {
-                    HandleIncomingMove(igsLine);
-                    weAreHandlingAnInterruptMessage = true;
+                    if (!thisRequestIsObservationStart)
+                    {
+                        HandleIncomingMove(igsLine);
+                        weAreHandlingAnInterruptMessage = true;
+                    }
                     continue;
                 }
                 if (code == IgsCode.Info)
@@ -107,6 +115,11 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         // Advertisement
                         weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
+                    if (igsLine.PureLine.StartsWith("Adding game to observation list"))
+                    {
+                        thisRequestIsObservationStart = true;
                         continue;
                     }
                     if (IgsRegex.IsIrrelevantInterruptLine(igsLine))

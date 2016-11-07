@@ -260,6 +260,8 @@ namespace OmegaGo.Core.Online.Igs
         }
        private void HandleIncomingMove(IgsLine igsLine)
         {
+           
+
             string trim = igsLine.PureLine.Trim();
             if (trim.StartsWith("Game "))
             {
@@ -276,6 +278,11 @@ namespace OmegaGo.Core.Online.Igs
                     _gamesInProgressOnIgs.Add(whatGame);
                 }
                 _incomingMovesAreForThisGame = whatGame;
+            }
+            else if (trim.Contains("Handicap"))
+            {
+                //  15   0(B): Handicap 3
+                // Ignore.
             }
             else
             {

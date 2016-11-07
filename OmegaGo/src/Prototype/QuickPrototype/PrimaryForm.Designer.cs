@@ -68,6 +68,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,9 +136,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(727, 178);
+            this.button4.Location = new System.Drawing.Point(609, 178);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(116, 23);
+            this.button4.Size = new System.Drawing.Size(107, 23);
             this.button4.TabIndex = 6;
             this.button4.Text = "Send Command";
             this.button4.UseVisualStyleBackColor = true;
@@ -148,7 +149,7 @@
             this.tbCommand.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbCommand.Location = new System.Drawing.Point(350, 178);
             this.tbCommand.Name = "tbCommand";
-            this.tbCommand.Size = new System.Drawing.Size(371, 23);
+            this.tbCommand.Size = new System.Drawing.Size(253, 23);
             this.tbCommand.TabIndex = 7;
             this.tbCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommand_KeyDown);
             // 
@@ -508,11 +509,22 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(722, 178);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(121, 23);
+            this.button9.TabIndex = 22;
+            this.button9.Text = "Unattended Request";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // PrimaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.groupBox4);
@@ -590,6 +602,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }
 
