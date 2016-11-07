@@ -30,5 +30,9 @@ namespace QuickPrototype
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
+        public void ForceHistoricMove(int moveIndex, Move move)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

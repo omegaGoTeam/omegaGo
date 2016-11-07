@@ -38,5 +38,9 @@ namespace OmegaGo.Core.Agents
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
+        public void ForceHistoricMove(int moveIndex, Move move)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

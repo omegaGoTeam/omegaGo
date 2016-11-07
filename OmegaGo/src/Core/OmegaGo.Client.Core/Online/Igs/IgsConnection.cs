@@ -298,7 +298,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                _incomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
+                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex) + 1, move);
             }
         }
         private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");

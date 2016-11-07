@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using OmegaGo.Core.Agents;
 using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
@@ -58,10 +59,18 @@ namespace OmegaGo.Core.Online.Igs
                     Server = this,
                     Players = new List<Player>()
                 {
-                    new Player(match.Groups[4].Value, match.Groups[5].Value),
+                    new Player(match.Groups[4].Value, match.Groups[5].Value)
+                    {
+                        Agent = new OnlineAgent()
+                    },
                     new Player(match.Groups[2].Value, match.Groups[3].Value)
+                    {
+                        Agent = new OnlineAgent()
+                    }
                 },
-                    NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+                    // DO *NOT* DO this: the displayed number might be something different from what our client wants
+                    // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+                    // Do not uncomment the preceding line. I will fix it in time. I hope.
                     SquareBoardSize = match.Groups[7].Value.AsInteger(),
                     NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
                     KomiValue = match.Groups[9].Value.AsFloat(),
