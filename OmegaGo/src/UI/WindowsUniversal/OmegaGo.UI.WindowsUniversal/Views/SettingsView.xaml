@@ -22,7 +22,65 @@
             </DataTemplate>
         </Pivot.TitleTemplate>
         <PivotItem Header="{x:Bind Localizer.UserInterface}">
-            
+            <StackPanel Padding="15">
+                <TextBlock Text="Board" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>Kaya Wood</x:String>
+                </ComboBox>
+
+                <TextBlock Text="Black Stones" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>Metal</x:String>
+                </ComboBox>
+                
+                <TextBlock Text="White Stones" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>Plastic</x:String>
+                </ComboBox>
+
+                <CheckBox Content="Highlight Last Move" />
+                <CheckBox Content="Highlight Captures" />
+                <CheckBox Content="Highlight Komores" />
+                <CheckBox Content="Natural Board Placement" />
+            </StackPanel>
+        </PivotItem>
+        <PivotItem Header="Sounds">
+            <StackPanel Padding="15">
+                <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <Slider Width="100" HorizontalAlignment="Left" />
+
+                <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <Slider Width="100" HorizontalAlignment="Left" />
+                
+                <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <Slider Width="100" HorizontalAlignment="Left" />
+            </StackPanel>
+        </PivotItem>
+        <PivotItem Header="Language">
+            <StackPanel Padding="15">
+                <TextBlock Text="Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>English</x:String>
+                    <x:String>Czech</x:String>
+                </ComboBox>
+            </StackPanel>
+        </PivotItem>
+        <PivotItem Header="Assistant">
+            <StackPanel Padding="15">
+                <TextBlock Text="AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>Joken23</x:String>
+                </ComboBox>
+
+                <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="0" Width="140">
+                    <x:String>10</x:String>
+                </ComboBox>
+
+                <CheckBox Content="Enable Hints" />
+                <CheckBox Content="Enable Territory Estimation" />
+                <CheckBox Content="Enable Even In Online Games" />
+            </StackPanel>
         </PivotItem>
     </Pivot>    
 </views:ViewBase>
