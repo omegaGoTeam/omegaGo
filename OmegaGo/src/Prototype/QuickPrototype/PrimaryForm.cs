@@ -14,6 +14,7 @@ using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using Color = OmegaGo.Core.Color;
 
@@ -64,6 +65,7 @@ namespace QuickPrototype
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.UnhandledLine += Igs_UnhandledLine;
+            igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             this.cbWhite.SelectedIndex = 0;
             this.cbBlack.SelectedIndex = 0;
@@ -76,6 +78,11 @@ namespace QuickPrototype
             {
                 MessageBox.Show("Login failed.");
             }
+        }
+
+        private void Igs_IncomingMatchRequest(OmegaGo.Core.Online.Igs.Structures.IgsMatchRequest obj)
+        {
+            this.lbMatchRequests.Items.Add(obj);
         }
 
         private void Igs_UnhandledLine(string obj)
@@ -235,9 +242,25 @@ namespace QuickPrototype
             }
             else
             {
-                MessageBox.Show("Failed to request a match.", "Match not request", MessageBoxButtons.OK,
+                MessageBox.Show("Failed to request a match.", "Match not requested", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private async void bRejectRequest_Click(object sender, EventArgs e)
+        {
+            if (this.lbMatchRequests.SelectedItem != null) {
+                if (! await igs.DeclineMatchRequest((IgsMatchRequest)this.lbMatchRequests.SelectedItem))
+                {
+                    Fail("Match request cannot be declined.");
+                }
+            }
+        }
+
+        private void Fail(string v)
+        {
+            MessageBox.Show(v, "Error", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
         }
     }
 }

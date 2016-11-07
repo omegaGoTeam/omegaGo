@@ -69,6 +69,8 @@
     <Compile Include="Online\Igs\IgsConnection_Commands.cs" />
     <Compile Include="Online\Igs\IgsConnection_IncomingData.cs" />
     <Compile Include="Online\Igs\IgsLine.cs" />
+    <Compile Include="Online\Igs\Structures\IgsMatchRequest.cs" />
+    <Compile Include="Online\Igs\IgsRegex.cs" />
     <Compile Include="Online\Igs\IgsRequest.cs" />
     <Compile Include="Online\Igs\IgsUser.cs" />
     <Compile Include="Online\ServerConnection.cs" />

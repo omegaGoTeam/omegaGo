@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -105,6 +106,19 @@ namespace OmegaGo.Core.Online.Igs
                     if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
                     {
                         // Advertisement
+                        weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
+                    if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
+                    {
+                        weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
+                    IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
+                    if (matchRequest != null)
+                    {
+                        this.IncomingMatchRequests.Add(matchRequest);
+                        OnIncomingMatchRequest(matchRequest);
                         weAreHandlingAnInterruptMessage = true;
                         continue;
                     }

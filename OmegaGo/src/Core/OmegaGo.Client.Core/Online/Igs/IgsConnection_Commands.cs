@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -130,7 +131,13 @@ namespace OmegaGo.Core.Online.Igs
             var lines = await
                 MakeRequest("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
+            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
+        }
+
+        public Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
+        {
+            return Task.FromResult(false);
         }
     }
 }

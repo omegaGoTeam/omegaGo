@@ -277,8 +277,9 @@
             this.bRejectRequest.Name = "bRejectRequest";
             this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
             this.bRejectRequest.TabIndex = 2;
-            this.bRejectRequest.Text = "Reject";
+            this.bRejectRequest.Text = "Decline";
             this.bRejectRequest.UseVisualStyleBackColor = true;
+            this.bRejectRequest.Click += new System.EventHandler(this.bRejectRequest_Click);
             // 
             // bAcceptRequest
             // 

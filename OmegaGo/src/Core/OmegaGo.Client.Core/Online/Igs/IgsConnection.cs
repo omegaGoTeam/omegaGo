@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
@@ -61,6 +62,7 @@ namespace OmegaGo.Core.Online.Igs
         private IgsRequest _requestInProgress;
         private readonly object _mutex = new object();
         private IgsComposure _composureBackingField = IgsComposure.Disconnected;
+        public List<IgsMatchRequest> IncomingMatchRequests = new List<IgsMatchRequest>();
         private IgsComposure _composure
         {
             get { return _composureBackingField; }
@@ -152,6 +154,7 @@ namespace OmegaGo.Core.Online.Igs
                 OnLogEvent("LOGIN ERROR: " + _loginError);
                 return false;
             }
+            await MakeRequest("toggle quiet true");
             return true;
         }
 
@@ -397,6 +400,14 @@ namespace OmegaGo.Core.Online.Igs
         {
             UnhandledLine?.Invoke(unhandledLine);
         }
+        /// <summary>
+        /// Occurs when somebody requests to play a game of Go against us on the IGS server.
+        /// </summary>
+        public event Action<IgsMatchRequest> IncomingMatchRequest;
+        private void OnIncomingMatchRequest(IgsMatchRequest matchRequest)
+        {
+            IncomingMatchRequest?.Invoke(matchRequest);
+        }
 
 
 
@@ -406,5 +417,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             MakeUnattendedRequest("moves " + game.ServerId);
         }
+
+       
     }
 }
