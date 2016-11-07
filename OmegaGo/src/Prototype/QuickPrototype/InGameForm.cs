@@ -225,7 +225,7 @@ namespace QuickPrototype
         private void InGameForm_Load(object sender, EventArgs e)
         {
             if (_game.Server == null)
-            {
+            {  
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
