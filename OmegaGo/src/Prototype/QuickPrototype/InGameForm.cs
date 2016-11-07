@@ -179,7 +179,7 @@ namespace QuickPrototype
             GoColor[,] positions = new GoColor[19, 19];
             foreach (Move move in _game.PrimaryTimeline)
             {
-                if (!move.UnknownMove && move.WhoMoves != GoColor.None)
+                if (!move.IsUnknownMove && move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;

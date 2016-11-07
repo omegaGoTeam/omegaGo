@@ -24,7 +24,7 @@ namespace OmegaGo.Core
         public List<string> AddWhite { get; set; }
 
         /// <summary>
-        /// Describes current state of the entire game board
+        /// Describes current state of the entire game board. May be null.
         /// </summary>
         public Color[,] BoardState { get; set; }
 
@@ -37,6 +37,11 @@ namespace OmegaGo.Core
         /// </summary>
         public Move Move { get; set; }
 
+        /// <summary>
+        /// Gets or sets the parent node of this node, i.e. the move before this one.
+        /// </summary>
+        GameTreeNode Parent { get; set; }
+
         /*
          *  When there is more than one recorded move after a move, 
          *  always branch:
@@ -44,6 +49,49 @@ namespace OmegaGo.Core
          *  (;B[pp]N[B q4])     // Black plays - Possible Move A
          *  (;B[dp]N[B d4]))    // Black plays - Possible Move B
         */
-        public List<GameTreeNode> Branches { get; set; }
+        /// <summary>
+        /// Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
+        /// In normal games, there will only be a single element in this list.
+        /// </summary>
+        public List<GameTreeNode> Branches { get; set; } = new List<GameTreeNode>();
+
+        /// <summary>
+        /// Gets a value indicating whether this node has no children, which usually means that it's the last move made.
+        /// </summary>
+        public bool IsFinalNode => Branches.Count == 0;
+        /// <summary>
+        /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time. 
+        /// The move number is 1-based, i.e. the first move has the number "1".
+        /// </summary>
+        public int MoveNumber
+        {
+            get
+            {
+                int number = 0;
+                GameTreeNode node = this;
+                while (node != null)
+                {
+                    node = node.Parent;
+                    number++;
+                }
+                return number;
+            }
+        }
+        /// <summary>
+        /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">When this is a branching node.</exception>
+        public GameTreeNode NextMove
+        {
+            get
+            {
+                switch (Branches.Count)
+                {
+                    case 0: return null;
+                    case 1: return Branches[0];
+                    default: throw new InvalidOperationException("This is a branching node. Therefore, there is no single 'next' move.");
+                }
+            }
+        }
     }
 }
