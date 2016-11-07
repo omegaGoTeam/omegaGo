@@ -3,7 +3,8 @@
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MvvmCross": "4.4.0",
     "MvvmCross.Plugin.Messenger": "4.4.0",
-    "PlatformSpecific.Analyzer": "2.0.3"
+    "PlatformSpecific.Analyzer": "2.0.3",
+    "Win2D.uwp": "1.19.0"
   },
   "frameworks": {
     "uap10.0": {}

@@ -31,6 +31,8 @@ namespace OmegaGo.Core
         private const int BEGINASCII = 97;
         private const int ENDASCII = 122;
 
+        public static readonly Position Undefined = new Position(-1, -1);
+
         private int _x;
         private int _y;
 
@@ -77,6 +79,8 @@ namespace OmegaGo.Core
 
             return tablePos;
         }
+
+        public bool IsDefined => _x != -1;
 
         /// <summary>
         /// Creates a new <see cref="Position"/> instance from coordinates given in the IGS format. The IGS format coordinates go from A1 to Z25, with

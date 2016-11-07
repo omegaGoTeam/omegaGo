@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    Loaded="ViewBase_Loaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -16,9 +18,30 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
         <TextBlock Text="Game" 
+                   Grid.Row="0"
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
+        <ScrollViewer   Grid.Row="1"
+                        HorizontalScrollBarVisibility="Auto"
+                        HorizontalScrollMode="Auto"
+                        VerticalScrollBarVisibility="Auto"
+                        VerticalScrollMode="Auto"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+            <win2d:CanvasControl 
+                x:Name="canvas" 
+                CreateResources="canvas_CreateResources"
+                Draw="canvas_Draw"
+                PointerPressed="canvas_PointerPressed"
+                PointerReleased="canvas_PointerReleased"
+                PointerMoved="canvas_PointerMoved"/>
+        </ScrollViewer>
     </Grid>
 </views:ViewBase>

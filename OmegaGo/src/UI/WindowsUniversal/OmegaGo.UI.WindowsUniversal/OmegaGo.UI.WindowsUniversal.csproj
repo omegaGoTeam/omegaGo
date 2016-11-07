@@ -95,6 +95,9 @@
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\Game\BoardData.cs" />
+    <Compile Include="Services\Game\InputService.cs" />
+    <Compile Include="Services\Game\RenderService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -213,6 +216,10 @@
     <ProjectReference Include="..\..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
       <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
       <Name>OmegaGo.UI.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
+      <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
+      <Name>OmegaGo.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmegaGo.UI\OmegaGo.UI.csproj">
       <Project>{8823de70-5dc6-4151-84b4-0fc27e83eabd}</Project>
