@@ -112,6 +112,8 @@ namespace OmegaGo.Core.AI.Joker23
             int height,
             int width)
         {
+            // Takes 62% CPU.
+
             vis = new bool[height, width];
             board = input;
 

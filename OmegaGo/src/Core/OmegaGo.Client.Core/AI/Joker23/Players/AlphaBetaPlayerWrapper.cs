@@ -5,13 +5,13 @@ namespace OmegaGo.Core.AI.Joker23
     public class AlphaBetaPlayerWrapper : AiProgramBase
     {
         public override string Name { get; } = "Joker23 Alpha-Beta";
-        private AlphaBetaPlayer internalPlayer;
+        private AlphaBetaPlayer _internalPlayer;
 
         public override AgentDecision RequestMove(AIPreMoveInformation gameState)
         {
-            internalPlayer = new Joker23.AlphaBetaPlayer(gameState.AIColor == Color.Black ? 'B' : 'W');
+            this._internalPlayer = new AlphaBetaPlayer(gameState.AIColor == Color.Black ? 'B' : 'W');
 
-            JokerGame currentGame = new Joker23.JokerGame(gameState.BoardSize.Height,
+            JokerGame currentGame = new JokerGame(gameState.BoardSize.Height,
                 gameState.BoardSize.Width,
                 null,
                 null);
@@ -24,7 +24,7 @@ namespace OmegaGo.Core.AI.Joker23
 
             currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(gameState.Board, gameState.BoardSize);
 
-            JokerPoint point = internalPlayer.betterPlanMove(currentGame);
+            JokerPoint point = this._internalPlayer.betterPlanMove(currentGame, gameState.Difficulty);
             
 
             return AgentDecision.MakeMove(Move.Create(gameState.AIColor, new Position(point.x, point.y)),

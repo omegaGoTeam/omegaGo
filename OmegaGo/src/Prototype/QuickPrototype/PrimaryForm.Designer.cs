@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bSortGames = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbWhoPlaysOnline = new System.Windows.Forms.ComboBox();
             this.bRejectRequest = new System.Windows.Forms.Button();
             this.bAcceptRequest = new System.Windows.Forms.Button();
             this.lbMatchRequests = new System.Windows.Forms.ListBox();
@@ -69,7 +70,6 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.cbWhoPlaysOnline = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -274,14 +274,28 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Incoming match requests";
             // 
+            // cbWhoPlaysOnline
+            // 
+            this.cbWhoPlaysOnline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWhoPlaysOnline.FormattingEnabled = true;
+            this.cbWhoPlaysOnline.Items.AddRange(new object[] {
+            "Human",
+            "Defeatist",
+            "Random"});
+            this.cbWhoPlaysOnline.Location = new System.Drawing.Point(6, 126);
+            this.cbWhoPlaysOnline.Name = "cbWhoPlaysOnline";
+            this.cbWhoPlaysOnline.Size = new System.Drawing.Size(217, 21);
+            this.cbWhoPlaysOnline.TabIndex = 26;
+            // 
             // bRejectRequest
             // 
+            this.bRejectRequest.BackColor = System.Drawing.Color.Coral;
             this.bRejectRequest.Location = new System.Drawing.Point(149, 153);
             this.bRejectRequest.Name = "bRejectRequest";
             this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
             this.bRejectRequest.TabIndex = 2;
             this.bRejectRequest.Text = "Decline";
-            this.bRejectRequest.UseVisualStyleBackColor = true;
+            this.bRejectRequest.UseVisualStyleBackColor = false;
             this.bRejectRequest.Click += new System.EventHandler(this.bRejectRequest_Click);
             // 
             // bAcceptRequest
@@ -520,19 +534,6 @@
             this.button9.Text = "Unattended Request";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // cbWhoPlaysOnline
-            // 
-            this.cbWhoPlaysOnline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbWhoPlaysOnline.FormattingEnabled = true;
-            this.cbWhoPlaysOnline.Items.AddRange(new object[] {
-            "Human",
-            "Defeatist",
-            "Random"});
-            this.cbWhoPlaysOnline.Location = new System.Drawing.Point(6, 126);
-            this.cbWhoPlaysOnline.Name = "cbWhoPlaysOnline";
-            this.cbWhoPlaysOnline.Size = new System.Drawing.Size(217, 21);
-            this.cbWhoPlaysOnline.TabIndex = 26;
             // 
             // PrimaryForm
             // 

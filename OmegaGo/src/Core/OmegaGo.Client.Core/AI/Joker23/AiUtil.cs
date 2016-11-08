@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Extensions;
+// ReSharper disable All
 
 namespace OmegaGo.Core.AI.Joker23
 {
@@ -18,6 +19,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         public static int getLiberties(char color, char[,] input)
         {
+            // Takes 15% CPU
             board = input;
             int width = board.GetLength(0);
             boardWidth = width;
@@ -39,6 +41,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         private static int countAround(int r, int c)
         {
+            // Takes 8% CPU.
             int ret = 0;
             for (int i = 0; i < dr.Length; i++)
             {
@@ -61,9 +64,10 @@ namespace OmegaGo.Core.AI.Joker23
 
         
     public static List<JokerPoint> getNextMoves(char[,] input, int horizontalPruning) {
+        // Takes 10% CPU
         int n = input.GetLength(0);
 
-        List<InnerMove> pq = new List<InnerMove>();
+        List<InnerMove> pq = new List<InnerMove>(90); // greater initial capacity
 
         for(int i=0; i<n; i++) {
             for(int j=0; j<n; j++) {
@@ -73,22 +77,22 @@ namespace OmegaGo.Core.AI.Joker23
             }
         }
 
-            pq.Shuffle();
-            pq.Sort();
+        pq.Shuffle();
+        pq.Sort();
 
         List<JokerPoint> ret = new List<JokerPoint>();
 
-            while (!pq.isEmpty() && pq[0].influence > 0)
-            {
-                ret.Add(pq[0].move);
-                pq.RemoveAt(0);// TODO improve perfomance
-            }
+        while (!pq.isEmpty() && pq[0].influence > 0)
+        {
+            ret.Add(pq[0].move);
+            pq.RemoveAt(0);// TODO improve perfomance
+        }
 
-            while (!pq.isEmpty() && horizontalPruning-- > 0)
-            {
-                ret.Add(pq[0].move);
-                pq.RemoveAt(0);// TODO improve perfomance
-            }
+        while (!pq.isEmpty() && horizontalPruning-- > 0)
+        {
+            ret.Add(pq[0].move);
+            pq.RemoveAt(0);// TODO improve perfomance
+        }
 
         return ret;
     }

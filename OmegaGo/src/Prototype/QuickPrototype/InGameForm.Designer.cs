@@ -51,10 +51,23 @@
             this.label5 = new System.Windows.Forms.Label();
             this.bRefreshPicture = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nAiStrength = new System.Windows.Forms.NumericUpDown();
+            this.lbPlayerChat = new System.Windows.Forms.ListBox();
+            this.tbSayWhat = new System.Windows.Forms.TextBox();
+            this.bSay = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -227,7 +240,7 @@
             this.chEnforceRules.AutoSize = true;
             this.chEnforceRules.Checked = true;
             this.chEnforceRules.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chEnforceRules.Location = new System.Drawing.Point(496, 76);
+            this.chEnforceRules.Location = new System.Drawing.Point(11, 42);
             this.chEnforceRules.Name = "chEnforceRules";
             this.chEnforceRules.Size = new System.Drawing.Size(93, 17);
             this.chEnforceRules.TabIndex = 13;
@@ -290,18 +303,123 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(699, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(322, 284);
+            this.tabControl1.TabIndex = 20;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.bSay);
+            this.tabPage1.Controls.Add(this.tbSayWhat);
+            this.tabPage1.Controls.Add(this.lbPlayerChat);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(314, 258);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Player Chat";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(314, 258);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Spectator chat";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.nAiStrength);
+            this.tabPage3.Controls.Add(this.label6);
+            this.tabPage3.Controls.Add(this.chEnforceRules);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(314, 258);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Settings";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "AI Strength:";
+            // 
+            // nAiStrength
+            // 
+            this.nAiStrength.Location = new System.Drawing.Point(77, 13);
+            this.nAiStrength.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nAiStrength.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nAiStrength.Name = "nAiStrength";
+            this.nAiStrength.Size = new System.Drawing.Size(144, 20);
+            this.nAiStrength.TabIndex = 1;
+            this.nAiStrength.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // lbPlayerChat
+            // 
+            this.lbPlayerChat.FormattingEnabled = true;
+            this.lbPlayerChat.Location = new System.Drawing.Point(4, 4);
+            this.lbPlayerChat.Name = "lbPlayerChat";
+            this.lbPlayerChat.Size = new System.Drawing.Size(304, 225);
+            this.lbPlayerChat.TabIndex = 0;
+            // 
+            // tbSayWhat
+            // 
+            this.tbSayWhat.Location = new System.Drawing.Point(3, 232);
+            this.tbSayWhat.Name = "tbSayWhat";
+            this.tbSayWhat.Size = new System.Drawing.Size(248, 20);
+            this.tbSayWhat.TabIndex = 1;
+            this.tbSayWhat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            // 
+            // bSay
+            // 
+            this.bSay.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.bSay.Location = new System.Drawing.Point(257, 232);
+            this.bSay.Name = "bSay";
+            this.bSay.Size = new System.Drawing.Size(51, 20);
+            this.bSay.TabIndex = 2;
+            this.bSay.Text = "say";
+            this.bSay.UseVisualStyleBackColor = true;
+            this.bSay.Click += new System.EventHandler(this.bSay_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.bRefreshPicture);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tbLog);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tbSystemMessage);
-            this.Controls.Add(this.chEnforceRules);
             this.Controls.Add(this.panelEnd);
             this.Controls.Add(this.groupboxMoveMaker);
             this.Controls.Add(this.lblTurnPlayer);
@@ -318,6 +436,12 @@
             this.groupboxMoveMaker.PerformLayout();
             this.panelEnd.ResumeLayout(false);
             this.panelEnd.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -347,5 +471,14 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button bRefreshPicture;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.NumericUpDown nAiStrength;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button bSay;
+        private System.Windows.Forms.TextBox tbSayWhat;
+        private System.Windows.Forms.ListBox lbPlayerChat;
     }
 }

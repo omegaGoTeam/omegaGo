@@ -47,6 +47,10 @@ namespace QuickPrototype
             {
                 lblTurnPlayer.Text = _playerToMove.Name;
                 SystemLog("Asking " + _playerToMove + " to make a move...");
+                if (_playerToMove.Agent is AIAgent)
+                {
+                    ((AIAgent)_playerToMove.Agent).Strength = (int)this.nAiStrength.Value;
+                }
                 AgentDecision decision = await _playerToMove.Agent.RequestMove(_game);
                 SystemLog(_playerToMove + " does: " + decision);
 
@@ -364,6 +368,21 @@ namespace QuickPrototype
                 await Task.Delay(25);
             }
 
+        }
+
+        private void bSay_Click(object sender, EventArgs e)
+        {
+            // TODO what if we are in multiple games at the same time?
+            // TODO how to change active game?
+            this.tbSayWhat.Clear();
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.bSay_Click(sender, EventArgs.Empty);
+            }
         }
     }
 }
