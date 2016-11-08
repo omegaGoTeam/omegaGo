@@ -183,6 +183,8 @@ namespace QuickPrototype
             tbSystemMessage.Text = logline;
         }
 
+        private Position lastMove = Position.Undefined;
+
         private void RefreshBoard()
         {
             GoColor[,] positions = new GoColor[19, 19];
@@ -206,6 +208,7 @@ namespace QuickPrototype
                         positions[capture.X, capture.Y] = GoColor.None;
                     }
                 }
+                lastMove = move.Coordinates;
             }
             _truePositions = positions;
             pictureBox1.Refresh();
@@ -248,10 +251,16 @@ namespace QuickPrototype
             int boardSize = _game.SquareBoardSize;
             for (int x = 0; x < boardSize; x++)
             {
-                e.Graphics.DrawLine(Pens.Black, 0 + ofx, x * 20 + 10+ofy, boardSize * 20 + ofx , x * 20 + 10+ofy);
-                e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + ofx, 0+ofy, x * 20 + 10 + ofx, boardSize * 20+ofy);
+                e.Graphics.DrawLine(boardSize - x - 1 == lastMove.Y ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
+                e.Graphics.DrawLine(x == lastMove.X ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, x * 20 + 10 + ofx , 0+ofy+10, x * 20 + 10 + ofx, boardSize * 20+ofy-10);
+                
                 e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), _fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
                 e.Graphics.DrawString((boardSize - x).ToString(), _fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
+            }
+            // Star points
+            if (boardSize == 9)
+            {
+                
             }
             for (int x = 0; x < boardSize; x++)
             {
@@ -259,6 +268,21 @@ namespace QuickPrototype
                 {
                     Brush brush = null;
                     var r = new Rectangle(x * 20 + 2 + ofx, (boardSize - y - 1) * 20 + 2 + ofy, 16, 16);
+
+                    // Star point
+                    if ((boardSize == 9 && new[] { 2,4,6}.Contains(x)) ||
+                        (boardSize == 19 && new[] {  3,9,15}.Contains(x)))
+                    {
+                        if ((boardSize == 9 && new[] {  2,4,6}.Contains(y)) ||
+                            (boardSize == 19 && new[] {  3,9,15}.Contains(y)))
+                        {
+                            Rectangle starPoint = r;
+                            starPoint.Inflate(-4, -4);
+                            e.Graphics.FillEllipse(Brushes.Black, starPoint);
+                        }
+                    }
+
+                    // Stone
                     if (_truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
@@ -271,6 +295,12 @@ namespace QuickPrototype
                     {
                         e.Graphics.FillEllipse(brush, r);
                         e.Graphics.DrawEllipse(Pens.Black, r);
+                    }
+                    if (x == lastMove.X && y == lastMove.Y)
+                    {
+                        Rectangle larger = r;
+                        larger.Inflate(3, 3);
+                        e.Graphics.DrawEllipse(new Pen(Brushes.Red, 2), larger);
                     }
                     if (r.Contains(_mouseX, _mouseY))
                     {
