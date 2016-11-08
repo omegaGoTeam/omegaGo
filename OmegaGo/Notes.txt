@@ -1,2 +1,11 @@
 I just want to try it, guys... just to estimate the difficulty.
 If it turns out to be really really difficult, I'll stop wasting time on it.
+
+Strategy:
+1. Compile and run under Linux. [success]
+2. Compile and run under Cygwin.
+3. Compile and run under Microsoft Visual C++.
+4. Remove Boost and other incompatible things.
+5. Compile and run under UWP.
+6. Create C# integration.
+7. Add Oakfoam to OmegaGo.
