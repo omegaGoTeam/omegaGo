@@ -73,7 +73,7 @@ public class AlphaBetaPlayer : JokerPlayer {
 
         
 
-        List<JokerPoint> nextMoves = AiUtil.getNextMoves(boardCopy, 3);
+        IEnumerable<JokerPoint> nextMoves = AiUtil.getNextMoves(boardCopy, 3);
         if(turn == getColor()) {
 
             foreach(JokerPoint next in nextMoves) {

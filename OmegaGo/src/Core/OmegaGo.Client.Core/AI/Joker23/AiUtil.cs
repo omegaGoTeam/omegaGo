@@ -62,41 +62,42 @@ namespace OmegaGo.Core.AI.Joker23
             return ret;
         }
 
-        
-    public static List<JokerPoint> getNextMoves(char[,] input, int horizontalPruning) {
-        // Takes 10% CPU
-        int n = input.GetLength(0);
 
-        List<InnerMove> pq = new List<InnerMove>(90); // greater initial capacity
+        public static IEnumerable<JokerPoint> getNextMoves(char[,] input, int horizontalPruning)
+        {
+            // Takes 10% CPU
+            int n = input.GetLength(0);
 
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<n; j++) {
-                if(input[i,j] == '*'){
-                    pq.Add(new InnerMove(new JokerPoint(i, j), countAroundBlank(input, i, j)));
+            List<InnerMove> pq = new List<InnerMove>(90); // greater initial capacity
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (input[i, j] == '*')
+                    {
+                        pq.Add(new InnerMove(new JokerPoint(i, j), countAroundBlank(input, i, j)));
+                    }
                 }
             }
+
+            pq.Shuffle();
+            pq.Sort();
+
+            List<JokerPoint> ret = new List<JokerPoint>();
+
+            int upTo = 0;
+            while (upTo < pq.Count && pq[upTo].influence > 0)
+            {
+                upTo++;
+            }
+            while (upTo < pq.Count && horizontalPruning-- > 0)
+            {
+                upTo++;
+            }
+            return pq.Take(upTo).Select(move => move.move);
         }
 
-        pq.Shuffle();
-        pq.Sort();
-
-        List<JokerPoint> ret = new List<JokerPoint>();
-
-        while (!pq.isEmpty() && pq[0].influence > 0)
-        {
-            ret.Add(pq[0].move);
-            pq.RemoveAt(0);// TODO improve perfomance
-        }
-
-        while (!pq.isEmpty() && horizontalPruning-- > 0)
-        {
-            ret.Add(pq[0].move);
-            pq.RemoveAt(0);// TODO improve perfomance
-        }
-
-        return ret;
-    }
-    
         private static int countAroundBlank(char[,] input, int r, int c)
         {
             int ret = 0;
@@ -140,7 +141,7 @@ namespace OmegaGo.Core.AI.Joker23
         return ret;
     }
     */
-        private class InnerMove : IComparable<InnerMove>
+        private struct InnerMove : IComparable<InnerMove>
         {
             public JokerPoint move;
             public int influence;
