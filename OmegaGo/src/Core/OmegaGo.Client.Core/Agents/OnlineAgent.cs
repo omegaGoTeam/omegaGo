@@ -32,6 +32,7 @@ namespace OmegaGo.Core.Agents
                     return AgentDecision.MakeMove(this._storedMoves[game.NumberOfMovesPlayed + 1], "The server sent this information.");
                 }
                 await Task.Delay(1000); // TODO refactor
+                // Refactoring will require a task-aware dictionary, perhaps a condition variable?
             }
         }
     }

@@ -99,6 +99,7 @@ namespace QuickPrototype
                     }
                     if (_playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
                     {
+                        SystemLog("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
                         willWeAcceptTheMove = true;
                     }
                     if (!willWeAcceptTheMove)
@@ -264,14 +265,14 @@ namespace QuickPrototype
                     }
                     if (brush != null)
                     {
-                        e.Graphics.FillRectangle(brush, r);
-                        e.Graphics.DrawRectangle(Pens.Black, r);
+                        e.Graphics.FillEllipse(brush, r);
+                        e.Graphics.DrawEllipse(Pens.Black, r);
                     }
                     if (r.Contains(_mouseX, _mouseY))
                     {
                         Rectangle larger = r;
                         larger.Inflate(3, 3);
-                        e.Graphics.DrawRectangle(new Pen(Brushes.Blue, 3), larger);
+                        e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), larger);
                     }
                 }
             }
