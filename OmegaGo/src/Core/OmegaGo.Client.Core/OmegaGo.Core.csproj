@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Agents\AgentBase.cs" />
     <Compile Include="Agents\AIAgent.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IllegalMoveHandling.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="GameTree.cs" />
     <Compile Include="GameTreeNode.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="Online\Igs\Structures\GameHeading.cs" />
     <Compile Include="Online\Igs\IgsCode.cs" />
     <Compile Include="Online\Igs\IgsConnection.cs" />
     <Compile Include="Online\Igs\IgsConnection_Commands.cs" />

@@ -14,10 +14,32 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
+        /*
+         * 
+         * 
+         *  Creator:
+         *  
+            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+            9 Handicap and komi are disable.
+            9 Match [10] with OmegaGo1 in 75 accepted.
+            9 Please use say to talk to your opponent -- help say.
+            1 6
+
+         * 
+         *  Acceptor:
+    
+            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+            9 Handicap and komi are disable.
+            9 Creating match [10] with Soothie.
+            9 Please use say to talk to your opponent -- help say.
+            1 6
+            */
+
         private async Task HandleIncomingData(StreamReader sr)
         {
             bool thisRequestIsObservationStart = false;
             bool weAreHandlingAnInterruptMessage = false;
+            List<IgsLine> currentLineBatch = new List<IgsLine>();
             while (true)
             {
                 string line = await sr.ReadLineAsync();
@@ -73,15 +95,22 @@ namespace OmegaGo.Core.Online.Igs
 
                 }
 
+                currentLineBatch.Add(igsLine);
+
                 if (weAreHandlingAnInterruptMessage && code == IgsCode.Prompt)
                 {
+
                     // Interrupt message is over, let's wait for a new message
                     weAreHandlingAnInterruptMessage = false;
+                    HandleFullInterrupt(currentLineBatch);
+                    thisRequestIsObservationStart = false;
+                    currentLineBatch = new List<IgsLine>();
                     continue;
                 }
                 if (code == IgsCode.Prompt)
                 {
                     thisRequestIsObservationStart = false;
+                    currentLineBatch = new List<IgsLine>();
                 }
                 if (code == IgsCode.Beep)
                 {
@@ -159,5 +188,36 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
+        private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
+        {
+            /* Acceptor:    
+            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+            9 Handicap and komi are disable.
+            9 Creating match [10] with Soothie.
+            9 Please use say to talk to your opponent -- help say.
+            1 6
+            */
+            if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
+            {
+                // Make it not be an interrupt.
+                foreach (IgsLine line in currentLineBatch)
+                {
+                    lock (_mutex)
+                    {
+                        if (_requestInProgress != null)
+                        {
+                            _requestInProgress.IncomingLines.Post(line);
+                        }
+                        else
+                        {
+                            if (_composure == IgsComposure.Ok)
+                            {
+                                OnUnhandledLine(line.EntireLine);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Developer\Internationalization.md" />
+    <None Include="Developer\OnlineAccessCredential.md" />
     <None Include="Developer\README.md" />
     <None Include="README.md" />
   </ItemGroup>

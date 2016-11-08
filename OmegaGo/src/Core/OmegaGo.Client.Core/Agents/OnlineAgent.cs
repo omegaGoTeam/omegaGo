@@ -10,9 +10,6 @@ namespace OmegaGo.Core.Agents
     public class OnlineAgent : IAgent
     {
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
-
-        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
-
         public void ForceHistoricMove(int moveIndex, Move move)
         {
             // Ok.
@@ -21,6 +18,9 @@ namespace OmegaGo.Core.Agents
             else
                 this._storedMoves.Add(moveIndex, move);
         }
+        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
+
+    
 
         public async Task<AgentDecision> RequestMove(Game game)
         {

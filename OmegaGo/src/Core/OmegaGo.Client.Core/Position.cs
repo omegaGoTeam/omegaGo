@@ -121,7 +121,7 @@ namespace OmegaGo.Core
         }
 
         /// <summary>
-        /// Returns the position int the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
+        /// Returns the position in the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
         /// </summary>
         public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
 
@@ -135,6 +135,11 @@ namespace OmegaGo.Core
             this._x = x;
             this._y = y;
         }
+
+        /// <summary>
+        /// Returns the position as IGS-style coordinates, e.g. "J4" or "C11".
+        /// </summary>
+        public string ToIgsCoordinates() => IntToIgsChar(X).ToString() + (Y + 1);
     }
 
 

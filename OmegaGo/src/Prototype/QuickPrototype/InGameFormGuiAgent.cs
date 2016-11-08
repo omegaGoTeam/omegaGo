@@ -10,7 +10,7 @@ using OmegaGo.Core.AI;
 
 namespace QuickPrototype
 {
-    class InGameFormGuiAgent : IAgent
+    class InGameFormGuiAgent : AgentBase, IAgent
     {
         private readonly InGameForm inGameForm;
         public BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
@@ -23,6 +23,11 @@ namespace QuickPrototype
 
         public async Task<AgentDecision> RequestMove(Game game)
         {
+            AgentDecision storedDecision = GetStoredDecision(game);
+            if (storedDecision != null)
+            {
+                return storedDecision;
+            }
             this.inGameForm.groupboxMoveMaker.Visible = true;
             AgentDecision decision = await DecisionsToMake.ReceiveAsync();
             this.inGameForm.groupboxMoveMaker.Visible = false;
@@ -30,9 +35,6 @@ namespace QuickPrototype
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
-        public void ForceHistoricMove(int moveIndex, Move move)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

@@ -101,7 +101,7 @@ namespace QuickPrototype
                             }
                         }
                     }
-                    if (_playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+                    if (!willWeAcceptTheMove && _playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
                     {
                         SystemLog("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
                         willWeAcceptTheMove = true;
@@ -159,6 +159,10 @@ namespace QuickPrototype
                     {
                         SystemLog("Adding " + decision.Move + " to primary timeline.");
                         _game.GameTree.AddMoveToEnd(decision.Move);
+                        if (_igs != null && !(_playerToMove.Agent is OnlineAgent))
+                        {
+                            _igs.MakeMove(_game, decision.Move);
+                        }
                         // TODO capture stones
                     }
                     else if (decision.Move.Kind == MoveKind.Pass)
@@ -169,6 +173,7 @@ namespace QuickPrototype
                     {
                         throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                     }
+                    // THE MOVE STANDS
                     _game.NumberOfMovesPlayed++;
                     RefreshBoard();
                     _playerToMove = _game.OpponentOf(_playerToMove);

@@ -34,6 +34,15 @@ When you connect, the server will print a welcome message and the prompt "Login:
 
 Once in the main command loop, the server may send you lines of text at any moment and you may send commands to the server at any moment as well. There are few timing guarantees.
 
+### Only one connection at a time
+When you login with an account that is already logged in to IGS, the older connection will be immediately terminated.
+
+The new connection will receive the message
+```
+9 Throwing other copy out.
+```
+immediately preceding the message-of-the-day greetings file.
+
 ### Client mode
 
 Each user account is associated with the state of several *toggles*, the most important of which is the client mode. If you're in client mode, the lines server sends to you will be a little different. Most importantly, they will be prefix with a "code". For example, the code "1" means "prompt" and the code "5" means "error".
@@ -202,6 +211,32 @@ Usage:  match <opponentname> [color] [board size] [time] [byoyomi minutes]
     2)  While playing a game, type:   toggle open
 ```
 
+Initiating a match will output something like this to the requester:
+```
+9 Requesting match in 75 min with OmegaGo2 as White.
+```
+and something like this to the target:
+```
+9 Match[19x19] in 75 minutes requested with Soothie as Black.
+9 Use <match Soothie W 19 75 0> or <decline Soothie> to respond.
+2 \7
+```
+A match request may fail, for several reasons, for example:
+```
+> match gagh
+5 gagh is not logged on.
+```
+or
+```
+> match OmegaGo2
+5 That player is currently not accepting matches.
+```
+These responses will always contain an error message with the reply code 5.
+
+TODO mismatch of requests
+TODO color choice by opponent?
+
+
 ### `nmatch`
 `nmatch` is an undocumented command that requests or accepts a game.
 ```
@@ -259,6 +294,7 @@ In client mode, all lines sent by the server, except for when the server is send
 This list may miss some reply codes: a full list is in OmegaGo's `IgsCode.cs` file. 
 
 * 1 - Prompt
+* 2 - Console Bell - this line contains the ASCII character BEL
 * 5 - Error Message
 * 7 - Game Listing
 * 8 - Help File Begins or Ends

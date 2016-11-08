@@ -53,7 +53,7 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<Game> _gamesInProgressOnIgs;
+        private List<Game> _gamesInProgressOnIgs = new List<Game>();
         private readonly List<Game> _gamesBeingObserved = new List<Game>();
         // Internal synchronization management
         private Game _incomingMovesAreForThisGame;
@@ -301,6 +301,9 @@ namespace OmegaGo.Core.Online.Igs
                 _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex) + 1, move);
             }
         }
+
+     
+
         private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
@@ -353,6 +356,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             _requestInProgress = dequeuedItem;
                         }
+                        OnOutgoingLine(dequeuedItem.Command);
                         _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {
@@ -397,6 +401,14 @@ namespace OmegaGo.Core.Online.Igs
         private void OnBeep()
         {
             Beep?.Invoke();
+        }
+        /// <summary>
+        /// Occurs whenever this client sends a line of text to the IGS SERVER.
+        /// </summary>
+        public event Action<String> OutgoingLine;
+        private void OnOutgoingLine(string line)
+        {
+            OutgoingLine?.Invoke(line);
         }
         /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no

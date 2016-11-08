@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Agents
 {
-    public class AIAgent : IAgent
+    public class AIAgent : AgentBase, IAgent
     {
         /// <summary>
         /// The AI program that feeds moves to this agent.
@@ -25,6 +25,9 @@ namespace OmegaGo.Core.Agents
 
         public async Task<AgentDecision> RequestMove(Game game)
         {
+            AgentDecision storedDecision = GetStoredDecision(game);
+            if (storedDecision != null) return storedDecision;
+
             Color[,] createdBoard = new Color[game.SquareBoardSize, game.SquareBoardSize];
             foreach (Move move in game.PrimaryTimeline)
             {
@@ -46,9 +49,6 @@ namespace OmegaGo.Core.Agents
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
-        public void ForceHistoricMove(int moveIndex, Move move)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }

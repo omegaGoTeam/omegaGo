@@ -150,10 +150,41 @@ namespace OmegaGo.Core.Online.Igs
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
+        public async Task<Game> AcceptMatchRequest(IgsMatchRequest matchRequest)
+        { 
+            /*  
+            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+            9 Handicap and komi are disable.
+            9 Creating match [10] with Soothie.
+            9 Please use say to talk to your opponent -- help say.
+            1 6
+            */
+            List<IgsLine> lines = await MakeRequest(matchRequest.AcceptCommand);
+            if (lines.Any(line => line.Code == IgsCode.Error)) return null;
+            GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
+            Game game = new Core.Game()
+            {
+                BoardSize = new Core.GameBoardSize(19), // TODO
+                Server = this,
+                ServerId = heading.GameNumber,
+                Ruleset = new Rules.JapaneseRuleset()
+            };
+            game.Players.Add(new Core.Player(heading.BlackName, "?"));
+            game.Players.Add(new Core.Player(heading.WhiteName, "?"));
+            this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
+            this._gamesInProgressOnIgs.Add(game);
+            return game;
+        }
         public void DEBUG_MakeUnattendedRequest(string command)
         {
             MakeUnattendedRequest(command);
+        }
+
+        public void MakeMove(Game game, Move move)
+        {
+            MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+            // TODO many different things to handle here
         }
     }
 }

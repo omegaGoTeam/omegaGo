@@ -308,6 +308,7 @@
             this.bAcceptRequest.TabIndex = 1;
             this.bAcceptRequest.Text = "Accept";
             this.bAcceptRequest.UseVisualStyleBackColor = false;
+            this.bAcceptRequest.Click += new System.EventHandler(this.bAcceptRequest_Click);
             // 
             // lbMatchRequests
             // 
