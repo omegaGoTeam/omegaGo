@@ -12,6 +12,15 @@ namespace OmegaGo.Core
     /// </summary>
     public sealed class GameTreeNode
     {
+        public GameTreeNode(Move move, GameTreeNode child)
+        {
+            this.Move = move;
+            if (child != null)
+            {
+                this.Branches.Add(child);
+            }
+        }
+
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
@@ -40,7 +49,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Gets or sets the parent node of this node, i.e. the move before this one.
         /// </summary>
-        GameTreeNode Parent { get; set; }
+        public GameTreeNode Parent { get; set; }
 
         /*
          *  When there is more than one recorded move after a move, 
@@ -91,6 +100,29 @@ namespace OmegaGo.Core
                     case 1: return Branches[0];
                     default: throw new InvalidOperationException("This is a branching node. Therefore, there is no single 'next' move.");
                 }
+            }
+        }
+
+        public IEnumerable<GameTreeNode> TimelineView
+        {
+            get
+            {
+                yield return this;
+                GameTreeNode node = this.NextMove;
+                while (node != null)
+                {
+                    yield return node;
+                    node = node.NextMove;
+                }
+            }
+        }
+
+        public void UpdateParents()
+        {
+            foreach(var child in Branches)
+            {
+                child.Parent = this;
+                child.UpdateParents();
             }
         }
     }

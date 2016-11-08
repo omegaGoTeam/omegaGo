@@ -153,7 +153,7 @@ namespace QuickPrototype
                     if (decision.Move.Kind == MoveKind.PlaceStone)
                     {
                         SystemLog("Adding " + decision.Move + " to primary timeline.");
-                        _game.PrimaryTimeline.Add(decision.Move);
+                        _game.GameTree.AddMoveToEnd(decision.Move);
                         // TODO capture stones
                     }
                     else if (decision.Move.Kind == MoveKind.Pass)
@@ -353,11 +353,12 @@ namespace QuickPrototype
         private async void button3_Click(object sender, EventArgs e)
         {
             // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
-            var timeline = _game.PrimaryTimeline;
-            _game.PrimaryTimeline = new List<OmegaGo.Core.Move>();
-            foreach(Move move in timeline)
+            // This is totally not good, but if it works for display now....
+            var timeline = _game.GameTree.GameTreeRoot;
+            _game.GameTree.GameTreeRoot = null;
+            foreach(GameTreeNode move in timeline.TimelineView)
             {
-                _game.PrimaryTimeline.Add(move);
+                _game.GameTree.AddMoveToEnd(move.Move);
                 RefreshBoard();
                 await Task.Delay(25);
             }

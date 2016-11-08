@@ -79,7 +79,22 @@ namespace OmegaGo.Core
             GameTree = new GameTree();
         }
 
-        public List<Move> PrimaryTimeline = new List<Move>();
+        /// <summary>
+        /// Gets the moves made during this game, starting with the first, ending with the last move made. If this game's game tree
+        /// is branching, then an exception triggers.
+        /// </summary>
+        public IEnumerable<Move> PrimaryTimeline
+        {
+            get
+            {
+                GameTreeNode node = this.GameTree.GameTreeRoot;
+                while (node != null)
+                {
+                    yield return node.Move;
+                    node = node.NextMove;
+                }
+            }
+        }
 
         /// <summary>
         /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 

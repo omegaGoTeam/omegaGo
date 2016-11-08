@@ -82,6 +82,25 @@ namespace OmegaGo.Core
 
 
 
-        public GameTreeNode GameTreeRoot { get; set; }        
+        public GameTreeNode GameTreeRoot { get; set; }
+
+        public void AddMoveToEnd(Move move)
+        {
+            if (GameTreeRoot == null)
+            {
+                GameTreeRoot = new Core.GameTreeNode(move, null);
+                return;
+            }
+            GameTreeNode parent = GameTreeRoot;
+            GameTreeNode child = parent.NextMove;
+            while (child != null)
+            {
+                parent = child;
+                child = parent.NextMove;
+            }
+            GameTreeNode newNode = new Core.GameTreeNode(move, null);
+            parent.Branches.Add(newNode);
+            newNode.Parent = parent;
+        }
     }
 }

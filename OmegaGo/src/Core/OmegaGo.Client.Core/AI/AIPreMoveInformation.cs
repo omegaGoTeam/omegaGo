@@ -34,7 +34,7 @@ namespace OmegaGo.Core.AI
         /// Level of strength the AI should demonstrate. Levels go from 1 (lowest) to 10 (highest).
         /// </summary>
         public int Difficulty { get; }
-        public List<Move> History { get; }
+        public IEnumerable<Move> History { get; }
 
         /// <summary>
         /// Creates a new structure that gives the AI information it needs to make a move.
@@ -44,7 +44,8 @@ namespace OmegaGo.Core.AI
         /// <param name="boardSize">Size of the board in intersections. This will usually be "9", "13" or "19".</param>
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
-        public AIPreMoveInformation(Color aiColor, Color[,] board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty, List<Move> history)
+        /// <param name="history">What moves were played previously in the game, starting with the first.</param>
+        public AIPreMoveInformation(Color aiColor, Color[,] board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
         {
             Difficulty = difficulty;
             AIColor = aiColor;
