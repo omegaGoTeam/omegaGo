@@ -130,6 +130,7 @@
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
+    <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
