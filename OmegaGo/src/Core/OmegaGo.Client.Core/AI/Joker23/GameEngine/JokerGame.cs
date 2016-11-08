@@ -102,7 +102,7 @@ namespace OmegaGo.Core.AI.Joker23 {
 
         private bool makeCaptures(JokerPlayer capturingPlayer, JokerPlayer gettingCapturedPlayer) {
 
-            LinkedList<JokerPoint> toRemove = Rules.findCaptured(capturingPlayer.getColor(), gettingCapturedPlayer.getColor(), board, height, width);
+            LinkedList<JokerPoint> toRemove = Rules.findCaptured(capturingPlayer.getColor(), gettingCapturedPlayer.getColor(), board, height);
 
             if (toRemove.isEmpty()) {
                 return false;

@@ -48,8 +48,8 @@ public class AlphaBetaPlayer : JokerPlayer {
 
         private int alphabeta(int depth, int alpha, int beta, char turn) {
             // Takes 95% CPU
-            int me = Rules.findCaptured(getColor(), getOpponentColor(), boardCopy, boardCopy.GetLength(0), boardCopy.GetLength(0)).Count;
-            int oppo = Rules.findCaptured(getOpponentColor(), getColor(), boardCopy, boardCopy.GetLength(0), boardCopy.GetLength(0)).Count;
+            int me = Rules.findCaptured(getColor(), getOpponentColor(), boardCopy, boardCopy.GetLength(0)).Count;
+            int oppo = Rules.findCaptured(getOpponentColor(), getColor(), boardCopy, boardCopy.GetLength(0)).Count;
 
             if (oppo > 0 && me > 0) {
             if(turn == getColor()) {

@@ -311,7 +311,7 @@
             this.tabControl1.Location = new System.Drawing.Point(699, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(322, 284);
+            this.tabControl1.Size = new System.Drawing.Size(322, 216);
             this.tabControl1.TabIndex = 20;
             // 
             // tabPage1
@@ -322,7 +322,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(314, 258);
+            this.tabPage1.Size = new System.Drawing.Size(314, 190);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Player Chat";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -384,14 +384,14 @@
             // lbPlayerChat
             // 
             this.lbPlayerChat.FormattingEnabled = true;
-            this.lbPlayerChat.Location = new System.Drawing.Point(4, 4);
+            this.lbPlayerChat.Location = new System.Drawing.Point(4, 11);
             this.lbPlayerChat.Name = "lbPlayerChat";
-            this.lbPlayerChat.Size = new System.Drawing.Size(304, 225);
+            this.lbPlayerChat.Size = new System.Drawing.Size(304, 147);
             this.lbPlayerChat.TabIndex = 0;
             // 
             // tbSayWhat
             // 
-            this.tbSayWhat.Location = new System.Drawing.Point(3, 232);
+            this.tbSayWhat.Location = new System.Drawing.Point(3, 164);
             this.tbSayWhat.Name = "tbSayWhat";
             this.tbSayWhat.Size = new System.Drawing.Size(248, 20);
             this.tbSayWhat.TabIndex = 1;
@@ -400,7 +400,7 @@
             // bSay
             // 
             this.bSay.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.bSay.Location = new System.Drawing.Point(257, 232);
+            this.bSay.Location = new System.Drawing.Point(257, 164);
             this.bSay.Name = "bSay";
             this.bSay.Size = new System.Drawing.Size(51, 20);
             this.bSay.TabIndex = 2;

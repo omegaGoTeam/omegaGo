@@ -13,7 +13,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         private static bool[,] vis;
         private static char[,] board;
-        private static int boardWidth;
+        private static int boardWidth = -1;
         private static int[] dr = { 1, -1, 0, 0 };
         private static int[] dc = { 0, 0, -1, 1 };
 
@@ -22,8 +22,21 @@ namespace OmegaGo.Core.AI.Joker23
             // Takes 15% CPU
             board = input;
             int width = board.GetLength(0);
+            if (width != boardWidth)
+            {
+                vis = new bool[width, width];
+            }
+            else
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y< width;y++)
+                    {
+                        vis[x, y] = false;
+                    }
+                }
+            }
             boardWidth = width;
-            vis = new bool[width, width];
 
             int ret = 0;
             for (int i = 0; i < width; i++)
