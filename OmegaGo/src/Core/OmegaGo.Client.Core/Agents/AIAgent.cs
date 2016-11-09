@@ -7,17 +7,27 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Agents
 {
-    public class AIAgent : IAgent
+    public class AIAgent : AgentBase, IAgent
     {
-        IAIProgram aiProgram;
+        /// <summary>
+        /// The AI program that feeds moves to this agent.
+        /// </summary>
+        IAIProgram _aiProgram;
+        /// <summary>
+        /// The strength (1-10) that this AI program should play at.
+        /// </summary>
+        public int Strength = 5;
 
         public AIAgent(IAIProgram aiProgram)
         {
-            this.aiProgram = aiProgram;
+            this._aiProgram = aiProgram;
         }
 
-        public Task<AgentDecision> RequestMove(Game game)
+        public async Task<AgentDecision> RequestMove(Game game)
         {
+            AgentDecision storedDecision = GetStoredDecision(game);
+            if (storedDecision != null) return storedDecision;
+
             Color[,] createdBoard = new Color[game.SquareBoardSize, game.SquareBoardSize];
             foreach (Move move in game.PrimaryTimeline)
             {
@@ -27,16 +37,18 @@ namespace OmegaGo.Core.Agents
                 }
             }
 
-            return aiProgram.RequestMove(new AIPreMoveInformation(
+            var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
                 game.Players[0].Agent == this ? Color.Black : Color.White,
                 createdBoard,
                 game.BoardSize,
-                new TimeSpan(0,0,2),
-                10,
-                game.PrimaryTimeline
-                ));
+                new TimeSpan(0, 0, 2),
+                Strength,
+                game.PrimaryTimeline.ToList()
+                )));
+            return await aiTask;
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
+     
     }
 }

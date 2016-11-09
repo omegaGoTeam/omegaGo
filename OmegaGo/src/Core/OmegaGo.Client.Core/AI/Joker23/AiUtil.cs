@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Extensions;
+// ReSharper disable All
 
 namespace OmegaGo.Core.AI.Joker23
 {
@@ -12,16 +13,30 @@ namespace OmegaGo.Core.AI.Joker23
 
         private static bool[,] vis;
         private static char[,] board;
-        private static int boardWidth;
+        private static int boardWidth = -1;
         private static int[] dr = { 1, -1, 0, 0 };
         private static int[] dc = { 0, 0, -1, 1 };
 
         public static int getLiberties(char color, char[,] input)
         {
+            // Takes 15% CPU
             board = input;
             int width = board.GetLength(0);
+            if (width != boardWidth)
+            {
+                vis = new bool[width, width];
+            }
+            else
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y< width;y++)
+                    {
+                        vis[x, y] = false;
+                    }
+                }
+            }
             boardWidth = width;
-            vis = new bool[width, width];
 
             int ret = 0;
             for (int i = 0; i < width; i++)
@@ -39,6 +54,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         private static int countAround(int r, int c)
         {
+            // Takes 8% CPU.
             int ret = 0;
             for (int i = 0; i < dr.Length; i++)
             {
@@ -59,40 +75,42 @@ namespace OmegaGo.Core.AI.Joker23
             return ret;
         }
 
-        
-    public static List<JokerPoint> getNextMoves(char[,] input, int horizontalPruning) {
-        int n = input.GetLength(0);
 
-        List<InnerMove> pq = new List<InnerMove>();
+        public static IEnumerable<JokerPoint> getNextMoves(char[,] input, int horizontalPruning)
+        {
+            // Takes 10% CPU
+            int n = input.GetLength(0);
 
-        for(int i=0; i<n; i++) {
-            for(int j=0; j<n; j++) {
-                if(input[i,j] == '*'){
-                    pq.Add(new InnerMove(new JokerPoint(i, j), countAroundBlank(input, i, j)));
+            List<InnerMove> pq = new List<InnerMove>(90); // greater initial capacity
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (input[i, j] == '*')
+                    {
+                        pq.Add(new InnerMove(new JokerPoint(i, j), countAroundBlank(input, i, j)));
+                    }
                 }
             }
-        }
 
             pq.Shuffle();
             pq.Sort();
 
-        List<JokerPoint> ret = new List<JokerPoint>();
+            List<JokerPoint> ret = new List<JokerPoint>();
 
-            while (!pq.isEmpty() && pq[0].influence > 0)
+            int upTo = 0;
+            while (upTo < pq.Count && pq[upTo].influence > 0)
             {
-                ret.Add(pq[0].move);
-                pq.RemoveAt(0);// TODO improve perfomance
+                upTo++;
             }
-
-            while (!pq.isEmpty() && horizontalPruning-- > 0)
+            while (upTo < pq.Count && horizontalPruning-- > 0)
             {
-                ret.Add(pq[0].move);
-                pq.RemoveAt(0);// TODO improve perfomance
+                upTo++;
             }
+            return pq.Take(upTo).Select(move => move.move);
+        }
 
-        return ret;
-    }
-    
         private static int countAroundBlank(char[,] input, int r, int c)
         {
             int ret = 0;
@@ -136,7 +154,7 @@ namespace OmegaGo.Core.AI.Joker23
         return ret;
     }
     */
-        private class InnerMove : IComparable<InnerMove>
+        private struct InnerMove : IComparable<InnerMove>
         {
             public JokerPoint move;
             public int influence;

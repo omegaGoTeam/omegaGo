@@ -34,6 +34,15 @@ When you connect, the server will print a welcome message and the prompt "Login:
 
 Once in the main command loop, the server may send you lines of text at any moment and you may send commands to the server at any moment as well. There are few timing guarantees.
 
+### Only one connection at a time
+When you login with an account that is already logged in to IGS, the older connection will be immediately terminated.
+
+The new connection will receive the message
+```
+9 Throwing other copy out.
+```
+immediately preceding the message-of-the-day greetings file.
+
 ### Client mode
 
 Each user account is associated with the state of several *toggles*, the most important of which is the client mode. If you're in client mode, the lines server sends to you will be a little different. Most importantly, they will be prefix with a "code". For example, the code "1" means "prompt" and the code "5" means "error".
@@ -120,8 +129,10 @@ So, for example, the first command you'll want to send after you log in is usual
 
 Not all toggles are described in this help file. Most notably, the `newundo` and `nmatch` toggles are missing. Here's some explanation on them:
 
-* TODO nmatch
-* TODO newundo
+Undocumented toggles:
+* `nmatch`: Whether the client supports the `nmatch` command
+* `newundo`: Whether the client supports the `undoplease` command
+* `beep`: This is a synonym of `bell`.
 ### login
 ```
 Usage:  login
@@ -167,16 +178,132 @@ Usage: games [game number]
    are (I) for IGS Go games, (C) for chinese chess, (G) GOE Go games,
    (P) GOE Pro Go game <pmatch game>, and (S) for shogi
 ```
- 
+This is what a single game line will look like:
+```
+7 [ 4]       wari5 [ 6k*] vs.   Spinserve [ 6k*] (  0   19  0  0.5 10  I) (  0)
+```
+
+### `match`
+Requests a match with a player or accepts match. The official client now uses `nmatch` instead which is more powerful and allows easier setting of handicaps and different timing systems. 
+
+A client that doesn't support `nmatch` can request a game with an nmatch-capable client using the `match` command. However, the official GoPanda2 client only initiates game via `nmatch` and cannot initiate games against non-nmatch-capable clients, it seems.
+
+```
+Usage:  match <opponentname> [color] [board size] [time] [byoyomi minutes]
+    'match' is for starting a game with an opponent. You can offer or decline
+  a match request. Start a game with 'match', followed by the opponent's name,
+  color you wish ( W or B ), board size, time (measured in minutes) for each
+  player, and byoyomi minutes per player.  Example:   match ivy W 19 15 10
+  If no boundaries are given, the default settings are:  board size = 19
+  color = B, time = 90 minutes per player, byoyomi = 10 minutes per player.
+      Example:   match ivy   (This is the same as:  match ivy B 19 90 10)
+      Note:  match ivy B 19 0 0    would mean there are no time limits.
+  The first move by B (Black) can be:  handicap #    (#) is the number of
+  the handicap stones.  To place moves on the board, see:   help coords
+   a) A game can be 'adjourned' if both players enter:   adjourn
+   b) An 'adjourned' can be restarted with the 'load' command. See: help load
+** MUST READ **   To 'score' or end a game, see:   help score
+   ^^^^^^^^^
+    IGS supports multiple games. You can play more than one game, but if
+  you want to play only one game and not accept additional 'match' requests,
+  there are 2 options.   (See:   help toggle)
+    1)  While playing a game, type:   toggle singlegame  (toggles off or on)
+    2)  While playing a game, type:   toggle open
+```
+
+Initiating a match will output something like this to the requester:
+```
+9 Requesting match in 75 min with OmegaGo2 as White.
+```
+and something like this to the target:
+```
+9 Match[19x19] in 75 minutes requested with Soothie as Black.
+9 Use <match Soothie W 19 75 0> or <decline Soothie> to respond.
+2 \7
+```
+A match request may fail, for several reasons, for example:
+```
+> match gagh
+5 gagh is not logged on.
+```
+or
+```
+> match OmegaGo2
+5 That player is currently not accepting matches.
+```
+These responses will always contain an error message with the reply code 5.
+
+TODO mismatch of requests
+TODO color choice by opponent?
+
+
+### `nmatch`
+`nmatch` is an undocumented command that requests or accepts a game.
+```
+5 Usage :
+5 nmatch <oppname> <color(BWN)> <handicap> <boardsize(2-19)> <time(sec)> <byotime(sec)>
+5 <byomoves(0-25)> <koryocount> <koryosec(sec)> <prebyoyomi(sec)>
+```
+
+TODO
+
+### `observe`
+Starts or ends the observation of a game. You may observe multiple games at a time.
+
+```
+Usage:  observe <game number>
+   The 'observe' command is used to observe a game, or games, in progress.
+   To see a games listing, enter:   games
+   Then choose a game you wish to observe, then enter:  observe <game number>
+        Example:  observe 56
+
+   After you start observing a game, you will be listed in the 'who' list
+   with a number next to your name under 'Info', as observing game <number>.
+
+   To stop observing a game, enter the same command again:
+        observe <game number you were observing>
+        Example:  If you were observing game 56, and wanted to stop
+                  observing game 56, enter:   observe 56
+        Or, you can use:  unobserve
+
+ Some clients have "time control" to compensate for "net lag". These clients
+ are able to time a players move starting from when a move is made, not when
+ the signal reaches IGS. In such cases the time, or clock, appears to jump
+ backward as each correction is made. Some people misinterpret the time
+ correction as cheating.
+```
+### `addtime`
+```
+Usage: addtime <time to be added>
+
+     'addtime' is used by a player to add extra time to an opponent's clock.
+     Added time is measured in minutes.
+
+        Examples:   addtime 1  (adds 1 minute)
+                    addtime 60 (adds 1 hour)
+
+     When an player adds extra time to his opponent's time, 'addtime' will
+     also enter a 'kibitz' in the game record (sgf) saying how much time
+     was added to which player.
+```
+TODO what if you're playing multiple games??
+
 ## List of reply codes
 In client mode, all lines sent by the server, except for when the server is sending a file, will begin with a code followed by a single space. This is the list of codes used by IGS.
 
+This list may miss some reply codes: a full list is in OmegaGo's `IgsCode.cs` file. 
+
 * 1 - Prompt
+* 2 - Console Bell - this line contains the ASCII character BEL
 * 5 - Error Message
+* 7 - Game Listing
 * 8 - Help File Begins or Ends
-   * IGS may send one or more files in response to a command, usually in response to the `help` command. These files are different in that they are copied verbatim, as ASCII text, and the lines of these files do not begin with an IGS reply code. However, at the beginning and end of each sent file, there will be the line `8 File`.
-   * Sometimes, the server also sends files otherwise, especially as the message of the day introduction, with the `9 File` beginning and ending line.
 * 9 - General Informational Message
+* 14 - Message Listing
+
+IGS may send one or more **files** in response to a command, usually in response to the `help` command. These files are different in that they are copied verbatim, as ASCII text, and the lines of these files do not begin with an IGS reply code. 
+
+However, at the beginning and end of each sent file, there will be a line that contains a reply code (such as `8`, `9` or `14`) immediately followed by `File`, e.g. `14 File`.
 
 ## Additional sources
 

@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
@@ -52,7 +53,7 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<Game> _gamesInProgressOnIgs;
+        private List<Game> _gamesInProgressOnIgs = new List<Game>();
         private readonly List<Game> _gamesBeingObserved = new List<Game>();
         // Internal synchronization management
         private Game _incomingMovesAreForThisGame;
@@ -61,6 +62,7 @@ namespace OmegaGo.Core.Online.Igs
         private IgsRequest _requestInProgress;
         private readonly object _mutex = new object();
         private IgsComposure _composureBackingField = IgsComposure.Disconnected;
+        public List<IgsMatchRequest> IncomingMatchRequests = new List<IgsMatchRequest>();
         private IgsComposure _composure
         {
             get { return _composureBackingField; }
@@ -152,6 +154,7 @@ namespace OmegaGo.Core.Online.Igs
                 OnLogEvent("LOGIN ERROR: " + _loginError);
                 return false;
             }
+            await MakeRequest("toggle quiet true");
             return true;
         }
 
@@ -257,6 +260,8 @@ namespace OmegaGo.Core.Online.Igs
         }
        private void HandleIncomingMove(IgsLine igsLine)
         {
+           
+
             string trim = igsLine.PureLine.Trim();
             if (trim.StartsWith("Game "))
             {
@@ -274,6 +279,11 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 _incomingMovesAreForThisGame = whatGame;
             }
+            else if (trim.Contains("Handicap"))
+            {
+                //  15   0(B): Handicap 3
+                // Ignore.
+            }
             else
             {
                 Match match = regexMove.Match(trim);
@@ -288,9 +298,12 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                _incomingMovesAreForThisGame.ForceMoveInHistory(int.Parse(moveIndex) + 1, move);
+                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex) + 1, move);
             }
         }
+
+     
+
         private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
@@ -343,6 +356,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             _requestInProgress = dequeuedItem;
                         }
+                        OnOutgoingLine(dequeuedItem.Command);
                         _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {
@@ -389,6 +403,14 @@ namespace OmegaGo.Core.Online.Igs
             Beep?.Invoke();
         }
         /// <summary>
+        /// Occurs whenever this client sends a line of text to the IGS SERVER.
+        /// </summary>
+        public event Action<String> OutgoingLine;
+        private void OnOutgoingLine(string line)
+        {
+            OutgoingLine?.Invoke(line);
+        }
+        /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
         /// current request for which we're expecting a reply.
         /// </summary>
@@ -396,6 +418,14 @@ namespace OmegaGo.Core.Online.Igs
         private void OnUnhandledLine(string unhandledLine)
         {
             UnhandledLine?.Invoke(unhandledLine);
+        }
+        /// <summary>
+        /// Occurs when somebody requests to play a game of Go against us on the IGS server.
+        /// </summary>
+        public event Action<IgsMatchRequest> IncomingMatchRequest;
+        private void OnIncomingMatchRequest(IgsMatchRequest matchRequest)
+        {
+            IncomingMatchRequest?.Invoke(matchRequest);
         }
 
 
@@ -406,5 +436,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             MakeUnattendedRequest("moves " + game.ServerId);
         }
+
+       
     }
 }

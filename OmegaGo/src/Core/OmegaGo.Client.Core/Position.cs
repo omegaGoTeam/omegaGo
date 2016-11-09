@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core
 {
-    // TODO Keep struct or switch to class?
-    //   Petr: I suggest keeping struct. There is no reason as regards code clarity or simpleness to pick over the other, I think, and it's small immutable
-    //         data object. There are sometimes structs.
-    // TODO Petr: I suggest making this immutable.
-    //      Petr: My code now depends on Position being a struct.
-
     /// <summary>
     /// Represents a single intersection on a Go board.
     /// The position [1, 0], for example, represents the position B1 on the board.
@@ -127,7 +121,7 @@ namespace OmegaGo.Core
         }
 
         /// <summary>
-        /// Returns the position int the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
+        /// Returns the position in the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
         /// </summary>
         public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
 
@@ -141,6 +135,11 @@ namespace OmegaGo.Core
             this._x = x;
             this._y = y;
         }
+
+        /// <summary>
+        /// Returns the position as IGS-style coordinates, e.g. "J4" or "C11".
+        /// </summary>
+        public string ToIgsCoordinates() => IntToIgsChar(X).ToString() + (Y + 1);
     }
 
 

@@ -65,6 +65,9 @@
       <DependentUpon>InGameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InGameFormGuiAgent.cs" />
+    <Compile Include="InGameForm_LoopDecisionRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PrimaryForm.cs">
       <SubType>Form</SubType>
     </Compile>

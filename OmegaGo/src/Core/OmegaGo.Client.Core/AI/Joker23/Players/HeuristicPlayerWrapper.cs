@@ -7,7 +7,7 @@ namespace OmegaGo.Core.AI.Joker23
         public override string Name { get; } = "Joker23 Heuristic";
         private HeuristicPlayer internalPlayer;
 
-        public override Task<AgentDecision> RequestMove(AIPreMoveInformation gameState)
+        public override AgentDecision RequestMove(AIPreMoveInformation gameState)
         {
             internalPlayer = new Joker23.HeuristicPlayer(gameState.AIColor == Color.Black ? 'B' : 'W');
 
@@ -27,8 +27,8 @@ namespace OmegaGo.Core.AI.Joker23
             JokerPoint point = internalPlayer.betterPlanMove(currentGame);
             
 
-            return Task.FromResult(AgentDecision.MakeMove(Move.Create(gameState.AIColor, new Position(point.x, point.y)),
-                "I chose using heuristics."));
+            return AgentDecision.MakeMove(Move.Create(gameState.AIColor, new Position(point.x, point.y)),
+                "I chose using heuristics.");
         }
     }
 }

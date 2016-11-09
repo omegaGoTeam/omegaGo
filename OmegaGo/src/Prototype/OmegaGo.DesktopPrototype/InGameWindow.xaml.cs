@@ -47,7 +47,7 @@ namespace OmegaGo.DesktopPrototype
             char[,] positions = new char[19, 19];
             foreach (Move move in _game.PrimaryTimeline)
             {
-                if (!move.UnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
+                if (!move.IsUnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;

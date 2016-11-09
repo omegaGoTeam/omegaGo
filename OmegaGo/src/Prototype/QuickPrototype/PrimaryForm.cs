@@ -14,6 +14,7 @@ using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using Color = OmegaGo.Core.Color;
 
@@ -58,15 +59,21 @@ namespace QuickPrototype
             this.cbWhite.Items.Clear();
             this.cbWhite.Items.Add("Human");
             this.cbWhite.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhoPlaysOnline.Items.Clear();
+            this.cbWhoPlaysOnline.Items.Add("Human");
+            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhite.SelectedIndex = 0;
+            this.cbBlack.SelectedIndex = 0;
+            this.cbWhoPlaysOnline.SelectedIndex = 0;
 
             igs = new IgsConnection();
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.UnhandledLine += Igs_UnhandledLine;
+            igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
-            this.cbWhite.SelectedIndex = 0;
-            this.cbBlack.SelectedIndex = 0;
+            igs.OutgoingLine += Igs_OutgoingLine;
             if (!await igs.Connect())
             {
                 MessageBox.Show("Connection to IGS failed.");
@@ -76,6 +83,16 @@ namespace QuickPrototype
             {
                 MessageBox.Show("Login failed.");
             }
+        }
+
+        private void Igs_OutgoingLine(string obj)
+        {
+            this.tbConsole.AppendText("> " + obj);
+        }
+
+        private void Igs_IncomingMatchRequest(OmegaGo.Core.Online.Igs.Structures.IgsMatchRequest obj)
+        {
+            this.lbMatchRequests.Items.Add(obj);
         }
 
         private void Igs_UnhandledLine(string obj)
@@ -235,8 +252,58 @@ namespace QuickPrototype
             }
             else
             {
-                MessageBox.Show("Failed to request a match.", "Match not request", MessageBoxButtons.OK,
+                MessageBox.Show("Failed to request a match.", "Match not requested", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+        }
+
+        private async void bRejectRequest_Click(object sender, EventArgs e)
+        {
+            IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
+            if (selectedItem != null) {
+                if (await igs.DeclineMatchRequest(selectedItem))
+                {
+                    this.lbMatchRequests.Items.Remove(selectedItem);
+                }
+                else
+                {
+                    Fail("Match request cannot be declined.");
+                }
+            }
+        }
+
+        private void Fail(string v)
+        {
+            MessageBox.Show(v, "Error", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            igs.DEBUG_MakeUnattendedRequest(this.tbCommand.Text);
+        }
+
+        private async void bAcceptRequest_Click(object sender, EventArgs e)
+        {
+            IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
+            if (selectedItem != null)
+            {
+                Game game = await igs.AcceptMatchRequest(selectedItem);
+                if (game != null)
+                {
+                    this.lbMatchRequests.Items.Remove(selectedItem);
+                    game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
+                    Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
+                    Player networkPlayer = game.OpponentOf(localPlayer);
+                    InGameForm ingameForm = new InGameForm(game, igs);
+                    localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
+                    networkPlayer.Agent = new OnlineAgent();
+                    ingameForm.Show();
+                }
+                else
+                {
+                    Fail("Match request cannot be accepted.");
+                }
             }
         }
     }

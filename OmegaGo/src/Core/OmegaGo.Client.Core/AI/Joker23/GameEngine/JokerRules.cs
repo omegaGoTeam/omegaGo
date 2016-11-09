@@ -102,6 +102,7 @@ namespace OmegaGo.Core.AI.Joker23
         }
 
         private static bool[,] vis;
+        private static int previousVisSize = -1;
         private static int[] dx = { 1, -1, 0, 0 };
         private static int[] dy = { 0, 0, -1, 1 };
         private static char[,] board;
@@ -109,15 +110,28 @@ namespace OmegaGo.Core.AI.Joker23
         public static LinkedList<JokerPoint> findCaptured(char wall,
             char indanger,
             char[,] input,
-            int height,
-            int width)
+            int height)
         {
-            vis = new bool[height, width];
+            // Takes 62% CPU.
+            if (height != previousVisSize)
+            {
+                vis = new bool[height, height];
+                previousVisSize = height;
+            }
+            else
+            {
+                for (int x = 0; x < height; x++)
+                    for (int y= 0 ;y < height;y++)
+                    {
+                        vis[x, y] = false;
+                    }
+            }
+
             board = input;
 
             for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < height; j++)
                 {
                     if (board[i, j] == '*' && !vis[i, j])
                     {
@@ -129,7 +143,7 @@ namespace OmegaGo.Core.AI.Joker23
             LinkedList<JokerPoint> ret = new LinkedList<JokerPoint>();
             for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < height; j++)
                 {
                     if (board[i, j] == indanger && !vis[i, j])
                     {

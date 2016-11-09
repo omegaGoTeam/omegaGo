@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Agents;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Rules;
 
@@ -59,12 +60,10 @@ namespace OmegaGo.Core
                 BoardSize = new GameBoardSize(value);
             }
         }
-
         /// <summary>
         /// Gets or sets the ruleset that governs this game. In the future, this should never be null. For now, we're prototyping.
         /// </summary>
         public Ruleset Ruleset { get; set; }
-
         public int NumberOfHandicapStones;
         /// <summary>
         /// The komi value is the number of points added to White's score at the end of the game. We can afford to use float here, 
@@ -80,16 +79,53 @@ namespace OmegaGo.Core
             GameTree = new GameTree();
         }
 
-        public List<Move> PrimaryTimeline = new List<Move>();
-
-        public void ForceMoveInHistory(int moveIndex, Move move)
+        /// <summary>
+        /// Gets the moves made during this game, starting with the first, ending with the last move made. If this game's game tree
+        /// is branching, then an exception triggers.
+        /// </summary>
+        public IEnumerable<Move> PrimaryTimeline
         {
+            get
+            {
+                GameTreeNode node = this.GameTree.GameTreeRoot;
+                while (node != null)
+                {
+                    yield return node.Move;
+                    node = node.NextMove;
+                }
+            }
+        }
+
+        /// <summary>
+        /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 
+        /// appropriate time.
+        /// </summary>
+        /// <param name="moveIndex">1-based index of the move.</param>
+        /// <param name="move">The move.</param>
+        public void AcceptMoveFromInternet(int moveIndex, Move move)
+        {
+            Player player = GetPlayerByColor(move.WhoMoves);
+            IAgent agent = player.Agent;
+            agent.ForceHistoricMove(moveIndex, move);
+
+            /*
             while (PrimaryTimeline.Count <= moveIndex - 1)
             {
                 PrimaryTimeline.Add(Move.CreateUnknownMove());
             }
             PrimaryTimeline[moveIndex - 1] = move;
+            */
             OnBoardNeedsRefreshing();
+        }
+
+        private Player GetPlayerByColor(Color color)
+        {
+            switch (color)
+            {
+                case Color.Black: return Players[0];
+                case Color.White: return Players[1];
+                default: throw new ArgumentException("Only Black and White may play.", nameof(color));
+            }
         }
 
         public event Action BoardNeedsRefreshing;

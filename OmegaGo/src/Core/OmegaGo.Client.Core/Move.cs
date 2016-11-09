@@ -15,7 +15,10 @@ namespace OmegaGo.Core
         /// There are two kinds of moves - placing a stone; and passing.
         /// </summary>
         public MoveKind Kind;
-        public bool UnknownMove => Kind == MoveKind.Unknown;
+        /// <summary>
+        /// Gets a value indicating whether this move's kind is "unknown", i.e. it has not yet been loaded from a resource such as a server or a file.
+        /// </summary>
+        public bool IsUnknownMove => Kind == MoveKind.Unknown;
         /// <summary>
         /// Color of the player who made this move.
         /// </summary>

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using OmegaGo.Core.Agents;
+using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -57,10 +59,18 @@ namespace OmegaGo.Core.Online.Igs
                     Server = this,
                     Players = new List<Player>()
                 {
-                    new Player(match.Groups[4].Value, match.Groups[5].Value),
+                    new Player(match.Groups[4].Value, match.Groups[5].Value)
+                    {
+                        Agent = new OnlineAgent()
+                    },
                     new Player(match.Groups[2].Value, match.Groups[3].Value)
+                    {
+                        Agent = new OnlineAgent()
+                    }
                 },
-                    NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+                    // DO *NOT* DO this: the displayed number might be something different from what our client wants
+                    // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+                    // Do not uncomment the preceding line. I will fix it in time. I hope.
                     SquareBoardSize = match.Groups[7].Value.AsInteger(),
                     NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
                     KomiValue = match.Groups[9].Value.AsFloat(),
@@ -130,7 +140,51 @@ namespace OmegaGo.Core.Online.Igs
             var lines = await
                 MakeRequest("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
+            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
+        }
+
+        public async Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
+        {
+            List<IgsLine> lines = await MakeRequest(matchRequest.RejectCommand);
+            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
+            return !lines.Any(line => line.Code == IgsCode.Error);
+        }
+        public async Task<Game> AcceptMatchRequest(IgsMatchRequest matchRequest)
+        { 
+            /*  
+            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+            9 Handicap and komi are disable.
+            9 Creating match [10] with Soothie.
+            9 Please use say to talk to your opponent -- help say.
+            1 6
+            */
+            List<IgsLine> lines = await MakeRequest(matchRequest.AcceptCommand);
+            if (lines.Any(line => line.Code == IgsCode.Error)) return null;
+            GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
+
+            Game game = new Core.Game()
+            {
+                BoardSize = new Core.GameBoardSize(19), // TODO
+                Server = this,
+                ServerId = heading.GameNumber,
+                Ruleset = new Rules.JapaneseRuleset()
+            };
+            game.Players.Add(new Core.Player(heading.BlackName, "?"));
+            game.Players.Add(new Core.Player(heading.WhiteName, "?"));
+            this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
+            this._gamesInProgressOnIgs.Add(game);
+            return game;
+        }
+        public void DEBUG_MakeUnattendedRequest(string command)
+        {
+            MakeUnattendedRequest(command);
+        }
+
+        public void MakeMove(Game game, Move move)
+        {
+            MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+            // TODO many different things to handle here
         }
     }
 }

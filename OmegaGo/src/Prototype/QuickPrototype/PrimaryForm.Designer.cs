@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.bSortGames = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbWhoPlaysOnline = new System.Windows.Forms.ComboBox();
             this.bRejectRequest = new System.Windows.Forms.Button();
             this.bAcceptRequest = new System.Windows.Forms.Button();
             this.lbMatchRequests = new System.Windows.Forms.ListBox();
@@ -68,6 +69,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.button6 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,9 +137,9 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(727, 178);
+            this.button4.Location = new System.Drawing.Point(609, 178);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(116, 23);
+            this.button4.Size = new System.Drawing.Size(107, 23);
             this.button4.TabIndex = 6;
             this.button4.Text = "Send Command";
             this.button4.UseVisualStyleBackColor = true;
@@ -148,7 +150,7 @@
             this.tbCommand.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.tbCommand.Location = new System.Drawing.Point(350, 178);
             this.tbCommand.Name = "tbCommand";
-            this.tbCommand.Size = new System.Drawing.Size(371, 23);
+            this.tbCommand.Size = new System.Drawing.Size(253, 23);
             this.tbCommand.TabIndex = 7;
             this.tbCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommand_KeyDown);
             // 
@@ -261,6 +263,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbWhoPlaysOnline);
             this.groupBox2.Controls.Add(this.bRejectRequest);
             this.groupBox2.Controls.Add(this.bAcceptRequest);
             this.groupBox2.Controls.Add(this.lbMatchRequests);
@@ -271,32 +274,48 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Incoming match requests";
             // 
+            // cbWhoPlaysOnline
+            // 
+            this.cbWhoPlaysOnline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWhoPlaysOnline.FormattingEnabled = true;
+            this.cbWhoPlaysOnline.Items.AddRange(new object[] {
+            "Human",
+            "Defeatist",
+            "Random"});
+            this.cbWhoPlaysOnline.Location = new System.Drawing.Point(6, 126);
+            this.cbWhoPlaysOnline.Name = "cbWhoPlaysOnline";
+            this.cbWhoPlaysOnline.Size = new System.Drawing.Size(217, 21);
+            this.cbWhoPlaysOnline.TabIndex = 26;
+            // 
             // bRejectRequest
             // 
+            this.bRejectRequest.BackColor = System.Drawing.Color.Coral;
             this.bRejectRequest.Location = new System.Drawing.Point(149, 153);
             this.bRejectRequest.Name = "bRejectRequest";
             this.bRejectRequest.Size = new System.Drawing.Size(75, 33);
             this.bRejectRequest.TabIndex = 2;
-            this.bRejectRequest.Text = "Reject";
-            this.bRejectRequest.UseVisualStyleBackColor = true;
+            this.bRejectRequest.Text = "Decline";
+            this.bRejectRequest.UseVisualStyleBackColor = false;
+            this.bRejectRequest.Click += new System.EventHandler(this.bRejectRequest_Click);
             // 
             // bAcceptRequest
             // 
             this.bAcceptRequest.BackColor = System.Drawing.Color.YellowGreen;
             this.bAcceptRequest.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.bAcceptRequest.Location = new System.Drawing.Point(7, 153);
+            this.bAcceptRequest.Location = new System.Drawing.Point(6, 153);
             this.bAcceptRequest.Name = "bAcceptRequest";
             this.bAcceptRequest.Size = new System.Drawing.Size(136, 33);
             this.bAcceptRequest.TabIndex = 1;
             this.bAcceptRequest.Text = "Accept";
             this.bAcceptRequest.UseVisualStyleBackColor = false;
+            this.bAcceptRequest.Click += new System.EventHandler(this.bAcceptRequest_Click);
             // 
             // lbMatchRequests
             // 
             this.lbMatchRequests.FormattingEnabled = true;
             this.lbMatchRequests.Location = new System.Drawing.Point(7, 25);
             this.lbMatchRequests.Name = "lbMatchRequests";
-            this.lbMatchRequests.Size = new System.Drawing.Size(217, 121);
+            this.lbMatchRequests.Size = new System.Drawing.Size(217, 95);
             this.lbMatchRequests.TabIndex = 0;
             // 
             // groupBox3
@@ -507,11 +526,22 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(722, 178);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(121, 23);
+            this.button9.TabIndex = 22;
+            this.button9.Text = "Unattended Request";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // PrimaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 702);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.groupBox4);
@@ -589,6 +619,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.ComboBox cbWhoPlaysOnline;
     }
 }
 

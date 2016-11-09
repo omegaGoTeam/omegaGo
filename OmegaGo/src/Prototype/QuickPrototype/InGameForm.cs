@@ -41,12 +41,16 @@ namespace QuickPrototype
 
         private async void LoopDecisionRequest()
         {
-            lblTurnPlayer.Text = "Black";
+            _game.NumberOfMovesPlayed = 0;
             _playerToMove = _game.Players[0];
             while (true)
             {
                 lblTurnPlayer.Text = _playerToMove.Name;
                 SystemLog("Asking " + _playerToMove + " to make a move...");
+                if (_playerToMove.Agent is AIAgent)
+                {
+                    ((AIAgent)_playerToMove.Agent).Strength = (int)this.nAiStrength.Value;
+                }
                 AgentDecision decision = await _playerToMove.Agent.RequestMove(_game);
                 SystemLog(_playerToMove + " does: " + decision);
 
@@ -96,6 +100,11 @@ namespace QuickPrototype
                                     break;
                             }
                         }
+                    }
+                    if (!willWeAcceptTheMove && _playerToMove.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+                    {
+                        SystemLog("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
+                        willWeAcceptTheMove = true;
                     }
                     if (!willWeAcceptTheMove)
                     {
@@ -149,7 +158,11 @@ namespace QuickPrototype
                     if (decision.Move.Kind == MoveKind.PlaceStone)
                     {
                         SystemLog("Adding " + decision.Move + " to primary timeline.");
-                        _game.PrimaryTimeline.Add(decision.Move);
+                        _game.GameTree.AddMoveToEnd(decision.Move);
+                        if (_igs != null && !(_playerToMove.Agent is OnlineAgent))
+                        {
+                            _igs.MakeMove(_game, decision.Move);
+                        }
                         // TODO capture stones
                     }
                     else if (decision.Move.Kind == MoveKind.Pass)
@@ -160,7 +173,8 @@ namespace QuickPrototype
                     {
                         throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                     }
-
+                    // THE MOVE STANDS
+                    _game.NumberOfMovesPlayed++;
                     RefreshBoard();
                     _playerToMove = _game.OpponentOf(_playerToMove);
                 }
@@ -174,12 +188,14 @@ namespace QuickPrototype
             tbSystemMessage.Text = logline;
         }
 
+        private Position lastMove = Position.Undefined;
+
         private void RefreshBoard()
         {
             GoColor[,] positions = new GoColor[19, 19];
             foreach (Move move in _game.PrimaryTimeline)
             {
-                if (!move.UnknownMove && move.WhoMoves != GoColor.None)
+                if (!move.IsUnknownMove && move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
@@ -197,6 +213,7 @@ namespace QuickPrototype
                         positions[capture.X, capture.Y] = GoColor.None;
                     }
                 }
+                lastMove = move.Coordinates;
             }
             _truePositions = positions;
             pictureBox1.Refresh();
@@ -221,11 +238,11 @@ namespace QuickPrototype
         private void InGameForm_Load(object sender, EventArgs e)
         {
             if (_game.Server == null)
-            {
+            {  
                 button1.Enabled = false;
                 button2.Enabled = false;
-                LoopDecisionRequest();
             }
+            LoopDecisionRequest();
         }
 
 
@@ -239,10 +256,16 @@ namespace QuickPrototype
             int boardSize = _game.SquareBoardSize;
             for (int x = 0; x < boardSize; x++)
             {
-                e.Graphics.DrawLine(Pens.Black, 0 + ofx, x * 20 + 10+ofy, boardSize * 20 + ofx , x * 20 + 10+ofy);
-                e.Graphics.DrawLine(Pens.Black, x * 20 + 10 + ofx, 0+ofy, x * 20 + 10 + ofx, boardSize * 20+ofy);
+                e.Graphics.DrawLine(boardSize - x - 1 == lastMove.Y ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
+                e.Graphics.DrawLine(x == lastMove.X ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, x * 20 + 10 + ofx , 0+ofy+10, x * 20 + 10 + ofx, boardSize * 20+ofy-10);
+                
                 e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), _fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
                 e.Graphics.DrawString((boardSize - x).ToString(), _fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
+            }
+            // Star points
+            if (boardSize == 9)
+            {
+                
             }
             for (int x = 0; x < boardSize; x++)
             {
@@ -250,6 +273,21 @@ namespace QuickPrototype
                 {
                     Brush brush = null;
                     var r = new Rectangle(x * 20 + 2 + ofx, (boardSize - y - 1) * 20 + 2 + ofy, 16, 16);
+
+                    // Star point
+                    if ((boardSize == 9 && new[] { 2,4,6}.Contains(x)) ||
+                        (boardSize == 19 && new[] {  3,9,15}.Contains(x)))
+                    {
+                        if ((boardSize == 9 && new[] {  2,4,6}.Contains(y)) ||
+                            (boardSize == 19 && new[] {  3,9,15}.Contains(y)))
+                        {
+                            Rectangle starPoint = r;
+                            starPoint.Inflate(-4, -4);
+                            e.Graphics.FillEllipse(Brushes.Black, starPoint);
+                        }
+                    }
+
+                    // Stone
                     if (_truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
@@ -260,14 +298,20 @@ namespace QuickPrototype
                     }
                     if (brush != null)
                     {
-                        e.Graphics.FillRectangle(brush, r);
-                        e.Graphics.DrawRectangle(Pens.Black, r);
+                        e.Graphics.FillEllipse(brush, r);
+                        e.Graphics.DrawEllipse(Pens.Black, r);
+                    }
+                    if (x == lastMove.X && y == lastMove.Y)
+                    {
+                        Rectangle larger = r;
+                        larger.Inflate(3, 3);
+                        e.Graphics.DrawEllipse(new Pen(Brushes.Red, 2), larger);
                     }
                     if (r.Contains(_mouseX, _mouseY))
                     {
                         Rectangle larger = r;
                         larger.Inflate(3, 3);
-                        e.Graphics.DrawRectangle(new Pen(Brushes.Blue, 3), larger);
+                        e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), larger);
                     }
                 }
             }
@@ -348,15 +392,32 @@ namespace QuickPrototype
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            var timeline = _game.PrimaryTimeline;
-            _game.PrimaryTimeline = new List<OmegaGo.Core.Move>();
-            foreach(Move move in timeline)
+            // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
+            // This is totally not good, but if it works for display now....
+            var timeline = _game.GameTree.GameTreeRoot;
+            _game.GameTree.GameTreeRoot = null;
+            foreach(GameTreeNode move in timeline.TimelineView)
             {
-                _game.PrimaryTimeline.Add(move);
+                _game.GameTree.AddMoveToEnd(move.Move);
                 RefreshBoard();
                 await Task.Delay(25);
             }
 
+        }
+
+        private void bSay_Click(object sender, EventArgs e)
+        {
+            // TODO what if we are in multiple games at the same time?
+            // TODO how to change active game?
+            this.tbSayWhat.Clear();
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.bSay_Click(sender, EventArgs.Empty);
+            }
         }
     }
 }

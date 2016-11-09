@@ -17,6 +17,6 @@ namespace OmegaGo.Core.AI
         /// </summary>
         AICapabilities Capabilities { get; }
         string Name { get; }
-        Task<AgentDecision> RequestMove (AIPreMoveInformation gameState);
+        AgentDecision RequestMove (AIPreMoveInformation gameState);
     }
 }

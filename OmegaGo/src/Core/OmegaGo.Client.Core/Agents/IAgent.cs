@@ -11,5 +11,6 @@ namespace OmegaGo.Core.Agents
     {
         Task<AgentDecision> RequestMove(Game game);
         IllegalMoveHandling HowToHandleIllegalMove { get; }
+        void ForceHistoricMove(int moveIndex, Move move);
     }
 }
