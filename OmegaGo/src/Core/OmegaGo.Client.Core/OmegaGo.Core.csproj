@@ -82,7 +82,11 @@
     <Compile Include="Rules\JapaneseRuleset.cs" />
     <Compile Include="Rules\MoveResult.cs" />
     <Compile Include="Rules\Ruleset.cs" />
+    <Compile Include="Sgf\SgfCommand.cs" />
+    <Compile Include="Sgf\SgfNode.cs" />
+    <Compile Include="Sgf\SgfParseException.cs" />
     <Compile Include="Sgf\SgfParser.cs" />
+    <Compile Include="Sgf\SgfTreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sockets.Plugin, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
