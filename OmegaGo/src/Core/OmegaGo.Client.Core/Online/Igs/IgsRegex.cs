@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Online.Igs
             if (match.Success)
             {
                 return IgsMatchRequest.FromOldStyleResponse(match.Groups[1].Value,
-                    match.Groups[2].Value == "B" ? Color.Black : Color.White,
+                    match.Groups[2].Value == "B" ? StoneColor.Black : StoneColor.White,
                     match.Groups[3].Value.AsInteger(),
                     match.Groups[4].Value.AsInteger(),
                     match.Groups[5].Value.AsInteger());

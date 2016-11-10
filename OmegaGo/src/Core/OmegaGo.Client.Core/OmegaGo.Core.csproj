@@ -54,7 +54,7 @@
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
-    <Compile Include="Color.cs" />
+    <Compile Include="StoneColor.cs" />
     <Compile Include="CoreDebug.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

@@ -28,7 +28,7 @@ namespace OmegaGo.Core.Agents
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null) return storedDecision;
 
-            Color[,] createdBoard = new Color[game.SquareBoardSize, game.SquareBoardSize];
+            StoneColor[,] createdBoard = new StoneColor[game.SquareBoardSize, game.SquareBoardSize];
             foreach (Move move in game.PrimaryTimeline)
             {
                 if (move.Kind == MoveKind.PlaceStone)
@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Agents
             }
 
             var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
-                game.Players[0].Agent == this ? Color.Black : Color.White,
+                game.Players[0].Agent == this ? StoneColor.Black : StoneColor.White,
                 createdBoard,
                 game.BoardSize,
                 new TimeSpan(0, 0, 2),

@@ -10,10 +10,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
     public sealed class InputService
     {
         private BoardData _sharedBoardData;
-        
+
+        public BoardData SharedBoardData
+        {
+            get { return _sharedBoardData; }
+            private set { _sharedBoardData = value; }
+        }
+
         public InputService(BoardData sharedBoardData)
         {
-            _sharedBoardData = sharedBoardData;
+            SharedBoardData = sharedBoardData;
         }
 
         public void PointerDown(int x, int y)
@@ -23,36 +29,31 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public void PointerUp(int x, int y)
         {
-            if (x > 0 && x < _sharedBoardData.BoardRealWidth &&
-                y > 0 && y < _sharedBoardData.BoardRealHeight)
-            {
-                Position position = new Position();
-                position.X = (x + BoardData.HalfCellSize) / BoardData.CellSize;
-                position.Y = (y + BoardData.HalfCellSize) / BoardData.CellSize;
-
-                _sharedBoardData.SelectedPosition = position;
-            }
-            else
-            {
-                _sharedBoardData.SelectedPosition = Position.Undefined;
-            }
+            SharedBoardData.SelectedPosition = TranslateToBoardPosition(x, y);
         }
 
         public void PointerMoved(int x, int y)
         {
+            SharedBoardData.HighlightedPosition = TranslateToBoardPosition(x, y);
+        }
+
+        private Position TranslateToBoardPosition(int x, int y)
+        {
+            Position position;
+
             if (x > 0 && x < _sharedBoardData.BoardRealWidth &&
                 y > 0 && y < _sharedBoardData.BoardRealHeight)
             {
-                Position position = new Position();
-                position.X = (x + BoardData.HalfCellSize) / BoardData.CellSize;
-                position.Y = (y + BoardData.HalfCellSize) / BoardData.CellSize;
-                
-                _sharedBoardData.HighlightedPosition = position;
+                position = new Position();
+                position.X = (x + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;
+                position.Y = (y + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;
             }
             else
             {
-                _sharedBoardData.HighlightedPosition = Position.Undefined;
+                position = Position.Undefined;
             }
+            
+            return position;
         }
     }
 }

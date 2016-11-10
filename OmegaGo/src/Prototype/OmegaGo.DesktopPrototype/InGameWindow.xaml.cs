@@ -47,16 +47,16 @@ namespace OmegaGo.DesktopPrototype
             char[,] positions = new char[19, 19];
             foreach (Move move in _game.PrimaryTimeline)
             {
-                if (!move.IsUnknownMove && move.WhoMoves != OmegaGo.Core.Color.None)
+                if (!move.IsUnknownMove && move.WhoMoves != OmegaGo.Core.StoneColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
                     switch (move.WhoMoves)
                     {
-                        case OmegaGo.Core.Color.Black:
+                        case OmegaGo.Core.StoneColor.Black:
                             positions[x, y] = 'x';
                             break;
-                        case OmegaGo.Core.Color.White:
+                        case OmegaGo.Core.StoneColor.White:
                             positions[x, y] = 'o';
                             break;
                     }

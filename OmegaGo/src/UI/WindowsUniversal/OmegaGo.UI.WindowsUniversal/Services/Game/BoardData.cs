@@ -5,21 +5,58 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public sealed class BoardData : INotifyPropertyChanged
     {
-        public const int CellSize = 32;
-        public const int HalfCellSize = CellSize / 2;
-        public Windows.UI.Color BoardColor = new Windows.UI.Color() { A = 0xFF, B = 0x70, G = 0xD2, R = 0xFD };
-        public Windows.UI.Color HighlightColor = new Windows.UI.Color() { A = 0x60, B = 0xFF, G = 0xFF, R = 0xFF };
-        public Windows.UI.Color SelectionColor = new Windows.UI.Color() { A = 0xA0, B = 0xFF, G = 0xFF, R = 0xFF };
+        private int _cellSize;
+        private int _halfCellSize;
+
+        private int _boardWidth;
+        private int _boardHeight;
+
+        private Color _boardColor;
+        private Color _highlightColor;
+        private Color _selectionColor;
 
         private Position _selectedPosition;
         private Position _highlightedPosition;
-        private int _boardWidth;
-        private int _boardHeight;
+        
+        public Color BoardColor
+        {
+            get { return _boardColor; }
+            set { _boardColor = value; OnPropertyChanged(nameof(BoardColor), true); }
+        }
+
+        public Color HighlightColor
+        {
+            get { return _highlightColor; }
+            set { _highlightColor = value; OnPropertyChanged(nameof(HighlightColor), true); }
+        }
+
+        public Color SelectionColor
+        {
+            get { return _selectionColor; }
+            set { _selectionColor = value; OnPropertyChanged(nameof(SelectionColor), true); }
+        }
+        
+        public int CellSize
+        {
+            get { return _cellSize; }
+            set
+            {
+                _cellSize = value;
+                _halfCellSize = value / 2;
+                OnPropertyChanged(nameof(CellSize), true);
+            }
+        }
+
+        public int HalfCellSize
+        {
+            get { return _halfCellSize; }
+        }
 
         public Position SelectedPosition
         {
@@ -70,8 +107,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             _selectedPosition = Position.Undefined;
             _highlightedPosition = Position.Undefined;
 
+            _cellSize = 32;
+            _halfCellSize = _cellSize / 2;
+
             _boardWidth = 1;
             _boardHeight = 1;
+
+            _boardColor = new Color() { A = 0xFF, B = 0x70, G = 0xD2, R = 0xFD };
+            _highlightColor = new Color() { A = 0x60, B = 0xFF, G = 0xFF, R = 0xFF };
+            _selectionColor = new Color() { A = 0xA0, B = 0xFF, G = 0xFF, R = 0xFF };
         }
 
         private void OnPropertyChanged(string propertyName, bool shouldRedraw = false)

@@ -132,7 +132,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task<bool> RequestBasicMatch(
             string opponent, 
-            Color yourColor, 
+            StoneColor yourColor, 
             int boardSize, 
             int mainTime,
             int byoyomiMinutes)

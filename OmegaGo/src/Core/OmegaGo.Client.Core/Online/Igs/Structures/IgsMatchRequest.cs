@@ -7,7 +7,7 @@ namespace OmegaGo.Core.Online.Igs.Structures
         public string AcceptCommand;
         public string RejectCommand;
 
-        public Color YourColor;
+        public StoneColor YourColor;
         public string OpponentName;
 
         public bool IsNMatch;
@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Online.Igs.Structures
 
         public override string ToString() => "Vs. " + OpponentName + " (you are " + YourColor.ToString() + ")";
 
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, Color yourColor, string opponentName, bool isNMatch)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, bool isNMatch)
         {
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Online.Igs.Structures
         }
 
 
-        public static IgsMatchRequest FromOldStyleResponse(string opponentName, Color yourColor, 
+        public static IgsMatchRequest FromOldStyleResponse(string opponentName, StoneColor yourColor, 
             int canadianMainTime,
             int canadianOvertimeMinutes,
             int canadianOvertimeStones)

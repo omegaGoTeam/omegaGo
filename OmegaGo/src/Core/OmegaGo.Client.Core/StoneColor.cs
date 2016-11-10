@@ -10,7 +10,7 @@ namespace OmegaGo.Core
     /// Represents a color of stones in a game of two-player Go. This enumeration is used both for identifying players
     /// and the stones placed on the board.
     /// </summary>
-    public enum Color : byte
+    public enum StoneColor : byte
     {
         /// <summary>
         /// An intersection has the color <see cref="None"/> if there is no stone placed upon it. 

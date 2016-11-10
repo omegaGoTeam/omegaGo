@@ -14,11 +14,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
     {
         private BoardData _sharedBoardData;
         
-        public const int StrokeThickness = 1;
+        public BoardData SharedBoardData
+        {
+            get { return _sharedBoardData; }
+            private set { _sharedBoardData = value; }
+        }
 
         public RenderService(BoardData sharedBoardData)
         {
-            _sharedBoardData = sharedBoardData;
+            SharedBoardData = sharedBoardData;
         }
 
         public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
@@ -31,37 +35,37 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             int boardWidth = game.BoardSize.Width;
             int boardHeight = game.BoardSize.Height;
 
-            sender.Width = BoardData.CellSize * boardWidth;
-            sender.Height = BoardData.CellSize * boardHeight;
+            sender.Width = SharedBoardData.CellSize * boardWidth;
+            sender.Height = SharedBoardData.CellSize * boardHeight;
 
             args.DrawingSession.FillRectangle(
-                0, 0, 
-                BoardData.CellSize * boardWidth, 
-                BoardData.CellSize * boardHeight, 
+                0, 0,
+                SharedBoardData.CellSize * boardWidth,
+                SharedBoardData.CellSize * boardHeight, 
                 _sharedBoardData.BoardColor);
 
             args.DrawingSession.DrawRectangle(
                 0, 0,
-                BoardData.CellSize * boardWidth,
-                BoardData.CellSize * boardHeight,
+                SharedBoardData.CellSize * boardWidth,
+                SharedBoardData.CellSize * boardHeight,
                 Colors.Black);
 
             for (int i = 0; i < boardWidth; i++)
             {
-                args.DrawingSession.DrawLine(i * BoardData.CellSize, 0, i * BoardData.CellSize, BoardData.CellSize * boardHeight, Colors.Black);
+                args.DrawingSession.DrawLine(i * SharedBoardData.CellSize, 0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardHeight, Colors.Black);
             }
 
             for (int i = 0; i < boardHeight; i++)
             {
-                args.DrawingSession.DrawLine(0, i * BoardData.CellSize, BoardData.CellSize * boardWidth, i * BoardData.CellSize, Colors.Black);
+                args.DrawingSession.DrawLine(0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardWidth, i * SharedBoardData.CellSize, Colors.Black);
             }
 
             foreach (var move in game.PrimaryTimeline)
             {
-                if (move.WhoMoves == Core.Color.Black)
-                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.Color.Black);
-                else if (move.WhoMoves == Core.Color.White)
-                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.Color.White);
+                if (move.WhoMoves == Core.StoneColor.Black)
+                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.Black);
+                else if (move.WhoMoves == Core.StoneColor.White)
+                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.White);
             }
 
             if (_sharedBoardData.HighlightedPosition.IsDefined)
@@ -88,24 +92,24 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         }
 
-        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, Core.Color stoneColor)
+        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, Core.StoneColor stoneColor)
         {
             switch(stoneColor)
             {
-                case Core.Color.Black:
+                case Core.StoneColor.Black:
                     drawingSession.FillEllipse(
-                        BoardData.CellSize * x,
-                        BoardData.CellSize * y,
-                        BoardData.CellSize * 0.4f,
-                        BoardData.CellSize * 0.4f,
+                        SharedBoardData.CellSize * x,
+                        SharedBoardData.CellSize * y,
+                        SharedBoardData.CellSize * 0.4f,
+                        SharedBoardData.CellSize * 0.4f,
                         Colors.Black);
                     break;
-                case Core.Color.White:
+                case Core.StoneColor.White:
                     drawingSession.FillEllipse(
-                        BoardData.CellSize * x,
-                        BoardData.CellSize * y,
-                        BoardData.CellSize * 0.4f,
-                        BoardData.CellSize * 0.4f,
+                        SharedBoardData.CellSize * x,
+                        SharedBoardData.CellSize * y,
+                        SharedBoardData.CellSize * 0.4f,
+                        SharedBoardData.CellSize * 0.4f,
                         Colors.White);
                     break;
             }
@@ -114,10 +118,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawStoneCellBackground(CanvasDrawingSession drawingSession, int x, int y, Color backgroundColor)
         {
             drawingSession.FillRoundedRectangle(
-                BoardData.CellSize * x - BoardData.HalfCellSize,
-                BoardData.CellSize * y - BoardData.HalfCellSize,
-                BoardData.CellSize,
-                BoardData.CellSize, 
+                SharedBoardData.CellSize * x - SharedBoardData.HalfCellSize,
+                SharedBoardData.CellSize * y - SharedBoardData.HalfCellSize,
+                SharedBoardData.CellSize,
+                SharedBoardData.CellSize, 
                 4, 4,
                 backgroundColor);
         }

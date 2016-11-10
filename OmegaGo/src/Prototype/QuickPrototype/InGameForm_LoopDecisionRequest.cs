@@ -13,7 +13,7 @@ using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Common;
-using GoColor = OmegaGo.Core.Color;
+using GoColor = OmegaGo.Core.StoneColor;
 
 namespace QuickPrototype
 {

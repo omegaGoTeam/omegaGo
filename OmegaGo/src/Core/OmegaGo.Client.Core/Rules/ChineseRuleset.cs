@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        public override MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        public override MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             if (moveToMake.Kind == MoveKind.Pass && _isPreviousMovePass)
             {
@@ -58,7 +58,7 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        public override int CountScore(Color[,] currentBoard)
+        public override int CountScore(StoneColor[,] currentBoard)
         {
             throw new NotImplementedException();
         }

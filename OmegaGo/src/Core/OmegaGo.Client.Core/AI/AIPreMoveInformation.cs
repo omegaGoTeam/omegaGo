@@ -14,11 +14,11 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// The player whose turn it is. The AI will make a move for this player.
         /// </summary>
-        public Color AIColor { get; }
+        public StoneColor AIColor { get; }
         /// <summary>
         /// The current full board state (excluding information about Ko). 
         /// </summary>
-        public Color[,] Board { get; }
+        public StoneColor[,] Board { get; }
         /// <summary>
         /// Size of the board in intersections. This will usually be "9x9", "13x13" or "19x19".
         /// </summary>
@@ -45,7 +45,7 @@ namespace OmegaGo.Core.AI
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
         /// <param name="history">What moves were played previously in the game, starting with the first.</param>
-        public AIPreMoveInformation(Color aiColor, Color[,] board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
+        public AIPreMoveInformation(StoneColor aiColor, StoneColor[,] board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
         {
             Difficulty = difficulty;
             AIColor = aiColor;

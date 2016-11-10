@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        public override MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        public override MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
         //TODO what if white passes first, then black passes? 
         //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
@@ -61,7 +61,7 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        public override int CountScore(Color[,] currentBoard)
+        public override int CountScore(StoneColor[,] currentBoard)
         {
             throw new NotImplementedException();
         }

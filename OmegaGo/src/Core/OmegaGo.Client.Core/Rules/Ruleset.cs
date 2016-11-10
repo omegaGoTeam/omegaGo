@@ -23,10 +23,10 @@ namespace OmegaGo.Core.Rules
 
         public abstract void PutHandicapStone(Move moveToMake);
 
-        public abstract MoveResult ControlMove(Color[,] currentBoard, Move moveToMake, List<Color[,]> history);
+        public abstract MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
         //TODO test!
-        public Color[,] ControlCaptureAndRemoveStones(Color[,] currentBoard)
+        public StoneColor[,] ControlCaptureAndRemoveStones(StoneColor[,] currentBoard)
         {
             bool[,] Liberty = FillLibertyTable(currentBoard);
 
@@ -54,7 +54,7 @@ namespace OmegaGo.Core.Rules
                             }
                             else
                             {
-                                currentBoard[groupMember.X, groupMember.Y] = Color.None;
+                                currentBoard[groupMember.X, groupMember.Y] = StoneColor.None;
                             }
                         }
                     }
@@ -64,7 +64,7 @@ namespace OmegaGo.Core.Rules
             return currentBoard;
         }
 
-        protected bool[,] FillLibertyTable(Color[,] currentBoard)
+        protected bool[,] FillLibertyTable(StoneColor[,] currentBoard)
         {
             bool[,] Liberty = new bool[BoardWidth, BoardHeight];
 
@@ -75,19 +75,19 @@ namespace OmegaGo.Core.Rules
                 {
                     bool emptyNeighbour = false;
                     //it has empty left neighbour
-                    if (i > 0 && currentBoard[i - 1, j] == Color.None)
+                    if (i > 0 && currentBoard[i - 1, j] == StoneColor.None)
                     {
                         emptyNeighbour = true;
                     }
-                    else if (i < BoardWidth - 1 && currentBoard[i + 1, j] == Color.None) //it has empty right neighbour
+                    else if (i < BoardWidth - 1 && currentBoard[i + 1, j] == StoneColor.None) //it has empty right neighbour
                     {
                         emptyNeighbour = true;
                     }
-                    else if (j > 0 && currentBoard[i, j - 1] == Color.None) //it has empty bottom neighbour
+                    else if (j > 0 && currentBoard[i, j - 1] == StoneColor.None) //it has empty bottom neighbour
                     {
                         emptyNeighbour = true;
                     }
-                    else if (j < BoardHeight - 1 && currentBoard[i, j + 1] == Color.None) //it has empty upper neighbour
+                    else if (j < BoardHeight - 1 && currentBoard[i, j + 1] == StoneColor.None) //it has empty upper neighbour
                     {
                         emptyNeighbour = true;
                     }
@@ -99,9 +99,9 @@ namespace OmegaGo.Core.Rules
         }
 
         //TODO test!
-        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, Color[,] currentBoard, bool[,] Liberty)
+        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard, bool[,] Liberty)
         {
-            Color currentColor = currentBoard[pos.X, pos.Y];
+            StoneColor currentColor = currentBoard[pos.X, pos.Y];
             group.Add(pos);
 
             if (Liberty[pos.X, pos.Y])
@@ -124,7 +124,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        public bool AreBoardsEqual(Color[,] b1, Color[,] b2)
+        public bool AreBoardsEqual(StoneColor[,] b1, StoneColor[,] b2)
         {
             for (int i = 0; i < BoardWidth; i++)
             {
@@ -138,7 +138,7 @@ namespace OmegaGo.Core.Rules
             return true;
         }
 
-        protected MoveResult IsKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        protected MoveResult IsKo(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             int boardHistoryCount = history.Count;
             if (boardHistoryCount >= 2 && AreBoardsEqual(history.ElementAt(boardHistoryCount - 2), currentBoard))
@@ -147,7 +147,7 @@ namespace OmegaGo.Core.Rules
             return MoveResult.Legal;
         }
 
-        protected MoveResult IsSuperKo(Color[,] currentBoard, Move moveToMake, List<Color[,]> history)
+        protected MoveResult IsSuperKo(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             for (int i = 0; i < history.Count; i++)
             {
@@ -157,10 +157,10 @@ namespace OmegaGo.Core.Rules
             return MoveResult.Legal;
         }
 
-        protected MoveResult IsPositionOccupied(Color[,] currentBoard, Move moveToMake)
+        protected MoveResult IsPositionOccupied(StoneColor[,] currentBoard, Move moveToMake)
         {
             Position p = moveToMake.Coordinates;
-            if (currentBoard[p.X, p.Y] != Color.None)
+            if (currentBoard[p.X, p.Y] != StoneColor.None)
             {
                 return MoveResult.OccupiedPosition;
             }
@@ -171,7 +171,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected MoveResult IsSelfCapture(Color[,] currentBoard, Move moveToMake)
+        protected MoveResult IsSelfCapture(StoneColor[,] currentBoard, Move moveToMake)
         {
             Position p = moveToMake.Coordinates;
             List<Position> group = new List<Position>();
@@ -191,14 +191,14 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        public abstract int CountScore(Color[,] currentBoard);
+        public abstract int CountScore(StoneColor[,] currentBoard);
 
-        protected void CountArea(Color[,] currentBoard)
+        protected void CountArea(StoneColor[,] currentBoard)
         {
             throw new NotImplementedException();
         }
 
-        protected void CountTerritory(Color[,] currentBoard)
+        protected void CountTerritory(StoneColor[,] currentBoard)
         {
             Territory[,] regions = new Territory[BoardHeight, BoardWidth];
 
@@ -214,7 +214,7 @@ namespace OmegaGo.Core.Rules
             {
                 for (int j = 0; j < BoardWidth; j++)
                 {
-                    if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== Color.None)
+                    if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== StoneColor.None)
                     {
                         List<Position> region = new List<Position>();
                         Territory regionBelongsTo = Territory.Unknown;
@@ -234,7 +234,7 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, Color[,] currentBoard)
+        protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)
         {
             region.Add(pos);
             if (pos.X < BoardWidth - 1 ) //has right neighbour
@@ -245,16 +245,16 @@ namespace OmegaGo.Core.Rules
 
                 switch (currentBoard[pos.X + 1, pos.Y])
                 {
-                    case Color.None:
+                    case StoneColor.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
-                    case Color.Black:
+                    case StoneColor.Black:
                         if (regionBelongsTo == Territory.White)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.Black;
                         break;
-                    case Color.White:
+                    case StoneColor.White:
                         if (regionBelongsTo == Territory.Black)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
@@ -273,16 +273,16 @@ namespace OmegaGo.Core.Rules
                 newp.Y = pos.Y + 1;
                 switch (currentBoard[pos.X, pos.Y + 1])
                 {
-                    case Color.None:
+                    case StoneColor.None:
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
-                    case Color.Black:
+                    case StoneColor.Black:
                         if (regionBelongsTo == Territory.White)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.Black;
                         break;
-                    case Color.White:
+                    case StoneColor.White:
                         if (regionBelongsTo == Territory.Black)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
@@ -297,19 +297,19 @@ namespace OmegaGo.Core.Rules
             {
                 switch (currentBoard[pos.X-1, pos.Y])
                 {
-                    case Color.Black:
+                    case StoneColor.Black:
                         if (regionBelongsTo == Territory.White)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.Black;
                         break;
-                    case Color.White:
+                    case StoneColor.White:
                         if (regionBelongsTo == Territory.Black)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.White;
                         break;
-                    case Color.None:
+                    case StoneColor.None:
                         break;
                     default:
                         //TODO Exception
@@ -320,19 +320,19 @@ namespace OmegaGo.Core.Rules
             {
                 switch (currentBoard[pos.X, pos.Y-1])
                 {
-                    case Color.Black:
+                    case StoneColor.Black:
                         if (regionBelongsTo == Territory.White)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.Black;
                         break;
-                    case Color.White:
+                    case StoneColor.White:
                         if (regionBelongsTo == Territory.Black)
                             regionBelongsTo = Territory.Neutral;
                         else if (regionBelongsTo == Territory.Unknown)
                             regionBelongsTo = Territory.White;
                         break;
-                    case Color.None:
+                    case StoneColor.None:
                         break;
                     default:
                         //TODO Exception
@@ -349,7 +349,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">The current full board position.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns></returns>
-        public List<Position> GetAllLegalMoves(Color player, Color[,] currentBoard, List<Color[,]> history)
+        public List<Position> GetAllLegalMoves(StoneColor player, StoneColor[,] currentBoard, List<StoneColor[,]> history)
         {
             List<Position> possiblePositions = new List<Core.Position>();
             for (int x = 0; x < BoardWidth; x++) 

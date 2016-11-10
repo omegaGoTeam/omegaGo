@@ -16,7 +16,7 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
-using Color = OmegaGo.Core.Color;
+using StoneColor = OmegaGo.Core.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
 
@@ -241,7 +241,7 @@ namespace QuickPrototype
         {
            bool result = await igs.RequestBasicMatch(
                 this.cbMatchRecipient.Text,
-                Color.Black,
+                StoneColor.Black,
                 (int) this.nBoardSize.Value,
                 10,
                 10

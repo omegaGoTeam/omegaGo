@@ -26,7 +26,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Describes current state of the entire game board. May be null.
         /// </summary>
-        public Color[,] BoardState { get; set; }
+        public StoneColor[,] BoardState { get; set; }
 
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 

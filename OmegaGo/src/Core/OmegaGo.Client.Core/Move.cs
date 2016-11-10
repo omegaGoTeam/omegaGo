@@ -22,7 +22,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Color of the player who made this move.
         /// </summary>
-        public Color WhoMoves;
+        public StoneColor WhoMoves;
         /// <summary>
         /// If this move is the placing of a stone, then these are the coordinates of the placement. Otherwise, this field has no meaning.
         /// </summary>
@@ -36,7 +36,7 @@ namespace OmegaGo.Core
         {
             return new Move() { Kind = MoveKind.Unknown };
         }
-        public static Move Create(Color whoMoves, Position where)
+        public static Move Create(StoneColor whoMoves, Position where)
         {
             return new Move()
             {

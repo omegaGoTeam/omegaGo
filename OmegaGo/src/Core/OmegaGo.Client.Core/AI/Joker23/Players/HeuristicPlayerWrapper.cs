@@ -9,7 +9,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         public override AgentDecision RequestMove(AIPreMoveInformation gameState)
         {
-            internalPlayer = new Joker23.HeuristicPlayer(gameState.AIColor == Color.Black ? 'B' : 'W');
+            internalPlayer = new Joker23.HeuristicPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
 
             JokerGame currentGame = new Joker23.JokerGame(gameState.BoardSize.Height,
                 gameState.BoardSize.Width,
@@ -18,7 +18,7 @@ namespace OmegaGo.Core.AI.Joker23
 
             foreach(Move move in gameState.History)
             {
-                currentGame.moves.AddLast(new JokerMove(move.WhoMoves == Color.Black ? 'B' : 'W',
+                currentGame.moves.AddLast(new JokerMove(move.WhoMoves == StoneColor.Black ? 'B' : 'W',
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 

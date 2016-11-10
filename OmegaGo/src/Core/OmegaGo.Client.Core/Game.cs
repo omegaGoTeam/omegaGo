@@ -118,12 +118,12 @@ namespace OmegaGo.Core
             OnBoardNeedsRefreshing();
         }
 
-        private Player GetPlayerByColor(Color color)
+        private Player GetPlayerByColor(StoneColor color)
         {
             switch (color)
             {
-                case Color.Black: return Players[0];
-                case Color.White: return Players[1];
+                case StoneColor.Black: return Players[0];
+                case StoneColor.White: return Players[1];
                 default: throw new ArgumentException("Only Black and White may play.", nameof(color));
             }
         }

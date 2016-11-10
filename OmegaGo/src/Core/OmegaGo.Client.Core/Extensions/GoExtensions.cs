@@ -9,16 +9,16 @@ namespace OmegaGo.Core.Extensions
     public static class GoExtensions
     {
         /// <summary>
-        /// Turns the <see cref="Color"/> into either the string "B" or "W". 
+        /// Turns the <see cref="StoneColor"/> into either the string "B" or "W". 
         /// </summary>
         /// <param name="color">The color to transform into a string.</param>
-        public static string ToIgsCharacterString(this Color color)
+        public static string ToIgsCharacterString(this StoneColor color)
         {
             switch (color)
             {
-                case Color.Black:
+                case StoneColor.Black:
                     return "B";
-                case Color.White:
+                case StoneColor.White:
                     return "W";
                 default:
                     throw new ArgumentException("The IGS server does not accept colors other than Black or White.",
