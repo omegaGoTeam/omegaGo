@@ -57,5 +57,6 @@
             Grid.Row="1"
             Grid.Column="1" 
             BoardData="{x:Bind Path=BoardData}"/>
+        
     </Grid>
 </views:ViewBase>

@@ -6,8 +6,8 @@
     <ProjectGuid>{4C6CFF15-3E8A-4577-879D-76546884124D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmegaGo.Client.Core.Tests</RootNamespace>
-    <AssemblyName>OmegaGo.Client.Core.Tests</AssemblyName>
+    <RootNamespace>OmegaGo.Core.Tests</RootNamespace>
+    <AssemblyName>OmegaGo.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -53,6 +53,7 @@
     <Compile Include="Online\Igs\IgsConnectionTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sgf\SgfSerializerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
