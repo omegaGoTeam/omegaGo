@@ -42,7 +42,8 @@
                         VerticalScrollBarVisibility="Auto"
                         VerticalScrollMode="Auto"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
+                        VerticalAlignment="Stretch"
+                        ZoomMode="Enabled">
             <win2d:CanvasControl 
                 x:Name="canvas" 
                 CreateResources="canvas_CreateResources"
