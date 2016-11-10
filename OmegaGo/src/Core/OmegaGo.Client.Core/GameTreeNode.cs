@@ -12,15 +12,6 @@ namespace OmegaGo.Core
     /// </summary>
     public sealed class GameTreeNode
     {
-        public GameTreeNode(Move move, GameTreeNode child)
-        {
-            this.Move = move;
-            if (child != null)
-            {
-                this.Branches.Add(child);
-            }
-        }
-
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
@@ -62,12 +53,12 @@ namespace OmegaGo.Core
         /// Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
         /// In normal games, there will only be a single element in this list.
         /// </summary>
-        public List<GameTreeNode> Branches { get; set; } = new List<GameTreeNode>();
+        public GameTreeNodeCollection Branches { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether this node has no children, which usually means that it's the last move made.
         /// </summary>
-        public bool IsFinalNode => Branches.Count == 0;
+        public bool IsLeafNode => Branches.Count == 0;
         /// <summary>
         /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time. 
         /// The move number is 1-based, i.e. the first move has the number "1".
@@ -103,7 +94,13 @@ namespace OmegaGo.Core
             }
         }
 
-        public IEnumerable<GameTreeNode> TimelineView
+        public GameTreeNode(Move move)
+        {
+            this.Branches = new GameTreeNodeCollection(this);
+            this.Move = move;
+        }
+
+        public IEnumerable<GameTreeNode> GetTimelineView
         {
             get
             {
@@ -114,15 +111,6 @@ namespace OmegaGo.Core
                     yield return node;
                     node = node.NextMove;
                 }
-            }
-        }
-
-        public void UpdateParents()
-        {
-            foreach(var child in Branches)
-            {
-                child.Parent = this;
-                child.UpdateParents();
             }
         }
     }

@@ -34,7 +34,7 @@ namespace OmegaGo.Core
 
         // HA: game-info
         public int Handicap { get; set; }
-        
+
         // KM: game-info
         public double Komi { get; set; }
 
@@ -73,34 +73,39 @@ namespace OmegaGo.Core
 
         // US: game-info
         public string User { get; set; }
-        
+
         // WR: game-info
         public string WhiteRank { get; set; }
 
         // WT: game-info
         public string WhiteTeam { get; set; }
 
-
-
         public GameTreeNode GameTreeRoot { get; set; }
 
+        public GameTree()
+        {
+
+        }
+        
         public void AddMoveToEnd(Move move)
         {
             if (GameTreeRoot == null)
             {
-                GameTreeRoot = new Core.GameTreeNode(move, null);
+                GameTreeRoot = new GameTreeNode(move);
                 return;
             }
+
             GameTreeNode parent = GameTreeRoot;
             GameTreeNode child = parent.NextMove;
+
             while (child != null)
             {
                 parent = child;
                 child = parent.NextMove;
             }
-            GameTreeNode newNode = new Core.GameTreeNode(move, null);
-            parent.Branches.Add(newNode);
-            newNode.Parent = parent;
+
+            GameTreeNode newNode = new GameTreeNode(move);
+            parent.Branches.AddNode(newNode);
         }
     }
 }

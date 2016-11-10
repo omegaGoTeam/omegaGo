@@ -396,7 +396,7 @@ namespace QuickPrototype
             // This is totally not good, but if it works for display now....
             var timeline = _game.GameTree.GameTreeRoot;
             _game.GameTree.GameTreeRoot = null;
-            foreach(GameTreeNode move in timeline.TimelineView)
+            foreach(GameTreeNode move in timeline.GetTimelineView)
             {
                 _game.GameTree.AddMoveToEnd(move.Move);
                 RefreshBoard();

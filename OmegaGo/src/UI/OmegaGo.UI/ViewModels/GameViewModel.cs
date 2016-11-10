@@ -20,14 +20,19 @@ namespace OmegaGo.UI.ViewModels
         {
             _game = new Game();
             _game.BoardSize = new GameBoardSize(19);
-            _game.GameTree.GameTreeRoot =
-                new GameTreeNode(new Move() { Coordinates = new Position(5, 5), WhoMoves = Color.White },
-                new GameTreeNode(new Move() { Coordinates = new Position(6, 5), WhoMoves = Color.Black },
-                new GameTreeNode(new Move() { Coordinates = new Position(7, 5), WhoMoves = Color.White },
-                new GameTreeNode(new Move() { Coordinates = new Position(6, 6), WhoMoves = Color.Black },
-                new GameTreeNode(new Move() { Coordinates = new Position(5, 6), WhoMoves = Color.White },
-                null)))));
-            _game.GameTree.GameTreeRoot.UpdateParents();
+            
+            GameTreeNode node1 = new GameTreeNode(Move.Create(Color.White, new Position(5, 5)));
+            GameTreeNode node2 = new GameTreeNode(Move.Create(Color.Black, new Position(5, 5)));
+            GameTreeNode node3 = new GameTreeNode(Move.Create(Color.White, new Position(7, 5)));
+            GameTreeNode node4 = new GameTreeNode(Move.Create(Color.Black, new Position(6, 6)));
+            GameTreeNode node5 = new GameTreeNode(Move.Create(Color.White, new Position(5, 6)));
+
+            _game.GameTree.GameTreeRoot = node1;
+
+            node1.Branches.AddNode(node2);
+            node2.Branches.AddNode(node3);
+            node3.Branches.AddNode(node4);
+            node4.Branches.AddNode(node5);
         }
     }
 }
