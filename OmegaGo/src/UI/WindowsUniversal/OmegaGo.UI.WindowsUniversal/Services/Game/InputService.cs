@@ -41,8 +41,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             Position position;
 
-            if (x > 0 && x < _sharedBoardData.BoardRealWidth &&
-                y > 0 && y < _sharedBoardData.BoardRealHeight)
+            x = x - SharedBoardData.BoardBorderThickness;
+            y = y - SharedBoardData.BoardBorderThickness;
+
+            if (x > -SharedBoardData.HalfCellSize && x < (_sharedBoardData.BoardActualWidth - SharedBoardData.BoardBorderThickness - SharedBoardData.HalfCellSize) &&
+                y > -SharedBoardData.HalfCellSize && y < (_sharedBoardData.BoardActualHeight - SharedBoardData.BoardBorderThickness - SharedBoardData.HalfCellSize))
             {
                 position = new Position();
                 position.X = (x + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;

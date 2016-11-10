@@ -16,6 +16,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private int _boardWidth;
         private int _boardHeight;
+        private int _boardActualWidth;
+        private int _boardActualHeight;
+
+        private int _boardBorderThickness;
+        private int _boardLineThickness;
 
         private Color _boardColor;
         private Color _highlightColor;
@@ -24,6 +29,35 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private Position _selectedPosition;
         private Position _highlightedPosition;
         
+        public int CellSize
+        {
+            get { return _cellSize; }
+            set
+            {
+                _cellSize = value;
+                _halfCellSize = value / 2;
+                UpdateActualBoardSize();
+                OnPropertyChanged(nameof(CellSize), true);
+            }
+        }
+
+        public int HalfCellSize
+        {
+            get { return _halfCellSize; }
+        }
+
+        public int BoardBorderThickness
+        {
+            get { return _boardBorderThickness; }
+            set { _boardBorderThickness = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardBorderThickness), true); }
+        }
+
+        public int BoardLineThickness
+        {
+            get { return _boardBorderThickness; }
+            set { _boardBorderThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
+        }
+
         public Color BoardColor
         {
             get { return _boardColor; }
@@ -40,22 +74,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             get { return _selectionColor; }
             set { _selectionColor = value; OnPropertyChanged(nameof(SelectionColor), true); }
-        }
-        
-        public int CellSize
-        {
-            get { return _cellSize; }
-            set
-            {
-                _cellSize = value;
-                _halfCellSize = value / 2;
-                OnPropertyChanged(nameof(CellSize), true);
-            }
-        }
-
-        public int HalfCellSize
-        {
-            get { return _halfCellSize; }
         }
 
         public Position SelectedPosition
@@ -87,17 +105,17 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public int BoardWidth
         {
             get { return _boardWidth; }
-            set { _boardWidth = value; OnPropertyChanged(nameof(BoardWidth), true); }
+            set { _boardWidth = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardWidth), true); }
         }
 
         public int BoardHeight
         {
             get { return _boardHeight; }
-            set { _boardHeight = value; OnPropertyChanged(nameof(BoardHeight), true); }
+            set { _boardHeight = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardHeight), true); }
         }
 
-        public int BoardRealWidth => CellSize * BoardWidth;
-        public int BoardRealHeight => CellSize * BoardHeight;
+        public int BoardActualWidth { get { return _boardActualWidth; } }
+        public int BoardActualHeight { get { return _boardActualHeight; } }
 
         public event EventHandler RedrawRequested;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -110,8 +128,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             _cellSize = 32;
             _halfCellSize = _cellSize / 2;
 
+            _boardBorderThickness = 40;
+            _boardLineThickness = 1;
+
             _boardWidth = 1;
             _boardHeight = 1;
+            UpdateActualBoardSize();
 
             _boardColor = new Color() { A = 0xFF, B = 0x70, G = 0xD2, R = 0xFD };
             _highlightColor = new Color() { A = 0x60, B = 0xFF, G = 0xFF, R = 0xFF };
@@ -124,6 +146,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             if (shouldRedraw)
                 RedrawRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void UpdateActualBoardSize()
+        {
+            _boardActualWidth = BoardWidth * CellSize + 2 * BoardBorderThickness;
+            _boardActualHeight = BoardHeight * CellSize + 2 * BoardBorderThickness;
         }
     }
 }

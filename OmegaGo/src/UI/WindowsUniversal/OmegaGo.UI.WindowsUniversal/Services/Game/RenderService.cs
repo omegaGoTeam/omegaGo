@@ -1,9 +1,11 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
@@ -35,31 +37,64 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             int boardWidth = game.BoardSize.Width;
             int boardHeight = game.BoardSize.Height;
 
-            sender.Width = SharedBoardData.CellSize * boardWidth;
-            sender.Height = SharedBoardData.CellSize * boardHeight;
+            sender.Width = SharedBoardData.BoardActualWidth;
+            sender.Height = SharedBoardData.BoardActualHeight;
 
             args.DrawingSession.FillRectangle(
                 0, 0,
-                SharedBoardData.CellSize * boardWidth,
-                SharedBoardData.CellSize * boardHeight, 
+                SharedBoardData.BoardActualWidth,
+                SharedBoardData.BoardActualHeight, 
                 _sharedBoardData.BoardColor);
 
             args.DrawingSession.DrawRectangle(
                 0, 0,
-                SharedBoardData.CellSize * boardWidth,
-                SharedBoardData.CellSize * boardHeight,
+                SharedBoardData.BoardActualWidth,
+                SharedBoardData.BoardActualHeight,
                 Colors.Black);
 
-            for (int i = 0; i < boardWidth; i++)
+            CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
+
+            for (int i = 0; i <= boardWidth; i++)
+            {
+                CanvasTextLayout textLayout = new CanvasTextLayout(sender, ((char)(65 + i)).ToString(), textFormat, SharedBoardData.CellSize, SharedBoardData.CellSize);
+                textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
+
+                args.DrawingSession.DrawTextLayout(
+                    textLayout, 
+                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardData.BoardBorderThickness, 
+                    0, 
+                    Colors.Black);
+
+                textLayout.Dispose();
+            }
+
+            for (int i = 0; i <= boardHeight; i++)
+            {
+                CanvasTextLayout textLayout = new CanvasTextLayout(sender, (boardHeight - i).ToString(), textFormat, SharedBoardData.CellSize, SharedBoardData.CellSize);
+                textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
+
+                args.DrawingSession.DrawTextLayout(
+                    textLayout, 
+                    0, 
+                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardData.BoardBorderThickness, 
+                    Colors.Black);
+
+                textLayout.Dispose();
+            }
+
+            textFormat.Dispose();
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardData.BoardBorderThickness, SharedBoardData.BoardBorderThickness);
+
+            for (int i = 0; i <= boardWidth; i++)
             {
                 args.DrawingSession.DrawLine(i * SharedBoardData.CellSize, 0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardHeight, Colors.Black);
             }
 
-            for (int i = 0; i < boardHeight; i++)
+            for (int i = 0; i <= boardHeight; i++)
             {
                 args.DrawingSession.DrawLine(0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardWidth, i * SharedBoardData.CellSize, Colors.Black);
             }
-
+            
             foreach (var move in game.PrimaryTimeline)
             {
                 if (move.WhoMoves == Core.StoneColor.Black)
