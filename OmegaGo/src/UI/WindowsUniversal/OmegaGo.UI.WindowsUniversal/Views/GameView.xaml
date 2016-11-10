@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     Loaded="ViewBase_Loaded"
@@ -22,13 +23,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         
         <TextBlock Text="Game" 
                    Grid.Row="0"
+                   Grid.ColumnSpan="2"
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
         <ScrollViewer   Grid.Row="1"
+                        Grid.Column="0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Auto"
                         VerticalScrollBarVisibility="Auto"
@@ -43,5 +51,10 @@
                 PointerReleased="canvas_PointerReleased"
                 PointerMoved="canvas_PointerMoved"/>
         </ScrollViewer>
+
+        <controls:BoardSettingsControl 
+            Grid.Row="1"
+            Grid.Column="1" 
+            BoardData="{x:Bind Path=BoardData}"/>
     </Grid>
 </views:ViewBase>

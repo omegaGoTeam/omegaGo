@@ -99,6 +99,9 @@
     <Compile Include="Services\Game\InputService.cs" />
     <Compile Include="Services\Game\RenderService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="UserControls\BoardSettingsControl.xaml.cs">
+      <DependentUpon>BoardSettingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="Infrastructure\ExtendedSplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\BoardSettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
