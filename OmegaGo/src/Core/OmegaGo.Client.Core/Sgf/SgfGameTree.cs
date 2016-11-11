@@ -9,10 +9,10 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// Represents a tree branch in SGF file
     /// </summary>
-    internal class SgfTreeNode
+    internal class SgfGameTree
     {
-        public List<SgfNode> Nodes { get; set; } = new List<SgfNode>();
+        public List<SgfNode> Nodes { get; } = new List<SgfNode>();
 
-        public List<SgfTreeNode> Children { get; set; } = new List<SgfTreeNode>();
+        public List<SgfGameTree> Children { get; } = new List<SgfGameTree>();
     }
 }

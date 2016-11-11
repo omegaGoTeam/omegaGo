@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf
 {
-    internal class SgfCommand
+    internal class SgfProperty
     {
-        public string Property { get; set; }
+        public string Identifier { get; set; }
         public List<string> Values { get; set; } = new List<string>();
     }
 }

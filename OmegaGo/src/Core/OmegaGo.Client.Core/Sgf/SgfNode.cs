@@ -11,6 +11,6 @@ namespace OmegaGo.Core.Sgf
     /// </summary>
     internal class SgfNode
     {
-        public List<SgfCommand> Commands { get; set; } = new List<SgfCommand>();
+        public List<SgfProperty> Commands { get; set; } = new List<SgfProperty>();
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Online.Igs;
 
-namespace OmegaGo.Client.Core.Tests.Online.Igs
+namespace OmegaGo.Core.Tests.Online.Igs
 {
     [TestClass]
     public class IgsConnectionTests

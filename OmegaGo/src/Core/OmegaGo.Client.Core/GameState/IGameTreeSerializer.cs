@@ -21,8 +21,8 @@ namespace OmegaGo.Core.GameState
         /// <summary>
         /// Deserializes the game tree from string
         /// </summary>
-        /// <param name="serializedTree">Serialized tree</param>
+        /// <param name="sgfContents">Serialized tree</param>
         /// <returns>Game tree</returns>
-        GameTree Deserialize( string serializedTree );
+        GameTree Deserialize( string sgfContents );
     }
 }

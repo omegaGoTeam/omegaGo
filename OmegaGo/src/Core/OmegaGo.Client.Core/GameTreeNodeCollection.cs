@@ -13,32 +13,23 @@ namespace OmegaGo.Core
     /// </summary>
     public sealed class GameTreeNodeCollection : IEnumerable
     {
-        private GameTreeNode _owner;
-        private List<GameTreeNode> _nodes;
+        private readonly GameTreeNode _owner;
+        private readonly List<GameTreeNode> _nodes;
 
-        public int Count
-        {
-            get { return _nodes.Count; }
-        }
-        
+        public int Count => _nodes.Count;
+
         public GameTreeNodeCollection(GameTreeNode owner)
         {
             _owner = owner;
             _nodes = new List<GameTreeNode>();
         }
 
-        public GameTreeNode this[int index]
-        {
-            get
-            {
-                return _nodes[index];
-            }
-        }
-        
+        public GameTreeNode this[int index] => _nodes[index];
+
         public void AddNode(GameTreeNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node cant be null");
+                throw new ArgumentNullException(nameof(node));
 
             if (node.Parent != null)
                 ; // Throw error?
@@ -50,7 +41,7 @@ namespace OmegaGo.Core
         public bool RemoveNode(GameTreeNode node)
         {
             if (node == null)
-                throw new ArgumentNullException("node cant be null");
+                throw new ArgumentNullException(nameof(node));
 
             bool removed = _nodes.Remove(node);
 
@@ -60,9 +51,6 @@ namespace OmegaGo.Core
             return removed;
         }
 
-        public IEnumerator GetEnumerator()
-        {
-            return _nodes.GetEnumerator();
-        }
+        public IEnumerator GetEnumerator() => _nodes.GetEnumerator();
     }
 }

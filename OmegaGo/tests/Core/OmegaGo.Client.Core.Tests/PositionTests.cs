@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OmegaGo.Core;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace OmegaGo.Client.Core.Tests
+namespace OmegaGo.Core.Tests
 {
     [TestClass]
     public class PositionTests

@@ -2,6 +2,7 @@
 using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
