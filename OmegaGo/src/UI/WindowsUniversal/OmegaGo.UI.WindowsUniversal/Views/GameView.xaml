@@ -28,13 +28,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
-        <TextBlock Text="Game" 
-                   Grid.Row="0"
-                   Grid.ColumnSpan="2"
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+
         <ScrollViewer   Grid.Row="1"
                         Grid.Column="0"
                         HorizontalScrollBarVisibility="Auto"
@@ -53,9 +47,32 @@
                 PointerMoved="canvas_PointerMoved"/>
         </ScrollViewer>
 
-        <controls:BoardSettingsControl 
-            Grid.Row="1"
-            Grid.Column="1" 
-            BoardData="{x:Bind Path=BoardData}"/>
+        <CommandBar VerticalAlignment="Top"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2">
+
+            <AppBarButton Icon="Message" Label="Chat"
+                          AllowFocusOnInteraction="True">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <!--<Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>-->
+
+                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel}" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            
+            <AppBarButton Icon="Setting" Label="Settings">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <controls:BoardSettingsControl BoardData="{x:Bind BoardData}" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </views:ViewBase>

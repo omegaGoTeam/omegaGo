@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core;
+using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,17 @@ namespace OmegaGo.UI.ViewModels
     {
         private Game _game;
 
+        private ChatViewModel _chatViewModel;
+
         public Game Game
         {
             get { return _game; }
+        }
+
+        public ChatViewModel ChatViewModel
+        {
+            get { return _chatViewModel; }
+            set { SetProperty(ref _chatViewModel, value); }
         }
 
         public GameViewModel()
@@ -33,6 +42,8 @@ namespace OmegaGo.UI.ViewModels
             node2.Branches.AddNode(node3);
             node3.Branches.AddNode(node4);
             node4.Branches.AddNode(node5);
+
+            ChatViewModel = new ChatViewModel();
         }
     }
 }

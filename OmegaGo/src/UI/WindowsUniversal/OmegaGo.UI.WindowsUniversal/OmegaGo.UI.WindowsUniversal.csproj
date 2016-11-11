@@ -90,6 +90,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
@@ -101,6 +102,9 @@
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="UserControls\BoardSettingsControl.xaml.cs">
       <DependentUpon>BoardSettingsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ChatControl.xaml.cs">
+      <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -168,13 +172,20 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Convertors\" />
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Infrastructure\ExtendedSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\BoardSettingsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ChatControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

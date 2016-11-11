@@ -55,6 +55,7 @@
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Settings\ISettingsService.cs" />
     <Compile Include="Services\Settings\SettingLocality.cs" />
+    <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
