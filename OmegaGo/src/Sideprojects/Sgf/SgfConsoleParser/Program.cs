@@ -12,9 +12,8 @@ namespace SgfConsoleParser
     {
         static void Main(string[] args)
         {
-            SgfGameTreeSerializer serializer =
-                new SgfGameTreeSerializer();
-            serializer.Deserialize(File.ReadAllText("C:\\Users\\Martin\\Downloads\\ff4_ex.sgf"));
+      
+            //SgfParser.Deserialize(File.ReadAllText("C:\\Users\\Martin\\Downloads\\ff4_ex.sgf"));
         }
     }
 }

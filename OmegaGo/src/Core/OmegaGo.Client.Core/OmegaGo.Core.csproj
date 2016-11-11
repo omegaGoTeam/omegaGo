@@ -67,6 +67,7 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Markup\IMarkup.cs" />
     <Compile Include="Markup\MarkupKind.cs" />
+    <Compile Include="Sgf\SgfRoot.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="CoreDebug.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
