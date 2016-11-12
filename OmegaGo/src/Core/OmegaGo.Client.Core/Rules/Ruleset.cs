@@ -12,6 +12,13 @@ namespace OmegaGo.Core.Rules
         public int Score;
         public int BoardWidth, BoardHeight;
 
+        /// <summary>
+        /// Initializes the ruleset. This must be called BEFORE you first use any of the control methods or 
+        /// they will fail or give incorrect results. For each game, a new ruleset must be created.
+        /// </summary>
+        /// <param name="white"></param>
+        /// <param name="black"></param>
+        /// <param name="gbSize">Size of the game board.</param>
         public void startGame(Player white, Player black, GameBoardSize gbSize)
         {
             BoardWidth = gbSize.Width;
