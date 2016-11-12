@@ -60,7 +60,7 @@ namespace QuickPrototype
                     {
                         // So far, we're not providing Ko information
                         MoveResult canWeMakeIt =
-                            _game.Ruleset?.ControlMove(FastBoard.CloneBoard(_truePositions), moveToMake, new List<GoColor[,]>()) ?? MoveResult.Legal;
+                            _game.Ruleset?.IsLegalMove(FastBoard.CloneBoard(_truePositions), moveToMake, new List<GoColor[,]>()) ?? MoveResult.Legal;
                         // If there is no ruleset, moves are automatically legal.
                         if (canWeMakeIt != MoveResult.Legal && canWeMakeIt != MoveResult.LifeDeadConfirmationPhase)
                         {

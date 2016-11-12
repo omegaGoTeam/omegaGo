@@ -30,27 +30,69 @@ namespace OmegaGo.Core.Rules
 
         public abstract void PutHandicapStone(Move moveToMake);
 
-        public abstract MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
+        public abstract MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
-        // Suggested new signatures for Aniko:
-        /*
-        class MoveProcessingResult
+        protected abstract MoveResult Pass();
+
+        /// <summary>
+        /// Controls the players move.
+        /// </summary>
+        /// <param name="previousBoard">The state of game board before the player's move.</param>
+        /// <param name="moveToMake">The player's move</param>
+        /// <param name="history">List of game boards that represents the history of game.</param>
+        /// <returns>Result of player's move, list of prisoners/captured stones and the new state of game board</returns>
+        public MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
         {
-            public MoveResult Result;
-            public List<Position> Captures;
-            public StoneColor[,] NewBoard;
-        }
-        MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history);
-        MoveResult IsMoveLegal(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
-        {
-            return ProcessMove(previousBoard, moveToMake, history).Result;
-        }
-        */
+            StoneColor[,] currentBoard = previousBoard;
+            MoveProcessingResult processingResult = new MoveProcessingResult();
+            processingResult.Captures = new List<Position>();
+            processingResult.NewBoard = previousBoard;
+
+            //1. step: control intersection
+            if (moveToMake.Kind == MoveKind.Pass)
+            {
+                processingResult.Result = Pass();
+                return processingResult;
+            }
+            else if (IsPositionOccupied(previousBoard, moveToMake) == MoveResult.OccupiedPosition)
+            {
+                processingResult.Result = MoveResult.OccupiedPosition;
+                return processingResult;
+            }
+            else
+            {
+                //2. step: add stone
+                currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
+                //3. step: captures
+                processingResult.Captures= ControlCapture(currentBoard,moveToMake);
+                //4. step: control selfcapture, ko, superko
+                MoveResult r = IsLegalMove(currentBoard, moveToMake, history);
+                if (r == MoveResult.Legal)
+                {
+                    processingResult.Result = r;
+                    for (int i = 0; i < processingResult.Captures.Count; i++)
+                    {
+                        Position p = processingResult.Captures.ElementAt(i);
+                        currentBoard[p.X, p.Y] = StoneColor.None;
+                    }
+                    processingResult.NewBoard = currentBoard;
+                    return processingResult;
+                }
+                else
+                {
+                    processingResult.Result = r;
+                    processingResult.Captures = new List<Position>();
+                    processingResult.NewBoard = previousBoard;
+                    return processingResult;
+                }
+            }
+        } 
 
         //TODO test!
-        public StoneColor[,] ControlCaptureAndRemoveStones(StoneColor[,] currentBoard)
+        protected List<Position> ControlCapture(StoneColor[,] currentBoard, Move moveToMake)
         {
             bool[,] Liberty = FillLibertyTable(currentBoard);
+            List<Position> captures = new List<Position>();
 
             //control if group has liberty
             for (int i = 0; i < BoardWidth; i++)
@@ -76,14 +118,15 @@ namespace OmegaGo.Core.Rules
                             }
                             else
                             {
-                                currentBoard[groupMember.X, groupMember.Y] = StoneColor.None;
+                                captures.Add(groupMember);
+
                             }
                         }
                     }
                 }
             }
 
-            return currentBoard;
+            return captures;
         }
 
         protected bool[,] FillLibertyTable(StoneColor[,] currentBoard)
@@ -146,6 +189,12 @@ namespace OmegaGo.Core.Rules
 
         }
 
+        /// <summary>
+        /// Checks whether 2 game boards equal.
+        /// </summary>
+        /// <param name="b1">First game board.</param>
+        /// <param name="b2">Second game board.</param>
+        /// <returns></returns>
         public bool AreBoardsEqual(StoneColor[,] b1, StoneColor[,] b2)
         {
             for (int i = 0; i < BoardWidth; i++)
@@ -249,7 +298,7 @@ namespace OmegaGo.Core.Rules
                         {
                             Position regionMember = region.ElementAt(k);
                             regions[regionMember.X, regionMember.Y] = regionBelongsTo;    
-        }
+                        }
 
                     }
                 }
@@ -377,7 +426,7 @@ namespace OmegaGo.Core.Rules
             for (int x = 0; x < BoardWidth; x++) 
                 for (int y = 0; y < BoardHeight; y++)
                 {
-                    if (ControlMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    if (IsLegalMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
                     {
                         possiblePositions.Add(new Core.Position(x, y));
                     }
@@ -387,6 +436,7 @@ namespace OmegaGo.Core.Rules
         }
     }
 
+    
     public enum Territory
     {
         White,

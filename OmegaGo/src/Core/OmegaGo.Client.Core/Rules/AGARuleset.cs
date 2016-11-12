@@ -19,46 +19,46 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        public override MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult Pass()
         {
-        //TODO what if white passes first, then black passes? 
-        //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
-        //What should I do? Just give 1 stone (point) to Black and return MoveResult.LifeDeadConfirmationPhase?
-            if (moveToMake.Kind == MoveKind.Pass && _isPreviousMovePass)
+            //TODO what if white passes first, then black passes? 
+            //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
+            //What should I do? Just give 1 stone (point) to Black and return MoveResult.LifeDeadConfirmationPhase?
+            if (_isPreviousMovePass)
             {
                 //TODO increase opponent score
                 return MoveResult.LifeDeadConfirmationPhase;
             }
-            else if (moveToMake.Kind == MoveKind.Pass)
+            else
             {
                 //TODO increase opponent score
                 _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }
-            else {
-                _isPreviousMovePass = false;
 
-                if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
-                {
-                    return MoveResult.OccupiedPosition;
-                }
-                else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
-                {
-                    return MoveResult.Ko;
-                }
-                else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
-                {
-                    return MoveResult.SuperKo;
-                }
-                else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
-                {
-                    return MoveResult.SelfCapture;
-                }
-                else
-                {
-                    return MoveResult.Legal;
-                }
+        }
+
+        public override MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        {
+            _isPreviousMovePass = false;
+
+            if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            {
+                return MoveResult.SelfCapture;
             }
+            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            {
+                return MoveResult.Ko;
+            }
+            else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            {
+                return MoveResult.SuperKo;
+            }
+            else
+            {
+                return MoveResult.Legal;
+            }
+            
         }
 
         public override int CountScore(StoneColor[,] currentBoard)

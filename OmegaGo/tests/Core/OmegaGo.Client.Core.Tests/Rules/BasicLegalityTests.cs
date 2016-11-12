@@ -22,17 +22,17 @@ namespace OmegaGo.Core.Tests.Rules
         public void PlaceStoneOnEmptyBoard()
         {
             Assert.AreEqual(MoveResult.Legal,
-                ruleset.ControlMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
         }
 
         [TestMethod]
         public void PlaceStoneOnStone()
         {
             Assert.AreEqual(MoveResult.Legal,
-                ruleset.ControlMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
             testGame.Place("B2", StoneColor.Black);
             Assert.AreEqual(MoveResult.OccupiedPosition,
-                ruleset.ControlMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
         }
         [TestMethod]
         public void CornerSuicide() {
@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Tests.Rules
                 .Place("B1", StoneColor.Black)
                 ;
             Assert.AreEqual(MoveResult.SelfCapture,
-                ruleset.ControlMove(testGame.CurrentBoard, testGame.Move("A1", StoneColor.White), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("A1", StoneColor.White), testGame.History));
         }
         [TestMethod]
         public void CornerNonSuicide()
@@ -53,7 +53,7 @@ namespace OmegaGo.Core.Tests.Rules
                 .Place("C1", StoneColor.White)
                 ;
             Assert.AreEqual(MoveResult.Legal,
-                ruleset.ControlMove(testGame.CurrentBoard, testGame.Move("A1", StoneColor.White), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("A1", StoneColor.White), testGame.History));
         }
     }
 }
