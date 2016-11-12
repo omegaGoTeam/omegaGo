@@ -32,6 +32,21 @@ namespace OmegaGo.Core.Rules
 
         public abstract MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
+        // Suggested new signatures for Aniko:
+        /*
+        class MoveProcessingResult
+        {
+            public MoveResult Result;
+            public List<Position> Captures;
+            public StoneColor[,] NewBoard;
+        }
+        MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history);
+        MoveResult IsMoveLegal(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
+        {
+            return ProcessMove(previousBoard, moveToMake, history).Result;
+        }
+        */
+
         //TODO test!
         public StoneColor[,] ControlCaptureAndRemoveStones(StoneColor[,] currentBoard)
         {
