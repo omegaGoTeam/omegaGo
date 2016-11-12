@@ -69,7 +69,7 @@
     <Compile Include="Markup\MarkupKind.cs" />
     <Compile Include="Sgf\SgfRoot.cs" />
     <Compile Include="StoneColor.cs" />
-    <Compile Include="CoreDebug.cs" />
+    <Compile Include="Utilities\CoreDebug.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Online\ServerLocations.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="PositionRange.cs" />
+    <Compile Include="Sgf\PositionRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\AGARuleset.cs" />
     <Compile Include="Rules\ChineseRuleset.cs" />
