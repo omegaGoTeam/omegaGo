@@ -29,11 +29,6 @@ namespace OmegaGo.Core.Sgf
             GameTrees.AddRange( gameTrees );
         }
 
-        public SgfParseResult<SgfCollection> Parse( string input )
-        {
-            
-        }
-
         /// <summary>
         /// List of games
         /// </summary>
