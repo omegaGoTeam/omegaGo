@@ -17,9 +17,9 @@ namespace OmegaGo.Core.Sgf
         /// </summary>
         /// <param name="status">Status of parsing</param>
         /// <param name="root">Root of the parsed SGF tree</param>
-        public SgfParseResult(SgfParseStatus status, SgfRoot root = null)
+        public SgfParseResult(SgfParseStatus status, SgfRoot root )
         {
-            if (root == null && status != SgfParseStatus.Failed) throw new ArgumentNullException(nameof(root), "Root has to be supplied when parsing did not fail");
+            if (root == null ) throw new ArgumentNullException(nameof(root), "Root has to be supplied when parsing did not fail");
             Status = status;
             Root = root;
         }
