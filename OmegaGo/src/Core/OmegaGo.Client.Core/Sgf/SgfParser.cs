@@ -18,8 +18,8 @@ namespace OmegaGo.Core.Sgf
         /// Deserializes the SGF tree to a game tree
         /// </summary>
         /// <param name="sgfContents">The SGF file contents</param>
-        /// <returns></returns>
-        public static SgfRoot Deserialize( string sgfContents )
+        /// <returns>SGF collection</returns>
+        public static SgfParseResult<SgfCollection> Deserialize( string sgfContents )
         {
             if ( sgfContents == null ) throw new ArgumentNullException( nameof( sgfContents ) );
             return ParseSgfRoot( sgfContents );

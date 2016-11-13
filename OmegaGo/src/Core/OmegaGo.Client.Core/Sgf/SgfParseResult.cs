@@ -10,18 +10,18 @@ namespace OmegaGo.Core.Sgf
     /// Represents the result of SGF parsing
     /// Informs the caller about possible warnings during the parsing
     /// </summary>
-    internal class SgfParseResult
+    internal class SgfParseResult<T>
     {
         /// <summary>
         /// Creates the parse result
         /// </summary>
         /// <param name="status">Status of parsing</param>
-        /// <param name="root">Root of the parsed SGF tree</param>
-        public SgfParseResult(SgfParseStatus status, SgfRoot root )
+        /// <param name="parsedResult">The parsed part of the tree</param>
+        public SgfParseResult( SgfParseStatus status, T parsedResult )
         {
-            if (root == null ) throw new ArgumentNullException(nameof(root), "Root has to be supplied when parsing did not fail");
+            if ( parsedResult == null ) throw new ArgumentNullException( nameof( parsedResult ) );
             Status = status;
-            Root = root;
+            Result = parsedResult;
         }
 
         /// <summary>
@@ -32,6 +32,30 @@ namespace OmegaGo.Core.Sgf
         /// <summary>
         /// Root of the parsed SGF tree
         /// </summary>
-        public SgfRoot Root { get; }
+        public T Result { get; }
+    }
+
+    internal class SgfParseResult
+    {
+        /// <summary>
+        /// Performs an union of child parsing results and sets the "worst" outcome as the root result
+        /// </summary>
+        /// <typeparam name="TResult">Result type</typeparam>
+        /// <typeparam name="TChild"></typeparam>
+        /// <param name="parsedResult"></param>
+        /// <param name="childResults"></param>
+        /// <returns></returns>
+        public static SgfParseResult<TResult> Union<TResult, TChild>( TResult parsedResult, params SgfParseResult<TChild>[] childResults )
+        {
+            SgfParseStatus status = SgfParseStatus.Success;
+            foreach ( var result in childResults )
+            {
+                if ( result.Status > status )
+                {
+                    status = result.Status;
+                }
+            }
+            return new SgfParseResult<TResult>( status, parsedResult );
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Sgf
     /// </summary>
     public enum SgfParseStatus
     {
-        Success,
-        SuccessWithWarnings
+        Success = 0,
+        SuccessWithWarnings = 1 
     }
 }
