@@ -1,2 +1,10 @@
 ﻿Here's where some information on the OGS API may be found:
 
+The Hub (https://online-go.com/developer) allows you to create an OAuth2 client ID and client secret and also contains links to documentation:
+
+Documentation of the REST API: http://docs.ogs.apiary.io/
+Information on the realtime API: http://ogs.readme.io/
+Test the REST API: https://online-go.com/api/
+
+Forum for API developers: https://forums.online-go.com/c/ogs-development/api-development
+The forum sees little activity but it contains solutions to some problems I had.
