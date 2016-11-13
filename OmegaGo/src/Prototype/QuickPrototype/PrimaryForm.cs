@@ -125,6 +125,8 @@ namespace QuickPrototype
             if (this.lbGames.SelectedItem != null)
             {
                 Game game = (Game)lbGames.SelectedItem;
+                game.Ruleset = new JapaneseRuleset();
+                game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
                 game.StartObserving();
                 igs.RefreshBoard(game);
                 InGameForm observing = new InGameForm(game, igs);

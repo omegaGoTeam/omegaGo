@@ -52,5 +52,7 @@ namespace OmegaGo.Core.Online
         /// Gets the abbreviation of the server name, i.e. "IGS" for the Internet Go Server and "OGS" for online-go.com.
         /// </summary>
         public abstract string ShortName { get; }
+
+        public abstract Task MakeMove(Game game, Move move);
     }
 }
