@@ -31,7 +31,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.lblTurnPlayer = new System.Windows.Forms.Label();
@@ -52,22 +51,28 @@
             this.bRefreshPicture = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label6 = new System.Windows.Forms.Label();
             this.nAiStrength = new System.Windows.Forms.NumericUpDown();
-            this.lbPlayerChat = new System.Windows.Forms.ListBox();
-            this.tbSayWhat = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.bSay = new System.Windows.Forms.Button();
+            this.tbSayWhat = new System.Windows.Forms.TextBox();
+            this.lbPlayerChat = new System.Windows.Forms.ListBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbRuleset = new System.Windows.Forms.ComboBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).BeginInit();
+            this.tabPage1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -100,16 +105,6 @@
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(21, 48);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(160, 22);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "IGS Raw Refresh";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox1
             // 
@@ -308,56 +303,27 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(699, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(322, 216);
             this.tabControl1.TabIndex = 20;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.bSay);
-            this.tabPage1.Controls.Add(this.tbSayWhat);
-            this.tabPage1.Controls.Add(this.lbPlayerChat);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(314, 190);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Player Chat";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(314, 258);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Spectator chat";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.cbRuleset);
+            this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.nAiStrength);
             this.tabPage3.Controls.Add(this.label6);
             this.tabPage3.Controls.Add(this.chEnforceRules);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(314, 258);
+            this.tabPage3.Size = new System.Drawing.Size(314, 190);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 15);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "AI Strength:";
             // 
             // nAiStrength
             // 
@@ -381,21 +347,27 @@
             0,
             0});
             // 
-            // lbPlayerChat
+            // label6
             // 
-            this.lbPlayerChat.FormattingEnabled = true;
-            this.lbPlayerChat.Location = new System.Drawing.Point(4, 11);
-            this.lbPlayerChat.Name = "lbPlayerChat";
-            this.lbPlayerChat.Size = new System.Drawing.Size(304, 147);
-            this.lbPlayerChat.TabIndex = 0;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 15);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "AI Strength:";
             // 
-            // tbSayWhat
+            // tabPage1
             // 
-            this.tbSayWhat.Location = new System.Drawing.Point(3, 164);
-            this.tbSayWhat.Name = "tbSayWhat";
-            this.tbSayWhat.Size = new System.Drawing.Size(248, 20);
-            this.tbSayWhat.TabIndex = 1;
-            this.tbSayWhat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            this.tabPage1.Controls.Add(this.bSay);
+            this.tabPage1.Controls.Add(this.tbSayWhat);
+            this.tabPage1.Controls.Add(this.lbPlayerChat);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(314, 190);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Player Chat";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // bSay
             // 
@@ -407,6 +379,80 @@
             this.bSay.Text = "say";
             this.bSay.UseVisualStyleBackColor = true;
             this.bSay.Click += new System.EventHandler(this.bSay_Click);
+            // 
+            // tbSayWhat
+            // 
+            this.tbSayWhat.Location = new System.Drawing.Point(3, 164);
+            this.tbSayWhat.Name = "tbSayWhat";
+            this.tbSayWhat.Size = new System.Drawing.Size(248, 20);
+            this.tbSayWhat.TabIndex = 1;
+            this.tbSayWhat.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            // 
+            // lbPlayerChat
+            // 
+            this.lbPlayerChat.FormattingEnabled = true;
+            this.lbPlayerChat.Location = new System.Drawing.Point(4, 11);
+            this.lbPlayerChat.Name = "lbPlayerChat";
+            this.lbPlayerChat.Size = new System.Drawing.Size(304, 147);
+            this.lbPlayerChat.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(314, 190);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Spectator chat";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 71);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(46, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "Ruleset:";
+            // 
+            // cbRuleset
+            // 
+            this.cbRuleset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRuleset.FormattingEnabled = true;
+            this.cbRuleset.Location = new System.Drawing.Point(11, 92);
+            this.cbRuleset.Name = "cbRuleset";
+            this.cbRuleset.Size = new System.Drawing.Size(264, 21);
+            this.cbRuleset.TabIndex = 15;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.button4);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(314, 190);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Player Advisory";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(47, 25);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(217, 56);
+            this.button4.TabIndex = 0;
+            this.button4.Text = "Get Hint from Joker23 Heuristic AI";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(21, 48);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(160, 22);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "IGS Raw Refresh";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // InGameForm
             // 
@@ -437,11 +483,12 @@
             this.panelEnd.ResumeLayout(false);
             this.panelEnd.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).EndInit();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -451,7 +498,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblTurnPlayer;
@@ -480,5 +526,10 @@
         private System.Windows.Forms.Button bSay;
         private System.Windows.Forms.TextBox tbSayWhat;
         private System.Windows.Forms.ListBox lbPlayerChat;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox cbRuleset;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button button4;
     }
 }
