@@ -57,25 +57,27 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     ServerId = match.Groups[1].Value.AsInteger(),
                     Server = this,
-                    Players = new List<Player>()
-                {
-                    new Player(match.Groups[4].Value, match.Groups[5].Value)
-                    {
-                        Agent = new OnlineAgent()
-                    },
-                    new Player(match.Groups[2].Value, match.Groups[3].Value)
-                    {
-                        Agent = new OnlineAgent()
-                    }
-                },
-                    // DO *NOT* DO this: the displayed number might be something different from what our client wants
-                    // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
-                    // Do not uncomment the preceding line. I will fix it in time. I hope.
+                    Players = new List<Player>(),
                     SquareBoardSize = match.Groups[7].Value.AsInteger(),
                     NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
                     KomiValue = match.Groups[9].Value.AsFloat(),
                     NumberOfObservers = match.Groups[12].Value.AsInteger()
                 };
+                game.Players.Add(
+
+                    new Player(match.Groups[4].Value, match.Groups[5].Value, game)
+                    {
+                        Agent = new OnlineAgent()
+                    });
+                game.Players.Add(
+                    new Player(match.Groups[2].Value, match.Groups[3].Value, game)
+                    {
+                        Agent = new OnlineAgent()
+                    });
+                    // DO *NOT* DO this: the displayed number might be something different from what our client wants
+                    // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+                    // Do not uncomment the preceding line. I will fix it in time. I hope.
+                
                 return game;
             }
             catch (FormatException)
@@ -170,8 +172,8 @@ namespace OmegaGo.Core.Online.Igs
                 ServerId = heading.GameNumber,
                 Ruleset = new Rules.JapaneseRuleset()
             };
-            game.Players.Add(new Core.Player(heading.BlackName, "?"));
-            game.Players.Add(new Core.Player(heading.WhiteName, "?"));
+            game.Players.Add(new Core.Player(heading.BlackName, "?", game));
+            game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
             return game;

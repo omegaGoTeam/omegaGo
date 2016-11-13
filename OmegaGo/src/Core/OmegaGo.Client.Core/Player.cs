@@ -14,6 +14,14 @@ namespace OmegaGo.Core
         /// Gets or sets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
         /// </summary>
         public string Rank { get; set; }
+
+        /// <summary>
+        /// The game the player is playing.
+        /// </summary>
+        public Game Game { get; set; }
+
+        public StoneColor Color => Game.Black == this ? StoneColor.Black : StoneColor.White;
+
         /// <summary>
         /// The number of points this player has scored in the game he participates in.
         /// </summary>
@@ -23,10 +31,11 @@ namespace OmegaGo.Core
         /// </summary>
         public IAgent Agent;
 
-        public Player(string name, string rank)
+        public Player(string name, string rank, Game game)
         {
             Name = name;
             Rank = rank;
+            Game = game;
         }
         public override string ToString() => Name;
     }

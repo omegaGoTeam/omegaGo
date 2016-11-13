@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI.Common;
 
 namespace OmegaGo.Core.Agents
 {
@@ -28,14 +29,7 @@ namespace OmegaGo.Core.Agents
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null) return storedDecision;
 
-            StoneColor[,] createdBoard = new StoneColor[game.SquareBoardSize, game.SquareBoardSize];
-            foreach (Move move in game.PrimaryTimeline)
-            {
-                if (move.Kind == MoveKind.PlaceStone)
-                {
-                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
-                }
-            }
+            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(game);
 
             var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
                 game.Players[0].Agent == this ? StoneColor.Black : StoneColor.White,

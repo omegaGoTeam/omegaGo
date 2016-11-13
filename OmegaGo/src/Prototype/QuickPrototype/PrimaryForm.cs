@@ -191,8 +191,6 @@ namespace QuickPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR");
-            Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR");
 
 
             Game localGame = new Game
@@ -201,6 +199,8 @@ namespace QuickPrototype
                 NumberOfMovesPlayed = 0,
                 Ruleset = new ChineseRuleset()
             };
+            Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR", localGame);
+            Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR", localGame);
             localGame.Ruleset.startGame(playerWhite, playerBlack, localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);

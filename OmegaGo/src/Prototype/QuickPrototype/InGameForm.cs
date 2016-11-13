@@ -296,5 +296,17 @@ namespace QuickPrototype
             this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
             this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper hpw = new OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper();
+            AgentDecision decision = hpw.RequestMove(new AIPreMoveInformation(_playerToMove.Color,
+                FastBoard.CreateBoardFromGame(_game),
+                _game.BoardSize,
+                new TimeSpan(1),
+                5,
+                _game.PrimaryTimeline.ToList()));
+            MessageBox.Show("I recommend you make this move: " + decision);
+        }
     }
 }

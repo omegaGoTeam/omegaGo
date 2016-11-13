@@ -32,5 +32,22 @@ namespace OmegaGo.Core.AI.Common
                 }
             return newBoard;
         }
+
+        public static StoneColor[,] CreateBoardFromGame(Game game)
+        {
+            StoneColor[,] createdBoard = new StoneColor[game.SquareBoardSize, game.SquareBoardSize];
+            foreach (Move move in game.PrimaryTimeline)
+            {
+                if (move.Kind == MoveKind.PlaceStone)
+                {
+                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
+                }
+                foreach (Position p in move.Captures)
+                {
+                    createdBoard[p.X, p.Y] = StoneColor.None;
+                }
+            }
+            return createdBoard;
+        }
     }
 }
