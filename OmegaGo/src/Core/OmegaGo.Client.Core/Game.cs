@@ -25,6 +25,14 @@ namespace OmegaGo.Core
         /// </summary>
         public List<Player> Players;
         /// <summary>
+        /// Gets the player playing black stones, i.e. "Players[0]".
+        /// </summary>
+        public Player Black => Players[0];
+        /// <summary>
+        /// Gets the player playing white stones, i.e. "Players[1]".
+        /// </summary>
+        public Player White => Players[1];
+        /// <summary>
         /// The game tree associated with the game. Each game has exactly one associated game tree.
         /// </summary>
         public GameTree GameTree;
@@ -95,6 +103,7 @@ namespace OmegaGo.Core
                 }
             }
         }
+
 
         /// <summary>
         /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 

@@ -101,6 +101,18 @@ namespace QuickPrototype
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
+            this.cbRuleset.Items.Add(new ChineseRuleset());
+            this.cbRuleset.Items.Add(new JapaneseRuleset());
+            this.cbRuleset.Items.Add(new AGARuleset());
+            for (int i = 0; i < this.cbRuleset.Items.Count; i++)
+            {
+                Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
+                if (selected.GetType() == _game.Ruleset.GetType())
+                {
+                    this.cbRuleset.SelectedIndex = i;
+                    break;
+                }
+            }
             LoopDecisionRequest();
         }
 
@@ -277,6 +289,12 @@ namespace QuickPrototype
             {
                 this.bSay_Click(sender, EventArgs.Empty);
             }
+        }
+
+        private void bChangeRuleset_Click(object sender, EventArgs e)
+        {
+            this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
+            this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
         }
     }
 }
