@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf
 {
+    /// <summary>
+    /// Status of SGF parsing
+    /// </summary>
     public enum SgfParseStatus
     {
         Success,
