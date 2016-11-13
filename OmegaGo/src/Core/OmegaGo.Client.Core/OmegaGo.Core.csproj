@@ -68,6 +68,8 @@
     <Compile Include="Markup\IMarkup.cs" />
     <Compile Include="Markup\MarkupKind.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Sgf\SgfParseResult.cs" />
+    <Compile Include="Sgf\SgfParseStatus.cs" />
     <Compile Include="Sgf\SgfRoot.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="Utilities\CoreDebug.cs" />
