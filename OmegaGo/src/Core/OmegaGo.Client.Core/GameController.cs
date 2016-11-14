@@ -10,7 +10,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core
 {
-    class GameController
+    public class GameController
     {
         private Game _game;
         private Player _turnPlayer;

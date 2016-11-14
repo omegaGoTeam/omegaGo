@@ -22,7 +22,7 @@ namespace QuickPrototype
     {
         private Game _game;
         private IgsConnection _igs;
-        private Player _playerToMove;
+        private Player _playerToMove => _controller.TurnPlayer;
         private GoColor[,] _truePositions = new GoColor[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
@@ -93,6 +93,7 @@ namespace QuickPrototype
             _igs.RefreshBoard(_game);
         }
 
+        private GameController _controller;
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
@@ -113,10 +114,35 @@ namespace QuickPrototype
                     break;
                 }
             }
-            LoopDecisionRequest();
+            _controller = new GameController(_game);
+            _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            _controller.DebuggingMessage += _controller_DebuggingMessage;
+            _controller.Resignation += _controller_Resignation;
+            _controller.TurnPlayerChanged += _controller_TurnPlayerChanged;
+            _controller.BeginGame();
         }
 
+        private void _controller_TurnPlayerChanged(string obj)
+        {
+            this.lblTurnPlayer.Text = obj;
+        }
 
+        private void _controller_Resignation(Player arg1, string arg2)
+        {
+            panelEnd.Visible = true;
+            lblEndCaption.Text = arg1 + " resigned!";
+            lblGameEndReason.Text = "The player resignation reason: '" + arg2 + "'";
+        }
+
+        private void _controller_DebuggingMessage(string obj)
+        {
+            SystemLog(obj);
+        }
+
+        private void _controller_BoardMustBeRefreshed()
+        {
+            RefreshBoard();
+        }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -307,6 +333,22 @@ namespace QuickPrototype
                 5,
                 _game.PrimaryTimeline.ToList()));
             MessageBox.Show("I recommend you make this move: " + decision);
+        }
+
+        private void chEnforceRules_CheckedChanged(object sender, EventArgs e)
+        {
+            _controller.EnforceRules = this.chEnforceRules.Checked;
+        }
+
+        private void nAiStrength_ValueChanged(object sender, EventArgs e)
+        {
+            foreach (Player player in _game.Players)
+            {
+                if (player.Agent is AIAgent)
+                {
+                    ((AIAgent)player).Strength = (int)this.nAiStrength.Value;
+                }
+            }
         }
     }
 }

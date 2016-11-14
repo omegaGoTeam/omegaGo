@@ -43,6 +43,10 @@ namespace OmegaGo.Core.Agents
         }
 
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
-     
+
+        public static explicit operator AIAgent(Player v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

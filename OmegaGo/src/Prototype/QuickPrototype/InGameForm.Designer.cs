@@ -53,6 +53,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.bChangeRuleset = new System.Windows.Forms.Button();
             this.cbRuleset = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.nAiStrength = new System.Windows.Forms.NumericUpDown();
@@ -64,7 +65,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
-            this.bChangeRuleset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -252,6 +252,7 @@
             this.chEnforceRules.TabIndex = 13;
             this.chEnforceRules.Text = "Enforce Rules";
             this.chEnforceRules.UseVisualStyleBackColor = true;
+            this.chEnforceRules.CheckedChanged += new System.EventHandler(this.chEnforceRules_CheckedChanged);
             // 
             // tbSystemMessage
             // 
@@ -337,6 +338,16 @@
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // bChangeRuleset
+            // 
+            this.bChangeRuleset.Location = new System.Drawing.Point(200, 118);
+            this.bChangeRuleset.Name = "bChangeRuleset";
+            this.bChangeRuleset.Size = new System.Drawing.Size(75, 23);
+            this.bChangeRuleset.TabIndex = 16;
+            this.bChangeRuleset.Text = "Set";
+            this.bChangeRuleset.UseVisualStyleBackColor = true;
+            this.bChangeRuleset.Click += new System.EventHandler(this.bChangeRuleset_Click);
+            // 
             // cbRuleset
             // 
             this.cbRuleset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -376,6 +387,7 @@
             0,
             0,
             0});
+            this.nAiStrength.ValueChanged += new System.EventHandler(this.nAiStrength_ValueChanged);
             // 
             // label6
             // 
@@ -456,16 +468,6 @@
             this.button4.Text = "Get Hint from Joker23 Heuristic AI";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // bChangeRuleset
-            // 
-            this.bChangeRuleset.Location = new System.Drawing.Point(200, 118);
-            this.bChangeRuleset.Name = "bChangeRuleset";
-            this.bChangeRuleset.Size = new System.Drawing.Size(75, 23);
-            this.bChangeRuleset.TabIndex = 16;
-            this.bChangeRuleset.Text = "Set";
-            this.bChangeRuleset.UseVisualStyleBackColor = true;
-            this.bChangeRuleset.Click += new System.EventHandler(this.bChangeRuleset_Click);
             // 
             // InGameForm
             // 
