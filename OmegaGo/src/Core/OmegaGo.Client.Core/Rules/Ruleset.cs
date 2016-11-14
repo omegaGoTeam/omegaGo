@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
-    //TODO comments!
+   
     public abstract class Ruleset
     {
         public int Score;
         public int BoardWidth, BoardHeight;
+        private bool[,] _controlledInters;
+        private bool[,] _liberty;
+        private List<Position> _captures;
 
         /// <summary>
         /// Initializes the ruleset. This must be called BEFORE you first use any of the control methods or 
@@ -35,7 +38,7 @@ namespace OmegaGo.Core.Rules
         protected abstract MoveResult Pass();
 
         /// <summary>
-        /// Controls the players move.
+        /// Controls the player's move.
         /// </summary>
         /// <param name="previousBoard">The state of game board before the player's move.</param>
         /// <param name="moveToMake">The player's move</param>
@@ -86,52 +89,67 @@ namespace OmegaGo.Core.Rules
                     return processingResult;
                 }
             }
-        } 
+        }
 
-        //TODO test!
         protected List<Position> ControlCapture(StoneColor[,] currentBoard, Move moveToMake)
         {
-            bool[,] Liberty = FillLibertyTable(currentBoard);
-            List<Position> captures = new List<Position>();
+            _liberty = FillLibertyTable(currentBoard);
+            _controlledInters = new bool[BoardWidth, BoardHeight];
+            _captures = new List<Position>();
+            int currentX = moveToMake.Coordinates.X;
+            int currentY = moveToMake.Coordinates.Y;
+            StoneColor opponentColor = (moveToMake.WhoMoves == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
 
-            //control if group has liberty
-            for (int i = 0; i < BoardWidth; i++)
+
+            //control whether neighbour groups have liberty
+            //right neighbour
+            if (currentX < BoardWidth - 1 && currentBoard[currentX + 1, currentY] == opponentColor && !_liberty[currentX + 1, currentY])
+                ControlNeighbourGroup(currentX + 1, currentY, currentBoard);
+           
+            //left neighbour
+            if (currentX > 0 && currentBoard[currentX - 1, currentY] == opponentColor && !_liberty[currentX - 1, currentY])
+                ControlNeighbourGroup(currentX - 1, currentY, currentBoard);
+            
+            //upper neighbour
+            if (currentY < BoardHeight - 1 && currentBoard[currentX, currentY + 1] == opponentColor && !_liberty[currentX, currentY + 1])
+                ControlNeighbourGroup(currentX, currentY + 1, currentBoard);
+            
+            //bottom neighbour
+            if (currentY > 0 && currentBoard[currentX, currentY - 1] == opponentColor && !_liberty[currentX, currentY - 1])
+                ControlNeighbourGroup(currentX, currentY - 1, currentBoard);
+
+            return _captures;
+        }
+
+        protected void ControlNeighbourGroup(int x, int y,  StoneColor[,] currentBoard)
+        { 
+            List<Position> group = new List<Position>();
+            bool groupHasLiberty = false;
+            Position p = new Position();
+
+            p.X = x;
+            p.Y = y;
+            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
+
+            //if group has liberty, setup true liberty for all; else remove the group from the board
+            for (int k = 0; k < group.Count; k++)
             {
-                for (int j = 0; j < BoardHeight; j++)
+                Position groupMember = group.ElementAt(k);
+                if (groupHasLiberty)
                 {
-                    if (Liberty[i, j] == false)
-                    {
-                        List<Position> group = new List<Position>();
-                        bool groupHasLiberty = false;
-                        Position p = new Position();
-                        p.X = i;
-                        p.Y = j;
-                        GetGroup(ref group, ref groupHasLiberty, p, currentBoard, Liberty);
-
-                        //if group has liberty, setup true liberty for all; else remove the group from the board
-                        for (int k = 0; k < group.Count; k++)
-                        {
-                            Position groupMember = group.ElementAt(k);
-                            if (groupHasLiberty)
-                            {
-                                Liberty[groupMember.X, groupMember.Y] = true;
-                            }
-                            else
-                            {
-                                captures.Add(groupMember);
-
-                            }
-                        }
-                    }
+                    _liberty[groupMember.X, groupMember.Y] = true;
+                }
+                else
+                {
+                    _captures.Add(groupMember);
                 }
             }
 
-            return captures;
         }
 
         protected bool[,] FillLibertyTable(StoneColor[,] currentBoard)
         {
-            bool[,] Liberty = new bool[BoardWidth, BoardHeight];
+            _liberty = new bool[BoardWidth, BoardHeight];
 
             //control if position has liberty
             for (int i = 0; i < BoardWidth; i++)
@@ -156,35 +174,49 @@ namespace OmegaGo.Core.Rules
                     {
                         emptyNeighbour = true;
                     }
-                    Liberty[i, j] = emptyNeighbour;
+                    _liberty[i, j] = emptyNeighbour;
                 }
             }
 
-            return Liberty;
+            return _liberty;
         }
 
-        //TODO test!
-        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard, bool[,] Liberty)
+        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
             group.Add(pos);
+            _controlledInters[pos.X, pos.Y] = true;
+            Position newp = new Position();
 
-            if (Liberty[pos.X, pos.Y])
+            if (_liberty[pos.X, pos.Y])
                 hasLiberty = true;
-
-            if (pos.X < BoardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor) //has same right neighbour
+            //has same uncontrolled right neighbour
+            if (pos.X < BoardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor && !_controlledInters[pos.X + 1, pos.Y])  
             {
-                Position newp = new Position();
                 newp.X = pos.X + 1;
                 newp.Y = pos.Y;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard, Liberty);
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-            if (pos.Y < BoardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor) //has same upper neighbour
+            //has same uncontrolled upper neighbour
+            if (pos.Y < BoardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor && !_controlledInters[pos.X, pos.Y + 1]) 
             {
-                Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard, Liberty);
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
+            }
+            //has same uncontrolled left neighbour
+            if (pos.X > 0 && currentBoard[pos.X - 1, pos.Y] == currentColor && !_controlledInters[pos.X - 1, pos.Y])
+            {
+                newp.X = pos.X - 1;
+                newp.Y = pos.Y;
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
+            }
+            //has same uncontrolled bottom neighbour
+            if (pos.Y > 0 && currentBoard[pos.X, pos.Y - 1] == currentColor && !_controlledInters[pos.X, pos.Y - 1])
+            {
+                newp.X = pos.X;
+                newp.Y = pos.Y - 1;
+                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
 
         }
@@ -249,8 +281,8 @@ namespace OmegaGo.Core.Rules
             bool groupHasLiberty = false;
 
             currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
-            bool[,] Liberty = FillLibertyTable(currentBoard);
-            GetGroup(ref group, ref groupHasLiberty, p, currentBoard, Liberty);
+            _liberty = FillLibertyTable(currentBoard);
+            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
             if (groupHasLiberty)
             {
                 return MoveResult.Legal;
@@ -332,7 +364,6 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     default:
-                        //TODO Exception
                         break;
                 }
                 
@@ -360,7 +391,6 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     default:
-                        //TODO Exception
                         break;
                 }
             }
@@ -383,7 +413,6 @@ namespace OmegaGo.Core.Rules
                     case StoneColor.None:
                         break;
                     default:
-                        //TODO Exception
                         break;
                 }
             }
