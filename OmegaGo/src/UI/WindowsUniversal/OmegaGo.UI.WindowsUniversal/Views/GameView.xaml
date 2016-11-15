@@ -51,6 +51,21 @@
                 Grid.RowSpan="2"
                 Grid.ColumnSpan="2">
 
+            <AppBarButton Icon="Bookmarks" Label="Timeline"
+                          AllowFocusOnInteraction="True">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <!--<Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>-->
+
+                        <controls:TimelineControl Width="300" Height="300" ViewModel="{x:Bind Path=VM.TimelineViewModel}" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            
             <AppBarButton Icon="Message" Label="Chat"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
