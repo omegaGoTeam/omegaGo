@@ -19,39 +19,39 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        public override MoveResult ControlMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult Pass()
         {
-            if (moveToMake.Kind == MoveKind.Pass && _isPreviousMovePass)
+            if (_isPreviousMovePass)
             {
                 //TODO check whether opponents score increases according to Japanese rules
                 return MoveResult.LifeDeadConfirmationPhase;
             }
-            else if (moveToMake.Kind == MoveKind.Pass)
+            else
             {
                 //TODO check whether opponents score increases according to Japanese rules
                 _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }
-            else {
-                _isPreviousMovePass = false;
 
-                if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
-                {
-                    return MoveResult.OccupiedPosition;
-                }
-                else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
-                {
-                    return MoveResult.Ko;
-                }
-                else if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
-                {
-                    return MoveResult.SelfCapture;
-                }
-                else
-                {
-                    return MoveResult.Legal;
-                }
+        }
+
+        public override MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        {
+            _isPreviousMovePass = false;
+
+            if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            {
+                return MoveResult.SelfCapture;
             }
+            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            {
+                return MoveResult.Ko;
+            }
+            else
+            {
+                return MoveResult.Legal;
+            }
+            
         }
 
         public override int CountScore(StoneColor[,] currentBoard)

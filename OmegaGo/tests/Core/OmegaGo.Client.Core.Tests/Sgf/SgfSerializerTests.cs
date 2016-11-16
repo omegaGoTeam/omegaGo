@@ -12,14 +12,14 @@ namespace OmegaGo.Core.Tests.Sgf
         [ExpectedException(typeof(ArgumentNullException))]
         public void DeserializeThrowsForNullInput()
         {
-            SgfParser.Deserialize(null);
+            new SgfParser().Deserialize(null);
         }
 
         [TestMethod]
         [ExpectedException( typeof( SgfParseException ) )]
         public void DeserializeThrowsForEmptyInput()
         {
-            SgfParser.Deserialize( string.Empty );
+            new SgfParser().Deserialize( string.Empty );
         }
     }
 }

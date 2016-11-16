@@ -67,11 +67,15 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Markup\IMarkup.cs" />
     <Compile Include="Markup\MarkupKind.cs" />
+    <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Sgf\SgfCollection.cs" />
+    <Compile Include="Sgf\SgfParseResult.cs" />
+    <Compile Include="Sgf\SgfParseStatus.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
     <Compile Include="Sgf\SgfRoot.cs" />
     <Compile Include="StoneColor.cs" />
-    <Compile Include="CoreDebug.cs" />
+    <Compile Include="Utilities\CoreDebug.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -96,7 +100,7 @@
     <Compile Include="Online\ServerLocations.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="PositionRange.cs" />
+    <Compile Include="Sgf\PositionRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\AGARuleset.cs" />
     <Compile Include="Rules\ChineseRuleset.cs" />

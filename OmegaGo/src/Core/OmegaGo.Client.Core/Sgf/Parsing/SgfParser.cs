@@ -15,11 +15,11 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// Deserializes the SGF tree to a game tree
         /// </summary>
         /// <param name="sgfContents">The SGF file contents</param>
-        /// <returns></returns>
-        public static SgfRoot Deserialize( string sgfContents )
+        /// <returns>SGF collection</returns>
+        public SgfParseResult<SgfCollection> Deserialize( string sgfContents )
         {
             if ( sgfContents == null ) throw new ArgumentNullException( nameof( sgfContents ) );
-            return ParseSgfRoot( sgfContents );
+            return null;
         }
 
         /// <summary>
@@ -27,12 +27,12 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// </summary>
         /// <param name="root">SGF root</param>
         /// <returns></returns>
-        public static string Serialize( SgfRoot root )
+        public string Serialize( SgfRoot root )
         {
             throw new NotImplementedException();
         }
 
-        private static SgfRoot ParseSgfRoot( string input )
+        private SgfRoot ParseSgfRoot( string input )
         {
             if ( string.IsNullOrWhiteSpace( input ) ) throw new SgfParseException( "Input SGF file empty" );
             int inputPosition = 0;
@@ -68,7 +68,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             return null;
         }
 
-        private static IEnumerable<SgfProperty> ParseCommandList( string input, ref int inputPosition )
+        private IEnumerable<SgfProperty> ParseCommandList( string input, ref int inputPosition )
         {
             List<SgfProperty> commands = new List<SgfProperty>();
             while ( inputPosition < input.Length && char.IsLetter( input[ inputPosition ] ) )
@@ -79,7 +79,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             return null;
         }
 
-        private static SgfGameTree ParseSgfTree( string input, ref int inputPosition )
+        private SgfGameTree ParseSgfTree( string input, ref int inputPosition )
         {
             if ( input[ inputPosition ] != '(' )
                 throw new SgfParseException( $"No gameTree node found on input position {inputPosition}" );
@@ -116,7 +116,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             return gameTree;
         }
 
-        private static SgfNode ParseNode( string input, ref int inputPosition )
+        private SgfNode ParseNode( string input, ref int inputPosition )
         {
             SkipInputWhitespace( input, ref inputPosition );
             if ( input[ inputPosition ] != ';' )
@@ -129,7 +129,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             return node;
         }
 
-        private static SgfProperty ParseCommand( string input, ref int inputPosition )
+        private SgfProperty ParseCommand( string input, ref int inputPosition )
         {
             SkipInputWhitespace( input, ref inputPosition );
             if ( !char.IsLetter( input[ inputPosition ] ) )
@@ -162,7 +162,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             return command;
         }
 
-        private static void SkipInputWhitespace( string input, ref int inputPosition )
+        private void SkipInputWhitespace( string input, ref int inputPosition )
         {
             while ( inputPosition < input.Length && char.IsWhiteSpace( input[ inputPosition ] ) )
             {

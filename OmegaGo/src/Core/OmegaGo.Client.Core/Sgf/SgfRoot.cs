@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf
 {
+    /// <summary>
+    /// Represents the root of the SGF tree
+    /// </summary>
     internal class SgfRoot
     {
         public List<SgfProperty> GlobalCommands { get; } = new List<SgfProperty>();
