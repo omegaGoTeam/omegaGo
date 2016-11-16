@@ -67,6 +67,8 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Markup\IMarkup.cs" />
     <Compile Include="Markup\MarkupKind.cs" />
+    <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
+    <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
     <Compile Include="Sgf\SgfRoot.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="CoreDebug.cs" />
@@ -104,7 +106,7 @@
     <Compile Include="Sgf\SgfCommand.cs" />
     <Compile Include="Sgf\SgfNode.cs" />
     <Compile Include="Sgf\SgfParseException.cs" />
-    <Compile Include="Sgf\SgfParser.cs" />
+    <Compile Include="Sgf\Parsing\SgfParser.cs" />
     <Compile Include="Sgf\SgfGameTree.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +155,9 @@
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sgf\Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

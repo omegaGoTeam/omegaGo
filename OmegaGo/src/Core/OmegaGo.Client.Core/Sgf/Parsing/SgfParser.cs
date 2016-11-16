@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.GameState;
 
-namespace OmegaGo.Core.Sgf
+namespace OmegaGo.Core.Sgf.Parsing
 {
     /// <summary>
     /// Serializer of SGF files
     /// </summary>
     internal class SgfParser
     {
+        
+
         /// <summary>
         /// Deserializes the SGF tree to a game tree
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf;
+using OmegaGo.Core.Sgf.Parsing;
 
 namespace OmegaGo.Core.Tests.Sgf
 {
