@@ -102,9 +102,9 @@ namespace QuickPrototype
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
-            this.cbRuleset.Items.Add(new ChineseRuleset());
-            this.cbRuleset.Items.Add(new JapaneseRuleset());
-            this.cbRuleset.Items.Add(new AGARuleset());
+            this.cbRuleset.Items.Add(new ChineseRuleset(_game.White, _game.Black, _game.BoardSize));
+            this.cbRuleset.Items.Add(new JapaneseRuleset(_game.White, _game.Black, _game.BoardSize));
+            this.cbRuleset.Items.Add(new AGARuleset(_game.White, _game.Black, _game.BoardSize));
             for (int i = 0; i < this.cbRuleset.Items.Count; i++)
             {
                 Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
@@ -320,7 +320,7 @@ namespace QuickPrototype
         private void bChangeRuleset_Click(object sender, EventArgs e)
         {
             this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
-            this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
+            //this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
         }
 
         private void button4_Click(object sender, EventArgs e)

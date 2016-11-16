@@ -125,8 +125,8 @@ namespace QuickPrototype
             if (this.lbGames.SelectedItem != null)
             {
                 Game game = (Game)lbGames.SelectedItem;
-                game.Ruleset = new JapaneseRuleset();
-                game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
+                game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
                 game.StartObserving();
                 igs.RefreshBoard(game);
                 InGameForm observing = new InGameForm(game, igs);
@@ -194,7 +194,7 @@ namespace QuickPrototype
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
 
-
+            //TODO Petr
             Game localGame = new Game
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
@@ -294,7 +294,7 @@ namespace QuickPrototype
                 if (game != null)
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);
-                    game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
+                    //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
                     Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
                     Player networkPlayer = game.OpponentOf(localPlayer);
                     InGameForm ingameForm = new InGameForm(game, igs);
