@@ -193,17 +193,14 @@ namespace QuickPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-
-            //TODO Petr
             Game localGame = new Game
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
-                NumberOfMovesPlayed = 0,
-                Ruleset = new ChineseRuleset()
+                NumberOfMovesPlayed = 0
             };
             Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR", localGame);
             Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR", localGame);
-            localGame.Ruleset.startGame(playerWhite, playerBlack, localGame.BoardSize);
+            localGame.Ruleset = new ChineseRuleset(playerWhite, playerBlack, localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
             localGame.Server = null;

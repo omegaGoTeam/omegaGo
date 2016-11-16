@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.Online.Igs.Structures;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -170,10 +171,10 @@ namespace OmegaGo.Core.Online.Igs
                 BoardSize = new Core.GameBoardSize(19), // TODO
                 Server = this,
                 ServerId = heading.GameNumber,
-                Ruleset = new Rules.JapaneseRuleset()
             };
             game.Players.Add(new Core.Player(heading.BlackName, "?", game));
             game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+            game.Ruleset = new JapaneseRuleset(game.Players[1], game.Players[0], game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
             return game;
