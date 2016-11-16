@@ -184,8 +184,11 @@ namespace OmegaGo.Core.Rules
         protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
-            group.Add(pos);
-            _controlledInters[pos.X, pos.Y] = true;
+			if (!_controlledInters[pos.X, pos.Y])
+            {
+                group.Add(pos);
+                _controlledInters[pos.X, pos.Y] = true;
+            }
             Position newp = new Position();
 
             if (_liberty[pos.X, pos.Y])
