@@ -186,6 +186,7 @@ namespace OmegaGo.Core.Online.Igs
         public override async Task MakeMove(Game game, Move move)
         {
             MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+            await Task.Delay(0);
             // TODO many different things to handle here
         }
     }

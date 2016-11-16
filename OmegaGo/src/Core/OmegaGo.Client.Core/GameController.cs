@@ -57,27 +57,13 @@ namespace OmegaGo.Core
             while (true)
             {
                 OnTurnPlayerChanged(TurnPlayer.Name);
-                /*
-                lblTurnPlayer.Text = _turnPlayer.Name;
-                */
                 OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
-                /*
-                if (_turnPlayer.Agent is AIAgent)
-                {
-                    ((AIAgent)_turnPlayer.Agent).Strength = (int)this.nAiStrength.Value;
-                }
-                */
                 AgentDecision decision = await _turnPlayer.Agent.RequestMove(_game);
                 OnDebuggingMessage(_turnPlayer + " does: " + decision);
 
                 if (decision.Kind == AgentDecisionKind.Resign)
                 {
                     OnResignation(_turnPlayer, decision.Explanation);
-                    /*
-                    panelEnd.Visible = true;
-                    lblEndCaption.Text = _turnPlayer + " resigned!";
-                    lblGameEndReason.Text = "The player resignation reason: '" + decision.Explanation + "'";
-                    */
                     OnDebuggingMessage("Game is over by resignation.");
                     break;
                 }
@@ -187,9 +173,16 @@ namespace OmegaGo.Core
                     {
                         OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
                         _game.GameTree.AddMoveToEnd(decision.Move);
+
+                        MoveProcessingResult mpr = _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
+                            decision.Move,
+                            new List<StoneColor[,]>()); // TODO history
+
+                        decision.Move.Captures.AddRange(mpr.Captures);
+
                         if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
                         {
-                            _game.Server.MakeMove(_game, decision.Move);
+                            await _game.Server.MakeMove(_game, decision.Move);
                         }
                     }
                     else if (decision.Move.Kind == MoveKind.Pass)
