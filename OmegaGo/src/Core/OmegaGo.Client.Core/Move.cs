@@ -16,10 +16,6 @@ namespace OmegaGo.Core
         /// </summary>
         public MoveKind Kind;
         /// <summary>
-        /// Gets a value indicating whether this move's kind is "unknown", i.e. it has not yet been loaded from a resource such as a server or a file.
-        /// </summary>
-        public bool IsUnknownMove => Kind == MoveKind.Unknown;
-        /// <summary>
         /// Color of the player who made this move.
         /// </summary>
         public StoneColor WhoMoves;
@@ -31,11 +27,7 @@ namespace OmegaGo.Core
         /// List of intersections at which a capture was made by this move.
         /// </summary>
         public List<Position> Captures = new List<Position>();
-
-        public static Move CreateUnknownMove()
-        {
-            return new Move() { Kind = MoveKind.Unknown };
-        }
+        
         public static Move Create(StoneColor whoMoves, Position where)
         {
             return new Move()
@@ -49,7 +41,6 @@ namespace OmegaGo.Core
         {
             if (Kind == MoveKind.Pass) return "PASS";
             else if (Kind == MoveKind.PlaceStone) return Coordinates.ToString();
-            else if (Kind == MoveKind.Unknown) return "UNKNOWN";
             else throw new Exception("This move kind does not exist.");
         }
     }
@@ -66,10 +57,6 @@ namespace OmegaGo.Core
         /// <summary>
         /// The other move - a player passes to signal that they think the game is over.
         /// </summary>
-        Pass,
-        /// <summary>
-        /// This move has not been loaded from an online server or other resource.
-        /// </summary>
-        Unknown
+        Pass
     }
 }

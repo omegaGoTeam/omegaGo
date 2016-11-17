@@ -54,7 +54,7 @@ namespace FormsPrototype
             GoColor[,] positions = new GoColor[19, 19];
             foreach (Move move in this._game.PrimaryTimeline)
             {
-                if (!move.IsUnknownMove && move.WhoMoves != GoColor.None)
+                if (move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
