@@ -30,17 +30,27 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public GameView()
         {
             _boardData = new BoardData();
-            _inputService = new InputService(_boardData);
             _renderService = new RenderService(_boardData);
             
+
             this.InitializeComponent();
+
         }
-        
+
+        private void VM_refreshThaBoard()
+        {
+            canvas.Invalidate();
+        }
+
         private void ViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             _boardData.BoardWidth = VM.Game.BoardSize.Width;
             _boardData.BoardHeight = VM.Game.BoardSize.Height;
             _boardData.RedrawRequested += (s, ev) => canvas.Invalidate();
+            _inputService = new InputService(_boardData, VM);
+
+            VM.refreshThaBoard += VM_refreshThaBoard;
+            VM.BeginGame();
         }
 
         private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)

@@ -97,7 +97,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             canvas.Width = 0;
             canvas.Height = 0;
 
-            if (ViewModel?.GameTree != null)
+            if (ViewModel?.GameTree != null && ViewModel?.GameTree?.GameTreeRoot != null)
             {
                 int requiredHeight = DrawNode(ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
 

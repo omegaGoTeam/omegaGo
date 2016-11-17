@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
@@ -17,9 +18,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             private set { _sharedBoardData = value; }
         }
 
-        public InputService(BoardData sharedBoardData)
+        private GameViewModel _gvm;
+        public InputService(BoardData sharedBoardData, GameViewModel gvm)
         {
             SharedBoardData = sharedBoardData;
+            _gvm = gvm;
         }
 
         public void PointerDown(int x, int y)
@@ -30,6 +33,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void PointerUp(int x, int y)
         {
             SharedBoardData.SelectedPosition = TranslateToBoardPosition(x, y);
+            _gvm.ClickOnPosition(SharedBoardData.SelectedPosition);
         }
 
         public void PointerMoved(int x, int y)

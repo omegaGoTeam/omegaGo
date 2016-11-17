@@ -5,12 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core.Agents;
+using OmegaGo.Core.AI;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
         private Game _game;
+        private GameController _gameController;
 
         private ChatViewModel _chatViewModel;
         private TimelineViewModel _timelineViewModel;
@@ -36,23 +41,60 @@ namespace OmegaGo.UI.ViewModels
         {
             _game = new Game();
             _game.BoardSize = new GameBoardSize(19);
-            
-            GameTreeNode node1 = new GameTreeNode(Move.Create(StoneColor.White, new Position(5, 5)));
-            GameTreeNode node2 = new GameTreeNode(Move.Create(StoneColor.Black, new Position(5, 7)));
-            GameTreeNode node3 = new GameTreeNode(Move.Create(StoneColor.White, new Position(7, 5)));
-            GameTreeNode node4 = new GameTreeNode(Move.Create(StoneColor.Black, new Position(6, 6)));
-            GameTreeNode node5 = new GameTreeNode(Move.Create(StoneColor.White, new Position(5, 6)));
-
-            _game.GameTree.GameTreeRoot = node1;
-
-            node1.Branches.AddNode(node2);
-            node2.Branches.AddNode(node3);
-            node3.Branches.AddNode(node4);
-            node4.Branches.AddNode(node5);
+            _game.Players.Add(new Player("Black Player", "??", _game));
+            _game.Players.Add(new Player("White Player", "??", _game));
+            foreach(var player in _game.Players)
+            {
+                player.Agent = new GameViewModelAgent();
+            }
+            _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
+            _gameController = new GameController(_game);
+            _gameController.BoardMustBeRefreshed += _gameController_BoardMustBeRefreshed;
 
             ChatViewModel = new ChatViewModel();
             TimelineViewModel = new TimelineViewModel();
             TimelineViewModel.GameTree = _game.GameTree;
+        }
+
+        public void BeginGame()
+        {
+            _gameController.BeginGame();
+        }
+
+        public event Action refreshThaBoard;
+
+        private void _gameController_BoardMustBeRefreshed()
+        {
+            refreshThaBoard?.Invoke();
+        }
+
+        public void ClickOnPosition(Position selectedPosition)
+        {
+            (_gameController.TurnPlayer.Agent as GameViewModelAgent).DecisionsToMake.Post(
+                AgentDecision.MakeMove(Move.Create(_gameController.TurnPlayer.Color, selectedPosition),
+                    "A click."));
+        }
+        class GameViewModelAgent : AgentBase, IAgent
+        {
+            public BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
+
+
+            public GameViewModelAgent()
+            {
+            }
+
+            public async Task<AgentDecision> RequestMove(Game game)
+            {
+                AgentDecision storedDecision = GetStoredDecision(game);
+                if (storedDecision != null)
+                {
+                    return storedDecision;
+                }
+                AgentDecision decision = await DecisionsToMake.ReceiveAsync();
+                return decision;
+            }
+
+            public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
         }
     }
 }
