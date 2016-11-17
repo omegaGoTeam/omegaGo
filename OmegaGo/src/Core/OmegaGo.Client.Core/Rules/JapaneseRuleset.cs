@@ -41,10 +41,6 @@ namespace OmegaGo.Core.Rules
         {
             _isPreviousMovePass = false;
 
-            if (currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] != StoneColor.None)
-            {
-                return MoveResult.OccupiedPosition;
-            }
             if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;

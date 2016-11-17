@@ -30,16 +30,6 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
         }
 
-
-        public void startGame(Player white, Player black, GameBoardSize gbSize)
-        {
-            _boardWidth = gbSize.Width;
-            _boardHeight = gbSize.Height;
-            return;
-            // TODO Petr: I'll just comment this out for a while so I can get it at least somewhat working.
-            throw new NotImplementedException();
-        }
-
         public abstract void PutHandicapStone(Move moveToMake);
 
         public abstract MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
@@ -291,6 +281,7 @@ namespace OmegaGo.Core.Rules
             Position p = moveToMake.Coordinates;
             List<Position> group = new List<Position>();
             bool groupHasLiberty = false;
+            _controlledInters = new bool[_boardWidth, _boardHeight];
 
             currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
             _liberty = FillLibertyTable(currentBoard);
