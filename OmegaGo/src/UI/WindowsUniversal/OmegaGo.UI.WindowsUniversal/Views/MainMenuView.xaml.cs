@@ -1,3 +1,4 @@
+using Windows.UI.ViewManagement;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
