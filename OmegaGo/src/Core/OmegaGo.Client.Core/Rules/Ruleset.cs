@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
         public MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
         {
-            StoneColor[,] currentBoard = previousBoard;
+            StoneColor[,] currentBoard = (StoneColor[,])previousBoard.Clone();
             Position position = moveToMake.Coordinates;
             MoveProcessingResult processingResult = new MoveProcessingResult();
             processingResult.Captures = new List<Position>();
@@ -68,7 +68,7 @@ namespace OmegaGo.Core.Rules
             {
                 //2. step: add stone
                 currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
-                //3. step: captures
+                //3. step: find captures and remove prisoners
                 processingResult.Captures = ControlCapture(currentBoard, moveToMake);
                 for (int i = 0; i < processingResult.Captures.Count; i++)
                 {
@@ -92,7 +92,7 @@ namespace OmegaGo.Core.Rules
                 }
             }
         }
-        
+
         /// <summary>
         /// Checks whether 2 game boards equal.
         /// </summary>
