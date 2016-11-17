@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.UI.Tests", "tests\U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.UI", "src\UI\OmegaGo.UI\OmegaGo.UI.csproj", "{8823DE70-5DC6-4151-84B4-0FC27E83EABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickPrototype", "src\Prototype\QuickPrototype\QuickPrototype.csproj", "{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsPrototype", "src\Prototype\QuickPrototype\FormsPrototype.csproj", "{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sideprojects", "Sideprojects", "{CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}"
 EndProject

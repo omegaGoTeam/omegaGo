@@ -1,4 +1,4 @@
-﻿namespace QuickPrototype
+﻿namespace FormsPrototype
 {
     partial class PrimaryForm
     {
@@ -561,7 +561,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
             this.Name = "PrimaryForm";
-            this.Text = "Gameplay Prototype Main Form";
+            this.Text = "OmegaGo: Windows Forms Prototype";
             this.Load += new System.EventHandler(this.PrimaryForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

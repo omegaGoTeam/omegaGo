@@ -72,134 +72,96 @@ namespace OmegaGo.Core
                     throw new Exception("There is no other possible decision.");
                 }
 
-                    Move moveToMake = decision.Move;
-                    bool willWeAcceptTheMove = true;
-                    if (moveToMake.Kind == MoveKind.PlaceStone)
-                    {
-                        if (moveToMake.Coordinates.X < 0 || moveToMake.Coordinates.Y < 0 ||
-                            moveToMake.Coordinates.X >= _game.BoardSize.Width || moveToMake.Coordinates.Y >= _game.BoardSize.Height)
-                        {
-                            OnDebuggingMessage("Illegal Move - Outside the board");
-                            willWeAcceptTheMove = false;
-                        }
-                    }
-                    if (willWeAcceptTheMove)
-                    {
-                        // TODO So far, we're not providing Ko information
-                        MoveResult canWeMakeIt =
-                            _game.Ruleset?.IsLegalMove(
-                                FastBoard.CreateBoardFromGame(_game), 
-                                moveToMake,
-                                new List<StoneColor[,]>()
-                                ) ?? MoveResult.Legal;
+                Move moveToMake = decision.Move;
+                MoveProcessingResult result =
+                        _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
+                        decision.Move,
+                        new List<StoneColor[,]>()); // TODO history
 
-                        // If there is no ruleset, moves are automatically legal.
-                        if (canWeMakeIt != MoveResult.Legal && canWeMakeIt != MoveResult.LifeDeadConfirmationPhase)
+                bool isTheMoveLegal = result.Result == MoveResult.Legal ||
+                                      result.Result == MoveResult.LifeDeadConfirmationPhase;
+                if (!isTheMoveLegal && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+                {
+                    OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
+                    isTheMoveLegal = true;
+
+                }
+                if (!isTheMoveLegal)
+                {
+                    if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
+                    {
+                        if (this.EnforceRules)
                         {
-                            willWeAcceptTheMove = false;
-                            switch (canWeMakeIt)
+                            // Move is forbidden.
+                            OnDebuggingMessage("Move is illegal because: " + result.Result);
+                            if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
                             {
-                                case MoveResult.Ko:
-                                OnDebuggingMessage("Illegal Move - Ko");
-                                    break;
-                                case MoveResult.OccupiedPosition:
-                                OnDebuggingMessage("That intersection is already occupied!");
-                                    break;
-                                case MoveResult.SelfCapture:
-                                OnDebuggingMessage("Illegal Move - Suicide");
-                                    break;
-                                case MoveResult.SuperKo:
-                                OnDebuggingMessage("Illegal Move - Superko");
-                                    break;
+                                OnDebuggingMessage("Illegal move - retrying.");
+                                continue; // retry
                             }
-                        }
-                    }
-                    if (!willWeAcceptTheMove && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
-                    {
-                        OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
-                        willWeAcceptTheMove = true;
-                    }
-                    if (!willWeAcceptTheMove)
-                    {
-                        if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
-                        {
-                            
-                            if (this.EnforceRules)
+                            else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
                             {
-                                // Move is forbidden.
-                                if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
-                                {
-                                    OnDebuggingMessage("Illegal move - retrying.");
-                                    continue; // retry
-                                }
-                                else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
-                                {
 
-                                     OnDebuggingMessage("Illegal move - making a random move instead.");
-                                    StoneColor actorColor = (_turnPlayer == _game.Players[0]) ? StoneColor.Black : StoneColor.White;
-                                    List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(actorColor,
-                                        FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
-                                                                   new List<Position>();
+                                OnDebuggingMessage("Illegal move - making a random move instead.");
+                                StoneColor actorColor = (_turnPlayer == _game.Players[0]) ? StoneColor.Black : StoneColor.White;
+                                List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(actorColor,
+                                    FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
+                                                               new List<Position>();
                                 // TODO add history
-                                    if (possibleMoves.Count == 0)
-                                    {
-                                        OnDebuggingMessage("NO MORE MOVES!");
-                                        // TODO
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
-                                        decision = AgentDecision.MakeMove(Move.Create(actorColor, randomTargetposition),
-                                            "A random move was made because the AI supplied an illegal move.");
-                                    }
+                                if (possibleMoves.Count == 0)
+                                {
+                                    OnDebuggingMessage("NO MORE MOVES!");
+                                    // TODO
+                                    break;
                                 }
                                 else
                                 {
-                                    throw new Exception("This agent does not provide information on how to handle its illegal move.");
+                                    Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
+                                    decision = AgentDecision.MakeMove(Move.Create(actorColor, randomTargetposition),
+                                        "A random move was made because the AI supplied an illegal move.");
                                 }
                             }
                             else
                             {
-                                // Server overrides rules.
+                                throw new Exception("This agent does not provide information on how to handle its illegal move.");
                             }
                         }
                         else
                         {
-                            // Ok.
+                            // Ok, we're not enforcing rules.
                         }
-                    }
-                    if (decision.Move.Kind == MoveKind.PlaceStone)
-                    {
-                        OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
-                        _game.GameTree.AddMoveToEnd(decision.Move);
-
-                        MoveProcessingResult mpr = _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
-                            decision.Move,
-                            new List<StoneColor[,]>()); // TODO history
-
-                        decision.Move.Captures.AddRange(mpr.Captures);
-
-                        if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-                        {
-                            await _game.Server.MakeMove(_game, decision.Move);
-                        }
-                    }
-                    else if (decision.Move.Kind == MoveKind.Pass)
-                    {
-                         OnDebuggingMessage(_turnPlayer + " passed!");
                     }
                     else
                     {
-                        throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
+                        // Ok, server will handle this.
                     }
-                    // THE MOVE STANDS
-                    _game.NumberOfMovesPlayed++;
-                    OnBoardMustBeRefreshed();
-                    _turnPlayer = _game.OpponentOf(_turnPlayer);
                 }
+                if (decision.Move.Kind == MoveKind.PlaceStone)
+                {
+                    OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
+                    _game.GameTree.AddMoveToEnd(decision.Move);
 
-            
+                    decision.Move.Captures.AddRange(result.Captures);
+
+                    if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
+                    {
+                        await _game.Server.MakeMove(_game, decision.Move);
+                    }
+                }
+                else if (decision.Move.Kind == MoveKind.Pass)
+                {
+                    OnDebuggingMessage(_turnPlayer + " passed!");
+                }
+                else
+                {
+                    throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
+                }
+                // THE MOVE STANDS
+                _game.NumberOfMovesPlayed++;
+                OnBoardMustBeRefreshed();
+                _turnPlayer = _game.OpponentOf(_turnPlayer);
+            }
+
         }
     }
 }
