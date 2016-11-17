@@ -17,6 +17,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToStatistics;
         private IMvxCommand _navigateToSettings;
         private IMvxCommand _navigateToAbout;
+        private IMvxCommand _navigateToHelp;
 
         public IMvxCommand NavigateToTutorial
         {
@@ -121,7 +122,19 @@ namespace OmegaGo.UI.ViewModels
                 return _navigateToAbout;
             }
         }
-        
+        public IMvxCommand NavigateToHelp
+        {
+            get
+            {
+                if (_navigateToHelp == null)
+                {
+                    _navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>());
+                }
+
+                return _navigateToHelp;
+            }
+        }
+
         public MainMenuViewModel()
         {
 

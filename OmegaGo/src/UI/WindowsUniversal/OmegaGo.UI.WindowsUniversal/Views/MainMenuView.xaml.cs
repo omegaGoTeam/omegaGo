@@ -10,5 +10,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        private void ShowHideTips_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            // TODO show or hide the RichTextBox with tips
+        }
     }
 }

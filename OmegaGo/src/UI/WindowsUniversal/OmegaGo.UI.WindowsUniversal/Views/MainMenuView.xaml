@@ -58,7 +58,7 @@
                     ToolTipService.ToolTip="Change language, audio, visual style and many other things."
                     HorizontalAlignment="Stretch" />
             <Button Content="Help" 
-                    Command="{Binding Path=NavigateToAbout}"
+                    Command="{Binding Path=NavigateToHelp}"
                     ToolTipService.ToolTip="Read the rules, documentation and other interesting information."
                     HorizontalAlignment="Stretch" />
         </StackPanel>
@@ -69,6 +69,7 @@
             <!-- Rich Text Box here -->
             <Button Content="Tips" 
                     ToolTipService.ToolTip="Show or hide tips."
+                    Click="ShowHideTips_Click"
                      />
         </StackPanel>
         
