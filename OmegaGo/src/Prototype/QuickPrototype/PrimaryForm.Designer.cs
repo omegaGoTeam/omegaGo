@@ -164,7 +164,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(862, 12);
+            this.button7.Location = new System.Drawing.Point(862, 13);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(244, 33);
             this.button7.TabIndex = 11;
@@ -507,7 +507,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button6.Location = new System.Drawing.Point(748, 52);
+            this.button6.Location = new System.Drawing.Point(748, 98);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(108, 23);
             this.button6.TabIndex = 20;
@@ -518,7 +518,7 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button8.Location = new System.Drawing.Point(748, 84);
+            this.button8.Location = new System.Drawing.Point(748, 127);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(108, 23);
             this.button8.TabIndex = 21;
