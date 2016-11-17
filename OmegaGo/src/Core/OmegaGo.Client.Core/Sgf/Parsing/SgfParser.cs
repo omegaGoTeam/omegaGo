@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
+using OmegaGo.Core.Sgf.Parsing.Warnings;
 
 namespace OmegaGo.Core.Sgf.Parsing
 {
@@ -9,27 +11,25 @@ namespace OmegaGo.Core.Sgf.Parsing
     /// </summary>
     internal class SgfParser
     {
-        
+        private readonly List<SgfParseWarning> _warnings = new List<SgfParseWarning>();
+
+        public IReadOnlyCollection<SgfParseWarning> Warnings => new ReadOnlyCollection<SgfParseWarning>( _warnings );
 
         /// <summary>
         /// Deserializes the SGF tree to a game tree
         /// </summary>
         /// <param name="sgfContents">The SGF file contents</param>
         /// <returns>SGF collection</returns>
-        public SgfParseResult<SgfCollection> Deserialize( string sgfContents )
+        public SgfCollection Parse( string sgfContents )
         {
             if ( sgfContents == null ) throw new ArgumentNullException( nameof( sgfContents ) );
-            return null;
+            _warnings.Clear();            
+            return ParseCollection( sgfContents );
         }
 
-        /// <summary>
-        /// Serializes SGF structure to string
-        /// </summary>
-        /// <param name="root">SGF root</param>
-        /// <returns></returns>
-        public string Serialize( SgfRoot root )
+        private SgfCollection ParseCollection( string sgfContents )
         {
-            throw new NotImplementedException();
+            
         }
 
         private SgfRoot ParseSgfRoot( string input )
