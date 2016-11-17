@@ -56,7 +56,7 @@ namespace OmegaGo.Core.Rules
             }
             else if (position.X < 0 || position.X >= _boardWidth || position.Y < 0 || position.Y >= _boardHeight)
             {
-                processingResult.Result = MoveResult.WrongPosition;
+                processingResult.Result = MoveResult.OutsideTheBoard;
                 return processingResult;
             }
             else if (IsPositionOccupied(previousBoard, moveToMake) == MoveResult.OccupiedPosition)
@@ -70,16 +70,16 @@ namespace OmegaGo.Core.Rules
                 currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
                 //3. step: captures
                 processingResult.Captures = ControlCapture(currentBoard, moveToMake);
+                for (int i = 0; i < processingResult.Captures.Count; i++)
+                {
+                    Position p = processingResult.Captures.ElementAt(i);
+                    currentBoard[p.X, p.Y] = StoneColor.None;
+                }
                 //4. step: control selfcapture, ko, superko
                 MoveResult r = ControlSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
                 {
                     processingResult.Result = r;
-                    for (int i = 0; i < processingResult.Captures.Count; i++)
-                    {
-                        Position p = processingResult.Captures.ElementAt(i);
-                        currentBoard[p.X, p.Y] = StoneColor.None;
-                    }
                     processingResult.NewBoard = currentBoard;
                     return processingResult;
                 }
@@ -137,8 +137,7 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Controls the legality of a move. This method SHOULD NOT be used, because controlling the legality of a move needs additional steps. 
-        /// For that reason I have created method <see cref= "ProcessMove">, which controls the move correctly.
+        /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>
         /// <param name="currentBoard"></param>
         /// <param name="moveToMake"></param>
@@ -146,16 +145,8 @@ namespace OmegaGo.Core.Rules
         /// <returns></returns>
         public MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
-            Position p = moveToMake.Coordinates;
-
-            if (moveToMake.Kind == MoveKind.Pass)
-                return MoveResult.Legal;
-            if (p.X < 0 || p.X >= _boardWidth || p.Y < 0 || p.Y >= _boardHeight)
-                return MoveResult.WrongPosition;
-            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
-                return MoveResult.OccupiedPosition;
-
-            return ControlSelfCaptureKoSuperko(currentBoard, moveToMake, history);
+            MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
+            return result.Result;
         }
 
         protected abstract MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
@@ -262,7 +253,7 @@ namespace OmegaGo.Core.Rules
         protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
-			if (!_controlledInters[pos.X, pos.Y])
+            if (!_controlledInters[pos.X, pos.Y])
             {
                 group.Add(pos);
                 _controlledInters[pos.X, pos.Y] = true;

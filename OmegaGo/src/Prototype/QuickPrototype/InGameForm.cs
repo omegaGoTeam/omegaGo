@@ -22,7 +22,7 @@ namespace QuickPrototype
     {
         private Game _game;
         private IgsConnection _igs;
-        private Player _playerToMove => _controller.TurnPlayer;
+        private Player PlayerToMove => this._controller.TurnPlayer;
         private GoColor[,] _truePositions = new GoColor[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
@@ -32,9 +32,9 @@ namespace QuickPrototype
         {
             InitializeComponent();
 
-            _game = game;
-            _igs = igs;
-            Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
+            this._game = game;
+            this._igs = igs;
+            this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
             game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
         }
@@ -43,16 +43,16 @@ namespace QuickPrototype
 
         private void SystemLog(string logline)
         {
-            tbLog.AppendText(logline + Environment.NewLine);
-            tbSystemMessage.Text = logline;
+            this.tbLog.AppendText(logline + Environment.NewLine);
+            this.tbSystemMessage.Text = logline;
         }
 
-        private Position lastMove = Position.Undefined;
+        private Position _lastMove = Position.Undefined;
 
         private void RefreshBoard()
         {
             GoColor[,] positions = new GoColor[19, 19];
-            foreach (Move move in _game.PrimaryTimeline)
+            foreach (Move move in this._game.PrimaryTimeline)
             {
                 if (!move.IsUnknownMove && move.WhoMoves != GoColor.None)
                 {
@@ -72,10 +72,10 @@ namespace QuickPrototype
                         positions[capture.X, capture.Y] = GoColor.None;
                     }
                 }
-                lastMove = move.Coordinates;
+                this._lastMove = move.Coordinates;
             }
-            _truePositions = positions;
-            pictureBox1.Refresh();
+            this._truePositions = positions;
+            this.pictureBox1.Refresh();
         }
 
         
@@ -90,36 +90,36 @@ namespace QuickPrototype
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _igs.RefreshBoard(_game);
+            this._igs.RefreshBoard(this._game);
         }
 
         private GameController _controller;
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
-            if (_game.Server == null)
-            {  
-                button1.Enabled = false;
-                button2.Enabled = false;
+            if (this._game.Server == null)
+            {
+                this.button1.Enabled = false;
+                this.button2.Enabled = false;
             }
-            this.cbRuleset.Items.Add(new ChineseRuleset(_game.White, _game.Black, _game.BoardSize));
-            this.cbRuleset.Items.Add(new JapaneseRuleset(_game.White, _game.Black, _game.BoardSize));
-            this.cbRuleset.Items.Add(new AGARuleset(_game.White, _game.Black, _game.BoardSize));
+            this.cbRuleset.Items.Add(new ChineseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
+            this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
+            this.cbRuleset.Items.Add(new AGARuleset(this._game.White, this._game.Black, this._game.BoardSize));
             for (int i = 0; i < this.cbRuleset.Items.Count; i++)
             {
                 Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
-                if (selected.GetType() == _game.Ruleset.GetType())
+                if (selected.GetType() == this._game.Ruleset.GetType())
                 {
                     this.cbRuleset.SelectedIndex = i;
                     break;
                 }
             }
-            _controller = new GameController(_game);
-            _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
-            _controller.DebuggingMessage += _controller_DebuggingMessage;
-            _controller.Resignation += _controller_Resignation;
-            _controller.TurnPlayerChanged += _controller_TurnPlayerChanged;
-            _controller.BeginGame();
+            this._controller = new GameController(this._game);
+            this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            this._controller.DebuggingMessage += _controller_DebuggingMessage;
+            this._controller.Resignation += _controller_Resignation;
+            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged;
+            this._controller.BeginGame();
         }
 
         private void _controller_TurnPlayerChanged(string obj)
@@ -129,9 +129,9 @@ namespace QuickPrototype
 
         private void _controller_Resignation(Player arg1, string arg2)
         {
-            panelEnd.Visible = true;
-            lblEndCaption.Text = arg1 + " resigned!";
-            lblGameEndReason.Text = "The player resignation reason: '" + arg2 + "'";
+            this.panelEnd.Visible = true;
+            this.lblEndCaption.Text = arg1 + " resigned!";
+            this.lblGameEndReason.Text = "The player resignation reason: '" + arg2 + "'";
         }
 
         private void _controller_DebuggingMessage(string obj)
@@ -150,14 +150,14 @@ namespace QuickPrototype
 
             const int ofx = 20;
             const int ofy = 20;
-            int boardSize = _game.SquareBoardSize;
+            int boardSize = this._game.SquareBoardSize;
             for (int x = 0; x < boardSize; x++)
             {
-                e.Graphics.DrawLine(boardSize - x - 1 == lastMove.Y ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
-                e.Graphics.DrawLine(x == lastMove.X ? new Pen(System.Drawing.Color.Black, 2) : Pens.Black, x * 20 + 10 + ofx , 0+ofy+10, x * 20 + 10 + ofx, boardSize * 20+ofy-10);
+                e.Graphics.DrawLine(boardSize - x - 1 == this._lastMove.Y ? new Pen(Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
+                e.Graphics.DrawLine(x == this._lastMove.X ? new Pen(Color.Black, 2) : Pens.Black, x * 20 + 10 + ofx , 0+ofy+10, x * 20 + 10 + ofx, boardSize * 20+ofy-10);
                 
-                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), _fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
-                e.Graphics.DrawString((boardSize - x).ToString(), _fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
+                e.Graphics.DrawString(Position.IntToIgsChar(x).ToString(), this._fontBasic, Brushes.Black, ofx + x * 20 + 3, 3);
+                e.Graphics.DrawString((boardSize - x).ToString(), this._fontBasic, Brushes.Black, 3, ofx + x * 20 + 3);
             }
             // Star points
             if (boardSize == 9)
@@ -185,11 +185,11 @@ namespace QuickPrototype
                     }
 
                     // Stone
-                    if (_truePositions[x, y] == GoColor.Black)
+                    if (this._truePositions[x, y] == GoColor.Black)
                     {
                         brush = Brushes.Black;
                     }
-                    else if (_truePositions[x, y] == GoColor.White)
+                    else if (this._truePositions[x, y] == GoColor.White)
                     {
                         brush = Brushes.White;
                     }
@@ -198,13 +198,13 @@ namespace QuickPrototype
                         e.Graphics.FillEllipse(brush, r);
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
-                    if (x == lastMove.X && y == lastMove.Y)
+                    if (x == this._lastMove.X && y == this._lastMove.Y)
                     {
                         Rectangle larger = r;
                         larger.Inflate(3, 3);
                         e.Graphics.DrawEllipse(new Pen(Brushes.Red, 2), larger);
                     }
-                    if (r.Contains(_mouseX, _mouseY))
+                    if (r.Contains(this._mouseX, this._mouseY))
                     {
                         Rectangle larger = r;
                         larger.Inflate(3, 3);
@@ -220,15 +220,15 @@ namespace QuickPrototype
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
-            int boardSize = _game.SquareBoardSize;
+            int boardSize = this._game.SquareBoardSize;
             const int ofx = 20;
             const int ofy = 20;
             int x = (e.X - 2 - ofx) / 20;
             int boardSizeMinusYMinus1 = (e.Y - 2 - ofy) / 20;
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
-            tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (_playerToMove.Agent is InGameFormGuiAgent)
+            this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
+            if (this.PlayerToMove.Agent is InGameFormGuiAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -236,26 +236,26 @@ namespace QuickPrototype
 
         private void button2_Click(object sender, EventArgs e)
         {
-            _igs.DEBUG_SendRawText("moves " + _game.ServerId);
+            this._igs.DEBUG_SendRawText("moves " + this._game.ServerId);
         }
 
         private void bPASS_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.Pass,
-                WhoMoves = _playerToMove == _game.Players[0] ? GoColor.Black : GoColor.White
+                WhoMoves = this.PlayerToMove == this._game.Players[0] ? GoColor.Black : GoColor.White
             }, "User clicked 'PASS'."));
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
         {
-            string coordinates = tbInputMove.Text;
+            string coordinates = this.tbInputMove.Text;
             Position position;
             try
             {
@@ -266,20 +266,20 @@ namespace QuickPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            ((InGameFormGuiAgent)_playerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
             {
                 Kind = MoveKind.PlaceStone,
                 Coordinates = position,
-                WhoMoves = _playerToMove == _game.Players[0] ? GoColor.Black : GoColor.White
+                WhoMoves = this.PlayerToMove == this._game.Players[0] ? GoColor.Black : GoColor.White
             }, "User entered these coordinates."));
         }
 
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            _mouseX = e.X;
-            _mouseY = e.Y;
-            pictureBox1.Refresh();
+            this._mouseX = e.X;
+            this._mouseY = e.Y;
+            this.pictureBox1.Refresh();
         }
 
         private void bRefreshPicture_Click(object sender, EventArgs e)
@@ -291,11 +291,11 @@ namespace QuickPrototype
         {
             // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
             // This is totally not good, but if it works for display now....
-            var timeline = _game.GameTree.GameTreeRoot;
-            _game.GameTree.GameTreeRoot = null;
+            var timeline = this._game.GameTree.GameTreeRoot;
+            this._game.GameTree.GameTreeRoot = null;
             foreach(GameTreeNode move in timeline.GetTimelineView)
             {
-                _game.GameTree.AddMoveToEnd(move.Move);
+                this._game.GameTree.AddMoveToEnd(move.Move);
                 RefreshBoard();
                 await Task.Delay(25);
             }
@@ -313,7 +313,7 @@ namespace QuickPrototype
         {
             if (e.KeyCode == Keys.Enter)
             {
-                this.bSay_Click(sender, EventArgs.Empty);
+                bSay_Click(sender, EventArgs.Empty);
             }
         }
 
@@ -326,23 +326,21 @@ namespace QuickPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper hpw = new OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper();
-            AgentDecision decision = hpw.RequestMove(new AIPreMoveInformation(_playerToMove.Color,
-                FastBoard.CreateBoardFromGame(_game),
-                _game.BoardSize,
+            AgentDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
+                FastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),
-                5,
-                _game.PrimaryTimeline.ToList()));
+                5, this._game.PrimaryTimeline.ToList()));
             MessageBox.Show("I recommend you make this move: " + decision);
         }
 
         private void chEnforceRules_CheckedChanged(object sender, EventArgs e)
         {
-            _controller.EnforceRules = this.chEnforceRules.Checked;
+            this._controller.EnforceRules = this.chEnforceRules.Checked;
         }
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-            foreach (Player player in _game.Players)
+            foreach (Player player in this._game.Players)
             {
                 if (player.Agent is AIAgent)
                 {

@@ -10,9 +10,9 @@
         /// </summary>
         Legal,
         /// <summary>
-        /// 
+        /// The move is illegal because it places a stone outside the game board.
         /// </summary>
-        WrongPosition,
+        OutsideTheBoard,
         /// <summary>
         /// The move is illegal because it attempted to place a stone on an intersection 
         /// that is already occupied by another stone.
