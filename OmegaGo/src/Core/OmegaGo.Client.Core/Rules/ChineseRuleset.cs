@@ -43,7 +43,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             _isPreviousMovePass = false;
 

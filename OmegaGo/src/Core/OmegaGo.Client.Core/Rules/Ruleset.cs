@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Rules
     public abstract class Ruleset
     {
         private int _boardWidth, _boardHeight;
-        private bool[,] _controlledInters;
+        private bool[,] _checkedInters;
         private bool[,] _liberty;
         private List<Position> _captures;
 
@@ -25,7 +25,7 @@ namespace OmegaGo.Core.Rules
         {
             _boardWidth = gbSize.Width;
             _boardHeight = gbSize.Height;
-            _controlledInters = new bool[_boardWidth, _boardHeight];
+            _checkedInters = new bool[_boardWidth, _boardHeight];
             _liberty = new bool[_boardWidth, _boardHeight];
             _captures = new List<Position>();
         }
@@ -34,10 +34,10 @@ namespace OmegaGo.Core.Rules
         public abstract int CountScore(StoneColor[,] currentBoard);
 
         /// <summary>
-        /// Controls the legality of a move. Places the stone on the board. Finds prisoners and remove them.
+        /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
         /// <param name="previousBoard">The state of board before the move.</param>
-        /// <param name="moveToMake">Move to control.</param>
+        /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
         public MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
@@ -48,7 +48,7 @@ namespace OmegaGo.Core.Rules
             processingResult.Captures = new List<Position>();
             processingResult.NewBoard = previousBoard;
 
-            //1. step: control intersection
+            //1. step: check intersection
             if (moveToMake.Kind == MoveKind.Pass)
             {
                 processingResult.Result = Pass();
@@ -69,14 +69,14 @@ namespace OmegaGo.Core.Rules
                 //2. step: add stone
                 currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
                 //3. step: find captures and remove prisoners
-                processingResult.Captures = ControlCapture(currentBoard, moveToMake);
+                processingResult.Captures = CheckCapture(currentBoard, moveToMake);
                 for (int i = 0; i < processingResult.Captures.Count; i++)
                 {
                     Position p = processingResult.Captures.ElementAt(i);
                     currentBoard[p.X, p.Y] = StoneColor.None;
                 }
-                //4. step: control selfcapture, ko, superko
-                MoveResult r = ControlSelfCaptureKoSuperko(currentBoard, moveToMake, history);
+                //4. step: check selfcapture, ko, superko
+                MoveResult r = CheckSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
                 {
                     processingResult.Result = r;
@@ -149,48 +149,48 @@ namespace OmegaGo.Core.Rules
             return result.Result;
         }
 
-        protected abstract MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
+        protected abstract MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
         protected abstract MoveResult Pass();
 
         /// <summary>
-        /// Controls the player's move.
+        /// Checks the player's move.
         /// </summary>
         /// <param name="previousBoard">The state of game board before the player's move.</param>
         /// <param name="moveToMake">The player's move</param>
         /// <param name="history">List of game boards that represents the history of game.</param>
         /// <returns>Result of player's move, list of prisoners/captured stones and the new state of game board</returns>
-        protected List<Position> ControlCapture(StoneColor[,] currentBoard, Move moveToMake)
+        protected List<Position> CheckCapture(StoneColor[,] currentBoard, Move moveToMake)
         {
             _liberty = FillLibertyTable(currentBoard);
-            _controlledInters = new bool[_boardWidth, _boardHeight];
+            _checkedInters = new bool[_boardWidth, _boardHeight];
             _captures = new List<Position>();
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
             StoneColor opponentColor = (moveToMake.WhoMoves == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
 
 
-            //control whether neighbour groups have liberty
+            //check whether neighbour groups have liberty
             //right neighbour
             if (currentX < _boardWidth - 1 && currentBoard[currentX + 1, currentY] == opponentColor && !_liberty[currentX + 1, currentY])
-                ControlNeighbourGroup(currentX + 1, currentY, currentBoard);
+                CheckNeighbourGroup(currentX + 1, currentY, currentBoard);
            
             //left neighbour
             if (currentX > 0 && currentBoard[currentX - 1, currentY] == opponentColor && !_liberty[currentX - 1, currentY])
-                ControlNeighbourGroup(currentX - 1, currentY, currentBoard);
+                CheckNeighbourGroup(currentX - 1, currentY, currentBoard);
             
             //upper neighbour
             if (currentY < _boardHeight - 1 && currentBoard[currentX, currentY + 1] == opponentColor && !_liberty[currentX, currentY + 1])
-                ControlNeighbourGroup(currentX, currentY + 1, currentBoard);
+                CheckNeighbourGroup(currentX, currentY + 1, currentBoard);
             
             //bottom neighbour
             if (currentY > 0 && currentBoard[currentX, currentY - 1] == opponentColor && !_liberty[currentX, currentY - 1])
-                ControlNeighbourGroup(currentX, currentY - 1, currentBoard);
+                CheckNeighbourGroup(currentX, currentY - 1, currentBoard);
 
             return _captures;
         }
 
-        protected void ControlNeighbourGroup(int x, int y,  StoneColor[,] currentBoard)
+        protected void CheckNeighbourGroup(int x, int y,  StoneColor[,] currentBoard)
         { 
             List<Position> group = new List<Position>();
             bool groupHasLiberty = false;
@@ -220,7 +220,7 @@ namespace OmegaGo.Core.Rules
         {
             _liberty = new bool[_boardWidth, _boardHeight];
 
-            //control if position has liberty
+            //check whether position has liberty
             for (int i = 0; i < _boardWidth; i++)
             {
                 for (int j = 0; j < _boardHeight; j++)
@@ -253,38 +253,38 @@ namespace OmegaGo.Core.Rules
         protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
-            if (!_controlledInters[pos.X, pos.Y])
+			if (!_checkedInters[pos.X, pos.Y])
             {
                 group.Add(pos);
-                _controlledInters[pos.X, pos.Y] = true;
+                _checkedInters[pos.X, pos.Y] = true;
             }
             Position newp = new Position();
 
             if (_liberty[pos.X, pos.Y])
                 hasLiberty = true;
-            //has same uncontrolled right neighbour
-            if (pos.X < _boardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor && !_controlledInters[pos.X + 1, pos.Y])  
+            //has same unchecked right neighbour
+            if (pos.X < _boardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor && !_checkedInters[pos.X + 1, pos.Y])  
             {
                 newp.X = pos.X + 1;
                 newp.Y = pos.Y;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-            //has same uncontrolled upper neighbour
-            if (pos.Y < _boardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor && !_controlledInters[pos.X, pos.Y + 1]) 
+            //has same unchecked upper neighbour
+            if (pos.Y < _boardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor && !_checkedInters[pos.X, pos.Y + 1]) 
             {
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-            //has same uncontrolled left neighbour
-            if (pos.X > 0 && currentBoard[pos.X - 1, pos.Y] == currentColor && !_controlledInters[pos.X - 1, pos.Y])
+            //has same unchecked left neighbour
+            if (pos.X > 0 && currentBoard[pos.X - 1, pos.Y] == currentColor && !_checkedInters[pos.X - 1, pos.Y])
             {
                 newp.X = pos.X - 1;
                 newp.Y = pos.Y;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-            //has same uncontrolled bottom neighbour
-            if (pos.Y > 0 && currentBoard[pos.X, pos.Y - 1] == currentColor && !_controlledInters[pos.X, pos.Y - 1])
+            //has same unchecked bottom neighbour
+            if (pos.Y > 0 && currentBoard[pos.X, pos.Y - 1] == currentColor && !_checkedInters[pos.X, pos.Y - 1])
             {
                 newp.X = pos.X;
                 newp.Y = pos.Y - 1;
@@ -331,7 +331,7 @@ namespace OmegaGo.Core.Rules
             Position p = moveToMake.Coordinates;
             List<Position> group = new List<Position>();
             bool groupHasLiberty = false;
-            _controlledInters = new bool[_boardWidth, _boardHeight];
+            _checkedInters = new bool[_boardWidth, _boardHeight];
 
             currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
             _liberty = FillLibertyTable(currentBoard);
