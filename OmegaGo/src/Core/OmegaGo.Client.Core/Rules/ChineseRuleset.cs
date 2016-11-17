@@ -22,6 +22,11 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
+        public override int CountScore(StoneColor[,] currentBoard)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override MoveResult Pass()
         {
             if (_isPreviousMovePass)
@@ -38,7 +43,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        public override MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             _isPreviousMovePass = false;
 
@@ -61,10 +66,6 @@ namespace OmegaGo.Core.Rules
             
         }
 
-        public override int CountScore(StoneColor[,] currentBoard)
-        {
-            throw new NotImplementedException();
-        }
 
     }
 }

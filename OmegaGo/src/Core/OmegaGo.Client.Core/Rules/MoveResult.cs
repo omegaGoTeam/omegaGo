@@ -10,6 +10,10 @@
         /// </summary>
         Legal,
         /// <summary>
+        /// 
+        /// </summary>
+        WrongPosition,
+        /// <summary>
         /// The move is illegal because it attempted to place a stone on an intersection 
         /// that is already occupied by another stone.
         /// </summary>

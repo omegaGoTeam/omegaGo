@@ -31,21 +31,19 @@ namespace OmegaGo.Core.Rules
         }
 
         public abstract void PutHandicapStone(Move moveToMake);
-
-        public abstract MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
-
-        protected abstract MoveResult Pass();
+        public abstract int CountScore(StoneColor[,] currentBoard);
 
         /// <summary>
-        /// Controls the player's move.
+        /// Controls the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
-        /// <param name="previousBoard">The state of game board before the player's move.</param>
-        /// <param name="moveToMake">The player's move</param>
-        /// <param name="history">List of game boards that represents the history of game.</param>
-        /// <returns>Result of player's move, list of prisoners/captured stones and the new state of game board</returns>
+        /// <param name="previousBoard">The state of board before the move.</param>
+        /// <param name="moveToMake">Move to control.</param>
+        /// <param name="history">List of previous game boards.</param>
+        /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
         public MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             StoneColor[,] currentBoard = previousBoard;
+            Position position = moveToMake.Coordinates;
             MoveProcessingResult processingResult = new MoveProcessingResult();
             processingResult.Captures = new List<Position>();
             processingResult.NewBoard = previousBoard;
@@ -54,6 +52,11 @@ namespace OmegaGo.Core.Rules
             if (moveToMake.Kind == MoveKind.Pass)
             {
                 processingResult.Result = Pass();
+                return processingResult;
+            }
+            else if (position.X < 0 || position.X >= _boardWidth || position.Y < 0 || position.Y >= _boardHeight)
+            {
+                processingResult.Result = MoveResult.WrongPosition;
                 return processingResult;
             }
             else if (IsPositionOccupied(previousBoard, moveToMake) == MoveResult.OccupiedPosition)
@@ -66,9 +69,9 @@ namespace OmegaGo.Core.Rules
                 //2. step: add stone
                 currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
                 //3. step: captures
-                processingResult.Captures= ControlCapture(currentBoard,moveToMake);
+                processingResult.Captures = ControlCapture(currentBoard, moveToMake);
                 //4. step: control selfcapture, ko, superko
-                MoveResult r = IsLegalMove(currentBoard, moveToMake, history);
+                MoveResult r = ControlSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
                 {
                     processingResult.Result = r;
@@ -89,7 +92,83 @@ namespace OmegaGo.Core.Rules
                 }
             }
         }
+        
+        /// <summary>
+        /// Checks whether 2 game boards equal.
+        /// </summary>
+        /// <param name="b1">First game board.</param>
+        /// <param name="b2">Second game board.</param>
+        /// <returns></returns>
+        public bool AreBoardsEqual(StoneColor[,] b1, StoneColor[,] b2)
+        {
+            for (int i = 0; i < _boardWidth; i++)
+            {
+                for (int j = 0; j < _boardHeight; j++)
+                {
+                    if (b1[i, j] != b2[i, j])
+                        return false;
+                }
+            }
 
+            return true;
+        }
+
+       
+        /// <summary>
+        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// </summary>
+        /// <param name="player">The player who wants to make a move.</param>
+        /// <param name="currentBoard">The current full board position.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns></returns>
+        public List<Position> GetAllLegalMoves(StoneColor player, StoneColor[,] currentBoard, List<StoneColor[,]> history)
+        {
+            List<Position> possiblePositions = new List<Core.Position>();
+            for (int x = 0; x < _boardWidth; x++)
+                for (int y = 0; y < _boardHeight; y++)
+                {
+                    if (IsLegalMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    {
+                        possiblePositions.Add(new Core.Position(x, y));
+                    }
+                }
+
+            return possiblePositions;
+        }
+
+        /// <summary>
+        /// Controls the legality of a move. This method SHOULD NOT be used, because controlling the legality of a move needs additional steps. 
+        /// For that reason I have created method <see cref= "ProcessMove">, which controls the move correctly.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="moveToMake"></param>
+        /// <param name="history"></param>
+        /// <returns></returns>
+        public MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        {
+            Position p = moveToMake.Coordinates;
+
+            if (moveToMake.Kind == MoveKind.Pass)
+                return MoveResult.Legal;
+            if (p.X < 0 || p.X >= _boardWidth || p.Y < 0 || p.Y >= _boardHeight)
+                return MoveResult.WrongPosition;
+            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
+                return MoveResult.OccupiedPosition;
+
+            return ControlSelfCaptureKoSuperko(currentBoard, moveToMake, history);
+        }
+
+        protected abstract MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
+
+        protected abstract MoveResult Pass();
+
+        /// <summary>
+        /// Controls the player's move.
+        /// </summary>
+        /// <param name="previousBoard">The state of game board before the player's move.</param>
+        /// <param name="moveToMake">The player's move</param>
+        /// <param name="history">List of game boards that represents the history of game.</param>
+        /// <returns>Result of player's move, list of prisoners/captured stones and the new state of game board</returns>
         protected List<Position> ControlCapture(StoneColor[,] currentBoard, Move moveToMake)
         {
             _liberty = FillLibertyTable(currentBoard);
@@ -223,26 +302,6 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        /// <summary>
-        /// Checks whether 2 game boards equal.
-        /// </summary>
-        /// <param name="b1">First game board.</param>
-        /// <param name="b2">Second game board.</param>
-        /// <returns></returns>
-        public bool AreBoardsEqual(StoneColor[,] b1, StoneColor[,] b2)
-        {
-            for (int i = 0; i < _boardWidth; i++)
-            {
-                for (int j = 0; j < _boardHeight; j++)
-                {
-                    if (b1[i, j] != b2[i, j])
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
         protected MoveResult IsKo(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             int boardHistoryCount = history.Count;
@@ -296,8 +355,6 @@ namespace OmegaGo.Core.Rules
             }
 
         }
-
-        public abstract int CountScore(StoneColor[,] currentBoard);
 
         protected void CountArea(StoneColor[,] currentBoard)
         {
@@ -445,27 +502,6 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        /// <summary>
-        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
-        /// </summary>
-        /// <param name="player">The player who wants to make a move.</param>
-        /// <param name="currentBoard">The current full board position.</param>
-        /// <param name="history">All previous full board positions.</param>
-        /// <returns></returns>
-        public List<Position> GetAllLegalMoves(StoneColor player, StoneColor[,] currentBoard, List<StoneColor[,]> history)
-        {
-            List<Position> possiblePositions = new List<Core.Position>();
-            for (int x = 0; x < _boardWidth; x++) 
-                for (int y = 0; y < _boardHeight; y++)
-                {
-                    if (IsLegalMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
-                    {
-                        possiblePositions.Add(new Core.Position(x, y));
-                    }
-                }
-
-            return possiblePositions;
-        }
     }
 
     

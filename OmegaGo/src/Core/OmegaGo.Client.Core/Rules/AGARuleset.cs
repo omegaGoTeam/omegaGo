@@ -17,7 +17,13 @@ namespace OmegaGo.Core.Rules
         public AGARuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
         {
         }
+
         public override void PutHandicapStone(Move moveToMake)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int CountScore(StoneColor[,] currentBoard)
         {
             throw new NotImplementedException();
         }
@@ -41,7 +47,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        public override MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult ControlSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
             _isPreviousMovePass = false;
 
@@ -64,9 +70,6 @@ namespace OmegaGo.Core.Rules
             
         }
 
-        public override int CountScore(StoneColor[,] currentBoard)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
