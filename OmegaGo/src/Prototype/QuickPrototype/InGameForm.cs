@@ -16,7 +16,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Common;
 using GoColor = OmegaGo.Core.StoneColor;
 
-namespace QuickPrototype
+namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {

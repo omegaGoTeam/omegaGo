@@ -20,7 +20,7 @@ using StoneColor = OmegaGo.Core.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
 
-namespace QuickPrototype
+namespace FormsPrototype
 {
     public partial class PrimaryForm : Form
     {

@@ -8,7 +8,7 @@ using OmegaGo.Core;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 
-namespace QuickPrototype
+namespace FormsPrototype
 {
     class InGameFormGuiAgent : AgentBase, IAgent
     {

@@ -93,6 +93,7 @@ namespace OmegaGo.Core
                         if (this.EnforceRules)
                         {
                             // Move is forbidden.
+                            OnDebuggingMessage("Move is illegal because: " + result.Result);
                             if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
                             {
                                 OnDebuggingMessage("Illegal move - retrying.");

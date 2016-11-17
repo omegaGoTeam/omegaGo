@@ -1,4 +1,4 @@
-﻿namespace QuickPrototype
+﻿namespace FormsPrototype
 {
     partial class InGameForm
     {

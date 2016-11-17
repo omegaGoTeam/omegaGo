@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QuickPrototype")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Windows Forms prototype front-end for OmegaGo")]
+[assembly: AssemblyDescription("Windows Forms prototype front-end for OmegaGo")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QuickPrototype")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyProduct("OmegaGo")]
+[assembly: AssemblyCopyright("Copyright © Omega Go Team 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
