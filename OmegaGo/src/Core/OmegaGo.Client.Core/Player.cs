@@ -9,19 +9,25 @@ namespace OmegaGo.Core
     /// </summary>
     public class Player
     {
-        public string Name { get; set; }
+
         /// <summary>
-        /// Gets or sets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
+        /// Gets the name of the player. This could be a player's online nickname, an AI program's name and difficulty,
+        /// or the text "Local Black" or "Local White".
         /// </summary>
-        public string Rank { get; set; }
+        public string Name { get;  }
+        /// <summary>
+        /// Gets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
+        /// </summary>
+        public string Rank { get;  }
 
         /// <summary>
         /// The game the player is playing.
         /// </summary>
-        public Game Game { get; set; }
-
+        private Game Game { get; }
+        /// <summary>
+        /// Gets the color of the stones this player is using.
+        /// </summary>
         public StoneColor Color => Game.Black == this ? StoneColor.Black : StoneColor.White;
-
         /// <summary>
         /// The number of points this player has scored in the game he participates in.
         /// </summary>
@@ -30,13 +36,21 @@ namespace OmegaGo.Core
         /// The agent that makes this player's moves.
         /// </summary>
         public IAgent Agent;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// </summary>
+        /// <param name="name">The player's name.</param>
+        /// <param name="rank">The player's rank (e.g. "17k").</param>
+        /// <param name="game">The game the player participates in.</param>
         public Player(string name, string rank, Game game)
         {
             Name = name;
             Rank = rank;
             Game = game;
         }
+        /// <summary>
+        /// Returns the player's name.
+        /// </summary>
         public override string ToString() => Name;
     }
 }
