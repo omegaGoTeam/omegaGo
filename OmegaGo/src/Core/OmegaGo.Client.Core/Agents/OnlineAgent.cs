@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Agents
 
     
 
-        public async Task<AgentDecision> RequestMove(Game game)
+        public async Task<AgentDecision> RequestMoveAsync(Game game)
         {
             // Take from history.
             while (true)

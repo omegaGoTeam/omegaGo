@@ -26,9 +26,26 @@ namespace OmegaGo.Core
         /// <summary>
         /// List of intersections at which a capture was made by this move.
         /// </summary>
-        public List<Position> Captures = new List<Position>();
-        
-        public static Move Create(StoneColor whoMoves, Position where)
+        public List<Position> Captures { get; } = new List<Position>();
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="Move"/> class from being created. Use the 
+        /// <see cref="PlaceStone(StoneColor, Position)"/> and <see cref="Pass(StoneColor)"/>  
+        /// factory methods instead.
+        /// </summary>
+        private Move()
+        {
+
+        }
+        public static Move Pass(StoneColor whoMoves)
+        {
+            return new Core.Move()
+            {
+                WhoMoves = whoMoves,
+                Kind = MoveKind.Pass
+            };
+        }
+        public static Move PlaceStone(StoneColor whoMoves, Position where)
         {
             return new Move()
             {
@@ -40,8 +57,8 @@ namespace OmegaGo.Core
         public override string ToString()
         {
             if (Kind == MoveKind.Pass) return "PASS";
-            else if (Kind == MoveKind.PlaceStone) return Coordinates.ToString();
-            else throw new Exception("This move kind does not exist.");
+            if (Kind == MoveKind.PlaceStone) return Coordinates.ToString();
+            throw new Exception("This move kind does not exist.");
         }
     }
 

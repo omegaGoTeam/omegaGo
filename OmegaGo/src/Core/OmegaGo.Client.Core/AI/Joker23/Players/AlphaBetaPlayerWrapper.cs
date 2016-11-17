@@ -27,7 +27,7 @@ namespace OmegaGo.Core.AI.Joker23
             JokerPoint point = this._internalPlayer.betterPlanMove(currentGame, gameState.Difficulty);
             
 
-            return AgentDecision.MakeMove(Move.Create(gameState.AIColor, new Position(point.x, point.y)),
+            return AgentDecision.MakeMove(Move.PlaceStone(gameState.AIColor, new Position(point.x, point.y)),
                 "I chose using the minimax algorithm and heuristics.");
         }
     }

@@ -21,7 +21,7 @@ namespace FormsPrototype
             this.inGameForm = form;
         }
 
-        public async Task<AgentDecision> RequestMove(Game game)
+        public async Task<AgentDecision> RequestMoveAsync(Game game)
         {
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null)

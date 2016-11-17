@@ -6,7 +6,7 @@
     public enum IllegalMoveHandling
     {
         /// <summary>
-        /// The agent should be prompted to make a move one more time. This is how GuiAgent should act.
+        /// The agent should be prompted to make a move one more time. This is how user interface agents should act.
         /// </summary>
         Retry,
         /// <summary>

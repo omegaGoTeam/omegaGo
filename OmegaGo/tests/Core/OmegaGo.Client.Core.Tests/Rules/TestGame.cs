@@ -43,7 +43,7 @@ namespace OmegaGo.Core.Tests.Rules
 
         public Move Move(string coordinates, StoneColor player = StoneColor.Black)
         {
-            return OmegaGo.Core.Move.Create(player, Position.FromIgsCoordinates(coordinates));
+            return OmegaGo.Core.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
         }
 
     }

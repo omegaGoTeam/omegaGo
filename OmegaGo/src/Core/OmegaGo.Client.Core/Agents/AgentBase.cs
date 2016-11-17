@@ -7,6 +7,10 @@ using OmegaGo.Core.AI;
 
 namespace OmegaGo.Core.Agents
 {
+    /// <summary>
+    /// This base class contains code that allows an agent to make moves based on a historical record. This is used most often when resuming
+    /// a paused game or when entering a game that's already in progress on a server.
+    /// </summary>
     public abstract class AgentBase
     {
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
@@ -18,6 +22,11 @@ namespace OmegaGo.Core.Agents
             else
                 this._storedMoves.Add(moveIndex, move);
         }
+        /// <summary>
+        /// If this agent has a historical move stored for the current turn number, then this method will return that move; 
+        /// if not, then it will return null.
+        /// </summary>
+        /// <param name="game">The game that this agent is playing.</param>
         protected AgentDecision GetStoredDecision(Game game)
         {
             if (_storedMoves.ContainsKey(game.NumberOfMovesPlayed + 1))

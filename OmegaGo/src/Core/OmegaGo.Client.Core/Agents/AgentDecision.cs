@@ -11,10 +11,27 @@ namespace OmegaGo.Core.AI
     /// </summary>
     public class AgentDecision
     {
+        /// <summary>
+        /// Gets the form of decision that the agent took. The most common decisions are making a move or resigning.
+        /// </summary>
         public AgentDecisionKind Kind { get; private set; }
+        /// <summary>
+        /// If the <see cref="Kind"/> is <see cref="AgentDecisionKind.Move"/>, then this gets the <see cref="Move"/> that the agent wants to make.  
+        /// </summary>
         public Move Move { get; private set; }
+        /// <summary>
+        /// Gets the agent's explanation for why it made this decision.
+        /// </summary>
         public string Explanation { get; private set; }
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="AgentDecision"/> class from being created. Use <see cref="MakeMove(Core.Move,string)"/>
+        /// or <see cref="Resign(string)"/> instead.  
+        /// </summary>
+        private AgentDecision()
+        {
+
+        }
         public static AgentDecision MakeMove(Move move, string why)
         {
             return new AgentDecision()
@@ -46,6 +63,9 @@ namespace OmegaGo.Core.AI
         }
     }
 
+    /// <summary>
+    /// Represents the kind of the decision: whether it's making a move or resigning.
+    /// </summary>
     public enum AgentDecisionKind
     {
         /// <summary>

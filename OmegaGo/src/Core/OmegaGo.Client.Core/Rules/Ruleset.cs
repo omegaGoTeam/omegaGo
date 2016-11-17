@@ -127,7 +127,7 @@ namespace OmegaGo.Core.Rules
             for (int x = 0; x < _boardWidth; x++)
                 for (int y = 0; y < _boardHeight; y++)
                 {
-                    if (IsLegalMove(currentBoard, Move.Create(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Core.Position(x, y)), history) == MoveResult.Legal)
                     {
                         possiblePositions.Add(new Core.Position(x, y));
                     }

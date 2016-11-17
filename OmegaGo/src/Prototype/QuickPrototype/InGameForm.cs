@@ -241,11 +241,8 @@ namespace FormsPrototype
 
         private void bPASS_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
-            {
-                Kind = MoveKind.Pass,
-                WhoMoves = this.PlayerToMove == this._game.Players[0] ? GoColor.Black : GoColor.White
-            }, "User clicked 'PASS'."));
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(
+                OmegaGo.Core.Move.Pass(this.PlayerToMove.Color), "User clicked 'PASS'."));
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
@@ -266,12 +263,8 @@ namespace FormsPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(new Move()
-            {
-                Kind = MoveKind.PlaceStone,
-                Coordinates = position,
-                WhoMoves = this.PlayerToMove == this._game.Players[0] ? GoColor.Black : GoColor.White
-            }, "User entered these coordinates."));
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(
+                OmegaGo.Core.Move.PlaceStone(this.PlayerToMove.Color, position), "User entered these coordinates."));
         }
 
 

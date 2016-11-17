@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Agents
             this._aiProgram = aiProgram;
         }
 
-        public async Task<AgentDecision> RequestMove(Game game)
+        public async Task<AgentDecision> RequestMoveAsync(Game game)
         {
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null) return storedDecision;

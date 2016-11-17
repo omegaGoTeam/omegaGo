@@ -71,7 +71,7 @@ namespace OmegaGo.UI.ViewModels
         public void ClickOnPosition(Position selectedPosition)
         {
             (_gameController.TurnPlayer.Agent as GameViewModelAgent).DecisionsToMake.Post(
-                AgentDecision.MakeMove(Move.Create(_gameController.TurnPlayer.Color, selectedPosition),
+                AgentDecision.MakeMove(Move.PlaceStone(_gameController.TurnPlayer.Color, selectedPosition),
                     "A click."));
         }
         class GameViewModelAgent : AgentBase, IAgent
@@ -83,7 +83,7 @@ namespace OmegaGo.UI.ViewModels
             {
             }
 
-            public async Task<AgentDecision> RequestMove(Game game)
+            public async Task<AgentDecision> RequestMoveAsync(Game game)
             {
                 AgentDecision storedDecision = GetStoredDecision(game);
                 if (storedDecision != null)

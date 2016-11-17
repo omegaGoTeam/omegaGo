@@ -22,11 +22,7 @@ namespace OmegaGo.Core.AI.Random
                 return AgentDecision.Resign("There are no more moves left to do.");
             }
             Position chosen = possibleIntersections[rgen.Next(possibleIntersections.Count)];
-            return AgentDecision.MakeMove(new Core.Move()
-            {
-                WhoMoves = gameState.AIColor,
-                Coordinates = chosen
-            }, "I chose at random.");
+            return AgentDecision.MakeMove(Move.PlaceStone(gameState.AIColor, chosen), "I chose at random.");
         }
     }
 }

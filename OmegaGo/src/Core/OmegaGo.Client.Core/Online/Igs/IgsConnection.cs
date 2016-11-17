@@ -291,7 +291,7 @@ namespace OmegaGo.Core.Online.Igs
                 string mover = match.Groups[2].Value;
                 string coordinates = match.Groups[3].Value;
                 string captures = match.Groups[4].Value;
-                Move move = Move.Create(mover == "B" ? StoneColor.Black : StoneColor.White,
+                Move move = Move.PlaceStone(mover == "B" ? StoneColor.Black : StoneColor.White,
                     Position.FromIgsCoordinates(coordinates));
                 string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach(string capture in captureSplit)

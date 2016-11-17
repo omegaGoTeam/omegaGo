@@ -22,6 +22,7 @@ namespace OmegaGo.Core
     {
         /// <summary>
         /// In ordinary games, this list will have exactly two players. If we ever add multiplayer games, this could include more players.
+        /// The first player is black. The second player is white.
         /// </summary>
         public List<Player> Players;
         /// <summary>
@@ -35,7 +36,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// The game tree associated with the game. Each game has exactly one associated game tree.
         /// </summary>
-        public GameTree GameTree;
+        public readonly GameTree GameTree;
         /// <summary>
         /// The server this game occurs on, if any.
         /// </summary>
@@ -53,6 +54,10 @@ namespace OmegaGo.Core
         /// The size of the game board. Cannot change during the game. Initialized during game creation.
         /// </summary>
         public GameBoardSize BoardSize;
+        /// <summary>
+        /// Gets or sets the size of the board, if it is square.
+        /// If the board is not square, calling this getter will throw an exception.
+        /// </summary>
         public int SquareBoardSize
         {
             get
