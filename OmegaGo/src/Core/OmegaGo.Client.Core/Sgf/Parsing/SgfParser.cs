@@ -44,56 +44,9 @@ namespace OmegaGo.Core.Sgf.Parsing
                 gameTrees.Add( tree );
                 SkipInputWhitespace( input, ref inputPosition );
             }
-            
+
             SgfCollection collection = new SgfCollection( gameTrees );
             return collection;
-        }
-
-        private SgfRoot ParseSgfRoot( string input )
-        {
-            if ( string.IsNullOrWhiteSpace( input ) ) throw new SgfParseException( "Input SGF file empty" );
-            int inputPosition = 0;
-            SkipInputWhitespace( input, ref inputPosition );
-            if ( input[ inputPosition ] != '(' )
-                throw new SgfParseException( $"SGF Root does not begin with ( at {inputPosition}" );
-            SgfRoot root = new SgfRoot();
-            inputPosition++;
-            while ( inputPosition < input.Length && input[ inputPosition ] != ')' )
-            {
-                switch ( input[ inputPosition ] )
-                {
-                    case ';':
-                        {
-                            //parse inner commands
-                            var commands = ParseCommandList( input, ref inputPosition );
-                            root.GlobalCommands.AddRange( commands );
-                            break;
-                        }
-                    case '(':
-                        {
-                            SgfGameTree game = ParseSgfTree( input, ref inputPosition );
-                            root.Games.Add( game );
-                            break;
-                        }
-                    default:
-                        {
-                            throw new SgfParseException( $"This character is not allowed in SGF at {inputPosition}" );
-                        }
-                }
-                SkipInputWhitespace( input, ref inputPosition );
-            }
-            return null;
-        }
-
-        private IEnumerable<SgfProperty> ParseCommandList( string input, ref int inputPosition )
-        {
-            List<SgfProperty> commands = new List<SgfProperty>();
-            while ( inputPosition < input.Length && char.IsLetter( input[ inputPosition ] ) )
-            {
-                SgfProperty parseCommand = ParseCommand( input, ref inputPosition );
-                commands.Add( parseCommand );
-            }
-            return null;
         }
 
         private SgfGameTree ParseSgfTree( string input, ref int inputPosition )
@@ -103,34 +56,31 @@ namespace OmegaGo.Core.Sgf.Parsing
             SgfGameTree gameTree = new SgfGameTree();
             inputPosition++;
             SkipInputWhitespace( input, ref inputPosition );
+            bool gameTreesStarted = false;
+            IEnumerable<SgfProperty> properties = ParseSequence( input, ref inputPosition );
+            SkipInputWhitespace( input, ref inputPosition );
             //parse contents
             while ( inputPosition < input.Length && input[ inputPosition ] != ')' )
-            {
-                switch ( input[ inputPosition ] )
-                {
-                    case ';':
-                        {
-                            SgfNode node = ParseNode( input, ref inputPosition );
-                            gameTree.Nodes.Add( node );
-                            break;
-                        }
-                    case '(':
-                        {
-                            SgfGameTree childGameTree = ParseSgfTree( input, ref inputPosition );
-                            gameTree.Children.Add( childGameTree );
-                            break;
-                        }
-                    default:
-                        {
-                            throw new SgfParseException( $"This character is not allowed in SGF at {inputPosition}" );
-                        }
-                }
+            {                
+                SgfGameTree childGameTree = ParseSgfTree( input, ref inputPosition );
+                gameTree.Children.Add( childGameTree );
                 SkipInputWhitespace( input, ref inputPosition );
-            }
-            if ( inputPosition == input.Length )
+            }            
+            if ( inputPosition == input.Length || input[inputPosition] != ')' )
                 throw new SgfParseException( $"SGF gameTree was not properly terminated with ) at {inputPosition}" );
             inputPosition++;
-            return gameTree;
+            throw new NotImplementedException();
+        }
+
+        private IEnumerable<SgfProperty> ParseSequence( string input, ref int inputPosition )
+        {
+            List<SgfProperty> commands = new List<SgfProperty>();
+            while ( inputPosition < input.Length && char.IsLetter( input[ inputPosition ] ) )
+            {
+                SgfProperty parseCommand = ParseCommand( input, ref inputPosition );
+                commands.Add( parseCommand );
+            }
+            return null;
         }
 
         private SgfNode ParseNode( string input, ref int inputPosition )
