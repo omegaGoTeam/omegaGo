@@ -22,5 +22,12 @@ namespace OmegaGo.Core.Online
         public const string OgsApiPath = "api/v1/";
 
 
+        /// <summary>
+        /// Gets the HTTP address of the online-go.com server, i.e. "https://online-go.com/", ending with a slash.
+        /// </summary>
+        public static string GetOgsServer(bool useBetaServer)
+        {
+            return useBetaServer ? OgsBeta : OgsPrimary;
+        }
     }
 }

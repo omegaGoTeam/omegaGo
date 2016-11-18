@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Online.Ogs
 
             HttpClient httpClient = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post,
-                new Uri(ServerLocations.OgsPrimary + ServerLocations.OgsOauthGateway));
+                new Uri(ServerLocations.GetOgsServer(_useBetaServer) + ServerLocations.OgsOauthGateway));
             request.Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("client_id", OgsConstants.OmegaGoClientId),
