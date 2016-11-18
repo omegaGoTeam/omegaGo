@@ -1,8 +1,7 @@
-﻿using OmegaGo.UI.ViewModels;
+﻿using OmegaGo.Core;
+using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -11,6 +10,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private BoardData _boardData;
         private InputService _inputService;
         private RenderService _renderService;
+
+        private GameTreeNode _currentGameTreeNode;
         
         public GameViewModel VM => (GameViewModel)this.ViewModel;
 
@@ -44,7 +45,12 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             _inputService.PointerTapped += (s, ev) => VM.MakeMove(ev);
 
             // TODO Move to Messenger + Figure out how exactly Messenger concept works in CrossMVVM
-            VM.BoardRedrawRequsted += (s,ev) => canvas.Invalidate();
+            VM.BoardRedrawRequsted += (s, ev) =>
+            {
+                _currentGameTreeNode = ev;
+                canvas.Invalidate();
+            };
+
             VM.BeginGame();
         }
 
@@ -55,7 +61,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
-            RenderService.Draw(sender, args, VM.Game);
+            RenderService.Draw(sender, args, _currentGameTreeNode);
         }
 
         private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

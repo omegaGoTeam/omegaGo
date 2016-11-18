@@ -2,12 +2,8 @@
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using OmegaGo.Core;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
@@ -32,10 +28,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         }
 
-        public void Draw(CanvasControl sender, CanvasDrawEventArgs args, OmegaGo.Core.Game game)
+        public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
         {
-            int boardWidth = game.BoardSize.Width;
-            int boardHeight = game.BoardSize.Height;
+            int boardWidth = SharedBoardData.BoardWidth;
+            int boardHeight = SharedBoardData.BoardHeight;
 
             sender.Width = SharedBoardData.BoardActualWidth;
             sender.Height = SharedBoardData.BoardActualHeight;
@@ -95,13 +91,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 args.DrawingSession.DrawLine(0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardWidth, i * SharedBoardData.CellSize, Colors.Black);
             }
 
-            // TODO It would be nice to have last Node cached in Game Tree
-            if (game.GameTree.LastNode != null)
+            // TODO check axis correctness
+            if (gameState != null)
             {
-                Core.StoneColor[,] boardState = game.GameTree.LastNode.BoardState;
-                for (int x = 0; x < game.SquareBoardSize; x++)
+                Core.StoneColor[,] boardState = gameState.BoardState;
+                for (int x = 0; x < SharedBoardData.BoardWidth; x++)
                 {
-                    for (int y = 0; y < game.SquareBoardSize; y++)
+                    for (int y = 0; y < SharedBoardData.BoardHeight; y++)
                     {
                         if (boardState[x, y] == Core.StoneColor.Black)
                             DrawStone(args.DrawingSession, x, y, Core.StoneColor.Black);
