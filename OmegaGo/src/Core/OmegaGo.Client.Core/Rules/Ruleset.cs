@@ -344,7 +344,6 @@ namespace OmegaGo.Core.Rules
             {
                 return MoveResult.SelfCapture;
             }
-
         }
 
         protected void CountArea(StoneColor[,] currentBoard)
