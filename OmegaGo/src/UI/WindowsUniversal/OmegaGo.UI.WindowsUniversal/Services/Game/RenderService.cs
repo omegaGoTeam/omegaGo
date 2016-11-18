@@ -43,7 +43,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             args.DrawingSession.FillRectangle(
                 0, 0,
                 SharedBoardData.BoardActualWidth,
-                SharedBoardData.BoardActualHeight, 
+                SharedBoardData.BoardActualHeight,
                 _sharedBoardData.BoardColor);
 
             args.DrawingSession.DrawRectangle(
@@ -60,9 +60,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
 
                 args.DrawingSession.DrawTextLayout(
-                    textLayout, 
-                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardData.BoardBorderThickness, 
-                    0, 
+                    textLayout,
+                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardData.BoardBorderThickness,
+                    0,
                     Colors.Black);
 
                 textLayout.Dispose();
@@ -74,9 +74,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
 
                 args.DrawingSession.DrawTextLayout(
-                    textLayout, 
-                    0, 
-                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardData.BoardBorderThickness, 
+                    textLayout,
+                    0,
+                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardData.BoardBorderThickness,
                     Colors.Black);
 
                 textLayout.Dispose();
@@ -94,14 +94,40 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 args.DrawingSession.DrawLine(0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardWidth, i * SharedBoardData.CellSize, Colors.Black);
             }
-            
-            foreach (var move in game.PrimaryTimeline)
+
+            // TODO It would be nice to have last Node cached in Game Tree
+            if (game.GameTree.GameTreeRoot != null)
             {
-                if (move.WhoMoves == Core.StoneColor.Black)
-                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.Black);
-                else if (move.WhoMoves == Core.StoneColor.White)
-                    DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.White);
+                Core.GameTreeNode lastNode = game.GameTree.GameTreeRoot;
+                Core.GameTreeNode tmpNode = game.GameTree.GameTreeRoot;
+
+                while (tmpNode != null)
+                {
+                    lastNode = tmpNode;
+                    tmpNode = tmpNode.NextMove;
+                }
+
+                Core.StoneColor[,] boardState = lastNode.BoardState;
+                for (int x = 0; x < game.SquareBoardSize; x++)
+                {
+                    for (int y = 0; y < game.SquareBoardSize; y++)
+                    {
+                        if (boardState[x, y] == Core.StoneColor.Black)
+                            DrawStone(args.DrawingSession, x, y, Core.StoneColor.Black);
+                        else if (boardState[x, y] == Core.StoneColor.White)
+                            DrawStone(args.DrawingSession, x, y, Core.StoneColor.White);
+                    }
+                }
             }
+            
+            // Old rendering
+            //foreach (var move in game.PrimaryTimeline)
+            //{
+            //    if (move.WhoMoves == Core.StoneColor.Black)
+            //        DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.Black);
+            //    else if (move.WhoMoves == Core.StoneColor.White)
+            //        DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.White);
+            //}
 
             if (_sharedBoardData.HighlightedPosition.IsDefined)
             {

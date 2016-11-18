@@ -18,11 +18,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             private set { _sharedBoardData = value; }
         }
 
-        private GameViewModel _gvm;
-        public InputService(BoardData sharedBoardData, GameViewModel gvm)
+        public event EventHandler<Position> PointerTapped;
+        
+        public InputService(BoardData sharedBoardData)
         {
             SharedBoardData = sharedBoardData;
-            _gvm = gvm;
         }
 
         public void PointerDown(int x, int y)
@@ -32,8 +32,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public void PointerUp(int x, int y)
         {
-            SharedBoardData.SelectedPosition = TranslateToBoardPosition(x, y);
-            _gvm.ClickOnPosition(SharedBoardData.SelectedPosition);
+            Position pointerPosition = TranslateToBoardPosition(x, y);
+
+            SharedBoardData.SelectedPosition = pointerPosition;
+
+            if(pointerPosition.IsDefined)
+                PointerTapped(this, pointerPosition);
         }
 
         public void PointerMoved(int x, int y)
@@ -48,8 +52,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             x = x - SharedBoardData.BoardBorderThickness;
             y = y - SharedBoardData.BoardBorderThickness;
 
-            if (x > -SharedBoardData.HalfCellSize && x < (_sharedBoardData.BoardActualWidth - SharedBoardData.BoardBorderThickness - SharedBoardData.HalfCellSize) &&
-                y > -SharedBoardData.HalfCellSize && y < (_sharedBoardData.BoardActualHeight - SharedBoardData.BoardBorderThickness - SharedBoardData.HalfCellSize))
+            if (x > -SharedBoardData.HalfCellSize && x < (_sharedBoardData.BoardActualWidth - SharedBoardData.BoardBorderThickness - SharedBoardData.CellSize) &&
+                y > -SharedBoardData.HalfCellSize && y < (_sharedBoardData.BoardActualHeight - SharedBoardData.BoardBorderThickness - SharedBoardData.CellSize))
             {
                 position = new Position();
                 position.X = (x + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;

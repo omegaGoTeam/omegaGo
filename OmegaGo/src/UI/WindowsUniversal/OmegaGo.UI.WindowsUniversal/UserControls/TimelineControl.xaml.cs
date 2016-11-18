@@ -57,6 +57,21 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             if (timeline != null)
             {
+                if (e.Property == ViewModelProperty)
+                {
+                    TimelineViewModel oldViewModel;
+                    TimelineViewModel newViewModel;
+
+                    if (e.OldValue != null)
+                    {
+                        oldViewModel = (TimelineViewModel)e.OldValue;
+                        oldViewModel.TimelineRedrawRequsted -= timeline.TimelineRedrawRequsted;
+                    }
+
+                    newViewModel = (TimelineViewModel)e.NewValue;
+                    newViewModel.TimelineRedrawRequsted += timeline.TimelineRedrawRequsted;
+                }
+
                 timeline.Draw();
             }
         }
@@ -155,6 +170,11 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 offset--;
 
             return offset;
+        }
+        
+        private void TimelineRedrawRequsted(object sender, EventArgs e)
+        {
+            Draw();
         }
     }
 }

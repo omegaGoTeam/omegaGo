@@ -31,25 +31,20 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             _boardData = new BoardData();
             _renderService = new RenderService(_boardData);
+            _inputService = new InputService(_boardData);
             
-
             this.InitializeComponent();
-
         }
-
-        private void VM_refreshThaBoard()
-        {
-            canvas.Invalidate();
-        }
-
-        private void ViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        
+        private void GameView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             _boardData.BoardWidth = VM.Game.BoardSize.Width;
             _boardData.BoardHeight = VM.Game.BoardSize.Height;
             _boardData.RedrawRequested += (s, ev) => canvas.Invalidate();
-            _inputService = new InputService(_boardData, VM);
+            _inputService.PointerTapped += (s, ev) => VM.MakeMove(ev);
 
-            VM.refreshThaBoard += VM_refreshThaBoard;
+            // TODO Move to Messenger + Figure out how exactly Messenger concept works in CrossMVVM
+            VM.BoardRedrawRequsted += (s,ev) => canvas.Invalidate();
             VM.BeginGame();
         }
 
