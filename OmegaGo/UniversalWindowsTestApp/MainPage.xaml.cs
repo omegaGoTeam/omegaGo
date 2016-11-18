@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WindowsRuntimeDll;
+using Oakfoam;
 
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -31,7 +32,8 @@ namespace UniversalWindowsTestApp
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.textBlock.Text = ":" + WindowsRuntimeDll.Class1.Return4() + ":";
+            this.textBlock.Text = ":" + OakfoamWrapper.ExecuteGtpCommand("Hello");
+            OakfoamWrapper.InitializeEngine();
         }
     }
 }

@@ -27,9 +27,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{f0335cd2-8aef-4ebe-a889-c8261a70f0d4}</ProjectGuid>
+    <ProjectGuid>{6b9b61c1-00a9-4dee-8f46-83e9230e03fa}</ProjectGuid>
     <Keyword>WindowsRuntimeComponent</Keyword>
-    <RootNamespace>WindowsRuntimeDll</RootNamespace>
+    <RootNamespace>Oakfoam</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
@@ -206,6 +206,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="build.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Class1.h" />
   </ItemGroup>

@@ -127,6 +127,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\src\Sideprojects\Oakfoam\Oakfoam.vcxproj">
+      <Project>{6b9b61c1-00a9-4dee-8f46-83e9230e03fa}</Project>
+      <Name>Oakfoam</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsRuntimeDll\WindowsRuntimeDll.vcxproj">
       <Project>{f0335cd2-8aef-4ebe-a889-c8261a70f0d4}</Project>
       <Name>WindowsRuntimeDll</Name>

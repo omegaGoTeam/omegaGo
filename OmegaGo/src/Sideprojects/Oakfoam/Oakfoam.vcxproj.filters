@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Resources">
-      <UniqueIdentifier>1ae9f364-1a77-4aa1-bb76-b977c45701c4</UniqueIdentifier>
+      <UniqueIdentifier>53fb60fb-c60d-47b3-bd16-156dbba1c193</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
@@ -13,5 +13,7 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Class1.h" />
+    <ClInclude Include="build.h" />
+    <ClInclude Include="config.h" />
   </ItemGroup>
 </Project>
