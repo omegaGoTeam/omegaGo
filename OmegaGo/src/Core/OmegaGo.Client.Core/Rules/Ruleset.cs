@@ -46,8 +46,8 @@ namespace OmegaGo.Core.Rules
 
             if (placementType == HandicapPositions.Type.Fixed)
                 PlaceFixedHandicapStones(ref currentBoard,handicapStoneNumber);
-            else
-                SetKomi(handicapStoneNumber);
+            
+            SetKomi(handicapStoneNumber);
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace OmegaGo.Core.Rules
             }
             else
             {
-                //TODO Aniko: set compensation
+                _komi = 0.5f + handicapStoneNumber - 1;
             }
         }
 
