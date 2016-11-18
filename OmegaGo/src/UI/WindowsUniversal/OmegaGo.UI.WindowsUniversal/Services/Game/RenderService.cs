@@ -96,18 +96,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
 
             // TODO It would be nice to have last Node cached in Game Tree
-            if (game.GameTree.GameTreeRoot != null)
+            if (game.GameTree.LastNode != null)
             {
-                Core.GameTreeNode lastNode = game.GameTree.GameTreeRoot;
-                Core.GameTreeNode tmpNode = game.GameTree.GameTreeRoot;
-
-                while (tmpNode != null)
-                {
-                    lastNode = tmpNode;
-                    tmpNode = tmpNode.NextMove;
-                }
-
-                Core.StoneColor[,] boardState = lastNode.BoardState;
+                Core.StoneColor[,] boardState = game.GameTree.LastNode.BoardState;
                 for (int x = 0; x < game.SquareBoardSize; x++)
                 {
                     for (int y = 0; y < game.SquareBoardSize; y++)
