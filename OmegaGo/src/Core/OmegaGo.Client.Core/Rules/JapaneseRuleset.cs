@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Rules
 
         public JapaneseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
         { }
-        public override void PlaceHandicapStone(Move moveToMake)
+        public override void PlaceFreeHandicapStone(Move moveToMake)
         {
             throw new NotImplementedException();
         }

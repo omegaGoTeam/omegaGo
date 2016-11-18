@@ -30,7 +30,13 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
         }
 
-        public abstract void PlaceHandicapStone(Move moveToMake);
+        public abstract void PlaceFreeHandicapStone(Move moveToMake);
+
+        public void PlaceFixedHandicapStone()
+        {
+
+        }
+
         public abstract int CountScore(StoneColor[,] currentBoard);
 
         /// <summary>
