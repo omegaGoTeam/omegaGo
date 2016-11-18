@@ -31,8 +31,7 @@ namespace UniversalWindowsTestApp
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            this.textBlock.Text = "A";
-            WindowsRuntimeDll.Class1.Return4();
+            this.textBlock.Text = ":" + WindowsRuntimeDll.Class1.Return4() + ":";
         }
     }
 }
