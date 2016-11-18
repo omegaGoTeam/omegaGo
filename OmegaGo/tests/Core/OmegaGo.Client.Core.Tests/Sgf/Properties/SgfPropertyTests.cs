@@ -62,31 +62,31 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         [TestMethod]
         public void ValidUnknownPropertyWithOneLetterIsRecognized()
         {
-            Assert.AreEqual( SgfPropertyType.Deprecated, SgfProperty.GetPropertyType( "Y" ) );
+            Assert.AreEqual( SgfPropertyType.Unknown, SgfProperty.GetPropertyType( "Y" ) );
         }
 
         [TestMethod]
         public void ValidUnknownPropertyWithTwoLettersIsRecognized()
         {
-            Assert.AreEqual( SgfPropertyType.Deprecated, SgfProperty.GetPropertyType( "SS" ) );
+            Assert.AreEqual( SgfPropertyType.Unknown, SgfProperty.GetPropertyType( "SS" ) );
         }
 
         [TestMethod]
         public void ValidUnknownPropertyWithMoreLettersIsRecognized()
         {
-            Assert.AreEqual( SgfPropertyType.Deprecated, SgfProperty.GetPropertyType( "SSSSSS" ) );
+            Assert.AreEqual( SgfPropertyType.Unknown, SgfProperty.GetPropertyType( "SSSSSS" ) );
         }
 
         [TestMethod]
         public void PropertyIdentifierWithNonCaptialLettersIsInvalid()
         {
-            Assert.AreEqual( SgfPropertyType.Deprecated, SgfProperty.GetPropertyType( "ab" ) );
+            Assert.AreEqual( SgfPropertyType.Invalid, SgfProperty.GetPropertyType( "ab" ) );
         }
 
         [TestMethod]
         public void PropertyIdentifierWithInvalidCharactersIsInvalid()
         {
-            Assert.AreEqual( SgfPropertyType.Deprecated, SgfProperty.GetPropertyType( ":-" ) );
+            Assert.AreEqual( SgfPropertyType.Invalid, SgfProperty.GetPropertyType( ":-" ) );
         }
     }
 }
