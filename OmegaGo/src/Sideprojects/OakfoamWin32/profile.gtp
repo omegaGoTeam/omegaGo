@@ -1,0 +1,6 @@
+param move_policy uct
+param playouts_per_move 1000
+
+genmove b
+
+quit

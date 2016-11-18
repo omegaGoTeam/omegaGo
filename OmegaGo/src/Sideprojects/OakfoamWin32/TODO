@@ -1,0 +1,74 @@
+TODO
+------------------
+
+Now: (current focus)
+  add debug levels
+  change uct_* params to tree_*
+  option to output games to sgf with explanations (see gomill-savesgf)
+  add random chance of not using a playout heuristic (per heuristic)
+  weighted "random" ordering of playout heuristics
+  add an auto-tuning version, like Mogo now has
+  solve problem of LGRF hindering ladder-handling
+  reduce Engine.h includes, to optimize build process
+  move Parameter defaults and inits out of Engine
+  make time_k boardsize independant
+  add kgs chat command with winrate
+  don't check for opening book moves once we are out of the book
+
+Soon: (before next major release)
+  larger patterns
+  add results from first playout moves to tree
+  try UCB1-TUNED formula (p.216(169) in SylvainGellyThesis)
+  prefer games that end sooner? (don't drag on at end)
+  reduce thinking time if surewin?
+  think for longer if needed
+  keep track of board hashes incrementally
+  speedup features in playouts
+  setting to use a total number of playouts per game for time testing
+  patterns only near last move?
+  fillboard not on 1st/2nd line?
+  make sure scoring at end of kgs ranked game works (opponent can't "cheat")
+  tune fillboard's N
+  look into transposition table-like structure
+  look at Feasibility for 19x19 (Baier Hendrik), possibly as a feature
+  look at Dynamic Komi for 19x19 (Baier Hendrik)
+  try LGRF-1/2 with a variable queue (see 6.3.5 Multiple Reply LGR in Baier Hendrik)
+  try make progressive bias decay with parent playouts
+  look why bs=0 even when r2 is high (possibly fixed since stop_early)
+  look at altering playout_random_chance with extreme winrate
+  look at a reverse LGR-kinda thing in the tree and playouts
+  convert feature patterns to ASCII pics to aid visualisation
+  compare profiling data to that of other programs such as libEGO
+  try a "step-wise" RAVE (decay value at each capture)
+  add parameters to web interface
+  improve the overall web interface look and reduce flickering
+  option to output SGFs for playouts
+
+Later: (at some point)
+  tune parameters
+  add handicap settings
+  add timestamp to log?
+  replace FunctionList and ConstantList with std::list<>
+  replace the Gtp instance variable using boost::bind()
+  rename/refactor Engine to better name?
+  move Go:: objects into own files?
+  move main() into Oakfoam.cc
+  add prefix to custom commands?
+  do sanity checks on parameters
+  use rotational symmetry?
+  copy all board data with a copy() (groups and liberties)
+  extensive comparison of playouts with strength
+  more regression testing
+  add loadsgf command
+  setting to filter boardsize, time_settings, etc. for kgs
+  try a "global RAVE"
+  try use parent info in children (or grand parent)
+  make atari-aware playouts dependant on size of group?
+  make self-atari feature dependant on group size
+  add hg tracked cgos,kgs?,gomill? scripts
+  make SL page
+  support terminal jigo in tree?
+  add seg fault and exception handling
+  try use Benson algo in tree and playouts?
+  progressively add more reward for points diff if winrate very good?
+
