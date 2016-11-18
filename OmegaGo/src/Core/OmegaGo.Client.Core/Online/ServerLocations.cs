@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online
 {
-    class ServerLocations
+    static class ServerLocations
     {
         // The following two hosts are identical.
         public const string IgsPrimary = "igs.joyjoy.net";
@@ -15,5 +15,12 @@ namespace OmegaGo.Core.Online
         public const int IgsPortPrimary = 6969;
         public const int IgsPortSecondary = 7777;
         public const int IgsPortTertiary = 28155;
+
+        public const string OgsPrimary = "https://online-go.com/";
+        public const string OgsBeta = "https://beta.online-go.com/";
+        public const string OgsOauthGateway = "oauth2/access_token";
+        public const string OgsApiPath = "api/v1/";
+
+
     }
 }

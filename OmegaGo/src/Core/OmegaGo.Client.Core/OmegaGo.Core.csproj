@@ -69,6 +69,7 @@
     <Compile Include="Markup\IMarkup.cs" />
     <Compile Include="Markup\MarkupKind.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
+    <Compile Include="Online\Ogs\OgsConstants.cs" />
     <Compile Include="Rules\HandicapPositions.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Sgf\SgfRoot.cs" />
