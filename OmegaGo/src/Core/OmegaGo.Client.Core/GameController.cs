@@ -122,7 +122,7 @@ namespace OmegaGo.Core
                         new List<StoneColor[,]>()); // TODO history
 
                 bool isTheMoveLegal = result.Result == MoveResult.Legal ||
-                                      result.Result == MoveResult.LifeDeadConfirmationPhase;
+                                      result.Result == MoveResult.LifeDeathConfirmationPhase;
                 if (!isTheMoveLegal && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
                 {
                     OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
