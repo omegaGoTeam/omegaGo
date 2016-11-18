@@ -8,17 +8,29 @@ namespace OmegaGo.Core.Rules
 {
     public class JapaneseRuleset : Ruleset
     {
-        private bool _isPreviousMovePass = false;
-        private int _komi;
-        private int _whiteScore;
-        private int _blackScore;
-        private int _numberOfHandicapStone;
+        private bool _isPreviousMovePass;
+        private float _komi;
+        private float _whiteScore;
+        private float _blackScore;
 
         public JapaneseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
-        { }
-        public override void PlaceFreeHandicapStone(Move moveToMake)
         {
-            throw new NotImplementedException();
+            _isPreviousMovePass = false;
+            _komi = 0.0f;
+            _whiteScore = 0.0f;
+            _blackScore = 0.0f;
+        }
+        protected override void SetKomi(int handicapStoneNumber)
+        {
+            if (handicapStoneNumber == 0)
+            {
+                _komi = 6.5f;
+                _whiteScore = 6.5f;
+            }
+            else
+            {
+                //TODO Aniko: set compensation
+            }
         }
 
         public override int CountScore(StoneColor[,] currentBoard)
@@ -31,7 +43,7 @@ namespace OmegaGo.Core.Rules
             if (_isPreviousMovePass)
             {
                 //TODO check whether opponents score increases according to Japanese rules
-                return MoveResult.LifeDeadConfirmationPhase;
+                return MoveResult.LifeDeathConfirmationPhase;
             }
             else
             {

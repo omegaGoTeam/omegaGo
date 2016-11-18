@@ -8,18 +8,29 @@ namespace OmegaGo.Core.Rules
 {
     public class ChineseRuleset : Ruleset
     {
-        private bool _isPreviousMovePass = false;
-        private int _komi;
-        private int _whiteScore;
-        private int _blackScore;
-        private int _numberOfHandicapStone;
-
+        private bool _isPreviousMovePass;
+        private float _komi;
+        private float _whiteScore;
+        private float _blackScore;
+        
         public ChineseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
         {
+            _isPreviousMovePass = false;
+            _komi = 0.0f;
+            _whiteScore = 0.0f;
+            _blackScore = 0.0f;
         }
-        public override void PlaceFreeHandicapStone(Move moveToMake)
+        protected override void SetKomi(int handicapStoneNumber)
         {
-            throw new NotImplementedException();
+            if (handicapStoneNumber == 0)
+            {
+                _komi = 7.5f;
+                _whiteScore = 7.5f;
+            }
+            else
+            {
+                //TODO Aniko: set compensation
+            }
         }
 
         public override int CountScore(StoneColor[,] currentBoard)
@@ -32,7 +43,7 @@ namespace OmegaGo.Core.Rules
             if (_isPreviousMovePass)
             {
                 //TODO check whether opponents score increases according to Chinese rules
-                return MoveResult.LifeDeadConfirmationPhase;
+                return MoveResult.LifeDeathConfirmationPhase;
             }
             else 
             {

@@ -38,6 +38,6 @@
         /// This move is the second of the two consecutive passes that signal the end of the game.
         /// After two passes, the players mark stones as alive or dead in the Confirmation phase.
         /// </summary>
-        LifeDeadConfirmationPhase
+        LifeDeathConfirmationPhase
     }
 }

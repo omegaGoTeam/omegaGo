@@ -13,8 +13,7 @@ namespace OmegaGo.Core.Rules
         private bool[,] _checkedInters;
         private bool[,] _liberty;
         private List<Position> _captures;
-
-
+        
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
@@ -30,11 +29,90 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
         }
 
-        public abstract void PlaceFreeHandicapStone(Move moveToMake);
-
-        public void PlaceFixedHandicapStone()
+        /// <summary>
+        /// Sets the value of Komi. 
+        /// If the type of handicap placement is fixed, places handicap stones on the board.
+        /// Otherwise, PlaceFreeHandicapStone should be called handicapStoneNumber times.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="handicapStoneNumber"></param>
+        /// <param name="placementType"></param>
+        public void startHandicapPhase(ref StoneColor[,] currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
         {
+            if (handicapStoneNumber == 0) {
+                SetKomi(handicapStoneNumber);
+                return;
+            }
 
+            if (placementType == HandicapPositions.Type.Fixed)
+                PlaceFixedHandicapStones(ref currentBoard,handicapStoneNumber);
+            else
+                SetKomi(handicapStoneNumber);
+        }
+
+        /// <summary>
+        /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
+        /// This method is called, if the ruleset allows free handicap placement.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="moveToMake"></param>
+        /// <returns></returns>
+        public MoveResult PlaceFreeHandicapStone(ref StoneColor[,] currentBoard, Move moveToMake)
+        {
+            Position position = moveToMake.Coordinates;
+            if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
+                return MoveResult.OutsideTheBoard;
+            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
+                return MoveResult.OccupiedPosition;
+
+            currentBoard[position.X, position.Y] = StoneColor.Black;
+            return MoveResult.Legal;
+           
+        }
+
+        /// <summary>
+        /// Places handicape stones on fixed positions.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="stoneNumber"></param>
+        protected void PlaceFixedHandicapStones(ref StoneColor[,] currentBoard, int stoneNumber)
+        {
+            
+            switch (_boardWidth)
+            {
+                case 9:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap9)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 13:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap13)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 19:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap19)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         public abstract int CountScore(StoneColor[,] currentBoard);
@@ -60,7 +138,7 @@ namespace OmegaGo.Core.Rules
                 processingResult.Result = Pass();
                 return processingResult;
             }
-            else if (position.X < 0 || position.X >= _boardWidth || position.Y < 0 || position.Y >= _boardHeight)
+            else if (IsOutsideTheBoard(position)==MoveResult.OutsideTheBoard)
             {
                 processingResult.Result = MoveResult.OutsideTheBoard;
                 return processingResult;
@@ -154,6 +232,8 @@ namespace OmegaGo.Core.Rules
             MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
             return result.Result;
         }
+
+        protected abstract void SetKomi(int handicapStoneNumber);
 
         protected abstract MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
@@ -352,6 +432,13 @@ namespace OmegaGo.Core.Rules
             }
         }
 
+        protected MoveResult IsOutsideTheBoard(Position p)
+        {
+            if (p.X < 0 || p.X >= _boardWidth || p.Y < 0 || p.Y >= _boardHeight)
+                return MoveResult.OutsideTheBoard;
+            else
+                return MoveResult.Legal;
+        }
         protected void CountArea(StoneColor[,] currentBoard)
         {
             throw new NotImplementedException();
