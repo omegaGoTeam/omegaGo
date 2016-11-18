@@ -12,6 +12,19 @@ namespace OmegaGo.Core.Sgf
     /// </summary>
     internal class SgfNode
     {
-        public List<SgfProperty> Commands { get; set; } = new List<SgfProperty>();
+        /// <summary>
+        /// Creates a SGF node
+        /// </summary>
+        /// <param name="properties">Properties contained in the node</param>
+        public SgfNode( IEnumerable<SgfProperty> properties )
+        {
+            if ( properties == null ) throw new ArgumentNullException( nameof( properties ) );
+            Properties = properties;
+        }
+
+        /// <summary>
+        /// Node's properties
+        /// </summary>
+        public IEnumerable<SgfProperty> Properties { get; }
     }
 }

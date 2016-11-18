@@ -59,7 +59,7 @@
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
-    <Compile Include="Sgf\SgfSerializerTests.cs" />
+    <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
