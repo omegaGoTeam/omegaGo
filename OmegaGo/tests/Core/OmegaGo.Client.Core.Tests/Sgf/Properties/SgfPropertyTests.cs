@@ -88,5 +88,41 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         {
             Assert.AreEqual( SgfPropertyType.Invalid, SgfProperty.GetPropertyType( ":-" ) );
         }
+
+        [TestMethod]
+        [ExpectedException( typeof( ArgumentException ) )]
+        public void NullPropertyInstanceCantBeCreated()
+        {
+            new SgfProperty( null, new[] { "4" } );
+        }
+
+        [TestMethod]
+        [ExpectedException( typeof( ArgumentException ) )]
+        public void InvalidPropertyInstanceCantBeCreated()
+        {
+            new SgfProperty( "ff", new[] { "4" } );
+        }
+
+        [TestMethod]
+        [ExpectedException( typeof( ArgumentNullException ) )]
+        public void ValidPropertyWithNullValuesCantBeCreated()
+        {
+            new SgfProperty( "FF", null );
+        }
+
+        [TestMethod]
+        [ExpectedException( typeof( ArgumentOutOfRangeException ) )]
+        public void ValidPropertyWithoutValuesCantBeCreated()
+        {
+            new SgfProperty( "FF", new List<string>() );
+        }
+
+        [TestMethod]
+        public void ValidPropertyWithValidValuesIsCreatedSuccessfully()
+        {
+            var sgfProperty = new SgfProperty( "AW", new[] { "bb", "ee", "dc", "cd" } );
+            Assert.AreEqual( "AW", sgfProperty.Identifier );
+            Assert.AreEqual( 4, sgfProperty.Values.Count );
+        }
     }
 }

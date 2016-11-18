@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
@@ -40,6 +41,24 @@ namespace OmegaGo.Core.Tests.Sgf
         public void MinimalGameTreeIsSuccessfullyParsed()
         {
             var parser = new SgfParser();
+            var collection = parser.Parse( "(;)" );
+            Assert.IsFalse( parser.HasWarnings );
+            Assert.AreEqual( 1, collection.GameTrees.Count );
+            Assert.AreEqual( 1, collection.GameTrees.First().Sequence.Count() );
+            Assert.AreEqual( 0, collection.GameTrees.First().Children.Count() );
+        }
+
+        [TestMethod]
+        public void SimpleSGFInputIsSuccessfullyParsed()
+        {
+            var parser = new SgfParser();
+            var collection = parser.Parse( @"(;FF[4]C[root](;C[a];C[b](;C[c])
+(; C[ d ]; C[ e ]))
+(; C[ f ](; C[ g ]; C[ h ]; C[ i ])
+(; C[ j ])))
+" );
+            Assert.IsFalse( parser.HasWarnings );  
+            Assert.AreEqual( 1, collection.Count() );          
         }
     }
 }

@@ -19,10 +19,14 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <param name="values">Values</param>
         public SgfProperty( string identifier, IEnumerable<string> values )
         {
-            if ( IsPropertyIdentifierValid( identifier ) )
+            if ( !IsPropertyIdentifierValid( identifier ) )
                 throw new ArgumentException( "Supplied SGF identifier is not valid", nameof( identifier ) );
+            if ( values == null ) throw new ArgumentNullException( nameof( values ) );
+            var valuesArray = values.ToArray();
+            if ( valuesArray.Length == 0 ) throw new ArgumentOutOfRangeException( nameof( values ) );
+
             Identifier = identifier;
-            Values = new ReadOnlyCollection<string>( new List<string>( values ) );
+            Values = new ReadOnlyCollection<string>( new List<string>( valuesArray ) );
         }
 
 

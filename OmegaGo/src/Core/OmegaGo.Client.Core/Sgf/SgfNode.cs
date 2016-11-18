@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// Represents a node in SGF
     /// </summary>
-    internal class SgfNode
+    internal class SgfNode : IEnumerable<SgfProperty>
     {
         /// <summary>
         /// Creates a SGF node
@@ -26,5 +27,17 @@ namespace OmegaGo.Core.Sgf
         /// Node's properties
         /// </summary>
         public IEnumerable<SgfProperty> Properties { get; }
+
+        /// <summary>
+        /// Gets the generic node's properties enumerator
+        /// </summary>
+        /// <returns>Node's properties</returns>
+        public IEnumerator<SgfProperty> GetEnumerator() => Properties.GetEnumerator();
+
+        /// <summary>
+        /// Gets the non-generic nonde's properties enumerator
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
