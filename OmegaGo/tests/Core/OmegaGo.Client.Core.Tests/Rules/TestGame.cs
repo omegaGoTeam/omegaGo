@@ -10,8 +10,9 @@ namespace OmegaGo.Core.Tests.Rules
 {
     class TestGame
     {
-        private int width;
-        private int height;
+        private int _width;
+        private int _height;
+        private Ruleset _ruleset;
 
         private readonly List<StoneColor[,]> _fullHistory = new List<StoneColor[,]>();
 
@@ -19,21 +20,18 @@ namespace OmegaGo.Core.Tests.Rules
 
         public List<StoneColor[,]> History => _fullHistory.Take(_fullHistory.Count - 1).ToList();
 
-        public static TestGame New(int size)
+        public static TestGame New(int size, Ruleset ruleset = null)
         {
             TestGame game = new Rules.TestGame()
             {
-                width = size,
-                height = size
+                _width = size,
+                _height = size,
+                _ruleset = ruleset
             };
-            game._fullHistory.Add(new StoneColor[game.width, game.height]);
+            game._fullHistory.Add(new StoneColor[game._width, game._height]);
             return game;
         }
-        public TestGame Play(string coordinates, Ruleset ruleset)
-        {
-            throw new NotImplementedException();
-        }
-
+  
         public TestGame Place(string coordinates, StoneColor color)
         {
             Position whereTo = Position.FromIgsCoordinates(coordinates);
@@ -41,10 +39,16 @@ namespace OmegaGo.Core.Tests.Rules
             return this;
         }
 
-        public Move Move(string coordinates, StoneColor player = StoneColor.Black)
+        public Move Move(string coordinates, StoneColor player)
         {
             return OmegaGo.Core.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
         }
 
+        public MoveResult IsLegal(string coordinates, StoneColor player)
+        {
+            return _ruleset.IsLegalMove(this.CurrentBoard,
+                this.Move(coordinates, player),
+                this.History);
+        }
     }
 }
