@@ -182,9 +182,9 @@ namespace OmegaGo.Core
                 if (decision.Move.Kind == MoveKind.PlaceStone)
                 {
                     OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
-                    _game.GameTree.AddMoveToEnd(decision.Move);
-
                     decision.Move.Captures.AddRange(result.Captures);
+
+                    _game.GameTree.AddMoveToEnd(decision.Move);
 
                     if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
                     {
@@ -201,6 +201,8 @@ namespace OmegaGo.Core
                 }
                 // THE MOVE STANDS
                 _game.NumberOfMovesPlayed++;
+                _game.GameTree.GameTreeRoot.GetTimelineView.Last().BoardState
+                    = FastBoard.CreateBoardFromGame(_game);
                 OnBoardMustBeRefreshed();
                 _turnPlayer = _game.OpponentOf(_turnPlayer);
             }
