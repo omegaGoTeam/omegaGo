@@ -37,7 +37,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _timelineViewModel, value); }
         }
 
-        public event EventHandler BoardRedrawRequsted;
+        public event EventHandler<GameTreeNode> BoardRedrawRequsted;
 
         public GameViewModel()
         {
@@ -53,11 +53,12 @@ namespace OmegaGo.UI.ViewModels
 
             _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
             _gameController = new GameController(_game);
-            _gameController.BoardMustBeRefreshed += () => OnBoardRedraw();
+            _gameController.BoardMustBeRefreshed += () => OnBoardRedraw(_game.GameTree.LastNode);
 
             ChatViewModel = new ChatViewModel();
             TimelineViewModel = new TimelineViewModel();
             TimelineViewModel.GameTree = _game.GameTree;
+            TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRedraw(e);
         }
 
         public void BeginGame()
@@ -72,12 +73,12 @@ namespace OmegaGo.UI.ViewModels
                     "A click."));
         }
 
-        private void OnBoardRedraw()
+        private void OnBoardRedraw(GameTreeNode boardState)
         {
             // TODO GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
             TimelineViewModel.OnTimelineRedrawRequested();
 
-            BoardRedrawRequsted?.Invoke(this, EventArgs.Empty);
+            BoardRedrawRequsted?.Invoke(this, boardState);
         }
 
         class GameViewModelAgent : AgentBase, IAgent

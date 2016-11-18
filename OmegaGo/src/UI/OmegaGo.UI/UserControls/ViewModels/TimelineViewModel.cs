@@ -11,7 +11,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
     public sealed class TimelineViewModel : MvxViewModel
     {
         private GameTree _gameTree;
-        private GameTreeNode _timelineNode;
+        private GameTreeNode _selectedTimelineNode;
 
         public GameTree GameTree
         {
@@ -19,13 +19,14 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _gameTree, value); OnTimelineRedrawRequested(); }
         }
 
-        public GameTreeNode TimelineNode
+        public GameTreeNode SelectedTimelineNode
         {
-            get { return _timelineNode; }
-            set { SetProperty(ref _timelineNode, value); OnTimelineRedrawRequested(); }
+            get { return _selectedTimelineNode; }
+            set { SetProperty(ref _selectedTimelineNode, value); OnTimelineSelectionChanged(); }
         }
 
         public event EventHandler TimelineRedrawRequsted;
+        public event EventHandler<GameTreeNode> TimelineSelectionChanged;
 
         public TimelineViewModel()
         {
@@ -36,6 +37,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public void OnTimelineRedrawRequested()
         {
             TimelineRedrawRequsted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void OnTimelineSelectionChanged()
+        {
+            TimelineSelectionChanged?.Invoke(this, SelectedTimelineNode);
         }
     }
 }

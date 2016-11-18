@@ -8,6 +8,8 @@ namespace OmegaGo.Core
 {
     public sealed class GameTree
     {
+        private GameTreeNode _lastNode;
+
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
 
@@ -82,6 +84,17 @@ namespace OmegaGo.Core
 
         public GameTreeNode GameTreeRoot { get; set; }
 
+        /// <summary>
+        /// Reference to the last added node
+        /// </summary>
+        public GameTreeNode LastNode
+        {
+            get { return _lastNode; }
+            set { _lastNode = value; NodeAdded?.Invoke(this, value); }
+        }
+
+        public event EventHandler<GameTreeNode> NodeAdded;
+
         public GameTree()
         {
 
@@ -94,7 +107,7 @@ namespace OmegaGo.Core
                 GameTreeRoot = new GameTreeNode(move);
                 return;
             }
-
+            
             GameTreeNode parent = GameTreeRoot;
             GameTreeNode child = parent.NextMove;
 
@@ -106,6 +119,9 @@ namespace OmegaGo.Core
 
             GameTreeNode newNode = new GameTreeNode(move);
             parent.Branches.AddNode(newNode);
+
+            // Remember lastly added node and notify about game tree change
+            LastNode = newNode;
         }
     }
 }

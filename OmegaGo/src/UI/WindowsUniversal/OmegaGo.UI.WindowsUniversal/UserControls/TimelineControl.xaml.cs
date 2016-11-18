@@ -134,7 +134,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             Ellipse nodeVisual = new Ellipse();
             nodeVisual.Width = TimelineNodeSize;
             nodeVisual.Height = TimelineNodeSize;
-            
+
             nodeVisual.StrokeThickness = 2;
             nodeVisual.Tag = node;
 
@@ -145,6 +145,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             nodeVisual.PointerEntered += (s, e) => nodeVisual.Stroke = new SolidColorBrush(Colors.Yellow);
             nodeVisual.PointerExited += (s, e) => nodeVisual.Stroke = null;
+            nodeVisual.PointerReleased += (s, e) => ViewModel.SelectedTimelineNode = (GameTreeNode)((Ellipse)s).Tag;
 
             Canvas.SetTop(nodeVisual, offset * TimelineNodeSize + offset * TimelineNodeSpacing);
             Canvas.SetLeft(nodeVisual, depth * TimelineNodeSize + depth * TimelineNodeSpacing);
