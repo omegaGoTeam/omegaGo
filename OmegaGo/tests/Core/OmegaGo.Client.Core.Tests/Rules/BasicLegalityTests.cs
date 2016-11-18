@@ -21,17 +21,17 @@ namespace OmegaGo.Core.Tests.Rules
         public void PlaceStoneOnEmptyBoard()
         {
             Assert.AreEqual(MoveResult.Legal,
-                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2", StoneColor.Black), testGame.History));
         }
 
         [TestMethod]
         public void PlaceStoneOnStone()
         {
             Assert.AreEqual(MoveResult.Legal,
-                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2", StoneColor.Black), testGame.History));
             testGame.Place("B2", StoneColor.Black);
             Assert.AreEqual(MoveResult.OccupiedPosition,
-                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2"), testGame.History));
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("B2", StoneColor.Black), testGame.History));
         }
         [TestMethod]
         public void CornerSuicide() {
@@ -54,5 +54,17 @@ namespace OmegaGo.Core.Tests.Rules
             Assert.AreEqual(MoveResult.Legal,
                 ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("A1", StoneColor.White), testGame.History));
         }
+        [TestMethod]
+        public void OutsideTheBoard()
+        {
+            Assert.AreEqual(MoveResult.OutsideTheBoard,
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("D1", StoneColor.Black), testGame.History));
+            Assert.AreEqual(MoveResult.OutsideTheBoard,
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("C4", StoneColor.Black), testGame.History));
+            Assert.AreEqual(MoveResult.OutsideTheBoard,
+                ruleset.IsLegalMove(testGame.CurrentBoard, testGame.Move("Z25",
+                StoneColor.White), testGame.History));
+        }
+
     }
 }

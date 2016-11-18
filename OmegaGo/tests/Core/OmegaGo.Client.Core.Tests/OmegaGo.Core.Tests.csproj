@@ -55,7 +55,9 @@
     <Compile Include="Online\Igs\IgsConnectionTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\AdvancedLegalityTests.cs" />
     <Compile Include="Rules\BasicLegalityTests.cs" />
+    <Compile Include="Rules\SgfGamesTests.cs" />
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\SgfSerializerTests.cs" />
   </ItemGroup>
