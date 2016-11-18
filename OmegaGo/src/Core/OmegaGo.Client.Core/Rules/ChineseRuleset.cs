@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Rules
         public ChineseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
         {
         }
-        public override void PlaceHandicapStone(Move moveToMake)
+        public override void PlaceFreeHandicapStone(Move moveToMake)
         {
             throw new NotImplementedException();
         }

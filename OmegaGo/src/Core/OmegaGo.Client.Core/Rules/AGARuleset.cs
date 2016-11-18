@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Rules
         {
         }
 
-        public override void PlaceHandicapStone(Move moveToMake)
+        public override void PlaceFreeHandicapStone(Move moveToMake)
         {
             throw new NotImplementedException();
         }

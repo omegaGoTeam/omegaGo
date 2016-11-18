@@ -37,6 +37,11 @@ namespace OmegaGo.Core.Rules
                                                                       new Position(9, 15),
                                                                       new Position(9, 3),
                                                                       new Position(9, 9) };
+        enum Type
+        {
+            Free,
+            Fixed
+        }
         
     }
 }
