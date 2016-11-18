@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf.Properties
 {
+    /// <summary>
+    /// SGF property
+    /// </summary>
     public partial class SgfProperty
     {
         /// <summary>
@@ -22,7 +25,15 @@ namespace OmegaGo.Core.Sgf.Properties
             Values = new ReadOnlyCollection<string>( new List<string>( values ) );
         }
 
+
+        /// <summary>
+        /// Property identifier
+        /// </summary>
         public string Identifier { get; }
+
+        /// <summary>
+        // Collection of values
+        /// </summary>
         public IReadOnlyCollection<string> Values { get; }
 
         /// <summary>
