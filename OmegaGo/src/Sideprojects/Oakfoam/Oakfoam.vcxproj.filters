@@ -8,12 +8,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Class1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Class1.h" />
     <ClInclude Include="build.h" />
     <ClInclude Include="config.h" />
+    <ClInclude Include="OakfoamWrapper.h" />
   </ItemGroup>
 </Project>
