@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using OmegaGo.Core.Sgf.Parsing.Warnings;
+using OmegaGo.Core.Sgf.Properties;
 
 namespace OmegaGo.Core.Sgf.Parsing
 {
@@ -29,7 +30,7 @@ namespace OmegaGo.Core.Sgf.Parsing
 
         private SgfCollection ParseCollection( string sgfContents )
         {
-            
+            throw new NotImplementedException();   
         }
 
         private SgfRoot ParseSgfRoot( string input )
@@ -134,32 +135,33 @@ namespace OmegaGo.Core.Sgf.Parsing
             SkipInputWhitespace( input, ref inputPosition );
             if ( !char.IsLetter( input[ inputPosition ] ) )
                 throw new SgfParseException( $"No command starts on input position {inputPosition}" );
-            SgfProperty command = new SgfProperty();
-            //get property name
-            StringBuilder propertyNameBuilder = new StringBuilder();
-            while ( char.IsLetter( input[ inputPosition ] ) )
-            {
-                propertyNameBuilder.Append( input[ inputPosition ] );
-                inputPosition++;
-            }
-            command.Identifier = propertyNameBuilder.ToString();
-            SkipInputWhitespace( input, ref inputPosition );
-            //parse values
-            while ( input[ inputPosition ] == '[' )
-            {
-                StringBuilder valueBuilder = new StringBuilder();
-                inputPosition++;
-                //parse value
-                while ( input[ inputPosition ] != ']' || input[ inputPosition - 1 ] == '\\' )
-                {
-                    valueBuilder.Append( input[ inputPosition ] );
-                    inputPosition++;
-                }
-                command.Values.Add( valueBuilder.ToString() );
-                inputPosition++;
-                SkipInputWhitespace( input, ref inputPosition );
-            }
-            return command;
+            //SgfProperty command = new SgfProperty();
+            ////get property name
+            //StringBuilder propertyNameBuilder = new StringBuilder();
+            //while ( char.IsLetter( input[ inputPosition ] ) )
+            //{
+            //    propertyNameBuilder.Append( input[ inputPosition ] );
+            //    inputPosition++;
+            //}
+            //command.Identifier = propertyNameBuilder.ToString();
+            //SkipInputWhitespace( input, ref inputPosition );
+            ////parse values
+            //while ( input[ inputPosition ] == '[' )
+            //{
+            //    StringBuilder valueBuilder = new StringBuilder();
+            //    inputPosition++;
+            //    //parse value
+            //    while ( input[ inputPosition ] != ']' || input[ inputPosition - 1 ] == '\\' )
+            //    {
+            //        valueBuilder.Append( input[ inputPosition ] );
+            //        inputPosition++;
+            //    }
+            //    command.Values.Add( valueBuilder.ToString() );
+            //    inputPosition++;
+            //    SkipInputWhitespace( input, ref inputPosition );
+            //}
+            //return command;
+            throw new NotImplementedException();
         }
 
         private void SkipInputWhitespace( string input, ref int inputPosition )

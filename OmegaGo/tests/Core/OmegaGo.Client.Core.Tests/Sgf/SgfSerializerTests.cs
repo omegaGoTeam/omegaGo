@@ -10,16 +10,16 @@ namespace OmegaGo.Core.Tests.Sgf
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void DeserializeThrowsForNullInput()
+        public void ParseThrowsForNullInput()
         {
-            new SgfParser().Deserialize(null);
+            new SgfParser().Parse(null);
         }
 
         [TestMethod]
         [ExpectedException( typeof( SgfParseException ) )]
-        public void DeserializeThrowsForEmptyInput()
+        public void ParseThrowsForEmptyInput()
         {
-            new SgfParser().Deserialize( string.Empty );
+            new SgfParser().Parse( string.Empty );
         }
     }
 }

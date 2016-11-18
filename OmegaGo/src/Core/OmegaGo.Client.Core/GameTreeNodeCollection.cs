@@ -18,32 +18,32 @@ namespace OmegaGo.Core
 
         public int Count => _nodes.Count;
 
-        public GameTreeNodeCollection(GameTreeNode owner)
+        public GameTreeNodeCollection( GameTreeNode owner )
         {
             _owner = owner;
             _nodes = new List<GameTreeNode>();
         }
 
-        public GameTreeNode this[int index] => _nodes[index];
+        public GameTreeNode this[ int index ] => _nodes[ index ];
 
-        public void AddNode(GameTreeNode node)
+        public void AddNode( GameTreeNode node )
         {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
+            if ( node == null )
+                throw new ArgumentNullException( nameof( node ) );
 
-            if (node.Parent != null)
-                ; // Throw error?
+            if ( node.Parent != null )
+                throw new ArgumentException( "Given node already has a parent", nameof( node ) );
 
-            _nodes.Add(node);
+            _nodes.Add( node );
             node.Parent = _owner;
         }
-        
-        public bool RemoveNode(GameTreeNode node)
-        {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node));
 
-            bool removed = _nodes.Remove(node);
+        public bool RemoveNode( GameTreeNode node )
+        {
+            if ( node == null )
+                throw new ArgumentNullException( nameof( node ) );
+
+            bool removed = _nodes.Remove( node );
 
             //if (removed)
             //    node.Parent = null;
