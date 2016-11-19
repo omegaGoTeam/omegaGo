@@ -15,9 +15,9 @@ namespace OmegaGo.UI.Services.Localization
         /// <summary>
         /// Initializes localizer
         /// </summary>
-        public Localizer() : base(LocalizedStrings.ResourceManager)
+        public Localizer() : base( LocalizedStrings.ResourceManager )
         {
-            
+
         }
 
         public string BoardSize => LocalizeCaller();
@@ -55,5 +55,43 @@ namespace OmegaGo.UI.Services.Localization
         public string LoadFolder => LocalizeCaller();
 
         public string DeleteSelection => LocalizeCaller();
+
+        public string Tutorial => LocalizeCaller();
+
+        public string Singleplayer => LocalizeCaller();
+
+        public string LocalGame => LocalizeCaller();
+
+        public string OnlineGame => LocalizeCaller();
+
+        public string GameLibrary => LocalizeCaller();
+
+        public string Statistics => LocalizeCaller();
+
+        public string Help => LocalizeCaller();
+
+        public string Credits => LocalizeCaller();
+
+        public string Tips => LocalizeCaller();
+
+        public string TutorialToolTip => LocalizeCaller();
+
+        public string SingleplayerToolTip => LocalizeCaller();
+
+        public string LocalGameToolTip => LocalizeCaller();
+
+        public string OnlineGameToolTip => LocalizeCaller();
+
+        public string GameLibraryToolTip => LocalizeCaller();
+
+        public string StatisticsToolTip => LocalizeCaller();
+
+        public string HelpToolTip => LocalizeCaller();
+
+        public string SettingsToolTip => LocalizeCaller();
+
+        public string CreditsToolTip => LocalizeCaller();
+
+        public string TipsToolTip => LocalizeCaller();
     }
 }
