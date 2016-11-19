@@ -12,6 +12,7 @@ namespace OmegaGo.Core.Rules
         private float _komi;
         private float _whiteScore;
         private float _blackScore;
+        
 
         public JapaneseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
         {
