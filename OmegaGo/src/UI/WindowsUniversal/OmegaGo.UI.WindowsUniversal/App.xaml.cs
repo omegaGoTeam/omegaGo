@@ -6,8 +6,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -87,6 +89,7 @@ namespace OmegaGo.UI.WindowsUniversal
                     Window.Current.Content = _rootFrame;
                 }
                 // Ensure the current window is active
+                SetupTitleBar();               
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                 Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
@@ -94,7 +97,44 @@ namespace OmegaGo.UI.WindowsUniversal
             }
         }
 
+        /// <summary>
+        /// Sets up the application title bar design
+        /// </summary>
+        private void SetupTitleBar()
+        {
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+            titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;
+            titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
+            titleBar.ButtonHoverBackgroundColor = Color.FromArgb( 255, 215, 215, 215 );
+            titleBar.ButtonPressedBackgroundColor = Color.FromArgb( 255, 180, 180, 180 );
+            titleBar.ButtonHoverForegroundColor = Colors.Black;
+            titleBar.ButtonPressedForegroundColor = Colors.Black;
+            titleBar.ButtonInactiveForegroundColor = Colors.LightGray;
+            titleBar.ForegroundColor = Colors.White;
+            titleBar.InactiveForegroundColor = Colors.LightGray;
+            titleBar.InactiveBackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+            SetupStatusBar();
+        }
+
+        /// <summary>
+        /// Sets up the status bar design
+        /// </summary>
+        private void SetupStatusBar()
+        {
+            if ( Windows.Foundation.Metadata.ApiInformation.IsTypePresent( "Windows.UI.ViewManagement.StatusBar" ) )
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.BackgroundOpacity = 1;
+                statusBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+                statusBar.ForegroundColor = Colors.White;
+            }
+        }
+
         private bool altIsHeld = false;
+
         private void CoreWindow_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Control)

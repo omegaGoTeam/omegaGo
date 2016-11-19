@@ -132,9 +132,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             _boardHeight = 1;
             UpdateActualBoardSize();
 
-            _boardColor = new Color() { A = 0xFF, B = 0x70, G = 0xD2, R = 0xFD };
-            _highlightColor = new Color() { A = 0x60, B = 0xFF, G = 0xFF, R = 0xFF };
-            _selectionColor = new Color() { A = 0xA0, B = 0xFF, G = 0xFF, R = 0xFF };
+            _boardColor = new Color() { A = 0xFF, R = 0xFD,  G = 0xD2, B = 0x70, };
+            _highlightColor = new Color() { A = 0x60,  R = 0xFF, G = 0xFF, B = 0xFF, };
+            _selectionColor = new Color() { A = 0xA0,  R = 0xFF, G = 0xFF, B = 0xFF,  };
         }
 
         private void OnPropertyChanged(string propertyName, bool shouldRedraw = false)

@@ -115,14 +115,13 @@
     <value>Zobrazte své herní výsledky a statistiky</value>
   </data>
   <data name="Tips" xml:space="preserve">
-    <value>Tipy
-</value>
+    <value>Tipy</value>
   </data>
   <data name="TipsToolTip" xml:space="preserve">
     <value>Zobrazit nebo skrýt tipy</value>
   </data>
   <data name="Tutorial" xml:space="preserve">
-    <value>Tutorial</value>
+    <value>Tutoriál</value>
   </data>
   <data name="TutorialToolTip" xml:space="preserve">
     <value>Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</value>

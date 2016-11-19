@@ -19,7 +19,7 @@
         <Border.Background>
             <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
         </Border.Background>
-        <Grid Background="#CCFFFFFF">
+        <Grid Background="#AAFDD270">
             <TextBlock 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
