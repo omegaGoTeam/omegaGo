@@ -15,17 +15,17 @@ namespace OmegaGo.UI.Services.Localization
         /// <summary>
         /// Returns supported game languages
         /// </summary>
-        public static readonly ReadOnlyCollection<string> SupportedLanguages =
-            new ReadOnlyCollection<string>( new List<string>()
+        public static readonly ReadOnlyCollection<GameLanguage> SupportedLanguages =
+            new ReadOnlyCollection<GameLanguage>( new List<GameLanguage>()
             {
-                "AutoLanguage",
-                "English",
-                "Česky"
+                new GameLanguage() { Name = "AutoLanguage" },
+                new GameLanguage() { CultureTag = "en", Name=  "English" },
+                new GameLanguage() {CultureTag= "cs", Name= "Česky" }
             } );
 
         /// <summary>
         /// Default language (auto)
         /// </summary>
-        public static string DefaultLanguage => SupportedLanguages.First();
+        public static GameLanguage DefaultLanguage => SupportedLanguages.First();
     }
 }

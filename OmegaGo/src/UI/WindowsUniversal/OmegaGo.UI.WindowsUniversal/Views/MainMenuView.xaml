@@ -22,8 +22,7 @@
         <Grid Background="#AAFDD270">
             <TextBlock 
                    HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   CharacterSpacing="10"
+                   Margin="0,20,0,0"              
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run>
                 <Run FontWeight="SemiBold">Go</Run>
@@ -80,6 +79,10 @@
                      />
             </StackPanel>-->
 
+            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
+                <FontIcon Glyph="&#xE1D9;" />
+            </Button>
+            
             <StackPanel Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
                 <Button>
                     <FontIcon Glyph="&#xE8C1;" />

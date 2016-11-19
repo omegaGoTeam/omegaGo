@@ -5,6 +5,8 @@ using MvvmCross.WindowsUWP.Platform;
 using OmegaGo.UI.Services;
 using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
+using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -25,10 +27,10 @@ namespace OmegaGo.UI.WindowsUniversal
         }
 
         protected override void InitializeFirstChance()
-        {
-            // Register File service
-            Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
-            
+        {            
+            Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();            
+            Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
+
             base.InitializeFirstChance();
         }
     }

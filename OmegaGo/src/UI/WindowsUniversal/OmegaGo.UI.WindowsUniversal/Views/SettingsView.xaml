@@ -60,7 +60,7 @@
         <PivotItem Header="Language">
             <StackPanel Padding="15">
                 <TextBlock Text="Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding VM.SelectedLanguage, Mode=TwoWay}">
+                <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="system:String">
                             <TextBlock Text="{x:Bind Converter={StaticResource LocalizingConverter}}"></TextBlock>

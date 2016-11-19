@@ -16,12 +16,18 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     {        
         public ViewBase()
         {
+            Loading += ViewBase_Loading;   
+        }
+
+        private void ViewBase_Loading( Windows.UI.Xaml.FrameworkElement sender, object args )
+        {
             //set view model as Data Context by default
             DataContext = ViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
             if ( Frame.CanGoBack )
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =

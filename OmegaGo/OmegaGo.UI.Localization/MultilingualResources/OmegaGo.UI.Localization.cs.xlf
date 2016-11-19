@@ -157,6 +157,14 @@
           <source>This is the best place to learn Go if you don't know anything at all about the game.</source>
           <target state="final">Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</target>
         </trans-unit>
+        <trans-unit id="AutoLanguage" translate="yes" xml:space="preserve">
+          <source>Auto</source>
+          <target state="new">Auto</target>
+        </trans-unit>
+        <trans-unit id="ChangeLanguage" translate="yes" xml:space="preserve">
+          <source>Change language</source>
+          <target state="new">Change language</target>
+        </trans-unit>
       </group>
     </body>
   </file>

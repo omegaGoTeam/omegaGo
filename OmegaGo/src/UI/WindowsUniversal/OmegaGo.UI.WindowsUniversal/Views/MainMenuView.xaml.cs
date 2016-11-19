@@ -16,5 +16,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             // TODO show or hide the RichTextBox with tips
         }
+
+        private void GoFullScreen_Click( object sender, Windows.UI.Xaml.RoutedEventArgs e )
+        {
+            ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+        }
     }
 }

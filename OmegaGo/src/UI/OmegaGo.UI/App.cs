@@ -27,7 +27,16 @@ namespace OmegaGo.UI
         /// </summary>
         private void RegisterServices()
         {
+            RegisterSettings();
             RegisterLocalization();
+        }
+
+        /// <summary>
+        /// Registers settings
+        /// </summary>
+        private void RegisterSettings()
+        {
+            Mvx.ConstructAndRegisterSingleton<IGameSettings, GameSettings>();
         }
 
         /// <summary>
@@ -35,7 +44,7 @@ namespace OmegaGo.UI
         /// </summary>
         private void RegisterLocalization()
         {
-            Mvx.ConstructAndRegisterSingleton<IGameSettings, GameSettings>();
+            Mvx.ConstructAndRegisterSingleton<ILocalizationService, Localizer>();
         }
     }
 }
