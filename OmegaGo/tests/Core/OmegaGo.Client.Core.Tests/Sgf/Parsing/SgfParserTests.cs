@@ -16,6 +16,34 @@ namespace OmegaGo.Core.Tests.Sgf
                 "Sgf/Parsing/SampleSgfs/", sampleSgfSubPath ) ) );
         }
 
+        private string[] GetSgfFiles( string sgfFolder )
+        {
+            return Directory.GetFiles( Path.Combine( Directory.GetCurrentDirectory(),
+                "Sgf/Parsing/SampleSgfs/", sgfFolder ) );
+        }
+
+        /// <summary>
+        /// Tests all files in an invalid folder for exceptions
+        /// </summary>
+        /// <param name="invalidFolder">Invalid SGF files folder</param>
+        private void InvalidSgfFolderTest( string invalidFolder )
+        {
+            var parser = new SgfParser();
+            var files = GetSgfFiles( Path.Combine( "Invalid", invalidFolder ) );
+            foreach ( var file in files )
+            {
+                try
+                {
+                    parser.Parse( File.ReadAllText( file ) );
+                    Assert.Fail( $"File {file} did not fail parsing" );
+                }
+                catch ( SgfParseException )
+                {
+                    //ok
+                }
+            }
+        }
+
         [TestMethod]
         [ExpectedException( typeof( ArgumentNullException ) )]
         public void ParseThrowsForNullInput()
@@ -124,7 +152,27 @@ namespace OmegaGo.Core.Tests.Sgf
             Assert.AreEqual( "Gametree 1: properties", rootNode[ "GN" ].Values.First() );
 
             var markupTree = firstGameTree.Children.ElementAt( 2 );
-            Assert.AreEqual( "Markup", markupTree.Sequence.First()[ "N" ].Values.First() );            
+            Assert.AreEqual( "Markup", markupTree.Sequence.First()[ "N" ].Values.First() );
+        }
+
+        //Invalid SGF test files
+
+        [TestMethod]
+        public void MissingParenthesesTests()
+        {
+            InvalidSgfFolderTest( "()count" );
+        }
+
+        [TestMethod]
+        public void ParenthesisSemicolonTests()
+        {
+            InvalidSgfFolderTest( ");" );
+        }
+
+        [TestMethod]
+        public void SemicolonMissingTests()
+        {
+            InvalidSgfFolderTest( ";missing" );
         }
     }
 }

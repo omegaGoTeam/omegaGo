@@ -1,0 +1,93 @@
+(
+;
+AB[dr][er][fq][gq][gr][hp][ip][iq][kq][mq]
+AW[cr][cq][eq][dq][fp][gp][do][dm][hq][hr][ds]
+TR[ds]
+C[White just played the marked stone.
+Black to defend (each black stone must be saved).]
+(
+;
+B[fs]
+;
+W[cs]
+(
+;
+B[es]
+C[RIGHT Black is alive.]
+)
+(
+;
+B[ir]
+;
+W[es]
+)
+(
+;
+B[hs]
+;
+W[es]
+)
+)
+(
+;
+B[es]
+;
+W[gs]
+C[It's terrible for black : his group is dead!]
+)
+(
+;
+B[ir]
+;
+W[fs]
+(
+;
+B[fr]
+;
+W[es]
+;
+B[hs]
+C[Black is loosing too much territory!]
+)
+(
+;
+B[gs]
+;
+W[es]
+C[Black can not save all his stones!]
+)
+(
+;
+B[hs]
+;
+W[fr]
+)
+)
+(
+;
+B[hs]
+;
+W[fs]
+(
+;
+B[gs]
+;
+W[es]
+C[Black can not save all his stones.]
+)
+(
+;
+B[fr]
+;
+W[es]
+;
+B[ir]
+C[Black is loosing too much territory]
+)
+(
+;
+B[ir]
+;
+W[fr]
+)
+)

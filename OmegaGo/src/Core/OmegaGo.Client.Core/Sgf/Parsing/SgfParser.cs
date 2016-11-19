@@ -146,7 +146,7 @@ namespace OmegaGo.Core.Sgf.Parsing
 
             List<string> values = new List<string>();
             //parse values
-            while ( input[ inputPosition ] == '[' )
+            while ( inputPosition < input.Length && input[ inputPosition ] == '[' )
             {
                 string value = ParseValue( input, ref inputPosition );
                 values.Add( value );

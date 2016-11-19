@@ -84,6 +84,33 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%28%29count\%28 missing at beginning.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%28%29count\1954  one closing %29 too much.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%28%29count\2053 one closing %29 missing.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%28%29count\missing %29 at end.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%29%3b\%29%3b - not legal.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%3bmissing\%3b missing.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Invalid\%3bmissing\5er, some var., %27%3b%27 after %27%28%27 missing.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
