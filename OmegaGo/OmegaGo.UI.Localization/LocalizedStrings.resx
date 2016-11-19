@@ -166,6 +166,9 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LanguageChangeInfo" xml:space="preserve">
+    <value>Please, restart the game to see the language you have chosen.</value>
+  </data>
   <data name="Library" xml:space="preserve">
     <value>Library</value>
   </data>

@@ -93,5 +93,7 @@ namespace OmegaGo.UI.Services.Localization
         public string CreditsToolTip => LocalizeCaller();
 
         public string TipsToolTip => LocalizeCaller();
+
+        public string LanguageChangeInfo => LocalizeCaller();
     }
 }

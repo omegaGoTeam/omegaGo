@@ -206,6 +206,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please, restart the game to see the language you have chosen..
+        /// </summary>
+        public static string LanguageChangeInfo {
+            get {
+                return ResourceManager.GetString("LanguageChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Library.
         /// </summary>
         public static string Library {

@@ -24,8 +24,7 @@
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"              
                    Style="{ThemeResource HeaderTextBlockStyle}">
-                <Run>omega</Run>
-                <Run FontWeight="SemiBold">Go</Run>
+                <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
             </TextBlock>
             <StackPanel HorizontalAlignment="Center" 
                     VerticalAlignment="Center">

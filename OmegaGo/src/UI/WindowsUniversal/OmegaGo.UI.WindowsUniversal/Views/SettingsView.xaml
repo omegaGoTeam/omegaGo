@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:system="using:System"
+    xmlns:localization="using:OmegaGo.UI.Services.Localization"
     mc:Ignorable="d">
     
     <Page.Transitions>
@@ -57,16 +58,17 @@
                 <Slider Width="100" HorizontalAlignment="Left" />
             </StackPanel>
         </PivotItem>
-        <PivotItem Header="Language">
+        <PivotItem Header="{x:Bind Localizer.Language}">
             <StackPanel Padding="15">
-                <TextBlock Text="Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="{x:Bind Localizer.Language}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="system:String">
-                            <TextBlock Text="{x:Bind Converter={StaticResource LocalizingConverter}}"></TextBlock>
+                        <DataTemplate x:DataType="localization:GameLanguage">
+                            <TextBlock Text="{x:Bind Name, Converter={StaticResource LocalizingConverter}}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
             </StackPanel>
         </PivotItem>
         <PivotItem Header="Assistant">

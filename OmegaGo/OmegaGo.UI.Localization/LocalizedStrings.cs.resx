@@ -126,4 +126,13 @@
   <data name="TutorialToolTip" xml:space="preserve">
     <value>Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</value>
   </data>
+  <data name="AutoLanguage" xml:space="preserve">
+    <value>Dle systému</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Změnit jazyk</value>
+  </data>
+  <data name="LanguageChangeInfo" xml:space="preserve">
+    <value>Restartujte prosím hru, aby se změna jazyka projevila.</value>
+  </data>
 </root>

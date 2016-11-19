@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,6 +23,9 @@ using OmegaGo.UI.Infrastructure;
 using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
+using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -40,6 +44,7 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            InitLanguage();
         }
 
         /// <summary>
@@ -47,7 +52,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched( LaunchActivatedEventArgs e )
         {
             Init( e );
         }
@@ -83,17 +88,37 @@ namespace OmegaGo.UI.WindowsUniversal
             if ( e.PrelaunchActivated == false )
             {
                 if ( _rootFrame.Content == null )
-                {                                        
+                {
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen( e.SplashScreen, false );
                     _rootFrame.Content = extendedSplash;
                     Window.Current.Content = _rootFrame;
                 }
                 // Ensure the current window is active
-                SetupTitleBar();               
+                SetupTitleBar();
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                 Window.Current.CoreWindow.KeyUp += CoreWindow_KeyUp;
                 await InitializeMvvmCrossAsync();
+            }
+        }
+
+        /// <summary>
+        /// Setup language        
+        /// </summary>
+        private void InitLanguage()
+        {
+            var gameSettings = new GameSettings( new SettingsService() );
+            if ( gameSettings.Language != GameLanguages.DefaultLanguage.CultureTag )
+            {
+                try
+                {
+                    CultureInfo.CurrentUICulture = new CultureInfo( gameSettings.Language );
+                    CultureInfo.CurrentCulture = new CultureInfo( gameSettings.Language );
+                }
+                catch
+                {
+                    //ignore, leave default language
+                }
             }
         }
 
@@ -112,9 +137,9 @@ namespace OmegaGo.UI.WindowsUniversal
             titleBar.ButtonPressedBackgroundColor = Color.FromArgb( 255, 180, 180, 180 );
             titleBar.ButtonHoverForegroundColor = Colors.Black;
             titleBar.ButtonPressedForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveForegroundColor = Colors.LightGray;
-            titleBar.ForegroundColor = Colors.White;
-            titleBar.InactiveForegroundColor = Colors.LightGray;
+            titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
+            titleBar.ForegroundColor = Colors.Black;
+            titleBar.InactiveForegroundColor = Colors.DimGray;
             titleBar.InactiveBackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
             SetupStatusBar();
         }
@@ -129,24 +154,24 @@ namespace OmegaGo.UI.WindowsUniversal
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 statusBar.BackgroundOpacity = 1;
                 statusBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
-                statusBar.ForegroundColor = Colors.White;
+                statusBar.ForegroundColor = Colors.Black;
             }
         }
 
         private bool altIsHeld = false;
 
-        private void CoreWindow_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        private void CoreWindow_KeyUp( Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args )
         {
-            if (args.VirtualKey == Windows.System.VirtualKey.Control)
+            if ( args.VirtualKey == Windows.System.VirtualKey.Control )
             {
                 // Yes, it should be Alt+Enter, not Ctrl+Enter, but "Alt" is not yet working.
                 altIsHeld = false;
             }
-            if (args.VirtualKey == Windows.System.VirtualKey.Enter)
+            if ( args.VirtualKey == Windows.System.VirtualKey.Enter )
             {
-                if (altIsHeld)
+                if ( altIsHeld )
                 {
-                    if (ApplicationView.GetForCurrentView().IsFullScreenMode)
+                    if ( ApplicationView.GetForCurrentView().IsFullScreenMode )
                     {
                         ApplicationView.GetForCurrentView().ExitFullScreenMode();
                     }
@@ -158,9 +183,9 @@ namespace OmegaGo.UI.WindowsUniversal
             }
         }
 
-        private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
+        private void CoreWindow_KeyDown( Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args )
         {
-            if (args.VirtualKey == Windows.System.VirtualKey.Control)
+            if ( args.VirtualKey == Windows.System.VirtualKey.Control )
             {
                 altIsHeld = true;
             }
@@ -168,7 +193,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitializeMvvmCrossAsync()
         {
-            if ( _rootFrame == null ) throw new NullReferenceException("Root frame is not initialized"); 
+            if ( _rootFrame == null ) throw new NullReferenceException( "Root frame is not initialized" );
             var setup = new Setup( _rootFrame );
             setup.Initialize();
 
@@ -181,9 +206,9 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        void OnNavigationFailed( object sender, NavigationFailedEventArgs e )
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            throw new Exception( "Failed to load Page " + e.SourcePageType.FullName );
         }
 
         /// <summary>
@@ -193,7 +218,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending( object sender, SuspendingEventArgs e )
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity

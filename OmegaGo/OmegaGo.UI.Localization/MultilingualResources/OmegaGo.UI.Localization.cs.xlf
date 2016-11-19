@@ -159,11 +159,16 @@
         </trans-unit>
         <trans-unit id="AutoLanguage" translate="yes" xml:space="preserve">
           <source>Auto</source>
-          <target state="new">Auto</target>
+          <target state="final">Dle systému</target>
         </trans-unit>
         <trans-unit id="ChangeLanguage" translate="yes" xml:space="preserve">
           <source>Change language</source>
-          <target state="new">Change language</target>
+          <target state="final">Změnit jazyk</target>
+        </trans-unit>
+        <trans-unit id="LanguageChangeInfo" translate="yes" xml:space="preserve">
+          <source>Please, restart the game to see the language you have chosen.</source>
+          <target state="needs-review-translation">Restartujte prosím hru, aby se změna jazyka projevila.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>

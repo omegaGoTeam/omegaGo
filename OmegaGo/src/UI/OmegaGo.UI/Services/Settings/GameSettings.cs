@@ -20,11 +20,10 @@ namespace OmegaGo.UI.Services.Settings
 
         public string Language
         {
-            get { return _settings.GetSetting( LanguageSettingKey, () => GameLanguages.DefaultLanguage, SettingLocality.Roamed ); }
+            get { return _settings.GetSetting( LanguageSettingKey, () => GameLanguages.DefaultLanguage.CultureTag, SettingLocality.Roamed ); }
             set
             {
-                if ( !GameLanguages.SupportedLanguages.Contains( value, StringComparer.OrdinalIgnoreCase ) )
-                    throw new ArgumentException( nameof( value ) );
+                if ( !GameLanguages.SupportedLanguages.ContainsKey( value ) ) throw new ArgumentException( nameof( value ) );
                 _settings.SetSetting( LanguageSettingKey, value, SettingLocality.Roamed );
             }
         }

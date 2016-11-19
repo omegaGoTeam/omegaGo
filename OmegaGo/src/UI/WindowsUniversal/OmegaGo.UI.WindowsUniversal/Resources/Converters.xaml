@@ -4,5 +4,5 @@
     xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters">
 
     <converters:NativeLocalizingConverter x:Key="LocalizingConverter" />
-    
+    <converters:NativeVisibilityConverter x:Key="VisibilityConverter" />
 </ResourceDictionary>

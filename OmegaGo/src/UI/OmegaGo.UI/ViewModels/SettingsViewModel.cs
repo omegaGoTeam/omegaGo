@@ -24,20 +24,51 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Game languages list
         /// </summary>
-        public ObservableCollection<string> Languages { get; } =
-            new ObservableCollection<string>( GameLanguages.SupportedLanguages );
+        public ObservableCollection<GameLanguage> Languages { get; } =
+            new ObservableCollection<GameLanguage>( GameLanguages.SupportedLanguages.Values );
 
         /// <summary>
         /// Selected language
         /// </summary>
-        public string SelectedLanguage
+        public GameLanguage SelectedLanguage
         {
-            get { return _gameSettings.Language; }
+            get
+            {
+                if ( GameLanguages.SupportedLanguages.ContainsKey( _gameSettings.Language ) )
+                {
+                    return GameLanguages.SupportedLanguages[ _gameSettings.Language ];
+                }
+                else
+                {
+                    return GameLanguages.DefaultLanguage;
+                }
+            }
             set
             {
-                _gameSettings.Language = value;
-                RaisePropertyChanged();
+                if ( value != null )
+                {
+                    if ( _gameSettings.Language != value.CultureTag )
+                    {
+                        _gameSettings.Language = value.CultureTag;
+                        RaisePropertyChanged();
+                        LanguageChanged = true;
+                    }
+                }
             }
+        }
+
+        private bool _languageChanged = false;
+
+        /// <summary>
+        /// Indicated whether the user has changed the language selection at least once
+        /// </summary>
+        public bool LanguageChanged
+        {
+            get
+            {
+                return _languageChanged;
+            }
+            set { SetProperty( ref _languageChanged, value ); }
         }
     }
 }
