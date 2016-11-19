@@ -13,35 +13,31 @@ namespace OmegaGo.Core.Sgf
     internal class SgfCollection : IEnumerable<SgfGameTree>
     {
         /// <summary>
-        /// Initializes an empty SGF game collection
-        /// </summary>
-        public SgfCollection()
-        {
-        }
-
-        /// <summary>
         /// Initializes SGF game collection
         /// </summary>
         /// <param name="gameTrees">Games to add to the collection</param>
         public SgfCollection( IEnumerable<SgfGameTree> gameTrees )
         {
             if ( gameTrees == null ) throw new ArgumentNullException( nameof( gameTrees ) );
-            GameTrees.AddRange( gameTrees );
+
+            GameTrees = gameTrees;
         }
 
         /// <summary>
         /// List of games
         /// </summary>
-        public List<SgfGameTree> GameTrees { get; } = new List<SgfGameTree>();
+        public IEnumerable<SgfGameTree> GameTrees { get; }
 
-        public IEnumerator<SgfGameTree> GetEnumerator()
-        {
-            return GameTrees.GetEnumerator();
-        }
+        /// <summary>
+        /// Gets the generic collection's game trees enumerator
+        /// </summary>
+        /// <returns>Enumerator</returns>
+        public IEnumerator<SgfGameTree> GetEnumerator() => GameTrees.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        /// <summary>
+        /// Gets the non-generic collection's game trees enumerator
+        /// </summary>
+        /// <returns>Enumerator</returns>
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

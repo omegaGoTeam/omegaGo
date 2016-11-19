@@ -33,7 +33,11 @@ namespace OmegaGo.Core.Sgf.Parsing
         public SgfCollection Parse( string sgfContents )
         {
             if ( sgfContents == null ) throw new ArgumentNullException( nameof( sgfContents ) );
+
+            //clear previous warnings
             _warnings.Clear();
+
+            //parse
             return ParseCollection( sgfContents );
         }
 

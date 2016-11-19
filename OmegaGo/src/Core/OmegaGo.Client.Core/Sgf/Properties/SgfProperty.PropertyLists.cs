@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Sgf.Properties
             "MN",
             "OB",
             "OW",
-            "B ",
+            "B",
             "BL",
             "BM",
             "TE",

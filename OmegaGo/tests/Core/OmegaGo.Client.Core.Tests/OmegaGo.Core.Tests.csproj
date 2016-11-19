@@ -60,12 +60,29 @@
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
     <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
+    <Compile Include="Sgf\SgfNodeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
       <Project>{dafe0a61-6d7c-4423-8a23-d59d774a8fc2}</Project>
       <Name>OmegaGo.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sgf\Parsing\SampleSgfs\Valid\AlphaGo1.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Valid\AlphaGo2.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sgf\Parsing\SampleSgfs\Valid\AlphaGo3.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sgf\Parsing\SampleSgfs\Valid\ff4_ex.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

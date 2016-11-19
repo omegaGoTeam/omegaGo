@@ -33,18 +33,12 @@ namespace OmegaGo.Core.Sgf
         /// Gets the generic sequence's nodes enumerator
         /// </summary>
         /// <returns>Generic enumerator</returns>
-        public IEnumerator<SgfNode> GetEnumerator()
-        {
-            return Nodes.GetEnumerator();
-        }
+        public IEnumerator<SgfNode> GetEnumerator() => Nodes.GetEnumerator();
 
         /// <summary>
         /// Gets the non-generic sequence's nodes enumerator
         /// </summary>
         /// <returns>Non-generic enumerator</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
