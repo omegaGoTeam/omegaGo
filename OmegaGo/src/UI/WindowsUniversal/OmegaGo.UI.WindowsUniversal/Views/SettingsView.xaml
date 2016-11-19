@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:system="using:System"
     mc:Ignorable="d">
     
     <Page.Transitions>
@@ -59,9 +60,12 @@
         <PivotItem Header="Language">
             <StackPanel Padding="15">
                 <TextBlock Text="Language" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>English</x:String>
-                    <x:String>Czech</x:String>
+                <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding VM.SelectedLanguage, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="system:String">
+                            <TextBlock Text="{x:Bind Converter={StaticResource LocalizingConverter}}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
         </PivotItem>

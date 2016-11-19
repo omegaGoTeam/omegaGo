@@ -13,12 +13,11 @@ using OmegaGo.UI.Services.Localization;
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public class ViewBase : MvxWindowsPage
-    {
-        // This all is NOT final! Although works
-        // TODO Consult with El Martin
+    {        
         public ViewBase()
         {
-
+            //set view model as Data Context by default
+            DataContext = ViewModel;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

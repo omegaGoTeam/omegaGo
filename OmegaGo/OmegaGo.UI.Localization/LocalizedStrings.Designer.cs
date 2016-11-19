@@ -71,6 +71,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string AutoLanguage {
+            get {
+                return ResourceManager.GetString("AutoLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string Back {
@@ -85,6 +94,15 @@ namespace OmegaGo.UI.Localization {
         public static string BoardSize {
             get {
                 return ResourceManager.GetString("BoardSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change language.
+        /// </summary>
+        public static string ChangeLanguage {
+            get {
+                return ResourceManager.GetString("ChangeLanguage", resourceCulture);
             }
         }
         

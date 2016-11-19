@@ -102,8 +102,8 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         private void SetupTitleBar()
         {
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
+            //CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            //coreTitleBar.ExtendViewIntoTitleBar = true;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
             titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;

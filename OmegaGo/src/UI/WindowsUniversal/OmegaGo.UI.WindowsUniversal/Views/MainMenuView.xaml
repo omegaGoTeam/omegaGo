@@ -70,7 +70,7 @@
                     HorizontalAlignment="Stretch" />
             </StackPanel>
 
-            <StackPanel HorizontalAlignment="Left"
+            <!--<StackPanel HorizontalAlignment="Left"
                     VerticalAlignment="Bottom">
                 <RichTextBlock>
                 </RichTextBlock>
@@ -78,6 +78,23 @@
                     ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
                     Click="ShowHideTips_Click"
                      />
+            </StackPanel>-->
+
+            <StackPanel Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button>
+                    <FontIcon Glyph="&#xE8C1;" />
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <ToggleMenuFlyoutItem Text="Auto" IsChecked="True" />
+                            <ToggleMenuFlyoutItem Text="English" IsChecked="False" />
+                            <ToggleMenuFlyoutItem Text="Česky" IsChecked="False" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+
+                <Button Margin="12,0,0,0">
+                    <FontIcon Glyph="&#xE994;" />
+                </Button>
             </StackPanel>
 
             <StackPanel HorizontalAlignment="Right"

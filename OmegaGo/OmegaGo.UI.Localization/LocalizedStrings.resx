@@ -120,12 +120,18 @@
   <data name="Assistant" xml:space="preserve">
     <value>Assistant</value>
   </data>
+  <data name="AutoLanguage" xml:space="preserve">
+    <value>Auto</value>
+  </data>
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="BoardSize" xml:space="preserve">
     <value>Board Size</value>
     <comment>:-)</comment>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Change language</value>
   </data>
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
