@@ -14,77 +14,85 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="omegaGo" 
+
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
+        </Border.Background>
+        <Grid Background="#CCFFFFFF">
+            <TextBlock 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
-        <StackPanel HorizontalAlignment="Center" 
+                   CharacterSpacing="10"
+                   Style="{ThemeResource HeaderTextBlockStyle}">
+                <Run>omega</Run>
+                <Run FontWeight="SemiBold">Go</Run>
+            </TextBlock>
+            <StackPanel HorizontalAlignment="Center" 
                     VerticalAlignment="Center">
 
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,10,0,0" />
-                </Style>
-            </StackPanel.Resources>
-            
-            <Button Content="Tutorial" 
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0,10,0,0" />
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="{x:Bind Localizer.Tutorial}"                     
                     Command="{Binding Path=NavigateToTutorial}"
-                    ToolTipService.ToolTip="This is the best place to learn Go if you don't know anything at all about the game."
+                    ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Singleplayer" 
+                <Button Content="{x:Bind Localizer.Singleplayer}" 
                     Command="{Binding Path=NavigateToSingleplayer}"
-                    ToolTipService.ToolTip="Learn Go, play against an AI, solve problems or gain experience completing quests."
+                    ToolTipService.ToolTip="{x:Bind Localizer.SingleplayerToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Local Game" 
+                <Button Content="{x:Bind Localizer.LocalGame}" 
                     Command="{Binding Path=NavigateToGameCreation}"
-                    ToolTipService.ToolTip="Play Go against another player on the same device or against an AI."
+                    ToolTipService.ToolTip="{x:Bind Localizer.LocalGameToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Online Play" 
+                <Button Content="{x:Bind Localizer.OnlineGame}" 
                     Command="{Binding Path=NavigateToMultiplayerDashboard}"
-                    ToolTipService.ToolTip="Play Go against players on the IGS or OGS online servers."
+                    ToolTipService.ToolTip="{x:Bind Localizer.OnlineGameToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Game Library"
+                <Button Content="{x:Bind Localizer.GameLibrary}"
                     Command="{Binding Path=NavigateToLibrary}"
-                    ToolTipService.ToolTip="Load a saved game file or another .sgf file and browse through it."
+                    ToolTipService.ToolTip="{x:Bind Localizer.GameLibraryToolTip}"
                     HorizontalAlignment="Stretch"/>
-            <Button Content="Statistics" 
+                <Button Content="{x:Bind Localizer.Statistics}" 
                     Command="{Binding Path=NavigateToStatistics}"
-                    ToolTipService.ToolTip="View your winrate and other statistics."
+                    ToolTipService.ToolTip="{x:Bind Localizer.StatisticsToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Settings" 
+                <Button Content="{x:Bind Localizer.Settings}" 
                     Command="{Binding Path=NavigateToSettings}"
-                    ToolTipService.ToolTip="Change language, audio, visual style and many other things."
+                    ToolTipService.ToolTip="{x:Bind Localizer.SettingsToolTip}"
                     HorizontalAlignment="Stretch" />
-            <Button Content="Help" 
+                <Button Content="{x:Bind Localizer.Help}" 
                     Command="{Binding Path=NavigateToHelp}"
-                    ToolTipService.ToolTip="Read the rules, documentation and other interesting information."
+                    ToolTipService.ToolTip="{x:Bind Localizer.HelpToolTip}"
                     HorizontalAlignment="Stretch" />
-        </StackPanel>
+            </StackPanel>
 
-        <StackPanel HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    >
-            <!-- Rich Text Box here -->
-            <Button Content="Tips" 
-                    ToolTipService.ToolTip="Show or hide tips."
+            <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom">
+                <RichTextBlock>
+                </RichTextBlock>
+                <Button Content="{x:Bind Localizer.Tips}" 
+                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
                     Click="ShowHideTips_Click"
                      />
-        </StackPanel>
-        
-        <StackPanel HorizontalAlignment="Right"
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
-            <Button Content="Credits" 
+                <Button Content="{x:Bind Localizer.Credits}" 
                     Command="{Binding Path=NavigateToAbout}"
-                    ToolTipService.ToolTip="View information about the game authors and license information."
+                    ToolTipService.ToolTip="{x:Bind Localizer.CreditsToolTip}"
                     Margin="0,0,20,0"
                     HorizontalAlignment="Stretch" />
-            <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
+                <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
                   FontSize="26"/>
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
 </views:ViewBase>
 
 

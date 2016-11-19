@@ -89,6 +89,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        public static string Credits {
+            get {
+                return ResourceManager.GetString("Credits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View information about the game authors and license information..
+        /// </summary>
+        public static string CreditsToolTip {
+            get {
+                return ResourceManager.GetString("CreditsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -116,11 +134,47 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Game library.
+        /// </summary>
+        public static string GameLibrary {
+            get {
+                return ResourceManager.GetString("GameLibrary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Library of your past games and all your SGF files.
+        /// </summary>
+        public static string GameLibraryToolTip {
+            get {
+                return ResourceManager.GetString("GameLibraryToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gameplay.
         /// </summary>
         public static string Gameplay {
             get {
                 return ResourceManager.GetString("Gameplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read the rules, documentation and other interesting information..
+        /// </summary>
+        public static string HelpToolTip {
+            get {
+                return ResourceManager.GetString("HelpToolTip", resourceCulture);
             }
         }
         
@@ -170,6 +224,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local game.
+        /// </summary>
+        public static string LocalGame {
+            get {
+                return ResourceManager.GetString("LocalGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play Go against another player on the same device or against an AI..
+        /// </summary>
+        public static string LocalGameToolTip {
+            get {
+                return ResourceManager.GetString("LocalGameToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On-line game.
+        /// </summary>
+        public static string OnlineGame {
+            get {
+                return ResourceManager.GetString("OnlineGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play Go against players on the IGS or OGS online servers..
+        /// </summary>
+        public static string OnlineGameToolTip {
+            get {
+                return ResourceManager.GetString("OnlineGameToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open.
         /// </summary>
         public static string Open {
@@ -206,11 +296,92 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change language, audio, visual style and many other things..
+        /// </summary>
+        public static string SettingsToolTip {
+            get {
+                return ResourceManager.GetString("SettingsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Singleplayer.
+        /// </summary>
+        public static string Singleplayer {
+            get {
+                return ResourceManager.GetString("Singleplayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Learn Go, play against an AI, solve problems or gain experience completing quests..
+        /// </summary>
+        public static string SingleplayerToolTip {
+            get {
+                return ResourceManager.GetString("SingleplayerToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sounds.
         /// </summary>
         public static string Sounds {
             get {
                 return ResourceManager.GetString("Sounds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Statistics.
+        /// </summary>
+        public static string Statistics {
+            get {
+                return ResourceManager.GetString("Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View your winrate and other statistics..
+        /// </summary>
+        public static string StatisticsToolTip {
+            get {
+                return ResourceManager.GetString("StatisticsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tips.
+        /// </summary>
+        public static string Tips {
+            get {
+                return ResourceManager.GetString("Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show or hide tips..
+        /// </summary>
+        public static string TipsToolTip {
+            get {
+                return ResourceManager.GetString("TipsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tutorial.
+        /// </summary>
+        public static string Tutorial {
+            get {
+                return ResourceManager.GetString("Tutorial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the best place to learn Go if you don&apos;t know anything at all about the game..
+        /// </summary>
+        public static string TutorialToolTip {
+            get {
+                return ResourceManager.GetString("TutorialToolTip", resourceCulture);
             }
         }
         

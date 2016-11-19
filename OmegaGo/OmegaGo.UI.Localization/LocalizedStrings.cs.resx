@@ -13,7 +13,118 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BoardSize" xml:space="preserve">
-    <value>Velikost Hrací Plochy</value>
+    <value>Velikost hení plochy</value>
     <comment>:-)</comment>
+  </data>
+  <data name="Assistant" xml:space="preserve">
+    <value>Asistent</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Smazat
+</value>
+  </data>
+  <data name="DeleteSelection" xml:space="preserve">
+    <value>Smazat výběr
+</value>
+  </data>
+  <data name="FilterBySource" xml:space="preserve">
+    <value>Filtrovat dle zdroje</value>
+  </data>
+  <data name="Gameplay" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Knihovna</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Načíst</value>
+  </data>
+  <data name="LoadFolder" xml:space="preserve">
+    <value>Načíst složku</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Načítám...</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otevřít</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Vybrat</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Zvuky</value>
+  </data>
+  <data name="UserInterface" xml:space="preserve">
+    <value>Uživatelské rozhraní</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Kredity</value>
+  </data>
+  <data name="CreditsToolTip" xml:space="preserve">
+    <value>Zobrazit informace o autorech a licenční ujednání</value>
+  </data>
+  <data name="GameLibrary" xml:space="preserve">
+    <value>Herní knihovna</value>
+  </data>
+  <data name="GameLibraryToolTip" xml:space="preserve">
+    <value>Knihovna vašich předchozích her a souborů SGF</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Nápověda</value>
+  </data>
+  <data name="HelpToolTip" xml:space="preserve">
+    <value>Přečtěte si pravidla, dokumentaci a další zajímavé informace</value>
+  </data>
+  <data name="LocalGame" xml:space="preserve">
+    <value>Lokální hra</value>
+  </data>
+  <data name="LocalGameToolTip" xml:space="preserve">
+    <value>Hrajte Go proti jinému hráči na tomto zařízení nebo proti umělé inteligenci</value>
+  </data>
+  <data name="OnlineGame" xml:space="preserve">
+    <value>On-line hra</value>
+  </data>
+  <data name="OnlineGameToolTip" xml:space="preserve">
+    <value>Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</value>
+  </data>
+  <data name="SettingsToolTip" xml:space="preserve">
+    <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
+  </data>
+  <data name="Singleplayer" xml:space="preserve">
+    <value>Hra jednoho hráče</value>
+  </data>
+  <data name="SingleplayerToolTip" xml:space="preserve">
+    <value>Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistiky</value>
+  </data>
+  <data name="StatisticsToolTip" xml:space="preserve">
+    <value>Zobrazte své herní výsledky a statistiky</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tipy
+</value>
+  </data>
+  <data name="TipsToolTip" xml:space="preserve">
+    <value>Zobrazit nebo skrýt tipy</value>
+  </data>
+  <data name="Tutorial" xml:space="preserve">
+    <value>Tutorial</value>
+  </data>
+  <data name="TutorialToolTip" xml:space="preserve">
+    <value>Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</value>
   </data>
 </root>

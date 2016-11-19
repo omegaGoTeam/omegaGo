@@ -127,6 +127,12 @@
     <value>Board Size</value>
     <comment>:-)</comment>
   </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="CreditsToolTip" xml:space="preserve">
+    <value>View information about the game authors and license information.</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -136,8 +142,20 @@
   <data name="FilterBySource" xml:space="preserve">
     <value>Filter by source</value>
   </data>
+  <data name="GameLibrary" xml:space="preserve">
+    <value>Game library</value>
+  </data>
+  <data name="GameLibraryToolTip" xml:space="preserve">
+    <value>Library of your past games and all your SGF files</value>
+  </data>
   <data name="Gameplay" xml:space="preserve">
     <value>Gameplay</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="HelpToolTip" xml:space="preserve">
+    <value>Read the rules, documentation and other interesting information.</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -154,6 +172,18 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="LocalGame" xml:space="preserve">
+    <value>Local game</value>
+  </data>
+  <data name="LocalGameToolTip" xml:space="preserve">
+    <value>Play Go against another player on the same device or against an AI.</value>
+  </data>
+  <data name="OnlineGame" xml:space="preserve">
+    <value>On-line game</value>
+  </data>
+  <data name="OnlineGameToolTip" xml:space="preserve">
+    <value>Play Go against players on the IGS or OGS online servers.</value>
+  </data>
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
@@ -166,8 +196,35 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SettingsToolTip" xml:space="preserve">
+    <value>Change language, audio, visual style and many other things.</value>
+  </data>
+  <data name="Singleplayer" xml:space="preserve">
+    <value>Singleplayer</value>
+  </data>
+  <data name="SingleplayerToolTip" xml:space="preserve">
+    <value>Learn Go, play against an AI, solve problems or gain experience completing quests.</value>
+  </data>
   <data name="Sounds" xml:space="preserve">
     <value>Sounds</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="StatisticsToolTip" xml:space="preserve">
+    <value>View your winrate and other statistics.</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="TipsToolTip" xml:space="preserve">
+    <value>Show or hide tips.</value>
+  </data>
+  <data name="Tutorial" xml:space="preserve">
+    <value>Tutorial</value>
+  </data>
+  <data name="TutorialToolTip" xml:space="preserve">
+    <value>This is the best place to learn Go if you don't know anything at all about the game.</value>
   </data>
   <data name="UserInterface" xml:space="preserve">
     <value>User interface</value>

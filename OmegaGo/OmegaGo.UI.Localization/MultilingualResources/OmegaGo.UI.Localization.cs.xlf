@@ -8,76 +8,154 @@
       <group id="OMEGAGO.UI.LOCALIZATION/LOCALIZEDSTRINGS.RESX" datatype="resx">
         <trans-unit id="BoardSize" translate="yes" xml:space="preserve">
           <source>Board Size</source>
-          <target state="translated">Velikost Hrací Plochy</target>
+          <target state="final">Velikost hení plochy</target>
           <note from="MultilingualBuild" annotates="source" priority="2">:-)</note>
         </trans-unit>
         <trans-unit id="Assistant" translate="yes" xml:space="preserve">
           <source>Assistant</source>
-          <target state="new">Assistant</target>
+          <target state="final">Asistent</target>
         </trans-unit>
         <trans-unit id="Back" translate="yes" xml:space="preserve">
           <source>Back</source>
-          <target state="new">Back</target>
+          <target state="final">Zpět</target>
         </trans-unit>
         <trans-unit id="Delete" translate="yes" xml:space="preserve">
           <source>Delete</source>
-          <target state="new">Delete</target>
+          <target state="final">Smazat
+</target>
         </trans-unit>
         <trans-unit id="DeleteSelection" translate="yes" xml:space="preserve">
           <source>Delete selection</source>
-          <target state="new">Delete selection</target>
+          <target state="final">Smazat výběr
+</target>
         </trans-unit>
         <trans-unit id="FilterBySource" translate="yes" xml:space="preserve">
           <source>Filter by source</source>
-          <target state="new">Filter by source</target>
+          <target state="final">Filtrovat dle zdroje</target>
         </trans-unit>
         <trans-unit id="Gameplay" translate="yes" xml:space="preserve">
           <source>Gameplay</source>
-          <target state="new">Gameplay</target>
+          <target state="final">Hra</target>
         </trans-unit>
         <trans-unit id="Language" translate="yes" xml:space="preserve">
           <source>Language</source>
-          <target state="new">Language</target>
+          <target state="final">Jazyk</target>
         </trans-unit>
         <trans-unit id="Library" translate="yes" xml:space="preserve">
           <source>Library</source>
-          <target state="new">Library</target>
+          <target state="final">Knihovna</target>
         </trans-unit>
         <trans-unit id="Load" translate="yes" xml:space="preserve">
           <source>Load</source>
-          <target state="new">Load</target>
+          <target state="final">Načíst</target>
         </trans-unit>
         <trans-unit id="LoadFolder" translate="yes" xml:space="preserve">
           <source>Load folder</source>
-          <target state="new">Load folder</target>
+          <target state="final">Načíst složku</target>
         </trans-unit>
         <trans-unit id="Loading" translate="yes" xml:space="preserve">
           <source>Loading...</source>
-          <target state="new">Loading...</target>
+          <target state="final">Načítám...</target>
         </trans-unit>
         <trans-unit id="Open" translate="yes" xml:space="preserve">
           <source>Open</source>
-          <target state="new">Open</target>
+          <target state="final">Otevřít</target>
         </trans-unit>
         <trans-unit id="Rename" translate="yes" xml:space="preserve">
           <source>Rename</source>
-          <target state="new">Rename</target>
+          <target state="final">Přejmenovat</target>
         </trans-unit>
         <trans-unit id="Select" translate="yes" xml:space="preserve">
           <source>Select</source>
-          <target state="new">Select</target>
+          <target state="final">Vybrat</target>
         </trans-unit>
         <trans-unit id="Settings" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="final">Nastavení</target>
         </trans-unit>
         <trans-unit id="Sounds" translate="yes" xml:space="preserve">
           <source>Sounds</source>
-          <target state="new">Sounds</target>
+          <target state="final">Zvuky</target>
         </trans-unit>
         <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
           <source>User interface</source>
-          <target state="new">User interface</target>
+          <target state="final">Uživatelské rozhraní</target>
+        </trans-unit>
+        <trans-unit id="Credits" translate="yes" xml:space="preserve">
+          <source>Credits</source>
+          <target state="final">Kredity</target>
+        </trans-unit>
+        <trans-unit id="CreditsToolTip" translate="yes" xml:space="preserve">
+          <source>View information about the game authors and license information.</source>
+          <target state="final">Zobrazit informace o autorech a licenční ujednání</target>
+        </trans-unit>
+        <trans-unit id="GameLibrary" translate="yes" xml:space="preserve">
+          <source>Game library</source>
+          <target state="final">Herní knihovna</target>
+        </trans-unit>
+        <trans-unit id="GameLibraryToolTip" translate="yes" xml:space="preserve">
+          <source>Library of your past games and all your SGF files</source>
+          <target state="final">Knihovna vašich předchozích her a souborů SGF</target>
+        </trans-unit>
+        <trans-unit id="Help" translate="yes" xml:space="preserve">
+          <source>Help</source>
+          <target state="final">Nápověda</target>
+        </trans-unit>
+        <trans-unit id="HelpToolTip" translate="yes" xml:space="preserve">
+          <source>Read the rules, documentation and other interesting information.</source>
+          <target state="final">Přečtěte si pravidla, dokumentaci a další zajímavé informace</target>
+        </trans-unit>
+        <trans-unit id="LocalGame" translate="yes" xml:space="preserve">
+          <source>Local game</source>
+          <target state="final">Lokální hra</target>
+        </trans-unit>
+        <trans-unit id="LocalGameToolTip" translate="yes" xml:space="preserve">
+          <source>Play Go against another player on the same device or against an AI.</source>
+          <target state="final">Hrajte Go proti jinému hráči na tomto zařízení nebo proti umělé inteligenci</target>
+        </trans-unit>
+        <trans-unit id="OnlineGame" translate="yes" xml:space="preserve">
+          <source>On-line game</source>
+          <target state="final">On-line hra</target>
+        </trans-unit>
+        <trans-unit id="OnlineGameToolTip" translate="yes" xml:space="preserve">
+          <source>Play Go against players on the IGS or OGS online servers.</source>
+          <target state="final">Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</target>
+        </trans-unit>
+        <trans-unit id="SettingsToolTip" translate="yes" xml:space="preserve">
+          <source>Change language, audio, visual style and many other things.</source>
+          <target state="final">Změňte jazyk, audio, grafiku a mnoho dalších nastavení</target>
+        </trans-unit>
+        <trans-unit id="Singleplayer" translate="yes" xml:space="preserve">
+          <source>Singleplayer</source>
+          <target state="final">Hra jednoho hráče</target>
+        </trans-unit>
+        <trans-unit id="SingleplayerToolTip" translate="yes" xml:space="preserve">
+          <source>Learn Go, play against an AI, solve problems or gain experience completing quests.</source>
+          <target state="final">Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</target>
+        </trans-unit>
+        <trans-unit id="Statistics" translate="yes" xml:space="preserve">
+          <source>Statistics</source>
+          <target state="final">Statistiky</target>
+        </trans-unit>
+        <trans-unit id="StatisticsToolTip" translate="yes" xml:space="preserve">
+          <source>View your winrate and other statistics.</source>
+          <target state="final">Zobrazte své herní výsledky a statistiky</target>
+        </trans-unit>
+        <trans-unit id="Tips" translate="yes" xml:space="preserve">
+          <source>Tips</source>
+          <target state="final">Tipy</target>
+        </trans-unit>
+        <trans-unit id="TipsToolTip" translate="yes" xml:space="preserve">
+          <source>Show or hide tips.</source>
+          <target state="final">Zobrazit nebo skrýt tipy</target>
+        </trans-unit>
+        <trans-unit id="Tutorial" translate="yes" xml:space="preserve">
+          <source>Tutorial</source>
+          <target state="final">Tutoriál</target>
+        </trans-unit>
+        <trans-unit id="TutorialToolTip" translate="yes" xml:space="preserve">
+          <source>This is the best place to learn Go if you don't know anything at all about the game.</source>
+          <target state="final">Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</target>
         </trans-unit>
       </group>
     </body>

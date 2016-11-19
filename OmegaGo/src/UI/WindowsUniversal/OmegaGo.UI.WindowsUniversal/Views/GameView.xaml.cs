@@ -15,19 +15,12 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         
         public GameViewModel VM => (GameViewModel)this.ViewModel;
 
-        public BoardData BoardData
-        {
-            get { return _boardData; }
-        }
-        public InputService InputService
-        {
-            get { return _inputService; }
-        }
-        public RenderService RenderService
-        {
-            get  { return _renderService; }
-        }
-        
+        public BoardData BoardData => _boardData;
+
+        public InputService InputService => _inputService;
+
+        public RenderService RenderService => _renderService;
+
         public GameView()
         {
             _boardData = new BoardData();

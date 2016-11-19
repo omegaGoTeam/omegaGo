@@ -41,10 +41,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
         }
 
-        public int HalfCellSize
-        {
-            get { return _halfCellSize; }
-        }
+        public int HalfCellSize => _halfCellSize;
 
         public int BoardBorderThickness
         {
@@ -114,8 +111,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             set { _boardHeight = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardHeight), true); }
         }
 
-        public int BoardActualWidth { get { return _boardActualWidth; } }
-        public int BoardActualHeight { get { return _boardActualHeight; } }
+        public int BoardActualWidth => _boardActualWidth;
+        public int BoardActualHeight => _boardActualHeight;
 
         public event EventHandler RedrawRequested;
         public event PropertyChangedEventHandler PropertyChanged;
