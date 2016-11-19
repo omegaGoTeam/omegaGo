@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.UI.Services.Localization;
@@ -12,6 +13,12 @@ namespace OmegaGo.UI.Tests.Services.Localization
     [TestClass]
     public class LocalizationServiceTests
     {
+        public LocalizationServiceTests()
+        {
+            //set default culture so that the tests are not dependent on test environment settings
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo( "en" );
+        }
+
         [TestMethod]
         public void IndexerReturnsDefaultTranslation()
         {
