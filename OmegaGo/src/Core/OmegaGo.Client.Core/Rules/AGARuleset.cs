@@ -23,6 +23,28 @@ namespace OmegaGo.Core.Rules
             _countingType = countingType;
         }
 
+        public override Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard)
+        {
+            Scores scores;
+            if (_countingType == CountingType.Area)
+                scores = CountArea(currentBoard);
+            else
+                scores = CountTerritory(currentBoard);
+
+            scores.WhiteScore += _komi+_whiteScore;
+            scores.BlackScore += _blackScore;
+            return scores;
+        }
+
+        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        {
+            if (_countingType == CountingType.Territory)
+            {
+                _whiteScore -= deadWhiteStoneCount;
+                _blackScore -= deadBlackStoneCount;
+            }
+        }
+
         protected override void SetKomi(int handicapStoneNumber)
         {
             if (handicapStoneNumber == 0)
@@ -38,12 +60,7 @@ namespace OmegaGo.Core.Rules
                 _komi = 0.5f;
             }
         }
-
-        public override int CountScore(StoneColor[,] currentBoard)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         protected override MoveResult Pass(StoneColor playerColor)
         {
             StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
@@ -92,6 +109,16 @@ namespace OmegaGo.Core.Rules
             
         }
 
-        
+        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
+        {
+            if (_countingType == CountingType.Territory)
+            {
+                if (removedStonesColor == StoneColor.Black)
+                    _blackScore -= capturedStoneCount;
+                else if (removedStonesColor == StoneColor.White)
+                    _whiteScore -= capturedStoneCount;
+            }
+        }
+
     }
 }
