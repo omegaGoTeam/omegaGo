@@ -1,4 +1,8 @@
 ﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using OmegaGo.Core;
+using OmegaGo.Core.Rules;
+using OmegaGo.UI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +24,7 @@ namespace OmegaGo.UI.ViewModels
         private int _selectedRulesetItemIndex;
         private int _selectedStoneColorsItemIndex;
 
-        private IMvxCommand _navigateToGame;
+        private IMvxCommand _navigateToGameCommand;
 
         public ObservableCollection<string> BoardSizes
         {
@@ -74,6 +78,48 @@ namespace OmegaGo.UI.ViewModels
             _whiteHandicap = 0;
         }
 
-        public IMvxCommand NavigateToGame => _navigateToGame ?? (_navigateToGame = new MvxCommand(() => ShowViewModel<GameViewModel>()));
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(() => NavigateToGame()));
+
+        private void NavigateToGame()
+        {
+            Game game = new Game();
+
+            game.Players.Add(new Player("Black Player", "??", game));
+            game.Players.Add(new Player("White Player", "??", game));
+            foreach (var player in game.Players)
+            {
+                player.Agent = new GameViewModelAgent();
+            }
+
+            switch (SelectedBoardSizeItemIndex)
+            {
+                case 0:
+                    game.BoardSize = new GameBoardSize(9);
+                    break;
+                case 1:
+                    game.BoardSize = new GameBoardSize(14);
+                    break;
+                case 2:
+                    game.BoardSize = new GameBoardSize(19);
+                    break;
+                case 3:
+                    game.BoardSize = new GameBoardSize(25);
+                    break;
+            }
+
+            switch(SelectedRulesetItemIndex)
+            {
+
+                case 0:
+                    game.Ruleset = new ChineseRuleset(game.White, game.Black, game.BoardSize);
+                    break;
+                case 1:
+                    game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                    break;
+            }
+            
+            Mvx.RegisterSingleton<Game>(game);
+            ShowViewModel<GameViewModel>();
+        }
     }
 }

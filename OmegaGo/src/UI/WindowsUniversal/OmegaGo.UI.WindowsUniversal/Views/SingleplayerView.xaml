@@ -92,8 +92,9 @@
 
             <Button Grid.Row="2" 
                 Content="Play"
-                Command="{Binding Path=NavigateToGame}"
-                HorizontalAlignment="Center"/>
+                Command="{Binding Path=NavigateToGameCommand}"
+                HorizontalAlignment="Stretch"
+                Margin="5" />
         </Grid>
     </Grid>
 </views:ViewBase>

@@ -9,6 +9,8 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
+using OmegaGo.UI.Infrastructure;
+using MvvmCross.Platform;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -41,17 +43,28 @@ namespace OmegaGo.UI.ViewModels
 
         public GameViewModel()
         {
-            _game = new Game();
-            _game.BoardSize = new GameBoardSize(19);
-
-            _game.Players.Add(new Player("Black Player", "??", _game));
-            _game.Players.Add(new Player("White Player", "??", _game));
-            foreach(var player in _game.Players)
+            try
             {
-                player.Agent = new GameViewModelAgent();
+                // Works for SinglePlayer ViewModel
+                _game = Mvx.GetSingleton<Game>();
+            }
+            catch(Exception)
+            {
+                // For all others game parameters not yet implemented
+                // Do it old way
+                _game = new Game();
+                _game.BoardSize = new GameBoardSize(19);
+
+                _game.Players.Add(new Player("Black Player", "??", _game));
+                _game.Players.Add(new Player("White Player", "??", _game));
+                foreach (var player in _game.Players)
+                {
+                    player.Agent = new GameViewModelAgent();
+                }
+
+                _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
             }
 
-            _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
             _gameController = new GameController(_game);
             _gameController.BoardMustBeRefreshed += () => OnBoardRedraw(_game.GameTree.LastNode);
 
@@ -79,29 +92,6 @@ namespace OmegaGo.UI.ViewModels
             TimelineViewModel.OnTimelineRedrawRequested();
 
             BoardRedrawRequsted?.Invoke(this, boardState);
-        }
-
-        class GameViewModelAgent : AgentBase, IAgent
-        {
-            public BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
-
-
-            public GameViewModelAgent()
-            {
-            }
-
-            public async Task<AgentDecision> RequestMoveAsync(Game game)
-            {
-                AgentDecision storedDecision = GetStoredDecision(game);
-                if (storedDecision != null)
-                {
-                    return storedDecision;
-                }
-                AgentDecision decision = await DecisionsToMake.ReceiveAsync();
-                return decision;
-            }
-
-            public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
         }
     }
 }

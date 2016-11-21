@@ -49,6 +49,7 @@
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
+    <Compile Include="Infrastructure\GameViewModelAgent.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
