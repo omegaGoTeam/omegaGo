@@ -43,10 +43,11 @@ namespace OmegaGo.Core.Rules
             {
                 _komi = 7.5f;
             }
-            else
+            else 
             {
-                _komi = 0.5f;
+                _komi = 0.5f + handicapStoneNumber - 1;
             }
+
         }
 
         protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)

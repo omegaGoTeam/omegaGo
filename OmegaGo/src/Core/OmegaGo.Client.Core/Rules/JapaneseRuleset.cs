@@ -55,12 +55,10 @@ namespace OmegaGo.Core.Rules
         {
             if (_isPreviousMovePass)
             {
-                //TODO check whether opponents score increases according to Japanese rules
                 return MoveResult.LifeDeathConfirmationPhase;
             }
             else
             {
-                //TODO check whether opponents score increases according to Japanese rules
                 _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }
