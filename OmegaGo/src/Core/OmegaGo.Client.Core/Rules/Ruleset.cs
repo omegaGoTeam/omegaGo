@@ -237,7 +237,7 @@ namespace OmegaGo.Core.Rules
 
         protected abstract MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
-        protected abstract MoveResult Pass();
+        protected abstract MoveResult Pass(StoneColor playerColor);
 
         /// <summary>
         /// Checks the player's move.

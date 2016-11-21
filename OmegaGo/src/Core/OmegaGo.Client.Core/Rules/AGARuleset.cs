@@ -44,23 +44,29 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        protected override MoveResult Pass()
+        protected override MoveResult Pass(StoneColor playerColor)
         {
-            //TODO what if white passes first, then black passes? 
-            //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
-            //What should I do? Just give 1 stone (point) to Black and return MoveResult.LifeDeadConfirmationPhase?
+            StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
+
+            //increase opponent's score
+            if (opponentColor == StoneColor.Black)
+                _blackScore++;
+            else
+                _whiteScore++;
+            
+            //check previous move
             if (_isPreviousMovePass)
             {
-                //TODO increase opponent score
                 return MoveResult.LifeDeathConfirmationPhase;
             }
-            else
+
+            // Black player starts the passing
+            if (playerColor == StoneColor.Black) 
             {
-                //TODO increase opponent score
                 _isPreviousMovePass = true;
-                return MoveResult.Legal;
             }
 
+            return MoveResult.Legal;
         }
 
         protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)

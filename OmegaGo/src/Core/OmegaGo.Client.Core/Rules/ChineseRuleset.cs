@@ -25,7 +25,6 @@ namespace OmegaGo.Core.Rules
             if (handicapStoneNumber == 0)
             {
                 _komi = 7.5f;
-                _whiteScore = 7.5f;
             }
             else
             {
@@ -38,7 +37,7 @@ namespace OmegaGo.Core.Rules
             throw new NotImplementedException();
         }
 
-        protected override MoveResult Pass()
+        protected override MoveResult Pass(StoneColor playerColor)
         {
             if (_isPreviousMovePass)
             {
