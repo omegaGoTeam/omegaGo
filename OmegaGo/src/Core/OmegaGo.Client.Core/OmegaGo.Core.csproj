@@ -70,8 +70,10 @@
     <Compile Include="Markup\MarkupKind.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConstants.cs" />
+    <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPositions.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
