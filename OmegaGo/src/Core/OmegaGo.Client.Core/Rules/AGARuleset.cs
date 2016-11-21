@@ -12,13 +12,15 @@ namespace OmegaGo.Core.Rules
         private float _komi;
         private float _whiteScore;
         private float _blackScore;
+        private CountingType _countingType;
         
-        public AGARuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
+        public AGARuleset(Player white, Player black, GameBoardSize gbSize, CountingType countingType) : base(white, black, gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
             _whiteScore = 0.0f;
             _blackScore = 0.0f;
+            _countingType = countingType;
         }
 
         protected override void SetKomi(int handicapStoneNumber)
@@ -26,11 +28,14 @@ namespace OmegaGo.Core.Rules
             if (handicapStoneNumber == 0)
             {
                 _komi = 7.5f;
-                _whiteScore = 7.5f;
             }
-            else
+            else if (handicapStoneNumber > 0 && _countingType == CountingType.Area)
             {
                 _komi = 0.5f + handicapStoneNumber - 1;
+            }
+            else if (handicapStoneNumber > 0 && _countingType == CountingType.Territory)
+            {
+                _komi = 0.5f;
             }
         }
 
