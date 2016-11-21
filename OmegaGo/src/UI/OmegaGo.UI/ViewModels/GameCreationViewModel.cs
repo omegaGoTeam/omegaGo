@@ -75,7 +75,7 @@ namespace OmegaGo.UI.ViewModels
 
         public GameCreationViewModel()
         {
-            _boardSizes = new ObservableCollection<string>() { "9x9", "14x14", "19x19", "25x25" };
+            _boardSizes = new ObservableCollection<string>() { "9x9", "13x13", "19x19", "25x25" };
             _difficulties = new ObservableCollection<string>() { "Easy", "Medium", "Hard" };
             _rulesets = new ObservableCollection<string>() { "Chinese", "Japonese", "Víťa Ultimate" };
             _stoneColors = new ObservableCollection<string>() { "Black", "White" };
