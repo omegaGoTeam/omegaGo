@@ -104,7 +104,7 @@ namespace FormsPrototype
             }
             this.cbRuleset.Items.Add(new ChineseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
             this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
-            this.cbRuleset.Items.Add(new AGARuleset(this._game.White, this._game.Black, this._game.BoardSize));
+            this.cbRuleset.Items.Add(new AGARuleset(this._game.White, this._game.Black, this._game.BoardSize,CountingType.Area));
             for (int i = 0; i < this.cbRuleset.Items.Count; i++)
             {
                 Ruleset selected = this.cbRuleset.Items[i] as Ruleset;

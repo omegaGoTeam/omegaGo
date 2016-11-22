@@ -20,25 +20,42 @@ namespace OmegaGo.Core.Rules
             _whiteScore = 0.0f;
             _blackScore = 0.0f;
         }
+
+        public override Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard)
+        {
+            Scores scores;
+            scores = CountArea(currentBoard);
+
+            scores.WhiteScore += _komi + _whiteScore;
+            scores.BlackScore += _blackScore;
+
+            return scores;
+        }
+
+        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        {
+            return; //Chinese ruleset uses area counting, we do not need number of dead stones
+        }
+
         protected override void SetKomi(int handicapStoneNumber)
         {
             if (handicapStoneNumber == 0)
             {
                 _komi = 7.5f;
-                _whiteScore = 7.5f;
             }
-            else
+            else 
             {
-                _komi = 0.5f;
+                _komi = 0.5f + handicapStoneNumber - 1;
             }
+
         }
 
-        public override int CountScore(StoneColor[,] currentBoard)
+        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
         {
-            throw new NotImplementedException();
+            return; //Chinese ruleset uses area counting, we do not need number of captured stones
         }
 
-        protected override MoveResult Pass()
+        protected override MoveResult Pass(StoneColor playerColor)
         {
             if (_isPreviousMovePass)
             {

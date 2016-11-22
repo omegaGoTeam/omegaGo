@@ -29,6 +29,9 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
         }
 
+        public abstract Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard);
+        public abstract void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
+
         /// <summary>
         /// Sets the value of Komi. 
         /// If the type of handicap placement is fixed, places handicap stones on the board.
@@ -70,52 +73,6 @@ namespace OmegaGo.Core.Rules
            
         }
 
-        /// <summary>
-        /// Places handicape stones on fixed positions.
-        /// </summary>
-        /// <param name="currentBoard"></param>
-        /// <param name="stoneNumber"></param>
-        protected void PlaceFixedHandicapStones(ref StoneColor[,] currentBoard, int stoneNumber)
-        {
-            
-            switch (_boardWidth)
-            {
-                case 9:
-                    {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap9)
-                            for (int i = 0; i < stoneNumber; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 13:
-                    {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap13)
-                            for (int i = 0; i < stoneNumber; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 19:
-                    {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap19)
-                            for (int i = 0; i < stoneNumber; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
-
-        public abstract int CountScore(StoneColor[,] currentBoard);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
@@ -135,7 +92,7 @@ namespace OmegaGo.Core.Rules
             //1. step: check intersection
             if (moveToMake.Kind == MoveKind.Pass)
             {
-                processingResult.Result = Pass();
+                processingResult.Result = Pass(moveToMake.WhoMoves);
                 return processingResult;
             }
             else if (IsOutsideTheBoard(position)==MoveResult.OutsideTheBoard)
@@ -163,6 +120,7 @@ namespace OmegaGo.Core.Rules
                 MoveResult r = CheckSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
                 {
+                    ModifyScoresAfterCapture(processingResult.Captures.Count,moveToMake.WhoMoves);
                     processingResult.Result = r;
                     processingResult.NewBoard = currentBoard;
                     return processingResult;
@@ -237,7 +195,55 @@ namespace OmegaGo.Core.Rules
 
         protected abstract MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
 
-        protected abstract MoveResult Pass();
+        protected abstract MoveResult Pass(StoneColor playerColor);
+
+        protected abstract void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor);
+
+        /// <summary>
+        /// Places handicape stones on fixed positions.
+        /// </summary>
+        /// <param name="currentBoard"></param>
+        /// <param name="stoneNumber"></param>
+        protected void PlaceFixedHandicapStones(ref StoneColor[,] currentBoard, int stoneNumber)
+        {
+
+            switch (_boardWidth)
+            {
+                case 9:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap9)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 13:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap13)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 19:
+                    {
+                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap19)
+                            for (int i = 0; i < stoneNumber; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
 
         /// <summary>
         /// Checks the player's move.
@@ -439,26 +445,43 @@ namespace OmegaGo.Core.Rules
             else
                 return MoveResult.Legal;
         }
-        protected void CountArea(StoneColor[,] currentBoard)
+
+        protected Scores CountArea(StoneColor[,] currentBoard)
         {
-            throw new NotImplementedException();
+            Scores scores = CountTerritory(currentBoard);
+            for (int i = 0; i < _boardWidth; i++)
+            {
+                for (int j = 0; j < _boardHeight; j++)
+                {
+                    if (currentBoard[i, j] == StoneColor.Black)
+                        scores.BlackScore++;
+                    else if (currentBoard[i, j] == StoneColor.White)
+                        scores.WhiteScore++;
+                }
+            }
+
+            return scores;
+
         }
 
-        protected void CountTerritory(StoneColor[,] currentBoard)
+        protected Scores CountTerritory(StoneColor[,] currentBoard)
         {
-            Territory[,] regions = new Territory[_boardHeight, _boardWidth];
+            Territory[,] regions = new Territory[_boardWidth, _boardHeight];
+            Scores scores = new Scores();
+            scores.WhiteScore = 0;
+            scores.BlackScore = 0;
 
-            for (int i = 0; i < _boardHeight; i++)
+            for (int i = 0; i < _boardWidth; i++)
             {
-                for (int j = 0; j < _boardWidth; j++)
+                for (int j = 0; j < _boardHeight; j++)
                 {
                     regions[i, j] = Territory.Unknown;
                 }
             }
 
-            for (int i = 0; i < _boardHeight; i++)
+            for (int i = 0; i < _boardWidth; i++)
             {
-                for (int j = 0; j < _boardWidth; j++)
+                for (int j = 0; j < _boardHeight; j++)
                 {
                     if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== StoneColor.None)
                     {
@@ -478,6 +501,19 @@ namespace OmegaGo.Core.Rules
                     }
                 }
             }
+
+            for (int i = 0; i < _boardWidth; i++)
+            {
+                for (int j = 0; j < _boardHeight; j++)
+                {
+                    if (regions[i, j] == Territory.Black)
+                        scores.BlackScore++;
+                    else if (regions[i, j] == Territory.White)
+                        scores.WhiteScore++;
+                }
+            }
+
+            return scores;
         }
 
         protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)

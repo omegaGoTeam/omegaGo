@@ -12,13 +12,37 @@ namespace OmegaGo.Core.Rules
         private float _komi;
         private float _whiteScore;
         private float _blackScore;
+        private CountingType _countingType;
         
-        public AGARuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
+        public AGARuleset(Player white, Player black, GameBoardSize gbSize, CountingType countingType) : base(white, black, gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
             _whiteScore = 0.0f;
             _blackScore = 0.0f;
+            _countingType = countingType;
+        }
+
+        public override Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard)
+        {
+            Scores scores;
+            if (_countingType == CountingType.Area)
+                scores = CountArea(currentBoard);
+            else
+                scores = CountTerritory(currentBoard);
+
+            scores.WhiteScore += _komi+_whiteScore;
+            scores.BlackScore += _blackScore;
+            return scores;
+        }
+
+        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        {
+            if (_countingType == CountingType.Territory)
+            {
+                _whiteScore -= deadWhiteStoneCount;
+                _blackScore -= deadBlackStoneCount;
+            }
         }
 
         protected override void SetKomi(int handicapStoneNumber)
@@ -26,36 +50,40 @@ namespace OmegaGo.Core.Rules
             if (handicapStoneNumber == 0)
             {
                 _komi = 7.5f;
-                _whiteScore = 7.5f;
             }
-            else
+            else if (handicapStoneNumber > 0 && _countingType == CountingType.Area)
             {
                 _komi = 0.5f + handicapStoneNumber - 1;
             }
+            else if (handicapStoneNumber > 0 && _countingType == CountingType.Territory)
+            {
+                _komi = 0.5f;
+            }
         }
-
-        public override int CountScore(StoneColor[,] currentBoard)
+        
+        protected override MoveResult Pass(StoneColor playerColor)
         {
-            throw new NotImplementedException();
-        }
+            StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
 
-        protected override MoveResult Pass()
-        {
-            //TODO what if white passes first, then black passes? 
-            //Rules: "white must make the last move- if necessary, an additional pass, with a stone passed to the opponent as usual"
-            //What should I do? Just give 1 stone (point) to Black and return MoveResult.LifeDeadConfirmationPhase?
+            //increase opponent's score
+            if (opponentColor == StoneColor.Black)
+                _blackScore++;
+            else
+                _whiteScore++;
+            
+            //check previous move
             if (_isPreviousMovePass)
             {
-                //TODO increase opponent score
                 return MoveResult.LifeDeathConfirmationPhase;
             }
-            else
+
+            // Black player starts the passing
+            if (playerColor == StoneColor.Black) 
             {
-                //TODO increase opponent score
                 _isPreviousMovePass = true;
-                return MoveResult.Legal;
             }
 
+            return MoveResult.Legal;
         }
 
         protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
@@ -81,6 +109,16 @@ namespace OmegaGo.Core.Rules
             
         }
 
-        
+        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
+        {
+            if (_countingType == CountingType.Territory)
+            {
+                if (removedStonesColor == StoneColor.Black)
+                    _blackScore -= capturedStoneCount;
+                else if (removedStonesColor == StoneColor.White)
+                    _whiteScore -= capturedStoneCount;
+            }
+        }
+
     }
 }

@@ -67,7 +67,7 @@ namespace OmegaGo.UI.ViewModels
 
         public SingleplayerViewModel()
         {
-            _boardSizes = new ObservableCollection<string>() { "9x9", "14x14", "19x19", "25x25" };
+            _boardSizes = new ObservableCollection<string>() { "9x9", "13x13", "19x19", "25x25" };
             _difficulties = new ObservableCollection<string>() { "Easy", "Medium", "Hard" };
             _rulesets = new ObservableCollection<string>() { "Chinese", "Japonese", "Víťa Ultimate" };
             
@@ -97,7 +97,7 @@ namespace OmegaGo.UI.ViewModels
                     game.BoardSize = new GameBoardSize(9);
                     break;
                 case 1:
-                    game.BoardSize = new GameBoardSize(14);
+                    game.BoardSize = new GameBoardSize(13);
                     break;
                 case 2:
                     game.BoardSize = new GameBoardSize(19);
