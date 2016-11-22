@@ -3,6 +3,8 @@ using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core;
+using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.WindowsUniversal.Extensions;
 using System.Numerics;
 using Windows.UI;
 
@@ -10,17 +12,17 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public class RenderService
     {
-        private BoardData _sharedBoardData;
+        private BoardState _sharedBoardState;
         
-        public BoardData SharedBoardData
+        public BoardState SharedBoardState
         {
-            get { return _sharedBoardData; }
-            private set { _sharedBoardData = value; }
+            get { return _sharedBoardState; }
+            private set { _sharedBoardState = value; }
         }
 
-        public RenderService(BoardData sharedBoardData)
+        public RenderService(BoardState sharedBoardState)
         {
-            SharedBoardData = sharedBoardData;
+            SharedBoardState = sharedBoardState;
         }
 
         public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
@@ -30,34 +32,34 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
         {
-            int boardWidth = SharedBoardData.BoardWidth;
-            int boardHeight = SharedBoardData.BoardHeight;
+            int boardWidth = SharedBoardState.BoardWidth;
+            int boardHeight = SharedBoardState.BoardHeight;
 
-            sender.Width = SharedBoardData.BoardActualWidth;
-            sender.Height = SharedBoardData.BoardActualHeight;
+            sender.Width = SharedBoardState.BoardActualWidth;
+            sender.Height = SharedBoardState.BoardActualHeight;
 
             args.DrawingSession.FillRectangle(
                 0, 0,
-                SharedBoardData.BoardActualWidth,
-                SharedBoardData.BoardActualHeight,
-                _sharedBoardData.BoardColor);
+                SharedBoardState.BoardActualWidth,
+                SharedBoardState.BoardActualHeight,
+                _sharedBoardState.BoardColor.ToUWPColor());
 
             args.DrawingSession.DrawRectangle(
                 0, 0,
-                SharedBoardData.BoardActualWidth,
-                SharedBoardData.BoardActualHeight,
+                SharedBoardState.BoardActualWidth,
+                SharedBoardState.BoardActualHeight,
                 Colors.Black);
 
             CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
 
             for (int i = 0; i <= boardWidth; i++)
             {
-                CanvasTextLayout textLayout = new CanvasTextLayout(sender, ((char)(65 + i)).ToString(), textFormat, SharedBoardData.CellSize, SharedBoardData.CellSize);
+                CanvasTextLayout textLayout = new CanvasTextLayout(sender, ((char)(65 + i)).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
 
                 args.DrawingSession.DrawTextLayout(
                     textLayout,
-                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardData.BoardBorderThickness,
+                    (i * SharedBoardState.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardState.BoardBorderThickness,
                     0,
                     Colors.Black);
 
@@ -66,38 +68,38 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             for (int i = 0; i <= boardHeight; i++)
             {
-                CanvasTextLayout textLayout = new CanvasTextLayout(sender, (boardHeight - i).ToString(), textFormat, SharedBoardData.CellSize, SharedBoardData.CellSize);
+                CanvasTextLayout textLayout = new CanvasTextLayout(sender, (boardHeight - i).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
 
                 args.DrawingSession.DrawTextLayout(
                     textLayout,
                     0,
-                    (i * SharedBoardData.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardData.BoardBorderThickness,
+                    (i * SharedBoardState.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardState.BoardBorderThickness,
                     Colors.Black);
 
                 textLayout.Dispose();
             }
 
             textFormat.Dispose();
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardData.BoardBorderThickness, SharedBoardData.BoardBorderThickness);
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardState.BoardBorderThickness, SharedBoardState.BoardBorderThickness);
 
             for (int i = 0; i <= boardWidth; i++)
             {
-                args.DrawingSession.DrawLine(i * SharedBoardData.CellSize, 0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardHeight, Colors.Black);
+                args.DrawingSession.DrawLine(i * SharedBoardState.CellSize, 0, i * SharedBoardState.CellSize, SharedBoardState.CellSize * boardHeight, Colors.Black);
             }
 
             for (int i = 0; i <= boardHeight; i++)
             {
-                args.DrawingSession.DrawLine(0, i * SharedBoardData.CellSize, SharedBoardData.CellSize * boardWidth, i * SharedBoardData.CellSize, Colors.Black);
+                args.DrawingSession.DrawLine(0, i * SharedBoardState.CellSize, SharedBoardState.CellSize * boardWidth, i * SharedBoardState.CellSize, Colors.Black);
             }
 
             // TODO check axis correctness
             if (gameState != null)
             {
                 Core.StoneColor[,] boardState = gameState.BoardState;
-                for (int x = 0; x < SharedBoardData.BoardWidth; x++)
+                for (int x = 0; x < SharedBoardState.BoardWidth; x++)
                 {
-                    for (int y = 0; y < SharedBoardData.BoardHeight; y++)
+                    for (int y = 0; y < SharedBoardState.BoardHeight; y++)
                     {
                         if (boardState[x, y] == Core.StoneColor.Black)
                             DrawStone(args.DrawingSession, x, y, Core.StoneColor.Black);
@@ -116,22 +118,22 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             //        DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.White);
             //}
 
-            if (_sharedBoardData.HighlightedPosition.IsDefined)
+            if (_sharedBoardState.HighlightedPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
-                    _sharedBoardData.HighlightedPosition.X,
-                    _sharedBoardData.HighlightedPosition.Y,
-                    _sharedBoardData.HighlightColor);
+                    _sharedBoardState.HighlightedPosition.X,
+                    _sharedBoardState.HighlightedPosition.Y,
+                    _sharedBoardState.HighlightColor.ToUWPColor());
             }
 
-            if (_sharedBoardData.SelectedPosition.IsDefined)
+            if (_sharedBoardState.SelectedPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
-                    _sharedBoardData.SelectedPosition.X,
-                    _sharedBoardData.SelectedPosition.Y,
-                    _sharedBoardData.SelectionColor);
+                    _sharedBoardState.SelectedPosition.X,
+                    _sharedBoardState.SelectedPosition.Y,
+                    _sharedBoardState.SelectionColor.ToUWPColor());
             }
         }
 
@@ -146,18 +148,18 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 case Core.StoneColor.Black:
                     drawingSession.FillEllipse(
-                        SharedBoardData.CellSize * x,
-                        SharedBoardData.CellSize * y,
-                        SharedBoardData.CellSize * 0.4f,
-                        SharedBoardData.CellSize * 0.4f,
+                        SharedBoardState.CellSize * x,
+                        SharedBoardState.CellSize * y,
+                        SharedBoardState.CellSize * 0.4f,
+                        SharedBoardState.CellSize * 0.4f,
                         Colors.Black);
                     break;
                 case Core.StoneColor.White:
                     drawingSession.FillEllipse(
-                        SharedBoardData.CellSize * x,
-                        SharedBoardData.CellSize * y,
-                        SharedBoardData.CellSize * 0.4f,
-                        SharedBoardData.CellSize * 0.4f,
+                        SharedBoardState.CellSize * x,
+                        SharedBoardState.CellSize * y,
+                        SharedBoardState.CellSize * 0.4f,
+                        SharedBoardState.CellSize * 0.4f,
                         Colors.White);
                     break;
             }
@@ -166,10 +168,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawStoneCellBackground(CanvasDrawingSession drawingSession, int x, int y, Color backgroundColor)
         {
             drawingSession.FillRoundedRectangle(
-                SharedBoardData.CellSize * x - SharedBoardData.HalfCellSize,
-                SharedBoardData.CellSize * y - SharedBoardData.HalfCellSize,
-                SharedBoardData.CellSize,
-                SharedBoardData.CellSize, 
+                SharedBoardState.CellSize * x - SharedBoardState.HalfCellSize,
+                SharedBoardState.CellSize * y - SharedBoardState.HalfCellSize,
+                SharedBoardState.CellSize,
+                SharedBoardState.CellSize, 
                 4, 4,
                 backgroundColor);
         }

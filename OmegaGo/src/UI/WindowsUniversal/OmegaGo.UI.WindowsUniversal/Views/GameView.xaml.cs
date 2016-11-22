@@ -7,75 +7,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public sealed partial class GameView : ViewBase
     {
-        private BoardData _boardData;
-        private InputService _inputService;
-        private RenderService _renderService;
-
-        private GameTreeNode _currentGameTreeNode;
-        
         public GameViewModel VM => (GameViewModel)this.ViewModel;
-
-        public BoardData BoardData => _boardData;
-
-        public InputService InputService => _inputService;
-
-        public RenderService RenderService => _renderService;
-
+        
         public GameView()
         {
-            _boardData = new BoardData();
-            _renderService = new RenderService(_boardData);
-            _inputService = new InputService(_boardData);
-            
             this.InitializeComponent();
-        }
-        
-        private void GameView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            _boardData.BoardWidth = VM.Game.BoardSize.Width;
-            _boardData.BoardHeight = VM.Game.BoardSize.Height;
-            _boardData.RedrawRequested += (s, ev) => canvas.Invalidate();
-            _inputService.PointerTapped += (s, ev) => VM.MakeMove(ev);
-
-            // TODO Move to Messenger + Figure out how exactly Messenger concept works in CrossMVVM
-            VM.BoardRedrawRequsted += (s, ev) =>
-            {
-                _currentGameTreeNode = ev;
-                canvas.Invalidate();
-            };
-
-            VM.BeginGame();
-        }
-
-        private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
-        {
-            RenderService.CreateResources(sender, args);
-        }
-
-        private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
-        {
-            RenderService.Draw(sender, args, _currentGameTreeNode);
-        }
-
-        private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
-
-            InputService.PointerDown((int)pointerPosition.X, (int)pointerPosition.Y);
-        }
-
-        private void canvas_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
-
-            InputService.PointerUp((int)pointerPosition.X, (int)pointerPosition.Y);
-        }
-
-        private void canvas_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
-
-            InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
     }
 }

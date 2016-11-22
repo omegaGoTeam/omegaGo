@@ -1,15 +1,15 @@
-﻿using OmegaGo.Core;
+﻿using MvvmCross.Platform.UI;
+using OmegaGo.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI;
 
-namespace OmegaGo.UI.WindowsUniversal.Services.Game
+namespace OmegaGo.UI.Services.Game
 {
-    public sealed class BoardData : INotifyPropertyChanged
+    public sealed class BoardState : INotifyPropertyChanged
     {
         private int _cellSize;
         private int _halfCellSize;
@@ -22,13 +22,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private int _boardBorderThickness;
         private int _boardLineThickness;
 
-        private Color _boardColor;
-        private Color _highlightColor;
-        private Color _selectionColor;
+        private MvxColor _boardColor;
+        private MvxColor _highlightColor;
+        private MvxColor _selectionColor;
 
         private Position _selectedPosition;
         private Position _highlightedPosition;
-        
+
         public int CellSize
         {
             get { return _cellSize; }
@@ -55,19 +55,19 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             set { _boardBorderThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
         }
 
-        public Color BoardColor
+        public MvxColor BoardColor
         {
             get { return _boardColor; }
             set { _boardColor = value; OnPropertyChanged(nameof(BoardColor), true); }
         }
 
-        public Color HighlightColor
+        public MvxColor HighlightColor
         {
             get { return _highlightColor; }
             set { _highlightColor = value; OnPropertyChanged(nameof(HighlightColor), true); }
         }
 
-        public Color SelectionColor
+        public MvxColor SelectionColor
         {
             get { return _selectionColor; }
             set { _selectionColor = value; OnPropertyChanged(nameof(SelectionColor), true); }
@@ -117,7 +117,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public event EventHandler RedrawRequested;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public BoardData()
+        public BoardState()
         {
             _selectedPosition = Position.Undefined;
             _highlightedPosition = Position.Undefined;
@@ -131,10 +131,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             _boardWidth = 1;
             _boardHeight = 1;
             UpdateActualBoardSize();
-
-            _boardColor = new Color() { A = 0xFF, R = 0xFD,  G = 0xD2, B = 0x70, };
-            _highlightColor = new Color() { A = 0x60,  R = 0xFF, G = 0xFF, B = 0xFF, };
-            _selectionColor = new Color() { A = 0xA0,  R = 0xFF, G = 0xFF, B = 0xFF,  };
+            
+            _boardColor = new MvxColor(0xFD, 0xD2, 0x70, 0xFF);
+            _highlightColor = new MvxColor(0xFF, 0xFF, 0xFF, 0x60);
+            _selectionColor = new MvxColor(0xFF, 0xFF, 0xFF, 0xA0);
         }
 
         private void OnPropertyChanged(string propertyName, bool shouldRedraw = false)

@@ -90,11 +90,9 @@ namespace OmegaGo.Core
         public GameTreeNode LastNode
         {
             get { return _lastNode; }
-            set { _lastNode = value; NodeAdded?.Invoke(this, value); }
+            set { _lastNode = value; }
         }
-
-        public event EventHandler<GameTreeNode> NodeAdded;
-
+        
         public GameTree()
         {
 
@@ -105,6 +103,7 @@ namespace OmegaGo.Core
             if (GameTreeRoot == null)
             {
                 GameTreeRoot = new GameTreeNode(move);
+                LastNode = GameTreeRoot;
                 return;
             }
             

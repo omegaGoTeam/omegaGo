@@ -11,6 +11,7 @@ using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
+using OmegaGo.UI.Services.Game;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -19,12 +20,21 @@ namespace OmegaGo.UI.ViewModels
         private Game _game;
         private GameController _gameController;
 
+        private BoardViewModel _boardViewModel;
         private ChatViewModel _chatViewModel;
         private TimelineViewModel _timelineViewModel;
+
+        private BoardState _boardState;
         
         public Game Game
         {
             get { return _game; }
+        }
+
+        public BoardViewModel BoardViewModel
+        {
+            get { return _boardViewModel; }
+            set { SetProperty(ref _boardViewModel, value); }
         }
 
         public ChatViewModel ChatViewModel
@@ -39,8 +49,12 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _timelineViewModel, value); }
         }
 
-        public event EventHandler<GameTreeNode> BoardRedrawRequsted;
-
+        public BoardState BoardState
+        {
+            get { return _boardState; }
+            set { SetProperty(ref _boardState, value); }
+        }
+        
         public GameViewModel()
         {
             try
@@ -66,12 +80,26 @@ namespace OmegaGo.UI.ViewModels
             }
 
             _gameController = new GameController(_game);
-            _gameController.BoardMustBeRefreshed += () => OnBoardRedraw(_game.GameTree.LastNode);
+            _gameController.BoardMustBeRefreshed += () =>
+            {
+                OnBoardRefreshRequested(_game.GameTree.LastNode);
+            };
+
+            BoardState = new BoardState();
+            BoardState.BoardHeight = _game.BoardSize.Height;
+            BoardState.BoardWidth = _game.BoardSize.Width;
+
+            BoardViewModel = new BoardViewModel() { BoardState = BoardState }; // Mindfuck inception o.O
+            BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
+
             TimelineViewModel = new TimelineViewModel();
             TimelineViewModel.GameTree = _game.GameTree;
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRedraw(e);
+            TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+
+            // TODO Could cause problems as this does not wait until the UI is loaded. 
+            this.BeginGame();
         }
 
         public void BeginGame()
@@ -86,12 +114,13 @@ namespace OmegaGo.UI.ViewModels
                     "A click."));
         }
 
-        private void OnBoardRedraw(GameTreeNode boardState)
+        private void OnBoardRefreshRequested(GameTreeNode boardState)
         {
+            BoardViewModel.GameTreeNode = boardState;
             // TODO GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
             TimelineViewModel.OnTimelineRedrawRequested();
 
-            BoardRedrawRequsted?.Invoke(this, boardState);
+            BoardViewModel.Redraw();
         }
     }
 }

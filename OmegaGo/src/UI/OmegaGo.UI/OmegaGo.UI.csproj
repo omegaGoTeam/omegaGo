@@ -51,6 +51,7 @@
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Infrastructure\GameViewModelAgent.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
+    <Compile Include="Services\Game\BoardState.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Services\Settings\IGameSettings.cs" />
     <Compile Include="Services\Settings\ISettingsService.cs" />
     <Compile Include="Services\Settings\SettingLocality.cs" />
+    <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />

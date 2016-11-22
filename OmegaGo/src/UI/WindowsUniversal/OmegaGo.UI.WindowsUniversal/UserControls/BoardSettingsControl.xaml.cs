@@ -1,4 +1,5 @@
-﻿using OmegaGo.UI.WindowsUniversal.Services.Game;
+﻿using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.WindowsUniversal.Services.Game;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,17 +21,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
     public sealed partial class BoardSettingsControl : UserControl
     {
-        public static readonly DependencyProperty BoardDataProperty = 
+        public static readonly DependencyProperty BoardStateProperty = 
                 DependencyProperty.Register(
-                        "BoardData", 
-                        typeof(BoardData), 
+                        "BoardState", 
+                        typeof(BoardState), 
                         typeof(BoardSettingsControl), 
                         new PropertyMetadata(null));
 
-        public BoardData BoardData
+        public BoardState BoardState
         {
-            get { return (BoardData)GetValue(BoardDataProperty); }
-            set { SetValue(BoardDataProperty, value); }
+            get { return (BoardState)GetValue(BoardStateProperty); }
+            set { SetValue(BoardStateProperty, value); }
         }
 
         public BoardSettingsControl()

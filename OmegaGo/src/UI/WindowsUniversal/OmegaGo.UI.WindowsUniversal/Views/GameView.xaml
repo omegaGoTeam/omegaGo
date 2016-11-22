@@ -7,7 +7,6 @@
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    Loaded="GameView_Loaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -19,33 +18,9 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <ScrollViewer   Grid.Row="1"
-                        Grid.Column="0"
-                        HorizontalScrollBarVisibility="Auto"
-                        HorizontalScrollMode="Auto"
-                        VerticalScrollBarVisibility="Auto"
-                        VerticalScrollMode="Auto"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        ZoomMode="Enabled">
-            <win2d:CanvasControl 
-                x:Name="canvas" 
-                CreateResources="canvas_CreateResources"
-                Draw="canvas_Draw"
-                PointerPressed="canvas_PointerPressed"
-                PointerReleased="canvas_PointerReleased"
-                PointerMoved="canvas_PointerMoved"/>
-        </ScrollViewer>
+        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
 
         <CommandBar VerticalAlignment="Top"
                 Grid.RowSpan="2"
@@ -61,7 +36,7 @@
                             </Style>
                         </Flyout.FlyoutPresenterStyle>-->
 
-                        <controls:TimelineControl Width="300" Height="300" ViewModel="{x:Bind Path=VM.TimelineViewModel}" />
+                        <controls:TimelineControl Width="300" Height="300" ViewModel="{x:Bind Path=VM.TimelineViewModel, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -76,7 +51,7 @@
                             </Style>
                         </Flyout.FlyoutPresenterStyle>-->
 
-                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel}" />
+                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -84,7 +59,7 @@
             <AppBarButton Icon="Setting" Label="Settings">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <controls:BoardSettingsControl BoardData="{x:Bind BoardData}" />
+                        <controls:BoardSettingsControl BoardState="{x:Bind Path=VM.BoardState, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

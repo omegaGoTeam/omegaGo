@@ -5,24 +5,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.Services.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public sealed class InputService
     {
-        private BoardData _sharedBoardData;
+        private BoardState _sharedBoardState;
 
-        public BoardData SharedBoardData
+        public BoardState SharedBoardState
         {
-            get { return _sharedBoardData; }
-            private set { _sharedBoardData = value; }
+            get { return _sharedBoardState; }
+            private set { _sharedBoardState = value; }
         }
 
         public event EventHandler<Position> PointerTapped;
         
-        public InputService(BoardData sharedBoardData)
+        public InputService(BoardState sharedBoardData)
         {
-            SharedBoardData = sharedBoardData;
+            SharedBoardState = sharedBoardData;
         }
 
         public void PointerDown(int x, int y)
@@ -34,7 +35,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             Position pointerPosition = TranslateToBoardPosition(x, y);
 
-            SharedBoardData.SelectedPosition = pointerPosition;
+            SharedBoardState.SelectedPosition = pointerPosition;
 
             if(pointerPosition.IsDefined)
                 PointerTapped(this, pointerPosition);
@@ -42,22 +43,22 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public void PointerMoved(int x, int y)
         {
-            SharedBoardData.HighlightedPosition = TranslateToBoardPosition(x, y);
+            SharedBoardState.HighlightedPosition = TranslateToBoardPosition(x, y);
         }
 
         private Position TranslateToBoardPosition(int x, int y)
         {
             Position position;
 
-            x = x - SharedBoardData.BoardBorderThickness;
-            y = y - SharedBoardData.BoardBorderThickness;
+            x = x - SharedBoardState.BoardBorderThickness;
+            y = y - SharedBoardState.BoardBorderThickness;
 
-            if (x > -SharedBoardData.HalfCellSize && x < (_sharedBoardData.BoardActualWidth - SharedBoardData.BoardBorderThickness - SharedBoardData.CellSize) &&
-                y > -SharedBoardData.HalfCellSize && y < (_sharedBoardData.BoardActualHeight - SharedBoardData.BoardBorderThickness - SharedBoardData.CellSize))
+            if (x > -SharedBoardState.HalfCellSize && x < (_sharedBoardState.BoardActualWidth - SharedBoardState.BoardBorderThickness - SharedBoardState.CellSize) &&
+                y > -SharedBoardState.HalfCellSize && y < (_sharedBoardState.BoardActualHeight - SharedBoardState.BoardBorderThickness - SharedBoardState.CellSize))
             {
                 position = new Position();
-                position.X = (x + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;
-                position.Y = (y + SharedBoardData.HalfCellSize) / SharedBoardData.CellSize;
+                position.X = (x + SharedBoardState.HalfCellSize) / SharedBoardState.CellSize;
+                position.Y = (y + SharedBoardState.HalfCellSize) / SharedBoardState.CellSize;
             }
             else
             {
