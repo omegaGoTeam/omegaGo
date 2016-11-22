@@ -72,6 +72,7 @@
     <Compile Include="Online\Ogs\OgsConstants.cs" />
     <Compile Include="Rules\HandicapPositions.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />

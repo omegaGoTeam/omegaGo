@@ -39,5 +39,7 @@ namespace OmegaGo.Core.Sgf
         /// </summary>
         /// <returns>Enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        
     }
 }
