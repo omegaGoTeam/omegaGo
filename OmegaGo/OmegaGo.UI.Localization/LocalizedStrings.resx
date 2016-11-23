@@ -126,12 +126,18 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
   <data name="BoardSize" xml:space="preserve">
     <value>Board Size</value>
     <comment>:-)</comment>
   </data>
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Change language</value>
+  </data>
+  <data name="Chinese" xml:space="preserve">
+    <value>Chinese</value>
   </data>
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
@@ -145,6 +151,12 @@
   <data name="DeleteSelection" xml:space="preserve">
     <value>Delete selection</value>
   </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
   <data name="FilterBySource" xml:space="preserve">
     <value>Filter by source</value>
   </data>
@@ -157,11 +169,17 @@
   <data name="Gameplay" xml:space="preserve">
     <value>Gameplay</value>
   </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>Read the rules, documentation and other interesting information.</value>
+  </data>
+  <data name="Japonese" xml:space="preserve">
+    <value>Japonese</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -187,6 +205,9 @@
   <data name="LocalGameToolTip" xml:space="preserve">
     <value>Play Go against another player on the same device or against an AI.</value>
   </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
   <data name="OnlineGame" xml:space="preserve">
     <value>On-line game</value>
   </data>
@@ -196,8 +217,17 @@
   <data name="Open" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Player</value>
+  </data>
   <data name="Rename" xml:space="preserve">
     <value>Rename</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Rules</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
@@ -237,5 +267,11 @@
   </data>
   <data name="UserInterface" xml:space="preserve">
     <value>User interface</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="WhiteHandicap" xml:space="preserve">
+    <value>White Handicap</value>
   </data>
 </root>

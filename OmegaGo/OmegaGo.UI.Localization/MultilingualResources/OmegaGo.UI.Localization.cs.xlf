@@ -167,8 +167,60 @@
         </trans-unit>
         <trans-unit id="LanguageChangeInfo" translate="yes" xml:space="preserve">
           <source>Please, restart the game to see the language you have chosen.</source>
-          <target state="needs-review-translation">Restartujte prosím hru, aby se změna jazyka projevila.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">Restartujte prosím hru, aby se změna jazyka projevila.</target>
+        </trans-unit>
+        <trans-unit id="Difficulty" translate="yes" xml:space="preserve">
+          <source>Difficulty</source>
+          <target state="final">Obtížnost</target>
+        </trans-unit>
+        <trans-unit id="Rules" translate="yes" xml:space="preserve">
+          <source>Rules</source>
+          <target state="final">Pravidla</target>
+        </trans-unit>
+        <trans-unit id="WhiteHandicap" translate="yes" xml:space="preserve">
+          <source>White Handicap</source>
+          <target state="final">Handicap bílého</target>
+        </trans-unit>
+        <trans-unit id="Play" translate="yes" xml:space="preserve">
+          <source>Play</source>
+          <target state="final">Hrát</target>
+        </trans-unit>
+        <trans-unit id="Player" translate="yes" xml:space="preserve">
+          <source>Player</source>
+          <target state="final">Hráč</target>
+        </trans-unit>
+        <trans-unit id="Black" translate="yes" xml:space="preserve">
+          <source>Black</source>
+          <target state="final">Černý</target>
+        </trans-unit>
+        <trans-unit id="Easy" translate="yes" xml:space="preserve">
+          <source>Easy</source>
+          <target state="final">Snadná</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Snadná obtížnost</note>
+        </trans-unit>
+        <trans-unit id="Hard" translate="yes" xml:space="preserve">
+          <source>Hard</source>
+          <target state="final">Těžká</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Těžká obtížnost</note>
+        </trans-unit>
+        <trans-unit id="Medium" translate="yes" xml:space="preserve">
+          <source>Medium</source>
+          <target state="final">Střední</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Střední obtížnost</note>
+        </trans-unit>
+        <trans-unit id="White" translate="yes" xml:space="preserve">
+          <source>White</source>
+          <target state="final">Bílý</target>
+        </trans-unit>
+        <trans-unit id="Chinese" translate="yes" xml:space="preserve">
+          <source>Chinese</source>
+          <target state="final">Čínská</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Čínská pravidla</note>
+        </trans-unit>
+        <trans-unit id="Japonese" translate="yes" xml:space="preserve">
+          <source>Japonese</source>
+          <target state="final">Japonská</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Japonská pravidla</note>
         </trans-unit>
       </group>
     </body>

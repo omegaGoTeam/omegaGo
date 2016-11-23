@@ -55,7 +55,7 @@
                       ItemsSource="{Binding Path=BoardSizes}"
                       SelectedIndex="{Binding Path=SelectedBoardSizeItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="Rules" Grid.Column="0" Grid.Row="1" 
+            <TextBlock Text="{x:Bind Localizer.Rules}" Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
@@ -63,7 +63,7 @@
                       ItemsSource="{Binding Path=Rulesets}"
                       SelectedIndex="{Binding Path=SelectedRulesetItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="Player 1" Grid.Column="0" Grid.Row="2" 
+            <TextBlock Text="{x:Bind Localizer.Player}" Grid.Column="0" Grid.Row="2" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
@@ -71,7 +71,7 @@
                       ItemsSource="{Binding Path=StoneColors}"
                       SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="Player 2" Grid.Column="0" Grid.Row="3" 
+            <TextBlock Text="{x:Bind Localizer.Player}" Grid.Column="0" Grid.Row="3" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
@@ -79,14 +79,14 @@
                       ItemsSource="{Binding Path=StoneColors}"
                       SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="Difficulty" Grid.Column="0" Grid.Row="4" 
+            <TextBlock Text="{x:Bind Localizer.Difficulty}" Grid.Column="0" Grid.Row="4" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=Difficulties}"
                       SelectedIndex="{Binding Path=SelectedDifficultiesItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="White Handicap" Grid.Column="0" Grid.Row="5" 
+            <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <TextBox Grid.Column="1" Grid.Row="5" Margin="5"
@@ -99,9 +99,13 @@
         </Grid>
 
         <Button Grid.Row="2" 
-                Content="Play"
                 Command="{Binding Path=NavigateToGameCommand}"
                 HorizontalAlignment="Stretch"
-                Margin="5"/>
+                Margin="5">
+            <StackPanel Orientation="Horizontal">
+                <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
+                <TextBlock Text="{x:Bind Localizer.Play}" Margin="10,0,0,0" />
+            </StackPanel>
+        </Button>
     </Grid>
 </views:ViewBase>

@@ -95,5 +95,29 @@ namespace OmegaGo.UI.Services.Localization
         public string TipsToolTip => LocalizeCaller();
 
         public string LanguageChangeInfo => LocalizeCaller();
+
+        public string Rules => LocalizeCaller();
+
+        public string Difficulty => LocalizeCaller();
+
+        public string WhiteHandicap => LocalizeCaller();
+
+        public string Play => LocalizeCaller();
+
+        public string Player => LocalizeCaller();
+
+        public string Easy => LocalizeCaller();
+
+        public string Medium => LocalizeCaller();
+
+        public string Hard => LocalizeCaller();
+
+        public string Black => LocalizeCaller();
+
+        public string White => LocalizeCaller();
+
+        public string Chinese => LocalizeCaller();
+
+        public string Japonese => LocalizeCaller();
     }
 }
