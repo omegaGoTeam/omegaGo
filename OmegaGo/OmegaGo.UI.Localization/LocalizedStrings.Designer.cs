@@ -89,6 +89,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Black.
+        /// </summary>
+        public static string Black {
+            get {
+                return ResourceManager.GetString("Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Board Size.
         /// </summary>
         public static string BoardSize {
@@ -103,6 +112,15 @@ namespace OmegaGo.UI.Localization {
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinese.
+        /// </summary>
+        public static string Chinese {
+            get {
+                return ResourceManager.GetString("Chinese", resourceCulture);
             }
         }
         
@@ -143,6 +161,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Difficulty.
+        /// </summary>
+        public static string Difficulty {
+            get {
+                return ResourceManager.GetString("Difficulty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easy.
+        /// </summary>
+        public static string Easy {
+            get {
+                return ResourceManager.GetString("Easy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by source.
         /// </summary>
         public static string FilterBySource {
@@ -179,6 +215,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hard.
+        /// </summary>
+        public static string Hard {
+            get {
+                return ResourceManager.GetString("Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string Help {
@@ -193,6 +238,15 @@ namespace OmegaGo.UI.Localization {
         public static string HelpToolTip {
             get {
                 return ResourceManager.GetString("HelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japonese.
+        /// </summary>
+        public static string Japonese {
+            get {
+                return ResourceManager.GetString("Japonese", resourceCulture);
             }
         }
         
@@ -269,6 +323,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On-line game.
         /// </summary>
         public static string OnlineGame {
@@ -296,11 +359,38 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play.
+        /// </summary>
+        public static string Play {
+            get {
+                return ResourceManager.GetString("Play", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Player.
+        /// </summary>
+        public static string Player {
+            get {
+                return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rules.
+        /// </summary>
+        public static string Rules {
+            get {
+                return ResourceManager.GetString("Rules", resourceCulture);
             }
         }
         
@@ -418,6 +508,24 @@ namespace OmegaGo.UI.Localization {
         public static string UserInterface {
             get {
                 return ResourceManager.GetString("UserInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White.
+        /// </summary>
+        public static string White {
+            get {
+                return ResourceManager.GetString("White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White Handicap.
+        /// </summary>
+        public static string WhiteHandicap {
+            get {
+                return ResourceManager.GetString("WhiteHandicap", resourceCulture);
             }
         }
     }

@@ -1,4 +1,8 @@
 ﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using OmegaGo.Core;
+using OmegaGo.Core.Rules;
+using OmegaGo.UI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,9 +23,9 @@ namespace OmegaGo.UI.ViewModels
         private int _selectedBoardSizeItemIndex;
         private int _selectedDifficultiesItemIndex;
         private int _selectedRulesetItemIndex;
-        private int _selectedStoneColorsItemIndex;
+        private int _selectedStoneColorItemIndex;
 
-        private IMvxCommand _navigateToGame;
+        private IMvxCommand _navigateToGameCommand;
 
         public ObservableCollection<string> BoardSizes
         {
@@ -67,27 +71,69 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _selectedRulesetItemIndex, value); }
         }
 
-        public int SelectedStoneColorsItemIndex
+        public int SelectedStoneColorItemIndex
         {
-            get { return _selectedStoneColorsItemIndex; }
-            set { SetProperty(ref _selectedStoneColorsItemIndex, value); }
+            get { return _selectedStoneColorItemIndex; }
+            set { _selectedStoneColorItemIndex = value; }
         }
 
         public GameCreationViewModel()
         {
             _boardSizes = new ObservableCollection<string>() { "9x9", "13x13", "19x19", "25x25" };
-            _difficulties = new ObservableCollection<string>() { "Easy", "Medium", "Hard" };
-            _rulesets = new ObservableCollection<string>() { "Chinese", "Japonese", "Víťa Ultimate" };
-            _stoneColors = new ObservableCollection<string>() { "Black", "White" };
+            _difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
+            _rulesets = new ObservableCollection<string>() { Localizer.Chinese, Localizer.Japonese };
+            _stoneColors = new ObservableCollection<string>() { Localizer.White, Localizer.Black, $"AI - {Localizer.White}", $"AI - {Localizer.Black}" };
 
             _selectedBoardSizeItemIndex = 0;
             _selectedDifficultiesItemIndex = 0;
             _selectedRulesetItemIndex = 0;
-            _selectedStoneColorsItemIndex = 0;
+            _selectedStoneColorItemIndex = 0;
 
             _whiteHandicap = 0;
         }
 
-        public IMvxCommand NavigateToGame => _navigateToGame ?? (_navigateToGame = new MvxCommand(() => ShowViewModel<GameViewModel>()));
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(() => NavigateToGame()));
+
+        private void NavigateToGame()
+        {
+            Game game = new Game();
+
+            game.Players.Add(new Player("Black Player", "??", game));
+            game.Players.Add(new Player("White Player", "??", game));
+            foreach (var player in game.Players)
+            {
+                player.Agent = new GameViewModelAgent();
+            }
+
+            switch (SelectedBoardSizeItemIndex)
+            {
+                case 0:
+                    game.BoardSize = new GameBoardSize(9);
+                    break;
+                case 1:
+                    game.BoardSize = new GameBoardSize(13);
+                    break;
+                case 2:
+                    game.BoardSize = new GameBoardSize(19);
+                    break;
+                case 3:
+                    game.BoardSize = new GameBoardSize(25);
+                    break;
+            }
+
+            switch (SelectedRulesetItemIndex)
+            {
+
+                case 0:
+                    game.Ruleset = new ChineseRuleset(game.White, game.Black, game.BoardSize);
+                    break;
+                case 1:
+                    game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                    break;
+            }
+
+            Mvx.RegisterSingleton<Game>(game);
+            ShowViewModel<GameViewModel>();
+        }
     }
 }

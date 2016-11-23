@@ -135,4 +135,40 @@
   <data name="LanguageChangeInfo" xml:space="preserve">
     <value>Restartujte prosím hru, aby se změna jazyka projevila.</value>
   </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Obtížnost</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Pravidla</value>
+  </data>
+  <data name="WhiteHandicap" xml:space="preserve">
+    <value>Handicap bílého</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Hrát</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Hráč</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Černý</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Snadná</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Těžká</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Střední</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>Bílý</value>
+  </data>
+  <data name="Chinese" xml:space="preserve">
+    <value>Čínská</value>
+  </data>
+  <data name="Japonese" xml:space="preserve">
+    <value>Japonská</value>
+  </data>
 </root>
