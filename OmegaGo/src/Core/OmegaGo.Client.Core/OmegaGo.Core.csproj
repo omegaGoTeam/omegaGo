@@ -80,6 +80,7 @@
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPoint.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Sgf\SgfCollection.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
+    <Compile Include="Sgf\SgfGameInfo.cs" />
     <Compile Include="Sgf\SgfSequence.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
