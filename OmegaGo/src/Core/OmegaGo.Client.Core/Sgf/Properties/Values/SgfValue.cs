@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf.Properties.Values
 {
-    public abstract class SgfValue<T>
+    /// <summary>
+    /// SGF property value
+    /// </summary>
+    internal abstract class SgfValue
     {
-        protected SgfValue( T value )
+        protected SgfValue( SgfValueType type )
         {
-            Value = value;
+            Type = type;
         }
 
-        public T Value { get; set; }
+        public SgfValueType Type { get; }
     }
 }
