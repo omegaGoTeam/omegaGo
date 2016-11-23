@@ -10,7 +10,7 @@ namespace OmegaGo.Core
     /// Represents the size of a Go board. Almost all games of Go are played on a square board. Notably, IGS does not
     /// permit non-squares boards. However, OGS does permit them and various singleplayer Go programs do as well. 
     /// </summary>
-    public struct GameBoardSize
+    public struct GameBoardSize : IEquatable<GameBoardSize>
     {
         /// <summary>
         /// Initializes a square game board.
@@ -47,5 +47,14 @@ namespace OmegaGo.Core
         /// Checks if the board is square.
         /// </summary>
         public bool IsSquare => Width == Height;
+
+        public bool Equals(GameBoardSize other)
+        {
+            return other.Height == Height && other.Width == Width;
+        }
+
+        public static bool operator ==( GameBoardSize first, GameBoardSize second) => first.Equals(second);
+
+        public static bool operator !=(GameBoardSize first, GameBoardSize second) => !( first == second );
     }
 }

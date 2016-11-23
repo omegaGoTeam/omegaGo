@@ -54,6 +54,7 @@
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
+    <Compile Include="GameBoard.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="Markup\AreaDim.cs" />
     <Compile Include="Markup\Arrow.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Online\Ogs\OgsConstants.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPositions.cs" />
+    <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Rules\Scores.cs" />

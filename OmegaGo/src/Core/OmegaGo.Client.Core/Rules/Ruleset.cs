@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core.Rules
 {
    
-    public abstract class Ruleset
+    public abstract class Ruleset : IRuleset
     {
         private int _boardWidth, _boardHeight;
         private bool[,] _checkedInters;
@@ -40,7 +40,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard"></param>
         /// <param name="handicapStoneNumber"></param>
         /// <param name="placementType"></param>
-        public void startHandicapPhase(ref StoneColor[,] currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
+        public void StartHandicapPhase(ref StoneColor[,] currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
         {
             if (handicapStoneNumber == 0) {
                 SetKomi(handicapStoneNumber);
