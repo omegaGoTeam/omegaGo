@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Rules
             _blackScore = 0.0f;
         }
 
-        public override Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard)
+        public override Scores CountScore(StoneColor[,] currentBoard)
         {
             Scores scores;
             scores = CountArea(currentBoard);
