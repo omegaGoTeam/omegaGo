@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Rules
             _countingType = countingType;
         }
 
-        public override Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard)
+        public override Scores CountScore(StoneColor[,] currentBoard)
         {
             Scores scores;
             if (_countingType == CountingType.Area)
