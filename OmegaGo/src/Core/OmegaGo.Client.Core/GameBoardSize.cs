@@ -12,6 +12,8 @@ namespace OmegaGo.Core
     /// </summary>
     public struct GameBoardSize : IEquatable<GameBoardSize>
     {
+   
+
         /// <summary>
         /// Initializes a square game board.
         /// </summary>
@@ -52,7 +54,19 @@ namespace OmegaGo.Core
         {
             return other.Height == Height && other.Width == Width;
         }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is GameBoardSize && Equals((GameBoardSize)obj);
+        }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (this.Width * 397) ^ this.Height;
+            }
+        }
         public static bool operator ==( GameBoardSize first, GameBoardSize second) => first.Equals(second);
 
         public static bool operator !=(GameBoardSize first, GameBoardSize second) => !( first == second );
