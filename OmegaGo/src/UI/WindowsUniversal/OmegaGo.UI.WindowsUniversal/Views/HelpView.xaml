@@ -16,9 +16,33 @@
     </Page.Transitions>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Help" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0">Topics: </TextBlock>
+            <ScrollViewer Grid.Row="1" >
+            <ListBox Width="350" ScrollViewer.HorizontalScrollMode="Enabled"
+                     
+                     ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                <ListBox.Items>
+                    <TextBlock>Welcome to Go!</TextBlock>
+                    <TextBlock>Comprehensive Rules</TextBlock>
+                </ListBox.Items>
+                </ListBox>
+            </ScrollViewer>
+            <Grid Padding="5" Grid.Row="2">
+                <Button  Content="Back"  Click="GoBack_Click" />
+            </Grid>
+        </Grid>
+        <TextBox TextWrapping="Wrap" Grid.Column="1" Text="This will be a Rich Text Box in the future.">
+            
+        </TextBox>
     </Grid>
 </views:ViewBase>

@@ -10,5 +10,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        private void GoBack_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.GoBack();
+
+        }
     }
 }
