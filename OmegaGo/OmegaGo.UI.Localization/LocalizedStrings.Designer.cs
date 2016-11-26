@@ -485,6 +485,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle fullscreen mode. (You may also use Alt+Enter on a PC.).
+        /// </summary>
+        public static string ToggleFullscreenTooltip {
+            get {
+                return ResourceManager.GetString("ToggleFullscreenTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tutorial.
         /// </summary>
         public static string Tutorial {
@@ -503,7 +512,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User interface.
+        ///   Looks up a localized string similar to Display.
         /// </summary>
         public static string UserInterface {
             get {

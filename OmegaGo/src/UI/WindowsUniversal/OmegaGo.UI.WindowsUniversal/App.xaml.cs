@@ -169,14 +169,7 @@ namespace OmegaGo.UI.WindowsUniversal
             // "menu key" is Alt, in Microsoft-speak.
             if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
             {
-                if (ApplicationView.GetForCurrentView().IsFullScreenMode)
-                {
-                    ApplicationView.GetForCurrentView().ExitFullScreenMode();
-                }
-                else
-                {
-                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-                }
+                Fullscreen.Toggle();
             }
         }
       

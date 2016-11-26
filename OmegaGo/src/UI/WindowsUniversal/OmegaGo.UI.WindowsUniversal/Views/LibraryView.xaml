@@ -54,7 +54,7 @@
             </GridView.ItemTemplate>
         </GridView>
 
-        <Grid Grid.Row="4" Padding="5">
+        <Grid Grid.Row="3" Padding="5">
             <Button Content="Back" />
         </Grid>
     </Grid>

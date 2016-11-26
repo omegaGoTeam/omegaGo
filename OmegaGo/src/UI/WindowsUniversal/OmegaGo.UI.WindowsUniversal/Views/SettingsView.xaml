@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:system="using:System"
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
+    Loaded="SettingsView_Loaded"
     mc:Ignorable="d">
     
     <Page.Transitions>
@@ -16,47 +17,82 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
-    <Pivot Title="{x:Bind Localizer.Settings}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Pivot Title="{x:Bind Localizer.Settings}" Grid.Row="0">
         <Pivot.TitleTemplate>
             <DataTemplate>
                 <TextBlock Text="{Binding}" FontSize="34" FontWeight="Light" />
             </DataTemplate>
         </Pivot.TitleTemplate>
         <PivotItem Header="{x:Bind Localizer.UserInterface}">
-            <StackPanel Padding="15">
-                <TextBlock Text="Board" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>Kaya Wood</x:String>
+                <StackPanel Padding="15">
+                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
+                              Checked="Fullscreen_Checked"
+                              Unchecked="FullscreenMode_Unchecked"/>
+                    <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="1" Width="140">
+                        <x:String>Plain Brown</x:String>
+                        <x:String>Kaya Wood</x:String>
+                        <x:String>Simple Plywood</x:String>
+                        <x:String>Virtual World</x:String>
                 </ComboBox>
 
-                <TextBlock Text="Black Stones" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>Metal</x:String>
-                </ComboBox>
+                <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ComboBox SelectedIndex="1" Width="140">
+                        <x:String>Plain Black</x:String>
+                        <x:String>Glass</x:String>
+                        <x:String>Plastic</x:String>
+                    </ComboBox>
                 
-                <TextBlock Text="White Stones" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>Plastic</x:String>
-                </ComboBox>
+                <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox SelectedIndex="1" Width="140">
+                        <x:String>Plain White</x:String>
+                        <x:String>Glass</x:String>
+                        <x:String>Plastic</x:String>
+                    </ComboBox>
 
-                <CheckBox Content="Highlight Last Move" />
-                <CheckBox Content="Highlight Captures" />
-                <CheckBox Content="Highlight Komores" />
-                <CheckBox Content="Natural Board Placement" />
-            </StackPanel>
-        </PivotItem>
-        <PivotItem Header="Sounds">
+                <CheckBox Content="Highlight Last Move" IsChecked="True" />
+                <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." />
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Highlight illegal Ko moves" />
+                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Natural Stone Placement" />
+                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="Stones won't be placed on the board in a neat grid but instead organically, randomly pushed a little bit aside from the intersection. This emulates the way Go boards feel like physically." />
+                    </StackPanel>
+                    <CheckBox Content="Show Coordinates" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Input">
+                <StackPanel Padding="15">
+                    <TextBlock Text="To make a move:" />
+                    <RadioButton Content="Click on a point" IsChecked="True" />
+                    <RadioButton Content="Click, then click again to confirm" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Sounds">
             <StackPanel Padding="15">
                 <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <Slider Width="100" HorizontalAlignment="Left" />
+                
+                <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <Slider Width="100" HorizontalAlignment="Left" />
 
                 <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <Slider Width="100" HorizontalAlignment="Left" />
                 
-                <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <Slider Width="100" HorizontalAlignment="Left" />
-            </StackPanel>
+          
+
+                    <TextBlock Text="A sound effect should play:"/>
+                    <CheckBox Content="When I place a stone." IsChecked="True" />
+                    <CheckBox Content="When another player places a stone." IsChecked="True"  />
+                    <CheckBox Content="When I receive a notification" IsChecked="True"  />
+                </StackPanel>
         </PivotItem>
         <PivotItem Header="{x:Bind Localizer.Language}">
             <StackPanel Padding="15">
@@ -73,20 +109,35 @@
         </PivotItem>
         <PivotItem Header="Assistant">
             <StackPanel Padding="15">
-                <TextBlock Text="AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>Joken23</x:String>
+                <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox Width="140" ItemsSource="{Binding AIPrograms}">
+                    </ComboBox>
+                
+                    <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox SelectedIndex="4" Width="140">
+                        <x:String>1</x:String>
+                        <x:String>2</x:String>
+                        <x:String>3</x:String>
+                        <x:String>4</x:String>
+                        <x:String>5</x:String>
+                        <x:String>6</x:String>
+                        <x:String>7</x:String>
+                        <x:String>8</x:String>
+                        <x:String>9</x:String>
+                        <x:String>10</x:String>
                 </ComboBox>
 
-                <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="0" Width="140">
-                    <x:String>10</x:String>
-                </ComboBox>
-
-                <CheckBox Content="Enable Hints" />
-                <CheckBox Content="Enable Territory Estimation" />
-                <CheckBox Content="Enable Even In Online Games" />
-            </StackPanel>
+                <CheckBox Content="Enable hints" IsChecked="True" />
+                <CheckBox Content="Enable territory estimation" IsChecked="True"  />
+                    <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Enable even in online games" />
+                    <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
+                    </StackPanel>
+                </StackPanel>
         </PivotItem>
-    </Pivot>    
+        </Pivot>
+        <Grid Padding="5" Grid.Row="1">
+            <Button  Content="Back"  Click="GoBack_Click" />
+        </Grid>
+    </Grid>
 </views:ViewBase>

@@ -78,8 +78,9 @@
           <target state="final">Zvuky</target>
         </trans-unit>
         <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
-          <source>User interface</source>
-          <target state="final">Uživatelské rozhraní</target>
+          <source>Display</source>
+          <target state="needs-review-translation">Uživatelské rozhraní</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Credits" translate="yes" xml:space="preserve">
           <source>Credits</source>
@@ -221,6 +222,10 @@
           <source>Japonese</source>
           <target state="final">Japonská</target>
           <note from="MultilingualEditor" annotates="source" priority="4">Japonská pravidla</note>
+        </trans-unit>
+        <trans-unit id="ToggleFullscreenTooltip" translate="yes" xml:space="preserve">
+          <source>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</source>
+          <target state="new">Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</target>
         </trans-unit>
       </group>
     </body>

@@ -90,6 +90,8 @@ namespace OmegaGo.UI.Services.Localization
 
         public string SettingsToolTip => LocalizeCaller();
 
+        public string ToggleFullscreenTooltip => LocalizeCaller();
+
         public string CreditsToolTip => LocalizeCaller();
 
         public string TipsToolTip => LocalizeCaller();

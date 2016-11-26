@@ -78,7 +78,7 @@
                      />
             </StackPanel>-->
 
-            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
+            <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
                 <FontIcon Glyph="&#xE1D9;" />
             </Button>
             
