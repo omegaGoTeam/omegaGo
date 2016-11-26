@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Game Creation" 
+        <TextBlock Text="New Game" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Grid.Row="0"
@@ -36,6 +36,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="FirstColumn" Width="Auto" />
                 <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
+                <ColumnDefinition x:Name="ThirdColumn" Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -46,53 +47,82 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{x:Bind Localizer.BoardSize}" Grid.Column="0" Grid.Row="0" 
+            <TextBlock Text="Server" Grid.Column="0"
+                       Grid.Row="0" HorizontalAlignment="Right"
+                       FontSize="22"
+                       Margin="5"
+                       VerticalAlignment="Center"></TextBlock>
+            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}" SelectedIndex="0">
+                <ComboBoxItem>Local Game</ComboBoxItem>
+                <ComboBoxItem>Pandanet (IGS)</ComboBoxItem>
+                <ComboBoxItem>Online-go.com (OGS)</ComboBoxItem>
+            </ComboBox>
+            
+            <TextBlock Text="{x:Bind Localizer.BoardSize}" Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
+            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
                       ItemsSource="{Binding Path=BoardSizes}"
                       SelectedIndex="{Binding Path=SelectedBoardSizeItemIndex, Mode=TwoWay}"/>
 
-            <TextBlock Text="{x:Bind Localizer.Rules}" Grid.Column="0" Grid.Row="1" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=Rulesets}"
-                      SelectedIndex="{Binding Path=SelectedRulesetItemIndex, Mode=TwoWay}"/>
-
-            <TextBlock Text="{x:Bind Localizer.Player}" Grid.Column="0" Grid.Row="2" 
+            <Button Grid.Column="2" Grid.Row="1">Custom...</Button>
+            
+            <TextBlock Text="{x:Bind Localizer.Rules}" Grid.Column="0" Grid.Row="2" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="2" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=StoneColors}"
-                      SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
+                      ItemsSource="{Binding Path=Rulesets}"
+                      SelectedIndex="{Binding Path=SelectedRulesetItemIndex, Mode=TwoWay}"/>
+            <Button Grid.Column="2" Grid.Row="2">More...</Button>
 
-            <TextBlock Text="{x:Bind Localizer.Player}" Grid.Column="0" Grid.Row="3" 
+            <TextBlock Text="Black" Grid.Column="0" Grid.Row="3" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="3" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=StoneColors}"
                       SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
-
-            <TextBlock Text="{x:Bind Localizer.Difficulty}" Grid.Column="0" Grid.Row="4" 
-                       HorizontalAlignment="Right" VerticalAlignment="Center" 
+            <ComboBox Grid.Column="2" Grid.Row="3"  Margin="5" PlaceholderText="Strength">
+                <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
+                <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Text="White" Grid.Column="0" Grid.Row="4" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=Difficulties}"
-                      SelectedIndex="{Binding Path=SelectedDifficultiesItemIndex, Mode=TwoWay}"/>
+                      ItemsSource="{Binding Path=StoneColors}"
+                      SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
+            <ComboBox Grid.Column="2" Grid.Row="4"  Margin="5" PlaceholderText="Strength">
+                <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
+                <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
+            </ComboBox>
+          
 
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            <TextBox Grid.Column="1" Grid.Row="5" Margin="5"
-                     Text="{Binding Path=WhiteHandicap, UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones">
+                <ComboBoxItem>No handicap</ComboBoxItem>
+                <ComboBoxItem>4 black stones</ComboBoxItem>
+            </ComboBox>
 
-            <Border Grid.ColumnSpan="2" Grid.Row="6" 
+            <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Center" 
+                       FontSize="22" Margin="5" />
+            <ComboBox Grid.Column="1" Grid.Row="6" Margin="5" HorizontalAlignment="Stretch">
+                <ComboBoxItem>Untimed</ComboBoxItem>
+                <ComboBoxItem>Japanese byo-yomi</ComboBoxItem>
+                <ComboBoxItem>Canadian byo-yomi</ComboBoxItem>
+            </ComboBox>
+            <Button Grid.Column="2" Grid.Row="6">Settings...</Button>
+            
+            <Border Grid.ColumnSpan="3" Grid.Row="7" 
                     Margin="15"
                     BorderBrush="Gray" BorderThickness="1" />
 

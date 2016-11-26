@@ -14,10 +14,11 @@ namespace OmegaGo.UI.Infrastructure.Bootstrap
         /// Application has been started      
         /// <param name="startArgs">Startup arguments</param>
         /// </summary>        
-        public async Task StartAsync( AppStartArgs startArgs = null )
+        public Task StartAsync( AppStartArgs startArgs = null )
         {            
             ShowViewModel<MainMenuViewModel>();
-            OnAppStarted();            
+            OnAppStarted();
+            return Task.FromResult(false);
         }
 
         public event EventHandler AppStarted;

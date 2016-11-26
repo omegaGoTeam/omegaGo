@@ -8,7 +8,7 @@
       <group id="OMEGAGO.UI.LOCALIZATION/LOCALIZEDSTRINGS.RESX" datatype="resx">
         <trans-unit id="BoardSize" translate="yes" xml:space="preserve">
           <source>Board Size</source>
-          <target state="final">Velikost hení plochy</target>
+          <target state="translated">Velikost herní plochy</target>
           <note from="MultilingualBuild" annotates="source" priority="2">:-)</note>
         </trans-unit>
         <trans-unit id="Assistant" translate="yes" xml:space="preserve">

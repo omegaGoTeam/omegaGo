@@ -82,7 +82,7 @@ namespace OmegaGo.UI.ViewModels
             _boardSizes = new ObservableCollection<string>() { "9x9", "13x13", "19x19", "25x25" };
             _difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
             _rulesets = new ObservableCollection<string>() { Localizer.Chinese, Localizer.Japonese };
-            _stoneColors = new ObservableCollection<string>() { Localizer.White, Localizer.Black, $"AI - {Localizer.White}", $"AI - {Localizer.Black}" };
+            _stoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
 
             _selectedBoardSizeItemIndex = 0;
             _selectedDifficultiesItemIndex = 0;
