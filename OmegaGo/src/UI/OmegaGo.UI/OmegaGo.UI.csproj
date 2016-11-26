@@ -77,6 +77,13 @@
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TutorialViewModel.cs" />
+    <Compile Include="ViewModels\Tutorial\ActionButtonDialogueLine.cs" />
+    <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
+    <Compile Include="ViewModels\Tutorial\ChoiceDialogueLine.cs" />
+    <Compile Include="ViewModels\Tutorial\ComplexLine.cs" />
+    <Compile Include="ViewModels\Tutorial\DialogueLine.cs" />
+    <Compile Include="ViewModels\Tutorial\Scenario.cs" />
+    <Compile Include="ViewModels\Tutorial\SimpleDialogueLine.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
