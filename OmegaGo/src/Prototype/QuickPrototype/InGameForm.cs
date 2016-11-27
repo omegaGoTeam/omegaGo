@@ -20,6 +20,7 @@ namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
+        private GamePhase _gamePhase;
         private Game _game;
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
@@ -119,7 +120,18 @@ namespace FormsPrototype
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
+            this._controller.EnterPhase += _controller_EnterPhase;
             this._controller.BeginGame();
+        }
+
+        private void _controller_EnterPhase(object sender, GamePhase e)
+        {
+            _gamePhase = e;
+            if (e == GamePhase.LifeDeathDetermination)
+            {
+                this.grpLifeDeath.Visible = true;
+            }
+            RefreshBoard();
         }
 
         private void _controller_TurnPlayerChanged1(object sender, Player e)
@@ -262,7 +274,14 @@ namespace FormsPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
+            if (_gamePhase == GamePhase.LifeDeathDetermination)
+            {
+                _controller.MarkGroupDead(position);
+            }
+            else
+            {
+                this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
+            }
         }
 
 
@@ -336,6 +355,17 @@ namespace FormsPrototype
                 if (player.Agent is AIAgent)
                 {
                     ((AIAgent)player).Strength = (int)this.nAiStrength.Value;
+                }
+            }
+        }
+
+        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        {
+            foreach(var player in _game.Players)
+            {
+                if (player.Agent is InGameFormGuiAgent)
+                {
+                    _controller.DoneWithLifeDeathDetermination(player);
                 }
             }
         }

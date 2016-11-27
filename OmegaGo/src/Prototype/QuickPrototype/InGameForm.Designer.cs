@@ -65,6 +65,8 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
+            this.grpLifeDeath = new System.Windows.Forms.GroupBox();
+            this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
@@ -74,6 +76,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.grpLifeDeath.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -111,7 +114,7 @@
             // 
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(493, 105);
+            this.groupBox1.Location = new System.Drawing.Point(492, 47);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(200, 90);
             this.groupBox1.TabIndex = 5;
@@ -469,11 +472,33 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // grpLifeDeath
+            // 
+            this.grpLifeDeath.Controls.Add(this.bDoneWithLifeDeathDetermination);
+            this.grpLifeDeath.Location = new System.Drawing.Point(492, 152);
+            this.grpLifeDeath.Name = "grpLifeDeath";
+            this.grpLifeDeath.Size = new System.Drawing.Size(200, 52);
+            this.grpLifeDeath.TabIndex = 6;
+            this.grpLifeDeath.TabStop = false;
+            this.grpLifeDeath.Text = "Life/Death Determination";
+            this.grpLifeDeath.Visible = false;
+            // 
+            // bDoneWithLifeDeathDetermination
+            // 
+            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(21, 19);
+            this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
+            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
+            this.bDoneWithLifeDeathDetermination.TabIndex = 13;
+            this.bDoneWithLifeDeathDetermination.Text = "Done";
+            this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
+            this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.grpLifeDeath);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.bRefreshPicture);
@@ -504,6 +529,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.grpLifeDeath.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,5 +573,7 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button bChangeRuleset;
+        private System.Windows.Forms.GroupBox grpLifeDeath;
+        private System.Windows.Forms.Button bDoneWithLifeDeathDetermination;
     }
 }

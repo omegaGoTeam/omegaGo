@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,6 @@ namespace OmegaGo.Core
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
         /// </summary>
         public bool EnforceRules { get; set; } = true;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class.
         /// </summary>
@@ -54,8 +54,6 @@ namespace OmegaGo.Core
         public void BeginGame()
         {
             SanityCheck();
-            _game.NumberOfMovesPlayed = 0;
-            _gamePhase = GamePhase.MainPhase;
             LoopDecisionRequest();
         }
 
@@ -99,13 +97,25 @@ namespace OmegaGo.Core
         {
             BoardMustBeRefreshed?.Invoke();
         }
+
+        private List<Position> _deadPositions = new List<Position>();
+        public event EventHandler<GamePhase> EnterPhase;
+        private void OnEnterPhase(GamePhase newPhase)
+        {
+            EnterPhase?.Invoke(this, newPhase);
+        }
         /// <summary>
         /// This is the primary game loop.
         /// </summary>
         private async void LoopDecisionRequest()
         {
+            // Begin
             _turnPlayer = _game.Players[0];
-            while (true)
+            _game.NumberOfMovesPlayed = 0;
+
+            // Main phase
+            _gamePhase = GamePhase.MainPhase;
+            while (_gamePhase == GamePhase.MainPhase)
             {
                 OnTurnPlayerChanged(TurnPlayer);
                 OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
@@ -114,22 +124,25 @@ namespace OmegaGo.Core
 
                 if (decision.Kind == AgentDecisionKind.Resign)
                 {
+                    _gamePhase = GamePhase.Completed;
                     OnResignation(_turnPlayer, decision.Explanation);
                     OnDebuggingMessage("Game is over by resignation.");
                     break;
                 }
-                if (decision.Kind != AgentDecisionKind.Move)
-                {
-                    throw new Exception("There is no other possible decision.");
-                }
+                Debug.Assert(decision.Kind == AgentDecisionKind.Move);
 
                 MoveProcessingResult result =
-                        _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
+                    _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
                         decision.Move,
-                        new List<StoneColor[,]>()); // TODO history
+                        new List<StoneColor[,]>());
 
                 bool isTheMoveLegal = result.Result == MoveResult.Legal ||
                                       result.Result == MoveResult.LifeDeathConfirmationPhase;
+                if (result.Result == MoveResult.LifeDeathConfirmationPhase)
+                {
+                    _gamePhase = GamePhase.LifeDeathDetermination;
+                    break;
+                }
                 if (!isTheMoveLegal && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
                 {
                     OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
@@ -206,20 +219,44 @@ namespace OmegaGo.Core
                 {
                     throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
                 }
-                // THE MOVE STANDS
+                // The move stands, let's make the other player move now.
                 _game.NumberOfMovesPlayed++;
                 _game.GameTree.GameTreeRoot.GetTimelineView.Last().BoardState
                     = FastBoard.CreateBoardFromGame(_game);
                 OnBoardMustBeRefreshed();
                 _turnPlayer = _game.OpponentOf(_turnPlayer);
             }
+            if (_gamePhase == GamePhase.LifeDeathDetermination)
+            {
+                OnEnterPhase(_gamePhase);
+
+            }
+        }
+
+
+        public bool MarkGroupDead(Position position)
+        {
+            OnBoardMustBeRefreshed();
+            // TODO IGS
+            return true;
+        }
+        public void DoneWithLifeDeathDetermination(Player player)
+        {
+            OnBoardMustBeRefreshed();
+        }
+        public void MakeMove(Player player, Move move)
+        {
+
+        }
+        public void Resign(Player player)
+        {
 
         }
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
     /// </summary>
-    enum GamePhase
+    public enum GamePhase
     {
         /// <summary>
         /// The game has not yet been started.
