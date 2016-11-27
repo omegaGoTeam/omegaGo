@@ -246,7 +246,7 @@ namespace FormsPrototype
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent)._decisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
+            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)

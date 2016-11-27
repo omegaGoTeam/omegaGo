@@ -428,6 +428,24 @@ namespace OmegaGo.Core.Online.Igs
             IncomingMatchRequest?.Invoke(matchRequest);
         }
 
+        /// <summary>
+        /// Occurs when another player named ARGUMENT1 declines a match request we sent them.
+        /// </summary>
+        public event EventHandler<string> MatchRequestDeclined;
+        private void OnMatchRequestDeclined(string playerName)
+        {
+            MatchRequestDeclined?.Invoke(this, playerName);
+        }
+
+        /// <summary>
+        /// Occurs when our match request is accepted and creates a GAME.
+        /// </summary>
+        public event EventHandler<Game> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(Game acceptedGame)
+        {
+            MatchRequestAccepted?.Invoke(this, acceptedGame);
+        }
+
 
 
         // Interface requirements

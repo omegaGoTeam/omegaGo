@@ -1,4 +1,34 @@
-﻿1 0 Requesting username...
+﻿Interesting snippets:
+--------------
+51 Say in game 405
+19 *Soothie*: Hi!
+1 6
+------------
+50 Game #2
+5 Cannot move onto a ko
+5 Illegal move.
+1 6
+-----------------
+9 Game has been adjourned.
+9 Game saved.
+1 5
+--------------
+50 Game #2
+5 Cannot play a dead stone
+5 Illegal move.
+1 6
+----------------
+15 Game 2 I: Soothie (0 590 -1) vs OmegaGo1 (1 593 -1)
+15   6(B): A2 A1
+1 6
+------------------------
+
+
+
+
+
+
+1 0 Requesting username...
 1 1 Requesting password...
 1 5 You are in the main menu. Requesting a command...
 5 An error occurred.
