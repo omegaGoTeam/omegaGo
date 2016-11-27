@@ -25,6 +25,10 @@ namespace OmegaGo.Core
         /// </summary>
         private Player _turnPlayer;
         /// <summary>
+        /// The game phase we are in.
+        /// </summary>
+        private GamePhase _gamePhase = GamePhase.NotYetBegun;
+        /// <summary>
         /// Gets the player whose turn it is.
         /// </summary>
         public Player TurnPlayer => _turnPlayer;
@@ -51,6 +55,7 @@ namespace OmegaGo.Core
         {
             SanityCheck();
             _game.NumberOfMovesPlayed = 0;
+            _gamePhase = GamePhase.MainPhase;
             LoopDecisionRequest();
         }
 
@@ -63,12 +68,12 @@ namespace OmegaGo.Core
         }
 
         /// <summary>
-        /// Occurs when a player named ARGUMENT1 is about to take their turn.
+        /// Occurs when a PLAYER is about to take their turn.
         /// </summary>
-        public event Action<string> TurnPlayerChanged;
-        private void OnTurnPlayerChanged(string newTurnPlayer)
+        public event EventHandler<Player> TurnPlayerChanged;
+        private void OnTurnPlayerChanged(Player newTurnPlayer)
         {
-            TurnPlayerChanged?.Invoke(newTurnPlayer);
+            TurnPlayerChanged?.Invoke(this, newTurnPlayer);
         }
         /// <summary>
         /// Occurs when a DEBUGGING MESSAGE should be printed out to the user in debug mode.
@@ -94,12 +99,15 @@ namespace OmegaGo.Core
         {
             BoardMustBeRefreshed?.Invoke();
         }
+        /// <summary>
+        /// This is the primary game loop.
+        /// </summary>
         private async void LoopDecisionRequest()
         {
             _turnPlayer = _game.Players[0];
             while (true)
             {
-                OnTurnPlayerChanged(TurnPlayer.Name);
+                OnTurnPlayerChanged(TurnPlayer);
                 OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
                 AgentDecision decision = await _turnPlayer.Agent.RequestMoveAsync(_game);
                 OnDebuggingMessage(_turnPlayer + " does: " + decision);
@@ -115,7 +123,6 @@ namespace OmegaGo.Core
                     throw new Exception("There is no other possible decision.");
                 }
 
-                Move moveToMake = decision.Move;
                 MoveProcessingResult result =
                         _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
                         decision.Move,
@@ -208,5 +215,32 @@ namespace OmegaGo.Core
             }
 
         }
+    }
+    /// <summary>
+    /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
+    /// </summary>
+    enum GamePhase
+    {
+        /// <summary>
+        /// The game has not yet been started.
+        /// </summary>
+        NotYetBegun,
+        /// <summary>
+        /// Black is placing handicap stones on the board.
+        /// </summary>
+        HandicapPlacement,
+        /// <summary>
+        /// The main phase: In this phase, players alternately make moves until both players pass.
+        /// </summary>
+        MainPhase,
+        /// <summary>
+        /// The Life/Death Determination Phase: 
+        /// In this phase, players agree on which stones should be marked dead and which should be marked alive.
+        /// </summary>
+        LifeDeathDetermination,
+        /// <summary>
+        /// The game has ended and its score has been calculated.
+        /// </summary>
+        Completed
     }
 }

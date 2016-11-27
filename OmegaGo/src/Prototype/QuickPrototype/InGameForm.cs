@@ -118,13 +118,13 @@ namespace FormsPrototype
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
-            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged;
+            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.BeginGame();
         }
 
-        private void _controller_TurnPlayerChanged(string obj)
+        private void _controller_TurnPlayerChanged1(object sender, Player e)
         {
-            this.lblTurnPlayer.Text = obj;
+            this.lblTurnPlayer.Text = e.Name;
         }
 
         private void _controller_Resignation(Player arg1, string arg2)
