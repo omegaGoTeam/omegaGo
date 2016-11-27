@@ -58,5 +58,10 @@ namespace OmegaGo.Core.Agents
         /// <param name="color">The color of the placed stone.</param>
         /// <param name="selectedPosition">The position to place the stone on.</param>
         void Click(StoneColor color, Position selectedPosition);
+        /// <summary>
+        /// GUI interface will call this method on a GUI agent when the user requests that a player passes.
+        /// </summary>
+        /// <param name="color">The color of this agent's player.</param>
+        void ForcePass(StoneColor color);
     }
 }

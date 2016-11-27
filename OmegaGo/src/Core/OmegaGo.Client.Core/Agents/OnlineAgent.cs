@@ -24,6 +24,11 @@ namespace OmegaGo.Core.Agents
             throw new InvalidOperationException("An online agent cannot click.");
         }
 
+        public void ForcePass(StoneColor color)
+        {
+            throw new InvalidOperationException("An online agent is not a GUI agent.");
+        }
+
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
 
     

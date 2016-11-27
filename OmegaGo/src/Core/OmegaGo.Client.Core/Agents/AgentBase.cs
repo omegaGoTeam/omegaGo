@@ -34,6 +34,11 @@ namespace OmegaGo.Core.Agents
             throw new InvalidOperationException("This agent is not a GUI agent.");
         }
 
+        public virtual void ForcePass(StoneColor color)
+        {
+            throw new InvalidOperationException("This agent is not a GUI agent.");
+        }
+
         /// <summary>
         /// If this agent has a historical move stored for the current turn number, then this method will return that move; 
         /// if not, then it will return null.

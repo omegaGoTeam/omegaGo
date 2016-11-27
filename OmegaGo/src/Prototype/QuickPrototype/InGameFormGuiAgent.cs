@@ -10,31 +10,39 @@ using OmegaGo.Core.AI;
 
 namespace FormsPrototype
 {
-    class InGameFormGuiAgent : AgentBase, IAgent
+    class InGameFormGuiAgent : AgentBase
     {
-        private readonly InGameForm inGameForm;
-        public BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
+        private readonly InGameForm _inGameForm;
+        public readonly BufferBlock<AgentDecision> _decisionsToMake = new BufferBlock<AgentDecision>();
 
+        public override void Click(StoneColor color, Position selectedPosition)
+        {
+        }
+        public override void ForcePass(StoneColor color)
+        {
+            this._decisionsToMake.Post(AgentDecision.MakeMove(
+                OmegaGo.Core.Move.Pass(color), "User clicked 'PASS'."));
+        }
 
         public InGameFormGuiAgent(InGameForm form)
         {
-            this.inGameForm = form;
+            this._inGameForm = form;
         }
 
-        public async Task<AgentDecision> RequestMoveAsync(Game game)
+        public override async Task<AgentDecision> RequestMoveAsync(Game game)
         {
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null)
             {
                 return storedDecision;
             }
-            this.inGameForm.groupboxMoveMaker.Visible = true;
-            AgentDecision decision = await DecisionsToMake.ReceiveAsync();
-            this.inGameForm.groupboxMoveMaker.Visible = false;
+            this._inGameForm.groupboxMoveMaker.Visible = true;
+            AgentDecision decision = await this._decisionsToMake.ReceiveAsync();
+            this._inGameForm.groupboxMoveMaker.Visible = false;
             return decision;
         }
 
-        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
+        public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
       
     }
 }
