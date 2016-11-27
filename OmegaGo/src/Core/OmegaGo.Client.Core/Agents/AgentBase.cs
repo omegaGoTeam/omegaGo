@@ -11,9 +11,15 @@ namespace OmegaGo.Core.Agents
     /// This base class contains code that allows an agent to make moves based on a historical record. This is used most often when resuming
     /// a paused game or when entering a game that's already in progress on a server.
     /// </summary>
-    public abstract class AgentBase
+    public abstract class AgentBase : IAgent
     {
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
+
+
+        public abstract Task<AgentDecision> RequestMoveAsync(Game game);
+
+        public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
+
         public void ForceHistoricMove(int moveIndex, Move move)
         {
             // Ok.
@@ -22,6 +28,12 @@ namespace OmegaGo.Core.Agents
             else
                 this._storedMoves.Add(moveIndex, move);
         }
+
+        public virtual void Click(StoneColor color, Position selectedPosition)
+        {
+            throw new InvalidOperationException("This agent is not a GUI agent.");
+        }
+
         /// <summary>
         /// If this agent has a historical move stored for the current turn number, then this method will return that move; 
         /// if not, then it will return null.

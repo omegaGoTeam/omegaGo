@@ -18,6 +18,12 @@ namespace OmegaGo.Core.Agents
             else
                 this._storedMoves.Add(moveIndex, move);
         }
+
+        public void Click(StoneColor color, Position selectedPosition)
+        {
+            throw new InvalidOperationException("An online agent cannot click.");
+        }
+
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
 
     

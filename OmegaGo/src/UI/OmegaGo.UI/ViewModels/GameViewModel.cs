@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
@@ -73,7 +72,7 @@ namespace OmegaGo.UI.ViewModels
                 _game.Players.Add(new Player("White Player", "??", _game));
                 foreach (var player in _game.Players)
                 {
-                    player.Agent = new GameViewModelAgent();
+                    player.Agent = new Core.Agents.GameViewModelAgent();
                 }
 
                 _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
@@ -109,9 +108,10 @@ namespace OmegaGo.UI.ViewModels
         
         public void MakeMove(Position selectedPosition)
         {
-            (_gameController.TurnPlayer.Agent as GameViewModelAgent).DecisionsToMake.Post(
-                AgentDecision.MakeMove(Move.PlaceStone(_gameController.TurnPlayer.Color, selectedPosition),
-                    "A click."));
+            _gameController.TurnPlayer.Agent.Click(_gameController.TurnPlayer.Color, selectedPosition);
+              /*  
+              
+            */
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

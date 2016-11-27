@@ -51,5 +51,12 @@ namespace OmegaGo.Core.Agents
         /// <param name="moveIndex">The 1-based turn number.</param>
         /// <param name="move">The move to make at the given turn number.</param>
         void ForceHistoricMove(int moveIndex, Move move);
+
+        /// <summary>
+        /// GUI interface will call this method on a GUI agent when the user requests that a stone be placed at a position.
+        /// </summary>
+        /// <param name="color">The color of the placed stone.</param>
+        /// <param name="selectedPosition">The position to place the stone on.</param>
+        void Click(StoneColor color, Position selectedPosition);
     }
 }

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Agents\AgentBase.cs" />
     <Compile Include="Agents\AIAgent.cs" />
+    <Compile Include="Agents\GameViewModelAgent.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IllegalMoveHandling.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />

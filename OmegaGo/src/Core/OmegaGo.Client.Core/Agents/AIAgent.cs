@@ -8,7 +8,7 @@ using OmegaGo.Core.AI.Common;
 
 namespace OmegaGo.Core.Agents
 {
-    public class AIAgent : AgentBase, IAgent
+    public class AIAgent : AgentBase
     {
         /// <summary>
         /// The AI program that feeds moves to this agent.
@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Agents
             this._aiProgram = aiProgram;
         }
 
-        public async Task<AgentDecision> RequestMoveAsync(Game game)
+        public override async  Task<AgentDecision> RequestMoveAsync(Game game)
         {
             AgentDecision storedDecision = GetStoredDecision(game);
             if (storedDecision != null) return storedDecision;
@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Agents
             return await aiTask;
         }
 
-        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
+        public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
 
         public static explicit operator AIAgent(Player v)
         {
