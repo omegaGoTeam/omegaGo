@@ -29,6 +29,16 @@ namespace OmegaGo.Core.Agents
             throw new InvalidOperationException("An online agent is not a GUI agent.");
         }
 
+        public void GameBegins(Player player, Game game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PleaseMakeAMove()
+        {
+            throw new NotImplementedException();
+        }
+
         public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
 
     

@@ -63,5 +63,18 @@ namespace OmegaGo.Core.Agents
         /// </summary>
         /// <param name="color">The color of this agent's player.</param>
         void ForcePass(StoneColor color);
+
+        /// <summary>
+        /// Called by the game controller when the GAME begins telling the agent that he is controlling the PLAYER.
+        /// </summary>
+        /// <param name="player">The player the agent is controlling.</param>
+        /// <param name="game">The game that player is playing in.</param>
+        void GameBegins(Player player, Game game);
+
+        /// <summary>
+        /// Called by the game controller when it requests this agent to make a move. The move may be made before this method 
+        /// returns or after that - it doesn't matter.
+        /// </summary>
+        void PleaseMakeAMove();
     }
 }

@@ -98,11 +98,6 @@ namespace FormsPrototype
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
-            if (this._game.Server == null)
-            {
-                this.button1.Enabled = false;
-                this.button2.Enabled = false;
-            }
             this.cbRuleset.Items.Add(new ChineseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
             this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
             this.cbRuleset.Items.Add(new AGARuleset(this._game.White, this._game.Black, this._game.BoardSize,CountingType.Area));
@@ -115,7 +110,7 @@ namespace FormsPrototype
                     break;
                 }
             }
-            this._controller = new GameController(this._game);
+            this._controller = this._game.GameController;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
@@ -139,19 +134,18 @@ namespace FormsPrototype
             this.lblTurnPlayer.Text = e.Name;
         }
 
-        private void _controller_Resignation(Player arg1, string arg2)
+        private void _controller_Resignation(object sender, Player resigner)
         {
             this.panelEnd.Visible = true;
-            this.lblEndCaption.Text = arg1 + " resigned!";
-            this.lblGameEndReason.Text = "The player resignation reason: '" + arg2 + "'";
+            this.lblEndCaption.Text = resigner + " resigned!";
         }
 
-        private void _controller_DebuggingMessage(string obj)
+        private void _controller_DebuggingMessage(object sender, string obj)
         {
             SystemLog(obj);
         }
 
-        private void _controller_BoardMustBeRefreshed()
+        private void _controller_BoardMustBeRefreshed(object sender, EventArgs e)
         {
             RefreshBoard();
         }
@@ -258,7 +252,7 @@ namespace FormsPrototype
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
+            this._game.GameController.Resign(this.PlayerToMove);
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
@@ -296,22 +290,7 @@ namespace FormsPrototype
         {
             RefreshBoard();
         }
-
-        private async void button3_Click(object sender, EventArgs e)
-        {
-            // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
-            // This is totally not good, but if it works for display now....
-            var timeline = this._game.GameTree.GameTreeRoot;
-            this._game.GameTree.GameTreeRoot = null;
-            foreach(GameTreeNode move in timeline.GetTimelineView)
-            {
-                this._game.GameTree.AddMoveToEnd(move.Move);
-                RefreshBoard();
-                await Task.Delay(25);
-            }
-
-        }
-
+        
         private void bSay_Click(object sender, EventArgs e)
         {
             // TODO what if we are in multiple games at the same time?
@@ -354,7 +333,7 @@ namespace FormsPrototype
             {
                 if (player.Agent is AIAgent)
                 {
-                    ((AIAgent)player).Strength = (int)this.nAiStrength.Value;
+                    ((AIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
                 }
             }
         }

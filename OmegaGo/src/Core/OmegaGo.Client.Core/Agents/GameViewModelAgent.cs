@@ -8,8 +8,10 @@ using System.Threading.Tasks.Dataflow;
 
 namespace OmegaGo.Core.Agents
 {
+    /*
     public class GameViewModelAgent : AgentBase, IAgent
     {
+        
         private BufferBlock<AgentDecision> _decisionsToMake = new BufferBlock<AgentDecision>();
 
         public override async Task<AgentDecision> RequestMoveAsync(Game game)
@@ -33,4 +35,5 @@ namespace OmegaGo.Core.Agents
         }
 
     }
+    */
 }

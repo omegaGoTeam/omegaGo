@@ -98,11 +98,12 @@ namespace OmegaGo.Core
 
         }
         
-        public void AddMoveToEnd(Move move)
+        public void AddMoveToEnd(Move move, StoneColor[,] newBoard)
         {
             if (GameTreeRoot == null)
             {
                 GameTreeRoot = new GameTreeNode(move);
+                GameTreeRoot.BoardState = newBoard;
                 LastNode = GameTreeRoot;
                 return;
             }
@@ -117,6 +118,7 @@ namespace OmegaGo.Core
             }
 
             GameTreeNode newNode = new GameTreeNode(move);
+            newNode.BoardState = newBoard;
             parent.Branches.AddNode(newNode);
 
             // Remember lastly added node and notify about game tree change

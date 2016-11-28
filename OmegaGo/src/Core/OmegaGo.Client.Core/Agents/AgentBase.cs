@@ -13,6 +13,8 @@ namespace OmegaGo.Core.Agents
     /// </summary>
     public abstract class AgentBase : IAgent
     {
+        protected Game Game { get; private set; }
+        protected Player Player { get; private set; }
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
 
 
@@ -38,6 +40,14 @@ namespace OmegaGo.Core.Agents
         {
             throw new InvalidOperationException("This agent is not a GUI agent.");
         }
+
+        public void GameBegins(Player player, Game game)
+        {
+            this.Player = player;
+            this.Game = game;
+        }
+
+        public abstract void PleaseMakeAMove();
 
         /// <summary>
         /// If this agent has a historical move stored for the current turn number, then this method will return that move; 

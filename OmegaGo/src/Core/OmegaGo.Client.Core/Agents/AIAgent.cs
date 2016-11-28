@@ -43,10 +43,34 @@ namespace OmegaGo.Core.Agents
         }
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
-
-        public static explicit operator AIAgent(Player v)
+        public override async void PleaseMakeAMove()
         {
-            throw new NotImplementedException();
+            // TODO stored decisions
+            /*   AgentDecision storedDecision = GetStoredDecision(game);
+            if (storedDecision != null) return storedDecision;
+             * 
+             */
+            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(Game);
+            var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
+              Player.Color,
+              createdBoard,
+              Game.BoardSize,
+              new TimeSpan(0, 0, 2),
+              Strength,
+              Game.PrimaryTimeline.ToList()
+              )));
+            AgentDecision decision = await aiTask;
+            switch (decision.Kind)
+            {
+                case AgentDecisionKind.Move:
+                    Game.GameController.MakeMove(Player, decision.Move);
+                    break;
+                case AgentDecisionKind.Resign:
+                    Game.GameController.Resign(Player);
+                    break;
+                default:
+                    throw new Exception("This decision kind does not exist.");
+            }
         }
     }
 }

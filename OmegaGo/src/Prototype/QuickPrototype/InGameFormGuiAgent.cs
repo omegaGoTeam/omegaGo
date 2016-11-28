@@ -10,21 +10,34 @@ using OmegaGo.Core.AI;
 
 namespace FormsPrototype
 {
-    class InGameFormGuiAgent : AgentBase
+    internal class InGameFormGuiAgent : AgentBase
     {
         private readonly InGameForm _inGameForm;
         public readonly BufferBlock<AgentDecision> DecisionsToMake = new BufferBlock<AgentDecision>();
 
         public override void Click(StoneColor color, Position selectedPosition)
         {
-            this.DecisionsToMake.Post(AgentDecision.MakeMove(
-                OmegaGo.Core.Move.PlaceStone(color, selectedPosition), "User entered the coordinates or clicked on an intersection."));
+            this._inGameForm.groupboxMoveMaker.Visible = false;
+            this.Game.GameController.MakeMove(Player, Move.PlaceStone(color, selectedPosition));
 
         }
         public override void ForcePass(StoneColor color)
         {
-            this.DecisionsToMake.Post(AgentDecision.MakeMove(
-                OmegaGo.Core.Move.Pass(color), "User clicked 'PASS'."));
+            this._inGameForm.groupboxMoveMaker.Visible = false;
+            this.Game.GameController.MakeMove(Player, Move.Pass(color));
+        }
+
+        public override void PleaseMakeAMove()
+        {
+            /* TODO
+             * 
+            AgentDecision storedDecision = GetStoredDecision(game);
+            if (storedDecision != null)
+            {
+                return storedDecision;
+            }
+            */
+            this._inGameForm.groupboxMoveMaker.Visible = true;
         }
 
         public InGameFormGuiAgent(InGameForm form)
@@ -34,15 +47,9 @@ namespace FormsPrototype
 
         public override async Task<AgentDecision> RequestMoveAsync(Game game)
         {
-            AgentDecision storedDecision = GetStoredDecision(game);
-            if (storedDecision != null)
-            {
-                return storedDecision;
-            }
-            this._inGameForm.groupboxMoveMaker.Visible = true;
-            AgentDecision decision = await this.DecisionsToMake.ReceiveAsync();
-            this._inGameForm.groupboxMoveMaker.Visible = false;
-            return decision;
+            throw new Exception();
+            //  AgentDecision decision = await this.DecisionsToMake.ReceiveAsync();
+            //return decision;
         }
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;

@@ -85,11 +85,13 @@ namespace OmegaGo.Core
         /// </summary>
         public float KomiValue;
         public int NumberOfObservers;
+        public GameController GameController { get; private set;}
 
         public Game()
         {
             Players = new List<Player>();
             GameTree = new GameTree();
+            GameController = new Core.GameController(this);
         }
 
         /// <summary>

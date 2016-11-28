@@ -26,9 +26,14 @@ namespace OmegaGo.Core
         /// </summary>
         private Player _turnPlayer;
         /// <summary>
-        /// The game phase we are in.
+        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(GamePhase)"/> instead. 
         /// </summary>
         private GamePhase _gamePhase = GamePhase.NotYetBegun;
+        private void SetGamePhase(GamePhase gamePhase)
+        {
+            this._gamePhase = gamePhase;
+            OnEnterPhase(this._gamePhase);
+        }
         /// <summary>
         /// Gets the player whose turn it is.
         /// </summary>
@@ -38,31 +43,163 @@ namespace OmegaGo.Core
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
         /// </summary>
         public bool EnforceRules { get; set; } = true;
+        private List<Position> _deadPositions = new List<Position>();
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
         /// <param name="game">The game that this GameController instance will run.</param>
         public GameController(Game game)
         {
             this._game = game;
         }
-
         /// <summary>
         /// Begins the main game loop by asking the first player (who plays black) to make a move, and then the second player, then the first,
         /// and so on until the game concludes. This method will return immediately but it will launch this loop in a Task on another thread.
         /// </summary>
         public void BeginGame()
         {
-            SanityCheck();
-            LoopDecisionRequest();
-        }
-
-        private void SanityCheck()
-        {
             if (this._game.Players.Count != 2)
                 throw new InvalidOperationException("There must be 2 players in the game.");
-            if (this._game.Players.Any(pl => pl.Agent == null))
-                throw new InvalidOperationException("Both players must have an Agent to make moves.");
+
+            foreach(var player in _game.Players)
+            {
+                if (player.Agent == null)
+                    throw new InvalidOperationException("Both players must have an Agent to make moves.");
+                player.Agent.GameBegins(player, _game);
+            }
+            _game.NumberOfMovesPlayed = 0;
+            SetGamePhase(GamePhase.MainPhase);
+            MainPhase_AskPlayerToMove(_game.Black);
+        }
+
+        private void MainPhase_AskPlayerToMove(Player turnPlayer)
+        {
+            _turnPlayer = turnPlayer;
+            OnTurnPlayerChanged(_turnPlayer);
+            OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
+            _turnPlayer.Agent.PleaseMakeAMove();
+        }
+
+        public bool MarkGroupDead(Position position)
+        {
+            OnBoardMustBeRefreshed();
+            // TODO IGS
+            return true;
+        }
+        public void DoneWithLifeDeathDetermination(Player player)
+        {
+            OnBoardMustBeRefreshed();
+        }
+        public async void MakeMove(Player player, Move move)
+        {
+            if (_gamePhase != GamePhase.MainPhase)
+                throw new InvalidOperationException("Moves can only be made during main phase.");
+            if (player != TurnPlayer)
+                throw new InvalidOperationException("It is not your turn.");
+            OnDebuggingMessage(_turnPlayer + " moves: " + move);
+
+            MoveProcessingResult result =
+                   _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game), move, new List<StoneColor[,]>()); // TODO history
+
+            if (result.Result == MoveResult.LifeDeathConfirmationPhase)
+            {
+                SetGamePhase(GamePhase.LifeDeathDetermination);
+                return;
+            }
+            if (result.Result != MoveResult.Legal)
+            {
+                HandleIllegalMove(player, move, ref result);
+                if (result.Result != MoveResult.Legal)
+                {
+                    // Still illegal.
+                    return;
+                }
+            }
+            if (move.Kind == MoveKind.PlaceStone)
+            {
+                OnDebuggingMessage("Adding " + move + " to primary timeline.");
+                move.Captures.AddRange(result.Captures);
+            }
+            else if (move.Kind == MoveKind.Pass)
+            {
+                OnDebuggingMessage(_turnPlayer + " passed!");
+            }
+            else
+            {
+                throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
+            }
+            // The move stands, let's make the other player move now.
+            _game.NumberOfMovesPlayed++;
+            _game.GameTree.AddMoveToEnd(move, FastBoard.CreateBoardFromGame(_game));
+            if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
+            {
+                await _game.Server.MakeMove(_game, move);
+            }
+            OnBoardMustBeRefreshed();
+            MainPhase_AskPlayerToMove(_game.OpponentOf(player));
+        }
+
+        private void HandleIllegalMove(Player player, Move move, ref MoveProcessingResult result)
+        {
+            if (player.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+            {
+                OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
+                result.Result = MoveResult.Legal;
+                return;
+            }
+            if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
+            {
+                if (this.EnforceRules)
+                {
+                    // Move is forbidden.
+                    OnDebuggingMessage("Move is illegal because: " + result.Result);
+                    if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
+                    {
+                        OnDebuggingMessage("Illegal move - retrying.");
+                        _turnPlayer.Agent.PleaseMakeAMove();
+                    }
+                    else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
+                    {
+
+                        OnDebuggingMessage("Illegal move - making a random move instead.");
+                        List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(player.Color,
+                            FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
+                                                       new List<Position>(); // TODO add history
+
+                        if (possibleMoves.Count == 0)
+                        {
+                            MakeMove(player, Move.Pass(player.Color));
+                            return;
+                        }
+                        else
+                        {
+                            Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
+                            Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
+                            MakeMove(player, newMove);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("This agent does not provide information on how to handle its illegal move.");
+                    }
+                }
+                else
+                {
+                    // Ok, we're not enforcing rules.
+                    result.Result = MoveResult.Legal;
+                }
+            }
+            else
+            {
+                // Ok, server will handle this.
+                result.Result = MoveResult.Legal;
+            }
+        }
+
+        public void Resign(Player player)
+        {
+
         }
 
         /// <summary>
@@ -76,29 +213,30 @@ namespace OmegaGo.Core
         /// <summary>
         /// Occurs when a DEBUGGING MESSAGE should be printed out to the user in debug mode.
         /// </summary>
-        public event Action<string> DebuggingMessage;
+        public event EventHandler<string> DebuggingMessage;
         private void OnDebuggingMessage(string logLine)
         {
-            DebuggingMessage?.Invoke(logLine);
+            DebuggingMessage?.Invoke(this, logLine);
         }
         /// <summary>
         /// Occurs when the PLAYER resigns. The second argument is the RESIGNATION REASON.
         /// </summary>
-        public event Action<Player, string> Resignation;
-        private void OnResignation(Player resigner, string reason)
+        public event EventHandler<Player> Resignation;
+        private void OnResignation(Player resigner)
         {
-            Resignation?.Invoke(resigner, reason);
+            Resignation?.Invoke(this, resigner);
         }
         /// <summary>
         /// Occurs when the game board should be redrawn by the user interface, probably because a move was made.
         /// </summary>
-        public event Action BoardMustBeRefreshed;
+        public event EventHandler BoardMustBeRefreshed;
         private void OnBoardMustBeRefreshed()
         {
-            BoardMustBeRefreshed?.Invoke();
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
         }
-
-        private List<Position> _deadPositions = new List<Position>();
+        /// <summary>
+        /// Occurs wheneven the current game phase changes.
+        /// </summary>
         public event EventHandler<GamePhase> EnterPhase;
         private void OnEnterPhase(GamePhase newPhase)
         {
@@ -109,6 +247,7 @@ namespace OmegaGo.Core
         /// </summary>
         private async void LoopDecisionRequest()
         {
+            /*
             // Begin
             _turnPlayer = _game.Players[0];
             _game.NumberOfMovesPlayed = 0;
@@ -125,7 +264,7 @@ namespace OmegaGo.Core
                 if (decision.Kind == AgentDecisionKind.Resign)
                 {
                     _gamePhase = GamePhase.Completed;
-                    OnResignation(_turnPlayer, decision.Explanation);
+                    OnResignation(_turnPlayer);
                     OnDebuggingMessage("Game is over by resignation.");
                     break;
                 }
@@ -231,27 +370,10 @@ namespace OmegaGo.Core
                 OnEnterPhase(_gamePhase);
 
             }
+        */
         }
 
 
-        public bool MarkGroupDead(Position position)
-        {
-            OnBoardMustBeRefreshed();
-            // TODO IGS
-            return true;
-        }
-        public void DoneWithLifeDeathDetermination(Player player)
-        {
-            OnBoardMustBeRefreshed();
-        }
-        public void MakeMove(Player player, Move move)
-        {
-
-        }
-        public void Resign(Player player)
-        {
-
-        }
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
