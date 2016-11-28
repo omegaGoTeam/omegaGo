@@ -401,7 +401,7 @@ namespace FormsPrototype
         {
             foreach(var player in _game.Players)
             {
-                if (player.Agent is GuiAgent)
+                if (player.Agent is GuiAgent || player.Agent is AIAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }

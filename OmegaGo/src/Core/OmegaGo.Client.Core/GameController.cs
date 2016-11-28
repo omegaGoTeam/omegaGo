@@ -124,7 +124,10 @@ namespace OmegaGo.Core
             OnDebuggingMessage(_turnPlayer + " moves: " + move);
 
             MoveProcessingResult result =
-                   _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game), move, new List<StoneColor[,]>()); // TODO history
+                   _game.Ruleset.ProcessMove(
+                       FastBoard.CreateBoardFromGame(_game), 
+                       move, 
+                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<StoneColor[,]>()); // TODO history
 
             if (result.Result == MoveResult.LifeDeathConfirmationPhase)
             {
@@ -156,7 +159,7 @@ namespace OmegaGo.Core
             }
             // The move stands, let's make the other player move now.
             _game.NumberOfMovesPlayed++;
-            _game.GameTree.AddMoveToEnd(move, FastBoard.CreateBoardFromGame(_game));
+            _game.GameTree.AddMoveToEnd(move, FastBoard.CloneBoard(result.NewBoard));
             if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
             {
                 await _game.Server.MakeMove(_game, move);
