@@ -47,6 +47,7 @@ namespace OmegaGo.Core
         public bool EnforceRules { get; set; } = true;
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
+        private List<Player> _playersDoneWithLifeDeath = new List<Player>();
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
@@ -83,14 +84,35 @@ namespace OmegaGo.Core
             _turnPlayer.Agent.PleaseMakeAMove();
         }
 
-        public bool MarkGroupDead(Position position)
+        public void MarkGroupDead(Position position)
         {
+            var board = FastBoard.CreateBoardFromGame(_game);
+            if (board[position.X, position.Y] == StoneColor.None)
+            {
+                return;
+            }
+            var group = _game.Ruleset.DiscoverGroup(position, board);
+            foreach(var deadStone in group)
+            {
+                if (!this._deadPositions.Contains(deadStone))
+                {
+                    this._deadPositions.Add(deadStone);
+                }
+            }
+            _playersDoneWithLifeDeath.Clear();
             OnBoardMustBeRefreshed();
-            // TODO IGS
-            return true;
         }
-        public void DoneWithLifeDeathDetermination(Player player)
+        public void LifeDeath_Done(Player player)
         {
+
+            if (!_playersDoneWithLifeDeath.Contains(player))
+            {
+                _playersDoneWithLifeDeath.Add(player);
+            }
+            if (_playersDoneWithLifeDeath.Count == 2)
+            {
+                SetGamePhase(GamePhase.Completed);
+            }
             OnBoardMustBeRefreshed();
         }
         public async void MakeMove(Player player, Move move)
@@ -107,11 +129,12 @@ namespace OmegaGo.Core
             if (result.Result == MoveResult.LifeDeathConfirmationPhase)
             {
                 SetGamePhase(GamePhase.LifeDeathDetermination);
+                _turnPlayer = null;
                 return;
             }
             if (result.Result != MoveResult.Legal)
             {
-                HandleIllegalMove(player, move, ref result);
+                HandleIllegalMove(player, ref result);
                 if (result.Result != MoveResult.Legal)
                 {
                     // Still illegal.
@@ -142,7 +165,7 @@ namespace OmegaGo.Core
             MainPhase_AskPlayerToMove(_game.OpponentOf(player));
         }
 
-        private void HandleIllegalMove(Player player, Move move, ref MoveProcessingResult result)
+        private void HandleIllegalMove(Player player, ref MoveProcessingResult result)
         {
             if (player.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
             {
@@ -202,7 +225,9 @@ namespace OmegaGo.Core
 
         public void Resign(Player player)
         {
-
+            OnResignation(player);
+            _turnPlayer = null;
+            SetGamePhase(GamePhase.Completed);
         }
 
         /// <summary>
@@ -248,6 +273,21 @@ namespace OmegaGo.Core
         /// <summary>
         /// This is the primary game loop.
         /// </summary>
+        public void LifeDeath_UndoPhase()
+        {
+            this._deadPositions = new List<Position>();
+            _playersDoneWithLifeDeath.Clear();
+            OnBoardMustBeRefreshed();
+        }
+
+        public void LifeDeath_Resume()
+        {
+            this._deadPositions = new List<Position>();
+            SetGamePhase(GamePhase.MainPhase);
+            _playersDoneWithLifeDeath.Clear();
+            OnBoardMustBeRefreshed();
+            MainPhase_AskPlayerToMove(_game.Black);
+        }
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 

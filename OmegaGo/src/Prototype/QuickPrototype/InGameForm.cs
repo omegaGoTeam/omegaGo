@@ -141,6 +141,24 @@ namespace FormsPrototype
                 this.grpLifeDeath.Visible = true;
                 this._inLifeDeathDeterminationPhase = true;
             }
+            else
+            {
+                this.grpLifeDeath.Visible = false;
+                this._inLifeDeathDeterminationPhase = false;
+            }
+            if (e == GamePhase.Completed)
+            {
+                GoColor[,] finalBoard = FastBoard.BoardWithoutTheseStones(
+                    FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
+                Scores scores = this._game.Ruleset.CountScore(finalBoard);
+                MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                (scores.BlackScore > scores.WhiteScore
+                                    ? "Black wins!"
+                                    : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f ? "It's a draw!" : "White wins!")),
+                                    "Game completed!",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+            }
             RefreshBoard();
         }
 
@@ -220,19 +238,21 @@ namespace FormsPrototype
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
 
-                    if (this._inLifeDeathDeterminationPhase)
+                    if (this._inLifeDeathDeterminationPhase || this._controller.GamePhase == GamePhase.Completed)
                     {
                         switch(this._territories[x, y])
                         {
                             case Territory.Black:
-                                e.Graphics.DrawLine(Pens.Black, r.Left, r.Top, r.Right, r.Bottom);
-                                e.Graphics.DrawLine(Pens.Black, r.Right, r.Top, r.Left, r.Bottom);
+                                CrossPosition(Color.Black, r, e);
                                 break;
                             case Territory.White:
-                                e.Graphics.DrawLine(Pens.White, r.Left, r.Top, r.Right, r.Bottom);
-                                e.Graphics.DrawLine(Pens.White, r.Right, r.Top, r.Left, r.Bottom);
+                                CrossPosition(Color.White, r, e);
                                 break;
                             default:
+                                if (this._controller.DeadPositions.Contains(new Position(x, y)))
+                                {
+                                    CrossPosition(Color.Red, r, e);
+                                }
                                 break;
                         }
                     }
@@ -252,10 +272,14 @@ namespace FormsPrototype
                 }
             }
         }
-        private void pictureBox1_Click(object sender, EventArgs e)
+
+        private void CrossPosition(Color color, Rectangle r, PaintEventArgs e)
         {
-        
+            Pen pen = new Pen(color, 3);
+            e.Graphics.DrawLine(pen, r.Left, r.Top, r.Right, r.Bottom);
+            e.Graphics.DrawLine(pen, r.Right, r.Top, r.Left, r.Bottom);
         }
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -267,7 +291,7 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (this.PlayerToMove.Agent is GuiAgent)
+            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is GuiAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -379,7 +403,7 @@ namespace FormsPrototype
             {
                 if (player.Agent is GuiAgent)
                 {
-                    _controller.DoneWithLifeDeathDetermination(player);
+                    _controller.LifeDeath_Done(player);
                 }
             }
         }
@@ -387,6 +411,16 @@ namespace FormsPrototype
         public void GuiAgent_PleaseMakeAMove(object sender, Player e)
         {
             this.groupboxMoveMaker.Visible = true;
+        }
+
+        private void bUndoLifeDeath_Click(object sender, EventArgs e)
+        {
+            this._controller.LifeDeath_UndoPhase();
+        }
+
+        private void bResumeAsBlack_Click(object sender, EventArgs e)
+        {
+            this._controller.LifeDeath_Resume();
         }
     }
 }

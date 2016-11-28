@@ -62,6 +62,8 @@
             this.button4 = new System.Windows.Forms.Button();
             this.grpLifeDeath = new System.Windows.Forms.GroupBox();
             this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
+            this.bUndoLifeDeath = new System.Windows.Forms.Button();
+            this.bResumeAsBlack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -84,12 +86,12 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.Color.PeachPuff;
             this.pictureBox1.Location = new System.Drawing.Point(12, 76);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(474, 411);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
@@ -417,10 +419,12 @@
             // 
             // grpLifeDeath
             // 
+            this.grpLifeDeath.Controls.Add(this.bResumeAsBlack);
+            this.grpLifeDeath.Controls.Add(this.bUndoLifeDeath);
             this.grpLifeDeath.Controls.Add(this.bDoneWithLifeDeathDetermination);
-            this.grpLifeDeath.Location = new System.Drawing.Point(492, 152);
+            this.grpLifeDeath.Location = new System.Drawing.Point(492, 76);
             this.grpLifeDeath.Name = "grpLifeDeath";
-            this.grpLifeDeath.Size = new System.Drawing.Size(200, 52);
+            this.grpLifeDeath.Size = new System.Drawing.Size(200, 126);
             this.grpLifeDeath.TabIndex = 6;
             this.grpLifeDeath.TabStop = false;
             this.grpLifeDeath.Text = "Life/Death Determination";
@@ -428,13 +432,33 @@
             // 
             // bDoneWithLifeDeathDetermination
             // 
-            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(21, 19);
+            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(16, 19);
             this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
             this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
             this.bDoneWithLifeDeathDetermination.TabIndex = 13;
             this.bDoneWithLifeDeathDetermination.Text = "Done";
             this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
             this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
+            // 
+            // bUndoLifeDeath
+            // 
+            this.bUndoLifeDeath.Location = new System.Drawing.Point(16, 52);
+            this.bUndoLifeDeath.Name = "bUndoLifeDeath";
+            this.bUndoLifeDeath.Size = new System.Drawing.Size(166, 27);
+            this.bUndoLifeDeath.TabIndex = 14;
+            this.bUndoLifeDeath.Text = "Undo Death Marks";
+            this.bUndoLifeDeath.UseVisualStyleBackColor = true;
+            this.bUndoLifeDeath.Click += new System.EventHandler(this.bUndoLifeDeath_Click);
+            // 
+            // bResumeAsBlack
+            // 
+            this.bResumeAsBlack.Location = new System.Drawing.Point(16, 86);
+            this.bResumeAsBlack.Name = "bResumeAsBlack";
+            this.bResumeAsBlack.Size = new System.Drawing.Size(166, 27);
+            this.bResumeAsBlack.TabIndex = 15;
+            this.bResumeAsBlack.Text = "Resume game (Black first)";
+            this.bResumeAsBlack.UseVisualStyleBackColor = true;
+            this.bResumeAsBlack.Click += new System.EventHandler(this.bResumeAsBlack_Click);
             // 
             // InGameForm
             // 
@@ -509,5 +533,7 @@
         private System.Windows.Forms.Button bChangeRuleset;
         private System.Windows.Forms.GroupBox grpLifeDeath;
         private System.Windows.Forms.Button bDoneWithLifeDeathDetermination;
+        private System.Windows.Forms.Button bResumeAsBlack;
+        private System.Windows.Forms.Button bUndoLifeDeath;
     }
 }
