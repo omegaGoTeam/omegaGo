@@ -298,7 +298,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex) + 1, move);
+                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex), move);
             }
         }
 

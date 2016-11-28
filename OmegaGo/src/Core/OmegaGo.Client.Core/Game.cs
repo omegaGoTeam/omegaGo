@@ -116,21 +116,13 @@ namespace OmegaGo.Core
         /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 
         /// appropriate time.
         /// </summary>
-        /// <param name="moveIndex">1-based index of the move.</param>
+        /// <param name="moveIndex">0-based index of the move.</param>
         /// <param name="move">The move.</param>
         public void AcceptMoveFromInternet(int moveIndex, Move move)
         {
             Player player = GetPlayerByColor(move.WhoMoves);
             IAgent agent = player.Agent;
             agent.ForceHistoricMove(moveIndex, move);
-
-            /*
-            while (PrimaryTimeline.Count <= moveIndex - 1)
-            {
-                PrimaryTimeline.Add(Move.CreateUnknownMove());
-            }
-            PrimaryTimeline[moveIndex - 1] = move;
-            */
             OnBoardNeedsRefreshing();
         }
 

@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Agents
         protected Game Game { get; private set; }
         protected Player Player { get; private set; }
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
-
+        protected int AwaitingTurnNumber = -1;
         
 
         public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
@@ -25,9 +25,28 @@ namespace OmegaGo.Core.Agents
         {
             // Ok.
             if (this._storedMoves.ContainsKey(moveIndex))
+            {
                 this._storedMoves[moveIndex] = move;
+            }
             else
+            {
                 this._storedMoves.Add(moveIndex, move);
+            }
+            PossiblyAnswerAwaitingTurn();
+        }
+
+        protected void PossiblyAnswerAwaitingTurn()
+        {
+            if (AwaitingTurnNumber != -1)
+            {
+                if (_storedMoves.ContainsKey(AwaitingTurnNumber))
+                {
+                    Move storedMove = _storedMoves[AwaitingTurnNumber];
+                    AwaitingTurnNumber = -1;
+                    Game.GameController.MakeMove(Player, storedMove);
+                }
+            }
+
         }
 
         public virtual void Click(StoneColor color, Position selectedPosition)
@@ -49,15 +68,17 @@ namespace OmegaGo.Core.Agents
         public abstract void PleaseMakeAMove();
 
         /// <summary>
-        /// If this agent has a historical move stored for the current turn number, then this method will return that move; 
+        /// If this agent has a historical move stored for the current turn number, 
+        /// then this method will return that move; 
         /// if not, then it will return null.
         /// </summary>
-        /// <param name="game">The game that this agent is playing.</param>
-        protected AgentDecision GetStoredDecision(Game game)
+        /// <param name="zeroBasedTurnNumber">The zero-indexed turn number.</param>
+        protected Move GetStoredDecision(int zeroBasedTurnNumber)
         {
-            if (_storedMoves.ContainsKey(game.NumberOfMovesPlayed + 1))
+            if (zeroBasedTurnNumber == -1) return null;
+            if (_storedMoves.ContainsKey(zeroBasedTurnNumber + 1))
             {
-                return AgentDecision.MakeMove(this._storedMoves[game.NumberOfMovesPlayed + 1], "This information was stored.");
+                return _storedMoves[zeroBasedTurnNumber + 1];
             }
             return null;
         }

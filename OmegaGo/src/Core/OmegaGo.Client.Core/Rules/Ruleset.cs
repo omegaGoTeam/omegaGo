@@ -549,16 +549,15 @@ namespace OmegaGo.Core.Rules
                 {
                     if (regions[i, j] == Territory.Unknown && board[i, j] == StoneColor.None)
                     {
-                        List<Position> region = new List<Position>();
+                        HashSet<Position> region = new HashSet<Position>();
                         Territory regionBelongsTo = Territory.Unknown;
                         Position p = new Position();
                         p.X = i;
                         p.Y = j;
                         GetRegion(ref region, ref regionBelongsTo, p, board);
 
-                        for (int k = 0; k < region.Count; k++)
+                        foreach(Position regionMember in region)
                         {
-                            Position regionMember = region.ElementAt(k);
                             regions[regionMember.X, regionMember.Y] = regionBelongsTo;
                         }
 
@@ -596,8 +595,9 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)
+        protected void GetRegion(ref HashSet<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)
         {
+            if (region.Contains(pos)) return;
             region.Add(pos);
             if (pos.X < _boardWidth - 1 ) //has right neighbour
             {
