@@ -78,6 +78,7 @@ namespace OmegaGo.Core
 
         private void MainPhase_AskPlayerToMove(Player turnPlayer)
         {
+            if (GamePhase == GamePhase.Completed) return;
             _turnPlayer = turnPlayer;
             OnTurnPlayerChanged(_turnPlayer);
             OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
@@ -117,6 +118,7 @@ namespace OmegaGo.Core
         }
         public async void MakeMove(Player player, Move move)
         {
+            if (_gamePhase == GamePhase.Completed) return;
             if (_gamePhase != GamePhase.MainPhase)
                 throw new InvalidOperationException("Moves can only be made during main phase.");
             if (player != TurnPlayer)
@@ -290,6 +292,11 @@ namespace OmegaGo.Core
             _playersDoneWithLifeDeath.Clear();
             OnBoardMustBeRefreshed();
             MainPhase_AskPlayerToMove(_game.Black);
+        }
+
+        public void AbortGame()
+        {
+            _gamePhase = GamePhase.Completed;
         }
     }
     /// <summary>

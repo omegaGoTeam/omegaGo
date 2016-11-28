@@ -479,6 +479,7 @@
             this.Controls.Add(this.label1);
             this.Name = "InGameForm";
             this.Text = "InGameForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InGameForm_FormClosing);
             this.Load += new System.EventHandler(this.InGameForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupboxMoveMaker.ResumeLayout(false);

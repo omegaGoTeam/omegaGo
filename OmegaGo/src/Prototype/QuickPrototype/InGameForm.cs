@@ -422,5 +422,10 @@ namespace FormsPrototype
         {
             this._controller.LifeDeath_Resume();
         }
+
+        private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _controller.AbortGame();
+        }
     }
 }
