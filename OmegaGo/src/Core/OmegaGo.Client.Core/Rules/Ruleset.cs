@@ -369,7 +369,7 @@ namespace OmegaGo.Core.Rules
         protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
-			if (!_checkedInters[pos.X, pos.Y])
+            if (!_checkedInters[pos.X, pos.Y])
             {
                 group.Add(pos);
                 _checkedInters[pos.X, pos.Y] = true;
@@ -406,7 +406,14 @@ namespace OmegaGo.Core.Rules
                 newp.Y = pos.Y - 1;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-
+        }
+        public IEnumerable<Position> DiscoverGroup(Position pos, StoneColor[,] board)
+        {
+            _checkedInters = new bool[_boardWidth, _boardHeight];
+            List<Position> group = new List<Position>();
+            bool iDontCare = false;
+            GetGroup(ref group, ref iDontCare, pos, board);
+            return group;
         }
 
         /// <summary>
@@ -525,19 +532,9 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        /// <summary>
-        /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
-        /// This method adds up total territory of players. The scores include prisoners and dead stones. 
-        /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
-        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
-        protected Scores CountTerritory(StoneColor[,] currentBoard)
+        public Territory[,] DetermineTerritory(StoneColor[,] board)
         {
             Territory[,] regions = new Territory[_boardWidth, _boardHeight];
-            Scores scores = new Scores();
-            scores.WhiteScore = 0;
-            scores.BlackScore = 0;
-
             for (int i = 0; i < _boardWidth; i++)
             {
                 for (int j = 0; j < _boardHeight; j++)
@@ -550,24 +547,40 @@ namespace OmegaGo.Core.Rules
             {
                 for (int j = 0; j < _boardHeight; j++)
                 {
-                    if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== StoneColor.None)
+                    if (regions[i, j] == Territory.Unknown && board[i, j] == StoneColor.None)
                     {
                         List<Position> region = new List<Position>();
                         Territory regionBelongsTo = Territory.Unknown;
                         Position p = new Position();
                         p.X = i;
                         p.Y = j;
-                        GetRegion(ref region,ref regionBelongsTo,p,currentBoard);
+                        GetRegion(ref region, ref regionBelongsTo, p, board);
 
                         for (int k = 0; k < region.Count; k++)
                         {
                             Position regionMember = region.ElementAt(k);
-                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;    
+                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;
                         }
 
                     }
                 }
             }
+            return regions;
+        }
+
+        /// <summary>
+        /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
+        /// This method adds up total territory of players. The scores include prisoners and dead stones. 
+        /// </summary>
+        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
+        protected Scores CountTerritory(StoneColor[,] currentBoard)
+        {
+            Scores scores = new Scores();
+            scores.WhiteScore = 0;
+            scores.BlackScore = 0;
+
+            Territory[,] regions = DetermineTerritory(currentBoard);
 
             for (int i = 0; i < _boardWidth; i++)
             {

@@ -29,6 +29,8 @@ namespace OmegaGo.Core
         /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(GamePhase)"/> instead. 
         /// </summary>
         private GamePhase _gamePhase = GamePhase.NotYetBegun;
+
+        public GamePhase GamePhase => _gamePhase;
         private void SetGamePhase(GamePhase gamePhase)
         {
             this._gamePhase = gamePhase;
@@ -44,6 +46,7 @@ namespace OmegaGo.Core
         /// </summary>
         public bool EnforceRules { get; set; } = true;
         private List<Position> _deadPositions = new List<Position>();
+        public IEnumerable<Position> DeadPositions => _deadPositions;
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
@@ -245,135 +248,6 @@ namespace OmegaGo.Core
         /// <summary>
         /// This is the primary game loop.
         /// </summary>
-        private async void LoopDecisionRequest()
-        {
-            /*
-            // Begin
-            _turnPlayer = _game.Players[0];
-            _game.NumberOfMovesPlayed = 0;
-
-            // Main phase
-            _gamePhase = GamePhase.MainPhase;
-            while (_gamePhase == GamePhase.MainPhase)
-            {
-                OnTurnPlayerChanged(TurnPlayer);
-                OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
-                AgentDecision decision = await _turnPlayer.Agent.RequestMoveAsync(_game);
-                OnDebuggingMessage(_turnPlayer + " does: " + decision);
-
-                if (decision.Kind == AgentDecisionKind.Resign)
-                {
-                    _gamePhase = GamePhase.Completed;
-                    OnResignation(_turnPlayer);
-                    OnDebuggingMessage("Game is over by resignation.");
-                    break;
-                }
-                Debug.Assert(decision.Kind == AgentDecisionKind.Move);
-
-                MoveProcessingResult result =
-                    _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
-                        decision.Move,
-                        new List<StoneColor[,]>());
-
-                bool isTheMoveLegal = result.Result == MoveResult.Legal ||
-                                      result.Result == MoveResult.LifeDeathConfirmationPhase;
-                if (result.Result == MoveResult.LifeDeathConfirmationPhase)
-                {
-                    _gamePhase = GamePhase.LifeDeathDetermination;
-                    break;
-                }
-                if (!isTheMoveLegal && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
-                {
-                    OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
-                    isTheMoveLegal = true;
-
-                }
-                if (!isTheMoveLegal)
-                {
-                    if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
-                    {
-                        if (this.EnforceRules)
-                        {
-                            // Move is forbidden.
-                            OnDebuggingMessage("Move is illegal because: " + result.Result);
-                            if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
-                            {
-                                OnDebuggingMessage("Illegal move - retrying.");
-                                continue; // retry
-                            }
-                            else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
-                            {
-
-                                OnDebuggingMessage("Illegal move - making a random move instead.");
-                                StoneColor actorColor = (_turnPlayer == _game.Players[0]) ? StoneColor.Black : StoneColor.White;
-                                List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(actorColor,
-                                    FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
-                                                               new List<Position>();
-                                // TODO add history
-                                if (possibleMoves.Count == 0)
-                                {
-                                    OnDebuggingMessage("NO MORE MOVES!");
-                                    // TODO
-                                    break;
-                                }
-                                else
-                                {
-                                    Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
-                                    decision = AgentDecision.MakeMove(Move.PlaceStone(actorColor, randomTargetposition),
-                                        "A random move was made because the AI supplied an illegal move.");
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("This agent does not provide information on how to handle its illegal move.");
-                            }
-                        }
-                        else
-                        {
-                            // Ok, we're not enforcing rules.
-                        }
-                    }
-                    else
-                    {
-                        // Ok, server will handle this.
-                    }
-                }
-                if (decision.Move.Kind == MoveKind.PlaceStone)
-                {
-                    OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
-                    decision.Move.Captures.AddRange(result.Captures);
-
-                    _game.GameTree.AddMoveToEnd(decision.Move);
-
-                    if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-                    {
-                        await _game.Server.MakeMove(_game, decision.Move);
-                    }
-                }
-                else if (decision.Move.Kind == MoveKind.Pass)
-                {
-                    OnDebuggingMessage(_turnPlayer + " passed!");
-                }
-                else
-                {
-                    throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
-                }
-                // The move stands, let's make the other player move now.
-                _game.NumberOfMovesPlayed++;
-                _game.GameTree.GameTreeRoot.GetTimelineView.Last().BoardState
-                    = FastBoard.CreateBoardFromGame(_game);
-                OnBoardMustBeRefreshed();
-                _turnPlayer = _game.OpponentOf(_turnPlayer);
-            }
-            if (_gamePhase == GamePhase.LifeDeathDetermination)
-            {
-                OnEnterPhase(_gamePhase);
-
-            }
-        */
-        }
-
-
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 

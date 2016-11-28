@@ -36,12 +36,12 @@
   <ItemGroup>
     <Compile Include="Agents\AgentBase.cs" />
     <Compile Include="Agents\AIAgent.cs" />
-    <Compile Include="Agents\GameViewModelAgent.cs" />
+    <Compile Include="Agents\GuiAgent.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IllegalMoveHandling.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
-    <Compile Include="Agents\AgentDecision.cs" />
+    <Compile Include="AI\AgentDecision.cs" />
     <Compile Include="AI\AIPreMoveInformation.cs" />
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />

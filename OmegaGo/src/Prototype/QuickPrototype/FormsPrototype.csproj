@@ -79,7 +79,6 @@
     <Compile Include="InGameForm.Designer.cs">
       <DependentUpon>InGameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="InGameFormGuiAgent.cs" />
     <Compile Include="PrimaryForm.cs">
       <SubType>Form</SubType>
     </Compile>

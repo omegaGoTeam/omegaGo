@@ -25,9 +25,11 @@ namespace FormsPrototype
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
         private GoColor[,] _truePositions = new GoColor[19, 19];
+        private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
         private int _mouseY;
+        private bool _inLifeDeathDeterminationPhase = false;
 
         public InGameForm(Game game, IgsConnection igs)
         {
@@ -52,10 +54,11 @@ namespace FormsPrototype
 
         private void RefreshBoard()
         {
+            // Positions
             GoColor[,] positions = new GoColor[19, 19];
             foreach (Move move in this._game.PrimaryTimeline)
             {
-                if (move.WhoMoves != GoColor.None)
+                if (move.Kind == MoveKind.PlaceStone && move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
@@ -72,10 +75,21 @@ namespace FormsPrototype
                     {
                         positions[capture.X, capture.Y] = GoColor.None;
                     }
+                    this._lastMove = move.Coordinates;
                 }
-                this._lastMove = move.Coordinates;
             }
             this._truePositions = positions;
+
+            // Territories
+            if (this._game.GameTree.LastNode != null)
+            {
+                this._territories = new Territory[this._game.BoardSize.Width, this._game.BoardSize.Height];
+                StoneColor[,] boardAfterRemovalOfDeadStones =
+                    FastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
+                        this._controller.DeadPositions);
+                Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+                this._territories = territory;
+            }
             this.pictureBox1.Refresh();
         }
 
@@ -125,6 +139,7 @@ namespace FormsPrototype
             if (e == GamePhase.LifeDeathDetermination)
             {
                 this.grpLifeDeath.Visible = true;
+                this._inLifeDeathDeterminationPhase = true;
             }
             RefreshBoard();
         }
@@ -204,6 +219,24 @@ namespace FormsPrototype
                         e.Graphics.FillEllipse(brush, r);
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
+
+                    if (this._inLifeDeathDeterminationPhase)
+                    {
+                        switch(this._territories[x, y])
+                        {
+                            case Territory.Black:
+                                e.Graphics.DrawLine(Pens.Black, r.Left, r.Top, r.Right, r.Bottom);
+                                e.Graphics.DrawLine(Pens.Black, r.Right, r.Top, r.Left, r.Bottom);
+                                break;
+                            case Territory.White:
+                                e.Graphics.DrawLine(Pens.White, r.Left, r.Top, r.Right, r.Bottom);
+                                e.Graphics.DrawLine(Pens.White, r.Right, r.Top, r.Left, r.Bottom);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
                     if (x == this._lastMove.X && y == this._lastMove.Y)
                     {
                         Rectangle larger = r;
@@ -234,7 +267,7 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (this.PlayerToMove.Agent is InGameFormGuiAgent)
+            if (this.PlayerToMove.Agent is GuiAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -247,6 +280,7 @@ namespace FormsPrototype
 
         private void bPASS_Click(object sender, EventArgs e)
         {
+            this.groupboxMoveMaker.Visible = false;
             this.PlayerToMove.Agent.ForcePass(this.PlayerToMove.Color);
         }
 
@@ -274,6 +308,7 @@ namespace FormsPrototype
             }
             else
             {
+                this.groupboxMoveMaker.Visible = false;
                 this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
             }
         }
@@ -342,11 +377,16 @@ namespace FormsPrototype
         {
             foreach(var player in _game.Players)
             {
-                if (player.Agent is InGameFormGuiAgent)
+                if (player.Agent is GuiAgent)
                 {
                     _controller.DoneWithLifeDeathDetermination(player);
                 }
             }
+        }
+
+        public void GuiAgent_PleaseMakeAMove(object sender, Player e)
+        {
+            this.groupboxMoveMaker.Visible = true;
         }
     }
 }

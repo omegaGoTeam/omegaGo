@@ -31,13 +31,6 @@ namespace OmegaGo.Core.Agents
     public interface IAgent
     {
         /// <summary>
-        /// Called when the <see cref="GameController"/> asks this agent to make a move. The agent should asynchronously return the decision
-        /// it wants to take. The <see cref="Game"/> is guaranteed to remained unchanged while the move is being requested.  
-        /// </summary>
-        /// <param name="game">The game that this agent is playing.</param>
-        /// <returns></returns>
-        Task<AgentDecision> RequestMoveAsync(Game game);
-        /// <summary>
         /// Using this property (which might be constant for most agents), the agent informs the <see cref="GameController"/>
         /// how it should proceed if the agent supplies an illegal move. Ideally, agents should not give illegal moves, but especially
         /// weaker AI's sometimes will do so.

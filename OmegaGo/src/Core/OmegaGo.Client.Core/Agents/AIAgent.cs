@@ -24,24 +24,6 @@ namespace OmegaGo.Core.Agents
             this._aiProgram = aiProgram;
         }
 
-        public override async  Task<AgentDecision> RequestMoveAsync(Game game)
-        {
-            AgentDecision storedDecision = GetStoredDecision(game);
-            if (storedDecision != null) return storedDecision;
-
-            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(game);
-
-            var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
-                game.Players[0].Agent == this ? StoneColor.Black : StoneColor.White,
-                createdBoard,
-                game.BoardSize,
-                new TimeSpan(0, 0, 2),
-                Strength,
-                game.PrimaryTimeline.ToList()
-                )));
-            return await aiTask;
-        }
-
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
         public override async void PleaseMakeAMove()
         {

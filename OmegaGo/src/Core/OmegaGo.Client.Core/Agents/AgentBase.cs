@@ -17,8 +17,7 @@ namespace OmegaGo.Core.Agents
         protected Player Player { get; private set; }
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
 
-
-        public abstract Task<AgentDecision> RequestMoveAsync(Game game);
+        
 
         public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
 
