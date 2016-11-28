@@ -103,7 +103,7 @@ namespace OmegaGo.UI.ViewModels
             game.Players.Add(new Player("White Player", "??", game));
             foreach (var player in game.Players)
             {
-                player.Agent = new GameViewModelAgent();
+                player.Agent = new GuiAgent();
             }
 
             switch (SelectedBoardSizeItemIndex)

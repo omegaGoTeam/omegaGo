@@ -72,17 +72,14 @@ namespace OmegaGo.UI.ViewModels
                 _game.Players.Add(new Player("White Player", "??", _game));
                 foreach (var player in _game.Players)
                 {
-                    player.Agent = new Core.Agents.GameViewModelAgent();
+                    player.Agent = new Core.Agents.GuiAgent();
                 }
 
                 _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
             }
 
-            _gameController = new GameController(_game);
-            _gameController.BoardMustBeRefreshed += () =>
-            {
-                OnBoardRefreshRequested(_game.GameTree.LastNode);
-            };
+            _gameController = _game.GameController;
+            _gameController.BoardMustBeRefreshed += _gameController_BoardMustBeRefreshed;
 
             BoardState = new BoardState();
             BoardState.BoardHeight = _game.BoardSize.Height;
@@ -99,6 +96,12 @@ namespace OmegaGo.UI.ViewModels
 
             // TODO Could cause problems as this does not wait until the UI is loaded. 
             this.BeginGame();
+        }
+
+        private void _gameController_BoardMustBeRefreshed(object sender, EventArgs e)
+        {
+            if (this._game.GameTree.LastNode != null)
+            OnBoardRefreshRequested(this._game.GameTree.LastNode);
         }
 
         public void BeginGame()
