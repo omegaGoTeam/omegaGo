@@ -19,14 +19,10 @@ namespace OmegaGo.Core.Agents
     /// 
     /// <para>
     /// Making a move, in general, takes a lot of time. The <see cref="AIAgent"/> will usually take about one second to make a move, and
-    /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the <see cref="RequestMoveAsync"/>
-    /// should usually return immediately, and it will be awaited by the game controller. 
+    /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the way this works is that 
+    /// the <see cref="GameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
+    /// the agent calls <see cref="GameController.MakeMove(Player, Move)"/> back on the controller.  
     /// </para>    
-    /// 
-    /// <para>
-    /// Petr: For now, I'm using BufferBlock in GUI agents to transfer the moves from the user interface to the agent. This is not ideal, and
-    /// it would perhaps be better to use a simple condition variable. Someone (possibly me) should look into that.
-    /// </para>
     /// </summary>
     public interface IAgent
     {
@@ -51,6 +47,7 @@ namespace OmegaGo.Core.Agents
         /// <param name="color">The color of the placed stone.</param>
         /// <param name="selectedPosition">The position to place the stone on.</param>
         void Click(StoneColor color, Position selectedPosition);
+
         /// <summary>
         /// GUI interface will call this method on a GUI agent when the user requests that a player passes.
         /// </summary>

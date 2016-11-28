@@ -14,15 +14,15 @@ namespace OmegaGo.Core.AI.Random
         private System.Random rgen = new System.Random();
         public override string Name => "Random";
 
-        public override AgentDecision RequestMove(AIPreMoveInformation gameState)
+        public override AiDecision RequestMove(AIPreMoveInformation gameState)
         {
             List<Position> possibleIntersections = FastBoard.GetAllLegalMoves(gameState.Board);
             if (possibleIntersections.Count == 0)
             {
-                return AgentDecision.Resign("There are no more moves left to do.");
+                return AiDecision.Resign("There are no more moves left to do.");
             }
             Position chosen = possibleIntersections[rgen.Next(possibleIntersections.Count)];
-            return AgentDecision.MakeMove(Move.PlaceStone(gameState.AIColor, chosen), "I chose at random.");
+            return AiDecision.MakeMove(Move.PlaceStone(gameState.AIColor, chosen), "I chose at random.");
         }
     }
 }

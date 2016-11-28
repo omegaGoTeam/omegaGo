@@ -141,6 +141,4 @@ namespace OmegaGo.Core
         /// </summary>
         public string ToIgsCoordinates() => IntToIgsChar(X).ToString() + (Y + 1);
     }
-
-
 }

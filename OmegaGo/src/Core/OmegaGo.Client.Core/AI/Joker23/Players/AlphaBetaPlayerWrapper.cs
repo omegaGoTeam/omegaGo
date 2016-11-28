@@ -7,7 +7,7 @@ namespace OmegaGo.Core.AI.Joker23
         public override string Name { get; } = "Joker23 Alpha-Beta";
         private AlphaBetaPlayer _internalPlayer;
 
-        public override AgentDecision RequestMove(AIPreMoveInformation gameState)
+        public override AiDecision RequestMove(AIPreMoveInformation gameState)
         {
             this._internalPlayer = new AlphaBetaPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
 
@@ -27,7 +27,7 @@ namespace OmegaGo.Core.AI.Joker23
             JokerPoint point = this._internalPlayer.betterPlanMove(currentGame, gameState.Difficulty);
             
 
-            return AgentDecision.MakeMove(Move.PlaceStone(gameState.AIColor, new Position(point.x, point.y)),
+            return AiDecision.MakeMove(Move.PlaceStone(gameState.AIColor, new Position(point.x, point.y)),
                 "I chose using the minimax algorithm and heuristics.");
         }
     }

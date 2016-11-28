@@ -41,7 +41,7 @@
     <Compile Include="Agents\IllegalMoveHandling.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
-    <Compile Include="AI\AgentDecision.cs" />
+    <Compile Include="AI\AiDecision.cs" />
     <Compile Include="AI\AIPreMoveInformation.cs" />
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />
@@ -90,7 +90,6 @@
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
     <Compile Include="Sgf\SgfSequence.cs" />
     <Compile Include="StoneColor.cs" />
-    <Compile Include="Utilities\CoreDebug.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

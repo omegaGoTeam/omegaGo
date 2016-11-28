@@ -13,17 +13,25 @@ namespace OmegaGo.Core.Agents
     /// </summary>
     public abstract class AgentBase : IAgent
     {
+        /// <summary>
+        /// Gets the game that this agent's player is playing in.
+        /// </summary>
         protected Game Game { get; private set; }
+        /// <summary>
+        /// Gets the player that this agent makes moves for.
+        /// </summary>
         protected Player Player { get; private set; }
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
-        protected int AwaitingTurnNumber = -1;
+        /// <summary>
+        /// The online agent will set this to determine which move is about to be made. This base class will read this to actually make the move when 
+        /// we have it.
+        /// </summary>
+        protected int AwaitingTurnNumber { private get; set; } = -1;
         
-
         public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
 
         public void ForceHistoricMove(int moveIndex, Move move)
         {
-            // Ok.
             if (this._storedMoves.ContainsKey(moveIndex))
             {
                 this._storedMoves[moveIndex] = move;
@@ -35,6 +43,10 @@ namespace OmegaGo.Core.Agents
             PossiblyAnswerAwaitingTurn();
         }
 
+        /// <summary>
+        /// If the game controller is waiting for this agent to make a move, and this move is already available in the list of stored moves (received
+        /// from the server), then the move will be made.
+        /// </summary>
         protected void PossiblyAnswerAwaitingTurn()
         {
             if (AwaitingTurnNumber != -1)

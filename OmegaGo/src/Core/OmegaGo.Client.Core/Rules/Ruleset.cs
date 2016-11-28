@@ -407,6 +407,14 @@ namespace OmegaGo.Core.Rules
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
         }
+        
+        /// <summary>
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
+        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// </summary>
+        /// <param name="pos">The position whose group we want to identify.</param>
+        /// <param name="board">The current full board position.</param>
+        /// <returns></returns>
         public IEnumerable<Position> DiscoverGroup(Position pos, StoneColor[,] board)
         {
             _checkedInters = new bool[_boardWidth, _boardHeight];
@@ -532,6 +540,11 @@ namespace OmegaGo.Core.Rules
 
         }
 
+        /// <summary>
+        /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
+        /// All stones on the board are considered alive for the purposes of determining territory using this method.
+        /// </summary>
+        /// <param name="board">The current game board.</param>
         public Territory[,] DetermineTerritory(StoneColor[,] board)
         {
             Territory[,] regions = new Territory[_boardWidth, _boardHeight];
@@ -703,12 +716,26 @@ namespace OmegaGo.Core.Rules
 
     }
 
-    
+    /// <summary>
+    /// Determines which player controls a specific empty point or region.
+    /// </summary>
     public enum Territory
     {
+        /// <summary>
+        /// This point or region is controlled by the White player.
+        /// </summary>
         White,
+        /// <summary>
+        /// This point or region is controlled by the Black player.
+        /// </summary>
         Black,
+        /// <summary>
+        /// This point or region is bordered by both Black and White stones.
+        /// </summary>
         Neutral,
+        /// <summary>
+        /// The allegiance of this point or region has not yet been calculated.
+        /// </summary>
         Unknown
     }
 }

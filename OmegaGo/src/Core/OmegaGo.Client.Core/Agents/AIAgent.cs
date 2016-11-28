@@ -8,6 +8,10 @@ using OmegaGo.Core.AI.Common;
 
 namespace OmegaGo.Core.Agents
 {
+    /// <summary>
+    /// Represents the agent that makes move for AI programs.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
     public class AIAgent : AgentBase
     {
         /// <summary>
@@ -19,6 +23,10 @@ namespace OmegaGo.Core.Agents
         /// </summary>
         public int Strength = 5;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AIAgent"/> class, with the specified AI program making the decisions.
+        /// </summary>
+        /// <param name="aiProgram">The AI program that makes decisions.</param>
         public AIAgent(IAIProgram aiProgram)
         {
             this._aiProgram = aiProgram;
@@ -26,12 +34,7 @@ namespace OmegaGo.Core.Agents
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
         public override async void PleaseMakeAMove()
-        {
-            // TODO stored decisions
-            /*   AgentDecision storedDecision = GetStoredDecision(game);
-            if (storedDecision != null) return storedDecision;
-             * 
-             */
+        { 
             StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(Game);
             var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
               Player.Color,
@@ -41,7 +44,7 @@ namespace OmegaGo.Core.Agents
               Strength,
               Game.PrimaryTimeline.ToList()
               )));
-            AgentDecision decision = await aiTask;
+            AiDecision decision = await aiTask;
             switch (decision.Kind)
             {
                 case AgentDecisionKind.Move:

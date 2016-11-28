@@ -10,7 +10,7 @@ namespace OmegaGo.Core.AI
     {
         public virtual AICapabilities Capabilities { get; } = new AICapabilities(false);
         public abstract string Name { get; }
-        public abstract AgentDecision RequestMove(AIPreMoveInformation gameState);
+        public abstract AiDecision RequestMove(AIPreMoveInformation gameState);
 
         public override string ToString()
         {

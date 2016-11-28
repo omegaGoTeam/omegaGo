@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core.AI
 {
     /// <summary>
-    /// Represents a decision made by an agent (such as the player, the online opponent or an AI program) in response to a move request.
+    /// Represents a decision made by an AI agent in response to a move request.
     /// </summary>
-    public class AgentDecision
+    public class AiDecision
     {
         /// <summary>
         /// Gets the form of decision that the agent took. The most common decisions are making a move or resigning.
@@ -25,25 +25,25 @@ namespace OmegaGo.Core.AI
         public string Explanation { get; private set; }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="AgentDecision"/> class from being created. Use <see cref="MakeMove(Core.Move,string)"/>
+        /// Prevents a default instance of the <see cref="AiDecision"/> class from being created. Use <see cref="MakeMove(Core.Move,string)"/>
         /// or <see cref="Resign(string)"/> instead.  
         /// </summary>
-        private AgentDecision()
+        private AiDecision()
         {
 
         }
-        public static AgentDecision MakeMove(Move move, string why)
+        public static AiDecision MakeMove(Move move, string why)
         {
-            return new AgentDecision()
+            return new AiDecision()
             {
                 Kind = AgentDecisionKind.Move,
                 Move = move,
                 Explanation = why
             };
         }
-        public static AgentDecision Resign(string why)
+        public static AiDecision Resign(string why)
         {
-            return new AgentDecision()
+            return new AiDecision()
             {
                 Kind = AgentDecisionKind.Resign,
                 Explanation = why

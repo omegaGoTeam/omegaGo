@@ -14,9 +14,7 @@ namespace OmegaGo.Core
     /// However, a game in Analyze Mode doesn't really need a Game instance, since it's basically just the player operating over a game tree.
     /// On the other hand, information about the game (such as the ruleset) are required in Analyze Mode.... and... well, are stored with SGF files.
     /// 
-    /// TODO SGF files might possibly load into Games rather than GameTrees?
-    /// 
-    /// TODO It is yet to be decided whether a tsumego problem will also qualify as a Game instance. 
+    /// TODO It is yet to be decided whether a tsumego problem and other things will also qualify as a Game instance. 
     /// </summary>
     public class Game
     {
@@ -87,6 +85,10 @@ namespace OmegaGo.Core
         public int NumberOfObservers;
         public GameController GameController { get; private set;}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Game"/> class. A <see cref="OmegaGo.Core.GameController" /> is also created for this game and 
+        /// initialized.
+        /// </summary>
         public Game()
         {
             Players = new List<Player>();
@@ -96,7 +98,7 @@ namespace OmegaGo.Core
 
         /// <summary>
         /// Gets the moves made during this game, starting with the first, ending with the last move made. If this game's game tree
-        /// is branching, then an exception triggers.
+        /// is branching, then an exception triggers. If there is no move made yet, nothign is returned. "PASS" moves are also returned.
         /// </summary>
         public IEnumerable<Move> PrimaryTimeline
         {
@@ -111,7 +113,6 @@ namespace OmegaGo.Core
             }
         }
 
-
         /// <summary>
         /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 
         /// appropriate time.
@@ -123,9 +124,8 @@ namespace OmegaGo.Core
             Player player = GetPlayerByColor(move.WhoMoves);
             IAgent agent = player.Agent;
             agent.ForceHistoricMove(moveIndex, move);
-            OnBoardNeedsRefreshing();
         }
-
+        
         private Player GetPlayerByColor(StoneColor color)
         {
             switch (color)
@@ -135,13 +135,7 @@ namespace OmegaGo.Core
                 default: throw new ArgumentException("Only Black and White may play.", nameof(color));
             }
         }
-
-        public event Action BoardNeedsRefreshing;
-        private void OnBoardNeedsRefreshing()
-        {
-            BoardNeedsRefreshing?.Invoke();
-        }
-
+        
         /// <summary>
         /// Tells the online connection to give us information about the current game state and to push new moves as they happen.
         /// </summary>

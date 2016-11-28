@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.Agents;
@@ -38,7 +37,6 @@ namespace FormsPrototype
             this._game = game;
             this._igs = igs;
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
-            game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
         }
 
@@ -374,7 +372,7 @@ namespace FormsPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper hpw = new OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper();
-            AgentDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
+            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
                 FastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),
                 5, this._game.PrimaryTimeline.ToList()));

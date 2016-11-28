@@ -7,6 +7,10 @@ using OmegaGo.Core.AI;
 
 namespace OmegaGo.Core.Agents
 {
+    /// <summary>
+    /// Represents the agent of a player whose moves are sent to this device via an internet server, either in observation or play mode.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
     public class OnlineAgent : AgentBase
     {
         public override void Click(StoneColor color, Position selectedPosition)
