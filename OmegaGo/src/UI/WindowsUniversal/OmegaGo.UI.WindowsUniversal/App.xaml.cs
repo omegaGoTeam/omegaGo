@@ -37,6 +37,11 @@ namespace OmegaGo.UI.WindowsUniversal
         private Frame _rootFrame = null;
 
         /// <summary>
+        /// Contains the app shells for opened windows
+        /// </summary>
+        private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
+
+        /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
@@ -47,7 +52,34 @@ namespace OmegaGo.UI.WindowsUniversal
             InitLanguage();
         }
 
-        public AppShell Shell { get; private set; }
+        /// <summary>
+        /// Gets the App Shell for a given Window
+        /// </summary>
+        /// <param name="window">Window</param>
+        /// <returns>AppShell or null if not yet set</returns>
+        public static AppShell GetAppShell(Window window)
+        {
+            AppShell shell = null;
+            if (AppShells.TryGetValue(window, out shell))
+            {
+                return shell;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Sets the App Shell for a given Window
+        /// </summary>
+        /// <param name="window">Window</param>
+        /// <param name="shell">App shell</param>
+        public static void SetAppShell(Window window, AppShell shell)
+        {
+            if (window.Content != null) throw new ArgumentException("App shell must be set on a window with empty content", nameof(window));
+            //set window content
+            window.Content = shell;
+            //register shell
+            AppShells.Add(window, shell);
+        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -92,15 +124,16 @@ namespace OmegaGo.UI.WindowsUniversal
                 if (_rootFrame.Content == null)
                 {
                     //create app shell to hold call content
-                    Shell = new AppShell();
+                    var shell = new AppShell();
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                     //temporarily place splash into the root frame
-                    Shell.AppFrame.Content = extendedSplash;
+                    shell.AppFrame.Content = extendedSplash;
                     //set shell as Window content                    
-                    Window.Current.Content = Shell;
+                    App.SetAppShell(Window.Current, shell);
+                    //setup the title bar
+                    SetupTitleBar();
                 }
                 // Ensure the current window is active
-                SetupTitleBar();
                 Window.Current.Activate();
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
@@ -115,8 +148,6 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             FullscreenModeManager.RegisterForWindow(window);
         }
-
-
 
         /// <summary>
         /// Setup language        
@@ -149,14 +180,19 @@ namespace OmegaGo.UI.WindowsUniversal
             titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
             titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;
             titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 215, 215, 215);
-            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(255, 180, 180, 180);
+            titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
+            titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
             titleBar.ButtonHoverForegroundColor = Colors.Black;
             titleBar.ButtonPressedForegroundColor = Colors.Black;
             titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
             titleBar.ForegroundColor = Colors.Black;
             titleBar.InactiveForegroundColor = Colors.DimGray;
             titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
+
+            //setup the custom title bar in app shell
+            var appShell = GetAppShell( Window.Current );
+            appShell.SetupCustomTitleBar();
+            
             SetupStatusBar();
         }
 
@@ -176,8 +212,9 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitializeMvvmCrossAsync()
         {
-            if (Shell == null) throw new NullReferenceException("Shell is not initialized");
-            var setup = new Setup(Shell.AppFrame);
+            var shell = GetAppShell(Window.Current);
+            if (shell == null) throw new NullReferenceException("Shell is not initialized");
+            var setup = new Setup(shell.AppFrame);
             setup.Initialize();
 
             var start = Mvx.Resolve<IAsyncAppStart>();
