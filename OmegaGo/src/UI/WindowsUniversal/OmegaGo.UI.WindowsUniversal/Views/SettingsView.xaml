@@ -30,7 +30,7 @@
         </Pivot.TitleTemplate>
         <PivotItem Header="{x:Bind Localizer.UserInterface}">
                 <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
+                    <CheckBox Name="FullscreenMode" Content="FullscreenModeManager Mode" 
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
                     <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />

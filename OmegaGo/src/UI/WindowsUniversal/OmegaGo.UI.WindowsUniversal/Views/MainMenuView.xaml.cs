@@ -19,7 +19,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void GoFullScreen_Click( object sender, Windows.UI.Xaml.RoutedEventArgs e )
         {
-            Fullscreen.Toggle();
+            FullscreenModeManager.Toggle();
         }
     }
 }

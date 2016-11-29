@@ -7,7 +7,7 @@ using Windows.UI.ViewManagement;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
-    static class Fullscreen
+    static class FullscreenModeManager
     {
         public static void Toggle()
         {

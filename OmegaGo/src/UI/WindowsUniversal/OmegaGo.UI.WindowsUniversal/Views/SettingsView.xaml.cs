@@ -29,7 +29,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void Fullscreen_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Fullscreen.Toggle();
+            FullscreenModeManager.Toggle();
         }
 
         private void SettingsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -39,7 +39,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void FullscreenMode_Unchecked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Fullscreen.Toggle();
+            FullscreenModeManager.Toggle();
         }
     }
 }
