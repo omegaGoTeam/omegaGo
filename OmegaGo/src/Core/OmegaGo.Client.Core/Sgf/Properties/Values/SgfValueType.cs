@@ -8,10 +8,16 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 {
     internal enum SgfValueType
     {
+        None,
+        Number,
+        Real,
         Double,
-        Point,
-        Text,
+        Color,
         SimpleText,
+        Text,
+        Point,
+        Move,
+        Stone,
         Unknown
     }
 }
