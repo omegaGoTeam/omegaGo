@@ -80,11 +80,12 @@
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfCompose.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPointRectangle.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPoint.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfPointValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfValue.cs" />
     <Compile Include="Sgf\SgfCollection.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
@@ -178,7 +179,9 @@
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sgf\Serializing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
