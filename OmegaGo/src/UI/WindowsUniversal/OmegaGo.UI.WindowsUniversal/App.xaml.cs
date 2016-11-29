@@ -47,6 +47,8 @@ namespace OmegaGo.UI.WindowsUniversal
             InitLanguage();
         }
 
+        public AppShell Shell { get; private set; }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -89,9 +91,13 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 if (_rootFrame.Content == null)
                 {
+                    //create app shell to hold call content
+                    Shell = new AppShell();
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
-                    _rootFrame.Content = extendedSplash;
-                    Window.Current.Content = _rootFrame;
+                    //temporarily place splash into the root frame
+                    Shell.AppFrame.Content = extendedSplash;
+                    //set shell as Window content                    
+                    Window.Current.Content = Shell;
                 }
                 // Ensure the current window is active
                 SetupTitleBar();
@@ -170,8 +176,8 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitializeMvvmCrossAsync()
         {
-            if (_rootFrame == null) throw new NullReferenceException("Root frame is not initialized");
-            var setup = new Setup(_rootFrame);
+            if (Shell == null) throw new NullReferenceException("Shell is not initialized");
+            var setup = new Setup(Shell.AppFrame);
             setup.Initialize();
 
             var start = Mvx.Resolve<IAsyncAppStart>();

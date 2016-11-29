@@ -21,6 +21,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Main frame that hosts app views
         /// </summary>
-        public Frame MainFrame => Frame;
+        public Frame AppFrame => Frame;
     }
 }
