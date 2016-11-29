@@ -95,7 +95,7 @@
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\MvxColorExtensions.cs" />
-    <Compile Include="FullscreenModeManager.cs" />
+    <Compile Include="Infrastructure\FullscreenModeManager.cs" />
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
