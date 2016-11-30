@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
+    // TODO It would be nice to have a way how to choose selected-highlighted tile
     public sealed class BoardViewModel : MvxViewModel
     {
         private BoardState _boardState;

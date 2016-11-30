@@ -27,7 +27,7 @@
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
             </TextBlock>
             <StackPanel HorizontalAlignment="Center" 
-                    VerticalAlignment="Center">
+                        VerticalAlignment="Center">
 
                 <StackPanel.Resources>
                     <Style TargetType="Button">

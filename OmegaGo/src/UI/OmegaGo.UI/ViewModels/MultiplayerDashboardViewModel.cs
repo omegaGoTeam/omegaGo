@@ -1,6 +1,8 @@
 ﻿using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using OmegaGo.Core;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,57 +14,15 @@ namespace OmegaGo.UI.ViewModels
 {
     public class MultiplayerDashboardViewModel : ViewModelBase
     {
-        private IgsConnection _igsConnection;
+        private MvxCommand _navigateToIGSLobbyCommand;
+        private MvxCommand _navigateToOGSLobbyCommand;
 
-        private ObservableCollection<Game> _onlineGames;
-        private ObservableCollection<IgsUser> _onlinePlayers;
-
-        private MvxCommand _refreshOnlineGamesCommand;
-        private MvxCommand _refreshOnlinePlayersCommand;
-
-        public ObservableCollection<Game> OnlineGames => _onlineGames;
-        public ObservableCollection<IgsUser> OnlinePlayers => _onlinePlayers;
-
-        public MvxCommand RefreshOnlineGamesCommand => _refreshOnlineGamesCommand ?? (_refreshOnlineGamesCommand = new MvxCommand(() => RefreshOnlineGames()));
-        public MvxCommand RefreshOnlinePlayersCommand => _refreshOnlinePlayersCommand ?? (_refreshOnlinePlayersCommand = new MvxCommand(() => RefreshOnlinePlayers()));
-
-
+        public MvxCommand NavigateToIGSLobbyCommand => _navigateToIGSLobbyCommand ?? (_navigateToIGSLobbyCommand = new MvxCommand(() => ShowViewModel<IGSLobbyViewModel>()));
+        public MvxCommand NavigateToOGSLobbyCommand => _navigateToOGSLobbyCommand ?? (_navigateToOGSLobbyCommand = new MvxCommand(() => ShowViewModel<OGSLobbyView>()));
+        
         public MultiplayerDashboardViewModel()
         {
-            _igsConnection = new IgsConnection();
-
-            _onlineGames = new ObservableCollection<Game>();
-            _onlinePlayers = new ObservableCollection<IgsUser>();
-
-            _igsConnection.Connect();
-        }
-
-        private async void RefreshOnlineGames()
-        {
-            OnlineGames.Clear();
-            var gamesInProgress = await _igsConnection.ListGamesInProgress();
-
-            foreach (var onlineGame in gamesInProgress)
-            {
-                OnlineGames.Add(onlineGame);
-            }
-        }
-
-        private async void RefreshOnlinePlayers()
-        {
-            OnlinePlayers.Clear();
-            var onlinePlayers = await _igsConnection.ListOnlinePlayers();
-
-            foreach (var onlinePlayer in onlinePlayers)
-            {
-                OnlinePlayers.Add(onlinePlayer);
-            }
-        }
-
-        protected override void GoBack()
-        {
-            _igsConnection.Disconnect();
-            base.GoBack();
+            
         }
     }
 }
