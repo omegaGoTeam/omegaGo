@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:viewModel="using:OmegaGo.UI.ViewModels"
+    d:DataContext="{d:DesignInstance viewModel:MultiplayerDashboardViewModel, IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -16,9 +18,60 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
         <TextBlock Text="Multiplayer" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
+                   Grid.Row="0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
+
+        <Pivot Grid.Row="1">
+            <PivotItem Header="Online Games">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ListView ItemsSource="{Binding Path=OnlineGames}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding }" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Button Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding Path=RefreshOnlineGamesCommand}"
+                            Content="Refresh"
+                            Margin="5"/>
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="Online Players">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ListView ItemsSource="{Binding Path=OnlinePlayers}">
+                        
+                    </ListView>
+
+                    <Button Grid.Row="1"
+                            HorizontalAlignment="Stretch"
+                            Command="{Binding Path=RefreshOnlinePlayersCommand}"
+                            Content="Refresh"
+                            Margin="5"/>
+                </Grid>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </views:ViewBase>
