@@ -29,7 +29,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// <summary>
         /// Gets the app shell for the current window
         /// </summary>
-        public AppShell AppShell => _appShell ?? (_appShell = App.GetAppShell(Window.Current));
+        public AppShell AppShell => _appShell ?? (_appShell = AppShell.GetForCurrentView());
 
 
         private Localizer _localizer = null;

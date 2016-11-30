@@ -36,10 +36,7 @@ namespace OmegaGo.UI.WindowsUniversal
     {
         private Frame _rootFrame = null;
 
-        /// <summary>
-        /// Contains the app shells for opened windows
-        /// </summary>
-        private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
+
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -50,35 +47,6 @@ namespace OmegaGo.UI.WindowsUniversal
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             InitLanguage();
-        }
-
-        /// <summary>
-        /// Gets the App Shell for a given Window
-        /// </summary>
-        /// <param name="window">Window</param>
-        /// <returns>AppShell or null if not yet set</returns>
-        public static AppShell GetAppShell(Window window)
-        {
-            AppShell shell = null;
-            if (AppShells.TryGetValue(window, out shell))
-            {
-                return shell;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Sets the App Shell for a given Window
-        /// </summary>
-        /// <param name="window">Window</param>
-        /// <param name="shell">App shell</param>
-        public static void SetAppShell(Window window, AppShell shell)
-        {
-            if (window.Content != null) throw new ArgumentException("App shell must be set on a window with empty content", nameof(window));
-            //set window content
-            window.Content = shell;
-            //register shell
-            AppShells.Add(window, shell);
         }
 
         /// <summary>
@@ -123,13 +91,12 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 if (_rootFrame.Content == null)
                 {
-                    //create app shell to hold call content
-                    var shell = new AppShell();
+                    //create app shell to hold app content
+                    var shell = AppShell.CreateForWindow( Window.Current );
+                    //create extended splash screen
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                     //temporarily place splash into the root frame
                     shell.AppFrame.Content = extendedSplash;
-                    //set shell as Window content                    
-                    App.SetAppShell(Window.Current, shell);
                     //setup the title bar
                     SetupTitleBar();
                 }
@@ -190,8 +157,7 @@ namespace OmegaGo.UI.WindowsUniversal
             titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
 
             //setup the custom title bar in app shell
-            var appShell = GetAppShell( Window.Current );
-            appShell.SetupCustomTitleBar();
+            AppShell.GetForCurrentView().SetupCustomTitleBar();
             
             SetupStatusBar();
         }
@@ -212,7 +178,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitializeMvvmCrossAsync()
         {
-            var shell = GetAppShell(Window.Current);
+            var shell = AppShell.GetForCurrentView();
             if (shell == null) throw new NullReferenceException("Shell is not initialized");
             var setup = new Setup(shell.AppFrame);
             setup.Initialize();

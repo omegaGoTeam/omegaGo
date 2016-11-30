@@ -1,4 +1,6 @@
-﻿using Windows.ApplicationModel.Core;
+﻿using System;
+using System.Collections.Generic;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,9 +14,38 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// </summary>
     public sealed partial class AppShell : Page
     {
-        public AppShell()
+        /// <summary>
+        /// Contains the app shells for opened windows
+        /// </summary>
+        private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
+
+        private AppShell(Window window)
         {
+            if (window.Content != null) throw new ArgumentException("App shell can be registered only for Window with empty content", nameof(window));
             this.InitializeComponent();
+            window.Content = this;
+            AppShells.Add(window, this);
+        }
+
+        /// <summary>
+        /// Creates and registers a App Shell for a given Window
+        /// </summary>
+        /// <param name="window">Window</param>
+        /// <returns>App shell</returns>
+        public static AppShell CreateForWindow(Window window) => new AppShell(window);
+
+        /// <summary>
+        /// Returns the App Shell asociated with the current dispatcher
+        /// </summary>
+        /// <returns></returns>
+        public static AppShell GetForCurrentView()
+        {
+            AppShell shell = null;
+            if (AppShells.TryGetValue(Window.Current, out shell))
+            {
+                return shell;
+            }
+            return null;
         }
 
         /// <summary>
@@ -102,7 +133,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             AppTitleBar.Visibility = CoreApplication.GetCurrentView().TitleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
         }
-        
+
         /// <summary>
         /// Handles the click on the title bar back button
         /// Causes back navigation request
