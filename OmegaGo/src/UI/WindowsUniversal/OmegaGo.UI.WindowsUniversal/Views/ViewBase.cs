@@ -37,7 +37,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             else
             {
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            }
+            }    
 
             base.OnNavigatedTo(e);
         }
