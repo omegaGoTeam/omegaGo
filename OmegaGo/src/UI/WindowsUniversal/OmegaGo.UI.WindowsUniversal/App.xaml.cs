@@ -36,6 +36,8 @@ namespace OmegaGo.UI.WindowsUniversal
     {
         private Frame _rootFrame = null;
 
+
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -89,12 +91,16 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 if (_rootFrame.Content == null)
                 {
+                    //create app shell to hold app content
+                    var shell = AppShell.CreateForWindow( Window.Current );
+                    //create extended splash screen
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
-                    _rootFrame.Content = extendedSplash;
-                    Window.Current.Content = _rootFrame;
+                    //temporarily place splash into the root frame
+                    shell.AppFrame.Content = extendedSplash;
+                    //setup the title bar
+                    SetupTitleBar();
                 }
                 // Ensure the current window is active
-                SetupTitleBar();
                 Window.Current.Activate();
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
@@ -109,8 +115,6 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             FullscreenModeManager.RegisterForWindow(window);
         }
-
-
 
         /// <summary>
         /// Setup language        
@@ -143,14 +147,18 @@ namespace OmegaGo.UI.WindowsUniversal
             titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
             titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;
             titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 215, 215, 215);
-            titleBar.ButtonPressedBackgroundColor = Color.FromArgb(255, 180, 180, 180);
+            titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
+            titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
             titleBar.ButtonHoverForegroundColor = Colors.Black;
             titleBar.ButtonPressedForegroundColor = Colors.Black;
             titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
             titleBar.ForegroundColor = Colors.Black;
             titleBar.InactiveForegroundColor = Colors.DimGray;
             titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
+
+            //setup the custom title bar in app shell
+            AppShell.GetForCurrentView().SetupCustomTitleBar();
+            
             SetupStatusBar();
         }
 
@@ -170,8 +178,9 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async Task InitializeMvvmCrossAsync()
         {
-            if (_rootFrame == null) throw new NullReferenceException("Root frame is not initialized");
-            var setup = new Setup(_rootFrame);
+            var shell = AppShell.GetForCurrentView();
+            if (shell == null) throw new NullReferenceException("Shell is not initialized");
+            var setup = new Setup(shell.AppFrame);
             setup.Initialize();
 
             var start = Mvx.Resolve<IAsyncAppStart>();

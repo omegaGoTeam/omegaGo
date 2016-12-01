@@ -95,6 +95,9 @@
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\MvxColorExtensions.cs" />
+    <Compile Include="Infrastructure\AppShell.xaml.cs">
+      <DependentUpon>AppShell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Infrastructure\FullscreenModeManager.cs" />
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
@@ -197,6 +200,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Infrastructure\AppShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Infrastructure\ExtendedSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,6 +214,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\TitleBarStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
