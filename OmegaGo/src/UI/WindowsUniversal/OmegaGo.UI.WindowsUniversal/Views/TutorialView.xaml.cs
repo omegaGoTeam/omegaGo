@@ -86,5 +86,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.Option2Text.Text = e.Item2;
             this.MakeYourChoiceDialog.Visibility = Visibility.Visible;
         }
+
+        private void BoardControl_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            VM.TapBoardControl();
+        }
     }
 }

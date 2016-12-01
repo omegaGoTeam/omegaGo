@@ -84,13 +84,19 @@
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TutorialViewModel.cs" />
     <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
+    <Compile Include="ViewModels\Tutorial\ButtonNextTextCommand.cs" />
     <Compile Include="ViewModels\Tutorial\DummyCommand.cs" />
     <Compile Include="ViewModels\Tutorial\EndScenarioCommand.cs" />
     <Compile Include="ViewModels\Tutorial\LoopControl.cs" />
     <Compile Include="ViewModels\Tutorial\MenuCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\NextCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\PlaceCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\RequireCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\SayCommand.cs" />
     <Compile Include="ViewModels\Tutorial\Scenario.cs" />
     <Compile Include="ViewModels\Tutorial\ScenarioCommand.cs" />
     <Compile Include="ViewModels\Tutorial\ScenarioLoader.cs" />
+    <Compile Include="ViewModels\Tutorial\ShineCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

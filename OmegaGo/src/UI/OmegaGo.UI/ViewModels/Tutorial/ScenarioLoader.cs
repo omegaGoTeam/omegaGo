@@ -12,7 +12,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         public static List<ScenarioCommand> LoadFromText(string data, Scenario scenario)
         {
             List<ScenarioCommand> commands = new List<ScenarioCommand>();
-            // TODO HACK the parsing system is a little.... fragiles
+            // TODO HACK the menu parsing system is a little.... fragiles
             string[] lines = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -55,8 +55,6 @@ namespace OmegaGo.UI.ViewModels.Tutorial
              * expect_failure
              * suicidal_move_message
              * button [button_text]
-             * 
-             * 
              */ 
             switch (parsedLine.Command)
             {
@@ -97,7 +95,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                     yield return new PlaceCommand(StoneColor.None, parsedLine.Arguments);
                     break;
                 case "flash":
-                    yield return new DummyCommand();
+                    yield return new FlashCommand();
                     break;
                 case "#":
                     // Comment
@@ -132,104 +130,11 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         }
     }
 
-    internal class PlaceCommand : ScenarioCommand
+    internal class FlashCommand : ScenarioCommand
     {
-        private readonly StoneColor _stoneColor;
-        private Position[] _positions;
-        public PlaceCommand(StoneColor stoneColor, params string[] positions)
-        {
-            this._stoneColor = stoneColor;
-            this._positions = positions.Select(Position.FromIgsCoordinates).ToArray();
-        }
-
         public override LoopControl Execute(Scenario scenario)
         {
-            foreach(Position position in _positions)
-            {
-                scenario.PlaceStone(_stoneColor, position);
-            }
-            return LoopControl.Continue;
-        }
-    }
-
-    internal class RequireCommand : ScenarioCommand
-    {
-        private readonly Position _position;
-        public override bool AllowsBoardClick => true;
-        public override void BoardClick(Position position, Scenario scenario)
-        {
-            if (position == _position)
-            {
-                scenario.ExecuteCommand();
-            }
-            else
-            {
-                // Show error to user.
-            }
-        }
-        public RequireCommand(string position)
-        {
-            this._position = Position.FromIgsCoordinates(position);
-        }
-
-        public override LoopControl Execute(Scenario scenario)
-        {
-            return LoopControl.Stop;
-        }
-    }
-
-    internal class ShineCommand : ScenarioCommand
-    {
-        public ShineCommand(string position)
-        {
-            
-        }
-
-        public override LoopControl Execute(Scenario scenario)
-        {
-            return LoopControl.Continue;
-        }
-    }
-
-    internal class ButtonNextTextCommand : ScenarioCommand
-    {
-        private readonly string _newText;
-
-        public ButtonNextTextCommand(string newText)
-        {
-            this._newText = newText;
-        }
-        public override LoopControl Execute(Scenario scenario)
-        {
-            scenario.OnNextButtonTextChanged(_newText);
-            return LoopControl.Continue;
-        }
-    }
-
-    internal class NextCommand : ScenarioCommand
-    {
-        public override bool AllowsButtonClick => true;
-        public override void ButtonClick(Scenario scenario)
-        {
-            scenario.ExecuteCommand();
-        }
-        public override LoopControl Execute(Scenario scenario)
-        {
-            scenario.OnNextButtonShown();
-            return LoopControl.Stop;
-        }
-    }
-
-    internal class SayCommand : ScenarioCommand
-    {
-        private string sayWhat;
-        public SayCommand(string fullArgument)
-        {
-            this.sayWhat = fullArgument;
-        }
-        public override LoopControl Execute(Scenario scenario)
-        {
-            scenario.OnSenseiMessageChanged(sayWhat);
+            scenario.ClearBoard();
             return LoopControl.Continue;
         }
     }

@@ -94,8 +94,8 @@ s A group that cannot be captured always looks a little like this. It has two â€
 next
 flash
 s This group, so far, has only one eye, even though it has three liberties. Place a stone at the correct location to give the group two eyes.
-white D1 D2 E2 F2 G2 H2 H1 J1
-black C1 C2 D3 E3 F3 G3 H3 J3 J2
+black D1 D2 E2 F2 G2 H2 H1 J1
+white C1 C2 D3 E3 F3 G3 H3 J3 J2
 expect F1
 s Well done. Your objective in a game of Go is basically to form as many and as large living groups as you can.
 next

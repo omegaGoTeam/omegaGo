@@ -34,6 +34,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
+                                Tapped="BoardControl_Tapped"
                                 VerticalAlignment="Stretch"/>
 
 

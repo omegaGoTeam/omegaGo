@@ -36,8 +36,13 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         {
             SetChoices?.Invoke(this, new Tuple<string, string>(one, two));
         }
-        
-   
+
+        internal void ClearBoard()
+        {
+            _currentGameTreeNode = new GameTreeNode(Move.Pass(StoneColor.Black));
+            _currentGameTreeNode.BoardState = new StoneColor[9, 9];
+            GameTreeNodeChanged?.Invoke(this, _currentGameTreeNode);
+        }
         internal void PlaceStone(StoneColor stoneColor, Position position)
         {
             var newNode =  new GameTreeNode(Move.PlaceStone(stoneColor, position));
@@ -88,19 +93,21 @@ namespace OmegaGo.UI.ViewModels.Tutorial
             }
         }
 
-        public void OnSenseiMessageChanged(string sayWhat)
+        internal void OnSenseiMessageChanged(string sayWhat)
         {
             this.SenseiMessageChanged?.Invoke(this, sayWhat);
         }
 
-        public void OnNextButtonShown()
+        internal void OnNextButtonShown()
         {
             this.NextButtonShown?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnNextButtonTextChanged(string newText)
+        internal void OnNextButtonTextChanged(string newText)
         {
             this.NextButtonTextChanged?.Invoke(this, newText);
         }
+
+      
     }
 }

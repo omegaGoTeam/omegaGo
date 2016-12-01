@@ -39,10 +39,12 @@ namespace OmegaGo.UI.ViewModels
 
         private void BoardState_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(BoardState.SelectedPosition))
-            {
-                Scenario.ClickPosition(BoardState.SelectedPosition);
-            }
+
+        }
+
+        public void TapBoardControl()
+        {
+            Scenario.ClickPosition(BoardState.SelectedPosition);
         }
     }
 }
