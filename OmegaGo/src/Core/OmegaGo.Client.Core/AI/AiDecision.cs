@@ -30,7 +30,7 @@ namespace OmegaGo.Core.AI
         /// </summary>
         private AiDecision()
         {
-
+           
         }
         public static AiDecision MakeMove(Move move, string why)
         {
@@ -62,6 +62,7 @@ namespace OmegaGo.Core.AI
             throw new Exception("This AgentDecisionKind does not exist.");
         }
     }
+
 
     /// <summary>
     /// Represents the kind of the decision: whether it's making a move or resigning.

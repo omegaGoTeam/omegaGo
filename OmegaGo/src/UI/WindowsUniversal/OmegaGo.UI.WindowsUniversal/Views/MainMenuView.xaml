@@ -27,7 +27,7 @@
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
             </TextBlock>
             <StackPanel HorizontalAlignment="Center" 
-                    VerticalAlignment="Center">
+                        VerticalAlignment="Center">
 
                 <StackPanel.Resources>
                     <Style TargetType="Button">
@@ -59,6 +59,7 @@
                     ToolTipService.ToolTip="{x:Bind Localizer.StatisticsToolTip}"
                     HorizontalAlignment="Stretch" />
                 <Button Content="{x:Bind Localizer.Settings}" 
+                        ContinuumNavigationTransitionInfo.IsExitElement="True"
                     Command="{Binding Path=NavigateToSettings}"
                     ToolTipService.ToolTip="{x:Bind Localizer.SettingsToolTip}"
                     HorizontalAlignment="Stretch" />

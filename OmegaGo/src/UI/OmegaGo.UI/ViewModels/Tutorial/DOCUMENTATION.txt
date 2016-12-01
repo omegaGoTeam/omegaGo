@@ -1,0 +1,1 @@
+﻿The "Tutorial.txt" file in this folder is an "embedded resource", loaded by the DLL library. It is important that it remains in this folder. If you move it elsewhere, you must also update the resource path string in BeginnerScenario.cs.

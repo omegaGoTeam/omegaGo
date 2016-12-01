@@ -3,5 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Color x:Key="GameColor">#FDD270</Color>
+    <SolidColorBrush x:Key="GameColorBrush" Color="{ThemeResource GameColor}" />
     
 </ResourceDictionary>

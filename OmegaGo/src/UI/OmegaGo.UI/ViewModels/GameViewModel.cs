@@ -100,8 +100,8 @@ namespace OmegaGo.UI.ViewModels
 
         private void _gameController_BoardMustBeRefreshed(object sender, EventArgs e)
         {
-            if (this._game.GameTree.LastNode != null)
-            OnBoardRefreshRequested(this._game.GameTree.LastNode);
+            if (_game.GameTree.LastNode != null)
+                OnBoardRefreshRequested(_game.GameTree.LastNode);
         }
 
         public void BeginGame()

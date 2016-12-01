@@ -50,6 +50,11 @@
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\Game\BoardState.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,13 +74,29 @@
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\IGSLobbyViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
+    <Compile Include="ViewModels\OGSLobbyView.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TutorialViewModel.cs" />
+    <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
+    <Compile Include="ViewModels\Tutorial\ButtonNextTextCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\EndScenarioCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\FlashCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\LoopControl.cs" />
+    <Compile Include="ViewModels\Tutorial\MenuCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\NextCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\PlaceCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\RequireCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\SayCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\Scenario.cs" />
+    <Compile Include="ViewModels\Tutorial\ScenarioCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\ScenarioLoader.cs" />
+    <Compile Include="ViewModels\Tutorial\ShineCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +130,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewModels\Tutorial\Tutorial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ViewModels\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
