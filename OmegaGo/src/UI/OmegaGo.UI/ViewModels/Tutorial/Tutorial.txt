@@ -1,0 +1,129 @@
+﻿#
+# This is the primary tutorial.
+#
+s Welcome to my class, apprentice. Are you ready to learn to play the ancient game of Go?
+menu
+	option It will be my honor to learn from you, honorable master.
+		s And my privilege to teach you. Go is a game about surrounding territory. Your goal is to have the largest territory surrounded by stones of your color.
+	option Sure. Let’s get on with it, old man.
+		s Blitz games are not for beginners and you should show more respect. But we shall do as you say. Let’s begin.
+next
+s You will use black stones. Black goes first. Begin by placing a stone on the highlighted point, E5, please.
+do E5
+s Now it’s my turn. I’ll play my stone adjacent to yours. Now it’s your turn again. In Go, stones cannot be moved - you may only ever play new ones. Now put a stone at the highlighted intersection at F6, please.
+white E6
+do F6
+s Now play at E7 to put my stone in atari.
+white F5
+do E7
+s I’ll purposely make a bad move now. Notice how my stone at E6 is surrounded from three sides by your stones. There is only one more adjacent intersection - at D6. We call this situation “to be in atari” - it’s sort of like being in check in Chess, except less serious.
+white G6
+next
+s If you place a stone on this intersection, D6, you will “capture” my stone, removing it from the board. Do this now. 
+do D6
+clear E6
+s The empty space between the four black stones is now your territory and will earn you 1 point at the end of the game - unless, of course, I take it back by capturing your stones.
+next
+flash
+s Let’s look at this situation now. The string of adjacent white stones forms a “group”. Groups can only be captured as a whole. Capture this group now.
+white D5 E5 F5
+black D4 E4 F4 C5 G5 E6 F6
+expect D6
+clear D5 E5 F5
+s Good.
+next
+s Now you’ll try to capture some more groups.
+menu
+	option Yes, master.
+		s Capture this new group near the corner.
+	option Aww. Do I have to?
+		s If you want to learn how to play Go, yes. Capture this new group near the corner.
+flash
+white A9 B9 A8
+black A7 B8
+expect C9
+clear A8 A9 B9
+s Good. Now this group has two adjacent empty intersections so you will need to make two moves to capture it.
+white J9 J8
+black J7
+next
+s Empty intersections adjacent to a group are called its “liberties”. This white group has 2 liberties. A group with very few liberties - such as this one - is in danger of being captured. Capture it now.
+do H8
+do H9
+clear J8 J9
+s As you can see, you need less stones to capture groups near the edges of the board.
+next
+s Capture this group by placing a stone in its middle.
+white D6 E6 F6 F5 F4 E4 D4 D5
+black D7 E7 F7 G6 G5 G4 F3 E3 D3 C4 C5 C6
+expect E5
+clear D6 E6 F6 F5 F4 E4 D4 D5
+s Well done!
+next
+flash
+s This group also has two liberties - one inside and one outside. Try to first place a stone inside the group.
+white D6 E6 F6 F5 F4 E4 D4 D5
+black D7 E7 F7 G6 G5 F3 E3 D3 C4 C5 C6
+shine E5
+expect_failure E5
+suicidal_move_message
+s You can’t do it, can you? This is because suicidal moves - that is, placing stones that would immediately be captured by your opponent - are forbidden by the rules. Play on the outside liberty instead.
+do G4
+s At this point, your earlier move will no longer be suicidal because when you place a stone, you capture first, and only then the game checks if the opponent would capture you. Playing “suicidal moves” on the last liberty of an opponent’s group is permitted.
+do E5
+clear D6 E6 F6 F5 F4 E4 D4 D5
+s Well done!
+next
+s Try to capture this group.
+white B9 B8 B7 A8 B6 A6
+black C9 C8 C7 C6 B5 A5
+shine A9
+expect_failure A9
+suicidal_move_message
+shine A7
+expect_failure A7
+suicidal_move_message
+s What is the problem, apprentice?
+menu
+	option I cannot play at either liberty, master.
+		s Precisely. It would be suicidal to play at any of the two intersections. Thus, this group is indestructible.
+	option It’s impossible! You tricked me!
+		s I am merely teaching you, young one. But you are right - this group, indeed, cannot be captured.
+next
+s A group that cannot be captured always looks a little like this. It has two “eyes” -  empty inside spaces where the opponent cannot play. Such a group is called “living”.
+next
+flash
+s This group, so far, has only one eye, even though it has three liberties. Place a stone at the correct location to give the group two eyes.
+white D1 D2 E2 F2 G2 H2 H1 J1
+black C1 C2 D3 E3 F3 G3 H3 J3 J2
+expect F1
+s Well done. Your objective in a game of Go is basically to form as many and as large living groups as you can.
+next
+s When it’s your turn, you can do one of two things: play a stone or pass. Please pass now.
+button Pass
+next
+s When both players pass one after another, the game ends and each player’s score is counted. Each of your stones is worth 1 points. Each empty intersection surrounded by your stones is also worth 1 point. The player with more points wins.
+next
+s In this game, Black wins by 10 points. However, because playing second is a disadvantage, and White always plays second, the player playing white stones usually gets 7,5 points to compensate. The exact number is different under some rules or in some tournaments.
+flash
+black E9 E8 E7 E6 E5 E4 E3 E2 E1 A8 B8 B7 C7 C6 D6 C5 B5 B4 A3 B3 C3 D3
+white F9 F8 F7 F6 F5 F4 F3 F2 F1 G7 H7 H6 H5 H4 H3 J4 G3
+next
+s In this game, even with this handicap, Black still wins by 2.5 points.
+next
+s And those are the basics of playing Go. How do you feel, apprentice?
+menu
+	option I’m still a little confused.
+		s That is only natural. The rules to Go fit on a few pages but it’s the hidden complexity of Go that allowed it to survive and blossom through the ages.
+	option I’m going to become the top Go player in the world!
+		s An admirable goal. If you succeed, please tell the world that it was OmegaGo who started you on your Go journey.
+next
+s You will need to learn more. This app’s Help will explain additional rules and some more details but the best way to start is to play games. 
+next
+s I suggest you play a few games on a 9x9 board against the artificial intelligence program, or maybe even against beginners on the internet.
+next
+s In the end, I’m afraid, there is no substitute for a human teacher. If there is a Go club in your town or city, you should know that they’ll be very happy to teach you.
+next
+s You have done well. Now get out there and begin your Go journey!
+button Return to Main Menu
+next

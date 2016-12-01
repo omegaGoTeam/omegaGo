@@ -27,36 +27,57 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             if (e.Key == Windows.System.VirtualKey.K)
             {
-                // TODO don't send click, if such is impossible, to avoid throwing exceptions
                 Next_Click(sender, new RoutedEventArgs());
             }
         }
 
         private void Next_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            VM.Scenario.CurrentLine?.Next(VM.Scenario);
+            this.ButtonNext.Visibility = Visibility.Collapsed;
+            this.ButtonNext.Content = "Next";
+            VM.Scenario.ClickNext();
         }
 
         private void Option1_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            VM.Scenario.CurrentLine?.SelectOption(0, VM.Scenario);
+            this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
+            VM.Scenario.ClickOption(0);
         }
 
         private void Option2_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            VM.Scenario.CurrentLine?.SelectOption(1, VM.Scenario);
+            this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
+            VM.Scenario.ClickOption(1);
         }
 
 
         private void TutorialViewPage_Loaded(object sender, RoutedEventArgs e)
         {
+            this.ButtonNext.Visibility = Visibility.Collapsed;
+            this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
             var scenario = VM.Scenario;
-            scenario.NextButtonVisibilityChanged += Scenario_NextButtonVisibilityChanged;
             scenario.ScenarioCompleted += Scenario_ScenarioCompleted;
-            scenario.ClearChoices += Scenario_ClearChoices;
             scenario.SetChoices += Scenario_SetChoices;
-            scenario.FirstLine.Speak(VM.Scenario);
+            scenario.SenseiMessageChanged += Scenario_SenseiMessageChanged;
+            scenario.NextButtonShown += Scenario_NextButtonShown;
+            scenario.NextButtonTextChanged += Scenario_NextButtonTextChanged;
+            scenario.ExecuteCommand();
 
+        }
+
+        private void Scenario_NextButtonTextChanged(object sender, string e)
+        {
+            this.ButtonNext.Content = e;
+        }
+
+        private void Scenario_NextButtonShown(object sender, System.EventArgs e)
+        {
+            this.ButtonNext.Visibility = Visibility.Visible;
+        }
+
+        private void Scenario_SenseiMessageChanged(object sender, string e)
+        {
+            this.SenseisLine.Text = e;
         }
 
         private void Scenario_SetChoices(object sender, System.Tuple<string, string> e)
@@ -64,11 +85,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.Option1Text.Text = e.Item1;
             this.Option2Text.Text = e.Item2;
             this.MakeYourChoiceDialog.Visibility = Visibility.Visible;
-        }
-
-        private void Scenario_ClearChoices(object sender, System.EventArgs e)
-        {
-            this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
         }
     }
 }

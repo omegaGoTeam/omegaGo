@@ -53,13 +53,14 @@
                 CornerRadius="20"/>
                 <StackPanel>
                     <TextBlock FontSize="26" Margin="20, 20, 0, 0">Sensei speaks:</TextBlock>
-                    <TextBlock FontSize="20" Margin="20, 5,20,20" Text="{x:Bind Mode=OneWay, Path=VM.Scenario.CurrentLine.Line}"
+                    <TextBlock FontSize="18" Margin="20, 5,20,20" Text="Sensei's Line Goes Here"
+                               Name="SenseisLine"
                                TextWrapping="Wrap"
                                />
                 </StackPanel>
                 <Button 
                     Name="ButtonNext"
-                    Content="{x:Bind Mode=OneWay, Path=VM.Scenario.CurrentLine.NextButtonText}"
+                    Content="Next"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Click="Next_Click"></Button>
             </Grid>
         </Border>

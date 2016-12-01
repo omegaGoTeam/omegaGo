@@ -51,6 +51,11 @@
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Infrastructure\GameViewModelAgent.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\Game\BoardState.cs" />
     <Compile Include="Services\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,13 +82,14 @@
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TutorialViewModel.cs" />
-    <Compile Include="ViewModels\Tutorial\ActionButtonDialogueLine.cs" />
     <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
-    <Compile Include="ViewModels\Tutorial\ChoiceDialogueLine.cs" />
-    <Compile Include="ViewModels\Tutorial\ComplexLine.cs" />
-    <Compile Include="ViewModels\Tutorial\DialogueLine.cs" />
+    <Compile Include="ViewModels\Tutorial\DummyCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\EndScenarioCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\LoopControl.cs" />
+    <Compile Include="ViewModels\Tutorial\MenuCommand.cs" />
     <Compile Include="ViewModels\Tutorial\Scenario.cs" />
-    <Compile Include="ViewModels\Tutorial\SimpleDialogueLine.cs" />
+    <Compile Include="ViewModels\Tutorial\ScenarioCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\ScenarioLoader.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +127,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ViewModels\Tutorial\Tutorial.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

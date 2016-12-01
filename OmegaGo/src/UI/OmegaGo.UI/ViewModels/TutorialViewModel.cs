@@ -12,10 +12,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class TutorialViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private Scenario _scenario;
-
         public Scenario Scenario { get; set; }
-        public DialogueLine CurrentLine => Scenario.CurrentLine;
 
 
         public BoardViewModel BoardViewModel { get; set; }
@@ -37,15 +34,14 @@ namespace OmegaGo.UI.ViewModels
 
         private void Scenario_GameTreeNodeChanged(object sender, Core.GameTreeNode e)
         {
-            // TODO not yet working:
-           // BoardViewModel.GameTreeNode = e;
+           BoardViewModel.GameTreeNode = e;
         }
 
         private void BoardState_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(BoardState.SelectedPosition))
             {
-                CurrentLine.SelectPosition(Scenario, BoardState.SelectedPosition);
+                Scenario.ClickPosition(BoardState.SelectedPosition);
             }
         }
     }
