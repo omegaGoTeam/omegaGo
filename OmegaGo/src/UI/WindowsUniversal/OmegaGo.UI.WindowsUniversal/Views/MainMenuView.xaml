@@ -69,16 +69,7 @@
                     HorizontalAlignment="Stretch" />
             </StackPanel>
 
-            <!--<StackPanel HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom">
-                <RichTextBlock>
-                </RichTextBlock>
-                <Button Content="{x:Bind Localizer.Tips}" 
-                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
-                    Click="ShowHideTips_Click"
-                     />
-            </StackPanel>-->
-
+        
             <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
                 <FontIcon Glyph="&#xE1D9;" />
             </Button>
@@ -98,8 +89,35 @@
                 <Button Margin="12,0,0,0">
                     <FontIcon Glyph="&#xE994;" />
                 </Button>
+                <Button Content="{x:Bind Localizer.Tips}" 
+                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
+                            
+                    Margin="12,0,0,0"
+                    Click="ShowHideTips_Click"
+                       
+                     />
+                
+                  
+                 
+             
             </StackPanel>
-
+            <Border HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Margin="12, 0,0,50"
+                    Name="BorderTips">
+                <Border.BorderThickness>1</Border.BorderThickness>
+                <Border.Background>White</Border.Background>
+                <Border.BorderBrush>Black</Border.BorderBrush>
+                <Border.Padding>5</Border.Padding>
+                <RichTextBlock Width="300" FontSize="12">
+                    <Paragraph>
+                        Did you know that
+                        <Bold>Go</Bold> received two major boosts in popularity this century - with
+                        <Italic>Hikaru no Go</Italic> and then with
+                        <Italic>AlphaGo</Italic>?
+                    </Paragraph>
+                </RichTextBlock>
+            </Border>
             <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
                 <Button Content="{x:Bind Localizer.Credits}" 
