@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.Agents;
@@ -20,13 +19,16 @@ namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
+        private GamePhase _gamePhase;
         private Game _game;
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
         private GoColor[,] _truePositions = new GoColor[19, 19];
+        private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
         private int _mouseY;
+        private bool _inLifeDeathDeterminationPhase = false;
 
         public InGameForm(Game game, IgsConnection igs)
         {
@@ -35,7 +37,6 @@ namespace FormsPrototype
             this._game = game;
             this._igs = igs;
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
-            game.BoardNeedsRefreshing += Game_BoardNeedsRefreshing;
             RefreshBoard();
         }
 
@@ -51,10 +52,11 @@ namespace FormsPrototype
 
         private void RefreshBoard()
         {
+            // Positions
             GoColor[,] positions = new GoColor[19, 19];
             foreach (Move move in this._game.PrimaryTimeline)
             {
-                if (move.WhoMoves != GoColor.None)
+                if (move.Kind == MoveKind.PlaceStone && move.WhoMoves != GoColor.None)
                 {
                     int x = move.Coordinates.X;
                     int y = move.Coordinates.Y;
@@ -71,10 +73,21 @@ namespace FormsPrototype
                     {
                         positions[capture.X, capture.Y] = GoColor.None;
                     }
+                    this._lastMove = move.Coordinates;
                 }
-                this._lastMove = move.Coordinates;
             }
             this._truePositions = positions;
+
+            // Territories
+            if (this._game.GameTree.LastNode != null)
+            {
+                this._territories = new Territory[this._game.BoardSize.Width, this._game.BoardSize.Height];
+                StoneColor[,] boardAfterRemovalOfDeadStones =
+                    FastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
+                        this._controller.DeadPositions);
+                Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+                this._territories = territory;
+            }
             this.pictureBox1.Refresh();
         }
 
@@ -97,11 +110,6 @@ namespace FormsPrototype
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
-            if (this._game.Server == null)
-            {
-                this.button1.Enabled = false;
-                this.button2.Enabled = false;
-            }
             this.cbRuleset.Items.Add(new ChineseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
             this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.White, this._game.Black, this._game.BoardSize));
             this.cbRuleset.Items.Add(new AGARuleset(this._game.White, this._game.Black, this._game.BoardSize,CountingType.Area));
@@ -114,32 +122,61 @@ namespace FormsPrototype
                     break;
                 }
             }
-            this._controller = new GameController(this._game);
+            this._controller = this._game.GameController;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
-            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged;
+            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
+            this._controller.EnterPhase += _controller_EnterPhase;
             this._controller.BeginGame();
         }
 
-        private void _controller_TurnPlayerChanged(string obj)
+        private void _controller_EnterPhase(object sender, GamePhase e)
         {
-            this.lblTurnPlayer.Text = obj;
+            _gamePhase = e;
+            if (e == GamePhase.LifeDeathDetermination)
+            {
+                this.grpLifeDeath.Visible = true;
+                this._inLifeDeathDeterminationPhase = true;
+            }
+            else
+            {
+                this.grpLifeDeath.Visible = false;
+                this._inLifeDeathDeterminationPhase = false;
+            }
+            if (e == GamePhase.Completed)
+            {
+                GoColor[,] finalBoard = FastBoard.BoardWithoutTheseStones(
+                    FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
+                Scores scores = this._game.Ruleset.CountScore(finalBoard);
+                MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                (scores.BlackScore > scores.WhiteScore
+                                    ? "Black wins!"
+                                    : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f ? "It's a draw!" : "White wins!")),
+                                    "Game completed!",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+            }
+            RefreshBoard();
         }
 
-        private void _controller_Resignation(Player arg1, string arg2)
+        private void _controller_TurnPlayerChanged1(object sender, Player e)
+        {
+            this.lblTurnPlayer.Text = e.Name;
+        }
+
+        private void _controller_Resignation(object sender, Player resigner)
         {
             this.panelEnd.Visible = true;
-            this.lblEndCaption.Text = arg1 + " resigned!";
-            this.lblGameEndReason.Text = "The player resignation reason: '" + arg2 + "'";
+            this.lblEndCaption.Text = resigner + " resigned!";
         }
 
-        private void _controller_DebuggingMessage(string obj)
+        private void _controller_DebuggingMessage(object sender, string obj)
         {
             SystemLog(obj);
         }
 
-        private void _controller_BoardMustBeRefreshed()
+        private void _controller_BoardMustBeRefreshed(object sender, EventArgs e)
         {
             RefreshBoard();
         }
@@ -198,6 +235,26 @@ namespace FormsPrototype
                         e.Graphics.FillEllipse(brush, r);
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
+
+                    if (this._inLifeDeathDeterminationPhase || this._controller.GamePhase == GamePhase.Completed)
+                    {
+                        switch(this._territories[x, y])
+                        {
+                            case Territory.Black:
+                                CrossPosition(Color.Black, r, e);
+                                break;
+                            case Territory.White:
+                                CrossPosition(Color.White, r, e);
+                                break;
+                            default:
+                                if (this._controller.DeadPositions.Contains(new Position(x, y)))
+                                {
+                                    CrossPosition(Color.Red, r, e);
+                                }
+                                break;
+                        }
+                    }
+
                     if (x == this._lastMove.X && y == this._lastMove.Y)
                     {
                         Rectangle larger = r;
@@ -213,10 +270,14 @@ namespace FormsPrototype
                 }
             }
         }
-        private void pictureBox1_Click(object sender, EventArgs e)
+
+        private void CrossPosition(Color color, Rectangle r, PaintEventArgs e)
         {
-        
+            Pen pen = new Pen(color, 3);
+            e.Graphics.DrawLine(pen, r.Left, r.Top, r.Right, r.Bottom);
+            e.Graphics.DrawLine(pen, r.Right, r.Top, r.Left, r.Bottom);
         }
+
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
 
@@ -228,7 +289,7 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (this.PlayerToMove.Agent is InGameFormGuiAgent)
+            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is GuiAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -241,13 +302,13 @@ namespace FormsPrototype
 
         private void bPASS_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(
-                OmegaGo.Core.Move.Pass(this.PlayerToMove.Color), "User clicked 'PASS'."));
+            this.groupboxMoveMaker.Visible = false;
+            this.PlayerToMove.Agent.ForcePass(this.PlayerToMove.Color);
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.Resign("User clicked 'RESIGN'."));
+            this._game.GameController.Resign(this.PlayerToMove);
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
@@ -263,8 +324,15 @@ namespace FormsPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            ((InGameFormGuiAgent)this.PlayerToMove.Agent).DecisionsToMake.Post(AgentDecision.MakeMove(
-                OmegaGo.Core.Move.PlaceStone(this.PlayerToMove.Color, position), "User entered these coordinates."));
+            if (_gamePhase == GamePhase.LifeDeathDetermination)
+            {
+                _controller.MarkGroupDead(position);
+            }
+            else
+            {
+                this.groupboxMoveMaker.Visible = false;
+                this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
+            }
         }
 
 
@@ -279,22 +347,7 @@ namespace FormsPrototype
         {
             RefreshBoard();
         }
-
-        private async void button3_Click(object sender, EventArgs e)
-        {
-            // This doesn't really work very well. It's not safe -- what if new moves arrive as we do this?
-            // This is totally not good, but if it works for display now....
-            var timeline = this._game.GameTree.GameTreeRoot;
-            this._game.GameTree.GameTreeRoot = null;
-            foreach(GameTreeNode move in timeline.GetTimelineView)
-            {
-                this._game.GameTree.AddMoveToEnd(move.Move);
-                RefreshBoard();
-                await Task.Delay(25);
-            }
-
-        }
-
+        
         private void bSay_Click(object sender, EventArgs e)
         {
             // TODO what if we are in multiple games at the same time?
@@ -319,7 +372,7 @@ namespace FormsPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper hpw = new OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper();
-            AgentDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
+            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
                 FastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),
                 5, this._game.PrimaryTimeline.ToList()));
@@ -337,9 +390,40 @@ namespace FormsPrototype
             {
                 if (player.Agent is AIAgent)
                 {
-                    ((AIAgent)player).Strength = (int)this.nAiStrength.Value;
+                    ((AIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
                 }
             }
+        }
+
+        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        {
+            foreach(var player in _game.Players)
+            {
+                if (player.Agent is GuiAgent || player.Agent is AIAgent)
+                {
+                    _controller.LifeDeath_Done(player);
+                }
+            }
+        }
+
+        public void GuiAgent_PleaseMakeAMove(object sender, Player e)
+        {
+            this.groupboxMoveMaker.Visible = true;
+        }
+
+        private void bUndoLifeDeath_Click(object sender, EventArgs e)
+        {
+            this._controller.LifeDeath_UndoPhase();
+        }
+
+        private void bResumeAsBlack_Click(object sender, EventArgs e)
+        {
+            this._controller.LifeDeath_Resume();
+        }
+
+        private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _controller.AbortGame();
         }
     }
 }

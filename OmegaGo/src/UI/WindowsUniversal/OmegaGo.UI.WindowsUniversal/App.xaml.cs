@@ -36,6 +36,8 @@ namespace OmegaGo.UI.WindowsUniversal
     {
         private Frame _rootFrame = null;
 
+
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -52,15 +54,15 @@ namespace OmegaGo.UI.WindowsUniversal
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched( LaunchActivatedEventArgs e )
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Init( e );
+            Init(e);
         }
 
-        private async void Init( LaunchActivatedEventArgs e )
+        private async void Init(LaunchActivatedEventArgs e)
         {
 #if DEBUG
-            if ( System.Diagnostics.Debugger.IsAttached )
+            if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
@@ -69,52 +71,63 @@ namespace OmegaGo.UI.WindowsUniversal
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if ( _rootFrame == null )
+            if (_rootFrame == null)
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 _rootFrame = new Frame();
                 // Set the default language
-                _rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[ 0 ];
+                _rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
                 _rootFrame.NavigationFailed += OnNavigationFailed;
 
                 //  Display an extended splash screen if app was not previously running.
-                if ( e.PreviousExecutionState != ApplicationExecutionState.Running )
+                if (e.PreviousExecutionState != ApplicationExecutionState.Running)
                 {
 
                 }
             }
 
-            if ( e.PrelaunchActivated == false )
+            if (e.PrelaunchActivated == false)
             {
-                if ( _rootFrame.Content == null )
+                if (_rootFrame.Content == null)
                 {
-                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen( e.SplashScreen, false );
-                    _rootFrame.Content = extendedSplash;
-                    Window.Current.Content = _rootFrame;
+                    //create app shell to hold app content
+                    var shell = AppShell.CreateForWindow( Window.Current );
+                    //create extended splash screen
+                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
+                    //temporarily place splash into the root frame
+                    shell.AppFrame.Content = extendedSplash;
+                    //setup the title bar
+                    SetupTitleBar();
                 }
                 // Ensure the current window is active
-                SetupTitleBar();
                 Window.Current.Activate();
-                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
             }
         }
 
-     
+        /// <summary>
+        /// Sets up services for the whole window
+        /// </summary>
+        /// <param name="window">App window</param>
+        private void SetupWindowServices(Window window)
+        {
+            FullscreenModeManager.RegisterForWindow(window);
+        }
 
         /// <summary>
         /// Setup language        
         /// </summary>
         private void InitLanguage()
         {
-            var gameSettings = new GameSettings( new SettingsService() );
-            if ( gameSettings.Language != GameLanguages.DefaultLanguage.CultureTag )
+            var gameSettings = new GameSettings(new SettingsService());
+            if (gameSettings.Language != GameLanguages.DefaultLanguage.CultureTag)
             {
                 try
                 {
-                    CultureInfo.CurrentUICulture = new CultureInfo( gameSettings.Language );
-                    CultureInfo.CurrentCulture = new CultureInfo( gameSettings.Language );
+                    CultureInfo.CurrentUICulture = new CultureInfo(gameSettings.Language);
+                    CultureInfo.CurrentCulture = new CultureInfo(gameSettings.Language);
                 }
                 catch
                 {
@@ -131,17 +144,21 @@ namespace OmegaGo.UI.WindowsUniversal
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = false;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
             titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;
             titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb( 255, 215, 215, 215 );
-            titleBar.ButtonPressedBackgroundColor = Color.FromArgb( 255, 180, 180, 180 );
+            titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
+            titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
             titleBar.ButtonHoverForegroundColor = Colors.Black;
             titleBar.ButtonPressedForegroundColor = Colors.Black;
             titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
             titleBar.ForegroundColor = Colors.Black;
             titleBar.InactiveForegroundColor = Colors.DimGray;
-            titleBar.InactiveBackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
+
+            //setup the custom title bar in app shell
+            AppShell.GetForCurrentView().SetupCustomTitleBar();
+            
             SetupStatusBar();
         }
 
@@ -150,34 +167,20 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         private void SetupStatusBar()
         {
-            if ( Windows.Foundation.Metadata.ApiInformation.IsTypePresent( "Windows.UI.ViewManagement.StatusBar" ) )
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 statusBar.BackgroundOpacity = 1;
-                statusBar.BackgroundColor = ( Color )App.Current.Resources[ "GameColor" ];
+                statusBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
                 statusBar.ForegroundColor = Colors.Black;
             }
         }
-        /// <summary>
-        /// This method uses parts of http://stackoverflow.com/a/39929182/1580088.
-        /// This event is called whenever a key is pressed down on a computer keyboard. We use this method
-        /// to trigger application-wide hotkeys, most notably the Alt+Enter combination for
-        /// toggling fullscreen mode.
-        /// </summary>
-        private void Dispatcher_AcceleratorKeyActivated(Windows.UI.Core.CoreDispatcher sender, Windows.UI.Core.AcceleratorKeyEventArgs args)
-        {
-            // "menu key" is Alt, in Microsoft-speak.
-            if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
-            {
-                Fullscreen.Toggle();
-            }
-        }
-      
 
         private async Task InitializeMvvmCrossAsync()
         {
-            if ( _rootFrame == null ) throw new NullReferenceException( "Root frame is not initialized" );
-            var setup = new Setup( _rootFrame );
+            var shell = AppShell.GetForCurrentView();
+            if (shell == null) throw new NullReferenceException("Shell is not initialized");
+            var setup = new Setup(shell.AppFrame);
             setup.Initialize();
 
             var start = Mvx.Resolve<IAsyncAppStart>();
@@ -189,9 +192,9 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed( object sender, NavigationFailedEventArgs e )
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception( "Failed to load Page " + e.SourcePageType.FullName );
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>
@@ -201,7 +204,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending( object sender, SuspendingEventArgs e )
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity

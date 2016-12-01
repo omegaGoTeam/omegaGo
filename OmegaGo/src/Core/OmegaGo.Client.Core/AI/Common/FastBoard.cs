@@ -49,5 +49,15 @@ namespace OmegaGo.Core.AI.Common
             }
             return createdBoard;
         }
+
+        public static StoneColor[,] BoardWithoutTheseStones(StoneColor[,] boardState, IEnumerable<Position> deadPositions)
+        {
+            StoneColor[,] newBoard = FastBoard.CloneBoard(boardState);
+            foreach(var position in deadPositions)
+            {
+                newBoard[position.X, position.Y] = StoneColor.None;
+            }
+            return newBoard;
+        }
     }
 }

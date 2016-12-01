@@ -17,7 +17,7 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -25,12 +25,12 @@
         <Pivot Title="{x:Bind Localizer.Settings}" Grid.Row="0">
         <Pivot.TitleTemplate>
             <DataTemplate>
-                <TextBlock Text="{Binding}" FontSize="34" FontWeight="Light" />
+                    <TextBlock ContinuumNavigationTransitionInfo.IsEntranceElement="True" Text="{Binding}" FontSize="34" FontWeight="Light" />
             </DataTemplate>
         </Pivot.TitleTemplate>
         <PivotItem Header="{x:Bind Localizer.UserInterface}">
                 <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
+                    <CheckBox Name="FullscreenMode" Content="FullscreenModeManager Mode" 
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
                     <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />

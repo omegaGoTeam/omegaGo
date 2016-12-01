@@ -29,10 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lblTurnPlayer = new System.Windows.Forms.Label();
             this.bMakeMove = new System.Windows.Forms.Button();
@@ -49,8 +46,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.bRefreshPicture = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.bChangeRuleset = new System.Windows.Forms.Button();
@@ -65,8 +60,11 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
+            this.grpLifeDeath = new System.Windows.Forms.GroupBox();
+            this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
+            this.bUndoLifeDeath = new System.Windows.Forms.Button();
+            this.bResumeAsBlack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -74,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.grpLifeDeath.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -85,48 +84,17 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Go board:";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(21, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(160, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "IGS Refresh";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // pictureBox1
             // 
+            this.pictureBox1.BackColor = System.Drawing.Color.PeachPuff;
             this.pictureBox1.Location = new System.Drawing.Point(12, 76);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(474, 411);
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(493, 105);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 90);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = " IGS ";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(21, 48);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(160, 22);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "IGS Raw Refresh";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label2
             // 
@@ -290,26 +258,6 @@
             this.label5.TabIndex = 17;
             this.label5.Text = "System Log:";
             // 
-            // bRefreshPicture
-            // 
-            this.bRefreshPicture.Location = new System.Drawing.Point(370, 47);
-            this.bRefreshPicture.Name = "bRefreshPicture";
-            this.bRefreshPicture.Size = new System.Drawing.Size(116, 23);
-            this.bRefreshPicture.TabIndex = 18;
-            this.bRefreshPicture.Text = "Refresh Local Board";
-            this.bRefreshPicture.UseVisualStyleBackColor = true;
-            this.bRefreshPicture.Click += new System.EventHandler(this.bRefreshPicture_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(248, 47);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(116, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Timelapse";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -469,14 +417,56 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // grpLifeDeath
+            // 
+            this.grpLifeDeath.Controls.Add(this.bResumeAsBlack);
+            this.grpLifeDeath.Controls.Add(this.bUndoLifeDeath);
+            this.grpLifeDeath.Controls.Add(this.bDoneWithLifeDeathDetermination);
+            this.grpLifeDeath.Location = new System.Drawing.Point(492, 76);
+            this.grpLifeDeath.Name = "grpLifeDeath";
+            this.grpLifeDeath.Size = new System.Drawing.Size(200, 126);
+            this.grpLifeDeath.TabIndex = 6;
+            this.grpLifeDeath.TabStop = false;
+            this.grpLifeDeath.Text = "Life/Death Determination";
+            this.grpLifeDeath.Visible = false;
+            // 
+            // bDoneWithLifeDeathDetermination
+            // 
+            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(16, 19);
+            this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
+            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
+            this.bDoneWithLifeDeathDetermination.TabIndex = 13;
+            this.bDoneWithLifeDeathDetermination.Text = "Done";
+            this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
+            this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
+            // 
+            // bUndoLifeDeath
+            // 
+            this.bUndoLifeDeath.Location = new System.Drawing.Point(16, 52);
+            this.bUndoLifeDeath.Name = "bUndoLifeDeath";
+            this.bUndoLifeDeath.Size = new System.Drawing.Size(166, 27);
+            this.bUndoLifeDeath.TabIndex = 14;
+            this.bUndoLifeDeath.Text = "Undo Death Marks";
+            this.bUndoLifeDeath.UseVisualStyleBackColor = true;
+            this.bUndoLifeDeath.Click += new System.EventHandler(this.bUndoLifeDeath_Click);
+            // 
+            // bResumeAsBlack
+            // 
+            this.bResumeAsBlack.Location = new System.Drawing.Point(16, 86);
+            this.bResumeAsBlack.Name = "bResumeAsBlack";
+            this.bResumeAsBlack.Size = new System.Drawing.Size(166, 27);
+            this.bResumeAsBlack.TabIndex = 15;
+            this.bResumeAsBlack.Text = "Resume game (Black first)";
+            this.bResumeAsBlack.UseVisualStyleBackColor = true;
+            this.bResumeAsBlack.Click += new System.EventHandler(this.bResumeAsBlack_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.grpLifeDeath);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.bRefreshPicture);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tbLog);
             this.Controls.Add(this.label4);
@@ -485,14 +475,13 @@
             this.Controls.Add(this.groupboxMoveMaker);
             this.Controls.Add(this.lblTurnPlayer);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Name = "InGameForm";
             this.Text = "InGameForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InGameForm_FormClosing);
             this.Load += new System.EventHandler(this.InGameForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox1.ResumeLayout(false);
             this.groupboxMoveMaker.ResumeLayout(false);
             this.groupboxMoveMaker.PerformLayout();
             this.panelEnd.ResumeLayout(false);
@@ -504,6 +493,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.grpLifeDeath.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,9 +501,7 @@
 
         #endregion
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblTurnPlayer;
         private System.Windows.Forms.Button bMakeMove;
@@ -530,8 +518,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tbLog;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button bRefreshPicture;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.NumericUpDown nAiStrength;
@@ -541,11 +527,14 @@
         private System.Windows.Forms.Button bSay;
         private System.Windows.Forms.TextBox tbSayWhat;
         private System.Windows.Forms.ListBox lbPlayerChat;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox cbRuleset;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button bChangeRuleset;
+        private System.Windows.Forms.GroupBox grpLifeDeath;
+        private System.Windows.Forms.Button bDoneWithLifeDeathDetermination;
+        private System.Windows.Forms.Button bResumeAsBlack;
+        private System.Windows.Forms.Button bUndoLifeDeath;
     }
 }

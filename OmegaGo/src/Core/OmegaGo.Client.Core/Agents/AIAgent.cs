@@ -8,7 +8,11 @@ using OmegaGo.Core.AI.Common;
 
 namespace OmegaGo.Core.Agents
 {
-    public class AIAgent : AgentBase, IAgent
+    /// <summary>
+    /// Represents the agent that makes move for AI programs.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
+    public class AIAgent : AgentBase
     {
         /// <summary>
         /// The AI program that feeds moves to this agent.
@@ -19,34 +23,39 @@ namespace OmegaGo.Core.Agents
         /// </summary>
         public int Strength = 5;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AIAgent"/> class, with the specified AI program making the decisions.
+        /// </summary>
+        /// <param name="aiProgram">The AI program that makes decisions.</param>
         public AIAgent(IAIProgram aiProgram)
         {
             this._aiProgram = aiProgram;
         }
 
-        public async Task<AgentDecision> RequestMoveAsync(Game game)
-        {
-            AgentDecision storedDecision = GetStoredDecision(game);
-            if (storedDecision != null) return storedDecision;
-
-            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(game);
-
+        public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
+        public override async void PleaseMakeAMove()
+        { 
+            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(Game);
             var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
-                game.Players[0].Agent == this ? StoneColor.Black : StoneColor.White,
-                createdBoard,
-                game.BoardSize,
-                new TimeSpan(0, 0, 2),
-                Strength,
-                game.PrimaryTimeline.ToList()
-                )));
-            return await aiTask;
-        }
-
-        public IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
-
-        public static explicit operator AIAgent(Player v)
-        {
-            throw new NotImplementedException();
+              Player.Color,
+              createdBoard,
+              Game.BoardSize,
+              new TimeSpan(0, 0, 2),
+              Strength,
+              Game.PrimaryTimeline.ToList()
+              )));
+            AiDecision decision = await aiTask;
+            switch (decision.Kind)
+            {
+                case AgentDecisionKind.Move:
+                    Game.GameController.MakeMove(Player, decision.Move);
+                    break;
+                case AgentDecisionKind.Resign:
+                    Game.GameController.Resign(Player);
+                    break;
+                default:
+                    throw new Exception("This decision kind does not exist.");
+            }
         }
     }
 }

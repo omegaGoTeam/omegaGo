@@ -19,7 +19,7 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Provides back navigation
         /// </summary>
-        public IMvxCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new MvxCommand(() => this.Close(this)));
+        public IMvxCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new MvxCommand(() => GoBack()));
 
         private Localizer _localizer = null;
 
@@ -43,6 +43,14 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _isWorking, value);
             }
+        }
+
+        /// <summary>
+        /// Override this method to do any "on navigated from" work or to stop the navigation altogether.
+        /// </summary>
+        protected virtual void GoBack()
+        {
+            this.Close(this);
         }
     }
 }

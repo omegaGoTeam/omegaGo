@@ -14,8 +14,8 @@ namespace OmegaGo.Core.Online.Igs
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
         {
-            return line.Code == IgsCode.Info && line.PureLine.StartsWith("Match[") &&
-                   line.PureLine.Contains("requested with");
+            return (line.Code == IgsCode.Info && line.PureLine.StartsWith("Match[") &&
+                    line.PureLine.Contains("requested with"));
 
         }
 

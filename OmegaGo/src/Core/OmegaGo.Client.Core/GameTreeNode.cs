@@ -59,6 +59,7 @@ namespace OmegaGo.Core
         /// Gets a value indicating whether this node has no children, which usually means that it's the last move made.
         /// </summary>
         public bool IsLeafNode => Branches.Count == 0;
+
         /// <summary>
         /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time. 
         /// The move number is 1-based, i.e. the first move has the number "1".

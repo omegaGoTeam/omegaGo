@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Agents;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -102,7 +103,7 @@ namespace OmegaGo.UI.ViewModels
             game.Players.Add(new Player("White Player", "??", game));
             foreach (var player in game.Players)
             {
-                player.Agent = new GameViewModelAgent();
+                player.Agent = new GuiAgent();
             }
 
             switch (SelectedBoardSizeItemIndex)

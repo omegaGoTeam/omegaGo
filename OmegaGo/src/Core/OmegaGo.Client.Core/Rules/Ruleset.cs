@@ -196,6 +196,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>The result of legality check.</returns>
         public MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
         {
+            // TODO this should not alter the ruleset or players, the "IsLegalMove" method should be pure
             MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
             return result.Result;
         }
@@ -368,7 +369,7 @@ namespace OmegaGo.Core.Rules
         protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, StoneColor[,] currentBoard)
         {
             StoneColor currentColor = currentBoard[pos.X, pos.Y];
-			if (!_checkedInters[pos.X, pos.Y])
+            if (!_checkedInters[pos.X, pos.Y])
             {
                 group.Add(pos);
                 _checkedInters[pos.X, pos.Y] = true;
@@ -405,7 +406,22 @@ namespace OmegaGo.Core.Rules
                 newp.Y = pos.Y - 1;
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
-
+        }
+        
+        /// <summary>
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
+        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// </summary>
+        /// <param name="pos">The position whose group we want to identify.</param>
+        /// <param name="board">The current full board position.</param>
+        /// <returns></returns>
+        public IEnumerable<Position> DiscoverGroup(Position pos, StoneColor[,] board)
+        {
+            _checkedInters = new bool[_boardWidth, _boardHeight];
+            List<Position> group = new List<Position>();
+            bool iDontCare = false;
+            GetGroup(ref group, ref iDontCare, pos, board);
+            return group;
         }
 
         /// <summary>
@@ -525,18 +541,13 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
-        /// This method adds up total territory of players. The scores include prisoners and dead stones. 
+        /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
+        /// All stones on the board are considered alive for the purposes of determining territory using this method.
         /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
-        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
-        protected Scores CountTerritory(StoneColor[,] currentBoard)
+        /// <param name="board">The current game board.</param>
+        public Territory[,] DetermineTerritory(StoneColor[,] board)
         {
             Territory[,] regions = new Territory[_boardWidth, _boardHeight];
-            Scores scores = new Scores();
-            scores.WhiteScore = 0;
-            scores.BlackScore = 0;
-
             for (int i = 0; i < _boardWidth; i++)
             {
                 for (int j = 0; j < _boardHeight; j++)
@@ -549,24 +560,39 @@ namespace OmegaGo.Core.Rules
             {
                 for (int j = 0; j < _boardHeight; j++)
                 {
-                    if (regions[i, j] == Territory.Unknown && currentBoard[i,j]== StoneColor.None)
+                    if (regions[i, j] == Territory.Unknown && board[i, j] == StoneColor.None)
                     {
-                        List<Position> region = new List<Position>();
+                        HashSet<Position> region = new HashSet<Position>();
                         Territory regionBelongsTo = Territory.Unknown;
                         Position p = new Position();
                         p.X = i;
                         p.Y = j;
-                        GetRegion(ref region,ref regionBelongsTo,p,currentBoard);
+                        GetRegion(ref region, ref regionBelongsTo, p, board);
 
-                        for (int k = 0; k < region.Count; k++)
+                        foreach(Position regionMember in region)
                         {
-                            Position regionMember = region.ElementAt(k);
-                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;    
+                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;
                         }
 
                     }
                 }
             }
+            return regions;
+        }
+
+        /// <summary>
+        /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
+        /// This method adds up total territory of players. The scores include prisoners and dead stones. 
+        /// </summary>
+        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
+        protected Scores CountTerritory(StoneColor[,] currentBoard)
+        {
+            Scores scores = new Scores();
+            scores.WhiteScore = 0;
+            scores.BlackScore = 0;
+
+            Territory[,] regions = DetermineTerritory(currentBoard);
 
             for (int i = 0; i < _boardWidth; i++)
             {
@@ -582,8 +608,9 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        protected void GetRegion(ref List<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)
+        protected void GetRegion(ref HashSet<Position> region, ref Territory regionBelongsTo, Position pos, StoneColor[,] currentBoard)
         {
+            if (region.Contains(pos)) return;
             region.Add(pos);
             if (pos.X < _boardWidth - 1 ) //has right neighbour
             {
@@ -689,12 +716,26 @@ namespace OmegaGo.Core.Rules
 
     }
 
-    
+    /// <summary>
+    /// Determines which player controls a specific empty point or region.
+    /// </summary>
     public enum Territory
     {
+        /// <summary>
+        /// This point or region is controlled by the White player.
+        /// </summary>
         White,
+        /// <summary>
+        /// This point or region is controlled by the Black player.
+        /// </summary>
         Black,
+        /// <summary>
+        /// This point or region is bordered by both Black and White stones.
+        /// </summary>
         Neutral,
+        /// <summary>
+        /// The allegiance of this point or region has not yet been calculated.
+        /// </summary>
         Unknown
     }
 }

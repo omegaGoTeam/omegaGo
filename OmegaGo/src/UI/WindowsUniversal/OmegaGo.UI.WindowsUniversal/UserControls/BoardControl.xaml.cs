@@ -47,7 +47,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _boardState.RedrawRequested += (s, ev) => canvas.Invalidate();
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
             
-            ViewModel.BoardRedrawRequsted += (s, ev) => canvas.Invalidate();            
+            ViewModel.BoardRedrawRequsted += (s, ev) => 
+            {
+                if(ev.Move?.Kind != Core.MoveKind.Pass)
+                    _boardState.SelectedPosition = ev.Move.Coordinates;
+
+                canvas.Invalidate();
+            };            
         }
 
         private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)

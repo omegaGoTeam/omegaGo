@@ -6,9 +6,7 @@ namespace OmegaGo.Core.Extensions
     {
         public static int AsInteger(this string text)
         {
-           
                 return int.Parse(text);
-           
         }
         public static float AsFloat(this string text)
         {

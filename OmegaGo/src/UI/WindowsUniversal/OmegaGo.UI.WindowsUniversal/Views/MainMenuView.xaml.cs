@@ -1,5 +1,6 @@
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -19,7 +20,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void GoFullScreen_Click( object sender, Windows.UI.Xaml.RoutedEventArgs e )
         {
-            Fullscreen.Toggle();
+            FullscreenModeManager.Toggle();
         }
     }
 }

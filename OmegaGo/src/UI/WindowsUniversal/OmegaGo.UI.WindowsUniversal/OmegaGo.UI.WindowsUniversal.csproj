@@ -95,7 +95,10 @@
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\MvxColorExtensions.cs" />
-    <Compile Include="Fullscreen.cs" />
+    <Compile Include="Infrastructure\AppShell.xaml.cs">
+      <DependentUpon>AppShell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\FullscreenModeManager.cs" />
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
@@ -127,11 +130,17 @@
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\IGSLobbyView.xaml.cs">
+      <DependentUpon>IGSLobbyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MultiplayerDashboard.xaml.cs">
       <DependentUpon>MultiplayerDashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OGSLobbyView.xaml.cs">
+      <DependentUpon>OGSLobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -191,6 +200,10 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Infrastructure\AppShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Infrastructure\ExtendedSplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,6 +214,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\TitleBarStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -237,6 +255,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\IGSLobbyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LibraryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -246,6 +268,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MultiplayerDashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OGSLobbyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

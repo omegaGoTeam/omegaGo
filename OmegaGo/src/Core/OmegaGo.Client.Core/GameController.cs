@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,17 @@ namespace OmegaGo.Core
         /// </summary>
         private Player _turnPlayer;
         /// <summary>
+        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(GamePhase)"/> instead. 
+        /// </summary>
+        private GamePhase _gamePhase = GamePhase.NotYetBegun;
+
+        public GamePhase GamePhase => _gamePhase;
+        private void SetGamePhase(GamePhase gamePhase)
+        {
+            this._gamePhase = gamePhase;
+            OnEnterPhase(this._gamePhase);
+        }
+        /// <summary>
         /// Gets the player whose turn it is.
         /// </summary>
         public Player TurnPlayer => _turnPlayer;
@@ -33,180 +45,285 @@ namespace OmegaGo.Core
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
         /// </summary>
         public bool EnforceRules { get; set; } = true;
-
+        private List<Position> _deadPositions = new List<Position>();
+        public IEnumerable<Position> DeadPositions => _deadPositions;
+        private List<Player> _playersDoneWithLifeDeath = new List<Player>();
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
         /// <param name="game">The game that this GameController instance will run.</param>
         public GameController(Game game)
         {
             this._game = game;
         }
-
         /// <summary>
         /// Begins the main game loop by asking the first player (who plays black) to make a move, and then the second player, then the first,
         /// and so on until the game concludes. This method will return immediately but it will launch this loop in a Task on another thread.
         /// </summary>
         public void BeginGame()
         {
-            SanityCheck();
-            _game.NumberOfMovesPlayed = 0;
-            LoopDecisionRequest();
-        }
-
-        private void SanityCheck()
-        {
             if (this._game.Players.Count != 2)
                 throw new InvalidOperationException("There must be 2 players in the game.");
-            if (this._game.Players.Any(pl => pl.Agent == null))
-                throw new InvalidOperationException("Both players must have an Agent to make moves.");
-        }
 
-        /// <summary>
-        /// Occurs when a player named ARGUMENT1 is about to take their turn.
-        /// </summary>
-        public event Action<string> TurnPlayerChanged;
-        private void OnTurnPlayerChanged(string newTurnPlayer)
-        {
-            TurnPlayerChanged?.Invoke(newTurnPlayer);
-        }
-        /// <summary>
-        /// Occurs when a DEBUGGING MESSAGE should be printed out to the user in debug mode.
-        /// </summary>
-        public event Action<string> DebuggingMessage;
-        private void OnDebuggingMessage(string logLine)
-        {
-            DebuggingMessage?.Invoke(logLine);
-        }
-        /// <summary>
-        /// Occurs when the PLAYER resigns. The second argument is the RESIGNATION REASON.
-        /// </summary>
-        public event Action<Player, string> Resignation;
-        private void OnResignation(Player resigner, string reason)
-        {
-            Resignation?.Invoke(resigner, reason);
-        }
-        /// <summary>
-        /// Occurs when the game board should be redrawn by the user interface, probably because a move was made.
-        /// </summary>
-        public event Action BoardMustBeRefreshed;
-        private void OnBoardMustBeRefreshed()
-        {
-            BoardMustBeRefreshed?.Invoke();
-        }
-        private async void LoopDecisionRequest()
-        {
-            _turnPlayer = _game.Players[0];
-            while (true)
+            foreach(var player in _game.Players)
             {
-                OnTurnPlayerChanged(TurnPlayer.Name);
-                OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
-                AgentDecision decision = await _turnPlayer.Agent.RequestMoveAsync(_game);
-                OnDebuggingMessage(_turnPlayer + " does: " + decision);
+                if (player.Agent == null)
+                    throw new InvalidOperationException("Both players must have an Agent to make moves.");
+                player.Agent.GameBegins(player, _game);
+            }
+            _game.NumberOfMovesPlayed = 0;
+            SetGamePhase(GamePhase.MainPhase);
+            MainPhase_AskPlayerToMove(_game.Black);
+        }
 
-                if (decision.Kind == AgentDecisionKind.Resign)
+        private void MainPhase_AskPlayerToMove(Player turnPlayer)
+        {
+            if (GamePhase == GamePhase.Completed) return;
+            _turnPlayer = turnPlayer;
+            OnTurnPlayerChanged(_turnPlayer);
+            OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
+            _turnPlayer.Agent.PleaseMakeAMove();
+        }
+
+        public void MarkGroupDead(Position position)
+        {
+            var board = FastBoard.CreateBoardFromGame(_game);
+            if (board[position.X, position.Y] == StoneColor.None)
+            {
+                return;
+            }
+            var group = _game.Ruleset.DiscoverGroup(position, board);
+            foreach(var deadStone in group)
+            {
+                if (!this._deadPositions.Contains(deadStone))
                 {
-                    OnResignation(_turnPlayer, decision.Explanation);
-                    OnDebuggingMessage("Game is over by resignation.");
-                    break;
+                    this._deadPositions.Add(deadStone);
                 }
-                if (decision.Kind != AgentDecisionKind.Move)
+            }
+            _playersDoneWithLifeDeath.Clear();
+            OnBoardMustBeRefreshed();
+        }
+        public void LifeDeath_Done(Player player)
+        {
+
+            if (!_playersDoneWithLifeDeath.Contains(player))
+            {
+                _playersDoneWithLifeDeath.Add(player);
+            }
+            if (_playersDoneWithLifeDeath.Count == 2)
+            {
+                SetGamePhase(GamePhase.Completed);
+            }
+            OnBoardMustBeRefreshed();
+        }
+        public async void MakeMove(Player player, Move move)
+        {
+            if (_gamePhase == GamePhase.Completed) return;
+            if (_gamePhase != GamePhase.MainPhase)
+                throw new InvalidOperationException("Moves can only be made during main phase.");
+            if (player != TurnPlayer)
+                throw new InvalidOperationException("It is not your turn.");
+            OnDebuggingMessage(_turnPlayer + " moves: " + move);
+
+            MoveProcessingResult result =
+                   _game.Ruleset.ProcessMove(
+                       FastBoard.CreateBoardFromGame(_game), 
+                       move, 
+                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<StoneColor[,]>()); // TODO history
+
+            if (result.Result == MoveResult.LifeDeathConfirmationPhase)
+            {
+                SetGamePhase(GamePhase.LifeDeathDetermination);
+                _turnPlayer = null;
+                return;
+            }
+            if (result.Result != MoveResult.Legal)
+            {
+                HandleIllegalMove(player, ref result);
+                if (result.Result != MoveResult.Legal)
                 {
-                    throw new Exception("There is no other possible decision.");
+                    // Still illegal.
+                    return;
                 }
+            }
+            if (move.Kind == MoveKind.PlaceStone)
+            {
+                OnDebuggingMessage("Adding " + move + " to primary timeline.");
+                move.Captures.AddRange(result.Captures);
+            }
+            else if (move.Kind == MoveKind.Pass)
+            {
+                OnDebuggingMessage(_turnPlayer + " passed!");
+            }
+            else
+            {
+                throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
+            }
+            // The move stands, let's make the other player move now.
+            _game.NumberOfMovesPlayed++;
+            _game.GameTree.AddMoveToEnd(move, FastBoard.CloneBoard(result.NewBoard));
+            if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
+            {
+                await _game.Server.MakeMove(_game, move);
+            }
+            OnBoardMustBeRefreshed();
+            MainPhase_AskPlayerToMove(_game.OpponentOf(player));
+        }
 
-                Move moveToMake = decision.Move;
-                MoveProcessingResult result =
-                        _game.Ruleset.ProcessMove(FastBoard.CreateBoardFromGame(_game),
-                        decision.Move,
-                        new List<StoneColor[,]>()); // TODO history
-
-                bool isTheMoveLegal = result.Result == MoveResult.Legal ||
-                                      result.Result == MoveResult.LifeDeathConfirmationPhase;
-                if (!isTheMoveLegal && _turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+        private void HandleIllegalMove(Player player, ref MoveProcessingResult result)
+        {
+            if (player.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
+            {
+                OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
+                result.Result = MoveResult.Legal;
+                return;
+            }
+            if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
+            {
+                if (this.EnforceRules)
                 {
-                    OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
-                    isTheMoveLegal = true;
-
-                }
-                if (!isTheMoveLegal)
-                {
-                    if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
+                    // Move is forbidden.
+                    OnDebuggingMessage("Move is illegal because: " + result.Result);
+                    if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
                     {
-                        if (this.EnforceRules)
-                        {
-                            // Move is forbidden.
-                            OnDebuggingMessage("Move is illegal because: " + result.Result);
-                            if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
-                            {
-                                OnDebuggingMessage("Illegal move - retrying.");
-                                continue; // retry
-                            }
-                            else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
-                            {
+                        OnDebuggingMessage("Illegal move - retrying.");
+                        _turnPlayer.Agent.PleaseMakeAMove();
+                    }
+                    else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
+                    {
 
-                                OnDebuggingMessage("Illegal move - making a random move instead.");
-                                StoneColor actorColor = (_turnPlayer == _game.Players[0]) ? StoneColor.Black : StoneColor.White;
-                                List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(actorColor,
-                                    FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
-                                                               new List<Position>();
-                                // TODO add history
-                                if (possibleMoves.Count == 0)
-                                {
-                                    OnDebuggingMessage("NO MORE MOVES!");
-                                    // TODO
-                                    break;
-                                }
-                                else
-                                {
-                                    Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
-                                    decision = AgentDecision.MakeMove(Move.PlaceStone(actorColor, randomTargetposition),
-                                        "A random move was made because the AI supplied an illegal move.");
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("This agent does not provide information on how to handle its illegal move.");
-                            }
+                        OnDebuggingMessage("Illegal move - making a random move instead.");
+                        List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(player.Color,
+                            FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
+                                                       new List<Position>(); // TODO add history
+
+                        if (possibleMoves.Count == 0)
+                        {
+                            MakeMove(player, Move.Pass(player.Color));
+                            return;
                         }
                         else
                         {
-                            // Ok, we're not enforcing rules.
+                            Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
+                            Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
+                            MakeMove(player, newMove);
+                            return;
                         }
                     }
                     else
                     {
-                        // Ok, server will handle this.
+                        throw new Exception("This agent does not provide information on how to handle its illegal move.");
                     }
-                }
-                if (decision.Move.Kind == MoveKind.PlaceStone)
-                {
-                    OnDebuggingMessage("Adding " + decision.Move + " to primary timeline.");
-                    decision.Move.Captures.AddRange(result.Captures);
-
-                    _game.GameTree.AddMoveToEnd(decision.Move);
-
-                    if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-                    {
-                        await _game.Server.MakeMove(_game, decision.Move);
-                    }
-                }
-                else if (decision.Move.Kind == MoveKind.Pass)
-                {
-                    OnDebuggingMessage(_turnPlayer + " passed!");
                 }
                 else
                 {
-                    throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
+                    // Ok, we're not enforcing rules.
+                    result.Result = MoveResult.Legal;
                 }
-                // THE MOVE STANDS
-                _game.NumberOfMovesPlayed++;
-                _game.GameTree.GameTreeRoot.GetTimelineView.Last().BoardState
-                    = FastBoard.CreateBoardFromGame(_game);
-                OnBoardMustBeRefreshed();
-                _turnPlayer = _game.OpponentOf(_turnPlayer);
             }
-
+            else
+            {
+                // Ok, server will handle this.
+                result.Result = MoveResult.Legal;
+            }
         }
+
+        public void Resign(Player player)
+        {
+            OnResignation(player);
+            _turnPlayer = null;
+            SetGamePhase(GamePhase.Completed);
+        }
+
+        /// <summary>
+        /// Occurs when a PLAYER is about to take their turn.
+        /// </summary>
+        public event EventHandler<Player> TurnPlayerChanged;
+        private void OnTurnPlayerChanged(Player newTurnPlayer)
+        {
+            TurnPlayerChanged?.Invoke(this, newTurnPlayer);
+        }
+        /// <summary>
+        /// Occurs when a DEBUGGING MESSAGE should be printed out to the user in debug mode.
+        /// </summary>
+        public event EventHandler<string> DebuggingMessage;
+        private void OnDebuggingMessage(string logLine)
+        {
+            DebuggingMessage?.Invoke(this, logLine);
+        }
+        /// <summary>
+        /// Occurs when the PLAYER resigns. The second argument is the RESIGNATION REASON.
+        /// </summary>
+        public event EventHandler<Player> Resignation;
+        private void OnResignation(Player resigner)
+        {
+            Resignation?.Invoke(this, resigner);
+        }
+        /// <summary>
+        /// Occurs when the game board should be redrawn by the user interface, probably because a move was made.
+        /// </summary>
+        public event EventHandler BoardMustBeRefreshed;
+        private void OnBoardMustBeRefreshed()
+        {
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        }
+        /// <summary>
+        /// Occurs wheneven the current game phase changes.
+        /// </summary>
+        public event EventHandler<GamePhase> EnterPhase;
+        private void OnEnterPhase(GamePhase newPhase)
+        {
+            EnterPhase?.Invoke(this, newPhase);
+        }
+        /// <summary>
+        /// This is the primary game loop.
+        /// </summary>
+        public void LifeDeath_UndoPhase()
+        {
+            this._deadPositions = new List<Position>();
+            _playersDoneWithLifeDeath.Clear();
+            OnBoardMustBeRefreshed();
+        }
+
+        public void LifeDeath_Resume()
+        {
+            this._deadPositions = new List<Position>();
+            SetGamePhase(GamePhase.MainPhase);
+            _playersDoneWithLifeDeath.Clear();
+            OnBoardMustBeRefreshed();
+            MainPhase_AskPlayerToMove(_game.Black);
+        }
+
+        public void AbortGame()
+        {
+            _gamePhase = GamePhase.Completed;
+        }
+    }
+    /// <summary>
+    /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
+    /// </summary>
+    public enum GamePhase
+    {
+        /// <summary>
+        /// The game has not yet been started.
+        /// </summary>
+        NotYetBegun,
+        /// <summary>
+        /// Black is placing handicap stones on the board.
+        /// </summary>
+        HandicapPlacement,
+        /// <summary>
+        /// The main phase: In this phase, players alternately make moves until both players pass.
+        /// </summary>
+        MainPhase,
+        /// <summary>
+        /// The Life/Death Determination Phase: 
+        /// In this phase, players agree on which stones should be marked dead and which should be marked alive.
+        /// </summary>
+        LifeDeathDetermination,
+        /// <summary>
+        /// The game has ended and its score has been calculated.
+        /// </summary>
+        Completed
     }
 }

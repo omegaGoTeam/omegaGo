@@ -298,7 +298,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex) + 1, move);
+                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex), move);
             }
         }
 
@@ -426,6 +426,24 @@ namespace OmegaGo.Core.Online.Igs
         private void OnIncomingMatchRequest(IgsMatchRequest matchRequest)
         {
             IncomingMatchRequest?.Invoke(matchRequest);
+        }
+
+        /// <summary>
+        /// Occurs when another player named ARGUMENT1 declines a match request we sent them.
+        /// </summary>
+        public event EventHandler<string> MatchRequestDeclined;
+        private void OnMatchRequestDeclined(string playerName)
+        {
+            MatchRequestDeclined?.Invoke(this, playerName);
+        }
+
+        /// <summary>
+        /// Occurs when our match request is accepted and creates a GAME.
+        /// </summary>
+        public event EventHandler<Game> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(Game acceptedGame)
+        {
+            MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
 
 

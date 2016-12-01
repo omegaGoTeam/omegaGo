@@ -74,6 +74,8 @@ namespace FormsPrototype
             igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.OutgoingLine += Igs_OutgoingLine;
+            igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
+            igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.Connect())
             {
                 MessageBox.Show("Connection to IGS failed.");
@@ -83,6 +85,22 @@ namespace FormsPrototype
             {
                 MessageBox.Show("Login failed.");
             }
+        }
+
+        private void Igs_MatchRequestAccepted(object sender, Game game)
+        {
+            //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
+            Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
+            Player networkPlayer = game.OpponentOf(localPlayer);
+            InGameForm ingameForm = new InGameForm(game, igs);
+            localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
+            networkPlayer.Agent = new OnlineAgent();
+            ingameForm.Show();
+        }
+
+        private void Igs_MatchRequestDeclined(object sender, string e)
+        {
+            MessageBox.Show("Our match request was declined by '" + e + "'. Boo '" + e + "'.");
         }
 
         private void Igs_OutgoingLine(string obj)
@@ -214,7 +232,9 @@ namespace FormsPrototype
         {
             if (text is string && ((string)text) == "Human")
             {
-                return new InGameFormGuiAgent(form);
+                GuiAgent guiAgent =  new GuiAgent();
+                guiAgent.OnPleaseMakeAMove += form.GuiAgent_PleaseMakeAMove;
+                return guiAgent;
             }
             if (text is IAIProgram)
             {

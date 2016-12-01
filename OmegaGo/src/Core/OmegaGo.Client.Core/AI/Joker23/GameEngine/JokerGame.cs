@@ -204,16 +204,6 @@ namespace OmegaGo.Core.AI.Joker23 {
         public int getTurn() {
             return (turn & 1);
         }
-
-        public void printBoard() {
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    CoreDebug.Write("[" + board[i,j] + "]");
-                }
-                CoreDebug.WriteLine();
-            }
-            CoreDebug.WriteLine();
-        }
     }
 
 }

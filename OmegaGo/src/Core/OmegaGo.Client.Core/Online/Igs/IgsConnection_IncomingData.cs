@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Online.Igs.Structures;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -156,6 +157,13 @@ namespace OmegaGo.Core.Online.Igs
                         weAreHandlingAnInterruptMessage = true;
                         continue;
                     }
+
+                    if (igsLine.PureLine.EndsWith("declines your request for a match."))
+                    {
+                        OnMatchRequestDeclined(igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' ')));
+                        weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
                     IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
                     if (matchRequest != null)
                     {
@@ -191,15 +199,38 @@ namespace OmegaGo.Core.Online.Igs
         private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
         {
             /* Acceptor:    
-            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
-            9 Handicap and komi are disable.
-            9 Creating match [10] with Soothie.
-            9 Please use say to talk to your opponent -- help say.
-            1 6
-            */
+             15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
+             9 Handicap and komi are disable.
+             9 Creating match [10] with Soothie.
+             9 Please use say to talk to your opponent -- help say.
+             1 6
+
+             Creator of accepted game:
+             9 Handicap and komi are disable.
+             9 Match [806] with OmegaGo1 in 75 accepted.
+             9 Please use say to talk to your opponent -- help say.
+             1 6
+             */
+            if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
+            {
+                GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
+                Game game = new Core.Game()
+                {
+                    BoardSize = new Core.GameBoardSize(19), // TODO
+                    Server = this,
+                    ServerId = heading.GameNumber,
+                };
+                game.Players.Add(new Core.Player(heading.BlackName, "?", game));
+                game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+                game.Ruleset = new JapaneseRuleset(game.Players[1], game.Players[0], game.BoardSize);
+                this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
+                this._gamesInProgressOnIgs.Add(game);
+                this.OnMatchRequestAccepted(game);
+
+            }
             if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
             {
-                // Make it not be an interrupt.
+                // Make it not be an interrupt and let it be handled by the match creator.
                 foreach (IgsLine line in currentLineBatch)
                 {
                     lock (_mutex)

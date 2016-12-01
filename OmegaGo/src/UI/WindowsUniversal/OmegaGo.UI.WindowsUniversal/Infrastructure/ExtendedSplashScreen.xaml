@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+    <Grid Background="{ThemeResource GameColorBrush}">
         <Canvas>
             <Image x:Name="extendedSplashImage" Source="/Assets/SplashScreen.png"/>
             <ProgressRing Name="splashProgressRing" Foreground="White" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" />

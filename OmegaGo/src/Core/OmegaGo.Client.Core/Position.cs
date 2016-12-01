@@ -169,6 +169,4 @@ namespace OmegaGo.Core
         }
 
     }
-
-
 }

@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:viewModel="using:OmegaGo.UI.ViewModels"
+    d:DataContext="{d:DesignInstance viewModel:MultiplayerDashboardViewModel, IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -15,10 +17,38 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Multiplayer" 
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
+        </Border.Background>
+        <Grid Background="#AAFDD270">
+            <TextBlock Text="Multiplayer" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
+                   Grid.Row="0"
+                   Foreground="White"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
-    </Grid>
+
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0,10,0,0" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Content="IGS Lobby"
+                        Command="{Binding Path=NavigateToIGSLobbyCommand}"
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="OGS Lobby"
+                        Command="{Binding Path=NavigateToOGSLobbyCommand}"
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="LAN Lobby"
+                        HorizontalAlignment="Stretch" />
+
+            </StackPanel>
+        </Grid>
+    </Border>    
 </views:ViewBase>

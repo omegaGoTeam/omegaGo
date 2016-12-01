@@ -18,7 +18,3 @@ namespace OmegaGo.Core.AI
         };
     }
 }
-
-namespace OmegaGo.Core.AI.Joker23
-{
-}
