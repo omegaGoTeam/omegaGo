@@ -30,6 +30,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         }
 
+
+        /// <summary>
+        /// Draws the entire game board for the provided state.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        /// <param name="gameState"></param>
         public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
         {
             int boardWidth = SharedBoardState.BoardWidth;
@@ -50,90 +57,45 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 SharedBoardState.BoardActualHeight,
                 Colors.Black);
 
-            CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
+            // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
 
-            for (int i = 0; i <= boardWidth; i++)
-            {
-                CanvasTextLayout textLayout = new CanvasTextLayout(sender, ((char)(65 + i)).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
-                textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
-
-                args.DrawingSession.DrawTextLayout(
-                    textLayout,
-                    (i * SharedBoardState.CellSize - (float)textLayout.DrawBounds.Width * 0.5f) + SharedBoardState.BoardBorderThickness,
-                    0,
-                    Colors.Black);
-
-                textLayout.Dispose();
-            }
-
-            for (int i = 0; i <= boardHeight; i++)
-            {
-                CanvasTextLayout textLayout = new CanvasTextLayout(sender, (boardHeight - i).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
-                textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
-
-                args.DrawingSession.DrawTextLayout(
-                    textLayout,
-                    0,
-                    (i * SharedBoardState.CellSize - (float)textLayout.DrawBounds.Height) + SharedBoardState.BoardBorderThickness,
-                    Colors.Black);
-
-                textLayout.Dispose();
-            }
-
-            textFormat.Dispose();
+            DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
             args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardState.BoardBorderThickness, SharedBoardState.BoardBorderThickness);
-
-            for (int i = 0; i <= boardWidth; i++)
-            {
-                args.DrawingSession.DrawLine(i * SharedBoardState.CellSize, 0, i * SharedBoardState.CellSize, SharedBoardState.CellSize * boardHeight, Colors.Black);
-            }
-
-            for (int i = 0; i <= boardHeight; i++)
-            {
-                args.DrawingSession.DrawLine(0, i * SharedBoardState.CellSize, SharedBoardState.CellSize * boardWidth, i * SharedBoardState.CellSize, Colors.Black);
-            }
-
-            // TODO check axis correctness
+            DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
+            
             if (gameState != null)
             {
-                Core.StoneColor[,] boardState = gameState.BoardState;
+                StoneColor[,] boardState = gameState.BoardState;
                 for (int x = 0; x < SharedBoardState.BoardWidth; x++)
                 {
                     for (int y = 0; y < SharedBoardState.BoardHeight; y++)
                     {
-                        if (boardState[x, y] == Core.StoneColor.Black)
-                            DrawStone(args.DrawingSession, x, y, Core.StoneColor.Black);
-                        else if (boardState[x, y] == Core.StoneColor.White)
-                            DrawStone(args.DrawingSession, x, y, Core.StoneColor.White);
+                        int translatedYCoordinate = (SharedBoardState.BoardHeight - y - 1);
+
+                        if (boardState[x, y] == StoneColor.Black)
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, StoneColor.Black);
+                        else if (boardState[x, y] == StoneColor.White)
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, StoneColor.White);
                     }
                 }
             }
             
-            // Old rendering
-            //foreach (var move in game.PrimaryTimeline)
-            //{
-            //    if (move.WhoMoves == Core.StoneColor.Black)
-            //        DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.Black);
-            //    else if (move.WhoMoves == Core.StoneColor.White)
-            //        DrawStone(args.DrawingSession, move.Coordinates.X, move.Coordinates.Y, Core.StoneColor.White);
-            //}
-
             if (_sharedBoardState.HighlightedPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
-                    _sharedBoardState.HighlightedPosition.X,
-                    _sharedBoardState.HighlightedPosition.Y,
-                    _sharedBoardState.HighlightColor.ToUWPColor());
+                    SharedBoardState.HighlightedPosition.X,
+                    (SharedBoardState.BoardHeight - 1) - SharedBoardState.HighlightedPosition.Y,
+                    SharedBoardState.HighlightColor.ToUWPColor());
             }
 
             if (_sharedBoardState.SelectedPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
-                    _sharedBoardState.SelectedPosition.X,
-                    _sharedBoardState.SelectedPosition.Y,
-                    _sharedBoardState.SelectionColor.ToUWPColor());
+                    SharedBoardState.SelectedPosition.X,
+                    (SharedBoardState.BoardHeight - 1) - SharedBoardState.SelectedPosition.Y,
+                    SharedBoardState.SelectionColor.ToUWPColor());
             }
         }
 
@@ -142,38 +104,143 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         }
 
-        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, Core.StoneColor stoneColor)
+        /// <summary>
+        /// Draws a stone at the specified position with specified color.
+        /// </summary>
+        /// <param name="drawingSession">used for rendering</param>
+        /// <param name="x">position on x axis</param>
+        /// <param name="y">position on y axis</param>
+        /// <param name="stoneColor">color of the stone</param>
+        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor stoneColor)
         {
-            switch(stoneColor)
+            // We need to translate the position of the stone by its half to get the center for the ellipse shape
+            int xPos = SharedBoardState.CellSize * x + SharedBoardState.HalfCellSize;
+            int yPos = SharedBoardState.CellSize * y + SharedBoardState.HalfCellSize;
+            float radiusModifier = 0.4f;
+            float radius = SharedBoardState.CellSize * radiusModifier;
+
+            switch (stoneColor)
             {
-                case Core.StoneColor.Black:
+                case StoneColor.Black:
                     drawingSession.FillEllipse(
-                        SharedBoardState.CellSize * x,
-                        SharedBoardState.CellSize * y,
-                        SharedBoardState.CellSize * 0.4f,
-                        SharedBoardState.CellSize * 0.4f,
+                        xPos,
+                        yPos,
+                        radius,
+                        radius,
                         Colors.Black);
                     break;
-                case Core.StoneColor.White:
+                case StoneColor.White:
                     drawingSession.FillEllipse(
-                        SharedBoardState.CellSize * x,
-                        SharedBoardState.CellSize * y,
-                        SharedBoardState.CellSize * 0.4f,
-                        SharedBoardState.CellSize * 0.4f,
+                        xPos,
+                        yPos,
+                        radius,
+                        radius,
                         Colors.White);
                     break;
             }
         }
 
+        /// <summary>
+        /// Draws a background for an intersection.
+        /// </summary>
+        /// <param name="drawingSession">used for rendering</param>
+        /// <param name="x">position on x axis</param>
+        /// <param name="y">position on y axis</param>
+        /// <param name="backgroundColor">background color</param>
         private void DrawStoneCellBackground(CanvasDrawingSession drawingSession, int x, int y, Color backgroundColor)
         {
+            // No need to find center as we are drawing a rectangle from top left position - which we have
             drawingSession.FillRoundedRectangle(
-                SharedBoardState.CellSize * x - SharedBoardState.HalfCellSize,
-                SharedBoardState.CellSize * y - SharedBoardState.HalfCellSize,
+                SharedBoardState.CellSize * x,
+                SharedBoardState.CellSize * y,
                 SharedBoardState.CellSize,
                 SharedBoardState.CellSize, 
                 4, 4,
                 backgroundColor);
+        }
+        
+        /// <summary>
+        /// Draws horizontal and vertical coordinates for the board.
+        /// </summary>
+        /// <param name="resourceCreator">used for storing graphical resources</param>
+        /// <param name="drawingSession">used for rendering</param>
+        /// <param name="boardWidth">width of the game board</param>
+        /// <param name="boardHeight">height of the game board</param>
+        private void DrawBoardCoordinates(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
+        {
+            CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
+            int charCode = 65;
+            
+            // Draw horizontal char coordinates
+            for (int i = 0; i < boardWidth; i++)
+            {
+                if ((char)charCode == 'I')
+                    charCode++;
+
+                CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, ((char)(charCode)).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
+                textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
+                textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
+                
+                drawingSession.DrawTextLayout(
+                    textLayout,
+                    (i * SharedBoardState.CellSize) + SharedBoardState.BoardBorderThickness,
+                    0,
+                    Colors.Black);
+
+                charCode++;
+                textLayout.Dispose();
+            }
+ 
+            // Draw vertical numerical coordinates
+            for (int i = 0; i < boardHeight; i++)
+            {
+                CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, (boardHeight - i).ToString(), textFormat, SharedBoardState.CellSize, SharedBoardState.CellSize);
+                textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
+                textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
+                
+                drawingSession.DrawTextLayout(
+                    textLayout,
+                    0,
+                    (i * SharedBoardState.CellSize) + SharedBoardState.BoardBorderThickness,
+                    Colors.Black);
+
+                textLayout.Dispose();
+            }
+
+            textFormat.Dispose();
+        }
+
+        /// <summary>
+        /// Draw the game board. Draws horizontal and vertical lines.
+        /// </summary>
+        /// <param name="drawingSession">used for rendering</param>
+        /// <param name="boardWidth">width of the game board</param>
+        /// <param name="boardHeight">height of the game board</param>
+        private void DrawBoardLines(CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
+        {
+            // Each line starts / end in the middle of the cell -> Start with offset HalfCellSize AND end with minut offset HalfCellSize
+
+            // Draw vertical lines
+            for (int i = 0; i < boardWidth; i++)
+            {
+                drawingSession.DrawLine(
+                    SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // x1
+                    SharedBoardState.HalfCellSize,                                              // y1
+                    SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // x2
+                    SharedBoardState.CellSize * boardHeight - SharedBoardState.HalfCellSize,    // y2
+                    Colors.Black);
+            }
+
+            // Draw horizontal lines
+            for (int i = 0; i < boardHeight; i++)
+            {
+                drawingSession.DrawLine(
+                    SharedBoardState.HalfCellSize,                                              // x1
+                    SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // y2
+                    SharedBoardState.CellSize * boardWidth - SharedBoardState.HalfCellSize,     // x2
+                    SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // y2
+                    Colors.Black);
+            }
         }
     }
 }

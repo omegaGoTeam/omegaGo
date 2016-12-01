@@ -99,18 +99,24 @@ namespace OmegaGo.UI.Services.Game
             }
         }
 
+        /// <summary>
+        /// Gets or sets the number of horizontal stones.
+        /// </summary>
         public int BoardWidth
         {
             get { return _boardWidth; }
             set { _boardWidth = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardWidth), true); }
         }
 
+        /// <summary>
+        /// Gets or sets the number of vertical stones.
+        /// </summary>
         public int BoardHeight
         {
             get { return _boardHeight; }
             set { _boardHeight = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardHeight), true); }
         }
-
+        
         public int BoardActualWidth => _boardActualWidth;
         public int BoardActualHeight => _boardActualHeight;
 
@@ -125,7 +131,7 @@ namespace OmegaGo.UI.Services.Game
             _cellSize = 32;
             _halfCellSize = _cellSize / 2;
 
-            _boardBorderThickness = 40;
+            _boardBorderThickness = 24;
             _boardLineThickness = 1;
 
             _boardWidth = 1;
@@ -147,8 +153,11 @@ namespace OmegaGo.UI.Services.Game
 
         private void UpdateActualBoardSize()
         {
-            _boardActualWidth = BoardWidth * CellSize + 2 * BoardBorderThickness;
-            _boardActualHeight = BoardHeight * CellSize + 2 * BoardBorderThickness;
+            // Subtract 1 as BoardWidth and BoardHeight start from 1 and not zero 0.
+            // For example a board of size 9x9 has BoardWidth 9 and BoardHeight 9, instead of 8-8.
+            // TODO Consider changing the presumed input to start at index 0 as this would make some internal logic easier. 
+            _boardActualWidth = (BoardWidth) * CellSize + 2 * BoardBorderThickness;
+            _boardActualHeight = (BoardHeight) * CellSize + 2 * BoardBorderThickness;
         }
     }
 }
