@@ -85,8 +85,8 @@
     <Compile Include="ViewModels\TutorialViewModel.cs" />
     <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
     <Compile Include="ViewModels\Tutorial\ButtonNextTextCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\DummyCommand.cs" />
     <Compile Include="ViewModels\Tutorial\EndScenarioCommand.cs" />
+    <Compile Include="ViewModels\Tutorial\FlashCommand.cs" />
     <Compile Include="ViewModels\Tutorial\LoopControl.cs" />
     <Compile Include="ViewModels\Tutorial\MenuCommand.cs" />
     <Compile Include="ViewModels\Tutorial\NextCommand.cs" />
@@ -139,6 +139,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ViewModels\Tutorial\Tutorial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ViewModels\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

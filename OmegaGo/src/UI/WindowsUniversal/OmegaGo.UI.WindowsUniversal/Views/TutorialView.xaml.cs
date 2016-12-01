@@ -18,11 +18,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             Frame.GoBack();
         }
 
-        private void Scenario_NextButtonVisibilityChanged(object sender, bool e)
-        {
-            this.ButtonNext.Visibility = e ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         private void TutorialView_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.K)

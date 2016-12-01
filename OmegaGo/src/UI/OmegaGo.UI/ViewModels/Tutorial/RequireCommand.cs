@@ -2,14 +2,18 @@
 
 namespace OmegaGo.UI.ViewModels.Tutorial
 {
+    /// <summary>
+    /// The "require [position]" command will wait until the user clicks on the given [position].
+    /// </summary>
+    /// <seealso cref="OmegaGo.UI.ViewModels.Tutorial.ScenarioCommand" />
     internal class RequireCommand : ScenarioCommand
     {
         private readonly Position _position;
-        public override bool AllowsBoardClick => true;
         public override void BoardClick(Position position, Scenario scenario)
         {
             if (position == this._position)
             {
+                scenario.OnSetShiningPosition(Position.Undefined);
                 scenario.ExecuteCommand();
             }
             else

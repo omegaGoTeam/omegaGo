@@ -7,9 +7,18 @@ using OmegaGo.Core;
 
 namespace OmegaGo.UI.ViewModels.Tutorial
 {
-    class ScenarioLoader
+    /// <summary>
+    /// This class loads the Omega Go tutorial scenario from a text file into a list of commands. 
+    /// </summary>
+    internal static class ScenarioLoader
     {
-        public static List<ScenarioCommand> LoadFromText(string data, Scenario scenario)
+        /// <summary>
+        /// Loads a scenario from a text given in our domain-specific language created for this purpose and returns it 
+        /// as a list of commands.
+        /// </summary>
+        /// <param name="data">Contents of the scenario file.</param>
+        /// <returns></returns>
+        public static List<ScenarioCommand> LoadFromText(string data)
         {
             List<ScenarioCommand> commands = new List<ScenarioCommand>();
             // TODO HACK the menu parsing system is a little.... fragiles
@@ -21,11 +30,11 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                 if (parsedLine.Command == "menu")
                 {
                     ParsedLine option1 = ParsedLine.Parse(lines[i + 1]);
-                    ParsedLine option1then = ParsedLine.Parse(lines[i + 2]);
+                    ParsedLine option1Then = ParsedLine.Parse(lines[i + 2]);
                     ParsedLine option2 = ParsedLine.Parse(lines[i + 3]);
-                    ParsedLine option2then = ParsedLine.Parse(lines[i + 4]);
+                    ParsedLine option2Then = ParsedLine.Parse(lines[i + 4]);
                     i += 4;
-                    commands.Add(new MenuCommand(option1, option1then, option2, option2then));
+                    commands.Add(new MenuCommand(option1, option1Then, option2, option2Then));
                 }
                 else
                 {
@@ -83,7 +92,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                     yield return new ButtonNextTextCommand(parsedLine.FullArgument);
                     break;
                 case "suicidal_move_message":
-                    yield return new DummyCommand();
+                    // TODO
                     break;
                 case "black":
                     yield return new PlaceCommand(StoneColor.Black, parsedLine.Arguments);
@@ -107,9 +116,9 @@ namespace OmegaGo.UI.ViewModels.Tutorial
 
         public class ParsedLine
         {
-            public string Command;
-            public string FullArgument;
-            public string[] Arguments;
+            public readonly string Command;
+            public readonly string FullArgument;
+            public readonly string[] Arguments;
 
             public static ParsedLine Parse(string line)
             {
@@ -127,15 +136,6 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                 this.FullArgument = fullArgument;
                 this.Arguments = arguments;
             }
-        }
-    }
-
-    internal class FlashCommand : ScenarioCommand
-    {
-        public override LoopControl Execute(Scenario scenario)
-        {
-            scenario.ClearBoard();
-            return LoopControl.Continue;
         }
     }
 }

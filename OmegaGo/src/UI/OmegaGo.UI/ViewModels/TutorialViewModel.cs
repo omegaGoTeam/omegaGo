@@ -29,7 +29,13 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel = new BoardViewModel() { BoardState = BoardState }; // Mindfuck inception o.O
             Scenario = new BeginnerScenario();
             Scenario.GameTreeNodeChanged += Scenario_GameTreeNodeChanged;
+            Scenario.ShiningPositionChanged += Scenario_ShiningPositionChanged;
 
+        }
+
+        private void Scenario_ShiningPositionChanged(object sender, Core.Position e)
+        {
+            BoardState.ShiningPosition = e;
         }
 
         private void Scenario_GameTreeNodeChanged(object sender, Core.GameTreeNode e)
