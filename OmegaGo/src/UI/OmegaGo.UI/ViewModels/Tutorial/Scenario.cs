@@ -69,17 +69,17 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         internal void ClearBoard()
         {
             _currentGameTreeNode = new GameTreeNode(Move.Pass(StoneColor.Black));
-            _currentGameTreeNode.BoardState = new StoneColor[9, 9];
+            _currentGameTreeNode.BoardState = new GameBoard(new GameBoardSize(9));
             GameTreeNodeChanged?.Invoke(this, _currentGameTreeNode);
         }
         internal void PlaceStone(StoneColor stoneColor, Position position)
         {
             var newNode =  new GameTreeNode(Move.PlaceStone(stoneColor, position));
-            StoneColor[,] fullBoardPosition;
+            GameBoard fullBoardPosition;
             if (_currentGameTreeNode == null)
             {
                 _currentGameTreeNode = newNode;
-                fullBoardPosition = new StoneColor[9, 9];
+                fullBoardPosition = new GameBoard(new GameBoardSize(9));
             }
             else
             {
@@ -87,7 +87,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                 fullBoardPosition = _currentGameTreeNode.BoardState;
                 _currentGameTreeNode = newNode;
             }
-            StoneColor[,] newBoardPosition = FastBoard.CloneBoard(fullBoardPosition);
+            GameBoard newBoardPosition = new GameBoard(fullBoardPosition);
             newBoardPosition[position.X, position.Y] = stoneColor;
             _currentGameTreeNode.BoardState = newBoardPosition;
             GameTreeNodeChanged?.Invoke(this, _currentGameTreeNode);

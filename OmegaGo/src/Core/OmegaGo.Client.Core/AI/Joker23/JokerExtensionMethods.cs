@@ -17,7 +17,7 @@ namespace OmegaGo.Core.AI.Joker23
             return list.Count == 0;
         }
 
-        public static char[,] OurBoardToJokerBoard(StoneColor[,] board, GameBoardSize size)
+        public static char[,] OurBoardToJokerBoard(GameBoard board, GameBoardSize size)
         {
             char[,] jokerBoard = new char[size.Width, size.Height];
             for (int x = 0; x < size.Width; x++)

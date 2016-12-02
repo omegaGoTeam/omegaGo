@@ -23,7 +23,7 @@ namespace FormsPrototype
         private Game _game;
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
-        private GoColor[,] _truePositions = new GoColor[19, 19];
+        private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
@@ -53,7 +53,7 @@ namespace FormsPrototype
         private void RefreshBoard()
         {
             // Positions
-            GoColor[,] positions = new GoColor[19, 19];
+            GameBoard positions = new GameBoard(new GameBoardSize(19));
             foreach (Move move in this._game.PrimaryTimeline)
             {
                 if (move.Kind == MoveKind.PlaceStone && move.WhoMoves != GoColor.None)
@@ -82,7 +82,7 @@ namespace FormsPrototype
             if (this._game.GameTree.LastNode != null)
             {
                 this._territories = new Territory[this._game.BoardSize.Width, this._game.BoardSize.Height];
-                StoneColor[,] boardAfterRemovalOfDeadStones =
+                GameBoard boardAfterRemovalOfDeadStones =
                     FastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
                         this._controller.DeadPositions);
                 Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
@@ -146,7 +146,7 @@ namespace FormsPrototype
             }
             if (e == GamePhase.Completed)
             {
-                GoColor[,] finalBoard = FastBoard.BoardWithoutTheseStones(
+                GameBoard finalBoard = FastBoard.BoardWithoutTheseStones(
                     FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
                 Scores scores = this._game.Ruleset.CountScore(finalBoard);
                 MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +

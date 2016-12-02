@@ -129,7 +129,7 @@ namespace OmegaGo.Core
                    _game.Ruleset.ProcessMove(
                        FastBoard.CreateBoardFromGame(_game), 
                        move, 
-                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<StoneColor[,]>()); // TODO history
+                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
 
             if (result.Result == MoveResult.LifeDeathConfirmationPhase)
             {
@@ -161,7 +161,7 @@ namespace OmegaGo.Core
             }
             // The move stands, let's make the other player move now.
             _game.NumberOfMovesPlayed++;
-            _game.GameTree.AddMoveToEnd(move, FastBoard.CloneBoard(result.NewBoard));
+            _game.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
             if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
             {
                 await _game.Server.MakeMove(_game, move);
@@ -194,7 +194,7 @@ namespace OmegaGo.Core
 
                         OnDebuggingMessage("Illegal move - making a random move instead.");
                         List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(player.Color,
-                            FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
+                            FastBoard.CreateBoardFromGame(_game), new List<GameBoard>()) ??
                                                        new List<Position>(); // TODO add history
 
                         if (possibleMoves.Count == 0)

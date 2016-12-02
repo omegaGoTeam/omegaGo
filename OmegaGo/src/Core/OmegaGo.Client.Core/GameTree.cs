@@ -98,7 +98,7 @@ namespace OmegaGo.Core
 
         }
         
-        public void AddMoveToEnd(Move move, StoneColor[,] newBoard)
+        public void AddMoveToEnd(Move move, GameBoard newBoard)
         {
             if (GameTreeRoot == null)
             {

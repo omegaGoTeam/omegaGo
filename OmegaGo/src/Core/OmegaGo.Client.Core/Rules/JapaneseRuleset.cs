@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Rules
             _blackScore = 0.0f;
         }
 
-        public override Scores CountScore(StoneColor[,] currentBoard)
+        public override Scores CountScore(GameBoard currentBoard)
         {
             Scores scores;
             scores = CountTerritory(currentBoard);
@@ -65,7 +65,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
         {
             _isPreviousMovePass = false;
 
