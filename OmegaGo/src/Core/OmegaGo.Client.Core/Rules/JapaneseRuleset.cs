@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             _whiteScore -= deadWhiteStoneCount;
             _blackScore -= deadBlackStoneCount;

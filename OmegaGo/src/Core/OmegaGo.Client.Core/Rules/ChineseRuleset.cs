@@ -32,7 +32,7 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             return; //Chinese ruleset uses area counting, we do not need number of dead stones
         }

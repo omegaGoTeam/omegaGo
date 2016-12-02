@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Rules
    /// <summary>
    /// The ruleset contains the basics of Go rules. 
    /// </summary>
-    public abstract class Ruleset
+    public abstract class Ruleset : IRuleset
     {
         private int _boardWidth, _boardHeight;
         private bool[,] _checkedInters;
@@ -37,7 +37,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>The score of players.</returns>
         public abstract Scores CountScore(GameBoard currentBoard);
 
-        public abstract void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
+        public abstract void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
 
         /// <summary>
         /// Sets the value of Komi. 
