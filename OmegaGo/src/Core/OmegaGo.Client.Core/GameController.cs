@@ -131,7 +131,7 @@ namespace OmegaGo.Core
                        move, 
                        _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
 
-            if (result.Result == MoveResult.LifeDeathConfirmationPhase)
+            if (result.Result == MoveResult.LifeDeathDeterminationPhase)
             {
                 SetGamePhase(GamePhase.LifeDeathDetermination);
                 _turnPlayer = null;

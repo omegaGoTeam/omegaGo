@@ -60,7 +60,7 @@ namespace OmegaGo.Core.Rules
             if (_isPreviousMovePass)
             {
                 //TODO check whether opponents score increases according to Chinese rules
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
             else 
             {

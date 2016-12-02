@@ -74,7 +74,7 @@ namespace OmegaGo.Core.Rules
             //check previous move
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
 
             // Black player starts the passing

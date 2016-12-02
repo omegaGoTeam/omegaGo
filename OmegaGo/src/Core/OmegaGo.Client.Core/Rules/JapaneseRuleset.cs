@@ -55,7 +55,7 @@ namespace OmegaGo.Core.Rules
         {
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
             else
             {

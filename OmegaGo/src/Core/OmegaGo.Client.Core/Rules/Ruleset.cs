@@ -82,7 +82,6 @@ namespace OmegaGo.Core.Rules
            
         }
 
-
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
@@ -178,6 +177,62 @@ namespace OmegaGo.Core.Rules
             // TODO this should not alter the ruleset or players, the "IsLegalMove" method should be pure
             MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
             return result.Result;
+        }
+
+        /// <summary>
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
+        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// </summary>
+        /// <param name="pos">The position whose group we want to identify.</param>
+        /// <param name="board">The current full board position.</param>
+        /// <returns></returns>
+        public IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board)
+        {
+            _checkedInters = new bool[_boardWidth, _boardHeight];
+            List<Position> group = new List<Position>();
+            bool iDontCare = false;
+            GetGroup(ref group, ref iDontCare, pos, board);
+            return group;
+        }
+
+        /// <summary>
+        /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
+        /// All stones on the board are considered alive for the purposes of determining territory using this method.
+        /// </summary>
+        /// <param name="board">The current game board.</param>
+        public Territory[,] DetermineTerritory(GameBoard board)
+        {
+            Territory[,] regions = new Territory[_boardWidth, _boardHeight];
+            for (int i = 0; i < _boardWidth; i++)
+            {
+                for (int j = 0; j < _boardHeight; j++)
+                {
+                    regions[i, j] = Territory.Unknown;
+                }
+            }
+
+            for (int i = 0; i < _boardWidth; i++)
+            {
+                for (int j = 0; j < _boardHeight; j++)
+                {
+                    if (regions[i, j] == Territory.Unknown && board[i, j] == StoneColor.None)
+                    {
+                        HashSet<Position> region = new HashSet<Position>();
+                        Territory regionBelongsTo = Territory.Unknown;
+                        Position p = new Position();
+                        p.X = i;
+                        p.Y = j;
+                        GetRegion(ref region, ref regionBelongsTo, p, board);
+
+                        foreach (Position regionMember in region)
+                        {
+                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;
+                        }
+
+                    }
+                }
+            }
+            return regions;
         }
 
         /// <summary>
@@ -387,22 +442,6 @@ namespace OmegaGo.Core.Rules
         }
         
         /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
-        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
-        /// </summary>
-        /// <param name="pos">The position whose group we want to identify.</param>
-        /// <param name="board">The current full board position.</param>
-        /// <returns></returns>
-        public IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board)
-        {
-            _checkedInters = new bool[_boardWidth, _boardHeight];
-            List<Position> group = new List<Position>();
-            bool iDontCare = false;
-            GetGroup(ref group, ref iDontCare, pos, board);
-            return group;
-        }
-
-        /// <summary>
         /// Checks whether the player places a stone on the intersection where the opponent has just captured a stone.
         /// </summary>
         /// <param name="currentBoard">The state of game board.</param>
@@ -516,46 +555,6 @@ namespace OmegaGo.Core.Rules
 
             return scores;
 
-        }
-
-        /// <summary>
-        /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
-        /// All stones on the board are considered alive for the purposes of determining territory using this method.
-        /// </summary>
-        /// <param name="board">The current game board.</param>
-        public Territory[,] DetermineTerritory(GameBoard board)
-        {
-            Territory[,] regions = new Territory[_boardWidth, _boardHeight];
-            for (int i = 0; i < _boardWidth; i++)
-            {
-                for (int j = 0; j < _boardHeight; j++)
-                {
-                    regions[i, j] = Territory.Unknown;
-                }
-            }
-
-            for (int i = 0; i < _boardWidth; i++)
-            {
-                for (int j = 0; j < _boardHeight; j++)
-                {
-                    if (regions[i, j] == Territory.Unknown && board[i, j] == StoneColor.None)
-                    {
-                        HashSet<Position> region = new HashSet<Position>();
-                        Territory regionBelongsTo = Territory.Unknown;
-                        Position p = new Position();
-                        p.X = i;
-                        p.Y = j;
-                        GetRegion(ref region, ref regionBelongsTo, p, board);
-
-                        foreach(Position regionMember in region)
-                        {
-                            regions[regionMember.X, regionMember.Y] = regionBelongsTo;
-                        }
-
-                    }
-                }
-            }
-            return regions;
         }
 
         /// <summary>
@@ -692,28 +691,5 @@ namespace OmegaGo.Core.Rules
 
         }
 
-    }
-
-    /// <summary>
-    /// Determines which player controls a specific empty point or region.
-    /// </summary>
-    public enum Territory
-    {
-        /// <summary>
-        /// This point or region is controlled by the White player.
-        /// </summary>
-        White,
-        /// <summary>
-        /// This point or region is controlled by the Black player.
-        /// </summary>
-        Black,
-        /// <summary>
-        /// This point or region is bordered by both Black and White stones.
-        /// </summary>
-        Neutral,
-        /// <summary>
-        /// The allegiance of this point or region has not yet been calculated.
-        /// </summary>
-        Unknown
     }
 }
