@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Rules
         private float _blackScore;
         private CountingType _countingType;
         
-        public AGARuleset(Player white, Player black, GameBoardSize gbSize, CountingType countingType) : base(white, black, gbSize)
+        public AGARuleset(GameBoardSize gbSize, CountingType countingType) : base(gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;

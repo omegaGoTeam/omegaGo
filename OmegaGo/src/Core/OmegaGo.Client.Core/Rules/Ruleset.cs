@@ -19,10 +19,8 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
-        /// <param name="white">The player playing white stones.</param>
-        /// <param name="black">The player playing black stones.</param>
         /// <param name="gbSize">Size of the game board.</param>
-        public Ruleset(Player white, Player black, GameBoardSize gbSize)
+        public Ruleset(GameBoardSize gbSize)
         {
             _boardWidth = gbSize.Width;
             _boardHeight = gbSize.Height;
@@ -49,7 +47,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">Reference to the state of board.</param>
         /// <param name="handicapStoneNumber">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        public void StartHandicapPhase(ref GameBoard currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
+        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
         {
             if (handicapStoneNumber == 0) {
                 SetKomi(handicapStoneNumber);

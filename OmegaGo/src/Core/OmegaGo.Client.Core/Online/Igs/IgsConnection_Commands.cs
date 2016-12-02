@@ -174,7 +174,7 @@ namespace OmegaGo.Core.Online.Igs
             };
             game.Players.Add(new Core.Player(heading.BlackName, "?", game));
             game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
-            game.Ruleset = new JapaneseRuleset(game.Players[1], game.Players[0], game.BoardSize);
+            game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
             return game;

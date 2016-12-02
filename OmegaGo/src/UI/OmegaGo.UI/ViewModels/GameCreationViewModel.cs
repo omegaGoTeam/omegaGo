@@ -126,10 +126,10 @@ namespace OmegaGo.UI.ViewModels
             {
 
                 case 0:
-                    game.Ruleset = new ChineseRuleset(game.White, game.Black, game.BoardSize);
+                    game.Ruleset = new ChineseRuleset(game.BoardSize);
                     break;
                 case 1:
-                    game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                    game.Ruleset = new JapaneseRuleset(game.BoardSize);
                     break;
             }
 

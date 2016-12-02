@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Rules
         private float _blackScore;
         
 
-        public JapaneseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
+        public JapaneseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
