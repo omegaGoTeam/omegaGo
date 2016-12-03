@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf.Properties.Values
 {
+    /// <summary>
+    /// Represents a rectangle of points
+    /// </summary>
     public class SgfPointRectangle : IEnumerable<SgfPoint>
     {
-        public SgfPointRectangle( SgfPoint upperLeft, SgfPoint lowerRight)
+        public SgfPointRectangle(SgfPoint upperLeft, SgfPoint lowerRight)
         {
-            
+
             UpperLeft = upperLeft;
             LowerRight = lowerRight;
         }
@@ -20,58 +23,24 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 
         public SgfPoint LowerRight { get; }
 
+        /// <summary>
+        /// Enumerates the points inside of the point rectangle
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<SgfPoint> GetEnumerator()
         {
-            return new SgfPointRectangleEnumerator();
+            for (var row = UpperLeft.Row; row <= LowerRight.Row; row++)
+            {
+                for (var column = UpperLeft.Column; column <= LowerRight.Column; column++)
+                {
+                    yield return new SgfPoint(column, row);
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        /// <summary>
-        /// Enumerates a SGF point rectangle
-        /// </summary>
-        private class SgfPointRectangleEnumerator : IEnumerator<SgfPoint>
-        {
-            private readonly SgfPointRectangle _pointRectangle;
-
-            public SgfPointRectangleEnumerator( SgfPointRectangle rectangle)
-            {
-                _pointRectangle = rectangle;
-            }
-
-            private SgfPoint _current;
-
-            /// <summary>
-            /// Current SGF Point
-            /// </summary>
-            public SgfPoint Current => _current;
-
-            object IEnumerator.Current => Current;
-
-            /// <summary>
-            /// Enumerates next point in the point rectangle
-            /// </summary>
-            /// <returns>Can move next?</returns>
-            public bool MoveNext()
-            {
-                
-            }
-
-            /// <summary>
-            /// Resets the enumerator
-            /// </summary>
-            public void Reset()
-            {
-                _current = _pointRectangle.UpperLeft;
-            }
-
-            public void Dispose()
-            {
-
-            }
-        }
+        }        
     }
 }
