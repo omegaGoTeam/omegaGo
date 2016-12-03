@@ -24,14 +24,14 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="defaultValueBuilder">Value</param>
         /// <param name="locality">Locality</param>
         /// <returns></returns>
-        public T GetComplexSetting<T>( string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local )
+        public T GetComplexSetting<T>(string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local) where T : new()
         {
-            var retrievedSetting = GetSetting<string>(key, () => null, locality );
-            if ( retrievedSetting != null )
-            {               
+            var retrievedSetting = GetSetting<string>(key, () => null, locality);
+            if (retrievedSetting != null)
+            {
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>( retrievedSetting );
+                    return JsonConvert.DeserializeObject<T>(retrievedSetting);
                 }
                 catch
                 {
@@ -48,11 +48,11 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="key">Key</param>
         /// <param name="value">Value</param>
         /// <param name="locality">Locality</param>
-        public void SetComplexSetting<T>( string key, T value, SettingLocality locality = SettingLocality.Local )
+        public void SetComplexSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local) where T : new()
         {
             //serialize the setting
-            var serializedValue = JsonConvert.SerializeObject( value );
-            SetSetting( key, serializedValue, locality );
+            var serializedValue = JsonConvert.SerializeObject(value);
+            SetSetting(key, serializedValue, locality);
         }
     }
 }
