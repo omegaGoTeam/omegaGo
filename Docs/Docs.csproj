@@ -46,6 +46,7 @@
     <None Include="Developer\Internationalization.md" />
     <None Include="Developer\OnlineAccessCredential.md" />
     <None Include="Developer\README.md" />
+    <None Include="Developer\Settings\Home.md" />
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
