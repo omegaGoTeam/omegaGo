@@ -32,20 +32,31 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
+        public static float GetChineseCompensation(GameBoardSize gbSize, int handicapStoneCount)
+        {
+            float compensation = 0;
+            if (handicapStoneCount == 0)
+                compensation = 7.5f;
+            else
+                compensation = 0.5f + handicapStoneCount - 1;
+            
+            return compensation;
+        }
+
         public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             return; //Chinese ruleset uses area counting, we do not need number of dead stones
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 7.5f;
             }
             else 
             {
-                _komi = 0.5f + handicapStoneNumber - 1;
+                _komi = 0.5f + handicapStoneCount - 1;
             }
 
         }

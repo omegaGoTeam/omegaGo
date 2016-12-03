@@ -8,6 +8,8 @@ namespace OmegaGo.Core.Rules
 {
     public interface IRuleset
     {
+        float GetDefaultCompensation(RulesetType rsType, GameBoardSize gbSize, int handicapStoneCount, CountingType cType);
+
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
@@ -21,12 +23,12 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Sets the value of Komi. 
         /// If the type of handicap placement is fixed, places handicap stones on the board.
-        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneNumber" times.
+        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneCount" times.
         /// </summary>
         /// <param name="currentBoard">Reference to the state of board.</param>
-        /// <param name="handicapStoneNumber">Number of handicap stones.</param>
+        /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType);
+        void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).

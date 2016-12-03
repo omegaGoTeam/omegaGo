@@ -37,27 +37,39 @@ namespace OmegaGo.Core.Rules
         /// <returns>The score of players.</returns>
         public abstract Scores CountScore(GameBoard currentBoard);
 
+        public float GetDefaultCompensation(RulesetType rsType, GameBoardSize gbSize, int handicapStoneCount, CountingType cType)
+        {
+            if (rsType == RulesetType.AGA)
+                return AGARuleset.GetAGACompensation(gbSize, handicapStoneCount, cType);
+            if (rsType == RulesetType.Chinese)
+                return ChineseRuleset.GetChineseCompensation(gbSize, handicapStoneCount);
+            if (rsType == RulesetType.Japanese)
+                return JapaneseRuleset.GetJapaneseCompensation(gbSize, handicapStoneCount);
+
+            return 0;
+        }
+
         public abstract void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
 
         /// <summary>
         /// Sets the value of Komi. 
         /// If the type of handicap placement is fixed, places handicap stones on the board.
-        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneNumber" times.
+        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneCount" times.
         /// </summary>
         /// <param name="currentBoard">Reference to the state of board.</param>
-        /// <param name="handicapStoneNumber">Number of handicap stones.</param>
+        /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType)
+        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType)
         {
-            if (handicapStoneNumber == 0) {
-                SetKomi(handicapStoneNumber);
+            if (handicapStoneCount == 0) {
+                SetKomi(handicapStoneCount);
                 return;
             }
 
             if (placementType == HandicapPositions.Type.Fixed)
-                PlaceFixedHandicapStones(ref currentBoard,handicapStoneNumber);
+                PlaceFixedHandicapStones(ref currentBoard,handicapStoneCount);
             
-            SetKomi(handicapStoneNumber);
+            SetKomi(handicapStoneCount);
         }
 
         /// <summary>
@@ -236,8 +248,8 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Sets the value of Komi.
         /// </summary>
-        /// <param name="handicapStoneNumber">Number of handicap stones.</param>
-        protected abstract void SetKomi(int handicapStoneNumber);
+        /// <param name="handicapStoneCount">Number of handicap stones.</param>
+        protected abstract void SetKomi(int handicapStoneCount);
 
         protected abstract MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
 
@@ -254,15 +266,15 @@ namespace OmegaGo.Core.Rules
         /// Places handicape stones on fixed positions.
         /// </summary>
         /// <param name="currentBoard">Reference to the state of game board.</param>
-        /// <param name="stoneNumber">Number of handicap stones.</param>
-        protected void PlaceFixedHandicapStones(ref GameBoard currentBoard, int stoneNumber)
+        /// <param name="stoneCount">Number of handicap stones.</param>
+        protected void PlaceFixedHandicapStones(ref GameBoard currentBoard, int stoneCount)
         {
             switch (_boardWidth)
             {
                 case 9:
                     {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap9)
-                            for (int i = 0; i < stoneNumber; i++)
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap9)
+                            for (int i = 0; i < stoneCount; i++)
                             {
                                 Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
                                 currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
@@ -271,8 +283,8 @@ namespace OmegaGo.Core.Rules
                     }
                 case 13:
                     {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap13)
-                            for (int i = 0; i < stoneNumber; i++)
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap13)
+                            for (int i = 0; i < stoneCount; i++)
                             {
                                 Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
                                 currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
@@ -281,8 +293,8 @@ namespace OmegaGo.Core.Rules
                     }
                 case 19:
                     {
-                        if (stoneNumber <= HandicapPositions.MaxFixedHandicap19)
-                            for (int i = 0; i < stoneNumber; i++)
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap19)
+                            for (int i = 0; i < stoneCount; i++)
                             {
                                 Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
                                 currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
@@ -689,5 +701,12 @@ namespace OmegaGo.Core.Rules
 
         }
 
+    }
+
+    public enum RulesetType
+    {
+        AGA,
+        Chinese,
+        Japanese
     }
 }

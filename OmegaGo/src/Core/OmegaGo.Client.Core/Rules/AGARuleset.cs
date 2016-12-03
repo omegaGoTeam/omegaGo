@@ -36,6 +36,19 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
+        public static float GetAGACompensation(GameBoardSize gbSize, int handicapStoneCount, CountingType cType)
+        {
+            float compensation = 0;
+            if (handicapStoneCount == 0)
+                compensation = 7.5f;
+            else if (handicapStoneCount > 0 && cType == CountingType.Area)
+                compensation = 0.5f + handicapStoneCount - 1;
+            else if (handicapStoneCount > 0 && cType == CountingType.Territory)
+                compensation = 0.5f;
+            
+            return compensation;
+        }
+
         public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             if (_countingType == CountingType.Territory)
@@ -45,17 +58,17 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 7.5f;
             }
-            else if (handicapStoneNumber > 0 && _countingType == CountingType.Area)
+            else if (handicapStoneCount > 0 && _countingType == CountingType.Area)
             {
-                _komi = 0.5f + handicapStoneNumber - 1;
+                _komi = 0.5f + handicapStoneCount - 1;
             }
-            else if (handicapStoneNumber > 0 && _countingType == CountingType.Territory)
+            else if (handicapStoneCount > 0 && _countingType == CountingType.Territory)
             {
                 _komi = 0.5f;
             }

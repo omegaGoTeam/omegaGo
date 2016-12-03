@@ -13,7 +13,6 @@ namespace OmegaGo.Core.Rules
         private float _whiteScore;
         private float _blackScore;
         
-
         public JapaneseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
             _isPreviousMovePass = false;
@@ -33,15 +32,26 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
+        public static float GetJapaneseCompensation(GameBoardSize gbSize, int handicapStoneCount)
+        {
+            float compensation = 0.0f;
+            if (handicapStoneCount == 0)
+                compensation = 6.5f;
+            else
+                compensation = 0.5f;
+
+            return compensation;
+        }
+
         public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             _whiteScore -= deadWhiteStoneCount;
             _blackScore -= deadBlackStoneCount;
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 6.5f;
             }
