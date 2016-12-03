@@ -2,7 +2,7 @@
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class HelpView : ViewBase
+    public sealed partial class HelpView : TransparencyViewBase
     {
         public HelpViewModel VM => (HelpViewModel)this.ViewModel;
 

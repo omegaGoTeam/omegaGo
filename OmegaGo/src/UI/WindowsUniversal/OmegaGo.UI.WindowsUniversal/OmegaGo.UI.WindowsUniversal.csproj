@@ -151,6 +151,7 @@
     <Compile Include="Views\StatisticsView.xaml.cs">
       <DependentUpon>StatisticsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TransparencyViewBase.cs" />
     <Compile Include="Views\TutorialView.xaml.cs">
       <DependentUpon>TutorialView.xaml</DependentUpon>
     </Compile>

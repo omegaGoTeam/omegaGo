@@ -7,7 +7,7 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class SettingsView : ViewBase
+    public sealed partial class SettingsView : TransparencyViewBase
     {
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
         public ObservableCollection<string> AIPrograms { get; set; } = new ObservableCollection<string>();

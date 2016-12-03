@@ -4,7 +4,7 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class TutorialView : ViewBase
+    public sealed partial class TutorialView : TransparencyViewBase
     {
         public TutorialViewModel VM => (TutorialViewModel)this.ViewModel;
 

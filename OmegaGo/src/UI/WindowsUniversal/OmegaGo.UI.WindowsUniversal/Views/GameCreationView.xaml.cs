@@ -2,7 +2,7 @@
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class GameCreationView : ViewBase
+    public sealed partial class GameCreationView : TransparencyViewBase
     {
         public GameCreationViewModel VM => (GameCreationViewModel)this.ViewModel;
 

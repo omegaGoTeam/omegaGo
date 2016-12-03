@@ -4,7 +4,7 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class MainMenuView : ViewBase
+    public sealed partial class MainMenuView : TransparencyViewBase
     {
         public MainMenuViewModel VM => (MainMenuViewModel)this.ViewModel;
 

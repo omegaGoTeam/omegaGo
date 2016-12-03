@@ -1,4 +1,4 @@
-﻿<Page
+﻿<local:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.OGSLobbyView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,4 +10,4 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     </Grid>
-</Page>
+</local:TransparencyViewBase>

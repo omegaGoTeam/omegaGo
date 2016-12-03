@@ -5,7 +5,7 @@ using Windows.Foundation;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class GameView : ViewBase
+    public sealed partial class GameView : TransparencyViewBase
     {
         public GameViewModel VM => (GameViewModel)this.ViewModel;
         
