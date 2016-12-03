@@ -8,10 +8,14 @@ using Newtonsoft.Json;
 namespace OmegaGo.UI.Services.Settings
 {
     /// <summary>
-    /// Base class for JSON-serialized setting services
+    /// Base class adding JSON-serialized settings
     /// </summary>
     public abstract class SettingsServiceBase : ISettingsService
     {
+        public abstract T GetSetting<T>(string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local);
+
+        public abstract void SetSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local);
+
         /// <summary>
         /// After setting retrieval, the setting is deserialized from JSON
         /// </summary>
@@ -20,9 +24,9 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="defaultValueBuilder">Value</param>
         /// <param name="locality">Locality</param>
         /// <returns></returns>
-        public T GetSetting<T>( string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local )
+        public T GetComplexSetting<T>( string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local )
         {
-            var retrievedSetting = RetrieveSetting( key, locality );
+            var retrievedSetting = GetSetting<string>(key, () => null, locality );
             if ( retrievedSetting != null )
             {               
                 try
@@ -38,33 +42,17 @@ namespace OmegaGo.UI.Services.Settings
         }
 
         /// <summary>
-        /// Retrieves the setting using platform-specific settings service
-        /// </summary>
-        /// <param name="key">Key of the setting</param>
-        /// <param name="localizty">Value of the setting</param>
-        /// <returns></returns>
-        protected abstract string RetrieveSetting( string key, SettingLocality localizty = SettingLocality.Local );
-        
-        /// <summary>
         /// Before storing the setting, it is first serialized to JSON
         /// </summary>
         /// <typeparam name="T">Type of the setting</typeparam>
         /// <param name="key">Key</param>
         /// <param name="value">Value</param>
         /// <param name="locality">Locality</param>
-        public void SetSetting<T>( string key, T value, SettingLocality locality = SettingLocality.Local )
+        public void SetComplexSetting<T>( string key, T value, SettingLocality locality = SettingLocality.Local )
         {
             //serialize the setting
             var serializedValue = JsonConvert.SerializeObject( value );
-            StoreSetting( key, serializedValue, locality );
+            SetSetting( key, serializedValue, locality );
         }
-
-        /// <summary>
-        /// Stores the setting using platform-specific settings service
-        /// </summary>
-        /// <param name="key">Key of the setting</param>
-        /// <param name="value">Value of the setting</param>
-        /// <param name="locality">Locality of the setting</param>
-        protected abstract void StoreSetting( string key, string value, SettingLocality locality = SettingLocality.Local );
     }
 }
