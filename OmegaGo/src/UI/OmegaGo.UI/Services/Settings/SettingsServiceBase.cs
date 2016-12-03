@@ -12,6 +12,14 @@ namespace OmegaGo.UI.Services.Settings
     /// </summary>
     public abstract class SettingsServiceBase : ISettingsService
     {
+        /// <summary>
+        /// After setting retrieval, the setting is deserialized from JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="defaultValueBuilder">Value</param>
+        /// <param name="locality">Locality</param>
+        /// <returns></returns>
         public T GetSetting<T>( string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local )
         {
             var retrievedSetting = RetrieveSetting( key, locality );
@@ -37,6 +45,13 @@ namespace OmegaGo.UI.Services.Settings
         /// <returns></returns>
         protected abstract string RetrieveSetting( string key, SettingLocality localizty = SettingLocality.Local );
         
+        /// <summary>
+        /// Before storing the setting, it is first serialized to JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="value">Value</param>
+        /// <param name="locality">Locality</param>
         public void SetSetting<T>( string key, T value, SettingLocality locality = SettingLocality.Local )
         {
             //serialize the setting
