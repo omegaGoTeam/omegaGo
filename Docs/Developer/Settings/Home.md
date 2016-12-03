@@ -91,6 +91,8 @@ public class CarSettingsGroup : SettingsGroup
 
 ```
 
+Internally, the setting keys are prefixed with the group key which is required by the `SettingsGroup` base class constructor and a underscore character - in this case *`Car_`*. 
+
 You can use the `SettingsGroup`-based classes in your **settings managers**:
 
 ```
