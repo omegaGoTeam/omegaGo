@@ -6,6 +6,7 @@ using OmegaGo.UI.Services;
 using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal

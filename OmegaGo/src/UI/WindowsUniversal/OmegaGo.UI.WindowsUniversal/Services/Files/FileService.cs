@@ -1,11 +1,7 @@
-﻿using OmegaGo.UI.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using OmegaGo.UI.Services;
 
-namespace OmegaGo.UI.WindowsUniversal.Services
+namespace OmegaGo.UI.WindowsUniversal.Services.Files
 {
     sealed class FileService : IFileService
     {
