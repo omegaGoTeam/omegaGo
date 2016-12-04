@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             SgfDouble doubleValue;
-            if (Enum.TryParse(value, out doubleValue))
+            if (Enum.IsDefined(typeof(SgfDouble), value ) && Enum.TryParse(value, out doubleValue))
             {
                 return new SgfDoubleValue(doubleValue);
             }
