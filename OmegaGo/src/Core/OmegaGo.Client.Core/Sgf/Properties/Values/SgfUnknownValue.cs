@@ -9,13 +9,13 @@ namespace OmegaGo.Core.Sgf.Properties.Values
     /// <summary>
     /// Unknown SGF property value
     /// </summary>
-    public class SgfUnknownPropertyValue : SgfSimplePropertyValueBase<string>
+    public class SgfUnknownValue : SgfSimplePropertyValueBase<string>
     {
         /// <summary>
         /// Stores simple string value
         /// </summary>
         /// <param name="value">String value</param>
-        public SgfUnknownPropertyValue(string value) : base(value)
+        public SgfUnknownValue(string value) : base(value)
         {
         }
 
@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns>Unknown property value instance</returns>
-        public static ISgfPropertyValue Parse(string value) => new SgfUnknownPropertyValue(value);
+        public static ISgfPropertyValue Parse(string value) => new SgfUnknownValue(value);
 
         /// <summary>
         /// Value type

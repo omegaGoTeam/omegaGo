@@ -72,5 +72,12 @@ namespace OmegaGo.Core.Rules
         /// <param name="board">The current full board position.</param>
         /// <returns></returns>
         IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board);
+
+        /// <summary>
+        /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
+        /// All stones on the board are considered alive for the purposes of determining territory using this method.
+        /// </summary>
+        /// <param name="board">The current game board.</param>
+        Territory[,] DetermineTerritory(GameBoard board);
     }
 }

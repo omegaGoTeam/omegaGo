@@ -93,7 +93,7 @@
     <Compile Include="Sgf\Properties\Values\ISgfPropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointRectangleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfSimplePropertyValueBase.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfUnknownValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfDouble.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPoint.cs" />

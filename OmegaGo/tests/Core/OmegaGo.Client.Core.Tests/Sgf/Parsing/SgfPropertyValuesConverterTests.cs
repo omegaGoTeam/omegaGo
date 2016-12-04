@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Tests.Sgf.Parsing
         {
             var helloWorld = "Hello world";
             var result = SgfPropertyValuesConverter.GetValue("MYMADEUPPROPERTY", helloWorld);
-            Assert.IsTrue(result is SgfUnknownPropertyValue);
+            Assert.IsTrue(result is SgfUnknownValue);
             Assert.AreEqual(helloWorld, result.Serialize());
         }
     }

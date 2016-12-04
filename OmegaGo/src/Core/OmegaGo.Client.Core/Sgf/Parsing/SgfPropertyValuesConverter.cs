@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Sgf.Parsing
                 return KnownPropertyParsers[propertyIdentifier](value);
             }
             //return as unknown property
-            return SgfUnknownPropertyValue.Parse(value);
+            return SgfUnknownValue.Parse(value);
         }
 
         private static readonly Dictionary<string, Func<string, ISgfPropertyValue>> KnownPropertyParsers =

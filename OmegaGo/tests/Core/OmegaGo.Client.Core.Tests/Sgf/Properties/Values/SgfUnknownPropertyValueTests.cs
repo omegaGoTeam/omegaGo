@@ -15,28 +15,28 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
         [ExpectedException(typeof(ArgumentNullException))]
         public void SgfUnknownPropertyValueDoesNotAcceptNullValue()
         {
-            var property = new SgfUnknownPropertyValue(null);
+            var property = new SgfUnknownValue(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void SgfUnknownPropertyValueParsingDoesNotAcceptNullValue()
         {
-            var result = SgfUnknownPropertyValue.Parse(null);
+            var result = SgfUnknownValue.Parse(null);
         }
 
         [TestMethod]
         public void ValidUnknownValueParseReturnsInstanceOfUnknown()
         {
-            var result = SgfUnknownPropertyValue.Parse("someValue");
-            Assert.IsTrue(result is SgfUnknownPropertyValue);
+            var result = SgfUnknownValue.Parse("someValue");
+            Assert.IsTrue(result is SgfUnknownValue);
         }
 
         [TestMethod]
         public void UnknownValueIsNotAffectedByParsing()
         {
             var value = "asdfasoifewq34-93-24;te/,;t[s54;366]2==IUW_935 rt t\\q rs  \n\r asfp842-36";
-            var property = (SgfUnknownPropertyValue)SgfUnknownPropertyValue.Parse(value);
+            var property = (SgfUnknownValue)SgfUnknownValue.Parse(value);
 
             Assert.AreEqual(value, property.Value);
         }
@@ -45,9 +45,16 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
         public void UnknownValueIsNotAffectedBySerializing()
         {
             var value = "asdfasoifewq34-93-24;te/,;t[s54;366]2==IUW_935 rt t\\q rs  \n\r asfp842-36";
-            var property = new SgfUnknownPropertyValue(value);
+            var property = new SgfUnknownValue(value);
 
             Assert.AreEqual(value, property.Serialize());
+        }
+
+        [TestMethod]
+        public void UnkownValueIdentifiesItselfCorrectly()
+        {
+            var value = new SgfUnknownValue("asdf");
+            Assert.AreEqual(SgfValueType.Unknown, value.ValueType);
         }
     }
 }
