@@ -84,10 +84,15 @@
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Rules\Scores.cs" />
+    <Compile Include="Sgf\Properties\SgfPropertiesValuesConverter.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfCompose.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfComposePropertyValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointRectangle.cs" />
+    <Compile Include="Sgf\Properties\Values\ISgfPropertyValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfSimplePropertyValueBase.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPoint.cs" />

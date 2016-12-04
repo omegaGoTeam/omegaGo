@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf.Properties.Values
 {
-    internal enum SgfValueType
+    public enum SgfValueType
     {
         None,
         Number,
@@ -18,6 +18,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         Point,
         Move,
         Stone,
-        Unknown
+        Unknown,
+        Compose
     }
 }

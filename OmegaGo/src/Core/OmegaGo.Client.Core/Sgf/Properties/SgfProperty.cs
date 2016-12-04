@@ -27,7 +27,13 @@ namespace OmegaGo.Core.Sgf.Properties
             if (valuesArray.Length == 0) throw new ArgumentOutOfRangeException(nameof(values));
 
             Identifier = identifier;
-            Values = new ReadOnlyCollection<string>(new List<string>(valuesArray));
+
+            //convert and store values
+            Values = new ReadOnlyCollection<ISgfPropertyValue>(
+                    valuesArray.Select( 
+                        value => SgfPropertiesValuesConverter.GetValue(identifier, value) 
+                    ).ToList()
+                );
         }
 
 
@@ -39,7 +45,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <summary>
         // Property value
         /// </summary>
-        public IEnumerable<string> Values { get; }
+        public IEnumerable<ISgfPropertyValue> Values { get; }
 
         /// <summary>
         /// Returns the type of property
