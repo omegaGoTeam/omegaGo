@@ -188,6 +188,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Game.
+        /// </summary>
+        public static string Game {
+            get {
+                return ResourceManager.GetString("Game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game library.
         /// </summary>
         public static string GameLibrary {
@@ -328,6 +337,15 @@ namespace OmegaGo.UI.Localization {
         public static string Medium {
             get {
                 return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Go.
+        /// </summary>
+        public static string OmegaGo {
+            get {
+                return ResourceManager.GetString("OmegaGo", resourceCulture);
             }
         }
         

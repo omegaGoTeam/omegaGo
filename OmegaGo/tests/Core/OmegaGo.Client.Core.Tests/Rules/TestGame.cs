@@ -14,11 +14,11 @@ namespace OmegaGo.Core.Tests.Rules
         private int _height;
         private Ruleset _ruleset;
 
-        private readonly List<StoneColor[,]> _fullHistory = new List<StoneColor[,]>();
+        private readonly List<GameBoard> _fullHistory = new List<GameBoard>();
 
-        public StoneColor[,] CurrentBoard => _fullHistory.Last();
+        public GameBoard CurrentBoard => _fullHistory.Last();
 
-        public List<StoneColor[,]> History => _fullHistory.Take(_fullHistory.Count - 1).ToList();
+        public List<GameBoard> History => _fullHistory.Take(_fullHistory.Count - 1).ToList();
 
         public static TestGame New(int size, Ruleset ruleset = null)
         {
@@ -28,7 +28,7 @@ namespace OmegaGo.Core.Tests.Rules
                 _height = size,
                 _ruleset = ruleset
             };
-            game._fullHistory.Add(new StoneColor[game._width, game._height]);
+            game._fullHistory.Add(new GameBoard(new GameBoardSize(game._width, game._height)));
             return game;
         }
   

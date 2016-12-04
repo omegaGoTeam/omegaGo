@@ -1,4 +1,4 @@
-﻿<views:ViewBase
+﻿<views:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.MainMenuView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -15,105 +15,119 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Border>
-        <Border.Background>
-            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
-        </Border.Background>
-        <Grid Background="#AAFDD270">
-            <TextBlock 
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"              
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
-            </TextBlock>
-            <StackPanel HorizontalAlignment="Center" 
+        </TextBlock>
+        <StackPanel HorizontalAlignment="Center" 
                         VerticalAlignment="Center">
 
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="0,10,0,0" />
-                    </Style>
-                </StackPanel.Resources>
-                <Button Content="{x:Bind Localizer.Tutorial}"                     
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,10,0,0" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="{x:Bind Localizer.Tutorial}"                     
                     Command="{Binding Path=NavigateToTutorial}"
                     ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.Singleplayer}" 
+            <Button Content="{x:Bind Localizer.Singleplayer}" 
                     Command="{Binding Path=NavigateToSingleplayer}"
                     ToolTipService.ToolTip="{x:Bind Localizer.SingleplayerToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.LocalGame}" 
+            <Button Content="{x:Bind Localizer.LocalGame}" 
                     Command="{Binding Path=NavigateToGameCreation}"
                     ToolTipService.ToolTip="{x:Bind Localizer.LocalGameToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.OnlineGame}" 
+            <Button Content="{x:Bind Localizer.OnlineGame}" 
                     Command="{Binding Path=NavigateToMultiplayerDashboard}"
                     ToolTipService.ToolTip="{x:Bind Localizer.OnlineGameToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.GameLibrary}"
+            <Button Content="{x:Bind Localizer.GameLibrary}"
                     Command="{Binding Path=NavigateToLibrary}"
                     ToolTipService.ToolTip="{x:Bind Localizer.GameLibraryToolTip}"
                     HorizontalAlignment="Stretch"/>
-                <Button Content="{x:Bind Localizer.Statistics}" 
+            <Button Content="{x:Bind Localizer.Statistics}" 
                     Command="{Binding Path=NavigateToStatistics}"
                     ToolTipService.ToolTip="{x:Bind Localizer.StatisticsToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.Settings}" 
+            <Button Content="{x:Bind Localizer.Settings}" 
                         ContinuumNavigationTransitionInfo.IsExitElement="True"
                     Command="{Binding Path=NavigateToSettings}"
                     ToolTipService.ToolTip="{x:Bind Localizer.SettingsToolTip}"
                     HorizontalAlignment="Stretch" />
-                <Button Content="{x:Bind Localizer.Help}" 
+            <Button Content="{x:Bind Localizer.Help}" 
                     Command="{Binding Path=NavigateToHelp}"
                     ToolTipService.ToolTip="{x:Bind Localizer.HelpToolTip}"
                     HorizontalAlignment="Stretch" />
-            </StackPanel>
+        </StackPanel>
 
-            <!--<StackPanel HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom">
-                <RichTextBlock>
-                </RichTextBlock>
-                <Button Content="{x:Bind Localizer.Tips}" 
-                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
-                    Click="ShowHideTips_Click"
-                     />
-            </StackPanel>-->
 
-            <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
-                <FontIcon Glyph="&#xE1D9;" />
+        <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
+            <FontIcon Glyph="&#xE1D9;" />
+        </Button>
+
+        <StackPanel Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+            <Button>
+                <FontIcon Glyph="&#xE8C1;" />
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <ToggleMenuFlyoutItem Text="Auto" IsChecked="True" />
+                        <ToggleMenuFlyoutItem Text="English" IsChecked="False" />
+                        <ToggleMenuFlyoutItem Text="Česky" IsChecked="False" />
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
-            
-            <StackPanel Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
-                <Button>
-                    <FontIcon Glyph="&#xE8C1;" />
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <ToggleMenuFlyoutItem Text="Auto" IsChecked="True" />
-                            <ToggleMenuFlyoutItem Text="English" IsChecked="False" />
-                            <ToggleMenuFlyoutItem Text="Česky" IsChecked="False" />
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
 
-                <Button Margin="12,0,0,0">
-                    <FontIcon Glyph="&#xE994;" />
-                </Button>
-            </StackPanel>
+            <Button Margin="12,0,0,0">
+                <FontIcon Glyph="&#xE994;" />
+            </Button>
+            <Button Content="{x:Bind Localizer.Tips}" 
+                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
+                            
+                    Margin="12,0,0,0"
+                    Click="ShowHideTips_Click"
+                       
+                     />
 
-            <StackPanel HorizontalAlignment="Right"
+
+
+
+        </StackPanel>
+        <Border HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Margin="12, 0,0,50"
+                    Name="BorderTips">
+            <Border.BorderThickness>1</Border.BorderThickness>
+            <Border.Background>White</Border.Background>
+            <Border.BorderBrush>Black</Border.BorderBrush>
+            <Border.Padding>5</Border.Padding>
+            <RichTextBlock Width="300" FontSize="12">
+                <Paragraph>
+                    Did you know that
+                    <Bold>Go</Bold> received two major boosts in popularity this century - with
+                    <Italic>Hikaru no Go</Italic> and then with
+                    <Italic>AlphaGo</Italic> ?
+                </Paragraph>
+            </RichTextBlock>
+        </Border>
+        <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
-                <Button Content="{x:Bind Localizer.Credits}" 
+            <Button Content="{x:Bind Localizer.Credits}" 
                     Command="{Binding Path=NavigateToAbout}"
                     ToolTipService.ToolTip="{x:Bind Localizer.CreditsToolTip}"
                     Margin="0,0,20,0"
                     HorizontalAlignment="Stretch" />
-                <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
+            <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
                   FontSize="26"/>
-            </StackPanel>
-        </Grid>
-    </Border>
-</views:ViewBase>
+        </StackPanel>
+    </Grid>
+</views:TransparencyViewBase>
 
 
 

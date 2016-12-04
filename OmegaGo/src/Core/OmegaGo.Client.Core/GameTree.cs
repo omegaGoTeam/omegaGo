@@ -98,31 +98,22 @@ namespace OmegaGo.Core
 
         }
         
-        public void AddMoveToEnd(Move move, StoneColor[,] newBoard)
+        public void AddMoveToEnd(Move move, GameBoard boardState)
         {
+            GameTreeNode node = new GameTreeNode(move);
+            node.BoardState = boardState;
+            
             if (GameTreeRoot == null)
             {
-                GameTreeRoot = new GameTreeNode(move);
-                GameTreeRoot.BoardState = newBoard;
-                LastNode = GameTreeRoot;
-                return;
+                GameTreeRoot = node;
             }
-            
-            GameTreeNode parent = GameTreeRoot;
-            GameTreeNode child = parent.NextMove;
-
-            while (child != null)
+            else
             {
-                parent = child;
-                child = parent.NextMove;
+                LastNode.Branches.AddNode(node);
+                node.Parent = LastNode;
             }
 
-            GameTreeNode newNode = new GameTreeNode(move);
-            newNode.BoardState = newBoard;
-            parent.Branches.AddNode(newNode);
-
-            // Remember lastly added node and notify about game tree change
-            LastNode = newNode;
+            LastNode = node;
         }
     }
 }

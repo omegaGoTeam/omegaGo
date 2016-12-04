@@ -20,6 +20,10 @@ namespace OmegaGo.UI.Services.Localization
 
         }
 
+        public string OmegaGo => LocalizeCaller();
+
+        public string Game => LocalizeCaller();
+
         public string BoardSize => LocalizeCaller();
 
         public string Settings => LocalizeCaller();

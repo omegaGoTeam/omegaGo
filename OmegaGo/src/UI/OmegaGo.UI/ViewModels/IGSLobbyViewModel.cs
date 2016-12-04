@@ -52,7 +52,7 @@ namespace OmegaGo.UI.ViewModels
         {
             // Todo observed game do not have rules assigned, which causes a Null exeption in GameController.MakeMove
             Game observedGame = OnlineGames[SelectedOnlineGameIndex];
-            observedGame.Ruleset = new ChineseRuleset(observedGame.White, observedGame.Black, observedGame.BoardSize);
+            observedGame.Ruleset = new ChineseRuleset(observedGame.BoardSize);
             Mvx.RegisterSingleton(observedGame);
             _igsConnection.StartObserving(observedGame);
             _igsConnection.RefreshBoard(observedGame);

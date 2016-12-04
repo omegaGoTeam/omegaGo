@@ -7,6 +7,9 @@ using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.Services.Settings
 {
+    /// <summary>
+    /// Provides access to game related settings
+    /// </summary>
     public class GameSettings : IGameSettings
     {
         private readonly ISettingsService _settings;

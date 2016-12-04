@@ -74,7 +74,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Gets or sets the ruleset that governs this game. In the future, this should never be null. For now, we're prototyping.
         /// </summary>
-        public Ruleset Ruleset { get; set; }
+        public IRuleset Ruleset { get; set; }
         public int NumberOfHandicapStones;
         /// <summary>
         /// The komi value is the number of points added to White's score at the end of the game. We can afford to use float here, 

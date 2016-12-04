@@ -5,28 +5,38 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid Background="{ThemeResource GameColorBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid x:Name="TitleBar" Visibility="Visible">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" Grid.ColumnSpan="4" x:Name="DraggableTitleBarArea" Background="Transparent">
-                <TextBlock x:Name="PageTitle" Text="Omega Go" FontWeight="Normal" HorizontalAlignment="Center" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0" />
-            </Grid>
-            <Grid x:Name="BackButtonGrid">
-                <Button Width="48" x:Name="BackButton" Click="TitleBackButton_Click" Margin="0" VerticalAlignment="Stretch" Background="#0000" FontFamily="Segoe MDL2 Assets" Content="&#59179;" Style="{StaticResource TitleBarBackButtonStyle}" />
-            </Grid>
+    <Border>
+        <Border.Background>
+            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
+        </Border.Background>
+        <Grid Background="#AAFDD270">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="1" x:Name="MainFrame" />
+            <Grid x:Name="TitleBar" Background="{ThemeResource GameColorBrush}" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="3" x:Name="RightTitleBarMask"/>
+                <Grid Grid.Column="0" Grid.ColumnSpan="4" x:Name="DraggableTitleBarArea" Background="Transparent">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <BitmapIcon x:Name="PageIcon" Height="20" VerticalAlignment="Center" />
+                        <TextBlock Text="Omega Go" FontWeight="Normal" FontSize="14" VerticalAlignment="Center" Margin="10,0,10,0" />
+                        <TextBlock x:Name="PageTitle" Text="" FontWeight="Light" Opacity="0.8" VerticalAlignment="Center" FontSize="14" />
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="BackButtonGrid">
+                    <Button Width="48" x:Name="BackButton" Click="TitleBackButton_Click" Margin="0" VerticalAlignment="Stretch" Background="#0000" FontFamily="Segoe MDL2 Assets" Content="&#59179;" Style="{StaticResource TitleBarBackButtonStyle}" />
+                </Grid>
+
+                <Grid Grid.Column="3" x:Name="RightTitleBarMask"/>
+            </Grid>
         </Grid>
-        <Frame Grid.Row="1" x:Name="Frame" />
-    </Grid>
+    </Border>
 </Page>

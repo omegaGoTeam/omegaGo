@@ -12,8 +12,9 @@ namespace OmegaGo.Core
     /// 
     /// Whenever the game board is represented as a two-dimensional array, the first coordinate is the column ("X-coordinate") and the second coordinate is the row ("Y-coordinate"). For example, "currentBoard[2,5]" refers to the intersection C6, i.e. position [2,5].
     /// </summary>
-    public struct Position
+    public struct Position : IEquatable<Position>
     {
+       
         // We need to be able to easily translate 
         // provided char to range <0, TABLESIZE - 1> .
 
@@ -23,7 +24,7 @@ namespace OmegaGo.Core
         // (int)a - 97
         // (int)z - 122
         private const int BEGINASCII = 97;
-        private const int ENDASCII = 122;
+        // private const int ENDASCII = 122;
 
         public static readonly Position Undefined = new Position(-1, -1);
 
@@ -140,5 +141,32 @@ namespace OmegaGo.Core
         /// Returns the position as IGS-style coordinates, e.g. "J4" or "C11".
         /// </summary>
         public string ToIgsCoordinates() => IntToIgsChar(X).ToString() + (Y + 1);
+
+        public bool Equals(Position position)
+        {
+            return position.X == this.X && position.Y == this.Y;
+        }
+        public static bool operator ==(Position position,Position position2)
+        {
+            return position.Equals(position2);
+        }
+        public static bool operator !=(Position position, Position position2)
+        {
+            return !position.Equals(position2);
+        }
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Position && Equals((Position)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (this._x * 397) ^ this._y;
+            }
+        }
+
     }
 }

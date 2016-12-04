@@ -13,7 +13,7 @@ namespace OmegaGo.Core.Tests.Rules
         [TestInitialize]
         public void Initialize()
         {
-            ruleset = new ChineseRuleset(null, null, new GameBoardSize(5));
+            ruleset = new ChineseRuleset(new GameBoardSize(5));
             testGame = TestGame.New(5, ruleset);
         }
 

@@ -75,7 +75,7 @@ namespace OmegaGo.UI.ViewModels
                     player.Agent = new Core.Agents.GuiAgent();
                 }
 
-                _game.Ruleset = new ChineseRuleset(_game.White, _game.Black, _game.BoardSize);
+                _game.Ruleset = new ChineseRuleset(_game.BoardSize);
             }
 
             _gameController = _game.GameController;

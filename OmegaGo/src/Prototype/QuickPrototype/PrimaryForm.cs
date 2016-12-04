@@ -143,7 +143,7 @@ namespace FormsPrototype
             if (this.lbGames.SelectedItem != null)
             {
                 Game game = (Game)lbGames.SelectedItem;
-                game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
                 game.StartObserving();
                 igs.RefreshBoard(game);
@@ -218,7 +218,7 @@ namespace FormsPrototype
             };
             Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR", localGame);
             Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR", localGame);
-            localGame.Ruleset = new ChineseRuleset(playerWhite, playerBlack, localGame.BoardSize);
+            localGame.Ruleset = new ChineseRuleset(localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
             localGame.Server = null;

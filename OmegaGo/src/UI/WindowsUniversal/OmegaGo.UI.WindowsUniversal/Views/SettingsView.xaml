@@ -1,4 +1,4 @@
-﻿<views:ViewBase
+﻿<views:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,40 +23,40 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Pivot Title="{x:Bind Localizer.Settings}" Grid.Row="0">
-        <Pivot.TitleTemplate>
-            <DataTemplate>
+            <Pivot.TitleTemplate>
+                <DataTemplate>
                     <TextBlock ContinuumNavigationTransitionInfo.IsEntranceElement="True" Text="{Binding}" FontSize="34" FontWeight="Light" />
-            </DataTemplate>
-        </Pivot.TitleTemplate>
-        <PivotItem Header="{x:Bind Localizer.UserInterface}">
+                </DataTemplate>
+            </Pivot.TitleTemplate>
+            <PivotItem Header="{x:Bind Localizer.UserInterface}">
                 <StackPanel Padding="15">
                     <CheckBox Name="FullscreenMode" Content="FullscreenModeManager Mode" 
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
                     <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="1" Width="140">
+                    <ComboBox SelectedIndex="1" Width="140">
                         <x:String>Plain Brown</x:String>
                         <x:String>Kaya Wood</x:String>
                         <x:String>Simple Plywood</x:String>
                         <x:String>Virtual World</x:String>
-                </ComboBox>
+                    </ComboBox>
 
-                <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox SelectedIndex="1" Width="140">
+                    <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox SelectedIndex="1" Width="140">
                         <x:String>Plain Black</x:String>
                         <x:String>Glass</x:String>
                         <x:String>Plastic</x:String>
                     </ComboBox>
-                
-                <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                    <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox SelectedIndex="1" Width="140">
                         <x:String>Plain White</x:String>
                         <x:String>Glass</x:String>
                         <x:String>Plastic</x:String>
                     </ComboBox>
 
-                <CheckBox Content="Highlight Last Move" IsChecked="True" />
-                <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." />
+                    <CheckBox Content="Highlight Last Move" IsChecked="True" />
+                    <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." />
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Highlight illegal Ko moves" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
@@ -76,43 +76,43 @@
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Sounds">
-            <StackPanel Padding="15">
-                <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <Slider Width="100" HorizontalAlignment="Left" />
-                
-                <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <Slider Width="100" HorizontalAlignment="Left" />
+                <StackPanel Padding="15">
+                    <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <Slider Width="100" HorizontalAlignment="Left" />
 
-                <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <Slider Width="100" HorizontalAlignment="Left" />
-                
-          
+                    <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <Slider Width="100" HorizontalAlignment="Left" />
+
+                    <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <Slider Width="100" HorizontalAlignment="Left" />
+
+
 
                     <TextBlock Text="A sound effect should play:"/>
                     <CheckBox Content="When I place a stone." IsChecked="True" />
                     <CheckBox Content="When another player places a stone." IsChecked="True"  />
                     <CheckBox Content="When I receive a notification" IsChecked="True"  />
                 </StackPanel>
-        </PivotItem>
-        <PivotItem Header="{x:Bind Localizer.Language}">
-            <StackPanel Padding="15">
-                <TextBlock Text="{x:Bind Localizer.Language}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate x:DataType="localization:GameLanguage">
-                            <TextBlock Text="{x:Bind Name, Converter={StaticResource LocalizingConverter}}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
-            </StackPanel>
-        </PivotItem>
-        <PivotItem Header="Assistant">
-            <StackPanel Padding="15">
-                <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            </PivotItem>
+            <PivotItem Header="{x:Bind Localizer.Language}">
+                <StackPanel Padding="15">
+                    <TextBlock Text="{x:Bind Localizer.Language}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="localization:GameLanguage">
+                                <TextBlock Text="{x:Bind Name, Converter={StaticResource LocalizingConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Assistant">
+                <StackPanel Padding="15">
+                    <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox Width="140" ItemsSource="{Binding AIPrograms}">
                     </ComboBox>
-                
+
                     <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox SelectedIndex="4" Width="140">
                         <x:String>1</x:String>
@@ -125,19 +125,16 @@
                         <x:String>8</x:String>
                         <x:String>9</x:String>
                         <x:String>10</x:String>
-                </ComboBox>
+                    </ComboBox>
 
-                <CheckBox Content="Enable hints" IsChecked="True" />
-                <CheckBox Content="Enable territory estimation" IsChecked="True"  />
+                    <CheckBox Content="Enable hints" IsChecked="True" />
+                    <CheckBox Content="Enable territory estimation" IsChecked="True"  />
                     <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Enable even in online games" />
-                    <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
+                        <CheckBox Content="Enable even in online games" />
+                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
                     </StackPanel>
                 </StackPanel>
-        </PivotItem>
+            </PivotItem>
         </Pivot>
-        <Grid Padding="5" Grid.Row="1">
-            <Button  Content="Back"  Click="GoBack_Click" />
-        </Grid>
     </Grid>
-</views:ViewBase>
+</views:TransparencyViewBase>

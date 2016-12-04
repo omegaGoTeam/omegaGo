@@ -28,6 +28,8 @@ namespace OmegaGo.UI.Services.Game
 
         private Position _selectedPosition;
         private Position _highlightedPosition;
+        private Position _shiningPosition;
+       
 
         public int CellSize
         {
@@ -98,6 +100,21 @@ namespace OmegaGo.UI.Services.Game
                 OnPropertyChanged(nameof(HighlightedPosition), true);
             }
         }
+        /// <summary>
+        /// Gets or sets the position on a tutorial board that invites the player to tap on it.
+        /// </summary>
+        public Position ShiningPosition
+        {
+            get { return _shiningPosition; }
+            set
+            {
+                if (value.Equals(_shiningPosition))
+                    return;
+
+                _shiningPosition = value;
+                OnPropertyChanged(nameof(ShiningPosition), true);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the number of horizontal stones.
@@ -127,6 +144,7 @@ namespace OmegaGo.UI.Services.Game
         {
             _selectedPosition = Position.Undefined;
             _highlightedPosition = Position.Undefined;
+            _shiningPosition = Position.Undefined;
 
             _cellSize = 32;
             _halfCellSize = _cellSize / 2;

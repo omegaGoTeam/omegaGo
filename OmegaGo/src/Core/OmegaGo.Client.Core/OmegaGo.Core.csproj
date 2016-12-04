@@ -76,6 +76,7 @@
     <Compile Include="Rules\HandicapPositions.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Rules\Territory.cs" />
     <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />

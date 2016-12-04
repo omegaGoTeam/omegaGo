@@ -62,10 +62,27 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
             args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardState.BoardBorderThickness, SharedBoardState.BoardBorderThickness);
             DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
-            
+
+            if (_sharedBoardState.SelectedPosition.IsDefined)
+            {
+                DrawStoneCellBackground(
+                    args.DrawingSession,
+                    SharedBoardState.SelectedPosition.X,
+                    (SharedBoardState.BoardHeight - 1) - SharedBoardState.SelectedPosition.Y,
+                    SharedBoardState.SelectionColor.ToUWPColor());
+            }
+            if (_sharedBoardState.ShiningPosition.IsDefined)
+            {
+                DrawStoneCellBackground(
+                    args.DrawingSession,
+                    SharedBoardState.ShiningPosition.X,
+                    (SharedBoardState.BoardHeight - 1) - SharedBoardState.ShiningPosition.Y,
+                    Color.FromArgb(140, 100, 200,100));
+            }
+
             if (gameState != null)
             {
-                StoneColor[,] boardState = gameState.BoardState;
+                GameBoard boardState = gameState.BoardState;
                 for (int x = 0; x < SharedBoardState.BoardWidth; x++)
                 {
                     for (int y = 0; y < SharedBoardState.BoardHeight; y++)
@@ -89,14 +106,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     SharedBoardState.HighlightColor.ToUWPColor());
             }
 
-            if (_sharedBoardState.SelectedPosition.IsDefined)
-            {
-                DrawStoneCellBackground(
-                    args.DrawingSession,
-                    SharedBoardState.SelectedPosition.X,
-                    (SharedBoardState.BoardHeight - 1) - SharedBoardState.SelectedPosition.Y,
-                    SharedBoardState.SelectionColor.ToUWPColor());
-            }
         }
 
         public void Update()

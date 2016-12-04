@@ -8,12 +8,12 @@ namespace OmegaGo.Core.AI.Common
 {
     public class FastBoard
     {
-        public static List<Position> GetAllLegalMoves(StoneColor[,] board)
+        public static List<Position> GetAllLegalMoves(GameBoard board)
         {
             // TODO make this work according to rules
             List<Position> legalMoves = new List<Core.Position>();
-            for (int i = 0; i < board.GetLength(0); i++)
-                for (int j = 0; j < board.GetLength(1); j++)
+            for (int i = 0; i < board.Size.Width; i++)
+                for (int j = 0; j < board.Size.Height; j++)
                 {
                     if (board[i, j] == StoneColor.None)
                     {
@@ -22,20 +22,10 @@ namespace OmegaGo.Core.AI.Common
                 }
             return legalMoves;
         }
-        public static StoneColor[,] CloneBoard(StoneColor[,] board)
+        
+        public static GameBoard CreateBoardFromGame(Game game)
         {
-            StoneColor[,] newBoard = new StoneColor[board.GetLength(0), board.GetLength(1)];
-            for (int i = 0; i < board.GetLength(0); i++)
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    newBoard[i, j] = board[i, j];
-                }
-            return newBoard;
-        }
-
-        public static StoneColor[,] CreateBoardFromGame(Game game)
-        {
-            StoneColor[,] createdBoard = new StoneColor[game.SquareBoardSize, game.SquareBoardSize];
+            GameBoard createdBoard = new GameBoard(game.BoardSize);
             foreach (Move move in game.PrimaryTimeline)
             {
                 if (move.Kind == MoveKind.PlaceStone)
@@ -50,9 +40,9 @@ namespace OmegaGo.Core.AI.Common
             return createdBoard;
         }
 
-        public static StoneColor[,] BoardWithoutTheseStones(StoneColor[,] boardState, IEnumerable<Position> deadPositions)
+        public static GameBoard BoardWithoutTheseStones(GameBoard boardState, IEnumerable<Position> deadPositions)
         {
-            StoneColor[,] newBoard = FastBoard.CloneBoard(boardState);
+            GameBoard newBoard = new GameBoard(boardState);
             foreach(var position in deadPositions)
             {
                 newBoard[position.X, position.Y] = StoneColor.None;

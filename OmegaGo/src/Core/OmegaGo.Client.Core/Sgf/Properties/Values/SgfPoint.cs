@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="column">Column</param>
         /// <param name="row">Row</param>
-        public SgfPoint( char column, char row )
+        public SgfPoint( char column, char row ) : this()
         {
             Column = column;
             Row = row;
