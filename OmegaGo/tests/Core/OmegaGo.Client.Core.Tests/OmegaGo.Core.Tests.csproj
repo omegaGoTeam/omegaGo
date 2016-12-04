@@ -60,6 +60,7 @@
     <Compile Include="Rules\SgfGamesTests.cs" />
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangleTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
