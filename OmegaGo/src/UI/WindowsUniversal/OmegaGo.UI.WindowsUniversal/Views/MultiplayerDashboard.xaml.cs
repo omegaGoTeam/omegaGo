@@ -4,7 +4,7 @@ using System;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class MultiplayerDashboard : ViewBase
+    public sealed partial class MultiplayerDashboard : TransparencyViewBase
     {
         public MultiplayerDashboardViewModel VM => (MultiplayerDashboardViewModel)this.ViewModel;
 
