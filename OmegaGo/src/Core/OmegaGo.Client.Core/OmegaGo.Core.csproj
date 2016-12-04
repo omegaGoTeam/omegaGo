@@ -89,6 +89,7 @@
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfComposePropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPointValue.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangle.cs" />
     <Compile Include="Sgf\Properties\Values\ISgfPropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointRectangleValue.cs" />
