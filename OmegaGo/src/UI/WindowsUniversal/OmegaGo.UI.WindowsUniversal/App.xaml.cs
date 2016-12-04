@@ -79,12 +79,6 @@ namespace OmegaGo.UI.WindowsUniversal
                 _rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
                 _rootFrame.NavigationFailed += OnNavigationFailed;
-
-                //  Display an extended splash screen if app was not previously running.
-                if (e.PreviousExecutionState != ApplicationExecutionState.Running)
-                {
-
-                }
             }
 
             if (e.PrelaunchActivated == false)
@@ -92,7 +86,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 if (_rootFrame.Content == null)
                 {
                     //create app shell to hold app content
-                    var shell = AppShell.CreateForWindow( Window.Current );
+                    var shell = AppShell.CreateForWindow(Window.Current);
                     //create extended splash screen
                     ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                     //temporarily place splash into the root frame
@@ -158,7 +152,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
             //setup the custom title bar in app shell
             AppShell.GetForCurrentView().SetupCustomTitleBar();
-            
+
             SetupStatusBar();
         }
 
