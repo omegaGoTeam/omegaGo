@@ -118,7 +118,7 @@ namespace OmegaGo.Core.Rules
                     }
                 case RulesetType.Japanese:
                     {
-                        return new ChineseRuleset(gameBoardSize);
+                        return new JapaneseRuleset(gameBoardSize);
                     }
                 case RulesetType.AGA:
                     {
