@@ -214,7 +214,7 @@ namespace OmegaGo.Core.Online.Igs
             if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
             {
                 GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                Game game = new Core.Game()
+                GameInfo game = new Core.GameInfo()
                 {
                     BoardSize = new Core.GameBoardSize(19), // TODO
                     Server = this,
@@ -222,7 +222,7 @@ namespace OmegaGo.Core.Online.Igs
                 };
                 game.Players.Add(new Core.Player(heading.BlackName, "?", game));
                 game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
-                game.Ruleset = new JapaneseRuleset(game.Players[1], game.Players[0], game.BoardSize);
+                game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
                 this._gamesInProgressOnIgs.Add(game);
                 this.OnMatchRequestAccepted(game);

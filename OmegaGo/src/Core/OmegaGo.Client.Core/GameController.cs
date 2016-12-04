@@ -15,12 +15,12 @@ namespace OmegaGo.Core
     /// The game controller contains the main loop of a Go game. After constructing it, use <see cref="BeginGame"/> to start the game on
     /// another thread. The game controller will ask both players' agents, in turn, what move do they wish to take.  
     /// </summary>
-    public class GameController
+    public class GameController : IGameController
     {
         /// <summary>
         /// The game that this controller is running.
         /// </summary>
-        private Game _game;
+        private GameInfo _game;
         /// <summary>
         /// The player who is about to make a move.
         /// </summary>
@@ -48,11 +48,14 @@ namespace OmegaGo.Core
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
         private List<Player> _playersDoneWithLifeDeath = new List<Player>();
+        
+        public event EventHandler<GameRequest> RequestRecieved;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
         /// <param name="game">The game that this GameController instance will run.</param>
-        public GameController(Game game)
+        public GameController(GameInfo game)
         {
             this._game = game;
         }
@@ -129,9 +132,9 @@ namespace OmegaGo.Core
                    _game.Ruleset.ProcessMove(
                        FastBoard.CreateBoardFromGame(_game), 
                        move, 
-                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<StoneColor[,]>()); // TODO history
+                       _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
 
-            if (result.Result == MoveResult.LifeDeathConfirmationPhase)
+            if (result.Result == MoveResult.LifeDeathDeterminationPhase)
             {
                 SetGamePhase(GamePhase.LifeDeathDetermination);
                 _turnPlayer = null;
@@ -161,7 +164,7 @@ namespace OmegaGo.Core
             }
             // The move stands, let's make the other player move now.
             _game.NumberOfMovesPlayed++;
-            _game.GameTree.AddMoveToEnd(move, FastBoard.CloneBoard(result.NewBoard));
+            _game.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
             if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
             {
                 await _game.Server.MakeMove(_game, move);
@@ -194,7 +197,7 @@ namespace OmegaGo.Core
 
                         OnDebuggingMessage("Illegal move - making a random move instead.");
                         List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(player.Color,
-                            FastBoard.CreateBoardFromGame(_game), new List<StoneColor[,]>()) ??
+                            FastBoard.CreateBoardFromGame(_game), new List<GameBoard>()) ??
                                                        new List<Position>(); // TODO add history
 
                         if (possibleMoves.Count == 0)
@@ -271,6 +274,7 @@ namespace OmegaGo.Core
         /// Occurs wheneven the current game phase changes.
         /// </summary>
         public event EventHandler<GamePhase> EnterPhase;
+
         private void OnEnterPhase(GamePhase newPhase)
         {
             EnterPhase?.Invoke(this, newPhase);
@@ -297,6 +301,23 @@ namespace OmegaGo.Core
         public void AbortGame()
         {
             _gamePhase = GamePhase.Completed;
+        }
+
+        public MoveResult MakeMove(Position position)
+        {
+            this.TurnPlayer.Agent.Click(this.TurnPlayer.Color, position);
+            // TODO return proper value
+            return MoveResult.Legal;
+        }
+
+        public void SendRequest(GameRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RespondRequest()
+        {
+            throw new NotImplementedException();
         }
     }
     /// <summary>

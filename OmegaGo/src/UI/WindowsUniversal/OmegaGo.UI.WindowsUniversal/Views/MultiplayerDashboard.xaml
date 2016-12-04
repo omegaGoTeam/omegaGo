@@ -1,4 +1,4 @@
-﻿<views:ViewBase
+﻿<views:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.MultiplayerDashboard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,38 +17,32 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Border>
-        <Border.Background>
-            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
-        </Border.Background>
-        <Grid Background="#AAFDD270">
-            <TextBlock Text="Multiplayer" 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock Text="Multiplayer" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Grid.Row="0"
-                   Foreground="White"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
 
-            <StackPanel HorizontalAlignment="Center" 
+        <StackPanel HorizontalAlignment="Center" 
                         VerticalAlignment="Center">
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="0,10,0,0" />
-                    </Style>
-                </StackPanel.Resources>
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,10,0,0" />
+                </Style>
+            </StackPanel.Resources>
 
-                <Button Content="IGS Lobby"
+            <Button Content="IGS Lobby"
                         Command="{Binding Path=NavigateToIGSLobbyCommand}"
                         HorizontalAlignment="Stretch" />
 
-                <Button Content="OGS Lobby"
+            <Button Content="OGS Lobby"
                         Command="{Binding Path=NavigateToOGSLobbyCommand}"
                         HorizontalAlignment="Stretch" />
 
-                <Button Content="LAN Lobby"
+            <Button Content="LAN Lobby"
                         HorizontalAlignment="Stretch" />
 
-            </StackPanel>
-        </Grid>
-    </Border>    
-</views:ViewBase>
+        </StackPanel>
+    </Grid>
+</views:TransparencyViewBase>

@@ -1,4 +1,4 @@
-﻿<views:ViewBase
+﻿<views:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.TutorialView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -47,22 +47,26 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Height="200">
-            <Grid>
-                <Border
-                Background="LightBlue"
-                CornerRadius="20"/>
-                <StackPanel>
-                    <TextBlock FontSize="26" Margin="20, 20, 0, 0">Sensei speaks:</TextBlock>
-                    <TextBlock FontSize="18" Margin="20, 5,20,20" Text="Sensei's Line Goes Here"
+            <Border CornerRadius="20">
+                <Border.Background>
+                    <SolidColorBrush Opacity="0.7" Color="LightBlue" />
+                </Border.Background>
+                <Grid>
+
+
+                    <StackPanel>
+                        <TextBlock FontSize="26" Margin="20, 20, 0, 0">Sensei speaks:</TextBlock>
+                        <TextBlock FontSize="18" Margin="20, 5,20,20" Text="Sensei's Line Goes Here"
                                Name="SenseisLine"
                                TextWrapping="Wrap"
                                />
-                </StackPanel>
-                <Button 
+                    </StackPanel>
+                    <Button 
                     Name="ButtonNext"
                     Content="Next"
                     HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Click="Next_Click"></Button>
-            </Grid>
+                </Grid>
+            </Border>
         </Border>
         <Border BorderThickness="2"
                 BorderBrush="Black"
@@ -75,9 +79,11 @@
                 Grid.Column="1"
                 Height="100">
             <Grid>
-                <Border
-                Background="LightBlue"
-                CornerRadius="10"/>
+                <Border CornerRadius="10">
+                    <Border.Background>
+                        <SolidColorBrush Opacity="0.8" Color="LightBlue" />
+                    </Border.Background>
+                </Border>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30">
                     You are doing fine, player.
                 </TextBlock>
@@ -92,8 +98,6 @@
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Height="400">
-            <!-- Visibility="Collapsed"-->
-
             <Grid>
                 <Border
                 Name="mask"
@@ -115,4 +119,4 @@
             </Grid>
         </Border>
     </Grid>
-</views:ViewBase>
+</views:TransparencyViewBase>

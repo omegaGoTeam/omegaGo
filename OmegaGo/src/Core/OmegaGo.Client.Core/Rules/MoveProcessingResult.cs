@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Rules
         /// If the move is legal, game board contains the recently placed stone.
         /// The board does not contain prisoners.
         /// </summary>
-        public StoneColor[,] NewBoard;
+        public GameBoard NewBoard;
         
     }
 

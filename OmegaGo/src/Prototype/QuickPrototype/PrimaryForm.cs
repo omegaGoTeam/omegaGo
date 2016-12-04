@@ -25,7 +25,7 @@ namespace FormsPrototype
     public partial class PrimaryForm : Form
     {
         private IgsConnection igs;
-        private List<Game> games;
+        private List<GameInfo> games;
 
         public PrimaryForm()
         {
@@ -87,7 +87,7 @@ namespace FormsPrototype
             }
         }
 
-        private void Igs_MatchRequestAccepted(object sender, Game game)
+        private void Igs_MatchRequestAccepted(object sender, GameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
             Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
@@ -142,8 +142,8 @@ namespace FormsPrototype
         {
             if (this.lbGames.SelectedItem != null)
             {
-                Game game = (Game)lbGames.SelectedItem;
-                game.Ruleset = new JapaneseRuleset(game.White, game.Black, game.BoardSize);
+                GameInfo game = (GameInfo)lbGames.SelectedItem;
+                game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
                 game.StartObserving();
                 igs.RefreshBoard(game);
@@ -158,7 +158,7 @@ namespace FormsPrototype
             if (this.lbObservedGames.SelectedItem != null)
             {
 
-                Game game = (Game)lbGames.SelectedItem;
+                GameInfo game = (GameInfo)lbGames.SelectedItem;
                 game.StopObserving();
                 this.lbObservedGames.Items.Remove(game);
             }
@@ -211,14 +211,14 @@ namespace FormsPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            Game localGame = new Game
+            GameInfo localGame = new GameInfo
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
                 NumberOfMovesPlayed = 0
             };
             Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR", localGame);
             Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR", localGame);
-            localGame.Ruleset = new ChineseRuleset(playerWhite, playerBlack, localGame.BoardSize);
+            localGame.Ruleset = new ChineseRuleset(localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
             localGame.Server = null;
@@ -307,7 +307,7 @@ namespace FormsPrototype
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                Game game = await igs.AcceptMatchRequest(selectedItem);
+                GameInfo game = await igs.AcceptMatchRequest(selectedItem);
                 if (game != null)
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);

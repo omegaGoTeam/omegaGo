@@ -227,6 +227,14 @@
           <source>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</source>
           <target state="new">Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</target>
         </trans-unit>
+        <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
+          <source>Omega Go</source>
+          <target state="new">Omega Go</target>
+        </trans-unit>
+        <trans-unit id="Game" translate="yes" xml:space="preserve">
+          <source>Game</source>
+          <target state="new">Game</target>
+        </trans-unit>
       </group>
     </body>
   </file>

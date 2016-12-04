@@ -19,19 +19,19 @@ namespace OmegaGo.Core.Online
         /// <returns>True if the server permitted the login.</returns>
         public abstract bool Login(string username, string password);
         */
-        public virtual Task<List<Game>> ListGamesInProgress()
+        public virtual Task<List<GameInfo>> ListGamesInProgress()
         {
-            return Task.FromResult(new List<Game>());
+            return Task.FromResult(new List<GameInfo>());
         }
-        public virtual void StartObserving(Game game)
+        public virtual void StartObserving(GameInfo game)
         {
         }
-        public virtual void EndObserving(Game game)
+        public virtual void EndObserving(GameInfo game)
         {
         }
 
-        public event Action<Game, Move> IncomingMove;
-        protected void OnIncomingMove(Game game, Move move)
+        public event Action<GameInfo, Move> IncomingMove;
+        protected void OnIncomingMove(GameInfo game, Move move)
         {
             IncomingMove?.Invoke(game, move);
         }
@@ -53,6 +53,6 @@ namespace OmegaGo.Core.Online
         /// </summary>
         public abstract string ShortName { get; }
 
-        public abstract Task MakeMove(Game game, Move move);
+        public abstract Task MakeMove(GameInfo game, Move move);
     }
 }

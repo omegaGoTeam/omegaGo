@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Rules
         private float _blackScore;
         private CountingType _countingType;
         
-        public AGARuleset(Player white, Player black, GameBoardSize gbSize, CountingType countingType) : base(white, black, gbSize)
+        public AGARuleset(GameBoardSize gbSize, CountingType countingType) : base(gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Rules
             _countingType = countingType;
         }
 
-        public override Scores CountScore(StoneColor[,] currentBoard)
+        public override Scores CountScore(GameBoard currentBoard)
         {
             Scores scores;
             if (_countingType == CountingType.Area)
@@ -36,7 +36,20 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        public static float GetAGACompensation(GameBoardSize gbSize, int handicapStoneCount, CountingType cType)
+        {
+            float compensation = 0;
+            if (handicapStoneCount == 0)
+                compensation = 7.5f;
+            else if (handicapStoneCount > 0 && cType == CountingType.Area)
+                compensation = 0.5f + handicapStoneCount - 1;
+            else if (handicapStoneCount > 0 && cType == CountingType.Territory)
+                compensation = 0.5f;
+            
+            return compensation;
+        }
+
+        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             if (_countingType == CountingType.Territory)
             {
@@ -45,17 +58,17 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 7.5f;
             }
-            else if (handicapStoneNumber > 0 && _countingType == CountingType.Area)
+            else if (handicapStoneCount > 0 && _countingType == CountingType.Area)
             {
-                _komi = 0.5f + handicapStoneNumber - 1;
+                _komi = 0.5f + handicapStoneCount - 1;
             }
-            else if (handicapStoneNumber > 0 && _countingType == CountingType.Territory)
+            else if (handicapStoneCount > 0 && _countingType == CountingType.Territory)
             {
                 _komi = 0.5f;
             }
@@ -74,7 +87,7 @@ namespace OmegaGo.Core.Rules
             //check previous move
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
 
             // Black player starts the passing
@@ -86,7 +99,7 @@ namespace OmegaGo.Core.Rules
             return MoveResult.Legal;
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
         {
             _isPreviousMovePass = false;
 

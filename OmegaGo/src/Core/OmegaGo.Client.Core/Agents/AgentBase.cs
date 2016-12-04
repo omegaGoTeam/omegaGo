@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Agents
         /// <summary>
         /// Gets the game that this agent's player is playing in.
         /// </summary>
-        protected Game Game { get; private set; }
+        protected GameInfo Game { get; private set; }
         /// <summary>
         /// Gets the player that this agent makes moves for.
         /// </summary>
@@ -71,7 +71,7 @@ namespace OmegaGo.Core.Agents
             throw new InvalidOperationException("This agent is not a GUI agent.");
         }
 
-        public void GameBegins(Player player, Game game)
+        public void GameBegins(Player player, GameInfo game)
         {
             this.Player = player;
             this.Game = game;

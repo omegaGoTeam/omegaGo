@@ -13,7 +13,7 @@ namespace OmegaGo.Core.Rules
         private float _whiteScore;
         private float _blackScore;
         
-        public ChineseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
+        public ChineseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Rules
             _blackScore = 0.0f;
         }
 
-        public override Scores CountScore(StoneColor[,] currentBoard)
+        public override Scores CountScore(GameBoard currentBoard)
         {
             Scores scores;
             scores = CountArea(currentBoard);
@@ -32,20 +32,31 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        public static float GetChineseCompensation(GameBoardSize gbSize, int handicapStoneCount)
+        {
+            float compensation = 0;
+            if (handicapStoneCount == 0)
+                compensation = 7.5f;
+            else
+                compensation = 0.5f + handicapStoneCount - 1;
+            
+            return compensation;
+        }
+
+        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             return; //Chinese ruleset uses area counting, we do not need number of dead stones
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 7.5f;
             }
             else 
             {
-                _komi = 0.5f + handicapStoneNumber - 1;
+                _komi = 0.5f + handicapStoneCount - 1;
             }
 
         }
@@ -60,7 +71,7 @@ namespace OmegaGo.Core.Rules
             if (_isPreviousMovePass)
             {
                 //TODO check whether opponents score increases according to Chinese rules
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
             else 
             {
@@ -71,7 +82,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
         {
             _isPreviousMovePass = false;
 

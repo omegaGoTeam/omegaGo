@@ -34,12 +34,12 @@ namespace OmegaGo.Core.Online.Ogs
             // TODO json
 
         }
-        public override Task<List<Game>> ListGamesInProgress()
+        public override Task<List<GameInfo>> ListGamesInProgress()
         {
             return base.ListGamesInProgress();
         }
         public override string ShortName => "OGS";
-        public override Task MakeMove(Game game, Move move)
+        public override Task MakeMove(GameInfo game, Move move)
         {
             throw new NotImplementedException();
         }

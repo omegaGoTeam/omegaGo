@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Agents
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
         public override async void PleaseMakeAMove()
         { 
-            StoneColor[,] createdBoard = FastBoard.CreateBoardFromGame(Game);
+            GameBoard createdBoard = FastBoard.CreateBoardFromGame(Game);
             var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
               Player.Color,
               createdBoard,

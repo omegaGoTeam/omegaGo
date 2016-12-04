@@ -13,8 +13,7 @@ namespace OmegaGo.Core.Rules
         private float _whiteScore;
         private float _blackScore;
         
-
-        public JapaneseRuleset(Player white, Player black, GameBoardSize gbSize) : base(white, black, gbSize)
+        public JapaneseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
             _isPreviousMovePass = false;
             _komi = 0.0f;
@@ -22,7 +21,7 @@ namespace OmegaGo.Core.Rules
             _blackScore = 0.0f;
         }
 
-        public override Scores CountScore(StoneColor[,] currentBoard)
+        public override Scores CountScore(GameBoard currentBoard)
         {
             Scores scores;
             scores = CountTerritory(currentBoard);
@@ -33,15 +32,26 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        public override void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        public static float GetJapaneseCompensation(GameBoardSize gbSize, int handicapStoneCount)
+        {
+            float compensation = 0.0f;
+            if (handicapStoneCount == 0)
+                compensation = 6.5f;
+            else
+                compensation = 0.5f;
+
+            return compensation;
+        }
+
+        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
         {
             _whiteScore -= deadWhiteStoneCount;
             _blackScore -= deadBlackStoneCount;
         }
 
-        protected override void SetKomi(int handicapStoneNumber)
+        protected override void SetKomi(int handicapStoneCount)
         {
-            if (handicapStoneNumber == 0)
+            if (handicapStoneCount == 0)
             {
                 _komi = 6.5f;
             }
@@ -55,7 +65,7 @@ namespace OmegaGo.Core.Rules
         {
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathConfirmationPhase;
+                return MoveResult.LifeDeathDeterminationPhase;
             }
             else
             {
@@ -65,7 +75,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
         {
             _isPreviousMovePass = false;
 

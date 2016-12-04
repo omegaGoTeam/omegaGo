@@ -53,10 +53,10 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<Game> _gamesInProgressOnIgs = new List<Game>();
-        private readonly List<Game> _gamesBeingObserved = new List<Game>();
+        private List<GameInfo> _gamesInProgressOnIgs = new List<GameInfo>();
+        private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
         // Internal synchronization management
-        private Game _incomingMovesAreForThisGame;
+        private GameInfo _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
             new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest _requestInProgress;
@@ -267,10 +267,10 @@ namespace OmegaGo.Core.Online.Igs
             {
                 string trim2 = trim.Substring("Game ".Length);
                 int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
-                Game whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
+                GameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
                 if (whatGame == null)
                 {
-                    whatGame = new Game
+                    whatGame = new GameInfo
                     {
                         ServerId = gameNumber,
                         Server = this
@@ -440,8 +440,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when our match request is accepted and creates a GAME.
         /// </summary>
-        public event EventHandler<Game> MatchRequestAccepted;
-        private void OnMatchRequestAccepted(Game acceptedGame)
+        public event EventHandler<GameInfo> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(GameInfo acceptedGame)
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
@@ -450,7 +450,7 @@ namespace OmegaGo.Core.Online.Igs
 
         // Interface requirements
         public override string ShortName => "IGS";
-        public void RefreshBoard(Game game)
+        public void RefreshBoard(GameInfo game)
         {
             MakeUnattendedRequest("moves " + game.ServerId);
         }

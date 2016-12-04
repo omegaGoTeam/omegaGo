@@ -1,4 +1,4 @@
-﻿<views:ViewBase
+﻿<views:TransparencyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.GameCreationView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
+    xmlns:core="using:OmegaGo.Core"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=True}">
 
@@ -48,6 +49,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Text="Server" Grid.Column="0"
@@ -66,7 +68,17 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
                       ItemsSource="{Binding Path=BoardSizes}"
-                      SelectedIndex="{Binding Path=SelectedBoardSizeItemIndex, Mode=TwoWay}"/>
+                      SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding Width}" FontWeight="SemiBold" />
+                            <Run Text=" x " />
+                            <Run Text="{Binding Height}" FontWeight="SemiBold" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <Button Grid.Column="2" Grid.Row="1">Custom...</Button>
             
@@ -75,8 +87,14 @@
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="2" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=Rulesets}"
-                      SelectedIndex="{Binding Path=SelectedRulesetItemIndex, Mode=TwoWay}"/>
+                      ItemsSource="{Binding Rulesets}"
+                      SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizingConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Button Grid.Column="2" Grid.Row="2">More...</Button>
 
             <TextBlock Text="Black" Grid.Column="0" Grid.Row="3" 
@@ -85,7 +103,7 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="3" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=StoneColors}"
-                      SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
+                      SelectedItem="{Binding SelectedStoneColor, Mode=TwoWay}"/>
             <ComboBox Grid.Column="2" Grid.Row="3"  Margin="5" PlaceholderText="Strength">
                 <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
                 <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
@@ -96,7 +114,7 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=StoneColors}"
-                      SelectedIndex="{Binding Path=SelectedStoneColorItemIndex, Mode=TwoWay}"/>
+                      SelectedItem="{Binding SelectedStoneColor, Mode=TwoWay}"/>
             <ComboBox Grid.Column="2" Grid.Row="4"  Margin="5" PlaceholderText="Strength">
                 <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
                 <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
@@ -121,11 +139,13 @@
                 <ComboBoxItem>Canadian byo-yomi</ComboBoxItem>
             </ComboBox>
             <Button Grid.Column="2" Grid.Row="6">Settings...</Button>
-            
-            <Border Grid.ColumnSpan="3" Grid.Row="7" 
-                    Margin="15"
-                    BorderBrush="Gray" BorderThickness="1" />
 
+            <TextBlock Text="Compensation" Grid.Column="0" Grid.Row="7" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Center" 
+                       FontSize="22" Margin="5" />
+            <TextBox Grid.Row="7" Margin="5" Grid.Column="1" x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
+            <Button Grid.Row="7" Grid.Column="2" Command="{x:Bind VM.SetDefaultCompensationCommand}">Set default</Button>
         </Grid>
 
         <Button Grid.Row="2" 
@@ -138,4 +158,4 @@
             </StackPanel>
         </Button>
     </Grid>
-</views:ViewBase>
+</views:TransparencyViewBase>

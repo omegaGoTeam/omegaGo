@@ -1,10 +1,11 @@
 ﻿
 using Windows.UI.Xaml;
 using OmegaGo.UI.ViewModels;
+using System;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class TutorialView : ViewBase
+    public sealed partial class TutorialView : TransparencyViewBase
     {
         public TutorialViewModel VM => (TutorialViewModel)this.ViewModel;
 
@@ -12,6 +13,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        public override string WindowTitle => Localizer.Tutorial;
+
+        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tutorial.png");
 
         private void Scenario_ScenarioCompleted(object sender, System.EventArgs e)
         {

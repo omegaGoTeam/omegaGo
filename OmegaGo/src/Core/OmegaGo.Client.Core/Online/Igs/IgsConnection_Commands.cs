@@ -14,10 +14,10 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        public override async Task<List<Game>> ListGamesInProgress()
+        public override async Task<List<GameInfo>> ListGamesInProgress()
         {
             await EnsureConnected();
-            _gamesInProgressOnIgs = new List<Game>();
+            _gamesInProgressOnIgs = new List<GameInfo>();
             List<IgsLine> lines = await MakeRequest("games");
             foreach (IgsLine line in lines)
             {
@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return _gamesInProgressOnIgs;
         }
-        private Game CreateGameFromTelnetLine(string line)
+        private GameInfo CreateGameFromTelnetLine(string line)
         {
             Regex regex = new Regex(@"7 \[ *([0-9]+)] *([^[]+) \[([^]]+)\] vs. *([^[]+) \[([^]]+)\] \( *([0-9]+) *([0-9]+) *([0-9]+) *([-0-9.]+) *([0-9]+) *([A-Z]*)\) *\( *([0-9]+)\)");
             // The regex means:
@@ -54,7 +54,7 @@ namespace OmegaGo.Core.Online.Igs
             Match match = regex.Match(line);
             try
             {
-                Game game = new Game()
+                GameInfo game = new GameInfo()
                 {
                     ServerId = match.Groups[1].Value.AsInteger(),
                     Server = this,
@@ -84,11 +84,11 @@ namespace OmegaGo.Core.Online.Igs
             catch (FormatException)
             {
                 Debug.WriteLine(line);
-                return new Game();
+                return new GameInfo();
             }
 
         }
-        public override async void StartObserving(Game game)
+        public override async void StartObserving(GameInfo game)
         {
             if (_gamesBeingObserved.Contains(game))
             {
@@ -98,7 +98,7 @@ namespace OmegaGo.Core.Online.Igs
             _gamesBeingObserved.Add(game);
             await MakeRequest("observe " + game.ServerId);
         }
-        public override void EndObserving(Game game)
+        public override void EndObserving(GameInfo game)
         {
             if (!_gamesBeingObserved.Contains(game))
             {
@@ -153,7 +153,7 @@ namespace OmegaGo.Core.Online.Igs
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
-        public async Task<Game> AcceptMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<GameInfo> AcceptMatchRequest(IgsMatchRequest matchRequest)
         { 
             /*  
             15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Online.Igs
             if (lines.Any(line => line.Code == IgsCode.Error)) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
-            Game game = new Core.Game()
+            GameInfo game = new Core.GameInfo()
             {
                 BoardSize = new Core.GameBoardSize(19), // TODO
                 Server = this,
@@ -174,7 +174,7 @@ namespace OmegaGo.Core.Online.Igs
             };
             game.Players.Add(new Core.Player(heading.BlackName, "?", game));
             game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
-            game.Ruleset = new JapaneseRuleset(game.Players[1], game.Players[0], game.BoardSize);
+            game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
             return game;
@@ -184,7 +184,7 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        public override async Task MakeMove(Game game, Move move)
+        public override async Task MakeMove(GameInfo game, Move move)
         {
             MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
             await Task.Delay(0);

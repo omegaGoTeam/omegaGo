@@ -24,9 +24,9 @@ namespace OmegaGo.Core
         public List<string> AddWhite { get; set; }
 
         /// <summary>
-        /// Describes current state of the entire game board. May be null.
+        /// Describes current state of the entire game board. Can be null.
         /// </summary>
-        public StoneColor[,] BoardState { get; set; }
+        public GameBoard BoardState { get; set; }
 
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 
@@ -95,6 +95,20 @@ namespace OmegaGo.Core
             }
         }
 
+
+        public GameTreeNode PreviousMove
+        {
+            get
+            {
+                GameTreeNode parent = this.Parent;
+                while (parent != null && parent.Move.Kind == MoveKind.None)
+                {
+                    parent = parent.Parent;
+                }
+                return parent;
+            }
+        }
+
         public GameTreeNode(Move move)
         {
             this.Branches = new GameTreeNodeCollection(this);
@@ -113,6 +127,35 @@ namespace OmegaGo.Core
                     node = node.NextMove;
                 }
             }
+        }
+
+        
+
+        /// <summary>
+        /// Gets the list of all moves that lead to the provided node.
+        /// The list is starting with root node.
+        /// </summary>
+        /// <param name="node">target node</param>
+        /// <param name="filterNonMoves">determines whether nodes with MoveKind.None should be included</param>
+        /// <returns>nodes history</returns>
+        public static List<GameTreeNode> GetNodeHistory(GameTreeNode node, bool filterNonMoves)
+        {
+            if (node == null)
+                throw new ArgumentNullException("Node cant be null");
+
+            List<GameTreeNode> nodeHistory = new List<GameTreeNode>();
+
+            do
+            {
+                if (filterNonMoves && (node.Move.Kind == MoveKind.Pass || node.Move.Kind == MoveKind.PlaceStone))
+                    nodeHistory.Insert(0, node);
+                else
+                    nodeHistory.Insert(0, node);
+
+                node = node.Parent;
+            } while (node != null);
+
+            return nodeHistory;
         }
     }
 }

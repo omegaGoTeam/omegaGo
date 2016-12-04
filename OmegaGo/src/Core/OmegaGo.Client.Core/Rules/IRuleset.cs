@@ -9,40 +9,33 @@ namespace OmegaGo.Core.Rules
     public interface IRuleset
     {
         /// <summary>
-        /// Initializes the ruleset. For each game, a new ruleset must be created.
+        /// There are two ways to score. One is based on territory, the other on area.
+        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
         /// </summary>
-        /// <param name="white"></param>
-        /// <param name="black"></param>
-        /// <param name="gbSize">Size of the game board.</param>
-        Scores CountScore(List<Position> deadStones, StoneColor[,] currentBoard);
+        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <returns>The score of players.</returns>
+        Scores CountScore(GameBoard currentBoard);
+
+        void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
 
         /// <summary>
         /// Sets the value of Komi. 
         /// If the type of handicap placement is fixed, places handicap stones on the board.
-        /// Otherwise, PlaceFreeHandicapStone should be called handicapStoneNumber times.
+        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneCount" times.
         /// </summary>
-        /// <param name="currentBoard"></param>
-        /// <param name="handicapStoneNumber"></param>
+        /// <param name="currentBoard">Reference to the state of board.</param>
+        /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        void ModifyScoresAfterLDConfirmationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
+        void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
         /// This method is called, if the ruleset allows free handicap placement.
         /// </summary>
-        /// <param name="currentBoard"></param>
-        /// <param name="moveToMake"></param>
-        /// <returns></returns>
-        void StartHandicapPhase(ref StoneColor[,] currentBoard, int handicapStoneNumber, HandicapPositions.Type placementType);
-
-        /// <summary>
-        /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
-        /// This method is called, if the ruleset allows free handicap placement.
-        /// </summary>
-        /// <param name="currentBoard"></param>
-        /// <param name="moveToMake"></param>
-        /// <returns></returns>
-        MoveResult PlaceFreeHandicapStone(ref StoneColor[,] currentBoard, Move moveToMake);
+        /// <param name="currentBoard">Reference to the state of board.</param>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <returns>The result of legality check.</returns>
+        MoveResult PlaceFreeHandicapStone(ref GameBoard currentBoard, Move moveToMake);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
@@ -51,7 +44,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        MoveProcessingResult ProcessMove(StoneColor[,] previousBoard, Move moveToMake, List<StoneColor[,]> history);
+        MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, List<GameBoard> history);
 
         /// <summary>
         /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
@@ -59,15 +52,25 @@ namespace OmegaGo.Core.Rules
         /// <param name="player">The player who wants to make a move.</param>
         /// <param name="currentBoard">The current full board position.</param>
         /// <param name="history">All previous full board positions.</param>
-        /// <returns></returns>
-        List<Position> GetAllLegalMoves(StoneColor player, StoneColor[,] currentBoard, List<StoneColor[,]> history);
+        /// <returns>List of legal moves.</returns>
+        List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history);
 
         /// <summary>
         /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>
-        /// <param name="currentBoard"></param>
-        /// <param name="moveToMake"></param>
-        /// <param name="history"></param>
-        MoveResult IsLegalMove(StoneColor[,] currentBoard, Move moveToMake, List<StoneColor[,]> history);
+        /// <param name="currentBoard">The current full board position.</param>
+        /// <param name="moveToMake">The move of a player.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns>The result of legality check.</returns>
+        MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
+
+        /// <summary>
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
+        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// </summary>
+        /// <param name="pos">The position whose group we want to identify.</param>
+        /// <param name="board">The current full board position.</param>
+        /// <returns></returns>
+        IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board);
     }
 }
