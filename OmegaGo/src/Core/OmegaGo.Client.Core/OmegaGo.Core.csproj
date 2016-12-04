@@ -55,8 +55,12 @@
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameController.cs" />
+    <Compile Include="GameRequest.cs" />
+    <Compile Include="IGame.cs" />
+    <Compile Include="IGameController.cs" />
     <Compile Include="Markup\AreaDim.cs" />
     <Compile Include="Markup\Arrow.cs" />
     <Compile Include="Markup\Circle.cs" />
@@ -95,7 +99,7 @@
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="GameInfo.cs" />
     <Compile Include="GameBoardSize.cs" />
     <Compile Include="GameState\IGameTreeSerializer.cs" />
     <Compile Include="GameTree.cs" />

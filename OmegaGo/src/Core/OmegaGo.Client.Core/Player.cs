@@ -23,7 +23,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// The game the player is playing.
         /// </summary>
-        private Game Game { get; }
+        private GameInfo Game { get; }
         /// <summary>
         /// Gets the color of the stones this player is using.
         /// </summary>
@@ -42,7 +42,7 @@ namespace OmegaGo.Core
         /// <param name="name">The player's name.</param>
         /// <param name="rank">The player's rank (e.g. "17k").</param>
         /// <param name="game">The game the player participates in.</param>
-        public Player(string name, string rank, Game game)
+        public Player(string name, string rank, GameInfo game)
         {
             Name = name;
             Rank = rank;

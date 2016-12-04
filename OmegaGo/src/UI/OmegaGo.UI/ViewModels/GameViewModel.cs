@@ -16,8 +16,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private Game _game;
-        private GameController _gameController;
+        private IGame _game;
 
         private BoardViewModel _boardViewModel;
         private ChatViewModel _chatViewModel;
@@ -25,7 +24,7 @@ namespace OmegaGo.UI.ViewModels
 
         private BoardState _boardState;
         
-        public Game Game
+        public IGame Game
         {
             get { return _game; }
         }
@@ -56,62 +55,35 @@ namespace OmegaGo.UI.ViewModels
         
         public GameViewModel()
         {
-            try
-            {
-                // Works for SinglePlayer ViewModel
-                _game = Mvx.GetSingleton<Game>();
-            }
-            catch(Exception)
-            {
-                // For all others game parameters not yet implemented
-                // Do it old way
-                _game = new Game();
-                _game.BoardSize = new GameBoardSize(19);
-
-                _game.Players.Add(new Player("Black Player", "??", _game));
-                _game.Players.Add(new Player("White Player", "??", _game));
-                foreach (var player in _game.Players)
-                {
-                    player.Agent = new Core.Agents.GuiAgent();
-                }
-
-                _game.Ruleset = new ChineseRuleset(_game.BoardSize);
-            }
-
-            _gameController = _game.GameController;
-            _gameController.BoardMustBeRefreshed += _gameController_BoardMustBeRefreshed;
+            _game = Mvx.GetSingleton<IGame>();
+            _game.BoardChanged += Game_BoardChanged;
 
             BoardState = new BoardState();
-            BoardState.BoardHeight = _game.BoardSize.Height;
-            BoardState.BoardWidth = _game.BoardSize.Width;
+            BoardState.BoardHeight = _game.Info.BoardSize.Height;
+            BoardState.BoardWidth = _game.Info.BoardSize.Width;
 
-            BoardViewModel = new BoardViewModel() { BoardState = BoardState }; // Mindfuck inception o.O
+            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState }; // Mindfuck inception o.O
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
 
             TimelineViewModel = new TimelineViewModel();
-            TimelineViewModel.GameTree = _game.GameTree;
+            TimelineViewModel.GameTree = _game.Info.GameTree;
             TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
 
             // TODO Could cause problems as this does not wait until the UI is loaded. 
-            this.BeginGame();
+            _game.Controller.BeginGame();
         }
 
-        private void _gameController_BoardMustBeRefreshed(object sender, EventArgs e)
+        private void Game_BoardChanged(object sender, GameTreeNode e)
         {
-            if (_game.GameTree.LastNode != null)
-                OnBoardRefreshRequested(_game.GameTree.LastNode);
+            if (e != null)
+                OnBoardRefreshRequested(e);
         }
-
-        public void BeginGame()
-        {
-            _gameController.BeginGame();
-        }
-        
+                
         public void MakeMove(Position selectedPosition)
         {
-            _gameController.TurnPlayer.Agent.Click(_gameController.TurnPlayer.Color, selectedPosition);
+            _game.Controller.MakeMove(selectedPosition);
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

@@ -11,7 +11,7 @@ namespace OmegaGo.UI.ViewModels
     {
         private IgsConnection _igsConnection;
 
-        private ObservableCollection<Game> _onlineGames;
+        private ObservableCollection<GameInfo> _onlineGames;
         private ObservableCollection<IgsUser> _onlinePlayers;
 
         private int _selectedOnlineGameIndex;
@@ -21,7 +21,7 @@ namespace OmegaGo.UI.ViewModels
 
         private MvxCommand _observeGameCommand;
 
-        public ObservableCollection<Game> OnlineGames => _onlineGames;
+        public ObservableCollection<GameInfo> OnlineGames => _onlineGames;
         public ObservableCollection<IgsUser> OnlinePlayers => _onlinePlayers;
 
         public int SelectedOnlineGameIndex
@@ -40,7 +40,7 @@ namespace OmegaGo.UI.ViewModels
         {
             _igsConnection = new IgsConnection();
 
-            _onlineGames = new ObservableCollection<Game>();
+            _onlineGames = new ObservableCollection<GameInfo>();
             _onlinePlayers = new ObservableCollection<IgsUser>();
 
             _selectedOnlineGameIndex = -1;
@@ -51,7 +51,7 @@ namespace OmegaGo.UI.ViewModels
         private void ObserveGame()
         {
             // Todo observed game do not have rules assigned, which causes a Null exeption in GameController.MakeMove
-            Game observedGame = OnlineGames[SelectedOnlineGameIndex];
+            GameInfo observedGame = OnlineGames[SelectedOnlineGameIndex];
             observedGame.Ruleset = new ChineseRuleset(observedGame.BoardSize);
             Mvx.RegisterSingleton(observedGame);
             _igsConnection.StartObserving(observedGame);

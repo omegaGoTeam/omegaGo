@@ -214,7 +214,7 @@ namespace OmegaGo.Core.Online.Igs
             if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
             {
                 GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                Game game = new Core.Game()
+                GameInfo game = new Core.GameInfo()
                 {
                     BoardSize = new Core.GameBoardSize(19), // TODO
                     Server = this,
