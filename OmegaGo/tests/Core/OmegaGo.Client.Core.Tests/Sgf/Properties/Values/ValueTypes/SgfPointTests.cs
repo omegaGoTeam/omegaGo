@@ -1,14 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf;
-using OmegaGo.Core.Sgf.Properties.Values;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
-namespace OmegaGo.Core.Tests.Sgf.Properties.Values
+namespace OmegaGo.Core.Tests.Sgf.Properties.Values.ValueTypes
 {
     [TestClass]
     public class SgfPointTests
