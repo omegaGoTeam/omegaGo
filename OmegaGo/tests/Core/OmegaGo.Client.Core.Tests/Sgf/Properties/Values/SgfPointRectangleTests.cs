@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf.Properties.Values;
+using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
 namespace OmegaGo.Core.Tests.Sgf.Properties.Values
 {
