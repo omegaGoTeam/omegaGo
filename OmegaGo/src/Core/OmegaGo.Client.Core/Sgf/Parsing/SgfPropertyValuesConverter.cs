@@ -29,10 +29,14 @@ namespace OmegaGo.Core.Sgf.Parsing
             return SgfUnknownValue.Parse(value);
         }
 
+        /// <summary>
+        /// Defined parsing methods for known SGF properties
+        /// </summary>
         private static readonly Dictionary<string, Func<string, ISgfPropertyValue>> KnownPropertyParsers =
             new Dictionary<string, Func<string, ISgfPropertyValue>>()
             {
-
+                {"B", SgfPointValue.Parse },
+                {"W", SgfPointValue.Parse }
             };
     }
 }
