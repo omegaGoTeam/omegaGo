@@ -140,6 +140,8 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 
             char columnChar = ValueToPointChar( Column );
             char rowChar = ValueToPointChar( Row );
+            //return the serialized value
+            return columnChar.ToString() + rowChar;
         }
     }
 }
