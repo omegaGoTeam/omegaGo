@@ -65,6 +65,7 @@
     <Compile Include="Markup\Line.cs" />
     <Compile Include="Markup\Square.cs" />
     <Compile Include="Markup\Triangle.cs" />
+    <Compile Include="MoveKind.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />
     <Compile Include="Online\Chat\IChatService.cs" />
