@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
     /// <summary>
     /// SGF point
     /// </summary>
-    public struct SgfPoint : IEquatable<SgfPoint>, IComparable<SgfPoint>
+    public struct SgfPoint : IEquatable<SgfPoint>
     {
         /// <summary>
         /// Creates a SGF Point
@@ -26,13 +26,22 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 
         /// <summary>
         /// Parses a SGF point from a property value
+        /// Warning: because boards larger than 19x19 are supported, [tt] is not recognized as Pass move without supplying
+        /// GameBoardSize
         /// </summary>
         /// <param name="value">Property value</param>
         /// <returns>SGF point</returns>
         public static SgfPoint Parse(string value)
         {
-            if (string.IsNullOrEmpty(value) || value.Length != 2)
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (value.Length != 2 && value.Length != 0)
                 throw new SgfParseException($"Invalid SGF point value: '{value}'");
+
+            //check for pass
+            if (value == string.Empty) return Pass;
+
+            //parse
             var columnChar = value[0];
             var rowChar = value[1];
             return new SgfPoint(
@@ -62,7 +71,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
             }
             else if (isEnglishUpper)
             {
-                return character - 'A';
+                return character - 'A' + 26;
             }
             else
             {
@@ -79,23 +88,40 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         private static char ValueToPointChar(int value)
         {
             if (value < 0 || value > 52) throw new ArgumentOutOfRangeException(nameof(value));
-            return (char)(value < 27 ? 'a' + value : 'A' + value);
+            return (char)(value < 27 ? 'a' + value : 'A' + (value - 26));
         }
 
         /// <summary>
-        /// Column
+        /// Column value
+        /// 'a' == 0
         /// </summary>
         public int Column { get; }
 
         /// <summary>
         /// Row
+        /// 'a' == 0
         /// </summary>
         public int Row { get; }
 
         /// <summary>
         /// Checks if the point represents a pass move
         /// </summary>
-        public bool IsPass => Column == -1;
+        public bool IsInherentlyPass => Column == -1;
+
+        /// <summary>
+        /// Checks if the move is pass move
+        /// </summary>
+        /// <param name="gameBoardSize">Size of the game board</param>
+        /// <returns>Is pass?</returns>
+        public bool IsPass(GameBoardSize gameBoardSize)
+        {
+            if (gameBoardSize.Width <= 19 && gameBoardSize.Height <= 19)
+            {
+                var tValue = PointCharToValue('t');
+                return Column == tValue && Row == tValue;
+            }
+            return IsInherentlyPass;
+        }
 
         public static bool operator ==(SgfPoint left, SgfPoint right) => left.Equals(right);
 
@@ -136,10 +162,10 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         public override string ToString()
         {
             //handle pass move
-            if (IsPass) return string.Empty;
+            if (IsInherentlyPass) return string.Empty;
 
-            char columnChar = ValueToPointChar( Column );
-            char rowChar = ValueToPointChar( Row );
+            char columnChar = ValueToPointChar(Column);
+            char rowChar = ValueToPointChar(Row);
             //return the serialized value
             return columnChar.ToString() + rowChar;
         }
