@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Sgf.Parsing;
 
 namespace OmegaGo.Core.Sgf.Properties
 {
@@ -31,7 +32,7 @@ namespace OmegaGo.Core.Sgf.Properties
             //convert and store values
             Values = new ReadOnlyCollection<ISgfPropertyValue>(
                     valuesArray.Select( 
-                        value => SgfPropertiesValuesConverter.GetValue(identifier, value) 
+                        value => SgfPropertyValuesConverter.GetValue(identifier, value) 
                     ).ToList()
                 );
         }

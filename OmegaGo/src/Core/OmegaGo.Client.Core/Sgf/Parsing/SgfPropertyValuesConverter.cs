@@ -1,16 +1,13 @@
-﻿using OmegaGo.Core.Sgf.Properties.Values;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OmegaGo.Core.Sgf.Properties.Values;
 
-namespace OmegaGo.Core.Sgf.Properties
+namespace OmegaGo.Core.Sgf.Parsing
 {
     /// <summary>
     /// Class that facilitates the conversion of known SGF property values
     /// </summary>
-    internal static class SgfPropertiesValuesConverter
+    internal static class SgfPropertyValuesConverter
     {
         /// <summary>
         /// Returns the parsed values for a given property
@@ -20,6 +17,9 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <returns>Converted value</returns>
         public static ISgfPropertyValue GetValue(string propertyIdentifier, string value)
         {
+            if (propertyIdentifier == null) throw new ArgumentNullException(nameof(propertyIdentifier));
+            if (value == null) throw new ArgumentNullException(nameof(value));
+
             //is the property known?
             if (KnownPropertyParsers.ContainsKey(propertyIdentifier))
             {
