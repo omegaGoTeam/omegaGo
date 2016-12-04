@@ -14,13 +14,6 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         SgfValueType ValueType { get; }
 
         /// <summary>
-        /// Parses the SGF property value from string
-        /// </summary>
-        /// <param name="value">Value</param>
-        /// <returns>Parsed property value</returns>
-        ISgfPropertyValue Parse(string value);
-
-        /// <summary>
         /// Serializes the SGF property value to string
         /// </summary>
         /// <returns>String</returns>
