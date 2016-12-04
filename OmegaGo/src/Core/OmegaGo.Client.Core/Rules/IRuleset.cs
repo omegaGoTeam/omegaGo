@@ -8,8 +8,6 @@ namespace OmegaGo.Core.Rules
 {
     public interface IRuleset
     {
-        float GetDefaultCompensation(RulesetType rsType, GameBoardSize gbSize, int handicapStoneCount, CountingType cType);
-
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
@@ -65,5 +63,14 @@ namespace OmegaGo.Core.Rules
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
         MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
+
+        /// <summary>
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
+        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// </summary>
+        /// <param name="pos">The position whose group we want to identify.</param>
+        /// <param name="board">The current full board position.</param>
+        /// <returns></returns>
+        IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board);
     }
 }

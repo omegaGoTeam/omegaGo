@@ -10,90 +10,139 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Agents;
+using System.Windows.Input;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class GameCreationViewModel : ViewModelBase
     {
-        private ObservableCollection<string> _boardSizes;
-        private ObservableCollection<string> _difficulties;
-        private ObservableCollection<string> _rulesets;
-        private ObservableCollection<string> _stoneColors;
         private int _whiteHandicap;
+        private float _compensation = 0;
+        private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
+        private string _selectedDifficulty = null;
+        private RulesetType _selectedRuleset = RulesetType.Chinese;
+        private string _selectedStoneColor = null;
 
-        private int _selectedBoardSizeItemIndex;
-        private int _selectedDifficultiesItemIndex;
-        private int _selectedRulesetItemIndex;
-        private int _selectedStoneColorItemIndex;
-
+        private ICommand _setDefaultCompensationCommand = null;
         private IMvxCommand _navigateToGameCommand;
 
-        public ObservableCollection<string> BoardSizes
+        /// <summary>
+        /// Default offered game board sizes
+        /// </summary>
+        public ObservableCollection<GameBoardSize> BoardSizes { get; } =
+            new ObservableCollection<GameBoardSize>() { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19), new GameBoardSize(25) };
+
+        /// <summary>
+        /// Selected game board size
+        /// </summary>
+        public GameBoardSize SelectedGameBoardSize
         {
-            get { return _boardSizes; }
+            get
+            {
+                return _selectedGameBoardSize;
+            }
+            set
+            {
+                SetProperty(ref _selectedGameBoardSize, value);
+            }
         }
 
-        public ObservableCollection<string> Difficulties
+        /// <summary>
+        /// Difficulties
+        /// </summary>
+        public ObservableCollection<string> Difficulties { get; }
+
+        /// <summary>
+        /// Selected difficulty
+        /// </summary>
+        public string SelectedDifficulty
         {
-            get { return _difficulties; }
+            get
+            {
+                return _selectedDifficulty;
+            }
+            set
+            {
+                SetProperty(ref _selectedDifficulty, value);
+            }
         }
 
-        public ObservableCollection<string> Rulesets
+        /// <summary>
+        /// Rulesets
+        /// </summary>
+        public ObservableCollection<RulesetType> Rulesets { get; } =
+            new ObservableCollection<RulesetType>() { RulesetType.Chinese, RulesetType.Japanese, RulesetType.AGA };
+
+        /// <summary>
+        /// Selected ruleset
+        /// </summary>
+        public RulesetType SelectedRuleset
         {
-            get { return _rulesets; }
+            get
+            {
+                return _selectedRuleset;
+            }
+            set
+            {
+                SetProperty(ref _selectedRuleset, value);
+            }
         }
 
-        public ObservableCollection<string> StoneColors
+        /// <summary>
+        /// Stone colors
+        /// </summary>
+        public ObservableCollection<string> StoneColors { get; }
+
+        /// <summary>
+        /// Selected stone color
+        /// </summary>
+        public string SelectedStoneColor
         {
-            get { return _stoneColors; }
+            get
+            {
+                return _selectedStoneColor;
+            }
+            set
+            {
+                SetProperty(ref _selectedStoneColor, value);
+            }
         }
 
+        /// <summary>
+        /// Handicap of white player
+        /// </summary>
         public int WhiteHandicap
         {
             get { return _whiteHandicap; }
             set { SetProperty(ref _whiteHandicap, value); }
         }
 
-        public int SelectedBoardSizeItemIndex
+        /// <summary>
+        /// Compensation
+        /// </summary>
+        public float Compensation
         {
-            get { return _selectedBoardSizeItemIndex; }
-            set { SetProperty(ref _selectedBoardSizeItemIndex, value); }
-        }
-
-        public int SelectedDifficultiesItemIndex
-        {
-            get { return _selectedDifficultiesItemIndex; }
-            set { SetProperty(ref _selectedDifficultiesItemIndex, value); }
-        }
-
-        public int SelectedRulesetItemIndex
-        {
-            get { return _selectedRulesetItemIndex; }
-            set { SetProperty(ref _selectedRulesetItemIndex, value); }
-        }
-
-        public int SelectedStoneColorItemIndex
-        {
-            get { return _selectedStoneColorItemIndex; }
-            set { _selectedStoneColorItemIndex = value; }
+            get { return _compensation; }
+            set { SetProperty(ref _compensation, value); }
         }
 
         public GameCreationViewModel()
         {
-            _boardSizes = new ObservableCollection<string>() { "9x9", "13x13", "19x19", "25x25" };
-            _difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
-            _rulesets = new ObservableCollection<string>() { Localizer.Chinese, Localizer.Japonese };
-            _stoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
-
-            _selectedBoardSizeItemIndex = 0;
-            _selectedDifficultiesItemIndex = 0;
-            _selectedRulesetItemIndex = 0;
-            _selectedStoneColorItemIndex = 0;
-
-            _whiteHandicap = 0;
+            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
+            SelectedDifficulty = Difficulties.First();
+            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
+            SelectedStoneColor = StoneColors.First();
+            WhiteHandicap = 0;
         }
 
-        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(() => NavigateToGame()));
+        public ICommand SetDefaultCompensationCommand => _setDefaultCompensationCommand ?? (_setDefaultCompensationCommand = new MvxCommand(SetDefaultCompensation));
+
+        private void SetDefaultCompensation()
+        {
+            Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, WhiteHandicap, CountingType.Area);
+        }
+
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
 
         private void NavigateToGame()
         {
@@ -106,32 +155,9 @@ namespace OmegaGo.UI.ViewModels
                 player.Agent = new GuiAgent();
             }
 
-            switch (SelectedBoardSizeItemIndex)
-            {
-                case 0:
-                    game.BoardSize = new GameBoardSize(9);
-                    break;
-                case 1:
-                    game.BoardSize = new GameBoardSize(13);
-                    break;
-                case 2:
-                    game.BoardSize = new GameBoardSize(19);
-                    break;
-                case 3:
-                    game.BoardSize = new GameBoardSize(25);
-                    break;
-            }
-
-            switch (SelectedRulesetItemIndex)
-            {
-
-                case 0:
-                    game.Ruleset = new ChineseRuleset(game.BoardSize);
-                    break;
-                case 1:
-                    game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                    break;
-            }
+            game.BoardSize = SelectedGameBoardSize;
+            game.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
+            game.KomiValue = Compensation;
 
             Mvx.RegisterSingleton<Game>(game);
             ShowViewModel<GameViewModel>();
