@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.UI.Services
+namespace OmegaGo.UI.Services.Files
 {
     /// <summary>
     /// Provides platform independent file read and write support.

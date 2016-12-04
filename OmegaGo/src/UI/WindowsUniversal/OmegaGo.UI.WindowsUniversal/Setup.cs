@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
+using OmegaGo.UI.Services.Files;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -28,8 +29,9 @@ namespace OmegaGo.UI.WindowsUniversal
         }
 
         protected override void InitializeFirstChance()
-        {            
-            Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();            
+        {
+            Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
+            Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
 
             base.InitializeFirstChance();
