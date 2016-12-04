@@ -44,6 +44,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameBoardSize, value);
+                SetDefaultCompensation();
             }
         }
 
@@ -85,6 +86,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedRuleset, value);
+                SetDefaultCompensation();
             }
         }
 
@@ -114,7 +116,11 @@ namespace OmegaGo.UI.ViewModels
         public int WhiteHandicap
         {
             get { return _whiteHandicap; }
-            set { SetProperty(ref _whiteHandicap, value); }
+            set
+            {
+                SetProperty(ref _whiteHandicap, value);
+                SetDefaultCompensation();
+            }
         }
 
         /// <summary>
