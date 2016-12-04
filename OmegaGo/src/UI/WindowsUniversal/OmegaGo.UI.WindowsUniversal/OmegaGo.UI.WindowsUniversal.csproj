@@ -177,6 +177,27 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Help.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Help.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Help.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Library.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Library.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Library.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Settings.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Settings.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Settings.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Statistics.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Statistics.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Statistics.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Tutorial.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Tutorial.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Tutorial.scale-200.png" />
     <Content Include="Assets\MainMenu\backgroundimage.jpg" />
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
@@ -307,9 +328,7 @@
       <Name>OmegaGo.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Icons\TitleBar\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

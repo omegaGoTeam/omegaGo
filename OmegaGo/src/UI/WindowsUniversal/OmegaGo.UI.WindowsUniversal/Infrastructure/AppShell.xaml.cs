@@ -25,7 +25,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             this.InitializeComponent();
             window.Content = this;
             AppShells.Add(window, this);
-            AppFrame.Navigated += AppFrame_Navigated; ;           
+            AppFrame.Navigated += AppFrame_Navigated; ;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             var view = AppFrame.Content as ViewBase;
-            if ( view != null)
+            if (view != null)
             {
                 WindowTitle = view.WindowTitle;
                 WindowTitleIconUri = view.WindowTitleIconUri;
@@ -87,7 +87,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             }
             set
             {
-                PageIcon.UriSource = value;
+                if (PageIcon.UriSource != value)
+                {
+                    PageIcon.UriSource = value;
+                }
             }
         }
 

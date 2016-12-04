@@ -26,8 +26,9 @@
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="4" x:Name="DraggableTitleBarArea" Background="Transparent">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <BitmapIcon x:Name="PageIcon" />
-                        <TextBlock x:Name="PageTitle" Text="Omega Go" FontWeight="Normal" FontSize="16" VerticalAlignment="Center" Margin="10,0,0,0" />
+                        <BitmapIcon x:Name="PageIcon" Height="20" VerticalAlignment="Center" />
+                        <TextBlock Text="Omega Go" FontWeight="Normal" FontSize="14" VerticalAlignment="Center" Margin="10,0,10,0" />
+                        <TextBlock x:Name="PageTitle" Text="" FontWeight="Light" Opacity="0.8" VerticalAlignment="Center" FontSize="14" />
                     </StackPanel>
                 </Grid>
                 <Grid x:Name="BackButtonGrid">

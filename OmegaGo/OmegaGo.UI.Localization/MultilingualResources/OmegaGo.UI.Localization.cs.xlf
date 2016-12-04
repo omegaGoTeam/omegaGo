@@ -231,6 +231,10 @@
           <source>Omega Go</source>
           <target state="new">Omega Go</target>
         </trans-unit>
+        <trans-unit id="Game" translate="yes" xml:space="preserve">
+          <source>Game</source>
+          <target state="new">Game</target>
+        </trans-unit>
       </group>
     </body>
   </file>

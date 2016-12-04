@@ -160,6 +160,9 @@
   <data name="FilterBySource" xml:space="preserve">
     <value>Filter by source</value>
   </data>
+  <data name="Game" xml:space="preserve">
+    <value>Game</value>
+  </data>
   <data name="GameLibrary" xml:space="preserve">
     <value>Game library</value>
   </data>

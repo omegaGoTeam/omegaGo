@@ -30,9 +30,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         }
 
         /// <summary>
-        /// Title of the window (defaults to app name)
+        /// Title of the window (defaults to empty string)
         /// </summary>
-        public virtual string WindowTitle { get { return Localizer.OmegaGo; } }
+        public virtual string WindowTitle => string.Empty;
 
         /// <summary>
         /// Icon of the window (defaults to null)

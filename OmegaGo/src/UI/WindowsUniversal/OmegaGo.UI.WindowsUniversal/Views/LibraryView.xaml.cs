@@ -1,4 +1,5 @@
 ﻿using OmegaGo.UI.ViewModels;
+using System;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -10,5 +11,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        public override string WindowTitle => Localizer.GameLibrary;
+
+        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Library.png");
     }
 }

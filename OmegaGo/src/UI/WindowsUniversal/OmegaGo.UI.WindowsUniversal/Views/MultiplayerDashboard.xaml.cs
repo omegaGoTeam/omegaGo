@@ -1,5 +1,6 @@
 ﻿
 using OmegaGo.UI.ViewModels;
+using System;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -11,5 +12,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        public override string WindowTitle => Localizer.OnlineGame;
+
+        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
     }
 }
