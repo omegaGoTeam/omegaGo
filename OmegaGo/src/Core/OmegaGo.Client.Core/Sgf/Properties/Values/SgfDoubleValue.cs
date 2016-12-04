@@ -14,6 +14,26 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 
         public override SgfValueType ValueType => SgfValueType.Double;
 
-        public override string Serialize() => Value;
+        /// <summary>
+        /// Parses a value to SGF double property value
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <returns>SGF double property value instance</returns>
+        public static ISgfPropertyValue Parse(string value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            SgfDouble doubleValue;
+            if (Enum.TryParse(value, out doubleValue))
+            {
+                return new SgfDoubleValue(doubleValue);
+            }
+            throw new SgfParseException($"SGF double value cannot be parsed properly: {value}");
+        }
+
+        /// <summary>
+        /// Serializes SgfDouble as integer
+        /// </summary>
+        /// <returns>SGF double as integer string</returns>
+        public override string Serialize() => Value.ToString("D");
     }
 }
