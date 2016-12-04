@@ -30,7 +30,8 @@
                    Style="{ThemeResource HeaderTextBlockStyle}" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="5">
-            <Button Content="Load" Command="{x:Bind Path=VM.LoadCommand}"/>
+            <Button Content="Open SGF file" Command="{x:Bind VM.OpenFileCommand}" />
+            <Button Content="Load" Command="{x:Bind Path=VM.LoadCommand}" Margin="5,0,0,0" />
             <Button Content="Load Folder" Command="{x:Bind Path=VM.LoadFolderCommand}" Margin="5,0,0,0" />
             <TextBlock Text="Filter by source"
                        VerticalAlignment="Center"
