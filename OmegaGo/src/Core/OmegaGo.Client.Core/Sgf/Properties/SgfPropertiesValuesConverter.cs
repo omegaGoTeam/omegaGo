@@ -18,15 +18,21 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <param name="propertyIdentifier">Identifier of the property</param>
         /// <param name="value">Value to convert</param>
         /// <returns>Converted value</returns>
-        public static ISgfPropertyValue GetValue( string propertyIdentifier, string value)
+        public static ISgfPropertyValue GetValue(string propertyIdentifier, string value)
         {
-            return null;
+            //is the property known?
+            if (KnownPropertyParsers.ContainsKey(propertyIdentifier))
+            {
+                return KnownPropertyParsers[propertyIdentifier](value);
+            }
+            //return as unknown property
+            return SgfUnknownPropertyValue.Parse(value);
         }
 
-        private static Dictionary<string, Func<string, ISgfPropertyValue>> _knownPropertyParsers = 
+        private static readonly Dictionary<string, Func<string, ISgfPropertyValue>> KnownPropertyParsers =
             new Dictionary<string, Func<string, ISgfPropertyValue>>()
-        {
-            { }
-        }
+            {
+
+            };
     }
 }

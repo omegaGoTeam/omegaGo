@@ -96,7 +96,6 @@
     <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPoint.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfValue.cs" />
     <Compile Include="Sgf\SgfCollection.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
