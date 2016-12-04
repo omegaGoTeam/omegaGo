@@ -164,9 +164,8 @@ namespace OmegaGo.UI.ViewModels
             gameInfo.BoardSize = SelectedGameBoardSize;
             gameInfo.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
             gameInfo.KomiValue = Compensation;
-
-            IGameController controller = new GameController(gameInfo);
-            Game game = new Game(gameInfo, controller, null);
+          
+            Game game = new Game(gameInfo, gameInfo.GameController, null);
 
             Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();
