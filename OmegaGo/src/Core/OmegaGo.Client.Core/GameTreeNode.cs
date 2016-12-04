@@ -95,6 +95,20 @@ namespace OmegaGo.Core
             }
         }
 
+
+        public GameTreeNode PreviousMove
+        {
+            get
+            {
+                GameTreeNode parent = this.Parent;
+                while (parent != null) //&& parent.Move.Kind == MoveKind.None
+                {
+                    parent = parent.Parent;
+                }
+                return parent;
+            }
+        }
+
         public GameTreeNode(Move move)
         {
             this.Branches = new GameTreeNodeCollection(this);
@@ -114,6 +128,8 @@ namespace OmegaGo.Core
                 }
             }
         }
+
+        
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.
