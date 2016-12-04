@@ -20,7 +20,7 @@ namespace FormsPrototype
     public partial class InGameForm : Form
     {
         private GamePhase _gamePhase;
-        private Game _game;
+        private GameInfo _game;
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
@@ -30,7 +30,7 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase = false;
 
-        public InGameForm(Game game, IgsConnection igs)
+        public InGameForm(GameInfo game, IgsConnection igs)
         {
             InitializeComponent();
 

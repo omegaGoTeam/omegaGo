@@ -152,20 +152,23 @@ namespace OmegaGo.UI.ViewModels
 
         private void NavigateToGame()
         {
-            Game game = new Game();
+            GameInfo gameInfo = new GameInfo();
 
-            game.Players.Add(new Player("Black Player", "??", game));
-            game.Players.Add(new Player("White Player", "??", game));
-            foreach (var player in game.Players)
+            gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
+            gameInfo.Players.Add(new Player("White Player", "??", gameInfo));
+            foreach (var player in gameInfo.Players)
             {
                 player.Agent = new GuiAgent();
             }
 
-            game.BoardSize = SelectedGameBoardSize;
-            game.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
-            game.KomiValue = Compensation;
+            gameInfo.BoardSize = SelectedGameBoardSize;
+            gameInfo.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
+            gameInfo.KomiValue = Compensation;
 
-            Mvx.RegisterSingleton<Game>(game);
+            IGameController controller = new GameController(gameInfo);
+            Game game = new Game(gameInfo, controller, null);
+
+            Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();
         }
     }

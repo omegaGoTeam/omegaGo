@@ -59,7 +59,7 @@ namespace OmegaGo.Core.Agents
         /// </summary>
         /// <param name="player">The player the agent is controlling.</param>
         /// <param name="game">The game that player is playing in.</param>
-        void GameBegins(Player player, Game game);
+        void GameBegins(Player player, GameInfo game);
 
         /// <summary>
         /// Called by the game controller when it requests this agent to make a move. The move may be made before this method 
