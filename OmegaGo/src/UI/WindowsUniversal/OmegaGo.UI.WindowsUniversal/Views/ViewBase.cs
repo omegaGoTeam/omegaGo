@@ -19,10 +19,25 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     /// </summary>
     public class ViewBase : MvxWindowsPage
     {
+        public ViewBase(string title = null, Uri uri = null ) : this()
+        {
+
+        }
+
         public ViewBase()
         {
-            Loading += ViewBase_Loading;            
+            Loading += ViewBase_Loading;
         }
+
+        /// <summary>
+        /// Title of the window (defaults to app name)
+        /// </summary>
+        public virtual string WindowTitle { get { return Localizer.OmegaGo; } }
+
+        /// <summary>
+        /// Icon of the window (defaults to null)
+        /// </summary>
+        public virtual Uri WindowTitleIconUri { get { return null; } }
 
         private AppShell _appShell = null;
 
@@ -46,8 +61,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             //Set view model as Data Context by default
             DataContext = ViewModel;
+            //Set window title and icon
+
         }
-        
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
@@ -58,7 +75,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
             else
             {
-                AppShell.TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;                
+                AppShell.TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
 
             base.OnNavigatedTo(e);

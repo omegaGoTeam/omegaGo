@@ -208,6 +208,9 @@
   <data name="Medium" xml:space="preserve">
     <value>Medium</value>
   </data>
+  <data name="OmegaGo" xml:space="preserve">
+    <value>Omega Go</value>
+  </data>
   <data name="OnlineGame" xml:space="preserve">
     <value>On-line game</value>
   </data>

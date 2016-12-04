@@ -25,6 +25,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             this.InitializeComponent();
             window.Content = this;
             AppShells.Add(window, this);
+            AppFrame.Navigated += AppFrame_Navigated; ;           
+        }
+
+        /// <summary>
+        /// Synchronizes the title bar with the currently displayed view
+        /// </summary>
+        private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            var view = AppFrame.Content as ViewBase;
+            if ( view != null)
+            {
+                WindowTitle = view.WindowTitle;
+                WindowTitleIconUri = view.WindowTitleIconUri;
+            }
         }
 
         /// <summary>
@@ -56,10 +70,25 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Gets or sets text in the title bar of the window
         /// </summary>
-        public string TitleBarText
+        public string WindowTitle
         {
             get { return PageTitle.Text; }
             set { PageTitle.Text = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets icon next to the title bar of the window
+        /// </summary>
+        public Uri WindowTitleIconUri
+        {
+            get
+            {
+                return PageIcon.UriSource;
+            }
+            set
+            {
+                PageIcon.UriSource = value;
+            }
         }
 
         /// <summary>
@@ -82,7 +111,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Main frame that hosts app views
         /// </summary>
-        public Frame AppFrame => Frame;
+        public Frame AppFrame => MainFrame;
 
         /// <summary>
         /// Sets up the custom title bar

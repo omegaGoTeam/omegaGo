@@ -24,7 +24,7 @@
 
         <CommandBar VerticalAlignment="Top"
                 Grid.RowSpan="2"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="2" Background="{ThemeResource GameColorBrush}" OverflowButtonVisibility="Collapsed">
 
             <AppBarButton Icon="Bookmarks" Label="Timeline"
                           AllowFocusOnInteraction="True">

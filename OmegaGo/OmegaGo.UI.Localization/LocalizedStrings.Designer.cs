@@ -332,6 +332,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Omega Go.
+        /// </summary>
+        public static string OmegaGo {
+            get {
+                return ResourceManager.GetString("OmegaGo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On-line game.
         /// </summary>
         public static string OnlineGame {
