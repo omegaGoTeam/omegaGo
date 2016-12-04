@@ -36,33 +36,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <summary>
         /// Pass
         /// </summary>
-        public static SgfPointRectangle Pass { get; } = new SgfPointRectangle(SgfPoint.Pass);
-
-        /// <summary>
-        /// Parses a SGF point rectangle from property value
-        /// </summary>
-        /// <param name="value">Property value</param>
-        /// <returns>SGF point rectangle</returns>
-        public static SgfPointRectangle Parse(string value)
-        {
-            if (value == null) throw new ArgumentNullException(nameof(value));
-            //pass move
-            if (value == string.Empty) return Pass;
-            //parse
-            var parts = value.Split(':').Select(SgfPoint.Parse).ToArray();
-            if (parts.Length == 1)
-            {
-                return new SgfPointRectangle(parts.First());
-            }
-            else if (parts.Length == 2)
-            {
-                return new SgfPointRectangle(parts.First(), parts.Last());
-            }
-            else
-            {
-                throw new SgfParseException($"More than two parts of SGF point rectangle value found: '{value}'");
-            }
-        }
+        public static SgfPointRectangle Pass { get; } = new SgfPointRectangle(SgfPoint.Pass);        
 
         public SgfPoint UpperLeft { get; }
 
@@ -131,5 +105,11 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <returns>Hash code</returns>
         public override int GetHashCode() => 
             UpperLeft.GetHashCode() * 13 + LowerRight.GetHashCode();
+
+        /// <summary>
+        /// Serializes the SGF point rectangle
+        /// </summary>
+        /// <returns>Serialized SGF point rectangle value representation</returns>
+        public override string ToString() => UpperLeft + LowerRight.ToString();
     }
 }
