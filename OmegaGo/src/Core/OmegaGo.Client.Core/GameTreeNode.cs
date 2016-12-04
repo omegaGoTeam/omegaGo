@@ -101,7 +101,7 @@ namespace OmegaGo.Core
             get
             {
                 GameTreeNode parent = this.Parent;
-                while (parent != null) //&& parent.Move.Kind == MoveKind.None
+                while (parent != null && parent.Move.Kind == MoveKind.None)
                 {
                     parent = parent.Parent;
                 }
