@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// </summary>
         /// <param name="identifier">Identifier of the property</param>
         /// <param name="values">Values</param>
-        public SgfProperty(string identifier, IEnumerable<SgfPropertyValue> values)
+        public SgfProperty(string identifier, IEnumerable<string> values)
         {
             if (!IsPropertyIdentifierValid(identifier))
                 throw new ArgumentException("Supplied SGF identifier is not valid", nameof(identifier));
@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Sgf.Properties
             if (valuesArray.Length == 0) throw new ArgumentOutOfRangeException(nameof(values));
 
             Identifier = identifier;
-            Values = new ReadOnlyCollection<SgfPropertyValue>(new List<SgfPropertyValue>(valuesArray));
+            Values = new ReadOnlyCollection<string>(new List<string>(valuesArray));
         }
 
 
@@ -39,16 +39,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <summary>
         // Property value
         /// </summary>
-        private object Value { get; }
-
-        public T GetValue<T>()
-        {
-            if (Value is T)
-            {
-                return (T)Value;
-            }
-            return default(T);
-        }
+        public IEnumerable<string> Values { get; }
 
         /// <summary>
         /// Returns the type of property

@@ -17,13 +17,33 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
         public void ArgumentNullThrownForNullSgfPointParseAttempt()
         {
             SgfPoint.Parse(null);
-        }        
+        }
 
         [TestMethod]
         public void SgfPointPassIsCorrectlyParsed()
         {
             var point = SgfPoint.Parse(string.Empty);
             Assert.IsTrue(point.IsInherentlyPass);
+        }
+
+        [TestMethod]
+        public void SgfPointEqualityIsCorrectlyEvaluated()
+        {
+            var first = SgfPoint.Parse("fO");
+            var second = SgfPoint.Parse("fO");
+            var third = SgfPoint.Parse("aa");
+            Assert.IsTrue(first.Equals(second));
+            Assert.IsFalse(first.Equals(third));
+        }
+
+        [TestMethod]
+        public void SgfPointEqualityOperatorIsCorrectlyEvaluated()
+        {
+            var first = SgfPoint.Parse("fO");
+            var second = SgfPoint.Parse("fO");
+            var third = SgfPoint.Parse("aa");
+            Assert.IsTrue(first == second);
+            Assert.IsTrue(first != third);
         }
 
         [TestMethod]
