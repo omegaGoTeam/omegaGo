@@ -102,6 +102,7 @@
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
     <Compile Include="Sgf\SgfGameInfo.cs" />
+    <Compile Include="GameTreeConverter.cs" />
     <Compile Include="Sgf\SgfSequence.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />

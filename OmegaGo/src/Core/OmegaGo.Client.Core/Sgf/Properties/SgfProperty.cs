@@ -49,6 +49,16 @@ namespace OmegaGo.Core.Sgf.Properties
         public IEnumerable<ISgfPropertyValue> Values { get; }
 
         /// <summary>
+        /// Gets a single typed value
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <returns>Value</returns>
+        public T Value<T>() where T : ISgfPropertyValue
+        {
+            return (T)Values.First();
+        }
+
+        /// <summary>
         /// Returns the type of property
         /// </summary>
         /// <param name="propertyIdentifier">Property identifier</param>

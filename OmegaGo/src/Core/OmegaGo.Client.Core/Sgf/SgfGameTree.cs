@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// Represents a tree branch in SGF file
     /// </summary>
-    internal class SgfGameTree
+    public class SgfGameTree
     {
         /// <summary>
         /// Creates a game tree

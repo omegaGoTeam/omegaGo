@@ -41,15 +41,9 @@ namespace OmegaGo.UI.ViewModels
             _selectedGameSourceItemIndex = 0;
         }
 
-        public ObservableCollection<string> GameList
-        {
-            get { return _gameList; }
-        }
+        public ObservableCollection<string> GameList => _gameList;
 
-        public ObservableCollection<string> GameSource
-        {
-            get { return _gameSources; }
-        }
+        public ObservableCollection<string> GameSource => _gameSources;
 
         public int SelectedGameSourceItemIndex
         {

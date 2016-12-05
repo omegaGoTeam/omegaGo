@@ -23,6 +23,12 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         }
 
         /// <summary>
+        /// Implicit conversion to value type
+        /// </summary>
+        /// <param name="propertyValue">Property value</param>
+        public static implicit operator T(SgfSimplePropertyValueBase<T> propertyValue) => propertyValue.Value;
+
+        /// <summary>
         /// Value
         /// </summary>
         public T Value { get; }

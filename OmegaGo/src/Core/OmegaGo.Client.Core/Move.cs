@@ -37,6 +37,13 @@ namespace OmegaGo.Core
         {
 
         }
+
+        /// <summary>
+        /// A none move
+        /// </summary>
+        /// <returns></returns>
+        public static Move NoneMove { get; } = new Move() { WhoMoves = StoneColor.None };
+
         public static Move Pass(StoneColor whoMoves)
         {
             return new Core.Move()
