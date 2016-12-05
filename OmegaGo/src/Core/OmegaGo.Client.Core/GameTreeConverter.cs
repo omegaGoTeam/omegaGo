@@ -47,7 +47,7 @@ namespace OmegaGo.Core
                     newNode = new GameTreeNode(Move.NoneMove);
                 }
                 if (current == null)
-                {
+                {                                        
                     root = newNode;                    
                 }
                 else

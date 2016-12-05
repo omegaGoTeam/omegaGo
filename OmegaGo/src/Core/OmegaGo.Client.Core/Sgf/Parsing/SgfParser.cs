@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Sgf.Parsing
     /// <summary>
     /// Serializer of SGF files
     /// </summary>
-    internal class SgfParser
+    public class SgfParser
     {
         private readonly List<SgfParseWarning> _warnings = new List<SgfParseWarning>();
 

@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// Represents a collection of game in a SGF file
     /// </summary>
-    internal class SgfCollection : IEnumerable<SgfGameTree>
+    public class SgfCollection : IEnumerable<SgfGameTree>
     {
         /// <summary>
         /// Initializes SGF game collection
@@ -39,7 +39,5 @@ namespace OmegaGo.Core.Sgf
         /// </summary>
         /// <returns>Enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        
     }
 }
