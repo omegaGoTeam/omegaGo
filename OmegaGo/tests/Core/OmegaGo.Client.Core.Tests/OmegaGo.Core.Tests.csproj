@@ -59,7 +59,13 @@
     <Compile Include="Rules\BasicLegalityTests.cs" />
     <Compile Include="Rules\SgfGamesTests.cs" />
     <Compile Include="Rules\TestGame.cs" />
+    <Compile Include="Sgf\Parsing\SgfPropertyValuesConverterTests.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfDoubleValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPointValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangleTests.cs" />
+    <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
     <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
     <Compile Include="Sgf\SgfNodeTests.cs" />

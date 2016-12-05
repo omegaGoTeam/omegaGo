@@ -129,8 +129,6 @@ namespace OmegaGo.Core
             }
         }
 
-        
-
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.
         /// The list is starting with root node.
@@ -141,7 +139,7 @@ namespace OmegaGo.Core
         public static List<GameTreeNode> GetNodeHistory(GameTreeNode node, bool filterNonMoves)
         {
             if (node == null)
-                throw new ArgumentNullException("Node cant be null");
+                throw new ArgumentNullException(nameof(node),"Node cant be null");
 
             List<GameTreeNode> nodeHistory = new List<GameTreeNode>();
 

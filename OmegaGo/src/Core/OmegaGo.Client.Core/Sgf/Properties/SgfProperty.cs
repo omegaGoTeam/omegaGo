@@ -1,9 +1,11 @@
-﻿using System;
+﻿using OmegaGo.Core.Sgf.Properties.Values;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Sgf.Parsing;
 
 namespace OmegaGo.Core.Sgf.Properties
 {
@@ -17,16 +19,22 @@ namespace OmegaGo.Core.Sgf.Properties
         /// </summary>
         /// <param name="identifier">Identifier of the property</param>
         /// <param name="values">Values</param>
-        public SgfProperty( string identifier, IEnumerable<string> values )
+        public SgfProperty(string identifier, IEnumerable<string> values)
         {
-            if ( !IsPropertyIdentifierValid( identifier ) )
-                throw new ArgumentException( "Supplied SGF identifier is not valid", nameof( identifier ) );
-            if ( values == null ) throw new ArgumentNullException( nameof( values ) );
+            if (!IsPropertyIdentifierValid(identifier))
+                throw new ArgumentException("Supplied SGF identifier is not valid", nameof(identifier));
+            if (values == null) throw new ArgumentNullException(nameof(values));
             var valuesArray = values.ToArray();
-            if ( valuesArray.Length == 0 ) throw new ArgumentOutOfRangeException( nameof( values ) );
+            if (valuesArray.Length == 0) throw new ArgumentOutOfRangeException(nameof(values));
 
             Identifier = identifier;
-            Values = new ReadOnlyCollection<string>( new List<string>( valuesArray ) );
+
+            //convert and store values
+            Values = new ReadOnlyCollection<ISgfPropertyValue>(
+                    valuesArray.Select( 
+                        value => SgfPropertyValuesConverter.GetValue(identifier, value) 
+                    ).ToList()
+                );
         }
 
 
@@ -36,29 +44,39 @@ namespace OmegaGo.Core.Sgf.Properties
         public string Identifier { get; }
 
         /// <summary>
-        // Collection of values
+        // Property value
         /// </summary>
-        public IReadOnlyCollection<string> Values { get; }
+        public IEnumerable<ISgfPropertyValue> Values { get; }
+
+        /// <summary>
+        /// Gets a single typed value
+        /// </summary>
+        /// <typeparam name="T">Type of the value</typeparam>
+        /// <returns>Value</returns>
+        public T Value<T>() where T : ISgfPropertyValue
+        {
+            return (T)Values.First();
+        }
 
         /// <summary>
         /// Returns the type of property
         /// </summary>
         /// <param name="propertyIdentifier">Property identifier</param>
         /// <returns>Type of property</returns>
-        public static SgfPropertyType GetPropertyType( string propertyIdentifier )
+        public static SgfPropertyType GetPropertyType(string propertyIdentifier)
         {
-            if ( propertyIdentifier == null ) return SgfPropertyType.Invalid;
+            if (propertyIdentifier == null) return SgfPropertyType.Invalid;
 
             //check if the property identifier is known
-            if ( DeprecatedProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.Deprecated;
-            if ( GameInfoProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.GameInfo;
-            if ( MoveProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.Move;
-            if ( SetupProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.Setup;
-            if ( RootProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.Root;
-            if ( NoTypeProperties.Contains( propertyIdentifier ) ) return SgfPropertyType.NoType;
+            if (DeprecatedProperties.Contains(propertyIdentifier)) return SgfPropertyType.Deprecated;
+            if (GameInfoProperties.Contains(propertyIdentifier)) return SgfPropertyType.GameInfo;
+            if (MoveProperties.Contains(propertyIdentifier)) return SgfPropertyType.Move;
+            if (SetupProperties.Contains(propertyIdentifier)) return SgfPropertyType.Setup;
+            if (RootProperties.Contains(propertyIdentifier)) return SgfPropertyType.Root;
+            if (NoTypeProperties.Contains(propertyIdentifier)) return SgfPropertyType.NoType;
 
             //check if the property identifier is valid
-            if ( IsPropertyIdentifierValid( propertyIdentifier ) )
+            if (IsPropertyIdentifierValid(propertyIdentifier))
             {
                 return SgfPropertyType.Unknown;
             }
@@ -72,14 +90,14 @@ namespace OmegaGo.Core.Sgf.Properties
         /// </summary>
         /// <param name="propertyIdentifier">Property identifier to check</param>
         /// <returns>Is property identifier valid?</returns>
-        public static bool IsPropertyIdentifierValid( string propertyIdentifier )
+        public static bool IsPropertyIdentifierValid(string propertyIdentifier)
         {
             //can't be null
-            if ( propertyIdentifier == null ) return false;
+            if (propertyIdentifier == null) return false;
 
-            foreach ( var character in propertyIdentifier )
+            foreach (var character in propertyIdentifier)
             {
-                if ( !char.IsLetter( character ) || !char.IsUpper( character ) )
+                if (!char.IsLetter(character) || !char.IsUpper(character))
                 {
                     return false;
                 }
@@ -92,6 +110,6 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <summary>
         /// Type of the SGF property
         /// </summary>
-        public SgfPropertyType Type => GetPropertyType( Identifier );
+        public SgfPropertyType Type => GetPropertyType(Identifier);
     }
 }

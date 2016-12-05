@@ -84,16 +84,25 @@
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Rules\Scores.cs" />
+    <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfDouble.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfComposePropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfPoint.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointValue.cs" />
-    <Compile Include="Sgf\Properties\Values\SgfValue.cs" />
+    <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangle.cs" />
+    <Compile Include="Sgf\Properties\Values\ISgfPropertyValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPointRectangleValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfSimplePropertyValueBase.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfUnknownValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
+    <Compile Include="Sgf\Properties\Values\ValueTypes\SgfDouble.cs" />
+    <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPoint.cs" />
     <Compile Include="Sgf\SgfCollection.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
+    <Compile Include="Sgf\SgfGameInfo.cs" />
+    <Compile Include="GameTreeConverter.cs" />
     <Compile Include="Sgf\SgfSequence.cs" />
     <Compile Include="StoneColor.cs" />
     <Compile Include="Extensions\GoExtensions.cs" />
@@ -182,7 +191,9 @@
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Sgf\Serializing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

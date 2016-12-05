@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MvvmCross.Platform;
+using OmegaGo.Core;
+using OmegaGo.Core.Agents;
+using OmegaGo.Core.Rules;
+using OmegaGo.Core.Sgf.Parsing;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -24,7 +29,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _deleteSelectionCommand;
         private ICommand _openFileCommand;
 
-        public LibraryViewModel( IFilePickerService filePicker )
+        public LibraryViewModel(IFilePickerService filePicker)
         {
             _filePicker = filePicker;
 
@@ -41,15 +46,9 @@ namespace OmegaGo.UI.ViewModels
             _selectedGameSourceItemIndex = 0;
         }
 
-        public ObservableCollection<string> GameList
-        {
-            get { return _gameList; }
-        }
+        public ObservableCollection<string> GameList => _gameList;
 
-        public ObservableCollection<string> GameSource
-        {
-            get { return _gameSources; }
-        }
+        public ObservableCollection<string> GameSource => _gameSources;
 
         public int SelectedGameSourceItemIndex
         {
@@ -61,13 +60,33 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand LoadFolderCommand => _loadFolderCommand ?? (_loadFolderCommand = new MvxCommand(() => { }));
         public IMvxCommand DeleteSelectionCommand => _deleteSelectionCommand ?? (_deleteSelectionCommand = new MvxCommand(() => { }));
         public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new MvxCommand(OpenFile));
-        
+
         /// <summary>
         /// Opening SGF file directly
         /// </summary>
         private async void OpenFile()
         {
+            //TODO: Temporary implementation only
             var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+            SgfParser parser = new SgfParser();
+            var sgfCollection = parser.Parse(fileContents);
+            var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
+            GameInfo gameInfo = new GameInfo();
+
+            gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
+            gameInfo.Players.Add(new Player("White Player", "??", gameInfo));
+            foreach (var player in gameInfo.Players)
+            {
+                player.Agent = new GuiAgent();
+            }
+
+            gameInfo.BoardSize = new GameBoardSize(19);
+            gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
+
+            Game game = new Game(gameInfo, gameInfo.GameController, null);
+            gameInfo.GameTree.GameTreeRoot = gameTree;
+            Mvx.RegisterSingleton<IGame>(game);
+            ShowViewModel<GameViewModel>();
         }
     }
 }

@@ -122,7 +122,7 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         {
             var sgfProperty = new SgfProperty( "AW", new[] { "bb", "ee", "dc", "cd" } );
             Assert.AreEqual( "AW", sgfProperty.Identifier );
-            Assert.AreEqual( 4, sgfProperty.Values.Count );
+            Assert.AreEqual( 4, sgfProperty.Values.Count() );
         }
     }
 }

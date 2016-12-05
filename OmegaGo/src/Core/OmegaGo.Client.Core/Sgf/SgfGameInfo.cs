@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf
 {
-    class SgfGameInfo
+    public class SgfGameInfo
     {
+        
     }
 }

@@ -81,8 +81,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
 
             if (gameState != null)
-            {
+            {                
                 GameBoard boardState = gameState.BoardState;
+             
                 for (int x = 0; x < SharedBoardState.BoardWidth; x++)
                 {
                     for (int y = 0; y < SharedBoardState.BoardHeight; y++)

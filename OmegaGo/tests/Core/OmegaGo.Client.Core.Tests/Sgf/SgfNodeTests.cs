@@ -47,9 +47,9 @@ namespace OmegaGo.Core.Tests.Sgf
             }  );
             Assert.AreEqual( 2, node.Count() );
             Assert.AreEqual( "FF", node["FF"].Identifier );
-            Assert.AreEqual( "4", node["FF"].Values.First() );
+            Assert.AreEqual( "4", node["FF"].Values.First().Serialize() );
             Assert.AreEqual( "C", node["C"].Identifier );
-            Assert.AreEqual( "Test", node[ "C" ].Values.First() );
+            Assert.AreEqual( "Test", node[ "C" ].Values.First().Serialize() );
         }
     }
 }

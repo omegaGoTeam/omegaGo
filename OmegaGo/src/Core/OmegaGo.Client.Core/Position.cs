@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
 namespace OmegaGo.Core
 {
@@ -14,7 +15,7 @@ namespace OmegaGo.Core
     /// </summary>
     public struct Position : IEquatable<Position>
     {
-       
+
         // We need to be able to easily translate 
         // provided char to range <0, TABLESIZE - 1> .
 
@@ -30,6 +31,13 @@ namespace OmegaGo.Core
 
         private int _x;
         private int _y;
+
+        /// <summary>
+        /// Converts SGF point to Position
+        /// </summary>
+        /// <param name="sgfPoint">SGF point</param>
+        /// <returns>Position</returns>
+        internal static Position FromSgfPoint(SgfPoint sgfPoint) => new Position(sgfPoint.Column, sgfPoint.Row);
 
         /// <summary>
         /// Gets or sets the letter-based coordinate that is usually put first (e.g. the "C" in "C6"). It is zero-based, i.e. it would be "2" for C6.
@@ -146,7 +154,7 @@ namespace OmegaGo.Core
         {
             return position.X == this.X && position.Y == this.Y;
         }
-        public static bool operator ==(Position position,Position position2)
+        public static bool operator ==(Position position, Position position2)
         {
             return position.Equals(position2);
         }

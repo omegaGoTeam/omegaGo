@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Sgf
     /// <summary>
     /// SGF sequence
     /// </summary>
-    internal class SgfSequence : IEnumerable<SgfNode>
+    public class SgfSequence : IEnumerable<SgfNode>
     {
         /// <summary>
         /// Creates SGF sequence
