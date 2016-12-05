@@ -142,6 +142,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 nodeVisual.Fill = new SolidColorBrush(Colors.Black);
             else if (node.Move.WhoMoves == StoneColor.White)
                 nodeVisual.Fill = new SolidColorBrush(Colors.White);
+            else
+                nodeVisual.Fill = new SolidColorBrush(Colors.MediumPurple);
 
             nodeVisual.PointerEntered += (s, e) => nodeVisual.Stroke = new SolidColorBrush(Colors.Yellow);
             nodeVisual.PointerExited += (s, e) => nodeVisual.Stroke = null;

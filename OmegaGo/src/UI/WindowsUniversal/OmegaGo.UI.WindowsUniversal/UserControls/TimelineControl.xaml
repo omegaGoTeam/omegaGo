@@ -15,6 +15,7 @@
                   VerticalScrollMode="Auto"
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto"
+                  ZoomMode="Enabled"
                   Background="#FFFDD270">
         <Canvas x:Name="canvas" />
     </ScrollViewer>
