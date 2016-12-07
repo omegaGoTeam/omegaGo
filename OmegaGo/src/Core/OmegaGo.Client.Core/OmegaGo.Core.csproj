@@ -163,6 +163,7 @@
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
     <Compile Include="Sgf\Properties\SgfProperty.PropertyLists.cs" />
+    <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.KnownProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
