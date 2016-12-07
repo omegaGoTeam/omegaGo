@@ -23,11 +23,10 @@ namespace OmegaGo.Core.Sgf.Parsing
             if (values == null) throw new ArgumentNullException(nameof(values));
 
             //is the property known?
-            if (SgfKnownProperties.ContainsKey(propertyIdentifier))
-            {
-                var propertyParserDefinition = KnownPropertyValueParsers[propertyIdentifier];
-
-                return ParseValues(values, propertyParserDefinition.Parser);                
+            var property = SgfKnownProperties.Get(propertyIdentifier);
+            if ( property != null)
+            { 
+                return ParseValues(values, property.Parser);
             }
             //return as unknown property
             return ParseValues(values, SgfUnknownValue.Parse);
@@ -40,6 +39,6 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// <param name="parser">Parser to use</param>
         /// <returns>Parsed SGF property values</returns>
         private static IEnumerable<ISgfPropertyValue> ParseValues(string[] values, SgfPropertyValueParser parser)
-            => values.Select( value => parser( value ) );        
+            => values.Select(value => parser(value));
     }
 }
