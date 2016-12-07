@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
     /// <summary>
     /// Parsers for special property values
     /// </summary>
-    internal static class SpecialPropertyValueParsers
+    internal static class SpecialSgfPropertyValueParsers
     {
         /// <summary>
         /// Parses the size property value (SZ)
@@ -45,6 +45,38 @@ namespace OmegaGo.Core.Sgf.Properties.Values
                 }
                 return parsedValue;
             };
+        }
+
+        /// <summary>
+        /// Parses the SGF Game property
+        /// This library supports only Go = 1
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>Parsed property</returns>
+        public static ISgfPropertyValue GameParser(string value)
+        {
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (value != "1") throw new SgfParseException("This library supports parsing of the Go game SGF files only.");
+            //return nubmer 1 as Go game
+            return new SgfNumberValue(1);
+        }
+
+        /// <summary>
+        /// Parses the SGF Figure property
+        /// Allows either empty or compose nubmer : simple text
+        /// </summary>
+        /// <param name="value">Value to parse</param>
+        /// <returns>Parsed SGF Figure or null if none value</returns>
+        public static ISgfPropertyValue FigureParser( string value )
+        {
+            if ( value == null ) throw new ArgumentNullException( nameof( value ) );
+            if ( value == "" )
+            {
+                //none value
+                return null;
+            }
+            //parse compose
+            return SgfComposePropertyValue<int, string>.Parse( value, SgfNumberValue.Parse, SgfSimpleTextValue.Parse );
         }
     }
 }
