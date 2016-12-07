@@ -8,35 +8,44 @@ namespace OmegaGo.Core.Sgf.Properties.Values
 {
     /// <summary>
     /// Represents a composed value in SGF
+    /// Note that the type parameters represent the actual type of value, not PropertyValue
     /// </summary>
-    /// <typeparam name="TLeft">Type of the left value of the compose</typeparam>
-    /// <typeparam name="TRight">Type of the right value of the compose</typeparam>
-    public class SgfComposePropertyValue<TLeft, TRight> : ISgfPropertyValue
-        where TLeft : ISgfPropertyValue
-        where TRight : ISgfPropertyValue
+    /// <typeparam name="TLeft">Simple type of the left value of the compose</typeparam>
+    /// <typeparam name="TRight">Simple of the right value of the compose</typeparam>
+    public class SgfComposePropertyValue<TLeft, TRight>
     {
+        /// <summary>
+        /// Property value on the left side
+        /// </summary>
+        private readonly SgfSimplePropertyValueBase<TLeft> _leftPropertyValue = null;
+        
+        /// <summary>
+        /// Property value on the right side
+        /// </summary>
+        private readonly SgfSimplePropertyValueBase<TRight> _rightPropertyValue = null;
+
         /// <summary>
         /// Creates a compose value
         /// </summary>
-        /// <param name="leftValue">Left value</param>
-        /// <param name="rightValue">Right value</param>
-        public SgfComposePropertyValue(TLeft leftValue, TRight rightValue)
+        /// <param name="leftPropertyValue">Left value</param>
+        /// <param name="rightPropertyValue">Right value</param>
+        public SgfComposePropertyValue(SgfSimplePropertyValueBase<TLeft> leftPropertyValue, SgfSimplePropertyValueBase<TRight> rightPropertyValue)
         {
-            if (leftValue == null) throw new ArgumentNullException(nameof(leftValue));
-            if (rightValue == null) throw new ArgumentNullException(nameof(rightValue));            
-            LeftValue = leftValue;
-            RightValue = rightValue;
+            if (leftPropertyValue == null) throw new ArgumentNullException(nameof(leftPropertyValue));
+            if (rightPropertyValue == null) throw new ArgumentNullException(nameof(rightPropertyValue));
+            _leftPropertyValue = leftPropertyValue;
+            _rightPropertyValue = rightPropertyValue;            
         }
 
         /// <summary>
         /// Left value
         /// </summary>
-        public TLeft LeftValue { get; }
+        public TLeft LeftValue => _leftPropertyValue.Value;
 
         /// <summary>
         /// Right value
         /// </summary>
-        public TRight RightValue { get; }
+        public TRight RightValue => _rightPropertyValue.Value;
 
         /// <summary>
         /// Type of the property value
@@ -44,19 +53,21 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         public SgfValueType ValueType => SgfValueType.Compose;
 
         /// <summary>
-        /// Parses a compose value of given types
+        /// Parses a compose given the types of both values
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static ISgfPropertyValue Parse(string value)
+        /// <typeparam name="TLeftPropertyValue">Type of the property value on the left side</typeparam>
+        /// <typeparam name="TRightPropertyValue">Type of the property value on the right side</typeparam>
+        /// <param name="value">SGF serialized value to parse</param>
+        /// <returns>Instance of SGF Compose</returns>
+        public static ISgfPropertyValue Parse<TLeftPropertyValue,TRightPropertyValue>(string value)
         {
-            return null;
+            throw new NotImplementedException("Not yet implemented");
         }
 
         /// <summary>
         /// Serializes the compose value
         /// </summary>
         /// <returns>SGF serialized property value</returns>
-        public string Serialize() => LeftValue.Serialize() + ':' + RightValue.Serialize();
+        public string Serialize() => _leftPropertyValue.Serialize() + ':' + _rightPropertyValue.Serialize();
     }
 }
