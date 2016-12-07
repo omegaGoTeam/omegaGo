@@ -79,9 +79,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <typeparam name="TLeft">Property value type of the left side</typeparam>
         /// <typeparam name="TRight">Property value type of the right side</typeparam>
         /// <returns></returns>
-        public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>() 
-            where TLeft : ISgfPropertyValue
-            where TRight : ISgfPropertyValue
+        public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>()       
         {
             var propertyValue = _propertyValues.First() as SgfComposePropertyValue<TLeft, TRight>;
             if (propertyValue == null)

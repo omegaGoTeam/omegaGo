@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Sgf.Properties.Values;
 
 namespace OmegaGo.Core.Sgf.Parsing
@@ -7,7 +8,7 @@ namespace OmegaGo.Core.Sgf.Parsing
     /// <summary>
     /// Class that facilitates the conversion of known SGF property values
     /// </summary>
-    internal static class SgfPropertyValuesConverter
+    internal static partial class SgfPropertyValuesConverter
     {
         /// <summary>
         /// Returns the parsed values for a given property
@@ -15,28 +16,68 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// <param name="propertyIdentifier">Identifier of the property</param>
         /// <param name="value">Value to convert</param>
         /// <returns>Converted value</returns>
-        public static ISgfPropertyValue GetValue(string propertyIdentifier, string value)
+        public static IEnumerable<ISgfPropertyValue> GetValues(string propertyIdentifier, params string[] values)
         {
             if (propertyIdentifier == null) throw new ArgumentNullException(nameof(propertyIdentifier));
-            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (values == null) throw new ArgumentNullException(nameof(values));
 
             //is the property known?
-            if (KnownPropertyParsers.ContainsKey(propertyIdentifier))
+            if (KnownPropertyValueParsers.ContainsKey(propertyIdentifier))
             {
-                return KnownPropertyParsers[propertyIdentifier](value);
+                var propertyParserDefinition = KnownPropertyValueParsers[propertyIdentifier];
+
+                return ParseValues(values, propertyParserDefinition.Parser);                
             }
             //return as unknown property
-            return SgfUnknownValue.Parse(value);
+            return ParseValues(values, SgfUnknownValue.Parse);
         }
 
         /// <summary>
-        /// Defined parsing methods for known SGF properties
+        /// Parses given values using a parser
         /// </summary>
-        private static readonly Dictionary<string, Func<string, ISgfPropertyValue>> KnownPropertyParsers =
-            new Dictionary<string, Func<string, ISgfPropertyValue>>()
+        /// <param name="values">Values to parse</param>
+        /// <param name="parser">Parser to use</param>
+        /// <returns>Parsed SGF property values</returns>
+        private static IEnumerable<ISgfPropertyValue> ParseValues(string[] values, PropertyValueParser parser)
+        {
+            var results = new List<ISgfPropertyValue>();
+            foreach (var value in values)
             {
-                {"B", SgfPointValue.Parse },
-                {"W", SgfPointValue.Parse }
-            };
+                results.Add(parser(value));
+            }
+            return results;
+        }
+
+        private delegate ISgfPropertyValue PropertyValueParser(string value);
+
+        /// <summary>
+        /// Specifies the number of values a property is allowed to have
+        /// </summary>
+        private enum ValueMultiplicity
+        {
+            Single,
+            List,
+            EList,
+            None
+        }
+
+        /// <summary>
+        /// Defines the value parser for a known property
+        /// </summary>
+        private class KnownPropertyValueParser
+        {
+            public KnownPropertyValueParser(string identifier, PropertyValueParser parser, ValueMultiplicity valueMultiplicity)
+            {
+                Identifier = identifier;
+                Parser = parser;
+                ValueMultiplicity = valueMultiplicity;
+            }
+
+            public string Identifier { get; }
+
+            public PropertyValueParser Parser { get; }
+
+            public ValueMultiplicity ValueMultiplicity { get; }
+        }
     }
 }

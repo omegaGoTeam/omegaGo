@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
     /// </summary>
     /// <typeparam name="TLeft">Simple type of the left value of the compose</typeparam>
     /// <typeparam name="TRight">Simple of the right value of the compose</typeparam>
-    public class SgfComposePropertyValue<TLeft, TRight>
+    public class SgfComposePropertyValue<TLeft, TRight> : ISgfPropertyValue
     {
         /// <summary>
         /// Property value on the left side
