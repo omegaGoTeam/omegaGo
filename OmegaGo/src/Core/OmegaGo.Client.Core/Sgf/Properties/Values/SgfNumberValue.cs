@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
             int intValue = 0;
             if (!int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out intValue))
             {
-                throw new SgfParseException( $"SGF number value could not be parsed from {0}" );
+                throw new SgfParseException($"SGF number value could not be parsed from {0}");
             }
             return new SgfNumberValue(intValue);
         }
@@ -43,9 +43,6 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Serializes SGF number value
         /// </summary>
         /// <returns>Serialized SGF number value</returns>
-        public override string Serialize()
-        {
-            throw new NotImplementedException();
-        }
+        public override string Serialize() => Value.ToString("D", CultureInfo.InvariantCulture);
     }
 }
