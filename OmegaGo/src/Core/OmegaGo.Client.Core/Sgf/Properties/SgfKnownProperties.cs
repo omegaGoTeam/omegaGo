@@ -26,8 +26,12 @@ namespace OmegaGo.Core.Sgf.Properties
                 new SgfKnownProperty( "AN", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ), 
                 //Black rank
                 new SgfKnownProperty( "BR", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ), 
-                //Black species
-                new SgfKnownProperty( "BS", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfNumberValue.Parse ), 
+                //Black team
+                new SgfKnownProperty( "BT", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                //Copyright
+                new SgfKnownProperty( "CP", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                //Date
+                new SgfKnownProperty( "DT", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),     
                 
                 /* =====================
                     Move properties
@@ -40,6 +44,8 @@ namespace OmegaGo.Core.Sgf.Properties
                 new SgfKnownProperty( "BM", SgfPropertyType.Move, SgfValueMultiplicity.Single, SgfDoubleValue.Parse ),                
                 //White move
                 new SgfKnownProperty( "W", SgfPropertyType.Move, SgfValueMultiplicity.Single, SgfPointValue.Parse ),
+                //Doubtful
+                new SgfKnownProperty( "DO", SgfPropertyType.Move ), 
 
                 /* =====================
                     Setup properties
@@ -54,17 +60,33 @@ namespace OmegaGo.Core.Sgf.Properties
                 /* =====================
                     Root properties
                 */
+                //Application
                 new SgfKnownProperty( "AP", SgfPropertyType.Root, SgfValueMultiplicity.Single, Compose<string,string>( SgfSimpleTextValue.Parse, SgfSimpleTextValue.Parse) ),
-
+                //Charset
+                new SgfKnownProperty( "CA", SgfPropertyType.Root, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ), 
                 /* =====================
                     No type properties
                 */
+                //Arrow
                 new SgfKnownProperty( "AR", SgfPropertyType.NoType, SgfValueMultiplicity.List, Compose<SgfPoint,SgfPoint>( SgfPointValue.Parse, SgfPointValue.Parse) ),
+                //Who adds stones
                 new SgfKnownProperty( "AS", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
-
+                //Comment
+                new SgfKnownProperty( "C", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfTextValue.Parse ),
+                //Circle
+                new SgfKnownProperty( "CR", SgfPropertyType.NoType, SgfValueMultiplicity.List, SgfPointValue.Parse ),
+                //Dim points
+                new SgfKnownProperty( "DD", SgfPropertyType.NoType, SgfValueMultiplicity.EList, SgfPointValue.Parse ),
+                //Even position
+                new SgfKnownProperty( "DM", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfDoubleValue.Parse ), 
+                
                 /* =====================
                     Deprecated properties
                 */
+                //Black species
+                new SgfKnownProperty( "BS", SgfPropertyType.Deprecated, SgfValueMultiplicity.Single, SgfNumberValue.Parse ),
+                //Check mark
+                new SgfKnownProperty( "CH", SgfPropertyType.Deprecated, SgfValueMultiplicity.Single, SgfDoubleValue.Parse ),
             }.ToDictionary(i => i.Identifier, i => i);
 
         /// <summary>
@@ -77,6 +99,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <returns></returns>
         private static SgfPropertyValueParser Compose<TLeft, TRight>(SgfPropertyValueParser left, SgfPropertyValueParser right)
         {
+            //create a parser function using closure
             return (value) => SgfComposePropertyValue<TLeft, TRight>.Parse(value, left, right);
         }
     }
