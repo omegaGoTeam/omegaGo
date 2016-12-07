@@ -16,23 +16,25 @@ namespace OmegaGo.Core.Tests.Sgf.Parsing
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullPropertyIdentifierThrows()
         {
-            SgfPropertyValuesConverter.GetValue(null, "someValue");
+            SgfPropertyValuesConverter.GetValues(null, "someValue");
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullPropertyValueThrows()
         {
-            SgfPropertyValuesConverter.GetValue("C", null);
+            SgfPropertyValuesConverter.GetValues("C", null);
         }
 
         [TestMethod]
         public void MadeUpPropertyValueIsUnknown()
         {
             var helloWorld = "Hello world";
-            var result = SgfPropertyValuesConverter.GetValue("MYMADEUPPROPERTY", helloWorld);
-            Assert.IsTrue(result is SgfUnknownValue);
-            Assert.AreEqual(helloWorld, result.Serialize());
+            var result = SgfPropertyValuesConverter.GetValues("MYMADEUPPROPERTY", helloWorld);
+            var values = result as ISgfPropertyValue[] ?? result.ToArray();
+            Assert.IsTrue(values.First() is SgfUnknownValue);
+            Assert.AreEqual(1, values.Count());
+            Assert.AreEqual(helloWorld, values.First().Serialize());
         }
     }
 }

@@ -99,12 +99,11 @@ namespace OmegaGo.Core.Sgf.Properties
             if (propertyIdentifier == null) return SgfPropertyType.Invalid;
 
             //check if the property identifier is known
-            if (DeprecatedProperties.Contains(propertyIdentifier)) return SgfPropertyType.Deprecated;
-            if (GameInfoProperties.Contains(propertyIdentifier)) return SgfPropertyType.GameInfo;
-            if (MoveProperties.Contains(propertyIdentifier)) return SgfPropertyType.Move;
-            if (SetupProperties.Contains(propertyIdentifier)) return SgfPropertyType.Setup;
-            if (RootProperties.Contains(propertyIdentifier)) return SgfPropertyType.Root;
-            if (NoTypeProperties.Contains(propertyIdentifier)) return SgfPropertyType.NoType;
+            SgfKnownProperty property = SgfKnownProperties.Get( propertyIdentifier );
+            if ( property != null )
+            {
+                return property.Type;
+            }
 
             //check if the property identifier is valid
             if (IsPropertyIdentifierValid(propertyIdentifier))
@@ -137,7 +136,7 @@ namespace OmegaGo.Core.Sgf.Properties
             //at least one letter required
             return propertyIdentifier.Length > 0;
         }
-
+        
         /// <summary>
         /// Type of the SGF property
         /// </summary>
