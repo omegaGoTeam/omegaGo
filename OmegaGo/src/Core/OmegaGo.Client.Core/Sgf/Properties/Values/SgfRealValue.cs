@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Creates SGF real property value
         /// </summary>
         /// <param name="value"></param>
-        public SgfRealValue( decimal value ) : base( value ) {}
+        public SgfRealValue(decimal value) : base(value) { }
 
         /// <summary>
         /// Real SGF value
@@ -27,9 +28,24 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value to parse</param>
         /// <returns>Parsed property value</returns>
-        public static ISgfPropertyValue Parse( string value )
+        public static ISgfPropertyValue Parse(string value)
         {
-            throw new NotImplementedException();   
+            for (int i = 0; i < value.Length; i++)
+            {
+                var character = value[i];
+                var disallowOperators = (character == '+' || character == '-') && i != 0;
+                var disallowNonDigits = !char.IsDigit(character) && character != '.';
+                if (disallowNonDigits || disallowOperators)
+                {
+                    throw new SgfParseException($"Invalid value format for SGF Real value ({value})");
+                }
+            }
+            decimal decimalValue = 0m;
+            if (decimal.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out decimalValue))
+            {
+                return new SgfRealValue(decimalValue);
+            }
+            throw new SgfParseException($"SGF Real value could not be parsed from {value}.");
         }
 
         /// <summary>
