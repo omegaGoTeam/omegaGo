@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OmegaGo.Core.Sgf.Properties;
 using OmegaGo.Core.Sgf.Properties.Values;
 
 namespace OmegaGo.Core.Sgf.Parsing
@@ -22,7 +23,7 @@ namespace OmegaGo.Core.Sgf.Parsing
             if (values == null) throw new ArgumentNullException(nameof(values));
 
             //is the property known?
-            if (KnownPropertyValueParsers.ContainsKey(propertyIdentifier))
+            if (SgfKnownProperties.ContainsKey(propertyIdentifier))
             {
                 var propertyParserDefinition = KnownPropertyValueParsers[propertyIdentifier];
 
@@ -38,39 +39,7 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// <param name="values">Values to parse</param>
         /// <param name="parser">Parser to use</param>
         /// <returns>Parsed SGF property values</returns>
-        private static IEnumerable<ISgfPropertyValue> ParseValues(string[] values, PropertyValueParser parser)
+        private static IEnumerable<ISgfPropertyValue> ParseValues(string[] values, SgfPropertyValueParser parser)
             => values.Select( value => parser( value ) );        
-
-        private delegate ISgfPropertyValue PropertyValueParser(string value);
-
-        /// <summary>
-        /// Specifies the number of values a property is allowed to have
-        /// </summary>
-        private enum ValueMultiplicity
-        {
-            Single,
-            List,
-            EList,
-            None
-        }
-
-        /// <summary>
-        /// Defines the value parser for a known property
-        /// </summary>
-        private class KnownPropertyValueParser
-        {
-            public KnownPropertyValueParser(string identifier, PropertyValueParser parser, ValueMultiplicity valueMultiplicity)
-            {
-                Identifier = identifier;
-                Parser = parser;
-                ValueMultiplicity = valueMultiplicity;
-            }
-
-            public string Identifier { get; }
-
-            public PropertyValueParser Parser { get; }
-
-            public ValueMultiplicity ValueMultiplicity { get; }
-        }
     }
 }

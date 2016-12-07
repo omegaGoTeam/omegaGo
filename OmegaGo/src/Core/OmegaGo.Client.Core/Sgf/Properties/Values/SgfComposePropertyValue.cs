@@ -58,8 +58,11 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <typeparam name="TLeftPropertyValue">Type of the property value on the left side</typeparam>
         /// <typeparam name="TRightPropertyValue">Type of the property value on the right side</typeparam>
         /// <param name="value">SGF serialized value to parse</param>
+        /// <param name="leftValueParser">Parser of the left value</param>
+        /// <param name="rightValueParser">Parser of the right value</param>
         /// <returns>Instance of SGF Compose</returns>
-        public static ISgfPropertyValue Parse<TLeftPropertyValue,TRightPropertyValue>(string value)
+        public static ISgfPropertyValue Parse
+            (string value, SgfPropertyValueParser leftValueParser, SgfPropertyValueParser rightValueParser)
         {
             throw new NotImplementedException("Not yet implemented");
         }

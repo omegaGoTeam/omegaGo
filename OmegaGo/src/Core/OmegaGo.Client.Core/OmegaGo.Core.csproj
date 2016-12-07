@@ -85,11 +85,16 @@
     <Compile Include="Sgf\PositionSgfExtensions.cs" />
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
+    <Compile Include="Sgf\Properties\SgfKnownProperties.cs" />
+    <Compile Include="Sgf\Properties\SgfValueMultiplicity.cs" />
+    <Compile Include="Sgf\Properties\SgfPropertyValueParser.cs" />
+    <Compile Include="Sgf\Properties\SgfKnownProperty.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfComposePropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfSimpleTextValue.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangle.cs" />
     <Compile Include="Sgf\Properties\Values\ISgfPropertyValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointRectangleValue.cs" />
@@ -163,7 +168,6 @@
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
     <Compile Include="Sgf\Properties\SgfProperty.PropertyLists.cs" />
-    <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.KnownProperties.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
