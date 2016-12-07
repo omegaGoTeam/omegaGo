@@ -37,7 +37,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
                 throw new SgfParseException($"SGF number value could not be parsed from {0}");
             }
             return new SgfNumberValue(intValue);
-        }
+        }        
 
         /// <summary>
         /// Serializes SGF number value
