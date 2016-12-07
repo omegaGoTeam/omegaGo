@@ -8,7 +8,7 @@ using OmegaGo.Core.Sgf.Properties.Values;
 namespace OmegaGo.Core.Sgf.Properties
 {
     internal class SgfKnownProperty
-    { 
+    {
         /// <summary>
         /// Creates a known property
         /// </summary>
@@ -16,14 +16,18 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <param name="parser">Property values parser</param>
         /// <param name="valueMultiplicity">Multiplicity of the values</param>
         /// <param name="type">Type of the property</param>
-        public SgfKnownProperty(string identifier, SgfPropertyType type, SgfValueMultiplicity valueMultiplicity, SgfPropertyValueParser parser )
+        public SgfKnownProperty(string identifier, SgfPropertyType type, SgfValueMultiplicity valueMultiplicity = SgfValueMultiplicity.None, SgfPropertyValueParser parser = null)
         {
+            if (identifier == null) throw new ArgumentNullException(nameof(identifier));
+            if (valueMultiplicity != SgfValueMultiplicity.None && parser == null)
+                throw new ArgumentNullException(nameof(parser),
+                    $"Property value parser cannot be null unless value multiplicity is None (identifier {identifier})");
             Type = type;
             Identifier = identifier;
             Parser = parser;
             ValueMultiplicity = valueMultiplicity;
         }
-        
+
         /// <summary>
         /// Identifier of the property
         /// </summary>
