@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// Returns the parsed values for a given property
         /// </summary>
         /// <param name="propertyIdentifier">Identifier of the property</param>
-        /// <param name="value">Value to convert</param>
+        /// <param name="values">Value to convert</param>
         /// <returns>Converted value</returns>
         public static IEnumerable<ISgfPropertyValue> GetValues(string propertyIdentifier, params string[] values)
         {
@@ -39,14 +39,7 @@ namespace OmegaGo.Core.Sgf.Parsing
         /// <param name="parser">Parser to use</param>
         /// <returns>Parsed SGF property values</returns>
         private static IEnumerable<ISgfPropertyValue> ParseValues(string[] values, PropertyValueParser parser)
-        {
-            var results = new List<ISgfPropertyValue>();
-            foreach (var value in values)
-            {
-                results.Add(parser(value));
-            }
-            return results;
-        }
+            => values.Select( value => parser( value ) );        
 
         private delegate ISgfPropertyValue PropertyValueParser(string value);
 
