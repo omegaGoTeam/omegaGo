@@ -15,6 +15,11 @@ namespace OmegaGo.Core.Sgf.Properties
     public partial class SgfProperty
     {
         /// <summary>
+        // Property values
+        /// </summary>
+        private ReadOnlyCollection<ISgfPropertyValue> _propertyValues { get; }
+
+        /// <summary>
         /// Creates a SGF property
         /// </summary>
         /// <param name="identifier">Identifier of the property</param>
@@ -30,11 +35,9 @@ namespace OmegaGo.Core.Sgf.Properties
             Identifier = identifier;
 
             //convert and store values
-            Values = new ReadOnlyCollection<ISgfPropertyValue>(
-                    valuesArray.Select( 
-                        value => SgfPropertyValuesConverter.GetValue(identifier, value) 
-                    ).ToList()
-                );
+            _propertyValues = new ReadOnlyCollection<ISgfPropertyValue>(
+                SgfPropertyValuesConverter.GetValues(identifier, valuesArray).ToList()
+            );
         }
 
 
@@ -44,18 +47,48 @@ namespace OmegaGo.Core.Sgf.Properties
         public string Identifier { get; }
 
         /// <summary>
-        // Property value
+        /// Returns property values of a given type
         /// </summary>
-        public IEnumerable<ISgfPropertyValue> Values { get; }
+        /// <typeparam name="T">Type of values to return</typeparam>
+        /// <returns>Values</returns>
+        public IEnumerable<T> Values<T>() => _propertyValues.OfType<SgfSimplePropertyValueBase<T>>().Select(v => v.Value);
 
         /// <summary>
-        /// Gets a single typed value
+        /// Retrives a single value
+        /// Throws in case there are multiple values in the property or none
         /// </summary>
         /// <typeparam name="T">Type of the value</typeparam>
         /// <returns>Value</returns>
-        public T Value<T>() where T : ISgfPropertyValue
+        public T Value<T>()
         {
-            return (T)Values.First();
+            if (_propertyValues.Count > 1 || _propertyValues.Count == 0)
+            {
+                throw new InvalidOperationException($"Single value can't be retrieved, there are {_propertyValues.Count} values.");
+            }
+            var propertyValue = _propertyValues.First() as SgfSimplePropertyValueBase<T>;
+            if (propertyValue == null)
+            {
+                throw new InvalidOperationException($"Requested type of value does not match the type of the {Identifier} property. Requested <{typeof(T)}>");
+            }
+            return propertyValue.Value;
+        }
+
+        /// <summary>
+        /// Retrieves a compose value
+        /// </summary>
+        /// <typeparam name="TLeft">Property value type of the left side</typeparam>
+        /// <typeparam name="TRight">Property value type of the right side</typeparam>
+        /// <returns></returns>
+        public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>() 
+            where TLeft : ISgfPropertyValue
+            where TRight : ISgfPropertyValue
+        {
+            var propertyValue = _propertyValues.First() as SgfComposePropertyValue<TLeft, TRight>;
+            if (propertyValue == null)
+            {
+                throw new InvalidOperationException($"Requested type of value does not match the type of the {Identifier} property. Requested <{typeof(TLeft).FullName},{typeof(TRight).FullName}>.");
+            }
+            return propertyValue;
         }
 
         /// <summary>
