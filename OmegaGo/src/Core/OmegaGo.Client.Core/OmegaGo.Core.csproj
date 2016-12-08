@@ -39,6 +39,8 @@
     <Compile Include="Agents\GuiAgent.cs" />
     <Compile Include="Agents\IAgent.cs" />
     <Compile Include="Agents\IllegalMoveHandling.cs" />
+    <Compile Include="Agents\IOnlineAgent.cs" />
+    <Compile Include="Agents\IReceiverOfGuiActions.cs" />
     <Compile Include="Agents\OnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AiDecision.cs" />

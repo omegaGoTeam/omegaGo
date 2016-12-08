@@ -32,27 +32,6 @@ namespace OmegaGo.Core.Agents
         /// weaker AI's sometimes will do so.
         /// </summary>
         IllegalMoveHandling HowToHandleIllegalMove { get; }
-        /// <summary>
-        /// This is usually called by the server connection and informs this agent that the next time it's requested to make a move at
-        /// the specified turn number, it should immediately make the move specified by this call instead of how it would usually do it.
-        /// This is used to fill out the game history when resuming an online game, for example.
-        /// </summary>
-        /// <param name="moveIndex">The 1-based turn number.</param>
-        /// <param name="move">The move to make at the given turn number.</param>
-        void ForceHistoricMove(int moveIndex, Move move);
-
-        /// <summary>
-        /// GUI interface will call this method on a GUI agent when the user requests that a stone be placed at a position.
-        /// </summary>
-        /// <param name="color">The color of the placed stone.</param>
-        /// <param name="selectedPosition">The position to place the stone on.</param>
-        void Click(StoneColor color, Position selectedPosition);
-
-        /// <summary>
-        /// GUI interface will call this method on a GUI agent when the user requests that a player passes.
-        /// </summary>
-        /// <param name="color">The color of this agent's player.</param>
-        void ForcePass(StoneColor color);
 
         /// <summary>
         /// Called by the game controller when the GAME begins telling the agent that he is controlling the PLAYER.

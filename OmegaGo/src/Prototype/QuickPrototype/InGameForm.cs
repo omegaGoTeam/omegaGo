@@ -303,7 +303,7 @@ namespace FormsPrototype
         private void bPASS_Click(object sender, EventArgs e)
         {
             this.groupboxMoveMaker.Visible = false;
-            this.PlayerToMove.Agent.ForcePass(this.PlayerToMove.Color);
+            (this.PlayerToMove.Agent as IReceiverOfGuiActions).ForcePass(this.PlayerToMove.Color);
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
@@ -331,7 +331,7 @@ namespace FormsPrototype
             else
             {
                 this.groupboxMoveMaker.Visible = false;
-                this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
+                (this.PlayerToMove.Agent as IReceiverOfGuiActions).Click(this.PlayerToMove.Color, position);
             }
         }
 
