@@ -190,5 +190,15 @@ namespace OmegaGo.Core.Online.Igs
             await Task.Delay(0);
             // TODO many different things to handle here
         }
+
+        private List<GameInfo> _gamesYouPlayRightNow = new List<GameInfo>();
+        public async Task<bool> Say(GameInfo game, string chat)
+        {
+            if (!_gamesYouPlayRightNow.Contains(game)) throw new ArgumentException("You are not playing this game.");
+            if (chat == null) throw new ArgumentNullException(nameof(chat));
+            if (chat == "") throw new ArgumentException("Chat line must not be empty.");
+            if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
+            return false;
+        }
     }
 }
