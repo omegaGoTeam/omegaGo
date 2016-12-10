@@ -14,11 +14,14 @@ namespace OmegaGo.Core.Sgf.Properties.Values
     /// <typeparam name="TRight">Simple of the right value of the compose</typeparam>
     public class SgfComposePropertyValue<TLeft, TRight> : ISgfPropertyValue
     {
+        private const char ComposeSeparator = ':';
+        private const char EscapeCharacter = '\\';
+
         /// <summary>
         /// Property value on the left side
         /// </summary>
         private readonly SgfSimplePropertyValueBase<TLeft> _leftPropertyValue = null;
-        
+
         /// <summary>
         /// Property value on the right side
         /// </summary>
@@ -34,7 +37,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
             if (leftPropertyValue == null) throw new ArgumentNullException(nameof(leftPropertyValue));
             if (rightPropertyValue == null) throw new ArgumentNullException(nameof(rightPropertyValue));
             _leftPropertyValue = leftPropertyValue;
-            _rightPropertyValue = rightPropertyValue;            
+            _rightPropertyValue = rightPropertyValue;
         }
 
         /// <summary>
@@ -55,8 +58,6 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <summary>
         /// Parses a compose given the types of both values
         /// </summary>
-        /// <typeparam name="TLeftPropertyValue">Type of the property value on the left side</typeparam>
-        /// <typeparam name="TRightPropertyValue">Type of the property value on the right side</typeparam>
         /// <param name="value">SGF serialized value to parse</param>
         /// <param name="leftValueParser">Parser of the left value</param>
         /// <param name="rightValueParser">Parser of the right value</param>
@@ -64,13 +65,52 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         public static ISgfPropertyValue Parse
             (string value, SgfPropertyValueParser leftValueParser, SgfPropertyValueParser rightValueParser)
         {
-            throw new NotImplementedException("Not yet implemented");
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (leftValueParser == null) throw new ArgumentNullException(nameof(leftValueParser));
+            if (rightValueParser == null) throw new ArgumentNullException(nameof(rightValueParser));            
+            int separatorPosition = -1;
+            for (int i = 0; i < value.Length; i++)
+            {
+                var currentCharacter = value[i];
+                if (currentCharacter == ComposeSeparator)
+                {
+                    if (i == 0 || value[i - 1] != EscapeCharacter)
+                    {
+                        if (separatorPosition != -1)
+                            throw new SgfParseException($"Two or more unescaped colons in Compose value '{value}'");
+                        separatorPosition = i;
+                    }
+                }
+            }
+            if (separatorPosition == -1)
+            {
+                throw new SgfParseException($"No colon found in Compose value '{value}'");
+            }
+            var leftPart = value.Substring(0, separatorPosition);
+            var rightPart = value.Substring(separatorPosition + 1, value.Length - separatorPosition - 1);
+            var leftValue = leftValueParser(leftPart) as SgfSimplePropertyValueBase<TLeft>;
+            if (leftValue == null)
+            {
+                throw new SgfParseException($"Unexpected result type of the left value parse");
+            }
+            var rightValue = rightValueParser(rightPart) as SgfSimplePropertyValueBase<TRight>;
+            if (rightValue == null)
+            {
+                throw new SgfParseException($"Unexpected result type of the right value parse");
+            }
+            return new SgfComposePropertyValue<TLeft, TRight>(leftValue, rightValue);
         }
 
         /// <summary>
         /// Serializes the compose value
         /// </summary>
         /// <returns>SGF serialized property value</returns>
-        public string Serialize() => _leftPropertyValue.Serialize() + ':' + _rightPropertyValue.Serialize();
+        public string Serialize()
+        {
+            var leftSerialized = _leftPropertyValue.Serialize();
+            var rightSerialized = _leftPropertyValue.Serialize();
+
+            return $"{leftSerialized}{ComposeSeparator}{rightSerialized}";
+        }
     }
 }

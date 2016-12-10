@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <summary>
         // Property values
         /// </summary>
-        private ReadOnlyCollection<ISgfPropertyValue> _propertyValues { get; }
+        private readonly ReadOnlyCollection<ISgfPropertyValue> _propertyValues = null;
 
         /// <summary>
         /// Creates a SGF property
