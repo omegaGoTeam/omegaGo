@@ -41,5 +41,12 @@ namespace OmegaGo.Core.Online.Chat
         {
 
         }
+        public ChatMessage(string userName, string text, DateTimeOffset time, ChatMessageKind kind)
+        {
+            this._userName = userName;
+            this._text = text;
+            this._time = time;
+            this._kind = kind;
+        }
     }
 }

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
@@ -55,6 +55,7 @@ namespace OmegaGo.Core.Online.Igs
         // Status
         private List<GameInfo> _gamesInProgressOnIgs = new List<GameInfo>();
         private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
+        private readonly List<GameInfo> _gamesYouHaveOpened = new List<GameInfo>();
         // Internal synchronization management
         private GameInfo _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
@@ -313,12 +314,12 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="command">The command to send over Telnet.</param>
         /// <returns></returns>
-        private async Task<List<IgsLine>> MakeRequest(string command)
+        private async Task<IgsResponse> MakeRequest(string command)
         {
             IgsRequest request = new IgsRequest(command);
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
-            List<IgsLine> lines = await request.GetAllLines();
+            IgsResponse lines = await request.GetAllLines();
             lock (_mutex)
             {
                 Debug.Assert(_requestInProgress == request);
@@ -393,6 +394,14 @@ namespace OmegaGo.Core.Online.Igs
             IncomingShoutMessage?.Invoke(line);
         }
         #endregion
+        // Interface requirements
+        public override string ShortName => "IGS";
+        public void RefreshBoard(GameInfo game)
+        {
+            MakeUnattendedRequest("moves " + game.ServerId);
+        }
+
+        #region Events
 
         /// <summary>
         /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 
@@ -445,16 +454,15 @@ namespace OmegaGo.Core.Online.Igs
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
-
-
-
-        // Interface requirements
-        public override string ShortName => "IGS";
-        public void RefreshBoard(GameInfo game)
+        
+        /// <summary>
+        /// Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have opened.
+        /// </summary>
+        public event EventHandler<Tuple<GameInfo, ChatMessage>> IncomingInGameChatMessage;
+        private void OnIncomingInGameChatMessage(GameInfo relevantGame, ChatMessage chatLine)
         {
-            MakeUnattendedRequest("moves " + game.ServerId);
+            IncomingInGameChatMessage?.Invoke(this, new Tuple<GameInfo, ChatMessage>(relevantGame, chatLine));
         }
-
-       
+        #endregion
     }
 }

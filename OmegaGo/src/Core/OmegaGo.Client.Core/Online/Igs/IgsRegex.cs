@@ -5,11 +5,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    class IgsRegex
+    /// <summary>
+    /// This class contains regular expression and utility functions that use those regular expression to get C# objects
+    /// from the IGS server's ASCII responses.
+    /// </summary>
+    static class IgsRegex
     {
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -59,6 +64,21 @@ namespace OmegaGo.Core.Online.Igs
                     match.Groups[3].Value);
             }
             return null;
+        }
+
+        private static Regex regexSayInformation = new Regex(@"51 Say in game ([0-9]+)");
+        public static int ParseGameNumberFromSayInformation(IgsLine igsLine)
+        {
+            Match match = regexSayInformation.Match(igsLine.EntireLine);
+            return match.Groups[1].Value.AsInteger();
+        }
+
+        private static Regex regexSay = new Regex(@"19 \*([^*]+)\*: (.*)");
+        public static ChatMessage ParseSayLine(IgsLine igsLine)
+        {
+            Match match = regexSay.Match(igsLine.EntireLine);
+            return new Chat.ChatMessage(match.Groups[1].Value, match.Groups[2].Value, DateTimeOffset.Now,
+                ChatMessageKind.Incoming);
         }
     }
 }

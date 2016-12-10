@@ -94,7 +94,7 @@
         ///</summary>
         Saved = 18,
         ///<summary>
-        ///Say string
+        /// An incoming chat message that is to be recorded in a game record
         ///</summary>
         Say = 19,
         ///<summary>
@@ -171,6 +171,10 @@
         ///Long user report
         ///</summary>
         User = 42,
+        /// <summary>
+        /// Information about which game the incoming "say" chat line refers to
+        /// </summary>
+        SayInformation = 51,
         /// <summary>
         /// An unrecognized IGS line code
         /// </summary>

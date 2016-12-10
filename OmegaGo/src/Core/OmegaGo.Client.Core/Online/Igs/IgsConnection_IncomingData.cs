@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 
@@ -124,6 +125,11 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterruptMessage = true;
                     continue;
                 }
+                if (code == IgsCode.SayInformation)
+                {
+                    weAreHandlingAnInterruptMessage = true;
+                    continue;
+                }
                 if (code == IgsCode.Shout)
                 {
                     HandleIncomingShoutMessage(line);
@@ -225,6 +231,7 @@ namespace OmegaGo.Core.Online.Igs
                 game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
                 this._gamesInProgressOnIgs.Add(game);
+                this._gamesYouHaveOpened.Add(game);
                 this.OnMatchRequestAccepted(game);
 
             }
@@ -248,6 +255,18 @@ namespace OmegaGo.Core.Online.Igs
                         }
                     }
                 }
+            }
+            if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
+                currentLineBatch[1].Code == IgsCode.Say)
+            {
+                int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
+                ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
+                GameInfo relevantGame = _gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
+                if (relevantGame == null)
+                {
+                    throw new Exception("We received a chat message for a game we no longer play.");
+                }
+                OnIncomingInGameChatMessage(relevantGame, chatLine);
             }
         }
     }

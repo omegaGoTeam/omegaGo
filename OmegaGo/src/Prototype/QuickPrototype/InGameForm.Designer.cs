@@ -57,13 +57,12 @@
             this.bSay = new System.Windows.Forms.Button();
             this.tbSayWhat = new System.Windows.Forms.TextBox();
             this.lbPlayerChat = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
             this.grpLifeDeath = new System.Windows.Forms.GroupBox();
-            this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
-            this.bUndoLifeDeath = new System.Windows.Forms.Button();
             this.bResumeAsBlack = new System.Windows.Forms.Button();
+            this.bUndoLifeDeath = new System.Windows.Forms.Button();
+            this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -262,7 +261,6 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(699, 12);
             this.tabControl1.Name = "tabControl1";
@@ -386,16 +384,6 @@
             this.lbPlayerChat.Size = new System.Drawing.Size(304, 147);
             this.lbPlayerChat.TabIndex = 0;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(314, 190);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Spectator chat";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.button4);
@@ -430,15 +418,15 @@
             this.grpLifeDeath.Text = "Life/Death Determination";
             this.grpLifeDeath.Visible = false;
             // 
-            // bDoneWithLifeDeathDetermination
+            // bResumeAsBlack
             // 
-            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(16, 19);
-            this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
-            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
-            this.bDoneWithLifeDeathDetermination.TabIndex = 13;
-            this.bDoneWithLifeDeathDetermination.Text = "Done";
-            this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
-            this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
+            this.bResumeAsBlack.Location = new System.Drawing.Point(16, 86);
+            this.bResumeAsBlack.Name = "bResumeAsBlack";
+            this.bResumeAsBlack.Size = new System.Drawing.Size(166, 27);
+            this.bResumeAsBlack.TabIndex = 15;
+            this.bResumeAsBlack.Text = "Resume game (Black first)";
+            this.bResumeAsBlack.UseVisualStyleBackColor = true;
+            this.bResumeAsBlack.Click += new System.EventHandler(this.bResumeAsBlack_Click);
             // 
             // bUndoLifeDeath
             // 
@@ -450,15 +438,15 @@
             this.bUndoLifeDeath.UseVisualStyleBackColor = true;
             this.bUndoLifeDeath.Click += new System.EventHandler(this.bUndoLifeDeath_Click);
             // 
-            // bResumeAsBlack
+            // bDoneWithLifeDeathDetermination
             // 
-            this.bResumeAsBlack.Location = new System.Drawing.Point(16, 86);
-            this.bResumeAsBlack.Name = "bResumeAsBlack";
-            this.bResumeAsBlack.Size = new System.Drawing.Size(166, 27);
-            this.bResumeAsBlack.TabIndex = 15;
-            this.bResumeAsBlack.Text = "Resume game (Black first)";
-            this.bResumeAsBlack.UseVisualStyleBackColor = true;
-            this.bResumeAsBlack.Click += new System.EventHandler(this.bResumeAsBlack_Click);
+            this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(16, 19);
+            this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
+            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
+            this.bDoneWithLifeDeathDetermination.TabIndex = 13;
+            this.bDoneWithLifeDeathDetermination.Text = "Done";
+            this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
+            this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
             // 
             // InGameForm
             // 
@@ -523,7 +511,6 @@
         private System.Windows.Forms.NumericUpDown nAiStrength;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button bSay;
         private System.Windows.Forms.TextBox tbSayWhat;
         private System.Windows.Forms.ListBox lbPlayerChat;

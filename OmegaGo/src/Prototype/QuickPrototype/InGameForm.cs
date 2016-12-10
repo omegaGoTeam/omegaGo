@@ -37,11 +37,18 @@ namespace FormsPrototype
             this._game = game;
             this._igs = igs;
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
+            this._igs.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
             RefreshBoard();
         }
 
-       
-
+        private void _igs_IncomingInGameChatMessage(object sender, Tuple<GameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
+        {
+            if (e.Item1 == this._game)
+            {
+                this.lbPlayerChat.Items.Add("[" + e.Item2.Time.ToString("H:m") + "] " + e.Item2.UserName + ": " +
+                                            e.Item2.Text);
+            }
+        }
         private void SystemLog(string logline)
         {
             this.tbLog.AppendText(logline + Environment.NewLine);
@@ -348,11 +355,17 @@ namespace FormsPrototype
             RefreshBoard();
         }
         
-        private void bSay_Click(object sender, EventArgs e)
+        private async void bSay_Click(object sender, EventArgs e)
         {
-            // TODO what if we are in multiple games at the same time?
-            // TODO how to change active game?
-            this.tbSayWhat.Clear();
+            if (!await this._igs.Say(this._game, this.tbSayWhat.Text))
+            {
+                MessageBox.Show("Say failed.");
+            }
+            else
+            {
+                this.lbPlayerChat.Items.Add("[" + DateTimeOffset.Now.ToString("H:m") + "] You: " + this.tbSayWhat.Text);
+                this.tbSayWhat.Clear();
+            }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)

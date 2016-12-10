@@ -96,6 +96,7 @@ namespace OmegaGo.Core.Online.Igs
                 return;
             }
             _gamesBeingObserved.Add(game);
+            _gamesYouHaveOpened.Add(game);
             await MakeRequest("observe " + game.ServerId);
         }
         public override void EndObserving(GameInfo game)
@@ -105,6 +106,7 @@ namespace OmegaGo.Core.Online.Igs
                 throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
             }
             _gamesBeingObserved.Remove(game);
+            _gamesYouHaveOpened.Remove(game);
             _streamWriter.WriteLine("observe " + game.ServerId);
         }
         /// <summary>
@@ -177,6 +179,7 @@ namespace OmegaGo.Core.Online.Igs
             game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
+            this._gamesYouHaveOpened.Add(game);
             return game;
         }
         public void DEBUG_MakeUnattendedRequest(string command)
@@ -191,14 +194,24 @@ namespace OmegaGo.Core.Online.Igs
             // TODO many different things to handle here
         }
 
-        private List<GameInfo> _gamesYouPlayRightNow = new List<GameInfo>();
         public async Task<bool> Say(GameInfo game, string chat)
         {
-            if (!_gamesYouPlayRightNow.Contains(game)) throw new ArgumentException("You are not playing this game.");
+            if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
-            return false;
+            IgsResponse response;
+            if (this._gamesYouHaveOpened.Count > 1)
+            {
+                // More than one game is opened: we must give the game id.
+                response = await MakeRequest("say " + game.ServerId + " " + chat);
+            }
+            else
+            {
+                // We have only one game opened: game id MUST NOT be given
+                response = await MakeRequest("say " + chat);
+            }
+            return !response.IsError;
         }
     }
 }

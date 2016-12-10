@@ -25,7 +25,7 @@ namespace OmegaGo.Core.Online.Igs
         /// they are pushed to this buffer block using its Post extension method. This instance's <see cref="GetAllLines"/> method then
         /// takes lines from this block and serializes them into a simple list.   
         /// </summary>
-        public BufferBlock<IgsLine> IncomingLines = new BufferBlock<IgsLine>();
+        public readonly BufferBlock<IgsLine> IncomingLines = new BufferBlock<IgsLine>();
 
         public bool Unattended;
 
@@ -33,9 +33,9 @@ namespace OmegaGo.Core.Online.Igs
         /// The returned task waits until the IGS SERVER sends all the response data to our command, terminated by a prompt line, and then
         /// it returns this data as a <see cref="List{T}"/>.
         /// </summary>
-        public async Task<List<IgsLine>> GetAllLines()
+        public async Task<IgsResponse> GetAllLines()
         {
-            List<IgsLine> lines = new List<IgsLine>();
+            IgsResponse lines = new IgsResponse();
             while (true)
             {
                 IgsLine line = await IncomingLines.ReceiveAsync();
