@@ -38,6 +38,33 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values.ValueTypes
             Assert.AreEqual(new SgfPoint(11, 5), enumerated[1]);
             Assert.AreEqual(new SgfPoint(10, 6), enumerated[2]);
             Assert.AreEqual(lowerRight, enumerated.Last());
-        }        
+        }
+
+        [TestMethod]
+        public void FullSizePointRectangleHasTheRightNumberOfPoints()
+        {
+            var upperLeft = SgfPoint.Parse("aa");
+            var lowerRight = SgfPoint.Parse("ZZ");
+            var rectangle = new SgfPointRectangle(upperLeft, lowerRight);            
+            Assert.AreEqual(2704, rectangle.Count());
+        }
+
+        [TestMethod]
+        public void ToStringSerializesSinglePointPointRectangleProperly()
+        {
+            var upperLeft = SgfPoint.Parse("aa");
+            var lowerRight = SgfPoint.Parse("aa");
+            var rectangle = new SgfPointRectangle(upperLeft, lowerRight);
+            Assert.AreEqual("aa", rectangle.ToString());
+        }
+
+        [TestMethod]
+        public void ToStringSerializesRectangularPointRectangleProperly()
+        {
+            var upperLeft = SgfPoint.Parse("aa");
+            var lowerRight = SgfPoint.Parse("ZZ");
+            var rectangle = new SgfPointRectangle(upperLeft, lowerRight);
+            Assert.AreEqual("aa:ZZ", rectangle.ToString());
+        }
     }
 }
