@@ -28,14 +28,16 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value to parse</param>
         /// <returns>Parsed property value</returns>
-        public static ISgfPropertyValue Parse(string value)
+        public static SgfRealValue Parse(string value)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
             for (int i = 0; i < value.Length; i++)
             {
                 var character = value[i];
-                var disallowOperators = (character == '+' || character == '-') && i != 0;
-                var disallowNonDigits = !char.IsDigit(character) && character != '.';
-                if (disallowNonDigits || disallowOperators)
+                var isOperator = (character == '+' || character == '-') && i == 0;
+                var isNumberPart = char.IsDigit(character) || character == '.';
+                var isValid = isOperator || isNumberPart;
+                if (!isValid)
                 {
                     throw new SgfParseException($"Invalid value format for SGF Real value ({value})");
                 }
@@ -52,9 +54,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Serializes the value
         /// </summary>
         /// <returns>SGF serialized real value</returns>
-        public override string Serialize()
-        {
-            throw new NotImplementedException();
-        }
+        public override string Serialize() =>
+            Value.ToString(CultureInfo.InvariantCulture);
     }
 }
