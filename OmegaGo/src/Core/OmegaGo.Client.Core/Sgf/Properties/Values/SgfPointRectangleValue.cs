@@ -53,7 +53,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
             return new SgfPointRectangleValue(rectangle);
         }
 
-        public override SgfValueType ValueType => SgfValueType.Point;
+        public override SgfValueType ValueType => SgfValueType.PointRectangle;
 
         public override string Serialize() => Value.ToString();
     }
