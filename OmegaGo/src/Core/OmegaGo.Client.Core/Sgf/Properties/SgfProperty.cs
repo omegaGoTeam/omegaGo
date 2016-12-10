@@ -74,6 +74,12 @@ namespace OmegaGo.Core.Sgf.Properties
         }
 
         /// <summary>
+        /// Returns the value type of the property
+        /// </summary>
+        public SgfValueType ValueType =>
+            _propertyValues.FirstOrDefault()?.ValueType ?? SgfValueType.None;
+
+        /// <summary>
         /// Retrieves a compose value
         /// </summary>
         /// <typeparam name="TLeft">Property value type of the left side</typeparam>
@@ -140,6 +146,6 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <summary>
         /// Type of the SGF property
         /// </summary>
-        public SgfPropertyType Type => GetPropertyType(Identifier);
+        public SgfPropertyType Type => GetPropertyType(Identifier);        
     }
 }
