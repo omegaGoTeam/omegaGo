@@ -69,6 +69,7 @@
     <Compile Include="Sgf\Properties\Values\SgfPointValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfRealValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SpecialSgfPropertyValueParsersTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangleTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />

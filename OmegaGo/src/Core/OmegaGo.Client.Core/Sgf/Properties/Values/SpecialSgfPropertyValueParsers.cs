@@ -36,6 +36,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <returns></returns>
         public static SgfPropertyValueParser RangedNumberParser(int min, int max)
         {
+            if ( max < min ) throw new ArgumentOutOfRangeException(nameof(max),$"Specified range for SGF ranged number parser is invalid ({min}-{max})");
             return (value) =>
             {
                 var parsedValue = (SgfNumberValue)SgfNumberValue.Parse(value);

@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         public static SgfNumberValue Parse(string value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
-            int intValue = 0;
+            int intValue;
             if (!int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out intValue))
             {
                 throw new SgfParseException($"SGF number value could not be parsed from {0}");
