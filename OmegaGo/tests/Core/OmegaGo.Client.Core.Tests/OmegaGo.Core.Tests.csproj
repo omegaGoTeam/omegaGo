@@ -61,6 +61,7 @@
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverterTests.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfColorValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfNumberValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointValueTests.cs" />

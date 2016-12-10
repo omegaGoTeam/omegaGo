@@ -16,7 +16,11 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Creates SGF color value
         /// </summary>
         /// <param name="value">Color</param>
-        public SgfColorValue( SgfColor value ) : base( value ) {}
+        public SgfColorValue(SgfColor value) : base(value)
+        {
+            if (!Enum.IsDefined(typeof(SgfColor), value))
+                throw new ArgumentOutOfRangeException(nameof(value), "SGF Color value must be pre-defined.");
+        }
 
         /// <summary>
         /// Color property value type
@@ -28,9 +32,19 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value to parse</param>
         /// <returns>SGF color instance</returns>
-        public static SgfColorValue Parse( string value )
+        public static SgfColorValue Parse(string value)
         {
-            throw new NotImplementedException();
+            if (value == null) throw new ArgumentNullException(nameof(value));
+            if (value == "B")
+            {
+                return new SgfColorValue(SgfColor.Black);
+            }
+            else if (value == "W")
+            {
+                return new SgfColorValue(SgfColor.White);
+            }
+            //color can't be parsed
+            throw new SgfParseException($"SGF color value cannot be parsed from '{value}'");
         }
 
         /// <summary>
@@ -39,7 +53,15 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <returns></returns>
         public override string Serialize()
         {
-            throw new NotImplementedException();
+            switch (Value)
+            {
+                case SgfColor.Black:
+                    return "B";
+                case SgfColor.White:
+                    return "W";
+                default:
+                    throw new InvalidOperationException("SGF Color value out of supported range.");
+            }
         }
     }
 }
