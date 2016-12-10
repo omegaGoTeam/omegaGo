@@ -85,6 +85,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
                             throw new SgfParseException($"Two or more unescaped colons in Compose value '{value}'");
                         separatorPosition = i;
                     }
+                    escapePreceded = false;
                 }
                 else
                 {
@@ -117,7 +118,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         public string Serialize()
         {
             var leftSerialized = _leftPropertyValue.Serialize();
-            var rightSerialized = _leftPropertyValue.Serialize();
+            var rightSerialized = _rightPropertyValue.Serialize();
 
             return $"{leftSerialized}{ComposeSeparator}{rightSerialized}";
         }

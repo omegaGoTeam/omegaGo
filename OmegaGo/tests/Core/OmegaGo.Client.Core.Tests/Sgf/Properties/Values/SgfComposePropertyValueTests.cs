@@ -31,5 +31,28 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
         {
             SgfComposePropertyValue<string, string>.Parse("1:2", SgfNumberValue.Parse, null);
         }
+
+        [TestMethod]
+        public void ValidSgfComposeValueCanBeParsed()
+        {
+            var compose = SgfComposePropertyValue<string, int>.Parse("hello wae:1", SgfTextValue.Parse, SgfNumberValue.Parse);
+            Assert.AreEqual("hello wae", compose.LeftValue);
+            Assert.AreEqual(1, compose.RightValue);
+        }
+
+        [TestMethod]
+        public void SgfComposeValueWithEscapedColonsCanBeParsed()
+        {
+            var compose = SgfComposePropertyValue<string, string>.Parse("hell\\:o wae\\\\:\\:\\\\\\:", SgfTextValue.Parse, SgfSimpleTextValue.Parse);
+            Assert.AreEqual("hell:o wae\\", compose.LeftValue);
+            Assert.AreEqual(":\\:", compose.RightValue);
+        }
+
+        [TestMethod]
+        public void SgfComposeValueIsProperlySerialized()
+        {
+            var compose = new SgfComposePropertyValue<string,string>(new SgfTextValue("Hello, wo:rld"), new SgfTextValue("::::") );
+            Assert.AreEqual("Hello, wo\\:rld:\\:\\:\\:\\:", compose.Serialize());
+        }
     }
 }
