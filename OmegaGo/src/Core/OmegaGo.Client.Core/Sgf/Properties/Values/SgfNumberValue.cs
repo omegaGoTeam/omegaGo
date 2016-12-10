@@ -28,7 +28,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value to parse</param>
         /// <returns>Parsed SGF number value</returns>
-        public static ISgfPropertyValue Parse(string value)
+        public static SgfNumberValue Parse(string value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             int intValue = 0;
