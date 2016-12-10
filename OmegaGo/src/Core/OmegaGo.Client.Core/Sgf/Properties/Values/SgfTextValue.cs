@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Creates a Text value
         /// </summary>
         /// <param name="value"></param>
-        public SgfTextValue( string value ) : base( value ) {}
+        public SgfTextValue(string value) : base(value) { }
 
         /// <summary>
         /// Text value
@@ -26,18 +26,16 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Parses Text value
         /// </summary>
         /// <returns>Parsed instance of SGF Text value</returns>
-        public static SgfTextValue Parse( string value )
+        public static SgfTextValue Parse(string value)
         {
-            throw new NotImplementedException();
+            value = value.NormalizeLineBreaks();
+            return new SgfTextValue(SgfUtilities.ParseTextInput(value, SgfNewLineHandling.Keep) );
         }
 
         /// <summary>
         /// Serializes SGF Text to SGF
         /// </summary>
         /// <returns>SGF serialized Text value</returns>
-        public override string Serialize()
-        {
-            throw new NotImplementedException();
-        }
+        public override string Serialize() => Value.SerializeText();
     }
 }
