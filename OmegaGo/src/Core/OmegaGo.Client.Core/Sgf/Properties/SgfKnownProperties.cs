@@ -39,11 +39,7 @@ namespace OmegaGo.Core.Sgf.Properties
                 //Game name
                 new SgfKnownProperty( "GN", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Handicap
-                new SgfKnownProperty( "HA", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfNumberValue.Parse ),
-                //Initial position (LOA)
-                new SgfKnownProperty( "IP", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
-                //Invert Y-axis (LOA)
-                new SgfKnownProperty( "IY", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                new SgfKnownProperty( "HA", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfNumberValue.Parse ),                
                 //Komi
                 new SgfKnownProperty( "KM", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfRealValue.Parse ),
                 //Opening
@@ -61,9 +57,7 @@ namespace OmegaGo.Core.Sgf.Properties
                 //Rules
                 new SgfKnownProperty( "RU", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Source
-                new SgfKnownProperty( "SO", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
-                //Setup type (LOA)
-                new SgfKnownProperty( "SU", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                new SgfKnownProperty( "SO", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),                
                 //Timelimit
                 new SgfKnownProperty( "TM", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfRealValue.Parse ),
                 //User
@@ -133,9 +127,7 @@ namespace OmegaGo.Core.Sgf.Properties
                     No type properties
                 */
                 //Arrow
-                new SgfKnownProperty( "AR", SgfPropertyType.NoType, SgfValueMultiplicity.List, Compose<SgfPoint,SgfPoint>( SgfPointValue.Parse, SgfPointValue.Parse) ),
-                //Who adds stones (LOA)
-                new SgfKnownProperty( "AS", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                new SgfKnownProperty( "AR", SgfPropertyType.NoType, SgfValueMultiplicity.List, Compose<SgfPoint,SgfPoint>( SgfPointValue.Parse, SgfPointValue.Parse) ),                
                 //Comment
                 new SgfKnownProperty( "C", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfTextValue.Parse ),
                 //Circle
@@ -161,9 +153,7 @@ namespace OmegaGo.Core.Sgf.Properties
                 //Nodename
                 new SgfKnownProperty( "N", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Print move node
-                new SgfKnownProperty( "PM", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfNumberValue.Parse ),
-                //Markup (LOA)
-                new SgfKnownProperty( "SE", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfPointValue.Parse ),
+                new SgfKnownProperty( "PM", SgfPropertyType.NoType, SgfValueMultiplicity.Single, SgfNumberValue.Parse ),                
                 //Selected
                 new SgfKnownProperty( "SL", SgfPropertyType.NoType, SgfValueMultiplicity.List, SgfPointRectangleValue.Parse ),
                 //Square
