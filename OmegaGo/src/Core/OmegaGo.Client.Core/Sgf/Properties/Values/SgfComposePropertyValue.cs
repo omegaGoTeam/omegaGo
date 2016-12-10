@@ -67,19 +67,28 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (leftValueParser == null) throw new ArgumentNullException(nameof(leftValueParser));
-            if (rightValueParser == null) throw new ArgumentNullException(nameof(rightValueParser));            
+            if (rightValueParser == null) throw new ArgumentNullException(nameof(rightValueParser));
+            bool escapePreceded = false;       
             int separatorPosition = -1;
             for (int i = 0; i < value.Length; i++)
             {
                 var currentCharacter = value[i];
-                if (currentCharacter == ComposeSeparator)
+                if (currentCharacter == EscapeCharacter)
                 {
-                    if (i == 0 || value[i - 1] != EscapeCharacter)
+                    escapePreceded = !escapePreceded;
+                }
+                else if (currentCharacter == ComposeSeparator)
+                {
+                    if (i == 0 || !escapePreceded)
                     {
                         if (separatorPosition != -1)
                             throw new SgfParseException($"Two or more unescaped colons in Compose value '{value}'");
                         separatorPosition = i;
                     }
+                }
+                else
+                {
+                    escapePreceded = false;
                 }
             }
             if (separatorPosition == -1)
