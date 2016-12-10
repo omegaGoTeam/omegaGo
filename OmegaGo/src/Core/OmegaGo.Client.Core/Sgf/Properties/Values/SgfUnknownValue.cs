@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns>Unknown property value instance</returns>
-        public static ISgfPropertyValue Parse(string value) => new SgfUnknownValue(value);
+        public static SgfUnknownValue Parse(string value) => new SgfUnknownValue(value);
 
         /// <summary>
         /// Value type

@@ -62,7 +62,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <param name="leftValueParser">Parser of the left value</param>
         /// <param name="rightValueParser">Parser of the right value</param>
         /// <returns>Instance of SGF Compose</returns>
-        public static ISgfPropertyValue Parse
+        public static SgfComposePropertyValue<TLeft,TRight> Parse
             (string value, SgfPropertyValueParser leftValueParser, SgfPropertyValueParser rightValueParser)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));

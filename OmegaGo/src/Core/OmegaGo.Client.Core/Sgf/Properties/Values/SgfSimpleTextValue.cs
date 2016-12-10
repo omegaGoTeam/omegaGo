@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Parses Simple Text value
         /// </summary>
         /// <returns>Parsed instance of SGF Simple Text value</returns>
-        public static ISgfPropertyValue Parse( string value )
+        public static SgfSimpleTextValue Parse( string value )
         {
             throw new NotImplementedException();
         }
