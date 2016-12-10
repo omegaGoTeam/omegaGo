@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Sgf.Parsing
     /// <summary>
     /// Class that facilitates the conversion of known SGF property values
     /// </summary>
-    internal static partial class SgfPropertyValuesConverter
+    internal static class SgfPropertyValuesConverter
     {
         /// <summary>
         /// Returns the parsed values for a given property

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Sgf.Properties.Values;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 

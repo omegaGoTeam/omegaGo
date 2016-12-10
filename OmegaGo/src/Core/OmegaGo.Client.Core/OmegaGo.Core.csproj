@@ -86,7 +86,7 @@
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
     <Compile Include="Sgf\Properties\SgfKnownProperties.cs" />
     <Compile Include="Sgf\Properties\SgfValueMultiplicity.cs" />
-    <Compile Include="Sgf\Properties\SgfPropertyValueParser.cs" />
+    <Compile Include="Sgf\Parsing\SgfPropertyValueParser.cs" />
     <Compile Include="Sgf\Properties\SgfKnownProperty.cs" />
     <Compile Include="Sgf\Properties\SgfProperty.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />

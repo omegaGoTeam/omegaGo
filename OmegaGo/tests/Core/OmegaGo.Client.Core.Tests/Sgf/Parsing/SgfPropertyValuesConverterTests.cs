@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Sgf.Properties.Values;
 
@@ -35,6 +36,24 @@ namespace OmegaGo.Core.Tests.Sgf.Parsing
             Assert.IsTrue(values.First() is SgfUnknownValue);
             Assert.AreEqual(1, values.Count());
             Assert.AreEqual(helloWorld, values.First().Serialize());
+        }
+
+        [TestMethod]
+        public void KnownListPropertyValuesAreProperlyParsed()
+        {
+            var result =
+                SgfPropertyValuesConverter.GetValues("AB", "aa", "bb", "cc").OfType<SgfPointRectangleValue>().ToList();
+            Assert.AreEqual(3, result.Count);
+            Assert.AreEqual("aa", result[0].Serialize());
+            Assert.AreEqual("bb", result[1].Serialize());
+            Assert.AreEqual("cc", result[2].Serialize());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SgfParseException))]
+        public void KnownPropertyWithWrongValueTypesParsingThrows()
+        {
+            SgfPropertyValuesConverter.GetValues("AB", "11", "22", "33").OfType<SgfPointRectangleValue>().ToList();
         }
     }
 }
