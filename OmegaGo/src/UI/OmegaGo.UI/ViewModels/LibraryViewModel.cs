@@ -71,6 +71,7 @@ namespace OmegaGo.UI.ViewModels
             SgfParser parser = new SgfParser();
             var sgfCollection = parser.Parse(fileContents);
             var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
+            
             GameInfo gameInfo = new GameInfo();
 
             gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
@@ -82,11 +83,52 @@ namespace OmegaGo.UI.ViewModels
 
             gameInfo.BoardSize = new GameBoardSize(19);
             gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
+            FillBoard(gameInfo.Ruleset, gameTree, gameInfo.BoardSize);
 
             Game game = new Game(gameInfo, gameInfo.GameController, null);
             gameInfo.GameTree.GameTreeRoot = gameTree;
             Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();
+        }
+
+        private void FillBoard(IRuleset ruleset, GameTreeNode rootNode, GameBoardSize boardSize)
+        {
+            GameBoard board = new GameBoard(boardSize);
+
+            FillNode(ruleset, rootNode, board);
+        }
+
+        List<GameBoard> nodeHistory = new List<GameBoard>();
+        GameTreeNode tmpNode;
+        private void FillNode(IRuleset ruleset, GameTreeNode node, GameBoard previousBoard)
+        {
+            Move move = node.Move;
+            
+            if (move == null || move.Kind == MoveKind.None)
+            {
+                node.BoardState = new GameBoard(previousBoard);
+            }
+            else
+            {
+                nodeHistory.Clear();
+                tmpNode = node.Parent;
+
+                do
+                {
+                    if (node.Move.Kind == MoveKind.Pass || node.Move.Kind == MoveKind.PlaceStone)
+                        nodeHistory.Insert(0, tmpNode.BoardState);
+
+                    tmpNode = tmpNode.Parent;
+                } while (tmpNode != null);
+
+                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory);
+                node.BoardState = result.NewBoard;
+            }
+            
+            foreach (GameTreeNode childNode in node.Branches)
+            {
+                FillNode(ruleset, childNode, node.BoardState);
+            }
         }
     }
 }
