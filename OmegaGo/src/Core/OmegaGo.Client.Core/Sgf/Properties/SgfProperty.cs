@@ -20,26 +20,65 @@ namespace OmegaGo.Core.Sgf.Properties
         private readonly ReadOnlyCollection<ISgfPropertyValue> _propertyValues = null;
 
         /// <summary>
-        /// Creates a SGF property
+        /// 
         /// </summary>
-        /// <param name="identifier">Identifier of the property</param>
-        /// <param name="values">Values</param>
-        public SgfProperty(string identifier, IEnumerable<string> values)
+        /// <param name="identifier"></param>
+        /// <param name="values"></param>
+        public SgfProperty(string identifier, params ISgfPropertyValue[] values)
         {
             if (!IsPropertyIdentifierValid(identifier))
                 throw new ArgumentException("Supplied SGF identifier is not valid", nameof(identifier));
             if (values == null) throw new ArgumentNullException(nameof(values));
-            var valuesArray = values.ToArray();
-            if (valuesArray.Length == 0) throw new ArgumentOutOfRangeException(nameof(values));
-
             Identifier = identifier;
-
-            //convert and store values
-            _propertyValues = new ReadOnlyCollection<ISgfPropertyValue>(
-                SgfPropertyValuesConverter.GetValues(identifier, valuesArray).ToList()
-            );
+            _propertyValues = new ReadOnlyCollection<ISgfPropertyValue>(values.ToList());
         }
 
+        public static SgfProperty ParseValuesAndCreate(string identifier, params string[] serializedValues)
+        {
+            if (identifier == null) throw new ArgumentNullException(nameof(identifier));
+            if (serializedValues == null) throw new ArgumentNullException(nameof(serializedValues));
+            var knownProperty = SgfKnownProperties.Get(identifier);
+            if (knownProperty != null)
+            {
+                //parse as known
+                if (knownProperty.ValueMultiplicity == SgfValueMultiplicity.None)
+                {
+                    if (serializedValues.Length > 0)
+                    {
+                        if (serializedValues.Length != 1 ||
+                            serializedValues[0] != "")
+                        {
+                            throw new SgfParseException($"Property {identifier} has none multiplicity and can't be given values.");
+                        }
+                    }
+                    return new SgfProperty(identifier);
+                }
+                if (knownProperty.ValueMultiplicity == SgfValueMultiplicity.Single)
+                {
+                    if (serializedValues.Length != 1)
+                    {
+                        throw new SgfParseException($"Property {identifier} has single multiplicity and must be given exactly one value.");
+                    }
+                    return new SgfProperty(identifier, knownProperty.Parser(serializedValues[0]));
+                }
+                if (knownProperty.ValueMultiplicity == SgfValueMultiplicity.EList)
+                {
+                    if (serializedValues.Length == 1 && serializedValues[0] == "")
+                    {
+                        return new SgfProperty(identifier);
+                    }
+                }
+                //default - multiple values
+                return new SgfProperty(identifier, serializedValues.Select(v => knownProperty.Parser(v)).ToArray());
+            }
+            else
+            {
+                var values = serializedValues.Select(
+                    v => (ISgfPropertyValue)SgfUnknownValue.Parse(v)
+                    ).ToArray();
+                return new SgfProperty(identifier, values);
+            }
+        }
 
         /// <summary>
         /// Property identifier
@@ -85,7 +124,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <typeparam name="TLeft">Property value type of the left side</typeparam>
         /// <typeparam name="TRight">Property value type of the right side</typeparam>
         /// <returns></returns>
-        public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>()       
+        public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>()
         {
             var propertyValue = _propertyValues.First() as SgfComposePropertyValue<TLeft, TRight>;
             if (propertyValue == null)
@@ -105,8 +144,8 @@ namespace OmegaGo.Core.Sgf.Properties
             if (propertyIdentifier == null) return SgfPropertyType.Invalid;
 
             //check if the property identifier is known
-            SgfKnownProperty property = SgfKnownProperties.Get( propertyIdentifier );
-            if ( property != null )
+            SgfKnownProperty property = SgfKnownProperties.Get(propertyIdentifier);
+            if (property != null)
             {
                 return property.Type;
             }
@@ -142,10 +181,10 @@ namespace OmegaGo.Core.Sgf.Properties
             //at least one letter required
             return propertyIdentifier.Length > 0;
         }
-        
+
         /// <summary>
         /// Type of the SGF property
         /// </summary>
-        public SgfPropertyType Type => GetPropertyType(Identifier);        
+        public SgfPropertyType Type => GetPropertyType(Identifier);
     }
 }

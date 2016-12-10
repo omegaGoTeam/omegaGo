@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf.Properties;
+using OmegaGo.Core.Sgf.Properties.Values;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
 namespace OmegaGo.Core.Tests.Sgf.Properties
@@ -94,14 +95,14 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         [ExpectedException( typeof( ArgumentException ) )]
         public void NullPropertyInstanceCantBeCreated()
         {
-            new SgfProperty( null, new[] { "4" } );
+            new SgfProperty( null, new SgfNumberValue(4));
         }
 
         [TestMethod]
         [ExpectedException( typeof( ArgumentException ) )]
         public void InvalidPropertyInstanceCantBeCreated()
         {
-            new SgfProperty( "ff", new[] { "4" } );
+            new SgfProperty( "ff", new[] { new SgfNumberValue(4) } );
         }
 
         [TestMethod]
@@ -109,19 +110,12 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         public void ValidPropertyWithNullValuesCantBeCreated()
         {
             new SgfProperty( "FF", null );
-        }
-
-        [TestMethod]
-        [ExpectedException( typeof( ArgumentOutOfRangeException ) )]
-        public void ValidPropertyWithoutValuesCantBeCreated()
-        {
-            new SgfProperty( "FF", new List<string>() );
-        }
+        }        
 
         [TestMethod]
         public void ValidPropertyWithValidValuesIsCreatedSuccessfully()
         {
-            var sgfProperty = new SgfProperty( "AW", new[] { "bb", "ee", "dc", "cd" } );
+            var sgfProperty = SgfProperty.ParseValuesAndCreate("AW", "ab", "ac", "bb", "bc");
             Assert.AreEqual( "AW", sgfProperty.Identifier );
             Assert.AreEqual( 4, sgfProperty.Values<SgfPointRectangle>().Count() );
         }

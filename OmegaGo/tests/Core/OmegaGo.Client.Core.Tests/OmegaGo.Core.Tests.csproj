@@ -63,6 +63,7 @@
     <Compile Include="Sgf\Properties\SgfKnownPropertiesTests.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfColorValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfComposePropertyValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfNumberValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointRectangleValueTests.cs" />

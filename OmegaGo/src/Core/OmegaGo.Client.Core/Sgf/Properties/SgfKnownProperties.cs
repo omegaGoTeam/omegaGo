@@ -219,7 +219,9 @@ namespace OmegaGo.Core.Sgf.Properties
         public static SgfKnownProperty Get(string identifier)
         {
             if (identifier == null) throw new ArgumentNullException(nameof(identifier));
-            return KnownProperties[identifier];
+            SgfKnownProperty property = null;
+            KnownProperties.TryGetValue(identifier, out property );
+            return property;            
         }
 
         /// <summary>

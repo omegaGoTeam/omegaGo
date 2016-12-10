@@ -16,17 +16,11 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// Creates a simple SGF property value
         /// </summary>
         /// <param name="value">Value of the property</param>
-        protected SgfSimplePropertyValueBase( T value)
+        protected SgfSimplePropertyValueBase( T value )
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             Value = value;
         }
-
-        /// <summary>
-        /// Implicit conversion to value type
-        /// </summary>
-        /// <param name="propertyValue">Property value</param>
-        public static implicit operator T(SgfSimplePropertyValueBase<T> propertyValue) => propertyValue.Value;
 
         /// <summary>
         /// Value
