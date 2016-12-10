@@ -28,6 +28,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// <returns>Parsed instance of SGF Simple Text value</returns>
         public static SgfSimpleTextValue Parse(string value)
         {
+            if (value == null) throw new ArgumentNullException(nameof(value));
             value = value.NormalizeLineBreaks();
             return new SgfSimpleTextValue(SgfUtilities.ParseTextInput(value, SgfNewLineHandling.ReplaceWithSpace));
         }

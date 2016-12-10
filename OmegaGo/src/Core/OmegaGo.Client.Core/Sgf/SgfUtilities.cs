@@ -19,6 +19,7 @@ namespace OmegaGo.Core.Sgf
         /// <returns>New-line normalized with \n</returns>
         public static string NormalizeLineBreaks(this string text)
         {
+            if (text == null) throw new ArgumentNullException(nameof(text));
             return text.
                 Replace("\r\n", "\n").
                 Replace("\n\r", "\n").
@@ -36,6 +37,7 @@ namespace OmegaGo.Core.Sgf
         /// <returns>Parsed text input</returns>
         public static string ParseTextInput(string text, SgfNewLineHandling newLineHandling)
         {
+            if (text == null) throw new ArgumentNullException(nameof(text));
             bool ignoreBackslashMeaning = false;
             StringBuilder builder = new StringBuilder();
             for (int index = 0; index < text.Length; index++)
@@ -83,6 +85,7 @@ namespace OmegaGo.Core.Sgf
         /// <returns>Serialized text</returns>
         public static string SerializeText(this string text)
         {
+            if (text == null) throw new ArgumentNullException(nameof(text));
             var result = text.Replace(Environment.NewLine, " ");
             //escape required characters
             return result.Replace("\\", "\\\\").Replace("]", "\\]").Replace(":", "\\:");

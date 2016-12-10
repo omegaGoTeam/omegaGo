@@ -114,7 +114,7 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
             var parsed = SpecialSgfPropertyValueParsers.FigureParser("1:Hello") as SgfComposePropertyValue<int, string>;
             Assert.IsNotNull(parsed);
             Assert.AreEqual(1, parsed.LeftValue);
-            Assert.AreEqual("Hello", parsed.LeftValue);
+            Assert.AreEqual("Hello", parsed.RightValue);
         }
     }
 }
