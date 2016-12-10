@@ -36,5 +36,15 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
             var containsResult = SgfKnownProperties.Contains("TW");
             Assert.IsTrue(containsResult);
         }
+
+        [TestMethod]
+        public void SimpleDeprecatedPropertyIsKnown()
+        {
+            var loseOnTimeProperty = SgfKnownProperties.Get("LT");
+            Assert.AreEqual("LT", loseOnTimeProperty.Identifier);
+            Assert.IsNull(loseOnTimeProperty.Parser);
+            Assert.AreEqual(SgfValueMultiplicity.None, loseOnTimeProperty.ValueMultiplicity);
+            Assert.AreEqual(SgfPropertyType.Deprecated, loseOnTimeProperty.Type);
+        }
     }
 }
