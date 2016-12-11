@@ -515,5 +515,24 @@ namespace OmegaGo.Core.Online.Igs
         {
             UndoDeclined?.Invoke(this, game);
         }
+
+        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
+        private void OnGameScoreAndCompleted(GameInfo gameInfo, float blackScore, float whiteScore)
+        {
+            GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+        }
+    }
+    public class GameScoreEventArgs : EventArgs
+    {
+        public float BlackScore;
+        public GameInfo GameInfo;
+        public float WhiteScore;
+
+        public GameScoreEventArgs(GameInfo gameInfo, float blackScore, float whiteScore)
+        {
+            this.GameInfo = gameInfo;
+            this.BlackScore = blackScore;
+            this.WhiteScore = whiteScore;
+        }
     }
 }

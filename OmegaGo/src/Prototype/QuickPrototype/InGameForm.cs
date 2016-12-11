@@ -46,6 +46,8 @@ namespace FormsPrototype
                 this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
                 this._igs.UndoDeclined += _igs_UndoDeclined;
                 this._igs.LastMoveUndone += _igs_LastMoveUndone;
+                this._igs.GameScoredAndCompleted += _igs_GameScoredAndCompleted;
+                this.bResumeAsBlack.Visible = false;
             }
             else
             {
@@ -55,29 +57,36 @@ namespace FormsPrototype
             }
             RefreshBoard();
         }
-
-        private void _igs_LastMoveUndone(object sender, GameInfo e)
+        private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (e == this._game)
+            this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
+            this._igs.ErrorMessageReceived -= _igs_ErrorMessageReceived;
+            this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
+            this._igs.UndoDeclined -= _igs_UndoDeclined;
+            this._igs.LastMoveUndone -= _igs_LastMoveUndone;
+            this._igs.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
+            _controller.AbortGame();
+        }
+
+        private void _igs_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        {
+            this._game.GameController.EndGame();
+            Scores scores = new Scores()
             {
-                LocalUndo();
-            }
+                BlackScore = e.BlackScore,
+                WhiteScore = e.WhiteScore
+            };
+            MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                 (scores.BlackScore > scores.WhiteScore
+                                     ? "Black wins!"
+                                     : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
+                                         ? "It's a draw!"
+                                         : "White wins!")),
+                     "Game completed!",
+                     MessageBoxButtons.OK,
+                     MessageBoxIcon.Information);
         }
-
-        private void _igs_UndoDeclined(object sender, GameInfo e)
-        {
-            if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
-        }
-
-        private void _igs_UndoRequestReceived(object sender, GameInfo e)
-        {
-            if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
-        }
-
-        private void _igs_ErrorMessageReceived(object sender, string e)
-        {
-            this.SystemLog("ERROR: " + e);
-        }
+    
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
@@ -101,6 +110,30 @@ namespace FormsPrototype
             this._controller.EnterPhase += _controller_EnterPhase;
             this._controller.BeginGame();
         }
+        private void _igs_LastMoveUndone(object sender, GameInfo e)
+        {
+            if (e == this._game)
+            {
+                LocalUndo();
+            }
+        }
+
+        private void _igs_UndoDeclined(object sender, GameInfo e)
+        {
+            if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
+        }
+
+        private void _igs_UndoRequestReceived(object sender, GameInfo e)
+        {
+            if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
+        }
+
+        private void _igs_ErrorMessageReceived(object sender, string e)
+        {
+            this.SystemLog("ERROR: " + e);
+        }
+
+     
 
         private void _igs_IncomingInGameChatMessage(object sender, Tuple<GameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
         {
@@ -192,16 +225,21 @@ namespace FormsPrototype
             }
             if (e == GamePhase.Completed)
             {
-                GameBoard finalBoard = FastBoard.BoardWithoutTheseStones(
-                    FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
-                Scores scores = this._game.Ruleset.CountScore(finalBoard);
-                MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
-                                (scores.BlackScore > scores.WhiteScore
-                                    ? "Black wins!"
-                                    : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f ? "It's a draw!" : "White wins!")),
-                                    "Game completed!",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                if (_game.Server == null)
+                {
+                    GameBoard finalBoard = FastBoard.BoardWithoutTheseStones(
+                        FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
+                    Scores scores = this._game.Ruleset.CountScore(finalBoard);
+                    MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                    (scores.BlackScore > scores.WhiteScore
+                                        ? "Black wins!"
+                                        : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
+                                            ? "It's a draw!"
+                                            : "White wins!")),
+                        "Game completed!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
             }
             RefreshBoard();
         }
@@ -377,7 +415,14 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhase.LifeDeathDetermination)
             {
-                _controller.MarkGroupDead(position);
+                if (_game.Server != null)
+                {
+                    _game.Server.LifeDeath_MarkDead(position, this._game);
+                }
+                else
+                {
+                    _controller.MarkGroupDead(position);
+                }
             }
             else
             {
@@ -470,7 +515,14 @@ namespace FormsPrototype
 
         private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            this._controller.LifeDeath_UndoPhase();
+            if (this._game.Server == null)
+            {
+                this._controller.LifeDeath_UndoPhase();
+            }
+            else
+            {
+                this._game.Server.LifeDeath_Undo(this._game);
+            }
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
@@ -478,10 +530,7 @@ namespace FormsPrototype
             this._controller.LifeDeath_Resume();
         }
 
-        private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            _controller.AbortGame();
-        }
+      
 
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {

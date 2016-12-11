@@ -146,10 +146,21 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterrupt = true;
                     continue;
                 }
+                if (code == IgsCode.Status)
+                {
+                    weAreHandlingAnInterrupt = true;
+                    continue;
+                }
                 if (code == IgsCode.Shout)
                 {
                     HandleIncomingShoutMessage(line);
                     weAreHandlingAnInterrupt = true;
+                    continue;
+                }
+                if (code == IgsCode.StoneRemoval)
+                {
+                    Tuple<int, Position> removedStone = IgsRegex.ParseStoneRemoval(igsLine);
+                    _gamesYouHaveOpened.Find(gi => gi.ServerId == removedStone.Item1).GameController.MarkGroupDead(removedStone.Item2);
                     continue;
                 }
                 if (code == IgsCode.Move)
@@ -169,19 +180,51 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 if (code == IgsCode.Info)
                 {
+                    if (igsLine.EntireLine == "9 You can check your score with the score command, type 'done' when finished.")
+                    {
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
+                    if (igsLine.PureLine.Contains("Removing @"))
+                    {
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
                     if (igsLine.PureLine.EndsWith("has resigned the game."))
                     {
                         string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
                         if (whoResigned != this._username)
                         {
-                            foreach (var game in GetGamesAgainst(whoResigned))
+                            foreach (var game in GetGamesIncluding(whoResigned))
                             {
                                 game.GameController.Resign(game.Players.Find(pl => pl.Name == whoResigned));
                             }
                         }
                         weAreHandlingAnInterrupt = true;
                     }
+                    if (igsLine.PureLine.Contains("has typed done."))
+                    {
+                        string username = IgsRegex.GetFirstWord(igsLine);
+                        foreach (var game in GetGamesIncluding(username))
+                        {
+                            game.GameController.LifeDeath_Done(game.Players.Find(pl => pl.Name == username));
+                        }
+                    }
+                    if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
+                    {
+                        foreach(var game in _gamesYouHaveOpened.Where(gi => gi.GameController.GamePhase == GamePhase.LifeDeathDetermination))
+                        {
+                            game.GameController.LifeDeath_UndoPhase();
+                        }
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
                     if (igsLine.PureLine.Contains("Removed game file"))
+                    {
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
+                    if (igsLine.PureLine.Contains("game completed."))
                     {
                         weAreHandlingAnInterrupt = true;
                         continue;
@@ -205,7 +248,7 @@ namespace OmegaGo.Core.Online.Igs
                     if (igsLine.PureLine.EndsWith("declines undo."))
                     {
                         string username = IgsRegex.WhoDeclinesUndo(igsLine);
-                        foreach(var game in GetGamesAgainst(username))
+                        foreach(var game in GetGamesIncluding(username))
                         {
                             OnUndoDeclined(game);
                         }
@@ -251,7 +294,7 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private IEnumerable<GameInfo> GetGamesAgainst(string username)
+        private IEnumerable<GameInfo> GetGamesIncluding(string username)
         {
             return this._gamesYouHaveOpened.Where(ginfo => ginfo.Players.Any(pl => pl.Name == username));
         }
@@ -334,7 +377,7 @@ namespace OmegaGo.Core.Online.Igs
                     currentLineBatch[0].PureLine.EndsWith("requests undo."))
                 {
                     string requestingUser = IgsRegex.WhoRequestsUndo(currentLineBatch[0]);
-                    var games = GetGamesAgainst(requestingUser);
+                    var games = GetGamesIncluding(requestingUser);
                     if (games.Any())
                     {
                         foreach (var game in games)
@@ -358,6 +401,21 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         OnLastMoveUndone(gameInfo);
                     }
+                }
+                if (currentLineBatch[0].EntireLine.Contains("'done'"))
+                {
+                    IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
+                    int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
+                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    gameInfo.GameController.MainPhase_EnterLifeDeath();
+                }
+                if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
+                {
+                    ScoreLine scoreLine = IgsRegex.ParseScoreLine(currentLineBatch.Find(ln => ln.Code == IgsCode.Score));
+                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi =>
+                        gi.White.Name == scoreLine.White &&
+                        gi.Black.Name == scoreLine.Black);
+                    OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
                 }
             }
         }

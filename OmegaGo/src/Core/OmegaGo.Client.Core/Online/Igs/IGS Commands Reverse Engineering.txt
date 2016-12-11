@@ -8,36 +8,7 @@ SENT TO BOTH PLAYERS IN CASE OF DISPUTE
 5   OmegaGo1 wants Black on a 19x19 in 75 mins (0 byoyomi).
 5   Soothie wants Black on a 19x19 in 10 mins (20 byoyomi).
 1 5
-------------
-UNDOPLEASE [game]:
-9 Requesting undo.
-1 6
------
-5 You cannot undo in this game.
-1 6
------
-5 Opponent's client does not support undoplease.
-1 6
------
-24 *SYSTEM*: Soothie requests undo.
-1 6
-1 6
------
-28 OmegaGo1 undid the last move (A2) .
-
-15 Game 480 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4497 -1)
-15   0(B): A1
-1 6
------
-9 OmegaGo1 declines undo.
-1 6
------
-9 You can check your score with the score command, type 'done' when finished.
-15 Game 444 I: OmegaGo1 (0 4396 -1) vs Soothie (0 4411 -1)
-15   9(W): Pass
-1 7
-------
---------------
+------------------------------
 15   2(B): Pass
 1 6
 ---------------
@@ -496,3 +467,34 @@ Short description of commands:
 
  If this document is too long for your terminal, use:  mail me Summary
 
+ ---------------------------
+ ------------
+UNDOPLEASE [game]:
+9 Requesting undo.
+1 6
+-----
+5 You cannot undo in this game.
+1 6
+-----
+5 Opponent's client does not support undoplease.
+1 6
+-----
+24 *SYSTEM*: Soothie requests undo.
+1 6
+1 6
+-----
+28 OmegaGo1 undid the last move (A2) .
+
+15 Game 480 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4497 -1)
+15   0(B): A1
+1 6
+-----
+9 OmegaGo1 declines undo.
+1 6
+-----
+9 You can check your score with the score command, type 'done' when finished.
+15 Game 444 I: OmegaGo1 (0 4396 -1) vs Soothie (0 4411 -1)
+15   9(W): Pass
+1 7
+------
+--------------

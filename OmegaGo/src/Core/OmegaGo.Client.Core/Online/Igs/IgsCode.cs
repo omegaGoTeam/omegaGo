@@ -15,6 +15,7 @@
         /// <item>1 - Requesting password</item>
         /// <item>5 - Requesting general command</item>
         /// <item>6 - You are playing a game</item>
+        /// <item>7 - You are in Life/Death Determination phase</item>
         /// <item>8 - You are observing a game</item>
         /// </list> 
         /// </para> 
@@ -98,7 +99,7 @@
         ///</summary>
         Say = 19,
         ///<summary>
-        ///Score report
+        /// The score line gives points for each player at the end of the game.
         ///</summary>
         Score = 20,
         ///<summary>
@@ -107,7 +108,7 @@
         ///</summary>
         Shout = 21,
         ///<summary>
-        ///Current Game status
+        /// Current game status - This describes the full board and information about both players.
         ///</summary>
         Status = 22,
         ///<summary>
@@ -171,6 +172,10 @@
         ///Long user report
         ///</summary>
         User = 42,
+        /// <summary>
+        /// A stone is marked dead by a player. (49 Game 444 Soothie is removing @ J1)
+        /// </summary>
+        StoneRemoval = 49,
         /// <summary>
         /// Information about which game the incoming "say" chat line refers to
         /// </summary>

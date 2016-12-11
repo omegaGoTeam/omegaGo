@@ -256,5 +256,14 @@ namespace OmegaGo.Core.Online.Igs
         {
             MakeUnattendedRequest("noundo " + game.ServerId);
         }
+
+        public override async void LifeDeath_Done(GameInfo game)
+        {
+            await MakeRequest("done " + game.ServerId);
+        }
+        public override async void LifeDeath_MarkDead(Position position, GameInfo game)
+        {
+            await MakeRequest(position.ToIgsCoordinates() + " " + game.ServerId);
+        }
     }
 }

@@ -104,16 +104,22 @@ namespace OmegaGo.Core
                 }
             }
             _playersDoneWithLifeDeath.Clear();
+           
             OnBoardMustBeRefreshed();
         }
         public void LifeDeath_Done(Player player)
         {
-
+            OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
             if (!_playersDoneWithLifeDeath.Contains(player))
             {
                 _playersDoneWithLifeDeath.Add(player);
             }
-            if (_playersDoneWithLifeDeath.Count == 2)
+            if (_game.Server != null)
+            {
+                // TODO maybe infinite recursion here?
+                _game.Server.LifeDeath_Done(this._game);
+            }
+            if (_playersDoneWithLifeDeath.Count == 2 && this._game.Server == null)
             {
                 SetGamePhase(GamePhase.Completed);
             }
@@ -286,9 +292,6 @@ namespace OmegaGo.Core
         {
             EnterPhase?.Invoke(this, newPhase);
         }
-        /// <summary>
-        /// This is the primary game loop.
-        /// </summary>
         public void LifeDeath_UndoPhase()
         {
             this._deadPositions = new List<Position>();
@@ -353,6 +356,16 @@ namespace OmegaGo.Core
             _game.NumberOfMovesPlayed--;
             _turnPlayer.Agent.PleaseMakeAMove();
             OnBoardMustBeRefreshed();
+        }
+
+        public void MainPhase_EnterLifeDeath()
+        {
+            SetGamePhase(GamePhase.LifeDeathDetermination);
+        }
+
+        public void EndGame()
+        {
+            SetGamePhase(GamePhase.Completed);
         }
     }
     /// <summary>

@@ -64,5 +64,20 @@ namespace OmegaGo.Core.Online
         {
             throw new NotImplementedException();
         }
+
+        public virtual void LifeDeath_MarkDead(Position position, GameInfo game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void LifeDeath_Done(GameInfo game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void LifeDeath_Undo(GameInfo game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

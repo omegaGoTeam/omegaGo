@@ -123,9 +123,9 @@ namespace OmegaGo.Core
         {
             Player player = GetPlayerByColor(move.WhoMoves);
             IOnlineAgent agent = player.Agent as IOnlineAgent;
-            agent.ForceHistoricMove(moveIndex, move);
+            agent?.ForceHistoricMove(moveIndex, move);
         }
-        
+
         private Player GetPlayerByColor(StoneColor color)
         {
             switch (color)

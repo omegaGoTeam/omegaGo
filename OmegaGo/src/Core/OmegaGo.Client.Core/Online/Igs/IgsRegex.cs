@@ -100,5 +100,30 @@ namespace OmegaGo.Core.Online.Igs
         {
             return regexHasResignedTheGame.Match(igsLine.EntireLine).Groups[1].Value;
         }
+
+        public static string GetFirstWord(IgsLine igsLine)
+        {
+            return igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' '));
+        }
+
+        private static Regex regexStoneRemoval = new Regex(@"49 Game (.*) (.*) is removing @ (.*)");
+        public static Tuple<int, Position> ParseStoneRemoval(IgsLine igsLine)
+        {
+            Match match = regexStoneRemoval.Match(igsLine.EntireLine);
+            return new Tuple<int, Core.Position>(match.Groups[1].Value.AsInteger(),
+                Position.FromIgsCoordinates(match.Groups[3].Value));
+
+
+        }
+
+        private static Regex regexScoreLine = new Regex(@"20 (.*) \(...\): *(.*) to (.*) \(...\): *(.*)");
+        public static ScoreLine ParseScoreLine(IgsLine scoreLine)
+        {
+            Match match = regexScoreLine.Match(scoreLine.EntireLine);
+            return new Igs.ScoreLine(match.Groups[1].Value,
+                match.Groups[3].Value,
+                match.Groups[4].Value.AsFloat(),
+                match.Groups[2].Value.AsFloat());
+        }
     }
 }

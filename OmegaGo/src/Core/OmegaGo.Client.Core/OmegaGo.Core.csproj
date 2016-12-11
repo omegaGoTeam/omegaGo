@@ -79,6 +79,7 @@
     <Compile Include="Markup\MarkupKind.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
+    <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConstants.cs" />
     <Compile Include="Rules\CountingType.cs" />
