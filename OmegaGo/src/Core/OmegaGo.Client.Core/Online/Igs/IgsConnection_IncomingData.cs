@@ -259,6 +259,11 @@ namespace OmegaGo.Core.Online.Igs
             if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
                 currentLineBatch[1].Code == IgsCode.Say)
             {
+                /*
+                   51 Say in game 405
+                   19 *Soothie*: Hi!
+                   1 6
+                 */
                 int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                 ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
                 GameInfo relevantGame = _gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);

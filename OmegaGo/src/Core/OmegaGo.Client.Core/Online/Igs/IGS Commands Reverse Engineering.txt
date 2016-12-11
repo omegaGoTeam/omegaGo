@@ -1,8 +1,112 @@
-﻿Interesting snippets:
+﻿LET'S ASSUME THAT TWO PLAYERS DON'T PLAY TWO GAMES AGAINST EACH OTHER AT THE SAME TIME.
+-------------------
+Interesting snippets:
 --------------
-51 Say in game 405
-19 *Soothie*: Hi!
+SENT TO BOTH PLAYERS IN CASE OF DISPUTE
+(as a reaction to "match" or as standalone)
+5 There is a dispute regarding your match:
+5   OmegaGo1 wants Black on a 19x19 in 75 mins (0 byoyomi).
+5   Soothie wants Black on a 19x19 in 10 mins (20 byoyomi).
+1 5
+------------
+UNDOPLEASE [game]:
+9 Requesting undo.
 1 6
+-----
+5 You cannot undo in this game.
+1 6
+-----
+5 Opponent's client does not support undoplease.
+1 6
+-----
+24 *SYSTEM*: Soothie requests undo.
+1 6
+-----
+28 OmegaGo1 undid the last move (B4) .
+[...]
+1 6
+-----
+9 OmegaGo1 declines undo.
+1 6
+-----
+9 You can check your score with the score command, type 'done' when finished.
+15 Game 444 I: OmegaGo1 (0 4396 -1) vs Soothie (0 4411 -1)
+15   9(W): Pass
+1 7
+------
+--------------
+15   2(B): Pass
+1 6
+---------------
+9 Removing @ J1
+49 Game 444 Soothie is removing @ J1
+1 7
+-----------------
+5 You cannot remove a liberty.
+1 7
+----------------
+REMOVER:
+9 Removing @ J2
+49 Game 444 Soothie is removing @ J2
+1 7
+1 7 <-- yes, it's twice
+---------
+REMOVEE:
+9 Removing @ B1
+49 Game 444 OmegaGo1 is removing @ B1
+1 7
+-----------------
+9 Board is restored to what it was when you started scoring
+9 Please type 'done again.
+1 7
+-------------------
+9 The current score is:
+9 White:  6.5, Black  0.0, Dame 355
+9 The final score will be:
+9 White:  6.5, Black  0.0, Dame 355
+1 7
+-----------------
+9 OmegaGo1 has typed done.
+1 7
+-------------
+22 OmegaGo1 17k  0 4396 25 F 6.5 0
+22 Soothie 17k  0 4411 25 F 6.5 0
+22  0: 3333333333333333300
+22  1: 3333333333333333311
+22  2: 3333333333333333333
+22  3: 3333333333333333333
+22  4: 3333333333333333333
+22  5: 3333333333333333333
+22  6: 3333333333333333333
+22  7: 3333333333333333333
+22  8: 3333333333333333301
+22  9: 3333333333333333333
+22 10: 3333333333333333333
+22 11: 3333333333333333333
+22 12: 3333333333333333333
+22 13: 3333333333333333333
+22 14: 3333333333333333333
+22 15: 3333333333333333333
+22 16: 3333333333333333333
+22 17: 3333333333333333333
+22 18: 3333333333333333333
+20 OmegaGo1 (W:O):  6.5 to Soothie (B:g):  0.0
+
+9 game completed.
+1 7
+
+9 Removed game file OmegaGo1-Soothie from database.
+1 5
+1 5 <-- ONLY FOR REMOVER
+-----------
+9 The player Soothie is now in byo-yomi.
+9 You have 24 stones and 10 minutes
+15 Game 46 I: OmegaGo1 (0 56 -1) vs Soothie (0 578 24)
+15   2(B): A3
+1 6
+------------
+
+
 ------------
 50 Game #2
 5 Cannot move onto a ko
