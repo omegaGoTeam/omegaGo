@@ -19,8 +19,7 @@ namespace OmegaGo.Core.Agents
             AwaitingTurnNumber = Game.NumberOfMovesPlayed;
             PossiblyAnswerAwaitingTurn();
         }
-
-        public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
+        
 
         private readonly Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
         /// <summary>
@@ -56,28 +55,13 @@ namespace OmegaGo.Core.Agents
                     Game.GameController.MakeMove(Player, storedMove);
                 }
             }
+        }
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
 
         public void Undo()
         {
             this._storedMoves.Remove(Game.NumberOfMovesPlayed - 1);
-        }
-        }
-        /// <summary>
-        /// If this agent has a historical move stored for the current turn number, 
-        /// then this method will return that move; 
-        /// if not, then it will return null.
-        /// </summary>
-        /// <param name="zeroBasedTurnNumber">The zero-indexed turn number.</param>
-        protected Move GetStoredDecision(int zeroBasedTurnNumber)
-        {
-            if (zeroBasedTurnNumber == -1) return null;
-            if (_storedMoves.ContainsKey(zeroBasedTurnNumber + 1))
-            {
-                return _storedMoves[zeroBasedTurnNumber + 1];
-            }
-            return null;
         }
     }
 }
