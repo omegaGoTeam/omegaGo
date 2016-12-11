@@ -94,5 +94,11 @@ namespace OmegaGo.Core.Online.Igs
             Match match = regexUndoDecline.Match(igsLine.EntireLine);
             return match.Groups[1].Value;
         }
+
+        private static Regex regexHasResignedTheGame = new Regex(@"9 (.*) has resigned the game.");
+        public static string WhoResignedTheGame(IgsLine igsLine)
+        {
+            return regexHasResignedTheGame.Match(igsLine.EntireLine).Groups[1].Value;
+        }
     }
 }

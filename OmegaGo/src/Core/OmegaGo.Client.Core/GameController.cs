@@ -26,7 +26,7 @@ namespace OmegaGo.Core
         /// </summary>
         private Player _turnPlayer;
         /// <summary>
-        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(GamePhase)"/> instead. 
+        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(Core.GamePhase)"/> instead. 
         /// </summary>
         private GamePhase _gamePhase = GamePhase.NotYetBegun;
 
@@ -44,7 +44,7 @@ namespace OmegaGo.Core
         /// Gets or sets a value indicating whether the game controller should enforce rules. If true, then illegal moves by agents will be
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
         /// </summary>
-        public bool EnforceRules { get; set; } = true;
+        public bool EnforceRules { private get; set; } = true;
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
         private List<Player> _playersDoneWithLifeDeath = new List<Player>();
@@ -136,9 +136,17 @@ namespace OmegaGo.Core
 
             if (result.Result == MoveResult.LifeDeathDeterminationPhase)
             {
-                SetGamePhase(GamePhase.LifeDeathDetermination);
-                _turnPlayer = null;
-                return;
+                if (this._game.Server != null)
+                {
+                    result.Result = MoveResult.Legal;
+                    // In server games, we let the server decide on life/death determination, not our own ruleset.
+                }
+                else
+                {
+                    SetGamePhase(GamePhase.LifeDeathDetermination);
+                    _turnPlayer = null;
+                    return;
+                }
             }
             if (result.Result != MoveResult.Legal)
             {
@@ -203,14 +211,12 @@ namespace OmegaGo.Core
                         if (possibleMoves.Count == 0)
                         {
                             MakeMove(player, Move.Pass(player.Color));
-                            return;
                         }
                         else
                         {
                             Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
                             Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
                             MakeMove(player, newMove);
-                            return;
                         }
                     }
                     else
@@ -234,6 +240,7 @@ namespace OmegaGo.Core
         public void Resign(Player player)
         {
             OnResignation(player);
+            this._game.Server?.Resign(this._game);
             _turnPlayer = null;
             SetGamePhase(GamePhase.Completed);
         }

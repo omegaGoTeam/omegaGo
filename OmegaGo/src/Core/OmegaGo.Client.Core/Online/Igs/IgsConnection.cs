@@ -293,8 +293,17 @@ namespace OmegaGo.Core.Online.Igs
                 string mover = match.Groups[2].Value;
                 string coordinates = match.Groups[3].Value;
                 string captures = match.Groups[4].Value;
-                Move move = Move.PlaceStone(mover == "B" ? StoneColor.Black : StoneColor.White,
-                    Position.FromIgsCoordinates(coordinates));
+                StoneColor moverColor = mover == "B" ? StoneColor.Black : StoneColor.White;
+                Move move;
+                if (coordinates == "Pass")
+                {
+                    move = Move.Pass(moverColor);
+                }
+                else
+                {
+                    move = Move.PlaceStone(moverColor,
+                        Position.FromIgsCoordinates(coordinates));
+                }
                 string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach(string capture in captureSplit)
                 {

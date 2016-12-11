@@ -59,5 +59,10 @@ namespace OmegaGo.Core.Online
         {
             throw new NotImplementedException();
         }
+
+        public virtual void Resign(GameInfo game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

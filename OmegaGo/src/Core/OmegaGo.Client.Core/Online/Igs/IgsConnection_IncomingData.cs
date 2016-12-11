@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        private bool ignoreNextPrompt = false;
+        private bool _ignoreNextPrompt;
         /*
          * 
          * 
@@ -41,9 +41,8 @@ namespace OmegaGo.Core.Online.Igs
 
         private async Task HandleIncomingData(StreamReader sr)
         {
-            bool weAreHandlingUndo = false;
-            bool thisRequestIsObservationStart = false;
-            bool weAreHandlingAnInterruptMessage = false;
+            bool thisIsNotAMove = false;
+            bool weAreHandlingAnInterrupt = false;
             List<IgsLine> currentLineBatch = new List<IgsLine>();
             while (true)
             {
@@ -52,7 +51,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     OnLogEvent("The connection has been terminated.");
                     // TODO add thread safety
-                    _client = null;
+                    this._client = null;
                     return;
                 }
                 line = line.Trim();
@@ -64,7 +63,7 @@ namespace OmegaGo.Core.Online.Igs
                 IgsLine igsLine = new IgsLine(code, line);
                 OnLogEvent(line);
 
-                switch (_composure)
+                switch (this._composure)
                 {
                     case IgsComposure.Confused:
                     case IgsComposure.Ok:
@@ -74,7 +73,7 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.InitialHandshake:
                         if (igsLine.EntireLine.Trim() == "1 5")
                         {
-                            _composure = IgsComposure.Ok;
+                            this._composure = IgsComposure.Ok;
                             continue;
                         }
                         else
@@ -85,15 +84,15 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.LoggingIn:
                         if (igsLine.EntireLine.Contains("Invalid password."))
                         {
-                            _loginError = "The password is incorrect.";
+                            this._loginError = "The password is incorrect.";
                         }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
-                            _loginError = "The username does not exist.";
+                            this._loginError = "The username does not exist.";
                         }
                         if (igsLine.EntireLine.Contains("1 5"))
                         {
-                            _composure = IgsComposure.Ok;
+                            this._composure = IgsComposure.Ok;
                             continue;
                         }
                         break;
@@ -106,23 +105,23 @@ namespace OmegaGo.Core.Online.Igs
                 } 
                 currentLineBatch.Add(igsLine);
 
-                if (weAreHandlingAnInterruptMessage && code == IgsCode.Prompt)
+                if (weAreHandlingAnInterrupt && code == IgsCode.Prompt)
                 {
 
                     // Interrupt message is over, let's wait for a new message
-                    weAreHandlingAnInterruptMessage = false;
+                    weAreHandlingAnInterrupt = false;
                     HandleFullInterrupt(currentLineBatch);
-                    thisRequestIsObservationStart = false;
+                    thisIsNotAMove = false;
                     currentLineBatch = new List<IgsLine>();
                     continue;
                 }
                 if (code == IgsCode.Prompt)
                 {
-                    thisRequestIsObservationStart = false;
+                    thisIsNotAMove = false;
                     currentLineBatch = new List<IgsLine>();
-                    if (ignoreNextPrompt)
+                    if (this._ignoreNextPrompt)
                     {
-                        ignoreNextPrompt = false;
+                        this._ignoreNextPrompt = false;
                         continue;
                     }
                 }
@@ -135,55 +134,72 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     if (igsLine.PureLine.StartsWith("*SYSTEM*"))
                     {
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
                     HandleIncomingChatMessage(line);
-                    weAreHandlingAnInterruptMessage = true;
+                    weAreHandlingAnInterrupt = true;
                     continue;
                 }
                 if (code == IgsCode.SayInformation)
                 {
-                    weAreHandlingAnInterruptMessage = true;
+                    weAreHandlingAnInterrupt = true;
                     continue;
                 }
                 if (code == IgsCode.Shout)
                 {
                     HandleIncomingShoutMessage(line);
-                    weAreHandlingAnInterruptMessage = true;
+                    weAreHandlingAnInterrupt = true;
                     continue;
                 }
                 if (code == IgsCode.Move)
                 {
-                    if (!thisRequestIsObservationStart)
+                    if (!thisIsNotAMove)
                     {
                         HandleIncomingMove(igsLine);
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                     }
                     continue;
                 }
                 if (code == IgsCode.Undo)
                 {
-                    thisRequestIsObservationStart = true;
-                    weAreHandlingAnInterruptMessage = true;
+                    thisIsNotAMove = true;
+                    weAreHandlingAnInterrupt = true;
                     continue;
                 }
                 if (code == IgsCode.Info)
                 {
+                    if (igsLine.PureLine.EndsWith("has resigned the game."))
+                    {
+                        string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
+                        if (whoResigned != this._username)
+                        {
+                            foreach (var game in GetGamesAgainst(whoResigned))
+                            {
+                                game.GameController.Resign(game.Players.Find(pl => pl.Name == whoResigned));
+                            }
+                        }
+                        weAreHandlingAnInterrupt = true;
+                    }
+                    if (igsLine.PureLine.Contains("Removed game file"))
+                    {
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
                     if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
                     {
                         // Advertisement
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
                     if (igsLine.PureLine.StartsWith("Adding game to observation list"))
                     {
-                        thisRequestIsObservationStart = true;
+                        thisIsNotAMove = true;
                         continue;
                     }
                     if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
                     {
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
                     if (igsLine.PureLine.EndsWith("declines undo."))
@@ -193,14 +209,14 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             OnUndoDeclined(game);
                         }
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
 
                     if (igsLine.PureLine.EndsWith("declines your request for a match."))
                     {
                         OnMatchRequestDeclined(igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' ')));
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
                     IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
@@ -208,23 +224,23 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         this.IncomingMatchRequests.Add(matchRequest);
                         OnIncomingMatchRequest(matchRequest);
-                        weAreHandlingAnInterruptMessage = true;
+                        weAreHandlingAnInterrupt = true;
                         continue;
                     }
                 }
 
-                if (!weAreHandlingAnInterruptMessage)
+                if (!weAreHandlingAnInterrupt)
                 {
                     // We cannot handle this generally - let's hand it off to whoever made the request for this information.
-                    lock (_mutex)
+                    lock (this._mutex)
                     {
-                        if (_requestInProgress != null)
+                        if (this._requestInProgress != null)
                         {
-                            _requestInProgress.IncomingLines.Post(igsLine);
+                            this._requestInProgress.IncomingLines.Post(igsLine);
                         }
                         else
                         {
-                            if (_composure == IgsComposure.Ok)
+                            if (this._composure == IgsComposure.Ok)
                             {
                                 OnUnhandledLine(igsLine.EntireLine);
                             }
@@ -260,19 +276,19 @@ namespace OmegaGo.Core.Online.Igs
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                    GameInfo game = new Core.GameInfo()
+                    GameInfo game = new GameInfo()
                     {
-                        BoardSize = new Core.GameBoardSize(19), // TODO
+                        BoardSize = new GameBoardSize(19), // TODO
                         Server = this,
                         ServerId = heading.GameNumber,
                     };
-                    game.Players.Add(new Core.Player(heading.BlackName, "?", game));
-                    game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+                    game.Players.Add(new Player(heading.BlackName, "?", game));
+                    game.Players.Add(new Player(heading.WhiteName, "?", game));
                     game.Ruleset = new JapaneseRuleset(game.BoardSize);
                     this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
                     this._gamesInProgressOnIgs.Add(game);
                     this._gamesYouHaveOpened.Add(game);
-                    this.OnMatchRequestAccepted(game);
+                    OnMatchRequestAccepted(game);
 
                 }
                 if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
@@ -280,15 +296,15 @@ namespace OmegaGo.Core.Online.Igs
                     // Make it not be an interrupt and let it be handled by the match creator.
                     foreach (IgsLine line in currentLineBatch)
                     {
-                        lock (_mutex)
+                        lock (this._mutex)
                         {
-                            if (_requestInProgress != null)
+                            if (this._requestInProgress != null)
                             {
-                                _requestInProgress.IncomingLines.Post(line);
+                                this._requestInProgress.IncomingLines.Post(line);
                             }
                             else
                             {
-                                if (_composure == IgsComposure.Ok)
+                                if (this._composure == IgsComposure.Ok)
                                 {
                                     OnUnhandledLine(line.EntireLine);
                                 }
@@ -306,7 +322,7 @@ namespace OmegaGo.Core.Online.Igs
                  */
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                    GameInfo relevantGame = _gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
+                    GameInfo relevantGame = this._gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
                     if (relevantGame == null)
                     {
                         throw new Exception("We received a chat message for a game we no longer play.");
@@ -323,21 +339,21 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         foreach (var game in games)
                         {
-                            this.OnUndoRequestReceived(game);
+                            OnUndoRequestReceived(game);
                         }
                     }
                     else
                     {
                         throw new Exception("Received an undo request for a game that's not in progress.");
                     }
-                    ignoreNextPrompt = true;
+                    this._ignoreNextPrompt = true;
                 }
                 if (currentLineBatch[0].Code == IgsCode.Undo)
                 {
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    GameInfo gameInfo = _gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
                         OnLastMoveUndone(gameInfo);

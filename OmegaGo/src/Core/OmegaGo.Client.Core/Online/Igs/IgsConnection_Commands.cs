@@ -204,11 +204,22 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        public override async Task MakeMove(GameInfo game, Move move)
+        public override Task MakeMove(GameInfo game, Move move)
         {
-            MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
-            await Task.Delay(0);
-            // TODO many different things to handle here
+            switch (move.Kind)
+            {
+                case MoveKind.PlaceStone:
+                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+                    break;
+                case MoveKind.Pass:
+                    MakeUnattendedRequest("pass " + game.ServerId);
+                    break;
+            }
+            return Task.FromResult(0);
+        }
+        public override void Resign(GameInfo game)
+        {
+            MakeUnattendedRequest("resign " + game.ServerId);
         }
 
         public async Task<bool> Say(GameInfo game, string chat)

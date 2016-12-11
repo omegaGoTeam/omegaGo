@@ -354,7 +354,12 @@ namespace FormsPrototype
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            this._game.GameController.Resign(this.PlayerToMove);
+            if (
+                MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this._game.GameController.Resign(this.PlayerToMove);
+            }
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
