@@ -303,12 +303,7 @@ namespace OmegaGo.Core
             _gamePhase = GamePhase.Completed;
         }
 
-        public MoveResult MakeMove(Position position)
-        {
-            this.TurnPlayer.Agent.Click(this.TurnPlayer.Color, position);
-            // TODO return proper value
-            return MoveResult.Legal;
-        }
+    
 
         public void SendRequest(GameRequest request)
         {

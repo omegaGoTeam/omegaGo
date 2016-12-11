@@ -83,7 +83,9 @@ namespace OmegaGo.UI.ViewModels
                 
         public void MakeMove(Position selectedPosition)
         {
-            _game.Controller.MakeMove(selectedPosition);
+            (_game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
+                _game.Controller.TurnPlayer.Color,
+                selectedPosition);
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
