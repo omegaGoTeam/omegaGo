@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Agents
     /// This interface is what the user interface classes use to make a player perform an action in the game. This merits further refactoring,
     /// perhaps making a Core-only receiver class that distributes moves to correct players.
     /// </summary>
-    public interface IReceiverOfGuiActions
+    public interface IReceiverOfLocalActions
     {
         /// <summary>
         /// GUI interface will call this method on a GUI agent when the user requests that a stone be placed at a position.

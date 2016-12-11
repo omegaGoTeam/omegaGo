@@ -232,9 +232,9 @@ namespace FormsPrototype
         {
             if (text is string && ((string)text) == "Human")
             {
-                GuiAgent guiAgent =  new GuiAgent();
-                guiAgent.OnPleaseMakeAMove += form.GuiAgent_PleaseMakeAMove;
-                return guiAgent;
+                LocalAgent localAgent =  new LocalAgent();
+                localAgent.OnPleaseMakeAMove += form.GuiAgent_PleaseMakeAMove;
+                return localAgent;
             }
             if (text is IAIProgram)
             {

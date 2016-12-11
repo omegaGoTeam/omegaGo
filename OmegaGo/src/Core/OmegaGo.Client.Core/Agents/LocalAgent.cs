@@ -11,9 +11,10 @@ namespace OmegaGo.Core.Agents
     /// Represents the agent of a human player playing on this device. This agent works for hotseat, playing against AI and for internet play.
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
-    public class GuiAgent : AgentBase, IReceiverOfGuiActions
+    public class LocalAgent : AgentBase, IReceiverOfLocalActions
     {
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;
+
         public override void PleaseMakeAMove()
         {
             OnPleaseMakeAMove?.Invoke(this, Player);

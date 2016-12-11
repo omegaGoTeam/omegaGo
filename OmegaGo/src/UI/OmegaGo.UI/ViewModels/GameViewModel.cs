@@ -83,7 +83,7 @@ namespace OmegaGo.UI.ViewModels
                 
         public void MakeMove(Position selectedPosition)
         {
-            (_game.Controller.TurnPlayer.Agent as IReceiverOfGuiActions).Click(
+            (_game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
                 _game.Controller.TurnPlayer.Color,
                 selectedPosition);
         }
