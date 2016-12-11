@@ -54,5 +54,10 @@ namespace OmegaGo.Core.Online
         public abstract string ShortName { get; }
 
         public abstract Task MakeMove(GameInfo game, Move move);
+
+        public virtual Task<GameInfo> GetGameById(int gameId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

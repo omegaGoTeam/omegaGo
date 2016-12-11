@@ -174,5 +174,19 @@ namespace OmegaGo.Core
         {
             return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + " vs. " + Players[1].Name + " (" + NumberOfObservers + " observers)";
         }
+
+        public async Task AbsorbAdditionalInformation()
+        {
+            if (this.Server == null)
+                throw new InvalidOperationException("Only online games can absorb additional information.");
+            GameInfo moreInformation = await this.Server.GetGameById(this.ServerId);
+            this.CopyInformationFrom(moreInformation);
+        }
+
+        private void CopyInformationFrom(GameInfo moreInformation)
+        {
+            this.BoardSize = moreInformation.BoardSize; // TODO add time limit later on
+            this.Ruleset = new JapaneseRuleset(this.BoardSize);
+        }
     }
 }

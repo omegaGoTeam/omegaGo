@@ -87,11 +87,12 @@ namespace FormsPrototype
             }
         }
 
-        private void Igs_MatchRequestAccepted(object sender, GameInfo game)
+        private async void Igs_MatchRequestAccepted(object sender, GameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
             Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
             Player networkPlayer = game.OpponentOf(localPlayer);
+            await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
             InGameForm ingameForm = new InGameForm(game, igs);
             localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
             networkPlayer.Agent = new OnlineAgent();
@@ -132,11 +133,7 @@ namespace FormsPrototype
         {
             this.lbChat.Items.Add("INCOMING: " + obj);
         }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            igs.DEBUG_SendRawText("toggle client");
-        }
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -308,6 +305,7 @@ namespace FormsPrototype
             if (selectedItem != null)
             {
                 GameInfo game = await igs.AcceptMatchRequest(selectedItem);
+                await game.AbsorbAdditionalInformation();
                 if (game != null)
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);

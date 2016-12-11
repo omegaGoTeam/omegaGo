@@ -14,6 +14,23 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
+        public override async Task<GameInfo> GetGameById(int gameId)
+        {
+            IgsResponse response = await MakeRequest("games " + gameId);
+            foreach (IgsLine line in response)
+            {
+                if (line.Code == IgsCode.Games)
+                {
+                    if (line.EntireLine.Contains("[##]"))
+                    {
+                        // This is the example line.
+                        continue;
+                    }
+                    return CreateGameFromTelnetLine(line.EntireLine);
+                }
+            }
+            throw new Exception("No game with this ID.");
+        }
         public override async Task<List<GameInfo>> ListGamesInProgress()
         {
             await EnsureConnected();
