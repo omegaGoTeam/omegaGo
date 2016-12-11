@@ -122,7 +122,7 @@ namespace OmegaGo.Core
         public void AcceptMoveFromInternet(int moveIndex, Move move)
         {
             Player player = GetPlayerByColor(move.WhoMoves);
-            IAgent agent = player.Agent;
+            IOnlineAgent agent = player.Agent as IOnlineAgent;
             agent.ForceHistoricMove(moveIndex, move);
         }
         

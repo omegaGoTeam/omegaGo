@@ -335,7 +335,7 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is GuiAgent)
+            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is LocalAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -349,7 +349,7 @@ namespace FormsPrototype
         private void bPASS_Click(object sender, EventArgs e)
         {
             this.groupboxMoveMaker.Visible = false;
-            this.PlayerToMove.Agent.ForcePass(this.PlayerToMove.Color);
+            (this.PlayerToMove.Agent as IReceiverOfLocalActions).ForcePass(this.PlayerToMove.Color);
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
@@ -382,7 +382,7 @@ namespace FormsPrototype
             else
             {
                 this.groupboxMoveMaker.Visible = false;
-                this.PlayerToMove.Agent.Click(this.PlayerToMove.Color, position);
+                (this.PlayerToMove.Agent as IReceiverOfLocalActions).Click(this.PlayerToMove.Color, position);
             }
         }
 
@@ -456,7 +456,7 @@ namespace FormsPrototype
         {
             foreach(var player in _game.Players)
             {
-                if (player.Agent is GuiAgent || player.Agent is AIAgent)
+                if (player.Agent is LocalAgent || player.Agent is AIAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }
