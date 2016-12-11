@@ -80,5 +80,19 @@ namespace OmegaGo.Core.Online.Igs
             return new Chat.ChatMessage(match.Groups[1].Value, match.Groups[2].Value, DateTimeOffset.Now,
                 ChatMessageKind.Incoming);
         }
+
+        private static Regex regexUndoRequest = new Regex(@"24 \*SYSTEM\*: (.*) requests undo.");
+        public static string WhoRequestsUndo(IgsLine igsLine)
+        {
+            Match match = regexUndoRequest.Match(igsLine.EntireLine);
+            return match.Groups[1].Value;
+        }
+
+        private static Regex regexUndoDecline = new Regex(@"9 (.*) declines undo.");
+        public static string WhoDeclinesUndo(IgsLine igsLine)
+        {
+            Match match = regexUndoDecline.Match(igsLine.EntireLine);
+            return match.Groups[1].Value;
+        }
     }
 }

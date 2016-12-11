@@ -63,6 +63,11 @@
             this.bResumeAsBlack = new System.Windows.Forms.Button();
             this.bUndoLifeDeath = new System.Windows.Forms.Button();
             this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bUndoPlease = new System.Windows.Forms.Button();
+            this.bUndoYes = new System.Windows.Forms.Button();
+            this.bUndoNo = new System.Windows.Forms.Button();
+            this.bLocalUndo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -72,6 +77,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.grpLifeDeath.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -240,18 +246,18 @@
             // 
             // tbLog
             // 
-            this.tbLog.Location = new System.Drawing.Point(699, 320);
+            this.tbLog.Location = new System.Drawing.Point(699, 361);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(322, 249);
+            this.tbLog.Size = new System.Drawing.Size(322, 208);
             this.tbLog.TabIndex = 16;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(711, 299);
+            this.label5.Location = new System.Drawing.Point(711, 336);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 13);
             this.label5.TabIndex = 17;
@@ -448,11 +454,65 @@
             this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;
             this.bDoneWithLifeDeathDetermination.Click += new System.EventHandler(this.bDoneWithLifeDeathDetermination_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.bLocalUndo);
+            this.groupBox1.Controls.Add(this.bUndoNo);
+            this.groupBox1.Controls.Add(this.bUndoYes);
+            this.groupBox1.Controls.Add(this.bUndoPlease);
+            this.groupBox1.Location = new System.Drawing.Point(699, 234);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(318, 79);
+            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Undo";
+            // 
+            // bUndoPlease
+            // 
+            this.bUndoPlease.Location = new System.Drawing.Point(10, 21);
+            this.bUndoPlease.Name = "bUndoPlease";
+            this.bUndoPlease.Size = new System.Drawing.Size(93, 23);
+            this.bUndoPlease.TabIndex = 0;
+            this.bUndoPlease.Text = "undoplease";
+            this.bUndoPlease.UseVisualStyleBackColor = true;
+            this.bUndoPlease.Click += new System.EventHandler(this.bUndoPlease_Click);
+            // 
+            // bUndoYes
+            // 
+            this.bUndoYes.Location = new System.Drawing.Point(109, 21);
+            this.bUndoYes.Name = "bUndoYes";
+            this.bUndoYes.Size = new System.Drawing.Size(93, 23);
+            this.bUndoYes.TabIndex = 1;
+            this.bUndoYes.Text = "undo";
+            this.bUndoYes.UseVisualStyleBackColor = true;
+            this.bUndoYes.Click += new System.EventHandler(this.bUndoYes_Click);
+            // 
+            // bUndoNo
+            // 
+            this.bUndoNo.Location = new System.Drawing.Point(208, 21);
+            this.bUndoNo.Name = "bUndoNo";
+            this.bUndoNo.Size = new System.Drawing.Size(93, 23);
+            this.bUndoNo.TabIndex = 2;
+            this.bUndoNo.Text = "noundo";
+            this.bUndoNo.UseVisualStyleBackColor = true;
+            this.bUndoNo.Click += new System.EventHandler(this.bUndoNo_Click);
+            // 
+            // bLocalUndo
+            // 
+            this.bLocalUndo.Location = new System.Drawing.Point(10, 50);
+            this.bLocalUndo.Name = "bLocalUndo";
+            this.bLocalUndo.Size = new System.Drawing.Size(291, 23);
+            this.bLocalUndo.TabIndex = 3;
+            this.bLocalUndo.Text = "undo locally";
+            this.bLocalUndo.UseVisualStyleBackColor = true;
+            this.bLocalUndo.Click += new System.EventHandler(this.bLocalUndo_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpLifeDeath);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label5);
@@ -482,6 +542,7 @@
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.grpLifeDeath.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -523,5 +584,10 @@
         private System.Windows.Forms.Button bDoneWithLifeDeathDetermination;
         private System.Windows.Forms.Button bResumeAsBlack;
         private System.Windows.Forms.Button bUndoLifeDeath;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button bUndoNo;
+        private System.Windows.Forms.Button bUndoYes;
+        private System.Windows.Forms.Button bUndoPlease;
+        private System.Windows.Forms.Button bLocalUndo;
     }
 }

@@ -37,8 +37,69 @@ namespace FormsPrototype
             this._game = game;
             this._igs = igs;
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
-            this._igs.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
+            
+            if (this._game.Server != null)
+            {
+                this.bLocalUndo.Visible = false;
+                this._igs.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
+                this._igs.ErrorMessageReceived += _igs_ErrorMessageReceived;
+                this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
+                this._igs.UndoDeclined += _igs_UndoDeclined;
+                this._igs.LastMoveUndone += _igs_LastMoveUndone;
+            }
+            else
+            {
+                this.bUndoPlease.Visible = false;
+                this.bUndoYes.Visible = false;
+                this.bUndoNo.Visible = false;
+            }
             RefreshBoard();
+        }
+
+        private void _igs_LastMoveUndone(object sender, GameInfo e)
+        {
+            if (e == this._game)
+            {
+                LocalUndo();
+            }
+        }
+
+        private void _igs_UndoDeclined(object sender, GameInfo e)
+        {
+            if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
+        }
+
+        private void _igs_UndoRequestReceived(object sender, GameInfo e)
+        {
+            if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
+        }
+
+        private void _igs_ErrorMessageReceived(object sender, string e)
+        {
+            this.SystemLog("ERROR: " + e);
+        }
+
+        private void InGameForm_Load(object sender, EventArgs e)
+        {
+            this.cbRuleset.Items.Add(new ChineseRuleset(this._game.BoardSize));
+            this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.BoardSize));
+            this.cbRuleset.Items.Add(new AGARuleset(this._game.BoardSize, CountingType.Area));
+            for (int i = 0; i < this.cbRuleset.Items.Count; i++)
+            {
+                Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
+                if (selected.GetType() == this._game.Ruleset.GetType())
+                {
+                    this.cbRuleset.SelectedIndex = i;
+                    break;
+                }
+            }
+            this._controller = this._game.GameController;
+            this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            this._controller.DebuggingMessage += _controller_DebuggingMessage;
+            this._controller.Resignation += _controller_Resignation;
+            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
+            this._controller.EnterPhase += _controller_EnterPhase;
+            this._controller.BeginGame();
         }
 
         private void _igs_IncomingInGameChatMessage(object sender, Tuple<GameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
@@ -115,29 +176,7 @@ namespace FormsPrototype
 
         private GameController _controller;
 
-        private void InGameForm_Load(object sender, EventArgs e)
-        {
-            this.cbRuleset.Items.Add(new ChineseRuleset(this._game.BoardSize));
-            this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.BoardSize));
-            this.cbRuleset.Items.Add(new AGARuleset(this._game.BoardSize,CountingType.Area));
-            for (int i = 0; i < this.cbRuleset.Items.Count; i++)
-            {
-                Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
-                if (selected.GetType() == this._game.Ruleset.GetType())
-                {
-                    this.cbRuleset.SelectedIndex = i;
-                    break;
-                }
-            }
-            this._controller = this._game.GameController;
-            this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
-            this._controller.DebuggingMessage += _controller_DebuggingMessage;
-            this._controller.Resignation += _controller_Resignation;
-            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            this._controller.EnterPhase += _controller_EnterPhase;
-            this._controller.BeginGame();
-        }
-
+     
         private void _controller_EnterPhase(object sender, GamePhase e)
         {
             _gamePhase = e;
@@ -437,6 +476,33 @@ namespace FormsPrototype
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _controller.AbortGame();
+        }
+
+        private async void bUndoPlease_Click(object sender, EventArgs e)
+        {
+            await this._igs.UndoPlease(this._game);
+        }
+
+        private async void bUndoYes_Click(object sender, EventArgs e)
+        {
+            await this._igs.Undo(this._game);
+        }
+
+        private void bUndoNo_Click(object sender, EventArgs e)
+        {
+            this._igs.NoUndo(this._game);
+        }
+
+        private void bLocalUndo_Click(object sender, EventArgs e)
+        {
+            LocalUndo();
+        }
+
+        private void LocalUndo()
+        {
+            SystemLog("Undoing last move...");
+            _controller.MainPhase_Undo();
+            SystemLog("Undone.");
         }
     }
 }

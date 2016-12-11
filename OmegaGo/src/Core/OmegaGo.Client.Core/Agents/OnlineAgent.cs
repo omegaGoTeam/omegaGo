@@ -31,5 +31,10 @@ namespace OmegaGo.Core.Agents
         }
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.PermitItAnyway;
+
+        public void Undo()
+        {
+            this._storedMoves.Remove(Game.NumberOfMovesPlayed - 1);
+        }
     }
 }

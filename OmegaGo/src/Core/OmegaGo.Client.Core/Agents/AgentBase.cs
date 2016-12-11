@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Agents
         /// Gets the player that this agent makes moves for.
         /// </summary>
         protected Player Player { get; private set; }
-        private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
+        protected Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
         /// <summary>
         /// The online agent will set this to determine which move is about to be made. This base class will read this to actually make the move when 
         /// we have it.

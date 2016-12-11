@@ -132,7 +132,7 @@
         ///</summary>
         Who = 27,
         ///<summary>
-        ///Undo report
+        /// Undo report that states that a user undid a move.
         ///</summary>
         Undo = 28,
         ///<summary>

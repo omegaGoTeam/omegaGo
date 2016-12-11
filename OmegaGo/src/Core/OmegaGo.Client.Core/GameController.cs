@@ -319,6 +319,39 @@ namespace OmegaGo.Core
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
+        /// us to undo, or whenever the user clicks to locally undo.
+        /// </summary>
+        public void MainPhase_Undo()
+        {
+            if (this.GamePhase != GamePhase.MainPhase)
+                throw new InvalidOperationException("We are not in the main phase.");
+            var latestMove = _game.GameTree.LastNode;
+            if (latestMove == null)
+            {
+                throw new InvalidOperationException("There are no moves to undo.");
+            }
+            var previousMove = latestMove.Parent;
+            if (previousMove == null)
+            {
+                _game.GameTree.GameTreeRoot = null;
+                _game.GameTree.LastNode = null;
+            }
+            else
+            {
+                previousMove.Branches.RemoveNode(latestMove);
+                _game.GameTree.LastNode = previousMove;
+            }
+            _turnPlayer = _game.OpponentOf(_turnPlayer);
+            OnTurnPlayerChanged(_turnPlayer);
+            // Order here matters:
+            (this._turnPlayer.Agent as OnlineAgent)?.Undo();
+            _game.NumberOfMovesPlayed--;
+            _turnPlayer.Agent.PleaseMakeAMove();
+            OnBoardMustBeRefreshed();
+        }
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 

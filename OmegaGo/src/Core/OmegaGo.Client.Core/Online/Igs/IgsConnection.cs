@@ -156,6 +156,7 @@ namespace OmegaGo.Core.Online.Igs
                 return false;
             }
             await MakeRequest("toggle quiet true");
+            await MakeRequest("toggle newundo true");
             return true;
         }
 
@@ -348,6 +349,10 @@ namespace OmegaGo.Core.Online.Igs
             
             lock (_mutex)
             {
+                if (_composure != IgsComposure.Ok)
+                {
+                    return; // Cannot yet send requests.
+                }
                 if (_requestInProgress == null)
                 {
                     IgsRequest dequeuedItem;
@@ -463,6 +468,43 @@ namespace OmegaGo.Core.Online.Igs
         {
             IncomingInGameChatMessage?.Invoke(this, new Tuple<GameInfo, ChatMessage>(relevantGame, chatLine));
         }
+
+        /// <summary>
+        /// Occurs when the opponent in a GAME asks us to let them undo a move
+        /// </summary>
+        public event EventHandler<GameInfo> UndoRequestReceived;
+        private void OnUndoRequestReceived(GameInfo game)
+        {
+            UndoRequestReceived?.Invoke(this, game);
+        }
+        /// <summary>
+        /// Occurs when an error message is produced by the server; it should be displayed
+        /// non-modally as a popup balloon.
+        /// </summary>
+        public event EventHandler<string> ErrorMessageReceived;
+        private void OnErrorMessageReceived(string errorMessage)
+        {
+            ErrorMessageReceived?.Invoke(this, errorMessage);
+        }
+
+        /// <summary>
+        /// Occurs when the server commands us to act as though the last move didn't take place.
+        /// </summary>
+        public event EventHandler<GameInfo> LastMoveUndone;
+        private void OnLastMoveUndone(GameInfo whichGame)
+        {
+            LastMoveUndone?.Invoke(this, whichGame);
+        }
         #endregion
+
+        /// <summary>
+        /// Occurs when the opponent in a GAME declines our request to undo a move.
+        /// This will also prevent all further undo's in this game.
+        /// </summary>
+        public event EventHandler<GameInfo> UndoDeclined;
+        private void OnUndoDeclined(GameInfo game)
+        {
+            UndoDeclined?.Invoke(this, game);
+        }
     }
 }

@@ -213,5 +213,20 @@ namespace OmegaGo.Core.Online.Igs
             }
             return !response.IsError;
         }
+
+        public async Task UndoPlease(GameInfo game)
+        {
+            await MakeRequest("undoplease " + game.ServerId);
+        }
+
+        public async Task Undo(GameInfo game)
+        {
+            var response = await MakeRequest("undo " + game.ServerId);
+        }
+
+        public void NoUndo(GameInfo game)
+        {
+            MakeUnattendedRequest("noundo " + game.ServerId);
+        }
     }
 }

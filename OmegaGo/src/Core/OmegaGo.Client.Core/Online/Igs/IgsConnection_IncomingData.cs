@@ -1,5 +1,6 @@
 ﻿using OmegaGo.Core.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +17,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
+        private bool ignoreNextPrompt = false;
         /*
          * 
          * 
@@ -39,6 +41,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private async Task HandleIncomingData(StreamReader sr)
         {
+            bool weAreHandlingUndo = false;
             bool thisRequestIsObservationStart = false;
             bool weAreHandlingAnInterruptMessage = false;
             List<IgsLine> currentLineBatch = new List<IgsLine>();
@@ -97,6 +100,10 @@ namespace OmegaGo.Core.Online.Igs
 
                 }
 
+                if (igsLine.Code == IgsCode.Error)
+                {
+                    OnErrorMessageReceived(igsLine.PureLine);
+                } 
                 currentLineBatch.Add(igsLine);
 
                 if (weAreHandlingAnInterruptMessage && code == IgsCode.Prompt)
@@ -113,6 +120,11 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     thisRequestIsObservationStart = false;
                     currentLineBatch = new List<IgsLine>();
+                    if (ignoreNextPrompt)
+                    {
+                        ignoreNextPrompt = false;
+                        continue;
+                    }
                 }
                 if (code == IgsCode.Beep)
                 {
@@ -121,6 +133,11 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 if (code == IgsCode.Tell)
                 {
+                    if (igsLine.PureLine.StartsWith("*SYSTEM*"))
+                    {
+                        weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
                     HandleIncomingChatMessage(line);
                     weAreHandlingAnInterruptMessage = true;
                     continue;
@@ -145,6 +162,12 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     continue;
                 }
+                if (code == IgsCode.Undo)
+                {
+                    thisRequestIsObservationStart = true;
+                    weAreHandlingAnInterruptMessage = true;
+                    continue;
+                }
                 if (code == IgsCode.Info)
                 {
                     if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
@@ -160,6 +183,16 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
                     {
+                        weAreHandlingAnInterruptMessage = true;
+                        continue;
+                    }
+                    if (igsLine.PureLine.EndsWith("declines undo."))
+                    {
+                        string username = IgsRegex.WhoDeclinesUndo(igsLine);
+                        foreach(var game in GetGamesAgainst(username))
+                        {
+                            OnUndoDeclined(game);
+                        }
                         weAreHandlingAnInterruptMessage = true;
                         continue;
                     }
@@ -202,9 +235,16 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
+        private IEnumerable<GameInfo> GetGamesAgainst(string username)
+        {
+            return this._gamesYouHaveOpened.Where(ginfo => ginfo.Players.Any(pl => pl.Name == username));
+        }
+
         private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
         {
-            /* Acceptor:    
+            if (currentLineBatch.Count > 0)
+            {
+                /* Acceptor:    
              15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
              9 Handicap and komi are disable.
              9 Creating match [10] with Soothie.
@@ -217,61 +257,92 @@ namespace OmegaGo.Core.Online.Igs
              9 Please use say to talk to your opponent -- help say.
              1 6
              */
-            if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
-            {
-                GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                GameInfo game = new Core.GameInfo()
+                if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
-                    BoardSize = new Core.GameBoardSize(19), // TODO
-                    Server = this,
-                    ServerId = heading.GameNumber,
-                };
-                game.Players.Add(new Core.Player(heading.BlackName, "?", game));
-                game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
-                game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
-                this._gamesInProgressOnIgs.Add(game);
-                this._gamesYouHaveOpened.Add(game);
-                this.OnMatchRequestAccepted(game);
-
-            }
-            if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
-            {
-                // Make it not be an interrupt and let it be handled by the match creator.
-                foreach (IgsLine line in currentLineBatch)
-                {
-                    lock (_mutex)
+                    GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
+                    GameInfo game = new Core.GameInfo()
                     {
-                        if (_requestInProgress != null)
+                        BoardSize = new Core.GameBoardSize(19), // TODO
+                        Server = this,
+                        ServerId = heading.GameNumber,
+                    };
+                    game.Players.Add(new Core.Player(heading.BlackName, "?", game));
+                    game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+                    game.Ruleset = new JapaneseRuleset(game.BoardSize);
+                    this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
+                    this._gamesInProgressOnIgs.Add(game);
+                    this._gamesYouHaveOpened.Add(game);
+                    this.OnMatchRequestAccepted(game);
+
+                }
+                if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
+                {
+                    // Make it not be an interrupt and let it be handled by the match creator.
+                    foreach (IgsLine line in currentLineBatch)
+                    {
+                        lock (_mutex)
                         {
-                            _requestInProgress.IncomingLines.Post(line);
-                        }
-                        else
-                        {
-                            if (_composure == IgsComposure.Ok)
+                            if (_requestInProgress != null)
                             {
-                                OnUnhandledLine(line.EntireLine);
+                                _requestInProgress.IncomingLines.Post(line);
+                            }
+                            else
+                            {
+                                if (_composure == IgsComposure.Ok)
+                                {
+                                    OnUnhandledLine(line.EntireLine);
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
-                currentLineBatch[1].Code == IgsCode.Say)
-            {
-                /*
+                if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
+                    currentLineBatch[1].Code == IgsCode.Say)
+                {
+                    /*
                    51 Say in game 405
                    19 *Soothie*: Hi!
                    1 6
                  */
-                int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
-                ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                GameInfo relevantGame = _gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
-                if (relevantGame == null)
-                {
-                    throw new Exception("We received a chat message for a game we no longer play.");
+                    int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
+                    ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
+                    GameInfo relevantGame = _gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
+                    if (relevantGame == null)
+                    {
+                        throw new Exception("We received a chat message for a game we no longer play.");
+                    }
+                    OnIncomingInGameChatMessage(relevantGame, chatLine);
                 }
-                OnIncomingInGameChatMessage(relevantGame, chatLine);
+                if (currentLineBatch[0].Code == IgsCode.Tell &&
+                    currentLineBatch[0].PureLine.StartsWith("*SYSTEM*") &&
+                    currentLineBatch[0].PureLine.EndsWith("requests undo."))
+                {
+                    string requestingUser = IgsRegex.WhoRequestsUndo(currentLineBatch[0]);
+                    var games = GetGamesAgainst(requestingUser);
+                    if (games.Any())
+                    {
+                        foreach (var game in games)
+                        {
+                            this.OnUndoRequestReceived(game);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Received an undo request for a game that's not in progress.");
+                    }
+                    ignoreNextPrompt = true;
+                }
+                if (currentLineBatch[0].Code == IgsCode.Undo)
+                {
+                    int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
+                    IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
+                    int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
+                    GameInfo gameInfo = _gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    for (int i = 0; i < numberOfMovesToUndo; i++)
+                    {
+                        OnLastMoveUndone(gameInfo);
+                    }
+                }
             }
         }
     }
