@@ -28,7 +28,7 @@ namespace FormsPrototype
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
         private int _mouseY;
-        private bool _inLifeDeathDeterminationPhase = false;
+        private bool _inLifeDeathDeterminationPhase;
 
         public InGameForm(GameInfo game, IgsConnection igs)
         {
@@ -70,21 +70,24 @@ namespace FormsPrototype
 
         private void _igs_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {
-            this._game.GameController.EndGame();
-            Scores scores = new Scores()
+            if (e.GameInfo == this._game)
             {
-                BlackScore = e.BlackScore,
-                WhiteScore = e.WhiteScore
-            };
-            MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
-                                 (scores.BlackScore > scores.WhiteScore
-                                     ? "Black wins!"
-                                     : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
-                                         ? "It's a draw!"
-                                         : "White wins!")),
-                     "Game completed!",
-                     MessageBoxButtons.OK,
-                     MessageBoxIcon.Information);
+                this._game.GameController.EndGame();
+                Scores scores = new Scores()
+                {
+                    BlackScore = e.BlackScore,
+                    WhiteScore = e.WhiteScore
+                };
+                MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                (scores.BlackScore > scores.WhiteScore
+                                    ? "Black wins!"
+                                    : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
+                                        ? "It's a draw!"
+                                        : "White wins!")),
+                    "Game completed!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
         }
     
 
@@ -196,16 +199,6 @@ namespace FormsPrototype
 
 
         /********************* EVENTS **************************/
-
-        private void Game_BoardNeedsRefreshing()
-        {
-            RefreshBoard();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this._igs.RefreshBoard(this._game);
-        }
 
         private GameController _controller;
 
@@ -379,11 +372,6 @@ namespace FormsPrototype
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this._igs.DEBUG_SendRawText("moves " + this._game.ServerId);
-        }
-
         private void bPASS_Click(object sender, EventArgs e)
         {
             this.groupboxMoveMaker.Visible = false;
@@ -439,11 +427,6 @@ namespace FormsPrototype
             this.pictureBox1.Refresh();
         }
 
-        private void bRefreshPicture_Click(object sender, EventArgs e)
-        {
-            RefreshBoard();
-        }
-        
         private async void bSay_Click(object sender, EventArgs e)
         {
             if (!await this._igs.Say(this._game, this.tbSayWhat.Text))

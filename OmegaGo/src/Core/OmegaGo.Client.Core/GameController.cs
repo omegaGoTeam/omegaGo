@@ -114,11 +114,8 @@ namespace OmegaGo.Core
             {
                 _playersDoneWithLifeDeath.Add(player);
             }
-            if (_game.Server != null)
-            {
-                // TODO maybe infinite recursion here?
-                _game.Server.LifeDeath_Done(this._game);
-            }
+            // TODO maybe infinite recursion here?
+            this._game.Server?.LifeDeath_Done(this._game);
             if (_playersDoneWithLifeDeath.Count == 2 && this._game.Server == null)
             {
                 SetGamePhase(GamePhase.Completed);
@@ -377,10 +374,6 @@ namespace OmegaGo.Core
         /// The game has not yet been started.
         /// </summary>
         NotYetBegun,
-        /// <summary>
-        /// Black is placing handicap stones on the board.
-        /// </summary>
-        HandicapPlacement,
         /// <summary>
         /// The main phase: In this phase, players alternately make moves until both players pass.
         /// </summary>

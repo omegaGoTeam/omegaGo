@@ -524,7 +524,7 @@ namespace OmegaGo.Core.Online.Igs
     }
     public class GameScoreEventArgs : EventArgs
     {
-        public float BlackScore;
+        public readonly float BlackScore;
         public GameInfo GameInfo;
         public float WhiteScore;
 

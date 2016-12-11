@@ -2,9 +2,9 @@
 {
     class GameHeading
     {
-        public int GameNumber;
-        public string WhiteName;
-        public string BlackName;
+        public readonly int GameNumber;
+        public readonly string WhiteName;
+        public readonly string BlackName;
 
         public GameHeading(int gameNumber, string whiteName, string blackName)
         {

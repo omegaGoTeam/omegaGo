@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Online.Igs
         public override async Task<List<GameInfo>> ListGamesInProgress()
         {
             await EnsureConnected();
-            _gamesInProgressOnIgs = new List<GameInfo>();
+            this._gamesInProgressOnIgs = new List<GameInfo>();
             List<IgsLine> lines = await MakeRequest("games");
             foreach (IgsLine line in lines)
             {
@@ -45,10 +45,10 @@ namespace OmegaGo.Core.Online.Igs
                         // This is the example line.
                         continue;
                     }
-                    _gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
+                    this._gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return _gamesInProgressOnIgs;
+            return this._gamesInProgressOnIgs;
         }
         private GameInfo CreateGameFromTelnetLine(string line)
         {
@@ -107,24 +107,24 @@ namespace OmegaGo.Core.Online.Igs
         }
         public override async void StartObserving(GameInfo game)
         {
-            if (_gamesBeingObserved.Contains(game))
+            if (this._gamesBeingObserved.Contains(game))
             {
                 // We are already observing this game.
                 return;
             }
-            _gamesBeingObserved.Add(game);
-            _gamesYouHaveOpened.Add(game);
+            this._gamesBeingObserved.Add(game);
+            this._gamesYouHaveOpened.Add(game);
             await MakeRequest("observe " + game.ServerId);
         }
         public override void EndObserving(GameInfo game)
         {
-            if (!_gamesBeingObserved.Contains(game))
+            if (!this._gamesBeingObserved.Contains(game))
             {
                 throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
             }
-            _gamesBeingObserved.Remove(game);
-            _gamesYouHaveOpened.Remove(game);
-            _streamWriter.WriteLine("observe " + game.ServerId);
+            this._gamesBeingObserved.Remove(game);
+            this._gamesYouHaveOpened.Remove(game);
+            this._streamWriter.WriteLine("observe " + game.ServerId);
         }
         /// <summary>
         /// Sends a private message to the specified user using the 'tell' feature of IGS.
@@ -185,14 +185,14 @@ namespace OmegaGo.Core.Online.Igs
             if (lines.Any(line => line.Code == IgsCode.Error)) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
-            GameInfo game = new Core.GameInfo()
+            GameInfo game = new GameInfo()
             {
-                BoardSize = new Core.GameBoardSize(19), // TODO
+                BoardSize = new GameBoardSize(19), // TODO
                 Server = this,
                 ServerId = heading.GameNumber,
             };
-            game.Players.Add(new Core.Player(heading.BlackName, "?", game));
-            game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+            game.Players.Add(new Player(heading.BlackName, "?", game));
+            game.Players.Add(new Player(heading.WhiteName, "?", game));
             game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
@@ -249,7 +249,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task Undo(GameInfo game)
         {
-            var response = await MakeRequest("undo " + game.ServerId);
+            await MakeRequest("undo " + game.ServerId);
         }
 
         public void NoUndo(GameInfo game)
