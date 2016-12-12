@@ -8,34 +8,13 @@ namespace OmegaGo.Core.Online.Chat
 {
     public sealed class ChatMessage
     {
-        private string _userName;
-        private string _text;
-        private DateTimeOffset _time;
-        private ChatMessageKind _kind;
+        public string UserName { get; set; }
 
-        public string UserName
-        {
-            get { return _userName; }
-            set { _userName = value; }
-        }
+        public string Text { get; set; }
 
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
+        public DateTimeOffset Time { get; set; }
 
-        public DateTimeOffset Time
-        {
-            get { return _time; }
-            set { _time = value; }
-        }
-
-        public ChatMessageKind Kind
-        {
-            get { return _kind; }
-            set { _kind = value; }
-        }
+        public ChatMessageKind Kind { get; set; }
 
         public ChatMessage()
         {
@@ -43,10 +22,14 @@ namespace OmegaGo.Core.Online.Chat
         }
         public ChatMessage(string userName, string text, DateTimeOffset time, ChatMessageKind kind)
         {
-            this._userName = userName;
-            this._text = text;
-            this._time = time;
-            this._kind = kind;
+            if (String.IsNullOrEmpty(userName))
+                throw new ArgumentException("Chat senders must have names.", nameof(userName));
+            if (String.IsNullOrEmpty(text))
+                throw new ArgumentException("Chat messages can't be empty.", nameof(text));
+            this.UserName = userName;
+            this.Text = text;
+            this.Time = time;
+            this.Kind = kind;
         }
     }
 }
