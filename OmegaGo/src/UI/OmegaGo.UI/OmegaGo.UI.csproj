@@ -87,20 +87,20 @@
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\TutorialViewModel.cs" />
-    <Compile Include="ViewModels\Tutorial\BeginnerScenario.cs" />
-    <Compile Include="ViewModels\Tutorial\ButtonNextTextCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\EndScenarioCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\FlashCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\LoopControl.cs" />
-    <Compile Include="ViewModels\Tutorial\MenuCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\NextCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\PlaceCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\RequireCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\SayCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\Scenario.cs" />
-    <Compile Include="ViewModels\Tutorial\ScenarioCommand.cs" />
-    <Compile Include="ViewModels\Tutorial\ScenarioLoader.cs" />
-    <Compile Include="ViewModels\Tutorial\ShineCommand.cs" />
+    <Compile Include="Services\Tutorial\BeginnerScenario.cs" />
+    <Compile Include="Services\Tutorial\ButtonNextTextCommand.cs" />
+    <Compile Include="Services\Tutorial\EndScenarioCommand.cs" />
+    <Compile Include="Services\Tutorial\FlashCommand.cs" />
+    <Compile Include="Services\Tutorial\LoopControl.cs" />
+    <Compile Include="Services\Tutorial\MenuCommand.cs" />
+    <Compile Include="Services\Tutorial\NextCommand.cs" />
+    <Compile Include="Services\Tutorial\PlaceCommand.cs" />
+    <Compile Include="Services\Tutorial\RequireCommand.cs" />
+    <Compile Include="Services\Tutorial\SayCommand.cs" />
+    <Compile Include="Services\Tutorial\Scenario.cs" />
+    <Compile Include="Services\Tutorial\ScenarioCommand.cs" />
+    <Compile Include="Services\Tutorial\ScenarioLoader.cs" />
+    <Compile Include="Services\Tutorial\ShineCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -146,10 +146,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ViewModels\Tutorial\Tutorial.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ViewModels\Tutorial\DOCUMENTATION.txt" />
+    <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

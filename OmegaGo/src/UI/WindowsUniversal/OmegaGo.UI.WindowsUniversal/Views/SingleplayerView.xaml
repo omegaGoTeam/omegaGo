@@ -16,9 +16,31 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Singleplayer" 
+
+       
+        <TextBlock Text="Singleplayer Menu" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
+        <StackPanel HorizontalAlignment="Center" Margin="0,100,0,0" Width="200">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,20,0,0"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Tutorial"></Button>
+            <Button Content="Solve Tsumego"></Button>
+            <Button Content="Play Against AI"></Button>
+            <Button Content="Statistics"></Button>
+        </StackPanel>
+        <Grid VerticalAlignment="Bottom">
+            <TextBlock Text="Quests"></TextBlock>
+            <ListView>
+                <ListViewItem>Quest1</ListViewItem>
+                <ListViewItem>Second Quest</ListViewItem>
+                <ListViewItem>The Master Quest</ListViewItem>
+            </ListView>
+        </Grid>
     </Grid>
 </views:TransparencyViewBase>
