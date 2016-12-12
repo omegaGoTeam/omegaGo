@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         /// </summary>
         /// <param name="column">Column</param>
         /// <param name="row">Row</param>
-        public SgfPoint(int column, int row)
+        public SgfPoint(int column, int row) : this()
         {
             if (column < -1 || column > 52) throw new ArgumentOutOfRangeException(nameof(column));
             if (row < -1 || row > 52) throw new ArgumentOutOfRangeException(nameof(row));

@@ -16,8 +16,8 @@ namespace OmegaGo.Core.Online
         public const int IgsPortSecondary = 7777;
         public const int IgsPortTertiary = 28155;
 
-        public const string OgsPrimary = "https://online-go.com/";
-        public const string OgsBeta = "https://beta.online-go.com/";
+        private const string OGS_PRIMARY = "https://online-go.com/";
+        private const string OGS_BETA = "https://beta.online-go.com/";
         public const string OgsOauthGateway = "oauth2/access_token";
         public const string OgsApiPath = "api/v1/";
 
@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Online
         /// </summary>
         public static string GetOgsServer(bool useBetaServer)
         {
-            return useBetaServer ? OgsBeta : OgsPrimary;
+            return useBetaServer ? OGS_BETA : OGS_PRIMARY;
         }
     }
 }

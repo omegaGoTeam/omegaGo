@@ -123,9 +123,9 @@ namespace OmegaGo.Core
         {
             Player player = GetPlayerByColor(move.WhoMoves);
             IOnlineAgent agent = player.Agent as IOnlineAgent;
-            agent.ForceHistoricMove(moveIndex, move);
+            agent?.ForceHistoricMove(moveIndex, move);
         }
-        
+
         private Player GetPlayerByColor(StoneColor color)
         {
             switch (color)
@@ -173,6 +173,20 @@ namespace OmegaGo.Core
         public override string ToString()
         {
             return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + " vs. " + Players[1].Name + " (" + NumberOfObservers + " observers)";
+        }
+
+        public async Task AbsorbAdditionalInformation()
+        {
+            if (this.Server == null)
+                throw new InvalidOperationException("Only online games can absorb additional information.");
+            GameInfo moreInformation = await this.Server.GetGameByIdAsync(this.ServerId);
+            this.CopyInformationFrom(moreInformation);
+        }
+
+        private void CopyInformationFrom(GameInfo moreInformation)
+        {
+            this.BoardSize = moreInformation.BoardSize; // TODO add time limit later on
+            this.Ruleset = new JapaneseRuleset(this.BoardSize);
         }
     }
 }

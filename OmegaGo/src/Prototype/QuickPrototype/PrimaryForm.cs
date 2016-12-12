@@ -33,14 +33,14 @@ namespace FormsPrototype
 
         }
 
-        private void Igs_LogEvent(string obj)
+        private void Igs_LogEvent(object sender, string obj)
         {
            this.tbConsole.AppendText(Environment.NewLine + obj);
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
-                    games = await igs.ListGamesInProgress();
+                    games = await igs.ListGamesInProgressAsync();
                     this.lbGames.Items.Clear();
                     this.lbGames.Items.AddRange(games.ToArray());
         }
@@ -76,22 +76,23 @@ namespace FormsPrototype
             igs.OutgoingLine += Igs_OutgoingLine;
             igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
             igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
-            if (!await igs.Connect())
+            if (!await igs.ConnectAsync())
             {
                 MessageBox.Show("Connection to IGS failed.");
                 return;
             }
-            if (!await igs.Login("OmegaGo1", "123456789"))
+            if (!await igs.LoginAsync("OmegaGo1", "123456789"))
             {
                 MessageBox.Show("Login failed.");
             }
         }
 
-        private void Igs_MatchRequestAccepted(object sender, GameInfo game)
+        private async void Igs_MatchRequestAccepted(object sender, GameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
             Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
             Player networkPlayer = game.OpponentOf(localPlayer);
+            await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
             InGameForm ingameForm = new InGameForm(game, igs);
             localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
             networkPlayer.Agent = new OnlineAgent();
@@ -132,11 +133,7 @@ namespace FormsPrototype
         {
             this.lbChat.Items.Add("INCOMING: " + obj);
         }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            igs.DEBUG_SendRawText("toggle client");
-        }
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -166,7 +163,7 @@ namespace FormsPrototype
 
         private async void bSendMessage_Click(object sender, EventArgs e)
         {
-            bool success = await igs.Tell(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
+            bool success = await igs.TellAsync(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
             if (success)
             {
                 this.lbChat.Items.Add("OUTGOING to " + this.cbMessageRecipient.Text + ": " + this.tbChatMessage.Text);
@@ -199,7 +196,7 @@ namespace FormsPrototype
 
         private async void button7_Click(object sender, EventArgs e)
         {
-            List<IgsUser> users = await igs.ListOnlinePlayers();
+            List<IgsUser> users = await igs.ListOnlinePlayersAsync();
             this.lbUsers.Items.Clear();
             this.lbUsers.Items.AddRange(users.ToArray());
 
@@ -246,19 +243,19 @@ namespace FormsPrototype
 
         private async void button6_Click_1(object sender, EventArgs e)
         {
-            Igs_LogEvent("CONNECT() RESULT: " + await this.igs.Connect());
-            Igs_LogEvent("LOGIN() RESULT: " + await this.igs.Login("OmegaGo1", "123456789"));
+            Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
+            Igs_LogEvent(this, "LOGIN() RESULT: " + await this.igs.LoginAsync("OmegaGo1", "123456789"));
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            await this.igs.Disconnect();
-            Igs_LogEvent("DISCONNECTED.");
+            await this.igs.DisconnectAsync();
+            Igs_LogEvent(this, "DISCONNECTED.");
         }
 
         private async void button5_Click(object sender, EventArgs e)
         {
-           bool result = await igs.RequestBasicMatch(
+           bool result = await igs.RequestBasicMatchAsync(
                 this.cbMatchRecipient.Text,
                 StoneColor.Black,
                 (int) this.nBoardSize.Value,
@@ -280,7 +277,7 @@ namespace FormsPrototype
         {
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null) {
-                if (await igs.DeclineMatchRequest(selectedItem))
+                if (await igs.DeclineMatchRequestAsync(selectedItem))
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);
                 }
@@ -307,7 +304,8 @@ namespace FormsPrototype
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                GameInfo game = await igs.AcceptMatchRequest(selectedItem);
+                GameInfo game = await igs.AcceptMatchRequestAsync(selectedItem);
+                await game.AbsorbAdditionalInformation();
                 if (game != null)
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);

@@ -13,7 +13,6 @@ namespace OmegaGo.Core
         Player TurnPlayer { get; }
 
         event EventHandler BoardMustBeRefreshed;
-        event EventHandler<GameRequest> RequestRecieved;
         // TODO In future should be part of SendRequest
         void BeginGame();
         void SendRequest(GameRequest request);

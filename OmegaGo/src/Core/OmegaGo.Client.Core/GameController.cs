@@ -26,7 +26,7 @@ namespace OmegaGo.Core
         /// </summary>
         private Player _turnPlayer;
         /// <summary>
-        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(GamePhase)"/> instead. 
+        /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(Core.GamePhase)"/> instead. 
         /// </summary>
         private GamePhase _gamePhase = GamePhase.NotYetBegun;
 
@@ -48,8 +48,6 @@ namespace OmegaGo.Core
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
         private List<Player> _playersDoneWithLifeDeath = new List<Player>();
-        
-        public event EventHandler<GameRequest> RequestRecieved;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
@@ -104,22 +102,25 @@ namespace OmegaGo.Core
                 }
             }
             _playersDoneWithLifeDeath.Clear();
+           
             OnBoardMustBeRefreshed();
         }
         public void LifeDeath_Done(Player player)
         {
-
+            OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
             if (!_playersDoneWithLifeDeath.Contains(player))
             {
                 _playersDoneWithLifeDeath.Add(player);
             }
-            if (_playersDoneWithLifeDeath.Count == 2)
+            // TODO maybe infinite recursion here?
+            this._game.Server?.LifeDeath_Done(this._game);
+            if (_playersDoneWithLifeDeath.Count == 2 && this._game.Server == null)
             {
                 SetGamePhase(GamePhase.Completed);
             }
             OnBoardMustBeRefreshed();
         }
-        public async void MakeMove(Player player, Move move)
+        public void MakeMove(Player player, Move move)
         {
             if (_gamePhase == GamePhase.Completed) return;
             if (_gamePhase != GamePhase.MainPhase)
@@ -136,9 +137,17 @@ namespace OmegaGo.Core
 
             if (result.Result == MoveResult.LifeDeathDeterminationPhase)
             {
-                SetGamePhase(GamePhase.LifeDeathDetermination);
-                _turnPlayer = null;
-                return;
+                if (this._game.Server != null)
+                {
+                    result.Result = MoveResult.Legal;
+                    // In server games, we let the server decide on life/death determination, not our own ruleset.
+                }
+                else
+                {
+                    SetGamePhase(GamePhase.LifeDeathDetermination);
+                    _turnPlayer = null;
+                    return;
+                }
             }
             if (result.Result != MoveResult.Legal)
             {
@@ -167,7 +176,7 @@ namespace OmegaGo.Core
             _game.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
             if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
             {
-                await _game.Server.MakeMove(_game, move);
+                _game.Server.MakeMove(_game, move);
             }
             OnBoardMustBeRefreshed();
             MainPhase_AskPlayerToMove(_game.OpponentOf(player));
@@ -203,14 +212,12 @@ namespace OmegaGo.Core
                         if (possibleMoves.Count == 0)
                         {
                             MakeMove(player, Move.Pass(player.Color));
-                            return;
                         }
                         else
                         {
                             Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
                             Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
                             MakeMove(player, newMove);
-                            return;
                         }
                     }
                     else
@@ -234,6 +241,7 @@ namespace OmegaGo.Core
         public void Resign(Player player)
         {
             OnResignation(player);
+            this._game.Server?.Resign(this._game);
             _turnPlayer = null;
             SetGamePhase(GamePhase.Completed);
         }
@@ -279,9 +287,6 @@ namespace OmegaGo.Core
         {
             EnterPhase?.Invoke(this, newPhase);
         }
-        /// <summary>
-        /// This is the primary game loop.
-        /// </summary>
         public void LifeDeath_UndoPhase()
         {
             this._deadPositions = new List<Position>();
@@ -314,6 +319,49 @@ namespace OmegaGo.Core
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
+        /// us to undo, or whenever the user clicks to locally undo.
+        /// </summary>
+        public void MainPhase_Undo()
+        {
+            if (this.GamePhase != GamePhase.MainPhase)
+                throw new InvalidOperationException("We are not in the main phase.");
+            var latestMove = _game.GameTree.LastNode;
+            if (latestMove == null)
+            {
+                throw new InvalidOperationException("There are no moves to undo.");
+            }
+            var previousMove = latestMove.Parent;
+            if (previousMove == null)
+            {
+                _game.GameTree.GameTreeRoot = null;
+                _game.GameTree.LastNode = null;
+            }
+            else
+            {
+                previousMove.Branches.RemoveNode(latestMove);
+                _game.GameTree.LastNode = previousMove;
+            }
+            _turnPlayer = _game.OpponentOf(_turnPlayer);
+            OnTurnPlayerChanged(_turnPlayer);
+            // Order here matters:
+            (this._turnPlayer.Agent as OnlineAgent)?.Undo();
+            _game.NumberOfMovesPlayed--;
+            _turnPlayer.Agent.PleaseMakeAMove();
+            OnBoardMustBeRefreshed();
+        }
+
+        public void MainPhase_EnterLifeDeath()
+        {
+            SetGamePhase(GamePhase.LifeDeathDetermination);
+        }
+
+        public void EndGame()
+        {
+            SetGamePhase(GamePhase.Completed);
+        }
     }
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
@@ -324,10 +372,6 @@ namespace OmegaGo.Core
         /// The game has not yet been started.
         /// </summary>
         NotYetBegun,
-        /// <summary>
-        /// Black is placing handicap stones on the board.
-        /// </summary>
-        HandicapPlacement,
         /// <summary>
         /// The main phase: In this phase, players alternately make moves until both players pass.
         /// </summary>
