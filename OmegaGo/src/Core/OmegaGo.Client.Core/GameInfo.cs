@@ -179,7 +179,7 @@ namespace OmegaGo.Core
         {
             if (this.Server == null)
                 throw new InvalidOperationException("Only online games can absorb additional information.");
-            GameInfo moreInformation = await this.Server.GetGameById(this.ServerId);
+            GameInfo moreInformation = await this.Server.GetGameByIdAsync(this.ServerId);
             this.CopyInformationFrom(moreInformation);
         }
 

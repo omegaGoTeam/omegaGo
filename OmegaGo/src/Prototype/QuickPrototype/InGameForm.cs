@@ -429,7 +429,7 @@ namespace FormsPrototype
 
         private async void bSay_Click(object sender, EventArgs e)
         {
-            if (!await this._igs.Say(this._game, this.tbSayWhat.Text))
+            if (!await this._igs.SayAsync(this._game, this.tbSayWhat.Text))
             {
                 MessageBox.Show("Say failed.");
             }
@@ -517,12 +517,12 @@ namespace FormsPrototype
 
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-            await this._igs.UndoPlease(this._game);
+            await this._igs.UndoPleaseAsync(this._game);
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await this._igs.Undo(this._game);
+            await this._igs.UndoAsync(this._game);
         }
 
         private void bUndoNo_Click(object sender, EventArgs e)

@@ -44,12 +44,10 @@ namespace OmegaGo.Core
         /// Gets or sets a value indicating whether the game controller should enforce rules. If true, then illegal moves by agents will be
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
         /// </summary>
-        public bool EnforceRules { private get; set; } = true;
+        public bool EnforceRules { get; set; } = true;
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
         private List<Player> _playersDoneWithLifeDeath = new List<Player>();
-        
-        public event EventHandler<GameRequest> RequestRecieved;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
@@ -122,7 +120,7 @@ namespace OmegaGo.Core
             }
             OnBoardMustBeRefreshed();
         }
-        public async void MakeMove(Player player, Move move)
+        public void MakeMove(Player player, Move move)
         {
             if (_gamePhase == GamePhase.Completed) return;
             if (_gamePhase != GamePhase.MainPhase)
@@ -178,7 +176,7 @@ namespace OmegaGo.Core
             _game.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
             if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
             {
-                await _game.Server.MakeMove(_game, move);
+                _game.Server.MakeMove(_game, move);
             }
             OnBoardMustBeRefreshed();
             MainPhase_AskPlayerToMove(_game.OpponentOf(player));

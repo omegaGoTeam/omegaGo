@@ -14,9 +14,9 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        public override async Task<GameInfo> GetGameById(int gameId)
+        public override async Task<GameInfo> GetGameByIdAsync(int gameId)
         {
-            IgsResponse response = await MakeRequest("games " + gameId);
+            IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
             {
                 if (line.Code == IgsCode.Games)
@@ -31,11 +31,11 @@ namespace OmegaGo.Core.Online.Igs
             }
             throw new Exception("No game with this ID.");
         }
-        public override async Task<List<GameInfo>> ListGamesInProgress()
+        public override async Task<List<GameInfo>> ListGamesInProgressAsync()
         {
-            await EnsureConnected();
+            await EnsureConnectedAsync();
             this._gamesInProgressOnIgs = new List<GameInfo>();
-            List<IgsLine> lines = await MakeRequest("games");
+            List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
             {
                 if (line.Code == IgsCode.Games)
@@ -114,7 +114,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             this._gamesBeingObserved.Add(game);
             this._gamesYouHaveOpened.Add(game);
-            await MakeRequest("observe " + game.ServerId);
+            await MakeRequestAsync("observe " + game.ServerId);
         }
         public override void EndObserving(GameInfo game)
         {
@@ -132,16 +132,16 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="recipient">The recipient.</param>
         /// <param name="message">The message.</param>
         /// <returns>True if the message was delivered.</returns>
-        public async Task<bool> Tell(string recipient, string message)
+        public async Task<bool> TellAsync(string recipient, string message)
         {
-            await EnsureConnected();
-            List<IgsLine> result = await MakeRequest("tell " + recipient + " " + message);
+            await EnsureConnectedAsync();
+            List<IgsLine> result = await MakeRequestAsync("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
-        public async Task<List<IgsUser>> ListOnlinePlayers()
+        public async Task<List<IgsUser>> ListOnlinePlayersAsync()
         {
-            await EnsureConnected();
-            List<IgsLine> users = await MakeRequest("user");
+            await EnsureConnectedAsync();
+            List<IgsLine> users = await MakeRequestAsync("user");
             var returnedUsers = new List<IgsUser>();
             foreach (var line in users)
             {
@@ -152,7 +152,7 @@ namespace OmegaGo.Core.Online.Igs
             return returnedUsers;
         }
 
-        public async Task<bool> RequestBasicMatch(
+        public async Task<bool> RequestBasicMatchAsync(
             string opponent, 
             StoneColor yourColor, 
             int boardSize, 
@@ -160,19 +160,19 @@ namespace OmegaGo.Core.Online.Igs
             int byoyomiMinutes)
         {
             var lines = await
-                MakeRequest("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
+                MakeRequestAsync("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
 
-        public async Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<bool> DeclineMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            List<IgsLine> lines = await MakeRequest(matchRequest.RejectCommand);
+            List<IgsLine> lines = await MakeRequestAsync(matchRequest.RejectCommand);
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
-        public async Task<GameInfo> AcceptMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<GameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         { 
             /*  
             15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
@@ -181,7 +181,7 @@ namespace OmegaGo.Core.Online.Igs
             9 Please use say to talk to your opponent -- help say.
             1 6
             */
-            List<IgsLine> lines = await MakeRequest(matchRequest.AcceptCommand);
+            List<IgsLine> lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.Any(line => line.Code == IgsCode.Error)) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
@@ -204,7 +204,7 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        public override Task MakeMove(GameInfo game, Move move)
+        public override void MakeMove(GameInfo game, Move move)
         {
             switch (move.Kind)
             {
@@ -215,14 +215,13 @@ namespace OmegaGo.Core.Online.Igs
                     MakeUnattendedRequest("pass " + game.ServerId);
                     break;
             }
-            return Task.FromResult(0);
         }
         public override void Resign(GameInfo game)
         {
             MakeUnattendedRequest("resign " + game.ServerId);
         }
 
-        public async Task<bool> Say(GameInfo game, string chat)
+        public async Task<bool> SayAsync(GameInfo game, string chat)
         {
             if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
@@ -232,24 +231,24 @@ namespace OmegaGo.Core.Online.Igs
             if (this._gamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
-                response = await MakeRequest("say " + game.ServerId + " " + chat);
+                response = await MakeRequestAsync("say " + game.ServerId + " " + chat);
             }
             else
             {
                 // We have only one game opened: game id MUST NOT be given
-                response = await MakeRequest("say " + chat);
+                response = await MakeRequestAsync("say " + chat);
             }
             return !response.IsError;
         }
 
-        public async Task UndoPlease(GameInfo game)
+        public async Task UndoPleaseAsync(GameInfo game)
         {
-            await MakeRequest("undoplease " + game.ServerId);
+            await MakeRequestAsync("undoplease " + game.ServerId);
         }
 
-        public async Task Undo(GameInfo game)
+        public async Task UndoAsync(GameInfo game)
         {
-            await MakeRequest("undo " + game.ServerId);
+            await MakeRequestAsync("undo " + game.ServerId);
         }
 
         public void NoUndo(GameInfo game)
@@ -259,11 +258,11 @@ namespace OmegaGo.Core.Online.Igs
 
         public override async void LifeDeath_Done(GameInfo game)
         {
-            await MakeRequest("done " + game.ServerId);
+            await MakeRequestAsync("done " + game.ServerId);
         }
         public override async void LifeDeath_MarkDead(Position position, GameInfo game)
         {
-            await MakeRequest(position.ToIgsCoordinates() + " " + game.ServerId);
+            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
         }
     }
 }

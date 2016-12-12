@@ -6,20 +6,16 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online
 {
+    /// <summary>
+    /// Base class for classes that connect to online servers. The application maintains only one <see cref="ServerConnection"/> instance for each online server, and the instance includes an active TCP connection (if required for the server) and login credentials. 
+    /// </summary>
     public abstract class ServerConnection
     {
-
-        /*
         /// <summary>
-        /// Attempts to log in the user to the server associated with this class. If is succeeds, the class instance remembers the login data and establishes 
-        /// the connection.
+        /// Gets a list of all games that are in progress at this server. The returned list is not kept by this class
+        /// and may be used by the caller as the caller sees fit.
         /// </summary>
-        /// <param name="username">User's login name</param>
-        /// <param name="password">User's password.</param>
-        /// <returns>True if the server permitted the login.</returns>
-        public abstract bool Login(string username, string password);
-        */
-        public virtual Task<List<GameInfo>> ListGamesInProgress()
+        public virtual Task<List<GameInfo>> ListGamesInProgressAsync()
         {
             return Task.FromResult(new List<GameInfo>());
         }
@@ -30,22 +26,13 @@ namespace OmegaGo.Core.Online
         {
         }
 
-        public event Action<GameInfo, Move> IncomingMove;
-        protected void OnIncomingMove(GameInfo game, Move move)
-        {
-            IncomingMove?.Invoke(game, move);
-        }
-         
-
-
         /// <summary>
-        /// Sends a log message that should be displayed to the user using the program.
+        /// Occurs when the connection class wants to present a log message to the user using the program.
         /// </summary>
-        public event Action<string> LogEvent;
-
+        public event EventHandler<string> LogEvent;
         protected void OnLogEvent(string message)
         {
-            LogEvent?.Invoke(message);
+            LogEvent?.Invoke(this, message);
         }
 
         /// <summary>
@@ -53,9 +40,14 @@ namespace OmegaGo.Core.Online
         /// </summary>
         public abstract string ShortName { get; }
 
-        public abstract Task MakeMove(GameInfo game, Move move);
+        public abstract void MakeMove(GameInfo game, Move move);
 
-        public virtual Task<GameInfo> GetGameById(int gameId)
+        /// <summary>
+        /// Gets an online game by its server identifier (the number of the game on the server).
+        /// </summary>
+        /// <param name="gameId">The number of the game (1 to 1000 on IGS, 1 to 1000000 on OGS, I think).</param>
+        /// <returns></returns>
+        public virtual Task<GameInfo> GetGameByIdAsync(int gameId)
         {
             throw new NotImplementedException();
         }

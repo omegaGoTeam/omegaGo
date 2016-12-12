@@ -265,7 +265,7 @@ namespace OmegaGo.Core.Online.Igs
                     IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
                     if (matchRequest != null)
                     {
-                        this.IncomingMatchRequests.Add(matchRequest);
+                        this._incomingMatchRequests.Add(matchRequest);
                         OnIncomingMatchRequest(matchRequest);
                         weAreHandlingAnInterrupt = true;
                         continue;

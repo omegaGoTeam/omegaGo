@@ -15,8 +15,7 @@ using Sockets.Plugin;
 namespace OmegaGo.Core.Online.Igs
 {
     // TODO make it reconnect automatically when connection is interrupted
-
-
+    
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
     /// about which user is logged in.
@@ -63,7 +62,7 @@ namespace OmegaGo.Core.Online.Igs
         private IgsRequest _requestInProgress;
         private readonly object _mutex = new object();
         private IgsComposure _composureBackingField = IgsComposure.Disconnected;
-        public List<IgsMatchRequest> IncomingMatchRequests = new List<IgsMatchRequest>();
+        private readonly List<IgsMatchRequest> _incomingMatchRequests = new List<IgsMatchRequest>();
         private IgsComposure _composure
         {
             get { return _composureBackingField; }
@@ -105,14 +104,14 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="hostname">The hostname to connect to.</param>
         /// <param name="port">The port to connect to.</param>
         /// <returns></returns>
-        public async Task<bool> Connect(string hostname = ServerLocations.IgsPrimary, int port = ServerLocations.IgsPortPrimary)
+        public async Task<bool> ConnectAsync(string hostname = ServerLocations.IgsPrimary, int port = ServerLocations.IgsPortPrimary)
         {
             _hostname = hostname;
             _port = port;
             _shouldBeConnected = true;
             try
             {
-                await EnsureConnected();
+                await EnsureConnectedAsync();
             }
             catch
             {
@@ -120,7 +119,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return true;
         }
-        public async Task Disconnect()
+        public async Task DisconnectAsync()
         {
             _shouldBeConnected = false;
             await _client.DisconnectAsync();
@@ -131,11 +130,11 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public async Task<bool> Login(string username, string password)
+        public async Task<bool> LoginAsync(string username, string password)
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
-            await EnsureConnected();
+            await EnsureConnectedAsync();
             _composure = IgsComposure.LoggingIn;
             _username = username;
             _password = password;
@@ -155,8 +154,8 @@ namespace OmegaGo.Core.Online.Igs
                 OnLogEvent("LOGIN ERROR: " + _loginError);
                 return false;
             }
-            await MakeRequest("toggle quiet true");
-            await MakeRequest("toggle newundo true");
+            await MakeRequestAsync("toggle quiet true");
+            await MakeRequestAsync("toggle newundo true");
             return true;
         }
 
@@ -164,7 +163,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Verifies that we are currectly connected to the server. If not but we *wish* to be connected,
         /// it attempts to establish the connection. If not and we don't wish to be connected, it fails.
         /// </summary>
-        private async Task EnsureConnected()
+        private async Task EnsureConnectedAsync()
         {
             if (_client != null)
             {
@@ -260,7 +259,7 @@ namespace OmegaGo.Core.Online.Igs
                 return user;
           
         }
-       private void HandleIncomingMove(IgsLine igsLine)
+        private void HandleIncomingMove(IgsLine igsLine)
         {
            
 
@@ -288,7 +287,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             else
             {
-                Match match = regexMove.Match(trim);
+                Match match = this._regexMove.Match(trim);
                 string moveIndex = match.Groups[1].Value;
                 string mover = match.Groups[2].Value;
                 string coordinates = match.Groups[3].Value;
@@ -315,7 +314,7 @@ namespace OmegaGo.Core.Online.Igs
 
      
 
-        private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
+        private readonly Regex _regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
         /// <summary>
@@ -324,7 +323,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="command">The command to send over Telnet.</param>
         /// <returns></returns>
-        private async Task<IgsResponse> MakeRequest(string command)
+        private async Task<IgsResponse> MakeRequestAsync(string command)
         {
             IgsRequest request = new IgsRequest(command);
             _outgoingRequests.Enqueue(request);

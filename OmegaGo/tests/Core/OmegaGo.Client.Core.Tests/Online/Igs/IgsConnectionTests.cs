@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Tests.Online.Igs
         public void LoginThrowsWhenUserNameIsNull()
         {
             IgsConnection connection = new IgsConnection();
-            var task = connection.Login(null, "1234");
+            var task = connection.LoginAsync(null, "1234");
             Assert.IsTrue(task.Exception.InnerException is ArgumentNullException);
         }
 
@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Tests.Online.Igs
         public void LoginThrowsWhenPasswordIsNull()
         {
             IgsConnection connection = new IgsConnection();
-            var task = connection.Login("User", null);
+            var task = connection.LoginAsync("User", null);
             Assert.IsTrue(task.Exception.InnerException is ArgumentNullException);
         }
     }
