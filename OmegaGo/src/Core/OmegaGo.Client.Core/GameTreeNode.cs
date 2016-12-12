@@ -20,8 +20,8 @@ namespace OmegaGo.Core
         public string Comment { get; set; }
         public string Name { get; set; }
 
-        public List<string> AddBlack { get; set; }
-        public List<string> AddWhite { get; set; }
+        public List<Position> AddBlack { get; set; }
+        public List<Position> AddWhite { get; set; }
 
         /// <summary>
         /// Describes current state of the entire game board. Can be null.
