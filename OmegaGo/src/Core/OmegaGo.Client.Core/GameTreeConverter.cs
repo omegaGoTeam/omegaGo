@@ -61,6 +61,12 @@ namespace OmegaGo.Core
                     var pointRectangles = property.Values<SgfPointRectangle>();
                     newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles));
                 }
+                if ( node[ "C" ] != null )
+                {
+                    var property = node[ "C" ];
+                    var comment = property.Value<string>();
+                    newNode.Comment = comment;
+                }
                 if (current == null)
                 {
                     root = newNode;
