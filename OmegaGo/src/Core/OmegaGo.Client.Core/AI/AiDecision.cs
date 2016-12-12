@@ -22,7 +22,7 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Gets the agent's explanation for why it made this decision.
         /// </summary>
-        public string Explanation { get; private set; }
+        private string Explanation { get; set; }
 
         /// <summary>
         /// Prevents a default instance of the <see cref="AiDecision"/> class from being created. Use <see cref="MakeMove(Core.Move,string)"/>

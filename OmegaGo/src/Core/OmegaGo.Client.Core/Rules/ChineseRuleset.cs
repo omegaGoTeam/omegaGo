@@ -23,8 +23,7 @@ namespace OmegaGo.Core.Rules
 
         public override Scores CountScore(GameBoard currentBoard)
         {
-            Scores scores;
-            scores = CountArea(currentBoard);
+            var scores = CountArea(currentBoard);
 
             scores.WhiteScore += _komi + _whiteScore;
             scores.BlackScore += _blackScore;

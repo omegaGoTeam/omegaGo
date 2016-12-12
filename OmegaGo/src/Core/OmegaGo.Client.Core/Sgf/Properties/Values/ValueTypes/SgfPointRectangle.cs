@@ -84,7 +84,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         /// <summary>
         /// Checks for equality of two instances
         /// </summary>
-        /// <param name="other">Second instance</param>
+        /// <param name="obj">Second instance</param>
         /// <returns>Are they equal?</returns>
         public override bool Equals(object obj)
         {

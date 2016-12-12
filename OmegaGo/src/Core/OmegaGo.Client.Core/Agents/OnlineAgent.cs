@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Agents
         /// The online agent will set this to determine which move is about to be made. This base class will read this to actually make the move when 
         /// we have it.
         /// </summary>
-        protected int AwaitingTurnNumber { private get; set; } = -1;
+        private int AwaitingTurnNumber { get; set; } = -1;
         public void ForceHistoricMove(int moveIndex, Move move)
         {
             if (_storedMoves.ContainsKey(moveIndex))
@@ -44,7 +44,7 @@ namespace OmegaGo.Core.Agents
         /// If the game controller is waiting for this agent to make a move, and this move is already available in the list of stored moves (received
         /// from the server), then the move will be made.
         /// </summary>
-        protected void PossiblyAnswerAwaitingTurn()
+        private void PossiblyAnswerAwaitingTurn()
         {
             if (AwaitingTurnNumber != -1)
             {

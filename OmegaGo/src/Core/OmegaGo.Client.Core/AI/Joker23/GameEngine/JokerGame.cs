@@ -12,11 +12,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable InconsistentNaming
 #pragma warning disable 219
 
 namespace OmegaGo.Core.AI.Joker23 {
     public class JokerGame {
-        protected static int turn;          // which turn it is
+        private static int turn;          // which turn it is
 
         protected int height;               // height
         protected int width;                // width

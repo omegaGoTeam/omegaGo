@@ -35,7 +35,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Gets or sets the move that caused this <see cref="GameTreeNode"/> to exist. 
         /// </summary>
-        public Move Move { get; set; }
+        public Move Move { get; }
 
         /// <summary>
         /// Gets or sets the parent node of this node, i.e. the move before this one.
@@ -53,7 +53,7 @@ namespace OmegaGo.Core
         /// Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
         /// In normal games, there will only be a single element in this list.
         /// </summary>
-        public GameTreeNodeCollection Branches { get; private set; }
+        public GameTreeNodeCollection Branches { get; }
 
         /// <summary>
         /// Gets a value indicating whether this node has no children, which usually means that it's the last move made.
