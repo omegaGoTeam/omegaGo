@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         SimpleText,
         Text,
         Point,
+        PointRectangle,
         Stone,
         Unknown,
         Compose

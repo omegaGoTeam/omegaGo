@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Property value</param>
         /// <returns>SGF point</returns>
-        public static ISgfPropertyValue Parse(string value) => new SgfPointValue(SgfPoint.Parse(value));
+        public static SgfPointValue Parse(string value) => new SgfPointValue(SgfPoint.Parse(value));
 
         /// <summary>
         /// Point and move are identical

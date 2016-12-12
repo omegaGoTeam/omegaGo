@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns>SGF double property value instance</returns>
-        public static ISgfPropertyValue Parse(string value)
+        public static SgfDoubleValue Parse(string value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             SgfDouble doubleValue;

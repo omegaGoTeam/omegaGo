@@ -60,15 +60,25 @@
     <Compile Include="Rules\SgfGamesTests.cs" />
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverterTests.cs" />
+    <Compile Include="Sgf\Properties\SgfKnownPropertiesTests.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfColorValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfComposePropertyValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfNumberValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfPointRectangleValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfRealValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfSimpleTextValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfTextValueTests.cs" />
     <Compile Include="Sgf\Properties\Values\SgfUnknownPropertyValueTests.cs" />
+    <Compile Include="Sgf\Properties\Values\SpecialSgfPropertyValueParsersTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangleTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
     <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
     <Compile Include="Sgf\SgfNodeTests.cs" />
+    <Compile Include="TestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">

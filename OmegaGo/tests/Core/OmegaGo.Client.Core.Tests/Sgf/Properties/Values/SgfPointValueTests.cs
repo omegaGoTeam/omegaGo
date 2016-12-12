@@ -27,12 +27,5 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values
             var propertyValue = new SgfPointValue(new SgfPoint(3,5));
             Assert.AreEqual( "df", propertyValue.Serialize());
         }
-
-        [TestMethod]
-        public void SgfPointValueParseReturnsItsInstance()
-        {
-            var propertyValue = SgfPointValue.Parse("aA");
-            Assert.IsTrue(propertyValue is SgfPointValue);
-        }
     }
 }

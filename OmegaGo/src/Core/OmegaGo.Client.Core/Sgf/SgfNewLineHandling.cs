@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Sgf
 {
-    class PositionSgfExtensions
+    /// <summary>
+    /// Specifies the handling of newlines
+    /// </summary>
+    internal enum SgfNewLineHandling
     {
+        Keep,
+        ReplaceWithSpace
     }
 }

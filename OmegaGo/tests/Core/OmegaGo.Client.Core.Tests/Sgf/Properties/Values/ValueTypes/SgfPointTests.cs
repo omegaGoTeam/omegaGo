@@ -112,5 +112,12 @@ namespace OmegaGo.Core.Tests.Sgf.Properties.Values.ValueTypes
         {
             SgfPoint.Parse("12");
         }
+
+        [TestMethod]
+        public void ToStringSerializesPointProperly()
+        {
+            var point = SgfPoint.Parse("cc");
+            Assert.AreEqual("cc", point.ToString());
+        }
     }
 }

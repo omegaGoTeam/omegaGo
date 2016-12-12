@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Properties;
+using OmegaGo.Core.Sgf.Properties.Values;
 
 namespace OmegaGo.Core.Tests.Sgf
 {
@@ -32,8 +33,8 @@ namespace OmegaGo.Core.Tests.Sgf
         {
             var node = new SgfNode( new SgfProperty[]
             {
-                new SgfProperty( "FF", new []{"4"} ),
-                new SgfProperty( "FF", new []{"4"} ),
+                new SgfProperty( "FF", new []{SgfNumberValue.Parse("4"), } ),
+                new SgfProperty( "FF", new []{SgfNumberValue.Parse("4")} ),
             } );
         }
 
@@ -42,14 +43,14 @@ namespace OmegaGo.Core.Tests.Sgf
         {
             var node = new SgfNode( new []
             {
-                new SgfProperty( "FF", new [] {"4"} ), 
-                new SgfProperty( "C", new [] {"Test"} )
+                new SgfProperty( "FF", new [] { SgfNumberValue.Parse("4")} ), 
+                new SgfProperty( "C", new [] { SgfTextValue.Parse("Test")} )
             }  );
             Assert.AreEqual( 2, node.Count() );
             Assert.AreEqual( "FF", node["FF"].Identifier );
-            Assert.AreEqual( "4", node["FF"].Values.First().Serialize() );
+            Assert.AreEqual( 4, node["FF"].Value<int>() );
             Assert.AreEqual( "C", node["C"].Identifier );
-            Assert.AreEqual( "Test", node[ "C" ].Values.First().Serialize() );
+            Assert.AreEqual( "Test", node[ "C" ].Value<string>() );
         }
     }
 }
