@@ -35,5 +35,15 @@ namespace OmegaGo.Core.Sgf
         /// Child trees
         /// </summary>
         public IEnumerable<SgfGameTree> Children { get; }
+
+        /// <summary>
+        /// Gathers all game info properties from the tree
+        /// </summary>
+        /// <returns>Game info</returns>
+        public SgfGameInfo GetGameInfo()
+        {
+            var searcher = new SgfGameInfoSearcher( this );
+            return searcher.GetGameInfo();
+        }
     }
 }
