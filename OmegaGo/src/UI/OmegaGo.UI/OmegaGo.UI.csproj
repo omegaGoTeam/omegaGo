@@ -74,6 +74,7 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
+    <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />

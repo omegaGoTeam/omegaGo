@@ -12,6 +12,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class TutorialViewModel : ViewModelBase, INotifyPropertyChanged
     {
+
         public Scenario Scenario { get; set; }
 
 

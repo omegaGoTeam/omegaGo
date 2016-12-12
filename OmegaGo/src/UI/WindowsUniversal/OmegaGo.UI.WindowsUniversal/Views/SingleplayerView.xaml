@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     mc:Ignorable="d">
+    
 
     <Page.Transitions>
         <TransitionCollection>
@@ -29,18 +30,20 @@
                     <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Button Content="Tutorial"></Button>
-            <Button Content="Solve Tsumego"></Button>
-            <Button Content="Play Against AI"></Button>
-            <Button Content="Statistics"></Button>
+            <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
+            <Button Content="Solve Tsumego" Command="{Binding Path=GoToTsumego}"></Button>
+            <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
+            <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>
-        <Grid VerticalAlignment="Bottom">
-            <TextBlock Text="Quests"></TextBlock>
-            <ListView>
+        <StackPanel VerticalAlignment="Bottom">
+            <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
+            <GridView SelectionMode="None" HorizontalAlignment="Center">
+                <!-- A grid view maybe won't work... we need larger LastViewItems -->
                 <ListViewItem>Quest1</ListViewItem>
                 <ListViewItem>Second Quest</ListViewItem>
+                <ListViewItem>This should be a Quest object.</ListViewItem>
                 <ListViewItem>The Master Quest</ListViewItem>
-            </ListView>
-        </Grid>
+            </GridView>
+        </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

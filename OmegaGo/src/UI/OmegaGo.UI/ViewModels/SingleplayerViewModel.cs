@@ -14,6 +14,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class SingleplayerViewModel : ViewModelBase
     {
+        public IMvxCommand GoToTsumego => new MvxCommand(() => ShowViewModel<TsumegoViewModel>());
+        public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
+        public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
+
+        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>(
+            new Dictionary<string, string> {  ["AgainstAI"] = "true" }
+            ));
 
         public SingleplayerViewModel()
         {
