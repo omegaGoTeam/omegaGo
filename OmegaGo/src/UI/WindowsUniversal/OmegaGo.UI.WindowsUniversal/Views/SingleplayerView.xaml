@@ -29,9 +29,15 @@
                     <Setter Property="Margin" Value="0,20,0,0"></Setter>
                     <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
                 </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="Margin" Value="0,20,0,0"></Setter>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                </Style>
             </StackPanel.Resources>
             <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
-            <Button Content="Solve Tsumego" Command="{Binding Path=GoToTsumego}"></Button>
+            <ComboBox Name="TsumegoProblem" ItemsSource="{Binding Path=TsumegoProblems}">
+            </ComboBox>
+            <Button Content="Solve This Tsumego" Click="SolveThisTsumego_Click"></Button>
             <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>

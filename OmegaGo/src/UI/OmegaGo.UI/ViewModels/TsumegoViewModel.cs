@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -43,15 +45,62 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             get { return _boardState; }
             set { SetProperty(ref _boardState, value); }
         }
-        
+
+        private TsumegoProblem CurrentProblem;
+        private string _currentProblemName = "A";
+        private string _currentProblemInstructions = "B";
+
+        public string CurrentProblemName
+        {
+            get { return this._currentProblemName; }
+            set { SetProperty(ref _currentProblemName, value); }
+        }
+
+        public string CurrentProblemInstructions
+        {
+            get { return this._currentProblemInstructions; }
+            set { SetProperty(ref _currentProblemInstructions, value); }
+        }
+
+        public IMvxCommand GoToPreviousProblem => new MvxCommand(() => {
+                int i = Problems.AllProblems.IndexOf(CurrentProblem);
+                                                                           int prev = i - 1;
+            if (prev >= 0)
+            {
+                LoadProblem(Problems.AllProblems[prev]);
+            }
+        });
+
+        public IMvxCommand GoToNextProblem => new MvxCommand(() =>
+        {
+            int i = Problems.AllProblems.IndexOf(CurrentProblem);
+            int next = i + 1;
+            if (next < Problems.AllProblems.Count)
+            {
+                LoadProblem(Problems.AllProblems[next]);
+            }
+        });
         public TsumegoViewModel()
         {
+            var problem = Mvx.GetSingleton<TsumegoProblem>();
+
+
             BoardState = new BoardState();
             BoardState.BoardHeight = 19;
             BoardState.BoardWidth = 19;
 
-            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState }; 
+
+            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState };
+
+
+            LoadProblem(problem);
+            //BoardViewModel
         }
-        
+
+        private void LoadProblem(TsumegoProblem problem)
+        {
+            CurrentProblem = problem;
+            this.CurrentProblemName = CurrentProblem.Name;
+        }
     }
 }

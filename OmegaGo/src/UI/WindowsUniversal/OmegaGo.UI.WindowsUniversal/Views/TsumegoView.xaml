@@ -21,6 +21,24 @@
         <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+            <Button Command="{Binding Path=GoToPreviousProblem}">Previous Problem</Button>
+            <Button Command="{Binding Path=GoToNextProblem}">Next Problem</Button>
+            <CheckBox>Show possible moves</CheckBox>
+            <CheckBox>Show which moves are correct</CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock FontWeight="Bold">
+                Problem Name:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
+            <TextBlock FontWeight="Bold">
+                Instructions:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+        </StackPanel>
+        
+       
 
      </Grid>
 </views:TransparencyViewBase>

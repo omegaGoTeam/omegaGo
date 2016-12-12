@@ -1,4 +1,6 @@
 ﻿
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Tsumego;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
@@ -10,6 +12,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public SingleplayerView()
         {
             this.InitializeComponent();
+        }
+
+        private void SolveThisTsumego_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            TsumegoProblem problem = TsumegoProblem.SelectedItem as TsumegoProblem;
+            if (problem != null)
+            {
+                VM.MoveToSolveTsumegoProblem(problem);
+            }
         }
     }
 }

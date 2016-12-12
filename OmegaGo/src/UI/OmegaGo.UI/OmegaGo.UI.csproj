@@ -71,9 +71,11 @@
     <Compile Include="Services\Settings\SettingLocality.cs" />
     <Compile Include="Services\Settings\SettingsGroup.cs" />
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
+    <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
+    <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
@@ -139,6 +141,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Services\Tsumego\Data\1.sgf" />
+    <None Include="Services\Tsumego\Data\2.sgf" />
+    <None Include="Services\Tsumego\Data\3.sgf" />
+    <None Include="Services\Tsumego\Data\4.sgf" />
+    <None Include="Services\Tsumego\Data\5.sgf" />
+    <None Include="Services\Tsumego\Data\6.sgf" />
+    <None Include="Services\Tsumego\Data\7.sgf" />
+    <None Include="Services\Tsumego\Data\8.sgf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

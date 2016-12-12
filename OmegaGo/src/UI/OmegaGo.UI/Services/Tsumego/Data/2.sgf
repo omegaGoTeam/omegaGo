@@ -1,0 +1,14 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6475]
+GN[a few beginner examples for a friend - DD002 bent three point eye space]
+AW[rb][qa][qb][rc][sc]
+AB[pa][pb][pc][qc][qd][rd][sd]
+PL[W]C[White to move: Create two eyes in the three point space.]
+(;W[sa]C[Correct.])
+(;W[sb]C[Wrong.](;B[sa];W[ra];B[sa])
+(;B[ra];W[sa];B[ra])
+)
+(;W[ra]C[Wrong.](;B[sb];W[sa];B[sb])
+(;B[sa];W[sb];B[sa])
+)
+)

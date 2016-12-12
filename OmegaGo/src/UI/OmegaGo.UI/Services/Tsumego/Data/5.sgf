@@ -1,0 +1,12 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6478]
+GN[a few beginner examples for a friend - DD005 prevent two eyes]
+AW[hd][id][jd][je][jf][jg][ih][jh][hh][hg][hf][he]
+AB[gc][hc][ic][jc][kc][kd][ke][kf][kg][kh][ki][ji][ii][hi][gi][gh][gg][gf][ge][gd]
+PL[B]C[Black to move: With one move, prevent the surrounded group making two eyes.]
+(;B[if]C[Correct.](;W[ig];B[ie])
+(;W[ie];B[ig])
+)
+(;B[ig];W[if]C[Wrong.])
+(;B[ie];W[if]C[Wrong.])
+)

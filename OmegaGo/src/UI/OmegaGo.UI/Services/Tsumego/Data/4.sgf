@@ -1,0 +1,17 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6477]
+GN[a few beginner examples for a friend - DD004 make three eyes with one move]
+AW[hh][ih][jh][ji][hi][gi][gj][gk][hk][ik][jk][kk][kj][ki]
+AB[gg][gh][fh][fi][fk][fj][fl][gl][hl][il][jl][kl][ll][lk][lj][li][lh][kh][kg][jg][ig][hg]
+PL[W]C[White to move: This group of stones can live or die depending on who has the next move.]
+(;W[ij]C[Correct.])
+(;W[ii];B[ij](;W[jj];B[hj]C[Wrong.])
+(;W[hj];B[jj]C[Wrong.])
+)
+(;W[jj];B[ij](;W[ii];B[hj]C[Wrong.])
+(;W[hj];B[ii]C[Wrong.])
+)
+(;W[hj];B[ij](;W[ii];B[jj]C[Wrong.])
+(;W[jj];B[ii]C[Wrong.])
+)
+)

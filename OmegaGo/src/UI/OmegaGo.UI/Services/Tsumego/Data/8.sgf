@@ -1,0 +1,14 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6481]
+GN[a few beginner examples for a friend - DD008 capture the stone in a net]
+AW[mf][pc]
+AB[le][lf][lg][mg][ng]
+PL[B]C[Black to move: Place one stone to ensure escape paths are blocked.
+
+If you choose one of the incorrect answers, the enemy stone can run away and create problems for you.]
+(;B[ne]C[Correct.](;W[nf];B[of];W[me];B[md])
+(;W[me];B[md]C[Correct.];W[nf];B[of])
+)
+(;B[nf];W[me]C[Wrong.])
+(;B[me];W[nf]C[Wrong.])
+)

@@ -1,0 +1,12 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6479]
+GN[a few beginner examples for a friend - DD006 prevent two eyes in bent three space]
+AW[qa][qb][rb][rc][sc]
+AB[pa][pb][pc][qc][qd][rd][sd]
+PL[B]C[Black to move: With one move, prevent two eyes being made.]
+(;B[sa](;W[sb]C[Correct.];B[ra])
+(;W[ra]C[Correct.];B[sb])
+)
+(;B[sb];W[sa]C[Wrong.])
+(;B[ra];W[sa]C[Wrong.])
+)
