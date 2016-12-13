@@ -1,0 +1,17 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/5677]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 116 / 900]
+AW[bd][cd][cc][db][ec]
+AB[ba][cb][bc]
+PL[B]C[Black to live.
+
+---
+
+Please note: Problem 118 is currently not in this collection, since it is the same as this problem.]
+(;B[ab];W[ad];B[ac];W[da];B[ca]C[Correct.])
+(;B[ac];W[ab]C[Wrong.])
+(;B[ad];W[ae](;B[ac];W[ab];B[bb];W[bf]C[Wrong.])
+(;B[ab];W[ac]C[Wrong.
+Ko.])
+)
+)

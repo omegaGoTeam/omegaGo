@@ -1,0 +1,22 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2869]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 34 / 900]
+AW[bb][bc][bd][ad][cc][da][db][eb]
+AB[ba][ca][fb][fc][dc][ec][cd][ce][be][ae][hb]
+PL[B]C[Black to kill.]
+(;B[aa];W[ab]C[Wrong.
+White can capture the marked stones to create a second eye.]MA[aa]MA[ba]MA[ca])
+(;B[ab];W[cb]C[Play at A if you wish to tenuki.]LB[he:A](;B[ac];W[aa]C[Wrong.])
+(;B[he];W[aa];B[ba]C[Correct.])
+(;B[aa];W[ac](;B[ba];W[aa];B[ab]C[Wrong.
+Ko for life.])
+(;B[aa];W[ba]C[Wrong.])
+(;B[ab];W[aa]C[Wrong.])
+(;B[ca];W[ba]C[Wrong.])
+)
+)
+(;B[fa];W[ab]C[Wrong.
+White can capture the marked stones to create a second eye.]MA[ba]MA[ca])
+(;B[cb];W[aa]C[Wrong.])
+(;B[ac];W[ab]C[Wrong.])
+)

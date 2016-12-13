@@ -1,0 +1,18 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2828]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 4 / 900]
+AW[aa][ca][bc][cc][dc][eb][ec]
+AB[ab][bb][cb][db]
+PL[B]C[Black to live.]
+(;B[da](;W[ac]C[White can't fill in at B19 because the group has outside liberties.]TR[ba];B[ba]C[Correct.])
+(;W[ea]C[White can't fill in at B19 because the group has outside liberties.]TR[ba](;B[ba]C[Correct.])
+(;B[ac];W[ad](;B[bd];W[ba]C[Wrong.])
+(;B[ba];W[bd]C[Correct.])
+)
+)
+)
+(;B[ba];W[da];B[ea];W[da]C[Wrong.])
+(;B[ac];W[ad](;B[ba];W[da];B[ea];W[da]C[Wrong.])
+(;B[da];W[ea];B[ba]C[Correct.])
+)
+)

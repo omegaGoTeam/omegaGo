@@ -1,0 +1,24 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2868]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 33 / 900]
+AW[ad][bd][bc][bb][cb][db][eb]
+AB[ab][ac][ba][ca][ae][be][ce][cd][cc][dc][ec][fc][fb]
+PL[B]C[Black to kill.]
+(;B[ea];W[aa];B[ab]C[Correct.])
+(;B[da];W[aa](;B[ea];W[fa]C[Wrong.])
+(;B[ab];W[ea](;B[aa];W[ac]C[Wrong.
+Bent five in the corner is not a thing.])
+(;B[fa];W[aa];B[ba];W[ca]C[Wrong.])
+)
+)
+(;B[aa];W[da]C[Wrong.])
+(;B[fa];W[aa](;B[ab](;W[ac];B[da];W[aa];B[ea]C[Correct.])
+(;W[ea];B[aa](;W[ac];B[da]C[Correct.])
+(;W[da];B[ac]C[Correct.])
+)
+(;W[da];B[aa];W[ac];B[ba];W[aa];B[ab];W[ca]C[White only has one outside liberty.];B[ea]C[Correct.])
+)
+(;B[da];W[ea]C[Wrong.])
+(;B[ea];W[da]C[Wrong.])
+)
+)

@@ -57,6 +57,8 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         private string _currentProblemInstructions = "B";
         private string _currentNodeStatus = "";
         private GameTreeNode _currentNode;
+        private bool _showPossibleMoves = true;
+        private bool _showWhichMovesAreCorrect = false;
 
 
         public void UndoOneMove()
@@ -191,6 +193,18 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         {
             get { return this._currentProblemInstructions; }
             set { SetProperty(ref _currentProblemInstructions, value); }
+        }
+
+        public bool ShowPossibleMoves
+        {
+            get { return this._showPossibleMoves; }
+            set { SetProperty(ref _showPossibleMoves, value); }
+        }
+
+        public bool ShowWhichMovesAreCorrect
+        {
+            get { return this._showWhichMovesAreCorrect; }
+            set { SetProperty(ref _showWhichMovesAreCorrect, value); }
         }
 
         // Navigation
