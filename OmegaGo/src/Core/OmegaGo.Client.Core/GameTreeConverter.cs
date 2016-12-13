@@ -67,12 +67,6 @@ namespace OmegaGo.Core
                     var comment = property.Value<string>();
                     newNode.Comment = comment;
                 }
-                if (node ["GN"] != null)
-                {
-                    var property = node["GN"];
-                    var gameName = property.Value<string>();
-                    newNode.Name = gameName;
-                }
                 if (current == null)
                 {
                     root = newNode;

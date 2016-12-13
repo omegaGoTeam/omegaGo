@@ -21,8 +21,11 @@ namespace OmegaGo.UI.ViewModels
 {
     public class TsumegoViewModel : ViewModelBase
     {
-        /*
-         * In the Solve Tsumego screen, the player can select a problem from a list as on the rightmost screenshot in this section. Then, the player is presented with the problem. The player always plays as black. 
+        /* 
+         * Description of this screen:
+         * 
+         
+In the Solve Tsumego screen, the player can select a problem from a list as on the rightmost screenshot in this section. Then, the player is presented with the problem. The player always plays as black. 
 
 The player makes a move, then the problem either says "That move is wrong." or "That move is wrong, because your opponent would respond [this move]" or "That move is correct and you win the problem." or "Hm, alright, your opponent responds like this [move], what are you going to do now?"
 
@@ -58,7 +61,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         private string _currentNodeStatus = "";
         private GameTreeNode _currentNode;
         private bool _showPossibleMoves = true;
-        private bool _showWhichMovesAreCorrect = false;
+        private bool _showWhichMovesAreCorrect;
 
 
         public void UndoOneMove()
@@ -147,6 +150,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 status += " (move undone)";
             }
 
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (node.Parent == null)
             {
                 _playerToMove = _humansColor;
@@ -165,7 +169,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             this.CurrentProblemName = this._currentProblem.Name;
             this.CurrentProblemInstructions = this._currentProblemTree.Comment;
             this.CurrentNode = this._currentProblemTree;
-            this._playerToMove = this._currentProblem.PlayerToPlay;
+            this._playerToMove = this._currentProblem.ColorToPlay;
             this._humansColor = this._playerToMove;
             this.CurrentNodeStatus = this._humansColor + " to play.";
         }

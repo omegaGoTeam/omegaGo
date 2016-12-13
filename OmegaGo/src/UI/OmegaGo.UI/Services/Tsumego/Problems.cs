@@ -8,8 +8,14 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
-    class Problems
+    /// <summary>
+    /// Loads and holds Tsumego problem statements.
+    /// </summary>
+    static class Problems
     {
+        /// <summary>
+        /// Initializes the <see cref="Problems"/> static class by loading all embedded tsumego SGF files.
+        /// </summary>
         static Problems()
         {
             var names = (typeof(Problems).GetTypeInfo().Assembly).GetManifestResourceNames();
@@ -21,15 +27,19 @@ namespace OmegaGo.UI.Services.Tsumego
                 StreamReader sr = new StreamReader(stream);
                 string data = sr.ReadToEnd();
                 TsumegoProblem problem = TsumegoProblem.CreateFromSgfText(data);
-                AllProblems.Add(problem);
+                Problems.allProblems.Add(problem);
             }
-            if (AllProblems.Count == 0)
+            if (Problems.allProblems.Count == 0)
             {
                 throw new Exception(
                     "At least one problem should have been loaded. Are you sure that the problems are located in the OmegaGo.UI.Services.Tsumego subfolder and that they're set as Embedded Resource?");
             }
         }
-
-        public static readonly List<TsumegoProblem> AllProblems = new List<TsumegoProblem>();
+        
+        private static readonly List<TsumegoProblem> allProblems = new List<TsumegoProblem>();
+        /// <summary>
+        /// Gets all embedded tsumego problem statements.
+        /// </summary>
+        public static IList<TsumegoProblem> AllProblems => Problems.allProblems;
     }
 }

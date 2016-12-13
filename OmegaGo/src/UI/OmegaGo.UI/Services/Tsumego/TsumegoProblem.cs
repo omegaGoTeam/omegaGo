@@ -8,13 +8,31 @@ using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
+    /// <summary>
+    /// Represents the definition of a tsumego problem, including its name, problem statement and the game tree.
+    /// </summary>
     public class TsumegoProblem
     {
-        public static readonly IRuleset TsumegoRuleset = Ruleset.Create(RulesetType.Chinese, new GameBoardSize(19, 19));
+        /// <summary>
+        /// Gets the ruleset that is used for tsumego problems (i.e. Chinese 19x19).
+        /// </summary>
+        public static IRuleset TsumegoRuleset { get; } = Ruleset.Create(RulesetType.Chinese,
+            new GameBoardSize(19, 19));
+
+        /// <summary>
+        /// Gets the name of the problem.
+        /// </summary>
         public string Name { get; }
-        public StoneColor PlayerToPlay { get; }
+        /// <summary>
+        /// Gets the color of stones the player will place.
+        /// </summary>
+        public StoneColor ColorToPlay { get; }
+
         private SgfGameTree SgfGameTree { get; }
 
+        /// <summary>
+        /// Creates a new game tree from the definition of this problem. The returned node is the root of this tree.
+        /// </summary>
         public GameTreeNode SpawnThisProblem()
         {
             var tree = GameTreeConverter.FromSgfGameTree(SgfGameTree);
@@ -46,17 +64,23 @@ namespace OmegaGo.UI.Services.Tsumego
             return tree;
         }
 
-        private TsumegoProblem(string name, SgfGameTree tree, StoneColor playerToPlay)
+        private TsumegoProblem(string name, SgfGameTree tree, StoneColor colorToPlay)
         {
             this.Name = name;
             this.SgfGameTree = tree;
-            this.PlayerToPlay = playerToPlay;
+            this.ColorToPlay = colorToPlay;
         }
         public override string ToString()
         {
             return Name;
         }
 
+        /// <summary>
+        /// Creates a tsumego problem from the contents of an SGF file downloaded from online-go.com using
+        /// the Ruby downloader.
+        /// </summary>
+        /// <param name="data">The contents of an SGF file.</param>
+        /// <returns></returns>
         public static TsumegoProblem CreateFromSgfText(string data)
         {
             SgfParser parser = new SgfParser();
@@ -84,8 +108,7 @@ namespace OmegaGo.UI.Services.Tsumego
                     }
                 }
             }
-            var tree = GameTreeConverter.FromSgfGameTree(sgfTree);
-            return new TsumegoProblem(problemName, collection.GameTrees.First(), playerToPlay);
+            return new TsumegoProblem(problemName, sgfTree, playerToPlay);
         }
     }
 }
