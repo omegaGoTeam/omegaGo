@@ -16,7 +16,10 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Frame Grid.Row="1" x:Name="MainFrame" />
-            <Grid x:Name="TitleBar" Background="{ThemeResource GameColorBrush}" Visibility="Visible">
+            <Grid x:Name="TitleBar"  Visibility="Visible">
+                <Grid.Background>
+                    <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
+                </Grid.Background>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48"/>
                     <ColumnDefinition/>
