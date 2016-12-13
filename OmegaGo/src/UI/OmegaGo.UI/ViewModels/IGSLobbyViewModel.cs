@@ -45,7 +45,7 @@ namespace OmegaGo.UI.ViewModels
 
             _selectedOnlineGameIndex = -1;
 
-            _igsConnection.Connect();
+            _igsConnection.ConnectAsync();
         }
 
         private void ObserveGame()
@@ -66,7 +66,7 @@ namespace OmegaGo.UI.ViewModels
         private async void RefreshOnlineGames()
         {
             OnlineGames.Clear();
-            var gamesInProgress = await _igsConnection.ListGamesInProgress();
+            var gamesInProgress = await _igsConnection.ListGamesInProgressAsync();
 
             foreach (var onlineGame in gamesInProgress)
             {
@@ -77,7 +77,7 @@ namespace OmegaGo.UI.ViewModels
         private async void RefreshOnlinePlayers()
         {
             OnlinePlayers.Clear();
-            var onlinePlayers = await _igsConnection.ListOnlinePlayers();
+            var onlinePlayers = await _igsConnection.ListOnlinePlayersAsync();
 
             foreach (var onlinePlayer in onlinePlayers)
             {
@@ -85,9 +85,9 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        protected override void GoBack()
+        protected override async void GoBack()
         {
-            _igsConnection.Disconnect();
+            await _igsConnection.DisconnectAsync();
             base.GoBack();
         }
     }

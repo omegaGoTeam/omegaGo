@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Agents
         /// <summary>
         /// The AI program that feeds moves to this agent.
         /// </summary>
-        IAIProgram _aiProgram;
+        readonly IAIProgram _aiProgram;
         /// <summary>
         /// The strength (1-10) that this AI program should play at.
         /// </summary>
@@ -29,14 +29,14 @@ namespace OmegaGo.Core.Agents
         /// <param name="aiProgram">The AI program that makes decisions.</param>
         public AIAgent(IAIProgram aiProgram)
         {
-            this._aiProgram = aiProgram;
+            _aiProgram = aiProgram;
         }
 
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
         public override async void PleaseMakeAMove()
         { 
             GameBoard createdBoard = FastBoard.CreateBoardFromGame(Game);
-            var aiTask = Task.Run(() => this._aiProgram.RequestMove(new AIPreMoveInformation(
+            var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
               Player.Color,
               createdBoard,
               Game.BoardSize,

@@ -65,8 +65,7 @@ namespace OmegaGo.Core.Rules
         MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
 
         /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
-        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method is not thread-safe.
         /// </summary>
         /// <param name="pos">The position whose group we want to identify.</param>
         /// <param name="board">The current full board position.</param>

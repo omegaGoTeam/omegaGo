@@ -16,8 +16,8 @@ namespace IgsPopulationDiscovery
         }
         public static async Task AsyncMain() { 
             IgsConnection igs = new IgsConnection();
-            await igs.Connect();
-            await igs.Login("OmegaGo1", "123456789");
+            await igs.ConnectAsync();
+            await igs.LoginAsync("OmegaGo1", "123456789");
             Console.Title = "IGS Population Discovery";
             Console.WriteLine("Login accomplished.");
 
@@ -25,7 +25,7 @@ namespace IgsPopulationDiscovery
             {
                 try
                 {
-                    var users = igs.ListOnlinePlayers().Result;
+                    var users = igs.ListOnlinePlayersAsync().Result;
                     int count = users.Count;
                     TryAppendCount(count);
                     Console.WriteLine(count + " players are now online.");
@@ -38,8 +38,8 @@ namespace IgsPopulationDiscovery
                     {
                         Console.WriteLine("Connection lost. Attempting to reestablish...");
                         igs = new IgsConnection();
-                        await igs.Connect();
-                        await igs.Login("OmegaGo1", "123456789");
+                        await igs.ConnectAsync();
+                        await igs.LoginAsync("OmegaGo1", "123456789");
                         Thread.Sleep(2 * 1000);
                     } catch
                     {

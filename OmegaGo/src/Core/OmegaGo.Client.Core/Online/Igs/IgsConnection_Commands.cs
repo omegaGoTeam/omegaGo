@@ -14,11 +14,28 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        public override async Task<List<GameInfo>> ListGamesInProgress()
+        public override async Task<GameInfo> GetGameByIdAsync(int gameId)
         {
-            await EnsureConnected();
-            _gamesInProgressOnIgs = new List<GameInfo>();
-            List<IgsLine> lines = await MakeRequest("games");
+            IgsResponse response = await MakeRequestAsync("games " + gameId);
+            foreach (IgsLine line in response)
+            {
+                if (line.Code == IgsCode.Games)
+                {
+                    if (line.EntireLine.Contains("[##]"))
+                    {
+                        // This is the example line.
+                        continue;
+                    }
+                    return CreateGameFromTelnetLine(line.EntireLine);
+                }
+            }
+            throw new Exception("No game with this ID.");
+        }
+        public override async Task<List<GameInfo>> ListGamesInProgressAsync()
+        {
+            await EnsureConnectedAsync();
+            this._gamesInProgressOnIgs = new List<GameInfo>();
+            List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
             {
                 if (line.Code == IgsCode.Games)
@@ -28,10 +45,10 @@ namespace OmegaGo.Core.Online.Igs
                         // This is the example line.
                         continue;
                     }
-                    _gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
+                    this._gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return _gamesInProgressOnIgs;
+            return this._gamesInProgressOnIgs;
         }
         private GameInfo CreateGameFromTelnetLine(string line)
         {
@@ -90,22 +107,24 @@ namespace OmegaGo.Core.Online.Igs
         }
         public override async void StartObserving(GameInfo game)
         {
-            if (_gamesBeingObserved.Contains(game))
+            if (this._gamesBeingObserved.Contains(game))
             {
                 // We are already observing this game.
                 return;
             }
-            _gamesBeingObserved.Add(game);
-            await MakeRequest("observe " + game.ServerId);
+            this._gamesBeingObserved.Add(game);
+            this._gamesYouHaveOpened.Add(game);
+            await MakeRequestAsync("observe " + game.ServerId);
         }
         public override void EndObserving(GameInfo game)
         {
-            if (!_gamesBeingObserved.Contains(game))
+            if (!this._gamesBeingObserved.Contains(game))
             {
                 throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
             }
-            _gamesBeingObserved.Remove(game);
-            _streamWriter.WriteLine("observe " + game.ServerId);
+            this._gamesBeingObserved.Remove(game);
+            this._gamesYouHaveOpened.Remove(game);
+            this._streamWriter.WriteLine("observe " + game.ServerId);
         }
         /// <summary>
         /// Sends a private message to the specified user using the 'tell' feature of IGS.
@@ -113,16 +132,16 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="recipient">The recipient.</param>
         /// <param name="message">The message.</param>
         /// <returns>True if the message was delivered.</returns>
-        public async Task<bool> Tell(string recipient, string message)
+        public async Task<bool> TellAsync(string recipient, string message)
         {
-            await EnsureConnected();
-            List<IgsLine> result = await MakeRequest("tell " + recipient + " " + message);
+            await EnsureConnectedAsync();
+            List<IgsLine> result = await MakeRequestAsync("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
-        public async Task<List<IgsUser>> ListOnlinePlayers()
+        public async Task<List<IgsUser>> ListOnlinePlayersAsync()
         {
-            await EnsureConnected();
-            List<IgsLine> users = await MakeRequest("user");
+            await EnsureConnectedAsync();
+            List<IgsLine> users = await MakeRequestAsync("user");
             var returnedUsers = new List<IgsUser>();
             foreach (var line in users)
             {
@@ -133,7 +152,7 @@ namespace OmegaGo.Core.Online.Igs
             return returnedUsers;
         }
 
-        public async Task<bool> RequestBasicMatch(
+        public async Task<bool> RequestBasicMatchAsync(
             string opponent, 
             StoneColor yourColor, 
             int boardSize, 
@@ -141,19 +160,19 @@ namespace OmegaGo.Core.Online.Igs
             int byoyomiMinutes)
         {
             var lines = await
-                MakeRequest("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
+                MakeRequestAsync("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
 
-        public async Task<bool> DeclineMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<bool> DeclineMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            List<IgsLine> lines = await MakeRequest(matchRequest.RejectCommand);
+            List<IgsLine> lines = await MakeRequestAsync(matchRequest.RejectCommand);
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
-        public async Task<GameInfo> AcceptMatchRequest(IgsMatchRequest matchRequest)
+        public async Task<GameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         { 
             /*  
             15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
@@ -162,21 +181,22 @@ namespace OmegaGo.Core.Online.Igs
             9 Please use say to talk to your opponent -- help say.
             1 6
             */
-            List<IgsLine> lines = await MakeRequest(matchRequest.AcceptCommand);
+            List<IgsLine> lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.Any(line => line.Code == IgsCode.Error)) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
-            GameInfo game = new Core.GameInfo()
+            GameInfo game = new GameInfo()
             {
-                BoardSize = new Core.GameBoardSize(19), // TODO
+                BoardSize = new GameBoardSize(19), // TODO
                 Server = this,
                 ServerId = heading.GameNumber,
             };
-            game.Players.Add(new Core.Player(heading.BlackName, "?", game));
-            game.Players.Add(new Core.Player(heading.WhiteName, "?", game));
+            game.Players.Add(new Player(heading.BlackName, "?", game));
+            game.Players.Add(new Player(heading.WhiteName, "?", game));
             game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);
+            this._gamesYouHaveOpened.Add(game);
             return game;
         }
         public void DEBUG_MakeUnattendedRequest(string command)
@@ -184,11 +204,65 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        public override async Task MakeMove(GameInfo game, Move move)
+        public override void MakeMove(GameInfo game, Move move)
         {
-            MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
-            await Task.Delay(0);
-            // TODO many different things to handle here
+            switch (move.Kind)
+            {
+                case MoveKind.PlaceStone:
+                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+                    break;
+                case MoveKind.Pass:
+                    MakeUnattendedRequest("pass " + game.ServerId);
+                    break;
+            }
+        }
+        public override void Resign(GameInfo game)
+        {
+            MakeUnattendedRequest("resign " + game.ServerId);
+        }
+
+        public async Task<bool> SayAsync(GameInfo game, string chat)
+        {
+            if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
+            if (chat == null) throw new ArgumentNullException(nameof(chat));
+            if (chat == "") throw new ArgumentException("Chat line must not be empty.");
+            if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
+            IgsResponse response;
+            if (this._gamesYouHaveOpened.Count > 1)
+            {
+                // More than one game is opened: we must give the game id.
+                response = await MakeRequestAsync("say " + game.ServerId + " " + chat);
+            }
+            else
+            {
+                // We have only one game opened: game id MUST NOT be given
+                response = await MakeRequestAsync("say " + chat);
+            }
+            return !response.IsError;
+        }
+
+        public async Task UndoPleaseAsync(GameInfo game)
+        {
+            await MakeRequestAsync("undoplease " + game.ServerId);
+        }
+
+        public async Task UndoAsync(GameInfo game)
+        {
+            await MakeRequestAsync("undo " + game.ServerId);
+        }
+
+        public void NoUndo(GameInfo game)
+        {
+            MakeUnattendedRequest("noundo " + game.ServerId);
+        }
+
+        public override async void LifeDeath_Done(GameInfo game)
+        {
+            await MakeRequestAsync("done " + game.ServerId);
+        }
+        public override async void LifeDeath_MarkDead(Position position, GameInfo game)
+        {
+            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
         }
     }
 }

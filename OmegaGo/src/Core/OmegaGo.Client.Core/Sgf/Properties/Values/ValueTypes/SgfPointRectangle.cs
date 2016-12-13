@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         /// <summary>
         /// Pass
         /// </summary>
-        public static SgfPointRectangle Pass { get; } = new SgfPointRectangle(SgfPoint.Pass);        
+        public static SgfPointRectangle Pass { get; } = new SgfPointRectangle(SgfPoint.Pass);
 
         public SgfPoint UpperLeft { get; }
 
@@ -84,7 +84,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         /// <summary>
         /// Checks for equality of two instances
         /// </summary>
-        /// <param name="other">Second instance</param>
+        /// <param name="obj">Second instance</param>
         /// <returns>Are they equal?</returns>
         public override bool Equals(object obj)
         {
@@ -100,13 +100,21 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         /// Gets a hash code of the instance
         /// </summary>
         /// <returns>Hash code</returns>
-        public override int GetHashCode() => 
+        public override int GetHashCode() =>
             UpperLeft.GetHashCode() * 13 + LowerRight.GetHashCode();
 
         /// <summary>
         /// Serializes the SGF point rectangle
         /// </summary>
         /// <returns>Serialized SGF point rectangle value representation</returns>
-        public override string ToString() => UpperLeft + LowerRight.ToString();
+        public override string ToString()
+        {
+            if (UpperLeft == LowerRight)
+            {
+                //single point
+                return UpperLeft.ToString();
+            }
+            return $"{UpperLeft}:{LowerRight}";
+        }
     }
 }

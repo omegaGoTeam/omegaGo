@@ -4,30 +4,21 @@ namespace OmegaGo.Core.Online.Igs.Structures
 {
     public class IgsMatchRequest
     {
-        public string AcceptCommand;
-        public string RejectCommand;
+        public readonly string AcceptCommand;
+        public readonly string RejectCommand;
 
-        public StoneColor YourColor;
-        public string OpponentName;
-
-        public bool IsNMatch;
-        
+        private StoneColor _yourColor;
+        private string _opponentName;
 
 
-        public IgsMatchRequest(string acceptCommand)
-        {
-            this.AcceptCommand = acceptCommand;
-        }
+        public override string ToString() => "Vs. " + this._opponentName + " (you are " + this._yourColor.ToString() + ")";
 
-        public override string ToString() => "Vs. " + OpponentName + " (you are " + YourColor.ToString() + ")";
-
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, bool isNMatch)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName)
         {
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
-            this.YourColor = yourColor;
-            this.OpponentName = opponentName;
-            this.IsNMatch = isNMatch;
+            this._yourColor = yourColor;
+            this._opponentName = opponentName;
         }
 
 
@@ -40,8 +31,7 @@ namespace OmegaGo.Core.Online.Igs.Structures
                 "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " + canadianOvertimeMinutes + " " + canadianOvertimeStones,
                 "decline " + opponentName,
                 yourColor,
-                opponentName,
-                false
+                opponentName
                 );
         }
     }

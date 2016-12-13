@@ -149,10 +149,10 @@ namespace OmegaGo.Core.Tests.Sgf
             Assert.AreEqual( 1, firstGameTree.Sequence.Count() );
 
             var rootNode = firstGameTree.Sequence.First();
-            Assert.AreEqual( "Gametree 1: properties", rootNode[ "GN" ].Values.First().Serialize() );
+            Assert.AreEqual( "Gametree 1: properties", rootNode[ "GN" ].Value<string>() );
 
             var markupTree = firstGameTree.Children.ElementAt( 2 );
-            Assert.AreEqual( "Markup", markupTree.Sequence.First()[ "N" ].Values.First().Serialize() );
+            Assert.AreEqual( "Markup", markupTree.Sequence.First()[ "N" ].Value<string>() );
         }
 
         //Invalid SGF test files

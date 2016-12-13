@@ -31,13 +31,13 @@ namespace OmegaGo.Core
                 GameTreeNode newNode = null;
                 if (node["W"] != null)
                 {
-                    SgfPoint point = node["W"].Value<SgfPointValue>();
+                    SgfPoint point = node["W"].Value<SgfPoint>();
                     //add white move
                     newNode = new GameTreeNode(Move.PlaceStone(StoneColor.White, Position.FromSgfPoint(point)));
                 }
                 else if (node["B"] != null)
                 {
-                    SgfPoint point = node["B"].Value<SgfPointValue>();
+                    SgfPoint point = node["B"].Value<SgfPoint>();
                     //add black move
                     newNode = new GameTreeNode(Move.PlaceStone(StoneColor.Black, Position.FromSgfPoint(point)));
                 }

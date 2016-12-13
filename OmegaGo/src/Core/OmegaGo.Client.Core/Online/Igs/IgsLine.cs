@@ -8,11 +8,11 @@
         /// <summary>
         /// Every line sent by the server starts with an <see cref="IgsCode"/> (except for help files).
         /// </summary>
-        public IgsCode Code;
+        public readonly IgsCode Code;
         /// <summary>
         /// The entire line sent, including the code at the beginning.
         /// </summary>
-        public string EntireLine;
+        public readonly string EntireLine;
         /// <summary>
         /// Gets the trimmed part of the line that follows the <see cref="Code"/>. 
         /// </summary>

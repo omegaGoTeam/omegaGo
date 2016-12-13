@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
 {
     // TODO make it reconnect automatically when connection is interrupted
-
-
+    
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
     /// about which user is logged in.
@@ -55,6 +54,7 @@ namespace OmegaGo.Core.Online.Igs
         // Status
         private List<GameInfo> _gamesInProgressOnIgs = new List<GameInfo>();
         private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
+        private readonly List<GameInfo> _gamesYouHaveOpened = new List<GameInfo>();
         // Internal synchronization management
         private GameInfo _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
@@ -62,7 +62,7 @@ namespace OmegaGo.Core.Online.Igs
         private IgsRequest _requestInProgress;
         private readonly object _mutex = new object();
         private IgsComposure _composureBackingField = IgsComposure.Disconnected;
-        public List<IgsMatchRequest> IncomingMatchRequests = new List<IgsMatchRequest>();
+        private readonly List<IgsMatchRequest> _incomingMatchRequests = new List<IgsMatchRequest>();
         private IgsComposure _composure
         {
             get { return _composureBackingField; }
@@ -104,14 +104,14 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="hostname">The hostname to connect to.</param>
         /// <param name="port">The port to connect to.</param>
         /// <returns></returns>
-        public async Task<bool> Connect(string hostname = ServerLocations.IgsPrimary, int port = ServerLocations.IgsPortPrimary)
+        public async Task<bool> ConnectAsync(string hostname = ServerLocations.IgsPrimary, int port = ServerLocations.IgsPortPrimary)
         {
             _hostname = hostname;
             _port = port;
             _shouldBeConnected = true;
             try
             {
-                await EnsureConnected();
+                await EnsureConnectedAsync();
             }
             catch
             {
@@ -119,7 +119,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return true;
         }
-        public async Task Disconnect()
+        public async Task DisconnectAsync()
         {
             _shouldBeConnected = false;
             await _client.DisconnectAsync();
@@ -130,11 +130,11 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public async Task<bool> Login(string username, string password)
+        public async Task<bool> LoginAsync(string username, string password)
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
-            await EnsureConnected();
+            await EnsureConnectedAsync();
             _composure = IgsComposure.LoggingIn;
             _username = username;
             _password = password;
@@ -154,7 +154,8 @@ namespace OmegaGo.Core.Online.Igs
                 OnLogEvent("LOGIN ERROR: " + _loginError);
                 return false;
             }
-            await MakeRequest("toggle quiet true");
+            await MakeRequestAsync("toggle quiet true");
+            await MakeRequestAsync("toggle newundo true");
             return true;
         }
 
@@ -162,7 +163,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Verifies that we are currectly connected to the server. If not but we *wish* to be connected,
         /// it attempts to establish the connection. If not and we don't wish to be connected, it fails.
         /// </summary>
-        private async Task EnsureConnected()
+        private async Task EnsureConnectedAsync()
         {
             if (_client != null)
             {
@@ -258,7 +259,7 @@ namespace OmegaGo.Core.Online.Igs
                 return user;
           
         }
-       private void HandleIncomingMove(IgsLine igsLine)
+        private void HandleIncomingMove(IgsLine igsLine)
         {
            
 
@@ -286,13 +287,22 @@ namespace OmegaGo.Core.Online.Igs
             }
             else
             {
-                Match match = regexMove.Match(trim);
+                Match match = this._regexMove.Match(trim);
                 string moveIndex = match.Groups[1].Value;
                 string mover = match.Groups[2].Value;
                 string coordinates = match.Groups[3].Value;
                 string captures = match.Groups[4].Value;
-                Move move = Move.PlaceStone(mover == "B" ? StoneColor.Black : StoneColor.White,
-                    Position.FromIgsCoordinates(coordinates));
+                StoneColor moverColor = mover == "B" ? StoneColor.Black : StoneColor.White;
+                Move move;
+                if (coordinates == "Pass")
+                {
+                    move = Move.Pass(moverColor);
+                }
+                else
+                {
+                    move = Move.PlaceStone(moverColor,
+                        Position.FromIgsCoordinates(coordinates));
+                }
                 string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach(string capture in captureSplit)
                 {
@@ -304,7 +314,7 @@ namespace OmegaGo.Core.Online.Igs
 
      
 
-        private readonly Regex regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
+        private readonly Regex _regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
         /// <summary>
@@ -313,12 +323,12 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="command">The command to send over Telnet.</param>
         /// <returns></returns>
-        private async Task<List<IgsLine>> MakeRequest(string command)
+        private async Task<IgsResponse> MakeRequestAsync(string command)
         {
             IgsRequest request = new IgsRequest(command);
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
-            List<IgsLine> lines = await request.GetAllLines();
+            IgsResponse lines = await request.GetAllLines();
             lock (_mutex)
             {
                 Debug.Assert(_requestInProgress == request);
@@ -347,6 +357,10 @@ namespace OmegaGo.Core.Online.Igs
             
             lock (_mutex)
             {
+                if (_composure != IgsComposure.Ok)
+                {
+                    return; // Cannot yet send requests.
+                }
                 if (_requestInProgress == null)
                 {
                     IgsRequest dequeuedItem;
@@ -393,6 +407,14 @@ namespace OmegaGo.Core.Online.Igs
             IncomingShoutMessage?.Invoke(line);
         }
         #endregion
+        // Interface requirements
+        public override string ShortName => "IGS";
+        public void RefreshBoard(GameInfo game)
+        {
+            MakeUnattendedRequest("moves " + game.ServerId);
+        }
+
+        #region Events
 
         /// <summary>
         /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 
@@ -445,16 +467,71 @@ namespace OmegaGo.Core.Online.Igs
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
-
-
-
-        // Interface requirements
-        public override string ShortName => "IGS";
-        public void RefreshBoard(GameInfo game)
+        
+        /// <summary>
+        /// Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have opened.
+        /// </summary>
+        public event EventHandler<Tuple<GameInfo, ChatMessage>> IncomingInGameChatMessage;
+        private void OnIncomingInGameChatMessage(GameInfo relevantGame, ChatMessage chatLine)
         {
-            MakeUnattendedRequest("moves " + game.ServerId);
+            IncomingInGameChatMessage?.Invoke(this, new Tuple<GameInfo, ChatMessage>(relevantGame, chatLine));
         }
 
-       
+        /// <summary>
+        /// Occurs when the opponent in a GAME asks us to let them undo a move
+        /// </summary>
+        public event EventHandler<GameInfo> UndoRequestReceived;
+        private void OnUndoRequestReceived(GameInfo game)
+        {
+            UndoRequestReceived?.Invoke(this, game);
+        }
+        /// <summary>
+        /// Occurs when an error message is produced by the server; it should be displayed
+        /// non-modally as a popup balloon.
+        /// </summary>
+        public event EventHandler<string> ErrorMessageReceived;
+        private void OnErrorMessageReceived(string errorMessage)
+        {
+            ErrorMessageReceived?.Invoke(this, errorMessage);
+        }
+
+        /// <summary>
+        /// Occurs when the server commands us to act as though the last move didn't take place.
+        /// </summary>
+        public event EventHandler<GameInfo> LastMoveUndone;
+        private void OnLastMoveUndone(GameInfo whichGame)
+        {
+            LastMoveUndone?.Invoke(this, whichGame);
+        }
+        #endregion
+
+        /// <summary>
+        /// Occurs when the opponent in a GAME declines our request to undo a move.
+        /// This will also prevent all further undo's in this game.
+        /// </summary>
+        public event EventHandler<GameInfo> UndoDeclined;
+        private void OnUndoDeclined(GameInfo game)
+        {
+            UndoDeclined?.Invoke(this, game);
+        }
+
+        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
+        private void OnGameScoreAndCompleted(GameInfo gameInfo, float blackScore, float whiteScore)
+        {
+            GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+        }
+    }
+    public class GameScoreEventArgs : EventArgs
+    {
+        public readonly float BlackScore;
+        public readonly GameInfo GameInfo;
+        public readonly float WhiteScore;
+
+        public GameScoreEventArgs(GameInfo gameInfo, float blackScore, float whiteScore)
+        {
+            this.GameInfo = gameInfo;
+            this.BlackScore = blackScore;
+            this.WhiteScore = whiteScore;
+        }
     }
 }

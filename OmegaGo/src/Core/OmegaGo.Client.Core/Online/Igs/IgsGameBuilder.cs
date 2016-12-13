@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Sgf
+namespace OmegaGo.Core.Online.Igs
 {
-    class PositionSgfExtensions
+    public static class IgsGameBuilder
     {
     }
 }
