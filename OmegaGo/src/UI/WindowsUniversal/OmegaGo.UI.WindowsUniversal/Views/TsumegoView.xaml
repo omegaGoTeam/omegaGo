@@ -27,15 +27,27 @@
             <CheckBox>Show possible moves</CheckBox>
             <CheckBox>Show which moves are correct</CheckBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,0,5"></Setter>
+                </Style>
+            </StackPanel.Resources>
             <TextBlock FontWeight="Bold">
-                Problem Name:
+                Problem name:
             </TextBlock>
             <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
             <TextBlock FontWeight="Bold">
                 Instructions:
             </TextBlock>
             <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+
+            <TextBlock FontWeight="Bold">
+                Current node status:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
+            <Button Command="{Binding Path=UndoOneMoveCommand}">Undo one move</Button>
         </StackPanel>
         
        

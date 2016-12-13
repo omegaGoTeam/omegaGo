@@ -10,7 +10,7 @@ namespace OmegaGo.UI.Services.Tsumego
 {
     public class TsumegoProblem
     {
-        private static IRuleset tsumegoRuleset = Ruleset.Create(RulesetType.Chinese, new GameBoardSize(19, 19));
+        public static readonly IRuleset TsumegoRuleset = Ruleset.Create(RulesetType.Chinese, new GameBoardSize(19, 19));
         public string Name { get; }
         public StoneColor PlayerToPlay { get; }
         private SgfGameTree SgfGameTree { get; }
@@ -34,11 +34,13 @@ namespace OmegaGo.UI.Services.Tsumego
                 node.TsumegoExpected = true;
                 if (node.Parent == null)
                 {
-                    node.FillBoardStateOfRoot(new GameBoardSize(19), tsumegoRuleset);
+                    node.FillBoardStateOfRoot(new GameBoardSize(19), TsumegoProblem.TsumegoRuleset);
                 }
                 else
                 {
-                    node.FillBoardState(tsumegoRuleset);
+                    if (node.Parent.TsumegoCorrect) node.TsumegoCorrect = true;
+                    if (node.Parent.TsumegoWrong) node.TsumegoWrong = true;
+                    node.FillBoardState(TsumegoProblem.TsumegoRuleset);
                 }
             });
             return tree;

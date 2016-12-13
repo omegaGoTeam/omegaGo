@@ -22,5 +22,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 VM.MoveToSolveTsumegoProblem(problem);
             }
         }
+
+        private void TransparencyViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.TsumegoProblem.SelectedIndex = 0;
+        }
     }
 }
