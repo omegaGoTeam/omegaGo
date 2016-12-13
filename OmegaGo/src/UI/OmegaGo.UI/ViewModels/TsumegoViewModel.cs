@@ -47,6 +47,18 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         }
 
         private TsumegoProblem CurrentProblem;
+        private GameTreeNode CurrentProblemTree;
+
+        private GameTreeNode _currentNode;
+        public GameTreeNode CurrentNode
+        {
+            get { return this._currentNode; }
+            set {
+                SetProperty(ref _currentNode, value);
+                BoardViewModel.GameTreeNode = value;
+            }
+        }
+
         private string _currentProblemName = "A";
         private string _currentProblemInstructions = "B";
 
@@ -91,16 +103,25 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
 
 
             BoardViewModel = new BoardViewModel() { BoardState = this.BoardState };
+            BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
 
 
             LoadProblem(problem);
             //BoardViewModel
         }
 
+        private void BoardViewModel_BoardTapped(object sender, Position e)
+        {
+            // Move place
+        }
+
         private void LoadProblem(TsumegoProblem problem)
         {
             CurrentProblem = problem;
+            this.CurrentProblemTree = CurrentProblem.SpawnThisProblem();
             this.CurrentProblemName = CurrentProblem.Name;
+            this.CurrentProblemInstructions = CurrentProblemTree.Comment;
+            this.CurrentNode = CurrentProblemTree;
         }
     }
 }

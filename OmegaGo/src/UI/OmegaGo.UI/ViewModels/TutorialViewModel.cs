@@ -13,21 +13,20 @@ namespace OmegaGo.UI.ViewModels
     public class TutorialViewModel : ViewModelBase, INotifyPropertyChanged
     {
 
-        public Scenario Scenario { get; set; }
+        public Scenario Scenario { get; }
 
 
-        public BoardViewModel BoardViewModel { get; set; }
-        private BoardState BoardState;
+        public BoardViewModel BoardViewModel { get; }
+        private BoardState _boardState;
 
         
 
         public TutorialViewModel()
         {
-            BoardState = new BoardState();
-            BoardState.BoardHeight = 9;
-            BoardState.BoardWidth = 9;
-            BoardState.PropertyChanged += BoardState_PropertyChanged;
-            BoardViewModel = new BoardViewModel() { BoardState = BoardState }; // Mindfuck inception o.O
+            this._boardState = new BoardState();
+            this._boardState.BoardHeight = 9;
+            this._boardState.BoardWidth = 9;
+            BoardViewModel = new BoardViewModel() { BoardState = this._boardState }; // Mindfuck inception o.O
             Scenario = new BeginnerScenario();
             Scenario.GameTreeNodeChanged += Scenario_GameTreeNodeChanged;
             Scenario.ShiningPositionChanged += Scenario_ShiningPositionChanged;
@@ -36,7 +35,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Scenario_ShiningPositionChanged(object sender, Core.Position e)
         {
-            BoardState.ShiningPosition = e;
+            this._boardState.ShiningPosition = e;
         }
 
         private void Scenario_GameTreeNodeChanged(object sender, Core.GameTreeNode e)
@@ -44,14 +43,9 @@ namespace OmegaGo.UI.ViewModels
            BoardViewModel.GameTreeNode = e;
         }
 
-        private void BoardState_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-
-        }
-
         public void TapBoardControl()
         {
-            Scenario.ClickPosition(BoardState.SelectedPosition);
+            Scenario.ClickPosition(this._boardState.SelectedPosition);
         }
     }
 }

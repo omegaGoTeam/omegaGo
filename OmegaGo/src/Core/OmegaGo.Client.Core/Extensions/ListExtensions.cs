@@ -29,5 +29,22 @@ namespace OmegaGo.Core.Extensions
                 list[n] = value;
             }
         }
+        /// <summary>
+        /// Performs a specified ACTION for each descendant of this tree node, using a given FUNCTION
+        /// to determine the children of each node. The action is performed using pre-order traversal.
+        /// </summary>
+        /// <param name="tree">The tree to walk through.</param>
+        /// <param name="getChildren">This function returns all children of a node in the tree.</param>
+        /// <param name="actionPerNode">The action is performed for each node in the tree.</param>
+        public static void ForAllDescendants<T>(this T tree,
+            Func<T, IEnumerable<T>> getChildren,
+            Action<T> actionPerNode)
+        {
+            actionPerNode(tree);
+            foreach(var child in getChildren(tree))
+            {
+                child.ForAllDescendants(getChildren, actionPerNode);
+            }
+        }
     }
 }

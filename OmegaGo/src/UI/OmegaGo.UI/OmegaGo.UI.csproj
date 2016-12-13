@@ -141,14 +141,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Services\Tsumego\Data\1.sgf" />
-    <None Include="Services\Tsumego\Data\2.sgf" />
-    <None Include="Services\Tsumego\Data\3.sgf" />
-    <None Include="Services\Tsumego\Data\4.sgf" />
-    <None Include="Services\Tsumego\Data\5.sgf" />
-    <None Include="Services\Tsumego\Data\6.sgf" />
-    <None Include="Services\Tsumego\Data\7.sgf" />
-    <None Include="Services\Tsumego\Data\8.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\1.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\2.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\3.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\4.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\5.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\6.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\7.sgf" />
+    <EmbeddedResource Include="Services\Tsumego\Data\8.sgf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
