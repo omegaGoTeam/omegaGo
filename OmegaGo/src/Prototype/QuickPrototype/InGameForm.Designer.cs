@@ -64,10 +64,12 @@
             this.bUndoLifeDeath = new System.Windows.Forms.Button();
             this.bDoneWithLifeDeathDetermination = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.bUndoPlease = new System.Windows.Forms.Button();
-            this.bUndoYes = new System.Windows.Forms.Button();
-            this.bUndoNo = new System.Windows.Forms.Button();
             this.bLocalUndo = new System.Windows.Forms.Button();
+            this.bUndoNo = new System.Windows.Forms.Button();
+            this.bUndoYes = new System.Windows.Forms.Button();
+            this.bUndoPlease = new System.Windows.Forms.Button();
+            this.trackTimeline = new System.Windows.Forms.TrackBar();
+            this.lblTimeline = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -78,6 +80,7 @@
             this.tabPage4.SuspendLayout();
             this.grpLifeDeath.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -189,9 +192,9 @@
             this.panelEnd.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelEnd.Controls.Add(this.lblGameEndReason);
             this.panelEnd.Controls.Add(this.lblEndCaption);
-            this.panelEnd.Location = new System.Drawing.Point(12, 502);
+            this.panelEnd.Location = new System.Drawing.Point(492, 524);
             this.panelEnd.Name = "panelEnd";
-            this.panelEnd.Size = new System.Drawing.Size(681, 67);
+            this.panelEnd.Size = new System.Drawing.Size(201, 65);
             this.panelEnd.TabIndex = 12;
             this.panelEnd.Visible = false;
             // 
@@ -251,7 +254,7 @@
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(322, 208);
+            this.tbLog.Size = new System.Drawing.Size(322, 228);
             this.tbLog.TabIndex = 16;
             // 
             // label5
@@ -467,25 +470,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Undo";
             // 
-            // bUndoPlease
+            // bLocalUndo
             // 
-            this.bUndoPlease.Location = new System.Drawing.Point(10, 21);
-            this.bUndoPlease.Name = "bUndoPlease";
-            this.bUndoPlease.Size = new System.Drawing.Size(93, 23);
-            this.bUndoPlease.TabIndex = 0;
-            this.bUndoPlease.Text = "undoplease";
-            this.bUndoPlease.UseVisualStyleBackColor = true;
-            this.bUndoPlease.Click += new System.EventHandler(this.bUndoPlease_Click);
-            // 
-            // bUndoYes
-            // 
-            this.bUndoYes.Location = new System.Drawing.Point(109, 21);
-            this.bUndoYes.Name = "bUndoYes";
-            this.bUndoYes.Size = new System.Drawing.Size(93, 23);
-            this.bUndoYes.TabIndex = 1;
-            this.bUndoYes.Text = "undo";
-            this.bUndoYes.UseVisualStyleBackColor = true;
-            this.bUndoYes.Click += new System.EventHandler(this.bUndoYes_Click);
+            this.bLocalUndo.Location = new System.Drawing.Point(10, 50);
+            this.bLocalUndo.Name = "bLocalUndo";
+            this.bLocalUndo.Size = new System.Drawing.Size(291, 23);
+            this.bLocalUndo.TabIndex = 3;
+            this.bLocalUndo.Text = "undo locally";
+            this.bLocalUndo.UseVisualStyleBackColor = true;
+            this.bLocalUndo.Click += new System.EventHandler(this.bLocalUndo_Click);
             // 
             // bUndoNo
             // 
@@ -497,21 +490,53 @@
             this.bUndoNo.UseVisualStyleBackColor = true;
             this.bUndoNo.Click += new System.EventHandler(this.bUndoNo_Click);
             // 
-            // bLocalUndo
+            // bUndoYes
             // 
-            this.bLocalUndo.Location = new System.Drawing.Point(10, 50);
-            this.bLocalUndo.Name = "bLocalUndo";
-            this.bLocalUndo.Size = new System.Drawing.Size(291, 23);
-            this.bLocalUndo.TabIndex = 3;
-            this.bLocalUndo.Text = "undo locally";
-            this.bLocalUndo.UseVisualStyleBackColor = true;
-            this.bLocalUndo.Click += new System.EventHandler(this.bLocalUndo_Click);
+            this.bUndoYes.Location = new System.Drawing.Point(109, 21);
+            this.bUndoYes.Name = "bUndoYes";
+            this.bUndoYes.Size = new System.Drawing.Size(93, 23);
+            this.bUndoYes.TabIndex = 1;
+            this.bUndoYes.Text = "undo";
+            this.bUndoYes.UseVisualStyleBackColor = true;
+            this.bUndoYes.Click += new System.EventHandler(this.bUndoYes_Click);
+            // 
+            // bUndoPlease
+            // 
+            this.bUndoPlease.Location = new System.Drawing.Point(10, 21);
+            this.bUndoPlease.Name = "bUndoPlease";
+            this.bUndoPlease.Size = new System.Drawing.Size(93, 23);
+            this.bUndoPlease.TabIndex = 0;
+            this.bUndoPlease.Text = "undoplease";
+            this.bUndoPlease.UseVisualStyleBackColor = true;
+            this.bUndoPlease.Click += new System.EventHandler(this.bUndoPlease_Click);
+            // 
+            // trackTimeline
+            // 
+            this.trackTimeline.Location = new System.Drawing.Point(12, 524);
+            this.trackTimeline.Maximum = 5;
+            this.trackTimeline.Name = "trackTimeline";
+            this.trackTimeline.Size = new System.Drawing.Size(474, 45);
+            this.trackTimeline.TabIndex = 22;
+            this.trackTimeline.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackTimeline.Value = 4;
+            this.trackTimeline.ValueChanged += new System.EventHandler(this.trackTimeline_ValueChanged);
+            // 
+            // lblTimeline
+            // 
+            this.lblTimeline.AutoSize = true;
+            this.lblTimeline.Location = new System.Drawing.Point(22, 500);
+            this.lblTimeline.Name = "lblTimeline";
+            this.lblTimeline.Size = new System.Drawing.Size(49, 13);
+            this.lblTimeline.TabIndex = 23;
+            this.lblTimeline.Text = "Timeline:";
             // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1033, 581);
+            this.ClientSize = new System.Drawing.Size(1033, 601);
+            this.Controls.Add(this.lblTimeline);
+            this.Controls.Add(this.trackTimeline);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpLifeDeath);
             this.Controls.Add(this.tabControl1);
@@ -543,6 +568,7 @@
             this.tabPage4.ResumeLayout(false);
             this.grpLifeDeath.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -589,5 +615,7 @@
         private System.Windows.Forms.Button bUndoYes;
         private System.Windows.Forms.Button bUndoPlease;
         private System.Windows.Forms.Button bLocalUndo;
+        private System.Windows.Forms.TrackBar trackTimeline;
+        private System.Windows.Forms.Label lblTimeline;
     }
 }

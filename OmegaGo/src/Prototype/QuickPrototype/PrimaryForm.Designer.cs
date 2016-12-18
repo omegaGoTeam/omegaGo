@@ -74,13 +74,13 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tbOgsUri = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.bSendOgsRequest = new System.Windows.Forms.Button();
-            this.tbJsonRequest = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.cbOgsMethod = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.cbOgsMethod = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbJsonRequest = new System.Windows.Forms.TextBox();
+            this.bSendOgsRequest = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbOgsUri = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -97,7 +97,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(245, 33);
+            this.button1.Size = new System.Drawing.Size(328, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "Refresh list of games";
             this.button1.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             this.lbGames.FormattingEnabled = true;
             this.lbGames.Location = new System.Drawing.Point(12, 52);
             this.lbGames.Name = "lbGames";
-            this.lbGames.Size = new System.Drawing.Size(244, 420);
+            this.lbGames.Size = new System.Drawing.Size(328, 420);
             this.lbGames.TabIndex = 1;
             // 
             // button2
@@ -556,10 +556,10 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(262, 12);
+            this.tabControl1.Location = new System.Drawing.Point(346, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(594, 460);
+            this.tabControl1.Size = new System.Drawing.Size(510, 460);
             this.tabControl1.TabIndex = 23;
             // 
             // tabPage1
@@ -572,7 +572,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(586, 434);
+            this.tabPage1.Size = new System.Drawing.Size(502, 434);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "IGS Console";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -608,47 +608,14 @@
             this.tabPage3.Text = "OGS Console";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // tbOgsUri
+            // label12
             // 
-            this.tbOgsUri.Location = new System.Drawing.Point(163, 24);
-            this.tbOgsUri.Name = "tbOgsUri";
-            this.tbOgsUri.Size = new System.Drawing.Size(340, 20);
-            this.tbOgsUri.TabIndex = 0;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(7, 7);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(23, 13);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Url:";
-            // 
-            // bSendOgsRequest
-            // 
-            this.bSendOgsRequest.Location = new System.Drawing.Point(185, 152);
-            this.bSendOgsRequest.Name = "bSendOgsRequest";
-            this.bSendOgsRequest.Size = new System.Drawing.Size(318, 23);
-            this.bSendOgsRequest.TabIndex = 2;
-            this.bSendOgsRequest.Text = "Send";
-            this.bSendOgsRequest.UseVisualStyleBackColor = true;
-            // 
-            // tbJsonRequest
-            // 
-            this.tbJsonRequest.Location = new System.Drawing.Point(6, 51);
-            this.tbJsonRequest.Multiline = true;
-            this.tbJsonRequest.Name = "tbJsonRequest";
-            this.tbJsonRequest.Size = new System.Drawing.Size(497, 93);
-            this.tbJsonRequest.TabIndex = 3;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 155);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(46, 13);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "Method:";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 27);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(150, 13);
+            this.label12.TabIndex = 6;
+            this.label12.Text = "https://online-go.com/api/v1/";
             // 
             // cbOgsMethod
             // 
@@ -664,14 +631,47 @@
             this.cbOgsMethod.Size = new System.Drawing.Size(121, 21);
             this.cbOgsMethod.TabIndex = 5;
             // 
-            // label12
+            // label11
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 27);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(150, 13);
-            this.label12.TabIndex = 6;
-            this.label12.Text = "https://online-go.com/api/v1/";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 155);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(46, 13);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "Method:";
+            // 
+            // tbJsonRequest
+            // 
+            this.tbJsonRequest.Location = new System.Drawing.Point(6, 51);
+            this.tbJsonRequest.Multiline = true;
+            this.tbJsonRequest.Name = "tbJsonRequest";
+            this.tbJsonRequest.Size = new System.Drawing.Size(497, 93);
+            this.tbJsonRequest.TabIndex = 3;
+            // 
+            // bSendOgsRequest
+            // 
+            this.bSendOgsRequest.Location = new System.Drawing.Point(185, 152);
+            this.bSendOgsRequest.Name = "bSendOgsRequest";
+            this.bSendOgsRequest.Size = new System.Drawing.Size(318, 23);
+            this.bSendOgsRequest.TabIndex = 2;
+            this.bSendOgsRequest.Text = "Send";
+            this.bSendOgsRequest.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 7);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(23, 13);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Url:";
+            // 
+            // tbOgsUri
+            // 
+            this.tbOgsUri.Location = new System.Drawing.Point(163, 24);
+            this.tbOgsUri.Name = "tbOgsUri";
+            this.tbOgsUri.Size = new System.Drawing.Size(340, 20);
+            this.tbOgsUri.TabIndex = 0;
             // 
             // PrimaryForm
             // 

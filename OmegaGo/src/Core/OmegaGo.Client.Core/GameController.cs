@@ -131,7 +131,7 @@ namespace OmegaGo.Core
 
             MoveProcessingResult result =
                    _game.Ruleset.ProcessMove(
-                       FastBoard.CreateBoardFromGame(_game), 
+                       _game.GameTree.LastNode?.BoardState ?? new GameBoard(_game.BoardSize), 
                        move, 
                        _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
 
@@ -361,6 +361,24 @@ namespace OmegaGo.Core
         public void EndGame()
         {
             SetGamePhase(GamePhase.Completed);
+        }
+
+        public void HandicapPhase_PlaceIgsHandicap(int handicapStones)
+        {
+            if (_game.NumberOfMovesPlayed != 0)
+                throw new InvalidOperationException("Handicap stones can't be placed in the middle of a game.");
+
+            OnDebuggingMessage("Placing " + handicapStones + " handicap stones...");
+
+            _game.NumberOfHandicapStones = handicapStones;
+            GameBoard gameBoard = new Core.GameBoard(_game.BoardSize);
+            _game.Ruleset.StartHandicapPlacementPhase(ref gameBoard, handicapStones, HandicapPositions.Type.Fixed);
+            _game.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
+            _turnPlayer = _game.White;
+            OnTurnPlayerChanged(_turnPlayer);
+            OnDebuggingMessage("Asking " + _turnPlayer + " to make a move after handicap placement.");
+            _game.NumberOfMovesPlayed++;
+            _turnPlayer.Agent.PleaseMakeAMove();
         }
     }
     /// <summary>

@@ -59,12 +59,15 @@ namespace FormsPrototype
         }
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
-            this._igs.ErrorMessageReceived -= _igs_ErrorMessageReceived;
-            this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
-            this._igs.UndoDeclined -= _igs_UndoDeclined;
-            this._igs.LastMoveUndone -= _igs_LastMoveUndone;
-            this._igs.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
+            if (this._igs != null)
+            {
+                this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
+                this._igs.ErrorMessageReceived -= _igs_ErrorMessageReceived;
+                this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
+                this._igs.UndoDeclined -= _igs_UndoDeclined;
+                this._igs.LastMoveUndone -= _igs_LastMoveUndone;
+                this._igs.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
+            }
             _controller.AbortGame();
         }
 
@@ -153,35 +156,32 @@ namespace FormsPrototype
         }
 
         private Position _lastMove = Position.Undefined;
-
+        private int _previousMoveNumber = -1;
         private void RefreshBoard()
         {
+            int whereWeAt = 0;
+            if (this._game.PrimaryTimeline.Count() >= 1)
+            {
+                int newNumber = this._game.PrimaryTimeline.Count() - 1;
+                bool autoUpdate = this.trackTimeline.Value == newNumber - 1;
+                this.trackTimeline.SetRange(0, newNumber);
+                if (autoUpdate && this._previousMoveNumber != newNumber)
+                {
+                    this.trackTimeline.Value = newNumber;
+                }
+                this._previousMoveNumber = newNumber;
+                this.lblTimeline.Text = "Timeline (" + this.trackTimeline.Value + "/" + this.trackTimeline.Maximum +
+                                        "):";
+                whereWeAt = this.trackTimeline.Value;
+            }
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
-            foreach (Move move in this._game.PrimaryTimeline)
-            {
-                if (move.Kind == MoveKind.PlaceStone && move.WhoMoves != GoColor.None)
-                {
-                    int x = move.Coordinates.X;
-                    int y = move.Coordinates.Y;
-                    switch (move.WhoMoves)
-                    {
-                        case GoColor.Black:
-                            positions[x, y] = GoColor.Black;
-                            break;
-                        case GoColor.White:
-                            positions[x, y] = GoColor.White;
-                            break;
-                    }
-                    foreach (Position capture in move.Captures)
-                    {
-                        positions[capture.X, capture.Y] = GoColor.None;
-                    }
-                    this._lastMove = move.Coordinates;
-                }
-            }
-            this._truePositions = positions;
-
+            GameTreeNode whatIsShowing =
+                _game.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+            this._truePositions = whatIsShowing?.BoardState ?? positions;
+            this._lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
+                ? whatIsShowing.Move.Coordinates
+                : Position.Undefined;
             // Territories
             if (this._game.GameTree.LastNode != null)
             {
@@ -540,6 +540,11 @@ namespace FormsPrototype
             SystemLog("Undoing last move...");
             _controller.MainPhase_Undo();
             SystemLog("Undone.");
+        }
+
+        private void trackTimeline_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshBoard();
         }
     }
 }

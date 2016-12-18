@@ -125,5 +125,11 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[4].Value.AsFloat(),
                 match.Groups[2].Value.AsFloat());
         }
+
+        private static readonly Regex regexHandicapMove = new Regex(@".*Handicap ([0-9])");
+        public static int ParseHandicapMove(IgsLine igsLine)
+        {
+            return regexHandicapMove.Match(igsLine.EntireLine).Groups[1].Value.AsInteger();
+        }
     }
 }
