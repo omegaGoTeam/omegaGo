@@ -160,7 +160,7 @@ namespace FormsPrototype
         private void RefreshBoard()
         {
             int whereWeAt = 0;
-            if (this._game.PrimaryTimeline.Count() >= 1)
+            if (this._game.PrimaryTimeline.Any())
             {
                 int newNumber = this._game.PrimaryTimeline.Count() - 1;
                 bool autoUpdate = this.trackTimeline.Value == newNumber - 1;

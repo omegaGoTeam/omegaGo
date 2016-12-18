@@ -127,6 +127,9 @@ namespace OmegaGo.Core.Online.Igs
         }
 
         private static readonly Regex regexHandicapMove = new Regex(@".*Handicap ([0-9])");
+        /// <summary>
+        /// Gets the number of handicap stones to place down, under Japanese rules, from a line such as '15   0(B): Handicap 3'.
+        /// </summary>
         public static int ParseHandicapMove(IgsLine igsLine)
         {
             return regexHandicapMove.Match(igsLine.EntireLine).Groups[1].Value.AsInteger();
