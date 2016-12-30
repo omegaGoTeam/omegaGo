@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Sgf.Properties
         /// This dictionary contains definitions for all known SGF properties
         /// </summary>
         private static readonly Dictionary<string, SgfKnownProperty> KnownProperties =
-            new SgfKnownProperty[]
+            new[]
             {
                 /* =====================
                     Game info properties
@@ -221,8 +221,8 @@ namespace OmegaGo.Core.Sgf.Properties
         {
             if (identifier == null) throw new ArgumentNullException(nameof(identifier));
             SgfKnownProperty property = null;
-            KnownProperties.TryGetValue(identifier, out property );
-            return property;            
+            KnownProperties.TryGetValue(identifier, out property);
+            return property;
         }
 
         /// <summary>
@@ -244,6 +244,22 @@ namespace OmegaGo.Core.Sgf.Properties
         {
             //create a parser function using closure
             return (value) => SgfComposePropertyValue<TLeft, TRight>.Parse(value, left, right);
+        }
+
+        /// <summary>
+        /// Gets all known properties of a given type
+        /// </summary>
+        /// <param name="type">Type of the property</param>
+        /// <returns>All known properties of requested type</returns>
+        public static IEnumerable<SgfKnownProperty> GetPropertiesOfType(SgfPropertyType type)
+        {
+            foreach (var property in KnownProperties.Values)
+            {
+                if (property.Type == type)
+                {
+                    yield return property;
+                }
+            }
         }
     }
 }

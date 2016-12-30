@@ -5,49 +5,42 @@ using System;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class TutorialView : TransparencyViewBase
+    // ReSharper disable once UnusedMember.Global
+    public sealed partial class TutorialView
     {
         public TutorialViewModel VM => (TutorialViewModel)this.ViewModel;
 
         public TutorialView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        public override string WindowTitle => Localizer.Tutorial;
+        public override string WindowTitle => this.Localizer.Tutorial;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tutorial.png");
 
-        private void Scenario_ScenarioCompleted(object sender, System.EventArgs e)
+        private void Scenario_ScenarioCompleted(object sender, EventArgs e)
         {
-            Frame.GoBack();
+            this.Frame.GoBack();
         }
 
-        private void TutorialView_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.K)
-            {
-                Next_Click(sender, new RoutedEventArgs());
-            }
-        }
-
-        private void Next_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Next_Click(object sender, RoutedEventArgs e)
         {
             this.ButtonNext.Visibility = Visibility.Collapsed;
             this.ButtonNext.Content = "Next";
-            VM.Scenario.ClickNext();
+            this.VM.Scenario.ClickNext();
         }
 
-        private void Option1_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Option1_Click(object sender, RoutedEventArgs e)
         {
             this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
-            VM.Scenario.ClickOption(0);
+            this.VM.Scenario.ClickOption(0);
         }
 
-        private void Option2_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Option2_Click(object sender, RoutedEventArgs e)
         {
             this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
-            VM.Scenario.ClickOption(1);
+            this.VM.Scenario.ClickOption(1);
         }
 
 
@@ -55,7 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.ButtonNext.Visibility = Visibility.Collapsed;
             this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
-            var scenario = VM.Scenario;
+            var scenario = this.VM.Scenario;
             scenario.ScenarioCompleted += Scenario_ScenarioCompleted;
             scenario.SetChoices += Scenario_SetChoices;
             scenario.SenseiMessageChanged += Scenario_SenseiMessageChanged;
@@ -70,7 +63,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.ButtonNext.Content = e;
         }
 
-        private void Scenario_NextButtonShown(object sender, System.EventArgs e)
+        private void Scenario_NextButtonShown(object sender, EventArgs e)
         {
             this.ButtonNext.Visibility = Visibility.Visible;
         }
@@ -80,7 +73,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.SenseisLine.Text = e;
         }
 
-        private void Scenario_SetChoices(object sender, System.Tuple<string, string> e)
+        private void Scenario_SetChoices(object sender, Tuple<string, string> e)
         {
             this.Option1Text.Text = e.Item1;
             this.Option2Text.Text = e.Item2;
@@ -89,7 +82,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void BoardControl_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            VM.TapBoardControl();
+            this.VM.TapBoardControl();
         }
     }
 }

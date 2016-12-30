@@ -1,0 +1,26 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2844]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 20 / 900]
+AW[ca][ad][bd][cc][dc][ec][fb][fa][fd]
+AB[ac][bb][cb][db][eb][ea]
+PL[B]C[Black to live.
+
+---
+
+Please note: Problem 22 is currently not in this collection, due to the only difference being the stone at F16 being at F17 instead.]
+(;B[ab];W[ba]C[Wrong.])
+(;B[ba](;W[ab](;B[bc]C[Correct.])
+(;B[aa];W[bc]C[Wrong.])
+)
+(;W[bc];B[ab]C[Correct.])
+)
+(;B[aa];W[bc](;B[ab]C[Wrong.])
+(;B[ba];W[ab]C[Wrong.])
+)
+(;B[bc];W[ba](;B[aa];W[ab]C[Wrong.
+Disadv. Ko])
+(;B[ab];W[aa];B[da];W[ba]C[Wrong.])
+(;B[da];W[ab]C[Wrong.])
+(;B[cd];W[ce];B[dd];W[de];B[ed];W[ee]C[Wrong.])
+)
+)

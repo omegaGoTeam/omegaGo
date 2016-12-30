@@ -1,0 +1,16 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2893]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 53 / 900]
+AW[bd][cc][dd][ed][fd][fc][fb][fa][ba]
+AB[aa][ab][bb][cb][ea][eb][ec]
+PL[B]C[Black to live.]
+(;B[ca];W[db](;B[dc];W[da]C[Wrong.])
+(;B[da];W[dc]C[Wrong.])
+)
+(;B[db];W[ca]C[Wrong.])
+(;B[da];W[dc]C[Wrong.])
+(;B[dc];W[da](;B[ca];W[db]C[Wrong.])
+(;B[db]C[Correct.
+Black has two outside liberties, so white can't fill at C19.])
+)
+)

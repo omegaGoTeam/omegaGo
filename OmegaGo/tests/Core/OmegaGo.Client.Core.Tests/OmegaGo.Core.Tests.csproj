@@ -87,6 +87,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Sgf\Parsing\SampleSgfs\Tsumego\Tsumego1.sgf" />
     <Content Include="Sgf\Parsing\SampleSgfs\Valid\AlphaGo1.sgf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

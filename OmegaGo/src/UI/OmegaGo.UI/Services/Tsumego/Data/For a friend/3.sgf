@@ -1,0 +1,12 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6476]
+GN[a few beginner examples for a friend - DD003 kill with a three stone shape]
+AW[ra][rb][qb][qc][pc][pd][qd][rd][sd]
+AB[qa][pa][pb][oc][ob][od][oe][pe][qe][re][se][rc][sc]
+PL[B]C[Black to move: Kill the surrounded group in two moves.]
+(;B[sb];W[sa](;B[sc]C[Correct.])
+(;B[sb]C[Wrong.];W[sc])
+(;B[rc]C[Wrong.];W[sc])
+)
+(;B[sa];W[sb])
+)

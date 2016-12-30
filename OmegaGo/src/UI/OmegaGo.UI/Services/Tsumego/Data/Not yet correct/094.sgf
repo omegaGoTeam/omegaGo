@@ -1,0 +1,15 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/5656]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 95 / 900]
+AW[ad][bd][cd][dd][ec][eb][ea]
+AB[ab][bc][db][da]
+PL[B]C[Black to live.]
+(;B[ba]C[Correct.])
+(;B[cb];W[ba]C[Wrong.])
+(;B[cc];W[ba]C[Wrong.])
+(;B[ca];W[cc](;B[cb];W[ba]C[Wrong.])
+(;B[ba];W[cb]C[Wrong.])
+(;B[bb]C[Wrong.])
+)
+(;B[bb];W[cc];B[cb];W[ba]C[Wrong.])
+)

@@ -1,0 +1,14 @@
+﻿(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6474]
+GN[a few beginner examples for a friend - DD001 three point eye space]
+AW[gi][hi][ii][ij][ik][il][im][hm][gm][gl][gk][gj]
+AB[fh][gh][hh][ih][jh][fi][fj][fk][fl][fm][fn][ji][jj][jk][jl][jm][jn][in][hn][gn]
+PL[W]C[White to move: Create two eyes in a three point eye space with one move.]
+(;W[hk]C[Correct.])
+(;W[hj]C[Wrong.](;B[hk];W[hl];B[hk])
+(;B[hl];W[hk];B[hl])
+)
+(;W[hl]C[Wrong.](;B[hk];W[hj];B[hk])
+(;B[hj];W[hk];B[hj])
+)
+)

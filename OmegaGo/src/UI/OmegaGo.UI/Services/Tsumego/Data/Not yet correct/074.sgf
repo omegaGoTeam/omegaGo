@@ -1,0 +1,23 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/5636]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 75 / 900]
+AW[ae][be][ce][dd][dc][eb][fc][ca][ba]
+AB[bb][cb][db][da][bd]
+PL[B]C[Black to live.]
+(;B[ac];W[cc](;B[bc];W[aa]C[Wrong.])
+(;B[aa];W[bc]C[Wrong.])
+)
+(;B[cc];W[ad](;B[ac];W[cd];B[aa]C[Wrong.];W[bc]C[Ko.
+
+There's a better variation to live unconditionally.])
+(;B[cd];W[ac]C[Wrong.])
+)
+(;B[ad];W[cc];B[bc];W[ab](;B[ac]C[Correct.])
+(;B[aa];W[ba]C[Wrong.](;B[ca];W[aa]C[Wrong.])
+(;B[ac];W[aa]C[Wrong.])
+)
+)
+(;B[bc];W[ad](;B[ac];W[aa]C[Wrong.])
+(;B[aa];W[ac]C[Wrong.])
+)
+)

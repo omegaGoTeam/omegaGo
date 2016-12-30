@@ -1,0 +1,56 @@
+﻿<views:TransparencyViewBase
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.TsumegoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+            <Button Command="{Binding Path=GoToPreviousProblem}">Previous Problem</Button>
+            <Button Command="{Binding Path=GoToNextProblem}">Next Problem</Button>
+            <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
+            <CheckBox IsChecked="{Binding Path=ShowWhichMovesAreCorrect, Mode=TwoWay}">Show which moves are correct</CheckBox>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="10">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,0,5"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock FontWeight="Bold">
+                Problem name:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
+            <TextBlock FontWeight="Bold">
+                Instructions:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+
+            <TextBlock FontWeight="Bold">
+                Current node status:
+            </TextBlock>
+            <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
+            <Button Command="{Binding Path=UndoOneMoveCommand}">Undo one move</Button>
+        </StackPanel>
+        
+       
+
+     </Grid>
+</views:TransparencyViewBase>

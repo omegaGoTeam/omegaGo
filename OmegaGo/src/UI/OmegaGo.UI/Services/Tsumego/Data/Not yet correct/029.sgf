@@ -1,0 +1,11 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2865]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 30 / 900]
+AW[ab][aa][ba][ca][be][ce][cd][cc][dc][ec][eb]
+AB[bb][cb][db][da][bc][bd][ad]
+PL[B]C[Black to live.]
+;B[ac];W[ba](;B[aa];W[ab];B[ca]C[Correct.
+Black has enough outside liberties to create two eyes with A19 if white fills either A15 or E19.])
+(;B[ca];W[aa]C[Wrong.])
+(;B[ab]C[Wrong.])
+)
