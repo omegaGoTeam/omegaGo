@@ -1,4 +1,5 @@
 using System.Linq;
+using Windows.UI.Input;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -23,17 +24,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             LoadLanguageMenu();
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-            UnloadLanguageMenu();
-        }
-
-        private void UnloadLanguageMenu()
-        {
-            VM.PropertyChanged -= VM_PropertyChanged;
-        }
-
+        /// <summary>
+        /// Populates the language menu and sets up its events
+        /// </summary>
         private void LoadLanguageMenu()
         {
             //should never happen
@@ -43,40 +36,37 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             foreach (var language in VM.Languages)
             {
                 //add each language as menu item and hook up check event
-                ToggleMenuFlyoutItem menuItem = new ToggleMenuFlyoutItem();
-                //store the related language as tag
-                menuItem.Tag = language;
-                menuItem.Text = Localizer.GetString(language.Name);
-                if (language == VM.SelectedLanguage)
+                ToggleMenuFlyoutItem menuItem = new ToggleMenuFlyoutItem
                 {
-                    //check
-                    menuItem.IsChecked = true;
-                }
+                    //store the related language as tag
+                    Tag = language,
+                    Text = Localizer.GetString(language.Name),                   
+                };                
                 menuItem.Tapped += LanguageMenuItemTapped;
                 LanguagesMenu.Items?.Add(menuItem);
             }
-            VM.PropertyChanged += VM_PropertyChanged;
-        }
-
-        private void VM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(VM.SelectedLanguage))
-            {
-                //select the right menu item
-                foreach (var menuItem in LanguagesMenu.Items.OfType<ToggleMenuFlyoutItem>())
-                {
-                    menuItem.IsChecked = menuItem.Tag == VM.SelectedLanguage;
-                }
-            }
+            UpdateLanguageMenuSelection();
         }
 
         private void LanguageMenuItemTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             var menuItem = sender as ToggleMenuFlyoutItem;
             if (menuItem != null)
-            {
+            {                
                 //update Selected language
                 VM.SelectedLanguage = menuItem.Tag as GameLanguage;
+                UpdateLanguageMenuSelection();
+            }
+        }
+
+        /// <summary>
+        /// Updates the checked languages menu item according to the currently selected language
+        /// </summary>
+        private void UpdateLanguageMenuSelection()
+        {
+            foreach (var menuItem in LanguagesMenu.Items.OfType<ToggleMenuFlyoutItem>())
+            {
+                menuItem.IsChecked = menuItem.Tag == VM.SelectedLanguage;
             }
         }
 
