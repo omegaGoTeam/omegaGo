@@ -1,4 +1,5 @@
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Navigation;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
@@ -11,6 +12,12 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public MainMenuView()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            
         }
 
         private void ShowHideTips_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
