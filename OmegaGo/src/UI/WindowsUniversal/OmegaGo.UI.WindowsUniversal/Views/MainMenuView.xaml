@@ -75,10 +75,7 @@
             <Button>
                 <FontIcon Glyph="&#xE8C1;" />
                 <Button.Flyout>
-                    <MenuFlyout>
-                        <ToggleMenuFlyoutItem Text="Auto" IsChecked="True" />
-                        <ToggleMenuFlyoutItem Text="English" IsChecked="False" />
-                        <ToggleMenuFlyoutItem Text="Česky" IsChecked="False" />
+                    <MenuFlyout x:Name="LanguagesMenu">
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
