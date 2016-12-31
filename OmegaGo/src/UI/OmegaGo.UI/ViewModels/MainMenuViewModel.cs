@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
@@ -13,6 +14,7 @@ namespace OmegaGo.UI.ViewModels
     public class MainMenuViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
+        private readonly IDialogService _dialogService;
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
         private IMvxCommand _navigateToGameCreation;
@@ -23,9 +25,10 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToAbout;
         private IMvxCommand _navigateToHelp;
 
-        public MainMenuViewModel( IGameSettings gameSettings )
+        public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )
         {
             _gameSettings = gameSettings;
+            _dialogService = dialogService;
         }
 
         /// <summary>
@@ -66,8 +69,7 @@ namespace OmegaGo.UI.ViewModels
 
         private async void ShowLanguageChangeDialog()
         {
-            MessageDialog dialog = new MessageDialog(Localizer.LanguageChangeInfo);
-            dialog.ShowAsync()
+            await _dialogService.ShowAsync(Localizer.LanguageChangeInfo);
         }
 
         public IMvxCommand NavigateToTutorial => _navigateToTutorial ??

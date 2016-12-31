@@ -102,6 +102,7 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Files\FilePickerService.cs" />
     <Compile Include="Services\Files\FileService.cs" />
     <Compile Include="Services\Game\InputService.cs" />
@@ -336,9 +337,7 @@
       <Name>OmegaGo.UI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Dialog\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
