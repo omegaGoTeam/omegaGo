@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    interface IHandicapPlacementPhase : IGamePhase
+    interface IHandicapPlacementPhase : IGameMainPhase
     {
     }
 }

@@ -12,5 +12,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         IGameController Controller { get; }
 
         GameInfo Info { get; }
+
+        GameState State { get; }
     }
 }

@@ -5,12 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Agents;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 
 namespace OmegaGo.Core
 {
     public interface IGameController
     {
-        GamePlayer TurnPlayer { get; }
+        GameState State { get; }
 
         event EventHandler BoardMustBeRefreshed;
         // TODO In future should be part of SendRequest

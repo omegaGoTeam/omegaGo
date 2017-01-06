@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    interface IGameMainPhase : IGamePhase
+    class GameLifeAndDeathPhase : IGameLifeAndDeathPhase
     {
+        public GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;        
     }
 }

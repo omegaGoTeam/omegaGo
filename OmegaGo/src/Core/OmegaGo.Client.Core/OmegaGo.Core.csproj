@@ -65,6 +65,8 @@
     <Compile Include="Game\GameBoard.cs" />
     <Compile Include="Modes\LiveGame\GameBuilder.cs" />
     <Compile Include="Modes\LiveGame\GameController.cs" />
+    <Compile Include="Modes\LiveGame\GameState.cs" />
+    <Compile Include="Modes\LiveGame\ObsoletedGameController.cs" />
     <Compile Include="Modes\LiveGame\IGame.cs" />
     <Compile Include="Modes\LiveGame\IGameController.cs" />
     <Compile Include="Game\Markup\AreaDim.cs" />
@@ -81,6 +83,11 @@
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameOpponent.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GameFinishedPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GameHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GameInitializationPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GameLifeAndDeathPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GameMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhases.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameFinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameInitializationPhase.cs" />
@@ -88,6 +95,7 @@
     <Compile Include="Modes\LiveGame\Phases\IGameMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGamePhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\IGameHandicapPlacementPhase.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGame.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />

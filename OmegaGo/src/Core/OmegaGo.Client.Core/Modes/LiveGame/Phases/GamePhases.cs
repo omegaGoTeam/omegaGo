@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
     /// <summary>
     /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
     /// </summary>
-    public enum GamePhases
+    public enum GamePhaseType
     {
         /// <summary>
         /// The game has not yet been started.
