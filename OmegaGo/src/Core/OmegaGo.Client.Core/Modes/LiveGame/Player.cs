@@ -6,41 +6,27 @@ namespace OmegaGo.Core
     /// <summary>
     /// Represents a player participating in a <see cref="Game"/> instance. Does not refer to the user
     /// of the app. A player only ever participates in a single game. The same human playing in multiple games
-    /// is represented by different <see cref="Player"/> instances. 
+    /// is represented by different <see cref="GamePlayer"/> instances. 
     /// </summary>
-    public class Player
+    public class GamePlayer
     {
-
-
-        /// <summary>
-        /// The game the player is playing.
-        /// </summary>
-        private ObsoleteGameInfo Game { get; }
-        /// <summary>
-        /// Gets the color of the stones this player is using.
-        /// </summary>
-        public StoneColor Color => Game.Black == this ? StoneColor.Black : StoneColor.White;
-        /// <summary>
-        /// The number of points this player has scored in the game he participates in.
-        /// </summary>
-        public int Score;
+        public GamePlayerInfo Info { get; }
+        
         /// <summary>
         /// The agent that makes this player's moves.
         /// </summary>
-        public IAgent Agent;
+        public IAgent Agent { get; }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// Initializes a new instance of the <see cref="GamePlayer"/> class.
         /// </summary>
         /// <param name="name">The player's name.</param>
         /// <param name="rank">The player's rank (e.g. "17k").</param>
         /// <param name="game">The game the player participates in.</param>
-        public Player( ObsoleteGameInfo game )
+        public GamePlayer(GamePlayerInfo playerInfo, IAgent agent )
         {
-            Game = game;
+            Info = playerInfo;
+            Agent = agent;
         }
-        /// <summary>
-        /// Returns the player's name.
-        /// </summary>
-        public override string ToString() => Name;
     }
 }

@@ -90,8 +90,8 @@ namespace FormsPrototype
         private async void Igs_MatchRequestAccepted(object sender, ObsoleteGameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-            Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-            Player networkPlayer = game.OpponentOf(localPlayer);
+            GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
+            GamePlayer networkPlayer = game.OpponentOf(localPlayer);
             await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
             InGameForm ingameForm = new InGameForm(game, igs);
             localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
@@ -213,8 +213,8 @@ namespace FormsPrototype
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
                 NumberOfMovesPlayed = 0
             };
-            Player playerBlack = new Player(this.cbBlack.Text + " (Black)", "NR", localGame);
-            Player playerWhite = new Player(this.cbWhite.Text + " (White)", "NR", localGame);
+            GamePlayer playerBlack = new GamePlayer(this.cbBlack.Text + " (Black)", "NR", localGame);
+            GamePlayer playerWhite = new GamePlayer(this.cbWhite.Text + " (White)", "NR", localGame);
             localGame.Ruleset = new ChineseRuleset(localGame.BoardSize);
             localGame.Players.Add(playerBlack);
             localGame.Players.Add(playerWhite);
@@ -310,8 +310,8 @@ namespace FormsPrototype
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);
                     //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-                    Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-                    Player networkPlayer = game.OpponentOf(localPlayer);
+                    GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
+                    GamePlayer networkPlayer = game.OpponentOf(localPlayer);
                     InGameForm ingameForm = new InGameForm(game, igs);
                     localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
                     networkPlayer.Agent = new OnlineAgent();

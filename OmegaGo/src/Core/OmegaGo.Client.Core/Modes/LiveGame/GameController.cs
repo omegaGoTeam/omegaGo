@@ -25,7 +25,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// The player who is about to make a move.
         /// </summary>
-        private Player _turnPlayer;
+        private GamePlayer _turnPlayer;
         /// <summary>
         /// The game phase we are in. DO NOT set this directly, use <see cref="SetGamePhase(Core.GamePhase)"/> instead. 
         /// </summary>
@@ -40,7 +40,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// Gets the player whose turn it is.
         /// </summary>
-        public Player TurnPlayer => _turnPlayer;
+        public GamePlayer TurnPlayer => _turnPlayer;
         /// <summary>
         /// Gets or sets a value indicating whether the game controller should enforce rules. If true, then illegal moves by agents will be
         /// handled according to the agents' handling method. If false, then illegal moves will be accepted.
@@ -49,7 +49,7 @@ namespace OmegaGo.Core
         public bool EnforceRules { get; set; } = true;
         private List<Position> _deadPositions = new List<Position>();
         public IEnumerable<Position> DeadPositions => _deadPositions;
-        private List<Player> _playersDoneWithLifeDeath = new List<Player>();
+        private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
@@ -79,7 +79,7 @@ namespace OmegaGo.Core
             MainPhase_AskPlayerToMove(_game.Black);
         }
 
-        private void MainPhase_AskPlayerToMove(Player turnPlayer)
+        private void MainPhase_AskPlayerToMove(GamePlayer turnPlayer)
         {
             if (GamePhase == GamePhase.Completed) return;
             _turnPlayer = turnPlayer;
@@ -107,7 +107,7 @@ namespace OmegaGo.Core
            
             OnBoardMustBeRefreshed();
         }
-        public void LifeDeath_Done(Player player)
+        public void LifeDeath_Done(GamePlayer player)
         {
             OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
             if (!_playersDoneWithLifeDeath.Contains(player))
@@ -122,7 +122,7 @@ namespace OmegaGo.Core
             }
             OnBoardMustBeRefreshed();
         }
-        public void MakeMove(Player player, Move move)
+        public void MakeMove(GamePlayer player, Move move)
         {
             if (_gamePhase == GamePhase.Completed) return;
             if (_gamePhase != GamePhase.MainPhase)
@@ -184,7 +184,7 @@ namespace OmegaGo.Core
             MainPhase_AskPlayerToMove(_game.OpponentOf(player));
         }
 
-        private void HandleIllegalMove(Player player, ref MoveProcessingResult result)
+        private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)
         {
             if (player.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
             {
@@ -240,7 +240,7 @@ namespace OmegaGo.Core
             }
         }
 
-        public void Resign(Player player)
+        public void Resign(GamePlayer player)
         {
             OnResignation(player);
             this._game.Server?.Resign(this._game);
@@ -251,8 +251,8 @@ namespace OmegaGo.Core
         /// <summary>
         /// Occurs when a PLAYER is about to take their turn.
         /// </summary>
-        public event EventHandler<Player> TurnPlayerChanged;
-        private void OnTurnPlayerChanged(Player newTurnPlayer)
+        public event EventHandler<GamePlayer> TurnPlayerChanged;
+        private void OnTurnPlayerChanged(GamePlayer newTurnPlayer)
         {
             TurnPlayerChanged?.Invoke(this, newTurnPlayer);
         }
@@ -267,8 +267,8 @@ namespace OmegaGo.Core
         /// <summary>
         /// Occurs when the PLAYER resigns. The second argument is the RESIGNATION REASON.
         /// </summary>
-        public event EventHandler<Player> Resignation;
-        private void OnResignation(Player resigner)
+        public event EventHandler<GamePlayer> Resignation;
+        private void OnResignation(GamePlayer resigner)
         {
             Resignation?.Invoke(this, resigner);
         }
@@ -361,7 +361,7 @@ namespace OmegaGo.Core
 
         /// <summary>
         /// Called by the IGS connection, this method places fixed handicap stones on the board as a single node in the tree, and
-        /// advances the timeline forward. In many respects, this acts as the <see cref="MakeMove(Player, Move)"/> method, except
+        /// advances the timeline forward. In many respects, this acts as the <see cref="MakeMove(GamePlayer, Move)"/> method, except
         /// that it places multiple stones. 
         /// </summary>
         /// <param name="handicapStones">The number of handicap stones to place.</param>

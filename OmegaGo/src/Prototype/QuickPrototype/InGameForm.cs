@@ -22,7 +22,7 @@ namespace FormsPrototype
         private GamePhase _gamePhase;
         private ObsoleteGameInfo _game;
         private IgsConnection _igs;
-        private Player PlayerToMove => this._controller.TurnPlayer;
+        private GamePlayer PlayerToMove => this._controller.TurnPlayer;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
@@ -237,12 +237,12 @@ namespace FormsPrototype
             RefreshBoard();
         }
 
-        private void _controller_TurnPlayerChanged1(object sender, Player e)
+        private void _controller_TurnPlayerChanged1(object sender, GamePlayer e)
         {
             this.lblTurnPlayer.Text = e.Name;
         }
 
-        private void _controller_Resignation(object sender, Player resigner)
+        private void _controller_Resignation(object sender, GamePlayer resigner)
         {
             this.panelEnd.Visible = true;
             this.lblEndCaption.Text = resigner + " resigned!";
@@ -471,7 +471,7 @@ namespace FormsPrototype
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-            foreach (Player player in this._game.Players)
+            foreach (GamePlayer player in this._game.Players)
             {
                 if (player.Agent is AIAgent)
                 {
@@ -491,7 +491,7 @@ namespace FormsPrototype
             }
         }
 
-        public void GuiAgent_PleaseMakeAMove(object sender, Player e)
+        public void GuiAgent_PleaseMakeAMove(object sender, GamePlayer e)
         {
             this.groupboxMoveMaker.Visible = true;
         }

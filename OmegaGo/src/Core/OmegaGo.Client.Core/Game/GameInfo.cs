@@ -9,9 +9,9 @@ namespace OmegaGo.Core.Game
 {
     public class GameInfo
     {
-        public PlayerInfo White { get; set; }
+        public GamePlayerInfo White { get; set; }
 
-        public PlayerInfo Black { get; set; }
+        public GamePlayerInfo Black { get; set; }
 
         public GameBoardSize BoardSize { get; set; }
 

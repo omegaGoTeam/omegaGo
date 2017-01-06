@@ -75,7 +75,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     ServerId = match.Groups[1].Value.AsInteger(),
                     Server = this,
-                    Players = new List<Player>(),
+                    Players = new List<GamePlayer>(),
                     SquareBoardSize = match.Groups[7].Value.AsInteger(),
                     NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
                     KomiValue = match.Groups[9].Value.AsFloat(),
@@ -83,12 +83,12 @@ namespace OmegaGo.Core.Online.Igs
                 };
                 game.Players.Add(
 
-                    new Player(match.Groups[4].Value, match.Groups[5].Value, game)
+                    new GamePlayer(match.Groups[4].Value, match.Groups[5].Value, game)
                     {
                         Agent = new OnlineAgent()
                     });
                 game.Players.Add(
-                    new Player(match.Groups[2].Value, match.Groups[3].Value, game)
+                    new GamePlayer(match.Groups[2].Value, match.Groups[3].Value, game)
                     {
                         Agent = new OnlineAgent()
                     });
@@ -191,8 +191,8 @@ namespace OmegaGo.Core.Online.Igs
                 Server = this,
                 ServerId = heading.GameNumber,
             };
-            game.Players.Add(new Player(heading.BlackName, "?", game));
-            game.Players.Add(new Player(heading.WhiteName, "?", game));
+            game.Players.Add(new GamePlayer(heading.BlackName, "?", game));
+            game.Players.Add(new GamePlayer(heading.WhiteName, "?", game));
             game.Ruleset = new JapaneseRuleset(game.BoardSize);
             this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
             this._gamesInProgressOnIgs.Add(game);

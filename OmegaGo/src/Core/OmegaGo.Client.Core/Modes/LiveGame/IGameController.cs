@@ -10,7 +10,7 @@ namespace OmegaGo.Core
 {
     public interface IGameController
     {
-        Player TurnPlayer { get; }
+        GamePlayer TurnPlayer { get; }
 
         event EventHandler BoardMustBeRefreshed;
         // TODO In future should be part of SendRequest

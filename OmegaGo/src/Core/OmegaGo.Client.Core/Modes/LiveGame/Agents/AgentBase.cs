@@ -20,12 +20,12 @@ namespace OmegaGo.Core.Agents
         /// <summary>
         /// Gets the player that this agent makes moves for.
         /// </summary>
-        protected Player Player { get; private set; }
+        protected GamePlayer Player { get; private set; }
         
         public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
 
        
-        public void GameBegins(Player player, ObsoleteGameInfo game)
+        public void GameBegins(GamePlayer player, ObsoleteGameInfo game)
         {
             Player = player;
             Game = game;

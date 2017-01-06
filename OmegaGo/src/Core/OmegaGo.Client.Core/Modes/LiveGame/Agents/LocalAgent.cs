@@ -33,6 +33,6 @@ namespace OmegaGo.Core.Agents
         /// <summary>
         /// Occurs when the game controller requests this agent's PLAYER to make a move.
         /// </summary>
-        public event EventHandler<Player> OnPleaseMakeAMove ;
+        public event EventHandler<GamePlayer> OnPleaseMakeAMove ;
     }
 }

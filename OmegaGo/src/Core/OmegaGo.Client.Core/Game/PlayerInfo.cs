@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game
 {
-    public class PlayerInfo
+    public class GamePlayerInfo
     {
-        public PlayerInfo( string name, string rank, string team = null )
+        public GamePlayerInfo(StoneColor color, string name, string rank, string team = null )
         {
             Name = name;
             Rank = rank;
+            Color = color;
             Team = team;    
         }
 
@@ -29,5 +30,10 @@ namespace OmegaGo.Core.Game
         /// Player's team
         /// </summary>
         public string Team { get; }
+
+        /// <summary>
+        /// Player's stone color
+        /// </summary>
+        public StoneColor Color { get; }
     }
 }

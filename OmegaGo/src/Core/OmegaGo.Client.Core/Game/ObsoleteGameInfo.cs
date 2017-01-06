@@ -22,15 +22,15 @@ namespace OmegaGo.Core
         /// In ordinary games, this list will have exactly two players. If we ever add multiplayer games, this could include more players.
         /// The first player is black. The second player is white.
         /// </summary>
-        public List<Player> Players { get; set; }
+        public List<GamePlayer> Players { get; set; }
         /// <summary>
         /// Gets the player playing black stones, i.e. "Players[0]".
         /// </summary>
-        public Player Black => Players[0];
+        public GamePlayer Black => Players[0];
         /// <summary>
         /// Gets the player playing white stones, i.e. "Players[1]".
         /// </summary>
-        public Player White => Players[1];
+        public GamePlayer White => Players[1];
         /// <summary>
         /// The game tree associated with the game. Each game has exactly one associated game tree.
         /// </summary>
@@ -91,7 +91,7 @@ namespace OmegaGo.Core
         /// </summary>
         public ObsoleteGameInfo()
         {
-            Players = new List<Player>();
+            Players = new List<GamePlayer>();
             GameTree = new GameTree();
             GameController = new Core.GameController(this);
         }
@@ -121,12 +121,12 @@ namespace OmegaGo.Core
         /// <param name="move">The move.</param>
         public void AcceptMoveFromInternet(int moveIndex, Move move)
         {
-            Player player = GetPlayerByColor(move.WhoMoves);
+            GamePlayer player = GetPlayerByColor(move.WhoMoves);
             IOnlineAgent agent = player.Agent as IOnlineAgent;
             agent?.ForceHistoricMove(moveIndex, move);
         }
 
-        private Player GetPlayerByColor(StoneColor color)
+        private GamePlayer GetPlayerByColor(StoneColor color)
         {
             switch (color)
             {
@@ -150,7 +150,7 @@ namespace OmegaGo.Core
         /// Returns the opponent of the specified player in this game.
         /// </summary>
         /// <param name="player">The player whose opponent we wish to learn about.</param>
-        public Player OpponentOf(Player player)
+        public GamePlayer OpponentOf(GamePlayer player)
         {
             if (player == Players[0])
                 return Players[1];
