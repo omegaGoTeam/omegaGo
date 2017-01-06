@@ -200,7 +200,7 @@ namespace FormsPrototype
 
         /********************* EVENTS **************************/
 
-        private GameController _controller;
+        private ObsoleteGameController _controller;
 
      
         private void _controller_EnterPhase(object sender, GamePhase e)

@@ -16,7 +16,7 @@ namespace OmegaGo.Core
     /// The game controller contains the main loop of a Go game. After constructing it, use <see cref="BeginGame"/> to start the game on
     /// another thread. The game controller will ask both players' agents, in turn, what move do they wish to take.  
     /// </summary>
-    public class GameController : IGameController
+    public class ObsoleteGameController : IGameController
     {
         /// <summary>
         /// The game that this controller is running.
@@ -52,10 +52,10 @@ namespace OmegaGo.Core
         private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
+        /// Initializes a new instance of the <see cref="ObsoleteGameController"/> class. This should only be called from within the Game class.
         /// </summary>
         /// <param name="game">The game that this GameController instance will run.</param>
-        public GameController(ObsoleteGameInfo game)
+        public ObsoleteGameController(ObsoleteGameInfo game)
         {
             this._game = game;
         }

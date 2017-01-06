@@ -83,17 +83,17 @@ namespace OmegaGo.Core
         /// </summary>
         public float KomiValue { get; set; }
         public int NumberOfObservers { get; set; }
-        public GameController GameController { get; private set;}
+        public ObsoleteGameController GameController { get; private set;}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="OmegaGo.Core.GameController" /> is also created for this game and 
+        /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="OmegaGo.Core.ObsoleteGameController" /> is also created for this game and 
         /// initialized.
         /// </summary>
         public ObsoleteGameInfo()
         {
             Players = new List<GamePlayer>();
             GameTree = new GameTree();
-            GameController = new Core.GameController(this);
+            GameController = new Core.ObsoleteGameController(this);
         }
 
         /// <summary>

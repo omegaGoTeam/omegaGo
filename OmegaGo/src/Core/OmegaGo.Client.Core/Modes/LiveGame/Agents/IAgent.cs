@@ -20,14 +20,14 @@ namespace OmegaGo.Core.Agents
     /// <para>
     /// Making a move, in general, takes a lot of time. The <see cref="AIAgent"/> will usually take about one second to make a move, and
     /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the way this works is that 
-    /// the <see cref="GameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
-    /// the agent calls <see cref="GameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
+    /// the <see cref="ObsoleteGameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
+    /// the agent calls <see cref="ObsoleteGameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
     /// </para>    
     /// </summary>
     public interface IAgent
     {
         /// <summary>
-        /// Using this property (which might be constant for most agents), the agent informs the <see cref="GameController"/>
+        /// Using this property (which might be constant for most agents), the agent informs the <see cref="ObsoleteGameController"/>
         /// how it should proceed if the agent supplies an illegal move. Ideally, agents should not give illegal moves, but especially
         /// weaker AI's sometimes will do so.
         /// </summary>
