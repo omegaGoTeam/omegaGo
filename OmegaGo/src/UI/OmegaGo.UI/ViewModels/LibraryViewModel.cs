@@ -85,7 +85,7 @@ namespace OmegaGo.UI.ViewModels
             gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
             FillBoard(gameInfo.Ruleset, gameTree, gameInfo.BoardSize);
 
-            Game game = new Game(gameInfo, gameInfo.GameController, null);
+            ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
             gameInfo.GameTree.GameTreeRoot = gameTree;
             Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();

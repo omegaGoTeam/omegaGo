@@ -7,7 +7,7 @@ using OmegaGo.Core.Online.Chat;
 
 namespace OmegaGo.Core
 {
-    public sealed class Game : IGame
+    public sealed class ObsoleteGame : IGame
     {
         private IChatService _chatService;
         private IGameController _controller;
@@ -21,7 +21,7 @@ namespace OmegaGo.Core
 
         public event EventHandler<GameTreeNode> BoardChanged;
 
-        public Game(ObsoleteGameInfo info, IGameController controller, IChatService chatService)
+        public ObsoleteGame(ObsoleteGameInfo info, IGameController controller, IChatService chatService)
         {
             _info = info;
             _controller = controller;

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Agents;
 using System.Windows.Input;
+using OmegaGo.Core.Modes.LiveGame;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -165,8 +166,8 @@ namespace OmegaGo.UI.ViewModels
             gameInfo.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
             gameInfo.KomiValue = Compensation;
           
-            Game game = new Game(gameInfo, gameInfo.GameController, null);
-
+            ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
+            
             Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();
         }

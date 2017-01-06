@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OmegaGo.Core.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame
     public abstract class LiveGameBase : IMode
     {
         IGameController Controller { get; }
+
+        GameInfo Info { get; }
     }
 }

@@ -35,6 +35,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI\AIStrength.cs" />
+    <Compile Include="Game\GameInfo.cs" />
+    <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Modes\LiveGame\Agents\AgentBase.cs" />
     <Compile Include="Modes\LiveGame\Agents\AIAgent.cs" />
     <Compile Include="Modes\LiveGame\Agents\LocalAgent.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Game\Markup\Square.cs" />
     <Compile Include="Game\Markup\Triangle.cs" />
     <Compile Include="Game\MoveKind.cs" />
-    <Compile Include="Modes\LiveGame\LiveGame.cs" />
+    <Compile Include="Modes\LiveGame\LiveGameBase.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameOpponent.cs" />
@@ -144,7 +146,7 @@
     <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Game\GameInfo.cs" />
+    <Compile Include="Game\ObsoleteGameInfo.cs" />
     <Compile Include="Game\GameBoardSize.cs" />
     <Compile Include="Game\GameTree.cs" />
     <Compile Include="Game\GameTreeNode.cs" />

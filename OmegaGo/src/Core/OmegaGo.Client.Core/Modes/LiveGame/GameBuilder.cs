@@ -34,6 +34,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             return DerivedThis;
         }
 
+        public T SetCountingType(CountingType countingType)
+        {
+            return DerivedThis;
+        }
+
         public T SetHandicapPlacementType(HandicapPlacementType handicapPlacementType)
         {
             return DerivedThis;

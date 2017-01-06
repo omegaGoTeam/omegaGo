@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Agents;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core
 {
@@ -10,15 +11,6 @@ namespace OmegaGo.Core
     public class Player
     {
 
-        /// <summary>
-        /// Gets the name of the player. This could be a player's online nickname, an AI program's name and difficulty,
-        /// or the text "Local Black" or "Local White".
-        /// </summary>
-        public string Name { get;  }
-        /// <summary>
-        /// Gets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
-        /// </summary>
-        public string Rank { get;  }
 
         /// <summary>
         /// The game the player is playing.
@@ -42,10 +34,8 @@ namespace OmegaGo.Core
         /// <param name="name">The player's name.</param>
         /// <param name="rank">The player's rank (e.g. "17k").</param>
         /// <param name="game">The game the player participates in.</param>
-        public Player(string name, string rank, ObsoleteGameInfo game)
+        public Player( ObsoleteGameInfo game )
         {
-            Name = name;
-            Rank = rank;
             Game = game;
         }
         /// <summary>

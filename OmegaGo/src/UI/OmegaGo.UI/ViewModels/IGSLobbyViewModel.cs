@@ -54,7 +54,7 @@ namespace OmegaGo.UI.ViewModels
             ObsoleteGameInfo observedGame = OnlineGames[ SelectedOnlineGameIndex ];
             observedGame.Ruleset = new ChineseRuleset( observedGame.BoardSize );
 
-            IGame game = new Game( observedGame, observedGame.GameController, null );
+            IGame game = new ObsoleteGame( observedGame, observedGame.GameController, null );
 
             Mvx.RegisterSingleton<IGame>( game );
             _igsConnection.StartObserving(observedGame);
