@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        public override async Task<GameInfo> GetGameByIdAsync(int gameId)
+        public override async Task<ObsoleteGameInfo> GetGameByIdAsync(int gameId)
         {
             IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
@@ -31,10 +31,10 @@ namespace OmegaGo.Core.Online.Igs
             }
             throw new Exception("No game with this ID.");
         }
-        public override async Task<List<GameInfo>> ListGamesInProgressAsync()
+        public override async Task<List<ObsoleteGameInfo>> ListGamesInProgressAsync()
         {
             await EnsureConnectedAsync();
-            this._gamesInProgressOnIgs = new List<GameInfo>();
+            this._gamesInProgressOnIgs = new List<ObsoleteGameInfo>();
             List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
             {
@@ -50,7 +50,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return this._gamesInProgressOnIgs;
         }
-        private GameInfo CreateGameFromTelnetLine(string line)
+        private ObsoleteGameInfo CreateGameFromTelnetLine(string line)
         {
             Regex regex = new Regex(@"7 \[ *([0-9]+)] *([^[]+) \[([^]]+)\] vs. *([^[]+) \[([^]]+)\] \( *([0-9]+) *([0-9]+) *([0-9]+) *([-0-9.]+) *([0-9]+) *([A-Z]*)\) *\( *([0-9]+)\)");
             // The regex means:
@@ -71,7 +71,7 @@ namespace OmegaGo.Core.Online.Igs
             Match match = regex.Match(line);
             try
             {
-                GameInfo game = new GameInfo()
+                ObsoleteGameInfo game = new ObsoleteGameInfo()
                 {
                     ServerId = match.Groups[1].Value.AsInteger(),
                     Server = this,
@@ -101,11 +101,11 @@ namespace OmegaGo.Core.Online.Igs
             catch (FormatException)
             {
                 Debug.WriteLine(line);
-                return new GameInfo();
+                return new ObsoleteGameInfo();
             }
 
         }
-        public override async void StartObserving(GameInfo game)
+        public override async void StartObserving(ObsoleteGameInfo game)
         {
             if (this._gamesBeingObserved.Contains(game))
             {
@@ -116,7 +116,7 @@ namespace OmegaGo.Core.Online.Igs
             this._gamesYouHaveOpened.Add(game);
             await MakeRequestAsync("observe " + game.ServerId);
         }
-        public override void EndObserving(GameInfo game)
+        public override void EndObserving(ObsoleteGameInfo game)
         {
             if (!this._gamesBeingObserved.Contains(game))
             {
@@ -172,7 +172,7 @@ namespace OmegaGo.Core.Online.Igs
             // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
             return !lines.Any(line => line.Code == IgsCode.Error);
         }
-        public async Task<GameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
+        public async Task<ObsoleteGameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         { 
             /*  
             15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
@@ -185,7 +185,7 @@ namespace OmegaGo.Core.Online.Igs
             if (lines.Any(line => line.Code == IgsCode.Error)) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
 
-            GameInfo game = new GameInfo()
+            ObsoleteGameInfo game = new ObsoleteGameInfo()
             {
                 BoardSize = new GameBoardSize(19), // TODO
                 Server = this,
@@ -204,7 +204,7 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        public override void MakeMove(GameInfo game, Move move)
+        public override void MakeMove(ObsoleteGameInfo game, Move move)
         {
             switch (move.Kind)
             {
@@ -216,12 +216,12 @@ namespace OmegaGo.Core.Online.Igs
                     break;
             }
         }
-        public override void Resign(GameInfo game)
+        public override void Resign(ObsoleteGameInfo game)
         {
             MakeUnattendedRequest("resign " + game.ServerId);
         }
 
-        public async Task<bool> SayAsync(GameInfo game, string chat)
+        public async Task<bool> SayAsync(ObsoleteGameInfo game, string chat)
         {
             if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
@@ -241,26 +241,26 @@ namespace OmegaGo.Core.Online.Igs
             return !response.IsError;
         }
 
-        public async Task UndoPleaseAsync(GameInfo game)
+        public async Task UndoPleaseAsync(ObsoleteGameInfo game)
         {
             await MakeRequestAsync("undoplease " + game.ServerId);
         }
 
-        public async Task UndoAsync(GameInfo game)
+        public async Task UndoAsync(ObsoleteGameInfo game)
         {
             await MakeRequestAsync("undo " + game.ServerId);
         }
 
-        public void NoUndo(GameInfo game)
+        public void NoUndo(ObsoleteGameInfo game)
         {
             MakeUnattendedRequest("noundo " + game.ServerId);
         }
 
-        public override async void LifeDeath_Done(GameInfo game)
+        public override async void LifeDeath_Done(ObsoleteGameInfo game)
         {
             await MakeRequestAsync("done " + game.ServerId);
         }
-        public override async void LifeDeath_MarkDead(Position position, GameInfo game)
+        public override async void LifeDeath_MarkDead(Position position, ObsoleteGameInfo game)
         {
             await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
         }

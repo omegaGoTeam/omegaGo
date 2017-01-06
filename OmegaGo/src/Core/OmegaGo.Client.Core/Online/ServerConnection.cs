@@ -15,14 +15,14 @@ namespace OmegaGo.Core.Online
         /// Gets a list of all games that are in progress at this server. The returned list is not kept by this class
         /// and may be used by the caller as the caller sees fit.
         /// </summary>
-        public virtual Task<List<GameInfo>> ListGamesInProgressAsync()
+        public virtual Task<List<ObsoleteGameInfo>> ListGamesInProgressAsync()
         {
-            return Task.FromResult(new List<GameInfo>());
+            return Task.FromResult(new List<ObsoleteGameInfo>());
         }
-        public virtual void StartObserving(GameInfo game)
+        public virtual void StartObserving(ObsoleteGameInfo game)
         {
         }
-        public virtual void EndObserving(GameInfo game)
+        public virtual void EndObserving(ObsoleteGameInfo game)
         {
         }
 
@@ -40,34 +40,34 @@ namespace OmegaGo.Core.Online
         /// </summary>
         public abstract string ShortName { get; }
 
-        public abstract void MakeMove(GameInfo game, Move move);
+        public abstract void MakeMove(ObsoleteGameInfo game, Move move);
 
         /// <summary>
         /// Gets an online game by its server identifier (the number of the game on the server).
         /// </summary>
         /// <param name="gameId">The number of the game (1 to 1000 on IGS, 1 to 1000000 on OGS, I think).</param>
         /// <returns></returns>
-        public virtual Task<GameInfo> GetGameByIdAsync(int gameId)
+        public virtual Task<ObsoleteGameInfo> GetGameByIdAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void Resign(GameInfo game)
+        public virtual void Resign(ObsoleteGameInfo game)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void LifeDeath_MarkDead(Position position, GameInfo game)
+        public virtual void LifeDeath_MarkDead(Position position, ObsoleteGameInfo game)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void LifeDeath_Done(GameInfo game)
+        public virtual void LifeDeath_Done(ObsoleteGameInfo game)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void LifeDeath_Undo(GameInfo game)
+        public virtual void LifeDeath_Undo(ObsoleteGameInfo game)
         {
             throw new NotImplementedException();
         }

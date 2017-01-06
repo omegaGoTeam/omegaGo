@@ -294,7 +294,7 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private IEnumerable<GameInfo> GetGamesIncluding(string username)
+        private IEnumerable<ObsoleteGameInfo> GetGamesIncluding(string username)
         {
             return this._gamesYouHaveOpened.Where(ginfo => ginfo.Players.Any(pl => pl.Name == username));
         }
@@ -319,7 +319,7 @@ namespace OmegaGo.Core.Online.Igs
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                    GameInfo game = new GameInfo()
+                    ObsoleteGameInfo game = new ObsoleteGameInfo()
                     {
                         BoardSize = new GameBoardSize(19), // TODO
                         Server = this,
@@ -365,7 +365,7 @@ namespace OmegaGo.Core.Online.Igs
                  */
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                    GameInfo relevantGame = this._gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
+                    ObsoleteGameInfo relevantGame = this._gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
                     if (relevantGame == null)
                     {
                         throw new Exception("We received a chat message for a game we no longer play.");
@@ -396,7 +396,7 @@ namespace OmegaGo.Core.Online.Igs
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
                         OnLastMoveUndone(gameInfo);
@@ -406,13 +406,13 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
                     gameInfo.GameController.MainPhase_EnterLifeDeath();
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
                 {
                     ScoreLine scoreLine = IgsRegex.ParseScoreLine(currentLineBatch.Find(ln => ln.Code == IgsCode.Score));
-                    GameInfo gameInfo = this._gamesYouHaveOpened.Find(gi =>
+                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi =>
                         gi.White.Name == scoreLine.White &&
                         gi.Black.Name == scoreLine.Black);
                     OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);

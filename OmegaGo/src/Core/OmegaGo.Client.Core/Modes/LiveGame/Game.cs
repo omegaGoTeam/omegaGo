@@ -11,17 +11,17 @@ namespace OmegaGo.Core
     {
         private IChatService _chatService;
         private IGameController _controller;
-        private GameInfo _info;
+        private ObsoleteGameInfo _info;
 
         public IChatService ChatService => _chatService;
 
         public IGameController Controller => _controller;
 
-        public GameInfo Info => _info;
+        public ObsoleteGameInfo Info => _info;
 
         public event EventHandler<GameTreeNode> BoardChanged;
 
-        public Game(GameInfo info, IGameController controller, IChatService chatService)
+        public Game(ObsoleteGameInfo info, IGameController controller, IChatService chatService)
         {
             _info = info;
             _controller = controller;

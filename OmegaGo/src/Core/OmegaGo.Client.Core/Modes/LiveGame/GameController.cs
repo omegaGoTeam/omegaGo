@@ -21,7 +21,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// The game that this controller is running.
         /// </summary>
-        private GameInfo _game;
+        private ObsoleteGameInfo _game;
         /// <summary>
         /// The player who is about to make a move.
         /// </summary>
@@ -55,7 +55,7 @@ namespace OmegaGo.Core
         /// Initializes a new instance of the <see cref="GameController"/> class. This should only be called from within the Game class.
         /// </summary>
         /// <param name="game">The game that this GameController instance will run.</param>
-        public GameController(GameInfo game)
+        public GameController(ObsoleteGameInfo game)
         {
             this._game = game;
         }

@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Online.Ogs
 
         }
         public override string ShortName => "OGS";
-        public override void MakeMove(GameInfo game, Move move)
+        public override void MakeMove(ObsoleteGameInfo game, Move move)
         {
             throw new NotImplementedException();
         }

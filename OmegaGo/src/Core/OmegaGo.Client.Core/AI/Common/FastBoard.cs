@@ -23,7 +23,7 @@ namespace OmegaGo.Core.AI.Common
             return legalMoves;
         }
         
-        public static GameBoard CreateBoardFromGame(GameInfo game)
+        public static GameBoard CreateBoardFromGame(ObsoleteGameInfo game)
         {
             GameBoard createdBoard = new GameBoard(game.BoardSize);
             foreach (Move move in game.PrimaryTimeline)

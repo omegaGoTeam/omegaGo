@@ -9,7 +9,7 @@ namespace OmegaGo.Core
 {
     public interface IGame
     {
-        GameInfo Info { get; }
+        ObsoleteGameInfo Info { get; }
 
         IChatService ChatService { get; }
 

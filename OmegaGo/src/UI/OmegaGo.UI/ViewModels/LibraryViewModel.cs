@@ -72,7 +72,7 @@ namespace OmegaGo.UI.ViewModels
             var sgfCollection = parser.Parse(fileContents);
             var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
             
-            GameInfo gameInfo = new GameInfo();
+            ObsoleteGameInfo gameInfo = new ObsoleteGameInfo();
 
             gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
             gameInfo.Players.Add(new Player("White Player", "??", gameInfo));

@@ -25,7 +25,7 @@ namespace FormsPrototype
     public partial class PrimaryForm : Form
     {
         private IgsConnection igs;
-        private List<GameInfo> games;
+        private List<ObsoleteGameInfo> games;
 
         public PrimaryForm()
         {
@@ -87,7 +87,7 @@ namespace FormsPrototype
             }
         }
 
-        private async void Igs_MatchRequestAccepted(object sender, GameInfo game)
+        private async void Igs_MatchRequestAccepted(object sender, ObsoleteGameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
             Player localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
@@ -139,7 +139,7 @@ namespace FormsPrototype
         {
             if (this.lbGames.SelectedItem != null)
             {
-                GameInfo game = (GameInfo)lbGames.SelectedItem;
+                ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
                 game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
                 game.StartObserving();
@@ -155,7 +155,7 @@ namespace FormsPrototype
             if (this.lbObservedGames.SelectedItem != null)
             {
 
-                GameInfo game = (GameInfo)lbGames.SelectedItem;
+                ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
                 game.StopObserving();
                 this.lbObservedGames.Items.Remove(game);
             }
@@ -208,7 +208,7 @@ namespace FormsPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            GameInfo localGame = new GameInfo
+            ObsoleteGameInfo localGame = new ObsoleteGameInfo
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
                 NumberOfMovesPlayed = 0
@@ -304,7 +304,7 @@ namespace FormsPrototype
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                GameInfo game = await igs.AcceptMatchRequestAsync(selectedItem);
+                ObsoleteGameInfo game = await igs.AcceptMatchRequestAsync(selectedItem);
                 await game.AbsorbAdditionalInformation();
                 if (game != null)
                 {

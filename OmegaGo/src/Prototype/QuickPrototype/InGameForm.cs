@@ -20,7 +20,7 @@ namespace FormsPrototype
     public partial class InGameForm : Form
     {
         private GamePhase _gamePhase;
-        private GameInfo _game;
+        private ObsoleteGameInfo _game;
         private IgsConnection _igs;
         private Player PlayerToMove => this._controller.TurnPlayer;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
@@ -30,7 +30,7 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
 
-        public InGameForm(GameInfo game, IgsConnection igs)
+        public InGameForm(ObsoleteGameInfo game, IgsConnection igs)
         {
             InitializeComponent();
 
@@ -116,7 +116,7 @@ namespace FormsPrototype
             this._controller.EnterPhase += _controller_EnterPhase;
             this._controller.BeginGame();
         }
-        private void _igs_LastMoveUndone(object sender, GameInfo e)
+        private void _igs_LastMoveUndone(object sender, ObsoleteGameInfo e)
         {
             if (e == this._game)
             {
@@ -124,12 +124,12 @@ namespace FormsPrototype
             }
         }
 
-        private void _igs_UndoDeclined(object sender, GameInfo e)
+        private void _igs_UndoDeclined(object sender, ObsoleteGameInfo e)
         {
             if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
         }
 
-        private void _igs_UndoRequestReceived(object sender, GameInfo e)
+        private void _igs_UndoRequestReceived(object sender, ObsoleteGameInfo e)
         {
             if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
         }
@@ -141,7 +141,7 @@ namespace FormsPrototype
 
      
 
-        private void _igs_IncomingInGameChatMessage(object sender, Tuple<GameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
+        private void _igs_IncomingInGameChatMessage(object sender, Tuple<ObsoleteGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
         {
             if (e.Item1 == this._game)
             {

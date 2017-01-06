@@ -16,7 +16,7 @@ namespace OmegaGo.Core
     /// 
     /// TODO It is yet to be decided whether a tsumego problem and other things will also qualify as a Game instance. 
     /// </summary>
-    public class GameInfo
+    public class ObsoleteGameInfo
     {
         /// <summary>
         /// In ordinary games, this list will have exactly two players. If we ever add multiplayer games, this could include more players.
@@ -86,10 +86,10 @@ namespace OmegaGo.Core
         public GameController GameController { get; private set;}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameInfo"/> class. A <see cref="OmegaGo.Core.GameController" /> is also created for this game and 
+        /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="OmegaGo.Core.GameController" /> is also created for this game and 
         /// initialized.
         /// </summary>
-        public GameInfo()
+        public ObsoleteGameInfo()
         {
             Players = new List<Player>();
             GameTree = new GameTree();
@@ -179,11 +179,11 @@ namespace OmegaGo.Core
         {
             if (this.Server == null)
                 throw new InvalidOperationException("Only online games can absorb additional information.");
-            GameInfo moreInformation = await this.Server.GetGameByIdAsync(this.ServerId);
+            ObsoleteGameInfo moreInformation = await this.Server.GetGameByIdAsync(this.ServerId);
             this.CopyInformationFrom(moreInformation);
         }
 
-        private void CopyInformationFrom(GameInfo moreInformation)
+        private void CopyInformationFrom(ObsoleteGameInfo moreInformation)
         {
             this.BoardSize = moreInformation.BoardSize; // TODO add time limit later on
             this.Ruleset = new JapaneseRuleset(this.BoardSize);

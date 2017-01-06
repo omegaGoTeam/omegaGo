@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Agents
         /// <summary>
         /// Gets the game that this agent's player is playing in.
         /// </summary>
-        protected GameInfo Game { get; private set; }
+        protected ObsoleteGameInfo Game { get; private set; }
         /// <summary>
         /// Gets the player that this agent makes moves for.
         /// </summary>
@@ -25,7 +25,7 @@ namespace OmegaGo.Core.Agents
         public abstract IllegalMoveHandling HowToHandleIllegalMove { get; }
 
        
-        public void GameBegins(Player player, GameInfo game)
+        public void GameBegins(Player player, ObsoleteGameInfo game)
         {
             Player = player;
             Game = game;

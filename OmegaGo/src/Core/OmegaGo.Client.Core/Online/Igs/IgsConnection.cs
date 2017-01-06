@@ -52,11 +52,11 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<GameInfo> _gamesInProgressOnIgs = new List<GameInfo>();
-        private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
-        private readonly List<GameInfo> _gamesYouHaveOpened = new List<GameInfo>();
+        private List<ObsoleteGameInfo> _gamesInProgressOnIgs = new List<ObsoleteGameInfo>();
+        private readonly List<ObsoleteGameInfo> _gamesBeingObserved = new List<ObsoleteGameInfo>();
+        private readonly List<ObsoleteGameInfo> _gamesYouHaveOpened = new List<ObsoleteGameInfo>();
         // Internal synchronization management
-        private GameInfo _incomingMovesAreForThisGame;
+        private ObsoleteGameInfo _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
             new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest _requestInProgress;
@@ -268,10 +268,10 @@ namespace OmegaGo.Core.Online.Igs
             {
                 string trim2 = trim.Substring("Game ".Length);
                 int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
-                GameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
+                ObsoleteGameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
                 if (whatGame == null)
                 {
-                    whatGame = new GameInfo
+                    whatGame = new ObsoleteGameInfo
                     {
                         ServerId = gameNumber,
                         Server = this
@@ -410,7 +410,7 @@ namespace OmegaGo.Core.Online.Igs
         #endregion
         // Interface requirements
         public override string ShortName => "IGS";
-        public void RefreshBoard(GameInfo game)
+        public void RefreshBoard(ObsoleteGameInfo game)
         {
             MakeUnattendedRequest("moves " + game.ServerId);
         }
@@ -463,8 +463,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when our match request is accepted and creates a GAME.
         /// </summary>
-        public event EventHandler<GameInfo> MatchRequestAccepted;
-        private void OnMatchRequestAccepted(GameInfo acceptedGame)
+        public event EventHandler<ObsoleteGameInfo> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(ObsoleteGameInfo acceptedGame)
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
@@ -472,17 +472,17 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have opened.
         /// </summary>
-        public event EventHandler<Tuple<GameInfo, ChatMessage>> IncomingInGameChatMessage;
-        private void OnIncomingInGameChatMessage(GameInfo relevantGame, ChatMessage chatLine)
+        public event EventHandler<Tuple<ObsoleteGameInfo, ChatMessage>> IncomingInGameChatMessage;
+        private void OnIncomingInGameChatMessage(ObsoleteGameInfo relevantGame, ChatMessage chatLine)
         {
-            IncomingInGameChatMessage?.Invoke(this, new Tuple<GameInfo, ChatMessage>(relevantGame, chatLine));
+            IncomingInGameChatMessage?.Invoke(this, new Tuple<ObsoleteGameInfo, ChatMessage>(relevantGame, chatLine));
         }
 
         /// <summary>
         /// Occurs when the opponent in a GAME asks us to let them undo a move
         /// </summary>
-        public event EventHandler<GameInfo> UndoRequestReceived;
-        private void OnUndoRequestReceived(GameInfo game)
+        public event EventHandler<ObsoleteGameInfo> UndoRequestReceived;
+        private void OnUndoRequestReceived(ObsoleteGameInfo game)
         {
             UndoRequestReceived?.Invoke(this, game);
         }
@@ -499,8 +499,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when the server commands us to act as though the last move didn't take place.
         /// </summary>
-        public event EventHandler<GameInfo> LastMoveUndone;
-        private void OnLastMoveUndone(GameInfo whichGame)
+        public event EventHandler<ObsoleteGameInfo> LastMoveUndone;
+        private void OnLastMoveUndone(ObsoleteGameInfo whichGame)
         {
             LastMoveUndone?.Invoke(this, whichGame);
         }
@@ -510,14 +510,14 @@ namespace OmegaGo.Core.Online.Igs
         /// Occurs when the opponent in a GAME declines our request to undo a move.
         /// This will also prevent all further undo's in this game.
         /// </summary>
-        public event EventHandler<GameInfo> UndoDeclined;
-        private void OnUndoDeclined(GameInfo game)
+        public event EventHandler<ObsoleteGameInfo> UndoDeclined;
+        private void OnUndoDeclined(ObsoleteGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
         }
 
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-        private void OnGameScoreAndCompleted(GameInfo gameInfo, float blackScore, float whiteScore)
+        private void OnGameScoreAndCompleted(ObsoleteGameInfo gameInfo, float blackScore, float whiteScore)
         {
             GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
         }
@@ -525,10 +525,10 @@ namespace OmegaGo.Core.Online.Igs
     public class GameScoreEventArgs : EventArgs
     {
         public readonly float BlackScore;
-        public readonly GameInfo GameInfo;
+        public readonly ObsoleteGameInfo GameInfo;
         public readonly float WhiteScore;
 
-        public GameScoreEventArgs(GameInfo gameInfo, float blackScore, float whiteScore)
+        public GameScoreEventArgs(ObsoleteGameInfo gameInfo, float blackScore, float whiteScore)
         {
             this.GameInfo = gameInfo;
             this.BlackScore = blackScore;

@@ -152,7 +152,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void NavigateToGame()
         {
-            GameInfo gameInfo = new GameInfo();
+            ObsoleteGameInfo gameInfo = new ObsoleteGameInfo();
 
             gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
             gameInfo.Players.Add(new Player("White Player", "??", gameInfo));
