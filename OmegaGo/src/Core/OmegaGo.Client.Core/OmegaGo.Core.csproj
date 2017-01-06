@@ -90,6 +90,7 @@
     <Compile Include="Modes\LiveGame\Phases\GameInitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GameLifeAndDeathPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GameMainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GamePhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhases.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameFinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameInitializationPhase.cs" />
