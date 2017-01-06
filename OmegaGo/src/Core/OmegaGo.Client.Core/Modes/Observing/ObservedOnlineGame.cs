@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online.Observing
 {
-    class ObservedOnlineGame
+    class ObservedOnlineGame : IMode
     {
         IChatService PlayerChat { get; }
         IChatService ObserverChat { get; }

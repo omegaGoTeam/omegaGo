@@ -37,6 +37,7 @@
     <Compile Include="AI\AIStrength.cs" />
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
+    <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\Agents\AgentBase.cs" />
     <Compile Include="Modes\LiveGame\Agents\AIAgent.cs" />
     <Compile Include="Modes\LiveGame\Agents\LocalAgent.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameOpponent.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\OnlineGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\GameFinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GameHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GameInitializationPhase.cs" />
@@ -98,6 +100,8 @@
     <Compile Include="Modes\LiveGame\Phases\IGameHandicapPlacementPhase.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGame.cs" />
+    <Compile Include="Modes\Tsumego\TsumegoProblem.cs" />
+    <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />
     <Compile Include="Online\Chat\IChatService.cs" />
@@ -236,9 +240,6 @@
     <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Modes\Analysis\" />
-    <Folder Include="Modes\Tsumego\" />
-    <Folder Include="Modes\Tutorial\" />
     <Folder Include="Sgf\Serializing\" />
     <Folder Include="TimeControl\" />
   </ItemGroup>

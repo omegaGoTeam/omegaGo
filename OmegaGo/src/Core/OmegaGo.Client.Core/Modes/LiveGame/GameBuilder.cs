@@ -9,42 +9,44 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public abstract class GameBuilder<T> where T : GameBuilder<T>
+    public abstract class GameBuilder<GameType, BuilderType>
+        where GameType : LiveGameBase
+        where BuilderType : GameBuilder<GameType, BuilderType>
     {
-        protected abstract T DerivedThis { get; }
+        protected abstract BuilderType DerivedThis { get; }
 
-        public T SetKomi(float komi)
+        public BuilderType SetKomi(float komi)
         {
 
             return DerivedThis;
         }
 
-        public T SetWhiteHandicap()
+        public BuilderType SetWhiteHandicap()
         {
             return DerivedThis;
         }
 
-        public T SetRuleset(RulesetType rulesetType)
+        public BuilderType SetRuleset(RulesetType rulesetType)
         {
             return DerivedThis;
         }
 
-        public T SetBoardSize(GameBoardSize boardSize)
+        public BuilderType SetBoardSize(GameBoardSize boardSize)
         {
             return DerivedThis;
         }
 
-        public T SetCountingType(CountingType countingType)
+        public BuilderType SetCountingType(CountingType countingType)
         {
             return DerivedThis;
         }
 
-        public T SetHandicapPlacementType(HandicapPlacementType handicapPlacementType)
+        public BuilderType SetHandicapPlacementType(HandicapPlacementType handicapPlacementType)
         {
             return DerivedThis;
         }
 
-        public abstract LiveGameBase Build();
+        public abstract GameType Build();
     }
 
     public static class GameBuilder

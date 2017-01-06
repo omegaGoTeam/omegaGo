@@ -37,7 +37,7 @@ namespace OmegaGo.Core.Agents
         { 
             GameBoard createdBoard = FastBoard.CreateBoardFromGame(Game);
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
-              Player.Color,
+              Player.Info.Color,
               createdBoard,
               Game.BoardSize,
               new TimeSpan(0, 0, 2),

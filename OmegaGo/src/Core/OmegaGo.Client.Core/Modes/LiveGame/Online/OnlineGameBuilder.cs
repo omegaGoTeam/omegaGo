@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
-    public class OnlineGameBuilder : GameBuilder<OnlineGameBuilder>
+    public class OnlineGameBuilder : GameBuilder<OnlineGame,OnlineGameBuilder>
     {
         protected override OnlineGameBuilder DerivedThis => this;
 
-        public override LiveGameBase Build()
+        public override OnlineGame Build()
         {
             throw new NotImplementedException();
         }

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Local
 {
-    public class LocalGameBuilder : GameBuilder<LocalGameBuilder>
+    public class LocalGameBuilder : GameBuilder<LocalGame, LocalGameBuilder>
     {
         protected override LocalGameBuilder DerivedThis => this;
 
-        public override LiveGameBase Build()
+        public override LocalGame Build()
         {
             throw new NotImplementedException();
         }

@@ -14,6 +14,8 @@ namespace OmegaGo.Core
     {
         GameState State { get; }
 
+        GameTree GameTree { get; }
+
         event EventHandler BoardMustBeRefreshed;
         // TODO In future should be part of SendRequest
         void BeginGame();
