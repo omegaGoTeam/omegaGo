@@ -8,6 +8,7 @@ using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Common;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 
 namespace OmegaGo.Core
 {
@@ -244,7 +245,7 @@ namespace OmegaGo.Core
             OnResignation(player);
             this._game.Server?.Resign(this._game);
             _turnPlayer = null;
-            SetGamePhase(GamePhase.Completed);
+            SetGamePhase(GamePhases.Finished);
         }
 
         /// <summary>
@@ -309,12 +310,6 @@ namespace OmegaGo.Core
             _gamePhase = GamePhase.Completed;
         }
 
-    
-
-        public void SendRequest(GameRequest request)
-        {
-            throw new NotImplementedException();
-        }
 
         public void RespondRequest()
         {
@@ -389,27 +384,5 @@ namespace OmegaGo.Core
             _turnPlayer.Agent.PleaseMakeAMove();
         }
     }
-    /// <summary>
-    /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
-    /// </summary>
-    public enum GamePhase
-    {
-        /// <summary>
-        /// The game has not yet been started.
-        /// </summary>
-        NotYetBegun,
-        /// <summary>
-        /// The main phase: In this phase, players alternately make moves until both players pass.
-        /// </summary>
-        MainPhase,
-        /// <summary>
-        /// The Life/Death Determination Phase: 
-        /// In this phase, players agree on which stones should be marked dead and which should be marked alive.
-        /// </summary>
-        LifeDeathDetermination,
-        /// <summary>
-        /// The game has ended and its score has been calculated.
-        /// </summary>
-        Completed
-    }
+
 }

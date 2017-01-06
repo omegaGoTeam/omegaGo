@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.AI
 {
-    public class GameRequest
+    public enum AIStrength
     {
+        Easy,
+        Medium,
+        Hard
     }
 }

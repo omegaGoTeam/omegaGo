@@ -739,11 +739,4 @@ namespace OmegaGo.Core.Rules
         }
 
     }
-
-    public enum RulesetType
-    {
-        AGA,
-        Chinese,
-        Japanese
-    }
 }

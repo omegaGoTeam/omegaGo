@@ -15,7 +15,7 @@ namespace OmegaGo.Core
         event EventHandler BoardMustBeRefreshed;
         // TODO In future should be part of SendRequest
         void BeginGame();
-        void SendRequest(GameRequest request);
+
         void RespondRequest();
     }
 }
