@@ -172,7 +172,7 @@ namespace OmegaGo.Core
 
         public override string ToString()
         {
-            return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + " vs. " + Players[1].Name + " (" + NumberOfObservers + " observers)";
+            return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + "[" + Players[0].Rank + "] vs. " + Players[1].Name + "[" + Players[1].Rank + "] (" + NumberOfObservers + ")";
         }
 
         public async Task AbsorbAdditionalInformation()

@@ -11,7 +11,7 @@ namespace OmegaGo.Core
     /// A strongly typed collection used for storing GameTreeNode instances.
     /// Sets the Parent property of the GameTreeNode automatically.
     /// </summary>
-    public sealed class GameTreeNodeCollection : IEnumerable
+    public sealed class GameTreeNodeCollection : IEnumerable, IEnumerable<GameTreeNode>
     {
         private readonly GameTreeNode _owner;
         private readonly List<GameTreeNode> _nodes;
@@ -49,6 +49,11 @@ namespace OmegaGo.Core
             //    node.Parent = null;
 
             return removed;
+        }
+
+        IEnumerator<GameTreeNode> IEnumerable<GameTreeNode>.GetEnumerator()
+        {
+            return _nodes.GetEnumerator();
         }
 
         public IEnumerator GetEnumerator() => _nodes.GetEnumerator();

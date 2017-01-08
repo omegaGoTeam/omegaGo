@@ -13,7 +13,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         public BeginnerScenario()
         {
             // Loads the dialogue from this folder.
-            var filename = "OmegaGo.UI.ViewModels.Tutorial.Tutorial.txt";
+            var filename = "OmegaGo.UI.Services.Tutorial.Tutorial.txt";
             Stream stream = (typeof(BeginnerScenario).GetTypeInfo().Assembly).GetManifestResourceStream(filename);
             StreamReader sr = new StreamReader(stream);
             string data = sr.ReadToEnd();

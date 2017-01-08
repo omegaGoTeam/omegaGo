@@ -1,0 +1,16 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2837]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 13 / 900]
+AW[eb][db][cb][bb][ab][ba]
+AB[bc][cc][dc][ec][fc][gc][gb][be][ea]
+PL[B]C[Black to kill.]
+(;B[da];W[fa](;B[fb];W[ca](;B[ea]C[Correct.
+White can only make a false eye at E19.]TR[ea])
+(;B[ga];W[ea]C[Wrong.])
+(;B[da];W[ea]C[Wrong.])
+)
+(;B[ga];W[fb]C[Wrong.])
+)
+(;B[fa];W[da]C[Wrong.])
+(;B[fb];W[da]C[Wrong.])
+)

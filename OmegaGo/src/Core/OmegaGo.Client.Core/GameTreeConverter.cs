@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Properties.Values;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
@@ -46,9 +48,28 @@ namespace OmegaGo.Core
                     //add non-move
                     newNode = new GameTreeNode(Move.NoneMove);
                 }
+                if (node["AW"] != null)
+                {
+                    //add white moves
+                    var property = node["AW"];
+                    var pointRectangles = property.Values<SgfPointRectangle>();                    
+                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles ) );
+                }
+                if (node["AB"] != null)
+                {
+                    var property = node["AB"];
+                    var pointRectangles = property.Values<SgfPointRectangle>();
+                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles));
+                }
+                if ( node[ "C" ] != null )
+                {
+                    var property = node[ "C" ];
+                    var comment = property.Value<string>();
+                    newNode.Comment = comment;
+                }
                 if (current == null)
-                {                                        
-                    root = newNode;                    
+                {
+                    root = newNode;
                 }
                 else
                 {
@@ -69,6 +90,17 @@ namespace OmegaGo.Core
                 current.Branches.AddNode(rootOfBranch);
             }
             return root;
+        }
+
+        private static IEnumerable<Position> GetPositionsFromPointRectangles(IEnumerable<SgfPointRectangle> pointRectangles)
+        {
+            foreach (var pointRectangle in pointRectangles)
+            {
+                foreach (var point in pointRectangle)
+                {
+                    yield return Position.FromSgfPoint(point);
+                }
+            }
         }
 
 

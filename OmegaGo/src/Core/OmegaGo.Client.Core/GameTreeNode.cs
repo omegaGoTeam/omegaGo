@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core
 {
@@ -20,8 +21,8 @@ namespace OmegaGo.Core
         public string Comment { get; set; }
         public string Name { get; set; }
 
-        public List<string> AddBlack { get; set; }
-        public List<string> AddWhite { get; set; }
+        public List<Position> AddBlack { get; set; } = new List<Position>();
+        public List<Position> AddWhite { get; set; } = new List<Position>();
 
         /// <summary>
         /// Describes current state of the entire game board. Can be null.
@@ -130,6 +131,23 @@ namespace OmegaGo.Core
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether reaching this node means the player has successfully
+        /// solved a tsumego problem.
+        /// </summary>
+        public bool TsumegoCorrect { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether reaching this node means that further exploration of 
+        /// this branch will not yield a correct solution to a tsumego problem, and the problem should count
+        /// as failed.
+        /// </summary>
+        public bool TsumegoWrong { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this node is part of the tsumego definition. Other nodes
+        /// would be created by the player, are termed 'unexpected' and are considered wrong.
+        /// </summary>
+        public bool TsumegoExpected { get; set; }
+
+        /// <summary>
         /// Gets the list of all moves that lead to the provided node.
         /// The list is starting with root node.
         /// </summary>
@@ -154,6 +172,29 @@ namespace OmegaGo.Core
             } while (node != null);
 
             return nodeHistory;
+        }
+
+        public void FillBoardStateOfRoot(GameBoardSize boardSize, IRuleset ruleset)
+        {
+            if (this.Parent != null) throw new InvalidOperationException("Only call this on a root.");
+            FillBoardStateInternal(new GameBoard(boardSize), ruleset);
+        }
+        public void FillBoardState(IRuleset ruleset)
+        {
+            if (this.Parent == null) throw new InvalidOperationException("Only call this on a child node.");
+            FillBoardStateInternal(new GameBoard(this.Parent.BoardState), ruleset);
+        }
+        private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, IRuleset ruleset)
+        {
+            foreach (var position in this.AddBlack)
+                copyOfPreviousBoard[position] = StoneColor.Black;
+            foreach (var position in this.AddWhite)
+                copyOfPreviousBoard[position] = StoneColor.White;
+
+           MoveProcessingResult mpr =
+                ruleset.ProcessMove(copyOfPreviousBoard, this.Move, new List<Core.GameBoard>());
+
+          this.BoardState = mpr.NewBoard;
         }
     }
 }

@@ -79,8 +79,7 @@
         </trans-unit>
         <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
           <source>Display</source>
-          <target state="needs-review-translation">Uživatelské rozhraní</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Zobrazení</target>
         </trans-unit>
         <trans-unit id="Credits" translate="yes" xml:space="preserve">
           <source>Credits</source>
@@ -128,7 +127,7 @@
         </trans-unit>
         <trans-unit id="Singleplayer" translate="yes" xml:space="preserve">
           <source>Singleplayer</source>
-          <target state="final">Hra jednoho hráče</target>
+          <target state="translated">Menu pro hru jednoho hráče</target>
         </trans-unit>
         <trans-unit id="SingleplayerToolTip" translate="yes" xml:space="preserve">
           <source>Learn Go, play against an AI, solve problems or gain experience completing quests.</source>

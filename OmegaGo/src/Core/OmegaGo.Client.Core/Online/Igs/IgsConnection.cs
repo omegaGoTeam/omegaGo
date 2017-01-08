@@ -283,7 +283,8 @@ namespace OmegaGo.Core.Online.Igs
             else if (trim.Contains("Handicap"))
             {
                 //  15   0(B): Handicap 3
-                // Ignore.
+                int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
+                _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
             }
             else
             {

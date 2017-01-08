@@ -9,16 +9,23 @@ namespace OmegaGo.Core
     public sealed class GameBoard : IEquatable<GameBoard>
     {
         private StoneColor[,] _board;
-        private GameBoardSize _size;
 
-        public GameBoardSize Size => _size;
-        
+        public GameBoardSize Size { get; }
+
+        /// <summary>
+        /// Initializes a new <see cref="GameBoard"/> with the specified dimensions.
+        /// </summary>
+        /// <param name="boardSize">Size of the board.</param>
         public GameBoard(GameBoardSize boardSize)
         {
             _board = new StoneColor[boardSize.Width, boardSize.Height];
-            _size = boardSize;
+            this.Size = boardSize;
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="GameBoard"/> as a copy of the given game board.
+        /// </summary>
+        /// <param name="gameBoard">The game board to copy.</param>
         public GameBoard(GameBoard gameBoard)
             : this(gameBoard.Size)
         {

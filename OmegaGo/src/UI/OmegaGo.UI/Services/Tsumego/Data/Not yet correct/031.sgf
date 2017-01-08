@@ -1,0 +1,17 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2867]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 32 / 900]
+AW[ad][bd][bc][cc][cb][db][da][ea]
+AB[ab][be][ce][cd][dc][ec][eb]
+PL[B]C[Black to kill.]
+(;B[ba]C[Correct.])
+(;B[ac];W[ba]C[Wrong.])
+(;B[aa];W[ba](;B[bb];W[ac]C[Wrong.])
+(;B[ac];W[bb]C[Wrong.])
+)
+(;B[ca];W[ba]C[Wrong.])
+(;B[bb];W[ba]C[Wrong.
+If Black had filled all outside liberties, this would be a seki.
+
+Since White has outside liberties still, black is captured if he tries to play either A17 or A19. White can play at A17 to capture the two black stones.]MA[ab]MA[bb])
+)

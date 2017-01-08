@@ -139,8 +139,9 @@ namespace OmegaGo.UI.WindowsUniversal
             coreTitleBar.ExtendViewIntoTitleBar = false;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
-            titleBar.ButtonBackgroundColor = titleBar.BackgroundColor;
-            titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = Colors.Black;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
             titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
             titleBar.ButtonHoverForegroundColor = Colors.Black;

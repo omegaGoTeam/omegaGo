@@ -67,7 +67,7 @@
     <value>Zvuky</value>
   </data>
   <data name="UserInterface" xml:space="preserve">
-    <value>Uživatelské rozhraní</value>
+    <value>Zobrazení</value>
   </data>
   <data name="Credits" xml:space="preserve">
     <value>Kredity</value>
@@ -103,7 +103,7 @@
     <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
   </data>
   <data name="Singleplayer" xml:space="preserve">
-    <value>Hra jednoho hráče</value>
+    <value>Menu pro hru jednoho hráče</value>
   </data>
   <data name="SingleplayerToolTip" xml:space="preserve">
     <value>Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</value>

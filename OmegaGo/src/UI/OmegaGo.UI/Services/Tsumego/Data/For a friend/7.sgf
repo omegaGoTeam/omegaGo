@@ -1,0 +1,11 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/6480]
+GN[a few beginner examples for a friend - DD007 prevent three eyes being made]
+AW[if][jf][kf][kg][lg][li][ki][ji][ii][hi][ig][hg][hh][lh]
+AB[he][hf][ie][je][ke][le][lf][mf][mg][mh][mi][mj][lj][kj][jj][ij][hj][gj][gi][gh][gg][gf]
+PL[B]C[Black to move: With one move, prevent three eyes being made.]
+(;B[jh]C[Correct.])
+(;B[kh];W[jh]C[Wrong.])
+(;B[ih];W[jh]C[Wrong.])
+(;B[jg];W[jh]C[Wrong.])
+)
