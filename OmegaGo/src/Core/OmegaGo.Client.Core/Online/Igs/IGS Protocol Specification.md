@@ -53,6 +53,8 @@ Clients should generally always operate in client mode as it's easier to handle 
 
 Whenever the server responds to one of your commands, this response will always be terminated by a *prompt* line. In client mode, this will start with the code "1". 
 
+**However** some commands will **not receive any response**. This also means that no prompt will be returned after these commands. This specification will tell you when a command does not receive any response (as opposed to the empty string response, which is terminated by a prompt line).
+
 The server may also send you lines that you didn't ask for; for example, to inform you that a move was made, that somebody sent you a chat message, that the server will shut down or to share an ad with you. This interjections will also always be terminated by a prompt line.
 
 The line then contains one more number which identifies what state you are in:
@@ -338,11 +340,27 @@ or
 ```
 These responses will always contain an error message with the reply code 5.
 
-TODO accept/reject
-TODO mismatch of requests
-TODO color choice by opponent?
-### `decline`
+You may also use `match` to accept a match request. If you use `match [playername]` on a player who has an active match request towards you, that request will be accepted.
 
+If you add additional parameters to the `match` command, intending to accept, then if those parameters match the parameters of the match request, the match request will be accepted. If they don't match, a _mismatch of request_ occurred (see further down in this specification for what happens then).
+
+### `decline`
+```
+Usage:  decline <playername>
+
+        'decline' will refuse a match, after one is offered.
+
+         For example, if a 'match' request is offered, it will look like:
+
+            Match[19x19] in 75 minutes requested with tim as White.
+            Use <match  tim B 19 75 10> or <decline  tim> to respond
+
+         If you wish to decline, enter:   decline tim
+
+         If you wish to accept, enter:    match tim B 19 75 10
+                                   or:    match tim
+```
+Used to decline refuse a `match` or an `nmatch` match request.
 
 ### `nmatch`
 `nmatch` is an undocumented command that requests or accepts a game.
@@ -369,14 +387,30 @@ otherwise.
 
 The opponent will in that case receive the server-initiated message:
 ```
-24 *SYSTEM*: Soothie requests undo.
+24 *SYSTEM*: OmegaGo1 requests undo.
+1 6
+1 6
 ```
+**Warning:** Due to an IGS bug, this notification sends a **double prompt message**.
+
 The opponent may accept or refuse the undo by using `undo` or `noundo`.
 
 ### `undo`
+If you agree to an `undoplease` by `undo [gamenumber]`, then you will either receive an error message or no response, in which case the following message will be sent to both players:
+```
+28 Soothie undid the last move (B3) .
+28 Soothie undid the last move (B2) .
 
+15 Game 44 I: OmegaGo1 (0 4493 -1) vs Soothie (0 4500 -1)
+```
+Up to 2 moves might be undone with this, because `undo` will always undo all most recent moves up to the latest move made by the player who requested the `undo`.
 
 ### `noundo`
+If you respond to an undo request with `noundo [gamenumber]`, the undo request will be denied. The undo request will not receive any response, but the message
+```
+9 Soothie declines undo.
+```
+will be sent to both players. The game will also become a _no-undo_ game and further `undoplease` requests will be denied automatically.
 
 ### `say`
 Usage (single game): `say [message]`<br>
@@ -458,7 +492,36 @@ Usage: addtime <time to be added>
 
 If you're playing multiple games, add the game number as a second argument.
 ### making a move
-### receiving a move
+```
+Usage: <letter><number>
+
+   The coordinate system used by IGS is [A - Z][1 - 25], depending on the
+   board size. The letter 'I' is not used. The maximun board size is 19.
+   Spaces are not allowed in the move coordinates.
+     Example:  On a 19 x 19 board, the lower left point is:   A1
+                                   the upper right point is:  T19
+   See:  help goboard
+
+   The first move by B (Black) can be:  handicap #    (#) is the number of
+   handicap stones.  (#) must be between 2 - 9     Example:   handicap 5
+
+   To pass, enter:   pass        To undo, enter:   undo
+
+   At the end of a game, dead stones are removed while scoring by entering
+   the coordinates of a dead stone or groups of dead stones.
+
+   Most 'client' programs will allow the use of a 'mouse' to click on the
+   desired coordinate, instead of using the keyboard to enter moves.
+
+See also: goboard chinesechess choice CC client match team shogi undo
+```
+To make a move, enter `[coordinates] [gamenumber]`.
+You will receive an error message if the move is illegal, or both players will receive:
+```
+15 Game 38 I: OmegaGo1 (0 4500 -1) vs Soothie (0 4495 -1)
+15   0(B): B2
+```
+The index of the first move is `0`. The server may also decide that there's a handicap, in which case the first move is made automatically, and it's, for example, `Handicap 2` instead of `B2`. Handicap stones are placed as per Japanese rules (fixed placement). Handicap only works for boards of 9x9, 13x13 and 19x19, I think.
 ## Match procedure
 When two players play Go on IGS, the following sequence happens:
 
@@ -549,7 +612,10 @@ Note that the typo at `'done` (missing apostrophe) is present in the IGS protoco
 ```
 The line starting with the code `20` gives the final score. The board given on the preceding lines shows encoded territory.
 
-If you are only in a single game, you don't need to type the game number after each command.
+
+## Multiple games vs. single game
+
+If you are only in a single game, you don't need to type the game number as an argument to each command.
 
 
 ## List of reply codes
