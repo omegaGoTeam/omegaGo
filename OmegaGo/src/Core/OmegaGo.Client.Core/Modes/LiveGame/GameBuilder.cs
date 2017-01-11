@@ -9,50 +9,81 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public abstract class GameBuilder<GameType, BuilderType>
-        where GameType : LiveGameBase
-        where BuilderType : GameBuilder<GameType, BuilderType>
+    public abstract class GameBuilder<TGameType, TBuilderType>
+        where TGameType : LiveGameBase
+        where TBuilderType : GameBuilder<TGameType, TBuilderType>
     {
-        protected abstract BuilderType DerivedThis { get; }
+        private readonly TBuilderType _concreteBuilderInstance;
 
-        public BuilderType SetKomi(float komi)
+        private float _komi = 0.5f;
+        private int _handicap = 0;
+        private RulesetType _rulesetType = RulesetType.Japanese;
+        private GameBoardSize _boardSize = new GameBoardSize(19);
+        private CountingType? _countingType = null;
+        private HandicapPlacementType _handicapPlacementType = HandicapPlacementType.Fixed;
+        private int _aiStrength = 1;
+
+        public GameBuilder()
         {
-
-            return DerivedThis;
+            _concreteBuilderInstance = (TBuilderType)this;
         }
 
-        public BuilderType SetWhiteHandicap()
+        public TBuilderType SetAIStrength(int aiStrength)
         {
-            return DerivedThis;
+            if (aiStrength < 1 || aiStrength > 10) throw new ArgumentOutOfRangeException(nameof(aiStrength));
+            _aiStrength = aiStrength;
+            return _concreteBuilderInstance;
         }
 
-        public BuilderType SetRuleset(RulesetType rulesetType)
+        public TBuilderType SetKomi(float komi)
         {
-            return DerivedThis;
+            _komi = komi;
+            return _concreteBuilderInstance;
         }
 
-        public BuilderType SetBoardSize(GameBoardSize boardSize)
+        public TBuilderType SetWhiteHandicap(int handicap)
         {
-            return DerivedThis;
+            _handicap = handicap;
+            return _concreteBuilderInstance;
         }
 
-        public BuilderType SetCountingType(CountingType countingType)
+        public TBuilderType SetRuleset(RulesetType rulesetType)
         {
-            return DerivedThis;
+            _rulesetType = rulesetType;
+            return _concreteBuilderInstance;
         }
 
-        public BuilderType SetHandicapPlacementType(HandicapPlacementType handicapPlacementType)
+        public TBuilderType SetBoardSize(GameBoardSize boardSize)
         {
-            return DerivedThis;
+            _boardSize = boardSize;
+            return _concreteBuilderInstance;
         }
 
-        public abstract GameType Build();
+        public TBuilderType SetCountingType(CountingType countingType)
+        {
+            _countingType = countingType;
+            return _concreteBuilderInstance;
+        }
+
+        public TBuilderType SetHandicapPlacementType(HandicapPlacementType handicapPlacementType)
+        {
+            _handicapPlacementType = handicapPlacementType;
+            return _concreteBuilderInstance;
+        }
+
+        public abstract TBuilderType SetWhitePlayer(GamePlayer player);
+
+        public abstract TBuilderType SetBlackPlayer(GamePlayer player);
+
+        protected abstract void ValidatePlayer(GamePlayer player);
+
+        public abstract TGameType Build();
     }
 
     public static class GameBuilder
     {
-        public static LocalGameBuilder LocalGame() => new LocalGameBuilder();
+        public static LocalGameBuilder CreateLocalGame() => new LocalGameBuilder();
 
-        public static OnlineGameBuilder OnlineGame() => new OnlineGameBuilder();
+        public static OnlineGameBuilder CreateOnlineGame() => new OnlineGameBuilder();
     }
 }

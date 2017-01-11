@@ -366,7 +366,7 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is LocalAgent)
+            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is ObsoleteLocalAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -484,7 +484,7 @@ namespace FormsPrototype
         {
             foreach(var player in _game.Players)
             {
-                if (player.Agent is LocalAgent || player.Agent is AIAgent)
+                if (player.Agent is ObsoleteLocalAgent || player.Agent is AIAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }

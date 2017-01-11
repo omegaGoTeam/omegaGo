@@ -85,12 +85,12 @@ namespace OmegaGo.Core.Online.Igs
 
                     new GamePlayer(match.Groups[4].Value, match.Groups[5].Value, game)
                     {
-                        Agent = new OnlineAgent()
+                        Agent = new ObsoleteOnlineAgent()
                     });
                 game.Players.Add(
                     new GamePlayer(match.Groups[2].Value, match.Groups[3].Value, game)
                     {
-                        Agent = new OnlineAgent()
+                        Agent = new ObsoleteOnlineAgent()
                     });
                     // DO *NOT* DO this: the displayed number might be something different from what our client wants
                     // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),

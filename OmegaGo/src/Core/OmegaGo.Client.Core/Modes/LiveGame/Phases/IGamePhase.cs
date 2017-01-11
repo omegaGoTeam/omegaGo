@@ -9,7 +9,5 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
     interface IGamePhase
     {
         GamePhaseType PhaseType { get; }
-
-        void HandleMove( Position position );
     }
 }

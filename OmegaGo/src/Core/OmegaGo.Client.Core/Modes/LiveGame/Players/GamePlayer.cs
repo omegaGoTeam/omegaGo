@@ -15,7 +15,7 @@ namespace OmegaGo.Core
         /// <summary>
         /// The agent that makes this player's moves.
         /// </summary>
-        public IAgent Agent { get; }
+        public IObsoleteAgent Agent { get; }       
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePlayer"/> class.
@@ -23,7 +23,7 @@ namespace OmegaGo.Core
         /// <param name="name">The player's name.</param>
         /// <param name="rank">The player's rank (e.g. "17k").</param>
         /// <param name="game">The game the player participates in.</param>
-        public GamePlayer(GamePlayerInfo playerInfo, IAgent agent )
+        public GamePlayer(GamePlayerInfo playerInfo, IObsoleteAgent agent )
         {
             Info = playerInfo;
             Agent = agent;

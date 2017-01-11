@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Agents
     /// This base class contains code that allows an agent to make moves based on a historical record. This is used most often when resuming
     /// a paused game or when entering a game that's already in progress on a server.
     /// </summary>
-    public abstract class AgentBase : IAgent
+    public abstract class ObsoleteAgentBase : IObsoleteAgent
     {
         /// <summary>
         /// Gets the game that this agent's player is playing in.

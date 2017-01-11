@@ -159,7 +159,7 @@ namespace OmegaGo.UI.ViewModels
             gameInfo.Players.Add(new GamePlayer("White Player", "??", gameInfo));
             foreach (var player in gameInfo.Players)
             {
-                player.Agent = new LocalAgent();
+                player.Agent = new ObsoleteLocalAgent();
             }
 
             gameInfo.BoardSize = SelectedGameBoardSize;

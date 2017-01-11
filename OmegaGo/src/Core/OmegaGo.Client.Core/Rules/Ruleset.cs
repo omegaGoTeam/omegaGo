@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -357,7 +359,7 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
-            StoneColor opponentColor = (moveToMake.WhoMoves == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
+            StoneColor opponentColor = moveToMake.WhoMoves.GetOpponentColor();
 
 
             //check whether neighbour groups have liberty

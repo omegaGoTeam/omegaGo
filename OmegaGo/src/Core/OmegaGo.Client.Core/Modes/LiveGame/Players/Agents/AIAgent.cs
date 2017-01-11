@@ -11,8 +11,8 @@ namespace OmegaGo.Core.Agents
     /// <summary>
     /// Represents the agent that makes move for AI programs.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
-    public class AIAgent : AgentBase
+    /// <seealso cref="OmegaGo.Core.Agents.ObsoleteAgentBase" />
+    public class AIAgent : ObsoleteAgentBase
     {
         /// <summary>
         /// The AI program that feeds moves to this agent.

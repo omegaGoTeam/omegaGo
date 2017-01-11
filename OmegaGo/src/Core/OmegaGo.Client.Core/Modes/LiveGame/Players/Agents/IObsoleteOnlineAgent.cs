@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Agents
     /// <summary>
     /// The online agent is what the <see cref="ServerConnection"/> classes use to forward decisions from remote players to our client.
     /// </summary>
-    interface IOnlineAgent
+    interface IObsoleteOnlineAgent
     {
         /// <summary>
         /// This is called by the server connection and informs this agent that the next time it's requested to make a move at

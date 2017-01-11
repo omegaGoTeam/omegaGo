@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OmegaGo.Core.Modes.LiveGame.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,13 @@ namespace OmegaGo.Core.Game
 {
     public class GamePlayerInfo
     {
-        public GamePlayerInfo(StoneColor color, string name, string rank, string team = null )
+        public GamePlayerInfo(StoneColor color, GamePlayerType playerType, string name, string rank, string team = null )
         {
             Name = name;
             Rank = rank;
             Color = color;
-            Team = team;    
+            Team = team;
+            PlayerType = playerType;
         }
 
         /// <summary>
@@ -21,6 +23,7 @@ namespace OmegaGo.Core.Game
         /// or the text "Local Black" or "Local White".
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         /// Gets the rank of the player. There should be no whitespace. The rank may be arbitrary otherwise: NR, 17k, 6d+, 5p? etc.
         /// </summary>
@@ -35,5 +38,10 @@ namespace OmegaGo.Core.Game
         /// Player's stone color
         /// </summary>
         public StoneColor Color { get; }
+
+        /// <summary>
+        /// Game player type
+        /// </summary>
+        public GamePlayerType PlayerType { get; }
     }
 }

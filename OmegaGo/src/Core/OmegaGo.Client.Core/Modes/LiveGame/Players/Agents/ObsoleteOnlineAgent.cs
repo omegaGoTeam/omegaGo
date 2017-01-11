@@ -10,8 +10,8 @@ namespace OmegaGo.Core.Agents
     /// <summary>
     /// Represents the agent of a player whose moves are sent to this device via an internet server, either in observation or play mode.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Agents.AgentBase" />
-    public class OnlineAgent : AgentBase, IOnlineAgent
+    /// <seealso cref="OmegaGo.Core.Agents.ObsoleteAgentBase" />
+    public class ObsoleteOnlineAgent : ObsoleteAgentBase, IObsoleteOnlineAgent
     {
         public override void PleaseMakeAMove()
         {

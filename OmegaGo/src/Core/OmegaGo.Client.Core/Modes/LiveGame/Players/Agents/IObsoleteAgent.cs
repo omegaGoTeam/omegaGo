@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Agents
 {
@@ -13,7 +14,7 @@ namespace OmegaGo.Core.Agents
     /// <para>
     /// An agent is a class that each <see cref="GamePlayer"/> must refer to. An agent's role is to supply moves made by the player whenever
     /// the game controller demands it. There are several different agents: the <see cref="AIAgent"/> makes moves for an AI program,
-    /// the <see cref="OnlineAgent"/> makes moves for a remote player whose moves are given to us by the server, and then there are GUI
+    /// the <see cref="ObsoleteOnlineAgent"/> makes moves for a remote player whose moves are given to us by the server, and then there are GUI
     /// agents (not part of this DLL library) that make moves made when the local player clicks on the game board.
     /// </para>
     /// 
@@ -24,8 +25,10 @@ namespace OmegaGo.Core.Agents
     /// the agent calls <see cref="ObsoleteGameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
     /// </para>    
     /// </summary>
-    public interface IAgent
+    public interface IObsoleteAgent
     {
+        
+
         /// <summary>
         /// Using this property (which might be constant for most agents), the agent informs the <see cref="ObsoleteGameController"/>
         /// how it should proceed if the agent supplies an illegal move. Ideally, agents should not give illegal moves, but especially

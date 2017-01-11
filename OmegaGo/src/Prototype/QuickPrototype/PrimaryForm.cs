@@ -95,7 +95,7 @@ namespace FormsPrototype
             await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
             InGameForm ingameForm = new InGameForm(game, igs);
             localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-            networkPlayer.Agent = new OnlineAgent();
+            networkPlayer.Agent = new ObsoleteOnlineAgent();
             ingameForm.Show();
         }
 
@@ -225,11 +225,11 @@ namespace FormsPrototype
             ingameForm.Show();
         }
 
-        private IAgent CreateAgentFromComboboxObject(InGameForm form, object text)
+        private IObsoleteAgent CreateAgentFromComboboxObject(InGameForm form, object text)
         {
             if (text is string && ((string)text) == "Human")
             {
-                LocalAgent localAgent =  new LocalAgent();
+                ObsoleteLocalAgent localAgent =  new ObsoleteLocalAgent();
                 localAgent.OnPleaseMakeAMove += form.GuiAgent_PleaseMakeAMove;
                 return localAgent;
             }
@@ -314,7 +314,7 @@ namespace FormsPrototype
                     GamePlayer networkPlayer = game.OpponentOf(localPlayer);
                     InGameForm ingameForm = new InGameForm(game, igs);
                     localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-                    networkPlayer.Agent = new OnlineAgent();
+                    networkPlayer.Agent = new ObsoleteOnlineAgent();
                     ingameForm.Show();
                 }
                 else

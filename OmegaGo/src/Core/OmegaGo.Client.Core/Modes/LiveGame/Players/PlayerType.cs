@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Modes.LiveGame.Local
+namespace OmegaGo.Core.Modes.LiveGame.Players
 {
-    public enum LocalGameOpponent
+    public enum GamePlayerType
     {
         Human,
-        AI
+        AI,
+        Online
     }
 }

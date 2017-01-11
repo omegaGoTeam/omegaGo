@@ -8,7 +8,7 @@
         /// <summary>
         /// The agent should be prompted to make a move one more time. This is how user interface agents should act.
         /// </summary>
-        Retry,
+        InformAgent,
         /// <summary>
         /// A random move should be made instead since a retry would likely produce the same result. This is how AI's should act.
         /// </summary>
