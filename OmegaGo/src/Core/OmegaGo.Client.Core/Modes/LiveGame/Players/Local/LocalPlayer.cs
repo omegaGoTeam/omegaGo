@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 {
     public class LocalPlayer : GamePlayer
     {
-        public LocalPlayer(GamePlayerInfo playerInfo, IObsoleteAgent agent) : base(playerInfo, agent)
+        public LocalPlayer(PlayerInfo playerInfo, IObsoleteAgent agent) : base(playerInfo, agent)
         {
         }
     }

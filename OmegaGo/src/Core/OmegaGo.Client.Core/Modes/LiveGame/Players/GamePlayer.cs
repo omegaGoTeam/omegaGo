@@ -10,7 +10,7 @@ namespace OmegaGo.Core
     /// </summary>
     public class GamePlayer
     {
-        public GamePlayerInfo Info { get; }
+        public PlayerInfo Info { get; }
         
         /// <summary>
         /// The agent that makes this player's moves.
@@ -23,7 +23,7 @@ namespace OmegaGo.Core
         /// <param name="name">The player's name.</param>
         /// <param name="rank">The player's rank (e.g. "17k").</param>
         /// <param name="game">The game the player participates in.</param>
-        public GamePlayer(GamePlayerInfo playerInfo, IObsoleteAgent agent )
+        public GamePlayer(PlayerInfo playerInfo, IObsoleteAgent agent )
         {
             Info = playerInfo;
             Agent = agent;

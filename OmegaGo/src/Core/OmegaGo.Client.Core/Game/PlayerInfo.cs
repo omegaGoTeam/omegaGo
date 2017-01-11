@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game
 {
-    public class GamePlayerInfo
+    public class PlayerInfo
     {
-        public GamePlayerInfo(StoneColor color, GamePlayerType playerType, string name, string rank, string team = null )
+        public PlayerInfo(StoneColor color, GamePlayerType playerType, string name, string rank, string team = null )
         {
             Name = name;
             Rank = rank;

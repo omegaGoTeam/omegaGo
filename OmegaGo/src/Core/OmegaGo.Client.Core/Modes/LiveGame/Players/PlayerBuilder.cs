@@ -8,8 +8,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
 {
     public abstract class PlayerBuilder<TPlayerType, TBuilderType>
         where TPlayerType : GamePlayer
-        where TBuilderType : PlayerBuilder<TPlayerType, TBuilderType>    
+        where TBuilderType : PlayerBuilder<TPlayerType, TBuilderType>
     {
+        protected abstract GamePlayerType PlayerType { get; }
+
+        public PlayerBuilder(StoneColor color)
+        {
+
+        }
+
         public abstract void Build();
     }
 }

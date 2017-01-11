@@ -23,6 +23,9 @@ namespace OmegaGo.Core.Modes.LiveGame
         private HandicapPlacementType _handicapPlacementType = HandicapPlacementType.Fixed;
         private int _aiStrength = 1;
 
+        private GamePlayer _whitePlayer = null;
+        private GamePlayer _blackPlayer = null;
+
         public GameBuilder()
         {
             _concreteBuilderInstance = (TBuilderType)this;
@@ -71,9 +74,27 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
-        public abstract TBuilderType SetWhitePlayer(GamePlayer player);
+        public void SetPlayerCore(GamePlayer player, StoneColor color)
+        {
+            if (color == StoneColor.None) throw new ArgumentOutOfRangeException("Color must be valid for a player");
+            if (player == null) throw new ArgumentNullException(nameof(player));
+            if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.");
+            ValidatePlayer(player);            
+            if (color == StoneColor.White) _whitePlayer = player;
+            if (color == StoneColor.Black) _blackPlayer = player;           
+        }
 
-        public abstract TBuilderType SetBlackPlayer(GamePlayer player);
+        public TBuilderType SetBlackPlayer(GamePlayer player)
+        {
+            SetPlayerCore(player, StoneColor.Black);
+            return _concreteBuilderInstance;
+        }
+
+        public TBuilderType SetWhitePlayer(GamePlayer player)
+        {
+            SetPlayerCore(player, StoneColor.Black);
+            return _concreteBuilderInstance;
+        }
 
         protected abstract void ValidatePlayer(GamePlayer player);
 

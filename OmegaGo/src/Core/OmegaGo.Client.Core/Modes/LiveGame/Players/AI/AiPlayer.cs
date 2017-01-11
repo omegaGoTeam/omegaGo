@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 {
     public class AiPlayer : GamePlayer
     {
-        public AiPlayer(GamePlayerInfo playerInfo, IObsoleteAgent agent) : base(playerInfo, agent)
+        public AiPlayer(PlayerInfo playerInfo, IObsoleteAgent agent) : base(playerInfo, agent)
         {
         }
     }
