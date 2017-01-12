@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Agents
+﻿namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// Determines what the game controller should do in case the agent submits a move that's not legal under the ruleset.

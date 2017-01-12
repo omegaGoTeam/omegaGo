@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Chat;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Modes.LiveGame
 {
     public sealed class ObsoleteGame : IGame
     {

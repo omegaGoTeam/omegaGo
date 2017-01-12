@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using OmegaGo.Core.Sgf;
-using OmegaGo.Core.Sgf.Properties.Values;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// Converting between Game Trees and SGF Game trees

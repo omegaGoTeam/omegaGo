@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
     {
         public override void Build()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

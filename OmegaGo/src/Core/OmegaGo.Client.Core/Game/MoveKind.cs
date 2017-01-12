@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaGo.Core
+﻿namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// There are two kinds of moves - placing a stone; and passing.

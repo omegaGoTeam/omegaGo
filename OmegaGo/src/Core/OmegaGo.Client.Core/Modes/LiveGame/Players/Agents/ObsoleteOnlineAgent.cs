@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.AI;
+﻿using System.Collections.Generic;
+using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// Represents the agent of a player whose moves are sent to this device via an internet server, either in observation or play mode.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Agents.ObsoleteAgentBase" />
+    /// <seealso cref="ObsoleteAgentBase" />
     public class ObsoleteOnlineAgent : ObsoleteAgentBase, IObsoleteOnlineAgent
     {
         public override void PleaseMakeAMove()

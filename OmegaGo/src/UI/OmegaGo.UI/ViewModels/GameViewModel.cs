@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.UI.Services.Game;
 
 namespace OmegaGo.UI.ViewModels

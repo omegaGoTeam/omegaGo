@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.Common;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Random
 {

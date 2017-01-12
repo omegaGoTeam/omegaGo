@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.Common;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Tests.Rules
@@ -41,7 +42,7 @@ namespace OmegaGo.Core.Tests.Rules
 
         public Move Move(string coordinates, StoneColor player)
         {
-            return OmegaGo.Core.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
+            return Game.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
         }
 
         public MoveResult IsLegal(string coordinates, StoneColor player)

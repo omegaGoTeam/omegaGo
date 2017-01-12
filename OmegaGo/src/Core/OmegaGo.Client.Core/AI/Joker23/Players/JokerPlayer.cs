@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using OmegaGo.Core.AI.Joker23.GameEngine;
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.Players
 {
 
     public abstract class JokerPlayer

@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Platform;
 using OmegaGo.Core;
-using OmegaGo.Core.Agents;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Parsing;
 

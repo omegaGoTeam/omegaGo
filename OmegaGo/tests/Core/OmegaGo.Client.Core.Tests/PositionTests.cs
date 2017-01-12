@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Tests
 {

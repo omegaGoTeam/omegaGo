@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode"/>s
@@ -192,7 +189,7 @@ namespace OmegaGo.Core
                 copyOfPreviousBoard[position] = StoneColor.White;
 
            MoveProcessingResult mpr =
-                ruleset.ProcessMove(copyOfPreviousBoard, this.Move, new List<Core.GameBoard>());
+                ruleset.ProcessMove(copyOfPreviousBoard, this.Move, new List<GameBoard>());
 
           this.BoardState = mpr.NewBoard;
         }

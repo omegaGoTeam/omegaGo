@@ -8,12 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
-using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Common;
-using GoColor = OmegaGo.Core.StoneColor;
+using OmegaGo.Core.AI.Joker23.Players;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using GoColor = OmegaGo.Core.Game.StoneColor;
 
 namespace FormsPrototype
 {
@@ -456,7 +460,7 @@ namespace FormsPrototype
 
         private void button4_Click(object sender, EventArgs e)
         {
-            OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper hpw = new OmegaGo.Core.AI.Joker23.HeuristicPlayerWrapper();
+            HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
             AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
                 FastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),

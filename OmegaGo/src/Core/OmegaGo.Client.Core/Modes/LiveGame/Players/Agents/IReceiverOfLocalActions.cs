@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// This interface is what the user interface classes use to make a player perform an action in the game. This merits further refactoring,

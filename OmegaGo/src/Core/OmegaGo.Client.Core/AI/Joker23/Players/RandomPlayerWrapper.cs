@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class RandomPlayerWrapper : AiProgramBase
     {
@@ -9,7 +9,7 @@ namespace OmegaGo.Core.AI.Joker23
 
         public override AiDecision RequestMove(AIPreMoveInformation gameState)
         {
-            internalPlayer = new Joker23.RandomPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
+            internalPlayer = new RandomPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
             char[,] board = JokerExtensionMethods.OurBoardToJokerBoard(gameState.Board, gameState.BoardSize);
             JokerPoint point = internalPlayer.makeMove(board, gameState.BoardSize.Width, gameState.BoardSize.Height);
             return AiDecision.MakeMove(Move.PlaceStone(gameState.AIColor, new Position(point.x, point.y)),

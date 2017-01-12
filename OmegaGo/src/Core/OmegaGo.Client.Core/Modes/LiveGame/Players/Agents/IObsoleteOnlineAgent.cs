@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Online;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// The online agent is what the <see cref="ServerConnection"/> classes use to forward decisions from remote players to our client.

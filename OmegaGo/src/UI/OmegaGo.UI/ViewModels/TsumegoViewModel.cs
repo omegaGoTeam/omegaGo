@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
-using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Tsumego;
 // ReSharper disable MemberCanBePrivate.Global

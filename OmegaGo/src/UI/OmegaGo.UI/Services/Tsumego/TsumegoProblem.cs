@@ -3,6 +3,7 @@ using OmegaGo.Core;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 

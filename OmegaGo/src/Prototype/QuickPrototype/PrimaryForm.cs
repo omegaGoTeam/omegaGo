@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
-using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
-using StoneColor = OmegaGo.Core.StoneColor;
+using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
 

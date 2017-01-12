@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Common
 {
@@ -11,13 +12,13 @@ namespace OmegaGo.Core.AI.Common
         public static List<Position> GetAllLegalMoves(GameBoard board)
         {
             // TODO make this work according to rules
-            List<Position> legalMoves = new List<Core.Position>();
+            List<Position> legalMoves = new List<Position>();
             for (int i = 0; i < board.Size.Width; i++)
                 for (int j = 0; j < board.Size.Height; j++)
                 {
                     if (board[i, j] == StoneColor.None)
                     {
-                        legalMoves.Add(new Core.Position() {X = i, Y = j});
+                        legalMoves.Add(new Position() {X = i, Y = j});
                     }
                 }
             return legalMoves;

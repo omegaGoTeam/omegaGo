@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// A strongly typed collection used for storing GameTreeNode instances.

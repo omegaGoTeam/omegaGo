@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.UserControls.ViewModels;
 using OmegaGo.UI.ViewModels.Tutorial;
@@ -33,12 +34,12 @@ namespace OmegaGo.UI.ViewModels
 
         }
 
-        private void Scenario_ShiningPositionChanged(object sender, Core.Position e)
+        private void Scenario_ShiningPositionChanged(object sender, Position e)
         {
             this._boardState.ShiningPosition = e;
         }
 
-        private void Scenario_GameTreeNodeChanged(object sender, Core.GameTreeNode e)
+        private void Scenario_GameTreeNodeChanged(object sender, GameTreeNode e)
         {
            BoardViewModel.GameTreeNode = e;
         }

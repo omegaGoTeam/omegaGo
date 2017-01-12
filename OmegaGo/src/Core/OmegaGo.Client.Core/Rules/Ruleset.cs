@@ -201,13 +201,13 @@ namespace OmegaGo.Core.Rules
         /// <returns>List of legal moves.</returns>
         public List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history)
         {
-            List<Position> possiblePositions = new List<Core.Position>();
+            List<Position> possiblePositions = new List<Position>();
             for (int x = 0; x < _boardWidth; x++)
                 for (int y = 0; y < _boardHeight; y++)
                 {
-                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
                     {
-                        possiblePositions.Add(new Core.Position(x, y));
+                        possiblePositions.Add(new Position(x, y));
                     }
                 }
 

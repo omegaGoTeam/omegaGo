@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using OmegaGo.Core.AI.Joker23.GameEngine;
+using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class HeuristicPlayerWrapper : AiProgramBase
     {
@@ -9,9 +10,9 @@ namespace OmegaGo.Core.AI.Joker23
 
         public override AiDecision RequestMove(AIPreMoveInformation gameState)
         {
-            internalPlayer = new Joker23.HeuristicPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
+            internalPlayer = new HeuristicPlayer(gameState.AIColor == StoneColor.Black ? 'B' : 'W');
 
-            JokerGame currentGame = new Joker23.JokerGame(gameState.BoardSize.Height,
+            JokerGame currentGame = new JokerGame(gameState.BoardSize.Height,
                 gameState.BoardSize.Width,
                 null,
                 null);

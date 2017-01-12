@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI.Joker23.Players;
 
 namespace OmegaGo.Core.AI
 {
@@ -12,9 +13,9 @@ namespace OmegaGo.Core.AI
         {
             new Defeatist.Defeatist(),
             new Random.RandomAI(),
-            new Joker23.RandomPlayerWrapper(),
-            new Joker23.HeuristicPlayerWrapper(),
-            new Joker23.AlphaBetaPlayerWrapper()
+            new RandomPlayerWrapper(),
+            new HeuristicPlayerWrapper(),
+            new AlphaBetaPlayerWrapper()
         };
     }
 }

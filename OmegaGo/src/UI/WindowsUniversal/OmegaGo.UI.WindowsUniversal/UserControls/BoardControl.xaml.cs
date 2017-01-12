@@ -4,6 +4,7 @@ using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
@@ -49,7 +50,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             
             ViewModel.BoardRedrawRequsted += (s, ev) => 
             {
-                if(ev.Move?.Kind != Core.MoveKind.Pass)
+                if(ev.Move?.Kind != MoveKind.Pass)
                     _boardState.SelectedPosition = ev.Move.Coordinates;
 
                 canvas.Invalidate();

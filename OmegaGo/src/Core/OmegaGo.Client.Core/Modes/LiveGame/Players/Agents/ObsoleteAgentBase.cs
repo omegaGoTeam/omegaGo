@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.AI;
+﻿using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// This base class contains code that allows an agent to make moves based on a historical record. This is used most often when resuming

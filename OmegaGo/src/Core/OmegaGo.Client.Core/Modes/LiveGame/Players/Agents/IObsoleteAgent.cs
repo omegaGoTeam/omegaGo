@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.Rules;
+﻿using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// An agent makes moves for a player when this is requested by a game controller.

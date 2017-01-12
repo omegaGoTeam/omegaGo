@@ -1,7 +1,7 @@
-﻿using OmegaGo.Core.Agents;
-using OmegaGo.Core.Game;
+﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Modes.LiveGame.Players
 {
     /// <summary>
     /// Represents a player participating in a <see cref="Game"/> instance. Does not refer to the user
@@ -15,14 +15,13 @@ namespace OmegaGo.Core
         /// <summary>
         /// The agent that makes this player's moves.
         /// </summary>
-        public IObsoleteAgent Agent { get; }       
+        public IObsoleteAgent Agent { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePlayer"/> class.
         /// </summary>
-        /// <param name="name">The player's name.</param>
-        /// <param name="rank">The player's rank (e.g. "17k").</param>
-        /// <param name="game">The game the player participates in.</param>
+        /// <param name="playerInfo">Information about the player</param>
+        /// <param name="agent">Agent controlling the player</param>
         public GamePlayer(PlayerInfo playerInfo, IObsoleteAgent agent )
         {
             Info = playerInfo;

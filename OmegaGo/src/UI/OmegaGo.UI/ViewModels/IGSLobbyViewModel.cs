@@ -4,6 +4,8 @@ using OmegaGo.Core;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using System.Collections.ObjectModel;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 
 namespace OmegaGo.UI.ViewModels
 {

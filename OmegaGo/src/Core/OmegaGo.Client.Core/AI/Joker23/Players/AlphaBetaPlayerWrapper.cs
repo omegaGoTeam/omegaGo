@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using OmegaGo.Core.AI.Joker23.GameEngine;
+using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class AlphaBetaPlayerWrapper : AiProgramBase
     {

@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;

@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Common;
-using OmegaGo.Core.Rules;
-using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Modes.LiveGame
 {
     /// <summary>
     /// The game controller contains the main loop of a Go game. After constructing it, use <see cref="BeginGame"/> to start the game on

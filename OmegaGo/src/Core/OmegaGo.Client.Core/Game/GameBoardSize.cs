@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// Represents the size of a Go board. Almost all games of Go are played on a square board. Notably, IGS does not

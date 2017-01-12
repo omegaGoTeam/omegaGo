@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// Represents the move of a player, i.e. the result of a single turn of a game of Go.
@@ -46,7 +43,7 @@ namespace OmegaGo.Core
 
         public static Move Pass(StoneColor whoMoves)
         {
-            return new Core.Move()
+            return new Move()
             {
                 WhoMoves = whoMoves,
                 Kind = MoveKind.Pass

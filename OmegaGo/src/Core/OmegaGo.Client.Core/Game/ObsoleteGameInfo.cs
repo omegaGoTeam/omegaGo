@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core
+namespace OmegaGo.Core.Game
 {
     /// <summary>
     /// A game instance represents a game opened in the ingame screen. It might be a game in progress, a watched game or a completed game.
@@ -86,14 +86,14 @@ namespace OmegaGo.Core
         public ObsoleteGameController GameController { get; private set;}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="OmegaGo.Core.ObsoleteGameController" /> is also created for this game and 
+        /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="ObsoleteGameController" /> is also created for this game and 
         /// initialized.
         /// </summary>
         public ObsoleteGameInfo()
         {
             Players = new List<GamePlayer>();
             GameTree = new GameTree();
-            GameController = new Core.ObsoleteGameController(this);
+            GameController = new ObsoleteGameController(this);
         }
 
         /// <summary>

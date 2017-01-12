@@ -1,16 +1,12 @@
-﻿using OmegaGo.Core.Agents;
+﻿using System;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Modes.LiveGame.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     interface IAgent
     {
-        void MovePerformed(Move e, GamePlayer s);
+        void MovePerformed(Move move, GamePlayer player);
 
         void MoveIllegal(MoveResult move);
 

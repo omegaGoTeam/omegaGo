@@ -11,13 +11,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using OmegaGo.Core.AI.Joker23.Players;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 // ReSharper disable InconsistentNaming
 #pragma warning disable 219
 
-namespace OmegaGo.Core.AI.Joker23 {
+namespace OmegaGo.Core.AI.Joker23.GameEngine {
     public class JokerGame {
         private static int turn;          // which turn it is
 

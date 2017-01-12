@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.AI;
+using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// Represents the agent of a human player playing on this device. This agent works for hotseat, playing against AI and for internet play.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Agents.ObsoleteAgentBase" />
+    /// <seealso cref="ObsoleteAgentBase" />
     public class ObsoleteLocalAgent : ObsoleteAgentBase, IReceiverOfLocalActions
     {
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.Retry;

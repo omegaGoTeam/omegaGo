@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
@@ -76,12 +78,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public void SetPlayerCore(GamePlayer player, StoneColor color)
         {
-            if (color == StoneColor.None) throw new ArgumentOutOfRangeException("Color must be valid for a player");
+            if (color == StoneColor.None) throw new ArgumentOutOfRangeException(nameof(color), "Color must be valid for a player");
             if (player == null) throw new ArgumentNullException(nameof(player));
             if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.");
-            ValidatePlayer(player);            
+            ValidatePlayer(player);
             if (color == StoneColor.White) _whitePlayer = player;
-            if (color == StoneColor.Black) _blackPlayer = player;           
+            if (color == StoneColor.Black) _blackPlayer = player;
         }
 
         public TBuilderType SetBlackPlayer(GamePlayer player)
@@ -90,9 +92,14 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
+        /// <summary>
+        /// Sets the game's white player
+        /// </summary>
+        /// <param name="player">Player</param>
+        /// <returns>Builder</returns>
         public TBuilderType SetWhitePlayer(GamePlayer player)
         {
-            SetPlayerCore(player, StoneColor.Black);
+            SetPlayerCore(player, StoneColor.White);
             return _concreteBuilderInstance;
         }
 

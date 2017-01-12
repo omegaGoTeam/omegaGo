@@ -8,6 +8,7 @@ using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Extensions;
 using System.Numerics;
 using Windows.UI;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {

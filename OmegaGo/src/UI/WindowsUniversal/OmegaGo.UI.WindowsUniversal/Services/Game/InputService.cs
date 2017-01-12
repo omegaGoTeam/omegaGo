@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.Services.Game;
 

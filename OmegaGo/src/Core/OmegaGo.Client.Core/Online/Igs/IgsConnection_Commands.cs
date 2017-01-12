@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 

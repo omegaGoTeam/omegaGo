@@ -1,17 +1,16 @@
-﻿using OmegaGo.Core.AI;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Common;
+using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Agents
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
     /// Represents the agent that makes move for AI programs.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Agents.ObsoleteAgentBase" />
+    /// <seealso cref="ObsoleteAgentBase" />
     public class AIAgent : ObsoleteAgentBase
     {
         /// <summary>
