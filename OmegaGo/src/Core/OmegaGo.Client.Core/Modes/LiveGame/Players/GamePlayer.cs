@@ -8,24 +8,34 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
     /// of the app. A player only ever participates in a single game. The same human playing in multiple games
     /// is represented by different <see cref="GamePlayer"/> instances. 
     /// </summary>
-    public class GamePlayer
+    public abstract class GamePlayer
     {
+        /// <summary>
+        /// Gets the player type
+        /// </summary>
+        public GamePlayerType PlayerType { get; }
+
+        /// <summary>
+        /// Gets general player metadata
+        /// </summary>
         public PlayerInfo Info { get; }
         
         /// <summary>
-        /// The agent that makes this player's moves.
+        /// Agent controlling the player's actions
         /// </summary>
-        public IObsoleteAgent Agent { get; }
+        public IAgent Agent { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePlayer"/> class.
         /// </summary>
+        /// <param name="playerType">Type of the player</param>
         /// <param name="playerInfo">Information about the player</param>
         /// <param name="agent">Agent controlling the player</param>
-        public GamePlayer(PlayerInfo playerInfo, IObsoleteAgent agent )
+        protected GamePlayer( GamePlayerType playerType, PlayerInfo playerInfo, IAgent agent )
         {
+            PlayerType = playerType;
             Info = playerInfo;
             Agent = agent;
         }
     }
-}
+}   

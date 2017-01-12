@@ -8,9 +8,9 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 {
-    public class LocalPlayer : GamePlayer
+    public class HumanPlayer : GamePlayer
     {
-        public LocalPlayer(PlayerInfo playerInfo, IObsoleteAgent agent) : base(playerInfo, agent)
+        public HumanPlayer(PlayerInfo playerInfo) : base(GamePlayerType.Human, playerInfo, new HumanAgent())
         {
         }
     }

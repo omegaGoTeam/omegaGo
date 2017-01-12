@@ -39,6 +39,7 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AIAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
@@ -100,11 +101,12 @@
     <Compile Include="Modes\LiveGame\Phases\IGamePhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\OnlineAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayer.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayer.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\Local\LocalPlayer.cs" />
+    <Compile Include="Modes\LiveGame\Players\Local\HumanPlayer.cs" />
     <Compile Include="Modes\LiveGame\Players\Local\LocalPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerType.cs" />

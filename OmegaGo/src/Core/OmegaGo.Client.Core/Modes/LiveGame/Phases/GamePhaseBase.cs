@@ -8,11 +8,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
     abstract class GamePhaseBase : IGamePhase
     {
+        private readonly IGameController _gameController;
+
         public abstract GamePhaseType PhaseType { get; }
 
-        public GamePhaseBase( IGameController gameController)
+        protected GamePhaseBase( IGameController gameController)
         {
-
+            _gameController = gameController;
         }
+
+        public abstract void StartPhase();
     }
 }

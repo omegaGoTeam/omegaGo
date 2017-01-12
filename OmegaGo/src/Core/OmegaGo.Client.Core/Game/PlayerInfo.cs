@@ -9,13 +9,12 @@ namespace OmegaGo.Core.Game
 {
     public class PlayerInfo
     {
-        public PlayerInfo(StoneColor color, GamePlayerType playerType, string name, string rank, string team = null )
+        public PlayerInfo(StoneColor color, string name, string rank, string team = null )
         {
             Name = name;
             Rank = rank;
             Color = color;
             Team = team;
-            PlayerType = playerType;
         }
 
         /// <summary>
@@ -38,10 +37,5 @@ namespace OmegaGo.Core.Game
         /// Player's stone color
         /// </summary>
         public StoneColor Color { get; }
-
-        /// <summary>
-        /// Game player type
-        /// </summary>
-        public GamePlayerType PlayerType { get; }
     }
 }

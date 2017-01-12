@@ -4,7 +4,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
-    interface IAgent
+    public interface IAgent
     {
         void MovePerformed(Move move, GamePlayer player);
 
