@@ -119,6 +119,7 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
+    <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConstants.cs" />
@@ -165,7 +166,6 @@
     <Compile Include="Sgf\SgfSequence.cs" />
     <Compile Include="Sgf\SgfUtilities.cs" />
     <Compile Include="Game\StoneColor.cs" />
-    <Compile Include="Extensions\GoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Game\ObsoleteGameInfo.cs" />

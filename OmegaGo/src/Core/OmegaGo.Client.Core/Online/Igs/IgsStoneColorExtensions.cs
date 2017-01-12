@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Extensions
+namespace OmegaGo.Core.Online.Igs
 {
-    public static class GoExtensions
+    public static class IgsStoneColorExtensions
     {
         /// <summary>
         /// Turns the <see cref="StoneColor"/> into either the string "B" or "W". 
@@ -25,6 +25,6 @@ namespace OmegaGo.Core.Extensions
                     throw new ArgumentException("The IGS server does not accept colors other than Black or White.",
                         nameof(color));
             }
-        } 
+        }
     }
 }
