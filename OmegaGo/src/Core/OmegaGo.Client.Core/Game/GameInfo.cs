@@ -9,6 +9,18 @@ namespace OmegaGo.Core.Game
 {
     public class GameInfo
     {
+        public GameInfo(PlayerInfo whitePlayerInfo, PlayerInfo blackPlayerInfo, GameBoardSize boardSize, RulesetType rulesetType, int numberOfHandicapStones, HandicapPlacementType handicapPlacementType, float komi, CountingType countingType)
+        {
+            White = whitePlayerInfo;
+            Black = blackPlayerInfo;
+            BoardSize = boardSize;
+            RulesetType = rulesetType;
+            NumberOfHandicapStones = numberOfHandicapStones;
+            HandicapPlacementType = handicapPlacementType;
+            Komi = komi;
+            CountingType = countingType;
+        }
+
         public PlayerInfo White { get; set; }
 
         public PlayerInfo Black { get; set; }
