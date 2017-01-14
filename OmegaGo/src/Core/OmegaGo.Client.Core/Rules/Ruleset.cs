@@ -69,7 +69,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">Reference to the state of board.</param>
         /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType)
+        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPlacementType placementType)
         {
             if (handicapStoneCount == 0)
             {
@@ -77,7 +77,7 @@ namespace OmegaGo.Core.Rules
                 return;
             }
 
-            if (placementType == HandicapPositions.Type.Fixed)
+            if (placementType == HandicapPlacementType.Fixed)
                 PlaceFixedHandicapStones(ref currentBoard, handicapStoneCount);
 
             SetKomi(handicapStoneCount);

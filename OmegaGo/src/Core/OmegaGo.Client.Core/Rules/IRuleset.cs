@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">Reference to the state of board.</param>
         /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType);
+        void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPlacementType placementType);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
