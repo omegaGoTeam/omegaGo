@@ -369,8 +369,72 @@ Used to decline refuse a `match` or an `nmatch` match request.
 5 nmatch <oppname> <color(BWN)> <handicap> <boardsize(2-19)> <time(sec)> <byotime(sec)>
 5 <byomoves(0-25)> <koryocount> <koryosec(sec)> <prebyoyomi(sec)>
 ```
+All arguments are mandatory.
 
-TODO
+Seconds must be always a multiple of 60. If Canadian timing is used, put `0` into the three last arguments. `N` means `nigiri` (choose color automatically).
+
+Timing arguments are 
+* `maintime`
+* `byotime`
+* `byomoves`
+* `koryocount`
+* `koryosec`
+* `prebyoyomi`
+
+You cannot set a handicap if N is chosen as a color.
+
+Possible time systems are:
+* ABSOLUTE: set `maintime` and put 0 in everything else
+* CANADIAN: set `maintime`, `byotime` and `bymoves` and put 0 in everything else
+* ADVANCED JAPANESE: set `maintime`, `byotime` as the grace period each move before overtime starts to be consumed, `byomoves` to `1`, `koryocount` to number of overtime periods and `koryosec` to length of overtime periods. These need not be a mulitple of 60.
+* BRONSTEIN: set `maintime`, `prebyoyomi` to the number of seconds each player gets before time starts to subtract from the main time; put 0 in everything else
+
+In theory, you can combine the Bronstein `prebyoyomi` with other time controls, but other clients may not support this.
+
+If your opponent doesn't have the `nmatch` toggle on, you will receive 
+
+```
+5 Opponent's client does not support nmatch.
+```
+
+If you receive an nmatch request, you will receive
+```
+NMatch requested with MORAL70(B 4 19 60 600 25 0 0 0).
+9 Use <nmatch MORAL70 B 4 19 60 600 25 0 0 0> or <decline MORAL70> to respond.
+```
+
+And then you may receive
+```
+24 *SYSTEM*: MORAL70 canceled the nmatch request.
+```
+
+An `nmatch` is declined the same way a normal match is declined and results in the same answer for the other player.
+
+A mismatch in accepting will result in this:
+```
+5 There is a dispute regarding your match(nmatch):
+5 OmegaGo1 request: B 0 19 60 600 25 0 0 0
+5 Soothie request: B 0 19 60 600 25 0 0 0
+```
+and both match requests will remain active.
+
+During an `nmatch`, the game heading (before each move) contains the following three lines in addition, so that, in total, this is sent:
+
+```
+15 Game 475 I: OmegaGo1 (0 58 -1) vs Soothie (0 19 -1)
+15 TIME:475:OmegaGo1(W): 0 58/60 0/600 25/25 0/0 0/0 0/0
+15 TIME:475:Soothie(B): 0 19/60 0/600 25/25 0/0 0/0 0/0
+15 GAMERPROPS:475: 19 0 6.50
+15   1(W): B4
+```
+
+The information in the `TIME` lines is, in order:
+`15`, `TIME`, game number, player name, player color, `0` if in main time or `1` if in overtime, main time remaining, byoyomi time remaining, stones remaining in period, ???, ???, ??? (koryo information). TODO
+
+The `GAMERPROPS` information is game number, board size, handicap stones, komi.
+
+Otherwise, an `nmatch` is just like a `match`.
+
 
 ### `undoplease`
 A player may send `undoplease [game number]` to request the opponent to undo a move.
@@ -475,6 +539,11 @@ Usage:  observe <game number>
  backward as each correction is made. Some people misinterpret the time
  correction as cheating.
 ```
+### `ayt`
+The "Are You There" command will always result in the answer:
+```
+9 yes
+```
 ### `addtime`
 ```
 Usage: addtime <time to be added>
@@ -490,7 +559,50 @@ Usage: addtime <time to be added>
      was added to which player.
 ```
 
-If you're playing multiple games, add the game number as a second argument.
+If you're playing multiple games, or even if you're playing a single game, you may use:
+
+```
+addtime [gamenumber] [minutestobeadded]
+```
+You will not receive a response.
+However, both players will receive the response 
+```
+9 Increase OmegaGo1's time by 10 minutes
+1 6
+```
+If the `addtime` command fails, perhaps because you used an invalid game number, you will receive an empty response.
+### `time`
+```
+Usage: time [game number]
+
+    'time' will display how much time is left in a game. If a game is in
+    'byoyomi', a "(B)" will be displayed after the time, plus the number
+    of moves left to play. To find out how much time is left in a
+    _particular_ game, enter:   time <game number>
+          Example:   time 42
+          An example of what 'time 42' will display:
+             Game : 42
+             White(ivy) : 8:49 (B) 19
+             Black(tim) : 4:04 (B) 15
+    If you are playing a game, you can enter 'time' without the game
+    number. This will also update the board, and time.  Example:   time
+    If you are observing a game, 'time', without the game number, will
+    display the time info on that game and all other games being observed.
+
+ NOTE:  'refresh' (or 'moves') will end games in overtime (minus time),
+         see:  help refresh  (or  help moves)
+ Some clients have "time control" to compensate for "net lag". These clients
+ are able to time a players move starting from when a move is made, not when
+ the signal reaches IGS. In such cases the time, or clock, appears to jump
+ backward as each correction is made.
+```
+The response will be like this:
+```
+26 Game : 28
+26 White(OmegaGo1) : 124:58
+26 Black(Soothie) : 71:39
+1 6
+```
 ### making a move
 ```
 Usage: <letter><number>
@@ -522,6 +634,36 @@ You will receive an error message if the move is illegal, or both players will r
 15   0(B): B2
 ```
 The index of the first move is `0`. The server may also decide that there's a handicap, in which case the first move is made automatically, and it's, for example, `Handicap 2` instead of `B2`. Handicap stones are placed as per Japanese rules (fixed placement). Handicap only works for boards of 9x9, 13x13 and 19x19, I think.
+
+The numbers in the heading after player names signify remaining time.
+```
+15 Game 28 I: OmegaGo1 (0 7498 -1) vs Soothie (0 4276 -1)
+```
+means: 7498 seconds of main time left for OmegaGo1 and 4276 seconds of main time left for Soothie
+
+The first number in the parentheses indicates the number of prisoners the player has.
+
+If you are in Canadian overtime, instead the line might look like this:
+```
+15 Game 631 I: OmegaGo1 (0 617 24) vs Soothie (0 649 22)
+```
+which means that in this period, Soothie still has to make 22 moves within 649 seconds.
+
+When you first enter Canadian overtime, both players will receive
+```
+9 The player OmegaGo1 is now in byo-yomi.
+9 You have 24 stones and 11 minutes
+```
+in the message that sends the first move in byo-yomi.
+
+In response to a move, you may also receive
+```
+9 Soothie has run out of time.
+1 6
+```
+which ends the game (both players will receive this).
+
+
 ## Match procedure
 When two players play Go on IGS, the following sequence happens:
 
