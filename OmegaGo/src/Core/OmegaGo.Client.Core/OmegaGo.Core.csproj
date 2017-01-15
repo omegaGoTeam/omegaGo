@@ -50,6 +50,9 @@
     <Compile Include="AI\Common\FastBoard.cs" />
     <Compile Include="AI\Common\Randomness.cs" />
     <Compile Include="AI\Defeatist\Defeatist.cs" />
+    <Compile Include="AI\Fuego\FuegoWrapper.cs" />
+    <Compile Include="AI\Fuego\IGtpEngine.cs" />
+    <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />
     <Compile Include="AI\Joker23\JokerExtensionMethods.cs" />
     <Compile Include="AI\Joker23\JokerPoint.cs" />
