@@ -1,0 +1,36 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2843]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 19 / 900]
+AW[bb][bc][cb][eb][db]
+AB[bd][ce][cc][dc][ec][fb][fc][hb]
+PL[B]C[Black to kill.]
+(;B[ea];W[da](;B[ac];W[ab];B[ba]C[Correct.])
+(;B[ca];W[ba]C[Wrong.])
+(;B[aa];W[ba]C[Wrong.])
+(;B[ba]C[Correct.])
+)
+(;B[ac];W[ab];B[ea];W[da];B[ba]C[Correct.])
+(;B[ab];W[ac];B[ba];W[ea](;B[aa];W[ca]C[Wrong.])
+(;B[ca];W[da](;B[ad];W[aa]C[Wrong.])
+(;B[fa];W[aa]C[Wrong.])
+)
+)
+(;B[ba](;W[ea];B[ac];W[ab];B[ca]C[Correct.])
+(;W[ac](;B[ca](;W[ea];B[ad](;W[da](;B[ab];W[aa]C[Wrong.])
+(;B[aa];W[ab];B[ba]C[Correct.])
+)
+(;W[ab];B[fa]C[Correct.])
+)
+(;W[aa];B[ab];W[da]C[Wrong.])
+)
+(;B[aa];W[ea];B[ca]C[Correct.])
+(;B[ea];W[aa];B[ab];W[ca]C[Wrong.])
+)
+)
+(;B[ca];W[ba](;B[ea];W[da];B[ac];W[ab]C[Wrong.])
+(;B[ac];W[ab](;B[ea];W[da]C[Wrong.])
+(;B[da];W[ea]C[Wrong.])
+)
+(;B[da];W[ea]C[Wrong.];B[ac];W[ab]C[Wrong.])
+)
+)

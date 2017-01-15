@@ -1,0 +1,15 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/5710]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 139 / 900]
+AW[fb][fc][ha][hb][hc][gd][ge][df][ef][cf][ab][bc][bd][be][cb][ca]
+AB[ba][bb][cc][dc][cd][ce][de][ed][fd][gc][gb][ga][fa]
+PL[B]C[Black to live.]
+(;B[db];W[aa];B[ea]C[Correct.])
+(;B[ea];W[eb];B[db];W[da];B[ea]C[Correct.])
+(;B[da];W[aa](;B[eb];W[ea]C[Wrong.])
+(;B[db];W[ea]C[Wrong.])
+(;B[ea];W[db]C[Wrong.](;B[eb];W[ec]C[Wrong.])
+(;B[ec];W[eb]C[Wrong.])
+)
+)
+)

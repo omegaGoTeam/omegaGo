@@ -1,0 +1,19 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/5666]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 105 / 900]
+AW[aa][bb][bd][be][de][ce][dd][ec][fc][fb][fa]
+AB[bc][cc][cb][dc][cd][ad][da]
+PL[B]C[Black to live.]
+(;B[ab];W[ba];B[ca];W[ba]C[B19 is needed to prevent a second eye in the corner.];B[eb];W[ea]C[Wrong.])
+(;B[ba];W[ca](;B[ab];W[ac](;B[ba]C[Correct.])
+(;B[eb];W[db]C[Wrong.])
+(;B[ea];W[db]C[Wrong.])
+(;B[ae];W[af]C[Wrong.])
+)
+(;B[ac];W[ba]C[Wrong.])
+(;B[eb];W[ba];B[ea];W[db]C[Wrong.])
+)
+(;B[eb];W[ba];B[ea];W[ac]C[Wrong.
+Ko.])
+(;B[ac];W[ba];B[eb];W[ea]C[Wrong.])
+)
