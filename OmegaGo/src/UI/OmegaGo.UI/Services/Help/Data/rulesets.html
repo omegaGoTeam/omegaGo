@@ -1,0 +1,55 @@
+﻿<h2>Rulesets</h2>
+<p>While most rules of Go are the same throughout the world and across tournaments, there exist several distinct <i>rulesets</i>. One might say that a ruleset is a “package” of a number of rules that fill the holes in the common rules or that add additional rules. There are six to ten commonly known rulesets, depending on how you count, but three rulesets stand more popular than the rest: <i>Chinese rules</i>, <i>Japanese rules</i> and <i>AGA rules</i>.</p>
+<p><i>Chinese rules</i> and <i>Japanese rules</i> are ancient. These are rulesets that have evolved through the ages and have their basis in ancient history and tradition. Both were codified in late 20th century by national Go associations in their respective countries but especially for Japanese rules, some rulings are still made based on experience or tradition than by referring to a formal document. <i>AGA rules</i>, on the other hand, were created by the <i>American Go Association</i> in 1991 to be precise, but these rules are not widely adopted on the Internet or in East Asia.</p>
+<p>Rulesets, besides minor technical details, differ in these aspects:</p>
+<ul><li>By their scoring method.</li>
+<li>By their handling of superko.</li>
+<li>By their handling of passing.</li>
+<li>By the default <i>komi</i>.</li>
+    <li>By the position of handicap stones.</li>
+</ul>
+
+<p>This table summarizes the differences for the best known rulesets:</p>
+
+<table width="100%" border="1">
+    <tr>
+        <td></td>
+        <td>Chinese rules</td>
+        <td>Japanese rules</td>
+        <td>AGA rules</td>
+    </tr>
+    <tr>
+        <td>Scoring method</td>
+        <td>Area</td>
+        <td>Territory</td>
+        <td>Players' choice</td>
+    </tr>
+    <tr>
+        <td>Superko</td>
+        <td>Illegal move</td>
+        <td>Judge decides</td>
+        <td>Illegal move</td>
+    </tr>
+    <tr>
+        <td>Passing</td>
+        <td>Common</td>
+        <td>Common</td>
+        <td>Special</td>
+    </tr>
+    <tr>
+        <td>Default komi</td>
+        <td>7.5</td>
+        <td>6.5</td>
+        <td>7.5</td>
+    </tr>
+    <tr>
+        <td>Handicap placement</td>
+        <td>Usually free</td>
+        <td>Usually fixed</td>
+        <td>Usually fixed</td>
+    </tr>
+</table>
+
+<p>The most important difference is the <strong>scoring method</strong>, described in the Comprehensive rules section. In AGA rules, the players decide before the match which scoring method is used but this has no effect on who wins or loses.</p>
+<p>Under AGA rules, <i>White</i> always passes last, even if that would mean three consecutive passes. In addition, whenever a player passes under AGA rules, they must give a stone from the box to their opponent as a prisoner. This has no effect if area scoring is used, but is relevant in territory scoring.</p>
+<p>In handicap games, where one player starts with extra stones to get an advantage, traditionally these stones were placed on specific points on the game board. This is usually enforced for Japanese rules but not so much in Chinese rules. Different servers also vary with their enforcement of fixed handicap placement and in real-life games the players can come to an agreement. OmegaGo supports both free nad fixed handicap placement for all rulesets.</p>
