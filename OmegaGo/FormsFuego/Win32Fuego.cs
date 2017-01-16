@@ -11,8 +11,17 @@ using OmegaGo.Core.AI.Fuego;
 
 namespace FormsFuego
 {
+    /// <summary>
+    /// This builder creates Fuego instances for the Win32 WinForms prototype.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngineBuilder" />
     public class Win32FuegoBuilder : IGtpEngineBuilder
     {
+        /// <summary>
+        /// Creates a new Fuego instance by launching a new Fuego.exe process and running the command 'boardsize N' to set the board size.
+        /// </summary>
+        /// <param name="boardSize">Size of the board.</param>
+        /// <returns></returns>
         public IGtpEngine CreateEngine(int boardSize)
         {
             Win32Fuego wf = new FormsFuego.Win32Fuego();
@@ -21,16 +30,16 @@ namespace FormsFuego
             return wf;
         }
     }
+    /// <summary>
+    /// A Fuego instance that is run as a Windows process. It expects the file 'fuego.exe' and 'book.dat' to be present in the current directory. This code is mostly copied from GameOfGo and we DO NOT have licence to use it. That means that this should not be released publicly.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngine" />
     public class Win32Fuego : IGtpEngine
     {
         private StreamWriter _writer;
         private Process Process;
-        private void ReadResponse()
-        {
-            string code;
-            string msg;
-            ReadResponse(out code, out msg);
-        }
+
+
         public string SendCommand(string command)
         {
             WriteCommand(command, null);
@@ -112,8 +121,7 @@ namespace FormsFuego
         {
 #if DEBUG
             
-            Debug.Write("WRITING: ");
-            Debug.Write(cmd);
+            Debug.WriteLine("COMMAND: " + cmd);
 #endif
             _writer.Write(cmd);
             if (value != null)
@@ -123,9 +131,6 @@ namespace FormsFuego
                 Debug.Write(value.ToString());
                 _writer.Write(value.ToString());
             }
-#if DEBUG
-            Debug.Write("\n\n");
-#endif
             _writer.Write("\n\n");
             _writer.Flush();
             Thread.Sleep(10);
@@ -163,6 +168,7 @@ namespace FormsFuego
                             FileName = "fuego.exe",
                             RedirectStandardInput = true,
                             RedirectStandardOutput = true,
+                            RedirectStandardError = true,
                             UseShellExecute = false,
                             CreateNoWindow = true,
                             LoadUserProfile = false
@@ -173,11 +179,12 @@ namespace FormsFuego
 
                     Thread.Sleep(wait); // give exe a chance to start up
 
-                    _writer = Process.StandardInput;
-
                     // This method is much more reliable than trying to read standard output.
                     Process.OutputDataReceived += Process_OutputDataReceived; ;
                     Process.BeginOutputReadLine();
+                    Process.ErrorDataReceived += Process_ErrorDataReceived;
+                    Process.BeginErrorReadLine();
+                    _writer = Process.StandardInput;
 
                     success = true;
                     break;
@@ -195,6 +202,11 @@ namespace FormsFuego
                 Debug.WriteLine("Giving up on connecting to Fuego.");
                 throw new Exception("Couldn't connect to Fuego.");
             }
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            _inputs.Enqueue(e.Data);
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
