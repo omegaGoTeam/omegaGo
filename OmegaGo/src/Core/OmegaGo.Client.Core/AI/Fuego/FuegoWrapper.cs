@@ -49,8 +49,13 @@ namespace OmegaGo.Core.AI.Fuego
                 ? Move.Pass(gameState.AIColor)
                 : Move.PlaceStone(gameState.AIColor, Position.FromIgsCoordinates(result));
             history.Add(move);
+            float value = float.Parse(engine.SendCommand("uct_value_black"));
+            if (gameState.AIColor == StoneColor.White)
+            {
+                value = 1 - value;
+            }
             return AiDecision.MakeMove(
-                move, "Fuego");
+                move, value == 0 ? "Reading from opening book." : "Win chance: " + (100*value) + "%");
         }
     }
 }
