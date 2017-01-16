@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:tsumego="using:OmegaGo.UI.Services.Tsumego"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d">
     
 
@@ -16,13 +18,37 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-       
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         <TextBlock Text="Select a problem" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
+                   Grid.Row="0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
+            <GridView Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="tsumego:TsumegoProblem">
+                        <Border Width="200" Height="200" BorderBrush="Black" BorderThickness="1">
+                            <StackPanel>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                                <userControls:BoardControl
+                                    ViewModel="{Binding InitialTreeBoardViewModel}"
+                                    >
+                                    
+                                </userControls:BoardControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
+                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
+            </GridView>
+        </Border>
         
     </Grid>
 </views:TransparencyViewBase>

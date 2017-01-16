@@ -5,6 +5,7 @@ using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
@@ -29,6 +30,8 @@ namespace OmegaGo.UI.Services.Tsumego
         public StoneColor ColorToPlay { get; }
 
         private SgfGameTree SgfGameTree { get; }
+
+        public GameTreeNode InitialTree { get; }
 
         /// <summary>
         /// Creates a new game tree from the definition of this problem. The returned node is the root of this tree.
@@ -64,11 +67,12 @@ namespace OmegaGo.UI.Services.Tsumego
             return tree;
         }
 
-        private TsumegoProblem(string name, SgfGameTree tree, StoneColor colorToPlay)
+        protected TsumegoProblem(string name, SgfGameTree tree, StoneColor colorToPlay)
         {
             this.Name = name;
             this.SgfGameTree = tree;
             this.ColorToPlay = colorToPlay;
+            this.InitialTree = SpawnThisProblem();
         }
         public override string ToString()
         {
