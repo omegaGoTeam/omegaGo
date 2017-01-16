@@ -13,19 +13,12 @@ using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI.ViewModels
 {
-    public class SingleplayerViewModel : ViewModelBase
+    public class TsumegoMenuViewModel : ViewModelBase
     {
-        public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
-        public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
-        public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
-
-        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
-
-
         public ObservableCollection<TsumegoProblem> TsumegoProblems
             => new ObservableCollection<TsumegoProblem>(Problems.AllProblems);
 
-        public SingleplayerViewModel()
+        public TsumegoMenuViewModel()
         {
 
         }

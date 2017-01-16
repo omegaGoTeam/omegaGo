@@ -119,6 +119,9 @@
     <Compile Include="UserControls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TsumegoMenuView.xaml.cs">
+      <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TsumegoView.xaml.cs">
       <DependentUpon>TsumegoView.xaml</DependentUpon>
     </Compile>
@@ -264,6 +267,10 @@
     <Page Include="UserControls\TimelineControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TsumegoMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TsumegoView.xaml">
       <Generator>MSBuild:Compile</Generator>
