@@ -30,17 +30,15 @@
                    Grid.Row="0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
         <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-            <GridView Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True">
+            <GridView Grid.Row="1" ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="tsumego:TsumegoProblem">
                         <Border Width="200" Height="200" BorderBrush="Black" BorderThickness="1">
                             <StackPanel>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                                <userControls:BoardControl
-                                    ViewModel="{Binding InitialTreeBoardViewModel}"
-                                    >
-                                    
-                                </userControls:BoardControl>
+                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="Initial Tree Board View Here" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="Has the problem been solved?" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="{Binding Solved}" FontWeight="Bold"></TextBlock>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

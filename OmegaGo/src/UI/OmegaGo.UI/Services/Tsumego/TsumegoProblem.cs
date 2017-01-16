@@ -33,6 +33,8 @@ namespace OmegaGo.UI.Services.Tsumego
 
         public GameTreeNode InitialTree { get; }
 
+        public string Solved => "true";
+
         /// <summary>
         /// Creates a new game tree from the definition of this problem. The returned node is the root of this tree.
         /// </summary>
