@@ -15,5 +15,7 @@ namespace OmegaGo.UI.Services.Settings
         /// Game's UI language
         /// </summary>
         string Language { get; set; }
+
+        bool Tsumego_ShowPossibleMoves { get; set; }
     }
 }

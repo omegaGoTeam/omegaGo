@@ -65,6 +65,10 @@ namespace OmegaGo.UI.Services.Tsumego
                     if (node.Parent.TsumegoWrong) node.TsumegoWrong = true;
                     node.FillBoardState(TsumegoProblem.TsumegoRuleset);
                 }
+                foreach(GameTreeNode continuation in node.Branches)
+                {
+                    node.TsumegoMarkedPositiongs.Add(continuation.Move.Coordinates);
+                }
             });
             return tree;
         }

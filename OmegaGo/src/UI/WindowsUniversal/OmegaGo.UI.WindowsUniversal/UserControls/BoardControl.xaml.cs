@@ -49,7 +49,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             
             ViewModel.BoardRedrawRequsted += (s, ev) => 
             {
-                if(ev.Move?.Kind != Core.MoveKind.Pass)
+                if(ev.Move?.Kind == Core.MoveKind.PlaceStone)
                     _boardState.SelectedPosition = ev.Move.Coordinates;
 
                 canvas.Invalidate();

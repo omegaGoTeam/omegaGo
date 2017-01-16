@@ -146,6 +146,11 @@ namespace OmegaGo.Core
         /// would be created by the player, are termed 'unexpected' and are considered wrong.
         /// </summary>
         public bool TsumegoExpected { get; set; }
+        /// <summary>
+        /// Gets the list of positions that are known as possible continuation from this node to the author
+        /// of the tsumego problem that contains this node.
+        /// </summary>
+        public List<Position> TsumegoMarkedPositiongs { get; } = new List<Position>();
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.

@@ -8,12 +8,15 @@ using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Extensions;
 using System.Numerics;
 using Windows.UI;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public class RenderService
     {
         private BoardState _sharedBoardState;
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         
         public BoardState SharedBoardState
         {
@@ -83,7 +86,17 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
 
             if (gameState != null)
-            {                
+            {
+                if (_settings.Tsumego_ShowPossibleMoves)
+                {
+                    foreach (var position in gameState.TsumegoMarkedPositiongs)
+                    {
+                        DrawStoneCellBackground(args.DrawingSession, 
+                            position.X,
+                            (SharedBoardState.BoardHeight - 1) - position.Y,
+                            Color.FromArgb(100, 255, 50, 0));
+                    }
+                }
                 GameBoard boardState = gameState.BoardState;
              
                 for (int x = 0; x < SharedBoardState.BoardWidth; x++)
@@ -227,7 +240,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     SharedBoardState.HalfCellSize,                                              // y1
                     SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // x2
                     SharedBoardState.CellSize * boardHeight - SharedBoardState.HalfCellSize,    // y2
-                    Colors.Black);
+                    Colors.Black,
+                    SharedBoardState.BoardLineThickness);
             }
 
             // Draw horizontal lines
@@ -238,7 +252,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // y2
                     SharedBoardState.CellSize * boardWidth - SharedBoardState.HalfCellSize,     // x2
                     SharedBoardState.HalfCellSize + i * SharedBoardState.CellSize,              // y2
-                    Colors.Black);
+                    Colors.Black,
+                    SharedBoardState.BoardLineThickness);
             }
         }
 

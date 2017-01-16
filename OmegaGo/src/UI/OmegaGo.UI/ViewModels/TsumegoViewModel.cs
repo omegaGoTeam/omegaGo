@@ -13,6 +13,7 @@ using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Extensions;
 using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -40,6 +41,7 @@ While solving a problem, the player can undo his moves. Undoing from the "analys
 A tsumego problem will also display a problem statement (such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
         private BoardViewModel _boardViewModel;
         private BoardState _boardState;
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         
         public BoardViewModel BoardViewModel
         {
@@ -60,8 +62,6 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         private string _currentProblemInstructions = "B";
         private string _currentNodeStatus = "";
         private GameTreeNode _currentNode;
-        private bool _showPossibleMoves = true;
-        private bool _showWhichMovesAreCorrect;
 
 
         public void UndoOneMove()
@@ -172,6 +172,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             this._playerToMove = this._currentProblem.ColorToPlay;
             this._humansColor = this._playerToMove;
             this.CurrentNodeStatus = this._humansColor + " to play.";
+            this.BoardState.SelectedPosition = Position.Undefined;
         }
 
         public GameTreeNode CurrentNode
@@ -201,15 +202,15 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
 
         public bool ShowPossibleMoves
         {
-            get { return this._showPossibleMoves; }
-            set { SetProperty(ref _showPossibleMoves, value); }
+            get { return this._settings.Tsumego_ShowPossibleMoves; }
+            set
+            {
+                this._settings.Tsumego_ShowPossibleMoves = value;
+                this.BoardViewModel.Redraw();
+                this.RaisePropertyChanged();
+            }
         }
-
-        public bool ShowWhichMovesAreCorrect
-        {
-            get { return this._showWhichMovesAreCorrect; }
-            set { SetProperty(ref _showWhichMovesAreCorrect, value); }
-        }
+        
 
         // Navigation
         public IMvxCommand GoToPreviousProblem => new MvxCommand(() => {

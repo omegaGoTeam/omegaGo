@@ -36,16 +36,14 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
-            <ComboBox Name="TsumegoProblem" ItemsSource="{Binding Path=TsumegoProblems}">
-            </ComboBox>
-            <Button Content="Solve This Tsumego" Click="SolveThisTsumego_Click"></Button>
+            
             <Button Content="Solve Puzzles" Command="{Binding Path=GoToTsumegoMenu}"></Button>
             <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" HorizontalAlignment="Center" Width="950" Height="250">
+            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <TextBlock TextAlignment="Center" Text="{x:Bind}" Foreground="Blue" 

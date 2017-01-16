@@ -14,7 +14,7 @@
     VerticalContentAlignment="Stretch">
 
     <Grid>
-        <ScrollViewer   Grid.Row="1"
+        <ScrollViewer   Grid.Row="0"
                         Grid.Column="0"
                         HorizontalScrollBarVisibility="Auto"
                         HorizontalScrollMode="Auto"
