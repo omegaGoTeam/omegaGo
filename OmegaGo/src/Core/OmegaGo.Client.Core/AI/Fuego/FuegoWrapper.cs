@@ -45,6 +45,10 @@ namespace OmegaGo.Core.AI.Fuego
             }
             string movecolor = gameState.AIColor == StoneColor.Black ? "B" : "W";
             string result = engine.SendCommand("genmove " + movecolor);
+            if (result == "resign")
+            {
+                return AiDecision.Resign("Resigned because of low win chance.");
+            }
             var move = result == "PASS"
                 ? Move.Pass(gameState.AIColor)
                 : Move.PlaceStone(gameState.AIColor, Position.FromIgsCoordinates(result));
@@ -55,7 +59,7 @@ namespace OmegaGo.Core.AI.Fuego
                 value = 1 - value;
             }
             return AiDecision.MakeMove(
-                move, value == 0 ? "Reading from opening book." : "Win chance: " + (100*value) + "%");
+                move, (value == 0) || (value == 1) ? "Reading from opening book." : "Win chance (" + gameState.AIColor + "): " + (100*value) + "%");
         }
     }
 }
