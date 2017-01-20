@@ -17,10 +17,9 @@ namespace OmegaGo.UI.ViewModels
     {
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
+        public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
 
-        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>(
-            new Dictionary<string, string> {  ["AgainstAI"] = "true" }
-            ));
+        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
 
 
         public ObservableCollection<TsumegoProblem> TsumegoProblems

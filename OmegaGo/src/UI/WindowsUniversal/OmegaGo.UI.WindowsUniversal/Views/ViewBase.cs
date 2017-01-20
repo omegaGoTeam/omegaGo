@@ -72,6 +72,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 AppShell.TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
+                Window.Current.CoreWindow.KeyUp += EscapingHandling;
             }
             else
             {
@@ -81,8 +82,21 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             base.OnNavigatedTo(e);
         }
 
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.VirtualKey == Windows.System.VirtualKey.Escape)
+            {
+                if (Frame.CanGoBack && !args.Handled)
+                {
+                    args.Handled = true;
+                    Frame.GoBack();
+                }
+            }
+        }
+
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            Window.Current.CoreWindow.KeyDown -= EscapingHandling;
             SystemNavigationManager.GetForCurrentView().BackRequested -= BackRequested;
             base.OnNavigatingFrom(e);
         }

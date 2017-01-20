@@ -41,7 +41,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             BoardTapped?.Invoke(this, position);
         }
 
-        internal void Redraw()
+        public void Redraw()
         {
             OnBoardChanged();
         }

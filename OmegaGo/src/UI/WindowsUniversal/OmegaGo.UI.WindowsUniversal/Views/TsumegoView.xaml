@@ -25,7 +25,6 @@
             <Button Command="{Binding Path=GoToPreviousProblem}">Previous Problem</Button>
             <Button Command="{Binding Path=GoToNextProblem}">Next Problem</Button>
             <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
-            <CheckBox IsChecked="{Binding Path=ShowWhichMovesAreCorrect, Mode=TwoWay}">Show which moves are correct</CheckBox>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="10">

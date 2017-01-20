@@ -7,7 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
-    
+
 
     <Page.Transitions>
         <TransitionCollection>
@@ -19,7 +19,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-       
+
         <TextBlock Text="Singleplayer Menu" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
@@ -36,20 +36,24 @@
                 </Style>
             </StackPanel.Resources>
             <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
-            <ComboBox Name="TsumegoProblem" ItemsSource="{Binding Path=TsumegoProblems}">
-            </ComboBox>
-            <Button Content="Solve This Tsumego" Click="SolveThisTsumego_Click"></Button>
+            
+            <Button Content="Solve Puzzles" Command="{Binding Path=GoToTsumegoMenu}"></Button>
             <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" HorizontalAlignment="Center">
+            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <TextBlock TextAlignment="Center" Text="{x:Bind}" Foreground="Blue" 
+                           FontSize="36" Width="300" TextWrapping="Wrap" Height="200" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
                 <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                <ListViewItem>Quest1</ListViewItem>
-                <ListViewItem>Second Quest</ListViewItem>
-                <ListViewItem>This should be a Quest object.</ListViewItem>
-                <ListViewItem>The Master Quest</ListViewItem>
+                <x:String>Quest1</x:String>
+                <x:String>Second Quest</x:String>
+                <x:String>The Master Quest</x:String>
             </GridView>
         </StackPanel>
     </Grid>
