@@ -32,7 +32,10 @@ namespace OmegaGo.Core.Agents
             _aiProgram = aiProgram;
         }
 
+        public event EventHandler<string> LogMessage;
+
         public override IllegalMoveHandling HowToHandleIllegalMove => IllegalMoveHandling.MakeRandomMove;
+
         public override async void PleaseMakeAMove()
         { 
             GameBoard createdBoard = FastBoard.CreateBoardFromGame(Game);
@@ -45,6 +48,10 @@ namespace OmegaGo.Core.Agents
               Game.PrimaryTimeline.ToList()
               )));
             AiDecision decision = await aiTask;
+            if (decision.Explanation != null)
+            {
+                LogMessage?.Invoke(this, decision.Explanation);
+            }
             switch (decision.Kind)
             {
                 case AgentDecisionKind.Move:

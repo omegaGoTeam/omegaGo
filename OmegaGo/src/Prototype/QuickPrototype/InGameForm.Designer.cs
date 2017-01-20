@@ -70,6 +70,8 @@
             this.bUndoPlease = new System.Windows.Forms.Button();
             this.trackTimeline = new System.Windows.Forms.TrackBar();
             this.lblTimeline = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbAiLog = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -81,6 +83,7 @@
             this.grpLifeDeath.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).BeginInit();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -271,6 +274,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(699, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -530,6 +534,28 @@
             this.lblTimeline.TabIndex = 23;
             this.lblTimeline.Text = "Timeline:";
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tbAiLog);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(314, 190);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "AI Log";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbAiLog
+            // 
+            this.tbAiLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbAiLog.Location = new System.Drawing.Point(3, 3);
+            this.tbAiLog.Multiline = true;
+            this.tbAiLog.Name = "tbAiLog";
+            this.tbAiLog.ReadOnly = true;
+            this.tbAiLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbAiLog.Size = new System.Drawing.Size(308, 184);
+            this.tbAiLog.TabIndex = 24;
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -569,6 +595,8 @@
             this.grpLifeDeath.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -617,5 +645,7 @@
         private System.Windows.Forms.Button bLocalUndo;
         private System.Windows.Forms.TrackBar trackTimeline;
         private System.Windows.Forms.Label lblTimeline;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TextBox tbAiLog;
     }
 }

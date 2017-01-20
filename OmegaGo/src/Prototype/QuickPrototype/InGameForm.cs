@@ -115,7 +115,20 @@ namespace FormsPrototype
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.EnterPhase += _controller_EnterPhase;
             this._controller.BeginGame();
+            foreach (Player player in this._game.Players)
+            {
+                if (player.Agent is AIAgent)
+                {
+                    ((AIAgent)player.Agent).LogMessage += InGameForm_LogMessage;
+                }
+            }
         }
+
+        private void InGameForm_LogMessage(object sender, string e)
+        {
+            this.tbAiLog.AppendText(e + Environment.NewLine);
+        }
+
         private void _igs_LastMoveUndone(object sender, GameInfo e)
         {
             if (e == this._game)

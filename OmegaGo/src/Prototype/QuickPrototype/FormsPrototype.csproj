@@ -114,6 +114,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\FormsFuego\FormsFuego.csproj">
+      <Project>{59468521-149e-45d5-ac96-1ad10734e96f}</Project>
+      <Name>FormsFuego</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
       <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
       <Name>OmegaGo.Core</Name>
