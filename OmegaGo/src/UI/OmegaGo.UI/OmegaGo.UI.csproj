@@ -57,6 +57,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\EmbeddedResourceReading.cs" />
+    <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
     <Compile Include="Services\Game\BoardState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />

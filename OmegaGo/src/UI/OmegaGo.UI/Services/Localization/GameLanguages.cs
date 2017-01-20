@@ -12,20 +12,26 @@ namespace OmegaGo.UI.Services.Localization
     /// </summary>
     public static class GameLanguages
     {
+        private const string AutoLanguageKey = "auto";
+
         /// <summary>
-        /// Returns supported game languages
+        /// Returns supported game languages in a dictionary. 
+        /// Key is the culture tag
         /// </summary>
         public static readonly ReadOnlyDictionary<string, GameLanguage> SupportedLanguages =
-            new ReadOnlyDictionary<string, GameLanguage>( new Dictionary<string, GameLanguage>()
+            new ReadOnlyDictionary<string, GameLanguage>(new List<GameLanguage>()
             {
-                { "auto", new GameLanguage( "AutoLanguage", "auto" ) },
-                { "en", new GameLanguage( "English", "en" ) },
-                { "cs", new GameLanguage( "Česky", "cs" ) }
-            } );
+                new GameLanguage("AutoLanguage", AutoLanguageKey),
+                new GameLanguage("English", "en"),
+                new GameLanguage("Česky", "cs")
+            }.ToDictionary(
+                language => language.CultureTag, //use culture tag as the dictionary key
+                language => language
+             ));
 
         /// <summary>
         /// Default language (auto)
         /// </summary>
-        public static GameLanguage DefaultLanguage => SupportedLanguages[ "auto" ];
+        public static GameLanguage DefaultLanguage => SupportedLanguages[AutoLanguageKey];
     }
 }
