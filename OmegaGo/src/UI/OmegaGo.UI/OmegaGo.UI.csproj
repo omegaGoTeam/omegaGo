@@ -56,10 +56,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
     <Compile Include="Services\Game\BoardState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
     <Compile Include="Services\Localization\GameLanguages.cs" />
     <Compile Include="Services\Localization\ILocalizationService.cs" />
@@ -347,8 +349,21 @@
     <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Services\Help\Data\intro.html" />
+    <EmbeddedResource Include="Services\Help\Data\japanese.html" />
+    <EmbeddedResource Include="Services\Help\Data\resources.html" />
+    <EmbeddedResource Include="Services\Help\Data\usermanual.html" />
+    <EmbeddedResource Include="Services\Help\Data\rulesets.html" />
+    <EmbeddedResource Include="Services\Help\Data\history.html" />
+    <EmbeddedResource Include="Services\Help\Data\jargon.html" />
+    <EmbeddedResource Include="Services\Help\Data\copyright.html" />
+    <EmbeddedResource Include="Services\Help\Data\credits.html" />
+    <EmbeddedResource Include="Services\Help\Data\header.html" />
+    <EmbeddedResource Include="Services\Help\Data\footer.html" />
+    <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
