@@ -42,23 +42,22 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                     Tag = language,
                     Text = Localizer.GetString(language.Name),                   
                 };                
-                menuItem.Tapped += LanguageMenuItemTapped;
+                menuItem.Click += MenuItem_Click;
                 LanguagesMenu.Items?.Add(menuItem);
             }
             UpdateLanguageMenuSelection();
         }
 
-        private void LanguageMenuItemTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void MenuItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var menuItem = sender as ToggleMenuFlyoutItem;
             if (menuItem != null)
-            {                
+            {
                 //update Selected language
                 VM.SelectedLanguage = menuItem.Tag as GameLanguage;
                 UpdateLanguageMenuSelection();
             }
         }
-
         /// <summary>
         /// Updates the checked languages menu item according to the currently selected language
         /// </summary>
