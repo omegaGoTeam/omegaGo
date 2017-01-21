@@ -69,12 +69,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
         }
 
-        private void ShowHideTips_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            this.BorderTips.Visibility = this.BorderTips.Visibility == Windows.UI.Xaml.Visibility.Collapsed
-                ? Windows.UI.Xaml.Visibility.Visible
-                : Windows.UI.Xaml.Visibility.Collapsed;
-        }
 
         private void GoFullScreen_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
