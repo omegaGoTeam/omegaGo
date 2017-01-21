@@ -36,7 +36,16 @@ namespace OmegaGo.Core.AI
             {
                 if (!AISystems.registrationComplete)
                 {
-                    throw new Exception("Fuego was not yet registered!");
+                    // Fuego is not available
+                    return
+                    new List<IAIProgram>
+                    {
+                        new Defeatist.Defeatist(),
+                        new Random.RandomAI(),
+                        new Joker23.RandomPlayerWrapper(),
+                        new Joker23.HeuristicPlayerWrapper(),
+                        new Joker23.AlphaBetaPlayerWrapper()
+                    };
                 }
                 return
                     new List<IAIProgram>
