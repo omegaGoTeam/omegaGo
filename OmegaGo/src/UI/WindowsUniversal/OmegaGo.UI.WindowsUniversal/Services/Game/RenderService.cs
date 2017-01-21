@@ -63,7 +63,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
 
-            DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
+            if (_settings.Display.ShowCoordinates)
+            {
+                DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
+            }
             args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardState.BoardBorderThickness, SharedBoardState.BoardBorderThickness);
             DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
             DrawBoardStarPoints(args.DrawingSession, SharedBoardState);
