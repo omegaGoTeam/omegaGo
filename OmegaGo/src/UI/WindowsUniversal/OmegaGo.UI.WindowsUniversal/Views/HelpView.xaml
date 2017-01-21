@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -24,25 +25,22 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0">Topics: </TextBlock>
             <ScrollViewer Grid.Row="1" >
-            <ListBox Width="350" ScrollViewer.HorizontalScrollMode="Enabled"
-                     
+                <ListBox Width="350" ScrollViewer.HorizontalScrollMode="Enabled"
+                     ItemsSource="{Binding HelpItems}"
+                     SelectedItem="{Binding SelectedHelpItem, Mode=TwoWay}"
                      ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                <ListBox.Items>
-                    <TextBlock>Welcome to Go!</TextBlock>
-                    <TextBlock>Comprehensive Rules</TextBlock>
-                </ListBox.Items>
                 </ListBox>
             </ScrollViewer>
-            <Grid Padding="5" Grid.Row="2">
-                <Button  Content="Back"  Click="GoBack_Click" />
-            </Grid>
+                <Button Grid.Row="2"  Content="Back" HorizontalContentAlignment="Stretch" Click="GoBack_Click" />
         </Grid>
-        <TextBox TextWrapping="Wrap" Grid.Column="1" Text="This will be a Rich Text Box in the future.">
-            
-        </TextBox>
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
+        <WebView DefaultBackgroundColor="Transparent" Name="WebView">
+
+            </WebView>
+        </Border>
     </Grid>
 </views:TransparencyViewBase>

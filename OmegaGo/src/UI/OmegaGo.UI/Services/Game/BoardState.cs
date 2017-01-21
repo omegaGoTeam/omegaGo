@@ -54,8 +54,8 @@ namespace OmegaGo.UI.Services.Game
 
         public int BoardLineThickness
         {
-            get { return _boardBorderThickness; }
-            set { _boardBorderThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
+            get { return _boardLineThickness; }
+            set { _boardLineThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
         }
 
         public MvxColor BoardColor

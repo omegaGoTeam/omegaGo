@@ -1,0 +1,28 @@
+(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
+SO[https://online-go.com/puzzle/2889]
+GN[Cho Chikun's Encyclopedia of Life and Death - Elementary - 49 / 900]
+AW[ad][cd][dd][bd][ed][ec][eb][ea]
+AB[bb][bc][dc][db][da]
+PL[B]C[Black to live.]
+(;B[ba](;W[cc];B[cb];W[ac];B[ab]C[Correct.])
+(;W[ac];B[ab];W[cc];B[cb]C[Correct.])
+)
+(;B[ca];W[cc];B[ac];W[cb]C[Wrong.])
+(;B[ac];W[cc];B[cb];W[ba]C[Wrong.
+Bent four in the corner.])
+(;B[ab];W[cc];B[cb];W[ba]C[Wrong.])
+(;B[cc];W[ba](;B[ca];W[ab](;B[ac];W[cb]C[Wrong.])
+(;B[aa];W[ac]C[Wrong.])
+)
+(;B[ac];W[ca];B[aa];W[ab]C[Wrong.
+Disadv. Ko.])
+(;B[ab];W[ca]C[Wrong.])
+(;B[aa];W[ab];B[ac];W[ca]C[Wrong.
+Ko.])
+)
+(;B[cb];W[ac](;B[ba];W[ab]C[Wrong.])
+(;B[ab];W[ba]C[Wrong.])
+(;B[aa];W[ab]C[Wrong.])
+)
+(;B[aa];W[cc];B[cb];W[ac]C[Wrong.])
+)

@@ -21,6 +21,11 @@ namespace OmegaGo.UI.Services.Settings
 
         private const string LanguageSettingKey = "Language";
 
+        public bool Tsumego_ShowPossibleMoves
+        {
+            get { return _settings.GetSetting(nameof(Tsumego_ShowPossibleMoves), () => true); }
+            set { _settings.SetSetting(nameof(Tsumego_ShowPossibleMoves), value); }
+        }
         public string Language
         {
             get { return _settings.GetSetting( LanguageSettingKey, () => GameLanguages.DefaultLanguage.CultureTag, SettingLocality.Roamed ); }
