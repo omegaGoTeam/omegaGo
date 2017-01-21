@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 {
-    interface IHandicapPlacementPhase : IGameMainPhase
+    class FixedHandicapPlacementPhase : IGameHandicapPlacementPhase
     {
     }
 }

@@ -39,6 +39,8 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AIAgent.cs" />
@@ -90,21 +92,19 @@
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameInfo.cs" />
-    <Compile Include="Modes\LiveGame\Phases\GameFinishedPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\GameHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\GameInitializationPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\GameLifeAndDeathPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\GameMainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Finished\GameFinishedPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\GameHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Initialization\GameInitializationPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\GameLifeAndDeathPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\GameMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhases.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IGameFinishedPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IGameInitializationPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IGameLifeAndDeathPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IGameMainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Finished\IGameFinishedPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Initialization\IGameInitializationPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\IGameLifeAndDeathPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\IGameMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGamePhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\IGameHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\OnlineAgent.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IGameHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayer.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayer.cs" />
@@ -256,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sgf\Serializing\" />
-    <Folder Include="TimeControl\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

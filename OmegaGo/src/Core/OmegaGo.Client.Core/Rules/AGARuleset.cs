@@ -133,6 +133,5 @@ namespace OmegaGo.Core.Rules
                     _whiteScore -= capturedStoneCount;
             }
         }
-
     }
 }

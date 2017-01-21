@@ -52,15 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             this._game = game;
         }
-       
-
-
-     
-       
-
-        
-
-      
 
         /// <summary>
         /// Occurs when a PLAYER is about to take their turn.

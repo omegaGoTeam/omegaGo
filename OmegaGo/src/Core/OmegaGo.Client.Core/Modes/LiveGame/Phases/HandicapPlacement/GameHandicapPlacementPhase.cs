@@ -37,5 +37,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
             _game.NumberOfMovesPlayed++;
             _turnPlayer.Agent.PleaseMakeAMove();
         }
+
+        public void StartPhase()
+        {
+            
+        }
     }
 }

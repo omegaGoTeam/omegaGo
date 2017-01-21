@@ -8,9 +8,9 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 {
-    public sealed class LocalPlayerBuilder : PlayerBuilder<HumanPlayer, LocalPlayerBuilder>
+    public sealed class HumanPlayerBuilder : PlayerBuilder<HumanPlayer, HumanPlayerBuilder>
     {
-        public LocalPlayerBuilder(StoneColor color) : base(color)
+        public HumanPlayerBuilder(StoneColor color) : base(color)
         {
         }
 
