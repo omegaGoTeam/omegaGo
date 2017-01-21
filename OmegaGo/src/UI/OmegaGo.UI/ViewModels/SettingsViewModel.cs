@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Localization;
@@ -69,6 +70,99 @@ namespace OmegaGo.UI.ViewModels
                 return _languageChanged;
             }
             set { SetProperty( ref _languageChanged, value ); }
+        }
+
+        // Display 
+        public ObservableCollection<BoardTheme> BoardThemes { get; } =
+            new ObservableCollection<BoardTheme>( (BoardTheme[])Enum.GetValues(typeof(BoardTheme)) );
+        public int SelectedBoardTheme
+        {
+            get { return (int)_gameSettings.Display.BoardTheme; }
+            set { _gameSettings.Display.BoardTheme = (BoardTheme)value; RaisePropertyChanged(); }
+        }
+        public bool HighlightLastMove
+        {
+            get { return _gameSettings.Display.HighlightLastMove; }
+            set { _gameSettings.Display.HighlightLastMove = value; RaisePropertyChanged(); }
+        }
+        public bool HighlightRecentCaptures
+        {
+            get { return _gameSettings.Display.HighlightRecentCaptures; }
+            set { _gameSettings.Display.HighlightRecentCaptures = value; RaisePropertyChanged(); }
+        }
+        public bool HighlightIllegalKoMoves
+        {
+            get { return _gameSettings.Display.HighlightIllegalKoMoves; }
+            set { _gameSettings.Display.HighlightIllegalKoMoves = value; RaisePropertyChanged(); }
+        }
+        public bool ShowCoordinates
+        {
+            get { return _gameSettings.Display.ShowCoordinates; }
+            set { _gameSettings.Display.ShowCoordinates = value; RaisePropertyChanged(); }
+        }
+        // Input
+        public bool InputConfirmation
+        {
+            get { return _gameSettings.InputConfirmationRequired; }
+            set
+            {
+                _gameSettings.InputConfirmationRequired = value;
+                RaisePropertyChanged();
+            }
+        }
+        // Audio
+        public int MasterVolume
+        {
+            get { return _gameSettings.Audio.MasterVolume; }
+            set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged(); }
+        }
+        public int MusicVolume
+        {
+            get { return _gameSettings.Audio.MusicVolume; }
+            set { _gameSettings.Audio.MusicVolume = value; RaisePropertyChanged(); }
+        }
+        public int SfxVolume
+        {
+            get { return _gameSettings.Audio.SfxVolume; }
+            set { _gameSettings.Audio.SfxVolume = value; RaisePropertyChanged(); }
+        }
+        public bool PlayWhenYouPlaceStone
+        {
+            get { return _gameSettings.Audio.PlayWhenYouPlaceStone; }
+            set { _gameSettings.Audio.PlayWhenYouPlaceStone = value; RaisePropertyChanged(); }
+        }
+        public bool PlayWhenOthersPlaceStone
+        {
+            get { return _gameSettings.Audio.PlayWhenOthersPlaceStone; }
+            set { _gameSettings.Audio.PlayWhenOthersPlaceStone = value; RaisePropertyChanged(); }
+        }
+        public bool PlayWhenNotificationReceived
+        {
+            get { return _gameSettings.Audio.PlayWhenNotificationReceived; }
+            set { _gameSettings.Audio.PlayWhenNotificationReceived = value; RaisePropertyChanged(); }
+        }
+        // AI
+        public ObservableCollection<string> AiPrograms { get; } =
+            new ObservableCollection<string>(OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => program.Name));
+        public string SelectedAiProgram
+        {
+            get { return _gameSettings.Assistant.ProgramName; }
+            set
+            {
+                _gameSettings.Assistant.ProgramName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool EnableHints
+        {
+            get { return _gameSettings.Assistant.EnableHints; }
+            set { _gameSettings.Assistant.EnableHints = value; RaisePropertyChanged(); }
+        }
+        public bool EnableInOnlineGames
+        {
+            get { return _gameSettings.Assistant.EnableInOnlineGames; }
+            set { _gameSettings.Assistant.EnableInOnlineGames = value; RaisePropertyChanged(); }
         }
     }
 }

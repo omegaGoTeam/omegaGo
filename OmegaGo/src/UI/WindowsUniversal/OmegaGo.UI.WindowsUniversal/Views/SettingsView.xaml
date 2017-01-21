@@ -30,68 +30,65 @@
             </Pivot.TitleTemplate>
             <PivotItem Header="{x:Bind Localizer.UserInterface}">
                 <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="FullscreenModeManager Mode" 
+                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
                     <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140">
-                        <x:String>Plain Brown</x:String>
-                        <x:String>Kaya Wood</x:String>
-                        <x:String>Simple Plywood</x:String>
-                        <x:String>Virtual World</x:String>
+                    <ComboBox Width="140" 
+                              ItemsSource="{Binding BoardThemes}"
+                              SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
                     </ComboBox>
-
+                   
                     <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140">
+                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
                         <x:String>Plain Black</x:String>
                         <x:String>Glass</x:String>
                         <x:String>Plastic</x:String>
                     </ComboBox>
 
                     <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140">
+                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
                         <x:String>Plain White</x:String>
                         <x:String>Glass</x:String>
                         <x:String>Plastic</x:String>
                     </ComboBox>
 
-                    <CheckBox Content="Highlight Last Move" IsChecked="True" />
-                    <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." />
+                    <CheckBox Content="Highlight Last Move" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
+                    <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Highlight illegal Ko moves" />
+                        <CheckBox Content="Highlight illegal Ko moves" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Natural Stone Placement" />
+                        <CheckBox Content="Natural Stone Placement" IsEnabled="False" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="Stones won't be placed on the board in a neat grid but instead organically, randomly pushed a little bit aside from the intersection. This emulates the way Go boards feel like physically." />
                     </StackPanel>
-                    <CheckBox Content="Show Coordinates" />
+                    <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Input">
                 <StackPanel Padding="15">
-                    <TextBlock Text="To make a move:" />
-                    <RadioButton Content="Click on a point" IsChecked="True" />
-                    <RadioButton Content="Click, then click again to confirm" />
+                    <CheckBox Content="Making a move requires a confirmation click"
+                              IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Sounds">
                 <StackPanel Padding="15">
                     <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100" HorizontalAlignment="Left" />
+                    <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
                     <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100" HorizontalAlignment="Left" />
+                    <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
                     <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100" HorizontalAlignment="Left" />
+                    <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 
                     <TextBlock Text="A sound effect should play:"/>
-                    <CheckBox Content="When I place a stone." IsChecked="True" />
-                    <CheckBox Content="When another player places a stone." IsChecked="True"  />
-                    <CheckBox Content="When I receive a notification" IsChecked="True"  />
+                    <CheckBox Content="When I place a stone." IsChecked="{Binding PlayWhenYouPlaceStone, Mode=TwoWay}" />
+                    <CheckBox Content="When another player places a stone." IsChecked="{Binding PlayWhenOthersPlaceStone, Mode=TwoWay}"  />
+                    <CheckBox Content="When I receive a notification" IsChecked="{Binding PlayWhenNotificationReceived, Mode=TwoWay}"  />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.Language}">
@@ -110,11 +107,13 @@
             <PivotItem Header="Assistant">
                 <StackPanel Padding="15">
                     <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Width="140" ItemsSource="{Binding AIPrograms}">
+                    <ComboBox Width="140"
+                              ItemsSource="{Binding AiPrograms}"
+                              SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
                     </ComboBox>
 
                     <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="4" Width="140">
+                    <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
                         <x:String>1</x:String>
                         <x:String>2</x:String>
                         <x:String>3</x:String>
@@ -127,10 +126,9 @@
                         <x:String>10</x:String>
                     </ComboBox>
 
-                    <CheckBox Content="Enable hints" IsChecked="True" />
-                    <CheckBox Content="Enable territory estimation" IsChecked="True"  />
+                    <CheckBox Content="Enable hints" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Enable even in online games" />
+                        <CheckBox Content="Enable even in online games" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
                     </StackPanel>
                 </StackPanel>
