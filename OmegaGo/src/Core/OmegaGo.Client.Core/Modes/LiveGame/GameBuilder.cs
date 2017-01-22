@@ -28,7 +28,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GamePlayer _whitePlayer = null;
         private GamePlayer _blackPlayer = null;
 
-        public GameBuilder()
+        protected GameBuilder()
         {
             _concreteBuilderInstance = (TBuilderType)this;
         }
@@ -104,6 +104,25 @@ namespace OmegaGo.Core.Modes.LiveGame
         protected IRuleset CreateRuleset()
         {
             return Rules.Ruleset.Create(_rulesetType, _boardSize, _countingType);
+        }
+
+        /// <summary>
+        /// Creates the game info
+        /// </summary>
+        /// <returns>Game info</returns>
+        protected GameInfo CreateGameInfo()
+        {
+            return new GameInfo(_whitePlayer.Info, _blackPlayer.Info, _boardSize, _rulesetType, _handicap,
+                _handicapPlacementType, _komi, _countingType);
+        }
+
+        /// <summary>
+        /// Creates game players
+        /// </summary>
+        /// <returns>Player pair</returns>
+        protected PlayerPair CreatePlayers()
+        {
+            return new PlayerPair(_blackPlayer, _whitePlayer);
         }
 
         /// <summary>

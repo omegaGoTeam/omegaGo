@@ -7,36 +7,102 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
     internal class GameController : IGameController
     {
         private IGamePhase _currentGamePhase = null;
+        private GamePlayer _turnPlayer;
+        private GameTreeNode _currentNode;
 
+        public GameController( IRuleset ruleset, PlayerPair players )
+        {
+            Ruleset = ruleset;
+            Players = players;
+            GameTree = new GameTree();
+        }
+
+        /// <summary>
+        /// Indicates that there is a new player on turn
+        /// </summary>
+        public event EventHandler<GamePlayer> TurnPlayerChanged;
+
+        /// <summary>
+        /// Indicates that the current game tree node has changed
+        /// </summary>
+        public event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+
+        /// <summary>
+        /// Ruleset of the game
+        /// </summary>
+        public IRuleset Ruleset { get; }
+
+        /// <summary>
+        /// Players in the game
+        /// </summary>
         public PlayerPair Players { get; }
 
+        /// <summary>
+        /// Gets the player currently on turn
+        /// </summary>
         public GamePlayer TurnPlayer
         {
-            get
+            get { return _turnPlayer; }
+            internal set
             {
-                throw new NotImplementedException();
+                _turnPlayer = value;
+                OnTurnPlayerChanged();
             }
         }
 
-        public event EventHandler BoardMustBeRefreshed;
+        /// <summary>
+        /// Gets the current game phase
+        /// </summary>
+        public GamePhaseType Phase => _currentGamePhase.PhaseType;
+
+        /// <summary>
+        /// Gets the current number of moves
+        /// </summary>
+        public int NumberOfMoves { get; internal set; }
+        
+        /// <summary>
+        /// Gets the game tree
+        /// </summary>
+        public GameTree GameTree { get; }
+
+
+        /// <summary>
+        /// Gets the current game tree node
+        /// </summary>
+        public GameTreeNode CurrentNode
+        {
+            get { return _currentNode; }
+            internal set
+            {
+                _currentNode = value;
+                OnCurrentGameTreeNodeChanged();
+            }
+        }
 
         /// <summary>
         /// Begins the game once UI is ready
         /// </summary>
         public void BeginGame()
         {
+            //start initialization phase
             SetPhase(GamePhaseType.Initialization);
         }
 
-        public void RespondRequest()
+        protected virtual void OnTurnPlayerChanged()
         {
-            throw new NotImplementedException();
+            TurnPlayerChanged?.Invoke(this, TurnPlayer);
+        }
+
+        protected virtual void OnCurrentGameTreeNodeChanged()
+        {
+            CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
         }
 
         internal void SetPhase(GamePhaseType phase)
@@ -45,7 +111,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             switch (phase)
             {
                 case GamePhaseType.Initialization:
-                    _currentGamePhase = new InitializationPhase( this );
+                    _currentGamePhase = new InitializationPhase(this);
                     break;
                 case GamePhaseType.HandicapPlacement:
                     break;
@@ -68,15 +134,5 @@ namespace OmegaGo.Core.Modes.LiveGame
             //start phase
             _currentGamePhase.StartPhase();
         }
-
-        public GameState State { get; }
-        
-        public GameTree GameTree { get; }
-
-        public GameTreeNode CurrentGameTreeNode { get; }
-
-        public event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
-        public event EventHandler<GamePlayer> TurnPlayerChanged;
-
     }
 }

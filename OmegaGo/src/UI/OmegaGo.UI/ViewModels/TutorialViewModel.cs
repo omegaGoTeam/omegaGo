@@ -18,9 +18,6 @@ namespace OmegaGo.UI.ViewModels
 
 
         public BoardViewModel BoardViewModel { get; }
-        private BoardControlState _boardControlState;
-
-
 
         public TutorialViewModel()
         {
@@ -33,7 +30,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Scenario_ShiningPositionChanged(object sender, Position e)
         {
-            this._boardControlState.ShiningPosition = e;
+            BoardViewModel.BoardControlState.ShiningPosition = e;
         }
 
         private void Scenario_GameTreeNodeChanged(object sender, GameTreeNode e)
@@ -43,7 +40,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void TapBoardControl()
         {
-            Scenario.ClickPosition(this._boardControlState.SelectedPosition);
+            Scenario.ClickPosition(BoardViewModel.BoardControlState.SelectedPosition);
         }
     }
 }

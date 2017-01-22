@@ -78,7 +78,6 @@
     <Compile Include="Game\GameBoard.cs" />
     <Compile Include="Modes\LiveGame\GameBuilder.cs" />
     <Compile Include="Modes\LiveGame\GameController.cs" />
-    <Compile Include="Modes\LiveGame\GameState.cs" />
     <Compile Include="Modes\LiveGame\ObsoletedGameController.cs" />
     <Compile Include="Modes\LiveGame\IObsoleteGame.cs" />
     <Compile Include="Modes\LiveGame\IGameController.cs" />

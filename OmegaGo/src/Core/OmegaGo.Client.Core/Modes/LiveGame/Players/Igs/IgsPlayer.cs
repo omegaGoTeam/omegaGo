@@ -10,8 +10,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 {
     public class IgsPlayer : GamePlayer
     {
-        public IgsPlayer(GamePlayerType playerType, PlayerInfo playerInfo, IAgent agent) : base(playerType, playerInfo, agent)
+        public IgsPlayer(GamePlayerType playerType, PlayerInfo playerInfo) : base(playerType, playerInfo)
         {
         }
+
+        public override IAgent Agent { get; }
     }
 }
