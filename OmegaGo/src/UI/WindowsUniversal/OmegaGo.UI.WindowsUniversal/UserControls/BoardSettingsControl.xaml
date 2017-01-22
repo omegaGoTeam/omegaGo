@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:UserControlBase
     x:Class="OmegaGo.UI.WindowsUniversal.UserControls.BoardSettingsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -15,12 +15,12 @@
     <Grid Padding="15">
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
             <StackPanel>
-                <TextBlock Text="Board Settings" HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" />
-                <TextBlock Text="Cell Size" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="{x:Bind Localizer.BoardSettings}" HorizontalAlignment="Center" Style="{ThemeResource TitleTextBlockStyle}" />
+                <TextBlock Text="{x:Bind Localizer.CellSize}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                 <Slider Value="{Binding Path=CellSize, Mode=TwoWay}" />
-                <TextBlock Text="Board Thickness" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                <TextBlock Text="{x:Bind Localizer.BoardBorderThickness}" Style="{ThemeResource SubtitleTextBlockStyle}"/>
                 <Slider Value="{Binding Path=BoardBorderThickness, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
-</UserControl>
+</local:UserControlBase>

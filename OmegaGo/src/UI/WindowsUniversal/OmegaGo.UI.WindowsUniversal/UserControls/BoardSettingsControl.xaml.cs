@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class BoardSettingsControl : UserControl
+    public sealed partial class BoardSettingsControl : UserControlBase
     {
         public static readonly DependencyProperty BoardStateProperty = 
                 DependencyProperty.Register(

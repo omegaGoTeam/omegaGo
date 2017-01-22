@@ -22,7 +22,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class TimelineControl : UserControl
+    public sealed partial class TimelineControl : UserControlBase
     {
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(

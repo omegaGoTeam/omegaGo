@@ -8,7 +8,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class BoardControl : UserControl
+    public sealed partial class BoardControl : UserControlBase
     {
         private BoardControlState _boardControlState;
         private InputService _inputService;
