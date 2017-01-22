@@ -34,7 +34,16 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public BoardViewModel()
         {
+            
+        }
 
+        /// <summary>
+        /// Create board view model with existing board state
+        /// </summary>
+        /// <param name="boardState">Board state</param>
+        public BoardViewModel( BoardState boardState )
+        {
+            BoardState = boardState;
         }
 
         public void BoardTap(Position position)

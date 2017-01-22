@@ -18,18 +18,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private IObsoleteGame _game;
-
         private BoardViewModel _boardViewModel;
         private ChatViewModel _chatViewModel;
         private TimelineViewModel _timelineViewModel;
 
         private BoardState _boardState;
         
-        public IObsoleteGame Game
-        {
-            get { return _game; }
-        }
+        public ILiveGame Game { get; }
 
         public BoardViewModel BoardViewModel
         {
@@ -57,24 +52,26 @@ namespace OmegaGo.UI.ViewModels
         
         public GameViewModel()
         {
-            _game = Mvx.GetSingleton<IObsoleteGame>();
-            _game.BoardChanged += Game_BoardChanged;
+            Game = Mvx.GetSingleton<ILiveGame>();
+            Game.BoardChanged += Game_BoardChanged;
 
             BoardState = new BoardState();
-            BoardState.BoardHeight = _game.Info.BoardSize.Height;
-            BoardState.BoardWidth = _game.Info.BoardSize.Width;
+            BoardState.BoardHeight = Game.Info.BoardSize.Height;
+            BoardState.BoardWidth = Game.Info.BoardSize.Width;
 
-            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState }; // Mindfuck inception o.O
+            BoardViewModel = new BoardViewModel(BoardState);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
 
             TimelineViewModel = new TimelineViewModel();
-            TimelineViewModel.GameTree = _game.Info.GameTree;
+            TimelineViewModel.GameTree = Game.Info.GameTree;
             TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
 
-            // TODO Could cause problems as this does not wait until the UI is loaded. 
-            _game.Controller.BeginGame();
+        public void Init()
+        {           
+            Game.Controller.BeginGame();
         }
 
         private void Game_BoardChanged(object sender, GameTreeNode e)
