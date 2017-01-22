@@ -21,7 +21,7 @@ namespace OmegaGo.UI.ViewModels
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<ILiveGame>();
-            Game.Controller.BoardChanged += Game_BoardChanged;            
+            Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;            
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -45,7 +45,7 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.BeginGame();
         }
 
-        private void Game_BoardChanged(object sender, GameTreeNode e)
+        private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
                 OnBoardRefreshRequested(e);

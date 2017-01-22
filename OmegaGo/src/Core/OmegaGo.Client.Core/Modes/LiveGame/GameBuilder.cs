@@ -76,16 +76,6 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
-        public void SetPlayerCore(GamePlayer player, StoneColor color)
-        {
-            if (color == StoneColor.None) throw new ArgumentOutOfRangeException(nameof(color), "Color must be valid for a player");
-            if (player == null) throw new ArgumentNullException(nameof(player));
-            if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.");
-            ValidatePlayer(player);
-            if (color == StoneColor.White) _whitePlayer = player;
-            if (color == StoneColor.Black) _blackPlayer = player;
-        }
-
         public TBuilderType BlackPlayer(GamePlayer player)
         {
             SetPlayerCore(player, StoneColor.Black);
@@ -114,6 +104,21 @@ namespace OmegaGo.Core.Modes.LiveGame
         protected IRuleset CreateRuleset()
         {
             return Rules.Ruleset.Create(_rulesetType, _boardSize, _countingType);
+        }
+
+        /// <summary>
+        /// Internal player setter
+        /// </summary>
+        /// <param name="player">Player</param>
+        /// <param name="color">Color of the player</param>
+        private void SetPlayerCore(GamePlayer player, StoneColor color)
+        {
+            if (color == StoneColor.None) throw new ArgumentOutOfRangeException(nameof(color), "Color must be valid for a player");
+            if (player == null) throw new ArgumentNullException(nameof(player));
+            if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.");
+            ValidatePlayer(player);
+            if (color == StoneColor.White) _whitePlayer = player;
+            if (color == StoneColor.Black) _blackPlayer = player;
         }
     }
 

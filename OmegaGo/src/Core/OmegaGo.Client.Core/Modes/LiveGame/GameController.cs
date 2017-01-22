@@ -71,6 +71,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public GameState State { get; }
         
-        public GameTree GameTree { get; }        
+        public GameTree GameTree { get; }
+
+        public GameTreeNode CurrentGameTreeNode { get; }
+
+        public event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+        public event EventHandler<GamePlayer> TurnPlayerChanged;
+
     }
 }

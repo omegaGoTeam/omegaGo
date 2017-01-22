@@ -68,7 +68,7 @@ namespace OmegaGo.UI.Services.Tsumego
                 }
                 foreach(GameTreeNode continuation in node.Branches)
                 {
-                    node.TsumegoMarkedPositiongs.Add(continuation.Move.Coordinates);
+                    node.TsumegoMarkedPositions.Add(continuation.Move.Coordinates);
                 }
             });
             return tree;

@@ -12,8 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -155,23 +157,31 @@ namespace OmegaGo.UI.ViewModels
 
         private void NavigateToGame()
         {
-            ObsoleteGameInfo gameInfo = new ObsoleteGameInfo();
-
-            gameInfo.Players.Add(new GamePlayer("Black Player", "??", gameInfo));
-            gameInfo.Players.Add(new GamePlayer("White Player", "??", gameInfo));
-            foreach (var player in gameInfo.Players)
-            {
-                player.Agent = new ObsoleteLocalAgent();
-            }
-
-            gameInfo.BoardSize = SelectedGameBoardSize;
-            gameInfo.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
-            gameInfo.KomiValue = Compensation;
-          
-            ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
-            
-            Mvx.RegisterSingleton<IObsoleteGame>(game);
+            CreateAndRegisterGame();
             ShowViewModel<GameViewModel>();
+        }
+
+        /// <summary>
+        /// Creates and registers the specified game
+        /// </summary>
+        private void CreateAndRegisterGame()
+        {
+            //TODO: set some options
+            HumanPlayer blackPlayer = new HumanPlayerBuilder(StoneColor.Black).Build();
+
+            //TODO: set some options
+            HumanPlayer whitePlayer = new HumanPlayerBuilder(StoneColor.White).Build();
+
+            //TODO: set counting type
+            LocalGame game = GameBuilder.CreateLocalGame().
+                BoardSize(SelectedGameBoardSize).
+                Ruleset(SelectedRuleset).
+                Komi(Compensation).
+                WhitePlayer(whitePlayer).
+                BlackPlayer(blackPlayer).
+                Build();
+
+            Mvx.RegisterSingleton<ILiveGame>(game);
         }
     }
 }

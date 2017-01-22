@@ -145,6 +145,12 @@ namespace OmegaGo.Core.Game
         public bool TsumegoExpected { get; set; }
 
         /// <summary>
+        /// Gets the list of positions that are known as possible continuation from this node to the author
+        /// of the tsumego problem that contains this node.
+        /// </summary>
+        public List<Position> TsumegoMarkedPositions { get; } = new List<Position>();
+
+        /// <summary>
         /// Gets the list of all moves that lead to the provided node.
         /// The list is starting with root node.
         /// </summary>

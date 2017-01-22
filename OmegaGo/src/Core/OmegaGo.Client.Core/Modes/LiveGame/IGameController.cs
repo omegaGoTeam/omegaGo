@@ -4,12 +4,16 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
+    /// <summary>
+    /// This interface provides access to the game controller from the outside.
+    /// It provides readonly state access, relevant events and methods for game manipulation.
+    /// </summary>
     public interface IGameController
     {
         /// <summary>
-        /// Indicates that the game board has changed
+        /// Indicates that the current game tree node has changed
         /// </summary>
-        event EventHandler<GameBoard> BoardChanged;
+        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
 
         /// <summary>
         /// Indicates that there is a new player on turn
@@ -32,9 +36,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         GamePlayer TurnPlayer { get; }
 
         /// <summary>
-        /// Tree of the game
+        /// Gets the tree of the game
         /// </summary>
         GameTree GameTree { get; }     
+
+        /// <summary>
+        /// Gets the current game tree node
+        /// </summary>
+        GameTreeNode CurrentGameTreeNode { get; }
         
         /// <summary>
         /// Starts the game

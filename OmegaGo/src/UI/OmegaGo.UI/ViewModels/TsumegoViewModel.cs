@@ -202,10 +202,10 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
 
         public bool ShowPossibleMoves
         {
-            get { return this._settings.Tsumego_ShowPossibleMoves; }
+            get { return this._settings.Tsumego.ShowPossibleMoves; }
             set
             {
-                this._settings.Tsumego_ShowPossibleMoves = value;
+                this._settings.Tsumego.ShowPossibleMoves = value;
                 this.BoardViewModel.Redraw();
                 this.RaisePropertyChanged();
             }
