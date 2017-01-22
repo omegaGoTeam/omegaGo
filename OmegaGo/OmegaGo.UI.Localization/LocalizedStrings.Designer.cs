@@ -98,6 +98,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Board border thickness.
+        /// </summary>
+        public static string BoardBorderThickness {
+            get {
+                return ResourceManager.GetString("BoardBorderThickness", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Board settings.
+        /// </summary>
+        public static string BoardSettings {
+            get {
+                return ResourceManager.GetString("BoardSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Board Size.
         /// </summary>
         public static string BoardSize {
@@ -107,20 +125,20 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cell size.
+        /// </summary>
+        public static string CellSize {
+            get {
+                return ResourceManager.GetString("CellSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change language.
         /// </summary>
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Chinese.
-        /// </summary>
-        public static string Chinese {
-            get {
-                return ResourceManager.GetString("Chinese", resourceCulture);
             }
         }
         
@@ -247,15 +265,6 @@ namespace OmegaGo.UI.Localization {
         public static string HelpToolTip {
             get {
                 return ResourceManager.GetString("HelpToolTip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Japonese.
-        /// </summary>
-        public static string Japonese {
-            get {
-                return ResourceManager.GetString("Japonese", resourceCulture);
             }
         }
         
@@ -409,6 +418,33 @@ namespace OmegaGo.UI.Localization {
         public static string Rules {
             get {
                 return ResourceManager.GetString("Rules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AGA.
+        /// </summary>
+        public static string RulesetType_AGA {
+            get {
+                return ResourceManager.GetString("RulesetType_AGA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chinese.
+        /// </summary>
+        public static string RulesetType_Chinese {
+            get {
+                return ResourceManager.GetString("RulesetType_Chinese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japanese.
+        /// </summary>
+        public static string RulesetType_Japanese {
+            get {
+                return ResourceManager.GetString("RulesetType_Japanese", resourceCulture);
             }
         }
         

@@ -16,5 +16,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         /// Localizer for the user control
         /// </summary>
         public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
+
     }
 }

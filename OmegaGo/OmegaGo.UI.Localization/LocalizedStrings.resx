@@ -129,15 +129,21 @@
   <data name="Black" xml:space="preserve">
     <value>Black</value>
   </data>
+  <data name="BoardBorderThickness" xml:space="preserve">
+    <value>Board border thickness</value>
+  </data>
+  <data name="BoardSettings" xml:space="preserve">
+    <value>Board settings</value>
+  </data>
   <data name="BoardSize" xml:space="preserve">
     <value>Board Size</value>
     <comment>:-)</comment>
   </data>
+  <data name="CellSize" xml:space="preserve">
+    <value>Cell size</value>
+  </data>
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Change language</value>
-  </data>
-  <data name="Chinese" xml:space="preserve">
-    <value>Chinese</value>
   </data>
   <data name="Credits" xml:space="preserve">
     <value>Credits</value>
@@ -180,9 +186,6 @@
   </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>Read the rules, documentation and other interesting information.</value>
-  </data>
-  <data name="Japonese" xml:space="preserve">
-    <value>Japonese</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -234,6 +237,15 @@
   </data>
   <data name="Rules" xml:space="preserve">
     <value>Rules</value>
+  </data>
+  <data name="RulesetType_AGA" xml:space="preserve">
+    <value>AGA</value>
+  </data>
+  <data name="RulesetType_Chinese" xml:space="preserve">
+    <value>Chinese</value>
+  </data>
+  <data name="RulesetType_Japanese" xml:space="preserve">
+    <value>Japanese</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>

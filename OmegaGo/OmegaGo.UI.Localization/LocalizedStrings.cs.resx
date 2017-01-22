@@ -165,10 +165,7 @@
   <data name="White" xml:space="preserve">
     <value>Bílý</value>
   </data>
-  <data name="Chinese" xml:space="preserve">
-    <value>Čínská</value>
-  </data>
-  <data name="Japonese" xml:space="preserve">
-    <value>Japonská</value>
+  <data name="BoardSettings" xml:space="preserve">
+    <value>Nastavení hrací plochy</value>
   </data>
 </root>

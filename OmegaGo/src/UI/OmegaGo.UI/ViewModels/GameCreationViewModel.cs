@@ -35,7 +35,7 @@ namespace OmegaGo.UI.ViewModels
         /// Default offered game board sizes
         /// </summary>
         public ObservableCollection<GameBoardSize> BoardSizes { get; } =
-            new ObservableCollection<GameBoardSize>() { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19), new GameBoardSize(25) };
+            new ObservableCollection<GameBoardSize>() { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19), new GameBoardSize(25), new GameBoardSize(52) };
 
         /// <summary>
         /// Selected game board size
