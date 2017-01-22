@@ -4,27 +4,27 @@ using OmegaGo.Core.Online.Chat;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public sealed class ObsoleteGame : IObsoleteGame
-    {
-        private IChatService _chatService;
-        private IGameController _controller;
-        private ObsoleteGameInfo _info;
+    //public sealed class ObsoleteGame : IObsoleteGame
+    //{
+    //    private IChatService _chatService;
+    //    private IGameController _controller;
+    //    private ObsoleteGameInfo _info;
 
-        public IChatService ChatService => _chatService;
+    //    public IChatService ChatService => _chatService;
 
-        public IGameController Controller => _controller;
+    //    public IGameController Controller => _controller;
 
-        public ObsoleteGameInfo Info => _info;
+    //    public ObsoleteGameInfo Info => _info;
 
-        public event EventHandler<GameTreeNode> BoardChanged;
+    //    public event EventHandler<GameTreeNode> BoardChanged;
 
-        public ObsoleteGame(ObsoleteGameInfo info, IGameController controller, IChatService chatService)
-        {
-            _info = info;
-            _controller = controller;
-            _chatService = chatService;
+    //    public ObsoleteGame(ObsoleteGameInfo info, IGameController controller, IChatService chatService)
+    //    {
+    //        _info = info;
+    //        _controller = controller;
+    //        _chatService = chatService;
 
-            _controller.BoardMustBeRefreshed += (s, e) => BoardChanged?.Invoke(this, _info.GameTree.LastNode);
-        }
-    }
+    //        _controller.BoardMustBeRefreshed += (s, e) => BoardChanged?.Invoke(this, _info.GameTree.LastNode);
+    //    }
+    //}
 }

@@ -121,9 +121,9 @@ namespace FormsPrototype
             this._controller.BeginGame();
             foreach (Player player in this._game.Players)
             {
-                if (player.Agent is AIAgent)
+                if (player.Agent is ObsoleteAIAgent)
                 {
-                    ((AIAgent)player.Agent).LogMessage += InGameForm_LogMessage;
+                    ((ObsoleteAIAgent)player.Agent).LogMessage += InGameForm_LogMessage;
                 }
             }
         }
@@ -204,7 +204,7 @@ namespace FormsPrototype
             {
                 this._territories = new Territory[this._game.BoardSize.Width, this._game.BoardSize.Height];
                 GameBoard boardAfterRemovalOfDeadStones =
-                    FastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
+                    ObsoleteFastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
                         this._controller.DeadPositions);
                 Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
                 this._territories = territory;
@@ -237,8 +237,8 @@ namespace FormsPrototype
             {
                 if (_game.Server == null)
                 {
-                    GameBoard finalBoard = FastBoard.BoardWithoutTheseStones(
-                        FastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
+                    GameBoard finalBoard = ObsoleteFastBoard.BoardWithoutTheseStones(
+                        ObsoleteFastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
                     Scores scores = this._game.Ruleset.CountScore(finalBoard);
                     MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
                                     (scores.BlackScore > scores.WhiteScore
@@ -475,7 +475,7 @@ namespace FormsPrototype
         {
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
             AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
-                FastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
+                ObsoleteFastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),
                 5, this._game.PrimaryTimeline.ToList()));
             MessageBox.Show("I recommend you make this move: " + decision);
@@ -490,9 +490,9 @@ namespace FormsPrototype
         {
             foreach (GamePlayer player in this._game.Players)
             {
-                if (player.Agent is AIAgent)
+                if (player.Agent is ObsoleteAIAgent)
                 {
-                    ((AIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
+                    ((ObsoleteAIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
                 }
             }
         }
@@ -501,7 +501,7 @@ namespace FormsPrototype
         {
             foreach(var player in _game.Players)
             {
-                if (player.Agent is ObsoleteLocalAgent || player.Agent is AIAgent)
+                if (player.Agent is ObsoleteLocalAgent || player.Agent is ObsoleteAIAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }

@@ -238,7 +238,7 @@ namespace FormsPrototype
             if (text is IAIProgram)
             {
                 IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(text.GetType());
-                return new AIAgent(newInstance);
+                return new ObsoleteAIAgent(newInstance);
             }
             throw new Exception("This agent cannot be handled yet.");
         }

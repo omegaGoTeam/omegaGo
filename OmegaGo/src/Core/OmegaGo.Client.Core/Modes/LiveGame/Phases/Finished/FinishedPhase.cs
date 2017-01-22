@@ -1,17 +1,22 @@
-﻿namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
-{
-    class FinishedPhase : GamePhaseBase, IFinishedPhase
-    {
-        public override GamePhaseType PhaseType => GamePhaseType.Finished;
+﻿using System;
 
-        public FinishedPhase( IGameController gameController) : base( gameController )
+namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
+{
+    internal class FinishedPhase : GamePhaseBase, IFinishedPhase
+    {
+        public FinishedPhase( GameController gameController) : base( gameController )
         {
 
         }
 
+        /// <summary>
+        /// Finished phase
+        /// </summary>
+        public override GamePhaseType PhaseType => GamePhaseType.Finished;
+
         public override void StartPhase()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

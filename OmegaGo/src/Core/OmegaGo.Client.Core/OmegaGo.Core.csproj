@@ -46,7 +46,7 @@
     <Compile Include="Modes\LiveGame\PlayerPair.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\AIAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAIAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteLocalAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IObsoleteAgent.cs" />
@@ -59,7 +59,7 @@
     <Compile Include="AI\AIPreMoveInformation.cs" />
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />
-    <Compile Include="AI\Common\FastBoard.cs" />
+    <Compile Include="AI\Common\ObsoleteFastBoard.cs" />
     <Compile Include="AI\Common\Randomness.cs" />
     <Compile Include="AI\Defeatist\Defeatist.cs" />
     <Compile Include="AI\Fuego\FuegoWrapper.cs" />

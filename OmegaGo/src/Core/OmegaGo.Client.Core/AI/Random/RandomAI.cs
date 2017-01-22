@@ -17,7 +17,7 @@ namespace OmegaGo.Core.AI.Random
 
         public override AiDecision RequestMove(AIPreMoveInformation gameState)
         {
-            List<Position> possibleIntersections = FastBoard.GetAllLegalMoves(gameState.Board);
+            List<Position> possibleIntersections = ObsoleteFastBoard.GetAllLegalMoves(gameState.Board);
             if (possibleIntersections.Count == 0)
             {
                 return AiDecision.Resign("There are no more moves left to do.");

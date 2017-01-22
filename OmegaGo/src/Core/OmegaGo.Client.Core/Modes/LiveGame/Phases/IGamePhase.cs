@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    interface IGamePhase
+    public interface IGamePhase
     {
         /// <summary>
         /// Type of the phase

@@ -4,16 +4,16 @@ using OmegaGo.Core.Online.Chat;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public interface IObsoleteGame
-    {
+    //public interface IObsoleteGame
+    //{
 
 
-        ObsoleteGameInfo Info { get; }
+    //    ObsoleteGameInfo Info { get; }
 
-        IChatService ChatService { get; }
+    //    IChatService ChatService { get; }
 
-        IGameController Controller { get; }
+    //    IGameController Controller { get; }
 
-        event EventHandler<GameTreeNode> BoardChanged;
-    }
+    //    event EventHandler<GameTreeNode> BoardChanged;
+    //}
 }

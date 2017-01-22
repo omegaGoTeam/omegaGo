@@ -7,7 +7,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Common
 {
-    public class FastBoard
+    public static class ObsoleteFastBoard
     {
         public static List<Position> GetAllLegalMoves(GameBoard board)
         {
@@ -24,27 +24,27 @@ namespace OmegaGo.Core.AI.Common
             return legalMoves;
         }
         
-        public static GameBoard CreateBoardFromGame(ObsoleteGameInfo game)
-        {
-            GameBoard createdBoard = new GameBoard(game.BoardSize);
-            foreach (Move move in game.PrimaryTimeline)
-            {
-                if (move.Kind == MoveKind.PlaceStone)
-                {
-                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
-                }
-                foreach (Position p in move.Captures)
-                {
-                    createdBoard[p.X, p.Y] = StoneColor.None;
-                }
-            }
-            return createdBoard;
-        }
+        //public static GameBoard CreateBoardFromGame(ObsoleteGameInfo game)
+        //{
+        //    GameBoard createdBoard = new GameBoard(game.BoardSize);
+        //    foreach (Move move in game.PrimaryTimeline)
+        //    {
+        //        if (move.Kind == MoveKind.PlaceStone)
+        //        {
+        //            createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
+        //        }
+        //        foreach (Position p in move.Captures)
+        //        {
+        //            createdBoard[p.X, p.Y] = StoneColor.None;
+        //        }
+        //    }
+        //    return createdBoard;
+        //}
 
         public static GameBoard BoardWithoutTheseStones(GameBoard boardState, IEnumerable<Position> deadPositions)
         {
             GameBoard newBoard = new GameBoard(boardState);
-            foreach(var position in deadPositions)
+            foreach (var position in deadPositions)
             {
                 newBoard[position.X, position.Y] = StoneColor.None;
             }

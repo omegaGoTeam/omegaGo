@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
 {
-    interface IFinishedPhase : IMainPhase
+    public interface IFinishedPhase : IGamePhase
     {
 
     }

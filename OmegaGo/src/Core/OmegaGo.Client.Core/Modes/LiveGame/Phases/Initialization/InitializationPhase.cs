@@ -2,7 +2,7 @@
 {
     class InitializationPhase : GamePhaseBase, IInitializationPhase
     {
-        public InitializationPhase(IGameController gameController) : base(gameController)
+        public InitializationPhase(GameController gameController) : base(gameController)
         {
         }
 
@@ -13,7 +13,7 @@
         /// and so on until the game concludes. This method will return immediately but it will launch this loop in a Task on another thread.
         /// </summary>
         private void BeginGame()
-        {            
+        {
             foreach (var player in Controller.Players)
             {
                 player.Agent.GameInitialized();
@@ -23,7 +23,7 @@
         public override void StartPhase()
         {
             BeginGame();
-            GoToPhase(GamePhaseType.HandicapPlacement);            
+            GoToPhase(GamePhaseType.HandicapPlacement);
         }
     }
 }
