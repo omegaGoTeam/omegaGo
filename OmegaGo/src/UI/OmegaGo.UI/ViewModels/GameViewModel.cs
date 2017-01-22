@@ -18,7 +18,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private IGame _game;
+        private IObsoleteGame _game;
 
         private BoardViewModel _boardViewModel;
         private ChatViewModel _chatViewModel;
@@ -26,7 +26,7 @@ namespace OmegaGo.UI.ViewModels
 
         private BoardState _boardState;
         
-        public IGame Game
+        public IObsoleteGame Game
         {
             get { return _game; }
         }
@@ -57,7 +57,7 @@ namespace OmegaGo.UI.ViewModels
         
         public GameViewModel()
         {
-            _game = Mvx.GetSingleton<IGame>();
+            _game = Mvx.GetSingleton<IObsoleteGame>();
             _game.BoardChanged += Game_BoardChanged;
 
             BoardState = new BoardState();

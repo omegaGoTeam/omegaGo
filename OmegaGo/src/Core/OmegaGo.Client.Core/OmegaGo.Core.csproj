@@ -39,8 +39,10 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
+    <Compile Include="Modes\LiveGame\ILiveGame.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\PlayerPair.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
@@ -77,7 +79,7 @@
     <Compile Include="Modes\LiveGame\GameController.cs" />
     <Compile Include="Modes\LiveGame\GameState.cs" />
     <Compile Include="Modes\LiveGame\ObsoletedGameController.cs" />
-    <Compile Include="Modes\LiveGame\IGame.cs" />
+    <Compile Include="Modes\LiveGame\IObsoleteGame.cs" />
     <Compile Include="Modes\LiveGame\IGameController.cs" />
     <Compile Include="Game\Markup\AreaDim.cs" />
     <Compile Include="Game\Markup\Arrow.cs" />
@@ -94,7 +96,6 @@
     <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\GameHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\LifeAndDeathPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Main\MainPhase.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\ILifeAndDeathPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Main\IMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGamePhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IGameHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayer.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayer.cs" />

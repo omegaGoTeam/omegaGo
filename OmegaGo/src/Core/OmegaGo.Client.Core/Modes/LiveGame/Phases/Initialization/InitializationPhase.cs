@@ -13,19 +13,17 @@
         /// and so on until the game concludes. This method will return immediately but it will launch this loop in a Task on another thread.
         /// </summary>
         private void BeginGame()
-        {
-            _game.NumberOfMovesPlayed = 0;
+        {            
             foreach (var player in Controller.Players)
             {
                 player.Agent.GameInitialized();
             }
         }
 
-        public void StartPhase()
+        public override void StartPhase()
         {
             BeginGame();
-            SetGamePhase(GamePhaseType.HandicapPlacement);
-            MainPhase_AskPlayerToMove(_game.Black);
+            GoToPhase(GamePhaseType.HandicapPlacement);            
         }
     }
 }

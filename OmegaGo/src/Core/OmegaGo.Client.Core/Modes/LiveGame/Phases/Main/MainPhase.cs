@@ -5,9 +5,18 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 {
-    class MainPhase : IMainPhase
+    internal class MainPhase : GamePhaseBase, IMainPhase
     {
-        public GamePhaseType PhaseType => GamePhaseType.Main;
+        public MainPhase(GameController gameController) : base(gameController)
+        {
+        }
+
+        public override void StartPhase()
+        {
+            MainPhase_AskPlayerToMove(_game.Black);
+        }
+
+        public override GamePhaseType PhaseType => GamePhaseType.Main;
 
 
         private void MainPhase_AskPlayerToMove(GamePlayer turnPlayer)

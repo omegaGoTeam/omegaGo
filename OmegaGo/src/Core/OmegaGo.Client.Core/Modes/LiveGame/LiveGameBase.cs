@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public abstract class LiveGameBase : IMode
+    public abstract class LiveGameBase : ILiveGame
     {
         protected LiveGameBase(IGameController controller, GameInfo info)
         {
@@ -15,10 +15,8 @@ namespace OmegaGo.Core.Modes.LiveGame
             Info = info;
         }
 
-        IGameController Controller { get; }
+        public IGameController Controller { get; }
 
-        GameInfo Info { get; }
-
-        GameState State { get; }
+        public GameInfo Info { get; }
     }
 }

@@ -4,7 +4,7 @@ using OmegaGo.Core.Online.Chat;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public interface IGame
+    public interface IObsoleteGame
     {
 
 

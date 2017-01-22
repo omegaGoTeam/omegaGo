@@ -170,7 +170,7 @@ namespace OmegaGo.UI.ViewModels
           
             ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
             
-            Mvx.RegisterSingleton<IGame>(game);
+            Mvx.RegisterSingleton<IObsoleteGame>(game);
             ShowViewModel<GameViewModel>();
         }
     }

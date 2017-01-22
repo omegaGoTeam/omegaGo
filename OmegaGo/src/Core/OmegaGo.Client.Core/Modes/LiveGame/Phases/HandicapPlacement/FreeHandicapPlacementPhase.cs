@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 {
-    class FreeHandicapPlacementPhase : IGameHandicapPlacementPhase
+    class FreeHandicapPlacementPhase : HandicapPlacementPhaseBase
     {
+        public FreeHandicapPlacementPhase(GameController gameController) : base(gameController)
+        {
+        }
+
+        public override void StartPhase()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
