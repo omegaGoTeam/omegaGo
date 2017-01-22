@@ -9,6 +9,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 {
     public abstract class LiveGameBase : IMode
     {
+        protected LiveGameBase(IGameController controller, GameInfo info)
+        {
+            Controller = controller;
+            Info = info;
+        }
+
         IGameController Controller { get; }
 
         GameInfo Info { get; }

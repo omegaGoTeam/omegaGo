@@ -6,6 +6,8 @@ namespace OmegaGo.Core.Modes.LiveGame
 {
     public interface IGame
     {
+
+
         ObsoleteGameInfo Info { get; }
 
         IChatService ChatService { get; }

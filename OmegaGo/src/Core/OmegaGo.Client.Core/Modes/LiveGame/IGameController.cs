@@ -7,6 +7,8 @@ namespace OmegaGo.Core.Modes.LiveGame
     {
         GameState State { get; }
 
+        PlayerPair Players { get; }
+
         GameTree GameTree { get; }
 
         event EventHandler BoardMustBeRefreshed;

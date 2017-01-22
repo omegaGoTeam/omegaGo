@@ -16,13 +16,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
         /// </summary>
         public void BeginGame()
         {
-            if (this._game.Players.Count != 2)
-                throw new InvalidOperationException("There must be 2 players in the game.");
-
             foreach (var player in _game.Players)
             {
-                if (player.Agent == null)
-                    throw new InvalidOperationException("Both players must have an Agent to make moves.");
                 player.Agent.GameBegins(player, _game);
             }
             _game.NumberOfMovesPlayed = 0;
