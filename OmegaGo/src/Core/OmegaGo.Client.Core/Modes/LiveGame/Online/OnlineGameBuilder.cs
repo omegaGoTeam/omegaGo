@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
         
         protected override void ValidatePlayer(GamePlayer player)
         {
-            //allows every type of player
+            //allows any type of player
         }
     }
 }

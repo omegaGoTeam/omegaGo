@@ -8,7 +8,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    class GameMainPhase : IGameMainPhase
+    class MainPhase : IMainPhase
     {
         public GamePhaseType PhaseType => GamePhaseType.Main;
 

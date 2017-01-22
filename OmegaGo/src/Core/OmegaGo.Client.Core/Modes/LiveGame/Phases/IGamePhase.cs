@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
         GamePhaseType PhaseType { get; }
 
         /// <summary>
-        /// Starts the phase operation
+        /// Starts the phase operation, called by the controller after the phase is set
         /// </summary>
         void StartPhase();
     }

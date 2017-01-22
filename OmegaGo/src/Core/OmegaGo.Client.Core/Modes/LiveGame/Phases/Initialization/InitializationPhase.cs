@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    class GameInitializationPhase : IGameInitializationPhase
+    class InitializationPhase : IInitializationPhase
     {
         public GamePhaseType PhaseType => GamePhaseType.Initialization;
 
@@ -28,6 +28,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
             _game.NumberOfMovesPlayed = 0;
             SetGamePhase(GamePhase.MainPhase);
             MainPhase_AskPlayerToMove(_game.Black);
+        }
+
+        public void StartPhase()
+        {
+            
         }
     }
 }

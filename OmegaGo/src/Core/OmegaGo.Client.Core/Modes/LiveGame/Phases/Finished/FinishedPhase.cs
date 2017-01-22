@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    class GameFinishedPhase : GamePhaseBase, IGameFinishedPhase
+    class FinishedPhase : GamePhaseBase, IFinishedPhase
     {
         public override GamePhaseType PhaseType => GamePhaseType.Finished;
 
-        public GameFinishedPhase( IGameController gameController) : base( gameController )
+        public FinishedPhase( IGameController gameController) : base( gameController )
         {
 
+        }
+
+        public override void StartPhase()
+        {
+            
         }
     }
 }
