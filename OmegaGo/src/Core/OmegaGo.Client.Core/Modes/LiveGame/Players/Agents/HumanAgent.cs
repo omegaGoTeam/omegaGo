@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public event EventHandler Move;
         public IllegalMoveHandling IllegalMoveHandling { get; }
-        public void AgentOnTurn()
+        public void OnTurn()
         {
             throw new NotImplementedException();
         }

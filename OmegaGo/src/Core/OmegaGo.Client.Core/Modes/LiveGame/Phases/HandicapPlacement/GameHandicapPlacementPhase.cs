@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 {
     class GameHandicapPlacementPhase : IGameHandicapPlacementPhase
     {

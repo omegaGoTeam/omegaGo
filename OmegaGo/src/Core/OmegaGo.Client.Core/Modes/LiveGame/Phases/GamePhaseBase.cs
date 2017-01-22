@@ -8,15 +8,24 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
     abstract class GamePhaseBase : IGamePhase
     {
-        private readonly IGameController _gameController;
+        protected GamePhaseBase(GameController gameController)
+        {
+            Controller = gameController;
+        }
+
+        protected GameController Controller { get; }
 
         public abstract GamePhaseType PhaseType { get; }
 
-        protected GamePhaseBase( IGameController gameController)
-        {
-            _gameController = gameController;
-        }
-
         public abstract void StartPhase();
+
+        /// <summary>
+        /// Changes the game phase on the controller
+        /// </summary>
+        /// <param name="phaseType">Phase type</param>
+        public void GoToPhase(GamePhaseType phaseType)
+        {
+            Controller.SetPhase(phaseType);
+        }
     }
 }

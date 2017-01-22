@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -44,7 +45,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             switch (phase)
             {
                 case GamePhaseType.Initialization:
-                    _currentGamePhase = new InitializationPhase();
+                    _currentGamePhase = new InitializationPhase( this );
                     break;
                 case GamePhaseType.HandicapPlacement:
                     break;
@@ -58,12 +59,18 @@ namespace OmegaGo.Core.Modes.LiveGame
                     throw new ArgumentOutOfRangeException(nameof(phase), phase, null);
             }
 
+            //inform agents about new phase and provide them access
+            foreach (var player in Players)
+            {
+                player.Agent.GamePhaseChanged(phase);
+            }
+
             //start phase
             _currentGamePhase.StartPhase();
         }
 
         public GameState State { get; }
         
-        public GameTree GameTree { get; }
+        public GameTree GameTree { get; }        
     }
 }
