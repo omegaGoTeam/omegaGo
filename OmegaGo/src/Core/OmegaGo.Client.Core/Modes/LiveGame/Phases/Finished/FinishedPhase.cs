@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
 
         public override void StartPhase()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

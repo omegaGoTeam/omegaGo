@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
@@ -17,7 +18,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GamePlayer _turnPlayer;
         private GameTreeNode _currentNode;
 
-        public GameController( IRuleset ruleset, PlayerPair players )
+        public GameController(IRuleset ruleset, PlayerPair players)
         {
             Ruleset = ruleset;
             Players = players;
@@ -66,7 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the current number of moves
         /// </summary>
         public int NumberOfMoves { get; internal set; }
-        
+
         /// <summary>
         /// Gets the game tree
         /// </summary>
@@ -114,6 +115,7 @@ namespace OmegaGo.Core.Modes.LiveGame
                     _currentGamePhase = new InitializationPhase(this);
                     break;
                 case GamePhaseType.HandicapPlacement:
+                    _currentGamePhase = new FinishedPhase(this);
                     break;
                 case GamePhaseType.Main:
                     break;

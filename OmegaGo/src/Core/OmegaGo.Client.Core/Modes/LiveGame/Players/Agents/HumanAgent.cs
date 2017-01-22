@@ -34,12 +34,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public override void GameInitialized()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void GamePhaseChanged(GamePhaseType phase)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
