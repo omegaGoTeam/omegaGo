@@ -18,59 +18,30 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private BoardViewModel _boardViewModel;
-        private ChatViewModel _chatViewModel;
-        private TimelineViewModel _timelineViewModel;
-
-        private BoardState _boardState;
-        
-        public ILiveGame Game { get; }
-
-        public BoardViewModel BoardViewModel
-        {
-            get { return _boardViewModel; }
-            set { SetProperty(ref _boardViewModel, value); }
-        }
-
-        public ChatViewModel ChatViewModel
-        {
-            get { return _chatViewModel; }
-            set { SetProperty(ref _chatViewModel, value); }
-        }
-
-        public TimelineViewModel TimelineViewModel
-        {
-            get { return _timelineViewModel; }
-            set { SetProperty(ref _timelineViewModel, value); }
-        }
-
-        public BoardState BoardState
-        {
-            get { return _boardState; }
-            set { SetProperty(ref _boardState, value); }
-        }
-        
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<ILiveGame>();
-            Game.BoardChanged += Game_BoardChanged;
+            Game.Controller.BoardChanged += Game_BoardChanged;            
 
-            BoardState = new BoardState();
-            BoardState.BoardHeight = Game.Info.BoardSize.Height;
-            BoardState.BoardWidth = Game.Info.BoardSize.Width;
-
-            BoardViewModel = new BoardViewModel(BoardState);
+            BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
 
-            TimelineViewModel = new TimelineViewModel();
-            TimelineViewModel.GameTree = Game.Info.GameTree;
+            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
 
+        public ILiveGame Game { get; }
+
+        public BoardViewModel BoardViewModel { get; }
+
+        public ChatViewModel ChatViewModel { get; }
+
+        public TimelineViewModel TimelineViewModel { get; }
+
         public void Init()
-        {           
+        {
             Game.Controller.BeginGame();
         }
 
@@ -79,12 +50,14 @@ namespace OmegaGo.UI.ViewModels
             if (e != null)
                 OnBoardRefreshRequested(e);
         }
-                
+
         public void MakeMove(Position selectedPosition)
         {
-            (_game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
-                _game.Controller.TurnPlayer.Color,
-                selectedPosition);
+            throw new NotImplementedException();
+            //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
+            //(Game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
+            //    Game.Controller.TurnPlayer.Color,
+            //    selectedPosition);
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

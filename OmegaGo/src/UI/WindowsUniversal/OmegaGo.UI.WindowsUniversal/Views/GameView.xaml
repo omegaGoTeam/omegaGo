@@ -62,7 +62,7 @@
             <AppBarButton Icon="Setting" Label="Settings">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <controls:BoardSettingsControl BoardState="{x:Bind Path=VM.BoardState, Mode=OneWay}" />
+                        <controls:BoardSettingsControl BoardControlState="{x:Bind Path=VM.BoardControlState, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

@@ -10,7 +10,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.Services.Game
 {
-    public sealed class BoardState : INotifyPropertyChanged
+    public sealed class BoardControlState : INotifyPropertyChanged
     {
         private int _cellSize;
         private int _halfCellSize;
@@ -30,7 +30,34 @@ namespace OmegaGo.UI.Services.Game
         private Position _selectedPosition;
         private Position _highlightedPosition;
         private Position _shiningPosition;
-       
+
+        public BoardControlState()
+        {
+            _selectedPosition = Position.Undefined;
+            _highlightedPosition = Position.Undefined;
+            _shiningPosition = Position.Undefined;
+
+            _cellSize = 32;
+            _halfCellSize = _cellSize / 2;
+
+            _boardBorderThickness = 24;
+            _boardLineThickness = 1;
+
+            _boardWidth = 1;
+            _boardHeight = 1;
+            UpdateActualBoardSize();
+
+            _boardColor = new MvxColor(0xFD, 0xD2, 0x70, 0xFF);
+            _highlightColor = new MvxColor(0xFF, 0xFF, 0xFF, 0x60);
+            _selectionColor = new MvxColor(0xFF, 0xFF, 0xFF, 0xA0);
+        }
+
+        public BoardControlState(GameBoardSize boardSize) :
+            this()
+        {
+            _boardWidth = boardSize.Width;
+            _boardHeight = boardSize.Height;
+        }
 
         public int CellSize
         {
@@ -123,7 +150,12 @@ namespace OmegaGo.UI.Services.Game
         public int BoardWidth
         {
             get { return _boardWidth; }
-            set { _boardWidth = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardWidth), true); }
+            set
+            {
+                _boardWidth = value;
+                UpdateActualBoardSize();
+                OnPropertyChanged(nameof(BoardWidth), true);
+            }
         }
 
         /// <summary>
@@ -132,35 +164,19 @@ namespace OmegaGo.UI.Services.Game
         public int BoardHeight
         {
             get { return _boardHeight; }
-            set { _boardHeight = value; UpdateActualBoardSize(); OnPropertyChanged(nameof(BoardHeight), true); }
+            set
+            {
+                _boardHeight = value;
+                UpdateActualBoardSize();
+                OnPropertyChanged(nameof(BoardHeight), true);
+            }
         }
-        
+
         public int BoardActualWidth => _boardActualWidth;
         public int BoardActualHeight => _boardActualHeight;
 
         public event EventHandler RedrawRequested;
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public BoardState()
-        {
-            _selectedPosition = Position.Undefined;
-            _highlightedPosition = Position.Undefined;
-            _shiningPosition = Position.Undefined;
-
-            _cellSize = 32;
-            _halfCellSize = _cellSize / 2;
-
-            _boardBorderThickness = 24;
-            _boardLineThickness = 1;
-
-            _boardWidth = 1;
-            _boardHeight = 1;
-            UpdateActualBoardSize();
-            
-            _boardColor = new MvxColor(0xFD, 0xD2, 0x70, 0xFF);
-            _highlightColor = new MvxColor(0xFF, 0xFF, 0xFF, 0x60);
-            _selectionColor = new MvxColor(0xFF, 0xFF, 0xFF, 0xA0);
-        }
 
         private void OnPropertyChanged(string propertyName, bool shouldRedraw = false)
         {

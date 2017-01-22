@@ -40,18 +40,18 @@ While solving a problem, the player can undo his moves. Undoing from the "analys
 
 A tsumego problem will also display a problem statement (such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
         private BoardViewModel _boardViewModel;
-        private BoardState _boardState;
+        private BoardControlState _boardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
-        
+
         public BoardViewModel BoardViewModel
         {
             get { return _boardViewModel; }
             set { SetProperty(ref _boardViewModel, value); }
         }
-        public BoardState BoardState
+        public BoardControlState BoardControlState
         {
-            get { return _boardState; }
-            set { SetProperty(ref _boardState, value); }
+            get { return _boardControlState; }
+            set { SetProperty(ref _boardControlState, value); }
         }
 
         private TsumegoProblem _currentProblem;
@@ -70,7 +70,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 CurrentNode = CurrentNode.Parent;
                 ReachNode(CurrentNode, true);
-                if (CurrentNode.TsumegoExpected && 
+                if (CurrentNode.TsumegoExpected &&
                     CurrentNode.Move.WhoMoves == this._humansColor &&
                     CurrentNode.Parent != null)
                 {
@@ -81,7 +81,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 CurrentNodeStatus = "You are at the first move.";
             }
-           
+
         }
         private void BoardViewModel_BoardTapped(object sender, Position e)
         {
@@ -172,7 +172,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             this._playerToMove = this._currentProblem.ColorToPlay;
             this._humansColor = this._playerToMove;
             this.CurrentNodeStatus = this._humansColor + " to play.";
-            this.BoardState.SelectedPosition = Position.Undefined;
+            this.BoardControlState.SelectedPosition = Position.Undefined;
         }
 
         public GameTreeNode CurrentNode
@@ -210,12 +210,13 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 this.RaisePropertyChanged();
             }
         }
-        
+
 
         // Navigation
-        public IMvxCommand GoToPreviousProblem => new MvxCommand(() => {
-                int i = Problems.AllProblems.IndexOf(this._currentProblem);
-                                                                           int prev = i - 1;
+        public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
+        {
+            int i = Problems.AllProblems.IndexOf(this._currentProblem);
+            int prev = i - 1;
             if (prev >= 0)
             {
                 LoadProblem(Problems.AllProblems[prev]);
@@ -237,16 +238,12 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         {
             var problem = Mvx.GetSingleton<TsumegoProblem>();
 
-            BoardState = new BoardState();
-            BoardState.BoardHeight = 19;
-            BoardState.BoardWidth = 19;
-
-            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState };
+            BoardViewModel = new BoardViewModel(new GameBoardSize(19));
             BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
 
             LoadProblem(problem);
         }
 
-      
+
     }
 }
