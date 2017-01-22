@@ -13,21 +13,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         public override void StartPhase()
         {
-            throw new NotImplementedException();
-           // MainPhase_AskPlayerToMove(_game.Black);
+            AskPlayerToMove();
         }
 
         public override GamePhaseType PhaseType => GamePhaseType.Main;
 
 
-        //private void MainPhase_AskPlayerToMove(GamePlayer turnPlayer)
-        //{
-        //    if (GamePhase == GamePhase.Completed) return;
-        //    _turnPlayer = turnPlayer;
-        //    OnTurnPlayerChanged(_turnPlayer);
-        //    OnDebuggingMessage("Asking " + _turnPlayer + " to make a move...");
-        //    _turnPlayer.Agent.PleaseMakeAMove();
-        //}
+        private void AskPlayerToMove()
+        {            
+            Controller.TurnPlayer.Agent.OnTurn();
+        }
 
         //public void MakeMove(GamePlayer player, Move move)
         //{

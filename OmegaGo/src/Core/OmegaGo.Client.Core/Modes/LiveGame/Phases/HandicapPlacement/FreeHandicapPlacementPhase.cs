@@ -14,8 +14,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 
         public override void StartPhase()
         {
-            //TODO: IMPLEMENT
-            GoToPhase( GamePhaseType.Main );
+            if (Controller.Info.NumberOfHandicapStones > 0)
+            {
+                //TODO: IMPLEMENT
+            }
+            else
+            {
+                GoToPhase(GamePhaseType.Main);
+            }
         }
     }
 }

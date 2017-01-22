@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Modes.LiveGame
     internal class GameController : IGameController
     {
         private IGamePhase _currentGamePhase = null;
-        private GamePlayer _turnPlayer;
+        private StoneColor _playerOnTurn = StoneColor.Black;        
         private GameTreeNode _currentNode;
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
@@ -62,15 +62,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Gets the player currently on turn
         /// </summary>
-        public GamePlayer TurnPlayer
-        {
-            get { return _turnPlayer; }
-            internal set
-            {
-                _turnPlayer = value;
-                OnTurnPlayerChanged();
-            }
-        }
+        public GamePlayer TurnPlayer => Players[_playerOnTurn];
 
         /// <summary>
         /// Gets the current game phase
@@ -134,6 +126,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
             //start the new phase
             _currentGamePhase.StartPhase();
+        }
+
+        internal void SwitchTurnPlayer()
+        {
+            _playerOnTurn = _playerOnTurn.GetOpponentColor();
+            OnTurnPlayerChanged();
         }
 
 

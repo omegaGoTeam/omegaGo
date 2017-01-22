@@ -15,17 +15,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
         }
 
         public override void StartPhase()
-        {
+        {            
             var gameInfo = Controller.Info;
-            GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
+            if (gameInfo.NumberOfHandicapStones > 0)
+            {
+                GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
 
-            //place the handicap stones based on ruleset fixed positions
-            Controller.Ruleset.StartHandicapPlacementPhase(
-                ref gameBoard, gameInfo.NumberOfHandicapStones, HandicapPlacementType.Fixed
-            );
+                //place the handicap stones based on ruleset fixed positions
+                Controller.Ruleset.StartHandicapPlacementPhase(
+                    ref gameBoard, gameInfo.NumberOfHandicapStones, HandicapPlacementType.Fixed
+                );
 
-            Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
+                //TODO: This API is not good, make it cleaner
+                Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
 
+                Controller.SwitchTurnPlayer();
+            }
             GoToPhase(GamePhaseType.Main);
         }
     }
