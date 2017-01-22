@@ -26,7 +26,7 @@ namespace OmegaGo.UI.Services.Settings
         /// </summary>
         /// <param name="groupKey">Key of the group</param>
         /// <param name="service">Settings service used for storage</param>
-        public SettingsGroup(string groupKey, ISettingsService service)
+        protected SettingsGroup(string groupKey, ISettingsService service)
         {
             if (groupKey == null) throw new ArgumentNullException(nameof(groupKey));
             if (service == null) throw new ArgumentNullException(nameof(service));

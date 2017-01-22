@@ -16,6 +16,9 @@ namespace OmegaGo.UI.Services.Settings
         /// </summary>
         string Language { get; set; }
 
-        bool Tsumego_ShowPossibleMoves { get; set; }
+        /// <summary>
+        /// Tsumego related settings
+        /// </summary>
+        TsumegoSettingsGroup Tsumego { get; }
     }
 }

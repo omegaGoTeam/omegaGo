@@ -17,16 +17,11 @@ namespace OmegaGo.UI.Services.Settings
         public GameSettings(ISettingsService settings)
         {
             _settings = settings;
+            Tsumego = new TsumegoSettingsGroup(_settings);            
         }
 
-        private const string TsumegoPossibleMovesSettingKey = "Tsumego_ShowPossibleMoves";
-
-        public bool Tsumego_ShowPossibleMoves
-        {
-            get { return _settings.GetSetting(TsumegoPossibleMovesSettingKey, () => true); }
-            set { _settings.SetSetting(TsumegoPossibleMovesSettingKey, value); }
-        }
-
+        public TsumegoSettingsGroup Tsumego { get; }
+        
         private const string LanguageSettingKey = "Language";
 
         public string Language
