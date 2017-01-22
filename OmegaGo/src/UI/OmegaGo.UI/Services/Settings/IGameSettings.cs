@@ -17,5 +17,13 @@ namespace OmegaGo.UI.Services.Settings
         string Language { get; set; }
 
         bool Tsumego_ShowPossibleMoves { get; set; }
+
+        AudioSettings Audio { get; }
+        DisplaySettings Display { get; }
+        bool InputConfirmationRequired { get; set; }
+
+        AssistantSettings Assistant { get; }
+        void SaveChanges();
+        List<string> Tsumego_SolvedTsumego { get; }
     }
 }
