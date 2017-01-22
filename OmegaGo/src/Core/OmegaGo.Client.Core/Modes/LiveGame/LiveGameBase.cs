@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 {
     public abstract class LiveGameBase : ILiveGame
     {
-        protected LiveGameBase( GameInfo info)
+        protected LiveGameBase(GameInfo info)
         {
             Info = info;
         }

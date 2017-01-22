@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Rules
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
         /// <param name="gbSize">Size of the game board.</param>
-        public Ruleset(GameBoardSize gbSize)
+        protected Ruleset(GameBoardSize gbSize)
         {
             _boardWidth = gbSize.Width;
             _boardHeight = gbSize.Height;

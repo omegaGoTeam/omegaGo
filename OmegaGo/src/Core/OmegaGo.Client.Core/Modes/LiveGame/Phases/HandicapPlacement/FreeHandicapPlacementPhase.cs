@@ -14,7 +14,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 
         public override void StartPhase()
         {
-            throw new NotImplementedException();
+            //TODO: IMPLEMENT
+            GoToPhase( GamePhaseType.Main );
         }
     }
 }

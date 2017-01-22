@@ -5,9 +5,13 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
-    class LifeAndDeathPhase : ILifeAndDeathPhase
+    class LifeAndDeathPhase : GamePhaseBase, ILifeAndDeathPhase
     {
-        public GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;
+        public LifeAndDeathPhase(GameController gameController) : base(gameController)
+        {
+        }
+
+        public override GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;
 
         //public void MarkGroupDead(Position position)
         //{
@@ -60,7 +64,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         //    MainPhase_AskPlayerToMove(_game.Black);
         //}
 
-        public void StartPhase()
+        public override void StartPhase()
         {
             throw new System.NotImplementedException();
         }
