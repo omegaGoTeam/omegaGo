@@ -18,9 +18,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Local
         }
 
         protected override void ValidatePlayer(GamePlayer player)
-        {            
-            if (player.Info.PlayerType != Players.GamePlayerType.Human && player.Info.PlayerType != Players.GamePlayerType.AI)
-                throw new ArgumentOutOfRangeException("Local game allows human and AI players only");
+        {
+            if (player.PlayerType != Players.GamePlayerType.Human &&
+                player.PlayerType != GamePlayerType.AI)
+                throw new ArgumentOutOfRangeException( nameof(player),"Local game allows human and AI players only");
         }
     }
 }
