@@ -10,8 +10,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 {
     public class HumanPlayer : GamePlayer
     {
-        public HumanPlayer(PlayerInfo playerInfo) : base(GamePlayerType.Human, playerInfo, new HumanAgent())
+        public HumanPlayer(PlayerInfo playerInfo) : base(GamePlayerType.Human, playerInfo)
         {
+            Agent = new HumanAgent(this);
         }
+
+        /// <summary>
+        /// Provides the human agent
+        /// </summary>
+        public override IAgent Agent { get; }
     }
 }

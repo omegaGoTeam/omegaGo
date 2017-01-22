@@ -44,6 +44,7 @@
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\PlayerPair.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\AgentBase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAIAgent.cs" />

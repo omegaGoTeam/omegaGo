@@ -9,31 +9,35 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
-    public class HumanAgent : IAgent
+    public class HumanAgent : AgentBase
     {
-        public void MovePerformed(Move move, GamePlayer player)
+        public HumanAgent(GamePlayer player) : base(player)
+        {
+        }
+
+        public override void MovePerformed(Move move, GamePlayer player)
         {
             throw new NotImplementedException();
         }
 
-        public void MoveIllegal(MoveResult move)
+        public override void MoveIllegal(MoveResult move)
         {
             throw new NotImplementedException();
         }
 
-        public event EventHandler Move;
-        public IllegalMoveHandling IllegalMoveHandling { get; }
-        public void OnTurn()
+        public override event EventHandler Move;
+        public override IllegalMoveHandling IllegalMoveHandling { get; }
+        public override void OnTurn()
         {
             throw new NotImplementedException();
         }
 
-        public void GameInitialized()
+        public override void GameInitialized()
         {
             throw new NotImplementedException();
         }
 
-        public void GamePhaseChanged(GamePhaseType phase)
+        public override void GamePhaseChanged(GamePhaseType phase)
         {
             throw new NotImplementedException();
         }

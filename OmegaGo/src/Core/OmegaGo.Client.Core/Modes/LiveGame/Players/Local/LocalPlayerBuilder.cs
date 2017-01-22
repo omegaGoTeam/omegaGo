@@ -16,8 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 
         public override HumanPlayer Build()
         {
-            throw new NotImplementedException();
-            //return new HumanPlayer( CreatePlayerInfo(), new ObsoleteLocalAgent());
+            return new HumanPlayer( CreatePlayerInfo() );
         }
     }
 }

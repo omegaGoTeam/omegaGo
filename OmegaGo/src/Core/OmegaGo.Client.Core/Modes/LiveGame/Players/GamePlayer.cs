@@ -1,4 +1,5 @@
-﻿using OmegaGo.Core.Game;
+﻿using System;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
@@ -23,19 +24,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Agent controlling the player's actions
         /// </summary>
-        public IAgent Agent { get; }
+        public abstract IAgent Agent { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GamePlayer"/> class.
         /// </summary>
         /// <param name="playerType">Type of the player</param>
         /// <param name="playerInfo">Information about the player</param>
-        /// <param name="agent">Agent controlling the player</param>
-        protected GamePlayer( GamePlayerType playerType, PlayerInfo playerInfo, IAgent agent )
+        protected GamePlayer( GamePlayerType playerType, PlayerInfo playerInfo )
         {
             PlayerType = playerType;
             Info = playerInfo;
-            Agent = agent;
         }
     }
 }   
