@@ -9,11 +9,11 @@ namespace OmegaGo.Core.Game
     /// </summary>
     public sealed class GameTree
     {
-        public GameTree( IRuleset ruleset )
+        public GameTree(IRuleset ruleset)
         {
             Ruleset = ruleset;
         }
-        
+
         /// <summary>
         /// Ruleset
         /// </summary>
@@ -39,7 +39,8 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public IEnumerable<Move> PrimaryMoveTimeline
         {
-            get {
+            get
+            {
                 return PrimaryTimeline.Select(node => node.Move);
             }
         }
@@ -65,11 +66,11 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>
-        public void AddMoveToEnd(Move move, GameBoard boardState)
+        public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState)
         {
             GameTreeNode node = new GameTreeNode(move);
             node.BoardState = boardState;
-            
+
             if (GameTreeRoot == null)
             {
                 GameTreeRoot = node;
@@ -81,6 +82,7 @@ namespace OmegaGo.Core.Game
             }
 
             LastNode = node;
+            return node;
         }
     }
 }

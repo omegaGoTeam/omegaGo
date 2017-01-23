@@ -47,13 +47,26 @@ namespace OmegaGo.Core.Modes.LiveGame
                 switch (color)
                 {
                     case StoneColor.Black:
-                        return Black;                       
+                        return Black;
                     case StoneColor.White:
                         return White;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(color), color, null);
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Gets the oponent of the given player
+        /// </summary>
+        /// <param name="player">Player to get opponent of</param>
+        /// <returns>Opponent of player</returns>
+        public GamePlayer GetOpponentOf(GamePlayer player)
+        {
+            if (player == Black) return White;
+            if (player == White) return Black;
+            throw new ArgumentOutOfRangeException(nameof(player),"This player is not a player in this game");
         }
 
         /// <summary>

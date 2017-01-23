@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         public override void StartPhase()
         {
             ObservePlayerEvents();
-            AskPlayerToMove();
+            AskFirstPlayerToMove();
         }
 
         public override void EndPhase()
@@ -28,9 +28,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         public override GamePhaseType PhaseType => GamePhaseType.Main;
 
 
-        private void AskPlayerToMove()
+        private void AskFirstPlayerToMove()
         {
-            Controller.TurnPlayer.Agent.OnTurn();
+            //handicapped game?
+            if (Controller.Info.NumberOfHandicapStones > 0)
+            {
+                Controller.TurnPlayer = Controller.Players.White;
+            }
+            else
+            {
+                Controller.TurnPlayer = Controller.Players.Black;
+            }
         }
 
         private void ObservePlayerEvents()
@@ -94,14 +102,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
             // The move stands, let's make the other player move now.
             Controller.NumberOfMoves++;
-            Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
-            //TODO:FINISH
-            //if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-            //{
-            //    _game.Server.MakeMove(_game, move);
-            //}
-            //OnBoardMustBeRefreshed();
-            //MainPhase_AskPlayerToMove(_game.OpponentOf(player));
+            var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            
+            Controller.CurrentNode = newNode;
+            Controller.SwitchTurnPlayer();            
         }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)

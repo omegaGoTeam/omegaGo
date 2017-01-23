@@ -18,15 +18,15 @@ namespace OmegaGo.Core.Modes.LiveGame
     internal class GameController : IGameController
     {
         private IGamePhase _currentGamePhase = null;
-        private StoneColor _playerOnTurn = StoneColor.Black;        
         private GameTreeNode _currentNode;
+        private GamePlayer _turnPlayer;
 
-        public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players )
+        public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
             Info = gameInfo;
             Ruleset = ruleset;
             Players = players;
-            GameTree = new GameTree( ruleset );
+            GameTree = new GameTree(ruleset);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Players in the game
         /// </summary>
-        public PlayerPair Players { get; private set; }
+        public PlayerPair Players { get; }
 
         /// <summary>
         /// Game info
@@ -62,7 +62,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Gets the player currently on turn
         /// </summary>
-        public GamePlayer TurnPlayer => Players[_playerOnTurn];
+        public GamePlayer TurnPlayer
+        {
+            get { return _turnPlayer; }
+            internal set
+            {
+                if (_turnPlayer != value)
+                {
+                    _turnPlayer = value;
+                    OnTurnPlayerChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the current game phase
@@ -105,6 +116,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         protected virtual void OnTurnPlayerChanged()
         {
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
+            //notify the agent about his turn       
+            TurnPlayer?.Agent.OnTurn();
         }
 
         protected virtual void OnCurrentGameTreeNodeChanged()
@@ -128,17 +141,18 @@ namespace OmegaGo.Core.Modes.LiveGame
             _currentGamePhase.StartPhase();
         }
 
+        /// <summary>
+        /// Switches the player on turn
+        /// </summary>
         internal void SwitchTurnPlayer()
         {
-            _playerOnTurn = _playerOnTurn.GetOpponentColor();
-            OnTurnPlayerChanged();
+            TurnPlayer = Players.GetOpponentOf(TurnPlayer);
         }
 
 
         /// <summary>
         /// Creates the game controller phase factory based on the game info
         /// </summary>
-        /// <param name="gameInfo">Game info</param>
         /// <returns>Game controller phase factory</returns>
         protected IGameControllerPhaseFactory CreateGameControllerPhaseFactory()
         {
