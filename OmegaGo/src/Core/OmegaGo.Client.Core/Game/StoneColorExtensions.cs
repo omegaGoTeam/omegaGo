@@ -12,7 +12,9 @@ namespace OmegaGo.Core.Game
         {
             if (color == StoneColor.Black) return StoneColor.White;
             if (color == StoneColor.White) return StoneColor.Black;
-            throw new ArgumentOutOfRangeException(nameof(color), "None color has no opponent");
+            //TODO: This should definitely throw.
+            //throw new ArgumentOutOfRangeException(nameof(color), "None color has no opponent");
+            return StoneColor.None;
         }
     }
 }

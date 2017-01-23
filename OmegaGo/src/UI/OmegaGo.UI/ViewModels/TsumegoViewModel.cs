@@ -40,18 +40,12 @@ While solving a problem, the player can undo his moves. Undoing from the "analys
 
 A tsumego problem will also display a problem statement (such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
         private BoardViewModel _boardViewModel;
-        private BoardControlState _boardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
         public BoardViewModel BoardViewModel
         {
             get { return _boardViewModel; }
             set { SetProperty(ref _boardViewModel, value); }
-        }
-        public BoardControlState BoardControlState
-        {
-            get { return _boardControlState; }
-            set { SetProperty(ref _boardControlState, value); }
         }
 
         private TsumegoProblem _currentProblem;
@@ -172,7 +166,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             this._playerToMove = this._currentProblem.ColorToPlay;
             this._humansColor = this._playerToMove;
             this.CurrentNodeStatus = this._humansColor + " to play.";
-            this.BoardControlState.SelectedPosition = Position.Undefined;
+            this.BoardViewModel.BoardControlState.SelectedPosition = Position.Undefined;
         }
 
         public GameTreeNode CurrentNode
