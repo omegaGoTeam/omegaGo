@@ -7,10 +7,11 @@ using OmegaGo.Core.Helpers;
 
 namespace OmegaGo.Core.Extensions
 {
+    //TODO: This class should be internal, after Tsumego is moved into core
     /// <summary>
     /// Extensions for list-based types
     /// </summary>
-    internal static class ListExtensions
+    public static class ListExtensions
     {
         /// <summary>
         /// Shuffles the specified list so that its elements are then in a random order.
