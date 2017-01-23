@@ -20,11 +20,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.InformAgent;
 
-        public override void MovePerformed(Move move, GamePlayer player)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void MoveIllegal(MoveResult move)
         {
             throw new NotImplementedException();

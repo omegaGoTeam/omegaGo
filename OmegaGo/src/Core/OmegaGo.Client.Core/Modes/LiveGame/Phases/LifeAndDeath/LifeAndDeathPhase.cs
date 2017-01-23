@@ -66,7 +66,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public override void StartPhase()
         {
-            throw new System.NotImplementedException();
+            GoToPhase( GamePhaseType.Finished );
         }
     }
 }

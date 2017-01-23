@@ -14,15 +14,14 @@
     VerticalContentAlignment="Stretch">
 
     <Grid>
-        <ScrollViewer   Grid.Row="0"
-                        Grid.Column="0"
-                        HorizontalScrollBarVisibility="Auto"
-                        HorizontalScrollMode="Auto"
-                        VerticalScrollBarVisibility="Auto"
-                        VerticalScrollMode="Auto"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        ZoomMode="Enabled">
+        <ScrollViewer 
+            HorizontalScrollBarVisibility="Auto"
+            HorizontalScrollMode="Auto"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ZoomMode="Enabled">
             <win2d:CanvasControl 
                 x:Name="canvas" 
                 CreateResources="canvas_CreateResources"

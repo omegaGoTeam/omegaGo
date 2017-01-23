@@ -54,12 +54,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             var agent = (sender as IAgent);
             if (agent != null)
             {
-
+                Move attemptedMove = Move.PlaceStone(agent.Color, e);
+                TryToMakeMove(attemptedMove);
             }
         }
 
-        public void MakeMove(GamePlayer player, Move move)
+        public void TryToMakeMove(Move move)
         {
+            var player = Controller.Players[move.WhoMoves];
             if (player != Controller.TurnPlayer)
                 throw new InvalidOperationException("It is not your turn.");
 
@@ -68,34 +70,38 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                        Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
                        move,
                        Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
-
-            if (result.Result == MoveResult.LifeDeathDeterminationPhase)
+            
+            if (result.Result == MoveResult.StartLifeAndDeath)
             {
                 GoToPhase(GamePhaseType.LifeDeathDetermination);
             }
-            if (result.Result != MoveResult.Legal)
+            else if (result.Result != MoveResult.Legal)
             {
-                HandleIllegalMove(player, ref result);
+                player.Agent.MoveIllegal(result.Result);
+                //TODO: Extend to include server based illegal move validation
+                //HandleIllegalMove(player, ref result);
                 if (result.Result != MoveResult.Legal)
                 {
                     // Still illegal.
                     return;
                 }
             }
+
             if (move.Kind == MoveKind.PlaceStone)
-            {                
+            {
                 move.Captures.AddRange(result.Captures);
             }
 
             // The move stands, let's make the other player move now.
             Controller.NumberOfMoves++;
             Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
-            if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-            {
-                _game.Server.MakeMove(_game, move);
-            }
-            OnBoardMustBeRefreshed();
-            MainPhase_AskPlayerToMove(_game.OpponentOf(player));
+            //TODO:FINISH
+            //if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
+            //{
+            //    _game.Server.MakeMove(_game, move);
+            //}
+            //OnBoardMustBeRefreshed();
+            //MainPhase_AskPlayerToMove(_game.OpponentOf(player));
         }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)

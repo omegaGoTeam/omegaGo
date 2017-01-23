@@ -49,6 +49,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameBoardSize, value);
+                RaisePropertyChanged(()=>SampleGameBoard);
                 SetDefaultCompensation();
             }
         }
@@ -136,6 +137,11 @@ namespace OmegaGo.UI.ViewModels
             get { return _compensation; }
             set { SetProperty(ref _compensation, value); }
         }
+
+        /// <summary>
+        /// Sample game board for preview
+        /// </summary>
+        public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
         public GameCreationViewModel()
         {

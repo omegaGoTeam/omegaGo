@@ -30,6 +30,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         }
 
         public event EventHandler<GameTreeNode> BoardRedrawRequsted;
+
         internal event EventHandler<Position> BoardTapped;
 
         public BoardViewModel()

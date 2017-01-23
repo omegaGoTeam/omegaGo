@@ -17,11 +17,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// </summary>
         StoneColor Color { get; }
 
-        void MovePerformed(Move move, GamePlayer player);
-
-        void MoveIllegal(MoveResult move);
-
+        /// <summary>
+        /// Indicates how the agent's illegal moves should be handled
+        /// </summary>
         IllegalMoveHandling IllegalMoveHandling { get; }
+
+        /// <summary>
+        /// Informs the agent, that a move was confirmed
+        /// </summary>
+        /// <param name="move">Move</param>
+        void MovePerformed(Move move);
+
+        /// <summary>
+        /// Informs the agent that his las move was illegal
+        /// </summary>
+        /// <param name="reason">Reason</param>
+        void MoveIllegal(MoveResult reason);
 
         /// <summary>
         /// Assigns the agent to a game
@@ -38,7 +49,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Informs the agent that the game phase changed
         /// </summary>
-        void GamePhaseChanged( GamePhaseType phase );
+        void GamePhaseChanged(GamePhaseType phase);
 
         /// <summary>
         /// Informs the agent that he is on turn

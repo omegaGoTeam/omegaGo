@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     xmlns:core="using:OmegaGo.Core"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=True}">
 
@@ -24,13 +25,19 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <userControls:SimpleBoardControl Margin="20" x:Name="BoardControl" GameBoard="{x:Bind VM.SampleGameBoard, Mode=OneWay}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxHeight="500" MaxWidth="500" />
+        
         <TextBlock Text="New Game" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Grid.Row="0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
-
+        
+        
         <Grid x:Name="GameSettingsGrid"
               HorizontalAlignment="Center"
               Grid.Row="1">

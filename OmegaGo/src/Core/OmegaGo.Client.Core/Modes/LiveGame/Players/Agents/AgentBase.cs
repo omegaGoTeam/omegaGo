@@ -52,10 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public event EventHandler Resign;
 
-        public virtual void MovePerformed(Move move, GamePlayer player)
-        {
-        }
-
         public abstract void MoveIllegal(MoveResult move);
 
         public virtual void GameInitialized()
@@ -82,6 +78,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         protected virtual void OnResign()
         {
             Resign?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual void MovePerformed(Move move)
+        {
+            
         }
     }
 }
