@@ -9,12 +9,12 @@ namespace OmegaGo.Core.AI.Defeatist
     /// <summary>
     /// This super strong AI will resign the first time it gets the chance to.
     /// </summary>
-    public class Defeatist : AiProgramBase
+    public class DefeatistAI : AiProgramBase
     {
         /// <summary>
         /// Name of the AI
         /// </summary>
-        public override string Name  => "Defeatist";
+        public override string Name  => "DefeatistAI";
 
         /// <summary>
         /// Requests a move from the AI

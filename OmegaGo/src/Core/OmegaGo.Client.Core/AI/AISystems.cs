@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Fuego;
 using OmegaGo.Core.AI.Joker23.Players;
+using OmegaGo.Core.AI.Random;
 
 namespace OmegaGo.Core.AI
 {
@@ -42,8 +44,8 @@ namespace OmegaGo.Core.AI
                     return
                     new List<IAIProgram>
                     {
-                        new Defeatist.Defeatist(),
-                        new Random.RandomAi(),
+                        new DefeatistAI(),
+                        new RandomAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new AlphaBetaPlayerWrapper()
@@ -52,8 +54,8 @@ namespace OmegaGo.Core.AI
                 return
                     new List<IAIProgram>
                     {
-                        new Defeatist.Defeatist(),
-                        new Random.RandomAi(),
+                        new DefeatistAI(),
+                        new RandomAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new AlphaBetaPlayerWrapper(),
