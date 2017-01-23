@@ -63,7 +63,7 @@
     <Compile Include="AI\AIPreMoveInformation.cs" />
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />
-    <Compile Include="AI\Common\Randomness.cs" />
+    <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\Defeatist.cs" />
     <Compile Include="AI\Fuego\FuegoWrapper.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
@@ -229,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AI\About AI Systems.txt" />
-    <Content Include="AI\Common\Licensing.txt" />
     <Compile Include="AI\Joker23\GameEngine\JokerGame.cs" />
     <Compile Include="AI\Joker23\GameEngine\JokerMove.cs" />
     <Compile Include="AI\Joker23\GameEngine\JokerRules.cs" />

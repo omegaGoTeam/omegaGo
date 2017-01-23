@@ -137,7 +137,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         //                }
         //                else
         //                {
-        //                    Position randomTargetposition = possibleMoves[Randomness.Next(possibleMoves.Count)];
+        //                    Position randomTargetposition = possibleMoves[Randomizer.Next(possibleMoves.Count)];
         //                    Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
         //                    MakeMove(player, newMove);
         //                }

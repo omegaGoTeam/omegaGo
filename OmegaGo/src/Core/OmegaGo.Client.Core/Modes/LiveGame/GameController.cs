@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             Info = gameInfo;
             Ruleset = ruleset;
             Players = players;
-            GameTree = new GameTree();
+            GameTree = new GameTree( ruleset );
         }
 
         /// <summary>

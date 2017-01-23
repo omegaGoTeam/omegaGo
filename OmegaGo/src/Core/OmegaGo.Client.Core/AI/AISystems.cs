@@ -43,7 +43,7 @@ namespace OmegaGo.Core.AI
                     new List<IAIProgram>
                     {
                         new Defeatist.Defeatist(),
-                        new Random.RandomAI(),
+                        new Random.RandomAi(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new AlphaBetaPlayerWrapper()
@@ -53,7 +53,7 @@ namespace OmegaGo.Core.AI
                     new List<IAIProgram>
                     {
                         new Defeatist.Defeatist(),
-                        new Random.RandomAI(),
+                        new Random.RandomAi(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new AlphaBetaPlayerWrapper(),

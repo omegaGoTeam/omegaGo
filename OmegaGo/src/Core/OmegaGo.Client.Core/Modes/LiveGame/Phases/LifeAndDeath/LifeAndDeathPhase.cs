@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using OmegaGo.Core.AI.Common;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 

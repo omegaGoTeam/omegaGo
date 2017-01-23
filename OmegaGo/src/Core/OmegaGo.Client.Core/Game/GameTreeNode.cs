@@ -10,6 +10,13 @@ namespace OmegaGo.Core.Game
     /// </summary>
     public sealed class GameTreeNode
     {
+        private readonly IRuleset _ruleset;
+
+        public GameTreeNode( IRuleset ruleset )
+        {
+            _ruleset = ruleset;
+        }
+
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
@@ -182,11 +189,13 @@ namespace OmegaGo.Core.Game
             if (this.Parent != null) throw new InvalidOperationException("Only call this on a root.");
             FillBoardStateInternal(new GameBoard(boardSize), ruleset);
         }
+
         public void FillBoardState(IRuleset ruleset)
         {
             if (this.Parent == null) throw new InvalidOperationException("Only call this on a child node.");
             FillBoardStateInternal(new GameBoard(this.Parent.BoardState), ruleset);
         }
+
         private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, IRuleset ruleset)
         {
             foreach (var position in this.AddBlack)

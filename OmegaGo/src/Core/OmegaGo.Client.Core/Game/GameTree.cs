@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game
 {
@@ -7,6 +9,16 @@ namespace OmegaGo.Core.Game
     /// </summary>
     public sealed class GameTree
     {
+        public GameTree( IRuleset ruleset )
+        {
+            Ruleset = ruleset;
+        }
+        
+        /// <summary>
+        /// Ruleset
+        /// </summary>
+        public IRuleset Ruleset { get; }
+
         /// <summary>
         /// Game board size
         /// </summary>
@@ -23,23 +35,33 @@ namespace OmegaGo.Core.Game
         public GameTreeNode LastNode { get; set; }
 
         /// <summary>
-        /// Gets the primary timeline
+        /// Gets the primary timeline moves
         /// </summary>
         public IEnumerable<Move> PrimaryMoveTimeline
         {
+            get {
+                return PrimaryTimeline.Select(node => node.Move);
+            }
+        }
+
+        /// <summary>
+        /// Gets the primary timeline
+        /// </summary>
+        public IEnumerable<GameTreeNode> PrimaryTimeline
+        {
             get
             {
-                GameTreeNode node = GameTreeRoot;
+                var node = GameTreeRoot;
                 while (node != null)
                 {
-                    yield return node.Move;
+                    yield return node;
                     node = node.NextMove;
                 }
             }
         }
 
         /// <summary>
-        /// Adds the move to the end of the tree
+        /// Adds the move to the end of the primary timeline
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>

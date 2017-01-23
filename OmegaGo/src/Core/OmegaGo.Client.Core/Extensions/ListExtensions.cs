@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Helpers;
 
 namespace OmegaGo.Core.Extensions
 {
-    public static class ListExtensions
+    /// <summary>
+    /// Extensions for list-based types
+    /// </summary>
+    internal static class ListExtensions
     {
-        private static Random rng = new Random();
-
         /// <summary>
         /// Shuffles the specified list so that its elements are then in a random order.
         /// 
@@ -17,20 +19,20 @@ namespace OmegaGo.Core.Extensions
         /// </summary>
         /// <param name="list">The list to randomize.</param>
         public static void Shuffle<T>(this IList<T> list)
-        {
-            // 
+        {            
             int n = list.Count;
             while (n > 1)
             {
                 n--;
-                int k = rng.Next(n + 1);
+                int k = Randomizer.Next(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
         }
+
         /// <summary>
-        /// Performs a specified ACTION for each descendant of this tree node, using a given FUNCTION
+        /// Performs a specified action for each descendant of this tree node, using a given function
         /// to determine the children of each node. The action is performed using pre-order traversal.
         /// </summary>
         /// <param name="tree">The tree to walk through.</param>

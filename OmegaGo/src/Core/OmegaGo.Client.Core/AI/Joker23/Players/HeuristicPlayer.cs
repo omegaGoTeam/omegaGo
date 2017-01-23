@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using OmegaGo.Core.AI.Common;
 using OmegaGo.Core.AI.Joker23.GameEngine;
+using OmegaGo.Core.Helpers;
 
 namespace OmegaGo.Core.AI.Joker23.Players
 {
@@ -71,7 +71,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
             }
             
 
-            JokerPoint bestMove = bestMoves[Randomness.Next(bestMoves.Count)];
+            JokerPoint bestMove = bestMoves[Randomizer.Next(bestMoves.Count)];
             updateOrderMap(bestMove.x, bestMove.y, n);
             return bestMove;
         }

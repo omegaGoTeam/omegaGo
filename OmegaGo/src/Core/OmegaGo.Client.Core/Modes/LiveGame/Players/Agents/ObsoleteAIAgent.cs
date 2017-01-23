@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Common;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
