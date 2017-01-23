@@ -9,29 +9,79 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
+    /// <summary>
+    /// Base for agents
+    /// </summary>
     public abstract class AgentBase : IAgent
     {
-        protected GamePlayer Player { get; }
-
         /// <summary>
         /// Creates agent
         /// </summary>
-        /// <param name="player">Player for which this is an agent</param>
-        protected AgentBase(GamePlayer player)
+        /// <param name="color">Player for which this is an agent</param>
+        protected AgentBase(StoneColor color )
         {
-            Player = player;
+            Color = color;
         }
 
-        public abstract void MovePerformed(Move move, GamePlayer player);
+        /// <summary>
+        /// Player color
+        /// </summary>
+        public StoneColor Color { get; }
+
+        /// <summary>
+        /// Game info
+        /// </summary>
+        protected GameInfo GameInfo { get; private set; }
+
+        /// <summary>
+        /// Game state
+        /// </summary>
+        protected IGameState GameState { get; private set; }
+
+        /// <summary>
+        /// Type of the agent
+        /// </summary>
+        public abstract AgentType Type { get; }
+
+        /// <summary>
+        /// Illegal move handling
+        /// </summary>
+        public abstract IllegalMoveHandling IllegalMoveHandling { get; }
+
+        public event EventHandler<Position> PlaceStone;
+
+        public event EventHandler Resign;
+
+        public virtual void MovePerformed(Move move, GamePlayer player)
+        {
+        }
 
         public abstract void MoveIllegal(MoveResult move);
 
-        public abstract event EventHandler Move;
-        public abstract IllegalMoveHandling IllegalMoveHandling { get; }
-        public abstract void GameInitialized();
+        public virtual void GameInitialized()
+        {
+        }
 
-        public abstract void GamePhaseChanged(GamePhaseType phase);
+        public virtual void GamePhaseChanged(GamePhaseType phase) { }
 
-        public abstract void OnTurn();
+        public virtual void OnTurn()
+        {
+        }
+
+        public void AssignToGame(GameInfo gameInfo, IGameState gameState)
+        {
+            GameInfo = gameInfo;
+            GameState = gameState;
+        }    
+
+        protected virtual void OnPlaceStone( Position position )
+        {
+            PlaceStone?.Invoke(this, position);
+        }
+
+        protected virtual void OnResign()
+        {
+            Resign?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

@@ -24,11 +24,11 @@
 
         <CommandBar VerticalAlignment="Top"
                 Grid.RowSpan="2"
-                Grid.ColumnSpan="2" OverflowButtonVisibility="Collapsed">
+                Grid.ColumnSpan="2" OverflowButtonVisibility="Collapsed" Content="{x:Bind VM.Game.Controller.Phase}">
             <CommandBar.Background>
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
             </CommandBar.Background>
-
+            
             <AppBarButton Icon="Bookmarks" Label="Timeline"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>

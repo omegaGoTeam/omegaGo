@@ -7,13 +7,13 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 {
-    public sealed class IgsPlayerBuilder : PlayerBuilder<IgsPlayer, IgsPlayerBuilder>
+    public sealed class IgsPlayerBuilder : PlayerBuilder<GamePlayer, IgsPlayerBuilder>
     {
         public IgsPlayerBuilder(StoneColor color) : base(color)
         {
         }
 
-        public override IgsPlayer Build()
+        public override GamePlayer Build()
         {
             throw new NotImplementedException();
         }

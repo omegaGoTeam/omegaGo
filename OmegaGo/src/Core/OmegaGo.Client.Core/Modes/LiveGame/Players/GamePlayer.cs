@@ -5,36 +5,41 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 namespace OmegaGo.Core.Modes.LiveGame.Players
 {
     /// <summary>
-    /// Represents a player participating in a <see cref="Game"/> instance. Does not refer to the user
-    /// of the app. A player only ever participates in a single game. The same human playing in multiple games
+    /// Represents a player participating in a <see cref="Game"/> instance.
+    /// The same human playing in multiple games
     /// is represented by different <see cref="GamePlayer"/> instances. 
     /// </summary>
-    public abstract class GamePlayer
+    public class GamePlayer
     {
         /// <summary>
-        /// Gets the player type
+        /// Initializes a new instance of the <see cref="GamePlayer"/> class.
         /// </summary>
-        public GamePlayerType PlayerType { get; }
+        /// <param name="playerInfo">Information about the player</param>
+        /// <param name="agent">Agent</param>
+        public GamePlayer( PlayerInfo playerInfo, IAgent agent )
+        {
+            Info = playerInfo;
+            Agent = agent;
+        }
 
         /// <summary>
         /// Gets general player metadata
         /// </summary>
         public PlayerInfo Info { get; }
-        
+
         /// <summary>
         /// Agent controlling the player's actions
         /// </summary>
-        public abstract IAgent Agent { get; }
+        public IAgent Agent { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GamePlayer"/> class.
+        /// Assigns the player to a game
         /// </summary>
-        /// <param name="playerType">Type of the player</param>
-        /// <param name="playerInfo">Information about the player</param>
-        protected GamePlayer( GamePlayerType playerType, PlayerInfo playerInfo )
+        /// <param name="gameInfo">Game info</param>
+        /// <param name="gameState">Game state</param>
+        public void AssignToGame(GameInfo gameInfo, IGameState gameState)
         {
-            PlayerType = playerType;
-            Info = playerInfo;
+            Agent.AssignToGame(gameInfo, gameState);
         }
     }
 }   

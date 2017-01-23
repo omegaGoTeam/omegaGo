@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
 {
-    public enum GamePlayerType
+    public enum AgentType
     {
         Human,
         AI,

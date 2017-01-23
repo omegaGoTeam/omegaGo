@@ -13,7 +13,7 @@ namespace OmegaGo.Core.AI.Defeatist
     {
         public override string Name  => "Defeatist";
 
-        public override AiDecision RequestMove(AIPreMoveInformation gameState)
+        public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
             return AiDecision.Resign("I could have won but I decided to let you win.");
         }

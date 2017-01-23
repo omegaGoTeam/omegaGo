@@ -17,7 +17,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
 
         public abstract GamePhaseType PhaseType { get; }
 
-        public abstract void StartPhase();
+        public virtual void StartPhase() { }
+
+        public virtual void EndPhase() { }
 
         /// <summary>
         /// Changes the game phase on the controller

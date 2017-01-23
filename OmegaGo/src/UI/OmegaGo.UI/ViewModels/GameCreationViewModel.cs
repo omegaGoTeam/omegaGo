@@ -167,10 +167,10 @@ namespace OmegaGo.UI.ViewModels
         private void CreateAndRegisterGame()
         {
             //TODO: set some options
-            HumanPlayer blackPlayer = new HumanPlayerBuilder(StoneColor.Black).Build();
+            GamePlayer blackPlayer = new HumanPlayerBuilder(StoneColor.Black).Build();
 
             //TODO: set some options
-            HumanPlayer whitePlayer = new HumanPlayerBuilder(StoneColor.White).Build();
+            GamePlayer whitePlayer = new HumanPlayerBuilder(StoneColor.White).Build();
 
             //TODO: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().

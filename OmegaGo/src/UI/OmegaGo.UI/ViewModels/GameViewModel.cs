@@ -21,7 +21,7 @@ namespace OmegaGo.UI.ViewModels
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<ILiveGame>();
-            Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;            
+            Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -53,7 +53,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void MakeMove(Position selectedPosition)
         {
-            throw new NotImplementedException();
+            (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
             //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
             //(Game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
             //    Game.Controller.TurnPlayer.Color,

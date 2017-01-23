@@ -9,11 +9,16 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
-    public class HumanAgent : AgentBase
+    public class HumanAgent : AgentBase, IHumanAgentActions
     {
-        public HumanAgent(GamePlayer player) : base(player)
+        public HumanAgent(StoneColor color) :
+            base(color)
         {
         }
+
+        public override AgentType Type => AgentType.Human;
+
+        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.InformAgent;
 
         public override void MovePerformed(Move move, GamePlayer player)
         {
@@ -25,21 +30,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
             throw new NotImplementedException();
         }
 
-        public override event EventHandler Move;
-        public override IllegalMoveHandling IllegalMoveHandling { get; }
-        public override void OnTurn()
+        void IHumanAgentActions.PlaceStone(Position selectedPosition)
         {
-            throw new NotImplementedException();
+            OnPlaceStone(selectedPosition);
         }
 
-        public override void GameInitialized()
+        void IHumanAgentActions.Resign()
         {
-            
-        }
-
-        public override void GamePhaseChanged(GamePhaseType phase)
-        {
-            
+            OnResign();
         }
     }
 }

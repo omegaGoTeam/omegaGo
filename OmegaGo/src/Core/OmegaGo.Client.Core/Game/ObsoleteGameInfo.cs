@@ -52,25 +52,7 @@ namespace OmegaGo.Core.Game
     //    /// The size of the game board. Cannot change during the game. Initialized during game creation.
     //    /// </summary>
     //    public GameBoardSize BoardSize { get; set; }
-    //    /// <summary>
-    //    /// Gets or sets the size of the board, if it is square.
-    //    /// If the board is not square, calling this getter will throw an exception.
-    //    /// </summary>
-    //    public int SquareBoardSize
-    //    {
-    //        get
-    //        {
-    //            if (BoardSize.IsSquare)
-    //            {
-    //                return BoardSize.Width;
-    //            }
-    //            throw new InvalidOperationException("The board of this game is not square.");
-    //        }
-    //        set
-    //        {
-    //            BoardSize = new GameBoardSize(value);
-    //        }
-    //    }
+
     //    /// <summary>
     //    /// Gets or sets the ruleset that governs this game. In the future, this should never be null. For now, we're prototyping.
     //    /// </summary>
@@ -84,34 +66,7 @@ namespace OmegaGo.Core.Game
     //    public float KomiValue { get; set; }
     //    public int NumberOfObservers { get; set; }
     //    public ObsoleteGameController GameController { get; private set;}
-
-    //    /// <summary>
-    //    /// Initializes a new instance of the <see cref="ObsoleteGameInfo"/> class. A <see cref="ObsoleteGameController" /> is also created for this game and 
-    //    /// initialized.
-    //    /// </summary>
-    //    public ObsoleteGameInfo()
-    //    {
-    //        Players = new List<GamePlayer>();
-    //        GameTree = new GameTree();
-    //        GameController = new ObsoleteGameController(this);
-    //    }
-
-    //    /// <summary>
-    //    /// Gets the moves made during this game, starting with the first, ending with the last move made. If this game's game tree
-    //    /// is branching, then an exception triggers. If there is no move made yet, nothign is returned. "PASS" moves are also returned.
-    //    /// </summary>
-    //    public IEnumerable<Move> PrimaryTimeline
-    //    {
-    //        get
-    //        {
-    //            GameTreeNode node = this.GameTree.GameTreeRoot;
-    //            while (node != null)
-    //            {
-    //                yield return node.Move;
-    //                node = node.NextMove;
-    //            }
-    //        }
-    //    }
+    
 
     //    /// <summary>
     //    /// This is called when we receive a new move from an internet server. This method will remember the move and make sure it's played at the 
@@ -125,16 +80,6 @@ namespace OmegaGo.Core.Game
     //        IObsoleteOnlineAgent agent = player.Agent as IObsoleteOnlineAgent;
     //        agent?.ForceHistoricMove(moveIndex, move);
     //    }
-
-    //    private GamePlayer GetPlayerByColor(StoneColor color)
-    //    {
-    //        switch (color)
-    //        {
-    //            case StoneColor.Black: return Players[0];
-    //            case StoneColor.White: return Players[1];
-    //            default: throw new ArgumentException("Only Black and White may play.", nameof(color));
-    //        }
-    //    }
         
     //    /// <summary>
     //    /// Tells the online connection to give us information about the current game state and to push new moves as they happen.
@@ -147,20 +92,6 @@ namespace OmegaGo.Core.Game
     //    }
 
     //    /// <summary>
-    //    /// Returns the opponent of the specified player in this game.
-    //    /// </summary>
-    //    /// <param name="player">The player whose opponent we wish to learn about.</param>
-    //    public GamePlayer OpponentOf(GamePlayer player)
-    //    {
-    //        if (player == Players[0])
-    //            return Players[1];
-    //        else if (player == Players[1])
-    //            return Players[0];
-    //        else
-    //            throw new ArgumentException("The specified player does not belong to this game.", nameof(player));
-    //    }
-
-    //    /// <summary>
     //    /// Tells the online connection to stop pushing information about the game.
     //    /// </summary>
     //    /// <exception cref="InvalidOperationException">This game is not an online game.</exception>
@@ -168,11 +99,6 @@ namespace OmegaGo.Core.Game
     //    {
     //        if (Server == null) throw new InvalidOperationException("This game is not an online game.");
     //        Server.EndObserving(this);
-    //    }
-
-    //    public override string ToString()
-    //    {
-    //        return "[" + Server.ShortName + " " + ServerId + "] " + Players[0].Name + "[" + Players[0].Rank + "] vs. " + Players[1].Name + "[" + Players[1].Rank + "] (" + NumberOfObservers + ")";
     //    }
 
     //    public async Task AbsorbAdditionalInformation()

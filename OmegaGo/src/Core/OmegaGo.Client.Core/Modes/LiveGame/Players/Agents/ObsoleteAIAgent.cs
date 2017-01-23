@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
     //          Game.BoardSize,
     //          new TimeSpan(0, 0, 2),
     //          Strength,
-    //          Game.PrimaryTimeline.ToList()
+    //          Game.PrimaryMoveTimeline.ToList()
     //          )));
     //        AiDecision decision = await aiTask;
     //        switch (decision.Kind)

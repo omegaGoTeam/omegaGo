@@ -8,15 +8,15 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 {
-    public sealed class HumanPlayerBuilder : PlayerBuilder<HumanPlayer, HumanPlayerBuilder>
+    public sealed class HumanPlayerBuilder : PlayerBuilder<GamePlayer, HumanPlayerBuilder>
     {
         public HumanPlayerBuilder(StoneColor color) : base(color)
         {
         }
 
-        public override HumanPlayer Build()
+        public override GamePlayer Build()
         {
-            return new HumanPlayer( CreatePlayerInfo() );
+            return new GamePlayer(CreatePlayerInfo(), new HumanAgent(Color));
         }
     }
 }

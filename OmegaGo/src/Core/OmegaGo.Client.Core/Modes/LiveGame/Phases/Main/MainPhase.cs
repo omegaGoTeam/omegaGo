@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 {
@@ -13,78 +16,87 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         public override void StartPhase()
         {
+            ObservePlayerEvents();
             AskPlayerToMove();
+        }
+
+        public override void EndPhase()
+        {
+            UnobservePlayerEvents();
         }
 
         public override GamePhaseType PhaseType => GamePhaseType.Main;
 
 
         private void AskPlayerToMove()
-        {            
+        {
             Controller.TurnPlayer.Agent.OnTurn();
         }
 
-        //public void MakeMove(GamePlayer player, Move move)
-        //{
-        //    if (_gamePhase == GamePhase.Completed) return;
-        //    if (_gamePhase != GamePhase.MainPhase)
-        //        throw new InvalidOperationException("Moves can only be made during main phase.");
-        //    if (player != TurnPlayer)
-        //        throw new InvalidOperationException("It is not your turn.");
-        //    OnDebuggingMessage(_turnPlayer + " moves: " + move);
+        private void ObservePlayerEvents()
+        {
+            foreach (var player in Controller.Players)
+            {
+                player.Agent.PlaceStone += HandleStonePlacement;
+            }
+        }
 
-        //    MoveProcessingResult result =
-        //           _game.Ruleset.ProcessMove(
-        //               _game.GameTree.LastNode?.BoardState ?? new GameBoard(_game.BoardSize),
-        //               move,
-        //               _game.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
+        private void UnobservePlayerEvents()
+        {
+            foreach (var player in Controller.Players)
+            {
+                player.Agent.PlaceStone -= HandleStonePlacement;
+            }
+        }
 
-        //    if (result.Result == MoveResult.LifeDeathDeterminationPhase)
-        //    {
-        //        if (this._game.Server != null)
-        //        {
-        //            result.Result = MoveResult.Legal;
-        //            // In server games, we let the server decide on life/death determination, not our own ruleset.
-        //        }
-        //        else
-        //        {
-        //            SetGamePhase(GamePhase.LifeDeathDetermination);
-        //            _turnPlayer = null;
-        //            return;
-        //        }
-        //    }
-        //    if (result.Result != MoveResult.Legal)
-        //    {
-        //        HandleIllegalMove(player, ref result);
-        //        if (result.Result != MoveResult.Legal)
-        //        {
-        //            // Still illegal.
-        //            return;
-        //        }
-        //    }
-        //    if (move.Kind == MoveKind.PlaceStone)
-        //    {
-        //        OnDebuggingMessage("Adding " + move + " to primary timeline.");
-        //        move.Captures.AddRange(result.Captures);
-        //    }
-        //    else if (move.Kind == MoveKind.Pass)
-        //    {
-        //        OnDebuggingMessage(_turnPlayer + " passed!");
-        //    }
-        //    else
-        //    {
-        //        throw new InvalidOperationException("An agent should not use any other move kinds except for placing stones and passing.");
-        //    }
-        //    // The move stands, let's make the other player move now.
-        //    _game.NumberOfMovesPlayed++;
-        //    _game.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
-        //    if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
-        //    {
-        //        _game.Server.MakeMove(_game, move);
-        //    }
-        //    OnBoardMustBeRefreshed();
-        //    MainPhase_AskPlayerToMove(_game.OpponentOf(player));
-        //}
+        private void HandleStonePlacement(object sender, Position e)
+        {
+            var agent = (sender as IAgent);
+            if (agent != null)
+            {
+
+            }
+        }
+
+        public void MakeMove(GamePlayer player, Move move)
+        {
+            if (player != Controller.TurnPlayer)
+                throw new InvalidOperationException("It is not your turn.");
+
+            MoveProcessingResult result =
+                   Controller.Ruleset.ProcessMove(
+                       Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
+                       move,
+                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
+
+            if (result.Result == MoveResult.LifeDeathDeterminationPhase)
+            {
+                GoToPhase(GamePhaseType.LifeDeathDetermination);
+            }
+            if (result.Result != MoveResult.Legal)
+            {
+                HandleIllegalMove(player, ref result);
+                if (result.Result != MoveResult.Legal)
+                {
+                    // Still illegal.
+                    return;
+                }
+            }
+            if (move.Kind == MoveKind.PlaceStone)
+            {                
+                move.Captures.AddRange(result.Captures);
+            }
+
+            // The move stands, let's make the other player move now.
+            Controller.NumberOfMoves++;
+            Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));
+            if (_game.Server != null && !(_turnPlayer.Agent is OnlineAgent))
+            {
+                _game.Server.MakeMove(_game, move);
+            }
+            OnBoardMustBeRefreshed();
+            MainPhase_AskPlayerToMove(_game.OpponentOf(player));
+        }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)
         //{

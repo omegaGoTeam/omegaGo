@@ -13,7 +13,8 @@ namespace OmegaGo.Core.AI
     /// </summary>
     public static class AISystems
     {
-        private static bool registrationComplete;
+        private static bool _registrationComplete;
+
         internal static IGtpEngineBuilder FuegoBuilder;
         /// <summary>
         /// Registers a Fuego wrapper builder. This method should be called once, at the start of 
@@ -23,7 +24,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
-            AISystems.registrationComplete = true;
+            AISystems._registrationComplete = true;
         }
 
         /// <summary>
@@ -35,9 +36,18 @@ namespace OmegaGo.Core.AI
         {
             get
             {
-                if (!AISystems.registrationComplete)
+                if (!AISystems._registrationComplete)
                 {
-                    throw new Exception("Fuego was not yet registered!");
+                    // Fuego is not available
+                    return
+                    new List<IAIProgram>
+                    {
+                        new Defeatist.Defeatist(),
+                        new Random.RandomAI(),
+                        new RandomPlayerWrapper(),
+                        new HeuristicPlayerWrapper(),
+                        new AlphaBetaPlayerWrapper()
+                    };
                 }
                 return
                     new List<IAIProgram>

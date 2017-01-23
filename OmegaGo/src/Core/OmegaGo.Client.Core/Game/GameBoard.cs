@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OmegaGo.Core.Game
 {
+    /// <summary>
+    /// Represents the game board
+    /// </summary>
     public sealed class GameBoard : IEquatable<GameBoard>
     {
-        private StoneColor[,] _board;
-
-        public GameBoardSize Size { get; }
+        /// <summary>
+        /// Board array
+        /// </summary>
+        private readonly StoneColor[,] _board;
 
         /// <summary>
         /// Initializes a new <see cref="GameBoard"/> with the specified dimensions.
@@ -34,8 +39,16 @@ namespace OmegaGo.Core.Game
             }
         }
 
+        /// <summary>
+        /// Size of the game board
+        /// </summary>
+        public GameBoardSize Size { get; }
 
-
+        /// <summary>
+        /// Gets or sets the stone at a given position
+        /// </summary>
+        /// <param name="position">Position</param>
+        /// <returns>Stone color</returns>
         public StoneColor this[Position position]
         {
             get
@@ -48,6 +61,12 @@ namespace OmegaGo.Core.Game
             }
         }
 
+        /// <summary>
+        /// Gets or sets the stone at a given position
+        /// </summary>
+        /// <param name="x">X position</param>
+        /// <param name="y">Y position</param>
+        /// <returns>Stone color</returns>
         public StoneColor this[int x, int y]
         {
             get
@@ -60,9 +79,55 @@ namespace OmegaGo.Core.Game
             }
         }
 
+        public static bool operator ==(GameBoard first, GameBoard second) => Equals(first, second);
+
+        public static bool operator !=(GameBoard first, GameBoard second) => !(first == second);
+
+        /// <summary>
+        /// Creates a game board from a Game Tree Node
+        /// </summary>
+        /// <param name="gameTree">Game tree</param>
+        /// <returns></returns>
+        public static GameBoard CreateBoardFromGameTree(GameTree gameTree)
+        {
+            GameBoard createdBoard = new GameBoard(gameTree.BoardSize);
+            foreach (Move move in gameTree.PrimaryMoveTimeline)
+            {
+                if (move.Kind == MoveKind.PlaceStone)
+                {
+                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
+                }
+                foreach (Position p in move.Captures)
+                {
+                    createdBoard[p.X, p.Y] = StoneColor.None;
+                }
+            }
+            return createdBoard;
+        }
+
+        /// <summary>
+        /// Returns new board without given stones
+        /// </summary>
+        /// <param name="deadPositions"></param>
+        /// <returns>New board without given stones</returns>
+        public GameBoard BoardWithoutTheseStones( IEnumerable<Position> deadPositions)
+        {
+            GameBoard newBoard = new GameBoard(this);
+            foreach (var position in deadPositions)
+            {
+                newBoard[position.X, position.Y] = StoneColor.None;
+            }
+            return newBoard;
+        }
+
+        /// <summary>
+        /// Tests equality of two game boards
+        /// </summary>
+        /// <param name="other">Game board to compare</param>
+        /// <returns>Are game boards equal?</returns>
         public bool Equals(GameBoard other)
         {
-            if ( other != null)
+            if (other != null)
             {
                 if (other.Size == Size)
                 {
@@ -71,12 +136,16 @@ namespace OmegaGo.Core.Game
                         for (int y = 0; y < Size.Height; y++)
                         {
                             if (other[x, y] != this[x, y]) return false;
-                        }                        
+                        }
                     }
                     return true;
                 }
             }
             return false;
         }
+
+        public override int GetHashCode() => Size.GetHashCode();
+
+        public override bool Equals(object obj) => Equals(obj as GameBoard);        
     }
 }

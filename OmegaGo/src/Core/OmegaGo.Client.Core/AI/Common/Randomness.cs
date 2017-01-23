@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI.Common
 {
-    public class Randomness
+    /// <summary>
+    /// Random values provider
+    /// </summary>
+    internal class Randomness
     {
-        private static System.Random rgen = new System.Random();
+        private static readonly System.Random Randomizer = new System.Random();
+
         public static int Next(int maximum)
         {
-            return rgen.Next(maximum);
+            return Randomizer.Next(maximum);
         }
     }
 }

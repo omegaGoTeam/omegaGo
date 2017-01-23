@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private StoneColor _playerOnTurn = StoneColor.Black;        
         private GameTreeNode _currentNode;
 
-        public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
+        public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players )
         {
             Info = gameInfo;
             Ruleset = ruleset;
@@ -47,7 +47,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Players in the game
         /// </summary>
-        public PlayerPair Players { get; }
+        public PlayerPair Players { get; private set; }
 
         /// <summary>
         /// Game info

@@ -1,97 +1,48 @@
-﻿namespace OmegaGo.Core.Game
+﻿using System.Collections.Generic;
+
+namespace OmegaGo.Core.Game
 {
+    /// <summary>
+    /// Represents a game tree
+    /// </summary>
     public sealed class GameTree
     {
-        private GameTreeNode _lastNode;
+        /// <summary>
+        /// Game board size
+        /// </summary>
+        public GameBoardSize BoardSize { get; set; }
 
-        // Information taken from official SGF file definition
-        // http://www.red-bean.com/sgf/proplist_ff.html
-
-        // BR: game-info
-        public string BlackRank { get; set; }
-
-        // BT: game-info
-        public string BlackTeam { get; set; }
-
-        // CP: game-info
-        public string Copyright { get; set; }
-
-        // DT: game-info
-        public string Date { get; set; }
-
-        // GC: game-info
-        public string GameComment { get; set; }
-
-        // EV: game-info
-        public string Event { get; set; }
-
-        // GN: game-info
-        public string GameName { get; set; }
-
-        // HA: game-info
-        public int Handicap { get; set; }
-
-        // KM: game-info
-        public double Komi { get; set; }
-
-        // ON: game-info
-        public string Opening { get; set; }
-
-        // OT: game-info
-        public string Ovetime { get; set; }
-
-        // PB: game-info
-        public string PlayerBlack { get; set; }
-
-        // PC: game-info
-        public string Place { get; set; }
-
-        // PW: game-info
-        public string PlayerWhite { get; set; }
-
-        // RE: game-info
-        public string Result { get; set; }
-
-        // RO: game-info
-        public string Round { get; set; }
-
-        // RU: game-info
-        public string Rules { get; set; }
-
-        // SO: game-info
-        public string Source { get; set; }
-
-        // SZ: root
-        public GameBoardSize Size { get; set; }
-
-        // TM: game-info
-        public double TimeLimit { get; set; }
-
-        // US: game-info
-        public string User { get; set; }
-
-        // WR: game-info
-        public string WhiteRank { get; set; }
-
-        // WT: game-info
-        public string WhiteTeam { get; set; }
-
+        /// <summary>
+        /// Root of the game tree
+        /// </summary>
         public GameTreeNode GameTreeRoot { get; set; }
 
         /// <summary>
         /// Reference to the last added node
         /// </summary>
-        public GameTreeNode LastNode
-        {
-            get { return _lastNode; }
-            set { _lastNode = value; }
-        }
-        
-        public GameTree()
-        {
+        public GameTreeNode LastNode { get; set; }
 
+        /// <summary>
+        /// Gets the primary timeline
+        /// </summary>
+        public IEnumerable<Move> PrimaryMoveTimeline
+        {
+            get
+            {
+                GameTreeNode node = GameTreeRoot;
+                while (node != null)
+                {
+                    yield return node.Move;
+                    node = node.NextMove;
+                }
+            }
         }
-        
+
+        /// <summary>
+        /// Adds the move to the end of the tree
+        /// </summary>
+        /// <param name="move">Move to be added</param>
+        /// <param name="boardState">Game board for the move</param>
         public void AddMoveToEnd(Move move, GameBoard boardState)
         {
             GameTreeNode node = new GameTreeNode(move);

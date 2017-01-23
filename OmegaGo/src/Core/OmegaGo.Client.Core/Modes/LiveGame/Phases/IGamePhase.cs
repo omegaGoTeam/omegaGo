@@ -17,5 +17,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
         /// Starts the phase operation, called by the controller after the phase is set
         /// </summary>
         void StartPhase();
+
+        /// <summary>
+        /// Ends the phase operation, called by the controller when the phase is unset
+        /// </summary>
+        void EndPhase();
     }
 }

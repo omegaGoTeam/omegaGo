@@ -382,6 +382,21 @@ namespace OmegaGo.Core.Rules
             return _captures;
         }
 
+        public List<Position> GetAllLegalMoves(GameBoard board)
+        {
+            // TODO make this work according to rules
+            List<Position> legalMoves = new List<Position>();
+            for (int i = 0; i < board.Size.Width; i++)
+                for (int j = 0; j < board.Size.Height; j++)
+                {
+                    if (board[i, j] == StoneColor.None)
+                    {
+                        legalMoves.Add(new Position() { X = i, Y = j });
+                    }
+                }
+            return legalMoves;
+        }
+
         /// <summary>
         /// Checks the liberty of surrounding groups.
         /// </summary>
