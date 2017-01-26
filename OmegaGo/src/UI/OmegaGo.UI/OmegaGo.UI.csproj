@@ -86,7 +86,6 @@
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
-    <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ObsoleteIGSLobbyViewModel.cs" />

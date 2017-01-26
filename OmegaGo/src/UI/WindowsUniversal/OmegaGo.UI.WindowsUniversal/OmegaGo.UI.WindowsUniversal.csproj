@@ -133,9 +133,6 @@
     <Compile Include="Views\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
     </Compile>
@@ -288,10 +285,6 @@
     <Page Include="Views\HelpView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameCreationView.xaml">
       <SubType>Designer</SubType>
