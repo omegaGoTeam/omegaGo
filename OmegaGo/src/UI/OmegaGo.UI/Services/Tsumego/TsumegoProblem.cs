@@ -34,6 +34,8 @@ namespace OmegaGo.UI.Services.Tsumego
 
         public GameTreeNode InitialTree { get; }
 
+        public GameBoard InitialBoard => InitialTree.BoardState;
+
         public string Solved => "true";
 
         /// <summary>
