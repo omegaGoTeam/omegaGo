@@ -54,7 +54,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         private void Agent_Pass(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var agent = (sender as IAgent);
+            if (agent != null)
+            {
+                Move attemptedMove = Move.Pass(agent.Color);
+                TryToMakeMove(attemptedMove);
+            }
         }
 
         private void UnobservePlayerEvents()
@@ -85,15 +90,26 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                    Controller.Ruleset.ProcessMove(
                        Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
                        move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); // TODO history
+                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); 
             
             if (result.Result == MoveResult.StartLifeAndDeath)
             {
                 GoToPhase(GamePhaseType.LifeDeathDetermination);
+                return;
             }
             else if (result.Result != MoveResult.Legal)
             {
-                player.Agent.MoveIllegal(result.Result);
+                switch (player.Agent.IllegalMoveHandling)
+                {
+                    case IllegalMoveHandling.InformAgent:
+                        player.Agent.MoveIllegal(result.Result);
+                        break;
+                    case IllegalMoveHandling.MakeRandomMove:
+                        throw new Exception("Old AI's not supported yet.");
+                    case IllegalMoveHandling.PermitItAnyway:
+                        result.Result = MoveResult.Legal;
+                        break;
+                }
                 //TODO: Extend to include server based illegal move validation
                 //HandleIllegalMove(player, ref result);
                 if (result.Result != MoveResult.Legal)
