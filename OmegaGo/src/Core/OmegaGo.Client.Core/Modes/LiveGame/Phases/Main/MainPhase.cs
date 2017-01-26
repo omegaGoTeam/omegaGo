@@ -39,6 +39,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 Controller.TurnPlayer = Controller.Players.Black;
             }
+            Controller.OnDebuggingMessage(Controller.TurnPlayer + " begins!");
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
         private void ObservePlayerEvents()
@@ -46,7 +48,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var player in Controller.Players)
             {
                 player.Agent.PlaceStone += HandleStonePlacement;
+                player.Agent.Pass += Agent_Pass;
             }
+        }
+
+        private void Agent_Pass(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void UnobservePlayerEvents()
@@ -67,7 +75,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
         }
 
-        public void TryToMakeMove(Move move)
+        private void TryToMakeMove(Move move)
         {
             var player = Controller.Players[move.WhoMoves];
             if (player != Controller.TurnPlayer)
@@ -104,7 +112,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.NumberOfMoves++;
             var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            
             Controller.CurrentNode = newNode;
-            Controller.SwitchTurnPlayer();            
+            Controller.SwitchTurnPlayer();
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+            Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
         }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)

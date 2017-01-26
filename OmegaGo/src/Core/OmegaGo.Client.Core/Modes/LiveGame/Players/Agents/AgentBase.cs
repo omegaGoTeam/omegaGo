@@ -50,6 +50,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public event EventHandler<Position> PlaceStone;
 
+        public event EventHandler Pass;
+        public virtual void PleaseMakeAMove()
+        {
+        }
+
         public event EventHandler Resign;
 
         public abstract void MoveIllegal(MoveResult move);
@@ -73,6 +78,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         protected virtual void OnPlaceStone( Position position )
         {
             PlaceStone?.Invoke(this, position);
+        }
+        protected virtual void OnPass()
+        {
+            Pass?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnResign()

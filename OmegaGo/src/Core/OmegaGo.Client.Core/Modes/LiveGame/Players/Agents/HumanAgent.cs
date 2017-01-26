@@ -22,17 +22,28 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public override void MoveIllegal(MoveResult move)
         {
-            throw new NotImplementedException();
+            PleaseMakeAMove();
         }
 
         void IHumanAgentActions.PlaceStone(Position selectedPosition)
         {
             OnPlaceStone(selectedPosition);
         }
+        void IHumanAgentActions.Pass()
+        {
+            OnPass();
+        }
 
         void IHumanAgentActions.Resign()
         {
             OnResign();
         }
+
+        public override void PleaseMakeAMove()
+        {
+            MoveRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event EventHandler MoveRequested;
     }
 }

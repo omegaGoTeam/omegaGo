@@ -38,5 +38,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Starts the game
         /// </summary>
         void BeginGame();
+
+        void Resign(GamePlayer playerToMove);
+        event EventHandler<GamePhaseType> GamePhaseChanged;
     }
 }

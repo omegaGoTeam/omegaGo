@@ -15,6 +15,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         void PlaceStone( Position selectedPosition );
 
         /// <summary>
+        /// GUI interface will call this method on a GUI agent when the user requests that the player passes.
+        /// </summary>
+        void Pass();
+
+
+        /// <summary>
         /// GUI interface will call this method on a GUI agent when the user requests that a player passes.
         /// </summary>
         void Resign();

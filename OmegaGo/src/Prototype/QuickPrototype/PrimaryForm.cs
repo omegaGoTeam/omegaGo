@@ -223,13 +223,16 @@ namespace FormsPrototype
         {
             InGameForm ingameForm = new FormsPrototype.InGameForm(null, null);
             LocalGame game = GameBuilder.CreateLocalGame()
-                .BlackPlayer(CreateAgentFromComboboxObject(ingameForm, this.cbBlack.Text, StoneColor.Black))
-                .WhitePlayer(CreateAgentFromComboboxObject(ingameForm, this.cbWhite.Text, StoneColor.White))
+                .BlackPlayer(CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem, StoneColor.Black))
+                .WhitePlayer(CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem, StoneColor.White))
                 .Ruleset(RulesetType.Chinese)
                 .Komi(7.5f)
                 .BoardSize(new GameBoardSize((int) this.nLocalBoardSize.Value))
                 .Build();
-
+            foreach(var player in game.Controller.Players)
+            {
+                player.AssignToGame(game.Info, game.Controller);
+            }
             ingameForm.LoadGame(game);
             ingameForm.Show();
         }
@@ -239,11 +242,14 @@ namespace FormsPrototype
         {
             if (text is string && ((string)text) == "Human")
             {
-                // TODO OnPleaseMakeMove
                 GamePlayer human = new HumanPlayerBuilder(color)
-                    .Name("Local Human")
+                    .Name(color.ToString())
                     .Rank("NR")
                     .Build();
+                (human.Agent as HumanAgent).MoveRequested += (e,e2) =>
+                {
+                    form.GuiAgent_PleaseMakeAMove(null, null);
+                };
                 return human;
             }
             if (text is IAIProgram)
@@ -251,7 +257,7 @@ namespace FormsPrototype
                 IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(text.GetType());
 
                 GamePlayer aiPlayer = new AiPlayerBuilder(color)
-                    .Name(text.ToString())
+                    .Name(text.ToString() + "(" + color.ToIgsCharacterString() +")")
                     .Rank("NR")
                     .AiProgram(newInstance)
                     .Build();
@@ -259,7 +265,12 @@ namespace FormsPrototype
             }
             throw new Exception("This agent cannot be handled yet.");
         }
-        
+
+        private void PrimaryForm_MoveRequested(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private async void button6_Click_1(object sender, EventArgs e)
         {
             Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());

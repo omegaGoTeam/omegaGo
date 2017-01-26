@@ -86,11 +86,12 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Creates a game board from a Game Tree Node
         /// </summary>
+        /// <param name="gameInfo"></param>
         /// <param name="gameTree">Game tree</param>
         /// <returns></returns>
-        public static GameBoard CreateBoardFromGameTree(GameTree gameTree)
+        public static GameBoard CreateBoardFromGameTree(GameInfo gameInfo, GameTree gameTree)
         {
-            GameBoard createdBoard = new GameBoard(gameTree.BoardSize);
+            GameBoard createdBoard = new GameBoard(gameInfo.BoardSize);
             foreach (Move move in gameTree.PrimaryMoveTimeline)
             {
                 if (move.Kind == MoveKind.PlaceStone)

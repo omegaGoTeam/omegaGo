@@ -41,5 +41,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         {
             Agent.AssignToGame(gameInfo, gameState);
         }
+
+        public override string ToString()
+        {
+            return Info.Name;
+        }
     }
 }   

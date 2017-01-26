@@ -118,6 +118,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             SetPhase(GamePhaseType.Initialization);
         }
 
+        public void Resign(GamePlayer playerToMove)
+        {
+            // TODO resignation
+        }
+
         protected virtual void OnTurnPlayerChanged()
         {
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
@@ -130,12 +135,16 @@ namespace OmegaGo.Core.Modes.LiveGame
             CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
         }
 
+        public event EventHandler<GamePhaseType> GamePhaseChanged;
+        
         internal void SetPhase(GamePhaseType phase)
         {
             OnDebuggingMessage("Now moving to " + phase);
             //set the new phase
             var newPhase = PhaseFactory.CreatePhase(phase, this);
             _currentGamePhase = newPhase;
+
+            GamePhaseChanged?.Invoke(this, phase);
 
             //inform agents about new phase and provide them access
             foreach (var player in Players)

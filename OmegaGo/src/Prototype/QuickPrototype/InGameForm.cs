@@ -16,6 +16,7 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
@@ -253,6 +254,7 @@ namespace FormsPrototype
 
         private void _controller_TurnPlayerChanged1(object sender, GamePlayer e)
         {
+            this.PlayerToMove = e;
             this.lblTurnPlayer.Text = e.Info.Name;
         }
 
@@ -382,32 +384,34 @@ namespace FormsPrototype
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
             // TODO
-            /*
-            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is ObsoleteLocalAgent)
+            
+            if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is HumanAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
-            }*/
+            }
         }
 
+        private GamePlayer PlayerToMove;
+
         private void bPASS_Click(object sender, EventArgs e)
-        {/*
+        {
             this.groupboxMoveMaker.Visible = false;
-            (this.PlayerToMove.Agent as IReceiverOfLocalActions).ForcePass(this.PlayerToMove.Color);*/
+            (this.PlayerToMove.Agent as IHumanAgentActions).Pass();
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
-            /*
+            
             if (
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                this._game.GameController.Resign(this.PlayerToMove);
-            }*/
+                this._liveGame.Controller.Resign(this.PlayerToMove);
+            }
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
-        {/*
+        {
             string coordinates = this.tbInputMove.Text;
             Position position;
             try
@@ -419,22 +423,24 @@ namespace FormsPrototype
                 MessageBox.Show("Those are not valid coordinates.");
                 return;
             }
-            if (_gamePhase == GamePhase.LifeDeathDetermination)
+            if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
                 if (_game.Server != null)
                 {
-                    _game.Server.LifeDeath_MarkDead(position, this._game);
+                    // TODO
+                    // _game.Server.LifeDeath_MarkDead(position, this._game);
                 }
                 else
                 {
-                    _controller.MarkGroupDead(position);
+                    // TODO later
+                  //  _controller.MarkGroupDead(position);
                 }
             }
             else
             {
                 this.groupboxMoveMaker.Visible = false;
-                (this.PlayerToMove.Agent as IReceiverOfLocalActions).Click(this.PlayerToMove.Color, position);
-            }*/
+                (this.PlayerToMove.Agent as IHumanAgentActions).PlaceStone(position);
+            }
         }
 
 
@@ -568,6 +574,7 @@ namespace FormsPrototype
 
         private ILiveGame _liveGame;
         private IGameController _controller;
+        private GamePhaseType _gamePhase;
 
         public void LoadGame(ILiveGame game)
         {
@@ -581,6 +588,7 @@ namespace FormsPrototype
            // this._controller.Resignation += _controller_Resignation;
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
+            this._controller.GamePhaseChanged += _controller_GamePhaseChanged;
            //  this._controller.EnterPhase += _controller_EnterPhase;
            /*
             foreach (GamePlayer player in this._liveGame.Controller.Players)
@@ -592,6 +600,11 @@ namespace FormsPrototype
             }
             */
             this._controller.BeginGame();
+        }
+
+        private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
+        {
+            this._gamePhase = e;
         }
 
         private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)

@@ -65,5 +65,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// Fired when the agent resigns
         /// </summary>
         event EventHandler Resign;
+        /// <summary>
+        /// Fired when the agent passes
+        /// </summary>
+        event EventHandler Pass;
+
+        void PleaseMakeAMove();
     }
 }
