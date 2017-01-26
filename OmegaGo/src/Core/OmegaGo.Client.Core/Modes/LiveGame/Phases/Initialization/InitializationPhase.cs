@@ -14,6 +14,7 @@
         /// </summary>
         private void BeginGame()
         {
+            Controller.OnDebuggingMessage("Game begins!");
             foreach (var player in Controller.Players)
             {
                 player.Agent.GameInitialized();

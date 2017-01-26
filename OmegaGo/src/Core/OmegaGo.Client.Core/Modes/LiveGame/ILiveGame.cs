@@ -21,5 +21,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Info about the game
         /// </summary>
         GameInfo Info { get; }
+        
     }
 }

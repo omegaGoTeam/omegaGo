@@ -242,6 +242,7 @@ namespace FormsPrototype
                 // TODO OnPleaseMakeMove
                 GamePlayer human = new HumanPlayerBuilder(color)
                     .Name("Local Human")
+                    .Rank("NR")
                     .Build();
                 return human;
             }
@@ -251,6 +252,7 @@ namespace FormsPrototype
 
                 GamePlayer aiPlayer = new AiPlayerBuilder(color)
                     .Name(text.ToString())
+                    .Rank("NR")
                     .AiProgram(newInstance)
                     .Build();
                 return aiPlayer;

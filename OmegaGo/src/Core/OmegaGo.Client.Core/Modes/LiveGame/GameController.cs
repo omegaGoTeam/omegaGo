@@ -40,6 +40,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         public event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
 
         /// <summary>
+        /// Occurs when a debugging message is to be printed to the user in debug mode.
+        /// </summary>
+        public event EventHandler<string> DebuggingMessage;
+
+        /// <summary>
         /// Ruleset of the game
         /// </summary>
         public IRuleset Ruleset { get; }
@@ -127,6 +132,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         internal void SetPhase(GamePhaseType phase)
         {
+            OnDebuggingMessage("Now moving to " + phase);
             //set the new phase
             var newPhase = PhaseFactory.CreatePhase(phase, this);
             _currentGamePhase = newPhase;
@@ -139,6 +145,11 @@ namespace OmegaGo.Core.Modes.LiveGame
 
             //start the new phase
             _currentGamePhase.StartPhase();
+        }
+
+        internal void OnDebuggingMessage(string message)
+        {
+            DebuggingMessage?.Invoke(this, message);
         }
 
         /// <summary>

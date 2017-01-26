@@ -18,16 +18,15 @@ using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using GoColor = OmegaGo.Core.Game.StoneColor;
 
 namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
-     //   private GamePhase _gamePhase;
         private OnlineGameInfo _game;
         private IgsConnection _igs;
-      //  private GamePlayer PlayerToMove => this._controller.TurnPlayer;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
@@ -41,9 +40,6 @@ namespace FormsPrototype
             
             this._game = game;
             this._igs = igs;
-            /*
-            this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
-            */
             /*
             if (this._game.Server != null)
             {
@@ -66,7 +62,8 @@ namespace FormsPrototype
             RefreshBoard();
         }
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
-        {/*
+        {
+            /*
             if (this._igs != null)
             {
                 this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
@@ -170,11 +167,12 @@ namespace FormsPrototype
         private int _previousMoveNumber = -1;
         private void RefreshBoard()
         {
-            /*
+            if (this._liveGame?.Controller?.GameTree == null) return;
             int whereWeAt = 0;
-            if (this._game.PrimaryTimeline.Any())
+            var primaryTimeline = this._liveGame.Controller.GameTree.PrimaryMoveTimeline;
+            if (primaryTimeline.Any())
             {
-                int newNumber = this._game.PrimaryTimeline.Count() - 1;
+                int newNumber = primaryTimeline.Count() - 1;
                 bool autoUpdate = this.trackTimeline.Value == newNumber - 1;
                 this.trackTimeline.SetRange(0, newNumber);
                 if (autoUpdate && this._previousMoveNumber != newNumber)
@@ -189,22 +187,25 @@ namespace FormsPrototype
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
             GameTreeNode whatIsShowing =
-                _game.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+                this._liveGame.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
             this._truePositions = whatIsShowing?.BoardState ?? positions;
             this._lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates
                 : Position.Undefined;
             // Territories
-            if (this._game.GameTree.LastNode != null)
+            if (this._liveGame.Controller.GameTree.LastNode != null)
             {
-                this._territories = new Territory[this._game.BoardSize.Width, this._game.BoardSize.Height];
+                // TODO
+                /*
+                this._territories = new Territory[this._liveGame.BoardSize.Width, this._game.BoardSize.Height];
                 GameBoard boardAfterRemovalOfDeadStones =
-                    ObsoleteFastBoard.BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
+                    BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
                         this._controller.DeadPositions);
                 Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
                 this._territories = territory;
+                */
             }
-            this.pictureBox1.Refresh();*/
+            this.pictureBox1.Refresh();
         }
 
         
@@ -251,8 +252,8 @@ namespace FormsPrototype
   //      }
 
         private void _controller_TurnPlayerChanged1(object sender, GamePlayer e)
-        {/*
-            this.lblTurnPlayer.Text = e.Name;*/
+        {
+            this.lblTurnPlayer.Text = e.Info.Name;
         }
 
         private void _controller_Resignation(object sender, GamePlayer resigner)
@@ -272,12 +273,12 @@ namespace FormsPrototype
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {/*
+        {
             e.Graphics.DrawRectangle(Pens.Black, new Rectangle(e.ClipRectangle.X, e.ClipRectangle.Y, e.ClipRectangle.Width-1,e.ClipRectangle.Height-1));
 
             const int ofx = 20;
             const int ofy = 20;
-            int boardSize = this._game.SquareBoardSize;
+            int boardSize = this._liveGame.Info.BoardSize.Width;
             for (int x = 0; x < boardSize; x++)
             {
                 e.Graphics.DrawLine(boardSize - x - 1 == this._lastMove.Y ? new Pen(Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
@@ -326,6 +327,7 @@ namespace FormsPrototype
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
 
+                    /* TODO
                     if (this._inLifeDeathDeterminationPhase || this._controller.GamePhase == GamePhase.Completed)
                     {
                         switch(this._territories[x, y])
@@ -344,7 +346,7 @@ namespace FormsPrototype
                                 break;
                         }
                     }
-
+                    */
                     if (x == this._lastMove.X && y == this._lastMove.Y)
                     {
                         Rectangle larger = r;
@@ -358,7 +360,7 @@ namespace FormsPrototype
                         e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), larger);
                     }
                 }
-            }*/
+            }
         }
 
         private void CrossPosition(Color color, Rectangle r, PaintEventArgs e)
@@ -370,8 +372,8 @@ namespace FormsPrototype
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            /*
-            int boardSize = this._game.SquareBoardSize;
+            
+            int boardSize = this._liveGame.Info.BoardSize.Width;
             const int ofx = 20;
             const int ofy = 20;
             int x = (e.X - 2 - ofx) / 20;
@@ -379,6 +381,8 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             this.tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
+            // TODO
+            /*
             if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is ObsoleteLocalAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
@@ -562,10 +566,37 @@ namespace FormsPrototype
             RefreshBoard();
         }
 
-        public void LoadGame(LocalGame game)
+        private ILiveGame _liveGame;
+        private IGameController _controller;
 
+        public void LoadGame(ILiveGame game)
         {
-                //game.Controller
+            _liveGame = game;
+
+            this.Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
+
+            this._controller = this._liveGame.Controller;
+           // this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            this._controller.DebuggingMessage += _controller_DebuggingMessage;
+           // this._controller.Resignation += _controller_Resignation;
+            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
+            this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
+           //  this._controller.EnterPhase += _controller_EnterPhase;
+           /*
+            foreach (GamePlayer player in this._liveGame.Controller.Players)
+            {
+                if (player.Agent is AiAgent)
+                {
+                    ((AiAgent)player.Agent).LogMessage += InGameForm_LogMessage;
+                }
+            }
+            */
+            this._controller.BeginGame();
+        }
+
+        private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
+        {
+            RefreshBoard();
         }
     }
 }

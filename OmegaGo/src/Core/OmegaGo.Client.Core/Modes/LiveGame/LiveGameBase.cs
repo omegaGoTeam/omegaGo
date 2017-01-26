@@ -17,5 +17,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         public abstract IGameController Controller { get; }
 
         public GameInfo Info { get; }
+
+        public GameTree GameTree => Controller.GameTree;
     }
 }

@@ -20,7 +20,9 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the current game tree node has changed
         /// </summary>
-        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;               
+        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+
+        event EventHandler<string> DebuggingMessage;        
 
         /// <summary>
         /// Gets the game's ruleset
