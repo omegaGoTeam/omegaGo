@@ -38,7 +38,7 @@
                 <Button Grid.Row="2"  Content="Back" HorizontalContentAlignment="Stretch" Click="GoBack_Click" />
         </Grid>
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
-        <WebView DefaultBackgroundColor="Transparent" Name="WebView">
+        <WebView DefaultBackgroundColor="White" Name="WebView">
 
             </WebView>
         </Border>
