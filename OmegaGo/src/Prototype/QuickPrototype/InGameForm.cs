@@ -11,10 +11,10 @@ using OmegaGo.Core;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
-using OmegaGo.Core.AI.Common;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using GoColor = OmegaGo.Core.Game.StoneColor;
@@ -23,10 +23,10 @@ namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
-        private GamePhase _gamePhase;
-        private ObsoleteGameInfo _game;
+     //   private GamePhase _gamePhase;
+        private OnlineGameInfo _game;
         private IgsConnection _igs;
-        private GamePlayer PlayerToMove => this._controller.TurnPlayer;
+      //  private GamePlayer PlayerToMove => this._controller.TurnPlayer;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
         private Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
@@ -34,10 +34,10 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
 
-        public InGameForm(ObsoleteGameInfo game, IgsConnection igs)
+        public InGameForm(OnlineGameInfo game, IgsConnection igs)
         {
             InitializeComponent();
-
+            /*
             this._game = game;
             this._igs = igs;
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
@@ -58,11 +58,11 @@ namespace FormsPrototype
                 this.bUndoPlease.Visible = false;
                 this.bUndoYes.Visible = false;
                 this.bUndoNo.Visible = false;
-            }
+            }*/
             RefreshBoard();
         }
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        {/*
             if (this._igs != null)
             {
                 this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
@@ -72,11 +72,12 @@ namespace FormsPrototype
                 this._igs.LastMoveUndone -= _igs_LastMoveUndone;
                 this._igs.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
             }
-            _controller.AbortGame();
+            _controller.AbortGame();*/
         }
 
         private void _igs_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {
+            /*
             if (e.GameInfo == this._game)
             {
                 this._game.GameController.EndGame();
@@ -94,7 +95,7 @@ namespace FormsPrototype
                     "Game completed!",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-            }
+            }*/
         }
     
 
@@ -103,6 +104,8 @@ namespace FormsPrototype
             this.cbRuleset.Items.Add(new ChineseRuleset(this._game.BoardSize));
             this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.BoardSize));
             this.cbRuleset.Items.Add(new AGARuleset(this._game.BoardSize, CountingType.Area));
+
+            /*
             for (int i = 0; i < this.cbRuleset.Items.Count; i++)
             {
                 Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
@@ -112,6 +115,9 @@ namespace FormsPrototype
                     break;
                 }
             }
+            */
+            
+            /*
             this._controller = this._game.GameController;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
@@ -125,7 +131,7 @@ namespace FormsPrototype
                 {
                     ((ObsoleteAIAgent)player.Agent).LogMessage += InGameForm_LogMessage;
                 }
-            }
+            }*/
         }
 
         private void InGameForm_LogMessage(object sender, string e)
@@ -141,22 +147,22 @@ namespace FormsPrototype
             }
         }
 
-        private void _igs_UndoDeclined(object sender, ObsoleteGameInfo e)
+        private void _igs_UndoDeclined(object sender, OnlineGameInfo e)
         {
             if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
         }
-
+        /*
         private void _igs_UndoRequestReceived(object sender, ObsoleteGameInfo e)
         {
             if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
         }
-
+        */
         private void _igs_ErrorMessageReceived(object sender, string e)
         {
             this.SystemLog("ERROR: " + e);
         }
 
-     
+     /*
 
         private void _igs_IncomingInGameChatMessage(object sender, Tuple<ObsoleteGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
         {
@@ -165,7 +171,7 @@ namespace FormsPrototype
                 this.lbPlayerChat.Items.Add("[" + e.Item2.Time.ToString("H:m") + "] " + e.Item2.UserName + ": " +
                                             e.Item2.Text);
             }
-        }
+        }*/
         private void SystemLog(string logline)
         {
             this.tbLog.AppendText(logline + Environment.NewLine);
@@ -176,6 +182,7 @@ namespace FormsPrototype
         private int _previousMoveNumber = -1;
         private void RefreshBoard()
         {
+            /*
             int whereWeAt = 0;
             if (this._game.PrimaryTimeline.Any())
             {
@@ -209,7 +216,7 @@ namespace FormsPrototype
                 Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
                 this._territories = territory;
             }
-            this.pictureBox1.Refresh();
+            this.pictureBox1.Refresh();*/
         }
 
         
@@ -217,11 +224,12 @@ namespace FormsPrototype
 
         /********************* EVENTS **************************/
 
-        private ObsoleteGameController _controller;
+     //   private ObsoleteGameController _controller;
 
      
-        private void _controller_EnterPhase(object sender, GamePhase e)
-        {
+//        private void _controller_EnterPhase(object sender, GamePhase e)
+  //      {
+  /*
             _gamePhase = e;
             if (e == GamePhase.LifeDeathDetermination)
             {
@@ -251,12 +259,12 @@ namespace FormsPrototype
                         MessageBoxIcon.Information);
                 }
             }
-            RefreshBoard();
-        }
+            RefreshBoard();*/
+  //      }
 
         private void _controller_TurnPlayerChanged1(object sender, GamePlayer e)
-        {
-            this.lblTurnPlayer.Text = e.Name;
+        {/*
+            this.lblTurnPlayer.Text = e.Name;*/
         }
 
         private void _controller_Resignation(object sender, GamePlayer resigner)
@@ -276,7 +284,7 @@ namespace FormsPrototype
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
+        {/*
             e.Graphics.DrawRectangle(Pens.Black, new Rectangle(e.ClipRectangle.X, e.ClipRectangle.Y, e.ClipRectangle.Width-1,e.ClipRectangle.Height-1));
 
             const int ofx = 20;
@@ -362,7 +370,7 @@ namespace FormsPrototype
                         e.Graphics.DrawEllipse(new Pen(Brushes.Blue, 3), larger);
                     }
                 }
-            }
+            }*/
         }
 
         private void CrossPosition(Color color, Rectangle r, PaintEventArgs e)
@@ -374,7 +382,7 @@ namespace FormsPrototype
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-
+            /*
             int boardSize = this._game.SquareBoardSize;
             const int ofx = 20;
             const int ofy = 20;
@@ -386,27 +394,28 @@ namespace FormsPrototype
             if (this._inLifeDeathDeterminationPhase || this.PlayerToMove.Agent is ObsoleteLocalAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
-            }
+            }*/
         }
 
         private void bPASS_Click(object sender, EventArgs e)
-        {
+        {/*
             this.groupboxMoveMaker.Visible = false;
-            (this.PlayerToMove.Agent as IReceiverOfLocalActions).ForcePass(this.PlayerToMove.Color);
+            (this.PlayerToMove.Agent as IReceiverOfLocalActions).ForcePass(this.PlayerToMove.Color);*/
         }
 
         private void bRESIGN_Click(object sender, EventArgs e)
         {
+            /*
             if (
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 this._game.GameController.Resign(this.PlayerToMove);
-            }
+            }*/
         }
 
         private void bMakeMove_Click(object sender, EventArgs e)
-        {
+        {/*
             string coordinates = this.tbInputMove.Text;
             Position position;
             try
@@ -433,7 +442,7 @@ namespace FormsPrototype
             {
                 this.groupboxMoveMaker.Visible = false;
                 (this.PlayerToMove.Agent as IReceiverOfLocalActions).Click(this.PlayerToMove.Color, position);
-            }
+            }*/
         }
 
 
@@ -445,7 +454,7 @@ namespace FormsPrototype
         }
 
         private async void bSay_Click(object sender, EventArgs e)
-        {
+        {/*
             if (!await this._igs.SayAsync(this._game, this.tbSayWhat.Text))
             {
                 MessageBox.Show("Say failed.");
@@ -454,7 +463,7 @@ namespace FormsPrototype
             {
                 this.lbPlayerChat.Items.Add("[" + DateTimeOffset.Now.ToString("H:m") + "] You: " + this.tbSayWhat.Text);
                 this.tbSayWhat.Clear();
-            }
+            }*/
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -467,45 +476,45 @@ namespace FormsPrototype
 
         private void bChangeRuleset_Click(object sender, EventArgs e)
         {
-            this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
+         //   this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
             //this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
         }
 
         private void button4_Click(object sender, EventArgs e)
-        {
+        {/*
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
             AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
                 ObsoleteFastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
                 new TimeSpan(1),
                 5, this._game.PrimaryTimeline.ToList()));
-            MessageBox.Show("I recommend you make this move: " + decision);
+            MessageBox.Show("I recommend you make this move: " + decision);*/
         }
 
         private void chEnforceRules_CheckedChanged(object sender, EventArgs e)
         {
-            this._controller.EnforceRules = this.chEnforceRules.Checked;
+         //   this._controller.EnforceRules = this.chEnforceRules.Checked;
         }
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-            foreach (GamePlayer player in this._game.Players)
+           /* foreach (GamePlayer player in this._game.Players)
             {
                 if (player.Agent is ObsoleteAIAgent)
                 {
                     ((ObsoleteAIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
                 }
-            }
+            }*/
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            foreach(var player in _game.Players)
+         /*   foreach(var player in _game.Players)
             {
                 if (player.Agent is ObsoleteLocalAgent || player.Agent is ObsoleteAIAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }
-            }
+            }*/
         }
 
         public void GuiAgent_PleaseMakeAMove(object sender, GamePlayer e)
@@ -515,6 +524,7 @@ namespace FormsPrototype
 
         private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
+            /*
             if (this._game.Server == null)
             {
                 this._controller.LifeDeath_UndoPhase();
@@ -522,29 +532,29 @@ namespace FormsPrototype
             else
             {
                 this._game.Server.LifeDeath_Undo(this._game);
-            }
+            }*/
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
         {
-            this._controller.LifeDeath_Resume();
+           // this._controller.LifeDeath_Resume();
         }
 
       
 
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-            await this._igs.UndoPleaseAsync(this._game);
+           // await this._igs.UndoPleaseAsync(this._game);
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await this._igs.UndoAsync(this._game);
+           // await this._igs.UndoAsync(this._game);
         }
 
         private void bUndoNo_Click(object sender, EventArgs e)
         {
-            this._igs.NoUndo(this._game);
+            //this._igs.NoUndo(this._game);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
@@ -555,7 +565,7 @@ namespace FormsPrototype
         private void LocalUndo()
         {
             SystemLog("Undoing last move...");
-            _controller.MainPhase_Undo();
+            //_controller.MainPhase_Undo();
             SystemLog("Undone.");
         }
 

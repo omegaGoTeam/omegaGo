@@ -4,7 +4,7 @@ using OmegaGo.Core.Online;
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
     /// <summary>
-    /// The online agent is what the <see cref="ServerConnection"/> classes use to forward decisions from remote players to our client.
+    /// The online agent is what the server connection classes use to forward decisions from remote players to our client.
     /// </summary>
     interface IObsoleteOnlineAgent
     {

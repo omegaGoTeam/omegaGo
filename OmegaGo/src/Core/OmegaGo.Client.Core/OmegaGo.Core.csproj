@@ -189,7 +189,6 @@
     <Compile Include="Online\Igs\IgsRegex.cs" />
     <Compile Include="Online\Igs\IgsRequest.cs" />
     <Compile Include="Online\Igs\IgsUser.cs" />
-    <Compile Include="Online\ServerConnection.cs" />
     <Compile Include="Online\ServerLocations.cs" />
     <Compile Include="Modes\LiveGame\Players\GamePlayer.cs" />
     <Compile Include="Game\Position.cs" />

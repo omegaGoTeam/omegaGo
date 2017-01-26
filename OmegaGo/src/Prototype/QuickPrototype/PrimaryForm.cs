@@ -12,6 +12,7 @@ using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online;
@@ -27,7 +28,7 @@ namespace FormsPrototype
     public partial class PrimaryForm : Form
     {
         private IgsConnection igs;
-        private List<ObsoleteGameInfo> games;
+        private List<OnlineGameInfo> observableGames;
 
         public PrimaryForm()
         {
@@ -42,9 +43,9 @@ namespace FormsPrototype
 
         private async void button1_Click(object sender, EventArgs e)
         {
-                    games = await igs.ListGamesInProgressAsync();
-                    this.lbGames.Items.Clear();
-                    this.lbGames.Items.AddRange(games.ToArray());
+            this.observableGames = await igs.ListGamesInProgressAsync();
+            this.lbGames.Items.Clear();
+            this.lbGames.Items.AddRange(this.observableGames.ToArray());
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -76,7 +77,8 @@ namespace FormsPrototype
             igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.OutgoingLine += Igs_OutgoingLine;
-            igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
+         // TODO
+            //   igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
             igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.ConnectAsync())
             {
@@ -89,6 +91,7 @@ namespace FormsPrototype
             }
         }
 
+        /*
         private async void Igs_MatchRequestAccepted(object sender, ObsoleteGameInfo game)
         {
             //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
@@ -99,7 +102,7 @@ namespace FormsPrototype
             localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
             networkPlayer.Agent = new ObsoleteOnlineAgent();
             ingameForm.Show();
-        }
+        }*/
 
         private void Igs_MatchRequestDeclined(object sender, string e)
         {
@@ -141,26 +144,30 @@ namespace FormsPrototype
         {
             if (this.lbGames.SelectedItem != null)
             {
-                ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
-                game.Ruleset = new JapaneseRuleset(game.BoardSize);
+                OnlineGameInfo game = (OnlineGameInfo)lbGames.SelectedItem;
+                // game.Ruleset = new JapaneseRuleset(game.BoardSize);
                 //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
-                game.StartObserving();
-                igs.RefreshBoard(game);
-                InGameForm observing = new InGameForm(game, igs);
+               //  game.StartObserving();
+                //igs.RefreshBoard(game);
+                /*InGameForm observing = new InGameForm(game, igs);
                 observing.Show();
                 this.lbObservedGames.Items.Add(game);
+                */
+                // TODo
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            // TODO
+            /**
             if (this.lbObservedGames.SelectedItem != null)
             {
 
                 ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
                 game.StopObserving();
                 this.lbObservedGames.Items.Remove(game);
-            }
+            }*/
         }
 
         private async void bSendMessage_Click(object sender, EventArgs e)
@@ -189,11 +196,11 @@ namespace FormsPrototype
 
         private void bSortGames_Click(object sender, EventArgs e)
         {
-            games.Sort((g1, g2) => g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
-            games.Reverse();
+            this.observableGames.Sort((g1, g2) => g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
+            this.observableGames.Reverse();
 
             this.lbGames.Items.Clear();
-            this.lbGames.Items.AddRange(games.ToArray());
+            this.lbGames.Items.AddRange(this.observableGames.ToArray());
         }
 
         private async void button7_Click(object sender, EventArgs e)
@@ -210,7 +217,9 @@ namespace FormsPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            ObsoleteGameInfo localGame = new ObsoleteGameInfo
+            // TODO
+            /*
+            OnlineGameInfo localGame = new ObsoleteGameInfo
             {
                 SquareBoardSize = (int) this.nLocalBoardSize.Value,
                 NumberOfMovesPlayed = 0
@@ -225,8 +234,10 @@ namespace FormsPrototype
             playerBlack.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem);
             playerWhite.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem);
             ingameForm.Show();
+            */
         }
 
+        /*
         private IObsoleteAgent CreateAgentFromComboboxObject(InGameForm form, object text)
         {
             if (text is string && ((string)text) == "Human")
@@ -242,7 +253,7 @@ namespace FormsPrototype
             }
             throw new Exception("This agent cannot be handled yet.");
         }
-
+        */
         private async void button6_Click_1(object sender, EventArgs e)
         {
             Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
@@ -303,6 +314,8 @@ namespace FormsPrototype
 
         private async void bAcceptRequest_Click(object sender, EventArgs e)
         {
+            // TODO
+            /*
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
@@ -324,6 +337,7 @@ namespace FormsPrototype
                     Fail("Match request cannot be accepted.");
                 }
             }
+            */
         }
     }
 }

@@ -9,9 +9,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
 {
     public class OnlineGame : LiveGameBase
     {
-        public OnlineGame(GameInfo info) : base(info)
+        public OnlineGame(OnlineGameInfo info) : base(info)
         {
+            Metadata = info;
         }
+
+        public OnlineGameInfo Metadata { get; }
 
         public override IGameController Controller { get; }
     }
