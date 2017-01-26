@@ -17,7 +17,9 @@ using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -239,11 +241,8 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            //TODO: set some options
-            GamePlayer blackPlayer = new HumanPlayerBuilder(StoneColor.Black).Build();
-
-            //TODO: set some options
-            GamePlayer whitePlayer = new HumanPlayerBuilder(StoneColor.White).Build();
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White);
 
             //TODO: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
@@ -253,13 +252,18 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();
-
+            foreach (var player in game.Controller.Players)
+            {
+                player.AssignToGame(game.Info, game.Controller);
+            }
             Mvx.RegisterSingleton<ILiveGame>(game);
         }
 
-        public class GameCreationViewPlayer
+        public abstract class GameCreationViewPlayer
         {
             protected string Name;
+
+            public abstract GamePlayer Build(StoneColor color);
 
             public override string ToString()
             {
@@ -272,6 +276,14 @@ namespace OmegaGo.UI.ViewModels
             {
                 this.Name = name;
             }
+
+            public override GamePlayer Build(StoneColor color)
+            {
+                return new HumanPlayerBuilder(color)
+                    .Name(color.ToString())
+                    .Rank("NR")
+                    .Build();
+            }
         }
         class GameCreationViewAiPlayer : GameCreationViewPlayer
         {
@@ -280,6 +292,16 @@ namespace OmegaGo.UI.ViewModels
             {
                 this.Name = "AI: " + program.Name;
                 this.ai = program;
+            }
+
+            public override GamePlayer Build(StoneColor color)
+            {
+                IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(ai.GetType());
+                return new AiPlayerBuilder(color)
+                    .Name(ai.Name + "(" + color.ToIgsCharacterString() + ")")
+                    .Rank("NR")
+                    .AiProgram(newInstance)
+                    .Build();
             }
         }
 
