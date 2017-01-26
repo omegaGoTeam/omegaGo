@@ -1,0 +1,126 @@
+﻿s Vítej, studente. Jsi připraven se naučit hrát starodávnou hru Go?
+menu
+	option Bude mi ctí se učit od vás, ctěný mistře.
+		s A mně poctou tě vyučovat. Go je hra o obklopování území. Tvým cílem je mít největší území ohraničené kameny tvé barvy.
+	option Když to říkáš. Ať už to máme za sebou, starochu.
+		s Bleskové hry nejsou pro začátečníky a měl bys ukázat více respektu. Ale nechť je po tvém. Začněme!
+next
+s Budeš používat černé kameny. Černý hraje první. Začni prosím tím, že položíš kámen na vyznačený bod, E5.
+do E5
+s Nyní jsem na tahu já. Zahraju svůj kámen vedle tvého. Nyní jsi na řadě opět ty. Ve hře Go s kameny nelze pohybovat - dají se jen pokládat nové. Nyní polož kámen na zvýrazněný bod F6, prosím.
+white E6
+do F6
+s Nyní hraj na E7 a dostaň tak můj kámen do atari.
+white F5
+do E7
+s Nyní udělám naschvál špatný tah. Všimni si, že můj kámen na E6 je nyní obklopen tvými kameny ze třech stran. Už zbývá jen jediný sousední bod - na D6. Této situaci říkáme "být v atari" - je to něco jako být v šachu, ale ne tak vážné.
+white G6
+next
+s Pokud položíš kámen na tento bod, D6, tak "zajmeš" můj kámen a odstraníš ho tak z desky. Udělej to nyní.
+do D6
+clear E6
+s Prázdný prostor mezi čtyřmi černými kameny je nyní tvoje území a na konci hry ti dá 1 bod - pokud ho ovšem nezískám zpět tak, že zajmu tvoje obkličující kameny.
+next
+flash
+s Podívejme se nyní na tuto situace. Řetěz sousedících bílých kamenů tvoří "skupinu". Skupiny mohou být zajmuty jen jako celek. Zajmi nyní tuto skupinu.
+white D5 E5 F5
+black D4 E4 F4 C5 G5 E6 F6
+expect D6
+clear D5 E5 F5
+s Výborně.
+next
+s Nyní zkusíš zajmout několik dalších skupin.
+menu
+	option Ano, mistře.
+		s Zajmi tuto skupinu u rohu.
+	option Aww - vážně musím?
+		s Pokud se chceš naučit hrát Go, ano. Zajmi tuto novou skupinu u rohu.
+flash
+white A9 B9 A8
+black A7 B8
+expect C9
+clear A8 A9 B9
+s Výborně. Nyní, tato skupina sousedí se dvěma prázdnými body, takže budeš potřebovat dva tahy na to, abys ji zajmul.
+white J9 J8
+black J7
+next
+s Prázdné body sousedící se skupinou jsou zvány "svobody". Tato bílá skupina má 2 svobody. Skupina s velmi málo svobodami - jako je tato - je v nebezpečí, že ji soupeř zajme. Nyní ji zajmi.
+do H8
+do H9
+clear J8 J9
+s Jak vidíš, potřebuješ méně kamenů, abys zajmul skupiny u krajů desky.
+next
+s Zajmi tuto skupinu tak, že položíš kámen doprostřed.
+white D6 E6 F6 F5 F4 E4 D4 D5
+black D7 E7 F7 G6 G5 G4 F3 E3 D3 C4 C5 C6
+expect E5
+clear D6 E6 F6 F5 F4 E4 D4 D5
+s Výborně!
+next
+flash
+s Tato skupina má dvě svobody - jednu uvnitř a jednu venku. Zkus nejprve umístit kámen dovnitř skupiny.
+white D6 E6 F6 F5 F4 E4 D4 D5
+black D7 E7 F7 G6 G5 F3 E3 D3 C4 C5 C6
+shine E5
+expect_failure E5
+suicidal_move_message
+s Nejde to, že? To je tím, že sebevražedné tahy - to jest, pokládání kamenů, které by byly okamžitě zajaty soupeřem - jsou v pravidlech zakázány. Zahraj kámen místo toho na vnější svobodu.
+do G4
+s V tuto chvíli už tvůj předchozí tah není sebevražedný, protože když pokládáš kámen, nejprve se vyhodnotí zajmutí soupeře, a teprve poté hra zkontroluje, jestli by soupeř zajal tebe. Hraní "sebevražedných" tahů na poslední svobodu soupeřovy skupiny je povoleno.
+do E5
+clear D6 E6 F6 F5 F4 E4 D4 D5
+s Výborně!
+next
+s Nyní se pokus zajmout tuto skupinu.
+white B9 B8 B7 A8 B6 A6
+black C9 C8 C7 C6 B5 A5
+shine A9
+expect_failure A9
+suicidal_move_message
+shine A7
+expect_failure A7
+suicidal_move_message
+s Je tu problém, studente?
+menu
+	option Nemohu hrát ani na jedné svobodě, mistře.
+		s Přesně. Bylo by sebevražedné hrát na jednom z těchto průsečíků. Tato skupina je tedy nezničitelná.
+	option Je to nemožné! Je to trik!
+		s Jen tě učím, studente. Ale máš pravdu - tuto skupinu vskutku nelze zajmout.
+next
+s Skupina, kterou nelze zajmout, bude vždy vypadat tak trochu jako tato. Má dvě "oči" - prázdná místa uprostřed, kam soupeř nemůže hrát. Taková skupena se nazývá "živá".
+next
+flash
+s Tato skupina má zatím jen jedno oko, ačkoliv má tři svobody. Zahraj kámen na správný průsečík tak, abys dal skupině dvě oči.
+black D1 D2 E2 F2 G2 H2 H1 J1
+white C1 C2 D3 E3 F3 G3 H3 J3 J2
+expect F1
+s Dobrá práce. Tvým úkolem ve hře Go je, zjednodušeně řečeno, vytvořit co nejvíce co největších živých skupin.
+next
+s Když přijdeš na tah, můžeš udělat jednu ze dvou věcí: zahrát kámen nebo se tahu vzdát ("dát pass"). Nyní prosím dej pass.
+button Pass
+next
+s Když oba hráči jeden po druhém passují, hra končí a spočítá se skóre obou hráčů. Každý z tvých kamenů ti přidá 1 bod. Každý prázdný bod obklíčený tvými kameny ti také přidá 1 bod. Hráč s větším počtem bodů zvítězí.
+next
+s V této hře černý vyhrává o 10 bodů. Ovšem protože hrát až druhý je nevýhodné, a bílý vždy hraje až druhý, dostane bílý hráč jako kompenzaci 7,5 bodů. Toto číslo je v některých situacích nebo turnajích trochu jiné.
+flash
+black E9 E8 E7 E6 E5 E4 E3 E2 E1 A8 B8 B7 C7 C6 D6 C5 B5 B4 A3 B3 C3 D3
+white F9 F8 F7 F6 F5 F4 F3 F2 F1 G7 H7 H6 H5 H4 H3 J4 G3
+next
+s V této hře ale i s těmito kompenzačními body černý vyhraje o 2,5 bodu.
+next
+s A to jsou základy hraní Go. Jak se cítíš, studente?
+menu
+	option Jsem stále trochu zmatený.
+		s To je přirozené. Pravidla Go se vejdou na pár stránek ale je to právě skrytá komplexita Go, která hře dovolila přežít tisíciletí.
+	option Stanu se nejlepší hráčem Go na světě!
+		s Úctýhodný cíl. Pokud uspěješ, řekni prosím světu, že tvoje cesta v Go začala právě s aplikací OmegaGo!
+next
+s Budeš se muset naučit více. Nápověda v této aplikaci ti vysvětlí další pravidla a nějaké detaily, ale nejlepší způsob, jak začít, je hrát hry. 
+next
+s Doporučuji ti zahrát si pár her na desce 9x9 proti umělé inteligenci, nebo možná i proto začátečníkům na internetu.
+next
+s Bohužel ovšem nelze nahradit lidského učitele. Pokud je ve tvém městě klub hráčů Go, měl bys vědět, že tě místní hráči velmi rádi naučí hrát a budou ti pomáhat.
+next
+s Udělal jsi dobrou práci během tohoto tutoriálu. Nyní běž a započni svoji cestu ve světě Go!
+button Navrátit se do menu
+next

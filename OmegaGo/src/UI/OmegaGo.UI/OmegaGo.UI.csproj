@@ -352,9 +352,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
+    <EmbeddedResource Include="Services\Tutorial\TutorialCZ.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
     <EmbeddedResource Include="Services\Help\Data\intro.html" />
     <EmbeddedResource Include="Services\Help\Data\japanese.html" />
     <EmbeddedResource Include="Services\Help\Data\resources.html" />
