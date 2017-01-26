@@ -14,8 +14,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
     public class AiAgent : AgentBase
     {
         private readonly IAIProgram _aiProgram;
-        private readonly int _strength;
+        private int _strength;
         private readonly TimeSpan _timeLimit;
+
+        public void SetStrength(int newStrength)
+        {
+            _strength = newStrength;
+        }
 
         public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
         {

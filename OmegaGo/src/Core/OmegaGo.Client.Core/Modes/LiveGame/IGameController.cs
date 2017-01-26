@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -34,6 +35,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         PlayerPair Players { get; }
 
+        List<Position> DeadPositions { get; set; } 
+
         /// <summary>
         /// Starts the game
         /// </summary>
@@ -41,5 +44,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         void Resign(GamePlayer playerToMove);
         event EventHandler<GamePhaseType> GamePhaseChanged;
+        event EventHandler BoardMustBeRefreshed;
+        void Main_Undo();
     }
 }

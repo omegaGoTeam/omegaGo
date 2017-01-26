@@ -54,6 +54,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public PlayerPair Players { get; }
 
+        public List<Position> DeadPositions { get; set; } = new List<Position>();
+
         /// <summary>
         /// Game info
         /// </summary>
@@ -120,7 +122,15 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public void Resign(GamePlayer playerToMove)
         {
-            // TODO resignation
+            OnResignation(playerToMove);
+            // TODO    this._game.Server?.Resign(this._game);
+            SetPhase(GamePhaseType.Finished);
+        }
+
+        public EventHandler<GamePlayer> Resignation;
+        private void OnResignation(GamePlayer player)
+        {
+            Resignation?.Invoke(this, player);
         }
 
         protected virtual void OnTurnPlayerChanged()
@@ -136,9 +146,21 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         public event EventHandler<GamePhaseType> GamePhaseChanged;
-        
+        public void Main_Undo()
+        {
+            if (Phase == GamePhaseType.Main)
+            {
+                (_currentGamePhase as MainPhase).Undo();
+            }
+            else
+            {
+                throw new Exception("Not main phase.");
+            }
+        }
+
         internal void SetPhase(GamePhaseType phase)
         {
+            this._currentGamePhase?.EndPhase();
             OnDebuggingMessage("Now moving to " + phase);
             //set the new phase
             var newPhase = PhaseFactory.CreatePhase(phase, this);
@@ -188,6 +210,12 @@ namespace OmegaGo.Core.Modes.LiveGame
                     new GenericPhaseFactory
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
+        }
+
+        public event EventHandler BoardMustBeRefreshed;
+        public void OnBoardMustBeRefreshed()
+        {
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

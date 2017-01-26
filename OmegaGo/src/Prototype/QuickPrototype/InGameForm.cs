@@ -217,40 +217,7 @@ namespace FormsPrototype
      //   private ObsoleteGameController _controller;
 
      
-//        private void _controller_EnterPhase(object sender, GamePhase e)
-  //      {
-  /*
-            _gamePhase = e;
-            if (e == GamePhase.LifeDeathDetermination)
-            {
-                this.grpLifeDeath.Visible = true;
-                this._inLifeDeathDeterminationPhase = true;
-            }
-            else
-            {
-                this.grpLifeDeath.Visible = false;
-                this._inLifeDeathDeterminationPhase = false;
-            }
-            if (e == GamePhase.Completed)
-            {
-                if (_game.Server == null)
-                {
-                    GameBoard finalBoard = ObsoleteFastBoard.BoardWithoutTheseStones(
-                        ObsoleteFastBoard.CreateBoardFromGame(this._game), this._controller.DeadPositions);
-                    Scores scores = this._game.Ruleset.CountScore(finalBoard);
-                    MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
-                                    (scores.BlackScore > scores.WhiteScore
-                                        ? "Black wins!"
-                                        : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
-                                            ? "It's a draw!"
-                                            : "White wins!")),
-                        "Game completed!",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-            }
-            RefreshBoard();*/
-  //      }
+       
 
         private void _controller_TurnPlayerChanged1(object sender, GamePlayer e)
         {
@@ -472,36 +439,22 @@ namespace FormsPrototype
             }
         }
 
-        private void bChangeRuleset_Click(object sender, EventArgs e)
-        {
-         //   this._game.Ruleset = this.cbRuleset.SelectedItem as Ruleset;
-            //this._game.Ruleset.startGame(_game.White, _game.Black, _game.BoardSize);
-        }
-
         private void button4_Click(object sender, EventArgs e)
-        {/*
-            HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
-            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Color,
-                ObsoleteFastBoard.CreateBoardFromGame(this._game), this._game.BoardSize,
-                new TimeSpan(1),
-                5, this._game.PrimaryTimeline.ToList()));
-            MessageBox.Show("I recommend you make this move: " + decision);*/
-        }
-
-        private void chEnforceRules_CheckedChanged(object sender, EventArgs e)
         {
-         //   this._controller.EnforceRules = this.chEnforceRules.Checked;
+            HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
+            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(this.PlayerToMove.Info.Color,
+                this._liveGame.Controller.GameTree.LastNode.BoardState,
+                new TimeSpan(1),
+                5, this._liveGame.Controller.GameTree.PrimaryMoveTimeline.ToList()));
+            MessageBox.Show("I recommend you make this move: " + decision);
         }
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           /* foreach (GamePlayer player in this._game.Players)
-            {
-                if (player.Agent is ObsoleteAIAgent)
-                {
-                    ((ObsoleteAIAgent)player.Agent).Strength = (int)this.nAiStrength.Value;
-                }
-            }*/
+           foreach (GamePlayer player in this._liveGame.Controller.Players)
+           {
+               (player.Agent as AiAgent)?.SetStrength((int) this.nAiStrength.Value);
+           }
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
@@ -563,7 +516,7 @@ namespace FormsPrototype
         private void LocalUndo()
         {
             SystemLog("Undoing last move...");
-            //_controller.MainPhase_Undo();
+            _controller.Main_Undo();
             SystemLog("Undone.");
         }
 
@@ -583,7 +536,7 @@ namespace FormsPrototype
             this.Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             this._controller = this._liveGame.Controller;
-           // this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
            // this._controller.Resignation += _controller_Resignation;
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
@@ -605,6 +558,36 @@ namespace FormsPrototype
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {
             this._gamePhase = e;
+            if (e == GamePhaseType.LifeDeathDetermination)
+            {
+                this.grpLifeDeath.Visible = true;
+                this._inLifeDeathDeterminationPhase = true;
+            }
+            else
+            {
+                this.grpLifeDeath.Visible = false;
+                this._inLifeDeathDeterminationPhase = false;
+            }
+            if (e == GamePhaseType.Finished)
+            {
+                // TODO
+                //if (_game.Server == null)
+                // {
+                    GameBoard finalBoard =GameBoard.CreateBoardFromGameTree(this._liveGame.Info, this._liveGame.Controller.GameTree).BoardWithoutTheseStones( this._controller.DeadPositions);
+                    Scores scores = this._liveGame.Controller.Ruleset.CountScore(finalBoard);
+
+                    MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                    (scores.BlackScore > scores.WhiteScore
+                                        ? "Black wins!"
+                                        : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
+                                            ? "It's a draw!"
+                                            : "White wins!")),
+                        "Game completed!",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+              //  }
+            }
+            RefreshBoard(); 
         }
 
         private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)

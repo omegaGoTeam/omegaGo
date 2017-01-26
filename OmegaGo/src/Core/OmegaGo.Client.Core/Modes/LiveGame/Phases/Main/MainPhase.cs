@@ -67,6 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var player in Controller.Players)
             {
                 player.Agent.PlaceStone -= HandleStonePlacement;
+                player.Agent.Pass -= Agent_Pass;
             }
         }
 
@@ -193,41 +194,35 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         ///// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
         ///// us to undo, or whenever the user clicks to locally undo.
         ///// </summary>
-        //public void MainPhase_Undo()
-        //{
-        //    if (this.GamePhase != GamePhase.MainPhase)
-        //        throw new InvalidOperationException("We are not in the main phase.");
-        //    var latestMove = _game.GameTree.LastNode;
-        //    if (latestMove == null)
-        //    {
-        //        throw new InvalidOperationException("There are no moves to undo.");
-        //    }
-        //    var previousMove = latestMove.Parent;
-        //    if (previousMove == null)
-        //    {
-        //        _game.GameTree.GameTreeRoot = null;
-        //        _game.GameTree.LastNode = null;
-        //    }
-        //    else
-        //    {
-        //        previousMove.Branches.RemoveNode(latestMove);
-        //        _game.GameTree.LastNode = previousMove;
-        //    }
-        //    _turnPlayer = _game.OpponentOf(_turnPlayer);
-        //    OnTurnPlayerChanged(_turnPlayer);
-        //    // Order here matters:
-        //    (this._turnPlayer.Agent as OnlineAgent)?.Undo();
-        //    _game.NumberOfMovesPlayed--;
-        //    _turnPlayer.Agent.PleaseMakeAMove();
-        //    OnBoardMustBeRefreshed();
-        //}
+        public void Undo()
+        {
+           
+            var latestMove = Controller.GameTree.LastNode;
+            if (latestMove == null)
+            {
+                throw new InvalidOperationException("There are no moves to undo.");
+            }
+            var previousMove = latestMove.Parent;
+            var _game = Controller;
+            if (previousMove == null)
+            {
+                _game.GameTree.GameTreeRoot = null;
+                _game.GameTree.LastNode = null;
+            }
+            else
+            {
+                previousMove.Branches.RemoveNode(latestMove);
+                _game.GameTree.LastNode = previousMove;
+            }
+            Controller.SwitchTurnPlayer();
+            // Order here matters:
+            //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
+            //_game.NumberOfMovesPlayed--;
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+            // TODO
+            Controller.OnBoardMustBeRefreshed();
+        }
 
-        //public void Resign(GamePlayer player)
-        //{
-        //    OnResignation(player);
-        //    this._game.Server?.Resign(this._game);
-        //    _turnPlayer = null;
-        //    SetGamePhase(GamePhaseType.Finished);
-        //}
+      
     }
 }
