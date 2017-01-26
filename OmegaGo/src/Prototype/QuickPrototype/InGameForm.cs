@@ -541,7 +541,7 @@ namespace FormsPrototype
             this._controller = this._liveGame.Controller;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
-           // this._controller.Resignation += _controller_Resignation;
+            this._controller.Resignation += _controller_Resignation;
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             this._controller.GamePhaseChanged += _controller_GamePhaseChanged;

@@ -25,6 +25,8 @@ namespace OmegaGo.Core.AI.Fuego
             if (!initialized)
             {
                 engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.Board.Size.Width);
+                engine.SendCommand("uct_param_player ponder 1");
+                // TODO komi
                 initialized = true;
             }
             if (preMoveInformation.Difficulty != timelimit)

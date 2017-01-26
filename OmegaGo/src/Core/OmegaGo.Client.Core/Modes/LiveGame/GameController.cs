@@ -11,6 +11,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -116,8 +117,17 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public void BeginGame()
         {
+            foreach(var player in Players)
+            {
+                player.Agent.Resign += Agent_Resign;
+            }
             //start initialization phase
             SetPhase(GamePhaseType.Initialization);
+        }
+
+        private void Agent_Resign(object sender, EventArgs e)
+        {
+            Resign(Players[((IAgent) sender).Color]);
         }
 
         public void Resign(GamePlayer playerToMove)
@@ -127,7 +137,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             SetPhase(GamePhaseType.Finished);
         }
 
-        public EventHandler<GamePlayer> Resignation;
+        public event EventHandler<GamePlayer> Resignation;
         private void OnResignation(GamePlayer player)
         {
             Resignation?.Invoke(this, player);
