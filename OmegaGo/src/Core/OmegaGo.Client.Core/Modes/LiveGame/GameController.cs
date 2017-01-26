@@ -158,6 +158,54 @@ namespace OmegaGo.Core.Modes.LiveGame
             }
         }
 
+        public void LifeDeath_Done(GamePlayer player)
+        {
+            if (Phase == GamePhaseType.LifeDeathDetermination)
+            {
+                (_currentGamePhase as LifeAndDeathPhase).Done(player);
+            }
+            else
+            {
+                throw new Exception("Not life/death phase.");
+            }
+        }
+
+        public void LifeDeath_UndoPhase()
+        {
+            if (Phase == GamePhaseType.LifeDeathDetermination)
+            {
+                (_currentGamePhase as LifeAndDeathPhase).UndoPhase();
+            }
+            else
+            {
+                throw new Exception("Not life/death phase.");
+            }
+        }
+
+        public void LifeDeath_Resume()
+        {
+            if (Phase == GamePhaseType.LifeDeathDetermination)
+            {
+                (_currentGamePhase as LifeAndDeathPhase).Resume();
+            }
+            else
+            {
+                throw new Exception("Not life/death phase.");
+            }
+        }
+
+        public void LifeDeath_MarkGroupDead(Position position)
+        {
+            if (Phase == GamePhaseType.LifeDeathDetermination)
+            {
+                (_currentGamePhase as LifeAndDeathPhase).MarkGroupDead(position);
+            }
+            else
+            {
+                throw new Exception("Not life/death phase.");
+            }
+        }
+
         internal void SetPhase(GamePhaseType phase)
         {
             this._currentGamePhase?.EndPhase();

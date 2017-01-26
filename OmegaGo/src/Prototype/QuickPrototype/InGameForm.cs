@@ -197,14 +197,14 @@ namespace FormsPrototype
             if (this._liveGame.Controller.GameTree.LastNode != null)
             {
                 // TODO
-                /*
-                this._territories = new Territory[this._liveGame.BoardSize.Width, this._game.BoardSize.Height];
+                
+                this._territories = new Territory[this._liveGame.Info.BoardSize.Width, this._liveGame.Info.BoardSize.Height];
                 GameBoard boardAfterRemovalOfDeadStones =
-                    BoardWithoutTheseStones(this._game.GameTree.LastNode.BoardState,
+                   this._liveGame.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                         this._controller.DeadPositions);
-                Territory[,] territory = this._game.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+                Territory[,] territory = this._liveGame.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
                 this._territories = territory;
-                */
+                
             }
             this.pictureBox1.Refresh();
         }
@@ -296,8 +296,9 @@ namespace FormsPrototype
                         e.Graphics.DrawEllipse(Pens.Black, r);
                     }
 
-                    /* TODO
-                    if (this._inLifeDeathDeterminationPhase || this._controller.GamePhase == GamePhase.Completed)
+                    
+                    if (this._inLifeDeathDeterminationPhase ||
+                        this._gamePhase == GamePhaseType.Finished)
                     {
                         switch(this._territories[x, y])
                         {
@@ -315,7 +316,7 @@ namespace FormsPrototype
                                 break;
                         }
                     }
-                    */
+                    
                     if (x == this._lastMove.X && y == this._lastMove.Y)
                     {
                         Rectangle larger = r;
@@ -392,16 +393,17 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-                if (_game.Server != null)
-                {
+              //  if (_game.Server != null)
+               // {
                     // TODO
                     // _game.Server.LifeDeath_MarkDead(position, this._game);
-                }
-                else
-                {
+               // }
+               // else
+                //{
                     // TODO later
                   //  _controller.MarkGroupDead(position);
-                }
+                //}
+                _controller.LifeDeath_MarkGroupDead(position);
             }
             else
             {
@@ -459,13 +461,13 @@ namespace FormsPrototype
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-         /*   foreach(var player in _game.Players)
+            foreach(var player in _liveGame.Controller.Players)
             {
-                if (player.Agent is ObsoleteLocalAgent || player.Agent is ObsoleteAIAgent)
+                if (player.Agent is HumanAgent || player.Agent is AiAgent)
                 {
                     _controller.LifeDeath_Done(player);
                 }
-            }*/
+            }
         }
 
         public void GuiAgent_PleaseMakeAMove(object sender, GamePlayer e)
@@ -475,11 +477,12 @@ namespace FormsPrototype
 
         private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            /*
-            if (this._game.Server == null)
-            {
+            // TODO online
+           // if (this._game.Server == null)
+           // {
                 this._controller.LifeDeath_UndoPhase();
-            }
+           // }
+            /*
             else
             {
                 this._game.Server.LifeDeath_Undo(this._game);
@@ -488,7 +491,7 @@ namespace FormsPrototype
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
         {
-           // this._controller.LifeDeath_Resume();
+            this._controller.LifeDeath_Resume();
         }
 
       

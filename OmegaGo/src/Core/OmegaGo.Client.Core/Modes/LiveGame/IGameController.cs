@@ -46,5 +46,10 @@ namespace OmegaGo.Core.Modes.LiveGame
         event EventHandler<GamePhaseType> GamePhaseChanged;
         event EventHandler BoardMustBeRefreshed;
         void Main_Undo();
+        void LifeDeath_Done(GamePlayer player);
+        void LifeDeath_UndoPhase();
+        void LifeDeath_Resume();
+        void LifeDeath_MarkGroupDead(Position position);
+
     }
 }
