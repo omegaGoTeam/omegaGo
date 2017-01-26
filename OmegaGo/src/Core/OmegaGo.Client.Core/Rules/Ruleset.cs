@@ -649,9 +649,14 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        protected void GetRegion(ref HashSet<Position> region, ref Territory regionBelongsTo, Position pos, GameBoard currentBoard)
+        private void GetRegion(
+            ref HashSet<Position> region,
+            ref Territory regionBelongsTo, 
+            Position pos,
+            GameBoard currentBoard)
         {
             if (region.Contains(pos)) return;
+
             region.Add(pos);
             if (pos.X < _boardWidth - 1) //has right neighbour
             {
@@ -709,6 +714,9 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.X > 0) //has left neighbour
             {
+                Position newp = new Position();
+                newp.X = pos.X - 1;
+                newp.Y = pos.Y;
                 switch (currentBoard[pos.X - 1, pos.Y])
                 {
                     case StoneColor.Black:
@@ -724,6 +732,7 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     case StoneColor.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
                     default:
                         break;
@@ -731,6 +740,9 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.Y > 0) //has bottom neighbour
             {
+                Position newp = new Position();
+                newp.X = pos.X;
+                newp.Y = pos.Y - 1;
                 switch (currentBoard[pos.X, pos.Y - 1])
                 {
                     case StoneColor.Black:
@@ -746,6 +758,7 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     case StoneColor.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
                     default:
                         //TODO Exception
