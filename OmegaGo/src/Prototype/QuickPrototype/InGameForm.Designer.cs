@@ -41,16 +41,12 @@
             this.panelEnd = new System.Windows.Forms.Panel();
             this.lblGameEndReason = new System.Windows.Forms.Label();
             this.lblEndCaption = new System.Windows.Forms.Label();
-            this.chEnforceRules = new System.Windows.Forms.CheckBox();
             this.tbSystemMessage = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.bChangeRuleset = new System.Windows.Forms.Button();
-            this.cbRuleset = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.nAiStrength = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -59,6 +55,8 @@
             this.lbPlayerChat = new System.Windows.Forms.ListBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button4 = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbAiLog = new System.Windows.Forms.TextBox();
             this.grpLifeDeath = new System.Windows.Forms.GroupBox();
             this.bResumeAsBlack = new System.Windows.Forms.Button();
             this.bUndoLifeDeath = new System.Windows.Forms.Button();
@@ -70,8 +68,6 @@
             this.bUndoPlease = new System.Windows.Forms.Button();
             this.trackTimeline = new System.Windows.Forms.TrackBar();
             this.lblTimeline = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tbAiLog = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -80,10 +76,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nAiStrength)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.grpLifeDeath.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).BeginInit();
-            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -220,19 +216,6 @@
             this.lblEndCaption.TabIndex = 0;
             this.lblEndCaption.Text = "Game ended.";
             // 
-            // chEnforceRules
-            // 
-            this.chEnforceRules.AutoSize = true;
-            this.chEnforceRules.Checked = true;
-            this.chEnforceRules.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chEnforceRules.Location = new System.Drawing.Point(11, 42);
-            this.chEnforceRules.Name = "chEnforceRules";
-            this.chEnforceRules.Size = new System.Drawing.Size(93, 17);
-            this.chEnforceRules.TabIndex = 13;
-            this.chEnforceRules.Text = "Enforce Rules";
-            this.chEnforceRules.UseVisualStyleBackColor = true;
-            this.chEnforceRules.CheckedChanged += new System.EventHandler(this.chEnforceRules_CheckedChanged);
-            // 
             // tbSystemMessage
             // 
             this.tbSystemMessage.Location = new System.Drawing.Point(187, 16);
@@ -283,12 +266,8 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.bChangeRuleset);
-            this.tabPage3.Controls.Add(this.cbRuleset);
-            this.tabPage3.Controls.Add(this.label7);
             this.tabPage3.Controls.Add(this.nAiStrength);
             this.tabPage3.Controls.Add(this.label6);
-            this.tabPage3.Controls.Add(this.chEnforceRules);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -296,34 +275,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Settings";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // bChangeRuleset
-            // 
-            this.bChangeRuleset.Location = new System.Drawing.Point(200, 118);
-            this.bChangeRuleset.Name = "bChangeRuleset";
-            this.bChangeRuleset.Size = new System.Drawing.Size(75, 23);
-            this.bChangeRuleset.TabIndex = 16;
-            this.bChangeRuleset.Text = "Set";
-            this.bChangeRuleset.UseVisualStyleBackColor = true;
-            this.bChangeRuleset.Click += new System.EventHandler(this.bChangeRuleset_Click);
-            // 
-            // cbRuleset
-            // 
-            this.cbRuleset.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRuleset.FormattingEnabled = true;
-            this.cbRuleset.Location = new System.Drawing.Point(11, 92);
-            this.cbRuleset.Name = "cbRuleset";
-            this.cbRuleset.Size = new System.Drawing.Size(264, 21);
-            this.cbRuleset.TabIndex = 15;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 71);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 13);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Ruleset:";
             // 
             // nAiStrength
             // 
@@ -417,6 +368,28 @@
             this.button4.Text = "Get Hint from Joker23 Heuristic AI";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tbAiLog);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(314, 190);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "AI Log";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbAiLog
+            // 
+            this.tbAiLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbAiLog.Location = new System.Drawing.Point(3, 3);
+            this.tbAiLog.Multiline = true;
+            this.tbAiLog.Name = "tbAiLog";
+            this.tbAiLog.ReadOnly = true;
+            this.tbAiLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbAiLog.Size = new System.Drawing.Size(308, 184);
+            this.tbAiLog.TabIndex = 24;
             // 
             // grpLifeDeath
             // 
@@ -534,28 +507,6 @@
             this.lblTimeline.TabIndex = 23;
             this.lblTimeline.Text = "Timeline:";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.tbAiLog);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(314, 190);
-            this.tabPage2.TabIndex = 4;
-            this.tabPage2.Text = "AI Log";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tbAiLog
-            // 
-            this.tbAiLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbAiLog.Location = new System.Drawing.Point(3, 3);
-            this.tbAiLog.Multiline = true;
-            this.tbAiLog.Name = "tbAiLog";
-            this.tbAiLog.ReadOnly = true;
-            this.tbAiLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbAiLog.Size = new System.Drawing.Size(308, 184);
-            this.tbAiLog.TabIndex = 24;
-            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -592,11 +543,11 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.grpLifeDeath.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).EndInit();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,7 +567,6 @@
         private System.Windows.Forms.Label lblGameEndReason;
         private System.Windows.Forms.Label lblEndCaption;
         public System.Windows.Forms.GroupBox groupboxMoveMaker;
-        private System.Windows.Forms.CheckBox chEnforceRules;
         private System.Windows.Forms.TextBox tbSystemMessage;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tbLog;
@@ -629,11 +579,8 @@
         private System.Windows.Forms.Button bSay;
         private System.Windows.Forms.TextBox tbSayWhat;
         private System.Windows.Forms.ListBox lbPlayerChat;
-        private System.Windows.Forms.ComboBox cbRuleset;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button bChangeRuleset;
         private System.Windows.Forms.GroupBox grpLifeDeath;
         private System.Windows.Forms.Button bDoneWithLifeDeathDetermination;
         private System.Windows.Forms.Button bResumeAsBlack;

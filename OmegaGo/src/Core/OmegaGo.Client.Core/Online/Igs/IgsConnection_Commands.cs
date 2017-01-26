@@ -74,32 +74,18 @@ namespace OmegaGo.Core.Online.Igs
              * 12 - number of observers 
              */
             Match match = regex.Match(line);
-                OnlineGameInfo game = new OnlineGameInfo(null,null, new GameBoardSize(10),
-                    RulesetType.AGA, 0, HandicapPlacementType.Fixed, 2, CountingType.Area)
-                {
-                   // TODO
-                   // ServerId = match.Groups[1].Value.AsInteger(),
-                   // Server = this,
-                   // Players = new List<GamePlayer>(),
-                   // SquareBoardSize = match.Groups[7].Value.AsInteger(),
-                    NumberOfHandicapStones = match.Groups[8].Value.AsInteger(),
-                   // KomiValue = match.Groups[9].Value.AsFloat(),
-                    NumberOfObservers = match.Groups[12].Value.AsInteger()
-                };
-                // TODO
-                /*
-                game.Players.Add(
+            OnlineGameInfo game = new OnlineGameInfo(
+                new PlayerInfo(StoneColor.White, match.Groups[2].Value, match.Groups[3].Value),
+                new PlayerInfo(StoneColor.Black, match.Groups[4].Value, match.Groups[5].Value),
+                new GameBoardSize(match.Groups[7].Value.AsInteger()),
+                RulesetType.Japanese,
+                match.Groups[8].Value.AsInteger(),
+                HandicapPlacementType.Fixed,
+                match.Groups[9].Value.AsFloat(),
+                CountingType.Territory,
+                match.Groups[12].Value.AsInteger(),
+                ServerID.Igs);
 
-                    new GamePlayer(match.Groups[4].Value, match.Groups[5].Value, game)
-                    {
-                        Agent = new ObsoleteOnlineAgent()
-                    });
-                game.Players.Add(
-                    new GamePlayer(match.Groups[2].Value, match.Groups[3].Value, game)
-                    {
-                        Agent = new ObsoleteOnlineAgent()
-                    });
-                    */
                 // DO *NOT* DO this: the displayed number might be something different from what our client wants
                 // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
                 // Do not uncomment the preceding line. I will fix it in time. I hope.

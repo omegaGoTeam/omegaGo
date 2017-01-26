@@ -14,6 +14,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
@@ -37,11 +38,13 @@ namespace FormsPrototype
         public InGameForm(OnlineGameInfo game, IgsConnection igs)
         {
             InitializeComponent();
-            /*
+            
             this._game = game;
             this._igs = igs;
+            /*
             this.Text = game.Players[0].Name + "(" + game.Players[0].Rank + ") vs. " + game.Players[1].Name + "(" + game.Players[1].Rank + ")";
-            
+            */
+            /*
             if (this._game.Server != null)
             {
                 this.bLocalUndo.Visible = false;
@@ -55,10 +58,11 @@ namespace FormsPrototype
             }
             else
             {
+            */
                 this.bUndoPlease.Visible = false;
                 this.bUndoYes.Visible = false;
                 this.bUndoNo.Visible = false;
-            }*/
+            //}
             RefreshBoard();
         }
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -100,23 +104,7 @@ namespace FormsPrototype
     
 
         private void InGameForm_Load(object sender, EventArgs e)
-        {
-            this.cbRuleset.Items.Add(new ChineseRuleset(this._game.BoardSize));
-            this.cbRuleset.Items.Add(new JapaneseRuleset(this._game.BoardSize));
-            this.cbRuleset.Items.Add(new AGARuleset(this._game.BoardSize, CountingType.Area));
-
-            /*
-            for (int i = 0; i < this.cbRuleset.Items.Count; i++)
-            {
-                Ruleset selected = this.cbRuleset.Items[i] as Ruleset;
-                if (selected.GetType() == this._game.Ruleset.GetType())
-                {
-                    this.cbRuleset.SelectedIndex = i;
-                    break;
-                }
-            }
-            */
-            
+        { 
             /*
             this._controller = this._game.GameController;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
@@ -572,6 +560,12 @@ namespace FormsPrototype
         private void trackTimeline_ValueChanged(object sender, EventArgs e)
         {
             RefreshBoard();
+        }
+
+        public void LoadGame(LocalGame game)
+
+        {
+                //game.Controller
         }
     }
 }

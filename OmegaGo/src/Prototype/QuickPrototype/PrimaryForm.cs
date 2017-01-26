@@ -12,9 +12,13 @@ using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
@@ -69,7 +73,7 @@ namespace FormsPrototype
             this.cbBlack.SelectedIndex = 0;
             this.cbWhoPlaysOnline.SelectedIndex = 0;
 
-            igs = new IgsConnection();
+            igs = Connections.Pandanet;
             igs.LogEvent += Igs_LogEvent;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
@@ -217,43 +221,43 @@ namespace FormsPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            // TODO
-            /*
-            OnlineGameInfo localGame = new ObsoleteGameInfo
-            {
-                SquareBoardSize = (int) this.nLocalBoardSize.Value,
-                NumberOfMovesPlayed = 0
-            };
-            GamePlayer playerBlack = new GamePlayer(this.cbBlack.Text + " (Black)", "NR", localGame);
-            GamePlayer playerWhite = new GamePlayer(this.cbWhite.Text + " (White)", "NR", localGame);
-            localGame.Ruleset = new ChineseRuleset(localGame.BoardSize);
-            localGame.Players.Add(playerBlack);
-            localGame.Players.Add(playerWhite);
-            localGame.Server = null;
-            InGameForm ingameForm = new InGameForm(localGame, null);
-            playerBlack.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem);
-            playerWhite.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem);
+            InGameForm ingameForm = new FormsPrototype.InGameForm(null, null);
+            LocalGame game = GameBuilder.CreateLocalGame()
+                .BlackPlayer(CreateAgentFromComboboxObject(ingameForm, this.cbBlack.Text, StoneColor.Black))
+                .WhitePlayer(CreateAgentFromComboboxObject(ingameForm, this.cbWhite.Text, StoneColor.White))
+                .Ruleset(RulesetType.Chinese)
+                .Komi(7.5f)
+                .BoardSize(new GameBoardSize((int) this.nLocalBoardSize.Value))
+                .Build();
+
+            ingameForm.LoadGame(game);
             ingameForm.Show();
-            */
         }
 
-        /*
-        private IObsoleteAgent CreateAgentFromComboboxObject(InGameForm form, object text)
+        
+        private GamePlayer CreateAgentFromComboboxObject(InGameForm form, object text, StoneColor color)
         {
             if (text is string && ((string)text) == "Human")
             {
-                ObsoleteLocalAgent localAgent =  new ObsoleteLocalAgent();
-                localAgent.OnPleaseMakeAMove += form.GuiAgent_PleaseMakeAMove;
-                return localAgent;
+                // TODO OnPleaseMakeMove
+                GamePlayer human = new HumanPlayerBuilder(color)
+                    .Name("Local Human")
+                    .Build();
+                return human;
             }
             if (text is IAIProgram)
             {
                 IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(text.GetType());
-                return new ObsoleteAIAgent(newInstance);
+
+                GamePlayer aiPlayer = new AiPlayerBuilder(color)
+                    .Name(text.ToString())
+                    .AiProgram(newInstance)
+                    .Build();
+                return aiPlayer;
             }
             throw new Exception("This agent cannot be handled yet.");
         }
-        */
+        
         private async void button6_Click_1(object sender, EventArgs e)
         {
             Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());

@@ -94,7 +94,7 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\OnlineGameInfo.cs" />
+    <Compile Include="Game\OnlineGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\LifeAndDeathPhase.cs" />
@@ -122,12 +122,14 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
+    <Compile Include="Online\Connections.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConstants.cs" />
+    <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPlacementType.cs" />
     <Compile Include="Rules\HandicapPositions.cs" />

@@ -88,7 +88,17 @@ namespace OmegaGo.Core.Online.Igs
         }
         private string _loginError = null;
 
-
+        private IgsConnection()
+        {
+        }
+        /// <summary>
+        /// Do not call this except from the class <see cref="Connections"/>. 
+        /// </summary>
+        /// <returns></returns>
+        internal static IgsConnection CreateConnectionFromConnectionsStaticClass()
+        {
+            return new IgsConnection();
+        }
         /// <summary>
         /// Sends a command to the IGS server without doing any checking and synchronization. 
         /// This should only be used while testing, and never as part of any player-facing game action.
