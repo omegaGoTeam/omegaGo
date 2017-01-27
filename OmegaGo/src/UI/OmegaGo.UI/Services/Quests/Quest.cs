@@ -32,5 +32,24 @@ namespace OmegaGo.UI.Services.Quests
         {
             typeof(LearnerQuest)
         };
+        /*
+    Challenges: Each challenge has the same chance to appear.
+
+    • IGS Challenge: Play 3 games on the Internet Go Server.
+    • OGS Challenge: Play 3 games on online-go.com.
+    • Traditional: Play an online 19x19 game.
+    • Human > Computer: Win 3 games against the artificial intelligence.
+    • Epic: Play a game on the 25x25 board.
+    • Learner: Try 5 tsumego problems.
+    • Great Learner: Try 20 tsumego problems.
+    • Master Learner: Solve, on the first try, 5 tsumego problems.
+    • Blitz Rocket: Win a game, taking 5 minutes or less to do so.
+    • Wisdom: Win a 19x19 online game that takes 1 hour or more.
+    • Uneven Strength: Play 2 handicap games, online or against AI.
+    • Getting stronger: Win against the hardest AI.
+    • Pure Skill: Win against the hardest AI, without handicap.
+    • Total Mastery: Win against the hardest AI, giving the AI a handicap of 3 stones.
+
+*/
     }
 }

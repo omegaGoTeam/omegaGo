@@ -42,8 +42,12 @@
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Points: " FontSize="26" Margin="0,0,10,0"></TextBlock>
+                <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
+            </StackPanel>
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250">
+            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250" ItemsSource="{Binding ActiveQuests}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <TextBlock TextAlignment="Center" Text="{x:Bind}" Foreground="Blue" 
@@ -55,6 +59,7 @@
                 <x:String>Second Quest</x:String>
                 <x:String>The Master Quest</x:String>
             </GridView>
+            <TextBlock Text="You receive a new quest every 24 hours, unless you already have 3 quests." HorizontalAlignment="Center"></TextBlock>
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

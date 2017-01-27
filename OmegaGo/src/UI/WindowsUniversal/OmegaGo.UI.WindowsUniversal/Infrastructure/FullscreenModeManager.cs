@@ -1,5 +1,6 @@
 ﻿using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 {
@@ -30,6 +31,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             {
                 Toggle();
             }
+#if DEBUG
+            if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.PermitCheats = true;
+            }
+            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.HandleKey(args.VirtualKey);
+            }
+#endif
         }
 
         /// <summary>

@@ -8,7 +8,6 @@ namespace OmegaGo.UI.Services.Quests
 {
     public class ActiveQuest
     {
-        private string QuestName;
         public Quest Quest;
         public int Progress;
 
@@ -16,7 +15,6 @@ namespace OmegaGo.UI.Services.Quests
         {
             return new Quests.ActiveQuest()
             {
-                QuestName = quest.Name,
                 Quest = quest,
                 Progress = 0
             };
