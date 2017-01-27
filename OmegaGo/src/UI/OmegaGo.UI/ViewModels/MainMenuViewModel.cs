@@ -67,6 +67,40 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        // TODO a converter is probably a better idea
+        private string DO_MUTE = "MUTE";
+        private string DO_UNMUTE = "UNMUTE";
+        public string MuteGlyph {
+            get
+            {
+                return _gameSettings.Audio.Mute
+                    ? "\uE74F" //"&#xE74F"
+                    : "\uE995"; //"&#xE995";
+
+            }
+            set {
+                if (value == DO_MUTE)
+                {
+                    _gameSettings.Audio.Mute = true;
+                } else if (value == DO_UNMUTE)
+                {
+                    _gameSettings.Audio.Mute = false;
+                }
+                RaisePropertyChanged();
+            } 
+        } 
+
+        public IMvxCommand ToggleMute => new MvxCommand(() =>
+        {
+            if (_gameSettings.Audio.Mute)
+            {
+                MuteGlyph = DO_UNMUTE;
+            } else
+            {
+                MuteGlyph = DO_MUTE;
+            }
+        });
+
         private async void ShowLanguageChangeDialog()
         {
             await _dialogService.ShowAsync(Localizer.LanguageChangeInfo);
