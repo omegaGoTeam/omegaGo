@@ -16,23 +16,23 @@
         }
         public bool HighlightLastMove
         {
-            get { return GetSetting(nameof(HighlightLastMove), () => true); }
-            set { SetSetting(nameof(HighlightLastMove), value); }
+            get { return GetSetting(nameof(HighlightLastMove), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(HighlightLastMove), value, SettingLocality.Roamed); }
         }
         public bool HighlightRecentCaptures
         {
-            get { return GetSetting(nameof(HighlightRecentCaptures), () => false); }
-            set { SetSetting(nameof(HighlightRecentCaptures), value); }
+            get { return GetSetting(nameof(HighlightRecentCaptures), () => false, SettingLocality.Roamed); }
+            set { SetSetting(nameof(HighlightRecentCaptures), value, SettingLocality.Roamed); }
         }
         public bool HighlightIllegalKoMoves
         {
-            get { return GetSetting(nameof(HighlightIllegalKoMoves), () => false); }
-            set { SetSetting(nameof(HighlightIllegalKoMoves), value); }
+            get { return GetSetting(nameof(HighlightIllegalKoMoves), () => false, SettingLocality.Roamed); }
+            set { SetSetting(nameof(HighlightIllegalKoMoves), value, SettingLocality.Roamed); }
         }
         public bool ShowCoordinates
         {
-            get { return GetSetting(nameof(ShowCoordinates), () => true); }
-            set { SetSetting(nameof(ShowCoordinates), value); }
+            get { return GetSetting(nameof(ShowCoordinates), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(ShowCoordinates), value, SettingLocality.Roamed); }
         }
     }
     public enum BoardTheme

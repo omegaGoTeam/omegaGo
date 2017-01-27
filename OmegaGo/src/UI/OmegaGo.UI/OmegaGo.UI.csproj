@@ -77,6 +77,7 @@
     <Compile Include="Services\Settings\SettingLocality.cs" />
     <Compile Include="Services\Settings\SettingsGroup.cs" />
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
+    <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />

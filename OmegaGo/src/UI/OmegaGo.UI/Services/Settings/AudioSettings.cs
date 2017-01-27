@@ -34,18 +34,18 @@ namespace OmegaGo.UI.Services.Settings
         }
         public bool PlayWhenYouPlaceStone
         {
-            get { return GetSetting(nameof(PlayWhenYouPlaceStone), () => true); }
-            set { SetSetting(nameof(PlayWhenYouPlaceStone), value); }
+            get { return GetSetting(nameof(PlayWhenYouPlaceStone), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(PlayWhenYouPlaceStone), value, SettingLocality.Roamed); }
         }
         public bool PlayWhenOthersPlaceStone
         {
-            get { return GetSetting(nameof(PlayWhenOthersPlaceStone), () => true); }
-            set { SetSetting(nameof(PlayWhenOthersPlaceStone), value); }
+            get { return GetSetting(nameof(PlayWhenOthersPlaceStone), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(PlayWhenOthersPlaceStone), value, SettingLocality.Roamed); }
         }
         public bool PlayWhenNotificationReceived
         {
-            get { return GetSetting(nameof(PlayWhenNotificationReceived), () => true); }
-            set { SetSetting(nameof(PlayWhenNotificationReceived), value); }
+            get { return GetSetting(nameof(PlayWhenNotificationReceived), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(PlayWhenNotificationReceived), value, SettingLocality.Roamed); }
         }
     }
 }

@@ -90,7 +90,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             if (gameState != null)
             {
-                if (_settings.Tsumego_ShowPossibleMoves)
+                if (_settings.Tsumego.ShowPossibleMoves)
                 {
                     foreach (var position in gameState.TsumegoMarkedPositiongs)
                     {

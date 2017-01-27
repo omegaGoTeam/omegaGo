@@ -7,19 +7,19 @@
         }
 
         public string ProgramName {
-            get { return GetSetting(nameof(ProgramName), () => "Random"); }
-            set { SetSetting(nameof(ProgramName), value); }
+            get { return GetSetting(nameof(ProgramName), () => "Random", SettingLocality.Roamed); }
+            set { SetSetting(nameof(ProgramName), value, SettingLocality.Roamed); }
         }
 
         public bool EnableHints
         {
-            get { return GetSetting(nameof(EnableHints), () => true); }
-            set { SetSetting(nameof(EnableHints), value); }
+            get { return GetSetting(nameof(EnableHints), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(EnableHints), value, SettingLocality.Roamed); }
         }
         public bool EnableInOnlineGames
         {
-            get { return GetSetting(nameof(EnableInOnlineGames), () => false); }
-            set { SetSetting(nameof(EnableInOnlineGames), value); }
+            get { return GetSetting(nameof(EnableInOnlineGames), () => false, SettingLocality.Roamed); }
+            set { SetSetting(nameof(EnableInOnlineGames), value, SettingLocality.Roamed); }
         }
     }
 }

@@ -20,6 +20,7 @@ namespace OmegaGo.UI.Services.Settings
             this.Audio = new AudioSettings(_settings);
             this.Display = new DisplaySettings(_settings);
             this.Assistant = new AssistantSettings(_settings);
+            this.Tsumego = new TsumegoSettings(_settings);
         }
 
         private const string LanguageSettingKey = "Language";
@@ -28,41 +29,13 @@ namespace OmegaGo.UI.Services.Settings
         public DisplaySettings Display { get; }
         public AssistantSettings Assistant { get; }
 
+        public TsumegoSettings Tsumego { get; }
+
         public bool InputConfirmationRequired
         {
-            get { return _settings.GetSetting(nameof(InputConfirmationRequired), () => false); }
-            set { _settings.SetSetting(nameof(InputConfirmationRequired), value); }
+            get { return _settings.GetSetting(nameof(InputConfirmationRequired), () => false, SettingLocality.Roamed); }
+            set { _settings.SetSetting(nameof(InputConfirmationRequired), value, SettingLocality.Roamed); }
         }
-
-        public List<string> Tsumego_SolvedTsumego
-        {
-            get
-            {
-                if (_solvedTsumegos == null)
-                {
-                    _solvedTsumegos = _settings.GetComplexSetting(nameof(Tsumego_SolvedTsumego),
-                        () => new List<string>());
-                }
-                return _solvedTsumegos;
-            }
-        }
-        public void SaveChanges()
-        {
-            if (_solvedTsumegos == null)
-            {
-                _solvedTsumegos = _settings.GetComplexSetting(nameof(Tsumego_SolvedTsumego),
-                      () => new List<string>());
-            }
-            _settings.SetComplexSetting(nameof(Tsumego_SolvedTsumego), _solvedTsumegos);
-        }
-
-        private List<string> _solvedTsumegos;
-        public bool Tsumego_ShowPossibleMoves
-        {
-            get { return _settings.GetSetting(nameof(Tsumego_ShowPossibleMoves), () => true); }
-            set { _settings.SetSetting(nameof(Tsumego_ShowPossibleMoves), value); }
-        }
-        
 
         public string Language
         {
