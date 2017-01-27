@@ -17,7 +17,9 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblem
     {
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        // TODO does not work at design time
+        protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
+
         /// <summary>
         /// Gets the ruleset that is used for tsumego problems (i.e. Chinese 19x19).
         /// </summary>
@@ -38,7 +40,7 @@ namespace OmegaGo.UI.Services.Tsumego
         public GameTreeNode InitialTree { get; }
 
         public GameBoard InitialBoard => InitialTree.BoardState;
-
+        
         public virtual bool Solved => _settings?.Tsumego.SolvedTsumego.Contains(this.Name) ?? false;
 
         /// <summary>

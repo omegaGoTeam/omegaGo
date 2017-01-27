@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
 
@@ -24,10 +25,10 @@ namespace OmegaGo.UI.ViewModels
 
         public int Points => this._settings.Quests.Points;
 
-        public ObservableCollection<string> ActiveQuests = new ObservableCollection<string>
+        public ObservableCollection<ActiveQuest> ActiveQuests = new ObservableCollection<ActiveQuest>
         {
-            "Hi",
-            "Hello"
+           Quest.SpawnRandomQuest(),
+           Quest.SpawnRandomQuest()
         };
     }
 }

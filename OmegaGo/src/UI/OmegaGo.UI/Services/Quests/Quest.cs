@@ -13,12 +13,14 @@ namespace OmegaGo.UI.Services.Quests
         public string Name { get; }
         public string Description { get; }
         public int PointReward { get; }
+        public int MaximumProgress { get; }
 
-        protected Quest(string name, string description, int pointReward)
+        protected Quest(string name, string description, int pointReward, int maximumProgress)
         {
             Name = name;
             Description = description;
             PointReward = pointReward;
+            MaximumProgress = maximumProgress;
         }
 
         public static ActiveQuest SpawnRandomQuest()

@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class LearnerQuest : Quest
     {
-        public LearnerQuest() : base("Learner", "Try solving 5 tsumego problems.", Points.EASY_REWARD)
+        public LearnerQuest() : base("Learner", "Try solving 5 tsumego problems.", Points.EASY_REWARD, 5)
         {
         }
     }
