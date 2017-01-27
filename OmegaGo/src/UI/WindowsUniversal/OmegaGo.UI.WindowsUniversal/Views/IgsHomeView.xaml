@@ -1,0 +1,65 @@
+﻿<views:TransparencyViewBase
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.IgsHomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Pivot Grid.Row="0">
+                <PivotItem Header="Spectate a game">
+                    
+                </PivotItem>
+                <PivotItem Header="Issue a challenge">
+
+                </PivotItem>
+                <PivotItem Header="Console">
+                    <TextBox>
+                        
+                    </TextBox>
+                </PivotItem>
+            </Pivot>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
+                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold">[not logged in]</TextBlock>
+                <Button IsEnabled="False">Logout</Button>
+            </StackPanel>
+        </Grid>
+        <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2">
+            <Grid>
+                <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center">Pandanet - Internet Go Server</TextBlock>
+                
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
+                <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
+                 <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
+                <TextBlock TextAlignment="Center">Password</TextBlock>
+                <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
+                <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
+                <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch">Establish connection</Button>
+            </StackPanel>
+                <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <HyperlinkButton Click="HyperlinkButton_Click">Create a new Pandanet account (opens a browser window)</HyperlinkButton>
+                    <TextBlock TextWrapping="Wrap" Width="400">
+                        Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards.
+
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</views:TransparencyViewBase>

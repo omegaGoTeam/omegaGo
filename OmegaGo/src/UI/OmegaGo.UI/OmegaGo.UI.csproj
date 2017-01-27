@@ -95,6 +95,7 @@
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
+    <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
