@@ -47,7 +47,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
 
         public override string ToString()
         {
-            return White.Name + " vs. " + Black.Name + " (" + NumberOfObservers + " observers)";
+            return $"{White.Name}({White.Rank}) v. {Black.Name}({Black.Rank}) (" + NumberOfObservers + " observers)";
         }
     }
 }

@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online;
+using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
@@ -68,6 +72,16 @@ namespace OmegaGo.UI.ViewModels
             get { return _LoginErrorMessageOpacity; }
             set { SetProperty(ref _LoginErrorMessageOpacity, value); }
         }
+
+        private bool _onlyShowLfgUsers = false;
+        public bool OnlyShowLfgUsers
+        {
+            get { return _onlyShowLfgUsers; }
+            set {
+                SetProperty(ref _onlyShowLfgUsers, value);
+                RefillChallengeableUsersFromAllUsers();
+            }
+        }
         public string UsernameTextBox
         {
             get { return _settings.Interface.IgsName; }
@@ -119,6 +133,8 @@ namespace OmegaGo.UI.ViewModels
                     return;
                 }
             }
+            
+
             ProgressPanelText = "Logging in as " + UsernameTextBox + "...";
             bool loginSuccess = await Connections.Pandanet.LoginAsync(UsernameTextBox, PasswordTextBox);
             if (loginSuccess)
@@ -132,14 +148,59 @@ namespace OmegaGo.UI.ViewModels
                 LoginErrorMessageOpacity = 1;
             }
             ProgressPanelVisible = false;
+            await RefreshGames();
+            await RefreshUsers();
             //Connections.Pandanet.LoginAsync
         });
 
-        public void Initialize()
+        public async Task Initialize()
         {
             LoginScreenVisible = !(Connections.Pandanet.LoggedIn);
             Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
+            if (Connections.Pandanet.LoggedIn)
+            {
+                await RefreshGames();
+                await RefreshUsers();
+            }
+        }
+
+        public async Task RefreshUsers()
+        {
+            ShowProgressPanel("Refreshing the list of logged-in users...");
+            allUsers = await Connections.Pandanet.ListOnlinePlayersAsync();
+            RefillChallengeableUsersFromAllUsers();
+            ProgressPanelVisible = false;
+        }
+
+        private void RefillChallengeableUsersFromAllUsers()
+        {
+            if (OnlyShowLfgUsers)
+            {
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr=>usr.LookingForAGame));
+            }
+            else
+            {
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+            }
+        }
+
+        public async Task RefreshGames()
+        {
+            ShowProgressPanel("Refreshing the list of observable games...");
+            var games = await Connections.Pandanet.ListGamesInProgressAsync();
+            ObservableGames.Clear();
+            foreach (var game in games)
+            {
+                ObservableGames.Add(game);
+            }
+            ProgressPanelVisible = false;
+        }
+
+        private void ShowProgressPanel(string caption)
+        {
+            ProgressPanelText = caption;
+            ProgressPanelVisible = true;
         }
 
         private void Pandanet_OutgoingLine(object sender, string e)
@@ -169,6 +230,22 @@ namespace OmegaGo.UI.ViewModels
             this.Console += "\n" + e;
         }
 
+        public IMvxCommand Refresh => new MvxCommand(() =>
+        {
+
+        });
+
+        private List<IgsUser> allUsers = new List<IgsUser>();
+        private ObservableCollection<IgsUser> _challengeableUsers = new ObservableCollection<IgsUser>();
+        public ObservableCollection<IgsUser> ChallengeableUsers
+        {
+            get { return _challengeableUsers; }
+            set { SetProperty(ref _challengeableUsers, value); }
+        }
+
+        public ObservableCollection<OnlineGameInfo> ObservableGames { get; set; } =
+            new ObservableCollection<OnlineGameInfo>();
+
         public async void Logout()
         {
             if (!Connections.Pandanet.LoggedIn)
@@ -182,6 +259,16 @@ namespace OmegaGo.UI.ViewModels
             RaisePropertyChanged(nameof(LoggedInUser));
             ProgressPanelVisible = false;
             LoginScreenVisible = true;
+        }
+
+        public void SortGames(Comparison<OnlineGameInfo> comparison)
+        {
+            ObservableGames.Sort(comparison);
+        }
+
+        public void SortUsers(Comparison<IgsUser> comparison)
+        {
+            ChallengeableUsers.Sort(comparison);
         }
     }
 }
