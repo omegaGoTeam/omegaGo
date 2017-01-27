@@ -58,5 +58,7 @@ namespace OmegaGo.UI.Services.Quests
     • Total Mastery: Win against the hardest AI, giving the AI a handicap of 3 stones.
 
 */
+
+        public virtual bool NewTsumegoSolved() => false;
     }
 }

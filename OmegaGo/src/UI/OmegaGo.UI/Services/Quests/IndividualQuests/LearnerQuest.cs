@@ -12,10 +12,14 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
     {
         public LearnerQuest() : base("Learner", "Solve 5 tsumego problems.", Points.EASY_REWARD, 5)
         {
+
         }
+
         public override Type GetViewModelToTry()
         {
             return typeof(TsumegoMenuViewModel);
         }
+
+        public override bool NewTsumegoSolved() => true;
     }
 }

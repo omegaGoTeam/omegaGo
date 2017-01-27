@@ -14,6 +14,7 @@ namespace OmegaGo.UI.Services.Settings
     {
         public QuestsGroup(ISettingsService service) : base("Quests", service)
         {
+            Events = new Quests.QuestEvents(this);
         }
         
         public DateTime LastQuestReceivedWhen
@@ -83,5 +84,8 @@ namespace OmegaGo.UI.Services.Settings
             _activeQuests = new List<Quests.ActiveQuest>();
             SaveChanges();
         }
+
+        public QuestEvents Events { get; }
+    
     }
 }

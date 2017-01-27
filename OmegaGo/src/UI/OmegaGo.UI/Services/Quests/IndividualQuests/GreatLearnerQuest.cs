@@ -17,5 +17,6 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         {
             return typeof(TsumegoMenuViewModel);
         }
+        public override bool NewTsumegoSolved() => true;
     }
 }

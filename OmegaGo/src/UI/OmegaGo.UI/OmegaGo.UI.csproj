@@ -75,6 +75,7 @@
     <Compile Include="Services\Quests\IndividualQuests\LearnerQuest.cs" />
     <Compile Include="Services\Quests\Points.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
+    <Compile Include="Services\Quests\QuestEvents.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />
     <Compile Include="Services\Settings\AudioSettings.cs" />
     <Compile Include="Services\Settings\DisplaySettings.cs" />
