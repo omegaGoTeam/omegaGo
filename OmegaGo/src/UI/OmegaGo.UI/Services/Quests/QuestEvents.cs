@@ -9,20 +9,20 @@ namespace OmegaGo.UI.Services.Quests
 {
     public class QuestEvents
     {
-        private QuestsGroup questsGroup;
+        private QuestsSettings _questsSettings;
 
-        public QuestEvents(QuestsGroup questsGroup)
+        public QuestEvents(QuestsSettings _questsSettings)
         {
-            this.questsGroup = questsGroup;
+            this._questsSettings = _questsSettings;
         }
 
         public void NewTsumegoSolved()
         {
-            foreach(var quest in questsGroup.ActiveQuests.ToList())
+            foreach(var quest in this._questsSettings.ActiveQuests.ToList())
             {
                 if (quest.Quest.NewTsumegoSolved())
                 {
-                    questsGroup.ProgressQuest(quest, 1);
+                    this._questsSettings.ProgressQuest(quest, 1);
                 }
             }
         }

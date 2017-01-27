@@ -76,6 +76,7 @@
     <Compile Include="Services\Quests\Points.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestEvents.cs" />
+    <Compile Include="Services\Settings\StatisticsRecords.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />
     <Compile Include="Services\Settings\AudioSettings.cs" />
     <Compile Include="Services\Settings\DisplaySettings.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Services\Settings\SettingLocality.cs" />
     <Compile Include="Services\Settings\SettingsGroup.cs" />
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
-    <Compile Include="Services\Settings\QuestsGroup.cs" />
+    <Compile Include="Services\Settings\QuestsSettings.cs" />
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />

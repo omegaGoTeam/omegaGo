@@ -14,11 +14,65 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock Text="Statistics" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal"
+                   HorizontalAlignment="Center">
+            <TextBlock Text="Statistics" 
+                       Margin="0,20,0,0"
+                       Style="{ThemeResource HeaderTextBlockStyle}" />
+        </StackPanel>
+        <Grid HorizontalAlignment="Center"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="FirstColumn" Width="Auto" />
+                <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="Total games played:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed}"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="1" Text="Hotseat games played:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HotseatGamesPlayed}"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Solo games played:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding LocalGamesPlayed}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Online games played:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding OnlineGamesPlayed}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Total games won:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding TotalGamesWon}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="5" Text="Solo games won:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding LocalGamesWon}"></TextBlock>
+            
+            <TextBlock Grid.Column="0" Grid.Row="6" Text="Online games won:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding OnlineGamesWon}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="7" Text="Quests completed:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding QuestsCompleted}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="8" Text="Tsumego problems solved:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding TsumegoProblemsSolved}"></TextBlock>
+
+            <TextBlock Grid.Column="0" Grid.Row="9" Text="Points:"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding Points}"></TextBlock>
+        </Grid>
     </Grid>
 </views:TransparencyViewBase>

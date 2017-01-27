@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using OmegaGo.UI.Services.Quests;
 
 namespace OmegaGo.UI.Services.Settings
@@ -10,9 +11,9 @@ namespace OmegaGo.UI.Services.Settings
     /// <summary>
     /// Manages Tsumego related settings
     /// </summary>
-    public class QuestsGroup : SettingsGroup
+    public class QuestsSettings : SettingsGroup
     {
-        public QuestsGroup(ISettingsService service) : base("Quests", service)
+        public QuestsSettings(ISettingsService service) : base("Quests", service)
         {
             Events = new Quests.QuestEvents(this);
         }
@@ -70,6 +71,7 @@ namespace OmegaGo.UI.Services.Settings
             {
                 LoseQuest(quest);
                 Points += quest.Quest.PointReward;
+                Mvx.Resolve<IGameSettings>().Statistics.QuestsCompleted++;
             }
             SaveChanges();
         }
