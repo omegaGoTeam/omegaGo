@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Settings
 
         QuestsSettings Quests { get; }
         TsumegoSettings Tsumego { get; }
-
+        InterfaceMementos Interface { get; }
         AudioSettings Audio { get; }
         DisplaySettings Display { get; }
         StatisticsRecords Statistics { get; }

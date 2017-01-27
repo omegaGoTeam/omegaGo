@@ -22,7 +22,6 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToLibrary;
         private IMvxCommand _navigateToStatistics;
         private IMvxCommand _navigateToSettings;
-        private IMvxCommand _navigateToAbout;
         private IMvxCommand _navigateToHelp;
 
         public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )

@@ -23,8 +23,10 @@ namespace OmegaGo.UI.Services.Settings
             this.Quests = new QuestsSettings(_settings);
             this.Tsumego = new TsumegoSettings(_settings);
             this.Statistics = new StatisticsRecords(_settings);
+            this.Interface = new InterfaceMementos(_settings);
         }
         
+        public InterfaceMementos Interface { get; }
         public AudioSettings Audio { get; }
         public DisplaySettings Display { get; }
         public AssistantSettings Assistant { get; }

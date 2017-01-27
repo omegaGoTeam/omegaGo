@@ -37,6 +37,14 @@
                 <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
                 <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold">[not logged in]</TextBlock>
                 <Button IsEnabled="False">Logout</Button>
+                <StackPanel Orientation="Horizontal">
+                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
+
+                    </ProgressRing>
+                    <TextBlock VerticalAlignment="Center">
+                        Communicating with Pandanet...
+                    </TextBlock>
+                </StackPanel>
             </StackPanel>
         </Grid>
         <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2">
