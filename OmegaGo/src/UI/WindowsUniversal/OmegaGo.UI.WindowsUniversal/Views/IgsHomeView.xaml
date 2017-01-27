@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    Loaded="IgsHomeLoaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -35,19 +36,19 @@
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
-                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold">[not logged in]</TextBlock>
+                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
                 <Button IsEnabled="False">Logout</Button>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                     <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
 
                     </ProgressRing>
-                    <TextBlock VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
                         Communicating with Pandanet...
                     </TextBlock>
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2">
+        <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2" Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
             <Grid>
                 <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center">Pandanet - Internet Go Server</TextBlock>
                 
@@ -59,6 +60,7 @@
                 <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
                 <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
                 <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch">Establish connection</Button>
+                    <TextBlock Width="300" TextWrapping="Wrap" Opacity="{Binding LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{Binding LoginErrorMessage, Mode=OneWay}"></TextBlock>
             </StackPanel>
                 <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <HyperlinkButton Click="HyperlinkButton_Click">Create a new Pandanet account (opens a browser window)</HyperlinkButton>

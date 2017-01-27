@@ -19,5 +19,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             await Windows.System.Launcher.LaunchUriAsync(pandanetUri);
 
         }
+
+        private void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            VM.Initialize();
+        }
     }
 }

@@ -38,6 +38,9 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         private bool _shouldBeConnected;
 
+        public bool ConnectionEstablished => _shouldBeConnected;
+        public bool LoggedIn => ConnectionEstablished && _composure == IgsComposure.Ok;
+
 
         // Internal TCP connection objects   
         /// <summary>
@@ -428,6 +431,8 @@ namespace OmegaGo.Core.Online.Igs
         #endregion
         // Interface requirements
         public string ShortName => "IGS";
+        public string Username => _username;
+
         public void RefreshBoard(OnlineGame game)
         {
             // TODO
