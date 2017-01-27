@@ -41,7 +41,7 @@ namespace OmegaGo.UI.Services.Tsumego
 
         public GameBoard InitialBoard => InitialTree.BoardState;
         
-        public virtual bool Solved => _settings?.Tsumego.SolvedTsumego.Contains(this.Name) ?? false;
+        public virtual bool Solved => _settings?.Tsumego.SolvedProblems.Contains(this.Name) ?? false;
 
         /// <summary>
         /// Creates a new game tree from the definition of this problem. The returned node is the root of this tree.

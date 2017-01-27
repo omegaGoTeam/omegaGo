@@ -23,9 +23,7 @@ namespace OmegaGo.UI.Services.Settings
             this.Quests = new QuestsGroup(_settings);
             this.Tsumego = new TsumegoSettings(_settings);
         }
-
-        private const string LanguageSettingKey = "Language";
-
+        
         public AudioSettings Audio { get; }
         public DisplaySettings Display { get; }
         public AssistantSettings Assistant { get; }

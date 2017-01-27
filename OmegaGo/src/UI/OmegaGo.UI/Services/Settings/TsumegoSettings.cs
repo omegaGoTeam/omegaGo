@@ -12,7 +12,7 @@ namespace OmegaGo.UI.Services.Settings
         {
         }
 
-        private List<string> _solvedTsumegosCache;
+        private HashSet<string> _solvedTsumegosCache;
 
         public IEnumerable<string> SolvedProblems
         {
@@ -20,15 +20,19 @@ namespace OmegaGo.UI.Services.Settings
             {
                 if (_solvedTsumegosCache == null)
                 {
-                    _solvedTsumegosCache = GetComplexSetting(nameof(SolvedProblems),
-                        () => new List<string>());
+                    _solvedTsumegosCache = GetComplexSetting(nameof(this.SolvedProblems),
+                        () => new HashSet<string>());
                 }
                 return _solvedTsumegosCache;
             }
             set
             {
-                var list = value.ToList();                
-                SetComplexSetting(nameof(SolvedProblems), list);
+                HashSet<string> list = new HashSet<string>();
+                foreach(string s in value)
+                {
+                    list.Add(s);
+                }
+                SetComplexSetting(nameof(this.SolvedProblems), list);
                 _solvedTsumegosCache = list;
             }           
         }
