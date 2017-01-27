@@ -268,6 +268,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void SortUsers(Comparison<IgsUser> comparison)
         {
+            allUsers.Sort(comparison);
             ChallengeableUsers.Sort(comparison);
         }
     }
