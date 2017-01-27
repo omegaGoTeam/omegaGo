@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     Loaded="IgsHomeLoaded"
+    Unloaded="IgsHomeUnloaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -29,15 +30,20 @@
 
                 </PivotItem>
                 <PivotItem Header="Console">
-                    <TextBox>
-                        
-                    </TextBox>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
+                    <TextBlock
+                       
+                        Padding="20"
+                                Text="{Binding Console, Mode=OneWay}" TextWrapping="Wrap"
+                               FontFamily="Consolas" FontSize="14"></TextBlock>
+                    </ScrollViewer>
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
                 <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                <Button IsEnabled="False">Logout</Button>
+                <Button Click="ChangeUser_Click">Change user...</Button>
+                <Button Click="Logout_Click">Logout</Button>
                 <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                     <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
 
@@ -51,15 +57,18 @@
         <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2" Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
             <Grid>
                 <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center">Pandanet - Internet Go Server</TextBlock>
-                
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <Button Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
+                    [x]
+                </Button>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
                 <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
                  <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
                 <TextBlock TextAlignment="Center">Password</TextBlock>
                 <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
                 <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
-                <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch">Establish connection</Button>
+                <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch">Log In</Button>
                     <TextBlock Width="300" TextWrapping="Wrap" Opacity="{Binding LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{Binding LoginErrorMessage, Mode=OneWay}"></TextBlock>
             </StackPanel>
                 <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">

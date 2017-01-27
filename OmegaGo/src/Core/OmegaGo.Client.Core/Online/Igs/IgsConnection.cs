@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             if (_loginError != null)
             {
-                OnLogEvent("LOGIN ERROR: " + _loginError);
+                OnIncomingLine("LOGIN ERROR: " + _loginError);
                 return false;
             }
             await MakeRequestAsync("toggle quiet true");
@@ -452,10 +452,10 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs whenever this client sends a line of text to the IGS SERVER.
         /// </summary>
-        public event Action<String> OutgoingLine;
+        public event EventHandler<String> OutgoingLine;
         private void OnOutgoingLine(string line)
         {
-            OutgoingLine?.Invoke(line);
+            OutgoingLine?.Invoke(this, line);
         }
         /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
@@ -549,12 +549,12 @@ namespace OmegaGo.Core.Online.Igs
             */
         }
         /// <summary>
-        /// Occurs when the connection class wants to present a log message to the user using the program.
+        /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
         /// </summary>
-        public event EventHandler<string> LogEvent;
-        protected void OnLogEvent(string message)
+        public event EventHandler<string> IncomingLine;
+        protected void OnIncomingLine(string message)
         {
-            LogEvent?.Invoke(this, message);
+            IncomingLine?.Invoke(this, message);
         }
     }
     public class GameScoreEventArgs : EventArgs

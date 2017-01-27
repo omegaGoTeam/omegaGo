@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,6 +138,50 @@ namespace OmegaGo.UI.ViewModels
         public void Initialize()
         {
             LoginScreenVisible = !(Connections.Pandanet.LoggedIn);
+            Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
+            Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
+        }
+
+        private void Pandanet_OutgoingLine(object sender, string e)
+        {
+            this.Console += "\n>" + e;
+        }
+
+        public void Deinitialize()
+        {
+            Connections.Pandanet.IncomingLine -= Pandanet_IncomingLine;
+            Connections.Pandanet.OutgoingLine -= Pandanet_OutgoingLine;
+        }
+
+        private static string consoleContents = "";
+        public string Console
+        {
+            get { return consoleContents; }
+            set
+            {
+                consoleContents = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private void Pandanet_IncomingLine(object sender, string e)
+        {
+            this.Console += "\n" + e;
+        }
+
+        public async void Logout()
+        {
+            if (!Connections.Pandanet.LoggedIn)
+            {
+                Debug.WriteLine("You are not yet logged in.");
+                return;
+            }
+            ProgressPanelVisible = true;
+            ProgressPanelText = "Disconnecting...";
+            await Connections.Pandanet.DisconnectAsync();
+            RaisePropertyChanged(nameof(LoggedInUser));
+            ProgressPanelVisible = false;
+            LoginScreenVisible = true;
         }
     }
 }

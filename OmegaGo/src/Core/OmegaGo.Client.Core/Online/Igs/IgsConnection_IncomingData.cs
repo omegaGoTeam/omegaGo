@@ -48,10 +48,18 @@ namespace OmegaGo.Core.Online.Igs
             List<IgsLine> currentLineBatch = new List<IgsLine>();
             while (true)
             {
-                string line = await sr.ReadLineAsync();
+                string line;
+                try
+                {
+                    line = await sr.ReadLineAsync();
+                }
+                catch (Exception ex) when (ex is ObjectDisposedException || ex is System.Runtime.InteropServices.COMException)
+                {
+                    line = null;
+                }
                 if (line == null)
                 {
-                    OnLogEvent("The connection has been terminated.");
+                    OnIncomingLine("The connection has been terminated.");
                     // TODO add thread safety
                     this._client = null;
                     return;
@@ -63,7 +71,7 @@ namespace OmegaGo.Core.Online.Igs
 
                 IgsCode code = ExtractCodeFromLine(line);
                 IgsLine igsLine = new IgsLine(code, line);
-                OnLogEvent(line);
+                OnIncomingLine(line);
 
                 switch (this._composure)
                 {
@@ -86,11 +94,15 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.LoggingIn:
                         if (igsLine.EntireLine.Contains("Invalid password."))
                         {
+                            this._composure = IgsComposure.Confused;
                             this._loginError = "The password is incorrect.";
+                            continue;
                         }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
+                            this._composure = IgsComposure.Confused;
                             this._loginError = "The username does not exist.";
+                            continue;
                         }
                         if (igsLine.EntireLine.Contains("1 5"))
                         {

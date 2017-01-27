@@ -40,7 +40,7 @@ namespace FormsPrototype
 
         }
 
-        private void Igs_LogEvent(object sender, string obj)
+        private void IgsIncomingLine(object sender, string obj)
         {
            this.tbConsole.AppendText(Environment.NewLine + obj);
         }
@@ -74,7 +74,7 @@ namespace FormsPrototype
             this.cbWhoPlaysOnline.SelectedIndex = 0;
 
             igs = Connections.Pandanet;
-            igs.LogEvent += Igs_LogEvent;
+            igs.IncomingLine += IgsIncomingLine;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.UnhandledLine += Igs_UnhandledLine;
@@ -113,7 +113,7 @@ namespace FormsPrototype
             MessageBox.Show("Our match request was declined by '" + e + "'. Boo '" + e + "'.");
         }
 
-        private void Igs_OutgoingLine(string obj)
+        private void Igs_OutgoingLine(object sender, string obj)
         {
             this.tbConsole.AppendText("> " + obj);
         }
@@ -273,14 +273,14 @@ namespace FormsPrototype
 
         private async void button6_Click_1(object sender, EventArgs e)
         {
-            Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
-            Igs_LogEvent(this, "LOGIN() RESULT: " + await this.igs.LoginAsync("OmegaGo1", "123456789"));
+            IgsIncomingLine(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
+            IgsIncomingLine(this, "LOGIN() RESULT: " + await this.igs.LoginAsync("OmegaGo1", "123456789"));
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
             await this.igs.DisconnectAsync();
-            Igs_LogEvent(this, "DISCONNECTED.");
+            IgsIncomingLine(this, "DISCONNECTED.");
         }
 
         private async void button5_Click(object sender, EventArgs e)
