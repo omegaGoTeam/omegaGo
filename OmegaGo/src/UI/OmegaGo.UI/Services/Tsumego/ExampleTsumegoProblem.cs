@@ -12,6 +12,8 @@ namespace OmegaGo.UI.Services.Tsumego
 {
     public class ExampleTsumegoProblem : TsumegoProblem
     {
+        public override bool Solved => true;
+
         public ExampleTsumegoProblem() :
             base("Example", new SgfParser().Parse(@"(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
 SO[https://online-go.com/puzzle/2824]

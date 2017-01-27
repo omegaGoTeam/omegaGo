@@ -16,15 +16,11 @@ namespace OmegaGo.UI.Services.Settings
         /// </summary>
         string Language { get; set; }
 
-        bool Tsumego_ShowPossibleMoves { get; set; }
-
+        QuestsGroup Quests { get; }
         AudioSettings Audio { get; }
         DisplaySettings Display { get; }
         bool InputConfirmationRequired { get; set; }
-
         AssistantSettings Assistant { get; }
-        void SaveChanges();
-        List<string> Tsumego_SolvedTsumego { get; }
         /// <summary>
         /// Tsumego related settings
         /// </summary>

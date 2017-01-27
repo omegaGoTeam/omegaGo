@@ -68,7 +68,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
             }
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardState.BoardBorderThickness, SharedBoardState.BoardBorderThickness);
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardControlState.BoardBorderThickness, SharedBoardControlState.BoardBorderThickness);
             DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
             DrawBoardStarPoints(args.DrawingSession, SharedBoardControlState);
 

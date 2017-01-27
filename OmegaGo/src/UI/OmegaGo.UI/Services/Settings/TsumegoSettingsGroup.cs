@@ -25,5 +25,29 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(ShowPossibleMovesSettingKey, () => true, SettingLocality.Roamed); }
             set { SetSetting(ShowPossibleMovesSettingKey, value, SettingLocality.Roamed); }
         }
+
+        private HashSet<string> _solvedTsumegos;
+        public HashSet<string> SolvedTsumego
+        {
+            get
+            {
+                if (_solvedTsumegos == null)
+                {
+                    _solvedTsumegos = GetComplexSetting(nameof(this.SolvedTsumego),
+                        () => new HashSet<string>());
+                }
+                return _solvedTsumegos;
+            }
+        }
+        public void SaveChanges()
+        {
+            if (_solvedTsumegos == null)
+            {
+                _solvedTsumegos = GetComplexSetting(nameof(this.SolvedTsumego),
+                      () => new HashSet<string>());
+            }
+            SetComplexSetting(nameof(this.SolvedTsumego), _solvedTsumegos);
+        }
+
     }
 }

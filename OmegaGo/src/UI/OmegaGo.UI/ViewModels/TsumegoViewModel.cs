@@ -119,6 +119,9 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             if (node.TsumegoCorrect)
             {
                 status = "SOLVED!";
+                _settings.Tsumego.SolvedTsumego.Add(_currentProblem.Name);
+                _settings.Tsumego.SaveChanges();
+
             }
             else if (node.TsumegoWrong)
             {

@@ -38,8 +38,8 @@
                                 <!--<TextBlock Text="{Binding Name}" TextWrapping="Wrap"></TextBlock>
                                 <TextBlock Text="Initial Tree Board View Here" TextWrapping="Wrap"></TextBlock>-->
                                 <userControls:SimpleBoardControl Height="100" Width="100" Margin="20" GameBoard="{Binding InitialBoard}"  />
-                                <TextBlock Text="Solved?" TextWrapping="Wrap"></TextBlock>
-                                <TextBlock Text="{Binding Solved}" FontWeight="Bold"></TextBlock>
+                                <TextBlock Text="Solved!" FontWeight="Bold"
+                                           Visibility="{Binding Solved, Converter={StaticResource VisibilityConverter}}"></TextBlock>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

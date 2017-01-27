@@ -61,5 +61,13 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="locality">Locality of the setting</param>
         protected void SetSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local) =>
             _service.SetSetting(CreateGroupedSettingKey(key), value, locality);
+
+        protected T GetComplexSetting<T>(string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local)
+            where T: new()
+            => _service.GetComplexSetting(key, defaultValueBuilder, locality);
+
+        protected void SetComplexSetting<T>(string key,T value, SettingLocality locality = SettingLocality.Local)
+          where T : new()
+          => _service.SetComplexSetting(key, value, locality);
     }
 }
