@@ -32,6 +32,12 @@ namespace OmegaGo.Core.Extensions
             }
         }
 
+        public static T GetRandom<T>(this IList<T> list)
+        {
+            int index = Randomizer.Next(list.Count);
+            return list[index];
+        }
+
         /// <summary>
         /// Performs a specified action for each descendant of this tree node, using a given function
         /// to determine the children of each node. The action is performed using pre-order traversal.
