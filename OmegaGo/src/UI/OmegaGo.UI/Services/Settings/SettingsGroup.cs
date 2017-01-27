@@ -62,12 +62,27 @@ namespace OmegaGo.UI.Services.Settings
         protected void SetSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local) =>
             _service.SetSetting(CreateGroupedSettingKey(key), value, locality);
 
-        protected T GetComplexSetting<T>(string key, Func<T> defaultValueBuilder, SettingLocality locality = SettingLocality.Local)
-            where T: new()
+        /// <summary>
+        /// After setting retrieval, the setting is deserialized from JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="defaultValueBuilder">Value</param>
+        /// <param name="locality">Locality</param>
+        /// <returns></returns>
+        protected T GetComplexSetting<T>(string key, Func<T> defaultValueBuilder,
+            SettingLocality locality = SettingLocality.Local) where T : new()
             => _service.GetComplexSetting(key, defaultValueBuilder, locality);
 
-        protected void SetComplexSetting<T>(string key,T value, SettingLocality locality = SettingLocality.Local)
-          where T : new()
-          => _service.SetComplexSetting(key, value, locality);
+        /// <summary>
+        /// Before storing the setting, it is first serialized to JSON
+        /// </summary>
+        /// <typeparam name="T">Type of the setting</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="value">Value</param>
+        /// <param name="locality">Locality</param>
+        protected void SetComplexSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
+            where T : new()
+            => _service.SetComplexSetting(key, value, locality);
     }
 }
