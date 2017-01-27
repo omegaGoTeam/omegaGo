@@ -28,7 +28,6 @@ namespace OmegaGo.UI.Services.Settings
         public DisplaySettings Display { get; }
         public AssistantSettings Assistant { get; }
         public QuestsGroup Quests { get; }
-
         public TsumegoSettings Tsumego { get; }
 
         public bool InputConfirmationRequired
