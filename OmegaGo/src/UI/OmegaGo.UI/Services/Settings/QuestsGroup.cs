@@ -18,13 +18,13 @@ namespace OmegaGo.UI.Services.Settings
         
         public DateTime LastQuestReceivedWhen
         {
-            get { return GetSetting(nameof(LastQuestReceivedWhen), ()=>DateTime.Now.AddDays(-1)); }
-            set { SetSetting(nameof(LastQuestReceivedWhen), value); }
+            get { return GetComplexSetting(nameof(LastQuestReceivedWhen), ()=>DateTime.Now.AddDays(-1.2f)); }
+            set { SetComplexSetting(nameof(LastQuestReceivedWhen), value); }
         }
         public DateTime LastQuestExchangedWhen
         {
-            get { return GetSetting(nameof(LastQuestExchangedWhen), () => DateTime.Now.AddDays(-1)); }
-            set { SetSetting(nameof(LastQuestExchangedWhen), value); }
+            get { return GetComplexSetting(nameof(LastQuestExchangedWhen), () => DateTime.Now.AddDays(-1.2f)); }
+            set { SetComplexSetting(nameof(LastQuestExchangedWhen), value); }
         }
 
         public int Points
@@ -35,7 +35,7 @@ namespace OmegaGo.UI.Services.Settings
 
         private List<ActiveQuest> _activeQuests;
 
-        private List<ActiveQuest> ActiveQuests
+        public IEnumerable<ActiveQuest> ActiveQuests
         {
             get
             {
@@ -47,7 +47,7 @@ namespace OmegaGo.UI.Services.Settings
                 return _activeQuests;
             }
         }
-        public void SaveChanges()
+        private void SaveChanges()
         {
             if (_activeQuests == null)
             {
@@ -57,5 +57,31 @@ namespace OmegaGo.UI.Services.Settings
             SetComplexSetting(nameof(this.ActiveQuests), _activeQuests);
         }
 
+        public void AddQuest(ActiveQuest quest)
+        {
+            _activeQuests.Add(quest);
+            SaveChanges();
+        }
+        public void ProgressQuest(ActiveQuest quest, int additionalProgress)
+        {
+            quest.Progress += additionalProgress;
+            if (quest.Progress >= quest.Quest.MaximumProgress)
+            {
+                LoseQuest(quest);
+                Points += quest.Quest.PointReward;
+            }
+            SaveChanges();
+        }
+        public void LoseQuest(ActiveQuest quest)
+        {
+            _activeQuests.Remove(quest);
+            SaveChanges();
+        }
+
+        public void ClearAllQuests()
+        {
+            _activeQuests = new List<Quests.ActiveQuest>();
+            SaveChanges();
+        }
     }
 }

@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace OmegaGo.UI.Services.Quests
 {
     public class ActiveQuest
     {
-        public Quest Quest { get; set; }
+        public string QuestID;
+
+        [JsonIgnore]
+        public Quest Quest => Quest.AllQuests[QuestID];
         public int Progress { get; set; }
 
         protected ActiveQuest() { }
-        private ActiveQuest(Quest quest, int progress)
+        private ActiveQuest(string id, int progress)
         {
-            Quest = quest;
+            QuestID = id;
             Progress = progress;
         }
-        public static ActiveQuest Create(Quest quest)
+        public static ActiveQuest Create(string id)
         {
-            return new Quests.ActiveQuest(quest, 0);
+            return new Quests.ActiveQuest(id, 0);
         }
     }
 }

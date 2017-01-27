@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OmegaGo.Core.Extensions;
 using OmegaGo.UI.Services.Quests.IndividualQuests;
 
 namespace OmegaGo.UI.Services.Quests
 {
-    public class Quest
+    public abstract class Quest
     {
         public string Name { get; }
         public string Description { get; }
         public int PointReward { get; }
         public int MaximumProgress { get; }
+        public abstract Type GetViewModelToTry();
 
         protected Quest(string name, string description, int pointReward, int maximumProgress)
         {
@@ -25,15 +27,18 @@ namespace OmegaGo.UI.Services.Quests
 
         public static ActiveQuest SpawnRandomQuest()
         {
-            Type questType = Quest.allQuests.GetRandom();
-            Quest quest = (Quest)Activator.CreateInstance(questType);
-            return ActiveQuest.Create(quest);
+            string randomQuestName = Quest.AllQuests.Keys.ToList().GetRandom();
+            return ActiveQuest.Create(randomQuestName);
         }
 
-        private static List<Type> allQuests = new List<Type>
+        public static Dictionary<string, Quest> AllQuests = new Dictionary<string, Quest>
         {
-            typeof(LearnerQuest)
+            ["Learner"] = new LearnerQuest(),
+            ["Great Learner"] = new GreatLearnerQuest()
         };
+        
+
+        public const int MAXIMUM_NUMBER_OF_QUESTS = 3;
         /*
     Challenges: Each challenge has the same chance to appear.
 

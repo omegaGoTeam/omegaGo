@@ -71,6 +71,7 @@
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
+    <Compile Include="Services\Quests\IndividualQuests\GreatLearnerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\LearnerQuest.cs" />
     <Compile Include="Services\Quests\Points.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
