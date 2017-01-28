@@ -10,6 +10,11 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.Services.Game
 {
+    /// <summary>
+    /// Contains information associated with the user control that displays a Go board,
+    /// such as styles or highlighted positions.
+    /// </summary>
+    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public sealed class BoardControlState : INotifyPropertyChanged
     {
         private int _cellSize;
@@ -28,13 +33,13 @@ namespace OmegaGo.UI.Services.Game
         private MvxColor _selectionColor;
 
         private Position _selectedPosition;
-        private Position _highlightedPosition;
+        private Position _mouseOverPosition;
         private Position _shiningPosition;
 
         public BoardControlState()
         {
             _selectedPosition = Position.Undefined;
-            _highlightedPosition = Position.Undefined;
+            this._mouseOverPosition = Position.Undefined;
             _shiningPosition = Position.Undefined;
 
             _cellSize = 32;
@@ -116,16 +121,19 @@ namespace OmegaGo.UI.Services.Game
             }
         }
 
-        public Position HighlightedPosition
+        /// <summary>
+        /// Gets or sets the position the mouse is hovering over.
+        /// </summary>
+        public Position MouseOverPosition
         {
-            get { return _highlightedPosition; }
+            get { return this._mouseOverPosition; }
             set
             {
-                if (value.Equals(_highlightedPosition))
+                if (value.Equals(this._mouseOverPosition))
                     return;
 
-                _highlightedPosition = value;
-                OnPropertyChanged(nameof(HighlightedPosition), true);
+                this._mouseOverPosition = value;
+                OnPropertyChanged(nameof(this.MouseOverPosition), true);
             }
         }
         /// <summary>

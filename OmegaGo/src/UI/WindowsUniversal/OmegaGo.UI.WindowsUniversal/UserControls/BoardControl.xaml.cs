@@ -8,12 +8,19 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
+    /// <summary>
+    /// Presents an interactible Go board in a canvas.
+    /// </summary>
     public sealed partial class BoardControl : UserControlBase
     {
         private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
-        
+
+        /// <summary>
+        /// Gets information stored with this board control, for example, styling or highlighted positions. This is the same object
+        /// as in the view model.
+        /// </summary>
         public BoardControlState BoardControlState => _boardControlState;
         public InputService InputService => _inputService;
         public RenderService RenderService => _renderService;
@@ -25,6 +32,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                            typeof(BoardControl),
                            new PropertyMetadata(null));
 
+        /// <summary>
+        /// The view model contains the displayed node as well as the same <see cref="BoardControlState"/>. Once set,
+        /// the viewmodel must not change. 
+        /// </summary>
         public BoardViewModel ViewModel
         {
             get { return (BoardViewModel)GetValue(ViewModelProperty); }
@@ -43,6 +54,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
 
+            // TODO Petr: the following two lines don't seem to do anything
             _boardControlState.BoardWidth = ViewModel.BoardControlState.BoardWidth;
             _boardControlState.BoardHeight = ViewModel.BoardControlState.BoardHeight;
             _boardControlState.RedrawRequested += (s, ev) => canvas.Invalidate();
@@ -50,16 +62,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             
             ViewModel.BoardRedrawRequsted += (s, ev) => 
             {
-                if(ev.Move?.Kind == MoveKind.PlaceStone )
-                    _boardControlState.SelectedPosition = ev.Move.Coordinates;
-
                 canvas.Invalidate();
             };            
         }
 
-        private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        private async void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
-            RenderService.CreateResources(sender, args);
+            await RenderService.CreateResources(sender, args);
         }
 
         private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)

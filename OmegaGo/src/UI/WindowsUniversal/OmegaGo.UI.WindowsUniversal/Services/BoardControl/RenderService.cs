@@ -1,4 +1,5 @@
-﻿using Microsoft.Graphics.Canvas;
+﻿using System;
+using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI;
@@ -7,6 +8,8 @@ using OmegaGo.Core;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Extensions;
 using System.Numerics;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Settings;
@@ -30,9 +33,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             SharedBoardControlState = sharedBoardControlState;
         }
 
-        public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
-        {
+        private CanvasBitmap blackStoneBitmap;
+        private CanvasBitmap whiteStoneBitmap;
 
+        public async Task CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        {
+            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Realistic_Go_Stone.svg.png");
+            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Realistic_White_Go_Stone.svg.png");
         }
 
 
@@ -108,21 +115,27 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
                     {
                         int translatedYCoordinate = (SharedBoardControlState.BoardHeight - y - 1);
-
+                        /*
+                        args.DrawingSession.DrawImage(blackStoneBitmap,
+                            new Rect(x, translatedYCoordinate, SharedBoardControlState.CellSize,
+                                SharedBoardControlState.CellSize));
+                                */
+                        
                         if (boardState[x, y] == StoneColor.Black)
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.Black);
                         else if (boardState[x, y] == StoneColor.White)
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.White);
+                            
                     }
                 }
             }
             
-            if (_sharedBoardControlState.HighlightedPosition.IsDefined)
+            if (_sharedBoardControlState.MouseOverPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
-                    SharedBoardControlState.HighlightedPosition.X,
-                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.HighlightedPosition.Y,
+                    SharedBoardControlState.MouseOverPosition.X,
+                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
                     SharedBoardControlState.HighlightColor.ToUWPColor());
             }
             
@@ -147,7 +160,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             int yPos = SharedBoardControlState.CellSize * y + SharedBoardControlState.HalfCellSize;
             float radiusModifier = 0.4f;
             float radius = SharedBoardControlState.CellSize * radiusModifier;
-
+            
             drawingSession.FillEllipse(
                 xPos,
                 yPos,
