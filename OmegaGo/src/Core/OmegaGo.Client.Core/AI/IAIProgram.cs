@@ -20,14 +20,15 @@ namespace OmegaGo.Core.AI
         /// Gets the name of the AI as it will be displayed to the user.
         /// </summary>
         string Name { get; }
+
         /// <summary>
         /// Asks the AI to make a move or resign, synchronously. It is guaranteed that this method
         /// will be called in order, (TODO undos), but it may be called on white or black. The AI
         /// should check the history whether it agrees with its own. In case of a conflict,
         /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history.
         /// </summary>
-        /// <param name="gameState">Information the AI might need.</param>
+        /// <param name="preMoveInformation">Information the AI might need.</param>
         /// <returns></returns>
-        AiDecision RequestMove (AIPreMoveInformation gameState);
+        AiDecision RequestMove (AIPreMoveInformation preMoveInformation);
     }
 }

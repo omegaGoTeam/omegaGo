@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     xmlns:core="using:OmegaGo.Core"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=True}">
 
@@ -24,13 +25,19 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <userControls:SimpleBoardControl Margin="20" x:Name="BoardControl" GameBoard="{x:Bind VM.SampleGameBoard, Mode=OneWay}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxHeight="500" MaxWidth="500" />
+        
         <TextBlock Text="New Game" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
                    Grid.Row="0"
                    Style="{ThemeResource HeaderTextBlockStyle}" />
-
+        
+        
         <Grid x:Name="GameSettingsGrid"
               HorizontalAlignment="Center"
               Grid.Row="1">
@@ -50,6 +57,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock Text="Server" Grid.Column="0"
@@ -57,10 +65,11 @@
                        FontSize="22"
                        Margin="5"
                        VerticalAlignment="Center"></TextBlock>
-            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}" SelectedIndex="0">
+            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}" SelectedIndex="0" IsEnabled="False">
                 <ComboBoxItem>Local Game</ComboBoxItem>
+                <!--
                 <ComboBoxItem>Pandanet (IGS)</ComboBoxItem>
-                <ComboBoxItem>Online-go.com (OGS)</ComboBoxItem>
+                <ComboBoxItem>Online-go.com (OGS)</ComboBoxItem>-->
             </ComboBox>
             
             <TextBlock Text="{x:Bind Localizer.BoardSize}" Grid.Column="0" Grid.Row="1" 
@@ -68,6 +77,7 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
                       ItemsSource="{Binding Path=BoardSizes}"
+                      
                       SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -80,7 +90,18 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <Button Grid.Column="2" Grid.Row="1">Custom...</Button>
+            <Button Grid.Column="2" Grid.Row="1" Content="Custom...">
+                <Button.Flyout>
+                    <Flyout Placement="Right">
+                        <StackPanel>
+                            <TextBlock>Width: </TextBlock>
+                            <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"></TextBox>
+                            <TextBlock>Height:</TextBlock>
+                            <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"></TextBox>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             
             <TextBlock Text="{x:Bind Localizer.Rules}" Grid.Column="0" Grid.Row="2" 
                        HorizontalAlignment="Right" 
@@ -91,19 +112,18 @@
                       SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource EnumLocalizingConverter}}" />
+                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Button Grid.Column="2" Grid.Row="2">More...</Button>
 
             <TextBlock Text="Black" Grid.Column="0" Grid.Row="3" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="3" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=StoneColors}"
-                      SelectedItem="{Binding SelectedStoneColor, Mode=TwoWay}"/>
+                      ItemsSource="{Binding Path=PossiblePlayers}"
+                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
             <ComboBox Grid.Column="2" Grid.Row="3"  Margin="5" PlaceholderText="Strength">
                 <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
                 <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
@@ -113,22 +133,30 @@
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
-                      ItemsSource="{Binding Path=StoneColors}"
-                      SelectedItem="{Binding SelectedStoneColor, Mode=TwoWay}"/>
+                      ItemsSource="{Binding Path=PossiblePlayers}"
+                      SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
             <ComboBox Grid.Column="2" Grid.Row="4"  Margin="5" PlaceholderText="Strength">
                 <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
                 <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
             </ComboBox>
-          
 
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones">
-                <ComboBoxItem>No handicap</ComboBoxItem>
-                <ComboBoxItem>4 black stones</ComboBoxItem>
+            
+            <ComboBox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones" SelectedIndex="0">
+                <ComboBoxItem>0</ComboBoxItem>
+                <ComboBoxItem>1</ComboBoxItem>
+                <ComboBoxItem>2</ComboBoxItem>
+                <ComboBoxItem>3</ComboBoxItem>
+                <ComboBoxItem>4</ComboBoxItem>
+                <ComboBoxItem>5</ComboBoxItem>
+                <ComboBoxItem>6</ComboBoxItem>
+                <ComboBoxItem>7</ComboBoxItem>
+                <ComboBoxItem>8</ComboBoxItem>
+                <ComboBoxItem>9</ComboBoxItem>
             </ComboBox>
-
+<!--
             <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
@@ -139,13 +167,24 @@
                 <ComboBoxItem>Canadian byo-yomi</ComboBoxItem>
             </ComboBox>
             <Button Grid.Column="2" Grid.Row="6">Settings...</Button>
-
+-->
             <TextBlock Text="Compensation" Grid.Column="0" Grid.Row="7" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             <TextBox Grid.Row="7" Margin="5" Grid.Column="1" x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
             <Button Grid.Row="7" Grid.Column="2" Command="{x:Bind VM.SetDefaultCompensationCommand}">Set default</Button>
+            <Button Grid.Row="8" 
+                Command="{Binding Path=NavigateToGameCommand}"
+                HorizontalAlignment="Stretch"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                Margin="5">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
+                    <TextBlock Text="{x:Bind Localizer.Play}" Margin="10,0,0,0" />
+                </StackPanel>
+            </Button>
         </Grid>
 
         <Button Grid.Row="2" 

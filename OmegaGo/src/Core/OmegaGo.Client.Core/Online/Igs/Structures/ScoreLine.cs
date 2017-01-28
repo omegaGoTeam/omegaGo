@@ -1,4 +1,4 @@
-namespace OmegaGo.Core.Online.Igs
+namespace OmegaGo.Core.Online.Igs.Structures
 {
     internal class ScoreLine
     {

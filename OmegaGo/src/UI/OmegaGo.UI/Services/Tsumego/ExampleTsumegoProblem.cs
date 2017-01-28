@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
     public class ExampleTsumegoProblem : TsumegoProblem
     {
+        protected override IGameSettings _settings => null;
+        public override bool Solved => false;
+
         public ExampleTsumegoProblem() :
             base("Example", new SgfParser().Parse(@"(;FF[4]GM[1]SZ[19]AP[online-go.com:1]
 SO[https://online-go.com/puzzle/2824]

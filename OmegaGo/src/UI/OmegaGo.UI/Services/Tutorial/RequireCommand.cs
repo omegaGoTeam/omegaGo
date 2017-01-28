@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.ViewModels.Tutorial
 {

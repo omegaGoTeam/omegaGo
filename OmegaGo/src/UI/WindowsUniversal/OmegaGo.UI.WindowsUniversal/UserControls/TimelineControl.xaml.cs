@@ -16,12 +16,13 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
+using OmegaGo.Core.Game;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class TimelineControl : UserControl
+    public sealed partial class TimelineControl : UserControlBase
     {
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(

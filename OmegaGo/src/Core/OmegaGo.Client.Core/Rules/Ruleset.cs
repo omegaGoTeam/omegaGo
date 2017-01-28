@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +22,7 @@ namespace OmegaGo.Core.Rules
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
         /// <param name="gbSize">Size of the game board.</param>
-        public Ruleset(GameBoardSize gbSize)
+        protected Ruleset(GameBoardSize gbSize)
         {
             _boardWidth = gbSize.Width;
             _boardHeight = gbSize.Height;
@@ -67,7 +69,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">Reference to the state of board.</param>
         /// <param name="handicapStoneCount">Number of handicap stones.</param>
         /// <param name="placementType"></param>
-        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPositions.Type placementType)
+        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPlacementType placementType)
         {
             if (handicapStoneCount == 0)
             {
@@ -75,7 +77,7 @@ namespace OmegaGo.Core.Rules
                 return;
             }
 
-            if (placementType == HandicapPositions.Type.Fixed)
+            if (placementType == HandicapPlacementType.Fixed)
                 PlaceFixedHandicapStones(ref currentBoard, handicapStoneCount);
 
             SetKomi(handicapStoneCount);
@@ -199,13 +201,13 @@ namespace OmegaGo.Core.Rules
         /// <returns>List of legal moves.</returns>
         public List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history)
         {
-            List<Position> possiblePositions = new List<Core.Position>();
+            List<Position> possiblePositions = new List<Position>();
             for (int x = 0; x < _boardWidth; x++)
                 for (int y = 0; y < _boardHeight; y++)
                 {
-                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Core.Position(x, y)), history) == MoveResult.Legal)
+                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
                     {
-                        possiblePositions.Add(new Core.Position(x, y));
+                        possiblePositions.Add(new Position(x, y));
                     }
                 }
 
@@ -357,7 +359,7 @@ namespace OmegaGo.Core.Rules
             _captures = new List<Position>();
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
-            StoneColor opponentColor = (moveToMake.WhoMoves == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
+            StoneColor opponentColor = moveToMake.WhoMoves.GetOpponentColor();
 
 
             //check whether neighbour groups have liberty
@@ -378,6 +380,21 @@ namespace OmegaGo.Core.Rules
                 CheckNeighbourGroup(currentX, currentY - 1, currentBoard);
 
             return _captures;
+        }
+
+        public List<Position> GetAllLegalMoves(GameBoard board)
+        {
+            // TODO make this work according to rules
+            List<Position> legalMoves = new List<Position>();
+            for (int i = 0; i < board.Size.Width; i++)
+                for (int j = 0; j < board.Size.Height; j++)
+                {
+                    if (board[i, j] == StoneColor.None)
+                    {
+                        legalMoves.Add(new Position() { X = i, Y = j });
+                    }
+                }
+            return legalMoves;
         }
 
         /// <summary>
@@ -632,9 +649,14 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        protected void GetRegion(ref HashSet<Position> region, ref Territory regionBelongsTo, Position pos, GameBoard currentBoard)
+        private void GetRegion(
+            ref HashSet<Position> region,
+            ref Territory regionBelongsTo, 
+            Position pos,
+            GameBoard currentBoard)
         {
             if (region.Contains(pos)) return;
+
             region.Add(pos);
             if (pos.X < _boardWidth - 1) //has right neighbour
             {
@@ -692,6 +714,9 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.X > 0) //has left neighbour
             {
+                Position newp = new Position();
+                newp.X = pos.X - 1;
+                newp.Y = pos.Y;
                 switch (currentBoard[pos.X - 1, pos.Y])
                 {
                     case StoneColor.Black:
@@ -707,6 +732,7 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     case StoneColor.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
                     default:
                         break;
@@ -714,6 +740,9 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.Y > 0) //has bottom neighbour
             {
+                Position newp = new Position();
+                newp.X = pos.X;
+                newp.Y = pos.Y - 1;
                 switch (currentBoard[pos.X, pos.Y - 1])
                 {
                     case StoneColor.Black:
@@ -729,6 +758,7 @@ namespace OmegaGo.Core.Rules
                             regionBelongsTo = Territory.White;
                         break;
                     case StoneColor.None:
+                        GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
                     default:
                         //TODO Exception
@@ -738,12 +768,5 @@ namespace OmegaGo.Core.Rules
 
         }
 
-    }
-
-    public enum RulesetType
-    {
-        AGA,
-        Chinese,
-        Japanese
     }
 }

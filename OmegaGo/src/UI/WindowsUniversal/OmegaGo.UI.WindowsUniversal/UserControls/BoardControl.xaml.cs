@@ -4,16 +4,17 @@ using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class BoardControl : UserControl
+    public sealed partial class BoardControl : UserControlBase
     {
-        private BoardState _boardState;
+        private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
         
-        public BoardState BoardState => _boardState;
+        public BoardControlState BoardControlState => _boardControlState;
         public InputService InputService => _inputService;
         public RenderService RenderService => _renderService;
 
@@ -37,20 +38,20 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            // TODO implement easy re-registering for varying BoardState
-            _boardState = ViewModel.BoardState;
-            _renderService = new RenderService(_boardState);
-            _inputService = new InputService(_boardState);
+            // TODO implement easy re-registering for varying BoardControlState
+            _boardControlState = ViewModel.BoardControlState;
+            _renderService = new RenderService(_boardControlState);
+            _inputService = new InputService(_boardControlState);
 
-            _boardState.BoardWidth = ViewModel.BoardState.BoardWidth;
-            _boardState.BoardHeight = ViewModel.BoardState.BoardHeight;
-            _boardState.RedrawRequested += (s, ev) => canvas.Invalidate();
+            _boardControlState.BoardWidth = ViewModel.BoardControlState.BoardWidth;
+            _boardControlState.BoardHeight = ViewModel.BoardControlState.BoardHeight;
+            _boardControlState.RedrawRequested += (s, ev) => canvas.Invalidate();
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
             
             ViewModel.BoardRedrawRequsted += (s, ev) => 
             {
-                if(ev.Move?.Kind == Core.MoveKind.PlaceStone)
-                    _boardState.SelectedPosition = ev.Move.Coordinates;
+                if(ev.Move?.Kind == MoveKind.PlaceStone )
+                    _boardControlState.SelectedPosition = ev.Move.Coordinates;
 
                 canvas.Invalidate();
             };            

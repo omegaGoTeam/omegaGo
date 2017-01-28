@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:UserControlBase
     x:Name="layoutRoot"
     x:Class="OmegaGo.UI.WindowsUniversal.UserControls.ChatControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -87,4 +87,4 @@
                     Content="Send"/>
         </Grid>
     </Grid>
-</UserControl>
+</local:UserControlBase>

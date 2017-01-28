@@ -8,7 +8,7 @@
       <group id="OMEGAGO.UI.LOCALIZATION/LOCALIZEDSTRINGS.RESX" datatype="resx">
         <trans-unit id="BoardSize" translate="yes" xml:space="preserve">
           <source>Board Size</source>
-          <target state="translated">Velikost herní plochy</target>
+          <target state="final">Velikost herní plochy</target>
           <note from="MultilingualBuild" annotates="source" priority="2">:-)</note>
         </trans-unit>
         <trans-unit id="Assistant" translate="yes" xml:space="preserve">
@@ -79,7 +79,7 @@
         </trans-unit>
         <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
           <source>Display</source>
-          <target state="translated">Zobrazení</target>
+          <target state="final">Zobrazení</target>
         </trans-unit>
         <trans-unit id="Credits" translate="yes" xml:space="preserve">
           <source>Credits</source>
@@ -127,7 +127,7 @@
         </trans-unit>
         <trans-unit id="Singleplayer" translate="yes" xml:space="preserve">
           <source>Singleplayer</source>
-          <target state="translated">Menu pro hru jednoho hráče</target>
+          <target state="final">Hra jednoho hráče</target>
         </trans-unit>
         <trans-unit id="SingleplayerToolTip" translate="yes" xml:space="preserve">
           <source>Learn Go, play against an AI, solve problems or gain experience completing quests.</source>
@@ -212,27 +212,41 @@
           <source>White</source>
           <target state="final">Bílý</target>
         </trans-unit>
-        <trans-unit id="Chinese" translate="yes" xml:space="preserve">
-          <source>Chinese</source>
-          <target state="final">Čínská</target>
-          <note from="MultilingualEditor" annotates="source" priority="4">Čínská pravidla</note>
-        </trans-unit>
-        <trans-unit id="Japonese" translate="yes" xml:space="preserve">
-          <source>Japonese</source>
-          <target state="final">Japonská</target>
-          <note from="MultilingualEditor" annotates="source" priority="4">Japonská pravidla</note>
-        </trans-unit>
         <trans-unit id="ToggleFullscreenTooltip" translate="yes" xml:space="preserve">
           <source>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</source>
-          <target state="new">Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</target>
+          <target state="final">Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</target>
         </trans-unit>
         <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
           <source>Omega Go</source>
-          <target state="new">Omega Go</target>
+          <target state="final">Omega Go</target>
         </trans-unit>
         <trans-unit id="Game" translate="yes" xml:space="preserve">
           <source>Game</source>
-          <target state="new">Game</target>
+          <target state="final">Hra</target>
+        </trans-unit>
+        <trans-unit id="BoardBorderThickness" translate="yes" xml:space="preserve">
+          <source>Board border thickness</source>
+          <target state="final">Tloušťka okraje</target>
+        </trans-unit>
+        <trans-unit id="BoardSettings" translate="yes" xml:space="preserve">
+          <source>Board settings</source>
+          <target state="final">Nastavení hrací plochy</target>
+        </trans-unit>
+        <trans-unit id="CellSize" translate="yes" xml:space="preserve">
+          <source>Cell size</source>
+          <target state="final">Velikost pole</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_AGA" translate="yes" xml:space="preserve">
+          <source>AGA</source>
+          <target state="final">AGA</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_Chinese" translate="yes" xml:space="preserve">
+          <source>Chinese</source>
+          <target state="final">Čínská</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_Japanese" translate="yes" xml:space="preserve">
+          <source>Japanese</source>
+          <target state="final">Japonská</target>
         </trans-unit>
       </group>
     </body>

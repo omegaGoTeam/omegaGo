@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
@@ -15,13 +18,12 @@ using Sockets.Plugin;
 namespace OmegaGo.Core.Online.Igs
 {
     // TODO make it reconnect automatically when connection is interrupted
-    
+
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
     /// about which user is logged in.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Online.ServerConnection" />
-    public partial class IgsConnection : ServerConnection
+    public partial class IgsConnection 
     {
         // TODO disconnections are not thread-safe
         // TODO switch prompt mode when necessary
@@ -52,11 +54,11 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<GameInfo> _gamesInProgressOnIgs = new List<GameInfo>();
+        private List<OnlineGameInfo> _gamesInProgressOnIgs = new List<OnlineGameInfo>();
         private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
-        private readonly List<GameInfo> _gamesYouHaveOpened = new List<GameInfo>();
+        private readonly List<OnlineGame> _gamesYouHaveOpened = new List<OnlineGame>();
         // Internal synchronization management
-        private GameInfo _incomingMovesAreForThisGame;
+        private OnlineGame _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
             new System.Collections.Concurrent.ConcurrentQueue<IgsRequest>();
         private IgsRequest _requestInProgress;
@@ -86,7 +88,17 @@ namespace OmegaGo.Core.Online.Igs
         }
         private string _loginError = null;
 
-
+        private IgsConnection()
+        {
+        }
+        /// <summary>
+        /// Do not call this except from the class <see cref="Connections"/>. 
+        /// </summary>
+        /// <returns></returns>
+        internal static IgsConnection CreateConnectionFromConnectionsStaticClass()
+        {
+            return new IgsConnection();
+        }
         /// <summary>
         /// Sends a command to the IGS server without doing any checking and synchronization. 
         /// This should only be used while testing, and never as part of any player-facing game action.
@@ -183,7 +195,8 @@ namespace OmegaGo.Core.Online.Igs
                 _streamReader = new StreamReader(_client.ReadStream);
                 _streamWriter.AutoFlush = true;
 #pragma warning disable 4014
-                HandleIncomingData(_streamReader).ContinueWith(t => {
+                HandleIncomingData(_streamReader).ContinueWith(t =>
+                {
                     // Fail silently.
                 }, TaskContinuationOptions.OnlyOnFaulted);
 #pragma warning restore 4014
@@ -247,31 +260,33 @@ namespace OmegaGo.Core.Online.Igs
              *  5 - Flags
              * 
              */
-        
-                IgsUser user = new IgsUser()
-                {
-                    Name = match.Groups[1].Value,
-                    Country = match.Groups[2].Value,
-                    Rank = match.Groups[3].Value.StartsWith(" ") ? match.Groups[3].Value.Substring(1) : match.Groups[3].Value,
-                    LookingForAGame = match.Groups[5].Value.Contains("!"),
-                    RejectsRequests = match.Groups[5].Value.Contains("X")
-                };
-                return user;
-          
+
+            IgsUser user = new IgsUser()
+            {
+                Name = match.Groups[1].Value,
+                Country = match.Groups[2].Value,
+                Rank = match.Groups[3].Value.StartsWith(" ") ? match.Groups[3].Value.Substring(1) : match.Groups[3].Value,
+                LookingForAGame = match.Groups[5].Value.Contains("!"),
+                RejectsRequests = match.Groups[5].Value.Contains("X")
+            };
+            return user;
+
         }
         private void HandleIncomingMove(IgsLine igsLine)
         {
-           
+
 
             string trim = igsLine.PureLine.Trim();
             if (trim.StartsWith("Game "))
             {
+                // TODO
+                /*
                 string trim2 = trim.Substring("Game ".Length);
                 int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
-                GameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
+                OnlineGameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
                 if (whatGame == null)
                 {
-                    whatGame = new GameInfo
+                    whatGame = new ObsoleteGameInfo
                     {
                         ServerId = gameNumber,
                         Server = this
@@ -279,12 +294,14 @@ namespace OmegaGo.Core.Online.Igs
                     _gamesInProgressOnIgs.Add(whatGame);
                 }
                 _incomingMovesAreForThisGame = whatGame;
+                */
             }
             else if (trim.Contains("Handicap"))
             {
                 //  15   0(B): Handicap 3
                 int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
-                _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
+                // TODO
+                // _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
             }
             else
             {
@@ -305,15 +322,16 @@ namespace OmegaGo.Core.Online.Igs
                         Position.FromIgsCoordinates(coordinates));
                 }
                 string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach(string capture in captureSplit)
+                foreach (string capture in captureSplit)
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                _incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex), move);
+                // TODO
+                //_incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex), move);
             }
         }
 
-     
+
 
         private readonly Regex _regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
@@ -341,7 +359,7 @@ namespace OmegaGo.Core.Online.Igs
         }
         private void MakeUnattendedRequest(string command)
         {
-            IgsRequest request = new IgsRequest(command) {Unattended = true};
+            IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
         }
@@ -355,7 +373,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         private void ExecuteRequestFromQueue()
         {
-            
+
             lock (_mutex)
             {
                 if (_composure != IgsComposure.Ok)
@@ -409,10 +427,11 @@ namespace OmegaGo.Core.Online.Igs
         }
         #endregion
         // Interface requirements
-        public override string ShortName => "IGS";
-        public void RefreshBoard(GameInfo game)
+        public string ShortName => "IGS";
+        public void RefreshBoard(OnlineGame game)
         {
-            MakeUnattendedRequest("moves " + game.ServerId);
+            // TODO
+           // MakeUnattendedRequest("moves " + game.Id);
         }
 
         #region Events
@@ -463,26 +482,26 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when our match request is accepted and creates a GAME.
         /// </summary>
-        public event EventHandler<GameInfo> MatchRequestAccepted;
-        private void OnMatchRequestAccepted(GameInfo acceptedGame)
+        public event EventHandler<OnlineGameInfo> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(OnlineGameInfo acceptedGame)
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
-        
+
         /// <summary>
         /// Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have opened.
         /// </summary>
-        public event EventHandler<Tuple<GameInfo, ChatMessage>> IncomingInGameChatMessage;
-        private void OnIncomingInGameChatMessage(GameInfo relevantGame, ChatMessage chatLine)
+        public event EventHandler<Tuple<OnlineGameInfo, ChatMessage>> IncomingInGameChatMessage;
+        private void OnIncomingInGameChatMessage(OnlineGameInfo relevantGame, ChatMessage chatLine)
         {
-            IncomingInGameChatMessage?.Invoke(this, new Tuple<GameInfo, ChatMessage>(relevantGame, chatLine));
+            IncomingInGameChatMessage?.Invoke(this, new Tuple<OnlineGameInfo, ChatMessage>(relevantGame, chatLine));
         }
 
         /// <summary>
         /// Occurs when the opponent in a GAME asks us to let them undo a move
         /// </summary>
-        public event EventHandler<GameInfo> UndoRequestReceived;
-        private void OnUndoRequestReceived(GameInfo game)
+        public event EventHandler<OnlineGameInfo> UndoRequestReceived;
+        private void OnUndoRequestReceived(OnlineGameInfo game)
         {
             UndoRequestReceived?.Invoke(this, game);
         }
@@ -499,8 +518,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when the server commands us to act as though the last move didn't take place.
         /// </summary>
-        public event EventHandler<GameInfo> LastMoveUndone;
-        private void OnLastMoveUndone(GameInfo whichGame)
+        public event EventHandler<OnlineGameInfo> LastMoveUndone;
+        private void OnLastMoveUndone(OnlineGameInfo whichGame)
         {
             LastMoveUndone?.Invoke(this, whichGame);
         }
@@ -510,25 +529,36 @@ namespace OmegaGo.Core.Online.Igs
         /// Occurs when the opponent in a GAME declines our request to undo a move.
         /// This will also prevent all further undo's in this game.
         /// </summary>
-        public event EventHandler<GameInfo> UndoDeclined;
-        private void OnUndoDeclined(GameInfo game)
+        public event EventHandler<OnlineGameInfo> UndoDeclined;
+        private void OnUndoDeclined(OnlineGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
         }
 
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-        private void OnGameScoreAndCompleted(GameInfo gameInfo, float blackScore, float whiteScore)
+        private void OnGameScoreAndCompleted(OnlineGameInfo gameInfo, float blackScore, float whiteScore)
         {
+            // TODO
+            /*
             GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+            */
+        }
+        /// <summary>
+        /// Occurs when the connection class wants to present a log message to the user using the program.
+        /// </summary>
+        public event EventHandler<string> LogEvent;
+        protected void OnLogEvent(string message)
+        {
+            LogEvent?.Invoke(this, message);
         }
     }
     public class GameScoreEventArgs : EventArgs
     {
         public readonly float BlackScore;
-        public readonly GameInfo GameInfo;
+        public readonly OnlineGame GameInfo;
         public readonly float WhiteScore;
 
-        public GameScoreEventArgs(GameInfo gameInfo, float blackScore, float whiteScore)
+        public GameScoreEventArgs(OnlineGame gameInfo, float blackScore, float whiteScore)
         {
             this.GameInfo = gameInfo;
             this.BlackScore = blackScore;

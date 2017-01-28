@@ -24,11 +24,11 @@
 
         <CommandBar VerticalAlignment="Top"
                 Grid.RowSpan="2"
-                Grid.ColumnSpan="2" OverflowButtonVisibility="Collapsed">
+                Grid.ColumnSpan="2" OverflowButtonVisibility="Collapsed" Content="{x:Bind VM.Game.Controller.Phase}">
             <CommandBar.Background>
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
             </CommandBar.Background>
-
+            
             <AppBarButton Icon="Bookmarks" Label="Timeline"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
@@ -62,7 +62,7 @@
             <AppBarButton Icon="Setting" Label="Settings">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <controls:BoardSettingsControl BoardState="{x:Bind Path=VM.BoardState, Mode=OneWay}" />
+                        <controls:BoardSettingsControl BoardControlState="{x:Bind Path=VM.BoardViewModel.BoardControlState, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

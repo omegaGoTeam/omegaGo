@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI.Defeatist;
 using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.Joker23.Players;
+using OmegaGo.Core.AI.Random;
 
 namespace OmegaGo.Core.AI
 {
@@ -12,7 +15,8 @@ namespace OmegaGo.Core.AI
     /// </summary>
     public static class AISystems
     {
-        private static bool registrationComplete;
+        private static bool _registrationComplete;
+
         internal static IGtpEngineBuilder FuegoBuilder;
         /// <summary>
         /// Registers a Fuego wrapper builder. This method should be called once, at the start of 
@@ -22,7 +26,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
-            AISystems.registrationComplete = true;
+            AISystems._registrationComplete = true;
         }
 
         /// <summary>
@@ -34,27 +38,27 @@ namespace OmegaGo.Core.AI
         {
             get
             {
-                if (!AISystems.registrationComplete)
+                if (!AISystems._registrationComplete)
                 {
                     // Fuego is not available
                     return
                     new List<IAIProgram>
                     {
-                        new Defeatist.Defeatist(),
-                        new Random.RandomAI(),
-                        new Joker23.RandomPlayerWrapper(),
-                        new Joker23.HeuristicPlayerWrapper(),
-                        new Joker23.AlphaBetaPlayerWrapper()
+                        new DefeatistAI(),
+                        new RandomAI(),
+                        new RandomPlayerWrapper(),
+                        new HeuristicPlayerWrapper(),
+                        new AlphaBetaPlayerWrapper()
                     };
                 }
                 return
                     new List<IAIProgram>
                     {
-                        new Defeatist.Defeatist(),
-                        new Random.RandomAI(),
-                        new Joker23.RandomPlayerWrapper(),
-                        new Joker23.HeuristicPlayerWrapper(),
-                        new Joker23.AlphaBetaPlayerWrapper(),
+                        new DefeatistAI(),
+                        new RandomAI(),
+                        new RandomPlayerWrapper(),
+                        new HeuristicPlayerWrapper(),
+                        new AlphaBetaPlayerWrapper(),
                         new FuegoWrapper()
                     };
             }

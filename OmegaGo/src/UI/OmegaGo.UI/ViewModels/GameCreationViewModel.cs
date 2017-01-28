@@ -6,11 +6,20 @@ using OmegaGo.UI.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
 using System.Windows.Input;
+using OmegaGo.Core.AI;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Local;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -30,11 +39,16 @@ namespace OmegaGo.UI.ViewModels
         /// Default offered game board sizes
         /// </summary>
         public ObservableCollection<GameBoardSize> BoardSizes { get; } =
-            new ObservableCollection<GameBoardSize>() { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19), new GameBoardSize(25) };
+            new ObservableCollection<GameBoardSize>() {
+                new GameBoardSize(9),
+                new GameBoardSize(13),
+                new GameBoardSize(19)
+            };
 
         /// <summary>
         /// Selected game board size
         /// </summary>
+        [SuppressMessage("ReSharper", "ExplicitCallerInfoArgument")]
         public GameBoardSize SelectedGameBoardSize
         {
             get
@@ -44,6 +58,11 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameBoardSize, value);
+                RaisePropertyChanged(()=>SampleGameBoard);
+                _customHeight = value.Height;
+                _customWidth = value.Width;
+                RaisePropertyChanged(nameof(CustomHeight));
+                RaisePropertyChanged(nameof(CustomWidth));
                 SetDefaultCompensation();
             }
         }
@@ -95,6 +114,62 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public ObservableCollection<string> StoneColors { get; }
 
+        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } = new ObservableCollection<GameCreationViewPlayer>(
+               _playerList
+            );
+
+        private static List<GameCreationViewPlayer> _playerList = new List<GameCreationViewPlayer>(
+            new GameCreationViewPlayer[]
+            {
+                new GameCreationViewHumanPlayer("Human")
+            }.Concat(
+                OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
+                )
+            );
+
+        private GameCreationViewPlayer _blackPlayer = _playerList[0];
+        private GameCreationViewPlayer _whitePlayer = _playerList[0];
+        public GameCreationViewPlayer BlackPlayer
+        {
+            get { return _blackPlayer; }
+            set { SetProperty(ref _blackPlayer, value); }
+        }
+
+        public GameCreationViewPlayer WhitePlayer
+        {
+            get { return _whitePlayer; }
+            set { SetProperty(ref _whitePlayer, value); }
+        }
+
+        private int _customWidth = 19;
+        private int _customHeight = 19;
+        public string CustomWidth
+        {
+            get { return _customWidth.ToString(); }
+            set { SetProperty(ref _customWidth, int.Parse(value));
+                SetCustomBoardSize();
+              
+            } // TODO check for exceptions
+        }
+
+        private void SetCustomBoardSize()
+        {
+            var thisSize = new GameBoardSize(_customWidth, _customHeight);
+            if (!BoardSizes.Contains(thisSize))
+            {
+                BoardSizes.Add(thisSize);
+            }
+            SelectedGameBoardSize = thisSize;
+        }
+
+        public string CustomHeight
+        {
+            get { return _customHeight.ToString(); }
+            set { SetProperty(ref _customHeight, int.Parse(value));
+                SetCustomBoardSize();
+            } // TODO check for exceptions
+        }
+
         /// <summary>
         /// Selected stone color
         /// </summary>
@@ -132,6 +207,11 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _compensation, value); }
         }
 
+        /// <summary>
+        /// Sample game board for preview
+        /// </summary>
+        public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
+
         public GameCreationViewModel()
         {
             Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
@@ -152,23 +232,79 @@ namespace OmegaGo.UI.ViewModels
 
         private void NavigateToGame()
         {
-            GameInfo gameInfo = new GameInfo();
-
-            gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
-            gameInfo.Players.Add(new Player("White Player", "??", gameInfo));
-            foreach (var player in gameInfo.Players)
-            {
-                player.Agent = new LocalAgent();
-            }
-
-            gameInfo.BoardSize = SelectedGameBoardSize;
-            gameInfo.Ruleset = Ruleset.Create(SelectedRuleset, SelectedGameBoardSize, CountingType.Area);
-            gameInfo.KomiValue = Compensation;
-          
-            Game game = new Game(gameInfo, gameInfo.GameController, null);
-
-            Mvx.RegisterSingleton<IGame>(game);
+            CreateAndRegisterGame();
             ShowViewModel<GameViewModel>();
         }
+
+        /// <summary>
+        /// Creates and registers the specified game
+        /// </summary>
+        private void CreateAndRegisterGame()
+        {
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White);
+
+            //TODO: set counting type
+            LocalGame game = GameBuilder.CreateLocalGame().
+                BoardSize(SelectedGameBoardSize).
+                Ruleset(SelectedRuleset).
+                Komi(Compensation).
+                WhitePlayer(whitePlayer).
+                BlackPlayer(blackPlayer).
+                Build();
+            foreach (var player in game.Controller.Players)
+            {
+                player.AssignToGame(game.Info, game.Controller);
+            }
+            Mvx.RegisterSingleton<ILiveGame>(game);
+        }
+
+        public abstract class GameCreationViewPlayer
+        {
+            protected string Name;
+
+            public abstract GamePlayer Build(StoneColor color);
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+        class GameCreationViewHumanPlayer : GameCreationViewPlayer
+        {
+            public GameCreationViewHumanPlayer(string name)
+            {
+                this.Name = name;
+            }
+
+            public override GamePlayer Build(StoneColor color)
+            {
+                return new HumanPlayerBuilder(color)
+                    .Name(color.ToString())
+                    .Rank("NR")
+                    .Build();
+            }
+        }
+        class GameCreationViewAiPlayer : GameCreationViewPlayer
+        {
+            private IAIProgram ai;
+            public GameCreationViewAiPlayer(OmegaGo.Core.AI.IAIProgram program)
+            {
+                this.Name = "AI: " + program.Name;
+                this.ai = program;
+            }
+
+            public override GamePlayer Build(StoneColor color)
+            {
+                IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(ai.GetType());
+                return new AiPlayerBuilder(color)
+                    .Name(ai.Name + "(" + color.ToIgsCharacterString() + ")")
+                    .Rank("NR")
+                    .AiProgram(newInstance)
+                    .Build();
+            }
+        }
+
     }
+ 
 }

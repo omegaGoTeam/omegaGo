@@ -94,7 +94,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand NavigateToSettings => _navigateToSettings ??
                                                  (_navigateToSettings = new MvxCommand(() => ShowViewModel<SettingsViewModel>()));
 
-        public IMvxCommand NavigateToAbout => _navigateToAbout ?? (_navigateToAbout = new MvxCommand(() => ShowViewModel<AboutViewModel>()));
+    
 
         public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
 

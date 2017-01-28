@@ -1,10 +1,13 @@
 ﻿using System.Linq;
+using MvvmCross.Platform;
 using OmegaGo.Core;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.Services.Tsumego
@@ -14,6 +17,9 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblem
     {
+        // TODO does not work at design time
+        protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
+
         /// <summary>
         /// Gets the ruleset that is used for tsumego problems (i.e. Chinese 19x19).
         /// </summary>
@@ -33,7 +39,9 @@ namespace OmegaGo.UI.Services.Tsumego
 
         public GameTreeNode InitialTree { get; }
 
-        public string Solved => "true";
+        public GameBoard InitialBoard => InitialTree.BoardState;
+        
+        public virtual bool Solved => _settings?.Tsumego.SolvedProblems.Contains(this.Name) ?? false;
 
         /// <summary>
         /// Creates a new game tree from the definition of this problem. The returned node is the root of this tree.
@@ -67,7 +75,7 @@ namespace OmegaGo.UI.Services.Tsumego
                 }
                 foreach(GameTreeNode continuation in node.Branches)
                 {
-                    node.TsumegoMarkedPositiongs.Add(continuation.Move.Coordinates);
+                    node.TsumegoMarkedPositions.Add(continuation.Move.Coordinates);
                 }
             });
             return tree;

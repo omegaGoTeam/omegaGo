@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI
 {
@@ -20,10 +21,6 @@ namespace OmegaGo.Core.AI
         /// </summary>
         public GameBoard Board { get; }
         /// <summary>
-        /// Size of the board in intersections. This will usually be "9x9", "13x13" or "19x19".
-        /// </summary>
-        public GameBoardSize BoardSize { get; }
-        /// <summary>
         /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,
         /// it may provide its decision earlier or later. If it doesn't provide a decision by this time, the
         /// main program may perform some actions such as ending the game, or asking the player whether
@@ -40,18 +37,16 @@ namespace OmegaGo.Core.AI
         /// Creates a new structure that gives the AI information it needs to make a move.
         /// </summary>
         /// <param name="aiColor">The player whose turn it is. The AI will make a move for this player.</param>
-        /// <param name="board">The current full board state (excluding information about Ko). </param>
-        /// <param name="boardSize">Size of the board in intersections. This will usually be "9", "13" or "19".</param>
+        /// <param name="board">The current full board state (excluding information about Ko). </param>        
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
         /// <param name="history">What moves were played previously in the game, starting with the first.</param>
-        public AIPreMoveInformation(StoneColor aiColor, GameBoard board, GameBoardSize boardSize, TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
+        public AIPreMoveInformation(StoneColor aiColor, GameBoard board,TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
         {
             Difficulty = difficulty;
             AIColor = aiColor;
             History = history;
             Board = board;
-            BoardSize = boardSize;
             TimeLimit = timeLimit;
         }
     }

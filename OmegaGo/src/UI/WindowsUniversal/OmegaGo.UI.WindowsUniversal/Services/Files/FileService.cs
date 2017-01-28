@@ -34,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             {
                 System.IO.File.WriteAllText(combinedPath, fileContent);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 // TODO Fill
             }

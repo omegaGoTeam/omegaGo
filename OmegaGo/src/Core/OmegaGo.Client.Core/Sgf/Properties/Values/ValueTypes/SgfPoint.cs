@@ -1,4 +1,5 @@
 ﻿using System;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
 {

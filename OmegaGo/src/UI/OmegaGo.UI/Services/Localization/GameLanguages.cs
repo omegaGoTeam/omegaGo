@@ -23,7 +23,8 @@ namespace OmegaGo.UI.Services.Localization
             {
                 new GameLanguage("AutoLanguage", AutoLanguageKey),
                 new GameLanguage("English", "en"),
-                new GameLanguage("Česky", "cs")
+                new GameLanguage("Česky", "cs"),
+                new GameLanguage("日本語", "jp")
             }.ToDictionary(
                 language => language.CultureTag, //use culture tag as the dictionary key
                 language => language

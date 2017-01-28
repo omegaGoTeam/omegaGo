@@ -13,5 +13,7 @@ namespace OmegaGo.UI.WindowsUniversal.Converters
 
     public class NativeEnumLocalizingConverter : MvxNativeValueConverter<EnumLocalizingConverter> { }
 
+    public class NativeConcreteEnumLocalizingConverter : MvxNativeValueConverter<ConcreteEnumLocalizingConverter> { }
+
     public class NativeVisibilityConverter : MvxNativeValueConverter<MvxVisibilityValueConverter> { }
 }

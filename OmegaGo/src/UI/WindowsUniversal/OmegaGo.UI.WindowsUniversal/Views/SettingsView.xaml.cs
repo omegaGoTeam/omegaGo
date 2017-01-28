@@ -12,15 +12,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     {
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
 
-        public ObservableCollection<string> AIPrograms { get; set; } = new ObservableCollection<string>();
 
         public SettingsView()
         {
             this.InitializeComponent();
-            foreach (var program in OmegaGo.Core.AI.AISystems.AiPrograms)
-            {
-                AIPrograms.Add(program.Name);
-            }
         }
 
         public override string WindowTitle => Localizer.Settings;

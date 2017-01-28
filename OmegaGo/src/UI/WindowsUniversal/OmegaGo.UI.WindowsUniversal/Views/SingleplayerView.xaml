@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:quests="using:OmegaGo.UI.Services.Quests"
+    xmlns:indiQuests="using:OmegaGo.UI.Services.Quests.IndividualQuests"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
@@ -42,19 +44,40 @@
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Points: " FontSize="26" Margin="0,0,10,0"></TextBlock>
+                <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
+            </StackPanel>
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250">
+            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="250" ItemsSource="{Binding ActiveQuests}">
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <TextBlock TextAlignment="Center" Text="{x:Bind}" Foreground="Blue" 
-                           FontSize="36" Width="300" TextWrapping="Wrap" Height="200" />
+                    <DataTemplate x:DataType="quests:ActiveQuest">
+                        <Border BorderBrush="Blue" BorderThickness="1" Width="300" Height="220">
+                            <StackPanel>
+                                <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="36" TextWrapping="Wrap" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock  FontSize="28" Margin="0,0,10,0" >Reward: </TextBlock>
+                                    <TextBlock Text="{Binding Quest.PointReward}"
+                                           Foreground="Black" FontSize="28" />
+                                </StackPanel>
+                                <TextBlock Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
+                                           FontSize="22" TextWrapping="Wrap" />
+                                <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
+                                </ProgressBar>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Text="{Binding Progress}"></TextBlock>
+                                    <TextBlock Text="/"></TextBlock>
+                                    <TextBlock Text="{Binding Quest.MaximumProgress}"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                <x:String>Quest1</x:String>
-                <x:String>Second Quest</x:String>
-                <x:String>The Master Quest</x:String>
+                <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
+                <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
             </GridView>
+            <TextBlock Text="You receive a new quest every 24 hours, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

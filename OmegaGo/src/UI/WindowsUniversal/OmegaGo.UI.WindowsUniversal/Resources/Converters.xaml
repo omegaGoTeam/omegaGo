@@ -6,4 +6,5 @@
     <converters:NativeLocalizingConverter x:Key="LocalizingConverter" />
     <converters:NativeEnumLocalizingConverter x:Key="EnumLocalizingConverter" />
     <converters:NativeVisibilityConverter x:Key="VisibilityConverter" />
+    <converters:NativeConcreteEnumLocalizingConverter x:Key="ConcreteEnumLocalizingConverter" />
 </ResourceDictionary>

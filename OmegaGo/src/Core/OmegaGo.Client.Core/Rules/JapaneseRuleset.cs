@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
 {
@@ -65,7 +66,7 @@ namespace OmegaGo.Core.Rules
         {
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathDeterminationPhase;
+                return MoveResult.StartLifeAndDeath;
             }
             else
             {

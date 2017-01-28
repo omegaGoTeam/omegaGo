@@ -14,25 +14,39 @@ namespace OmegaGo.UI.Services.Settings
     {
         private readonly ISettingsService _settings;
 
-        public GameSettings( ISettingsService settings )
+        public GameSettings(ISettingsService settings)
         {
             _settings = settings;
+            this.Audio = new AudioSettings(_settings);
+            this.Display = new DisplaySettings(_settings);
+            this.Assistant = new AssistantSettings(_settings);
+            this.Quests = new QuestsGroup(_settings);
+            this.Tsumego = new TsumegoSettings(_settings);
         }
+        
+        public AudioSettings Audio { get; }
+        public DisplaySettings Display { get; }
+        public AssistantSettings Assistant { get; }
+        public QuestsGroup Quests { get; }
+        public TsumegoSettings Tsumego { get; }
+
+        public bool InputConfirmationRequired
+        {
+            get { return _settings.GetSetting(nameof(InputConfirmationRequired), () => false); }
+            set { _settings.SetSetting(nameof(InputConfirmationRequired), value); }
+        }
+
+       
+     
 
         private const string LanguageSettingKey = "Language";
-
-        public bool Tsumego_ShowPossibleMoves
-        {
-            get { return _settings.GetSetting(nameof(Tsumego_ShowPossibleMoves), () => true); }
-            set { _settings.SetSetting(nameof(Tsumego_ShowPossibleMoves), value); }
-        }
         public string Language
         {
-            get { return _settings.GetSetting( LanguageSettingKey, () => GameLanguages.DefaultLanguage.CultureTag, SettingLocality.Roamed ); }
+            get { return _settings.GetSetting(LanguageSettingKey, () => GameLanguages.DefaultLanguage.CultureTag, SettingLocality.Roamed); }
             set
             {
-                if ( !GameLanguages.SupportedLanguages.ContainsKey( value ) ) throw new ArgumentException( nameof( value ) );
-                _settings.SetSetting( LanguageSettingKey, value, SettingLocality.Roamed );
+                if (!GameLanguages.SupportedLanguages.ContainsKey(value)) throw new ArgumentException(nameof(value));
+                _settings.SetSetting(LanguageSettingKey, value, SettingLocality.Roamed);
             }
         }
     }

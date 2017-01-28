@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
 {
@@ -27,7 +28,5 @@ namespace OmegaGo.Core.Rules
         /// The board does not contain prisoners.
         /// </summary>
         public GameBoard NewBoard;
-        
     }
-
 }

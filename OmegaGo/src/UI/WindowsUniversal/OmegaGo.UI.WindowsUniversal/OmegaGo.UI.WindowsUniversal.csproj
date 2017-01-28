@@ -102,6 +102,7 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Cheats\Cheats.cs" />
     <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Files\FilePickerService.cs" />
     <Compile Include="Services\Files\FileService.cs" />
@@ -117,9 +118,13 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\SimpleBoardControl.xaml.cs">
+      <DependentUpon>SimpleBoardControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>
@@ -128,9 +133,6 @@
     </Compile>
     <Compile Include="Views\HelpView.xaml.cs">
       <DependentUpon>HelpView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
@@ -265,6 +267,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\SimpleBoardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\TimelineControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -280,10 +286,6 @@
     <Page Include="Views\HelpView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameCreationView.xaml">
       <SubType>Designer</SubType>

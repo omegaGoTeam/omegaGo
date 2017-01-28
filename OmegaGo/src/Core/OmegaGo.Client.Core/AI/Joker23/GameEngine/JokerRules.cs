@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.GameEngine
 {
 
     public class Rules
