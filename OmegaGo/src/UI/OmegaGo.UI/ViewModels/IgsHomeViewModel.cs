@@ -29,16 +29,20 @@ namespace OmegaGo.UI.ViewModels
             LoginScreenVisible = !(Connections.Pandanet.LoggedIn);
             Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
+            Connections.Pandanet.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate; 
             if (Connections.Pandanet.LoggedIn)
             {
                 await RefreshGames();
                 await RefreshUsers();
             }
         }
+
+
         public void Deinitialize()
         {
             Connections.Pandanet.IncomingLine -= Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine -= Pandanet_OutgoingLine;
+            Connections.Pandanet.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
         }
 
         //***************************************************************
@@ -59,11 +63,54 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
+        private bool _incomingCheckboxChange = false;
         private string _progressPanelText = "Communicating with Pandanet...";
+
+        private bool _humanLookingForGame;
+        public bool HumanLookingForGame
+        {
+            get { return _humanLookingForGame; }
+            set {
+                SetProperty(ref _humanLookingForGame, value);
+                if (!_incomingCheckboxChange)
+                {
+                    ToggleHumanLookingForGameTo(value);
+                }
+            }
+        }
+
+       
+
+        private bool _humanRefusingAllGames;
+        public bool HumanRefusingAllGames
+        {
+            get { return _humanRefusingAllGames; }
+            set {
+                SetProperty(ref _humanRefusingAllGames, value);
+                if (!_incomingCheckboxChange)
+                    ToggleRefusingAllGamesTo(value);
+            }
+        }
+
+        private async void ToggleRefusingAllGamesTo(bool value)
+        {
+            ShowProgressPanel("Toggling whether we are open...");
+            await Connections.Pandanet.ToggleAsync("open", !value);
+            ProgressPanelVisible = false;
+        }
+        private async void ToggleHumanLookingForGameTo(bool value)
+        {
+            ShowProgressPanel("Toggling whether we are looking for games...");
+            await Connections.Pandanet.ToggleAsync("looking", value);
+            ProgressPanelVisible = false;
+        }
+
         public string ProgressPanelText
         {
             get { return _progressPanelText; }
-            set { SetProperty(ref _progressPanelText, value); }
+            set {
+                SetProperty(ref _progressPanelText, value);
+            }
 
         }
         private string _loginErrorMessage = "TODO twolines or oneline";
@@ -133,6 +180,13 @@ namespace OmegaGo.UI.ViewModels
         {
             ProgressPanelText = caption;
             ProgressPanelVisible = true;
+        }
+        private void Pandanet_PersonalInformationUpdate(object sender, IgsUser e)
+        {
+            _incomingCheckboxChange = true;
+            this.HumanLookingForGame = e.LookingForAGame;
+            this.HumanRefusingAllGames = e.RejectsRequests;
+            _incomingCheckboxChange = false;
         }
 
         //** LOGIN SCREEN *********************************************************

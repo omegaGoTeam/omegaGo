@@ -186,7 +186,12 @@ namespace OmegaGo.Core.Online.Igs
             {
                 if (line.Code != IgsCode.User) continue; // Comment
                 if (line.EntireLine.EndsWith("Language")) continue; // Example
-                returnedUsers.Add(CreateUserFromTelnetLine(line.EntireLine));
+                IgsUser createdUser = CreateUserFromTelnetLine(line.EntireLine);
+                returnedUsers.Add(createdUser);
+                if (createdUser.Name == this._username)
+                {
+                    PersonalInformationUpdate?.Invoke(this, createdUser);
+                }
             }
             return returnedUsers;
         }
@@ -303,5 +308,11 @@ namespace OmegaGo.Core.Online.Igs
             await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
         }
         */
+
+        public async Task<bool> ToggleAsync(string toggleKey, bool newToggleValue)
+        {
+            var response = await MakeRequestAsync("toggle " + toggleKey + " " + (newToggleValue ? "on" : "off"));
+            return !response.IsError;
+        }
     }
 }

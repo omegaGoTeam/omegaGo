@@ -96,7 +96,8 @@
                 <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
                 <Button Click="ChangeUser_Click">Change user...</Button>
                 <Button Click="Logout_Click">Logout</Button>
-                <CheckBox IsEnabled="False" Margin="10,0,0,0">Looking for a game</CheckBox>
+                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
+                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
                 <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                     <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
 

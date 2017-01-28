@@ -380,6 +380,12 @@ namespace OmegaGo.Core.Online.Igs
         {
             OutgoingLine?.Invoke(this, line);
         }
+
+        /// <summary>
+        /// Occurs when we receive information from the server about the logged-in user. This happens during the enumeration
+        /// of all players (because that list includes us).
+        /// </summary>
+        public event EventHandler<IgsUser> PersonalInformationUpdate;
         /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
         /// current request for which we're expecting a reply.
