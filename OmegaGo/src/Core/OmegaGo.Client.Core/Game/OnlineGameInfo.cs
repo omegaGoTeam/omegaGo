@@ -25,6 +25,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
             HandicapPlacementType handicapPlacementType,
             float komi,
             CountingType countingType,
+            int igsIndex,
             int numberOfObservers,
             ServerID server) :
             base(
@@ -39,7 +40,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
         {
             NumberOfObservers = numberOfObservers;
             this.ServerID = server;
+            IgsIndex = igsIndex;
         }
+
+        public int IgsIndex { get; private set; }
 
         public ServerID ServerID { get; }
         public IgsConnection Server => Connections.GetConnection(ServerID);

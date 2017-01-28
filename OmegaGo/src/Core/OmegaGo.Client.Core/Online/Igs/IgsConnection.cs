@@ -57,8 +57,8 @@ namespace OmegaGo.Core.Online.Igs
         private StreamReader _streamReader;
 
         // Status
-        private List<OnlineGameInfo> _gamesInProgressOnIgs = new List<OnlineGameInfo>();
-        private readonly List<GameInfo> _gamesBeingObserved = new List<GameInfo>();
+      //  private List<OnlineGameInfo> _gamesInProgressOnIgs = new List<OnlineGameInfo>();
+        private readonly List<OnlineGame> _gamesBeingObserved = new List<OnlineGame>();
         private readonly List<OnlineGame> _gamesYouHaveOpened = new List<OnlineGame>();
         // Internal synchronization management
         private OnlineGame _incomingMovesAreForThisGame;
@@ -90,6 +90,17 @@ namespace OmegaGo.Core.Online.Igs
             LoggingIn
         }
         private string _loginError = null;
+
+        private void ClearConnectionInformation()
+        {
+            IgsRequest throwaway;
+            while (_outgoingRequests.TryDequeue(out throwaway)) {
+            }
+            _incomingMovesAreForThisGame = null;
+            _gamesBeingObserved.Clear();
+            _gamesYouHaveOpened.Clear();
+           // _gamesInProgressOnIgs.Clear();
+        }
 
         private IgsConnection()
         {
@@ -154,6 +165,7 @@ namespace OmegaGo.Core.Online.Igs
             _username = username;
             _password = password;
             _loginError = null;
+            ClearConnectionInformation();
             _streamWriter.WriteLine("login");
             _streamWriter.WriteLine(_username);
             _streamWriter.WriteLine(_password);
@@ -173,6 +185,7 @@ namespace OmegaGo.Core.Online.Igs
             await MakeRequestAsync("toggle newundo true");
             return true;
         }
+
 
         /// <summary>
         /// Verifies that we are currectly connected to the server. If not but we *wish* to be connected,
@@ -247,96 +260,8 @@ namespace OmegaGo.Core.Online.Igs
 
 
 
-        private readonly Regex _regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.].{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
-        private IgsUser CreateUserFromTelnetLine(string line)
-        {
-            Match match = _regexUser.Match(line);
-            if (!match.Success)
-            {
-                throw new Exception("IGS SERVER returned invalid user string.");
-            }
-            /*
-             *  1 - Name
-             *  2 - Country
-             *  3 - Rank
-             *  4 - Calculated or self-described rank?
-             *  5 - Flags
-             * 
-             */
-
-            IgsUser user = new IgsUser()
-            {
-                Name = match.Groups[1].Value,
-                Country = match.Groups[2].Value,
-                Rank = match.Groups[3].Value.StartsWith(" ") ? match.Groups[3].Value.Substring(1) : match.Groups[3].Value,
-                LookingForAGame = match.Groups[5].Value.Contains("!"),
-                RejectsRequests = match.Groups[5].Value.Contains("X")
-            };
-            return user;
-
-        }
-        private void HandleIncomingMove(IgsLine igsLine)
-        {
 
 
-            string trim = igsLine.PureLine.Trim();
-            if (trim.StartsWith("Game "))
-            {
-                // TODO
-                /*
-                string trim2 = trim.Substring("Game ".Length);
-                int gameNumber = int.Parse(trim2.Substring(0, trim2.IndexOf(' ')));
-                OnlineGameInfo whatGame = _gamesInProgressOnIgs.Find(gm => gm.ServerId == gameNumber);
-                if (whatGame == null)
-                {
-                    whatGame = new ObsoleteGameInfo
-                    {
-                        ServerId = gameNumber,
-                        Server = this
-                    };
-                    _gamesInProgressOnIgs.Add(whatGame);
-                }
-                _incomingMovesAreForThisGame = whatGame;
-                */
-            }
-            else if (trim.Contains("Handicap"))
-            {
-                //  15   0(B): Handicap 3
-                int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
-                // TODO
-                // _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
-            }
-            else
-            {
-                Match match = this._regexMove.Match(trim);
-                string moveIndex = match.Groups[1].Value;
-                string mover = match.Groups[2].Value;
-                string coordinates = match.Groups[3].Value;
-                string captures = match.Groups[4].Value;
-                StoneColor moverColor = mover == "B" ? StoneColor.Black : StoneColor.White;
-                Move move;
-                if (coordinates == "Pass")
-                {
-                    move = Move.Pass(moverColor);
-                }
-                else
-                {
-                    move = Move.PlaceStone(moverColor,
-                        Position.FromIgsCoordinates(coordinates));
-                }
-                string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (string capture in captureSplit)
-                {
-                    move.Captures.Add(Position.FromIgsCoordinates(capture));
-                }
-                // TODO
-                //_incomingMovesAreForThisGame.AcceptMoveFromInternet(int.Parse(moveIndex), move);
-            }
-        }
-
-
-
-        private readonly Regex _regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
 
 
         /// <summary>
@@ -429,15 +354,13 @@ namespace OmegaGo.Core.Online.Igs
             IncomingShoutMessage?.Invoke(line);
         }
         #endregion
-        // Interface requirements
-        public string ShortName => "IGS";
+        
         public string Username => _username;
-
-        public void RefreshBoard(OnlineGame game)
-        {
-            // TODO
-           // MakeUnattendedRequest("moves " + game.Id);
-        }
+        /// <summary>
+        /// Occurs when a MOVE zero-indexed INT in order from the beginning of the game, is received from the server for
+        /// a GAME. The move may be our own.
+        /// </summary>
+        public event EventHandler<Tuple<OnlineGame, int, Move>> IncomingMove;
 
         #region Events
 
@@ -528,7 +451,6 @@ namespace OmegaGo.Core.Online.Igs
         {
             LastMoveUndone?.Invoke(this, whichGame);
         }
-        #endregion
 
         /// <summary>
         /// Occurs when the opponent in a GAME declines our request to undo a move.
@@ -552,11 +474,16 @@ namespace OmegaGo.Core.Online.Igs
         /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
         /// </summary>
         public event EventHandler<string> IncomingLine;
-        protected void OnIncomingLine(string message)
+
+        private void OnIncomingLine(string message)
         {
             IncomingLine?.Invoke(this, message);
         }
+        #endregion
     }
+
+
+
     public class GameScoreEventArgs : EventArgs
     {
         public readonly float BlackScore;

@@ -18,6 +18,7 @@ using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
@@ -144,20 +145,24 @@ namespace FormsPrototype
         }
         
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (this.lbGames.SelectedItem != null)
             {
-                OnlineGameInfo game = (OnlineGameInfo)lbGames.SelectedItem;
-                // game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
-               //  game.StartObserving();
-                //igs.RefreshBoard(game);
-                /*InGameForm observing = new InGameForm(game, igs);
-                observing.Show();
-                this.lbObservedGames.Items.Add(game);
-                */
-                // TODo
+
+                OnlineGameInfo gameInfo = (OnlineGameInfo)lbGames.SelectedItem;
+                var obs = await igs.StartObserving(gameInfo);
+                if (obs != null)
+                {
+                    this.lbObservedGames.Items.Add(obs);
+                }
+                else
+                {
+                    MessageBox.Show("Observing failed.");
+                }
+                InGameForm ingameForm = new FormsPrototype.InGameForm(obs.Metadata, igs);
+                ingameForm.LoadGame(obs);
+                ingameForm.Show();
             }
         }
 

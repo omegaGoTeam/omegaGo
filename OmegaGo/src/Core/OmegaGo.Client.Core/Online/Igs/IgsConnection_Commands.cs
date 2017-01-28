@@ -7,9 +7,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 
@@ -17,8 +19,8 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        /*
-        public async Task<ObsoleteGameInfo> GetGameByIdAsync(int gameId)
+        
+        public async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
         {
             IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
@@ -35,11 +37,11 @@ namespace OmegaGo.Core.Online.Igs
             }
             throw new Exception("No game with this ID.");
         }
-        */
+        
         public async Task<List<OnlineGameInfo>> ListGamesInProgressAsync()
         {
             await EnsureConnectedAsync();
-            this._gamesInProgressOnIgs = new List<OnlineGameInfo>();
+            var games = new List<OnlineGameInfo>();
             List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
             {
@@ -50,10 +52,10 @@ namespace OmegaGo.Core.Online.Igs
                         // This is the example line.
                         continue;
                     }
-                    this._gamesInProgressOnIgs.Add(CreateGameFromTelnetLine(line.EntireLine));
+                    games.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return this._gamesInProgressOnIgs;
+            return games; // this._gamesInProgressOnIgs;
         }
         private OnlineGameInfo CreateGameFromTelnetLine(string line)
         {
@@ -83,6 +85,7 @@ namespace OmegaGo.Core.Online.Igs
                 HandicapPlacementType.Fixed,
                 match.Groups[9].Value.AsFloat(),
                 CountingType.Territory,
+                match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger(),
                 ServerID.Igs);
 
@@ -93,29 +96,75 @@ namespace OmegaGo.Core.Online.Igs
                 return game;
 
         }
-        /*
-        public async void StartObserving(ObsoleteGameInfo game)
+        
+        public async Task<OnlineGame> StartObserving(OnlineGameInfo gameInfo)
         {
-            if (this._gamesBeingObserved.Contains(game))
+            if (gameInfo.Server != this)
+            {
+                // That is not an IGS game.
+                return null;
+            }
+            if (this._gamesBeingObserved.Any(g => g.Metadata.IgsIndex == gameInfo.IgsIndex))
             {
                 // We are already observing this game.
-                return;
+                return null;
             }
-            this._gamesBeingObserved.Add(game);
-            this._gamesYouHaveOpened.Add(game);
-            await MakeRequestAsync("observe " + game.ServerId);
+            var response = await MakeRequestAsync("observe " + gameInfo.IgsIndex);
+            if (response.IsError)
+            {
+                // Observing failed.
+                return null;
+            }
+            GameHeading heading = response.GetGameHeading();
+            if (heading == null)
+            {
+                return null;
+            }
+            if (heading.BlackName != gameInfo.Black.Name || heading.WhiteName != gameInfo.White.Name)
+            {
+                // It's a different game now.
+                return null;
+            }
+            GamePlayer blackPlayer =
+                  new IgsPlayerBuilder(StoneColor.Black, this)
+                      .Name(gameInfo.Black.Name)
+                      .Rank(gameInfo.Black.Rank)
+                      .Build();
+            GamePlayer whitePlayer =
+                new IgsPlayerBuilder(StoneColor.White, this)
+                    .Name(gameInfo.White.Name)
+                    .Rank(gameInfo.White.Rank)
+                    .Build();
+            OnlineGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
+                .BlackPlayer(blackPlayer)
+                .WhitePlayer(whitePlayer)
+                .Ruleset(RulesetType.Japanese)
+                .Komi(gameInfo.Komi)
+                .BoardSize(gameInfo.BoardSize)
+                .Build();
+            foreach (var player in onlineGame.Controller.Players)
+            {
+                player.AssignToGame(gameInfo, onlineGame.Controller);
+            }
+            _gamesBeingObserved.Add(onlineGame);
+            _gamesYouHaveOpened.Add(onlineGame);
+            MakeUnattendedRequest("moves " + gameInfo.IgsIndex);
+            return onlineGame;
         }
-        public void EndObserving(ObsoleteGameInfo game)
+        public void EndObserving(OnlineGameInfo game)
         {
+            /*
             if (!this._gamesBeingObserved.Contains(game))
             {
-                throw new ArgumentException("The specified game is currently not being observed.", nameof(game));
+                // We're not observing this game.
+                return;
             }
             this._gamesBeingObserved.Remove(game);
             this._gamesYouHaveOpened.Remove(game);
             this._streamWriter.WriteLine("observe " + game.ServerId);
+            */
         }
-        */
+        
         /// <summary>
         /// Sends a private message to the specified user using the 'tell' feature of IGS.
         /// </summary>

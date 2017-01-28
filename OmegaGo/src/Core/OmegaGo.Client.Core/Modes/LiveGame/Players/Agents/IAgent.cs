@@ -5,6 +5,24 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
+    /// <summary>
+     /// An agent makes moves for a player when this is requested by a game controller.
+     /// 
+     /// <para>
+     /// TODO this information is outdated
+     /// An agent is a class that each <see cref="GamePlayer"/> must refer to. An agent's role is to supply moves made by the player whenever
+     /// the game controller demands it. There are several different agents: the <see cref="ObsoleteAIAgent"/> makes moves for an AI program,
+     /// the <see cref="ObsoleteOnlineAgent"/> makes moves for a remote player whose moves are given to us by the server, and then there are GUI
+     /// agents (not part of this DLL library) that make moves made when the local player clicks on the game board.
+     /// </para>
+     /// 
+     /// <para>
+     /// Making a move, in general, takes a lot of time. The <see cref="ObsoleteAIAgent"/> will usually take about one second to make a move, and
+     /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the way this works is that 
+     /// the <see cref="ObsoleteGameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
+     /// the agent calls <see cref="ObsoleteGameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
+     /// </para>    
+     /// </summary>
     public interface IAgent
     {
         /// <summary>

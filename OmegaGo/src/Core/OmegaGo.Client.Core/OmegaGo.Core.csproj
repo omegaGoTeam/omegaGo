@@ -48,15 +48,10 @@
     <Compile Include="Modes\LiveGame\Phases\IGameControllerPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\PlayerPair.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentBase.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\HumanAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAgentBase.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteAIAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Local\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteLocalAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\IObsoleteAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IllegalMoveHandling.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\IObsoleteOnlineAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\IHumanAgentActions.cs" />
+    <Compile Include="Modes\LiveGame\Players\Local\IHumanAgentActions.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteOnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AiDecision.cs" />
@@ -109,6 +104,7 @@
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\AI\AiPlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Igs\IgsAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Local\HumanPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />

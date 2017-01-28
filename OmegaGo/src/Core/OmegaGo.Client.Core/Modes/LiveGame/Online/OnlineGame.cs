@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
     public class OnlineGame : LiveGameBase
     {
-        public OnlineGame(OnlineGameInfo info) : base(info)
+        public OnlineGame(OnlineGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
             Metadata = info;
+            Controller = new GameController(info, ruleset, players);
         }
 
         public OnlineGameInfo Metadata { get; }
