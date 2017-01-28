@@ -17,7 +17,7 @@ namespace OmegaGo.UI.ViewModels
         private MvxCommand _navigateToIGSLobbyCommand;
         private MvxCommand _navigateToOGSLobbyCommand;
 
-        public MvxCommand NavigateToIGSLobbyCommand => _navigateToIGSLobbyCommand ?? (_navigateToIGSLobbyCommand = new MvxCommand(() => ShowViewModel<ObsoleteIGSLobbyViewModel>()));
+        public MvxCommand NavigateToIGSLobbyCommand => _navigateToIGSLobbyCommand ?? (_navigateToIGSLobbyCommand = new MvxCommand(() => ShowViewModel<IgsHomeViewModel>()));
         public MvxCommand NavigateToOGSLobbyCommand => _navigateToOGSLobbyCommand ?? (_navigateToOGSLobbyCommand = new MvxCommand(() => ShowViewModel<OGSLobbyView>()));
         
         public MultiplayerDashboardViewModel()

@@ -38,7 +38,7 @@
                             <Button Click="SortByWhiteName_Click">Sort by White's name</Button>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                            <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="Padding" Value="10, 1, 0, 1"/>
@@ -47,7 +47,7 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </ScrollViewer>
-                        <Button Grid.Row="2">
+                        <Button Grid.Row="2" Command="{Binding ObserveSelectedGame}">
                             Observe this game
                         </Button>
                     </Grid>
