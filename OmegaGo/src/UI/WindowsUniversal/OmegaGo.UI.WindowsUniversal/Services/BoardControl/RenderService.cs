@@ -35,6 +35,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private CanvasBitmap blackStoneBitmap;
         private CanvasBitmap whiteStoneBitmap;
+        private CanvasBitmap oakBitmap;
 
         public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
@@ -44,6 +45,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
+            oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
 
         }
 
@@ -58,6 +60,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             int boardWidth = SharedBoardControlState.BoardWidth;
             int boardHeight = SharedBoardControlState.BoardHeight;
+            int cellSize = SharedBoardControlState.CellSize;
+            int halfSize = SharedBoardControlState.HalfCellSize;
+            Position lastMove = gameState?.Move?.Kind == MoveKind.PlaceStone
+                ? gameState.Move.Coordinates
+                : Position.Undefined;
 
             sender.Width = SharedBoardControlState.BoardActualWidth;
             sender.Height = SharedBoardControlState.BoardActualHeight;
@@ -67,6 +74,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 SharedBoardControlState.BoardActualWidth,
                 SharedBoardControlState.BoardActualHeight,
                 _sharedBoardControlState.BoardColor.ToUWPColor());
+
+            args.DrawingSession.DrawImage(oakBitmap,
+                new Rect(0, 0, SharedBoardControlState.BoardActualWidth, SharedBoardControlState.BoardActualHeight));
 
             args.DrawingSession.DrawRectangle(
                 0, 0,
@@ -120,11 +130,20 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
                     {
                         int translatedYCoordinate = (SharedBoardControlState.BoardHeight - y - 1);
-                                
-                        
+
+
                         if (boardState[x, y] != StoneColor.None)
                         {
-                            DrawStone(args.DrawingSession, x, translatedYCoordinate, boardState[x, y]);
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, boardState[x, y], 1);
+
+                            if (gameState?.Move?.Kind == MoveKind.PlaceStone &&
+                                gameState.Move.Coordinates.X == x &&
+                                gameState.Move.Coordinates.Y == y)
+                            {
+                                args.DrawingSession.DrawEllipse(new Vector2(x*cellSize + halfSize,
+                                    translatedYCoordinate*cellSize + halfSize), cellSize*0.2f,
+                                    cellSize*0.2f, boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
+                            }
                         }
                         /*
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.Black);
@@ -137,11 +156,24 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             
             if (_sharedBoardControlState.MouseOverPosition.IsDefined)
             {
-                DrawStoneCellBackground(
-                    args.DrawingSession,
-                    SharedBoardControlState.MouseOverPosition.X,
-                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
-                    SharedBoardControlState.HighlightColor.ToUWPColor());
+                // TODO only if legal
+                if (_sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
+                {
+                    DrawStone(args.DrawingSession, SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        _sharedBoardControlState.MouseOverShadowColor, 0.5);
+
+                }
+                else
+                {
+                    // legacy
+                    DrawStoneCellBackground(
+                        args.DrawingSession,
+                        SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        SharedBoardControlState.HighlightColor.ToUWPColor());
+                }
+                
             }
             
         }
@@ -157,15 +189,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="drawingSession">used for rendering</param>
         /// <param name="x">position on x axis</param>
         /// <param name="y">position on y axis</param>
+        /// <param name="color"></param>
         /// <param name="stoneColor">color of the stone</param>
-        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color)
+        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color, double opacity)
         {
-            double xPos = SharedBoardControlState.CellSize* (x + 0.1);
-            double yPos = SharedBoardControlState.CellSize*(y + 0.1);
+            double xPos = SharedBoardControlState.CellSize* (x + 0.025);
+            double yPos = SharedBoardControlState.CellSize*(y + 0.025);
             drawingSession.DrawImage(color == StoneColor.Black ? blackStoneBitmap : whiteStoneBitmap,
                 new Rect(xPos, yPos,
-                    SharedBoardControlState.CellSize * 0.8,
-                    SharedBoardControlState.CellSize * 0.8));
+                    SharedBoardControlState.CellSize * 0.95,
+                    SharedBoardControlState.CellSize * 0.95), blackStoneBitmap.Bounds, (float)opacity);
             /*
              * old:
              * 

@@ -22,7 +22,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Game = Mvx.GetSingleton<ILiveGame>();
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
-
+            Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
@@ -30,6 +30,19 @@ namespace OmegaGo.UI.ViewModels
 
             TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        private void Controller_TurnPlayerChanged(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
+        {
+            if (e.IsHuman)
+            {
+                BoardViewModel.BoardControlState.MouseOverShadowColor =
+                    e.Info.Color;
+            }
+            else
+            {
+                BoardViewModel.BoardControlState.MouseOverShadowColor = StoneColor.None;
+            }
         }
 
         public ILiveGame Game { get; }

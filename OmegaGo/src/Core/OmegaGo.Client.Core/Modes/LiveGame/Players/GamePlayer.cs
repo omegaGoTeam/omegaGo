@@ -32,6 +32,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         public IAgent Agent { get; }
 
+        public bool IsHuman => Agent is HumanAgent;
+
         /// <summary>
         /// Assigns the player to a game
         /// </summary>

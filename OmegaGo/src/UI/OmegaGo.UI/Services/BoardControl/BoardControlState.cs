@@ -90,6 +90,17 @@ namespace OmegaGo.UI.Services.Game
             set { _boardLineThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
         }
 
+        private StoneColor _mouseOverShadowColor;
+        /// <summary>
+        /// Gets or sets the color of the shadow stone displayed under the cursor when the user 
+        /// mouses over the board
+        /// </summary>
+        public StoneColor MouseOverShadowColor
+        {
+            get { return _mouseOverShadowColor; }
+            set { _mouseOverShadowColor = value; OnPropertyChanged(nameof(MouseOverShadowColor), true); }
+        }
+
         public MvxColor BoardColor
         {
             get { return _boardColor; }
