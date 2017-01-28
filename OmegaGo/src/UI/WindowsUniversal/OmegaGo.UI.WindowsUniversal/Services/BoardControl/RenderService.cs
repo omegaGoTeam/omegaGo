@@ -36,10 +36,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private CanvasBitmap blackStoneBitmap;
         private CanvasBitmap whiteStoneBitmap;
 
-        public async Task CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Realistic_Go_Stone.svg.png");
-            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Realistic_White_Go_Stone.svg.png");
+            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
+        }
+        async Task CreateResourcesAsync(CanvasControl sender)
+        {
+            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
+            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
+
         }
 
 
@@ -115,16 +120,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
                     {
                         int translatedYCoordinate = (SharedBoardControlState.BoardHeight - y - 1);
-                        /*
-                        args.DrawingSession.DrawImage(blackStoneBitmap,
-                            new Rect(x, translatedYCoordinate, SharedBoardControlState.CellSize,
-                                SharedBoardControlState.CellSize));
-                                */
+                                
                         
-                        if (boardState[x, y] == StoneColor.Black)
+                        if (boardState[x, y] != StoneColor.None)
+                        {
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, boardState[x, y]);
+                        }
+                        /*
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.Black);
                         else if (boardState[x, y] == StoneColor.White)
-                            DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.White);
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.White);*/
                             
                     }
                 }
@@ -153,8 +158,20 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="x">position on x axis</param>
         /// <param name="y">position on y axis</param>
         /// <param name="stoneColor">color of the stone</param>
-        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, Color color)
+        private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color)
         {
+            double xPos = SharedBoardControlState.CellSize* (x + 0.1);
+            double yPos = SharedBoardControlState.CellSize*(y + 0.1);
+            drawingSession.DrawImage(color == StoneColor.Black ? blackStoneBitmap : whiteStoneBitmap,
+                new Rect(xPos, yPos,
+                    SharedBoardControlState.CellSize * 0.8,
+                    SharedBoardControlState.CellSize * 0.8));
+            /*
+             * old:
+             * 
+             * 
+             * change stonecolor to Colors.Black and Colors.White
+                       
             // We need to translate the position of the stone by its half to get the center for the ellipse shape
             int xPos = SharedBoardControlState.CellSize * x + SharedBoardControlState.HalfCellSize;
             int yPos = SharedBoardControlState.CellSize * y + SharedBoardControlState.HalfCellSize;
@@ -166,7 +183,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 yPos,
                 radius,
                 radius,
-                color);
+                color);*/
         }
         
         /// <summary>
