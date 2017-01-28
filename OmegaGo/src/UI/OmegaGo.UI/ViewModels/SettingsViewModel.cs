@@ -80,6 +80,13 @@ namespace OmegaGo.UI.ViewModels
             get { return (int)_gameSettings.Display.BoardTheme; }
             set { _gameSettings.Display.BoardTheme = (BoardTheme)value; RaisePropertyChanged(); }
         }
+        public ObservableCollection<StoneTheme> StoneThemes { get; } =
+         new ObservableCollection<StoneTheme>((StoneTheme[])Enum.GetValues(typeof(StoneTheme)));
+        public int SelectedStonesTheme
+        {
+            get { return (int)_gameSettings.Display.StonesTheme; }
+            set { _gameSettings.Display.StonesTheme = (StoneTheme)value; RaisePropertyChanged(); }
+        }
         public bool HighlightLastMove
         {
             get { return _gameSettings.Display.HighlightLastMove; }

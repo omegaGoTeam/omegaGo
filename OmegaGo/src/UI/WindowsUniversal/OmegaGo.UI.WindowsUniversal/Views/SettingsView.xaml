@@ -39,19 +39,13 @@
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
                     </ComboBox>
                    
-                    <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
-                        <x:String>Plain Black</x:String>
-                        <x:String>Glass</x:String>
-                        <x:String>Plastic</x:String>
+                    <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox ItemsSource="{Binding StoneThemes}" 
+                              SelectedIndex="{Binding SelectedStonesTheme, Mode=TwoWay}"
+                              Width="140">
                     </ComboBox>
 
-                    <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
-                        <x:String>Plain White</x:String>
-                        <x:String>Glass</x:String>
-                        <x:String>Plastic</x:String>
-                    </ComboBox>
+                    
 
                     <CheckBox Content="Highlight Last Move" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
                     <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />

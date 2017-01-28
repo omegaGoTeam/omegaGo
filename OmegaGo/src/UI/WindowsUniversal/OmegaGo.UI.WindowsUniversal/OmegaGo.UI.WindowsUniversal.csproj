@@ -212,7 +212,9 @@
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\Textures\black.png" />
+    <Content Include="Assets\Textures\kaya.jpg" />
     <Content Include="Assets\Textures\oak.jpg" />
+    <Content Include="Assets\Textures\space.png" />
     <Content Include="Assets\Textures\white.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
