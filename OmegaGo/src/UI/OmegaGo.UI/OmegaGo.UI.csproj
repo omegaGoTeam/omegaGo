@@ -104,6 +104,7 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />

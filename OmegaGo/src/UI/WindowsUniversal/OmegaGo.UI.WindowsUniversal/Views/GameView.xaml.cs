@@ -23,6 +23,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TransparencyViewBase_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            updateTimer.Tick -= UpdateTimer_Tick;
             VM.Unload();
         }
 
@@ -46,6 +47,21 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.Resign();
             }
             // TODO make this possible even on opponent's turn, and ask for confirmation first
+        }
+
+        private DispatcherTimer updateTimer;
+        private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
+        {
+            updateTimer = new DispatcherTimer();
+            updateTimer.Interval = TimeSpan.FromMilliseconds(100);
+            updateTimer.Tick += UpdateTimer_Tick;
+            updateTimer.Start(); 
+        }
+
+        private void UpdateTimer_Tick(object sender, object e)
+        {
+            VM.BlackPortrait.Update();
+            VM.WhitePortrait.Update();
         }
     }
 }

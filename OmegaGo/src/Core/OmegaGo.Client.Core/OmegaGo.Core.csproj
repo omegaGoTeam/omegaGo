@@ -213,7 +213,8 @@
     <Compile Include="Time\Absolute\AbsoluteTimeInformation.cs" />
     <Compile Include="Time\Canadian\CanadianTimeControl.cs" />
     <Compile Include="Time\Canadian\CanadianTimeInformation.cs" />
-    <Compile Include="Time\Clock.cs" />
+    <Compile Include="Time\Japanese\JapaneseTimeControl.cs" />
+    <Compile Include="Time\Japanese\JapaneseTimeInformation.cs" />
     <Compile Include="Time\None\NoTimeControl.cs" />
     <Compile Include="Time\None\NoTimeInformation.cs" />
     <Compile Include="Time\TimeControl.cs" />

@@ -24,10 +24,13 @@ namespace OmegaGo.UI.ViewModels
             Game = Mvx.GetSingleton<ILiveGame>();
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
+            Game.Controller.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
+            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
+            WhitePortrait = new UserControls.ViewModels.PlayerPortraitViewModel(Game.Controller.Players.White);
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
@@ -46,9 +49,19 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        private string _systemLog;
+        public string SystemLog
+        {
+            get { return _systemLog; }
+            set { SetProperty(ref _systemLog, value); }
+        }
+
         public ILiveGame Game { get; }
 
         public BoardViewModel BoardViewModel { get; }
+
+        public PlayerPortraitViewModel BlackPortrait { get; }
+        public PlayerPortraitViewModel WhitePortrait { get; }
 
         public ChatViewModel ChatViewModel { get; }
 

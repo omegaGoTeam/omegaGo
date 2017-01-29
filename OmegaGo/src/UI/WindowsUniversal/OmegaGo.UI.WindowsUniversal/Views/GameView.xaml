@@ -8,6 +8,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     Unloaded="TransparencyViewBase_Unloaded"
+    Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -37,7 +38,7 @@
                                 />
         
         
-        <CommandBar IsOpen="True" Grid.ColumnSpan="3" VerticalAlignment="Top"
+        <CommandBar Grid.ColumnSpan="3" VerticalAlignment="Top"
                     Grid.Column="0"
                     
                 Grid.Row="0" Content="">
@@ -94,8 +95,6 @@
                 <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
-                <TextBlock Text="Phase:"></TextBlock>
-                <TextBlock Text="{x:Bind VM.Game.Controller.Phase}"></TextBlock>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
                 <Button>Done</Button>
                 <Button>Undo Death Marks</Button>
@@ -124,13 +123,18 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBlock Text="PLACEHOLDER player white information"></TextBlock>
-                <TextBlock Text="PLACEHOLDER player black information"></TextBlock>
+                <StackPanel Grid.Row="0">
+                    <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
+                        
+                    </controls:PlayerPortrait>
+                    <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
+                    </controls:PlayerPortrait>
                     <TextBlock Text="PLACEHOLDER log"></TextBlock>
             </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    
+                    <TextBox Text="{Binding SystemLog, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
+                        
+                    </TextBox>
                 </ScrollViewer>
             </Grid>
         </Border>
