@@ -105,8 +105,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                     case IllegalMoveHandling.InformAgent:
                         player.Agent.MoveIllegal(result.Result);
                         break;
-                    case IllegalMoveHandling.MakeRandomMove:
-                        throw new Exception("Old AI's not supported yet.");
+                    case IllegalMoveHandling.PassInstead:
+                        TryToMakeMove(Move.Pass(move.WhoMoves));
+                        break;
                     case IllegalMoveHandling.PermitItAnyway:
                         result.Result = MoveResult.Legal;
                         break;

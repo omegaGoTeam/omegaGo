@@ -10,9 +10,9 @@
         /// </summary>
         InformAgent,
         /// <summary>
-        /// A random move should be made instead since a retry would likely produce the same result. This is how AI's should act.
+        /// A pass should be made instead since a retry would likely produce the same result. This is how AI's should act. A pass is always legal so it will go through.
         /// </summary>
-        MakeRandomMove,
+        PassInstead,
         /// <summary>
         /// The agent is smarter than the game controller and its moves should always be accepted as legal.
         /// </summary>
