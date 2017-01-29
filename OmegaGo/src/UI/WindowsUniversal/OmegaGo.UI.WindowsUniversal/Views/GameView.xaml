@@ -19,13 +19,27 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"/>
-
-        <CommandBar VerticalAlignment="Top"
-                Grid.RowSpan="2"
-                Grid.ColumnSpan="2" OverflowButtonVisibility="Collapsed" Content="{x:Bind VM.Game.Controller.Phase}">
+                                VerticalAlignment="Stretch"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                />
+        
+        
+        <CommandBar Grid.ColumnSpan="3" VerticalAlignment="Top"
+                    Grid.Column="0"
+                Grid.Row="0" OverflowButtonVisibility="Visible" Content="">
             <CommandBar.Background>
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
             </CommandBar.Background>
@@ -69,11 +83,49 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
         </CommandBar>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="372" Margin="10,76,0,0" VerticalAlignment="Top" Width="200">
+        <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
             <StackPanel>
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+                <TextBlock Text="Phase:"></TextBlock>
+                <TextBlock Text="{x:Bind VM.Game.Controller.Phase}"></TextBlock>
+                <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
+                <Button>Done</Button>
+                <Button>Undo Death Marks</Button>
+                <Button>Resume game</Button>
+                <TextBlock Text="Undo" FontSize="20"></TextBlock>
+                <Button>undoplease</Button>
+                <Button>undo (yes)</Button>
+                <Button>noundo</Button>
+                <Button>undo locally</Button>
+                <TextBlock Text="Moves" FontSize="20"></TextBlock>
+                <Button>PASS</Button>
+                <Button>Resign</Button>
+                <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
+                <StackPanel Orientation="Horizontal">
+                    <ProgressRing IsActive="True"></ProgressRing>
+                    <TextBlock Text="AI is thinking..."></TextBlock>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="Hint" FontSize="20"></TextBlock>
+                <Button>Get Hint from Assistant</Button>
             </StackPanel>
+        </Border>
+        <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
+            <StackPanel>
+                <TextBlock Text="PLACEHOLDER player white information"></TextBlock>
+                <TextBlock Text="PLACEHOLDER player black information"></TextBlock>
+                <TextBlock Text="PLACEHOLDER log"></TextBlock>
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
+            <Slider Value="50" Minimum="0" Maximum="100"></Slider>
         </Border>
     </Grid>
 </views:TransparencyViewBase>

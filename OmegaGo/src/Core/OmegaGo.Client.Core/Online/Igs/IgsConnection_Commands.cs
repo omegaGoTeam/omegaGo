@@ -201,6 +201,15 @@ namespace OmegaGo.Core.Online.Igs
             return returnedUsers;
         }
 
+        /// <summary>
+        /// Uses the command "match" to challenge a player.
+        /// </summary>
+        /// <param name="opponent">The opponent to play against.</param>
+        /// <param name="yourColor">Your color.</param>
+        /// <param name="boardSize">Size of the square board.</param>
+        /// <param name="mainTime">The main time, in minutes.</param>
+        /// <param name="byoyomiMinutes">Time for each period of 25 moves, in minutes, for Canadian byoyomi.</param>
+        /// <returns></returns>
         public async Task<bool> RequestBasicMatchAsync(
             string opponent,
             StoneColor yourColor,
@@ -211,15 +220,13 @@ namespace OmegaGo.Core.Online.Igs
             var lines = await
                 MakeRequestAsync("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
-            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
-            return !lines.Any(line => line.Code == IgsCode.Error);
+            return !lines.IsError;
         }
 
         public async Task<bool> DeclineMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            List<IgsLine> lines = await MakeRequestAsync(matchRequest.RejectCommand);
-            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
-            return !lines.Any(line => line.Code == IgsCode.Error);
+            var response = await MakeRequestAsync(matchRequest.RejectCommand);
+            return !response.IsError;
         }
         public async Task<OnlineGameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
@@ -249,36 +256,38 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest(command);
         }
 
-        /*
-        public override void MakeMove(ObsoleteGameInfo game, Move move)
+        
+        public void MakeMove(OnlineGameInfo game, Move move)
         {
             switch (move.Kind)
             {
                 case MoveKind.PlaceStone:
-                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.IgsIndex);
                     break;
                 case MoveKind.Pass:
-                    MakeUnattendedRequest("pass " + game.ServerId);
+                    MakeUnattendedRequest("pass " + game.IgsIndex);
                     break;
             }
         }
-        public override void Resign(ObsoleteGameInfo game)
+        public void Resign(OnlineGameInfo game)
         {
-            MakeUnattendedRequest("resign " + game.ServerId);
+            MakeUnattendedRequest("resign " + game.IgsIndex);
         }
-        */
-        /*
-        public async Task<bool> SayAsync(ObsoleteGameInfo game, string chat)
+        
+        
+        public async Task<bool> SayAsync(OnlineGame game, string chat)
         {
-            if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
+            if (!this._gamesYouHaveOpened.Contains(game))
+                throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
+
             IgsResponse response;
             if (this._gamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
-                response = await MakeRequestAsync("say " + game.ServerId + " " + chat);
+                response = await MakeRequestAsync("say " + game.Metadata.IgsIndex + " " + chat);
             }
             else
             {
@@ -286,7 +295,7 @@ namespace OmegaGo.Core.Online.Igs
                 response = await MakeRequestAsync("say " + chat);
             }
             return !response.IsError;
-        }*/
+        }
 
             /*
         public async Task UndoPleaseAsync(ObsoleteGameInfo game)
