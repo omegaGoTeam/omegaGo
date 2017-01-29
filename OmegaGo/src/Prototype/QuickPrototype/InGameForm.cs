@@ -20,6 +20,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Time;
 using GoColor = OmegaGo.Core.Game.StoneColor;
 
 namespace FormsPrototype
@@ -27,7 +28,7 @@ namespace FormsPrototype
     public partial class InGameForm : Form
     {
         private OnlineGameInfo _gameInfo;
-        private OnlineGame _game;
+        private OnlineGame _onlineGame;
         private IgsConnection _igs;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
@@ -36,12 +37,12 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
 
-        public InGameForm(OnlineGame game, IgsConnection igs)
+        public InGameForm(OnlineGame onlineGame, IgsConnection igs)
         {
             InitializeComponent();
 
-            this._game = game;
-            this._gameInfo = game?.Metadata;
+            this._onlineGame = onlineGame;
+            this._gameInfo = onlineGame?.Metadata;
             this._igs = igs;
            
            
@@ -142,7 +143,7 @@ namespace FormsPrototype
         
         private void _igs_UndoRequestReceived(object sender, OnlineGame e)
         {
-            if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
+            if (e == this._onlineGame) SystemLog("We have received an UNDO REQUEST!");
         }
         
         private void _igs_ErrorMessageReceived(object sender, string e)
@@ -424,7 +425,7 @@ namespace FormsPrototype
 
         private async void bSay_Click(object sender, EventArgs e)
         {
-            if (!await this._igs.SayAsync(this._game, this.tbSayWhat.Text))
+            if (!await this._igs.SayAsync(this._onlineGame, this.tbSayWhat.Text))
             {
                 MessageBox.Show("Say failed.");
             }
@@ -598,6 +599,19 @@ namespace FormsPrototype
         private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             RefreshBoard();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (_liveGame != null)
+            {
+                TimeInformation blackTime = _liveGame.Controller.Players.Black.Clock.GetDisplayTime();
+                this.lblTimeBlackMain.Text = blackTime.MainText;
+                this.lblTimeBlackSub.Text = blackTime.SubText;
+                TimeInformation whiteTime = _liveGame.Controller.Players.White.Clock.GetDisplayTime();
+                this.lblTimeWhiteMain.Text = whiteTime.MainText;
+                this.lblTimeWhiteSub.Text = whiteTime.SubText;
+            }
         }
     }
 }

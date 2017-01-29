@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -68,6 +69,13 @@
             this.bUndoPlease = new System.Windows.Forms.Button();
             this.trackTimeline = new System.Windows.Forms.TrackBar();
             this.lblTimeline = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblTimeBlackMain = new System.Windows.Forms.Label();
+            this.lblTimeWhiteMain = new System.Windows.Forms.Label();
+            this.lblTimeWhiteSub = new System.Windows.Forms.Label();
+            this.lblTimeBlackSub = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -106,7 +114,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(493, 215);
+            this.label2.Location = new System.Drawing.Point(492, 234);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 6;
@@ -116,7 +124,7 @@
             // 
             this.lblTurnPlayer.AutoSize = true;
             this.lblTurnPlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTurnPlayer.Location = new System.Drawing.Point(508, 240);
+            this.lblTurnPlayer.Location = new System.Drawing.Point(521, 255);
             this.lblTurnPlayer.Name = "lblTurnPlayer";
             this.lblTurnPlayer.Size = new System.Drawing.Size(128, 31);
             this.lblTurnPlayer.TabIndex = 7;
@@ -396,7 +404,7 @@
             this.grpLifeDeath.Controls.Add(this.bResumeAsBlack);
             this.grpLifeDeath.Controls.Add(this.bUndoLifeDeath);
             this.grpLifeDeath.Controls.Add(this.bDoneWithLifeDeathDetermination);
-            this.grpLifeDeath.Location = new System.Drawing.Point(492, 76);
+            this.grpLifeDeath.Location = new System.Drawing.Point(1027, 34);
             this.grpLifeDeath.Name = "grpLifeDeath";
             this.grpLifeDeath.Size = new System.Drawing.Size(200, 126);
             this.grpLifeDeath.TabIndex = 6;
@@ -507,11 +515,78 @@
             this.lblTimeline.TabIndex = 23;
             this.lblTimeline.Text = "Timeline:";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(493, 86);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(63, 13);
+            this.label7.TabIndex = 24;
+            this.label7.Text = "Black Time:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(493, 159);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(64, 13);
+            this.label8.TabIndex = 25;
+            this.label8.Text = "White Time:";
+            // 
+            // lblTimeBlackMain
+            // 
+            this.lblTimeBlackMain.AutoSize = true;
+            this.lblTimeBlackMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblTimeBlackMain.Location = new System.Drawing.Point(508, 100);
+            this.lblTimeBlackMain.Name = "lblTimeBlackMain";
+            this.lblTimeBlackMain.Size = new System.Drawing.Size(128, 31);
+            this.lblTimeBlackMain.TabIndex = 26;
+            this.lblTimeBlackMain.Text = "Unknown";
+            // 
+            // lblTimeWhiteMain
+            // 
+            this.lblTimeWhiteMain.AutoSize = true;
+            this.lblTimeWhiteMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.lblTimeWhiteMain.Location = new System.Drawing.Point(508, 176);
+            this.lblTimeWhiteMain.Name = "lblTimeWhiteMain";
+            this.lblTimeWhiteMain.Size = new System.Drawing.Size(128, 31);
+            this.lblTimeWhiteMain.TabIndex = 27;
+            this.lblTimeWhiteMain.Text = "Unknown";
+            // 
+            // lblTimeWhiteSub
+            // 
+            this.lblTimeWhiteSub.AutoSize = true;
+            this.lblTimeWhiteSub.Location = new System.Drawing.Point(511, 211);
+            this.lblTimeWhiteSub.Name = "lblTimeWhiteSub";
+            this.lblTimeWhiteSub.Size = new System.Drawing.Size(63, 13);
+            this.lblTimeWhiteSub.TabIndex = 28;
+            this.lblTimeWhiteSub.Text = "Turn player:";
+            // 
+            // lblTimeBlackSub
+            // 
+            this.lblTimeBlackSub.AutoSize = true;
+            this.lblTimeBlackSub.Location = new System.Drawing.Point(511, 134);
+            this.lblTimeBlackSub.Name = "lblTimeBlackSub";
+            this.lblTimeBlackSub.Size = new System.Drawing.Size(63, 13);
+            this.lblTimeBlackSub.TabIndex = 29;
+            this.lblTimeBlackSub.Text = "Turn player:";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1033, 601);
+            this.ClientSize = new System.Drawing.Size(1230, 601);
+            this.Controls.Add(this.lblTimeBlackSub);
+            this.Controls.Add(this.lblTimeWhiteSub);
+            this.Controls.Add(this.lblTimeWhiteMain);
+            this.Controls.Add(this.lblTimeBlackMain);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.lblTimeline);
             this.Controls.Add(this.trackTimeline);
             this.Controls.Add(this.groupBox1);
@@ -594,5 +669,12 @@
         private System.Windows.Forms.Label lblTimeline;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox tbAiLog;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblTimeBlackMain;
+        private System.Windows.Forms.Label lblTimeWhiteMain;
+        private System.Windows.Forms.Label lblTimeWhiteSub;
+        private System.Windows.Forms.Label lblTimeBlackSub;
+        private System.Windows.Forms.Timer timer1;
     }
 }

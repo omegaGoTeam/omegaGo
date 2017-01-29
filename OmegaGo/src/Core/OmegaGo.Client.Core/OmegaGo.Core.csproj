@@ -209,9 +209,16 @@
     <Compile Include="Sgf\SgfParseException.cs" />
     <Compile Include="Sgf\Parsing\SgfParser.cs" />
     <Compile Include="Sgf\SgfGameTree.cs" />
-    <Compile Include="TimeControl\NoTimeControl.cs" />
-    <Compile Include="TimeControl\TimeControl.cs" />
-    <Compile Include="TimeControl\TimeControlStyle.cs" />
+    <Compile Include="Time\Absolute\AbsoluteTimeControl.cs" />
+    <Compile Include="Time\Absolute\AbsoluteTimeInformation.cs" />
+    <Compile Include="Time\Canadian\CanadianTimeControl.cs" />
+    <Compile Include="Time\Canadian\CanadianTimeInformation.cs" />
+    <Compile Include="Time\Clock.cs" />
+    <Compile Include="Time\None\NoTimeControl.cs" />
+    <Compile Include="Time\None\NoTimeInformation.cs" />
+    <Compile Include="Time\TimeControl.cs" />
+    <Compile Include="Time\TimeControlStyle.cs" />
+    <Compile Include="Time\TimeInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

@@ -27,7 +27,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
-            // ChatViewModel = new ChatViewModel();
+            ChatViewModel = new ChatViewModel();
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
@@ -67,11 +67,11 @@ namespace OmegaGo.UI.ViewModels
 
         public void MakeMove(Position selectedPosition)
         {
-            (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
+            if (Game?.Controller?.TurnPlayer?.IsHuman ?? false)
+            {
+                (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
+            }
             //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
-            //(Game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
-            //    Game.Controller.TurnPlayer.Color,
-            //    selectedPosition);
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

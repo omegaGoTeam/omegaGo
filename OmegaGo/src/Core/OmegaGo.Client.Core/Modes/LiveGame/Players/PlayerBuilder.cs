@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Time;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
 {
@@ -37,6 +38,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         private string _team = "";
 
+        protected TimeControl TimeClock { get; private set; } = new NoTimeControl();
+
         /// <summary>
         /// Creates a player builder
         /// </summary>
@@ -58,6 +61,18 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
             _name = name;
+            return _concreteBuilderInstance;
+        }
+
+        /// <summary>
+        /// Sets the name
+        /// </summary>
+        /// <param name="name">Name</param>
+        /// <returns>Builder</returns>
+        public TBuilderType Clock(TimeControl clock)
+        {
+            if (clock == null) throw new ArgumentNullException(nameof(clock));
+            TimeClock = clock;
             return _concreteBuilderInstance;
         }
 

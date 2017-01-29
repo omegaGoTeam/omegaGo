@@ -81,6 +81,9 @@
             this.bSendOgsRequest = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.tbOgsUri = new System.Windows.Forms.TextBox();
+            this.rbNoTimeControl = new System.Windows.Forms.RadioButton();
+            this.rbAbsoluteTiming = new System.Windows.Forms.RadioButton();
+            this.rbCanadianTiming = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,14 +138,14 @@
             // lbObservedGames
             // 
             this.lbObservedGames.FormattingEnabled = true;
-            this.lbObservedGames.Location = new System.Drawing.Point(858, 200);
+            this.lbObservedGames.Location = new System.Drawing.Point(862, 69);
             this.lbObservedGames.Name = "lbObservedGames";
             this.lbObservedGames.Size = new System.Drawing.Size(244, 121);
             this.lbObservedGames.TabIndex = 4;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(862, 284);
+            this.button3.Location = new System.Drawing.Point(866, 154);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(233, 27);
             this.button3.TabIndex = 5;
@@ -420,6 +423,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.rbCanadianTiming);
+            this.groupBox4.Controls.Add(this.rbAbsoluteTiming);
+            this.groupBox4.Controls.Add(this.rbNoTimeControl);
             this.groupBox4.Controls.Add(this.bPlayLocal);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.cbWhite);
@@ -427,16 +433,16 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cbBlack);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Location = new System.Drawing.Point(858, 327);
+            this.groupBox4.Location = new System.Drawing.Point(858, 258);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(237, 141);
+            this.groupBox4.Size = new System.Drawing.Size(237, 210);
             this.groupBox4.TabIndex = 19;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Local Play ";
             // 
             // bPlayLocal
             // 
-            this.bPlayLocal.Location = new System.Drawing.Point(70, 109);
+            this.bPlayLocal.Location = new System.Drawing.Point(61, 178);
             this.bPlayLocal.Name = "bPlayLocal";
             this.bPlayLocal.Size = new System.Drawing.Size(116, 23);
             this.bPlayLocal.TabIndex = 20;
@@ -586,7 +592,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(586, 434);
+            this.tabPage2.Size = new System.Drawing.Size(502, 434);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "IGS Additional";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -603,7 +609,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(586, 434);
+            this.tabPage3.Size = new System.Drawing.Size(502, 434);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "OGS Console";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -672,6 +678,37 @@
             this.tbOgsUri.Name = "tbOgsUri";
             this.tbOgsUri.Size = new System.Drawing.Size(340, 20);
             this.tbOgsUri.TabIndex = 0;
+            // 
+            // rbNoTimeControl
+            // 
+            this.rbNoTimeControl.AutoSize = true;
+            this.rbNoTimeControl.Checked = true;
+            this.rbNoTimeControl.Location = new System.Drawing.Point(12, 106);
+            this.rbNoTimeControl.Name = "rbNoTimeControl";
+            this.rbNoTimeControl.Size = new System.Drawing.Size(101, 17);
+            this.rbNoTimeControl.TabIndex = 26;
+            this.rbNoTimeControl.Text = "No Time Control";
+            this.rbNoTimeControl.UseVisualStyleBackColor = true;
+            // 
+            // rbAbsoluteTiming
+            // 
+            this.rbAbsoluteTiming.AutoSize = true;
+            this.rbAbsoluteTiming.Location = new System.Drawing.Point(12, 129);
+            this.rbAbsoluteTiming.Name = "rbAbsoluteTiming";
+            this.rbAbsoluteTiming.Size = new System.Drawing.Size(100, 17);
+            this.rbAbsoluteTiming.TabIndex = 27;
+            this.rbAbsoluteTiming.Text = "Absolute Timing";
+            this.rbAbsoluteTiming.UseVisualStyleBackColor = true;
+            // 
+            // rbCanadianTiming
+            // 
+            this.rbCanadianTiming.AutoSize = true;
+            this.rbCanadianTiming.Location = new System.Drawing.Point(12, 152);
+            this.rbCanadianTiming.Name = "rbCanadianTiming";
+            this.rbCanadianTiming.Size = new System.Drawing.Size(104, 17);
+            this.rbCanadianTiming.TabIndex = 28;
+            this.rbCanadianTiming.Text = "Canadian Timing";
+            this.rbCanadianTiming.UseVisualStyleBackColor = true;
             // 
             // PrimaryForm
             // 
@@ -766,6 +803,9 @@
         private System.Windows.Forms.Button bSendOgsRequest;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbOgsUri;
+        private System.Windows.Forms.RadioButton rbCanadianTiming;
+        private System.Windows.Forms.RadioButton rbAbsoluteTiming;
+        private System.Windows.Forms.RadioButton rbNoTimeControl;
     }
 }
 

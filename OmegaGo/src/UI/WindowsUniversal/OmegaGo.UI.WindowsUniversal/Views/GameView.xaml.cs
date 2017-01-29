@@ -3,6 +3,8 @@ using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
 using System;
 using Windows.Foundation;
+using Windows.UI.Xaml;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -22,6 +24,28 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void TransparencyViewBase_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             VM.Unload();
+        }
+
+        private void UndoLocally(object sender, RoutedEventArgs e)
+        {
+            VM.Game.Controller.Main_Undo();
+        }
+
+        private void ClickPass(object sender, RoutedEventArgs e)
+        {
+            if (VM.Game?.Controller?.TurnPlayer?.IsHuman ?? false)
+            {
+                (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.Pass();
+            }
+        }
+
+        private void ClickResign(object sender, RoutedEventArgs e)
+        {
+            if (VM.Game?.Controller?.TurnPlayer?.IsHuman ?? false)
+            {
+                (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.Resign();
+            }
+            // TODO make this possible even on opponent's turn, and ask for confirmation first
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.TimeControl
+namespace OmegaGo.Core.Time
 {
     public enum TimeControlStyle
     {

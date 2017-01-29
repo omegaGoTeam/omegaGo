@@ -93,7 +93,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 if (_turnPlayer != value)
                 {
+                    this._turnPlayer?.Clock.StopClock();
+
                     _turnPlayer = value;
+                    this._turnPlayer.Clock.StartClock();
+
                     OnTurnPlayerChanged();
                 }
             }
@@ -161,6 +165,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         protected virtual void OnTurnPlayerChanged()
         {
+            
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
             //notify the agent about his turn       
             TurnPlayer?.Agent.OnTurn();

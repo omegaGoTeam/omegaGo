@@ -24,6 +24,7 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
@@ -241,11 +242,25 @@ namespace FormsPrototype
         
         private GamePlayer CreateAgentFromComboboxObject(InGameForm form, object text, StoneColor color)
         {
+            TimeControl timeControl = null;
+            if (rbNoTimeControl.Checked)
+            {
+                timeControl = new NoTimeControl();
+            }
+            else if (rbAbsoluteTiming.Checked)
+            {
+                timeControl = new AbsoluteTimeControl(2);
+            }
+            else if (rbCanadianTiming.Checked)
+            {
+
+            }
             if (text is string && ((string)text) == "Human")
             {
                 GamePlayer human = new HumanPlayerBuilder(color)
                     .Name(color.ToString())
                     .Rank("NR")
+                    .Clock(timeControl)
                     .Build();
                 (human.Agent as HumanAgent).MoveRequested += (e,e2) =>
                 {
@@ -260,6 +275,7 @@ namespace FormsPrototype
                 GamePlayer aiPlayer = new AiPlayerBuilder(color)
                     .Name(text.ToString() + "(" + color.ToIgsCharacterString() +")")
                     .Rank("NR")
+                    .Clock(timeControl)
                     .AiProgram(newInstance)
                     .Build();
                 return aiPlayer;
@@ -267,11 +283,7 @@ namespace FormsPrototype
             throw new Exception("This agent cannot be handled yet.");
         }
 
-        private void PrimaryForm_MoveRequested(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+ 
         private async void button6_Click_1(object sender, EventArgs e)
         {
             IgsIncomingLine(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
