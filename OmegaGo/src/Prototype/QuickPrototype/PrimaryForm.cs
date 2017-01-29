@@ -83,7 +83,7 @@ namespace FormsPrototype
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.OutgoingLine += Igs_OutgoingLine;
          // TODO
-            //   igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
+            igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
             igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.ConnectAsync())
             {
@@ -96,18 +96,14 @@ namespace FormsPrototype
             }
         }
 
-        /*
-        private async void Igs_MatchRequestAccepted(object sender, ObsoleteGameInfo game)
+        
+        private void Igs_MatchRequestAccepted(object sender, OnlineGame game)
         {
-            //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-            GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-            GamePlayer networkPlayer = game.OpponentOf(localPlayer);
-            await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
-            InGameForm ingameForm = new InGameForm(game, igs);
-            localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-            networkPlayer.Agent = new ObsoleteOnlineAgent();
+            InGameForm ingameForm = new FormsPrototype.InGameForm(game.Metadata, igs);
+            ingameForm.LoadGame(game);
             ingameForm.Show();
-        }*/
+        }
+        
 
         private void Igs_MatchRequestDeclined(object sender, string e)
         {
@@ -238,10 +234,6 @@ namespace FormsPrototype
                 .Komi(7.5f)
                 .BoardSize(new GameBoardSize((int) this.nLocalBoardSize.Value))
                 .Build();
-            foreach(var player in game.Controller.Players)
-            {
-                player.AssignToGame(game.Info, game.Controller);
-            }
             ingameForm.LoadGame(game);
             ingameForm.Show();
         }

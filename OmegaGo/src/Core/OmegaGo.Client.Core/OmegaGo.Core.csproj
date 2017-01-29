@@ -97,7 +97,7 @@
     <Compile Include="Modes\LiveGame\LiveGameBase.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\IgsGameBuilder.cs" />
     <Compile Include="Game\OnlineGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />

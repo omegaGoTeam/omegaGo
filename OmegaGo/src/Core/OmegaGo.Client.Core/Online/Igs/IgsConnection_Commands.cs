@@ -19,8 +19,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        
-        public async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
+        private async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
         {
             IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
@@ -142,10 +141,6 @@ namespace OmegaGo.Core.Online.Igs
                 .Komi(gameInfo.Komi)
                 .BoardSize(gameInfo.BoardSize)
                 .Build();
-            foreach (var player in onlineGame.Controller.Players)
-            {
-                player.AssignToGame(gameInfo, onlineGame.Controller);
-            }
             _gamesBeingObserved.Add(onlineGame);
             _gamesYouHaveOpened.Add(onlineGame);
             MakeUnattendedRequest("moves " + gameInfo.IgsIndex);

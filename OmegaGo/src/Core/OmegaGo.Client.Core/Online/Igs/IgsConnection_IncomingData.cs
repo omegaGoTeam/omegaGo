@@ -10,8 +10,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
@@ -327,7 +330,7 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private IEnumerable<GameInfo> GetGamesIncluding(string username)
+        private IEnumerable<OnlineGameInfo> GetGamesIncluding(string username)
         {
 
             return this._gamesYouHaveOpened.Where(ginfo => ginfo.Info.Black.Name == username ||
@@ -415,29 +418,58 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
+        private async void HandleFullInterrupt(List<IgsLine> currentLineBatch)
         {
             if (currentLineBatch.Count > 0)
             {
-                /*
-                               if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
+               
+                  if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
+                    
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                    ObsoleteGameInfo game = new ObsoleteGameInfo()
+                    var ogi = await GetGameByIdAsync(heading.GameNumber);
+                    Modes.LiveGame.Online.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
+                    bool youAreBlack = ogi.Black.Name == _username;
+                    bool youAreWhite = ogi.White.Name == _username;
+                    if (youAreBlack)
                     {
-                        BoardSize = new GameBoardSize(19), // TODO
-                        Server = this,
-                        ServerId = heading.GameNumber,
-                    };
-                    game.Players.Add(new GamePlayer(heading.BlackName, "?", game));
-                    game.Players.Add(new GamePlayer(heading.WhiteName, "?", game));
-                    game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                    this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
-                    this._gamesInProgressOnIgs.Add(game);
-                    this._gamesYouHaveOpened.Add(game);
-                    OnMatchRequestAccepted(game);
+                        builder.BlackPlayer(
+                            new HumanPlayerBuilder(StoneColor.Black)
+                            .Name(ogi.Black.Name)
+                            .Rank(ogi.Black.Rank)
+                            .Build());
+                    }
+                    else
+                    {
+                        builder.BlackPlayer(
+                            new IgsPlayerBuilder(StoneColor.Black, this)
+                                .Name(ogi.Black.Name)
+                                .Rank(ogi.Black.Rank)
+                                .Build());
 
+                    }
+                    if (youAreWhite)
+                    {
+                        builder.WhitePlayer(
+                            new HumanPlayerBuilder(StoneColor.White)
+                            .Name(ogi.White.Name)
+                            .Rank(ogi.White.Rank)
+                            .Build());
+                    }
+                    else
+                    {
+                        builder.WhitePlayer(
+                            new IgsPlayerBuilder(StoneColor.White, this)
+                                .Name(ogi.White.Name)
+                                .Rank(ogi.White.Rank)
+                                .Build());
+
+                    }
+                    OnlineGame newGame = builder.Build();
+                    _gamesYouHaveOpened.Add(newGame);
+                    OnMatchRequestAccepted(newGame);
                 }
+                               /*
                 if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
                 {
                     // Make it not be an interrupt and let it be handled by the match creator.

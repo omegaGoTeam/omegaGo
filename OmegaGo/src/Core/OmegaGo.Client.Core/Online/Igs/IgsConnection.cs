@@ -427,8 +427,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Occurs when our match request is accepted and creates a GAME.
         /// </summary>
-        public event EventHandler<OnlineGameInfo> MatchRequestAccepted;
-        private void OnMatchRequestAccepted(OnlineGameInfo acceptedGame)
+        public event EventHandler<OnlineGame> MatchRequestAccepted;
+        private void OnMatchRequestAccepted(OnlineGame acceptedGame)
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }

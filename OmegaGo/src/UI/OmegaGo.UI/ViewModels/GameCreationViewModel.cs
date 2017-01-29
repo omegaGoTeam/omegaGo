@@ -262,10 +262,6 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();
-            foreach (var player in game.Controller.Players)
-            {
-                player.AssignToGame(game.Info, game.Controller);
-            }
             Mvx.RegisterSingleton<ILiveGame>(game);
         }
 

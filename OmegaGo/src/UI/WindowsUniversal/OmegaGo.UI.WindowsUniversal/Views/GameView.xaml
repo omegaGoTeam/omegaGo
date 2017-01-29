@@ -37,12 +37,13 @@
                                 />
         
         
-        <CommandBar Grid.ColumnSpan="3" VerticalAlignment="Top"
+        <CommandBar IsOpen="True" Grid.ColumnSpan="3" VerticalAlignment="Top"
                     Grid.Column="0"
-                Grid.Row="0" OverflowButtonVisibility="Visible" Content="">
-            <CommandBar.Background>
+                    
+                Grid.Row="0" Content="">
+            <AppBar.Background>
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-            </CommandBar.Background>
+            </AppBar.Background>
 
             <AppBarButton Icon="Bookmarks" Label="Timeline"
                           AllowFocusOnInteraction="True">
