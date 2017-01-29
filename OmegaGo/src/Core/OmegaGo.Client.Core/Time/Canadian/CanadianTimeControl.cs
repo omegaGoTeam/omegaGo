@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Time.Canadian
     public class CanadianTimeControl : TimeControl
     {
         private readonly int _stonesPerPeriod;
-        private readonly int _periodMinutes;
+        private readonly TimeSpan _periodTime;
 
         private CanadianTimeInformation _snapshot;
 
@@ -17,25 +17,58 @@ namespace OmegaGo.Core.Time.Canadian
         {
             this._snapshot = new CanadianTimeInformation(TimeSpan.FromMinutes(mainTime), TimeSpan.Zero, 0);
             this._stonesPerPeriod = stonesPerPeriod;
-            this._periodMinutes = periodMinutes;
+            this._periodTime = TimeSpan.FromMinutes(periodMinutes);
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Canadian;
 
         private CanadianTimeInformation ReduceBy(CanadianTimeInformation minued, TimeSpan subtrahend)
         {
-            throw new NotImplementedException();
-            return minued;
+            TimeSpan maintime = minued.MainTimeLeft;
+            bool stillInMainTime = maintime > TimeSpan.Zero;
+            if (stillInMainTime)
+            {
+                if (maintime > subtrahend)
+                {
+                    return new Canadian.CanadianTimeInformation(maintime - subtrahend, minued.PeriodTimeLeft,
+                        minued.PeriodStonesLeft);
+                }
+                else
+                {
+                    minued = new Canadian.CanadianTimeInformation(TimeSpan.Zero, _periodTime, _stonesPerPeriod);
+                    subtrahend = subtrahend - maintime;
+                }
+            }
+            // Now we're eliminating periods.
+            return new Canadian.CanadianTimeInformation(TimeSpan.Zero,
+                minued.PeriodTimeLeft - subtrahend, minued.PeriodStonesLeft);
         }
         public override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
-            throw new NotImplementedException();
+            return ReduceBy(_snapshot, addThisTime);
         }
-
+        private CanadianTimeInformation ImproveByPlacingAStone(CanadianTimeInformation snapshot)
+        {
+            if (snapshot.MainTimeLeft > TimeSpan.Zero) return snapshot;
+            if (snapshot.PeriodStonesLeft > 1)
+            {
+                return new Canadian.CanadianTimeInformation(snapshot.MainTimeLeft,
+                    snapshot.PeriodTimeLeft,
+                    snapshot.PeriodStonesLeft - 1);
+            }
+            else
+            {
+                return new Canadian.CanadianTimeInformation(snapshot.MainTimeLeft,
+                    _periodTime, _stonesPerPeriod);
+            }
+        }
         public override void UpdateSnapshot(TimeSpan timeSpent)
         {
             _snapshot = ReduceBy(_snapshot, timeSpent);
+            _snapshot = ImproveByPlacingAStone(_snapshot);
         }
+
+       
 
         public override bool IsViolating(TimeSpan addThisTime)
         {

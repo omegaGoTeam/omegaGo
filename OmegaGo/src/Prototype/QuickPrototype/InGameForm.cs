@@ -233,6 +233,11 @@ namespace FormsPrototype
             this.panelEnd.Visible = true;
             this.lblEndCaption.Text = resigner + " resigned!";
         }
+        private void _controller_PlayerTimedOut(object sender, GamePlayer e)
+        {
+            this.panelEnd.Visible = true;
+            this.lblEndCaption.Text = e + " timed out!";
+        }
 
         private void _controller_DebuggingMessage(object sender, string obj)
         {
@@ -545,6 +550,7 @@ namespace FormsPrototype
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
+            this._controller.PlayerTimedOut += _controller_PlayerTimedOut; 
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             this._controller.GamePhaseChanged += _controller_GamePhaseChanged;
@@ -560,6 +566,8 @@ namespace FormsPrototype
             */
             this._controller.BeginGame();
         }
+
+      
 
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {

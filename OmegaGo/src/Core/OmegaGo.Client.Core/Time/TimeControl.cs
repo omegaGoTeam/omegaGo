@@ -47,5 +47,17 @@ namespace OmegaGo.Core.Time
             UpdateSnapshot(timeSpent);
             Running = false;
         }
+
+        internal bool IsViolating()
+        {
+            if (Running)
+            {
+                return IsViolating(DateTime.Now - LastMoveMadeWhen);
+            }
+            else
+            {
+                return IsViolating(TimeSpan.Zero);
+            }
+        }
     }
 }

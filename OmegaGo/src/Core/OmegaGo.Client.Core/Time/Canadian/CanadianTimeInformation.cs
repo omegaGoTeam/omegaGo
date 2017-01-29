@@ -8,39 +8,39 @@ namespace OmegaGo.Core.Time.Canadian
 {
     class CanadianTimeInformation : TimeInformation
     {
-        private TimeSpan mainTimeLeft;
-        private TimeSpan periodTimeLeft;
-        private int periodStonesLeft;
+        public TimeSpan MainTimeLeft { get;  }
+        public TimeSpan PeriodTimeLeft { get;}
+        public int PeriodStonesLeft { get; }
 
         public bool IsViolating()
         {
-            return mainTimeLeft <= TimeSpan.Zero && periodTimeLeft <= TimeSpan.Zero;
+            return this.MainTimeLeft <= TimeSpan.Zero && this.PeriodTimeLeft <= TimeSpan.Zero;
         }
 
         public CanadianTimeInformation(TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
         {
-            this.mainTimeLeft = mainTimeLeft;
-            this.periodTimeLeft = periodTimeLeft;
-            this.periodStonesLeft = periodStonesLeft;
+            this.MainTimeLeft = mainTimeLeft;
+            this.PeriodTimeLeft = periodTimeLeft;
+            this.PeriodStonesLeft = periodStonesLeft;
         }
 
         public override string MainText {
             get {
-                if (mainTimeLeft > TimeSpan.Zero)
+                if (this.MainTimeLeft > TimeSpan.Zero)
                 {
-                    return mainTimeLeft.ToString(@"mm\:ss");
+                    return this.MainTimeLeft.ToString(@"mm\:ss");
                 }
-                return periodTimeLeft.ToString(@"mm\:ss");
+                return this.PeriodTimeLeft.ToString(@"mm\:ss");
             }
         }
 
         public override string SubText {
             get {
-                if (mainTimeLeft > TimeSpan.Zero)
+                if (this.MainTimeLeft > TimeSpan.Zero)
                 {
                     return "Main time";
                 }
-                return periodStonesLeft + " stones left for this period";
+                return this.PeriodStonesLeft + " stones left for this period";
             }
         }
         public override TimeControlStyle Style => TimeControlStyle.Canadian;

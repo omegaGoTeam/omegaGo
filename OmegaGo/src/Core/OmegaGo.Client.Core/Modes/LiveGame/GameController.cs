@@ -24,6 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
         public OnlineGameInfo OnlineGameInfo;
+        public bool IsOnlineGame => Server != null;
         /// <summary>
         /// Gets the server connection, or null if this is not an online game.
         /// </summary>
@@ -158,9 +159,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         public event EventHandler<GamePlayer> Resignation;
+        public event EventHandler<GamePlayer> PlayerTimedOut;
         private void OnResignation(GamePlayer player)
         {
             Resignation?.Invoke(this, player);
+        }
+        internal void OnPlayerTimedOut(GamePlayer player)
+        {
+            PlayerTimedOut?.Invoke(this, player);
         }
 
         protected virtual void OnTurnPlayerChanged()

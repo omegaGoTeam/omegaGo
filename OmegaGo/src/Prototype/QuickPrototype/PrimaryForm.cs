@@ -25,6 +25,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Canadian;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
@@ -249,11 +250,11 @@ namespace FormsPrototype
             }
             else if (rbAbsoluteTiming.Checked)
             {
-                timeControl = new AbsoluteTimeControl(2);
+                timeControl = new AbsoluteTimeControl(1);
             }
             else if (rbCanadianTiming.Checked)
             {
-
+                timeControl = new CanadianTimeControl(1, 5, 1);
             }
             if (text is string && ((string)text) == "Human")
             {

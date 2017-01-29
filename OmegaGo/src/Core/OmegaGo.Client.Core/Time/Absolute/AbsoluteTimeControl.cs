@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Time
 
         public override bool IsViolating(TimeSpan addThisTime)
         {
-            return (_mainTime - addThisTime).Ticks > 0;
+            return (_mainTime - addThisTime).Ticks <= 0;
         }
 
         private TimeSpan _mainTime;

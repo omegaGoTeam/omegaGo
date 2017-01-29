@@ -146,9 +146,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 move.Captures.AddRange(result.Captures);
             }
+            if (!Controller.IsOnlineGame && player.Clock.IsViolating())
+            {
+                ClockOut(player);
+                return;
+            }
 
             // The move stands, let's make the other player move now.
-            if (Controller.TurnPlayer.IsHuman)
+                if (Controller.TurnPlayer.IsHuman)
             {
                 Controller.Server?.MakeMove(Controller.OnlineGameInfo, move);
             }
@@ -158,6 +163,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.SwitchTurnPlayer();
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
             Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
+        }
+
+        private void ClockOut(GamePlayer player)
+        {
+            Controller.OnPlayerTimedOut(player);
+            GoToPhase(GamePhaseType.Finished);
         }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)
