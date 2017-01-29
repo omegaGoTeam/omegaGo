@@ -183,6 +183,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             await MakeRequestAsync("toggle quiet true");
             await MakeRequestAsync("toggle newundo true");
+            await MakeRequestAsync("toggle verbose false");
             return true;
         }
 
