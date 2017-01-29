@@ -166,17 +166,21 @@ namespace FormsPrototype
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
-            // TODO
-            /**
+            
             if (this.lbObservedGames.SelectedItem != null)
             {
 
-                ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
-                game.StopObserving();
+                OnlineGame game = (OnlineGame)lbObservedGames.SelectedItem;
+                
                 this.lbObservedGames.Items.Remove(game);
-            }*/
+
+                if (!await igs.EndObserving(game))
+                {
+                    MessageBox.Show("End observation failed.");
+                }
+            }
         }
 
         private async void bSendMessage_Click(object sender, EventArgs e)

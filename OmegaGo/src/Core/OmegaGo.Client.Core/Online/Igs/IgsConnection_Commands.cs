@@ -151,18 +151,18 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest("moves " + gameInfo.IgsIndex);
             return onlineGame;
         }
-        public void EndObserving(OnlineGameInfo game)
+        public async Task<bool> EndObserving(OnlineGame game)
         {
-            /*
+            
             if (!this._gamesBeingObserved.Contains(game))
             {
                 // We're not observing this game.
-                return;
+                return false;
             }
+            var response = await MakeRequestAsync("unobserve " + game.Metadata.IgsIndex);
             this._gamesBeingObserved.Remove(game);
             this._gamesYouHaveOpened.Remove(game);
-            this._streamWriter.WriteLine("observe " + game.ServerId);
-            */
+            return !response.IsError;
         }
         
         /// <summary>
