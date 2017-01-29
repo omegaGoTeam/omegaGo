@@ -24,26 +24,6 @@ namespace OmegaGo.Core.Online.Igs
     partial class IgsConnection
     {
         private bool _ignoreNextPrompt;
-        /*
-         * 
-         * 
-         *  Creator:
-         *  
-            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
-            9 Handicap and komi are disable.
-            9 Match [10] with OmegaGo1 in 75 accepted.
-            9 Please use say to talk to your opponent -- help say.
-            1 6
-
-         * 
-         *  Acceptor:
-    
-            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
-            9 Handicap and komi are disable.
-            9 Creating match [10] with Soothie.
-            9 Please use say to talk to your opponent -- help say.
-            1 6
-            */
 
         private async Task HandleIncomingData(StreamReader sr)
         {
@@ -504,10 +484,10 @@ namespace OmegaGo.Core.Online.Igs
                         // We received a chat message for a game we no longer play.
                         return;
                     }
-                    // TODO
-                    //OnIncomingInGameChatMessage(relevantGame, chatLine);
+
+                    OnIncomingInGameChatMessage(relevantGame.Metadata, chatLine);
                 }
-                /*
+                
                 if (currentLineBatch[0].Code == IgsCode.Tell &&
                     currentLineBatch[0].PureLine.StartsWith("*SYSTEM*") &&
                     currentLineBatch[0].PureLine.EndsWith("requests undo."))
@@ -532,12 +512,13 @@ namespace OmegaGo.Core.Online.Igs
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    OnlineGame gameInfo = this._gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
-                        OnLastMoveUndone(gameInfo);
+                        OnLastMoveUndone(gameInfo.Metadata);
                     }
                 }
+                /*
                 if (currentLineBatch[0].EntireLine.Contains("'done'"))
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);

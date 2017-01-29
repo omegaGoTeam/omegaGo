@@ -99,7 +99,7 @@ namespace FormsPrototype
         
         private void Igs_MatchRequestAccepted(object sender, OnlineGame game)
         {
-            InGameForm ingameForm = new FormsPrototype.InGameForm(game.Metadata, igs);
+            InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
             ingameForm.LoadGame(game);
             ingameForm.Show();
         }
@@ -156,7 +156,7 @@ namespace FormsPrototype
                 {
                     MessageBox.Show("Observing failed.");
                 }
-                InGameForm ingameForm = new FormsPrototype.InGameForm(obs.Metadata, igs);
+                InGameForm ingameForm = new FormsPrototype.InGameForm(obs, igs);
                 ingameForm.LoadGame(obs);
                 ingameForm.Show();
             }
