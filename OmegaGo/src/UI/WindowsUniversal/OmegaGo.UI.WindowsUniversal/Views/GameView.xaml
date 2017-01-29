@@ -28,7 +28,7 @@
             <CommandBar.Background>
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
             </CommandBar.Background>
-            
+
             <AppBarButton Icon="Bookmarks" Label="Timeline"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
@@ -38,12 +38,13 @@
                                 <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>-->
-
+                        <!--
                         <controls:TimelineControl Width="300" Height="300" ViewModel="{x:Bind Path=VM.TimelineViewModel, Mode=OneWay}" />
+                        -->
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            
+
             <AppBarButton Icon="Message" Label="Chat"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
@@ -53,12 +54,12 @@
                                 <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>-->
-
-                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
+                        <!--
+                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />-->
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            
+
             <AppBarButton Icon="Setting" Label="Settings">
                 <AppBarButton.Flyout>
                     <Flyout>
@@ -67,5 +68,11 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
         </CommandBar>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="372" Margin="10,76,0,0" VerticalAlignment="Top" Width="200">
+            <StackPanel>
+                <TextBlock Text="Debug:"></TextBlock>
+                <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+            </StackPanel>
+        </Border>
     </Grid>
 </views:TransparencyViewBase>

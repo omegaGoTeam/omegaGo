@@ -8,6 +8,11 @@ using OmegaGo.Core.AI.Fuego;
 
 namespace OmegaGo.UI.WindowsUniversal.Fuego
 {
+    /// <summary>
+    /// This is created by <see cref="FuegoBuilder"/>. One instance of this class is created for each game in which
+    /// Fuego plays (or two instances if Fuego plays as both Black and White). 
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngine" />
     class FuegoEngine : IGtpEngine
     {
         private int boardSize;

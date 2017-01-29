@@ -26,10 +26,10 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
-            ChatViewModel = new ChatViewModel();
+            // ChatViewModel = new ChatViewModel();
 
-            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
+            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
 
         private void Controller_TurnPlayerChanged(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
@@ -77,9 +77,18 @@ namespace OmegaGo.UI.ViewModels
         {
             BoardViewModel.GameTreeNode = boardState;
             // TODO GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
-            TimelineViewModel.OnTimelineRedrawRequested();
-
+            //TimelineViewModel.OnTimelineRedrawRequested();
+            frames++;
+            DebugInfo = frames.ToString();
             BoardViewModel.Redraw();
+        }
+
+        private int frames = 0;
+        private string _debugInfo = "n/a";
+        public string DebugInfo
+        {
+            get { return _debugInfo; }
+            set { SetProperty(ref _debugInfo, value); }
         }
     }
 }
