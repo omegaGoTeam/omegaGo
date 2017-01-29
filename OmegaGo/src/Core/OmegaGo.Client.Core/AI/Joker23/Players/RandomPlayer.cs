@@ -52,6 +52,10 @@ namespace OmegaGo.Core.AI.Joker23.Players {
                 }
             }
 
+            if (list.Count == 0)
+            {
+                return new Joker23.JokerPoint(0, 0);
+            }
             JokerPoint randomMove = list[rand.Next(list.Count)];
             return randomMove;
         }

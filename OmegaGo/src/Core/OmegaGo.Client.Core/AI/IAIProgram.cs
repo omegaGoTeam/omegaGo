@@ -30,5 +30,12 @@ namespace OmegaGo.Core.AI
         /// <param name="preMoveInformation">Information the AI might need.</param>
         /// <returns></returns>
         AiDecision RequestMove (AIPreMoveInformation preMoveInformation);
+
+        /// <summary>
+        /// Asks the AI to tell us its best move for the given situation. This method must not have side-effects or
+        /// be affected by the state of the class.
+        /// </summary>
+        /// <param name="preMoveInformation">Information the AI might need.</param>
+        AiDecision GetHint(AIPreMoveInformation preMoveInformation);
     }
 }

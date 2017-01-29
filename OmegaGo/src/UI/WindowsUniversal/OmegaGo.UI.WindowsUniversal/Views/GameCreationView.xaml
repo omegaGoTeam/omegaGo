@@ -10,7 +10,6 @@
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=True}">
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -124,10 +123,8 @@
             <ComboBox Grid.Column="1" Grid.Row="3" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
-            <ComboBox Grid.Column="2" Grid.Row="3"  Margin="5" PlaceholderText="Strength">
-                <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
-                <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
-            </ComboBox>
+            <Button Grid.Column="2" Grid.Row="3"  Margin="5" Content="More...">
+            </Button>
             <TextBlock Text="White" Grid.Column="0" Grid.Row="4" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
@@ -135,10 +132,8 @@
             <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-            <ComboBox Grid.Column="2" Grid.Row="4"  Margin="5" PlaceholderText="Strength">
-                <ComboBoxItem>Easy (20 kyu)</ComboBoxItem>
-                <ComboBoxItem>Hard (2 kyu)</ComboBoxItem>
-            </ComboBox>
+            <Button Grid.Column="2" Grid.Row="4"  Margin="5" Content="More...">
+            </Button>
 
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 

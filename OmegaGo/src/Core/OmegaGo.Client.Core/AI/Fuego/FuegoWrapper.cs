@@ -13,7 +13,13 @@ namespace OmegaGo.Core.AI.Fuego
     /// <seealso cref="OmegaGo.Core.AI.AiProgramBase" />
     class FuegoWrapper : AiProgramBase
     {
-        public override string Name => "Fuego";
+        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
+        public override string Name => "Fuego (recommended)";
+
+        public override string Description
+            =>
+                "Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada. It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for. We recommend you use this AI program for all of your games."
+            ;
 
         private IGtpEngine engine;
         private bool initialized;

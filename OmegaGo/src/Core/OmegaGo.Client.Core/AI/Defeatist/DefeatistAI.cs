@@ -11,10 +11,17 @@ namespace OmegaGo.Core.AI.Defeatist
     /// </summary>
     public class DefeatistAI : AiProgramBase
     {
+        public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
+
         /// <summary>
         /// Name of the AI
         /// </summary>
-        public override string Name  => "DefeatistAI";
+        public override string Name  => "Defeatist";
+
+        public override string Description
+            =>
+                "The strongest AI program in this game, the DefeatistAI will resign the first time it gets the chance to. You are simply not worth its time. After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion."
+            ;
 
         /// <summary>
         /// Requests a move from the AI
