@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
 {
@@ -37,11 +38,5 @@ namespace OmegaGo.Core.Rules
                                                                       new Position(9, 15),
                                                                       new Position(9, 3),
                                                                       new Position(9, 9) };
-        public enum Type
-        {
-            Free,
-            Fixed
-        }
-        
     }
 }

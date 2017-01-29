@@ -5,87 +5,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Agents;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.UI.Services.Game;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private IGame _game;
-
-        private BoardViewModel _boardViewModel;
-        private ChatViewModel _chatViewModel;
-        private TimelineViewModel _timelineViewModel;
-
-        private BoardState _boardState;
-        
-        public IGame Game
-        {
-            get { return _game; }
-        }
-
-        public BoardViewModel BoardViewModel
-        {
-            get { return _boardViewModel; }
-            set { SetProperty(ref _boardViewModel, value); }
-        }
-
-        public ChatViewModel ChatViewModel
-        {
-            get { return _chatViewModel; }
-            set { SetProperty(ref _chatViewModel, value); }
-        }
-
-        public TimelineViewModel TimelineViewModel
-        {
-            get { return _timelineViewModel; }
-            set { SetProperty(ref _timelineViewModel, value); }
-        }
-
-        public BoardState BoardState
-        {
-            get { return _boardState; }
-            set { SetProperty(ref _boardState, value); }
-        }
-        
         public GameViewModel()
         {
-            _game = Mvx.GetSingleton<IGame>();
-            _game.BoardChanged += Game_BoardChanged;
+            Game = Mvx.GetSingleton<ILiveGame>();
+            Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
 
-            BoardState = new BoardState();
-            BoardState.BoardHeight = _game.Info.BoardSize.Height;
-            BoardState.BoardWidth = _game.Info.BoardSize.Width;
-
-            BoardViewModel = new BoardViewModel() { BoardState = this.BoardState }; // Mindfuck inception o.O
+            BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
 
-            TimelineViewModel = new TimelineViewModel();
-            TimelineViewModel.GameTree = _game.Info.GameTree;
+            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
-
-            // TODO Could cause problems as this does not wait until the UI is loaded. 
-            _game.Controller.BeginGame();
         }
 
-        private void Game_BoardChanged(object sender, GameTreeNode e)
+        public ILiveGame Game { get; }
+
+        public BoardViewModel BoardViewModel { get; }
+
+        public ChatViewModel ChatViewModel { get; }
+
+        public TimelineViewModel TimelineViewModel { get; }
+
+        public void Init()
+        {
+            Game.Controller.BeginGame();
+        }
+
+        private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
                 OnBoardRefreshRequested(e);
         }
-                
+
         public void MakeMove(Position selectedPosition)
         {
-            (_game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
-                _game.Controller.TurnPlayer.Color,
-                selectedPosition);
+            (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
+            //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
+            //(Game.Controller.TurnPlayer.Agent as IReceiverOfLocalActions).Click(
+            //    Game.Controller.TurnPlayer.Color,
+            //    selectedPosition);
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

@@ -1,5 +1,5 @@
 
-namespace OmegaGo.Core.AI.Joker23
+namespace OmegaGo.Core.AI.Joker23.GameEngine
 {
     /**
      * Move

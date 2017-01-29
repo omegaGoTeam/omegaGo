@@ -75,10 +75,7 @@
             <Button>
                 <FontIcon Glyph="&#xE8C1;" />
                 <Button.Flyout>
-                    <MenuFlyout>
-                        <ToggleMenuFlyoutItem Text="Auto" IsChecked="True" />
-                        <ToggleMenuFlyoutItem Text="English" IsChecked="False" />
-                        <ToggleMenuFlyoutItem Text="Česky" IsChecked="False" />
+                    <MenuFlyout x:Name="LanguagesMenu">
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -86,42 +83,14 @@
             <Button Margin="12,0,0,0">
                 <FontIcon Glyph="&#xE994;" />
             </Button>
-            <Button Content="{x:Bind Localizer.Tips}" 
-                    ToolTipService.ToolTip="{x:Bind Localizer.TipsToolTip}"
-                            
-                    Margin="12,0,0,0"
-                    Click="ShowHideTips_Click"
-                       
-                     />
 
 
 
 
         </StackPanel>
-        <Border HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Margin="12, 0,0,50"
-                    Name="BorderTips">
-            <Border.BorderThickness>1</Border.BorderThickness>
-            <Border.Background>White</Border.Background>
-            <Border.BorderBrush>Black</Border.BorderBrush>
-            <Border.Padding>5</Border.Padding>
-            <RichTextBlock Width="300" FontSize="12">
-                <Paragraph>
-                    Did you know that
-                    <Bold>Go</Bold> received two major boosts in popularity this century - with
-                    <Italic>Hikaru no Go</Italic> and then with
-                    <Italic>AlphaGo</Italic> ?
-                </Paragraph>
-            </RichTextBlock>
-        </Border>
+       
         <StackPanel HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
-            <Button Content="{x:Bind Localizer.Credits}" 
-                    Command="{Binding Path=NavigateToAbout}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.CreditsToolTip}"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Stretch" />
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
                   FontSize="26"/>

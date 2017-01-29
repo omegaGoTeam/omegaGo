@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI
 {
@@ -22,10 +23,10 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Gets the agent's explanation for why it made this decision.
         /// </summary>
-        private string Explanation { get; set; }
+        public string Explanation { get; set; }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="AiDecision"/> class from being created. Use <see cref="MakeMove(Core.Move,string)"/>
+        /// Prevents a default instance of the <see cref="AiDecision"/> class from being created. Use <see cref="MakeMove(Game.Move,string)"/>
         /// or <see cref="Resign(string)"/> instead.  
         /// </summary>
         private AiDecision()

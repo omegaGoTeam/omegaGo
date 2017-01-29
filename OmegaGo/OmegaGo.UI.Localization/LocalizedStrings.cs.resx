@@ -103,7 +103,7 @@
     <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
   </data>
   <data name="Singleplayer" xml:space="preserve">
-    <value>Menu pro hru jednoho hráče</value>
+    <value>Hra jednoho hráče</value>
   </data>
   <data name="SingleplayerToolTip" xml:space="preserve">
     <value>Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</value>
@@ -165,10 +165,31 @@
   <data name="White" xml:space="preserve">
     <value>Bílý</value>
   </data>
-  <data name="Chinese" xml:space="preserve">
+  <data name="ToggleFullscreenTooltip" xml:space="preserve">
+    <value>Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</value>
+  </data>
+  <data name="OmegaGo" xml:space="preserve">
+    <value>Omega Go</value>
+  </data>
+  <data name="Game" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="BoardBorderThickness" xml:space="preserve">
+    <value>Tloušťka okraje</value>
+  </data>
+  <data name="BoardSettings" xml:space="preserve">
+    <value>Nastavení hrací plochy</value>
+  </data>
+  <data name="CellSize" xml:space="preserve">
+    <value>Velikost pole</value>
+  </data>
+  <data name="RulesetType_AGA" xml:space="preserve">
+    <value>AGA</value>
+  </data>
+  <data name="RulesetType_Chinese" xml:space="preserve">
     <value>Čínská</value>
   </data>
-  <data name="Japonese" xml:space="preserve">
+  <data name="RulesetType_Japanese" xml:space="preserve">
     <value>Japonská</value>
   </data>
 </root>

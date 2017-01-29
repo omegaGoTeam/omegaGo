@@ -1,0 +1,13 @@
+Fuego 1.1
+Copyright (C) 2009-2011 by the authors of the Fuego project.
+This program comes with ABSOLUTELY NO WARRANTY. This is
+free software and you are welcome to redistribute it under
+certain conditions. Type `fuego-license' for details.
+
+SgRandom::SetSeed: 1484575757
+SgUctSearch: system memory 4231311360, using 1000000000 (6944444 nodes)
+GoUctGlobalSearch: setting default number of threads to 4
+Loading opening book from 'book.dat'... ok
+GoUctPlayer: Forced opening move
+GoUctPlayer: Forced opening move
+^C

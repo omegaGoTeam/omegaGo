@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
 {
@@ -87,7 +88,7 @@ namespace OmegaGo.Core.Rules
             //check previous move
             if (_isPreviousMovePass)
             {
-                return MoveResult.LifeDeathDeterminationPhase;
+                return MoveResult.StartLifeAndDeath;
             }
 
             // Black player starts the passing
@@ -132,6 +133,5 @@ namespace OmegaGo.Core.Rules
                     _whiteScore -= capturedStoneCount;
             }
         }
-
     }
 }

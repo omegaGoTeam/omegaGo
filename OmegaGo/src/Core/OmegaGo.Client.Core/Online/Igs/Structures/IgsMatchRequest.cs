@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Online.Igs.Structures
 {

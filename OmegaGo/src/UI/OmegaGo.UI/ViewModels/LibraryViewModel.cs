@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Platform;
 using OmegaGo.Core;
-using OmegaGo.Core.Agents;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Parsing;
 
@@ -66,29 +69,30 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private async void OpenFile()
         {
-            //TODO: Temporary implementation only
-            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
-            SgfParser parser = new SgfParser();
-            var sgfCollection = parser.Parse(fileContents);
-            var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
+            throw new NotImplementedException();
+            ////TODO: Temporary implementation only
+            //var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+            //SgfParser parser = new SgfParser();
+            //var sgfCollection = parser.Parse(fileContents);
+            //var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
             
-            GameInfo gameInfo = new GameInfo();
+            //ObsoleteGameInfo gameInfo = new ObsoleteGameInfo();
 
-            gameInfo.Players.Add(new Player("Black Player", "??", gameInfo));
-            gameInfo.Players.Add(new Player("White Player", "??", gameInfo));
-            foreach (var player in gameInfo.Players)
-            {
-                player.Agent = new LocalAgent();
-            }
+            //gameInfo.Players.Add(new GamePlayer("Black Player", "??", gameInfo));
+            //gameInfo.Players.Add(new GamePlayer("White Player", "??", gameInfo));
+            //foreach (var player in gameInfo.Players)
+            //{
+            //    player.Agent = new ObsoleteLocalAgent();
+            //}
 
-            gameInfo.BoardSize = new GameBoardSize(19);
-            gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
-            FillBoard(gameInfo.Ruleset, gameTree, gameInfo.BoardSize);
+            //gameInfo.BoardSize = new GameBoardSize(19);
+            //gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
+            //FillBoard(gameInfo.Ruleset, gameTree, gameInfo.BoardSize);
 
-            Game game = new Game(gameInfo, gameInfo.GameController, null);
-            gameInfo.GameTree.GameTreeRoot = gameTree;
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<GameViewModel>();
+            //ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
+            //gameInfo.GameTree.GameTreeRoot = gameTree;
+            //Mvx.RegisterSingleton<IObsoleteGame>(game);
+            //ShowViewModel<GameViewModel>();
         }
 
         private void FillBoard(IRuleset ruleset, GameTreeNode rootNode, GameBoardSize boardSize)

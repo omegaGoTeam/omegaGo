@@ -9,32 +9,26 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Quests;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class SingleplayerViewModel : ViewModelBase
     {
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
+        public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
+        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
 
-        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>(
-            new Dictionary<string, string> {  ["AgainstAI"] = "true" }
-            ));
+        public int Points => this._settings.Quests.Points;
 
-
-        public ObservableCollection<TsumegoProblem> TsumegoProblems
-            => new ObservableCollection<TsumegoProblem>(Problems.AllProblems);
-
-        public SingleplayerViewModel()
+        public ObservableCollection<ActiveQuest> ActiveQuests = new ObservableCollection<ActiveQuest>
         {
-
-        }
-
-        public void MoveToSolveTsumegoProblem(TsumegoProblem problem)
-        {
-            Mvx.RegisterSingleton<TsumegoProblem>(problem);
-            ShowViewModel<TsumegoViewModel>();
-        }
+           Quest.SpawnRandomQuest(),
+           Quest.SpawnRandomQuest()
+        };
     }
 }

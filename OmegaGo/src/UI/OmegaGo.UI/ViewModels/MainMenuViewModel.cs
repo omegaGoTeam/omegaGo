@@ -1,14 +1,20 @@
 ﻿using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class MainMenuViewModel : ViewModelBase
     {
+        private readonly IGameSettings _gameSettings;
+        private readonly IDialogService _dialogService;
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
         private IMvxCommand _navigateToGameCreation;
@@ -19,127 +25,79 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToAbout;
         private IMvxCommand _navigateToHelp;
 
-        public IMvxCommand NavigateToTutorial
+        public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )
+        {
+            _gameSettings = gameSettings;
+            _dialogService = dialogService;
+        }
+
+        /// <summary>
+        /// Game languages list
+        /// </summary>
+        public ObservableCollection<GameLanguage> Languages { get; } =
+            new ObservableCollection<GameLanguage>(GameLanguages.SupportedLanguages.Values);
+
+        /// <summary>
+        /// Selected language
+        /// </summary>
+        public GameLanguage SelectedLanguage
         {
             get
             {
-                if(_navigateToTutorial == null)
+                if (GameLanguages.SupportedLanguages.ContainsKey(_gameSettings.Language))
                 {
-                    _navigateToTutorial = new MvxCommand(() => ShowViewModel<TutorialViewModel>());
+                    return GameLanguages.SupportedLanguages[_gameSettings.Language];
                 }
-
-                return _navigateToTutorial;
+                else
+                {
+                    return GameLanguages.DefaultLanguage;
+                }
             }
-        }
-
-        public IMvxCommand NavigateToSingleplayer
-        {
-            get
+            set
             {
-                if (_navigateToSingleplayer == null)
+                if (value != null)
                 {
-                    _navigateToSingleplayer = new MvxCommand(() => ShowViewModel<SingleplayerViewModel>());
+                    if (_gameSettings.Language != value.CultureTag)
+                    {
+                        _gameSettings.Language = value.CultureTag;
+                        RaisePropertyChanged();
+                        ShowLanguageChangeDialog();
+                    }
                 }
-
-                return _navigateToSingleplayer;
             }
         }
 
-        public IMvxCommand NavigateToGameCreation
+        private async void ShowLanguageChangeDialog()
         {
-            get
-            {
-                if (_navigateToGameCreation == null)
-                {
-                    _navigateToGameCreation = new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
-                }
-
-                return _navigateToGameCreation;
-            }
+            await _dialogService.ShowAsync(Localizer.LanguageChangeInfo);
         }
 
-        public IMvxCommand NavigateToMultiplayerDashboard
-        {
-            get
-            {
-                if (_navigateToMultiplayerDashboard == null)
-                {
-                    _navigateToMultiplayerDashboard = new MvxCommand(() => ShowViewModel<MultiplayerDashboardViewModel>());
-                }
+        public IMvxCommand NavigateToTutorial => _navigateToTutorial ??
+                                                 (_navigateToTutorial = new MvxCommand(() => ShowViewModel<TutorialViewModel>()));
 
-                return _navigateToMultiplayerDashboard;
-            }
-        }
+        public IMvxCommand NavigateToSingleplayer => _navigateToSingleplayer ??
+                                                     (_navigateToSingleplayer = new MvxCommand(() => ShowViewModel<SingleplayerViewModel>()));
 
-        public IMvxCommand NavigateToLibrary
-        {
-            get
-            {
-                if (_navigateToLibrary == null)
-                {
-                    _navigateToLibrary = new MvxCommand(() => ShowViewModel<LibraryViewModel>());
-                }
+        public IMvxCommand NavigateToGameCreation => _navigateToGameCreation ??
+                                                     (_navigateToGameCreation = new MvxCommand(() => ShowViewModel<GameCreationViewModel>()));
 
-                return _navigateToLibrary;
-            }
-        }
+        public IMvxCommand NavigateToMultiplayerDashboard => _navigateToMultiplayerDashboard ??
+                                                             (_navigateToMultiplayerDashboard =
+                                                                 new MvxCommand(() => ShowViewModel<MultiplayerDashboardViewModel>()));
 
-        public IMvxCommand NavigateToStatistics
-        {
-            get
-            {
-                if (_navigateToStatistics == null)
-                {
-                    _navigateToStatistics = new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
-                }
+        public IMvxCommand NavigateToLibrary => _navigateToLibrary ??
+                                                (_navigateToLibrary = new MvxCommand(() => ShowViewModel<LibraryViewModel>()));
 
-                return _navigateToStatistics;
-            }
-        }
+        public IMvxCommand NavigateToStatistics => _navigateToStatistics ??
+                                                   (_navigateToStatistics = new MvxCommand(() => ShowViewModel<StatisticsViewModel>()));
 
-        public IMvxCommand NavigateToSettings
-        {
-            get
-            {
-                if (_navigateToSettings == null)
-                {
-                    _navigateToSettings = new MvxCommand(() => ShowViewModel<SettingsViewModel>());
-                }
+        public IMvxCommand NavigateToSettings => _navigateToSettings ??
+                                                 (_navigateToSettings = new MvxCommand(() => ShowViewModel<SettingsViewModel>()));
 
-                return _navigateToSettings;
-            }
-        }
+    
 
-        public IMvxCommand NavigateToAbout
-        {
-            get
-            {
-                if (_navigateToAbout == null)
-                {
-                    _navigateToAbout = new MvxCommand(() => ShowViewModel<AboutViewModel>());
-                }
+        public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
 
-                return _navigateToAbout;
-            }
-        }
-        public IMvxCommand NavigateToHelp
-        {
-            get
-            {
-                if (_navigateToHelp == null)
-                {
-                    _navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>());
-                }
 
-                return _navigateToHelp;
-            }
-        }
-
-        public MainMenuViewModel()
-        {
-
-        }
-
-        
     }
 }

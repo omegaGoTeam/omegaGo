@@ -15,7 +15,7 @@ namespace OmegaGo.UI.Services.Localization
         /// <summary>
         /// Initializes localizer
         /// </summary>
-        public Localizer() : base( LocalizedStrings.ResourceManager )
+        public Localizer() : base(LocalizedStrings.ResourceManager)
         {
 
         }
@@ -121,9 +121,12 @@ namespace OmegaGo.UI.Services.Localization
         public string Black => LocalizeCaller();
 
         public string White => LocalizeCaller();
+        
+        // Board settings control strings
+        public string BoardSettings => LocalizeCaller();
 
-        public string Chinese => LocalizeCaller();
-
-        public string Japonese => LocalizeCaller();
+        public string CellSize => LocalizeCaller();
+        
+        public string BoardBorderThickness => LocalizeCaller();
     }
 }

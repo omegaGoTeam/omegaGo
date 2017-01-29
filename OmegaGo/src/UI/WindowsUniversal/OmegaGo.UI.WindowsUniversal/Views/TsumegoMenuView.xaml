@@ -1,0 +1,53 @@
+﻿<views:TransparencyViewBase
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.TsumegoMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:tsumego="using:OmegaGo.UI.Services.Tsumego"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    mc:Ignorable="d">
+    
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Select a problem" 
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,0"
+                   Grid.Row="0"
+                   Style="{ThemeResource HeaderTextBlockStyle}" />
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
+            <GridView Grid.Row="1" ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="tsumego:TsumegoProblem">
+                        <Border Width="200" Height="200" BorderBrush="Black" BorderThickness="1">
+                            <StackPanel>
+                                <!--<TextBlock Text="{Binding Name}" TextWrapping="Wrap"></TextBlock>
+                                <TextBlock Text="Initial Tree Board View Here" TextWrapping="Wrap"></TextBlock>-->
+                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="20" GameBoard="{Binding InitialBoard}"  />
+                                <TextBlock Text="Solved!" FontWeight="Bold"
+                                           Visibility="{Binding Solved, Converter={StaticResource VisibilityConverter}}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
+                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
+            </GridView>
+        </Border>
+        
+    </Grid>
+</views:TransparencyViewBase>

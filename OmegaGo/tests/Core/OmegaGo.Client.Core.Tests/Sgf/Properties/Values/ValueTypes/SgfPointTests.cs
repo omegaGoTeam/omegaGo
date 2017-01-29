@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 

@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class ChatControl : UserControl
+    public sealed partial class ChatControl : UserControlBase
     {
         public static readonly DependencyProperty ViewModelProperty = 
                 DependencyProperty.Register(

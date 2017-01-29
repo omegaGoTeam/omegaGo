@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using OmegaGo.Core.AI.Joker23.GameEngine;
+
 // ReSharper disable All - this is imported code
 
-namespace OmegaGo.Core.AI.Joker23 { 
+namespace OmegaGo.Core.AI.Joker23.Players { 
 
 public class AlphaBetaPlayer : JokerPlayer {
 
@@ -48,8 +50,8 @@ public class AlphaBetaPlayer : JokerPlayer {
 
         private int alphabeta(int depth, int alpha, int beta, char turn) {
             // Takes 95% CPU
-            int me = Rules.findCaptured(getColor(), getOpponentColor(), boardCopy, boardCopy.GetLength(0)).Count;
-            int oppo = Rules.findCaptured(getOpponentColor(), getColor(), boardCopy, boardCopy.GetLength(0)).Count;
+            int me = GameEngine.Rules.findCaptured(getColor(), getOpponentColor(), boardCopy, boardCopy.GetLength(0)).Count;
+            int oppo = GameEngine.Rules.findCaptured(getOpponentColor(), getColor(), boardCopy, boardCopy.GetLength(0)).Count;
 
             if (oppo > 0 && me > 0) {
             if(turn == getColor()) {
