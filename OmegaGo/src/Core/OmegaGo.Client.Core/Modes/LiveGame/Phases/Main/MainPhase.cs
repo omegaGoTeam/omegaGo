@@ -48,7 +48,30 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var player in Controller.Players)
             {
                 player.Agent.PlaceStone += HandleStonePlacement;
+                player.Agent.PlaceHandicapStones += Agent_PlaceHandicapStones;
                 player.Agent.Pass += Agent_Pass;
+            }
+        }
+
+        private void Agent_PlaceHandicapStones(object sender, int count)
+        {
+            var agent = (sender as IAgent);
+            if (agent != null)
+            {
+
+                Controller.OnDebuggingMessage("Placing " + count + " handicap stones...");
+
+                Controller.Info.NumberOfHandicapStones = count;
+
+                GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
+
+                Controller.Ruleset.StartHandicapPlacementPhase(ref gameBoard, count, HandicapPlacementType.Fixed);
+
+                Controller.NumberOfMoves++;
+                Controller.CurrentNode = Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
+                Controller.TurnPlayer = Controller.Players.White;
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
+                Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
             }
         }
 

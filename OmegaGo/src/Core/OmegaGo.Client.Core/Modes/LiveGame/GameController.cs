@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -23,6 +24,13 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GamePlayer _turnPlayer;
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
+        {
+            Info = gameInfo;
+            Ruleset = ruleset;
+            Players = players;
+            GameTree = new GameTree(ruleset);
+        }
+        public GameController(OnlineGameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
             Info = gameInfo;
             Ruleset = ruleset;

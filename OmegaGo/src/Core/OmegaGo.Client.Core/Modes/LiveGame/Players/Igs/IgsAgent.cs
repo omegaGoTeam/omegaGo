@@ -9,6 +9,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
     public class IgsAgent : AgentBase
     {
         private readonly IgsConnection _pandanet;
+        private int handicapStones = -1;
 
         public IgsAgent(StoneColor color, IgsConnection pandanet) : base(color)
         {
@@ -18,6 +19,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
         protected override void WhenAssignedToGame()
         {
             _pandanet.IncomingMove += _pandanet_IncomingMove;
+            _pandanet.IncomingHandicapInformation += _pandanet_IncomingHandicapInformation;
+        }
+
+        private void _pandanet_IncomingHandicapInformation(object sender, System.Tuple<Online.OnlineGame, int> e)
+        {
+            if (e.Item1.Info == this.GameInfo)
+            {
+                if (this.Color == StoneColor.Black)
+                {
+                    this.handicapStones = e.Item2;
+                    MaybeMakeMove();
+                }
+            }
         }
 
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
@@ -37,6 +51,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
         private void MaybeMakeMove()
         {
             int moveToMake = this.GameState.NumberOfMoves;
+            if (moveToMake == 0)
+            {
+                if (handicapStones != -1)
+                {
+                    OnPlaceHandicapStones(this.handicapStones);
+                }
+            }
             if (_storedMoves.ContainsKey(moveToMake))
             {
                 Move move = _storedMoves[moveToMake];
@@ -52,6 +73,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 
         public override void PleaseMakeAMove()
         {
+            // TODO add request received flag, so we don't make moves before such is demanded
+            // TODO (sigh) this will be hard to debug, I guess
             MaybeMakeMove();
         }
 

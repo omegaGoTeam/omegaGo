@@ -386,8 +386,7 @@ namespace OmegaGo.Core.Online.Igs
             {
                 //  15   0(B): Handicap 3
                 int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
-                // TODO
-                // _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
+                OnIncomingHandicapInformation(_incomingMovesAreForThisGame, handicapStones);
             }
             else
             {
@@ -412,7 +411,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                IncomingMove?.Invoke(this, new Tuple<OnlineGame, int, Move>(_incomingMovesAreForThisGame, int.Parse(moveIndex), move));
+                OnIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
             }
         }
 

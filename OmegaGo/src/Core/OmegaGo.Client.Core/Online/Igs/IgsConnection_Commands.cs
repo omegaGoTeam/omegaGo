@@ -195,7 +195,7 @@ namespace OmegaGo.Core.Online.Igs
                 returnedUsers.Add(createdUser);
                 if (createdUser.Name == this._username)
                 {
-                    PersonalInformationUpdate?.Invoke(this, createdUser);
+                    OnPersonalInformationUpdate(createdUser);
                 }
             }
             return returnedUsers;

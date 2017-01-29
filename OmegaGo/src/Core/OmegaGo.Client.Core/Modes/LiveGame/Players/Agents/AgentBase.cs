@@ -49,6 +49,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         public abstract IllegalMoveHandling IllegalMoveHandling { get; }
 
         public event EventHandler<Position> PlaceStone;
+        public event EventHandler<int> PlaceHandicapStones;
 
         public event EventHandler Pass;
         public virtual void PleaseMakeAMove()
@@ -85,6 +86,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         protected virtual void OnPlaceStone( Position position )
         {
             PlaceStone?.Invoke(this, position);
+        }
+        protected virtual void OnPlaceHandicapStones(int count)
+        {
+            PlaceHandicapStones?.Invoke(this, count);
         }
         protected virtual void OnPass()
         {

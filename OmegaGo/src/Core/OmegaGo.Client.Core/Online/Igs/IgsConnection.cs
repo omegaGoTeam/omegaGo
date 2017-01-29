@@ -362,7 +362,17 @@ namespace OmegaGo.Core.Online.Igs
         /// a GAME. The move may be our own.
         /// </summary>
         public event EventHandler<Tuple<OnlineGame, int, Move>> IncomingMove;
-
+        private void OnIncomingMove(OnlineGame game, int moveIndex, Move theMove)
+        {
+            IncomingMove?.Invoke(this,
+                new Tuple<OnlineGame, int, Move>(game, moveIndex, theMove));
+        }
+        public event EventHandler<Tuple<OnlineGame, int>> IncomingHandicapInformation;
+        private void OnIncomingHandicapInformation(OnlineGame game, int stoneCount)
+        {
+            IncomingHandicapInformation?.Invoke(this,
+                new Tuple<OnlineGame, int>(game, stoneCount));
+        }
         #region Events
 
         /// <summary>
@@ -487,6 +497,11 @@ namespace OmegaGo.Core.Online.Igs
             IncomingLine?.Invoke(this, message);
         }
         #endregion
+
+        private void OnPersonalInformationUpdate(IgsUser e)
+        {
+            PersonalInformationUpdate?.Invoke(this, e);
+        }
     }
 
 
