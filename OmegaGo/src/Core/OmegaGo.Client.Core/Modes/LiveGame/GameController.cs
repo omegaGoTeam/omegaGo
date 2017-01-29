@@ -13,6 +13,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -22,6 +23,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         private IGamePhase _currentGamePhase = null;
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
+        public OnlineGameInfo OnlineGameInfo;
+        /// <summary>
+        /// Gets the server connection, or null if this is not an online game.
+        /// </summary>
+        public IgsConnection Server { get; }
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
@@ -33,8 +39,10 @@ namespace OmegaGo.Core.Modes.LiveGame
         public GameController(OnlineGameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
             Info = gameInfo;
+            OnlineGameInfo = gameInfo;
             Ruleset = ruleset;
             Players = players;
+            this.Server = gameInfo.Server;
             GameTree = new GameTree(ruleset);
         }
 
