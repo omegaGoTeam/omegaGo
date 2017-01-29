@@ -151,6 +151,11 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest("moves " + gameInfo.IgsIndex);
             return onlineGame;
         }
+        /// <summary>
+        /// If we are observing the given game, the observation ends. If we're not, nothing happens.
+        /// </summary>
+        /// <param name="game">The game we're observing.</param>
+        /// <returns>True if we succeeded in ending observation, false if we were not observing that game or the game already ended.</returns>
         public async Task<bool> EndObserving(OnlineGame game)
         {
             

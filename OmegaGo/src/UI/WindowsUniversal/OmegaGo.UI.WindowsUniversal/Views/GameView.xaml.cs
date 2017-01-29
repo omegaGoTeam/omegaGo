@@ -18,5 +18,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public override string WindowTitle => Localizer.Game;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
+
+        private void TransparencyViewBase_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            VM.Unload();
+        }
     }
 }

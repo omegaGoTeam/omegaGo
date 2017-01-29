@@ -11,6 +11,7 @@ using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.UI.Services.Game;
 
@@ -89,6 +90,14 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _debugInfo; }
             set { SetProperty(ref _debugInfo, value); }
+        }
+
+        public async void Unload()
+        {
+            if (this.Game is OnlineGame)
+            {
+                await ((OnlineGame) this.Game).Metadata.Server.EndObserving((OnlineGame) this.Game);
+            }
         }
     }
 }
