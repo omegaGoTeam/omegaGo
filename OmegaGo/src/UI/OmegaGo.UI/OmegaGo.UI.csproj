@@ -48,6 +48,7 @@
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
+    <Compile Include="Extensions\SortObservableCollections.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Services\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
-    <Compile Include="Services\Game\BoardControlState.cs" />
+    <Compile Include="Services\BoardControl\BoardControlState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
@@ -71,9 +72,13 @@
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
+    <Compile Include="Services\Quests\IndividualQuests\GreatLearnerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\LearnerQuest.cs" />
     <Compile Include="Services\Quests\Points.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
+    <Compile Include="Services\Quests\QuestEvents.cs" />
+    <Compile Include="Services\Settings\InterfaceMementos.cs" />
+    <Compile Include="Services\Settings\StatisticsRecords.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />
     <Compile Include="Services\Settings\AudioSettings.cs" />
     <Compile Include="Services\Settings\DisplaySettings.cs" />
@@ -83,7 +88,7 @@
     <Compile Include="Services\Settings\SettingLocality.cs" />
     <Compile Include="Services\Settings\SettingsGroup.cs" />
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
-    <Compile Include="Services\Settings\QuestsGroup.cs" />
+    <Compile Include="Services\Settings\QuestsSettings.cs" />
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
+    <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />

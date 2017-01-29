@@ -108,8 +108,8 @@
     <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Files\FilePickerService.cs" />
     <Compile Include="Services\Files\FileService.cs" />
-    <Compile Include="Services\Game\InputService.cs" />
-    <Compile Include="Services\Game\RenderService.cs" />
+    <Compile Include="Services\BoardControl\InputService.cs" />
+    <Compile Include="Services\BoardControl\RenderService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
@@ -127,6 +127,9 @@
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="Views\IgsHomeView.xaml.cs">
+      <DependentUpon>IgsHomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>
@@ -141,9 +144,6 @@
     </Compile>
     <Compile Include="Views\GameView.xaml.cs">
       <DependentUpon>GameView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\IGSLobbyView.xaml.cs">
-      <DependentUpon>IGSLobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -213,6 +213,11 @@
     <Content Include="Assets\MainMenu\backgroundimage.jpg" />
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <Content Include="Assets\Textures\black.png" />
+    <Content Include="Assets\Textures\kaya.jpg" />
+    <Content Include="Assets\Textures\oak.jpg" />
+    <Content Include="Assets\Textures\space.png" />
+    <Content Include="Assets\Textures\white.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logos\SplashScreen.scale-200.png" />
@@ -277,6 +282,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\IgsHomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\TsumegoMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -294,10 +303,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GameView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\IGSLobbyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

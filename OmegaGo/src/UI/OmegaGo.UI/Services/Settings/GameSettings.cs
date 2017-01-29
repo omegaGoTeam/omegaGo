@@ -20,15 +20,19 @@ namespace OmegaGo.UI.Services.Settings
             this.Audio = new AudioSettings(_settings);
             this.Display = new DisplaySettings(_settings);
             this.Assistant = new AssistantSettings(_settings);
-            this.Quests = new QuestsGroup(_settings);
+            this.Quests = new QuestsSettings(_settings);
             this.Tsumego = new TsumegoSettings(_settings);
+            this.Statistics = new StatisticsRecords(_settings);
+            this.Interface = new InterfaceMementos(_settings);
         }
         
+        public InterfaceMementos Interface { get; }
         public AudioSettings Audio { get; }
         public DisplaySettings Display { get; }
         public AssistantSettings Assistant { get; }
-        public QuestsGroup Quests { get; }
+        public QuestsSettings Quests { get; }
         public TsumegoSettings Tsumego { get; }
+        public StatisticsRecords Statistics { get; }
 
         public bool InputConfirmationRequired
         {

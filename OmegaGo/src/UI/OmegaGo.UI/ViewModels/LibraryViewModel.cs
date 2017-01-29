@@ -67,7 +67,7 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Opening SGF file directly
         /// </summary>
-        private async void OpenFile()
+        private void OpenFile()
         {
             throw new NotImplementedException();
             ////TODO: Temporary implementation only

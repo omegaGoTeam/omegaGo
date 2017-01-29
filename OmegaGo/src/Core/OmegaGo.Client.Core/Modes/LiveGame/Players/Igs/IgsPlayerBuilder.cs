@@ -4,18 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 {
     public sealed class IgsPlayerBuilder : PlayerBuilder<GamePlayer, IgsPlayerBuilder>
     {
-        public IgsPlayerBuilder(StoneColor color) : base(color)
+        private readonly IgsConnection _pandanet;
+
+        public IgsPlayerBuilder(StoneColor color, IgsConnection pandanet) : base(color)
         {
+            this._pandanet = pandanet;
         }
 
         public override GamePlayer Build()
         {
-            throw new NotImplementedException();
+            IgsAgent igsAgent = new IgsAgent(Color, _pandanet);
+            GamePlayer gamePlayer = new GamePlayer(CreatePlayerInfo(), igsAgent);
+            return gamePlayer;
         }
     }
 }

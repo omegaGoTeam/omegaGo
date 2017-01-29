@@ -39,19 +39,13 @@
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
                     </ComboBox>
                    
-                    <TextBlock Text="Black Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
-                        <x:String>Plain Black</x:String>
-                        <x:String>Glass</x:String>
-                        <x:String>Plastic</x:String>
+                    <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ComboBox ItemsSource="{Binding StoneThemes}" 
+                              SelectedIndex="{Binding SelectedStonesTheme, Mode=TwoWay}"
+                              Width="140">
                     </ComboBox>
 
-                    <TextBlock Text="White Stones Style" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="1" Width="140" IsEnabled="False">
-                        <x:String>Plain White</x:String>
-                        <x:String>Glass</x:String>
-                        <x:String>Plastic</x:String>
-                    </ComboBox>
+                    
 
                     <CheckBox Content="Highlight Last Move" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
                     <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
@@ -59,11 +53,7 @@
                         <CheckBox Content="Highlight illegal Ko moves" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Natural Stone Placement" IsEnabled="False" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="Stones won't be placed on the board in a neat grid but instead organically, randomly pushed a little bit aside from the intersection. This emulates the way Go boards feel like physically." />
-                    </StackPanel>
-                    <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                   <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Input">
@@ -104,7 +94,7 @@
                     <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Assistant">
+            <PivotItem Header="Artificial Intelligence">
                 <StackPanel Padding="15">
                     <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox Width="140"

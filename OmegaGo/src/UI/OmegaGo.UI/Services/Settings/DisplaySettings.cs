@@ -9,10 +9,19 @@
         public BoardTheme BoardTheme
         {
             get {
-                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.Simple);
+                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.SolidColor);
                 return (BoardTheme) theSetting;
             }
             set { SetSetting(nameof(BoardTheme), (int)value); }
+        }
+        public StoneTheme StonesTheme
+        {
+            get
+            {
+                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.SolidColor);
+                return (StoneTheme)theSetting;
+            }
+            set { SetSetting(nameof(StonesTheme), (int)value); }
         }
         public bool HighlightLastMove
         {
@@ -37,8 +46,14 @@
     }
     public enum BoardTheme
     {
-        Simple,
-        Oak,
-        Kaya
+        SolidColor,
+        OakWood,
+        KayaWood,
+        VirtualBoard
+    }
+    public enum StoneTheme
+    {
+        SolidColor,
+        PolishedBitmap
     }
 }

@@ -1,0 +1,138 @@
+﻿<views:TransparencyViewBase
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.IgsHomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    Loaded="IgsHomeLoaded"
+    Unloaded="IgsHomeUnloaded"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Pivot Grid.Row="0">
+                <PivotItem Header="Spectate a game">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Button Click="RefreshGames">Refresh list of games</Button>
+                            <Button Click="SortByObservers_Click">Sort by number of observers</Button>
+                            <Button Click="SortByHighestRank_Click">Sort by rank (highest first)</Button>
+                            <Button Click="SortByBlackName_Click">Sort by Black's name</Button>
+                            <Button Click="SortByWhiteName_Click">Sort by White's name</Button>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                            <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </ScrollViewer>
+                        <Button Grid.Row="2" Command="{Binding ObserveSelectedGame}">
+                            Observe this game
+                        </Button>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="Issue a challenge">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Button Click="RefreshUsers">Refresh list of users</Button>
+                            <Button Click="SortUsersByName">Sort by name</Button>
+                            <Button Click="SortUsersByRankAscending">Sort by rank (lowest first)</Button>
+                            <Button Click="SortUsersByRankDescending">Sort by rank (highest first)</Button>
+                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}">Only show players looking for a game</CheckBox>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                            <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </ScrollViewer>
+                        <Button Grid.Row="2">
+                            Challenge selected player...
+                        </Button>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="Console">
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
+                    <TextBlock
+                       
+                        Padding="20"
+                                Text="{Binding Console, Mode=OneWay}" TextWrapping="Wrap"
+                               FontFamily="Consolas" FontSize="14"></TextBlock>
+                    </ScrollViewer>
+                </PivotItem>
+            </Pivot>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
+                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
+                <Button Click="ChangeUser_Click">Change user...</Button>
+                <Button Click="Logout_Click">Logout</Button>
+                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
+                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
+
+                    </ProgressRing>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
+                        Communicating with Pandanet...
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2" Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+            <Grid>
+                <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center">Pandanet - Internet Go Server</TextBlock>
+
+                <Button Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
+                    [x]
+                </Button>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
+                <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
+                 <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
+                <TextBlock TextAlignment="Center">Password</TextBlock>
+                <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
+                <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
+                <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch" >Log In</Button>
+                    <TextBlock Width="300" TextWrapping="Wrap" Opacity="{Binding LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{Binding LoginErrorMessage, Mode=OneWay}"></TextBlock>
+            </StackPanel>
+                <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <HyperlinkButton Click="HyperlinkButton_Click">Create a new Pandanet account (opens a browser window)</HyperlinkButton>
+                    <TextBlock TextWrapping="Wrap" Width="400">
+                        Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards.
+
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</views:TransparencyViewBase>

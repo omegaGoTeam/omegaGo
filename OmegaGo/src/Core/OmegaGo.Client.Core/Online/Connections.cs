@@ -16,13 +16,9 @@ namespace OmegaGo.Core.Online
         /// </summary>
         public static IgsConnection Pandanet
         {
-            get
-            {
-                if (_connection == null)
-                {
-                    _connection = IgsConnection.CreateConnectionFromConnectionsStaticClass();
-                }
-                return _connection;
+            get {
+                return Connections._connection ??
+                       (Connections._connection = IgsConnection.CreateConnectionFromConnectionsStaticClass());
             }
         }
 

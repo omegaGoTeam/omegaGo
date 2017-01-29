@@ -25,10 +25,55 @@ namespace OmegaGo.UI.ViewModels
 
         public int Points => this._settings.Quests.Points;
 
-        public ObservableCollection<ActiveQuest> ActiveQuests = new ObservableCollection<ActiveQuest>
+        public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
+            = new ObservableCollection<ActiveQuest>();
+
+      
+        public void Load()
         {
-           Quest.SpawnRandomQuest(),
-           Quest.SpawnRandomQuest()
-        };
+            foreach(var quest in _settings.Quests.ActiveQuests)
+            {
+                ActiveQuests.Add(quest);
+            }
+            while (_settings.Quests.LastQuestReceivedWhen.AddDays(1) < DateTime.Now &&
+                _settings.Quests.ActiveQuests.Count() < Quest.MAXIMUM_NUMBER_OF_QUESTS)
+                {
+                    AddAQuest();
+                }
+            
+        }
+
+        private void AddAQuest()
+        {
+            _settings.Quests.LastQuestReceivedWhen = DateTime.Now; // TODO make it so that quests can stack in history, but not limitlessly
+
+            var nq = Quest.SpawnRandomQuest();
+            _settings.Quests.AddQuest(nq);
+            ActiveQuests.Add(nq);
+        }
+
+        public void ExchangeQuest(ActiveQuest activeQuest)
+        {
+            if (_settings.Quests.LastQuestExchangedWhen.AddDays(1) < DateTime.Now)
+            {
+                _settings.Quests.LoseQuest(activeQuest);
+                ActiveQuests.Remove(activeQuest);
+                _settings.Quests.AddQuest(Quest.SpawnRandomQuest());
+                ActiveQuests.Add(activeQuest);
+                _settings.Quests.LastQuestExchangedWhen = DateTime.Now;
+            }
+            else
+            {
+                throw new Exception("The button should not have been displayed.");
+            }
+        }
+
+        public void TryThisNow(ActiveQuest activeQuest)
+        {
+            if (activeQuest.Quest.GetViewModelToTry() != null)
+            {
+                ShowViewModel(activeQuest.Quest.GetViewModelToTry());
+            }
+        }
     }
 }

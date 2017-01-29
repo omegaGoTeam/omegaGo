@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
@@ -45,13 +46,23 @@ namespace OmegaGo.Core.Online.Igs
         {
             bool thisIsNotAMove = false;
             bool weAreHandlingAnInterrupt = false;
+            bool interruptIsImpossible = false;
             List<IgsLine> currentLineBatch = new List<IgsLine>();
             while (true)
             {
-                string line = await sr.ReadLineAsync();
+                string line;
+                try
+                {
+                    line = await sr.ReadLineAsync();
+                }
+                catch (Exception ex)
+                    when (ex is ObjectDisposedException || ex is System.Runtime.InteropServices.COMException)
+                {
+                    line = null;
+                }
                 if (line == null)
                 {
-                    OnLogEvent("The connection has been terminated.");
+                    OnIncomingLine("The connection has been terminated.");
                     // TODO add thread safety
                     this._client = null;
                     return;
@@ -63,7 +74,7 @@ namespace OmegaGo.Core.Online.Igs
 
                 IgsCode code = ExtractCodeFromLine(line);
                 IgsLine igsLine = new IgsLine(code, line);
-                OnLogEvent(line);
+                OnIncomingLine(line);
 
                 switch (this._composure)
                 {
@@ -86,11 +97,15 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.LoggingIn:
                         if (igsLine.EntireLine.Contains("Invalid password."))
                         {
+                            this._composure = IgsComposure.Confused;
                             this._loginError = "The password is incorrect.";
+                            continue;
                         }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
+                            this._composure = IgsComposure.Confused;
                             this._loginError = "The username does not exist.";
+                            continue;
                         }
                         if (igsLine.EntireLine.Contains("1 5"))
                         {
@@ -109,7 +124,6 @@ namespace OmegaGo.Core.Online.Igs
 
                 if (weAreHandlingAnInterrupt && code == IgsCode.Prompt)
                 {
-
                     // Interrupt message is over, let's wait for a new message
                     weAreHandlingAnInterrupt = false;
                     HandleFullInterrupt(currentLineBatch);
@@ -121,6 +135,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     thisIsNotAMove = false;
                     currentLineBatch = new List<IgsLine>();
+                    interruptIsImpossible = false;
                     if (this._ignoreNextPrompt)
                     {
                         this._ignoreNextPrompt = false;
@@ -132,60 +147,71 @@ namespace OmegaGo.Core.Online.Igs
                     OnBeep();
                     continue;
                 }
-                if (code == IgsCode.Tell)
+
+                if (!interruptIsImpossible)
                 {
-                    if (igsLine.PureLine.StartsWith("*SYSTEM*"))
+                    if (code == IgsCode.Tell)
+                    {
+                        if (igsLine.PureLine.StartsWith("*SYSTEM*"))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        HandleIncomingChatMessage(line);
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
+                    if (code == IgsCode.SayInformation)
                     {
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-                    HandleIncomingChatMessage(line);
-                    weAreHandlingAnInterrupt = true;
-                    continue;
-                }
-                if (code == IgsCode.SayInformation)
-                {
-                    weAreHandlingAnInterrupt = true;
-                    continue;
-                }
-                if (code == IgsCode.Status)
-                {
-                    weAreHandlingAnInterrupt = true;
-                    continue;
-                }
-                if (code == IgsCode.Shout)
-                {
-                    HandleIncomingShoutMessage(line);
-                    weAreHandlingAnInterrupt = true;
-                    continue;
-                }
-                if (code == IgsCode.StoneRemoval)
-                {
-                    Tuple<int, Position> removedStone = IgsRegex.ParseStoneRemoval(igsLine);
-                    // TODO
-                    /*
+                    if (code == IgsCode.Status)
+                    {
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
+                    if (code == IgsCode.Shout)
+                    {
+                        HandleIncomingShoutMessage(line);
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
+                    if (code == IgsCode.StoneRemoval)
+                    {
+                        Tuple<int, Position> removedStone = IgsRegex.ParseStoneRemoval(igsLine);
+                        // TODO
+                        /*
                     _gamesYouHaveOpened.Find(gi => gi.Metadata.ServerId == removedStone.Item1).GameController.MarkGroupDead(removedStone.Item2);
                     */
-                    continue;
-                }
-                if (code == IgsCode.Move)
-                {
-                    if (!thisIsNotAMove)
-                    {
-                        HandleIncomingMove(igsLine);
-                        weAreHandlingAnInterrupt = true;
+                        continue;
                     }
-                    continue;
-                }
-                if (code == IgsCode.Undo)
-                {
-                    thisIsNotAMove = true;
-                    weAreHandlingAnInterrupt = true;
-                    continue;
+                    if (code == IgsCode.Move)
+                    {
+                        if (!thisIsNotAMove)
+                        {
+                            HandleIncomingMove(igsLine);
+                            weAreHandlingAnInterrupt = true;
+                        }
+                        continue;
+                    }
+                    if (code == IgsCode.Undo)
+                    {
+                        thisIsNotAMove = true;
+                        weAreHandlingAnInterrupt = true;
+                        continue;
+                    }
                 }
                 if (code == IgsCode.Info)
                 {
-                    /* TODO
+                    // 9 Adding game to observation list.
+                    if (igsLine.EntireLine.Contains("9 Adding game to observation list."))
+                    {
+                        interruptIsImpossible = true;
+                    }
+                    if (!interruptIsImpossible)
+                    {
+                        /* TODO
                     if (igsLine.EntireLine == "9 You can check your score with the score command, type 'done' when finished.")
                     {
                         weAreHandlingAnInterrupt = true;
@@ -226,7 +252,8 @@ namespace OmegaGo.Core.Online.Igs
                         }
                         weAreHandlingAnInterrupt = true;
                         continue;
-                    }
+                    }*/
+
                     if (igsLine.PureLine.Contains("Removed game file"))
                     {
                         weAreHandlingAnInterrupt = true;
@@ -243,16 +270,12 @@ namespace OmegaGo.Core.Online.Igs
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-                    if (igsLine.PureLine.StartsWith("Adding game to observation list"))
-                    {
-                        thisIsNotAMove = true;
-                        continue;
-                    }
                     if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
                     {
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
+                    /*
                     if (igsLine.PureLine.EndsWith("declines undo."))
                     {
                         string username = IgsRegex.WhoDeclinesUndo(igsLine);
@@ -279,6 +302,7 @@ namespace OmegaGo.Core.Online.Igs
                         continue;
                     }
                     */
+                    }
                 }
 
                 if (!weAreHandlingAnInterrupt)
@@ -311,12 +335,92 @@ namespace OmegaGo.Core.Online.Igs
                 .Select(ginfo => ginfo.Metadata);
         }
 
+
+
+        private readonly Regex _regexUser = new Regex(@"42 +([^ ]+) +.* ([A-Za-z-.].{6})  (...)(\*| ) [^/]+/ *[^ ]+ +[^ ]+ +[^ ]+ +[^ ]+ +([^ ]+) default", RegexOptions.None);
+        private IgsUser CreateUserFromTelnetLine(string line)
+        {
+            Match match = _regexUser.Match(line);
+            if (!match.Success)
+            {
+                throw new Exception("IGS SERVER returned invalid user string.");
+            }
+            /*
+             *  1 - Name
+             *  2 - Country
+             *  3 - Rank
+             *  4 - Calculated or self-described rank?
+             *  5 - Flags
+             * 
+             */
+
+            IgsUser user = new IgsUser()
+            {
+                Name = match.Groups[1].Value,
+                Country = match.Groups[2].Value,
+                Rank = match.Groups[3].Value.StartsWith(" ") ? match.Groups[3].Value.Substring(1) : match.Groups[3].Value,
+                LookingForAGame = match.Groups[5].Value.Contains("!"),
+                RejectsRequests = match.Groups[5].Value.Contains("X")
+            };
+            return user;
+
+        }
+        private readonly Regex _regexMove = new Regex(@"([0-9]+)\((W|B)\): ([^ ]+)(.*)");
+        private void HandleIncomingMove(IgsLine igsLine)
+        {
+
+
+            string trim = igsLine.PureLine.Trim();
+            GameHeading heading = IgsRegex.ParseGameHeading(igsLine);
+            if (heading != null)
+            {
+                OnlineGame whatGame = _gamesYouHaveOpened.Find(gm => gm.Metadata.IgsIndex == heading.GameNumber);
+                if (whatGame == null)
+                {
+                    // Synchronization mishap
+                    return;
+                }
+                _incomingMovesAreForThisGame = whatGame;
+            }
+            else if (trim.Contains("Handicap"))
+            {
+                //  15   0(B): Handicap 3
+                int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
+                // TODO
+                // _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
+            }
+            else
+            {
+                Match match = this._regexMove.Match(trim);
+                string moveIndex = match.Groups[1].Value;
+                string mover = match.Groups[2].Value;
+                string coordinates = match.Groups[3].Value;
+                string captures = match.Groups[4].Value;
+                StoneColor moverColor = mover == "B" ? StoneColor.Black : StoneColor.White;
+                Move move;
+                if (coordinates == "Pass")
+                {
+                    move = Move.Pass(moverColor);
+                }
+                else
+                {
+                    move = Move.PlaceStone(moverColor,
+                        Position.FromIgsCoordinates(coordinates));
+                }
+                string[] captureSplit = captures.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string capture in captureSplit)
+                {
+                    move.Captures.Add(Position.FromIgsCoordinates(capture));
+                }
+                IncomingMove?.Invoke(this, new Tuple<OnlineGame, int, Move>(_incomingMovesAreForThisGame, int.Parse(moveIndex), move));
+            }
+        }
+
         private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
         {
-            /*
-             * TODO
             if (currentLineBatch.Count > 0)
             {
+                /*
                                if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
@@ -356,19 +460,23 @@ namespace OmegaGo.Core.Online.Igs
                         }
                     }
                 }
+                */
                 if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
                     currentLineBatch[1].Code == IgsCode.Say)
                 {
                    
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                    ObsoleteGameInfo relevantGame = this._gamesYouHaveOpened.Find(gi => gi.ServerId == gameNumber);
+                    OnlineGame relevantGame = this._gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == gameNumber);
                     if (relevantGame == null)
                     {
-                        throw new Exception("We received a chat message for a game we no longer play.");
+                        // We received a chat message for a game we no longer play.
+                        return;
                     }
-                    OnIncomingInGameChatMessage(relevantGame, chatLine);
+                    // TODO
+                    //OnIncomingInGameChatMessage(relevantGame, chatLine);
                 }
+                /*
                 if (currentLineBatch[0].Code == IgsCode.Tell &&
                     currentLineBatch[0].PureLine.StartsWith("*SYSTEM*") &&
                     currentLineBatch[0].PureLine.EndsWith("requests undo."))
@@ -414,7 +522,9 @@ namespace OmegaGo.Core.Online.Igs
                         gi.Black.Name == scoreLine.Black);
                     OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
                 }
-            }*/
+                */
+            }
         }
+        
     }
 }

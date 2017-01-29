@@ -48,10 +48,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             Position pointerPosition = TranslateToBoardPosition(x, y);
 
-            SharedBoardControlState.SelectedPosition = pointerPosition;
-
             if(pointerPosition.IsDefined)
-                PointerTapped(this, pointerPosition);
+                PointerTapped?.Invoke(this, pointerPosition);
         }
 
 
@@ -62,7 +60,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="y">position on y axis</param>
         public void PointerMoved(int x, int y)
         {
-            SharedBoardControlState.HighlightedPosition = TranslateToBoardPosition(x, y);
+            SharedBoardControlState.MouseOverPosition = TranslateToBoardPosition(x, y);
         }
 
         /// <summary>

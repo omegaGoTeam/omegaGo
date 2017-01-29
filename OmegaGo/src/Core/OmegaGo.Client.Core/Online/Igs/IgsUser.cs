@@ -22,6 +22,6 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public bool LookingForAGame;
 
-        public override string ToString() => Name + " (" + Rank + ")";
+        public override string ToString() => Name + " (" + Rank + ") " + (RejectsRequests ? " [not accepting requests]" : (LookingForAGame ? "[LFG]" : ""));
     }
 }

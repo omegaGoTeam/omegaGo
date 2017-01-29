@@ -73,7 +73,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             GameInfo = gameInfo;
             GameState = gameState;
+            WhenAssignedToGame();
+
         }    
+
+        protected virtual void WhenAssignedToGame()
+        {
+
+        }
 
         protected virtual void OnPlaceStone( Position position )
         {

@@ -12,7 +12,7 @@ namespace OmegaGo.UI.Services.Quests
         public ExampleActiveQuest()
         {
             this.Progress = 1;
-            this.Quest = new LearnerQuest();
+            this.QuestID = "Learner";
         }
     }
 }

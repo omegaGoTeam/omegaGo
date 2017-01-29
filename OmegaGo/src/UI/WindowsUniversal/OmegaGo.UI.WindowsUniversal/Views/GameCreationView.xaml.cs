@@ -8,6 +8,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public GameCreationViewModel VM => (GameCreationViewModel)this.ViewModel;
 
         public GameCreationView()
+
         {
             this.InitializeComponent();
         }

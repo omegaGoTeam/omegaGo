@@ -22,6 +22,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
                 case VirtualKey.F1:
                     _settings.Quests.Points = 20;
                     break;
+                case VirtualKey.F2:
+                    _settings.Quests.LastQuestReceivedWhen = DateTime.Now.AddDays(-1.5f);
+                    _settings.Quests.LastQuestExchangedWhen = DateTime.Now.AddDays(-1.5f);
+                    break;
+                case VirtualKey.F3:
+                    _settings.Quests.ClearAllQuests();
+                    break;
             }
         }
     }

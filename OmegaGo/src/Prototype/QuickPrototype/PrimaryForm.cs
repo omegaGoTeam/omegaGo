@@ -18,6 +18,7 @@ using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
@@ -40,7 +41,7 @@ namespace FormsPrototype
 
         }
 
-        private void Igs_LogEvent(object sender, string obj)
+        private void IgsIncomingLine(object sender, string obj)
         {
            this.tbConsole.AppendText(Environment.NewLine + obj);
         }
@@ -74,7 +75,7 @@ namespace FormsPrototype
             this.cbWhoPlaysOnline.SelectedIndex = 0;
 
             igs = Connections.Pandanet;
-            igs.LogEvent += Igs_LogEvent;
+            igs.IncomingLine += IgsIncomingLine;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
             igs.UnhandledLine += Igs_UnhandledLine;
@@ -113,7 +114,7 @@ namespace FormsPrototype
             MessageBox.Show("Our match request was declined by '" + e + "'. Boo '" + e + "'.");
         }
 
-        private void Igs_OutgoingLine(string obj)
+        private void Igs_OutgoingLine(object sender, string obj)
         {
             this.tbConsole.AppendText("> " + obj);
         }
@@ -144,20 +145,24 @@ namespace FormsPrototype
         }
         
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
             if (this.lbGames.SelectedItem != null)
             {
-                OnlineGameInfo game = (OnlineGameInfo)lbGames.SelectedItem;
-                // game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                //game.Ruleset.startGame(game.White, game.Black, game.BoardSize);
-               //  game.StartObserving();
-                //igs.RefreshBoard(game);
-                /*InGameForm observing = new InGameForm(game, igs);
-                observing.Show();
-                this.lbObservedGames.Items.Add(game);
-                */
-                // TODo
+
+                OnlineGameInfo gameInfo = (OnlineGameInfo)lbGames.SelectedItem;
+                var obs = await igs.StartObserving(gameInfo);
+                if (obs != null)
+                {
+                    this.lbObservedGames.Items.Add(obs);
+                }
+                else
+                {
+                    MessageBox.Show("Observing failed.");
+                }
+                InGameForm ingameForm = new FormsPrototype.InGameForm(obs.Metadata, igs);
+                ingameForm.LoadGame(obs);
+                ingameForm.Show();
             }
         }
 
@@ -273,14 +278,14 @@ namespace FormsPrototype
 
         private async void button6_Click_1(object sender, EventArgs e)
         {
-            Igs_LogEvent(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
-            Igs_LogEvent(this, "LOGIN() RESULT: " + await this.igs.LoginAsync("OmegaGo1", "123456789"));
+            IgsIncomingLine(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
+            IgsIncomingLine(this, "LOGIN() RESULT: " + await this.igs.LoginAsync("OmegaGo1", "123456789"));
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
             await this.igs.DisconnectAsync();
-            Igs_LogEvent(this, "DISCONNECTED.");
+            IgsIncomingLine(this, "DISCONNECTED.");
         }
 
         private async void button5_Click(object sender, EventArgs e)
