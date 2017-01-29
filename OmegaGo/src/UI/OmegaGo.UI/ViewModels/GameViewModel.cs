@@ -13,6 +13,8 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Game;
 
 namespace OmegaGo.UI.ViewModels
@@ -29,6 +31,11 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
 
             ChatViewModel = new ChatViewModel();
+            if (Game.Controller.IsOnlineGame)
+            {
+                ChatViewModel.ChatService = new IgsChatService(Game as OnlineGame);
+                ChatViewModel.HumanAuthor = "You";
+            }
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
             WhitePortrait = new UserControls.ViewModels.PlayerPortraitViewModel(Game.Controller.Players.White);
 
@@ -113,4 +120,5 @@ namespace OmegaGo.UI.ViewModels
             }
         }
     }
+    
 }

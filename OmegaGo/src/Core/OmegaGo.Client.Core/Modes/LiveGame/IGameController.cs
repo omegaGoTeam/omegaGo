@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Modes.LiveGame
     /// </summary>
     public interface IGameController : IGameState
     {
+        bool IsOnlineGame { get; }
         /// <summary>
         /// Indicates that there is a new player on turn
         /// </summary>

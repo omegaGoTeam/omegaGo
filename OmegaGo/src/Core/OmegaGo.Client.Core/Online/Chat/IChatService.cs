@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Online.Chat
 {
     public interface IChatService
     {
-        event EventHandler<ChatMessage> MessageRecieved;
+        event EventHandler<ChatMessage> MessageReceived;
         void SendMessage(string message);
     }
 }
