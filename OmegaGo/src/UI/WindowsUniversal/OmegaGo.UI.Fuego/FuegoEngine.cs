@@ -22,7 +22,10 @@ namespace OmegaGo.UI.WindowsUniversal.Fuego
 
         public string SendCommand(string command)
         {
-            return _fuegoInstance.HandleCommand(command);
+            string res = _fuegoInstance.HandleCommand(command);
+            if (res.StartsWith("= ")) res = res.Substring(2);
+            if (res.StartsWith("? ")) res = res.Substring(2);
+            return res.Trim();
         }
     }
 }

@@ -7,7 +7,7 @@ using OmegaGo.Core.AI.Fuego;
 
 namespace OmegaGo.UI.WindowsUniversal.Fuego
 {
-    class FuegoBuilder : IGtpEngineBuilder
+    public class FuegoBuilder : IGtpEngineBuilder
     {
         public IGtpEngine CreateEngine(int boardSize)
         {
