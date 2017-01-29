@@ -18,7 +18,7 @@ namespace OmegaGo.Core.AI.Fuego
 
         public override string Description
             =>
-                "Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada. It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for. We recommend you use this AI program for all of your games."
+                "Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.\n\nIt uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.\n\nWe recommend you use this AI program for all of your games."
             ;
 
         private IGtpEngine engine;

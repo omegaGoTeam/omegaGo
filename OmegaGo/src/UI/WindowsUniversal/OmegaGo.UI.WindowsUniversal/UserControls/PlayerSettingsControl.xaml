@@ -9,7 +9,22 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-        <TextBlock Text="{x:Bind ViewModel.Test}" />
-    </Grid>
+    <StackPanel HorizontalAlignment="Left">
+        <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.Name, Mode=OneWay}" />
+        <TextBlock HorizontalAlignment="Left" Width="300" Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="Wrap" />
+        <StackPanel Margin="0,20,0,0" Visibility="{x:Bind ViewModel.AiPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Non-square boards permitted: "></TextBlock>
+                <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.HandlesNonSquareBoards, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Minimum board size: "></TextBlock>
+                <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.MinimumBoardSize, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Maximum board size: "></TextBlock>
+                <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.MaximumBoardSize, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
 </local:UserControlBase>

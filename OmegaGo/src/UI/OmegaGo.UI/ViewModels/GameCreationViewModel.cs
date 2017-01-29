@@ -45,9 +45,9 @@ namespace OmegaGo.UI.ViewModels
             WhiteHandicap = 0;
         }
 
-        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel();
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
         
-        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel();
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
 
         /// <summary>
         /// Default offered game board sizes
@@ -146,13 +146,17 @@ namespace OmegaGo.UI.ViewModels
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }
-            set { SetProperty(ref _blackPlayer, value); }
+            set { SetProperty(ref _blackPlayer, value);
+                BlackPlayerSettings.ChangePlayer(value);
+            }
         }
 
         public GameCreationViewPlayer WhitePlayer
         {
             get { return _whitePlayer; }
-            set { SetProperty(ref _whitePlayer, value); }
+            set { SetProperty(ref _whitePlayer, value);
+                WhitePlayerSettings.ChangePlayer(value);
+            }
         }
 
         private int _customWidth = 19;
@@ -267,7 +271,9 @@ namespace OmegaGo.UI.ViewModels
 
         public abstract class GameCreationViewPlayer
         {
-            protected string Name;
+            public string Name { get; protected set; }
+            public abstract string Description { get; }
+            public abstract bool IsAi { get; }
 
             public abstract GamePlayer Build(StoneColor color);
 
@@ -276,12 +282,17 @@ namespace OmegaGo.UI.ViewModels
                 return Name;
             }
         }
-        class GameCreationViewHumanPlayer : GameCreationViewPlayer
+        public class GameCreationViewHumanPlayer : GameCreationViewPlayer
         {
             public GameCreationViewHumanPlayer(string name)
             {
                 this.Name = name;
             }
+
+            public override string Description
+                => "This means that you (or a friend) will play this color on this device.";
+
+            public override bool IsAi => false;
 
             public override GamePlayer Build(StoneColor color)
             {
@@ -291,7 +302,7 @@ namespace OmegaGo.UI.ViewModels
                     .Build();
             }
         }
-        class GameCreationViewAiPlayer : GameCreationViewPlayer
+        public class GameCreationViewAiPlayer : GameCreationViewPlayer
         {
             private IAIProgram ai;
             public GameCreationViewAiPlayer(OmegaGo.Core.AI.IAIProgram program)
@@ -299,6 +310,10 @@ namespace OmegaGo.UI.ViewModels
                 this.Name = "AI: " + program.Name;
                 this.ai = program;
             }
+
+            public override string Description => ai.Description;
+            public override bool IsAi => true;
+            public AICapabilities Capabilities => ai.Capabilities;
 
             public override GamePlayer Build(StoneColor color)
             {

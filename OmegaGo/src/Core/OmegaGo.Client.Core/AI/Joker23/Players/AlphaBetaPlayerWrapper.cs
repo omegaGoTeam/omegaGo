@@ -10,7 +10,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public override string Description
             =>
-                "Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position. Fluffy will always and only pass in response to its opponent passing. You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.";
+                "Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.\n\nFluffy will always and only pass in response to its opponent passing.\n\nYou may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.";
              // TODO make it pass in other scenarios, too
         // TODO allow setting depth
         private AlphaBetaPlayer _internalPlayer;

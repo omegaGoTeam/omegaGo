@@ -11,7 +11,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public override string Description
             =>
-                "This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history. This AI will pass only in response to its opponent passing, in which case it will always pass."
+                "This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.\n\nThis AI will pass only in response to its opponent passing, in which case it will always pass."
             ;
         private HeuristicPlayer internalPlayer;
 

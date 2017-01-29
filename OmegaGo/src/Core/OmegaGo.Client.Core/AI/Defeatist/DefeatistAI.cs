@@ -20,7 +20,7 @@ namespace OmegaGo.Core.AI.Defeatist
 
         public override string Description
             =>
-                "The strongest AI program in this game, the DefeatistAI will resign the first time it gets the chance to. You are simply not worth its time. After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion."
+                "The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.\n\nAfter you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion."
             ;
 
         /// <summary>

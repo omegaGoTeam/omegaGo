@@ -16,6 +16,11 @@ namespace OmegaGo.Core.AI
         /// Gets a structure that informs the core what actions, rulesets and features the AI is capable of.
         /// </summary>
         AICapabilities Capabilities { get; }
+
+        /// <summary>
+        /// Gets a human-readable text description of the AI program.
+        /// </summary>
+        string Description { get; }
         /// <summary>
         /// Gets the name of the AI as it will be displayed to the user.
         /// </summary>
