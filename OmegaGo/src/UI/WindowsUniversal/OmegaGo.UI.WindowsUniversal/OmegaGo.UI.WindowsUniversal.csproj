@@ -120,6 +120,9 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
+      <DependentUpon>MainMenuButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SimpleBoardControl.xaml.cs">
       <DependentUpon>SimpleBoardControl.xaml</DependentUpon>
     </Compile>
@@ -266,6 +269,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MainMenu\MainMenuButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

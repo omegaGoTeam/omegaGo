@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:mainMenu="using:OmegaGo.UI.WindowsUniversal.UserControls.MainMenu"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -17,61 +18,74 @@
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock 
-                   HorizontalAlignment="Center"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock HorizontalAlignment="Center"
                    Margin="0,20,0,0"              
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
         </TextBlock>
-        <StackPanel HorizontalAlignment="Center" 
-                        VerticalAlignment="Center">
-
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,10,0,0" />
-                </Style>
-            </StackPanel.Resources>
-            <Button Content="{x:Bind Localizer.Tutorial}"                     
-                    Command="{Binding Path=NavigateToTutorial}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.Singleplayer}" 
-                    Command="{Binding Path=NavigateToSingleplayer}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.SingleplayerToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.LocalGame}" 
-                    Command="{Binding Path=NavigateToGameCreation}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.LocalGameToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.OnlineGame}" 
-                    Command="{Binding Path=NavigateToMultiplayerDashboard}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.OnlineGameToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.GameLibrary}"
-                    Command="{Binding Path=NavigateToLibrary}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.GameLibraryToolTip}"
-                    HorizontalAlignment="Stretch"/>
-            <Button Content="{x:Bind Localizer.Statistics}" 
-                    Command="{Binding Path=NavigateToStatistics}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.StatisticsToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.Settings}" 
-                        ContinuumNavigationTransitionInfo.IsExitElement="True"
-                    Command="{Binding Path=NavigateToSettings}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.SettingsToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.Help}" 
-                    Command="{Binding Path=NavigateToHelp}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.HelpToolTip}"
-                    HorizontalAlignment="Stretch" />
-        </StackPanel>
-
-
         <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
             <FontIcon Glyph="&#xE1D9;" />
         </Button>
+        <ScrollViewer Grid.Row="1">
+        <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel HorizontalAlignment="Stretch" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Items>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Accept" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Singleplayer}" Command="{Binding Path=NavigateToSingleplayer}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.LocalGame}" Command="{Binding Path=NavigateToGameCreation}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.OnlineGame}" Command="{Binding Path=NavigateToMultiplayerDashboard}" ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.GameLibrary}" Command="{Binding Path=NavigateToLibrary}" ToolTip="{x:Bind Localizer.GameLibraryToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Statistics}" Command="{Binding Path=NavigateToStatistics}" ToolTip="{x:Bind Localizer.StatisticsToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Settings}" Command="{Binding Path=NavigateToSettings}" ToolTip="{x:Bind Localizer.SettingsToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+                <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Help}" Command="{Binding Path=NavigateToHelp}" ToolTip="{x:Bind Localizer.HelpToolTip}">
+                    <mainMenu:MainMenuButton.Icon>
+                        <SymbolIcon Symbol="Send" />
+                    </mainMenu:MainMenuButton.Icon>
+                </mainMenu:MainMenuButton>
+            </ItemsControl.Items>
+        </ItemsControl>
+        </ScrollViewer>
 
-        <StackPanel Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
+        
+
+        <StackPanel Grid.Row="2" Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
             <Button>
                 <FontIcon Glyph="&#xE8C1;" />
                 <Button.Flyout>
@@ -83,13 +97,10 @@
             <Button Margin="12,0,0,0">
                 <FontIcon Glyph="&#xE994;" />
             </Button>
-
-
-
-
+            
         </StackPanel>
-       
-        <StackPanel HorizontalAlignment="Right"
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right"
                     VerticalAlignment="Bottom">
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
