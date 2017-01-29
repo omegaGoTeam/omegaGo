@@ -20,6 +20,7 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -34,6 +35,19 @@ namespace OmegaGo.UI.ViewModels
 
         private ICommand _setDefaultCompensationCommand = null;
         private IMvxCommand _navigateToGameCommand;
+        
+        public GameCreationViewModel()
+        {
+            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
+            SelectedDifficulty = Difficulties.First();
+            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
+            SelectedStoneColor = StoneColors.First();
+            WhiteHandicap = 0;
+        }
+
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel();
+        
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel();
 
         /// <summary>
         /// Default offered game board sizes
@@ -212,14 +226,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
-        public GameCreationViewModel()
-        {
-            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
-            SelectedDifficulty = Difficulties.First();
-            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
-            SelectedStoneColor = StoneColors.First();
-            WhiteHandicap = 0;
-        }
 
         public ICommand SetDefaultCompensationCommand => _setDefaultCompensationCommand ?? (_setDefaultCompensationCommand = new MvxCommand(SetDefaultCompensation));
 

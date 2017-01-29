@@ -76,7 +76,6 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
                       ItemsSource="{Binding Path=BoardSizes}"
-                      
                       SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -124,6 +123,11 @@
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
             <Button Grid.Column="2" Grid.Row="3"  Margin="5" Content="More...">
+                <Button.Flyout>
+                    <Flyout>
+                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                    </Flyout>
+                </Button.Flyout>
             </Button>
             <TextBlock Text="White" Grid.Column="0" Grid.Row="4" 
                        HorizontalAlignment="Right" 
@@ -133,6 +137,11 @@
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
             <Button Grid.Column="2" Grid.Row="4"  Margin="5" Content="More...">
+                <Button.Flyout>
+                    <Flyout>
+                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                    </Flyout>
+                </Button.Flyout>
             </Button>
 
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 

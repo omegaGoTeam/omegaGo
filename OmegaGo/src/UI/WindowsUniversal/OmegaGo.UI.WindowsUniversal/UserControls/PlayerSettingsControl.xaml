@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-
+        <TextBlock Text="{x:Bind ViewModel.Test}" />
     </Grid>
 </local:UserControlBase>

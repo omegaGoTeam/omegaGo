@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using OmegaGo.UI.UserControls.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -22,6 +23,20 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         public PlayerSettingsControl()
         {
             this.InitializeComponent();
+        }
+
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
+            "ViewModel", typeof(PlayerSettingsViewModel), typeof(PlayerSettingsControl), new PropertyMetadata(default(PlayerSettingsViewModel), ViewModelChanged));
+
+        private static void ViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            ((PlayerSettingsControl)dependencyObject).DataContext = dependencyPropertyChangedEventArgs.NewValue;
+        }
+
+        public PlayerSettingsViewModel ViewModel
+        {
+            get { return (PlayerSettingsViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
         }
     }
 }

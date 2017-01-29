@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public sealed class ChatViewModel : MvxViewModel 
+    public sealed class ChatViewModel : ControlViewModelBase
     {
         private IChatService _chatService;
-        private ObservableCollection<ChatMessage> _messages;
         private string _messageText;
 
         private MvxCommand _sendMessageCommand;
@@ -27,10 +26,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             }
         }
 
-        public ObservableCollection<ChatMessage> Messages
-        {
-            get { return _messages; }
-        }
+        public ObservableCollection<ChatMessage> Messages { get; }
 
         public string MessageText
         {
@@ -41,12 +37,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public ChatViewModel()
         {
             _messageText = "";
-            _messages = new ObservableCollection<ChatMessage>();
+            Messages = new ObservableCollection<ChatMessage>();
 
-            _messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            _messages.Add(new ChatMessage() { UserName = "Player", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Outgoing, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            _messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            _messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
+            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
+            Messages.Add(new ChatMessage() { UserName = "Player", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Outgoing, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
+            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
+            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
         }
 
         private void ChatService_MessageRecieved(object sender, ChatMessage e)
