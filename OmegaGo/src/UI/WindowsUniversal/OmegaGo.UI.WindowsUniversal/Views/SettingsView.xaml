@@ -53,11 +53,7 @@
                         <CheckBox Content="Highlight illegal Ko moves" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Natural Stone Placement" IsEnabled="False" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="Stones won't be placed on the board in a neat grid but instead organically, randomly pushed a little bit aside from the intersection. This emulates the way Go boards feel like physically." />
-                    </StackPanel>
-                    <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                   <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Input">
