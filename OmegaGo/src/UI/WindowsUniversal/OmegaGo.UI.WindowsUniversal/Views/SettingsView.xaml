@@ -94,7 +94,7 @@
                     <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Assistant">
+            <PivotItem Header="Artificial Intelligence">
                 <StackPanel Padding="15">
                     <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox Width="140"
