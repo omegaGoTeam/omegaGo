@@ -160,18 +160,56 @@
                 <ComboBoxItem>8</ComboBoxItem>
                 <ComboBoxItem>9</ComboBoxItem>
             </ComboBox>
-<!--
+
             <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="6" Margin="5" HorizontalAlignment="Stretch">
-                <ComboBoxItem>Untimed</ComboBoxItem>
-                <ComboBoxItem>Japanese byo-yomi</ComboBoxItem>
-                <ComboBoxItem>Canadian byo-yomi</ComboBoxItem>
-            </ComboBox>
-            <Button Grid.Column="2" Grid.Row="6">Settings...</Button>
--->
+            <TextBlock Grid.Column="1" Grid.Row="6" Margin="5" HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}">
+            </TextBlock>
+            <Button Grid.Column="2" Grid.Row="6" Content="Change...">
+                <Button.Flyout>
+                    <Flyout  Placement="Right" >
+                        <StackPanel Width="300">
+                            <ComboBox  ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControl.Style, Mode=TwoWay}">
+                            </ComboBox>
+                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsAbsoluteTiming, Mode=OneWay}">
+                                <TextBlock TextWrapping="Wrap">
+                                        <Run FontWeight="Bold">Absolute Timing.</Run> When a player's time elapses, that player loses immediately.
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Time: </TextBlock>
+                                    <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}" InputScope="Number" Width="30"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsNoTiming, Mode=OneWay}">
+                                <TextBlock TextWrapping="Wrap">
+                                        <Run FontWeight="Bold">No Time Control.</Run> There is no time limit for either player.
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsCanadianTiming, Mode=OneWay}">
+                                <TextBlock TextWrapping="Wrap">
+                                        <Run FontWeight="Bold">Canadian Timing.</Run> Each player has a main time. When that elapses, the player enters their first <Run FontStyle="Italic">overtime period</Run> and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Main time:</TextBlock>
+                                    <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Moves per period:</TextBlock>
+                                    <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Minutes per period:</TextBlock>
+                                    <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
             <TextBlock Text="Compensation" Grid.Column="0" Grid.Row="7" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 

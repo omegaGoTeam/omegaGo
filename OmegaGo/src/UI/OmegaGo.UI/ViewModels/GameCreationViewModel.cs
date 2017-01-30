@@ -20,6 +20,7 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Time;
 using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
@@ -48,6 +49,22 @@ namespace OmegaGo.UI.ViewModels
         public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
         
         public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
+
+        private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
+        public TimeControlSettingsViewModel TimeControl
+        {
+            get { return _timeControl; }
+            set { SetProperty(ref _timeControl, value); }
+        }
+        
+
+        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } = new ObservableCollection
+            <TimeControlStyle>
+        {
+            TimeControlStyle.None,
+            TimeControlStyle.Absolute,
+            TimeControlStyle.Canadian
+        };
 
         /// <summary>
         /// Default offered game board sizes
