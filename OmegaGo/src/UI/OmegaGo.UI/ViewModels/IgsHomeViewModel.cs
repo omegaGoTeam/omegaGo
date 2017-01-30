@@ -11,6 +11,7 @@ using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Settings;
 
@@ -29,6 +30,7 @@ namespace OmegaGo.UI.ViewModels
             LoginScreenVisible = !(Connections.Pandanet.LoggedIn);
             Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
+            Connections.Pandanet.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Pandanet.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate; 
             if (Connections.Pandanet.LoggedIn)
             {
@@ -37,11 +39,16 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        private void Pandanet_IncomingMatchRequest(IgsMatchRequest obj)
+        {
+            this.IncomingMatchRequests.Add(obj);
+        }
 
         public void Deinitialize()
         {
             Connections.Pandanet.IncomingLine -= Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine -= Pandanet_OutgoingLine;
+            Connections.Pandanet.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
             Connections.Pandanet.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
         }
 
@@ -276,6 +283,12 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _challengeableUsers; }
             set { SetProperty(ref _challengeableUsers, value); }
+        }
+        private ObservableCollection<IgsMatchRequest> _incomingMatchRequests = new ObservableCollection<IgsMatchRequest>();
+        public ObservableCollection<IgsMatchRequest> IncomingMatchRequests
+        {
+            get { return _incomingMatchRequests; }
+            set { SetProperty(ref _incomingMatchRequests, value); }
         }
 
 
