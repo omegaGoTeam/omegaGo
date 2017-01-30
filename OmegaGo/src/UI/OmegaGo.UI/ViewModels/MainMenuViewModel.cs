@@ -24,6 +24,8 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToSettings;
         private IMvxCommand _navigateToHelp;
 
+        public bool ShowTutorialButton => _gameSettings.Display.ShowTutorialInMainMenu;
+
         public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )
         {
             _gameSettings = gameSettings;

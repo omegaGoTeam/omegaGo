@@ -57,8 +57,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             if (e.Game == this.OnlineGame)
             {
-                (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-                (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+                if (this.Players.Black.Clock is CanadianTimeControl)
+                {
+                    (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+                    (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+                }
             }
         }
 

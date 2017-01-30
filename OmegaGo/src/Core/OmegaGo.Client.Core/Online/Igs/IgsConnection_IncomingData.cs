@@ -210,7 +210,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             foreach (var game in GetGamesIncluding(whoResigned))
                             {
-                                OnIncomingResignation(game, whoResigned);
+                                OnIncomingResignation(game.Metadata, whoResigned);
                                 // TODO handle in game controller
                             }
                         }
@@ -221,21 +221,18 @@ namespace OmegaGo.Core.Online.Igs
                         string username = IgsRegex.GetFirstWord(igsLine);
                         foreach (var game in GetGamesIncluding(username))
                         {
-                            // TODO
-                            //**game.GameController.LifeDeath_Done(game.Players.Find(pl => pl.Name == username));
+                            game.Controller.LifeDeath_Done(game.Controller.Players.First(pl => pl.Info.Name == username));
                         }
                     }
-                    /*
-                     * TODO
                     if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
                     {
-                        foreach (var game in _gamesYouHaveOpened.Where(gi => gi.GameController.GamePhase == GamePhase.LifeDeathDetermination))
+                        foreach (var game in _gamesYouHaveOpened.Where(gi => gi.Controller.Phase == Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                         {
-                            game.GameController.LifeDeath_UndoPhase();
+                            game.Controller.LifeDeath_UndoPhase();
                         }
                         weAreHandlingAnInterrupt = true;
                         continue;
-                    }*/
+                    }
 
                     if (igsLine.PureLine.Contains("Removed game file"))
                     {
@@ -258,25 +255,25 @@ namespace OmegaGo.Core.Online.Igs
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-                    /*
+                    
                     if (igsLine.PureLine.EndsWith("declines undo."))
                     {
                         string username = IgsRegex.WhoDeclinesUndo(igsLine);
                         foreach (var game in GetGamesIncluding(username))
                         {
-                            OnUndoDeclined(game);
+                            OnUndoDeclined(game.Metadata);
                         }
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-
+                    
                     if (igsLine.PureLine.EndsWith("declines your request for a match."))
                     {
                         OnMatchRequestDeclined(igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' ')));
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-                    */
+                    
                     IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
                     if (matchRequest != null)
                     {
@@ -311,12 +308,11 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private IEnumerable<OnlineGameInfo> GetGamesIncluding(string username)
+        private IEnumerable<OnlineGame> GetGamesIncluding(string username)
         {
 
             return this._gamesYouHaveOpened.Where(ginfo => ginfo.Info.Black.Name == username ||
-                                                           ginfo.Info.White.Name == username)
-                .Select(ginfo => ginfo.Metadata);
+                                                           ginfo.Info.White.Name == username);
         }
 
 
@@ -361,11 +357,12 @@ namespace OmegaGo.Core.Online.Igs
                 OnlineGame whatGame = _gamesYouHaveOpened.Find(gm => gm.Metadata.IgsIndex == heading.GameNumber);
                 if (whatGame == null)
                 {
-                    // Synchronization mishap
+                    // Do not remember this game, perhaps we're in match accept procedure
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
                 Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
+                ;
             }
             else if (trim.Contains("Handicap"))
             {
@@ -455,7 +452,7 @@ namespace OmegaGo.Core.Online.Igs
                     _gamesYouHaveOpened.Add(newGame);
                     OnMatchRequestAccepted(newGame);
                 }
-                               /*
+                               
                 if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
                 {
                     // Make it not be an interrupt and let it be handled by the match creator.
@@ -477,7 +474,7 @@ namespace OmegaGo.Core.Online.Igs
                         }
                     }
                 }
-                */
+                
                 if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
                     currentLineBatch[1].Code == IgsCode.Say)
                 {
@@ -504,7 +501,7 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         foreach (var game in games)
                         {
-                            OnUndoRequestReceived(game);
+                            OnUndoRequestReceived(game.Metadata);
                         }
                     }
                     else

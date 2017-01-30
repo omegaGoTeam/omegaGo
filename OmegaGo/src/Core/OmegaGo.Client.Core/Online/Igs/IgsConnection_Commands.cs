@@ -12,6 +12,7 @@ using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -226,28 +227,33 @@ namespace OmegaGo.Core.Online.Igs
             var response = await MakeRequestAsync(matchRequest.RejectCommand);
             return !response.IsError;
         }
-        public async Task<OnlineGameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
+        public async Task<OnlineGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            /*
-            List<IgsLine> lines = await MakeRequestAsync(matchRequest.AcceptCommand);
-            if (lines.Any(line => line.Code == IgsCode.Error)) return null;
+            var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
+            if (lines.IsError) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
-
-            ObsoleteGameInfo game = new ObsoleteGameInfo()
-            {
-                BoardSize = new GameBoardSize(19), // TODO
-                Server = this,
-                ServerId = heading.GameNumber,
-            };
-            game.Players.Add(new GamePlayer(heading.BlackName, "?", game));
-            game.Players.Add(new GamePlayer(heading.WhiteName, "?", game));
-            game.Ruleset = new JapaneseRuleset(game.BoardSize);
-            this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
-            this._gamesInProgressOnIgs.Add(game);
+            var ogi = await GetGameByIdAsync(heading.GameNumber);
+            var builder = GameBuilder.CreateOnlineGame(ogi);
+            bool youAreBlack = heading.BlackName == this._username;
+            var humanPlayer =
+                new HumanPlayerBuilder(youAreBlack ? StoneColor.Black : StoneColor.White).Name(youAreBlack
+                    ? heading.BlackName
+                    : heading.WhiteName)
+                    .Rank(youAreBlack ? ogi.Black.Rank : ogi.White.Rank)
+                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Build();
+            var onlinePlayer =
+                new IgsPlayerBuilder(youAreBlack ? StoneColor.White : StoneColor.Black, this).Name(youAreBlack
+                    ? heading.WhiteName
+                    : heading.BlackName)
+                    .Rank(youAreBlack ? ogi.White.Rank : ogi.Black.Rank)
+                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Build();
+            builder.BlackPlayer(youAreBlack ? humanPlayer : onlinePlayer)
+                .WhitePlayer(youAreBlack ? onlinePlayer : humanPlayer);
+            var game = builder.Build();
             this._gamesYouHaveOpened.Add(game);
             return game;
-            */
-            return null;
         }
         public void DEBUG_MakeUnattendedRequest(string command)
         {
@@ -295,31 +301,31 @@ namespace OmegaGo.Core.Online.Igs
             return !response.IsError;
         }
 
-            /*
-        public async Task UndoPleaseAsync(ObsoleteGameInfo game)
+            
+        public async Task UndoPleaseAsync(OnlineGameInfo game)
         {
-            await MakeRequestAsync("undoplease " + game.ServerId);
+            await MakeRequestAsync("undoplease " + game.IgsIndex);
         }
 
-        public async Task UndoAsync(ObsoleteGameInfo game)
+        public async Task UndoAsync(OnlineGameInfo game)
         {
-            await MakeRequestAsync("undo " + game.ServerId);
+            await MakeRequestAsync("undo " + game.IgsIndex);
         }
 
-        public void NoUndo(ObsoleteGameInfo game)
+        public void NoUndo(OnlineGameInfo game)
         {
-            MakeUnattendedRequest("noundo " + game.ServerId);
+            MakeUnattendedRequest("noundo " + game.IgsIndex);
         }
 
-        public override async void LifeDeath_Done(ObsoleteGameInfo game)
+        public async void LifeDeath_Done(OnlineGameInfo game)
         {
-            await MakeRequestAsync("done " + game.ServerId);
+            await MakeRequestAsync("done " + game.IgsIndex);
         }
-        public override async void LifeDeath_MarkDead(Position position, ObsoleteGameInfo game)
+        public async void LifeDeath_MarkDead(Position position, OnlineGameInfo game)
         {
-            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
+            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.IgsIndex);
         }
-        */
+        
 
         public async Task<bool> ToggleAsync(string toggleKey, bool newToggleValue)
         {
