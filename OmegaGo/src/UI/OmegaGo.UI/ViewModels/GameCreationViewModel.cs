@@ -268,8 +268,8 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black);
-            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White);
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 
             //TODO: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
@@ -288,7 +288,7 @@ namespace OmegaGo.UI.ViewModels
             public abstract string Description { get; }
             public abstract bool IsAi { get; }
 
-            public abstract GamePlayer Build(StoneColor color);
+            public abstract GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings);
 
             public override string ToString()
             {
@@ -307,11 +307,12 @@ namespace OmegaGo.UI.ViewModels
 
             public override bool IsAi => false;
 
-            public override GamePlayer Build(StoneColor color)
+            public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings)
             {
                 return new HumanPlayerBuilder(color)
                     .Name(color.ToString())
                     .Rank("NR")
+                    .Clock(timeSettings.Build())
                     .Build();
             }
         }
@@ -328,12 +329,13 @@ namespace OmegaGo.UI.ViewModels
             public override bool IsAi => true;
             public AICapabilities Capabilities => ai.Capabilities;
 
-            public override GamePlayer Build(StoneColor color)
+            public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings)
             {
                 IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(ai.GetType());
                 return new AiPlayerBuilder(color)
                     .Name(ai.Name + "(" + color.ToIgsCharacterString() + ")")
                     .Rank("NR")
+                    .Clock(timeSettings.Build())
                     .AiProgram(newInstance)
                     .Build();
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
@@ -77,6 +78,21 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 }
                 throw new Exception("This style is unsupported.");
             }
+        }
+
+        public TimeControl Build()
+        {
+            switch (Style)
+            {
+                case TimeControlStyle.None:
+                    return new NoTimeControl();
+                case TimeControlStyle.Absolute:
+                    return new AbsoluteTimeControl(int.Parse(MainTime));
+                case TimeControlStyle.Canadian:
+                    return new CanadianTimeControl(int.Parse(MainTime), int.Parse(StonesPerPeriod),
+                        int.Parse(OvertimeMinutes));
+            }
+            throw new Exception("This style is unsupported.");
         }
     }
 }
