@@ -47,7 +47,7 @@ namespace OmegaGo.UI.Services.Help
                 new HelpPage("Jargon", "jargon"),
                 new HelpPage("Resources", "resources"),
                 new HelpPage("Humour", "humour"),
-                new HelpPage("Copyright notice", "copyright"),
+                new HelpPage("Copyright notice", "copyright"),                
                 new HelpPage("Credits", "credits")
             };
         }
