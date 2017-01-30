@@ -11,6 +11,9 @@ namespace OmegaGo.Core.Time.Canadian
         private readonly int _stonesPerPeriod;
         private readonly TimeSpan _periodTime;
 
+        /// <summary>
+        /// Time that was remaining when I made my last move
+        /// </summary>
         private CanadianTimeInformation _snapshot;
 
         public CanadianTimeControl(int mainTime, int stonesPerPeriod, int periodMinutes)
@@ -77,6 +80,13 @@ namespace OmegaGo.Core.Time.Canadian
 
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)
         {
+            this.LastTimeClockStarted = DateTime.Now;
+            if (Running)
+            {
+                timeRemaining = new CanadianTimeInformation(timeRemaining.MainTimeLeft,
+                    timeRemaining.PeriodTimeLeft,
+                    timeRemaining.PeriodStonesLeft + 1);
+            }
             this._snapshot = timeRemaining; // TODO minus current time, I guess?
             return this;
         }

@@ -15,15 +15,15 @@ namespace OmegaGo.Core.Time
     {
         public abstract TimeControlStyle Name { get; }
 
-        private DateTime LastMoveMadeWhen = DateTime.Now;
-        private bool Running;
+        protected DateTime LastTimeClockStarted = DateTime.Now;
+        protected bool Running;
         
         public abstract TimeInformation GetDisplayTime(TimeSpan addThisTime);
         public TimeInformation GetDisplayTime()
         {
             if (Running)
             {
-                return GetDisplayTime(DateTime.Now - LastMoveMadeWhen);
+                return GetDisplayTime(DateTime.Now - this.LastTimeClockStarted);
             }
             else
             {
@@ -37,13 +37,13 @@ namespace OmegaGo.Core.Time
         public void StartClock()
         {
             if (Running) throw new InvalidOperationException("Clock was already running.");
-            LastMoveMadeWhen = DateTime.Now;
+            this.LastTimeClockStarted = DateTime.Now;
             Running = true;
         }
         public void StopClock()
         {
             if (!Running) throw new InvalidOperationException("Clock was not yet running.");
-            TimeSpan timeSpent = DateTime.Now - LastMoveMadeWhen;
+            TimeSpan timeSpent = DateTime.Now - this.LastTimeClockStarted;
             UpdateSnapshot(timeSpent);
             Running = false;
         }
@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Time
         {
             if (Running)
             {
-                return IsViolating(DateTime.Now - LastMoveMadeWhen);
+                return IsViolating(DateTime.Now - this.LastTimeClockStarted);
             }
             else
             {

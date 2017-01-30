@@ -51,8 +51,11 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
         {
-            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+            if (e.Game.Metadata.IgsIndex == this.OnlineGameInfo.IgsIndex)
+            {
+                (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+                (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+            }
         }
 
         /// <summary>
