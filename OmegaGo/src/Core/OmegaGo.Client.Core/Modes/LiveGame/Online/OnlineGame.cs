@@ -13,7 +13,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
         public OnlineGame(OnlineGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
             Metadata = info;
-            Controller = new GameController(info, ruleset, players);
+            Controller = new GameController(this, ruleset, players);
             foreach(var player in Controller.Players)
             {
                 player.AssignToGame(info, Controller);

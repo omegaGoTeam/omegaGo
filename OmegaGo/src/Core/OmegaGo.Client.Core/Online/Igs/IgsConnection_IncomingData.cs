@@ -419,7 +419,7 @@ namespace OmegaGo.Core.Online.Igs
                             new HumanPlayerBuilder(StoneColor.Black)
                             .Name(ogi.Black.Name)
                             .Rank(ogi.Black.Rank)
-                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))// TODO PRIMARY do the rest
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
                             .Build());
                     }
                     else
@@ -428,6 +428,7 @@ namespace OmegaGo.Core.Online.Igs
                             new IgsPlayerBuilder(StoneColor.Black, this)
                                 .Name(ogi.Black.Name)
                                 .Rank(ogi.Black.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
                                 .Build());
 
                     }
@@ -437,6 +438,7 @@ namespace OmegaGo.Core.Online.Igs
                             new HumanPlayerBuilder(StoneColor.White)
                             .Name(ogi.White.Name)
                             .Rank(ogi.White.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                             .Build());
                     }
                     else
@@ -445,6 +447,7 @@ namespace OmegaGo.Core.Online.Igs
                             new IgsPlayerBuilder(StoneColor.White, this)
                                 .Name(ogi.White.Name)
                                 .Rank(ogi.White.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                                 .Build());
 
                     }

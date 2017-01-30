@@ -25,6 +25,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
         public OnlineGameInfo OnlineGameInfo;
+        public OnlineGame OnlineGame;
         public bool IsOnlineGame => Server != null;
         /// <summary>
         /// Gets the server connection, or null if this is not an online game.
@@ -38,8 +39,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             GameTree = new GameTree(ruleset);
         }
-        public GameController(OnlineGameInfo gameInfo, IRuleset ruleset, PlayerPair players)
+        public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)
         {
+            this.OnlineGame = game;
+            OnlineGameInfo = game.Metadata;
+            OnlineGameInfo gameInfo = game.Metadata;
             Info = gameInfo;
             OnlineGameInfo = gameInfo;
             Ruleset = ruleset;
@@ -51,7 +55,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
         {
-            if (e.Game.Metadata.IgsIndex == this.OnlineGameInfo.IgsIndex)
+            if (e.Game == this.OnlineGame)
             {
                 (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
                 (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
