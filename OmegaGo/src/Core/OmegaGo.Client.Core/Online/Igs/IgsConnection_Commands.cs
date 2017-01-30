@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -87,7 +88,7 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger(),
                 ServerID.Igs);
-
+            game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
                 // DO *NOT* DO this: the displayed number might be something different from what our client wants
                 // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
                 // Do not uncomment the preceding line. I will fix it in time. I hope.
@@ -128,11 +129,13 @@ namespace OmegaGo.Core.Online.Igs
                   new IgsPlayerBuilder(StoneColor.Black, this)
                       .Name(gameInfo.Black.Name)
                       .Rank(gameInfo.Black.Rank)
+                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
                       .Build();
             GamePlayer whitePlayer =
                 new IgsPlayerBuilder(StoneColor.White, this)
                     .Name(gameInfo.White.Name)
                     .Rank(gameInfo.White.Rank)
+                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                     .Build();
             OnlineGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .BlackPlayer(blackPlayer)

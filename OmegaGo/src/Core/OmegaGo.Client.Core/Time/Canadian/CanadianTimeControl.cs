@@ -74,5 +74,11 @@ namespace OmegaGo.Core.Time.Canadian
         {
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
+
+        public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)
+        {
+            this._snapshot = timeRemaining; // TODO minus current time, I guess?
+            return this;
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.Canadian
 {
-    class CanadianTimeInformation : TimeInformation
+    public class CanadianTimeInformation : TimeInformation
     {
         public TimeSpan MainTimeLeft { get;  }
         public TimeSpan PeriodTimeLeft { get;}
@@ -44,5 +44,18 @@ namespace OmegaGo.Core.Time.Canadian
             }
         }
         public override TimeControlStyle Style => TimeControlStyle.Canadian;
+
+        public static CanadianTimeInformation FromIgs(int firstValueTime, int secondValueStones)
+        {
+            if (secondValueStones == -1)
+            {
+                return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
+            }
+            else
+            {
+                return new Canadian.CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
+                    secondValueStones);
+            }
+        }
     }
 }

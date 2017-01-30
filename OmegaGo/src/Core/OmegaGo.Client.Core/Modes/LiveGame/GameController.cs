@@ -15,6 +15,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
@@ -45,6 +46,13 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             this.Server = gameInfo.Server;
             GameTree = new GameTree(ruleset);
+            Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+        }
+
+        private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
+        {
+            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
         }
 
         /// <summary>

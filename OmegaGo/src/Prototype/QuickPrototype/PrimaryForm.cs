@@ -153,14 +153,14 @@ namespace FormsPrototype
                 if (obs != null)
                 {
                     this.lbObservedGames.Items.Add(obs);
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(obs, igs);
+                    ingameForm.LoadGame(obs);
+                    ingameForm.Show();
                 }
                 else
                 {
                     MessageBox.Show("Observing failed.");
                 }
-                InGameForm ingameForm = new FormsPrototype.InGameForm(obs, igs);
-                ingameForm.LoadGame(obs);
-                ingameForm.Show();
             }
         }
 

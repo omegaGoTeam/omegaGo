@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
@@ -40,7 +42,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public bool ConnectionEstablished => _shouldBeConnected;
         public bool LoggedIn => ConnectionEstablished && _composure == IgsComposure.Ok;
-
+        public IgsEvents Events { get; }
 
         // Internal TCP connection objects   
         /// <summary>
@@ -104,6 +106,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private IgsConnection()
         {
+            Events = new Igs.IgsEvents(this);
         }
         /// <summary>
         /// Do not call this except from the class <see cref="Connections"/>. 
@@ -480,12 +483,9 @@ namespace OmegaGo.Core.Online.Igs
         }
 
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-        private void OnGameScoreAndCompleted(OnlineGameInfo gameInfo, float blackScore, float whiteScore)
+        private void OnGameScoreAndCompleted(OnlineGame gameInfo, float blackScore, float whiteScore)
         {
-            // TODO
-            /*
             GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
-            */
         }
         /// <summary>
         /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
@@ -502,9 +502,43 @@ namespace OmegaGo.Core.Online.Igs
         {
             PersonalInformationUpdate?.Invoke(this, e);
         }
+
+        public event EventHandler<StoneRemovalEventArgs> StoneRemoval;
+        private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
+        {
+            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
+            StoneRemoval?.Invoke(this, new Igs.StoneRemovalEventArgs(game, deadPosition));
+        }
+
+        public event EventHandler<GamePlayerEventArgs> IncomingResignation;
+        private void OnIncomingResignation(OnlineGameInfo gameInfo, string whoResigned)
+        {
+            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
+            IncomingResignation?.Invoke(this,
+                new Igs.GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
+        }
+
+      
     }
 
+    public class GamePlayerEventArgs : EventArgs
+    {
+        public GamePlayerEventArgs(OnlineGame game, GamePlayer player)
+        {
 
+        }
+    }
+    public class StoneRemovalEventArgs : EventArgs
+    {
+        public OnlineGame Game { get;  }
+        public Position DeadPosition { get;  }
+
+        public StoneRemovalEventArgs(OnlineGame game, Position deadPosition)
+        {
+            this.Game = game;
+            this.DeadPosition = deadPosition;
+        }
+    }
 
     public class GameScoreEventArgs : EventArgs
     {
