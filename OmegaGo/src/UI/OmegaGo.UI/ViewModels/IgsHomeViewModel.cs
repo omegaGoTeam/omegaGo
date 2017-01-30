@@ -183,7 +183,7 @@ namespace OmegaGo.UI.ViewModels
             ProgressPanelVisible = false;
             LoginScreenVisible = true;
         }
-        private void ShowProgressPanel(string caption)
+        public void ShowProgressPanel(string caption)
         {
             ProgressPanelText = caption;
             ProgressPanelVisible = true;
@@ -366,6 +366,11 @@ namespace OmegaGo.UI.ViewModels
             this.Console += "\n" + e;
         }
 
-   
+
+        public void StartGame(OnlineGame game)
+        {
+            Mvx.RegisterSingleton<ILiveGame>(game);
+            ShowViewModel<GameViewModel>();
+        }
     }
 }
