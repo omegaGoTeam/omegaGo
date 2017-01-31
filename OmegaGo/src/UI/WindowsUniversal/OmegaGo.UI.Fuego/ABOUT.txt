@@ -1,0 +1,7 @@
+﻿This class library has three main features:
+- It references the Fuego Windows Runtime Component so that the native C++ library is packaged with OmegaGo.
+- It has the classes FuegoBuilder and FuegoEngine which function as wrappers around the Runtime Component.
+- It has a "pre-build batch script" which is a little brittle but attempts to copy appropriate boost DLL libraries to a directory where they will packaged with the resulting app.
+
+
+We communicate with Fuego via Go Text Protocol (GTP).

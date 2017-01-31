@@ -27,12 +27,10 @@ namespace OmegaGo.UI.ViewModels
         private int _whiteHandicap;
         private float _compensation = 0;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
-        private string _selectedDifficulty = null;
         private RulesetType _selectedRuleset = RulesetType.Chinese;
-        private string _selectedStoneColor = null;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
-        private ICommand _setDefaultCompensationCommand = null;
+        private ICommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
         
         public GameCreationViewModel()
@@ -42,14 +40,11 @@ namespace OmegaGo.UI.ViewModels
             _customHeight = _settings.Interface.BoardHeight;
             SetCustomBoardSize();
             var bundle = Mvx.GetSingleton<GameCreationBundle>();
-            if (bundle != null)
-            {
-                bundle.OnLoad(this);
-            }
+            bundle?.OnLoad(this);
         }
 
-        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
-        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
         private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
         public TimeControlSettingsViewModel TimeControl
         {
@@ -121,20 +116,20 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } = new ObservableCollection<GameCreationViewPlayer>(
-               _playerList
+               GameCreationViewModel.playerList
             );
 
-        private static List<GameCreationViewPlayer> _playerList = new List<GameCreationViewPlayer>(
+        private static List<GameCreationViewPlayer> playerList = new List<GameCreationViewPlayer>(
             new GameCreationViewPlayer[]
             {
                 new GameCreationViewHumanPlayer("Human")
             }.Concat(
-                OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
+                Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
                 )
             );
 
-        private GameCreationViewPlayer _blackPlayer = _playerList[0];
-        private GameCreationViewPlayer _whitePlayer = _playerList[0];
+        private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.playerList[0];
+        private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.playerList[0];
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }

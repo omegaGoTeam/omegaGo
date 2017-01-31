@@ -7,6 +7,9 @@ using OmegaGo.UI.Services.Quests.IndividualQuests;
 
 namespace OmegaGo.UI.Services.Quests
 {
+    /// <summary>
+    /// Quest used in XAML to have something displayed in XAML Designer.
+    /// </summary>
     public class ExampleActiveQuest : ActiveQuest
     {
         public ExampleActiveQuest()
