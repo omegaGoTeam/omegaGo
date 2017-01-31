@@ -5,7 +5,16 @@ namespace OmegaGo.UI.Services.Settings
         public InterfaceMementos(ISettingsService service) : base("InterfaceMementos", service)
         {
         }
-
+        public int BoardWidth
+        {
+            get { return GetSetting(nameof(BoardWidth), () => 19); }
+            set { SetSetting(nameof(BoardWidth), value); }
+        }
+        public int BoardHeight
+        {
+            get { return GetSetting(nameof(BoardHeight), () => 19); }
+            set { SetSetting(nameof(BoardHeight), value); }
+        }
         public string IgsName
         {
             get { return GetSetting(nameof(IgsName), () => "OmegaGo1"); }

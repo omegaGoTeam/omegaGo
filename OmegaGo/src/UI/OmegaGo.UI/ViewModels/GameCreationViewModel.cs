@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
@@ -29,6 +30,7 @@ namespace OmegaGo.UI.ViewModels
         private string _selectedDifficulty = null;
         private RulesetType _selectedRuleset = RulesetType.Chinese;
         private string _selectedStoneColor = null;
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
         private ICommand _setDefaultCompensationCommand = null;
         private IMvxCommand _navigateToGameCommand;
@@ -36,6 +38,9 @@ namespace OmegaGo.UI.ViewModels
         public GameCreationViewModel()
         {
             WhiteHandicap = 0;
+            _customWidth = _settings.Interface.BoardWidth;
+            _customHeight = _settings.Interface.BoardHeight;
+            SetCustomBoardSize();
             var bundle = Mvx.GetSingleton<GameCreationBundle>();
             if (bundle != null)
             {
@@ -88,6 +93,8 @@ namespace OmegaGo.UI.ViewModels
                 _customWidth = value.Width;
                 RaisePropertyChanged(nameof(CustomHeight));
                 RaisePropertyChanged(nameof(CustomWidth));
+                _settings.Interface.BoardWidth = _customWidth;
+                _settings.Interface.BoardHeight = _customHeight;
                 SetDefaultCompensation();
             }
         }
