@@ -134,6 +134,8 @@
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\KgsResponse.cs" />
+    <Compile Include="Online\Kgs\Downstream\LoginResponse.cs" />
     <Compile Include="Online\Kgs\KgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConnection.cs" />
     <Compile Include="Online\Ogs\OgsConstants.cs" />
@@ -279,6 +281,13 @@
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
+    <Content Include="Online\Kgs\Docs\dataTypes.html" />
+    <Content Include="Online\Kgs\Docs\downstream.html" />
+    <Content Include="Online\Kgs\Docs\index.html" />
+    <Content Include="Online\Kgs\Docs\protocol.html" />
+    <Content Include="Online\Kgs\Docs\style.css" />
+    <Content Include="Online\Kgs\Docs\upstream.html" />
+    <Content Include="Online\Kgs\kgsApiTrz.txt" />
     <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
   <ItemGroup>

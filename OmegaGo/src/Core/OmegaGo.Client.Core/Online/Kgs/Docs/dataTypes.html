@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="StyleSheet" href="style.css" type="text/css">
+    <title>Data Types</title>
+</head>
+<body>
+<h1>Data Types</h1>
+
+<h2><span id="user">User</span></h2>
+
+<p>A user. Always an object. Users are sent in downstream messages, but upstream just the name is provided. It would have been cleaner to have the user flags a separate JSON fields,
+but users are sent a lot and I didn't want to use so much bandwidth.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The user name</td>
+    </tr>
+    <tr>
+        <td>rank</td>
+        <td>The rank of the user. Optional; missing means no rank.</td>
+    </tr>
+    <tr>
+        <td>flags</td>
+        <td>A string. Each character in the string represents a flag. See below.</td>
+    </tr>
+    <tr>
+        <td>authLevel</td>
+        <td>Optional. One of <tt>normal</tt>, <tt>robot_ranked</tt>, <tt>teacher</tt>, <tt>jr_admin</tt>, <tt>sr_admin</tt>, or <tt>super_admin</tt>.
+        If not present, then it is <tt>normal</tt>.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Flags</th>
+    </tr>
+    <tr>
+        <td>g</td>
+        <td>Guest</td>
+    </tr>
+    <tr>
+        <td>c</td>
+        <td>Connected (logged in right now)</td>
+    </tr>
+    <tr>
+        <td>d</td>
+        <td>Account has been deleted</td>
+    </tr>
+    <tr>
+        <td>s</td>
+        <td>User is sleeping (more than 10 minutes since last interaction)</td>
+    </tr>
+    <tr>
+        <td>a</td>
+        <td>User has an avatar.</td>
+    </tr>
+    <tr>
+        <td>r</td>
+        <td>User is a robot.</td>
+    </tr>
+    <tr>
+        <td>TT</td>
+        <td>User has won a KGS tournament.</td>
+    </tr>
+    <tr>
+        <td>t</td>
+        <td>User has been runner up in a KGS tournament.</td>
+    </tr>
+    <tr>
+        <td>p</td>
+        <td>User is currently playing in a game.</td>
+    </tr>
+    <tr>
+        <td>P</td>
+        <td>User is currently playing in a KGS tournament game.</td>
+    </tr>
+    <tr>
+        <td>*</td>
+        <td>User is a KGS Plus subscriber.</td>
+    </tr>
+    <tr>
+        <td>!</td>
+        <td>User is KGS Meijin</td>
+    </tr>
+    <tr>
+        <td>=</td>
+        <td>User can play ranked games.</td>
+    </tr>
+    <tr>
+        <td>~</td>
+        <td>User plays stronger players far more often that weaker ones.</td>
+    </tr>
+</table>
+
+<h2><span id="role">Role</span></h2>
+
+<p>A role indicates how a player is involved in a game. A player may hold more than one role in a game. Represented as a string. It can be one of:</p>
+<ul>
+    <li><tt>white</tt></li>
+    <li><tt>black</tt></li>
+    <li><tt>white_2</tt></li>
+    <li><tt>black_2</tt></li>
+    <li><tt>challengeCreator</tt></li>
+    <li><tt>owner</tt></li>
+</ul>
+
+<h2><span id="gameFlags">Game Flags</span></h2>
+
+<p>Game flags are usually used as fields in a message, with a boolean value. The flags are:</p>
+
+<dl>
+    <dt><tt>over</tt></dt>
+    <dd>If set, it means that the game has been scored.</dd>
+    <dt><tt>adjourned</tt></dt>
+    <dd>The game cannot continue because the player whose turn it is has left.</dd>
+    <dt><tt>private</tt></dt>
+    <dd>Only users specified by the owner are allowed in.</dd>
+    <dt><tt>subscribers</tt></dt>
+    <dd>Only KGS Plus subscribers are allowed in.</dd>
+    <dt><tt>event</tt></dt>
+    <dd>This game is a server event, and should appear at the top of game lists.</dd>
+    <dt><tt>uploaded</tt></dt>
+    <dd>This game was created by uploading an SGF file.</dd>
+    <dt><tt>audio</tt></dt>
+    <dd>This game includes a live audio track.</dd>
+    <dt><tt>paused</tt></dt>
+    <dd>The game is paused. Tournament games are paused when they are first created, to give players time to join before the clocks start.</dd>
+    <dt><tt>named</tt></dt>
+    <dd>This game has a name (most games are named after the players involved). In some cases, instead of seeing this flag when it is set,
+       a text field <tt>name</tt> will appear instead.</dd>
+    <dt><tt>saved</tt></dt>
+    <dd>This game has been saved to the KGS archives. Most games are saved automatically, but demonstration and review games must be saved by setting this flag.</dd>
+    <dt><tt>global</tt></dt>
+    <dd>This game may appear on the open or active game lists.</dd>
+</dl>
+
+<h2><span id="sgfEvent">SGF Event</span></h2>
+
+<p>On KGS, SGF files are dynamic. A change in an SGF file is reperesented by an SGF Event object. Every SGF event has two mandatory fields: <tt>nodeId</tt> that is the ID
+    of the SGF node where the event takes place, and <tt>type</tt>, that indicates what happened and what type of data is in the object.</p>
+
+<p>Playbacks have some additional "SGF Events." These aren't really related to SGF, but the playbacks store them mixed in with SGF changes so that as the file is played back,
+the SGF file will change in sync with the audio track and teacher's mouse poniter.</p>
+
+<table>
+    <tr>
+        <th><tt>type</tt></th>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>PROP_ADDED</td>
+        <td>prop</td>
+        <td>A <a href="#property">SGF property</a> that has been added to the node.</td>
+    </tr>
+    <tr>
+        <td>PROP_REMOVED</td>
+        <td>prop</td>
+        <td>A <a href="#property">SGF property</a> that has been removed from the node.</td>
+    </tr>
+    <tr>
+        <td>PROP_CHANGED</td>
+        <td>prop</td>
+        <td>A <a href="#property">SGF property</a> that has been modified. Find another property with the same type and (if applicable) same location,
+        and replace it with the property given here.</td>
+    </tr>
+    <tr>
+        <td>CHILDREN_REORDERED</td>
+        <td>children</td>
+        <td>An array of node IDs, indicating the children of this node, in their new ordering. <strong>Note:</strong> This SGF event type is only supported
+        as a downstream event. Clients must not send it upstream to the server at this time.</td>
+    </tr>
+    <tr>
+        <td rowspan="2">CHILD_ADDED</td>
+        <td>childNodeId</td>
+        <td>The ID of the new child (which is a child of the current node).</td>
+    </tr>
+    <tr>
+        <td>position</td>
+        <td>Optional. This is the order, in the child list, of the current child. If this is missing, then it is child 0 (the first child) of the current node.</td>
+    </tr>
+    <tr>
+        <td>PROP_GROUP_ADDED</td>
+        <td>props</td>
+        <td>A list of <a href="#property">properties</a> to add.</td>
+    </tr>
+    <tr>
+        <td>PROP_GROUP_REMOVED</td>
+        <td>props</td>
+        <td>A list of <a href="#property">properties</a> to remove.</td>
+    </tr>
+    <tr>
+        <td>ACTIVATED</td>
+        <td>prevNodeId</td>
+        <td>Indicates that the focus of the game has switched to this node. <tt>prevNodeId</tt> is the previous active node.</td>
+    </tr>
+    <tr>
+        <td rowspan="2">POINTER_MOVED</td>
+        <td>x</td>
+        <td>Floating point. The x-coordinate of the pointer. (For playbacks only).</td>
+    </tr>
+    <tr>
+        <td>y</td>
+        <td>Floating point.The y-coordinate of the pointer. (For playbacks only).</td>
+    </tr>
+    <tr>
+        <td>TIMESTAMP</td>
+        <td>time</td>
+        <td>Floating point. Current time offset into the playback.</td>
+    </tr>
+    <tr>
+        <td>SPEEX_FPP</td>
+        <td>fpp</td>
+        <td>The frames per packet for SPEEX data in this playback.</td>
+    </tr>
+    <tr>
+        <td>SPEEX_MUTE_CHANGED</td>
+        <td>mute</td>
+        <td>Speex was muted/unmuted. Playbacks only.</td>
+    </tr>
+    <tr>
+        <td>SPEEX_DATA</td>
+        <td>data</td>
+        <td>base64 encoded SPEEX data. Playbacks only.</td>
+    </tr>
+</table>
+
+<h2><span id="property">SGF Properties</span></h2>
+
+<p>The SGF in KGS is not quite like "standard" SGF. Multiple marks of the same type are considered different properties, so for example <tt>TR[aa][bb][cc]</tt> on KGS
+    would be three different properties, one for each location. All rules-related properties (<tt>SZ[]</tt>, <tt>TM[]</tt>, etc) are grouped together in one "rules"
+    property, etc. Furthere, some properties, such as <tt>DEAD</tt>, are not part of SGF but are used internally by KGS to track the state of the game board.</p>
+
+<p>The fields present in a node may be:</p>
+
+<ul>
+    <li><tt>color</tt> for one of <tt>black</tt>, <tt>white</tt>, or <tt>empty</tt>.</li>
+    <li><tt>loc</tt> for a board location; it will be either the string <tt>PASS</tt> or an object with <tt>x</tt> and <tt>y</tt> values.</li>
+    <li><tt>loc2</tt> for a second board location.
+    <li><tt>text</tt> for text.</li>
+    <li><tt>float</tt> for a floating point value.</li>
+    <li><tt>int</tt> for an integer value.</li>
+</ul>
+
+<table>
+    <tr>
+        <th>Property Name</th>
+        <th>Fields</th>
+    </tr>
+    <tr>
+        <td>RULES</td>
+        <td>The fields of a KGS <a href="#rules">rules</a> object are present.</td>
+    </tr>
+    <tr>
+        <td>GAMENAME</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>PLAYERNAME</td>
+        <td><tt>color</tt>, <tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>DATE</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>COPYRIGHT</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>GAMECOMMENT</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>EVENT</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>ROUND</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>PLACE</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>PLAYERTEAM</td>
+        <td><tt>color</tt>, <tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>ANNOTATOR</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>SOURCE</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>TRANSCRIBER</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>MOVE</td>
+        <td><tt>color</tt>, <tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>CIRCLE</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>PHANTOMCLEAR</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>ADDSTONE</td>
+        <td><tt>color</tt>, <tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>TIMELEFT</td>
+        <td><tt>color</tt>, <tt>float</tt></td>
+    </tr>
+    <tr>
+        <td>LABEL</td>
+        <td><tt>loc</tt>, <tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>TRIANGLE</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>SQUARE</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>TERRITORY</td>
+        <td><tt>color</tt>, <tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>DEAD</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>COMMENT</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>RESULT</td>
+        <td><tt>text</tt>; see <a href="#score">score</a>, although numeric results are in a string.</td>
+    </tr>
+    <tr>
+        <td>SETWHOSEMOVE</td>
+        <td><tt>color</tt></td>
+    </tr>
+    <tr>
+        <td>MOVENUMBER</td>
+        <td><tt>int</tt></td>
+    </tr>
+    <tr>
+        <td>MOVENAME</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>CROSS</td>
+        <td><tt>loc</tt></td>
+    </tr>
+    <tr>
+        <td>UNKNOWN</td>
+        <td><tt>text</tt></td>
+    </tr>
+    <tr>
+        <td>ARROW</td>
+        <td><tt>loc</tt>, <tt>loc2</tt></td>
+    </tr>
+    <tr>
+        <td>LINE</td>
+        <td><tt>loc</tt>, <tt>loc2</tt></td>
+    </tr>
+    <tr>
+        <td>DONESCORING</td>
+        <td>Special case: Will have fields <tt>black</tt> and <tt>white</tt>, as booleans, indicating which players have sent
+        "done" status to the server.</td>
+    </tr>
+</table>
+
+<h2><span id="rules">Rules</span></h2>
+
+<p>The rules for a game. Always represented as a JSON object.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>size</td>
+        <td>The size of the board. 2 through 38 are supported by KGS.</td>
+    </tr>
+    <tr>
+        <td>rules</td>
+        <td>One of <tt>japanese</tt>, <tt>chinese</tt>, <tt>aga</tt>, or <tt>new_zealand</tt>.</td>
+    </tr>
+    <tr>
+        <td>handicap</td>
+        <td>Not present for handicap 0. At most 9.</td>
+    </tr>
+    <tr>
+        <td>komi</td>
+        <td>A floating point number. Must be a multiple of 0.5, -100.0 through +100.0.</td>
+    </tr>
+    <tr>
+        <td>timeSystem</td>
+        <td>One of <tt>none</tt>, <tt>absolute</tt>, <tt>byo_yomi</tt>, or <tt>canadian</tt>.</td>
+    </tr>
+    <tr>
+        <td>mainTime</td>
+        <td>Time for the main time period, in seconds. Not needed when your time system is <tt>none</tt>. Up to 2147483 seconds.</td>
+    </tr>
+    <tr>
+        <td>byoYomiTime</td>
+        <td>Time for each byo-yomi period. Only needed for Canadian and Byo-Yomi time systems. Up to 2147483 seconds.</td>
+    </tr>
+    <tr>
+        <td>byoYomiPeriods</td>
+        <td>Number of byo-yomi periods. Only needed for byo-yomi time system. At most 255.</td>
+    </tr>
+    <tr>
+        <td>byoYomiStones</td>
+        <td>Number of stones per byo-yomi period. Only needed for Canadian time system. At most 255.</td>
+    </tr>
+</table>
+
+<h2><span id="gameSummary">Game Summary</span></h2>
+
+<p>A game summary is a permanent record of a game. Game channels come and go as games are loaded and closed, but a game summary
+stays for 6 months on the server (and forever in the online archives).</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>size</td>
+        <td>The size of the board from this game.</td>
+    </tr>
+    <tr>
+        <td>timestamp</td>
+        <td>The time stamp of when this game was started. This is also used as a serverwide ID for the game; no two games will
+            ever have the same timestamp, and the time stamp is used to refer to the game summary.</td>
+    </tr>
+    <tr>
+        <td>gameType</td>
+        <td>One of <tt>demonstration</tt>, <tt>review</tt>, <tt>rengo_review</tt>, <tt>teaching</tt>, <tt>simul</tt>, <tt>rengo</tt>, <tt>free</tt>, <tt>ranked</tt>,
+            or <tt>tournament</tt>.</td>
+    </tr>
+    <tr>
+        <td>score</td>
+        <td>Optional. The <a href="#score">score</a> of the game. Not present if the game hasn't ended yet.</td>
+    </tr>
+    <tr>
+        <td>revision</td>
+        <td>Optional. The revision is used when downloading an SGF file; every SGF file has the path
+            <tt>/games/<i>year</i>/<i>month</i>/<i>day</i>/<i>white</i>-<i>black</i>-<i>revision</i>.sgf</tt>. If revision is missing here, then it is not in the URL either.</td>
+    </tr>
+    <tr>
+        <td>players</td>
+        <td>An object mapping roles to <a href="dataTypes.html#user">user</a> objects, telling who was in the game. The user objects in this map are snapshots of
+        the players at the time the game started; you should ignore all the flags in them other than the rank  information (which may not be the current rank of the player).</td>
+    </tr>
+    <tr>
+        <td>tag</td>
+        <td>Only present in tag archives. The tag associated with the game summary.</td>
+    </tr>
+    <tr>
+        <td>private</td>
+        <td>Optional. If set, this is a private game. If the flag is missing, that is the same as <tt>false</tt>.</td>
+    </tr>
+    <tr>
+        <td>inPlay</td>
+        <td>Optional. If set, the game is currently in play. If the flag is missing, that is the same as <tt>false</tt>.</td>
+    </tr>
+    <tr>
+        <td>tag</td>
+        <td>Only present when listing game summaries from a tag archive. This is the game for the game.</td>
+    </tr>
+</table>
+
+<h2><span id="gameType">Game Types</span></h2>
+
+<ul>
+    <li><tt>challenge</tt> (Actually not a game, a challenge is a user trying to set up a custom game)</li>
+    <li><tt>demonstration</tt></li>
+    <li><tt>review</tt></li>
+    <li><tt>rengo_review</tt></li>
+    <li><tt>teaching</tt></li>
+    <li><tt>simul</tt></li>
+    <li><tt>rengo</tt></li>
+    <li><tt>free</tt></li>
+    <li><tt>ranked</tt></li>
+    <li><tt>tournament</tt></li>
+</ul>
+
+<h2><span id="gameChannel">Game Channel</span></h2>
+
+<p>A game channel is a game currently being played, or it may be a challenge (an attempt to set up a custom game). There are several cases
+where game channels are described in a message, and they always contain these fields.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>channelId</td>
+        <td>Channel ID of the game</td>
+    </tr>
+    <tr>
+        <td>gameType</td>
+        <td>The <a href="#gameType">game type</a>.</td>
+    </tr>
+    <tr>
+        <td>initialProposal</td>
+        <td>The <a href="#proposal">proposal</a> that the challenge owner uploaded initially. For <tt>challenge</tt> game types only.</td>
+    </tr>
+    <tr>
+        <td class="described">Various</td>
+        <td>The fields for the <a href="#rules">rules</a> of the game are present (not for <tt>challenge</tt> games).</td>
+    </tr>
+    <tr>
+        <td>score</td>
+        <td>The final <a href="#score">score</a> of the game. Missing if the game isn't over yet.</td>
+    </tr>
+    <tr>
+        <td>moveNum</td>
+        <td>The current move number of the game.</td>
+    </tr>
+    <tr>
+        <td>observers</td>
+        <td>The number of people observing the game. Missing if there are none.</td>
+    </tr>
+    <tr>
+        <td>roomId</td>
+        <td>The room that contains this game.</td>
+    </tr>
+    <tr>
+        <td class="described">Various</td>
+        <td>The <a href="#gameFlags">game flags</a>.</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Optional. If the game has a name, it is here.</td>
+    </tr>
+    <tr>
+        <td>players</td>
+        <td>An object mapping <a href="#role">role</a> to <a href="#user">user</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="proposal">Proposal</span></h2>
+
+<p>A proposal is an offer to start a game. It includes the rules and may include some or all of the players. If all the players needed are present in the proposal, then
+it is called a "complete" proposal.</p>
+
+<p><strong>Note:</strong> The first player in a proposal must always be the challenge owner. When manipulating a proposal, in general leave the player list in the order
+it started; if you want to change the roles for each player, change the <tt>role</tt> field and not the <tt>player</tt> field. You will get strange results if you don't do this.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameType</td>
+        <td>The <a href="#gameType">game type</a> of the game.</td>
+    </tr>
+    <tr>
+        <td>rules</td>
+        <td>The <a href="#rules">rules</a> for the game.</td>
+    </tr>
+    <tr>
+        <td>nigiri</td>
+        <td>If set, that means nigiri will be used to determine who plays white.</td>
+    </tr>
+    <tr>
+        <td class="described">Various</td>
+        <td>The <a href="#gameFlags">game flags</a> may be present.</td>
+    </tr>
+    <tr>
+        <td>players</td>
+        <td>A list of players. All roles for this game type must be present.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Player</th>
+    </tr>
+    <tr>
+        <td>role</td>
+        <td>The <a href="#role">role</a> of the player.</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Upstream only. The name of the player. In incomplete challenges, leave any unassigned roles with no player.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>Downstream only. The user who is filling this role. Will not be present in incomplete challenges.</td>
+    </tr>
+    <tr>
+        <td>handicap</td>
+        <td>Only present for black players in simul games. The handicap for this player.</td>
+    </tr>
+    <tr>
+        <td>komi</td>
+        <td>Only present for black players in simul games. The komi for the player.</td>
+    </tr>
+</table>
+
+<h2><span id="subscription">Subscriptions</span></h2>
+
+<p>Always a list. Each element of the list is an object. They indicate when you had a subscription, and thus which playbacks you can view (if you have a subscription now).</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td>Time of the start of this subscription period.</td>
+    </tr>
+    <tr>
+        <td>end</td>
+        <td>The end of this subscription period.</td>
+    </tr>
+</table>
+
+<hr>
+
+<ul>
+    <li><a href="index.html">Example JSON HTML client</a></li>
+    <li><a href="protocol.html">Protocol summary</a></li>
+    <li><a href="upstream.html">Upstream message reference</a></li>
+    <li><a href="downstream.html">Downstream message reference</a></li>
+    <li><a href="dataTypes.html">Data types used</a></li>
+</ul>
+
+<h2><span id="score">Score</span></h2>
+
+<p>Scores may be a floating point number, or a string. Numbers indicate the score difference (positive a black win, negative a white win). Strings may be
+    <tt>UNKNOWN</tt>, <tt>UNFINISHED</tt>, <tt>NO_RESULT</tt>, <tt>B+RESIGN</tt>, <tt>W+RESIGN</tt>, <tt>B+FORFEIT</tt>, <tt>W+FORFEIT</tt>,
+    <tt>B+TIME</tt>, or <tt>W+TIME</tt>.</p>
+
+</body>
+</html>

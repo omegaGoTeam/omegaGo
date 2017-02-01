@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="StyleSheet" href="style.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>KGS JSON Protocol</title>
+</head>
+<body>
+<h1>KGS JSON Protocol</h1>
+
+<p>The JSON protocol takes the binary stream protocol of KGS and converts it into a JSON protocol based on HTTP requests. All requests
+    are sent to a servlet named "access"; POST requests submit upstream (client-to-server) messages, and GET requests fetch downstream (server-to-client)
+    messages. All messages have a "type" value that indicates their content and meaning. You start the process by posting a <tt><a href="upstream.html#LOGIN">LOGIN</a></tt>
+    message, then immediately after the POST completes you need to post a GET request to hear the server's response. Once a GET response returns a
+    <tt><a href="downstream.html#LOGIN_SUCCESS">LOGIN_SUCCESS</a></tt> message, it is safe to start posting more upstream requests.
+    When a GET requests completes, post another request; you should always have a GET request active so you can get downstream messages from the server as soon as they are
+    available. GET requests will time out after 1 minute and return an empty object. That's fine, this is to make sure that the requests don't time out, so just post another
+    GET. As long as you get a status code 200 from your GET, all is well. Once you get a <tt><a href="downstream.html#LOGOUT">LOGOUT</a></tt> messages in your GET, then you
+    are disconnected and should no longer post GET requests. A non-200 status code also indicates that you are logged out; you should always get your
+    <tt><a href="downstream.html#LOGOUT">LOGOUT</a></tt> first, but if there is a networking error or some such you may get the non-200 status codes instead.</p>
+
+<p>An extremely simple "<a href="index.html">example client</a>" that shows how to use the GET/POST protocol is provided in this webapp. It's more of a protocol test than an example
+    client, but it demonstrates the sysetem.</p>
+
+<h2>General Protocol Information</h2>
+
+<p>A lot of the data up and down is marked as belonging to a channel. Rooms, games, challenges, private conversations, even user archives and user details are all channels.
+    Every channel has an integer channelId; all messages that travel in a channel must have the channelId contained within them. Channel IDs are always positive, so they may
+    range from 1 through 2<sup>31</sup>-1.</p>
+
+<p>String constants in the protocol are a mix of <tt>ALL_CAPS</tt> and <tt>camelCase</tt>. Sorry. Constants that are from Java enums in the server code are all caps; constants that are from
+    SQL database values are camel case. You must always use the exact right case for all constants.</p>
+
+<p>The message names are fairly irregular. Originally I intended all messages names to begin with the object that they manipulate (e.g., ROOM_JOIN, GAME_LOAD), but I did not
+    follow that very consistently. I also intended to have upstream and downstream messages to always have different names, with a lot of xxx_REQUEST upstream messages answered
+    by xxx_SUCCESS downstream messages, but in some cases I got careless there also so there are upstream and downstream messages with the same name. I apologize for that.</p>
+
+<h2>Warning!</h2>
+
+<p>Has this webapp been well tested? Heck no! It's probably completely riddled with bugs. The only testing I have done so far is to use the example client to log in, join a game,
+    chat a bit, etc. I will be as fast as I can in fixing any problems found and putting up a new
+    version of the webapp. Please report any problems to me at <a href="mailto:wms@igoweb.org">wms@igoweb.org</a>.</p>
+
+<hr>
+
+<ul>
+    <li><a href="index.html">Example JSON HTML client</a></li>
+    <li><a href="protocol.html">Protocol summary</a></li>
+    <li><a href="upstream.html">Upstream message reference</a></li>
+    <li><a href="downstream.html">Downstream message reference</a></li>
+    <li><a href="dataTypes.html">Data types used</a></li>
+</ul>
+</body>
+</html>
