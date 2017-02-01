@@ -105,7 +105,8 @@ namespace FormsPrototype
     
 
         private void InGameForm_Load(object sender, EventArgs e)
-        { 
+        {
+           
             /*
             this._controller = this._game.GameController;
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
