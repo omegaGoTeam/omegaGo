@@ -17,11 +17,30 @@ namespace FormsPrototype
         public KgsForm()
         {
             InitializeComponent();
+            kgs.IncomingMessage += Kgs_IncomingMessage;
+        }
+
+        private void Kgs_IncomingMessage(object sender, JsonResponse e)
+        {
+            this.textBox1.Text += e.Fulltext + Environment.NewLine;
+            this.textBox2.Text += (e.Type + Environment.NewLine);
         }
 
         private async void KgsForm_Load(object sender, EventArgs e)
         {
-            if (!await kgs.Login("Soothie", "fdsfd"))
+            this.textBox3.Text += ("Logging in." + Environment.NewLine);
+            if (await kgs.LoginAsync("OmegaGo1", "123456789"))
+            {
+                this.textBox3.Text += ("Logged in." + Environment.NewLine);
+                var challenges = await kgs.JoinGlobalChallengesList();
+                foreach(var c in challenges)
+                {
+                    this.lbChallenges.Items.Add(c);
+                }
+                this.textBox3.Text += ("Challenges joined." + Environment.NewLine);
+
+            }
+            else
             {
                 MessageBox.Show("Fail.");
             }
@@ -30,10 +49,14 @@ namespace FormsPrototype
         private async void button1_Click(object sender, EventArgs e)
         {
 
-            if (!await kgs.Login("OmegaGo1", "123456789"))
-            {
-                MessageBox.Show("Fail.");
-            }
+           
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            GameChannel sel = (GameChannel) this.lbChallenges.SelectedItem;
+
+            await kgs.SubmitChallenge(sel.channelId, sel.initialProposal, "OmegaGo1");
         }
     }
 }

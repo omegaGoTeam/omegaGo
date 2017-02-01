@@ -16,18 +16,23 @@ namespace OmegaGo.Core.Online.Kgs
         private const string _uri = "https://metakgs.org/api/access";
         private string _username;
         private string _password;
-        private string _sessionId;
+        private bool _getLoopRunning;
         private HttpClient _httpClient;
         private CookieContainer cookieContainer = new CookieContainer();
         private ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
+        public event EventHandler<JsonResponse> IncomingMessage;
+        public event EventHandler<JsonResponse> UnhandledMessage;
 
+        public void StartGetLoop()
+        {
+            _getLoopRunning = true;
+            GetLoop();
+        }
         public KgsConnection()
         {
             var handler = new HttpClientHandler() {CookieContainer = cookieContainer};
             this._httpClient = new HttpClient(handler);
-            Task.Run(() => {
-                        GetLoop();
-            });
+            
         }
 
         private async void GetLoop()
@@ -44,13 +49,14 @@ namespace OmegaGo.Core.Online.Kgs
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 string text = (await response.Content.ReadAsStringAsync()).Trim();
-                if (text != "")
+                if (text != "" && text != "{}")
                 {
                     JObject downstreamObject = JObject.Parse(text);
                     JArray messages = downstreamObject.Value<JArray>("messages");
                     foreach(var jToken in messages)
                     {
                         var message = (JObject) jToken;
+                        IncomingMessage?.Invoke(this, JsonResponse.FromJObject(message));
                         KgsRequest matchingRequest =
                             requestsAwaitingResponse.FirstOrDefault(
                                 kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
@@ -58,6 +64,14 @@ namespace OmegaGo.Core.Online.Kgs
                         {
                             matchingRequest.TaskCompletionSource.SetResult(message);
                             requestsAwaitingResponse.Remove(matchingRequest);
+                        }
+                        else if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
+                        {
+
+                        }
+                        else
+                        {
+                            UnhandledMessage?.Invoke(this, JsonResponse.FromJObject(message));
                         }
                     }
                 }
@@ -73,8 +87,35 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
 
-        public async Task<bool> Login(string name, string password)
+        private bool HandleInterruptResponse(string type, JObject message)
         {
+            switch (type)
+            {
+                case "HELLO": // permanent
+                    return true;
+                case "ROOM_NAMES":
+                case "ROOM_DESC":
+                case "ROOM_JOIN":
+                case "AUTOMATCH_PREFS":
+                case "PLAYBACK_ADD":
+                case "USER_UPDATE":
+                case "USER_REMOVED": // temporary
+                case "USER_ADDED":
+                case "GAME_LIST":
+                case "GAME_CONTAINER_REMOVE_GAME":
+                    return true;
+            }
+            return false;
+        }
+
+
+
+        public async Task<bool> LoginAsync(string name, string password)
+        {
+            if (!_getLoopRunning)
+            {
+                StartGetLoop();
+            }
             this._username = name;
             this._password = password;
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
@@ -83,10 +124,15 @@ namespace OmegaGo.Core.Online.Kgs
                 password = password,
                 locale = "en_US"
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD"});
-            return response.type == "LOGIN_SUCCESS";
+            if (response.type == "LOGIN_SUCCESS")
+            {
+                return true;
+            }
+            return false;
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
+           
             var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(_uri, jsonContent);
@@ -122,7 +168,48 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 return default(T);
             }
-        }  
+        }
+
+        public async Task<IEnumerable<GameChannel>> JoinGlobalChallengesList()
+        {
+            var response =
+                await
+                    MakeRequestAsync<GlobalGamesJoin>("GLOBAL_LIST_JOIN_REQUEST", new {list = "CHALLENGES"},
+                        "GLOBAL_GAMES_JOIN");
+            List<GameChannel> channels = new List<Kgs.GameChannel>();
+            foreach(var ch in response.games)
+            {
+                channels.Add(ch);
+            }
+            return channels;
+        }
+
+        public async Task SubmitChallenge(int channelId, Proposal proposal, string username)
+        {
+            if (proposal.players[0].user == null)
+            {
+                proposal.players[0].name = username;
+            }
+            else
+            {
+                proposal.players[1].name = username;
+            }
+            await MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", new { channelId = channelId, proposal = proposal});
+        }
+    }
+
+    public class JsonResponse
+    {
+        public string Type { get; private set; }
+        public string Fulltext { get; private set; }
+        public static JsonResponse FromJObject(JObject response)
+        {
+            return new Kgs.JsonResponse()
+            {
+                Type = response.GetValue("type").Value<string>(),
+                Fulltext = response.ToString()
+            };
+        }
     }
 
     internal class ConcurrentList<T> : List<T>
