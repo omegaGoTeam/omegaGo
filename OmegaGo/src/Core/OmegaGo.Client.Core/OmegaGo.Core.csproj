@@ -50,6 +50,8 @@
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
+    <Compile Include="Modes\LiveGame\Online\KgsGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\KgsGame.cs" />
     <Compile Include="Modes\LiveGame\Phases\GenericPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />

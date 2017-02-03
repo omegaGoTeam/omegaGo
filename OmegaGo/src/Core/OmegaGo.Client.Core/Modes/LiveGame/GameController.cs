@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
 
@@ -25,7 +26,9 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
         public OnlineGameInfo OnlineGameInfo;
+        public KgsGameInfo KgsGameInfo;
         public OnlineGame OnlineGame;
+        public KgsGame KgsGame;
         public bool IsOnlineGame => Server != null;
         /// <summary>
         /// Gets the server connection, or null if this is not an online game.
@@ -39,6 +42,19 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             GameTree = new GameTree(ruleset);
         }
+        public GameController(KgsGame game, IRuleset ruleset, PlayerPair players)
+        {
+            this.KgsGame = game;
+            KgsGameInfo = game.Metadata;
+            Info = KgsGameInfo;
+            Ruleset = ruleset;
+            Players = players;
+            // TODO kgs server
+            // this.Server = KgsGameInfo.Server;
+            GameTree = new GameTree(ruleset);
+            Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+        }
+
         public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)
         {
             this.OnlineGame = game;
