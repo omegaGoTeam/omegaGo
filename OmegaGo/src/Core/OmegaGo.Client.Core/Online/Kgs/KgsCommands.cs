@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Online.Kgs
 {
-    public class KgsCommands
+    public class KgsCommands : ICommonCommands
     {
         private readonly KgsConnection kgsConnection;
 

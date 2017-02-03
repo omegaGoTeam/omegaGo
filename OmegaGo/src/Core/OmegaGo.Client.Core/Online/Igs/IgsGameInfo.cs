@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
@@ -14,7 +15,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
     /// Contains metadata about a game that is or was in progress on the IGS server
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Game.GameInfo" />
-    public class IgsGameInfo : GameInfo
+    public class IgsGameInfo : RemoteGameInfo
     {
         public IgsGameInfo(
             PlayerInfo whitePlayerInfo,

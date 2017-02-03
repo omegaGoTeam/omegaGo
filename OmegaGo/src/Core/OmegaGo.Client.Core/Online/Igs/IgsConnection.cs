@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Online.Igs
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
     /// about which user is logged in.
     /// </summary>
-    public partial class IgsConnection : ServerConnection
+    public partial class IgsConnection : IServerConnection
     {
         // TODO disconnections are not thread-safe
         // TODO switch prompt mode when necessary
@@ -44,6 +44,7 @@ namespace OmegaGo.Core.Online.Igs
         public bool ConnectionEstablished => _shouldBeConnected;
         public bool LoggedIn => ConnectionEstablished && _composure == IgsComposure.Ok;
         public IgsEvents Events { get; }
+        public IgsCommands Commands { get; }
 
         // Internal TCP connection objects   
         /// <summary>
@@ -107,6 +108,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public IgsConnection()
         {
+            Commands = new Igs.IgsCommands(this);
             Events = new Igs.IgsEvents(this);
         }
         /// <summary>
@@ -353,6 +355,11 @@ namespace OmegaGo.Core.Online.Igs
         #endregion
         
         public string Username => _username;
+
+        ICommonCommands IServerConnection.Commands => Commands;
+
+        ICommonEvents IServerConnection.Events => Events;
+
         /// <summary>
         /// Occurs when a MOVE zero-indexed INT in order from the beginning of the game, is received from the server for
         /// a GAME. The move may be our own.

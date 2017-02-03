@@ -13,7 +13,7 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
-    public class KgsConnection : ServerConnection
+    public class KgsConnection : IServerConnection
     {
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
@@ -33,6 +33,10 @@ namespace OmegaGo.Core.Online.Kgs
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
+
+        ICommonCommands IServerConnection.Commands => Commands;
+
+        ICommonEvents IServerConnection.Events => Events;
 
         private void StartGetLoop()
         {

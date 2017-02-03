@@ -102,6 +102,11 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\IgsGameBuilder.cs" />
+    <Compile Include="Online\Common\ICommonCommands.cs" />
+    <Compile Include="Online\Common\ICommonEvents.cs" />
+    <Compile Include="Online\Common\RemoteGame.cs" />
+    <Compile Include="Online\Common\RemoteGameInfo.cs" />
+    <Compile Include="Online\Igs\IgsCommands.cs" />
     <Compile Include="Online\Igs\IgsGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
@@ -131,7 +136,7 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
-    <Compile Include="Online\Common\ServerConnection.cs" />
+    <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
     <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />

@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Online
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static ServerConnection GetConnection(ServerID id)
+        public static IServerConnection GetConnection(ServerID id)
         {
             if (id == ServerID.Igs)
                 return Pandanet;

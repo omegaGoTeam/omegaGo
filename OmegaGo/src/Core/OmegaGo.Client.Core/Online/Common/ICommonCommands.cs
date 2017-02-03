@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online.Common
 {
-    public abstract class ServerConnection
+    public interface ICommonCommands
     {
     }
 }

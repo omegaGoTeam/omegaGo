@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Sgf;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
-    public class KgsGame : LiveGameBase
+    public class KgsGame : RemoteGame
     {
         public KgsGame(KgsGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {

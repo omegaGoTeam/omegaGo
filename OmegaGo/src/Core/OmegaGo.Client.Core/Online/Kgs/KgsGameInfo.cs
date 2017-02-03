@@ -1,10 +1,11 @@
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Online.Kgs
 {
-    public class KgsGameInfo : GameInfo
+    public class KgsGameInfo : RemoteGameInfo
     {
         public int ChannelId;
 
