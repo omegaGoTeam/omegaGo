@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online.Kgs;
 
 namespace FormsPrototype
@@ -139,6 +140,15 @@ namespace FormsPrototype
                 {
                     this.lbContainerGames.Items.Add(game);
                 }
+            }
+        }
+
+        private async void bObserveGame_Click(object sender, EventArgs e)
+        {
+            if (this.lbContainerGames.SelectedItem != null)
+            {
+                var game = (KgsGameInfo) this.lbContainerGames.SelectedItem;
+                OnlineGame newGame = await kgs.Commands.ObserveGameAsync(game);
             }
         }
     }

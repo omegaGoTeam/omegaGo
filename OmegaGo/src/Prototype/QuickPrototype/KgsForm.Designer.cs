@@ -355,6 +355,7 @@
             this.bObserveGame.TabIndex = 7;
             this.bObserveGame.Text = "Observe";
             this.bObserveGame.UseVisualStyleBackColor = true;
+            this.bObserveGame.Click += new System.EventHandler(this.bObserveGame_Click);
             // 
             // KgsForm
             // 

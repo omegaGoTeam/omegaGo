@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Online;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -37,6 +38,15 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 List = listName
             });
+        }
+
+        public async Task<OnlineGame> ObserveGameAsync(KgsGameInfo gameInfo)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
+            {
+                ChannelId = gameInfo.ChannelId
+            });
+            return null;
         }
     }
 }

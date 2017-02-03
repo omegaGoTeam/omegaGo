@@ -140,7 +140,11 @@
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\GameContainerRemoveGame.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameList.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameState.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameUpdate.cs" />
+    <Compile Include="Online\Kgs\Downstream\Abstract\IGameStateMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
     <Compile Include="Online\Kgs\Downstream\LoginResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\GlobalGamesJoin.cs" />
