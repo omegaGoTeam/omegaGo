@@ -136,6 +136,11 @@ namespace OmegaGo.Core.Online.Kgs
                 await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
                         Rooms = roomsArray
                     });
+                Events.RaiseSystemMessage("Joining global lists...");
+                await Commands.GlobalListJoinRequestAsync("CHALLENGES");
+                await Commands.GlobalListJoinRequestAsync("ACTIVES");
+                await Commands.GlobalListJoinRequestAsync("FANS");
+                Events.RaiseSystemMessage("On-login outgoing message burst complete.");
                 return true;
             }
             return false;
@@ -183,22 +188,6 @@ namespace OmegaGo.Core.Online.Kgs
                 return default(T);
             }
         }
-        public async Task<IEnumerable<GameChannel>> JoinGlobalChallengesList()
-        {
-            var response =
-                await
-                    MakeRequestAsync<GlobalGamesJoin>("GLOBAL_LIST_JOIN_REQUEST", new {List = "CHALLENGES"},
-                        "GLOBAL_GAMES_JOIN");
-            if (response == null) return null;
-            List<GameChannel> channels = new List<Kgs.GameChannel>();
-            foreach(var ch in response.Games)
-            {
-                channels.Add(ch);
-            }
-            return channels;
-        }
-
-      
     }
 
     public class JsonResponse

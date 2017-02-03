@@ -8,6 +8,7 @@ namespace OmegaGo.Core.Online
 {
     public enum ServerID
     {
-        Igs
+        Igs,
+        Kgs
     }
 }

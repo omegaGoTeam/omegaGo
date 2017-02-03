@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Online.Kgs
         public Dictionary<int, KgsRoom> Rooms { get; } = new Dictionary<int, KgsRoom>();
         public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
+        public Dictionary<string, KgsGlobalGamesList> GlobalGameLists = new Dictionary<string, KgsGlobalGamesList>();
         private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
         public AutomatchPrefs AutomatchPreferences = null;
         public KgsData(KgsConnection kgsConnection)
@@ -80,13 +81,6 @@ namespace OmegaGo.Core.Online.Kgs
         }
     }
 
-    public class KgsChannel
-    {
-        public int ChannelId { get; set; }
-        public bool Joined { get; set; }
-        public HashSet<KgsUser> Users { get; } = new HashSet<KgsUser>();
-    }
-
     public class KgsUser : User
     {
         public void CopyDataFrom(User user)
@@ -95,20 +89,6 @@ namespace OmegaGo.Core.Online.Kgs
             this.Flags = user.Flags;
             this.Rank = user.Rank;
             this.AuthLevel = user.AuthLevel;
-        }
-    }
-    public class KgsRoom : KgsChannel
-    {
-        public string Name { get; set; }
-        public string Description { get; set; }
-
-        public KgsRoom(int id)
-        {
-            this.ChannelId = id;
-        }
-        public override string ToString()
-        {
-            return (Joined ? "[JOINED] " : "") + "[" + ChannelId + "] " + Name;
         }
     }
 }

@@ -60,6 +60,15 @@ namespace OmegaGo.Core.Online.Kgs
                 case "UNJOIN":
                     HandleInterruptMessage<Unjoin>(message);
                     return true;
+                case "GAME_CONTAINER_REMOVE_GAME":
+                    HandleInterruptMessage<GameContainerRemoveGame>(message);
+                    return true;
+                case "GLOBAL_GAMES_JOIN":
+                    HandleInterruptMessage<GlobalGamesJoin>(message);
+                    return true;
+                case "GAME_LIST":
+                    HandleInterruptMessage<GameList>(message);
+                    return true;
 
             }
             // not handled

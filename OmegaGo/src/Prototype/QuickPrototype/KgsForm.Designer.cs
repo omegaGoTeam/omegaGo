@@ -31,30 +31,25 @@
             this.tbUnhandledMessagesFull = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.lbChallenges = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tbLog = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tbFirstUnhandledMessage = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tbLastOutgoingMessage = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.lbRooms = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.bLocalRoomsRefresh = new System.Windows.Forms.Button();
-            this.tbRoomDescription = new System.Windows.Forms.TextBox();
+            this.bUnjoinRoom = new System.Windows.Forms.Button();
             this.bJoinRoom = new System.Windows.Forms.Button();
+            this.tbRoomDescription = new System.Windows.Forms.TextBox();
+            this.bLocalRoomsRefresh = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbRooms = new System.Windows.Forms.ListBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
-            this.bUnjoinRoom = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -95,33 +90,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // lbChallenges
-            // 
-            this.lbChallenges.FormattingEnabled = true;
-            this.lbChallenges.Location = new System.Drawing.Point(891, 38);
-            this.lbChallenges.Name = "lbChallenges";
-            this.lbChallenges.ScrollAlwaysVisible = true;
-            this.lbChallenges.Size = new System.Drawing.Size(274, 186);
-            this.lbChallenges.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(888, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Challenges";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(952, 230);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Refresh";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // tbUnhandledMessageTypes
             // 
             this.tbUnhandledMessageTypes.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -132,16 +100,6 @@
             this.tbUnhandledMessageTypes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbUnhandledMessageTypes.Size = new System.Drawing.Size(850, 480);
             this.tbUnhandledMessageTypes.TabIndex = 7;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(1033, 230);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(132, 61);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Accept as OmegaGo1";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabControl1
             // 
@@ -169,17 +127,6 @@
             this.tabPage1.Text = "System log";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.tbUnhandledMessageTypes);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(856, 486);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Unhandled Messages";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // tbLog
             // 
             this.tbLog.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -190,6 +137,17 @@
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbLog.Size = new System.Drawing.Size(850, 480);
             this.tbLog.TabIndex = 8;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tbUnhandledMessageTypes);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(856, 486);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Unhandled Messages";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tabPage3
             // 
@@ -223,16 +181,6 @@
             this.tbFirstUnhandledMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbFirstUnhandledMessage.Size = new System.Drawing.Size(850, 480);
             this.tbFirstUnhandledMessage.TabIndex = 2;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(93, 12);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(128, 23);
-            this.button4.TabIndex = 11;
-            this.button4.Text = "Request Challenges";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // tabPage5
             // 
@@ -272,33 +220,25 @@
             this.tabPage6.Text = "Rooms";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // lbRooms
+            // bUnjoinRoom
             // 
-            this.lbRooms.FormattingEnabled = true;
-            this.lbRooms.Location = new System.Drawing.Point(6, 52);
-            this.lbRooms.Name = "lbRooms";
-            this.lbRooms.Size = new System.Drawing.Size(393, 420);
-            this.lbRooms.TabIndex = 0;
-            this.lbRooms.SelectedIndexChanged += new System.EventHandler(this.lbRooms_SelectedIndexChanged);
+            this.bUnjoinRoom.Location = new System.Drawing.Point(363, 445);
+            this.bUnjoinRoom.Name = "bUnjoinRoom";
+            this.bUnjoinRoom.Size = new System.Drawing.Size(75, 23);
+            this.bUnjoinRoom.TabIndex = 5;
+            this.bUnjoinRoom.Text = "Unjoin";
+            this.bUnjoinRoom.UseVisualStyleBackColor = true;
+            this.bUnjoinRoom.Click += new System.EventHandler(this.bUnjoinRoom_Click);
             // 
-            // label3
+            // bJoinRoom
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 33);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Rooms:";
-            // 
-            // bLocalRoomsRefresh
-            // 
-            this.bLocalRoomsRefresh.Location = new System.Drawing.Point(201, 23);
-            this.bLocalRoomsRefresh.Name = "bLocalRoomsRefresh";
-            this.bLocalRoomsRefresh.Size = new System.Drawing.Size(161, 23);
-            this.bLocalRoomsRefresh.TabIndex = 2;
-            this.bLocalRoomsRefresh.Text = "Refresh Local Rooms";
-            this.bLocalRoomsRefresh.UseVisualStyleBackColor = true;
-            this.bLocalRoomsRefresh.Click += new System.EventHandler(this.bLocalRoomsRefresh_Click);
+            this.bJoinRoom.Location = new System.Drawing.Point(363, 416);
+            this.bJoinRoom.Name = "bJoinRoom";
+            this.bJoinRoom.Size = new System.Drawing.Size(75, 23);
+            this.bJoinRoom.TabIndex = 4;
+            this.bJoinRoom.Text = "Join";
+            this.bJoinRoom.UseVisualStyleBackColor = true;
+            this.bJoinRoom.Click += new System.EventHandler(this.bJoinRoom_Click);
             // 
             // tbRoomDescription
             // 
@@ -310,15 +250,33 @@
             this.tbRoomDescription.Size = new System.Drawing.Size(445, 339);
             this.tbRoomDescription.TabIndex = 3;
             // 
-            // bJoinRoom
+            // bLocalRoomsRefresh
             // 
-            this.bJoinRoom.Location = new System.Drawing.Point(363, 416);
-            this.bJoinRoom.Name = "bJoinRoom";
-            this.bJoinRoom.Size = new System.Drawing.Size(75, 23);
-            this.bJoinRoom.TabIndex = 4;
-            this.bJoinRoom.Text = "Join";
-            this.bJoinRoom.UseVisualStyleBackColor = true;
-            this.bJoinRoom.Click += new System.EventHandler(this.bJoinRoom_Click);
+            this.bLocalRoomsRefresh.Location = new System.Drawing.Point(201, 23);
+            this.bLocalRoomsRefresh.Name = "bLocalRoomsRefresh";
+            this.bLocalRoomsRefresh.Size = new System.Drawing.Size(161, 23);
+            this.bLocalRoomsRefresh.TabIndex = 2;
+            this.bLocalRoomsRefresh.Text = "Refresh Local Rooms";
+            this.bLocalRoomsRefresh.UseVisualStyleBackColor = true;
+            this.bLocalRoomsRefresh.Click += new System.EventHandler(this.bLocalRoomsRefresh_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 33);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Rooms:";
+            // 
+            // lbRooms
+            // 
+            this.lbRooms.FormattingEnabled = true;
+            this.lbRooms.Location = new System.Drawing.Point(6, 52);
+            this.lbRooms.Name = "lbRooms";
+            this.lbRooms.Size = new System.Drawing.Size(393, 420);
+            this.lbRooms.TabIndex = 0;
+            this.lbRooms.SelectedIndexChanged += new System.EventHandler(this.lbRooms_SelectedIndexChanged);
             // 
             // tabPage7
             // 
@@ -340,27 +298,12 @@
             this.lbAllIncomingMessages.Size = new System.Drawing.Size(850, 480);
             this.lbAllIncomingMessages.TabIndex = 0;
             // 
-            // bUnjoinRoom
-            // 
-            this.bUnjoinRoom.Location = new System.Drawing.Point(363, 445);
-            this.bUnjoinRoom.Name = "bUnjoinRoom";
-            this.bUnjoinRoom.Size = new System.Drawing.Size(75, 23);
-            this.bUnjoinRoom.TabIndex = 5;
-            this.bUnjoinRoom.Text = "Unjoin";
-            this.bUnjoinRoom.UseVisualStyleBackColor = true;
-            this.bUnjoinRoom.Click += new System.EventHandler(this.bUnjoinRoom_Click);
-            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 579);
-            this.Controls.Add(this.button4);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.lbChallenges);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "KgsForm";
@@ -389,11 +332,7 @@
         private System.Windows.Forms.TextBox tbUnhandledMessagesFull;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListBox lbChallenges;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox tbUnhandledMessageTypes;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TextBox tbLog;
@@ -401,7 +340,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TextBox tbFirstUnhandledMessage;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TextBox tbLastOutgoingMessage;
         private System.Windows.Forms.TabPage tabPage6;

@@ -30,5 +30,13 @@ namespace OmegaGo.Core.Online.Kgs
                 ChannelId = room.ChannelId
             });
         }
+
+        public async Task GlobalListJoinRequestAsync(string listName)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("GLOBAL_LIST_JOIN_REQUEST", new
+            {
+                List = listName
+            });
+        }
     }
 }

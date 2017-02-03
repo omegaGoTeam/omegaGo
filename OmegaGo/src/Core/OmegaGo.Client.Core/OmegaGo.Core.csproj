@@ -139,6 +139,8 @@
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptChannelMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsResponse.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameContainerRemoveGame.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameList.cs" />
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
     <Compile Include="Online\Kgs\Downstream\LoginResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\GlobalGamesJoin.cs" />
@@ -149,11 +151,13 @@
     <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
     <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
     <Compile Include="Online\Kgs\Downstream\UserUpdate.cs" />
+    <Compile Include="Online\Kgs\KgsChannel.cs" />
     <Compile Include="Online\Kgs\KgsCommands.cs" />
     <Compile Include="Online\Kgs\KgsConnection.cs" />
     <Compile Include="Online\Kgs\KgsData.cs" />
     <Compile Include="Online\Kgs\KgsEvents.cs" />
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
+    <Compile Include="Online\Kgs\KgsRoom.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPlacementType.cs" />

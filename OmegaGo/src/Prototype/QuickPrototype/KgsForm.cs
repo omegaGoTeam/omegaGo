@@ -62,31 +62,7 @@ namespace FormsPrototype
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        { 
-
-           
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private async void button4_Click(object sender, EventArgs e)
-        {
-            var challenges = await kgs.JoinGlobalChallengesList();
-            if (challenges == null)
-            {
-                MessageBox.Show("Join failed.");
-            }
-            foreach (var c in challenges)
-            {
-                this.lbChallenges.Items.Add(c);
-            }
-            this.tbLog.Text += ("Challenges joined." + Environment.NewLine);
-
-        }
+       
 
         private void bLocalRoomsRefresh_Click(object sender, EventArgs e)
         {
@@ -132,6 +108,11 @@ namespace FormsPrototype
                 var room = ((KgsRoom)this.lbRooms.SelectedItem);
                 await kgs.Commands.UnjoinRoomAsync(room);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
