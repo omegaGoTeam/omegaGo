@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        private async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
+        private async Task<IgsGameInfo> GetGameByIdAsync(int gameId)
         {
             IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
@@ -39,10 +39,10 @@ namespace OmegaGo.Core.Online.Igs
             throw new Exception("No game with this ID.");
         }
         
-        public async Task<List<OnlineGameInfo>> ListGamesInProgressAsync()
+        public async Task<List<IgsGameInfo>> ListGamesInProgressAsync()
         {
             await EnsureConnectedAsync();
-            var games = new List<OnlineGameInfo>();
+            var games = new List<IgsGameInfo>();
             List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
             {
@@ -58,7 +58,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return games; // this._gamesInProgressOnIgs;
         }
-        private OnlineGameInfo CreateGameFromTelnetLine(string line)
+        private IgsGameInfo CreateGameFromTelnetLine(string line)
         {
             Regex regex = new Regex(@"7 \[ *([0-9]+)] *([^[]+) \[([^]]+)\] vs. *([^[]+) \[([^]]+)\] \( *([0-9]+) *([0-9]+) *([0-9]+) *([-0-9.]+) *([0-9]+) *([A-Z]*)\) *\( *([0-9]+)\)");
             // The regex means:
@@ -77,7 +77,7 @@ namespace OmegaGo.Core.Online.Igs
              * 12 - number of observers 
              */
             Match match = regex.Match(line);
-            OnlineGameInfo game = new OnlineGameInfo(
+            IgsGameInfo game = new IgsGameInfo(
                 new PlayerInfo(StoneColor.White, match.Groups[2].Value, match.Groups[3].Value),
                 new PlayerInfo(StoneColor.Black, match.Groups[4].Value, match.Groups[5].Value),
                 new GameBoardSize(match.Groups[7].Value.AsInteger()),
@@ -88,7 +88,7 @@ namespace OmegaGo.Core.Online.Igs
                 CountingType.Territory,
                 match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger(),
-                ServerID.Igs);
+                this);
             game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
                 // DO *NOT* DO this: the displayed number might be something different from what our client wants
                 // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
@@ -98,7 +98,7 @@ namespace OmegaGo.Core.Online.Igs
 
         }
         
-        public async Task<OnlineGame> StartObserving(OnlineGameInfo gameInfo)
+        public async Task<IgsGame> StartObserving(IgsGameInfo gameInfo)
         {
             if (gameInfo.Server != this)
             {
@@ -138,7 +138,7 @@ namespace OmegaGo.Core.Online.Igs
                     .Rank(gameInfo.White.Rank)
                       .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                     .Build();
-            OnlineGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
+            IgsGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Ruleset(RulesetType.Japanese)
@@ -155,7 +155,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="game">The game we're observing.</param>
         /// <returns>True if we succeeded in ending observation, false if we were not observing that game or the game already ended.</returns>
-        public async Task<bool> EndObserving(OnlineGame game)
+        public async Task<bool> EndObserving(IgsGame game)
         {
             
             if (!this._gamesBeingObserved.Contains(game))
@@ -227,7 +227,7 @@ namespace OmegaGo.Core.Online.Igs
             var response = await MakeRequestAsync(matchRequest.RejectCommand);
             return !response.IsError;
         }
-        public async Task<OnlineGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
+        public async Task<IgsGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
             var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.IsError) return null;
@@ -261,7 +261,7 @@ namespace OmegaGo.Core.Online.Igs
         }
 
         
-        public void MakeMove(OnlineGameInfo game, Move move)
+        public void MakeMove(IgsGameInfo game, Move move)
         {
             switch (move.Kind)
             {
@@ -273,13 +273,13 @@ namespace OmegaGo.Core.Online.Igs
                     break;
             }
         }
-        public void Resign(OnlineGameInfo game)
+        public void Resign(IgsGameInfo game)
         {
             MakeUnattendedRequest("resign " + game.IgsIndex);
         }
         
         
-        public async Task<bool> SayAsync(OnlineGame game, string chat)
+        public async Task<bool> SayAsync(IgsGame game, string chat)
         {
             if (!this._gamesYouHaveOpened.Contains(game))
                 throw new ArgumentException("You don't have this game opened on IGS.");
@@ -302,26 +302,26 @@ namespace OmegaGo.Core.Online.Igs
         }
 
             
-        public async Task UndoPleaseAsync(OnlineGameInfo game)
+        public async Task UndoPleaseAsync(IgsGameInfo game)
         {
             await MakeRequestAsync("undoplease " + game.IgsIndex);
         }
 
-        public async Task UndoAsync(OnlineGameInfo game)
+        public async Task UndoAsync(IgsGameInfo game)
         {
             await MakeRequestAsync("undo " + game.IgsIndex);
         }
 
-        public void NoUndo(OnlineGameInfo game)
+        public void NoUndo(IgsGameInfo game)
         {
             MakeUnattendedRequest("noundo " + game.IgsIndex);
         }
 
-        public async void LifeDeath_Done(OnlineGameInfo game)
+        public async void LifeDeath_Done(IgsGameInfo game)
         {
             await MakeRequestAsync("done " + game.IgsIndex);
         }
-        public async void LifeDeath_MarkDead(Position position, OnlineGameInfo game)
+        public async void LifeDeath_MarkDead(Position position, IgsGameInfo game)
         {
             await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.IgsIndex);
         }

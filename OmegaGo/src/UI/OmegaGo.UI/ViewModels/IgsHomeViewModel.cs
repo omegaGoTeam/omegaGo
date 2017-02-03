@@ -313,17 +313,17 @@ namespace OmegaGo.UI.ViewModels
             ProgressPanelVisible = false;
         }
 
-        public ObservableCollection<OnlineGameInfo> ObservableGames { get; set; } =
-            new ObservableCollection<OnlineGameInfo>();
+        public ObservableCollection<IgsGameInfo> ObservableGames { get; set; } =
+            new ObservableCollection<IgsGameInfo>();
 
 
-        public void SortGames(Comparison<OnlineGameInfo> comparison)
+        public void SortGames(Comparison<IgsGameInfo> comparison)
         {
             ObservableGames.Sort(comparison);
         }
 
-        private OnlineGameInfo _selectedSpectatableGame;
-        public OnlineGameInfo SelectedSpectatableGame
+        private IgsGameInfo _selectedSpectatableGame;
+        public IgsGameInfo SelectedSpectatableGame
         {
             get { return _selectedSpectatableGame; }
             set { SetProperty(ref _selectedSpectatableGame, value); }
@@ -367,7 +367,7 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
-        public void StartGame(OnlineGame game)
+        public void StartGame(IgsGame game)
         {
             Mvx.RegisterSingleton<ILiveGame>(game);
             ShowViewModel<GameViewModel>();

@@ -23,6 +23,15 @@ namespace FormsPrototype
             kgs.Events.SystemMessage += Events_SystemMessage;
             kgs.Events.OutgoingRequest += Events_OutgoingRequest;
             kgs.Events.GameJoined += Events_GameJoined;
+            kgs.Events.Disconnection += Events_Disconnection;
+        }
+
+        private void Events_Disconnection(object sender, string e)
+        {
+            MessageBox.Show(
+                "You have been disconnected from KGS!" +
+                (String.IsNullOrWhiteSpace(e) ? "\n\nNo reason given." : "\n\nReason: " + e), "Disconnection",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void Events_GameJoined(object sender, KgsGame e)
@@ -157,7 +166,7 @@ namespace FormsPrototype
             if (this.lbContainerGames.SelectedItem != null)
             {
                 var game = (KgsGameInfo) this.lbContainerGames.SelectedItem;
-                OnlineGame newGame = await kgs.Commands.ObserveGameAsync(game);
+                await kgs.Commands.ObserveGameAsync(game);
             }
         }
     }

@@ -145,6 +145,6 @@ namespace OmegaGo.Core.Modes.LiveGame
     {
         public static LocalGameBuilder CreateLocalGame() => new LocalGameBuilder();
 
-        public static IgsGameBuilder CreateOnlineGame(OnlineGameInfo ogi) => new IgsGameBuilder(ogi);
+        public static IgsGameBuilder CreateOnlineGame(IgsGameInfo ogi) => new IgsGameBuilder(ogi);
     }
 }

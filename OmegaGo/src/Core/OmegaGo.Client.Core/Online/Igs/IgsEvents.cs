@@ -15,14 +15,14 @@ namespace OmegaGo.Core.Online.Igs
         {
             Connection = parent;
         }
-        public event EventHandler<OnlineGame> EnterLifeDeath;
-        internal void OnEnterLifeDeath(OnlineGame gameInfo)
+        public event EventHandler<IgsGame> EnterLifeDeath;
+        internal void OnEnterLifeDeath(IgsGame gameInfo)
         {
             EnterLifeDeath?.Invoke(this, gameInfo);
         }
 
         public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlAdjustment;
-        public void OnTimeControlAdjustment(OnlineGame whatGame, CanadianTimeInformation whiteTimeRemaining, CanadianTimeInformation blackTimeRemaining)
+        public void OnTimeControlAdjustment(IgsGame whatGame, CanadianTimeInformation whiteTimeRemaining, CanadianTimeInformation blackTimeRemaining)
         {
             TimeControlAdjustment?.Invoke(this,
                 new Igs.TimeControlAdjustmentEventArgs(whatGame, whiteTimeRemaining, blackTimeRemaining));
@@ -30,11 +30,11 @@ namespace OmegaGo.Core.Online.Igs
     }
     public class TimeControlAdjustmentEventArgs
     {
-        public OnlineGame Game { get;  }
+        public IgsGame Game { get;  }
         public CanadianTimeInformation White { get;  }
         public CanadianTimeInformation Black { get;  }
 
-        public TimeControlAdjustmentEventArgs(OnlineGame game, CanadianTimeInformation white, CanadianTimeInformation black)
+        public TimeControlAdjustmentEventArgs(IgsGame game, CanadianTimeInformation white, CanadianTimeInformation black)
         {
             this.Game = game;
             this.White = white;

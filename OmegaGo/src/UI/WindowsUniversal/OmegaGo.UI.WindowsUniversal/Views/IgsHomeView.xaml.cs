@@ -131,7 +131,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 IgsMatchRequest mr = (IgsMatchRequest)this.TempIncomingMatchRequests.SelectedItem;
                 VM.ShowProgressPanel("Accepting request...");
                 VM.IncomingMatchRequests.Remove(mr);
-                OnlineGame game = await Connections.Pandanet.AcceptMatchRequestAsync(mr);
+                IgsGame game = await Connections.Pandanet.AcceptMatchRequestAsync(mr);
                 VM.ProgressPanelVisible = false;
                 VM.StartGame(game);
             }

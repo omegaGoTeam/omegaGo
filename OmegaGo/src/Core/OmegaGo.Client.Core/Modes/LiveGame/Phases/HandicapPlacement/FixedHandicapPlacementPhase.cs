@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
         {            
 
             var gameInfo = Controller.Info;
-            if (gameInfo is OnlineGameInfo)
+            if (gameInfo is IgsGameInfo)
             {
                 GoToPhase(GamePhaseType.Main);
                 return; // IGS will handle this differently

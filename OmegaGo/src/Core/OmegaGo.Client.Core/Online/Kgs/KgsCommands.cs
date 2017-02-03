@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Online.Kgs
 {
     public class KgsCommands
     {
-        private KgsConnection kgsConnection;
+        private readonly KgsConnection kgsConnection;
 
         public KgsCommands(KgsConnection kgsConnection)
         {
@@ -19,6 +19,10 @@ namespace OmegaGo.Core.Online.Kgs
         public async Task JoinRoomAsync(KgsRoom room)
         {
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
+            {
+                ChannelId = room.ChannelId
+            });
+            await kgsConnection.MakeUnattendedRequestAsync("ROOM_DESC_REQUEST", new
             {
                 ChannelId = room.ChannelId
             });
@@ -40,13 +44,22 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
-        public async Task<OnlineGame> ObserveGameAsync(KgsGameInfo gameInfo)
+        public async Task ObserveGameAsync(KgsGameInfo gameInfo)
         {
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
             {
                 ChannelId = gameInfo.ChannelId
             });
-            return null;
+        }
+
+        public async Task WakeUpAsync()
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("WAKE_UP", new object());
+        }
+
+        public async Task LogoutAsync()
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
         }
     }
 }

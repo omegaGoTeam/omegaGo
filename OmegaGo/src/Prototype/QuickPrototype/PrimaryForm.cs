@@ -35,7 +35,7 @@ namespace FormsPrototype
     public partial class PrimaryForm : Form
     {
         private IgsConnection igs;
-        private List<OnlineGameInfo> observableGames;
+        private List<IgsGameInfo> observableGames;
 
         public PrimaryForm()
         {
@@ -76,7 +76,7 @@ namespace FormsPrototype
             this.cbBlack.SelectedIndex = 0;
             this.cbWhoPlaysOnline.SelectedIndex = 0;
 
-            igs = Connections.Pandanet;
+            igs = new IgsConnection();
             igs.IncomingLine += IgsIncomingLine;
             igs.IncomingChatMessage += Igs_IncomingChatMessage;
             igs.Beep += Igs_Beep;
@@ -99,7 +99,7 @@ namespace FormsPrototype
         }
 
         
-        private void Igs_MatchRequestAccepted(object sender, OnlineGame game)
+        private void Igs_MatchRequestAccepted(object sender, IgsGame game)
         {
             InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
             ingameForm.LoadGame(game);
@@ -148,7 +148,7 @@ namespace FormsPrototype
             if (this.lbGames.SelectedItem != null)
             {
 
-                OnlineGameInfo gameInfo = (OnlineGameInfo)lbGames.SelectedItem;
+                IgsGameInfo gameInfo = (IgsGameInfo)lbGames.SelectedItem;
                 var obs = await igs.StartObserving(gameInfo);
                 if (obs != null)
                 {
@@ -170,7 +170,7 @@ namespace FormsPrototype
             if (this.lbObservedGames.SelectedItem != null)
             {
 
-                OnlineGame game = (OnlineGame)lbObservedGames.SelectedItem;
+                IgsGame game = (IgsGame)lbObservedGames.SelectedItem;
                 
                 this.lbObservedGames.Items.Remove(game);
 
@@ -349,7 +349,7 @@ namespace FormsPrototype
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                OnlineGame game = await igs.AcceptMatchRequestAsync(selectedItem);
+                IgsGame game = await igs.AcceptMatchRequestAsync(selectedItem);
                 if (game != null)
                 {
                     InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);

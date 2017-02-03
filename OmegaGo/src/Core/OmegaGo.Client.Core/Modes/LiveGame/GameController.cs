@@ -25,10 +25,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         private IGamePhase _currentGamePhase = null;
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
-        public OnlineGameInfo OnlineGameInfo;
+
+        public IgsGameInfo IgsGameInfo;
         public KgsGameInfo KgsGameInfo;
-        public OnlineGame OnlineGame;
+        public IgsGame OnlineGame;
         public KgsGame KgsGame;
+
         public bool IsOnlineGame => Server != null;
         /// <summary>
         /// Gets the server connection, or null if this is not an online game.
@@ -54,13 +56,13 @@ namespace OmegaGo.Core.Modes.LiveGame
             GameTree = new GameTree(ruleset);
         }
 
-        public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)
+        public GameController(IgsGame game, IRuleset ruleset, PlayerPair players)
         {
             this.OnlineGame = game;
-            OnlineGameInfo = game.Metadata;
-            OnlineGameInfo gameInfo = game.Metadata;
+            IgsGameInfo = game.Metadata;
+            IgsGameInfo gameInfo = game.Metadata;
             Info = gameInfo;
-            OnlineGameInfo = gameInfo;
+            IgsGameInfo = gameInfo;
             Ruleset = ruleset;
             Players = players;
             this.Server = gameInfo.Server;

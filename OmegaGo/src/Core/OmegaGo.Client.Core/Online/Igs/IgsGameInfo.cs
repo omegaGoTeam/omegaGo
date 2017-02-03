@@ -11,12 +11,12 @@ using OmegaGo.Core.Rules;
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
     /// <summary>
-    /// Contains metadata about a game that is or was in progress on a server
+    /// Contains metadata about a game that is or was in progress on the IGS server
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Game.GameInfo" />
-    public class OnlineGameInfo : GameInfo
+    public class IgsGameInfo : GameInfo
     {
-        public OnlineGameInfo(
+        public IgsGameInfo(
             PlayerInfo whitePlayerInfo,
             PlayerInfo blackPlayerInfo,
             GameBoardSize boardSize,
@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
             CountingType countingType,
             int igsIndex,
             int numberOfObservers,
-            ServerID server) :
+            IgsConnection server) :
             base(
                 whitePlayerInfo,
                 blackPlayerInfo,
@@ -39,16 +39,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
                 countingType)
         {
             NumberOfObservers = numberOfObservers;
-            this.ServerID = server;
+            this.Server = server;
             IgsIndex = igsIndex;
         }
         public int MainTime { get; set; }
         public int ByoyomiPeriod { get; set; }
 
         public int IgsIndex { get; private set; }
-
-        public ServerID ServerID { get; }
-        public IgsConnection Server => Connections.GetConnection(ServerID);
+        
+        public IgsConnection Server { get; }
         public int NumberOfObservers { get; set; }
 
         public override string ToString()

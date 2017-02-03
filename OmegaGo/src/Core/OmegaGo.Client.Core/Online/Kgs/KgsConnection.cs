@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
-    public class KgsConnection
+    public class KgsConnection : ServerConnection
     {
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
@@ -124,7 +125,7 @@ namespace OmegaGo.Core.Online.Kgs
                 name = name,
                 password = password,
                 locale = "en_US"
-            }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD"});
+            }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
                 var roomsArray = new int[response.Rooms.Length];

@@ -27,8 +27,8 @@ namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
-        private OnlineGameInfo _gameInfo;
-        private OnlineGame _onlineGame;
+        private IgsGameInfo _gameInfo;
+        private IgsGame _onlineGame;
         private IgsConnection _igs;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
@@ -37,7 +37,7 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
 
-        public InGameForm(OnlineGame onlineGame, IgsConnection igs)
+        public InGameForm(IgsGame onlineGame, IgsConnection igs)
         {
             InitializeComponent();
 
@@ -137,12 +137,12 @@ namespace FormsPrototype
             }
         }
 
-        private void _igs_UndoDeclined(object sender, OnlineGameInfo e)
+        private void _igs_UndoDeclined(object sender, IgsGameInfo e)
         {
             if (e == this._gameInfo) SystemLog("An UNDO REQUEST was denied.");
         }
         
-        private void _igs_UndoRequestReceived(object sender, OnlineGame e)
+        private void _igs_UndoRequestReceived(object sender, IgsGame e)
         {
             if (e == this._onlineGame) SystemLog("We have received an UNDO REQUEST!");
         }
@@ -154,7 +154,7 @@ namespace FormsPrototype
 
      
 
-        private void _igs_IncomingInGameChatMessage(object sender, Tuple<OnlineGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
+        private void _igs_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
         {
             if (e.Item1 == this._gameInfo)
             {
@@ -505,7 +505,7 @@ namespace FormsPrototype
         }
 
 
-        public OnlineGameInfo OnlineInfo => (OnlineGameInfo) this._liveGame.Info;
+        public IgsGameInfo OnlineInfo => (IgsGameInfo) this._liveGame.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
             await this._igs.UndoPleaseAsync(OnlineInfo);

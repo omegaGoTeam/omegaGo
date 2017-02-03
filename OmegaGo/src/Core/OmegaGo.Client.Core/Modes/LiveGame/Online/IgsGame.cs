@@ -8,9 +8,9 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
-    public class OnlineGame : LiveGameBase
+    public class IgsGame : LiveGameBase
     {
-        public OnlineGame(OnlineGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
+        public IgsGame(IgsGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
             Metadata = info;
             Controller = new GameController(this, ruleset, players);
@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
             }
         }
 
-        public OnlineGameInfo Metadata { get; }
+        public IgsGameInfo Metadata { get; }
 
         public override IGameController Controller { get; }
     }

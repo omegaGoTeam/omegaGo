@@ -78,6 +78,9 @@ namespace OmegaGo.Core.Online.Kgs
                 case "GAME_JOIN":
                     HandleInterruptMessage<GameJoin>(message);
                     return true;
+                case "LOGOOUT":
+                    HandleInterruptMessage<Logout>(message);
+                    return true;
 
             }
             // not handled

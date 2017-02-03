@@ -102,7 +102,7 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\IgsGameBuilder.cs" />
-    <Compile Include="Game\OnlineGameInfo.cs" />
+    <Compile Include="Online\Igs\IgsGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\LifeAndDeathPhase.cs" />
@@ -123,7 +123,7 @@
     <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\AgentType.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\OnlineGame.cs" />
+    <Compile Include="Modes\LiveGame\Online\IgsGame.cs" />
     <Compile Include="Modes\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="Online\Chat\IChatService.cs" />
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
-    <Compile Include="Online\Connections.cs" />
+    <Compile Include="Online\Common\ServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
     <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
@@ -163,6 +163,7 @@
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
     <Compile Include="Online\Kgs\Downstream\LoginResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\GlobalGamesJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\Logout.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomNames.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Game\StoneColor.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Game\ObsoleteGameInfo.cs" />
     <Compile Include="Game\GameBoardSize.cs" />
     <Compile Include="Game\GameTree.cs" />
     <Compile Include="Game\GameTreeNode.cs" />

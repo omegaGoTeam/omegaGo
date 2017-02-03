@@ -10,15 +10,15 @@ namespace OmegaGo.Core.Online.Igs
 {
     public class IgsChatService : IChatService
     {
-        private OnlineGame _onlineGame;
+        private IgsGame _onlineGame;
 
-        public IgsChatService(OnlineGame onlineGame)
+        public IgsChatService(IgsGame onlineGame)
         {
             this._onlineGame = onlineGame;
             this._onlineGame.Metadata.Server.IncomingInGameChatMessage += Server_IncomingInGameChatMessage;
         }
 
-        private void Server_IncomingInGameChatMessage(object sender, Tuple<OnlineGameInfo, ChatMessage> e)
+        private void Server_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, ChatMessage> e)
         {
             if (e.Item1.IgsIndex == _onlineGame.Metadata.IgsIndex)
             {

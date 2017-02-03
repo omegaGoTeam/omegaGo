@@ -22,7 +22,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
             _pandanet.IncomingHandicapInformation += _pandanet_IncomingHandicapInformation;
         }
 
-        private void _pandanet_IncomingHandicapInformation(object sender, System.Tuple<Online.OnlineGame, int> e)
+        private void _pandanet_IncomingHandicapInformation(object sender, System.Tuple<Online.IgsGame, int> e)
         {
             if (e.Item1.Info == this.GameInfo)
             {
@@ -36,7 +36,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 
         private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
 
-        private void _pandanet_IncomingMove(object sender, System.Tuple<Online.OnlineGame, int, Move> e)
+        private void _pandanet_IncomingMove(object sender, System.Tuple<Online.IgsGame, int, Move> e)
         {
             if (e.Item1.Info == this.GameInfo)
             {

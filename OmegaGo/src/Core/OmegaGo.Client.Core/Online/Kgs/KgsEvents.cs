@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<KgsGame> GameJoined;
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
+        public event EventHandler<string> Disconnection;
 
         public void RaiseIncomingMessage(JsonResponse message)
         {
@@ -42,6 +43,11 @@ namespace OmegaGo.Core.Online.Kgs
         public void RaiseGameJoined(KgsGame ongame)
         {
             GameJoined?.Invoke(this, ongame);
+        }
+
+        public void RaiseDisconnection(string reason)
+        {
+            Disconnection?.Invoke(this, reason);
         }
     }
 }
