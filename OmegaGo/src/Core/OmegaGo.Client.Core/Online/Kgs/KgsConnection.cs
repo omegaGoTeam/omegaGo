@@ -22,20 +22,18 @@ namespace OmegaGo.Core.Online.Kgs
         private readonly CookieContainer cookieContainer = new CookieContainer();
         private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
 
+        private KgsInterrupts Interrupts { get; }
         public KgsCommands Commands { get; }
         public KgsEvents Events { get; }
-        private KgsInterrupts Interrupts { get; }
         public KgsData Data { get; }
 
-        public event EventHandler<JsonResponse> IncomingMessage;
-        public event EventHandler<JsonResponse> UnhandledMessage;
 
         public JsonSerializer Serializer { get; } = new JsonSerializer()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
 
-        public void StartGetLoop()
+        private void StartGetLoop()
         {
             _getLoopRunning = true;
             GetLoop();
@@ -73,7 +71,7 @@ namespace OmegaGo.Core.Online.Kgs
                     foreach(var jToken in messages)
                     {
                         var message = (JObject) jToken;
-                        IncomingMessage?.Invoke(this, JsonResponse.FromJObject(message));
+                        Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
                         KgsRequest matchingRequest =
                             requestsAwaitingResponse.FirstOrDefault(
                                 kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
@@ -88,7 +86,7 @@ namespace OmegaGo.Core.Online.Kgs
                         }
                         else
                         {
-                            UnhandledMessage?.Invoke(this, JsonResponse.FromJObject(message));
+                            Events.RaiseUnhandledMessage(JsonResponse.FromJObject(message));
                         }
                     }
                 }
@@ -153,7 +151,7 @@ namespace OmegaGo.Core.Online.Kgs
                 result.ReasonPhrase
                 );
         }
-        private async Task<bool> MakeUnattendedRequestAsync(string type, object data)
+        public async Task<bool> MakeUnattendedRequestAsync(string type, object data)
         {
             JObject jo = JObject.FromObject(data, Serializer);
             jo.Add("type", type.ToUpper());
@@ -162,8 +160,7 @@ namespace OmegaGo.Core.Online.Kgs
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }
-        private async Task<T> MakeRequestAsync<T>(string type,
-            object data, params string[] possibleResponseTypes)
+        public async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
             where T : KgsResponse
         {
             JObject jo = JObject.FromObject(data, Serializer);
@@ -186,7 +183,6 @@ namespace OmegaGo.Core.Online.Kgs
                 return default(T);
             }
         }
-
         public async Task<IEnumerable<GameChannel>> JoinGlobalChallengesList()
         {
             var response =

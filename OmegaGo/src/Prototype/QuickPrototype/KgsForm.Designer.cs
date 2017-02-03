@@ -52,6 +52,9 @@
             this.bLocalRoomsRefresh = new System.Windows.Forms.Button();
             this.tbRoomDescription = new System.Windows.Forms.TextBox();
             this.bJoinRoom = new System.Windows.Forms.Button();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
+            this.bUnjoinRoom = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -59,6 +62,7 @@
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbUnhandledMessagesFull
@@ -147,6 +151,7 @@
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Location = new System.Drawing.Point(12, 55);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -253,6 +258,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.bUnjoinRoom);
             this.tabPage6.Controls.Add(this.bJoinRoom);
             this.tabPage6.Controls.Add(this.tbRoomDescription);
             this.tabPage6.Controls.Add(this.bLocalRoomsRefresh);
@@ -312,6 +318,36 @@
             this.bJoinRoom.TabIndex = 4;
             this.bJoinRoom.Text = "Join";
             this.bJoinRoom.UseVisualStyleBackColor = true;
+            this.bJoinRoom.Click += new System.EventHandler(this.bJoinRoom_Click);
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.lbAllIncomingMessages);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(856, 486);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "Incoming Messages";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // lbAllIncomingMessages
+            // 
+            this.lbAllIncomingMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbAllIncomingMessages.FormattingEnabled = true;
+            this.lbAllIncomingMessages.Location = new System.Drawing.Point(3, 3);
+            this.lbAllIncomingMessages.Name = "lbAllIncomingMessages";
+            this.lbAllIncomingMessages.Size = new System.Drawing.Size(850, 480);
+            this.lbAllIncomingMessages.TabIndex = 0;
+            // 
+            // bUnjoinRoom
+            // 
+            this.bUnjoinRoom.Location = new System.Drawing.Point(363, 445);
+            this.bUnjoinRoom.Name = "bUnjoinRoom";
+            this.bUnjoinRoom.Size = new System.Drawing.Size(75, 23);
+            this.bUnjoinRoom.TabIndex = 5;
+            this.bUnjoinRoom.Text = "Unjoin";
+            this.bUnjoinRoom.UseVisualStyleBackColor = true;
             // 
             // KgsForm
             // 
@@ -342,6 +378,7 @@
             this.tabPage5.PerformLayout();
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -372,5 +409,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListBox lbRooms;
         private System.Windows.Forms.Button bJoinRoom;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.ListBox lbAllIncomingMessages;
+        private System.Windows.Forms.Button bUnjoinRoom;
     }
 }

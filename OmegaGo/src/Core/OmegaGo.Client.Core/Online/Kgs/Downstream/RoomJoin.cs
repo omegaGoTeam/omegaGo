@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public override void Process(KgsConnection connection)
         {
             // TODO
-            connection.Data.JoinedChannels.Add(this.ChannelId);
+            connection.Data.JoinRoom(this.ChannelId);
         }
     }
 }

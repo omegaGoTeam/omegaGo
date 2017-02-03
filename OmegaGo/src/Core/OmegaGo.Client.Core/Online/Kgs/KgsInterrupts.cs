@@ -22,7 +22,16 @@ namespace OmegaGo.Core.Online.Kgs
             switch (type)
             {
                 case "HELLO":
-                    // Ignore.
+                    // Ignore, because we don't need this information.
+                    return true;
+                case "SUBSCRIPTION_UPDATE":
+                    // Ignore, because we don't handle KGS+ account privileges.
+                    return true;
+                case "PLAYBACK_ADD":
+                case "PLAYBACK_SETUP":
+                case "CHANNEL_AUDIO":
+                case "PLAYBACK_DATA":
+                    // Ignore, because we don't handle audio channels.
                     return true;
                 case "ROOM_NAMES":
                     HandleInterruptMessage<RoomNames>(message);
@@ -35,6 +44,9 @@ namespace OmegaGo.Core.Online.Kgs
                     return true;
                 case "JOIN_COMPLETE":
                     HandleInterruptMessage<JoinComplete>(message);
+                    return true;
+                case "AUTOMATCH_PREFS":
+                    HandleInterruptMessage<AutomatchPrefs>(message);
                     return true;
 
             }

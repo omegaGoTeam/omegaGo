@@ -17,9 +17,15 @@ namespace FormsPrototype
         public KgsForm()
         {
             InitializeComponent();
-            kgs.UnhandledMessage += Kgs_IncomingMessage;
+            kgs.Events.UnhandledMessage += Kgs_IncomingMessage;
+            kgs.Events.IncomingMessage += Events_IncomingMessage;
             kgs.Events.SystemMessage += Events_SystemMessage;
             kgs.Events.OutgoingRequest += Events_OutgoingRequest; 
+        }
+
+        private void Events_IncomingMessage(object sender, JsonResponse e)
+        {
+            this.lbAllIncomingMessages.Items.Add(e.Type);
         }
 
         private void Events_OutgoingRequest(object sender, string e)
@@ -96,6 +102,15 @@ namespace FormsPrototype
             {
                 var room = ((KgsRoom) this.lbRooms.SelectedItem);
                 this.tbRoomDescription.Text = room.Description;
+            }
+        }
+
+        private async void bJoinRoom_Click(object sender, EventArgs e)
+        {
+            if (this.lbRooms.SelectedItem != null)
+            {
+                var room = ((KgsRoom)this.lbRooms.SelectedItem);
+                await kgs.Commands.JoinRoomAsync(room);
             }
         }
     }

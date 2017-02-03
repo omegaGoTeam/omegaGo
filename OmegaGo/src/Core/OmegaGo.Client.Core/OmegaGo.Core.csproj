@@ -134,6 +134,7 @@
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\AutomatchPrefs.cs" />
     <Compile Include="Online\Kgs\Downstream\Datatypes.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptChannelMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptResponse.cs" />

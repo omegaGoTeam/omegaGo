@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -10,8 +11,19 @@ namespace OmegaGo.Core.Online.Kgs
     {
         private KgsConnection kgsConnection;
         public Dictionary<int, KgsRoom> Rooms { get; } = new Dictionary<int, KgsRoom>();
-        public HashSet<int> JoinedChannels { get; } = new HashSet<int>();
+        private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
+        public AutomatchPrefs AutomatchPreferences = null;
 
+        public void JoinRoom(int channelId)
+        {
+            JoinedChannels.Add(channelId);
+            if (!Rooms.ContainsKey(channelId))
+            {
+                Rooms[channelId] = new Kgs.KgsRoom(channelId);
+            }
+            Rooms[channelId].Joined = true;
+
+        }
         public KgsData(KgsConnection kgsConnection)
         {
             this.kgsConnection = kgsConnection;
@@ -33,6 +45,12 @@ namespace OmegaGo.Core.Online.Kgs
             }
             Rooms[channelId].Name = name;
         }
+
+        public void JoinSomething(int channelId)
+        {
+            if (Rooms.ContainsKey(channelId))
+                JoinRoom(channelId);
+        }
     }
 
     public class KgsRoom
@@ -40,6 +58,7 @@ namespace OmegaGo.Core.Online.Kgs
         public int ChannelId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Joined { get; set; }
 
         public KgsRoom(int id)
         {
@@ -47,7 +66,7 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public override string ToString()
         {
-            return "[" + ChannelId + "] " + Name;
+            return (Joined ? "[JOINED] " : "") + "[" + ChannelId + "] " + Name;
         }
     }
 }

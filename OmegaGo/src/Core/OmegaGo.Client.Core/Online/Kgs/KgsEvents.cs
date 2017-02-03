@@ -12,7 +12,17 @@ namespace OmegaGo.Core.Online.Kgs
 
         public event EventHandler<string> SystemMessage;
         public event EventHandler<string> OutgoingRequest;
+        public event EventHandler<JsonResponse> IncomingMessage;
+        public event EventHandler<JsonResponse> UnhandledMessage;
 
+        public void RaiseIncomingMessage(JsonResponse message)
+        {
+            IncomingMessage?.Invoke(this, message);
+        }
+        public void RaiseUnhandledMessage(JsonResponse message)
+        {
+            UnhandledMessage?.Invoke(this, message);
+        }
         public void RaiseSystemMessage(string logmessage)
         {
             SystemMessage?.Invoke(this, logmessage);
