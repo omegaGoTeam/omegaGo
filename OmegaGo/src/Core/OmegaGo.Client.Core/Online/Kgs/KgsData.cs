@@ -15,6 +15,7 @@ namespace OmegaGo.Core.Online.Kgs
         public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
         public Dictionary<string, KgsGlobalGamesList> GlobalGameLists = new Dictionary<string, KgsGlobalGamesList>();
+        private readonly Dictionary<int, KgsGame> joinedGames = new Dictionary<int, KgsGame>();
         public Dictionary<int, KgsGameContainer> Containers = new Dictionary<int, KgsGameContainer>();
         private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
         public AutomatchPrefs AutomatchPreferences = null;
@@ -22,6 +23,7 @@ namespace OmegaGo.Core.Online.Kgs
         {
             this.kgsConnection = kgsConnection;
         }
+
         private void EnsureRoomExists(int channel)
         {
             if (!Rooms.ContainsKey(channel))
@@ -32,8 +34,6 @@ namespace OmegaGo.Core.Online.Kgs
                 Channels[channel] = room;
             }
         }
-
-
         public void SetRoomDescription(int channelId, string description)
         {
             EnsureRoomExists(channelId);
@@ -56,70 +56,44 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public void JoinGlobalChannel(int channelId, string containerType)
         {
-            var nth = new Kgs.KgsGlobalGamesList(channelId, containerType);
+            var nth = new KgsGlobalGamesList(channelId, containerType);
             GlobalGameLists.Add(containerType, nth);
             Containers[channelId] = nth;
             Channels[channelId] = nth;
             JoinChannel(channelId);
         }
-
         public void AddUserToChannel(int channelId, User user)
         {
             EnsureUserExists(user);
             Channels[channelId].Users.Add(Users[user.Name]);
         }
-
         private void EnsureUserExists(User user)
         {
             if (!Users.ContainsKey(user.Name))
             {
-                var nUser = new Kgs.KgsUser();
+                var nUser = new KgsUser();
                 nUser.CopyDataFrom(user);
                 Users[user.Name] = nUser;
             }
         }
-
         public void RemoveUserFromChannel(int channelId, User user)
         {
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
-
         public void UnjoinChannel(int channelId)
         {
             Channels[channelId].Joined = false;
             JoinedChannels.Remove(channelId);
         }
-
-        private Dictionary<int, KgsGame> JoinedGames = new Dictionary<int, KgsGame>();
         public void JoinGame(KgsGame ongame)
         {
-            Channels[ongame.Metadata.ChannelId] = new Kgs.KgsGameChannel(ongame.Metadata.ChannelId);
+            Channels[ongame.Metadata.ChannelId] = new KgsGameChannel(ongame.Metadata.ChannelId);
             JoinedChannels.Add(ongame.Metadata.ChannelId);
-            JoinedGames.Add(ongame.Metadata.ChannelId, ongame);
+            joinedGames.Add(ongame.Metadata.ChannelId, ongame);
         }
-
         public KgsGame GetGame(int channelId)
         {
-            return JoinedGames[channelId];
-        }
-    }
-
-    public class KgsGameChannel : KgsChannel
-    {
-        public KgsGameChannel(int channelId)
-        {
-            this.ChannelId = channelId;
-        }
-    }
-
-    public class KgsUser : User
-    {
-        public void CopyDataFrom(User user)
-        {
-            this.Name = user.Name;
-            this.Flags = user.Flags;
-            this.Rank = user.Rank;
-            this.AuthLevel = user.AuthLevel;
+            return joinedGames[channelId];
         }
     }
 }

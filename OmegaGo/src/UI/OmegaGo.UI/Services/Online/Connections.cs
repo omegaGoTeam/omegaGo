@@ -31,11 +31,11 @@ namespace OmegaGo.Core.Online
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static IServerConnection GetConnection(ServerID id)
+        public static IServerConnection GetConnection(ServerId id)
         {
-            if (id == ServerID.Igs)
+            if (id == ServerId.Igs)
                 return Pandanet;
-            if (id == ServerID.Kgs)
+            if (id == ServerId.Kgs)
                 return Kgs;
             throw new Exception("That server does not exist.");
         }

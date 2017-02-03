@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbUnhandledMessagesFull = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
@@ -50,11 +51,12 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.bObserveGame = new System.Windows.Forms.Button();
+            this.lbContainerGames = new System.Windows.Forms.ListBox();
             this.bRefreshLocalContainers = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lbContainers = new System.Windows.Forms.ListBox();
-            this.lbContainerGames = new System.Windows.Forms.ListBox();
-            this.bObserveGame = new System.Windows.Forms.Button();
+            this.timerIdle = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -74,7 +76,7 @@
             this.tbUnhandledMessagesFull.Multiline = true;
             this.tbUnhandledMessagesFull.Name = "tbUnhandledMessagesFull";
             this.tbUnhandledMessagesFull.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbUnhandledMessagesFull.Size = new System.Drawing.Size(850, 480);
+            this.tbUnhandledMessagesFull.Size = new System.Drawing.Size(1163, 547);
             this.tbUnhandledMessagesFull.TabIndex = 1;
             // 
             // label1
@@ -94,7 +96,7 @@
             this.tbUnhandledMessageTypes.Multiline = true;
             this.tbUnhandledMessageTypes.Name = "tbUnhandledMessageTypes";
             this.tbUnhandledMessageTypes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbUnhandledMessageTypes.Size = new System.Drawing.Size(850, 480);
+            this.tbUnhandledMessageTypes.Size = new System.Drawing.Size(1163, 547);
             this.tbUnhandledMessageTypes.TabIndex = 7;
             // 
             // tabControl1
@@ -120,7 +122,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(856, 486);
+            this.tabPage1.Size = new System.Drawing.Size(1169, 553);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "System log";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -133,7 +135,7 @@
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(850, 480);
+            this.tbLog.Size = new System.Drawing.Size(1163, 547);
             this.tbLog.TabIndex = 8;
             // 
             // tabPage2
@@ -142,7 +144,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(856, 486);
+            this.tabPage2.Size = new System.Drawing.Size(1169, 553);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Unhandled Messages";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -153,7 +155,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(856, 486);
+            this.tabPage3.Size = new System.Drawing.Size(1169, 553);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Unhandled Messages (full)";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -164,7 +166,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(856, 486);
+            this.tabPage4.Size = new System.Drawing.Size(1169, 553);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "First Unhandled Message";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -177,7 +179,7 @@
             this.tbFirstUnhandledMessage.Multiline = true;
             this.tbFirstUnhandledMessage.Name = "tbFirstUnhandledMessage";
             this.tbFirstUnhandledMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbFirstUnhandledMessage.Size = new System.Drawing.Size(850, 480);
+            this.tbFirstUnhandledMessage.Size = new System.Drawing.Size(1163, 547);
             this.tbFirstUnhandledMessage.TabIndex = 2;
             // 
             // tabPage5
@@ -186,7 +188,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(856, 486);
+            this.tabPage5.Size = new System.Drawing.Size(1169, 553);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Last Outgoing Message";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -199,7 +201,7 @@
             this.tbLastOutgoingMessage.Multiline = true;
             this.tbLastOutgoingMessage.Name = "tbLastOutgoingMessage";
             this.tbLastOutgoingMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLastOutgoingMessage.Size = new System.Drawing.Size(850, 480);
+            this.tbLastOutgoingMessage.Size = new System.Drawing.Size(1163, 547);
             this.tbLastOutgoingMessage.TabIndex = 3;
             // 
             // tabPage6
@@ -311,6 +313,24 @@
             this.tabPage8.Text = "Containers";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // bObserveGame
+            // 
+            this.bObserveGame.Location = new System.Drawing.Point(650, 481);
+            this.bObserveGame.Name = "bObserveGame";
+            this.bObserveGame.Size = new System.Drawing.Size(161, 23);
+            this.bObserveGame.TabIndex = 7;
+            this.bObserveGame.Text = "Observe";
+            this.bObserveGame.UseVisualStyleBackColor = true;
+            this.bObserveGame.Click += new System.EventHandler(this.bObserveGame_Click);
+            // 
+            // lbContainerGames
+            // 
+            this.lbContainerGames.FormattingEnabled = true;
+            this.lbContainerGames.Location = new System.Drawing.Point(418, 55);
+            this.lbContainerGames.Name = "lbContainerGames";
+            this.lbContainerGames.Size = new System.Drawing.Size(393, 420);
+            this.lbContainerGames.TabIndex = 6;
+            // 
             // bRefreshLocalContainers
             // 
             this.bRefreshLocalContainers.Location = new System.Drawing.Point(214, 26);
@@ -339,23 +359,11 @@
             this.lbContainers.TabIndex = 3;
             this.lbContainers.SelectedIndexChanged += new System.EventHandler(this.lbContainers_SelectedIndexChanged);
             // 
-            // lbContainerGames
+            // timerIdle
             // 
-            this.lbContainerGames.FormattingEnabled = true;
-            this.lbContainerGames.Location = new System.Drawing.Point(418, 55);
-            this.lbContainerGames.Name = "lbContainerGames";
-            this.lbContainerGames.Size = new System.Drawing.Size(393, 420);
-            this.lbContainerGames.TabIndex = 6;
-            // 
-            // bObserveGame
-            // 
-            this.bObserveGame.Location = new System.Drawing.Point(668, 481);
-            this.bObserveGame.Name = "bObserveGame";
-            this.bObserveGame.Size = new System.Drawing.Size(161, 23);
-            this.bObserveGame.TabIndex = 7;
-            this.bObserveGame.Text = "Observe";
-            this.bObserveGame.UseVisualStyleBackColor = true;
-            this.bObserveGame.Click += new System.EventHandler(this.bObserveGame_Click);
+            this.timerIdle.Enabled = true;
+            this.timerIdle.Interval = 10000;
+            this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
             // KgsForm
             // 
@@ -365,7 +373,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
             this.Name = "KgsForm";
-            this.Text = "KgsForm";
+            this.Text = "KGS Prototype";
             this.Load += new System.EventHandler(this.KgsForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -416,5 +424,6 @@
         private System.Windows.Forms.ListBox lbContainers;
         private System.Windows.Forms.ListBox lbContainerGames;
         private System.Windows.Forms.Button bObserveGame;
+        private System.Windows.Forms.Timer timerIdle;
     }
 }

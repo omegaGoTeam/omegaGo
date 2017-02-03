@@ -169,5 +169,13 @@ namespace FormsPrototype
                 await kgs.Commands.ObserveGameAsync(game);
             }
         }
+
+        private async void timerIdle_Tick(object sender, EventArgs e)
+        {
+            if (this.kgs.LoggedIn)
+            {
+                await kgs.Commands.WakeUpAsync();
+            }
+        }
     }
 }

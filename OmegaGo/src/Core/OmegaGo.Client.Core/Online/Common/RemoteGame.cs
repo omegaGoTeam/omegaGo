@@ -8,6 +8,9 @@ using OmegaGo.Core.Modes.LiveGame;
 
 namespace OmegaGo.Core.Online.Common
 {
+    /// <summary>
+    /// A common base class for games which run on an online server.
+    /// </summary>
     public abstract class RemoteGame : LiveGameBase
     {
         protected RemoteGame(RemoteGameInfo info) : base(info)

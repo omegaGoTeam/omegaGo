@@ -11,6 +11,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public string Text { get; set; }
         public override void Process(KgsConnection connection)
         {
+            connection.LoggedIn = false;
             connection.Events.RaiseDisconnection(Text ?? "");
         }
     }

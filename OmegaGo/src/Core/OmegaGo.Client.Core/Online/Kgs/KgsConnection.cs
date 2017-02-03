@@ -37,6 +37,7 @@ namespace OmegaGo.Core.Online.Kgs
         ICommonCommands IServerConnection.Commands => Commands;
 
         ICommonEvents IServerConnection.Events => Events;
+        public bool LoggedIn { get; set; }
 
         private void StartGetLoop()
         {
@@ -132,6 +133,7 @@ namespace OmegaGo.Core.Online.Kgs
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
+                LoggedIn = true;
                 var roomsArray = new int[response.Rooms.Length];
                 for (int i = 0; i < response.Rooms.Length; i++)
                 {
