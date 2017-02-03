@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public SgfEvent[] SgfEvents { get; set; }
         public override void Process(KgsConnection connection)
         {
-            KgsGameInfo info = KgsGameInfo.FromGameJoin(this);
+            KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)
                 .Name(info.Black.Name)
                 .Rank(info.Black.Rank)

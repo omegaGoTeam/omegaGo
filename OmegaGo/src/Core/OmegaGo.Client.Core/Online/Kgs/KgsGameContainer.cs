@@ -8,9 +8,9 @@ namespace OmegaGo.Core.Online.Kgs
         public string Name { get; set; }
         private readonly List<KgsGameInfo> Games = new List<KgsGameInfo>();
 
-        public void AddGame(GameChannel channel)
+        public void AddGame(GameChannel channel, KgsConnection connection)
         {
-            var kinfo = KgsGameInfo.FromChannel(channel);
+            var kinfo = KgsGameInfo.FromChannel(channel, connection);
             if (kinfo == null)
             {
                 // This game is not supported by our client.
@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Online.Kgs
             return Games;
         }
 
-        public void UpdateGames(GameChannel[] games)
+        public void UpdateGames(GameChannel[] games, KgsConnection connection)
         {
             foreach (var g in games)
             {
@@ -46,7 +46,7 @@ namespace OmegaGo.Core.Online.Kgs
                     Games.Remove(equiv);
                 }
                 // TODO update instead of replace
-                AddGame(g);
+                AddGame(g, connection);
             }
         }
     }

@@ -15,7 +15,22 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public void ExecuteAsIncoming(KgsConnection connection, KgsGame ongame)
         {
-
+            switch (Type)
+            {
+                case "PROP_GROUP_ADDED":
+                    foreach (var prop in Props)
+                    {
+                        ongame.Nodes[NodeId].AddProperty(prop, ongame);
+                    }
+                    break;
+                case "CHILD_ADDED":
+                    ongame.Nodes[NodeId].AddChild(ChildNodeId, Position, ongame);
+                    break;
+                default:
+                    break;
+                    // TODO
+                   // throw new System.Exception("Unexpected SGF event.");
+            }
         }
     }
 
@@ -23,8 +38,8 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     {
         public string Name { get; set; }
         public string Color { get; set; }
-        public XY Loc { get; set; }
-        public XY Loc2 { get; set; }
+        public object Loc { get; set; }
+        public object Loc2 { get; set; }
         public string Text { get; set; }
         public float Float { get; set; }
         public int Int { get; set; }

@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Online.Kgs
             connection.Data.JoinGlobalChannel(ChannelId, ContainerType);
             foreach (var channel in Games)
             {
-                connection.Data.Containers[ChannelId].AddGame(channel);
+                connection.Data.Containers[ChannelId].AddGame(channel, connection);
             }
         }
     }

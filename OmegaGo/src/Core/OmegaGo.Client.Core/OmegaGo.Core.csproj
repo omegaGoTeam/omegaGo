@@ -139,10 +139,18 @@
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Kgs\Downstream\AutomatchPrefs.cs" />
-    <Compile Include="Online\Kgs\Downstream\Datatypes.cs" />
+    <Compile Include="Online\Kgs\Datatypes\GameChannel.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptChannelMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsResponse.cs" />
+    <Compile Include="Online\Kgs\Datatypes\GameType.cs" />
+    <Compile Include="Online\Kgs\Datatypes\IGameFlags.cs" />
+    <Compile Include="Online\Kgs\Datatypes\IRulesDescription.cs" />
+    <Compile Include="Online\Kgs\Datatypes\KgsPlayer.cs" />
+    <Compile Include="Online\Kgs\Datatypes\Proposal.cs" />
+    <Compile Include="Online\Kgs\Datatypes\Role.cs" />
+    <Compile Include="Online\Kgs\Datatypes\RulesDescription.cs" />
+    <Compile Include="Online\Kgs\Datatypes\User.cs" />
     <Compile Include="Online\Kgs\Downstream\GameContainerRemoveGame.cs" />
     <Compile Include="Online\Kgs\Downstream\GameJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameList.cs" />
@@ -156,7 +164,7 @@
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomNames.cs" />
-    <Compile Include="Online\Kgs\Downstream\SgfEvent.cs" />
+    <Compile Include="Online\Kgs\Datatypes\SgfEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\Unjoin.cs" />
     <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
     <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
@@ -171,7 +179,7 @@
     <Compile Include="Online\Kgs\KgsGlobalGamesList.cs" />
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
     <Compile Include="Online\Kgs\KgsRoom.cs" />
-    <Compile Include="Online\Kgs\Sgf\KgsSgfNode.cs" />
+    <Compile Include="Online\Kgs\Datatypes\KgsSgfNode.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPlacementType.cs" />
@@ -272,14 +280,6 @@
       <HintPath>..\..\..\packages\rda.SocketsForPCL.2.0.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Sockets.Plugin.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Net.Http.Extensions, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net45+win8+wpa81\System.Net.Http.Primitives.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
       <Private>True</Private>
@@ -314,6 +314,7 @@
     <Content Include="AI\Licensing.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
+    <Content Include="Online\Kgs\Docs\ABOUT.txt" />
     <Content Include="Online\Kgs\Docs\dataTypes.html" />
     <Content Include="Online\Kgs\Docs\downstream.html" />
     <Content Include="Online\Kgs\Docs\index.html" />
@@ -326,11 +327,6 @@
     <Folder Include="Sgf\Serializing\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

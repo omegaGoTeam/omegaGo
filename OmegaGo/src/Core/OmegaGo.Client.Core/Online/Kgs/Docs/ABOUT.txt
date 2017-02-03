@@ -1,0 +1,34 @@
+﻿The files in this folder are extracted from the .war file provided at
+https://www.gokgs.com/help/protocol.html
+
+They are from the version from 17th September 2016, downloaded late January 2017. However, they are almost certainly not up to date, as the API was likely improved over 2016 but the API docs, I suspect, remain from March 2016.
+
+Also note that WE MIGHT BE USING AN OUTDATED VERSION of the .war file anyway, since we don't know what version of the .war is running on MetaKGS.
+
+This changelog might be helpful:
+
+jsonClient-2016-03-01T01_02Z.war — Initial release.
+jsonClient-2016-03-22T00_25Z.war — Fixed server stats message.
+jsonClient-2016-03-23T00_30Z.war — Major cleanup in challenges and proposals, for both the webapp and the documentation.
+jsonClient-2016-04-09T20_52Z.war — Fixed crashes when joining a global game list or when leaving a non-game channel.
+jsonClient-2016-04-14T23_00Z.war — Fixed crashes when DONESCORING SGF property appeared in a file.
+jsonClient-2016-04-16T23_03Z.war — Changed JOIN downstream message to GAME_JOIN, etc., and hopefully fixed crash when joining some games.
+jsonClient-2016-04-20T18_02Z.war — Fixed crash problems related to joining games. Changed time from a string to a set of fields. Updated documentation.
+jsonClient-2016-04-30T20_45Z.war — More documentation updates. Moved "rules" in a proposal into its own object (upstream and downstream proposals now match).
+jsonClient-2016-05-18T23_23Z.war — Added observer count to games in game lists.
+jsonClient-2016-05-20T02_02Z.war — Fixed DETAILS_JOIN message handling.
+jsonClient-2016-05-21T00_26Z.war — Made the score fields of all downstream messages work the same.
+jsonClient-2016-05-24T23_59Z.war — Fixed SGF upload handling. Added a line to force the javascript client to use UTF-8.
+jsonClient-2016-05-27T00_49Z.war — Fixed SGF uploading for real.
+jsonClient-2016-05-27T23_40Z.war — Fixed "pass" uploads.
+jsonClient-2016-05-28T00_44Z.war — Fixed DETAILS_JOIN_REQUEST.
+jsonClient-2016-05-29T21_54Z.war — Fixed RESULT SGF properties.
+jsonClient-2016-05-31T00_02Z.war — Fixed the automatch problem.
+jsonClient-2016-06-02T23_21Z.war — Added "empty" color for ADDSTONE SGF property.
+jsonClient-2016-06-06T23_14Z.war — Fixed the upload for the RE[] property.
+jsonClient-2016-06-11T03_33Z.war — Fixed AVATAR downstream message.
+jsonClient-2016-06-18T17_10Z.war — Added fields to game lists, game summary (archive) lists, and DETAILS_NONEXISTANT.
+jsonClient-2016-06-27T03_32Z.war — Fixed GAME_REVIEW message and documentation.
+jsonClient-2016-08-22T02_36Z.war — Fixed some documentation issues, fixed GAME_SET_ROLES upstream command.
+jsonClient-2016-08-26T02_21Z.war — Fixed handling up archive channel update messages.
+jsonClient-2016-09-17T21_43Z.war — Fixed CHALLENGE_CREATE.

@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
         {
             Metadata = info;
             Controller = new GameController(this, ruleset, players);
+            Nodes.Add(0, new KgsSgfNode(0));
             foreach(var player in Controller.Players)
             {
                 player.AssignToGame(info, Controller);
