@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online.Common;
 
@@ -61,6 +62,11 @@ namespace OmegaGo.Core.Online.Kgs
         public async Task LogoutAsync()
         {
             await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
+        }
+
+        public void MakeMove(RemoteGameInfo remoteInfo, Move move)
+        {
+            throw new NotImplementedException();
         }
     }
 }

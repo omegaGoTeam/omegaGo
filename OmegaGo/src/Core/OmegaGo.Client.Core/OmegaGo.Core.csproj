@@ -162,7 +162,7 @@
     <Compile Include="Online\Kgs\Downstream\GameJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameList.cs" />
     <Compile Include="Online\Kgs\Downstream\GameState.cs" />
-    <Compile Include="Online\Kgs\Downstream\GameSummary.cs" />
+    <Compile Include="Online\Kgs\Datatypes\GameSummary.cs" />
     <Compile Include="Online\Kgs\Downstream\GameUpdate.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\IGameStateMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
@@ -249,7 +249,7 @@
     <Compile Include="Online\Igs\IgsRegex.cs" />
     <Compile Include="Online\Igs\IgsRequest.cs" />
     <Compile Include="Online\Igs\IgsUser.cs" />
-    <Compile Include="Online\ServerLocations.cs" />
+    <Compile Include="Online\Igs\ServerLocations.cs" />
     <Compile Include="Modes\LiveGame\Players\GamePlayer.cs" />
     <Compile Include="Game\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -328,7 +328,7 @@
     <Content Include="Online\Kgs\Docs\protocol.html" />
     <Content Include="Online\Kgs\Docs\style.css" />
     <Content Include="Online\Kgs\Docs\upstream.html" />
-    <Content Include="Online\Kgs\kgsApiTry.txt" />
+    <Content Include="Online\Kgs\Docs\kgsApiTry.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sgf\Serializing\" />

@@ -52,12 +52,14 @@ namespace OmegaGo.Core.Online.Kgs
                 channel.Players["white"].Rank ?? "??");
             var blackInfo = new PlayerInfo(StoneColor.Black, channel.Players["black"].Name,
                 channel.Players["black"].Rank ?? "??");
-            if (!IsSupportedRuleset(channel.Rules)) return null;
+            string ruleset = channel.Rules;
+            if (ruleset == null) ruleset = RulesDescription.RulesJapanese;
+            if (!IsSupportedRuleset(ruleset)) return null;
             var kgi = new KgsGameInfo(
                 whiteInfo,
                 blackInfo,
                 new Game.GameBoardSize(channel.Size),
-                ConvertRuleset(channel.Rules),
+                ConvertRuleset(ruleset),
                 channel.Handicap,
                 HandicapPlacementType.Free,
                 channel.Komi,

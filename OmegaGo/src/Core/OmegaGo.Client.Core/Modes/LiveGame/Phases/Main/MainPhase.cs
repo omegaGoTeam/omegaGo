@@ -155,7 +155,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             // The move stands, let's make the other player move now.
                 if (Controller.TurnPlayer.IsHuman)
             {
-                Controller.Server?.MakeMove(Controller.IgsGameInfo, move);
+                Controller.Server?.Commands.MakeMove(Controller.RemoteInfo, move);
             }
             Controller.NumberOfMoves++;
             var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            

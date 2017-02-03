@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                     {
                         foreach (var prop in ev.Props)
                         {
-                            if (prop.Name == "rules")
+                            if (prop.Name == "RULES")
                             {
                                 return prop;
                             }
@@ -35,7 +35,9 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         }
         public override void Process(KgsConnection connection)
         {
+            // todo handle bad types
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
+            if (info == null) return; // TODO warn the user that joining failed
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)
                 .Name(info.Black.Name)
                 .Rank(info.Black.Rank)
