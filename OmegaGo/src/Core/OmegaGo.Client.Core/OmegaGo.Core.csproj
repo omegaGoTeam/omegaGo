@@ -138,6 +138,8 @@
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
+    <Compile Include="Online\Kgs\Datatypes\XY.cs" />
     <Compile Include="Online\Kgs\Downstream\AutomatchPrefs.cs" />
     <Compile Include="Online\Kgs\Datatypes\GameChannel.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\KgsInterruptChannelMessage.cs" />

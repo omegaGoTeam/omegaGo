@@ -26,28 +26,14 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                 case "CHILD_ADDED":
                     ongame.Nodes[NodeId].AddChild(ChildNodeId, Position, ongame);
                     break;
+                case "PROP_ADDED":
+                    ongame.Nodes[NodeId].AddProperty(Prop, ongame);
+                    break;
                 default:
                     break;
                     // TODO
                    // throw new System.Exception("Unexpected SGF event.");
             }
         }
-    }
-
-    public class KgsSgfProperty : RulesDescription
-    {
-        public string Name { get; set; }
-        public string Color { get; set; }
-        public object Loc { get; set; }
-        public object Loc2 { get; set; }
-        public string Text { get; set; }
-        public float Float { get; set; }
-        public int Int { get; set; }
-    }
-
-    public class XY
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
     }
 }
