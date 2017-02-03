@@ -14,6 +14,7 @@ namespace OmegaGo.Core.Online.Kgs
         public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
         public Dictionary<string, KgsGlobalGamesList> GlobalGameLists = new Dictionary<string, KgsGlobalGamesList>();
+        public Dictionary<int, KgsGameContainer> Containers = new Dictionary<int, KgsGameContainer>();
         private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
         public AutomatchPrefs AutomatchPreferences = null;
         public KgsData(KgsConnection kgsConnection)
@@ -26,6 +27,7 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 var room = new KgsRoom(channel);
                 Rooms[channel] = room;
+                Containers[channel] = room;
                 Channels[channel] = room;
             }
         }
@@ -50,7 +52,14 @@ namespace OmegaGo.Core.Online.Kgs
         {
             EnsureRoomExists(channelId);
             JoinChannel(channelId);
-
+        }
+        public void JoinGlobalChannel(int channelId, string containerType)
+        {
+            var nth = new Kgs.KgsGlobalGamesList(channelId, containerType);
+            GlobalGameLists.Add(containerType, nth);
+            Containers[channelId] = nth;
+            Channels[channelId] = nth;
+            JoinChannel(channelId);
         }
 
         public void AddUserToChannel(int channelId, User user)
@@ -79,6 +88,8 @@ namespace OmegaGo.Core.Online.Kgs
             Channels[channelId].Joined = false;
             JoinedChannels.Remove(channelId);
         }
+
+      
     }
 
     public class KgsUser : User

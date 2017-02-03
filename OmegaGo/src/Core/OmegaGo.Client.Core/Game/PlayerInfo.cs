@@ -37,5 +37,10 @@ namespace OmegaGo.Core.Game
         /// Player's stone color
         /// </summary>
         public StoneColor Color { get; }
+
+        public override string ToString()
+        {
+            return Name + "(" + Rank + ")";
+        }
     }
 }

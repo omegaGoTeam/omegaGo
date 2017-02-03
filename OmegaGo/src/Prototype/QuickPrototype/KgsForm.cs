@@ -110,9 +110,36 @@ namespace FormsPrototype
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void bRefreshLocalContainers_Click(object sender, EventArgs e)
         {
+            this.lbContainers.Items.Clear();
+            var values = kgs.Data.Containers.Values.ToList();
+            values.Sort((r1, r2) =>
+            {
+                if (r1.Joined && !r2.Joined) return -1;
+                else if (!r1.Joined && r2.Joined) return 1;
+                else
+                {
+                    return String.Compare(r1.Name, r2.Name, StringComparison.Ordinal);
+                }
+            });
+            foreach (KgsGameContainer room in values)
+            {
+                this.lbContainers.Items.Add(room);
+            }
+        }
 
+        private void lbContainers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lbContainers.SelectedItem != null)
+            {
+                var container = ((KgsGameContainer)this.lbContainers.SelectedItem);
+                this.lbContainerGames.Items.Clear();
+                foreach (var game in container.GetGames())
+                {
+                    this.lbContainerGames.Items.Add(game);
+                }
+            }
         }
     }
 }

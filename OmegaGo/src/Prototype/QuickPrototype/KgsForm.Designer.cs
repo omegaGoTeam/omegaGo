@@ -30,7 +30,6 @@
         {
             this.tbUnhandledMessagesFull = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -50,6 +49,12 @@
             this.lbRooms = new System.Windows.Forms.ListBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.bRefreshLocalContainers = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lbContainers = new System.Windows.Forms.ListBox();
+            this.lbContainerGames = new System.Windows.Forms.ListBox();
+            this.bObserveGame = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -58,6 +63,7 @@
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbUnhandledMessagesFull
@@ -80,16 +86,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Incoming:";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Login again";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // tbUnhandledMessageTypes
             // 
             this.tbUnhandledMessageTypes.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -110,10 +106,12 @@
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
-            this.tabControl1.Location = new System.Drawing.Point(12, 55);
+            this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(864, 512);
+            this.tabControl1.Size = new System.Drawing.Size(1177, 579);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -215,7 +213,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(856, 486);
+            this.tabPage6.Size = new System.Drawing.Size(1169, 553);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Rooms";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -284,7 +282,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(856, 486);
+            this.tabPage7.Size = new System.Drawing.Size(1169, 553);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Incoming Messages";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -295,8 +293,68 @@
             this.lbAllIncomingMessages.FormattingEnabled = true;
             this.lbAllIncomingMessages.Location = new System.Drawing.Point(3, 3);
             this.lbAllIncomingMessages.Name = "lbAllIncomingMessages";
-            this.lbAllIncomingMessages.Size = new System.Drawing.Size(850, 480);
+            this.lbAllIncomingMessages.Size = new System.Drawing.Size(1163, 547);
             this.lbAllIncomingMessages.TabIndex = 0;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Controls.Add(this.bObserveGame);
+            this.tabPage8.Controls.Add(this.lbContainerGames);
+            this.tabPage8.Controls.Add(this.bRefreshLocalContainers);
+            this.tabPage8.Controls.Add(this.label2);
+            this.tabPage8.Controls.Add(this.lbContainers);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(1169, 553);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "Containers";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // bRefreshLocalContainers
+            // 
+            this.bRefreshLocalContainers.Location = new System.Drawing.Point(214, 26);
+            this.bRefreshLocalContainers.Name = "bRefreshLocalContainers";
+            this.bRefreshLocalContainers.Size = new System.Drawing.Size(161, 23);
+            this.bRefreshLocalContainers.TabIndex = 5;
+            this.bRefreshLocalContainers.Text = "Refresh Local Rooms";
+            this.bRefreshLocalContainers.UseVisualStyleBackColor = true;
+            this.bRefreshLocalContainers.Click += new System.EventHandler(this.bRefreshLocalContainers_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(29, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Containers:";
+            // 
+            // lbContainers
+            // 
+            this.lbContainers.FormattingEnabled = true;
+            this.lbContainers.Location = new System.Drawing.Point(19, 55);
+            this.lbContainers.Name = "lbContainers";
+            this.lbContainers.Size = new System.Drawing.Size(393, 420);
+            this.lbContainers.TabIndex = 3;
+            this.lbContainers.SelectedIndexChanged += new System.EventHandler(this.lbContainers_SelectedIndexChanged);
+            // 
+            // lbContainerGames
+            // 
+            this.lbContainerGames.FormattingEnabled = true;
+            this.lbContainerGames.Location = new System.Drawing.Point(418, 55);
+            this.lbContainerGames.Name = "lbContainerGames";
+            this.lbContainerGames.Size = new System.Drawing.Size(393, 420);
+            this.lbContainerGames.TabIndex = 6;
+            // 
+            // bObserveGame
+            // 
+            this.bObserveGame.Location = new System.Drawing.Point(668, 481);
+            this.bObserveGame.Name = "bObserveGame";
+            this.bObserveGame.Size = new System.Drawing.Size(161, 23);
+            this.bObserveGame.TabIndex = 7;
+            this.bObserveGame.Text = "Observe";
+            this.bObserveGame.UseVisualStyleBackColor = true;
             // 
             // KgsForm
             // 
@@ -304,7 +362,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 579);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Name = "KgsForm";
             this.Text = "KgsForm";
@@ -323,6 +380,8 @@
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
+            this.tabPage8.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,7 +390,6 @@
         #endregion
         private System.Windows.Forms.TextBox tbUnhandledMessagesFull;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox tbUnhandledMessageTypes;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
@@ -351,5 +409,11 @@
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.ListBox lbAllIncomingMessages;
         private System.Windows.Forms.Button bUnjoinRoom;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.Button bRefreshLocalContainers;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox lbContainers;
+        private System.Windows.Forms.ListBox lbContainerGames;
+        private System.Windows.Forms.Button bObserveGame;
     }
 }

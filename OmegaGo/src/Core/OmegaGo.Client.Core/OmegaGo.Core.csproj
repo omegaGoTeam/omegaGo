@@ -156,6 +156,9 @@
     <Compile Include="Online\Kgs\KgsConnection.cs" />
     <Compile Include="Online\Kgs\KgsData.cs" />
     <Compile Include="Online\Kgs\KgsEvents.cs" />
+    <Compile Include="Online\Kgs\KgsGameContainer.cs" />
+    <Compile Include="Online\Kgs\KgsGameInfo.cs" />
+    <Compile Include="Online\Kgs\KgsGlobalGamesList.cs" />
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
     <Compile Include="Online\Kgs\KgsRoom.cs" />
     <Compile Include="Online\ServerID.cs" />

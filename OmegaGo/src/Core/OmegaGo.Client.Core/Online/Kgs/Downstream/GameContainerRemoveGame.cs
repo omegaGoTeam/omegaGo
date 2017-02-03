@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public int GameId { get; set; }
         public override void Process(KgsConnection connection)
         {
-            // TODO
+            connection.Data.Containers[ChannelId].RemoveGame(GameId);
         }
     }
 }
