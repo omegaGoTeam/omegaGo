@@ -12,6 +12,27 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public User[] Users { get; set; }
         public GameSummary GameSummary { get; set; }
         public SgfEvent[] SgfEvents { get; set; }
+
+        public RulesDescription Rules
+        {
+            get
+            {
+                foreach (var ev in SgfEvents)
+                {
+                    if (ev.Props != null)
+                    {
+                        foreach (var prop in ev.Props)
+                        {
+                            if (prop.Name == "rules")
+                            {
+                                return prop;
+                            }
+                        }
+                    }
+                }
+                throw new Exception("Rules were not found in the GameJoin message.");
+            }
+        }
         public override void Process(KgsConnection connection)
         {
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
