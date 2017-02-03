@@ -62,14 +62,15 @@ namespace FormsPrototype
             }
         }
 
-        private async void button1_Click(object sender, EventArgs e)
-        {
+        private void button1_Click(object sender, EventArgs e)
+        { 
 
            
         }
 
-        private async void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
+
         }
 
         private async void button4_Click(object sender, EventArgs e)
@@ -90,7 +91,17 @@ namespace FormsPrototype
         private void bLocalRoomsRefresh_Click(object sender, EventArgs e)
         {
             this.lbRooms.Items.Clear();
-            foreach(KgsRoom room in kgs.Data.Rooms.Values)
+            var values = kgs.Data.Rooms.Values.ToList();
+            values.Sort((r1, r2) =>
+            {
+                if (r1.Joined && !r2.Joined) return -1;
+                else if (!r1.Joined && r2.Joined) return 1;
+                else
+                {
+                    return String.Compare(r1.Name, r2.Name, StringComparison.Ordinal);
+                }
+            });
+            foreach (KgsRoom room in values)
             {
                 this.lbRooms.Items.Add(room);
             }
@@ -111,6 +122,15 @@ namespace FormsPrototype
             {
                 var room = ((KgsRoom)this.lbRooms.SelectedItem);
                 await kgs.Commands.JoinRoomAsync(room);
+            }
+        }
+
+        private async void bUnjoinRoom_Click(object sender, EventArgs e)
+        {
+            if (this.lbRooms.SelectedItem != null)
+            {
+                var room = ((KgsRoom)this.lbRooms.SelectedItem);
+                await kgs.Commands.UnjoinRoomAsync(room);
             }
         }
     }

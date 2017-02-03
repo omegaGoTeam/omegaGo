@@ -22,5 +22,13 @@ namespace OmegaGo.Core.Online.Kgs
                 ChannelId = room.ChannelId
             });
         }
+
+        public async Task UnjoinRoomAsync(KgsRoom room)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = room.ChannelId
+            });
+        }
     }
 }

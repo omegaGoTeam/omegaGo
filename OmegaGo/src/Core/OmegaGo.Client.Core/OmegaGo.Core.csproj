@@ -145,6 +145,10 @@
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomNames.cs" />
+    <Compile Include="Online\Kgs\Downstream\Unjoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
+    <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
+    <Compile Include="Online\Kgs\Downstream\UserUpdate.cs" />
     <Compile Include="Online\Kgs\KgsCommands.cs" />
     <Compile Include="Online\Kgs\KgsConnection.cs" />
     <Compile Include="Online\Kgs\KgsData.cs" />

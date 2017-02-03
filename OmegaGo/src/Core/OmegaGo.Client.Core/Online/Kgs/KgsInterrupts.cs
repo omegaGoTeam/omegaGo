@@ -48,6 +48,18 @@ namespace OmegaGo.Core.Online.Kgs
                 case "AUTOMATCH_PREFS":
                     HandleInterruptMessage<AutomatchPrefs>(message);
                     return true;
+                case "USER_ADDED":
+                    HandleInterruptMessage<UserAdded>(message);
+                    return true;
+                case "USER_REMOVED":
+                    HandleInterruptMessage<UserRemoved>(message);
+                    return true;
+                case "USER_UPDATE":
+                    HandleInterruptMessage<UserUpdate>(message);
+                    return true;
+                case "UNJOIN":
+                    HandleInterruptMessage<Unjoin>(message);
+                    return true;
 
             }
             // not handled

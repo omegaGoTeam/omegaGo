@@ -20,6 +20,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         {
             // TODO
             connection.Data.JoinRoom(this.ChannelId);
+            foreach (var user in Users)
+            {
+                connection.Data.AddUserToChannel(this.ChannelId, user);
+            }
         }
     }
 }

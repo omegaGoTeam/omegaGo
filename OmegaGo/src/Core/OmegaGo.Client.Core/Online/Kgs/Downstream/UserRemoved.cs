@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class JoinComplete : KgsInterruptChannelMessage
+    class UserRemoved : KgsInterruptChannelMessage
     {
+        public User User { get; set; }
         public override void Process(KgsConnection connection)
         {
-            connection.Data.JoinChannel(ChannelId);
+            connection.Data.RemoveUserFromChannel(ChannelId, User);
         }
     }
 }

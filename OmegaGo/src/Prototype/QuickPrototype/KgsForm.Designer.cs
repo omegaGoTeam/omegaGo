@@ -348,6 +348,7 @@
             this.bUnjoinRoom.TabIndex = 5;
             this.bUnjoinRoom.Text = "Unjoin";
             this.bUnjoinRoom.UseVisualStyleBackColor = true;
+            this.bUnjoinRoom.Click += new System.EventHandler(this.bUnjoinRoom_Click);
             // 
             // KgsForm
             // 
