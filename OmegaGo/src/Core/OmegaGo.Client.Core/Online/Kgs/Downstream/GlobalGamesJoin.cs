@@ -5,55 +5,23 @@ namespace OmegaGo.Core.Online.Kgs
 {
     class GlobalGamesJoin : KgsResponse
     {
-        public string containerType;
-        public GameChannel[] games;
+        public string ContainerType { get; set; }
+        public GameChannel[] Games { get; set; }
     }
 
     public class GameChannel
     {
-        public int channelId;
-        public Proposal initialProposal;
+        public int ChannelId;
+        public Proposal InitialProposal;
         public override string ToString()
         {
-            if (initialProposal != null)
+            if (InitialProposal != null)
             {
-                return channelId + " (" + initialProposal.players[0].user?.name + " v. "
-                       + initialProposal.players[1].user?.name + ")";
+                return ChannelId + " (" + InitialProposal.Players[0].User?.Name + " v. "
+                       + InitialProposal.Players[1].User?.Name + ")";
             }
-            return channelId.ToString();
+            return ChannelId.ToString();
         }
 
-    }
-
-    public class Proposal
-    {
-        public string gameType;
-        public KgsRules rules;
-        public bool nigiri;
-        public KgsPlayer[] players;
-    }
-
-    public class KgsPlayer
-    {
-        public string role;
-        public KgsUser user;
-
-        public string name;
-    }
-
-    public class KgsUser
-    {
-        public string name;
-        public string rank;
-        public string flags;
-    }
-
-    public class KgsRules
-    {
-        public int size;
-        public string rules;
-        public int handicap;
-        public float komi;
-        public string timeSystem;
     }
 }

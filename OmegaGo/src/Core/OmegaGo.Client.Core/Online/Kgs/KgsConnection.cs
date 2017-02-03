@@ -7,21 +7,33 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
     public class KgsConnection
     {
-        private const string _uri = "https://metakgs.org/api/access";
+        private const string Uri = "https://metakgs.org/api/access";
         private string _username;
         private string _password;
         private bool _getLoopRunning;
-        private HttpClient _httpClient;
-        private CookieContainer cookieContainer = new CookieContainer();
-        private ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
+        private readonly HttpClient _httpClient;
+        private readonly CookieContainer cookieContainer = new CookieContainer();
+        private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
+
+        public KgsCommands Commands { get; }
+        public KgsEvents Events { get; }
+        private KgsInterrupts Interrupts { get; }
+        public KgsData Data { get; }
+
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
+
+        public JsonSerializer Serializer { get; } = new JsonSerializer()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
 
         public void StartGetLoop()
         {
@@ -30,8 +42,13 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public KgsConnection()
         {
+            this.Commands = new Kgs.KgsCommands(this);
+            this.Events = new KgsEvents(this);
+            this.Interrupts = new KgsInterrupts(this);
+            this.Data = new Kgs.KgsData(this);
             var handler = new HttpClientHandler() {CookieContainer = cookieContainer};
             this._httpClient = new HttpClient(handler);
+           
             
         }
 
@@ -39,7 +56,7 @@ namespace OmegaGo.Core.Online.Kgs
         {
             while (true)
             {
-                var response = await this._httpClient.GetAsync(_uri);
+                var response = await this._httpClient.GetAsync(Uri);
                 HandleResponse(response);
             }
         }
@@ -89,29 +106,15 @@ namespace OmegaGo.Core.Online.Kgs
 
         private bool HandleInterruptResponse(string type, JObject message)
         {
-            switch (type)
-            {
-                case "HELLO": // permanent
-                    return true;
-                case "ROOM_NAMES":
-                case "ROOM_DESC":
-                case "ROOM_JOIN":
-                case "AUTOMATCH_PREFS":
-                case "PLAYBACK_ADD":
-                case "USER_UPDATE":
-                case "USER_REMOVED": // temporary
-                case "USER_ADDED":
-                case "GAME_LIST":
-                case "GAME_CONTAINER_REMOVE_GAME":
-                    return true;
-            }
-            return false;
+            return this.Interrupts.RouteAndHandle(type, message);
         }
 
 
 
         public async Task<bool> LoginAsync(string name, string password)
         {
+            this._username = name;
+            this._password = password;
             if (!_getLoopRunning)
             {
                 StartGetLoop();
@@ -124,8 +127,17 @@ namespace OmegaGo.Core.Online.Kgs
                 password = password,
                 locale = "en_US"
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD"});
-            if (response.type == "LOGIN_SUCCESS")
+            if (response.Succeeded())
             {
+                var roomsArray = new int[response.Rooms.Length];
+                for (int i = 0; i < response.Rooms.Length; i++)
+                {
+                    roomsArray[i] = response.Rooms[i].ChannelId;
+                }
+                Events.RaiseSystemMessage("Requesting room names...");
+                await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
+                        Rooms = roomsArray
+                    });
                 return true;
             }
             return false;
@@ -135,7 +147,7 @@ namespace OmegaGo.Core.Online.Kgs
            
             var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync(_uri, jsonContent);
+            var result = await _httpClient.PostAsync(Uri, jsonContent);
             return new Kgs.PostRequestResult(
                 result.IsSuccessStatusCode,
                 result.ReasonPhrase
@@ -143,25 +155,30 @@ namespace OmegaGo.Core.Online.Kgs
         }
         private async Task<bool> MakeUnattendedRequestAsync(string type, object data)
         {
-            JObject jo = JObject.FromObject(data);
+            JObject jo = JObject.FromObject(data, Serializer);
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
+            Events.RaiseOutgoingRequest(contents);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }
         private async Task<T> MakeRequestAsync<T>(string type,
             object data, params string[] possibleResponseTypes)
+            where T : KgsResponse
         {
-            JObject jo = JObject.FromObject(data);
+            JObject jo = JObject.FromObject(data, Serializer);
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
             var kgsRequest = new Kgs.KgsRequest(possibleResponseTypes);
             requestsAwaitingResponse.Add(kgsRequest);
+            Events.RaiseOutgoingRequest(contents);
             PostRequestResult postResult = await SendPostRequest(contents);
             if (postResult.Successful)
             {
                var response = await kgsRequest.TaskCompletionSource.Task;
-               var returnValue = response.ToObject<T>();
+               string responseText = response.ToString();
+               var returnValue = response.ToObject<T>(Serializer);
+                returnValue.FullText = responseText;
                return returnValue;
             }
             else
@@ -174,28 +191,18 @@ namespace OmegaGo.Core.Online.Kgs
         {
             var response =
                 await
-                    MakeRequestAsync<GlobalGamesJoin>("GLOBAL_LIST_JOIN_REQUEST", new {list = "CHALLENGES"},
+                    MakeRequestAsync<GlobalGamesJoin>("GLOBAL_LIST_JOIN_REQUEST", new {List = "CHALLENGES"},
                         "GLOBAL_GAMES_JOIN");
+            if (response == null) return null;
             List<GameChannel> channels = new List<Kgs.GameChannel>();
-            foreach(var ch in response.games)
+            foreach(var ch in response.Games)
             {
                 channels.Add(ch);
             }
             return channels;
         }
 
-        public async Task SubmitChallenge(int channelId, Proposal proposal, string username)
-        {
-            if (proposal.players[0].user == null)
-            {
-                proposal.players[0].name = username;
-            }
-            else
-            {
-                proposal.players[1].name = username;
-            }
-            await MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", new { channelId = channelId, proposal = proposal});
-        }
+      
     }
 
     public class JsonResponse

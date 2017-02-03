@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class KgsResponse
+    abstract class KgsInterruptResponse : KgsResponse
     {
-        public string type;
+        public abstract void Process(KgsConnection connection);
     }
 }

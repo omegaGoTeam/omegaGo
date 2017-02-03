@@ -28,36 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblSessionID = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbUnhandledMessagesFull = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.lbChallenges = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbLog = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tbFirstUnhandledMessage = new System.Windows.Forms.TextBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tbLastOutgoingMessage = new System.Windows.Forms.TextBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.lbRooms = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.bLocalRoomsRefresh = new System.Windows.Forms.Button();
+            this.tbRoomDescription = new System.Windows.Forms.TextBox();
+            this.bJoinRoom = new System.Windows.Forms.Button();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblSessionID
+            // tbUnhandledMessagesFull
             // 
-            this.lblSessionID.AutoSize = true;
-            this.lblSessionID.Location = new System.Drawing.Point(13, 26);
-            this.lblSessionID.Name = "lblSessionID";
-            this.lblSessionID.Size = new System.Drawing.Size(58, 13);
-            this.lblSessionID.TabIndex = 0;
-            this.lblSessionID.Text = "SessionID:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(16, 216);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(572, 351);
-            this.textBox1.TabIndex = 1;
+            this.tbUnhandledMessagesFull.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbUnhandledMessagesFull.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbUnhandledMessagesFull.Location = new System.Drawing.Point(3, 3);
+            this.tbUnhandledMessagesFull.Multiline = true;
+            this.tbUnhandledMessagesFull.Name = "tbUnhandledMessagesFull";
+            this.tbUnhandledMessagesFull.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbUnhandledMessagesFull.Size = new System.Drawing.Size(850, 480);
+            this.tbUnhandledMessagesFull.TabIndex = 1;
             // 
             // label1
             // 
@@ -70,7 +83,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(121, 26);
+            this.button1.Location = new System.Drawing.Point(12, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -81,16 +94,16 @@
             // lbChallenges
             // 
             this.lbChallenges.FormattingEnabled = true;
-            this.lbChallenges.Location = new System.Drawing.Point(613, 84);
+            this.lbChallenges.Location = new System.Drawing.Point(891, 38);
             this.lbChallenges.Name = "lbChallenges";
             this.lbChallenges.ScrollAlwaysVisible = true;
-            this.lbChallenges.Size = new System.Drawing.Size(351, 381);
+            this.lbChallenges.Size = new System.Drawing.Size(274, 186);
             this.lbChallenges.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(626, 47);
+            this.label2.Location = new System.Drawing.Point(888, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 5;
@@ -98,36 +111,27 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(732, 42);
+            this.button2.Location = new System.Drawing.Point(952, 230);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 6;
             this.button2.Text = "Refresh";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // tbUnhandledMessageTypes
             // 
-            this.textBox2.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(135, 74);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(453, 139);
-            this.textBox2.TabIndex = 7;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox3.Location = new System.Drawing.Point(613, 471);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox3.Size = new System.Drawing.Size(351, 96);
-            this.textBox3.TabIndex = 8;
+            this.tbUnhandledMessageTypes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbUnhandledMessageTypes.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbUnhandledMessageTypes.Location = new System.Drawing.Point(3, 3);
+            this.tbUnhandledMessageTypes.Multiline = true;
+            this.tbUnhandledMessageTypes.Name = "tbUnhandledMessageTypes";
+            this.tbUnhandledMessageTypes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbUnhandledMessageTypes.Size = new System.Drawing.Size(850, 480);
+            this.tbUnhandledMessageTypes.TabIndex = 7;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(970, 97);
+            this.button3.Location = new System.Drawing.Point(1033, 230);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(132, 61);
             this.button3.TabIndex = 9;
@@ -135,40 +139,238 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Location = new System.Drawing.Point(12, 55);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(864, 512);
+            this.tabControl1.TabIndex = 10;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.tbLog);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(856, 486);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "System log";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tbUnhandledMessageTypes);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(856, 486);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Unhandled Messages";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbLog
+            // 
+            this.tbLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbLog.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbLog.Location = new System.Drawing.Point(3, 3);
+            this.tbLog.Multiline = true;
+            this.tbLog.Name = "tbLog";
+            this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbLog.Size = new System.Drawing.Size(850, 480);
+            this.tbLog.TabIndex = 8;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.tbUnhandledMessagesFull);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(856, 486);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Unhandled Messages (full)";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.tbFirstUnhandledMessage);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(856, 486);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "First Unhandled Message";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tbFirstUnhandledMessage
+            // 
+            this.tbFirstUnhandledMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbFirstUnhandledMessage.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbFirstUnhandledMessage.Location = new System.Drawing.Point(3, 3);
+            this.tbFirstUnhandledMessage.Multiline = true;
+            this.tbFirstUnhandledMessage.Name = "tbFirstUnhandledMessage";
+            this.tbFirstUnhandledMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbFirstUnhandledMessage.Size = new System.Drawing.Size(850, 480);
+            this.tbFirstUnhandledMessage.TabIndex = 2;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(93, 12);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(128, 23);
+            this.button4.TabIndex = 11;
+            this.button4.Text = "Request Challenges";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.tbLastOutgoingMessage);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(856, 486);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Last Outgoing Message";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tbLastOutgoingMessage
+            // 
+            this.tbLastOutgoingMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbLastOutgoingMessage.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbLastOutgoingMessage.Location = new System.Drawing.Point(3, 3);
+            this.tbLastOutgoingMessage.Multiline = true;
+            this.tbLastOutgoingMessage.Name = "tbLastOutgoingMessage";
+            this.tbLastOutgoingMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbLastOutgoingMessage.Size = new System.Drawing.Size(850, 480);
+            this.tbLastOutgoingMessage.TabIndex = 3;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.bJoinRoom);
+            this.tabPage6.Controls.Add(this.tbRoomDescription);
+            this.tabPage6.Controls.Add(this.bLocalRoomsRefresh);
+            this.tabPage6.Controls.Add(this.label3);
+            this.tabPage6.Controls.Add(this.lbRooms);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(856, 486);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "Rooms";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // lbRooms
+            // 
+            this.lbRooms.FormattingEnabled = true;
+            this.lbRooms.Location = new System.Drawing.Point(6, 52);
+            this.lbRooms.Name = "lbRooms";
+            this.lbRooms.Size = new System.Drawing.Size(393, 420);
+            this.lbRooms.TabIndex = 0;
+            this.lbRooms.SelectedIndexChanged += new System.EventHandler(this.lbRooms_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 33);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Rooms:";
+            // 
+            // bLocalRoomsRefresh
+            // 
+            this.bLocalRoomsRefresh.Location = new System.Drawing.Point(201, 23);
+            this.bLocalRoomsRefresh.Name = "bLocalRoomsRefresh";
+            this.bLocalRoomsRefresh.Size = new System.Drawing.Size(161, 23);
+            this.bLocalRoomsRefresh.TabIndex = 2;
+            this.bLocalRoomsRefresh.Text = "Refresh Local Rooms";
+            this.bLocalRoomsRefresh.UseVisualStyleBackColor = true;
+            this.bLocalRoomsRefresh.Click += new System.EventHandler(this.bLocalRoomsRefresh_Click);
+            // 
+            // tbRoomDescription
+            // 
+            this.tbRoomDescription.Location = new System.Drawing.Point(405, 52);
+            this.tbRoomDescription.Multiline = true;
+            this.tbRoomDescription.Name = "tbRoomDescription";
+            this.tbRoomDescription.ReadOnly = true;
+            this.tbRoomDescription.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbRoomDescription.Size = new System.Drawing.Size(445, 339);
+            this.tbRoomDescription.TabIndex = 3;
+            // 
+            // bJoinRoom
+            // 
+            this.bJoinRoom.Location = new System.Drawing.Point(363, 416);
+            this.bJoinRoom.Name = "bJoinRoom";
+            this.bJoinRoom.Size = new System.Drawing.Size(75, 23);
+            this.bJoinRoom.TabIndex = 4;
+            this.bJoinRoom.Text = "Join";
+            this.bJoinRoom.UseVisualStyleBackColor = true;
+            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1177, 579);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbChallenges);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.lblSessionID);
             this.Name = "KgsForm";
             this.Text = "KgsForm";
             this.Load += new System.EventHandler(this.KgsForm_Load);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblSessionID;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbUnhandledMessagesFull;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox lbChallenges;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbUnhandledMessageTypes;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TextBox tbLog;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TextBox tbFirstUnhandledMessage;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TextBox tbLastOutgoingMessage;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TextBox tbRoomDescription;
+        private System.Windows.Forms.Button bLocalRoomsRefresh;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ListBox lbRooms;
+        private System.Windows.Forms.Button bJoinRoom;
     }
 }
