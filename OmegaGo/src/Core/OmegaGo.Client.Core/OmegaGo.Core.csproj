@@ -149,8 +149,6 @@
     <Compile Include="Online\Kgs\KgsData.cs" />
     <Compile Include="Online\Kgs\KgsEvents.cs" />
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
-    <Compile Include="Online\Ogs\OgsConnection.cs" />
-    <Compile Include="Online\Ogs\OgsConstants.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPlacementType.cs" />
@@ -300,7 +298,6 @@
     <Content Include="Online\Kgs\Docs\style.css" />
     <Content Include="Online\Kgs\Docs\upstream.html" />
     <Content Include="Online\Kgs\kgsApiTrz.txt" />
-    <Content Include="Online\Ogs\OgsMaterials.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sgf\Serializing\" />
