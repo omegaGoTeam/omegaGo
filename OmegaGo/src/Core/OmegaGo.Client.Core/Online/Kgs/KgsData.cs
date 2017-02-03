@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
@@ -89,7 +90,26 @@ namespace OmegaGo.Core.Online.Kgs
             JoinedChannels.Remove(channelId);
         }
 
-      
+        private Dictionary<int, KgsGame> JoinedGames = new Dictionary<int, KgsGame>();
+        public void JoinGame(KgsGame ongame)
+        {
+            Channels[ongame.Metadata.ChannelId] = new Kgs.KgsGameChannel(ongame.Metadata.ChannelId);
+            JoinedChannels.Add(ongame.Metadata.ChannelId);
+            JoinedGames.Add(ongame.Metadata.ChannelId, ongame);
+        }
+
+        public KgsGame GetGame(int channelId)
+        {
+            return JoinedGames[channelId];
+        }
+    }
+
+    public class KgsGameChannel : KgsChannel
+    {
+        public KgsGameChannel(int channelId)
+        {
+            this.ChannelId = channelId;
+        }
     }
 
     public class KgsUser : User

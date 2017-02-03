@@ -8,6 +8,27 @@ namespace OmegaGo.Core.Online.Kgs
     {
         public int ChannelId;
 
+        public static KgsGameInfo FromGameJoin(GameJoin gameJoin)
+        {
+            var whiteInfo = new PlayerInfo(StoneColor.White,
+                gameJoin.GameSummary.Players["white"].Name,
+                gameJoin.GameSummary.Players["white"].Rank);
+            var blackInfo = new PlayerInfo(StoneColor.Black,
+                gameJoin.GameSummary.Players["black"].Name,
+                gameJoin.GameSummary.Players["black"].Rank);
+
+            var kgi = new KgsGameInfo(
+                whiteInfo,
+                blackInfo,
+                new Game.GameBoardSize(gameJoin.GameSummary.Size),
+                RulesetType.Japanese,
+                0,
+                HandicapPlacementType.Fixed,
+                0,
+                CountingType.Area); // TODO fix many things here
+            kgi.ChannelId = gameJoin.ChannelId;
+            return kgi;
+        }
         public static KgsGameInfo FromChannel(GameChannel channel)
         {
             if (channel.GameType == GameType.Challenge) return null;

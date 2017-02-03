@@ -11,7 +11,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public SgfEvent[] SgfEvents { get; set; }
         public override void Process(KgsConnection connection)
         {
-            throw new NotImplementedException();
+            foreach (var ev in SgfEvents)
+            {
+                ev.ExecuteAsIncoming(connection, connection.Data.GetGame(ChannelId));
+            }
         }
     }
 }

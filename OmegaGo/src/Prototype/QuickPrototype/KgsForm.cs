@@ -21,7 +21,16 @@ namespace FormsPrototype
             kgs.Events.UnhandledMessage += Kgs_IncomingMessage;
             kgs.Events.IncomingMessage += Events_IncomingMessage;
             kgs.Events.SystemMessage += Events_SystemMessage;
-            kgs.Events.OutgoingRequest += Events_OutgoingRequest; 
+            kgs.Events.OutgoingRequest += Events_OutgoingRequest;
+            kgs.Events.GameJoined += Events_GameJoined;
+        }
+
+        private void Events_GameJoined(object sender, KgsGame e)
+        {
+            InGameForm ingameForm = new FormsPrototype.InGameForm(null, null);
+            ingameForm.LoadGame(e);
+            ingameForm.Show();
+
         }
 
         private void Events_IncomingMessage(object sender, JsonResponse e)

@@ -52,7 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
             // TODO kgs server
             // this.Server = KgsGameInfo.Server;
             GameTree = new GameTree(ruleset);
-            Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
         }
 
         public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)

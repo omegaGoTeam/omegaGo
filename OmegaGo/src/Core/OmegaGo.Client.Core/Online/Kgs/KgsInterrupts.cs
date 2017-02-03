@@ -69,6 +69,15 @@ namespace OmegaGo.Core.Online.Kgs
                 case "GAME_LIST":
                     HandleInterruptMessage<GameList>(message);
                     return true;
+                case "GAME_STATE":
+                    HandleInterruptMessage<GameState>(message);
+                    return true;
+                case "GAME_UPDATE":
+                    HandleInterruptMessage<GameUpdate>(message);
+                    return true;
+                case "GAME_JOIN":
+                    HandleInterruptMessage<GameJoin>(message);
+                    return true;
 
             }
             // not handled

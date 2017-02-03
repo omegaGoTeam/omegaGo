@@ -59,6 +59,8 @@
     <Compile Include="Modes\LiveGame\Phases\IGameControllerPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\PlayerPair.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentBase.cs" />
+    <Compile Include="Modes\LiveGame\Players\Kgs\KgsAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Kgs\KgsPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Local\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IllegalMoveHandling.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Online\Kgs\Downstream\GameJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameList.cs" />
     <Compile Include="Online\Kgs\Downstream\GameState.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameSummary.cs" />
     <Compile Include="Online\Kgs\Downstream\GameUpdate.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\IGameStateMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
@@ -153,6 +156,7 @@
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomNames.cs" />
+    <Compile Include="Online\Kgs\Downstream\SgfEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\Unjoin.cs" />
     <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
     <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
@@ -167,6 +171,7 @@
     <Compile Include="Online\Kgs\KgsGlobalGamesList.cs" />
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
     <Compile Include="Online\Kgs\KgsRoom.cs" />
+    <Compile Include="Online\Kgs\Sgf\KgsSgfNode.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Rules\HandicapPlacementType.cs" />
@@ -315,7 +320,7 @@
     <Content Include="Online\Kgs\Docs\protocol.html" />
     <Content Include="Online\Kgs\Docs\style.css" />
     <Content Include="Online\Kgs\Docs\upstream.html" />
-    <Content Include="Online\Kgs\kgsApiTrz.txt" />
+    <Content Include="Online\Kgs\kgsApiTry.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sgf\Serializing\" />

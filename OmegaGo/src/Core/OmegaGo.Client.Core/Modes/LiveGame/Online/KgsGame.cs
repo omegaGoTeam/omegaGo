@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Sgf;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
@@ -20,6 +21,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
                 player.AssignToGame(info, Controller);
             }
         }
+
+        public Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
 
         public KgsGameInfo Metadata { get; }
 

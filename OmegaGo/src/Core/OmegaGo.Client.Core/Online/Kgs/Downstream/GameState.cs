@@ -9,12 +9,12 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// <summary>
     /// Updates with more information about the game.
     /// </summary>
-    class GameState : KgsInterruptChannelMessage, IGameStateMessage
+    public class GameState : KgsInterruptChannelMessage, IGameStateMessage
     {
 
         public override void Process(KgsConnection connection)
         {
-            throw new NotImplementedException();
+            // TODO
         }
         #region Flags
         // This region may be copied to other messages that make use of flags.
@@ -102,7 +102,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// <summary>
     /// An action available to a player in a KGS game.
     /// </summary>
-    class KgsGameAction
+    public class KgsGameAction
     {
         /// <summary>
         /// One of: MOVE, EDIT, SCORE, CHALLENGE_CREATE, CHALLENGE_SETUP, CHALLENGE_WAIT, CHALLENGE_ACCEPT, CHALLENGE_SUBMITTED, EDIT_DELAY.
@@ -117,7 +117,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// <summary>
     /// Information about time remaining for a single player in a KGS game.
     /// </summary>
-    class Clock
+    public class Clock
     {
         /// <summary>
         /// Boolean. If present, the clock has been paused, e.g. because the player has left the game.
