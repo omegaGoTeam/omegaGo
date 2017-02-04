@@ -8,6 +8,7 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -53,16 +54,34 @@ namespace OmegaGo.Core.Online.Igs
             throw new ArgumentException("That's not a valid input.");
         }
 
-        private static readonly Regex regexGameHeading = new Regex(@"15 Game ([0-9]+) [^:]*: ([^ ]+) \([^)]+\) vs ([^ ]+) .*");
+        private static readonly Regex regexGameHeading = new Regex(@"15 Game ([0-9]+) [^:]*: ([^ ]+) \(([0-9]+) ([0-9]+) ([-0-9]+)\) vs ([^ ]+) \(([0-9]+) ([0-9]+) ([-0-9]+)\).*");
         public static GameHeading ParseGameHeading(IgsLine line)
         {
             Match match = regexGameHeading.Match(line.EntireLine);
             if (match.Success)
-            {
+            {/*empty string
+1. 352
+2. SANYOSHI
+3. 0
+4. 849
+5. 13 (or -1)
+6. hamas5ngo
+7. 0
+8. 900
+9. 25
+empty string*/
+                CanadianTimeInformation black = CanadianTimeInformation.FromIgs(
+                    match.Groups[8].Value.AsInteger(),
+                    match.Groups[9].Value.AsInteger());
+                CanadianTimeInformation white = CanadianTimeInformation.FromIgs(
+                   match.Groups[4].Value.AsInteger(),
+                   match.Groups[5].Value.AsInteger());
                 return new GameHeading(
                     match.Groups[1].Value.AsInteger(),
                     match.Groups[2].Value,
-                    match.Groups[3].Value);
+                    match.Groups[6].Value,
+                    black,
+                    white);
             }
             return null;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -12,7 +13,9 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
@@ -21,6 +24,13 @@ namespace OmegaGo.Core.Modes.LiveGame
         private IGamePhase _currentGamePhase = null;
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
+        public OnlineGameInfo OnlineGameInfo;
+        public OnlineGame OnlineGame;
+        public bool IsOnlineGame => Server != null;
+        /// <summary>
+        /// Gets the server connection, or null if this is not an online game.
+        /// </summary>
+        public IgsConnection Server { get; }
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
@@ -28,6 +38,31 @@ namespace OmegaGo.Core.Modes.LiveGame
             Ruleset = ruleset;
             Players = players;
             GameTree = new GameTree(ruleset);
+        }
+        public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)
+        {
+            this.OnlineGame = game;
+            OnlineGameInfo = game.Metadata;
+            OnlineGameInfo gameInfo = game.Metadata;
+            Info = gameInfo;
+            OnlineGameInfo = gameInfo;
+            Ruleset = ruleset;
+            Players = players;
+            this.Server = gameInfo.Server;
+            GameTree = new GameTree(ruleset);
+            Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+        }
+
+        private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
+        {
+            if (e.Game == this.OnlineGame)
+            {
+                if (this.Players.Black.Clock is CanadianTimeControl)
+                {
+                    (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+                    (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+                }
+            }
         }
 
         /// <summary>
@@ -77,7 +112,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 if (_turnPlayer != value)
                 {
+                    this._turnPlayer?.Clock.StopClock();
+
                     _turnPlayer = value;
+                    this._turnPlayer.Clock.StartClock();
+
                     OnTurnPlayerChanged();
                 }
             }
@@ -138,13 +177,19 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         public event EventHandler<GamePlayer> Resignation;
+        public event EventHandler<GamePlayer> PlayerTimedOut;
         private void OnResignation(GamePlayer player)
         {
             Resignation?.Invoke(this, player);
         }
+        internal void OnPlayerTimedOut(GamePlayer player)
+        {
+            PlayerTimedOut?.Invoke(this, player);
+        }
 
         protected virtual void OnTurnPlayerChanged()
         {
+            
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
             //notify the agent about his turn       
             TurnPlayer?.Agent.OnTurn();

@@ -1,4 +1,6 @@
-﻿s Vítej, studente. Jsi připraven se naučit hrát starodávnou hru Go?
+﻿# See ScenarioLoader.cs for command descriptions
+
+s Vítej, studente. Jsi připraven se naučit hrát starodávnou hru Go?
 menu
 	option Bude mi ctí se učit od vás, ctěný mistře.
 		s A mně poctou tě vyučovat. Go je hra o obklopování území. Tvým cílem je mít největší území ohraničené kameny tvé barvy.

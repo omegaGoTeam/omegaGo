@@ -33,6 +33,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithoutFuego|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithoutFuego\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
@@ -64,6 +73,9 @@
     <Compile Include="Services\BoardControl\BoardControlState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GameCreation\GameCreationBundle.cs" />
+    <Compile Include="Services\GameCreation\HotseatBundle.cs" />
+    <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
     <Compile Include="Services\Localization\GameLanguages.cs" />
@@ -94,8 +106,15 @@
     <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />

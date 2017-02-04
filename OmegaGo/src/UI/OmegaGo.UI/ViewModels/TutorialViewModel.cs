@@ -40,7 +40,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void TapBoardControl()
         {
-            Scenario.ClickPosition(BoardViewModel.BoardControlState.SelectedPosition);
+            Scenario.ClickPosition(BoardViewModel.BoardControlState.MouseOverPosition);
         }
     }
 }

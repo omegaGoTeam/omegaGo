@@ -33,7 +33,10 @@ namespace OmegaGo.UI.Services.Help
             }
         }
 
-
+        /// <summary>
+        /// Gets a new list of all help pages in the app. Their content is not yet loaded.
+        /// </summary>
+        /// <returns></returns>
         public static List<HelpPage> CreateAllHelpPages()
         {
             return new List<HelpPage>()

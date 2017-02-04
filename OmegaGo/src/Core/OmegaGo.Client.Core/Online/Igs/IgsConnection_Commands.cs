@@ -12,15 +12,16 @@ using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
-        
-        public async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
+        private async Task<OnlineGameInfo> GetGameByIdAsync(int gameId)
         {
             IgsResponse response = await MakeRequestAsync("games " + gameId);
             foreach (IgsLine line in response)
@@ -88,7 +89,7 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger(),
                 ServerID.Igs);
-
+            game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
                 // DO *NOT* DO this: the displayed number might be something different from what our client wants
                 // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
                 // Do not uncomment the preceding line. I will fix it in time. I hope.
@@ -129,11 +130,13 @@ namespace OmegaGo.Core.Online.Igs
                   new IgsPlayerBuilder(StoneColor.Black, this)
                       .Name(gameInfo.Black.Name)
                       .Rank(gameInfo.Black.Rank)
+                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
                       .Build();
             GamePlayer whitePlayer =
                 new IgsPlayerBuilder(StoneColor.White, this)
                     .Name(gameInfo.White.Name)
                     .Rank(gameInfo.White.Rank)
+                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                     .Build();
             OnlineGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .BlackPlayer(blackPlayer)
@@ -142,27 +145,28 @@ namespace OmegaGo.Core.Online.Igs
                 .Komi(gameInfo.Komi)
                 .BoardSize(gameInfo.BoardSize)
                 .Build();
-            foreach (var player in onlineGame.Controller.Players)
-            {
-                player.AssignToGame(gameInfo, onlineGame.Controller);
-            }
             _gamesBeingObserved.Add(onlineGame);
             _gamesYouHaveOpened.Add(onlineGame);
             MakeUnattendedRequest("moves " + gameInfo.IgsIndex);
             return onlineGame;
         }
-        public void EndObserving(OnlineGameInfo game)
+        /// <summary>
+        /// If we are observing the given game, the observation ends. If we're not, nothing happens.
+        /// </summary>
+        /// <param name="game">The game we're observing.</param>
+        /// <returns>True if we succeeded in ending observation, false if we were not observing that game or the game already ended.</returns>
+        public async Task<bool> EndObserving(OnlineGame game)
         {
-            /*
+            
             if (!this._gamesBeingObserved.Contains(game))
             {
                 // We're not observing this game.
-                return;
+                return false;
             }
+            var response = await MakeRequestAsync("unobserve " + game.Metadata.IgsIndex);
             this._gamesBeingObserved.Remove(game);
             this._gamesYouHaveOpened.Remove(game);
-            this._streamWriter.WriteLine("observe " + game.ServerId);
-            */
+            return !response.IsError;
         }
         
         /// <summary>
@@ -190,12 +194,21 @@ namespace OmegaGo.Core.Online.Igs
                 returnedUsers.Add(createdUser);
                 if (createdUser.Name == this._username)
                 {
-                    PersonalInformationUpdate?.Invoke(this, createdUser);
+                    OnPersonalInformationUpdate(createdUser);
                 }
             }
             return returnedUsers;
         }
 
+        /// <summary>
+        /// Uses the command "match" to challenge a player.
+        /// </summary>
+        /// <param name="opponent">The opponent to play against.</param>
+        /// <param name="yourColor">Your color.</param>
+        /// <param name="boardSize">Size of the square board.</param>
+        /// <param name="mainTime">The main time, in minutes.</param>
+        /// <param name="byoyomiMinutes">Time for each period of 25 moves, in minutes, for Canadian byoyomi.</param>
+        /// <returns></returns>
         public async Task<bool> RequestBasicMatchAsync(
             string opponent,
             StoneColor yourColor,
@@ -206,74 +219,79 @@ namespace OmegaGo.Core.Online.Igs
             var lines = await
                 MakeRequestAsync("match " + opponent + " " + yourColor.ToIgsCharacterString() + " " + boardSize.ToString() +
                             " " + mainTime.ToString() + " " + byoyomiMinutes.ToString());
-            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, stupid ReSharper!
-            return !lines.Any(line => line.Code == IgsCode.Error);
+            return !lines.IsError;
         }
 
         public async Task<bool> DeclineMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            List<IgsLine> lines = await MakeRequestAsync(matchRequest.RejectCommand);
-            // ReSharper disable once SimplifyLinqExpression ...that is not simplification, baka ReSharper!
-            return !lines.Any(line => line.Code == IgsCode.Error);
+            var response = await MakeRequestAsync(matchRequest.RejectCommand);
+            return !response.IsError;
         }
-        public async Task<OnlineGameInfo> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
+        public async Task<OnlineGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
-            /*
-            List<IgsLine> lines = await MakeRequestAsync(matchRequest.AcceptCommand);
-            if (lines.Any(line => line.Code == IgsCode.Error)) return null;
+            var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
+            if (lines.IsError) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
-
-            ObsoleteGameInfo game = new ObsoleteGameInfo()
-            {
-                BoardSize = new GameBoardSize(19), // TODO
-                Server = this,
-                ServerId = heading.GameNumber,
-            };
-            game.Players.Add(new GamePlayer(heading.BlackName, "?", game));
-            game.Players.Add(new GamePlayer(heading.WhiteName, "?", game));
-            game.Ruleset = new JapaneseRuleset(game.BoardSize);
-            this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
-            this._gamesInProgressOnIgs.Add(game);
+            var ogi = await GetGameByIdAsync(heading.GameNumber);
+            var builder = GameBuilder.CreateOnlineGame(ogi);
+            bool youAreBlack = heading.BlackName == this._username;
+            var humanPlayer =
+                new HumanPlayerBuilder(youAreBlack ? StoneColor.Black : StoneColor.White).Name(youAreBlack
+                    ? heading.BlackName
+                    : heading.WhiteName)
+                    .Rank(youAreBlack ? ogi.Black.Rank : ogi.White.Rank)
+                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Build();
+            var onlinePlayer =
+                new IgsPlayerBuilder(youAreBlack ? StoneColor.White : StoneColor.Black, this).Name(youAreBlack
+                    ? heading.WhiteName
+                    : heading.BlackName)
+                    .Rank(youAreBlack ? ogi.White.Rank : ogi.Black.Rank)
+                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Build();
+            builder.BlackPlayer(youAreBlack ? humanPlayer : onlinePlayer)
+                .WhitePlayer(youAreBlack ? onlinePlayer : humanPlayer);
+            var game = builder.Build();
             this._gamesYouHaveOpened.Add(game);
             return game;
-            */
-            return null;
         }
         public void DEBUG_MakeUnattendedRequest(string command)
         {
             MakeUnattendedRequest(command);
         }
 
-        /*
-        public override void MakeMove(ObsoleteGameInfo game, Move move)
+        
+        public void MakeMove(OnlineGameInfo game, Move move)
         {
             switch (move.Kind)
             {
                 case MoveKind.PlaceStone:
-                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.ServerId);
+                    MakeUnattendedRequest(move.Coordinates.ToIgsCoordinates() + " " + game.IgsIndex);
                     break;
                 case MoveKind.Pass:
-                    MakeUnattendedRequest("pass " + game.ServerId);
+                    MakeUnattendedRequest("pass " + game.IgsIndex);
                     break;
             }
         }
-        public override void Resign(ObsoleteGameInfo game)
+        public void Resign(OnlineGameInfo game)
         {
-            MakeUnattendedRequest("resign " + game.ServerId);
+            MakeUnattendedRequest("resign " + game.IgsIndex);
         }
-        */
-        /*
-        public async Task<bool> SayAsync(ObsoleteGameInfo game, string chat)
+        
+        
+        public async Task<bool> SayAsync(OnlineGame game, string chat)
         {
-            if (!this._gamesYouHaveOpened.Contains(game)) throw new ArgumentException("You don't have this game opened on IGS.");
+            if (!this._gamesYouHaveOpened.Contains(game))
+                throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
+
             IgsResponse response;
             if (this._gamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
-                response = await MakeRequestAsync("say " + game.ServerId + " " + chat);
+                response = await MakeRequestAsync("say " + game.Metadata.IgsIndex + " " + chat);
             }
             else
             {
@@ -281,33 +299,33 @@ namespace OmegaGo.Core.Online.Igs
                 response = await MakeRequestAsync("say " + chat);
             }
             return !response.IsError;
-        }*/
-
-            /*
-        public async Task UndoPleaseAsync(ObsoleteGameInfo game)
-        {
-            await MakeRequestAsync("undoplease " + game.ServerId);
         }
 
-        public async Task UndoAsync(ObsoleteGameInfo game)
+            
+        public async Task UndoPleaseAsync(OnlineGameInfo game)
         {
-            await MakeRequestAsync("undo " + game.ServerId);
+            await MakeRequestAsync("undoplease " + game.IgsIndex);
         }
 
-        public void NoUndo(ObsoleteGameInfo game)
+        public async Task UndoAsync(OnlineGameInfo game)
         {
-            MakeUnattendedRequest("noundo " + game.ServerId);
+            await MakeRequestAsync("undo " + game.IgsIndex);
         }
 
-        public override async void LifeDeath_Done(ObsoleteGameInfo game)
+        public void NoUndo(OnlineGameInfo game)
         {
-            await MakeRequestAsync("done " + game.ServerId);
+            MakeUnattendedRequest("noundo " + game.IgsIndex);
         }
-        public override async void LifeDeath_MarkDead(Position position, ObsoleteGameInfo game)
+
+        public async void LifeDeath_Done(OnlineGameInfo game)
         {
-            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.ServerId);
+            await MakeRequestAsync("done " + game.IgsIndex);
         }
-        */
+        public async void LifeDeath_MarkDead(Position position, OnlineGameInfo game)
+        {
+            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.IgsIndex);
+        }
+        
 
         public async Task<bool> ToggleAsync(string toggleKey, bool newToggleValue)
         {

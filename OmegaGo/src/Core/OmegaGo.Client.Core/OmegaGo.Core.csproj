@@ -33,6 +33,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithoutFuego|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithoutFuego\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI\AIStrength.cs" />
     <Compile Include="Game\GameInfo.cs" />
@@ -88,7 +97,7 @@
     <Compile Include="Modes\LiveGame\LiveGameBase.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\OnlineGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\IgsGameBuilder.cs" />
     <Compile Include="Game\OnlineGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
@@ -119,6 +128,8 @@
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Connections.cs" />
+    <Compile Include="Online\Igs\IgsChatService.cs" />
+    <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
@@ -200,6 +211,17 @@
     <Compile Include="Sgf\SgfParseException.cs" />
     <Compile Include="Sgf\Parsing\SgfParser.cs" />
     <Compile Include="Sgf\SgfGameTree.cs" />
+    <Compile Include="Time\Absolute\AbsoluteTimeControl.cs" />
+    <Compile Include="Time\Absolute\AbsoluteTimeInformation.cs" />
+    <Compile Include="Time\Canadian\CanadianTimeControl.cs" />
+    <Compile Include="Time\Canadian\CanadianTimeInformation.cs" />
+    <Compile Include="Time\Japanese\JapaneseTimeControl.cs" />
+    <Compile Include="Time\Japanese\JapaneseTimeInformation.cs" />
+    <Compile Include="Time\None\NoTimeControl.cs" />
+    <Compile Include="Time\None\NoTimeInformation.cs" />
+    <Compile Include="Time\TimeControl.cs" />
+    <Compile Include="Time\TimeControlStyle.cs" />
+    <Compile Include="Time\TimeInformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

@@ -1,5 +1,6 @@
 ﻿using System;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Time;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
@@ -16,10 +17,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         /// <param name="playerInfo">Information about the player</param>
         /// <param name="agent">Agent</param>
-        public GamePlayer( PlayerInfo playerInfo, IAgent agent )
+        public GamePlayer( PlayerInfo playerInfo, IAgent agent, TimeControl clock)
         {
             Info = playerInfo;
             Agent = agent;
+            Clock = clock;
         }
 
         /// <summary>
@@ -31,6 +33,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// Agent controlling the player's actions
         /// </summary>
         public IAgent Agent { get; }
+
+        public TimeControl Clock { get; }
 
         public bool IsHuman => Agent is HumanAgent;
 

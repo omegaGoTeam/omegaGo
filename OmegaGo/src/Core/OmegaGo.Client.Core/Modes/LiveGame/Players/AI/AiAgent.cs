@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 
         public override AgentType Type => AgentType.AI;
 
-        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.MakeRandomMove;
+        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
 
         public override async void OnTurn()
         {
@@ -44,6 +44,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
                 GameState.GameTree.PrimaryMoveTimeline.ToList()
                 )));
             AiDecision decision = await aiTask;
+            OnLogMessage(decision.Explanation);
             switch (decision.Kind)
             {
                 case AgentDecisionKind.Move:
@@ -59,7 +60,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 
         public override void MoveIllegal(MoveResult move)
         {
-            throw new NotImplementedException();
+            throw new Exception("This should never be called.");
         }
+
+        private void OnLogMessage(string msg)
+        {
+            LogMessage?.Invoke(this, msg);
+        }
+
+        public event EventHandler<string> LogMessage;
     }
 }

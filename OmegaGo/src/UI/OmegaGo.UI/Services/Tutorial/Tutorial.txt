@@ -1,5 +1,6 @@
 ﻿#
 # This is the primary tutorial.
+# See ScenarioLoader.cs for command descriptions
 #
 s Welcome to my class, apprentice. Are you ready to learn to play the ancient game of Go?
 menu

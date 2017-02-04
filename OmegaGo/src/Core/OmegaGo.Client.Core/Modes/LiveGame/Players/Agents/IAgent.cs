@@ -79,6 +79,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// </summary>
         event EventHandler<Position> PlaceStone;
 
+        event EventHandler<int> PlaceHandicapStones;
+
         /// <summary>
         /// Fired when the agent resigns
         /// </summary>

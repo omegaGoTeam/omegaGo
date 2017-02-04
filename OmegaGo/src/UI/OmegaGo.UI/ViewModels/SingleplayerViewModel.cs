@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
@@ -21,7 +22,13 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
         public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
-        public MvxCommand GoToLocalGame => new MvxCommand(() => ShowViewModel<GameCreationViewModel>());
+
+        public MvxCommand GoToLocalGame => new MvxCommand(() =>
+        {
+            Mvx.RegisterSingleton<GameCreationBundle>(new SoloBundle());
+            ShowViewModel<GameCreationViewModel>();
+        }
+            );
 
         public int Points => this._settings.Quests.Points;
 

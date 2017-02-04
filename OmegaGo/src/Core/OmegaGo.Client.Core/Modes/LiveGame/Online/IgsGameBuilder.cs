@@ -8,13 +8,18 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
-    public class OnlineGameBuilder : GameBuilder<OnlineGame,OnlineGameBuilder>
+    public class IgsGameBuilder : GameBuilder<OnlineGame,IgsGameBuilder>
     {
         private readonly OnlineGameInfo _info;
 
-        public OnlineGameBuilder(OnlineGameInfo info)
+        public IgsGameBuilder(OnlineGameInfo info)
         {
             this._info = info;
+            this.BoardSize(info.BoardSize);
+            this.CountingType(Rules.CountingType.Territory);
+            this.HandicapPlacementType(Rules.HandicapPlacementType.Fixed);
+            this.Komi(info.Komi);
+            this.WhiteHandicap(info.NumberOfHandicapStones);
         }
 
         public override OnlineGame Build() =>

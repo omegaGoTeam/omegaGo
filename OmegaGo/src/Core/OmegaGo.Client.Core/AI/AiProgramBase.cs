@@ -8,10 +8,19 @@ namespace OmegaGo.Core.AI
 {
     public abstract class AiProgramBase : IAIProgram
     {
-        public virtual AICapabilities Capabilities { get; } = new AICapabilities(false, false, 1,1);
+        public abstract AICapabilities Capabilities { get; }
         public abstract string Name { get; }
-        public virtual string Description => "H";
+        public abstract string Description { get; }
         public abstract AiDecision RequestMove(AIPreMoveInformation preMoveInformation);
+
+        public virtual AiDecision GetHint(AIPreMoveInformation preMoveInformation)
+        {
+            if (!Capabilities.ProvidesHints)
+            {
+                throw new InvalidOperationException("This AI is incapable of providing hints.");
+            }
+            return RequestMove(preMoveInformation);
+        }
 
         public override string ToString()
         {

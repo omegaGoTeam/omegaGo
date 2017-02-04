@@ -34,7 +34,9 @@
             <Button Content="{x:Bind Localizer.Tutorial}"                     
                     Command="{Binding Path=NavigateToTutorial}"
                     ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
-                    HorizontalAlignment="Stretch" />
+                    HorizontalAlignment="Stretch"
+                    Visibility="{x:Bind VM.ShowTutorialButton}"
+                    />
             <Button Content="{x:Bind Localizer.Singleplayer}" 
                     Command="{Binding Path=NavigateToSingleplayer}"
                     ToolTipService.ToolTip="{x:Bind Localizer.SingleplayerToolTip}"

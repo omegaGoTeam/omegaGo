@@ -3,7 +3,6 @@ using MvvmCross.Platform;
 using OmegaGo.Core;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -11,15 +10,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using OmegaGo.Core.AI;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
-using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Time;
+using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -28,12 +27,38 @@ namespace OmegaGo.UI.ViewModels
         private int _whiteHandicap;
         private float _compensation = 0;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
-        private string _selectedDifficulty = null;
         private RulesetType _selectedRuleset = RulesetType.Chinese;
-        private string _selectedStoneColor = null;
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
-        private ICommand _setDefaultCompensationCommand = null;
+        private ICommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
+        
+        public GameCreationViewModel()
+        {
+            WhiteHandicap = 0;
+            _customWidth = _settings.Interface.BoardWidth;
+            _customHeight = _settings.Interface.BoardHeight;
+            SetCustomBoardSize();
+            var bundle = Mvx.GetSingleton<GameCreationBundle>();
+            bundle?.OnLoad(this);
+        }
+
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
+        private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
+        public TimeControlSettingsViewModel TimeControl
+        {
+            get { return _timeControl; }
+            set { SetProperty(ref _timeControl, value); }
+        }
+        
+        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } = new ObservableCollection
+            <TimeControlStyle>
+        {
+            TimeControlStyle.None,
+            TimeControlStyle.Absolute,
+            TimeControlStyle.Canadian
+        };
 
         /// <summary>
         /// Default offered game board sizes
@@ -63,27 +88,9 @@ namespace OmegaGo.UI.ViewModels
                 _customWidth = value.Width;
                 RaisePropertyChanged(nameof(CustomHeight));
                 RaisePropertyChanged(nameof(CustomWidth));
+                _settings.Interface.BoardWidth = _customWidth;
+                _settings.Interface.BoardHeight = _customHeight;
                 SetDefaultCompensation();
-            }
-        }
-
-        /// <summary>
-        /// Difficulties
-        /// </summary>
-        public ObservableCollection<string> Difficulties { get; }
-
-        /// <summary>
-        /// Selected difficulty
-        /// </summary>
-        public string SelectedDifficulty
-        {
-            get
-            {
-                return _selectedDifficulty;
-            }
-            set
-            {
-                SetProperty(ref _selectedDifficulty, value);
             }
         }
 
@@ -92,7 +99,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public ObservableCollection<RulesetType> Rulesets { get; } =
             new ObservableCollection<RulesetType>() { RulesetType.Chinese, RulesetType.Japanese, RulesetType.AGA };
-
         /// <summary>
         /// Selected ruleset
         /// </summary>
@@ -109,36 +115,34 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        /// <summary>
-        /// Stone colors
-        /// </summary>
-        public ObservableCollection<string> StoneColors { get; }
-
         public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } = new ObservableCollection<GameCreationViewPlayer>(
-               _playerList
+               GameCreationViewModel.playerList
             );
 
-        private static List<GameCreationViewPlayer> _playerList = new List<GameCreationViewPlayer>(
+        private static List<GameCreationViewPlayer> playerList = new List<GameCreationViewPlayer>(
             new GameCreationViewPlayer[]
             {
                 new GameCreationViewHumanPlayer("Human")
             }.Concat(
-                OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
+                Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
                 )
             );
 
-        private GameCreationViewPlayer _blackPlayer = _playerList[0];
-        private GameCreationViewPlayer _whitePlayer = _playerList[0];
+        private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.playerList[0];
+        private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.playerList[0];
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }
-            set { SetProperty(ref _blackPlayer, value); }
+            set { SetProperty(ref _blackPlayer, value);
+                BlackPlayerSettings.ChangePlayer(value);
+            }
         }
-
         public GameCreationViewPlayer WhitePlayer
         {
             get { return _whitePlayer; }
-            set { SetProperty(ref _whitePlayer, value); }
+            set { SetProperty(ref _whitePlayer, value);
+                WhitePlayerSettings.ChangePlayer(value);
+            }
         }
 
         private int _customWidth = 19;
@@ -169,22 +173,6 @@ namespace OmegaGo.UI.ViewModels
                 SetCustomBoardSize();
             } // TODO check for exceptions
         }
-
-        /// <summary>
-        /// Selected stone color
-        /// </summary>
-        public string SelectedStoneColor
-        {
-            get
-            {
-                return _selectedStoneColor;
-            }
-            set
-            {
-                SetProperty(ref _selectedStoneColor, value);
-            }
-        }
-
         /// <summary>
         /// Handicap of white player
         /// </summary>
@@ -212,14 +200,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
-        public GameCreationViewModel()
-        {
-            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
-            SelectedDifficulty = Difficulties.First();
-            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
-            SelectedStoneColor = StoneColors.First();
-            WhiteHandicap = 0;
-        }
 
         public ICommand SetDefaultCompensationCommand => _setDefaultCompensationCommand ?? (_setDefaultCompensationCommand = new MvxCommand(SetDefaultCompensation));
 
@@ -241,8 +221,8 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black);
-            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White);
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 
             //TODO: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
@@ -252,59 +232,7 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();
-            foreach (var player in game.Controller.Players)
-            {
-                player.AssignToGame(game.Info, game.Controller);
-            }
             Mvx.RegisterSingleton<ILiveGame>(game);
         }
-
-        public abstract class GameCreationViewPlayer
-        {
-            protected string Name;
-
-            public abstract GamePlayer Build(StoneColor color);
-
-            public override string ToString()
-            {
-                return Name;
-            }
-        }
-        class GameCreationViewHumanPlayer : GameCreationViewPlayer
-        {
-            public GameCreationViewHumanPlayer(string name)
-            {
-                this.Name = name;
-            }
-
-            public override GamePlayer Build(StoneColor color)
-            {
-                return new HumanPlayerBuilder(color)
-                    .Name(color.ToString())
-                    .Rank("NR")
-                    .Build();
-            }
-        }
-        class GameCreationViewAiPlayer : GameCreationViewPlayer
-        {
-            private IAIProgram ai;
-            public GameCreationViewAiPlayer(OmegaGo.Core.AI.IAIProgram program)
-            {
-                this.Name = "AI: " + program.Name;
-                this.ai = program;
-            }
-
-            public override GamePlayer Build(StoneColor color)
-            {
-                IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(ai.GetType());
-                return new AiPlayerBuilder(color)
-                    .Name(ai.Name + "(" + color.ToIgsCharacterString() + ")")
-                    .Rank("NR")
-                    .AiProgram(newInstance)
-                    .Build();
-            }
-        }
-
     }
- 
 }

@@ -24,6 +24,8 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Canadian;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
@@ -83,7 +85,7 @@ namespace FormsPrototype
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.OutgoingLine += Igs_OutgoingLine;
          // TODO
-            //   igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
+            igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
             igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.ConnectAsync())
             {
@@ -96,18 +98,14 @@ namespace FormsPrototype
             }
         }
 
-        /*
-        private async void Igs_MatchRequestAccepted(object sender, ObsoleteGameInfo game)
+        
+        private void Igs_MatchRequestAccepted(object sender, OnlineGame game)
         {
-            //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-            GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-            GamePlayer networkPlayer = game.OpponentOf(localPlayer);
-            await game.AbsorbAdditionalInformation(); // TODO this should maybe be more hidden
-            InGameForm ingameForm = new InGameForm(game, igs);
-            localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-            networkPlayer.Agent = new ObsoleteOnlineAgent();
+            InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
+            ingameForm.LoadGame(game);
             ingameForm.Show();
-        }*/
+        }
+        
 
         private void Igs_MatchRequestDeclined(object sender, string e)
         {
@@ -155,28 +153,32 @@ namespace FormsPrototype
                 if (obs != null)
                 {
                     this.lbObservedGames.Items.Add(obs);
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(obs, igs);
+                    ingameForm.LoadGame(obs);
+                    ingameForm.Show();
                 }
                 else
                 {
                     MessageBox.Show("Observing failed.");
                 }
-                InGameForm ingameForm = new FormsPrototype.InGameForm(obs.Metadata, igs);
-                ingameForm.LoadGame(obs);
-                ingameForm.Show();
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
-            // TODO
-            /**
+            
             if (this.lbObservedGames.SelectedItem != null)
             {
 
-                ObsoleteGameInfo game = (ObsoleteGameInfo)lbGames.SelectedItem;
-                game.StopObserving();
+                OnlineGame game = (OnlineGame)lbObservedGames.SelectedItem;
+                
                 this.lbObservedGames.Items.Remove(game);
-            }*/
+
+                if (!await igs.EndObserving(game))
+                {
+                    MessageBox.Show("End observation failed.");
+                }
+            }
         }
 
         private async void bSendMessage_Click(object sender, EventArgs e)
@@ -234,10 +236,6 @@ namespace FormsPrototype
                 .Komi(7.5f)
                 .BoardSize(new GameBoardSize((int) this.nLocalBoardSize.Value))
                 .Build();
-            foreach(var player in game.Controller.Players)
-            {
-                player.AssignToGame(game.Info, game.Controller);
-            }
             ingameForm.LoadGame(game);
             ingameForm.Show();
         }
@@ -245,11 +243,25 @@ namespace FormsPrototype
         
         private GamePlayer CreateAgentFromComboboxObject(InGameForm form, object text, StoneColor color)
         {
+            TimeControl timeControl = null;
+            if (rbNoTimeControl.Checked)
+            {
+                timeControl = new NoTimeControl();
+            }
+            else if (rbAbsoluteTiming.Checked)
+            {
+                timeControl = new AbsoluteTimeControl(1);
+            }
+            else if (rbCanadianTiming.Checked)
+            {
+                timeControl = new CanadianTimeControl(1, 5, 1);
+            }
             if (text is string && ((string)text) == "Human")
             {
                 GamePlayer human = new HumanPlayerBuilder(color)
                     .Name(color.ToString())
                     .Rank("NR")
+                    .Clock(timeControl)
                     .Build();
                 (human.Agent as HumanAgent).MoveRequested += (e,e2) =>
                 {
@@ -264,6 +276,7 @@ namespace FormsPrototype
                 GamePlayer aiPlayer = new AiPlayerBuilder(color)
                     .Name(text.ToString() + "(" + color.ToIgsCharacterString() +")")
                     .Rank("NR")
+                    .Clock(timeControl)
                     .AiProgram(newInstance)
                     .Build();
                 return aiPlayer;
@@ -271,11 +284,7 @@ namespace FormsPrototype
             throw new Exception("This agent cannot be handled yet.");
         }
 
-        private void PrimaryForm_MoveRequested(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+ 
         private async void button6_Click_1(object sender, EventArgs e)
         {
             IgsIncomingLine(this, "CONNECT() RESULT: " + await this.igs.ConnectAsync());
@@ -336,22 +345,15 @@ namespace FormsPrototype
 
         private async void bAcceptRequest_Click(object sender, EventArgs e)
         {
-            // TODO
-            /*
+            
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                ObsoleteGameInfo game = await igs.AcceptMatchRequestAsync(selectedItem);
-                await game.AbsorbAdditionalInformation();
+                OnlineGame game = await igs.AcceptMatchRequestAsync(selectedItem);
                 if (game != null)
                 {
-                    this.lbMatchRequests.Items.Remove(selectedItem);
-                    //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-                    GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-                    GamePlayer networkPlayer = game.OpponentOf(localPlayer);
-                    InGameForm ingameForm = new InGameForm(game, igs);
-                    localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-                    networkPlayer.Agent = new ObsoleteOnlineAgent();
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
+                    ingameForm.LoadGame(game);
                     ingameForm.Show();
                 }
                 else
@@ -359,7 +361,6 @@ namespace FormsPrototype
                     Fail("Match request cannot be accepted.");
                 }
             }
-            */
         }
     }
 }

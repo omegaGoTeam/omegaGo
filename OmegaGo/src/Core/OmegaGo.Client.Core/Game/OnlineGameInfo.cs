@@ -42,6 +42,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
             this.ServerID = server;
             IgsIndex = igsIndex;
         }
+        public int MainTime { get; set; }
+        public int ByoyomiPeriod { get; set; }
 
         public int IgsIndex { get; private set; }
 
