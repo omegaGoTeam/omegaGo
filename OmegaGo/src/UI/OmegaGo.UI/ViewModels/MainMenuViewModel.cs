@@ -5,7 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
@@ -23,6 +25,8 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToStatistics;
         private IMvxCommand _navigateToSettings;
         private IMvxCommand _navigateToHelp;
+
+        public bool ShowTutorialButton => _gameSettings.Display.ShowTutorialInMainMenu;
 
         public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )
         {
@@ -112,7 +116,14 @@ namespace OmegaGo.UI.ViewModels
                                                      (_navigateToSingleplayer = new MvxCommand(() => ShowViewModel<SingleplayerViewModel>()));
 
         public IMvxCommand NavigateToGameCreation => _navigateToGameCreation ??
-                                                     (_navigateToGameCreation = new MvxCommand(() => ShowViewModel<GameCreationViewModel>()));
+                                                     (_navigateToGameCreation = new MvxCommand(() =>
+                                                     {
+                                                         Mvx.RegisterSingleton<GameCreationBundle>(new HotseatBundle());
+                                                         ShowViewModel
+                                                             <
+                                                                 GameCreationViewModel
+                                                                 >();
+                                                     }));
 
         public IMvxCommand NavigateToMultiplayerDashboard => _navigateToMultiplayerDashboard ??
                                                              (_navigateToMultiplayerDashboard =

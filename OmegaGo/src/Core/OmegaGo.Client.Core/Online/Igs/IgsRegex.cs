@@ -54,7 +54,7 @@ namespace OmegaGo.Core.Online.Igs
             throw new ArgumentException("That's not a valid input.");
         }
 
-        private static readonly Regex regexGameHeading = new Regex(@"15 Game ([0-9]+) [^:]*: ([^ ]+) \(([0-9]+) ([0-9]+) ([0-9]+)\) vs ([^ ]+) \(([0-9]+) ([0-9]+) ([0-9]+)\).*");
+        private static readonly Regex regexGameHeading = new Regex(@"15 Game ([0-9]+) [^:]*: ([^ ]+) \(([0-9]+) ([0-9]+) ([-0-9]+)\) vs ([^ ]+) \(([0-9]+) ([0-9]+) ([-0-9]+)\).*");
         public static GameHeading ParseGameHeading(IgsLine line)
         {
             Match match = regexGameHeading.Match(line.EntireLine);

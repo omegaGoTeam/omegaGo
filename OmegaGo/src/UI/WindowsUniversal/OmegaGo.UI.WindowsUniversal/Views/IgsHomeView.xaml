@@ -81,6 +81,32 @@
                         </Button>
                     </Grid>
                 </PivotItem>
+                <PivotItem Header="Incoming Match Requests">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <TextBlock Text="You have these match requests:"></TextBlock>
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                            <ListBox Name="TempIncomingMatchRequests" ItemsSource="{Binding IncomingMatchRequests, Mode=OneWay}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </ScrollViewer>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal">
+                            <Button Background="LimeGreen" Click="Temp_AcceptRequest_Click">Accept</Button>
+                            <Button Background="Red" Click="Temp_RejectRequest_Click">Reject</Button>
+                        </StackPanel>
+                    </Grid>
+                </PivotItem>
                 <PivotItem Header="Console">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
                     <TextBlock

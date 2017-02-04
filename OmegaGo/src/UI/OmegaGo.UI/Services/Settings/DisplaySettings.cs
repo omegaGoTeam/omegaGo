@@ -43,6 +43,11 @@
             get { return GetSetting(nameof(ShowCoordinates), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(ShowCoordinates), value, SettingLocality.Roamed); }
         }
+        public bool ShowTutorialInMainMenu
+        {
+            get { return GetSetting(nameof(ShowTutorialInMainMenu), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
+        }
     }
     public enum BoardTheme
     {

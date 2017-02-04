@@ -10,9 +10,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
 {
     public class PlayerSettingsViewModel : ControlViewModelBase
     {
-        private GameCreationViewModel.GameCreationViewPlayer player;
+        private GameCreationViewPlayer player;
 
-        public PlayerSettingsViewModel(GameCreationViewModel.GameCreationViewPlayer gameCreationViewPlayer)
+        public PlayerSettingsViewModel(GameCreationViewPlayer gameCreationViewPlayer)
         {
             this.player = gameCreationViewPlayer;
             RaiseAllPropertiesChanged();
@@ -24,7 +24,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public string Description => player.Description;
         public bool AiPanelVisible => player.IsAi;
 
-        private OmegaGo.Core.AI.AICapabilities Capabitilies => player.IsAi ? ((GameCreationViewModel.GameCreationViewAiPlayer)player).Capabilities : null;
+        private OmegaGo.Core.AI.AICapabilities Capabitilies => player.IsAi ? ((GameCreationViewAiPlayer)player).Capabilities : null;
 
         public string HandlesNonSquareBoards => Capabitilies?.HandlesNonSquareBoards ?? false ? "yes" : "no";
         public string MinimumBoardSize => Capabitilies?.MinimumBoardSize.ToString() ?? "n/a";
@@ -32,7 +32,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         
 
-        public void ChangePlayer(GameCreationViewModel.GameCreationViewPlayer value)
+        public void ChangePlayer(GameCreationViewPlayer value)
         {
             player = value;
             RaiseAllPropertiesChanged();

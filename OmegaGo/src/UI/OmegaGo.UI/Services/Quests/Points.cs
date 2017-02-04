@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.UI.Services.Quests
 {
-    class Points
+    /// <summary>
+    /// Static holder class that contains constants related to the gaining of points by
+    /// the user for fulfilling quests.
+    /// </summary>
+    static class Points
     {
         public const int EASY_REWARD = 40;
         public const int MEDIUM_REWARD = 80;

@@ -73,6 +73,9 @@
     <Compile Include="Services\BoardControl\BoardControlState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GameCreation\GameCreationBundle.cs" />
+    <Compile Include="Services\GameCreation\HotseatBundle.cs" />
+    <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
     <Compile Include="Services\Localization\GameLanguages.cs" />
@@ -109,6 +112,9 @@
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
+    <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />

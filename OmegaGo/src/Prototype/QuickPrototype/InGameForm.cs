@@ -226,6 +226,8 @@ namespace FormsPrototype
         {
             this.PlayerToMove = e;
             this.lblTurnPlayer.Text = e.Info.Name;
+            this.groupboxMoveMaker.Visible = 
+             (_gamePhase == GamePhaseType.Main && e.IsHuman) ;
         }
 
         private void _controller_Resignation(object sender, GamePlayer resigner)
@@ -486,15 +488,14 @@ namespace FormsPrototype
         private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
             // TODO online
-           // if (this._game.Server == null)
-           // {
+            if (!this._liveGame.Controller.IsOnlineGame)
+            {
                 this._controller.LifeDeath_UndoPhase();
-           // }
-            /*
+            }
             else
             {
-                this._game.Server.LifeDeath_Undo(this._game);
-            }*/
+// TODO                (this._liveGame as OnlineGame).Metadata.Server.(this._game);
+            }
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
@@ -502,21 +503,21 @@ namespace FormsPrototype
             this._controller.LifeDeath_Resume();
         }
 
-      
 
+        public OnlineGameInfo OnlineInfo => (OnlineGameInfo) this._liveGame.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-           // await this._igs.UndoPleaseAsync(this._game);
+            await this._igs.UndoPleaseAsync(OnlineInfo);
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-           // await this._igs.UndoAsync(this._game);
+            await this._igs.UndoAsync(OnlineInfo);
         }
 
         private void bUndoNo_Click(object sender, EventArgs e)
         {
-            //this._igs.NoUndo(this._game);
+            this._igs.NoUndo(OnlineInfo);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
@@ -555,7 +556,7 @@ namespace FormsPrototype
             this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             this._controller.GamePhaseChanged += _controller_GamePhaseChanged;
            //  this._controller.EnterPhase += _controller_EnterPhase;
-           /*
+           
             foreach (GamePlayer player in this._liveGame.Controller.Players)
             {
                 if (player.Agent is AiAgent)
@@ -563,7 +564,7 @@ namespace FormsPrototype
                     ((AiAgent)player.Agent).LogMessage += InGameForm_LogMessage;
                 }
             }
-            */
+            
             this._controller.BeginGame();
         }
 

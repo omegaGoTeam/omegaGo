@@ -345,22 +345,15 @@ namespace FormsPrototype
 
         private async void bAcceptRequest_Click(object sender, EventArgs e)
         {
-            // TODO
-            /*
+            
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                ObsoleteGameInfo game = await igs.AcceptMatchRequestAsync(selectedItem);
-                await game.AbsorbAdditionalInformation();
+                OnlineGame game = await igs.AcceptMatchRequestAsync(selectedItem);
                 if (game != null)
                 {
-                    this.lbMatchRequests.Items.Remove(selectedItem);
-                    //game.Ruleset.startGame(game.Players[1], game.Players[0], game.BoardSize);
-                    GamePlayer localPlayer = game.Players[0].Name == "OmegaGo1" ? game.Players[0] : game.Players[1]; // TODO hardcoded username
-                    GamePlayer networkPlayer = game.OpponentOf(localPlayer);
-                    InGameForm ingameForm = new InGameForm(game, igs);
-                    localPlayer.Agent = CreateAgentFromComboboxObject(ingameForm, this.cbWhoPlaysOnline.SelectedItem);
-                    networkPlayer.Agent = new ObsoleteOnlineAgent();
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
+                    ingameForm.LoadGame(game);
                     ingameForm.Show();
                 }
                 else
@@ -368,7 +361,6 @@ namespace FormsPrototype
                     Fail("Match request cannot be accepted.");
                 }
             }
-            */
         }
     }
 }

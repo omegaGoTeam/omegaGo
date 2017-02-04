@@ -15,6 +15,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void CompensationInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
+            // TODO this does not work with numpad (keys are named NumPad7, for example, I think)
             var keyChar = e.Key.ToString().FirstOrDefault();
             if ( !char.IsDigit( keyChar))
             {
