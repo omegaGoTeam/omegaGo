@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="StyleSheet" href="style.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Downstream Messages</title>
+</head>
+<body class="msgList">
+<h1>Downstream Messages</h1>
+
+<p>GET request will return a JSON object with one elment, named <tt>messages</tt>. The value of <tt>messages</tt> will be a list of
+    objects, which will always have an element named <tt>type</tt> that will match one of the message types in the list below. Messages marked
+    as channel messages will always include a <tt>channelId</tt> field that is the ID of this channel.</p>
+
+<h2><span id="HELLO">HELLO</span></h2>
+
+<p>Always the first message you receive.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>versionMajor</td>
+        <td>Major version number of server.</td>
+    </tr>
+    <tr>
+        <td>versionMinor</td>
+        <td>Minor version number of server.</td>
+    </tr>
+    <tr>
+        <td>versionBugfix</td>
+        <td>Bugfix version number of server.</td>
+    </tr>
+    <tr>
+        <td>jsonClientBuild</td>
+        <td>A string with the date and time of this JSON translator build.</td>
+    </tr>
+</table>
+
+<h2><span id="USER_UPDATE">USER_UPDATE</span></h2>
+
+<p>Letting you know that a user's flags have changed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user information</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="LOGIN_FAILED_NO_SUCH_USER">LOGIN_FAILED_NO_SUCH_USER</span></h2>
+
+<p>Your user name is not on the server.</p>
+
+<p class="see"><a href="upstream.html#LOGIN">LOGIN</a></p>
+
+<h2><span id="LOGIN_FAILED_BAD_PASSWORD">LOGIN_FAILED_BAD_PASSWORD</span></h2>
+
+<p>Your password did not match.</p>
+
+<p class="see"><a href="upstream.html#LOGIN">LOGIN</a></p>
+
+<h2><span id="LOGIN_FAILED_USER_ALREADY_EXISTS">LOGIN_FAILED_USER_ALREADY_EXISTS</span></h2>
+
+<p>An attempt to log in as a guest failed because the user name selected is already present.</p>
+
+<p class="see"><a href="upstream.html#LOGIN">LOGIN</a></p>
+
+<h2><span id="RECONNECT">RECONNECT</span></h2>
+
+<p>You have been disconnected because somebody logged in with your account on another system. <strong>Note:</strong> Despite
+    the name of this message, you should <em>not</em> reconnect automatically when you get this. Most likely the user is gone and
+    has logged in from another system, and reconnecting here will kick them back out.</p>
+
+<h2><span id="LOGIN_SUCCESS">LOGIN_SUCCESS</span></h2>
+
+<p>You have logged in successfully.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>you</td>
+        <td>A <a href="dataTypes.html#user">user</a> that describes you.</td>
+    </tr>
+    <tr>
+        <td>friends</td>
+        <td>Optional. A list of friends; see below for how each friend is structured.</td>
+    </tr>
+    <tr>
+        <td>subscriptions</td>
+        <td>Optional. List of <a href="dataTypes.html#subscription">KGS Plus subscriptions</a> that this account has.</td>
+    </tr>
+    <tr>
+        <td>roomCategoryChannelIds</td>
+        <td>An object that maps room categories to the channel that has the master room list for that category.</td>
+    </tr>
+    <tr>
+        <td>rooms</td>
+        <td>A list of all rooms on the server. See below for per-room information.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Elements of friend list</th>
+    </tr>
+    <tr>
+        <td>friendType</td>
+        <td>One of <tt>buddy</tt>, <tt>censored</tt>, <tt>fan</tt>, or <tt>admin_track</tt>.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>A <a href="dataTypes.html#user">user</a> giving information on the friend.</td>
+    <tr>
+        <td>notes</td>
+        <td>Optional. String information about the friend.
+        </td>
+    <tr>
+        <th colspan="2">Elements of room list</th>
+    </tr>
+    <tr>
+        <td>channelId</td>
+        <td>The channel ID of the room.</td>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>The category of the room.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#LOGIN">LOGIN</a></p>
+
+<h2><span id="ARCHIVE_JOIN">ARCHIVE_JOIN</span>, <span id="TAG_ARCHIVE_JOIN">TAG_ARCHIVE_JOIN</span></h2>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> whose archive this is.</td>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>An array of <a href="dataTypes.html#gameSummary">game summaries</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="UNJOIN">UNJOIN</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that you are no longer in this channel.</p>
+
+<h2><span id="ARCHIVE_GAMES_CHANGED">ARCHIVE_GAMES_CHANGED</span></h2>
+<p class="channel"></p>
+
+<p>One or more games in the archive have changed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>An array of <a href="dataTypes.html#gameSummary">game summaries</a> that have changed.</td>
+    </tr>
+</table>
+
+<h2><span id="ARCHIVE_GAME_REMOVED">ARCHIVE_GAME_REMOVED</span></h2>
+<p class="channel"></p>
+
+<p>A game in this archive has been removed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>timestamp</td>
+        <td>The time stamp of the game that was removed.</td>
+    </tr>
+</table>
+
+<h2><span id="CLOSE">CLOSE</span></h2>
+<p class="channel"></p>
+
+<p>The channel has been closed, and no longer exists.</p>
+
+<h2><span id="ARCHIVE_NONEXISTANT">ARCHIVE_NONEXISTANT</span></h2>
+
+<p>The archive you have requested does not exist.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user whose archive you requested.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#JOIN_ARCHIVE_REQUEST">JOIN_ARCHIVE_REQUEST</a>.</p>
+
+<h2><span id="ROOM_NAMES">ROOM_NAMES</span></h2>
+
+<p>Provides the names of one or more rooms.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>rooms</td>
+        <td>An array of room information</td>
+    </tr>
+    <tr>
+        <th colspan="2">Room Information</th>
+    </tr>
+    <tr>
+        <td>channelId</td>
+        <td>The channel ID of the room</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the room.</td>
+    </tr>
+    <tr>
+        <td>private</td>
+        <td>Optional. If set, the room is private.</td>
+    </tr>
+    <tr>
+        <td>tournOnly</td>
+        <td>Optional. If set, only tournament games in this room.</td>
+    </tr>
+    <tr>
+        <td>globalGamesOnly</td>
+        <td>Optional. If set, all games in this room must be on the global game lists.</td>
+    </tr>
+</table>
+
+<h2><span id="PRIVATE_KEEP_OUT">PRIVATE_KEEP_OUT</span></h2>
+
+<p>You tried to join a channel that is private.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>channelId</td>
+        <td>The channel that you tried to join.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_JOIN">ROOM_JOIN</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that you have joined a room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>A list of <a href="dataTypes.html">game channels</a> that are in the room.</td>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>A list of <a href="dataTypes.html#user">users</a> in this room.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_JOIN">GAME_JOIN</span></h2>
+<p class="channel"></p>
+
+<p>You joined a game channel.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>List of <a href="dataTypes.html#user">users</a> in this room.</td>
+    </tr>
+    <tr>
+        <td>sgfEvents</td>
+        <td>A list of <a href="dataTypes.html#sgfEvent">SGF events</a> that will rebuild the game to its current point.</td>
+    </tr>
+    <tr>
+        <td><i>Various</i></td>
+        <td>All fields from a <a class="msg" href="#GAME_STATE">GAME_STATE</a> message will be present as well.
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>A <a href="dataTypes.html#gameSummary">game summary</a> for this game.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_JOIN">CHALLENGE_JOIN</span></h2>
+<p class="channel"></p>
+
+<p>You joined a challenge.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>List of <a href="dataTypes.html#user">users</a> in this room.</td>
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>The <a href="dataTypes.html#gameSummary">game summary</a> for this game.</td>
+    </tr>
+    <tr>
+        <td><i>Various</i></td>
+        <td>All fields from a <a class="msg" href="#GAME_STATE">GAME_STATE</a> message will be present as well.
+    </tr>
+</table>
+
+<h2><span id="USER_ADDED">USER_ADDED</span></h2>
+<p class="channel"></p>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who has been added to this channel.</td>
+    </tr>
+</table>
+
+<h2><span id="CHAT">CHAT</span>, <span id="ANNOUNCE">ANNOUNCE</span>, <span id="MODERATED_CHAT">MODERATED_CHAT</span></h2>
+<p class="channel"></p>
+
+<p>A chat message from the channel. Announcements should be in bold, they are from admins and are meant to stand out. Moderated chat means that
+    the message is coming from the current channel moderator on behalf of the user specified in the message.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who made the announcement.</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The text of the chat or announcement.</td>
+    </tr>
+</table>
+
+<h2><span id="USER_REMOVED">USER_REMOVED</span></h2>
+<p class="channel"></p>
+
+<p>A user has been removed from the channel.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="DETAILS_JOIN">DETAILS_JOIN</span></h2>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> whose details channel this is.</td>
+    </tr>
+    <tr>
+        <td><i>Various</i></td>
+        <td>All fields from <a class="msg" href="#DETAILS_UPDATE">DETAILS_UPDATE</a> are present.</td>
+    </tr>
+</table>
+
+<h2><span id="DETAILS_UPDATE">DETAILS_UPDATE</span></h2>
+<p class="channel"></p>
+
+<p>If you are in a details channel when anything about the user changes, you get this update.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>forcedNoRank</td>
+        <td>Boolean. If set, then this user's rank has been shut off by admins.</td>
+    </tr>
+    <tr>
+        <td>privateEmail</td>
+        <td>Boolean. If set, then this user is keeping their email address private</td>
+    </tr>
+    <tr>
+        <td>emailWanted</td>
+        <td>Boolean. If set, the user wants email from KGS.</td>
+    </tr>
+    <tr>
+        <td>lastOn</td>
+        <td>The time when they were last logged in.</td>
+    </tr>
+    <tr>
+        <td>regStartDate</td>
+        <td>When they registered this account.</td>
+    </tr>
+    <tr>
+        <td>personalName</td>
+        <td>Their "real name."</td>
+    </tr>
+    <tr>
+        <td>personalInfo</td>
+        <td>A block of text where they can put whatever they want.</td>
+    </tr>
+    <tr>
+        <td>locale</td>
+        <td>The locale passed in on their last login.</td>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>Optional. Their email address. Missing if they have it private, unless you are an admin, in which case it is provided anyway.</td>
+    </tr>
+    <tr>
+        <td>subscriptions</td>
+        <td>Optional. If this is your account or if you are an admin, your subscriptions are here. See <a href="#LOGIN_SUCCESS">LOGIN_SUCCESS</a>.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#DETAILS_JOIN_REQUEST">DETAILS_JOIN_REQUEST</a>.</p>
+
+<h2><span id="DETAILS_NONEXISTANT">DETAILS_NONEXISTANT</span></h2>
+
+<p>Sent if you ask for details on a nonexistant user.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name for  which you asked for a details channel.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#DETAILS_JOIN_REQUEST">DETAILS_JOIN_REQUEST</a>.</p>
+
+<h2><span id="AVATAR">AVATAR</span></h2>
+
+<p>Image data for a user's avatar.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user whose image this is. Note that this message is unique in downstream messages, in that it has a name instead of a user.</td>
+    </tr>
+    <tr>
+        <td>imageData</td>
+        <td>base64 encoded JPEG image data. If this is missing, it means that the user has no avatar.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#AVATAR_REQUEST">AVATAR_REQUEST</a>.</p>
+
+<h2><span id="DETAILS_RANK_GRAPH">DETAILS_RANK_GRAPH</span></h2>
+<p class="channel"></p>
+
+<p>Rank graph data for a user details channel.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>rankData</td>
+        <td>An array of rank graph data. One value per day, last value is for midnight GMT from yesterday. 30k is 0..99, 29k is 100..199, etc. 0x7fff indicates
+        "no rank for this day."</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#DETAILS_RANK_GRAPH_REQUEST">DETAILS_RANK_GRAPH_REQUEST</a>.</p>
+
+<h2><span id="ROOM_CAT_COUNTERS">ROOM_CAT_COUNTERS</span></h2>
+<p class="channel"></p>
+
+<p>If you join a room category channel, you get these periodically.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>rooms</td>
+        <td>A list of room entries.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Room Entry Values</th>
+    </tr>
+    <tr>
+        <td>channelId</td>
+        <td>The room's channel ID.</td>
+    </tr>
+    <tr>
+        <td>numUsers</td>
+        <td>The number of users in the room.</td>
+    </tr>
+    <tr>
+        <td>numGames</td>
+        <td>The number of games in the room.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_DESC">ROOM_DESC</span></h2>
+<p class="channel"></p>
+
+<p>Gives the room descripton text for a room, and the list of owners.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>The room description text</td>
+    </tr>
+    <tr>
+        <td>owners</td>
+        <td>Optional. A list of <a href="dataTypes.html#user">users</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_NAME_FLUSH">ROOM_NAME_FLUSH</span></h2>
+<p class="channel"></p>
+
+<p>The name of this room has changed. If you aren't in the room, you need to re-request the name (or just forget about it).</p>
+
+<h2><span id="ROOM_CREATED">ROOM_CREATED</span></h2>
+
+<p>You successfully created a room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>The callback key for your request.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#CREATE_ROOM_REQUEST">CREATE_ROOM_REQUEST</a></p>
+
+<h2><span id="CONVO_JOIN">CONVO_JOIN</span></h2>
+<p class="channel"></p>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Optional. If you were the one to request this convo, you will see your callback key here.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The other <a href="dataTypes.html#user">user</a> in this convo.</td>
+    </tr>
+</table>
+
+<h2><span id="CONVO_NO_SUCH_USER">CONVO_NO_SUCH_USER</span></h2>
+
+<p>Can't make your convo. User doesn't exist.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="MESSAGES">MESSAGES</span></h2>
+
+<p>Contains your messages from your mailbox.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>messages</td>
+        <td>A list of messages.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Message Contents</th>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>The timestamp of the message creation.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html">user</a> who sent the message.</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The text of the message.</td>
+    </tr>
+</table>
+
+<h2><span id="MESSAGE_CREATE_SUCCESS">MESSAGE_CREATE_SUCCESS</span></h2>
+
+<p>You successfully sent somebody a message.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>The callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="MESSAGE_CREATE_NO_USER">MESSAGE_CREATE_NO_USER</span>, <span id="MESSAGE_CREATE_FULL">MESSAGE_CREATE_FULL</span></h2>
+
+<p>The user who you tried to send a message to does not exist or has a full mailbox.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="MESSAGE_CREATE_CONNECTED">MESSAGE_CREATE_CONNECTED</span></h2>
+
+<p>The user is connected. Instead of leaving them a message, a convo will be created.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="FRIEND_CHANGE_NO_USER">FRIEND_CHANGE_NO_USER</span></h2>
+
+<p>You tried to change somebody's friend (buddy, fan, etc.) state, but they don't exist!</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="FRIEND_ADD_SUCCESS">FRIEND_ADD_SUCCESS</span>, <span id="FRIEND_REMOVE_SUCCESS">FRIEND_REMOVE_SUCCESS</span></h2>
+
+<p>You successfully changed somebody's friend state.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+    <tr>
+        <td>friendType</td>
+        <td>The friend type they are or were.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who you changed.</td>
+    </tr>
+    <tr>
+        <td>notes</td>
+        <td>Optional. Your notes for the user.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_CREATED">CHALLENGE_CREATED</span></h2>
+<p class="channel"></p>
+
+<p>Informs you that your challenge has been created.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+    <tr>
+        <td>game</td>
+        <td>The <a href="dataTypes.html#gameChannel">game channel</a> for the new game.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#CHALLENGE_CREATE">CHALLENGE_CREATE</a>.</p>
+
+<h2><span id="CHALLENGE_NOT_CREATED">CHALLENGE_NOT_CREATED</span></h2>
+
+<p>Indicates that you could not create the challenge you wanted.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+    <tr>
+        <td>gameId</td>
+        <td>Optional. Honestly I'm not sure what this means. The Java client ignores it. The server fills it in sometimes, but
+            it's very hard for me to tell exactly when or why.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_CANT_PLAY_RANKED">CHALLENGE_CANT_PLAY_RANKED</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that your game proposal was invalid, because it specified a ranked game but the rules were incompatible with ranked.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>field</td>
+        <td>One of <tt>SIZE</tt>, <tt>HANDICAP</tt>, <tt>KOMI</tt>, or <tt>TIME</tt>.</td>
+    </tr>
+    <tr>
+        <td>tooBig</td>
+        <td>Boolean. If set, your value was too big for ranked; if clear, your value was too small.</td>
+    </tr>
+    <tr>
+        <td>limit</td>
+        <td>The value you need to move to in order to play ranked.</td>
+    </tr>
+</table>
+
+<h2><span id="IDLE_WARNING">IDLE_WARNING</span></h2>
+
+<p>You have not done anything in a long time, and will be disconnected in 10 minutes.</p>
+
+<h2><span id="GAME_LIST">GAME_LIST</span></h2>
+<p class="channel"></p>
+
+<p>Updates the list of games in a room or global game list.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>A list of <a href="dataTypes.html#gameChannel">game channels</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="SYNC">SYNC</span></h2>
+
+<p>No data, just lets you know that your <a class="msg" href="upstream.html#SYNC_REQUEST">SYNC_REQUEST</a> has been processed and returned.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>The callback key from the request.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#SYNC_REQUEST">SYNC_REQUEST</a>.</p>
+
+<h2><span id="CHALLENGE_PROPOSAL">CHALLENGE_PROPOSAL</span></h2>
+<p class="channel"></p>
+
+<p>A player in a challenge has proposed a game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td>The <a href="dataTypes.html#proposal">proposal</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_NOTIFY">GAME_NOTIFY</span></h2>
+
+<p>When you are about to join a game but may not know about it (e.g., if you are not in a room with the game), this will be sent first.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>game</td>
+        <td>The <a href="dataTypes.html#gameChannel">game channel</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_STATE">GAME_STATE</span></h2>
+<p class="channel"></p>
+
+<p>Updates with more information about the game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td><i>Various</i></td>
+        <td>The <a href="dataTypes.html#gameFlags">game flags</a> for this game.</td>
+    </tr>
+    <tr>
+        <td>actions</td>
+        <td>A list of the actions available to each player in the game. See below for the format for each action.</td>
+    </tr>
+    <tr>
+        <td>clocks</td>
+        <td>An object mapping role to the current state of that role's clock. See below for the format of each clock.
+            May not be present when there are no clocks involved in the game.</td>
+    </tr>
+    <tr>
+        <td>score</td>
+        <td>The final <a href="dataTypes.html#score">score</a> from the game. Only present if the game has been scored.</td>
+    </tr>
+    <tr>
+        <td>whiteDoneSent</td>
+        <td>Boolean. Indicates whether or not white has OKed the current score. Only present when scoring.</td>
+    </tr>
+    <tr>
+        <td>blackDoneSent</td>
+        <td>Boolean. Indicates whether or not black has OKed the current score. Only present when scoring.</td>
+    </tr>
+    <tr>
+        <td>whiteScore</td>
+        <td>The white score. Only present during scoring.</td>
+    </tr>
+    <tr>
+        <td>blackScore</td>
+        <td>The black score. Only present during scoring.</td>
+    </tr>
+    <tr>
+        <td>doneId</td>
+        <td>The current "done ID." Each time a player changes the life and death of stones in the game, the done ID is incremented, and the "doneSent" flag
+            for each player is cleared. When sending a <a class="msg" href="upstream.html#GAME_SCORING_DONE">GAME_SCORING_DONE</a> message, you must include the done ID, and
+            if it is not up to date the message will be ignored by the server.</td>
+    <tr>
+        <th colspan="2">Action Format</th>
+    <tr>
+        <td>action</td>
+        <td>One of: <tt>MOVE</tt>, <tt>EDIT</tt>, <tt>SCORE</tt>, <tt>CHALLENGE_CREATE</tt>, <tt>CHALLENGE_SETUP</tt>,
+            <tt>CHALLENGE_WAIT</tt>, <tt>CHALLENGE_ACCEPT</tt>, <tt>CHALLENGE_SUBMITTED</tt>, <tt>EDIT_DELAY</tt>.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who can perform this action. Multiple users may have the same action available.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Clock Format</th>
+    </tr>
+    <tr>
+        <td>paused</td>
+        <td>Boolean. If present, the clock has been paused, e.g. because the player has left the game.</td>
+    </tr>
+    <tr>
+        <td>running</td>
+        <td>Boolean. If present, the clock is running. A clock is only running when it is the turn of the player who owns this clock.</td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>Double. The seconds left in the current period of the clock.</td>
+    </tr>
+    <tr>
+        <td>periodsLeft</td>
+        <td>Only present for byo-yomi clocks. The number of periods left on the clock.</td>
+    </tr>
+    <tr>
+        <td>stonesLeft</td>
+        <td>Only present for Canadian clocks. The number of stones left in the current period.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_UPDATE">GAME_UPDATE</span>, <span id="PLAYBACK_DATA">PLAYBACK_DATA</span></h2>
+<p class="channel"></p>
+
+<p>Moves have been made in the game or playback.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>sgfEvents</td>
+        <td>The <a href="dataTypes.html#sgfEvent">SGF events</a> needed to represent the changes in the game.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_UNDO_REQUEST">GAME_UNDO_REQUEST</span></h2>
+<p class="channel"></p>
+
+<p>User requested an undo. Ignore it to reject it, or send <a class="msg" href="upstream.html#GAME_UNDO_ACCEPT">GAME_UNDO_ACCEPT</a> to let the undo happen.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>role</td>
+        <td>The <a href="dataTypes.html#role">role</a> of the user requesting an undo.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#GAME_UNDO_REQUEST">GAME_UNDO_REQUEST</a>, <a href="upstream.html#GAME_UNDO_ACCEPT">GAME_UNDO_ACCEPT</a>.</p>
+
+<h2><span id="SET_CHAT_MODE">SET_CHAT_MODE</span></h2>
+<p class="channel"></p>
+
+<p>For teachers only. Set whether the chat is moderated or not.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>mode</td>
+        <td>One of <tt>NORMAL</tt>, <tt>QUIET</tt>, or <tt>MODERATED</tt>.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>Optional. If the mode is <tt>MODERATED</tt> then this says who the moderator is.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_TIME_EXPIRED">GAME_TIME_EXPIRED</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that your clock has run out. This is a test message to determine whether or not you are still connected. The client <em>must</em>
+    immediately send a <a class="msg" href="upstream.html#GAME_TIME_EXPIRED">GAME_TIME_EXPIRED</a> back to the server.</p>
+
+<p class="see"><a href="upstream.html#GAME_TIME_EXPIRED">GAME_TIME_EXPIRED</a>.</p>
+
+<h2><span id="GAME_OVER">GAME_OVER</span></h2>
+<p class="channel"></p>
+
+<p>The game has ended.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>score</td>
+        <td>The final <a href="dataTypes.html#score">score</a> of the game.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_REVIEW">GAME_REVIEW</span></h2>
+
+<p>A game review has started. The review will be in a new channel.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>originalId</td>
+        <td>The channel ID of the game.</td>
+    </tr>
+    <tr>
+        <td>review</td>
+        <td>The <a href="dataTypes.html#gameChannel">game channel</a> of the new review.</td>
+    </tr>
+</table>
+
+<h2><span id="LOAD_FAILED">LOAD_FAILED</span></h2>
+
+<p>An attempt to load a game from archives has failed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>The <a href="dataTypes.html#gameSummary">game summary</a> of the game that failed to load.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_AUDIO">CHANNEL_AUDIO</span></h2>
+<p class="channel"></p>
+
+<p>A block of audio for a channel you're in.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>audio</td>
+        <td>Base64-encoded SPEEX audio data.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_ADD">PLAYBACK_ADD</span></h2>
+
+<p>Add one or more playbacks to those you know about.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>playbacks</td>
+        <td>A list of playbacks.</td>
+    </tr>
+    <tr>
+        <th colspan="2">Playback Format</th>
+    </tr>
+    <tr>
+        <td>dateStamp</td>
+        <td>The date stamp of the playback.</td>
+    </tr>
+    <tr>
+        <td>subscribersOnly</td>
+        <td>Boolean. If set, only KGS Plus subscribers can see the playback.</td>
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>The <a href="dataTypes.html#gameSummary">game summary</a> of the playback.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_SETUP">PLAYBACK_SETUP</span></h2>
+<p class="channel"></p>
+
+<p>A playback has been set up for you to watch.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>The <a href="dataTypes.html#gameSummary">game summary</a> of the playback.</td>
+    </tr>
+</table>
+
+<h2><span id="GLOBAL_GAMES_JOIN">GLOBAL_GAMES_JOIN</span></h2>
+<p class="channel"></p>
+
+<p>You have joined a global games list.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>containerType</td>
+        <td>One of <tt>CHALLENGES</tt>, <tt>ACTIVES</tt>, or <tt>FANS</tt>.</td>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>A list of <a href="dataTypes.html#games">game channels</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="SUBSCRIPTION_UPDATE">SUBSCRIPTION_UPDATE</span></h2>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>subscriptions</td>
+        <td>A list of your <a href="dataTypes.html#subscription">subscriptions</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_FINAL">CHALLENGE_FINAL</span></h2>
+<p class="channel"></p>
+
+<p>A matching proposal has been uploaded by all players involved, and the game is starting.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameChannelId</td>
+        <td>The channel ID of the new game.</td>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td>The accepted proposal.</td>
+    </tr>
+</table>
+
+<h2><span id="ANNOUNCEMENT">ANNOUNCEMENT</span></h2>
+
+<p>A message sent to all channels, all users. This should be displayed very prominently.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The text of the announcement.</td>
+    </tr>
+</table>
+
+<h2><span id="SERVER_STATS">SERVER_STATS</span></h2>
+
+<p>Random server statistics.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>versionMajor</td>
+        <td>Same as <a href="#HELLO" class="msg">HELLO</a>.</td>
+    </tr>
+    <tr>
+        <td>versionMinor</td>
+        <td>Same as <a href="#HELLO" class="msg">HELLO</a>.</td>
+    </tr>
+    <tr>
+        <td>versionBugfix</td>
+        <td>Same as <a href="#HELLO" class="msg">HELLO</a>.</td>
+    </tr>
+    <tr>
+        <td>serverStartTime</td>
+        <td>The time when the server last started up.</td>
+    </tr>
+    <tr>
+        <td>bytesIn</td>
+        <td>Total bytes sent to the server (in the binary protocol) since it started.</td>
+    </tr>
+    <tr>
+        <td>messagesIn</td>
+        <td>Total messages received by the server since it started.</td>
+    </tr>
+    <tr>
+        <td>bytesOut</td>
+        <td>Total bytes sent out from the server (in the binary protocol).</td>
+    </tr>
+    <tr>
+        <td>messagesOut</td>
+        <td>Total messages sent out from the server.</td>
+    </tr>
+    <tr>
+        <td>logins</td>
+        <td>Number of users logged in right now.</td>
+    </tr>
+    <tr>
+        <td>loginsMax</td>
+        <td>Most logins at any one time since server restart.</td>
+    </tr>
+    <tr>
+        <td>accounts</td>
+        <td>Number of current accounts on the system.</td>
+    </tr>
+    <tr>
+        <td>accountsMax</td>
+        <td>Most accounts ever in the server since it last started.</td>
+    </tr>
+    <tr>
+        <td>rooms</td>
+        <td>Number of rooms on the server.</td>
+    </tr>
+    <tr>
+        <td>roomsMax</td>
+        <td>Most rooms on the server at one one time since last restart.</td>
+    </tr>
+    <tr>
+        <td>games</td>
+        <td>Number of games on the server.</td>
+    </tr>
+    <tr>
+        <td>gamesMax</td>
+        <td>Most games on the server at once since last restart.</td>
+    </tr>
+</table>
+
+<h2><span id="DELETE_ACCOUNT_ALREADY_GONE">DELETE_ACCOUNT_ALREADY_GONE</span>, <span id="DELETE_ACCOUNT_SUCCESS">DELETE_ACCOUNT_SUCCESS</span></h2>
+
+<p>Indicates whether your attempt to delete an account succeeded or failed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name that you tried to delete.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_SUBSCRIBERS_ONLY">CHANNEL_SUBSCRIBERS_ONLY</span></h2>
+<p class="channel"></p>
+
+<p>You can't join that channel! It's for subscribers only.</p>
+
+<h2><span id="GAME_ALL_PLAYERS_GONE">GAME_ALL_PLAYERS_GONE</span></h2>
+<p class="channel"></p>
+
+<p>All players have left the game.</p>
+
+<h2><span id="GAME_EDITOR_LEFT">GAME_EDITOR_LEFT</span></h2>
+<p class="channel"></p>
+
+<p>The editor of this review or demonstration game has left.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The editor (in <a href="dataTypes.html#user">user</a> format) who left the game.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_NO_TALKING">CHANNEL_NO_TALKING</span></h2>
+<p class="channel"></p>
+
+<p>This channel doesn't allow talking.</p>
+
+<h2><span id="LOGIN_FAILED_KEEP_OUT">LOGIN_FAILED_KEEP_OUT</span></h2>
+
+<p>You can't log in, an admin has blocked you.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The reason the admin gave for blocking you.</td>
+    </tr>
+</table>
+
+<h2><span id="TOO_MANY_KEEP_OUTS">TOO_MANY_KEEP_OUTS</span></h2>
+
+<p>You have blocked too many users. You can't do it any more.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The user who you were not able to block.</td>
+    </tr>
+</table>
+
+<h2><span id="KEEP_OUT_SUCCESS">KEEP_OUT_SUCCESS</span>, <span id="KEEP_OUT_LOGIN_NOT_FOUND">KEEP_OUT_LOGIN_NOT_FOUND</span></h2>
+
+<p>Success or failure of your blocking somebody.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user you tried to block.</td>
+    </tr>
+</table>
+
+<h2><span id="CLEAR_KEEP_OUT_SUCCESS">CLEAR_KEEP_OUT_SUCCESS</span>, <span id="CLEAR_KEEP_OUT_FAILURE">CLEAR_KEEP_OUT_FAILURE</span></h2>
+
+<p>Success or failure of your attempt to life the block of a user.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user whose block you tried to lift.</td>
+    </tr>
+</table>
+
+<h2><span id="CANT_PLAY_TWICE">CANT_PLAY_TWICE</span></h2>
+
+<p>You tried to play, but you are already playing in a game. Use simul if you want to play in several games at once.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="ALREADY_IN_PLAYBACK">ALREADY_IN_PLAYBACK</span></h2>
+
+<p>You tried to start up a playback, but you are already watching one.</p>
+
+<h2><span id="GAME_STARTED">GAME_STARTED</span></h2>
+
+<p>A game you played in has been started/loaded.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameSummary</td>
+        <td>The <a href="dataTypes.html#gameSummary">game summary</a> of the started game.</td>
+    </tr>
+</table>
+
+<h2><span id="REGISTER_SUCCESS">REGISTER_SUCCESS</span>, <span id="REGISTER_BAD_EMAIL">REGISTER_BAD_EMAIL</span></h2>
+
+<p>Indicates whether your account to register succeeded or failed.</p>
+
+<h2><span id="GAME_CONTAINER_REMOVE_GAME">GAME_CONTAINER_REMOVE_GAME</span></h2>
+<p class="channel"></p>
+
+<p>A game has been removed from this room or global game list.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameId</td>
+        <td>The channel of the game that was removed.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_ERROR">PLAYBACK_ERROR</span></h2>
+
+<p>Same error happened while trying to do a playback.</p>
+
+<h2><span id="ROOM_CREATE_TOO_MANY_ROOMS">ROOM_CREATE_TOO_MANY_ROOMS</span>, <span id="ROOM_CREATE_NAME_TAKEN">ROOM_CREATE_NAME_TAKEN</span></h2>
+
+<p>Reasons why creating a room would fail.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Your callback key.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_CHANNEL_INFO">ROOM_CHANNEL_INFO</span></h2>
+<p class="channel"></p>
+
+<p>Gives you the category of a room. Sent when a room changes categories.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>The new category of the room.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_CHANGE_NO_SUCH_USER">CHANNEL_CHANGE_NO_SUCH_USER</span></h2>
+<p class="channel"></p>
+
+<p>Your attempt to add/remove a user as an owner or somebody with access to a private room has failed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The user you tried to add or remove.</td>
+    </tr>
+</table>
+
+<h2><span id="ACCESS_LIST">ACCESS_LIST</span></h2>
+<p class="channel"></p>
+
+<p></p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>users</td>
+        <td>A list of <a href="datatypes.html#user">users</a> who have access to this private room or game.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_DELETE">PLAYBACK_DELETE</span></h2>
+
+<p>A playback has been deleted from the system.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>timeStamp</td>
+        <td>The time stamp of the playback thas has been deleted.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_SUBMIT">CHALLENGE_SUBMIT</span></h2>
+<p class="channel"></p>
+
+<p>Another user has submitted a proposal in a challenge channel you own.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who submitted the proposal.</td>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td>The <a href="dataTypes.html#proposal">proposal</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="SUBSCRIPTION_LOW">SUBSCRIPTION_LOW</span></h2>
+
+<p>Your subscription will expire soon!</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>days</td>
+        <td>The number of days before your subscription expires.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_CAT_ROOM_GONE">ROOM_CAT_ROOM_GONE</span></h2>
+<p class="channel"></p>
+
+<p>A room has left this category list.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>roomId</td>
+        <td>The channel ID of the room that left.</td>
+    </tr>
+</table>
+
+<h2><span id="CONVO_NO_CHATS">CONVO_NO_CHATS</span></h2>
+<p class="channel"></p>
+
+<p>The other person in this convo does not want to talk.</p>
+
+<h2><span id="GAME_SET_ROLES_UNKNOWN_USER">GAME_SET_ROLES_UNKNOWN_USER</span>, <span id="GAME_SET_ROLES_NOT_MEMBER">GAME_SET_ROLES_NOT_MEMBER</span></h2>
+<p class="channel"></p>
+
+<p>You tried to set up roles for this game, but one of the players who you named does not exist or is not in this game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user you tried to assign a role to.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_DECLINE">CHALLENGE_DECLINE</span></h2>
+<p class="channel"></p>
+
+<p>Your proposal has been declined.</p>
+
+<h2><span id="GAMELISTENTRY_PLAYER_REPLACED">GAMELISTENTRY_PLAYER_REPLACED</span></h2>
+<p class="channel"></p>
+
+<p>One player has been swapped in for another.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>role</td>
+        <td>The role that has changed users.</td>
+    </tr>
+    <tr>
+        <td>user</td>
+        <td>The <a href="dataTypes.html#user">user</a> who is now filling the role.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_AD">CHANNEL_AD</span>, <span id="AD">AD</span></h2>
+<p class="channel"> (for <tt>CHANNEL_AD</tt>)</p>
+
+<p>Everybody likes ads, right?</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>locationId</td>
+        <td>A number indicating where the ad should be shown.</td>
+    </tr>
+    <tr>
+        <td>adId</td>
+        <td>Clicking the ad should take you to <tt>http://www.gokgs.com/servlet/ad/<i>adId</i></tt>.</td>
+    </tr>
+    <tr>
+        <td>imageData</td>
+        <td>Base64 encoded image data for the ad.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_CHAT_ALLOWED">CHANNEL_CHAT_ALLOWED</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that chat is now enabled in this channel.</p>
+
+<h2><span id="CHANNEL_ALREADY_JOINED">CHANNEL_ALREADY_JOINED</span></h2>
+<p class="channel"></p>
+
+<p>You attempted to join this channel when you were already in it.</p>
+
+<h2><span id="TOURN_NOTIFY">TOURN_NOTIFY</span></h2>
+
+<p>A tournament game that you are playing in has started.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameChannelId</td>
+        <td>The channel ID of the tournament game that has started.</td>
+    </tr>
+    <tr>
+        <td>roomChannelId</td>
+        <td>The channel ID of the room that contains the tournament game.</td>
+    </tr>
+    <tr>
+        <td>clocksStarted</td>
+        <td>Boolean. If set, the setup time is over, the clocks are ticking.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_PREP_STATUS">GAME_PREP_STATUS</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that a game is paused (in "prepare" mode).</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>prepType</td>
+        <td>One of <tt>END</tt>, <tt>TOURNAMENT</tt>, or <tt>AUTOMATCH</tt>.</td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>Optional. Floating point. The time (in seconds) until the game goes back to normal. Not present when <tt>prepType</tt> is <tt>END</tt>.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_SEEK_START">PLAYBACK_SEEK_START</span></h2>
+<p class="channel"></p>
+
+<p>You are about to start a playback seek.</p>
+
+<h2><span id="PLAYBACK_SEEK_COMPLETE">PLAYBACK_SEEK_COMPLETE</span></h2>
+<p class="channel"></p>
+
+<p>When you do a playback seek, you get a big pile of SGF events. This message indicates that you have gotten all you need, you are
+    at the seek position you wanted.</p>
+
+<h2><span id="AUTOMATCH_PREFS">AUTOMATCH_PREFS</span></h2>
+
+<p>Tells you the auotmatch preferences that this user has uploaded before.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>maxHandicap</td>
+        <td>The maximum number of handicap stones accepted in an automatch game.
+    </tr>
+    <tr>
+        <td>estiamtedRank</td>
+        <td>The rank we claim to be. <tt>1k</tt> is the highest allowed.</td>
+    </tr>
+    <tr>
+        <td>freeOk</td>
+        <td>If set, free (unrated) games are OK.</td>
+    </tr>
+    <tr>
+        <td>rankedOk</td>
+        <td>If set, rated games are OK.</td>
+    </tr>
+    <tr>
+        <td>robotOk</td>
+        <td>If set, games against robots are OK.</td>
+    </tr>
+    <tr>
+        <td>humanOk</td>
+        <td>If set, games against humans are OK.</td>
+    </tr>
+    <tr>
+        <td>blitzOk</td>
+        <td>If set, blitz games are OK.</td>
+    </tr>
+    <tr>
+        <td>fastOk</td>
+        <td>If set, fast games are OK.</td>
+    </tr>
+    <tr>
+        <td>mediumOk</td>
+        <td>If set, medium speed games are OK.</td>
+    </tr>
+    <tr>
+        <td>unrankedOk</td>
+        <td>If set, playing against unranked players are OK.</td>
+    </tr>
+</table>
+
+<h2><span id="AUTOMATCH_STATUS">AUTOMATCH_STATUS</span></h2>
+
+<p>Tells you whether or not automatch is on right now.
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>enabled</td>
+        <td>Boolean</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_NAME_CHANGE">GAME_NAME_CHANGE</span></h2>
+<p class="channel"></p>
+
+<p>The name of a game has changed.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Optional. The new name of the game. If this is missing, the game no longer has a name.</td>
+    </tr>
+</table>
+
+<h2><span id="FETCH_TAGS_RESULT">FETCH_TAGS_RESULT</span></h2>
+
+<p>Returns your tags. This object returns, in addition to the <tt>type</tt> field, a mapping from game time stamp to the tag of that game.</p>
+
+<h2><span id="TAG_ARCHIVE_NONEXISTANT">TAG_ARCHIVE_NONEXISTANT</span></h2>
+
+<p>You want a tag archive for a user who does not exist.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user whose tag archive you tried to view.</td>
+    </tr>
+</table>
+
+<h2><span id="JOIN_COMPLETE">JOIN_COMPLETE</span></h2>
+<p class="channel"></p>
+
+<p>Some channels give you a burst of messages when you first join. This message indicates that the burst is over, you have all the information you will get about
+    the channel.</p>
+
+<h2><span id="GAME_LOOP_WARNING">GAME_LOOP_WARNING</span></h2>
+<p class="channel"></p>
+
+<p>Indicates that you have had the game in this exact position before. If you repeat it twice more, the game will be scored as no result. Only
+    appears for Japanese-rules games.</p>
+
+<h2><span id="LOGOUT">LOGOUT</span></h2>
+
+<p>Your connection has closed.
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>Optional. An English-language message indicating why the connection closed. Empty when the connection closes for "obvious" reasons, e.g. if you sent
+            a <a href="upstream.html#LOGOUT" class="msg">LOGOUT</a> message up to the server.</td>
+    </tr>
+</table>
+
+<p class="see"><a href="upstream.html#LOGOUT">LOGOUT</a></p>
+
+<hr>
+
+<ul>
+    <li><a href="index.html">Example JSON HTML client</a></li>
+    <li><a href="protocol.html">Protocol summary</a></li>
+    <li><a href="upstream.html">Upstream message reference</a></li>
+    <li><a href="downstream.html">Downstream message reference</a></li>
+    <li><a href="dataTypes.html">Data types used</a></li>
+</ul>
+
+</body>
+</html>

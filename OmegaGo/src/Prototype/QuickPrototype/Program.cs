@@ -16,7 +16,7 @@ namespace FormsPrototype
             OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FormsFuego.Win32FuegoBuilder());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PrimaryForm());
+            Application.Run(new KgsForm ());
             
         }
     }

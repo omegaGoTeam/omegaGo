@@ -1,0 +1,55 @@
+table, th, td {
+  border: 1pt solid black;
+  border-collapse: collapse;
+}
+
+h2 {
+  margin-bottom: 0pt;
+}
+
+p.channel {
+  margin: 0pt 0pt 0pt 0pt;
+  font-weight: bold;
+}
+
+p.channel:before {
+  content: "Channel message";
+}
+
+body.msgList h2 span {
+  font-family: monospace;
+}
+
+p.resp:before {
+  content: "Answered by: ";
+}
+
+p.resp a {
+  font-family: monospace;
+}
+
+p.see:before {
+  content: "See: ";
+}
+
+p.see a {
+  font-family: monospace;
+}
+
+a.msg {
+  font-family: monospace;
+}
+
+td:nth-child(1) {
+  font-family: monospace;
+}
+
+td.described {
+  font-style: oblique;
+}
+
+pre.example {
+  margin-left: 20pt;
+  margin-right: 20pt;
+  border: 1pt solid black;
+}

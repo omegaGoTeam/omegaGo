@@ -13,7 +13,9 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
 
@@ -24,13 +26,20 @@ namespace OmegaGo.Core.Modes.LiveGame
         private IGamePhase _currentGamePhase = null;
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
-        public OnlineGameInfo OnlineGameInfo;
-        public OnlineGame OnlineGame;
+        
+        public RemoteGame OnlineGame;
+        internal RemoteGameInfo RemoteInfo;
+    
+        /// <summary>
+        /// Game info
+        /// </summary>
+        internal GameInfo Info { get; }
+
         public bool IsOnlineGame => Server != null;
         /// <summary>
         /// Gets the server connection, or null if this is not an online game.
         /// </summary>
-        public IgsConnection Server { get; }
+        public IServerConnection Server { get; }
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
@@ -39,18 +48,26 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             GameTree = new GameTree(ruleset);
         }
-        public GameController(OnlineGame game, IRuleset ruleset, PlayerPair players)
+        public GameController(KgsGame game, IRuleset ruleset, PlayerPair players)
         {
             this.OnlineGame = game;
-            OnlineGameInfo = game.Metadata;
-            OnlineGameInfo gameInfo = game.Metadata;
-            Info = gameInfo;
-            OnlineGameInfo = gameInfo;
+            RemoteInfo = game.Metadata;
+            Info = RemoteInfo;
             Ruleset = ruleset;
             Players = players;
-            this.Server = gameInfo.Server;
+            this.Server = game.Metadata.KgsConnection;
             GameTree = new GameTree(ruleset);
-            Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+        }
+        public GameController(IgsGame game, IRuleset ruleset, PlayerPair players)
+        {
+            this.OnlineGame = game;
+            RemoteInfo = game.Metadata;
+            Info = game.Metadata;
+            Ruleset = ruleset;
+            Players = players;
+            Server = game.Metadata.Server;
+            GameTree = new GameTree(ruleset);
+            game.Metadata.Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
         }
 
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
@@ -91,11 +108,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public PlayerPair Players { get; }
 
         public List<Position> DeadPositions { get; set; } = new List<Position>();
-
-        /// <summary>
-        /// Game info
-        /// </summary>
-        internal GameInfo Info { get; }
 
         /// <summary>
         /// Game phase factory

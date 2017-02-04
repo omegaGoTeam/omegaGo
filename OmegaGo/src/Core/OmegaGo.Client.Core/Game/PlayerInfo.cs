@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Game
         public PlayerInfo(StoneColor color, string name, string rank, string team = null )
         {
             Name = name;
-            Rank = rank.Trim();
+            Rank = rank?.Trim() ?? "";
             Color = color;
             Team = team;
         }
@@ -37,5 +37,10 @@ namespace OmegaGo.Core.Game
         /// Player's stone color
         /// </summary>
         public StoneColor Color { get; }
+
+        public override string ToString()
+        {
+            return Name + "(" + Rank + ")";
+        }
     }
 }

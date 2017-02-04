@@ -33,7 +33,7 @@ namespace OmegaGo.UI.ViewModels
             ChatViewModel = new ChatViewModel();
             if (Game.Controller.IsOnlineGame)
             {
-                ChatViewModel.ChatService = new IgsChatService(Game as OnlineGame);
+                ChatViewModel.ChatService = new IgsChatService(Game as IgsGame);
                 ChatViewModel.HumanAuthor = "You";
             }
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
@@ -114,9 +114,9 @@ namespace OmegaGo.UI.ViewModels
 
         public async void Unload()
         {
-            if (this.Game is OnlineGame)
+            if (this.Game is IgsGame)
             {
-                await ((OnlineGame) this.Game).Metadata.Server.EndObserving((OnlineGame) this.Game);
+                await ((IgsGame) this.Game).Metadata.Server.EndObserving((IgsGame) this.Game);
             }
         }
     }

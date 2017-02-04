@@ -4,23 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Sgf;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online
 {
-    public class OnlineGame : LiveGameBase
+    public class KgsGame : RemoteGame
     {
-        public OnlineGame(OnlineGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
+        public KgsGame(KgsGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
             Metadata = info;
             Controller = new GameController(this, ruleset, players);
+            Nodes.Add(0, new KgsSgfNode(0));
             foreach(var player in Controller.Players)
             {
                 player.AssignToGame(info, Controller);
             }
         }
 
-        public OnlineGameInfo Metadata { get; }
+        public Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
+
+        public KgsGameInfo Metadata { get; }
 
         public override IGameController Controller { get; }
     }

@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="StyleSheet" href="style.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Upstream Messages</title>
+</head>
+<body class="msgList">
+<h1>Upstream Messages</h1>
+<p>Upstream messages are sent one per request; just post the text of the JSON object. Currently the JSON parser is the org.json Java JSON parser, which is fairly accepting of
+nonstandard JSON, but I may change it in the future so try to submit correct JSON in all requests.</p>
+
+<p>Messages marked as "channel messages" must always include a <tt>channelId</tt> value, indicating the channel
+that they are referring to. This is not listed in their tables. Messages with no data (other than
+<tt>type</tt> and, if relevant, <tt>channelId</tt>) will not have a table of fields.
+
+<p>Some messages have a field named <tt>callbackKey</tt>. This is an arbitrary 16 bit number you can send, and the same number will be contained in the response to your
+message. This is present because in some cases, you may want to send out several similar messages at once, and the <tt>callbackKey</tt> lets you figure out which response goes with
+which request. If you don't need or care, then you can just pass in 0 as the callback key.</p>
+
+<p>Sorry that this list is in such a random order. Trying to get it all down quickly, and I'm not sure the best way to arrange it.</p>
+
+<h2><span id="LOGIN">LOGIN</span></h2>
+<p>Must be the first message sent. Starts the login process.</p>
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>User name</td>
+    </tr>
+    <tr>
+        <td>password</td>
+        <td>The password for the account.</td>
+    </tr>
+    <tr>
+        <td>locale</td>
+        <td>The preferred locale of the user. Should be in Java locale ID format; e.g., "<tt>en_US</tt>", "<tt>fr_FR</tt>", etc.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#LOGIN_SUCCESS">LOGIN_SUCCESS</a>, <a href="downstream.html#LOGIN_FAILED_NO_SUCH_USER">LOGIN_FAILED_NO_SUCH_USER</a>,
+<a href="downstream.html#LOGIN_FAILED_BAD_PASSWORD">LOGIN_FAILED_BAD_PASSWORD</a>, <a href="downstream.html#LOGIN_FAILED_USER_ALREADY_EXISTS">LOGIN_FAILED_USER_ALREADY_EXISTS</a>.</p>
+
+<h2><span id="UNJOIN_REQUEST">UNJOIN_REQUEST</span></h2>
+<p class="channel"></p>
+<p>Requests to leave a channel.</p>
+<p class="resp"><a href="downstream.html#UNJOIN">UNJOIN</a>.</p>
+
+<h2><span id="JOIN_ARCHIVE_REQUEST">JOIN_ARCHIVE_REQUEST</span>, <span id="JOIN_TAG_ARCHIVE_REQUEST">JOIN_TAG_ARCHIVE_REQUEST</span>,
+    <span id="DETAILS_JOIN_REQUEST">DETAILS_JOIN_REQUEST</span></h2>
+<p>Requests to join a user's archive channel or "user details" channel. These channels exist for each user,
+whether they are logged in or not, and by joining the channel you can get the information contained within.
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>User whose channel you want to join</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#ARCHIVE_JOIN">ARCHIVE_JOIN</a>, <a href="downstream.html#ARCHIVE_NONEXISTANT">ARCHIVE_NONEXISTANT</a>.</p>
+
+<h2><span id="CHIT">CHAT</span>, <span id="ANNOUNCE">ANNOUNCE</span>, <span id="ANNOUNCE_TO_PLAYERS">ANNOUNCE_TO_PLAYERS</span></h2>
+<p class="channel"></p>
+<p>Send a chat message to other users. CHAT is the standard message from one player
+to the others in the channel. ANNOUNCE is the same, but it is in bold; only admins and channel owners can
+submit this message. ANNOUNCE_TO_PLAYERS is an announcement that even players can see
+(usually players in a game do not see CHAT or ANNOUNCE messages).</p>
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max Length (chars)</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>Message to send</td>
+        <td>1000</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_NAMES_REQUEST">ROOM_NAMES_REQUEST</span></h2>
+<p>Requests the names of one or more rooms, specified by their room ID. When a room name changes,
+all users on the server are notified, so once you have a room name you don't need to request it again
+unless you log out and back in.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>rooms</td>
+        <td>A JSON array of integers, each being the channelId of a room.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#ROOM_NAMES">ROOM_NAMES</a>.</p>
+
+<h2><span id="AVATAR_REQUEST">AVATAR_REQUEST</span></h2>
+<p>Request a user's avatar data. This probably isn't needed for a HTML-based client; they can just download
+the avatar directly at <tt>http://goserver.gokgs.com/avatars/<i>userName</i>.jpg</tt>.
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>User whose avatar data you want.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#AVATAR">AVATAR</a>.</p>
+
+<h2><span id="DETAILS_CHANGE">DETAILS_CHANGE</span></h2>
+<p class="channel"></p>
+
+<p>Change a user's detail. After you join the user's details channel, send this to do the update.
+Sr. Admins can change anybody's details; otherwise you can only change your own.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>personalName</td>
+        <td>"Real name" as displayed in their details.</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>personalEmail</td>
+        <td>Email address.</td>
+        <td>70</td>
+    </tr>
+    <tr>
+        <td>personalInfo</td>
+        <td>Large text block of information.</td>
+        <td>1500</td>
+    </tr>
+    <tr>
+        <td>emailWanted</td>
+        <td>Boolean. <tt>true</tt> indicates that you want the monthly email with the
+            KGS Plus schedule.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>emailPrivate</td>
+        <td>Boolean. <tt>true</tt> will hide your email from other users.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>forcedNoRank</td>
+        <td>Boolean. Settable by admins only. <tt>true</tt> to shut off the user's rank and not
+            let them turn it back on.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>authLevel</td>
+        <td>String. Non-superadmins <em>must</em> pass in the current value unchanged. One of <tt>normal</tt>, <tt>robot_ranked</tt>,
+            <tt>teacher</tt>, <tt>jr_admin</tt>, <tt>sr_admin</tt>, or <tt>super_admin</tt>.</td>
+        <td></td>
+    </tr>
+</table>
+
+<h2><span id="SET_PASSWORD">SET_PASSWORD</span></h2>
+<p>Change a user's password. Only sr. admins can change other people's passwords.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>User whose password you want to change.</td>
+    </tr>
+    <tr>
+        <td>password</td>
+        <td>The new password.</td>
+    </tr>
+</table>
+
+<h2><span id="DETAILS_RANK_GRAPH_REQUEST">DETAILS_RANK_GRAPH_REQUEST</span></h2>
+<p class="channel"></p>
+<p>Request the rank graph data of the user whose channel this is.</p>
+
+<p class="resp"><a href="downstream.html#DETAILS_RANK_GRAPH">DETAILS_RANK_GRAPH</a>.</p>
+
+<h2><span id="ROOM_DESC_REQUEST">ROOM_DESC_REQUEST</span></h2>
+<p class="channel"></p>
+
+<p>Request the room description (the big block of text that appears when you first join a room). Like the room name, you will be notified when
+this changes (even if you aren't in the room), so you only need to request it once.</p>
+
+<p class="resp"><a href="downstream.html#ROOM_DESC">ROOM_DESC</a>.</p>
+
+<h2><span id="JOIN_REQUEST">JOIN_REQUEST</span></h2>
+<p class="channel"></p>
+
+<p>Request to join the channel that this message is sent to.</p>
+
+<p class="resp"><a href="downstream.html#JOIN">JOIN</a>.</p>
+
+<h2><span id="CREATE_ROOM_REQUEST">CREATE_ROOM_REQUEST</span></h2>
+
+<p>Create a room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the room.</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>The room description.</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>One of <tt>MAIN</tt>, <tt>TEMPORARY</tt>, <tt>CLUBS</tt>, <tt>LESSONS</tt>, <tt>TOURNAMENT</tt>, <tt>FRIENDLY</tt>, or <tt>NATIONAL</tt>. Non-admins can only pass in
+        <tt>TEMPORARY</tt>.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>locale</td>
+        <td>Setting this makes it the default room for users of this locale. Can be set by admin only. Everybody else, pass in "".</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>private</td>
+        <td>Boolean. If set, this is a private room.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tournOnly</td>
+        <td>Boolean. If set, only tournament games (run by the KGS TD) can be in the room.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>globalOnly</td>
+        <td>Boolean. If set, games in this room always appear on the global games list.</td>
+        <td></td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#ROOM_CREATE_NAME_TAKEN">ROOM_CREATE_NAME_TAKEN</a>,
+<a href="downstream.html#ROOM_CREATE_TOO_MANY_ROOMS">ROOM_CREATE_TOO_MANY_ROOMS</a>,
+<a href="downstream.html#ROOM_CREATED">ROOM_CREATED</a>.</p>
+
+<h2><span id="ROOM_EDIT">ROOM_EDIT</span></h2>
+
+<p>Edit room name, description, and flags.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The new name of the room.</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>description</td>
+        <td>The new room description.</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>category</td>
+        <td>One of <tt>MAIN</tt>, <tt>TEMPORARY</tt>, <tt>CLUBS</tt>, <tt>LESSONS</tt>, <tt>TOURNAMENT</tt>, <tt>FRIENDLY</tt>, or <tt>NATIONAL</tt>. Non-admins must
+            pass in the current value.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>locale</td>
+        <td>Setting this makes it the default room for users of this locale. Can be set by admin only. Everybody else, pass in "".</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>private</td>
+        <td>Boolean. If set, this is a private room.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>tournOnly</td>
+        <td>Boolean. If set, only tournament games (run by the KGS TD) can be in the room.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>globalOnly</td>
+        <td>Boolean. If set, games in this room always appear on the global games list.</td>
+        <td></td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_ADD_OWNER">ROOM_ADD_OWNER</span>, <span id="ROOM_REMOVE_OWNER">ROOM_REMOVE_OWNER</span></h2>
+<p class="channel"></p>
+
+<p>Add or remove a user to the owner list of the room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of the user to add or remove.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#CHANNEL_CHANGE_NO_SUCH_USER">CHANNEL_CHANGE_NO_SUCH_USER</a>.</p>
+
+<h2><span id="CHANNEL_ADD_ACCESS">CHANNEL_ADD_ACCESS</span>, <span id="CHANNEL_REMOVE_ACCESS">CHANNEL_REMOVE_ACCESS</span></h2>
+<p class="channel"></p>
+
+<p>Add or remove a user to the access list of the channel. Used for private rooms, games, etc.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of the user to add or remove.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#CHANNEL_CHANGE_NO_SUCH_USER">CHANNEL_CHANGE_NO_SUCH_USER</a>.</p>
+
+<h2><span id="ACCESS_LIST_REQUEST">ACCESS_LIST_REQUEST</span></h2>
+<p class="channel"></p>
+
+<p>Request the list of users who have access to this channel. Can only be made by senior admins and channel owners.</p>
+
+<p class="resp"><a href="downstream.html#ACCESS_LIST">ACCESS_LIST</a>.</p>
+
+<h2><span id="CONVO_REQUEST">CONVO_REQUEST</span></h2>
+
+<p>Request a channel for a private conversation with another user. Does nothing if you already have a channel for this user.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of the user to add or remove.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#CONVO_JOIN">CONVO_JOIN</a>, <a href="downstream.html#CONVO_NO_SUCH_USER">CONVO_NO_SUCH_USER</a>.</p>
+
+<h2><span id="MESSAGE_CREATE">MESSAGE_CREATE</span></h2>
+
+<p>Create a message to leave in another user's mailbox.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of the user to add or remove.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>Text of message.</td>
+        <td>1000</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#MESSAGE_CREATE_NO_USER">MESSAGE_CREATE_NO_USER</a>,
+<a href="downstream.html#MESSAGE_CREATE_CONNECTED">MESSAGE_CREATE_CONNECTED</a> (in which case a private convo will be created),
+<a href="downstream.html#MESSAGE_CREATE_FULL">MESSAGE_CREATE_FULL</a>,
+<a href="downstream.html#MESSAGE_CREATE_SUCCESS">MESSAGE_CREATE_SUCCESS</a>.</p>
+
+<h2><span id="MESSAGE_DELETE">MESSAGE_DELETE</span></h2>
+
+<p>Delete a message left for you. It contains a list of messages to delete; if the list is missing, then all messages are deleted.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>messages</td>
+        <td>Optional message list</td>
+    </tr>
+    <tr>
+        <th colspan="2">Message Format</th>
+    </tr>
+    <tr>
+        <td>date</td>
+        <td>Date when the message was left.</td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of user who left the message.</td>
+    </tr>
+</table>
+
+<h2><span id="FRIEND_ADD">FRIEND_ADD</span>, <span id="FRIEND_REMOVE">FRIEND_REMOVE</span></h2>
+
+<p>Add or remove somebody from one of your four "buddy" lists. <tt>admin_track</tt> is usable by admins only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>friendType</td>
+        <td>One of <tt>buddy</tt>, <tt>censored</tt>, <tt>fan</tt>, or <tt>admin_track</tt>.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Name of other user</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>Optional text notes about friend</td>
+        <td>50</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#FRIEND_CHANGE_NO_USER">FRIEND_CHANGE_NO_USER</a>,
+<a href="downstream.html#FRIEND_ADD_SUCCESS">FRIEND_ADD_SUCCESS</a>,
+<a href="downstream.html#FRIEND_REMOVE_SUCCESS">FRIEND_REMOVE_SUCCESS</a>.</p>
+
+<h2><span id="CHALLENGE_CREATE">CHALLENGE_CREATE</span></h2>
+<p class="channel"></p>
+
+<p>Create a challenge.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>global</td>
+        <td>If set, this should appear in the global (non-room) lists.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>Challenge comment</td>
+        <td>80</td>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td><a href="dataTypes.html#proposal">Initial proposal</a></td>
+        <td></td>
+    </tr>
+</table>
+
+<p>Sample message:</p>
+
+<pre class="example">{
+  "type": "CHALLENGE_CREATE",
+  "channelId": 4794601,
+  "callbackKey": 1,
+  "global": false,
+  "text": "Test Challenge",
+  "proposal": {
+    "gameType": "free",
+    "nigiri": true,
+    "rules": {
+      "rules": "japanese",
+      "size": 19,
+      "komi": 6.5,
+      "timeSystem": "30:00+5×30"
+    },
+    "players": [{
+      "role": "white",
+      "name": "wms"
+    },{
+      "role": "black"
+    }]
+  }
+}</pre>
+
+<h2><span id="SYNC_REQUEST">SYNC_REQUEST</span></h2>
+
+<p>Send a sync, get a sync back. Useful if you want to know when for sure an earlier command has been completed by the server (each
+player's commands are processed in order, one command being completely finished before the next is started).</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>callbackKey</td>
+        <td>Callback key</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#SYNC">SYNC</a></p>
+
+<h2><span id="CHALLENGE_PROPOSAL">CHALLENGE_PROPOSAL</span></h2>
+<p class="channel"></p>
+
+<p>Change the default proposal for a challenge. Can only be sent by the challenge owner.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td><a href="dataTypes.html#proposal">New proposal</a></td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#CHALLENGE_PROPOSAL">CHALLENGE_PROPOSAL</a></p>
+
+<h2><span id="GAME_MOVE">GAME_MOVE</span></h2>
+<p class="channel"></p>
+
+<p>Make a move in your game. Leaving out <tt>x</tt> and <tt>y</tt> indicates a pass.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>loc</td>
+        <td>Either the string <tt>PASS</tt>, or an object with <tt>x</tt> and <tt>y</tt> values.</td>
+    </tr>
+    <tr>
+        <td>y</td>
+        <td>Optional. Y coordinate of move.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_RESIGN">GAME_RESIGN</span></h2>
+<p class="channel"></p>
+
+<p>Resign the game.</p>
+
+<h2><span id="GAME_UNDO_REQUEST">GAME_UNDO_REQUEST</span>, <span id="GAME_UNDO_ACCEPT">GAME_UNDO_ACCEPT</span></h2>
+<p class="channel"></p>
+
+<p>Request an undo in a game, or grant an undo. To reject an undo, simply ignore it.</p>
+
+<p class="resp"><a href="downstream.html#GAME_UNDO_REQUEST">GAME_UNDO_REQUEST</a> (sent to your opponent when you send your undo request)</p>
+
+<h2><span id="MODERATED_COMMENT">MODERATED_COMMENT</span></h2>
+<p class="channel"></p>
+
+<p>Sent when a moderator in a channel accepts a message.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The name of the user who originally made the comment</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The text of the comment</td>
+    </tr>
+</table>
+
+<h2><span id="SET_CHAT_MODE">SET_CHAT_MODE</span></h2>
+<p class="channel"></p>
+
+<p>Set the mode (moderated, normal, etc.) of a channel. Only available to teachers.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>mode</td>
+        <td>One of <tt>NORMAL</tt>, <tt>QUIET</tt>, <tt>MODERATED</tt></td>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Optional. The name of the moderator. Not needed unless the mode is <tt>MODERATED</tt>.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_TIME_EXPIRED">GAME_TIME_EXPIRED</span></h2>
+<p class="channel"></p>
+
+<p>Sent in response to <a href="downstream.html#GAME_TIME_EXPIRED">GAME_TIME_EXPIRED</a>. Indicates that you are still connected.</p>
+
+<h2><span id="GAME_ADD_TIME">GAME_ADD_TIME</span></h2>
+<p class="channel"></p>
+
+<p>Add time to your opponent's clock.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>role</td>
+        <td>The <a href="dataTypes.html#role">role</a> of the player to add time to.</td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>A floating point number, indicating how many seconds to add to their clock.</td>
+    </tr>
+</table>
+
+<h2><span id="WAKE_UP">WAKE_UP</span></h2>
+
+<p>Reset our idle clock. Most commands do this, but if this command does nothing else.</p>
+
+<h2><span id="GAME_SET_ROLES">GAME_SET_ROLES</span></h2>
+<p class="channel"></p>
+
+<p>Set the roles of players in a demo/review. This will temporarily change the effective roles of players. Any number of roles can be set.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#role">role</a> 1</td>
+        <td>The name of the player who is to take that role.</td>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#role">role</a> 2</td>
+        <td>The name of the player who is to take that role.</td>
+    </tr>
+    <tr>
+        <th colspan="2">…</th>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#role">role</a> n</td>
+        <td>The name of the player who is to take that role.</td>
+    </tr>
+
+</table>
+
+<h2><span id="GAME_START_REVIEW">GAME_START_REVIEW</span></h2>
+<p class="channel"></p>
+
+<p>Change a game into review mode. This actually creates a new channel, with the review in it, moves everybody into the new channel, then closes out the old one.</p>
+
+<h2><span id="CHALLENGE_RETRY">CHALLENGE_RETRY</span></h2>
+<p class="channel"></p>
+
+<p>Sent from the challenge owner. Indicates that the owner wants to go back and edit the proposal before accepting any offers.</p>
+
+<h2><span id="GAME_LIST_ENTRY_SET_FLAGS">GAME_LIST_ENTRY_SET_FLAGS</span></h2>
+<p class="channel"></p>
+
+<p>Change the flags of a game or challenge. Some can only be set by admins. Any number can be changed at once. Any flags not present will be left unchanged.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#gameFlags">flag</a> 1</td>
+        <td>A boolean with the new setting of this flag.</td>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#gameFlags">flag</a> 2</td>
+        <td>A boolean with the new setting of this flag.</td>
+    </tr>
+    <tr>
+        <th colspan="2">…</th>
+    </tr>
+    <tr>
+        <td class="described"><a href="dataTypes.html#gameFlags">flag</a> n</td>
+        <td>A boolean with the new setting of this flag.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_AUDIO">GAME_AUDIO</span></h2>
+<p class="channel"></p>
+
+<p>A block of audio for the game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>audio</td>
+        <td>A string of base64-encoded SPEEX audio data.</td>
+    </tr>
+</table>
+
+<h2><span id="START_PLAYBACK">START_PLAYBACK</span></h2>
+
+<p>Create a new channel to play a recorded lecture.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>playbackTimestamp</td>
+        <td>The exact time stamp of the recorded lecture.</td>
+    </tr>
+</table>
+
+<h2><span id="REQUEST_PLAYBACK_LIST">REQUEST_PLAYBACK_LIST</span></h2>
+
+<p>Request a list of playbacks available.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>start</td>
+        <td>The start time of the list.</td>
+    </tr>
+    <tr>
+        <td>end</td>
+        <td>The end time of the list.</td>
+    </tr>
+</table>
+
+<h2><span id="PLAYBACK_SET">PLAYBACK_SET</span></h2>
+<p class="channel"></p>
+
+<p>Set the position and speed of a playback.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>position</td>
+        <td>Optional. If set, a double with the position (in seconds) to jump to. Leave it out to leave the current position unchanged.</td>
+    </tr>
+    <tr>
+        <td>speed</td>
+        <td>Double precision number. The speed of playback; 1.0 is normal speed, 0.5 is half speed, 2.0 is double speed, etc.</td>
+    </tr>
+</table>
+
+<h2><span id="GLOBAL_LIST_JOIN_REQUEST">GLOBAL_LIST_JOIN_REQUEST</span></h2>
+
+<p>Request to join a global game list channel.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>list</td>
+        <td>One of <tt>CHALLENGES</tt>, <tt>ACTIVES</tt>, <tt>FANS</tt>.</td>
+    </tr>
+</table>
+
+<h2><span id="UPLOAD_AVATAR">UPLOAD_AVATAR</span></h2>
+
+<p>Upload new avatar data. The avatar must be a jpeg file sized 141×200 pixels and under 8KB.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>imageData</td>
+        <td>base64 encoded jpeg image data.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_SET_ALLOW_CHAT">GAME_SET_ALLOW_CHAT</span></h2>
+<p class="channel"></p>
+
+<p>Set whether or not a given user can talk during moderated mode. By default, nobody can except the moderator.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The user to change.</td>
+    </tr>
+    <tr>
+        <td>allowed</td>
+        <td>Boolean.</td>
+    </tr>
+</table>
+
+<h2><span id="ANNOUNCEMENT">ANNOUNCEMENT</span></h2>
+
+<p>Send an announcement to every channel on the server. Admin only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The message.</td>
+    </tr>
+</table>
+
+<h2><span id="REQUEST_SERVER_STATS">REQUEST_SERVER_STATS</span></h2>
+
+<p>Request some miscellaneous server statistics.</p>
+
+<p class="resp"><a href="downstream.html#SERVER_STATS">SERVER_STATS</a></p>
+
+<h2><span id="DELETE_ACCOUNT">DELETE_ACCOUNT</span></h2>
+
+<p>Delete an account. Admin only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The account to delete.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#DELETE_ACCOUNT_ALREADY_GONE">DELETE_ACCOUNT_ALREADY_GONE</a>,
+<a href="downstream.html#DELETE_ACCOUNT_SUCCESS">DELETE_ACCOUNT_SUCCESS</a></p>
+
+<h2><span id="KEEP_OUT_REQUEST">KEEP_OUT_REQUEST</span></h2>
+
+<p>Request that the server block a user for a while. Admin only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The account to block.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>The duration (in seconds) of the block.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>A note with the reason for the block.</td>
+        <td>500</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#KEEP_OUT_LOGIN_NOT_FOUND">KEEP_OUT_LOGIN_NOT_FOUND</a>,
+<a href="downstream.html#KEEP_OUT_SUCCESS">KEEP_OUT_SUCCESS</a>.</p>
+
+<h2><span id="CLEAR_KEEP_OUT">CLEAR_KEEP_OUT</span></h2>
+
+<p>Clear a keep out request. Admin only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The account to allow back in.</td>
+        <td></td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#CLEAR_KEEP_OUT_SUCCESS">CLEAR_KEEP_OUT_SUCCESS</a>,
+<a href="downstream.html#CLEAR_KEEP_OUT_FAILURE">CLEAR_KEEP_OUT_FAILURE</a></p>
+
+<h2><span id="JOIN_GAME_BY_ID">JOIN_GAME_BY_ID</span></h2>
+
+<p>Join a game by giving the timestamp of the game start.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>timestamp</td>
+        <td>The time stamp of the start of the game.</td>
+    </tr>
+</table>
+
+<h2><span id="ROOM_LOAD_GAME">ROOM_LOAD_GAME</span></h2>
+<p class="channel"></p>
+
+<p>Load a saved game in a room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>private</td>
+        <td>If present and set to true, load as a private game.</td>
+    </tr>
+    <tr>
+        <td>timestamp</td>
+        <td>The time stamp of the start of the game.</td>
+    </tr>
+</table>
+
+<h2><span id="SHUTDOWN">SHUTDOWN</span></h2>
+
+<p>Shut down the server. Admin only. Duh.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>time</td>
+        <td>The time, in seconds, before the server will be shut down.</td>
+    </tr>
+</table>
+
+<h2><span id="CHANNEL_DELETE">CHANNEL_DELETE</span></h2>
+<p class="channel"></p>
+
+<p>Delete the channel. Admin only. Generally channels go away on their own, this is only when there is some urgent reason to delete a game etc.</p>
+
+<h2><span id="REGISTER">REGISTER</span></h2>
+
+<p>For guests to get a permanent account.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>email</td>
+        <td>Your email address.</td>
+        <td>70</td>
+    </tr>
+    <tr>
+        <td>personalName</td>
+        <td>Your "real" name.</td>
+        <td>50</td>
+    </tr>
+    <tr>
+        <td>personalInfo</td>
+        <td>A block of text with anything you want.</td>
+        <td>1500</td>
+    </tr>
+    <tr>
+        <td>privateEmail</td>
+        <td>Boolean. If set, hide your email from other users.</td>
+    </tr>
+    <tr>
+        <td>sendEmail</td>
+        <td>Boolean. If set, send email announcements.</td>
+    </tr>
+</table>
+
+<p class="resp"><a href="downstream.html#REGISTER_SUCCESS">REGISTER_SUCCESS</a>,
+<a href="downstream.html#REGISTER_BAD_EMAIL">REGISTER_BAD_EMAIL</a>.</p>
+
+<h2><span id="ROOM_CLONE_GAME">ROOM_CLONE_GAME</span></h2>
+<p class="channel"></p>
+
+<p>Clone a game into this room.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameChannelId</td>
+        <td>The channel ID of the game to clone.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_ACCEPT">CHALLENGE_ACCEPT</span></h2>
+<p class="channel"></p>
+
+<p>Sent by challengers to indicate that they accept the proposal as it stands.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td>The <a href="dataTypes.html#proposal">proposal</a> being accepted.</td>
+    </tr>
+</table>
+
+<h2><span id="CHALLENGE_SUBMIT">CHALLENGE_SUBMIT</span></h2>
+<p class="channel"></p>
+
+<p>Sent by challengers to submit themselves as players.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>proposal</td>
+        <td>The <a href="dataTypes.html#proposal">proposal</a> containing ourselves as one of the players.</td>
+    </tr>
+</table>
+
+<p><span id="CONVO_NO_CHATS">CONVO_NO_CHATS</span></p>
+<p class="channel"></p>
+
+<p>Indicates that we do not want to receive any more chats in this conversation until further notice.</p>
+
+<p><span id="CHALLENGE_DECLINE">CHALLENGE_DECLINE</span></p>
+<p class="channel"></p>
+
+<p>Sent by the creator of a challenge to indicate that they do not accept a submitted proposal.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>The user whose challenge they are declining.</td>
+    </tr>
+</table>
+
+<h2><span id="AUTOMATCH_CREATE">AUTOMATCH_CREATE</span>, <span id="AUTOMATCH_SET_PREFS">AUTOMATCH_SET_PREFS</span></h2>
+
+<p>Turn on automatch or set our default preferences.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>maxHandicap</td>
+        <td>The maximum number of handicap stones accepted in an automatch game.
+    </tr>
+    <tr>
+        <td>estiamtedRank</td>
+        <td>The rank we claim to be. <tt>1k</tt> is the highest allowed.</td>
+    </tr>
+    <tr>
+        <td>freeOk</td>
+        <td>If set, free (unrated) games are OK.</td>
+    </tr>
+    <tr>
+        <td>rankedOk</td>
+        <td>If set, rated games are OK.</td>
+    </tr>
+    <tr>
+        <td>robotOk</td>
+        <td>If set, games against robots are OK.</td>
+    </tr>
+    <tr>
+        <td>humanOk</td>
+        <td>If set, games against humans are OK.</td>
+    </tr>
+    <tr>
+        <td>blitzOk</td>
+        <td>If set, blitz games are OK.</td>
+    </tr>
+    <tr>
+        <td>fastOk</td>
+        <td>If set, fast games are OK.</td>
+    </tr>
+    <tr>
+        <td>mediumOk</td>
+        <td>If set, medium speed games are OK.</td>
+    </tr>
+    <tr>
+        <td>unrankedOk</td>
+        <td>If set, playing against unranked players are OK.</td>
+    </tr>
+</table>
+
+<h2><span id="AUTOMATCH_CANCEL">AUTOMATCH_CANCEL</span></h2>
+
+<p>Do not accept automatch games.</p>
+
+<h2><span id="IDLE_ON">IDLE_ON</span></h2>
+
+<p>Immediately set us as idle (greyed out).</p>
+
+<h2><span id="TAG_GAME">TAG_GAME</span></h2>
+
+<p>Apply a tag to a game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+        <th>Max length (chars)</th>
+    </tr>
+    <tr>
+        <td>gameTimestamp</td>
+        <td>The time stame of the start of the game.</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>The tag.</td>
+        <td>50</td>
+    </tr>
+</table>
+
+<h2><span id="FETCH_TAGS">FETCH_TAGS</span></h2>
+
+<p>Fetch your database of tags.</p>
+
+<p class="resp"><a href="downstream.html#FETCH_TAGS_RESULT">FETCH_TAGS_RESULT</a>.</p>
+
+<h2><span id="ADMIN_CLEAR_TAG">ADMIN_CLEAR_TAG</span></h2>
+<p class="channel"></p>
+
+<p>Erase a tag. Admin only.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>gameTimestamp</td>
+        <td>The time stame of the start of the game.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_MARK_LIFE">GAME_MARK_LIFE</span></h2>
+<p class="channel"></p>
+
+<p>Mark whether a stone is alive or dead.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>alive</td>
+        <td>Boolean.</td>
+    </tr>
+    <tr>
+        <td>x</td>
+        <td>The x-coordinate of the piece.</td>
+    </tr>
+    <tr>
+        <td>y</td>
+        <td>The y-coordinate of the piece.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_SCORING_DONE">GAME_SCORING_DONE</span></h2>
+<p class="channel"></p>
+
+<p>Indicate that you are satisfied with the current alive/dead marks.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>doneId</td>
+        <td>The done ID sent down by the most recent <a href="downstream.html#GAME_STATE">GAME_STATE</a>.</td>
+    </tr>
+</table>
+
+<h2><span id="KGS_SGF_CHANGE">KGS_SGF_CHANGE</span></h2>
+<p class="channel"></p>
+
+<p>Add one or more SGF events to the game.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>sgfEvents</td>
+        <td>An array of <a href="dataTypes.html#sgfEvent">SGF Event</a> objects.</td>
+    </tr>
+</table>
+
+<h2><span id="GAME_SET_SCORES">GAME_SET_SCORES</span></h2>
+<p class="channel"></p>
+
+<p>Set the scores for the game. These scores will be visible until the SGF node changes.</p>
+
+<table>
+    <tr>
+        <th>Field</th>
+        <th>Meaning</th>
+    </tr>
+    <tr>
+        <td>white</td>
+        <td>White's score. A double. Must be a multiple of 0.5.</td>
+    </tr>
+    <tr>
+        <td>black</td>
+        <td>Black's score. A double. Must be a multiple of 0.5.</td>
+    </tr>
+</table>
+
+<h2><span id="LOGOUT">LOGOUT</span></h2>
+
+<p>Indicates you want to log out of the server.</p>
+
+<p class="resp"><a href="downstream.html#LOGOUT">LOGOUT</a></p>
+
+<hr>
+
+<ul>
+    <li><a href="index.html">Example JSON HTML client</a></li>
+    <li><a href="protocol.html">Protocol summary</a></li>
+    <li><a href="upstream.html">Upstream message reference</a></li>
+    <li><a href="downstream.html">Downstream message reference</a></li>
+    <li><a href="dataTypes.html">Data types used</a></li>
+</ul>
+
+</body>
+</html>

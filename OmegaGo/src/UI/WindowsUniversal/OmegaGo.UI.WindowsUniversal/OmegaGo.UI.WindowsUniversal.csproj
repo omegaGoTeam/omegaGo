@@ -360,7 +360,7 @@
       <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
       <Name>OmegaGo.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Sideprojects\Fuego\FuegoUniversalComponent.vcxproj" Condition="'$(Configuration)'!='DebugWithoutFuego'">
+    <ProjectReference Include="..\..\..\Sideprojects\Fuego\FuegoUniversalComponent.vcxproj" Condition="'$(Configuration)' != 'DebugWithoutFuego'">
       <Project>{3e7497ac-b68f-4ee0-abb1-79874a897514}</Project>
       <Name>FuegoUniversalComponent</Name>
     </ProjectReference>
@@ -368,7 +368,7 @@
       <Project>{8823de70-5dc6-4151-84b4-0fc27e83eabd}</Project>
       <Name>OmegaGo.UI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmegaGo.UI.Fuego\OmegaGo.UI.Fuego.csproj" Condition="'$(Configuration)'!='DebugWithoutFuego'">
+    <ProjectReference Include="..\OmegaGo.UI.Fuego\OmegaGo.UI.Fuego.csproj" Condition="'$(Configuration)' != 'DebugWithoutFuego'">
       <Project>{7a8582e3-6e4b-4e4e-a6e3-925b2cc2d882}</Project>
       <Name>OmegaGo.UI.Fuego</Name>
     </ProjectReference>
@@ -380,7 +380,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithoutFuego|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\DebugWithoutFuego\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WITHOUT_FUEGO;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>
@@ -393,7 +393,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithoutFuego|ARM'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\DebugWithoutFuego\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WITHOUT_FUEGO;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <NoStdLib>true</NoStdLib>
     <DebugType>full</DebugType>

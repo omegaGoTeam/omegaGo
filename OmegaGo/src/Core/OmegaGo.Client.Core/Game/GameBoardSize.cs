@@ -66,5 +66,10 @@ namespace OmegaGo.Core.Game
         public static bool operator ==( GameBoardSize first, GameBoardSize second) => first.Equals(second);
 
         public static bool operator !=(GameBoardSize first, GameBoardSize second) => !( first == second );
+
+        public override string ToString()
+        {
+            return Width + "x" + Height;
+        }
     }
 }

@@ -4,6 +4,7 @@
     "MvvmCross": "4.4.0",
     "MvvmCross.Plugin.Messenger": "4.4.0",
     "MvvmCross.Plugin.Visibility": "4.4.0",
+    "Newtonsoft.Json": "9.0.1",
     "PlatformSpecific.Analyzer": "2.0.3",
     "rda.SocketsForPCL": "2.0.2",
     "Win2D.uwp": "1.20.0"
