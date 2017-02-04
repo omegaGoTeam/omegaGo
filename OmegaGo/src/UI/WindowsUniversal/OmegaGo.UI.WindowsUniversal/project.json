@@ -6,7 +6,7 @@
     "MvvmCross.Plugin.Visibility": "4.4.0",
     "PlatformSpecific.Analyzer": "2.0.3",
     "rda.SocketsForPCL": "2.0.2",
-    "Win2D.uwp": "1.19.0"
+    "Win2D.uwp": "1.20.0"
   },
   "frameworks": {
     "uap10.0": {}

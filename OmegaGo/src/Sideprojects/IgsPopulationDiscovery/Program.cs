@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 
 namespace IgsPopulationDiscovery
@@ -14,8 +15,9 @@ namespace IgsPopulationDiscovery
         {
             AsyncMain().Wait();
         }
-        public static async Task AsyncMain() { 
-            IgsConnection igs = new IgsConnection();
+        public static async Task AsyncMain()
+        {
+            IgsConnection igs = Connections.Pandanet;
             await igs.ConnectAsync();
             await igs.LoginAsync("OmegaGo1", "123456789");
             Console.Title = "IGS Population Discovery";
@@ -37,7 +39,6 @@ namespace IgsPopulationDiscovery
                     try
                     {
                         Console.WriteLine("Connection lost. Attempting to reestablish...");
-                        igs = new IgsConnection();
                         await igs.ConnectAsync();
                         await igs.LoginAsync("OmegaGo1", "123456789");
                         Thread.Sleep(2 * 1000);
