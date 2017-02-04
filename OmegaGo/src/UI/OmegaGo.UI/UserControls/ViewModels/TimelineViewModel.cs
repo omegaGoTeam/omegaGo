@@ -9,7 +9,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public sealed class TimelineViewModel : MvxViewModel
+    public sealed class TimelineViewModel : ControlViewModelBase
     {
         private GameTree _gameTree;
         private GameTreeNode _selectedTimelineNode;

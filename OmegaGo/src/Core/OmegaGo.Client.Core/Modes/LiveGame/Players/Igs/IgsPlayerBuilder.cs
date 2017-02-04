@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
         public override GamePlayer Build()
         {
             IgsAgent igsAgent = new IgsAgent(Color, _pandanet);
-            GamePlayer gamePlayer = new GamePlayer(CreatePlayerInfo(), igsAgent);
+            GamePlayer gamePlayer = new GamePlayer(CreatePlayerInfo(), igsAgent, TimeClock);
             return gamePlayer;
         }
     }

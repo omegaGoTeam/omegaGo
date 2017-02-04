@@ -20,13 +20,15 @@ using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Time;
 using GoColor = OmegaGo.Core.Game.StoneColor;
 
 namespace FormsPrototype
 {
     public partial class InGameForm : Form
     {
-        private OnlineGameInfo _game;
+        private OnlineGameInfo _gameInfo;
+        private OnlineGame _onlineGame;
         private IgsConnection _igs;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private Territory[,] _territories = new Territory[19, 19];
@@ -35,19 +37,21 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
 
-        public InGameForm(OnlineGameInfo game, IgsConnection igs)
+        public InGameForm(OnlineGame onlineGame, IgsConnection igs)
         {
             InitializeComponent();
-            
-            this._game = game;
+
+            this._onlineGame = onlineGame;
+            this._gameInfo = onlineGame?.Metadata;
             this._igs = igs;
-            /*
-            if (this._game.Server != null)
+           
+           
+            if (igs != null)
             {
                 this.bLocalUndo.Visible = false;
                 this._igs.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
                 this._igs.ErrorMessageReceived += _igs_ErrorMessageReceived;
-                this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
+            //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
                 this._igs.UndoDeclined += _igs_UndoDeclined;
                 this._igs.LastMoveUndone += _igs_LastMoveUndone;
                 this._igs.GameScoredAndCompleted += _igs_GameScoredAndCompleted;
@@ -55,26 +59,25 @@ namespace FormsPrototype
             }
             else
             {
-            */
                 this.bUndoPlease.Visible = false;
                 this.bUndoYes.Visible = false;
                 this.bUndoNo.Visible = false;
-            //}
+            }
             RefreshBoard();
         }
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /*
+            
             if (this._igs != null)
             {
                 this._igs.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
                 this._igs.ErrorMessageReceived -= _igs_ErrorMessageReceived;
-                this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
+             //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 this._igs.UndoDeclined -= _igs_UndoDeclined;
                 this._igs.LastMoveUndone -= _igs_LastMoveUndone;
                 this._igs.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
             }
-            _controller.AbortGame();*/
+           // _controller.AbortGame();*/
         }
 
         private void _igs_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
@@ -127,7 +130,7 @@ namespace FormsPrototype
 
         private void _igs_LastMoveUndone(object sender, GameInfo e)
         {
-            if (e == this._game)
+            if (e == this._gameInfo)
             {
                 LocalUndo();
             }
@@ -135,29 +138,29 @@ namespace FormsPrototype
 
         private void _igs_UndoDeclined(object sender, OnlineGameInfo e)
         {
-            if (e == this._game) SystemLog("An UNDO REQUEST was denied.");
+            if (e == this._gameInfo) SystemLog("An UNDO REQUEST was denied.");
         }
-        /*
-        private void _igs_UndoRequestReceived(object sender, ObsoleteGameInfo e)
+        
+        private void _igs_UndoRequestReceived(object sender, OnlineGame e)
         {
-            if (e == this._game) SystemLog("We have received an UNDO REQUEST!");
+            if (e == this._onlineGame) SystemLog("We have received an UNDO REQUEST!");
         }
-        */
+        
         private void _igs_ErrorMessageReceived(object sender, string e)
         {
             this.SystemLog("ERROR: " + e);
         }
 
-     /*
+     
 
-        private void _igs_IncomingInGameChatMessage(object sender, Tuple<ObsoleteGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
+        private void _igs_IncomingInGameChatMessage(object sender, Tuple<OnlineGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
         {
-            if (e.Item1 == this._game)
+            if (e.Item1 == this._gameInfo)
             {
                 this.lbPlayerChat.Items.Add("[" + e.Item2.Time.ToString("H:m") + "] " + e.Item2.UserName + ": " +
                                             e.Item2.Text);
             }
-        }*/
+        }
         private void SystemLog(string logline)
         {
             this.tbLog.AppendText(logline + Environment.NewLine);
@@ -229,6 +232,11 @@ namespace FormsPrototype
         {
             this.panelEnd.Visible = true;
             this.lblEndCaption.Text = resigner + " resigned!";
+        }
+        private void _controller_PlayerTimedOut(object sender, GamePlayer e)
+        {
+            this.panelEnd.Visible = true;
+            this.lblEndCaption.Text = e + " timed out!";
         }
 
         private void _controller_DebuggingMessage(object sender, string obj)
@@ -421,8 +429,8 @@ namespace FormsPrototype
         }
 
         private async void bSay_Click(object sender, EventArgs e)
-        {/*
-            if (!await this._igs.SayAsync(this._game, this.tbSayWhat.Text))
+        {
+            if (!await this._igs.SayAsync(this._onlineGame, this.tbSayWhat.Text))
             {
                 MessageBox.Show("Say failed.");
             }
@@ -430,7 +438,7 @@ namespace FormsPrototype
             {
                 this.lbPlayerChat.Items.Add("[" + DateTimeOffset.Now.ToString("H:m") + "] You: " + this.tbSayWhat.Text);
                 this.tbSayWhat.Clear();
-            }*/
+            }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -542,6 +550,7 @@ namespace FormsPrototype
             this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             this._controller.DebuggingMessage += _controller_DebuggingMessage;
             this._controller.Resignation += _controller_Resignation;
+            this._controller.PlayerTimedOut += _controller_PlayerTimedOut; 
             this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             this._controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             this._controller.GamePhaseChanged += _controller_GamePhaseChanged;
@@ -557,6 +566,8 @@ namespace FormsPrototype
             */
             this._controller.BeginGame();
         }
+
+      
 
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {
@@ -596,6 +607,19 @@ namespace FormsPrototype
         private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             RefreshBoard();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (_liveGame != null)
+            {
+                TimeInformation blackTime = _liveGame.Controller.Players.Black.Clock.GetDisplayTime();
+                this.lblTimeBlackMain.Text = blackTime.MainText;
+                this.lblTimeBlackSub.Text = blackTime.SubText;
+                TimeInformation whiteTime = _liveGame.Controller.Players.White.Clock.GetDisplayTime();
+                this.lblTimeWhiteMain.Text = whiteTime.MainText;
+                this.lblTimeWhiteSub.Text = whiteTime.SubText;
+            }
         }
     }
 }

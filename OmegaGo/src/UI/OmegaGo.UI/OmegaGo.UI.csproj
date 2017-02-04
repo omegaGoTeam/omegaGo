@@ -33,6 +33,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithoutFuego|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithoutFuego\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
@@ -94,6 +103,10 @@
     <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />

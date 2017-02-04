@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 
         public override AgentType Type => AgentType.AI;
 
-        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.MakeRandomMove;
+        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
 
         public override async void OnTurn()
         {

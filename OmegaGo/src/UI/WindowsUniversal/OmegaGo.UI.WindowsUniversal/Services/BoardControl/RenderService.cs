@@ -62,6 +62,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="gameState"></param>
         public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
         {
+            /*
+            args.DrawingSession.Antialiasing = CanvasAntialiasing.Aliased;
+            args.DrawingSession.TextAntialiasing = CanvasTextAntialiasing.Aliased;
+            */
             int boardWidth = SharedBoardControlState.BoardWidth;
             int boardHeight = SharedBoardControlState.BoardHeight;
             int cellSize = SharedBoardControlState.CellSize;

@@ -25,7 +25,10 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+#if WITHOUT_FUEGO
+#else
 using OmegaGo.UI.WindowsUniversal.Fuego;
+#endif
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal
@@ -47,7 +50,10 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+#if WITHOUT_FUEGO
+#else
             OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FuegoBuilder());
+#endif
             InitLanguage();
         }
 

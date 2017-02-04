@@ -10,37 +10,21 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
     partial class IgsConnection
     {
         private bool _ignoreNextPrompt;
-        /*
-         * 
-         * 
-         *  Creator:
-         *  
-            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
-            9 Handicap and komi are disable.
-            9 Match [10] with OmegaGo1 in 75 accepted.
-            9 Please use say to talk to your opponent -- help say.
-            1 6
-
-         * 
-         *  Acceptor:
-    
-            15 Game 10 I: Soothie (0 4500 -1) vs OmegaGo1 (0 4500 -1)
-            9 Handicap and komi are disable.
-            9 Creating match [10] with Soothie.
-            9 Please use say to talk to your opponent -- help say.
-            1 6
-            */
 
         private async Task HandleIncomingData(StreamReader sr)
         {
@@ -180,10 +164,7 @@ namespace OmegaGo.Core.Online.Igs
                     if (code == IgsCode.StoneRemoval)
                     {
                         Tuple<int, Position> removedStone = IgsRegex.ParseStoneRemoval(igsLine);
-                        // TODO
-                        /*
-                    _gamesYouHaveOpened.Find(gi => gi.Metadata.ServerId == removedStone.Item1).GameController.MarkGroupDead(removedStone.Item2);
-                    */
+                        OnIncomingStoneRemoval(removedStone.Item1, removedStone.Item2);
                         continue;
                     }
                     if (code == IgsCode.Move)
@@ -211,7 +192,7 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (!interruptIsImpossible)
                     {
-                        /* TODO
+                       
                     if (igsLine.EntireLine == "9 You can check your score with the score command, type 'done' when finished.")
                     {
                         weAreHandlingAnInterrupt = true;
@@ -229,8 +210,8 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             foreach (var game in GetGamesIncluding(whoResigned))
                             {
-                                // TODO
-                              //    game.GameController.Resign(game.Players.Find(pl => pl.Name == whoResigned));
+                                OnIncomingResignation(game, whoResigned);
+                                // TODO handle in game controller
                             }
                         }
                         weAreHandlingAnInterrupt = true;
@@ -244,6 +225,8 @@ namespace OmegaGo.Core.Online.Igs
                             //**game.GameController.LifeDeath_Done(game.Players.Find(pl => pl.Name == username));
                         }
                     }
+                    /*
+                     * TODO
                     if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
                     {
                         foreach (var game in _gamesYouHaveOpened.Where(gi => gi.GameController.GamePhase == GamePhase.LifeDeathDetermination))
@@ -293,6 +276,7 @@ namespace OmegaGo.Core.Online.Igs
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
+                    */
                     IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
                     if (matchRequest != null)
                     {
@@ -301,7 +285,7 @@ namespace OmegaGo.Core.Online.Igs
                         weAreHandlingAnInterrupt = true;
                         continue;
                     }
-                    */
+                    
                     }
                 }
 
@@ -327,7 +311,7 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        private IEnumerable<GameInfo> GetGamesIncluding(string username)
+        private IEnumerable<OnlineGameInfo> GetGamesIncluding(string username)
         {
 
             return this._gamesYouHaveOpened.Where(ginfo => ginfo.Info.Black.Name == username ||
@@ -381,13 +365,13 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
+                Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
             }
             else if (trim.Contains("Handicap"))
             {
                 //  15   0(B): Handicap 3
                 int handicapStones = IgsRegex.ParseHandicapMove(igsLine);
-                // TODO
-                // _incomingMovesAreForThisGame.GameController.HandicapPhase_PlaceIgsHandicap(handicapStones);
+                OnIncomingHandicapInformation(_incomingMovesAreForThisGame, handicapStones);
             }
             else
             {
@@ -412,33 +396,66 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                IncomingMove?.Invoke(this, new Tuple<OnlineGame, int, Move>(_incomingMovesAreForThisGame, int.Parse(moveIndex), move));
+                OnIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
             }
         }
 
-        private void HandleFullInterrupt(List<IgsLine> currentLineBatch)
+        private async void HandleFullInterrupt(List<IgsLine> currentLineBatch)
         {
             if (currentLineBatch.Count > 0)
             {
-                /*
-                               if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
+               
+                  if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
+                    
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
-                    ObsoleteGameInfo game = new ObsoleteGameInfo()
+                    var ogi = await GetGameByIdAsync(heading.GameNumber);
+                    Modes.LiveGame.Online.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
+                    bool youAreBlack = ogi.Black.Name == _username;
+                    bool youAreWhite = ogi.White.Name == _username;
+                    if (youAreBlack)
                     {
-                        BoardSize = new GameBoardSize(19), // TODO
-                        Server = this,
-                        ServerId = heading.GameNumber,
-                    };
-                    game.Players.Add(new GamePlayer(heading.BlackName, "?", game));
-                    game.Players.Add(new GamePlayer(heading.WhiteName, "?", game));
-                    game.Ruleset = new JapaneseRuleset(game.BoardSize);
-                    this._gamesInProgressOnIgs.RemoveAll(gm => gm.ServerId == heading.GameNumber);
-                    this._gamesInProgressOnIgs.Add(game);
-                    this._gamesYouHaveOpened.Add(game);
-                    OnMatchRequestAccepted(game);
+                        builder.BlackPlayer(
+                            new HumanPlayerBuilder(StoneColor.Black)
+                            .Name(ogi.Black.Name)
+                            .Rank(ogi.Black.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
+                            .Build());
+                    }
+                    else
+                    {
+                        builder.BlackPlayer(
+                            new IgsPlayerBuilder(StoneColor.Black, this)
+                                .Name(ogi.Black.Name)
+                                .Rank(ogi.Black.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
+                                .Build());
 
+                    }
+                    if (youAreWhite)
+                    {
+                        builder.WhitePlayer(
+                            new HumanPlayerBuilder(StoneColor.White)
+                            .Name(ogi.White.Name)
+                            .Rank(ogi.White.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
+                            .Build());
+                    }
+                    else
+                    {
+                        builder.WhitePlayer(
+                            new IgsPlayerBuilder(StoneColor.White, this)
+                                .Name(ogi.White.Name)
+                                .Rank(ogi.White.Rank)
+                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
+                                .Build());
+
+                    }
+                    OnlineGame newGame = builder.Build();
+                    _gamesYouHaveOpened.Add(newGame);
+                    OnMatchRequestAccepted(newGame);
                 }
+                               /*
                 if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
                 {
                     // Make it not be an interrupt and let it be handled by the match creator.
@@ -473,10 +490,10 @@ namespace OmegaGo.Core.Online.Igs
                         // We received a chat message for a game we no longer play.
                         return;
                     }
-                    // TODO
-                    //OnIncomingInGameChatMessage(relevantGame, chatLine);
+
+                    OnIncomingInGameChatMessage(relevantGame.Metadata, chatLine);
                 }
-                /*
+                
                 if (currentLineBatch[0].Code == IgsCode.Tell &&
                     currentLineBatch[0].PureLine.StartsWith("*SYSTEM*") &&
                     currentLineBatch[0].PureLine.EndsWith("requests undo."))
@@ -501,28 +518,28 @@ namespace OmegaGo.Core.Online.Igs
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
+                    OnlineGame gameInfo = this._gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
-                        OnLastMoveUndone(gameInfo);
+                        OnLastMoveUndone(gameInfo.Metadata);
                     }
                 }
+                
                 if (currentLineBatch[0].EntireLine.Contains("'done'"))
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi => gi.ServerId == game);
-                    gameInfo.GameController.MainPhase_EnterLifeDeath();
+                    OnlineGame gameInfo = this._gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
+                    Events.OnEnterLifeDeath(gameInfo);
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
                 {
                     ScoreLine scoreLine = IgsRegex.ParseScoreLine(currentLineBatch.Find(ln => ln.Code == IgsCode.Score));
-                    ObsoleteGameInfo gameInfo = this._gamesYouHaveOpened.Find(gi =>
-                        gi.White.Name == scoreLine.White &&
-                        gi.Black.Name == scoreLine.Black);
+                    OnlineGame gameInfo = this._gamesYouHaveOpened.Find(gi =>
+                        gi.Metadata.White.Name == scoreLine.White &&
+                        gi.Metadata.Black.Name == scoreLine.Black);
                     OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
                 }
-                */
             }
         }
         

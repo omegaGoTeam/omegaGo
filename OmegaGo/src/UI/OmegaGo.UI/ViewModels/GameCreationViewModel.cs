@@ -20,6 +20,8 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Time;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -34,6 +36,35 @@ namespace OmegaGo.UI.ViewModels
 
         private ICommand _setDefaultCompensationCommand = null;
         private IMvxCommand _navigateToGameCommand;
+        
+        public GameCreationViewModel()
+        {
+            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
+            SelectedDifficulty = Difficulties.First();
+            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
+            SelectedStoneColor = StoneColors.First();
+            WhiteHandicap = 0;
+        }
+
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
+        
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } = new PlayerSettingsViewModel(_playerList[0]);
+
+        private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
+        public TimeControlSettingsViewModel TimeControl
+        {
+            get { return _timeControl; }
+            set { SetProperty(ref _timeControl, value); }
+        }
+        
+
+        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } = new ObservableCollection
+            <TimeControlStyle>
+        {
+            TimeControlStyle.None,
+            TimeControlStyle.Absolute,
+            TimeControlStyle.Canadian
+        };
 
         /// <summary>
         /// Default offered game board sizes
@@ -132,13 +163,17 @@ namespace OmegaGo.UI.ViewModels
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }
-            set { SetProperty(ref _blackPlayer, value); }
+            set { SetProperty(ref _blackPlayer, value);
+                BlackPlayerSettings.ChangePlayer(value);
+            }
         }
 
         public GameCreationViewPlayer WhitePlayer
         {
             get { return _whitePlayer; }
-            set { SetProperty(ref _whitePlayer, value); }
+            set { SetProperty(ref _whitePlayer, value);
+                WhitePlayerSettings.ChangePlayer(value);
+            }
         }
 
         private int _customWidth = 19;
@@ -212,14 +247,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
-        public GameCreationViewModel()
-        {
-            Difficulties = new ObservableCollection<string>() { Localizer.Easy, Localizer.Medium, Localizer.Hard };
-            SelectedDifficulty = Difficulties.First();
-            StoneColors = new ObservableCollection<string>() { "Human", "AI (Michi)", "AI (Oakfoam)", "AI (Joker23)" };
-            SelectedStoneColor = StoneColors.First();
-            WhiteHandicap = 0;
-        }
 
         public ICommand SetDefaultCompensationCommand => _setDefaultCompensationCommand ?? (_setDefaultCompensationCommand = new MvxCommand(SetDefaultCompensation));
 
@@ -241,8 +268,8 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black);
-            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White);
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 
             //TODO: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
@@ -252,40 +279,44 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();
-            foreach (var player in game.Controller.Players)
-            {
-                player.AssignToGame(game.Info, game.Controller);
-            }
             Mvx.RegisterSingleton<ILiveGame>(game);
         }
 
         public abstract class GameCreationViewPlayer
         {
-            protected string Name;
+            public string Name { get; protected set; }
+            public abstract string Description { get; }
+            public abstract bool IsAi { get; }
 
-            public abstract GamePlayer Build(StoneColor color);
+            public abstract GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings);
 
             public override string ToString()
             {
                 return Name;
             }
         }
-        class GameCreationViewHumanPlayer : GameCreationViewPlayer
+        public class GameCreationViewHumanPlayer : GameCreationViewPlayer
         {
             public GameCreationViewHumanPlayer(string name)
             {
                 this.Name = name;
             }
 
-            public override GamePlayer Build(StoneColor color)
+            public override string Description
+                => "This means that you (or a friend) will play this color on this device.";
+
+            public override bool IsAi => false;
+
+            public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings)
             {
                 return new HumanPlayerBuilder(color)
                     .Name(color.ToString())
                     .Rank("NR")
+                    .Clock(timeSettings.Build())
                     .Build();
             }
         }
-        class GameCreationViewAiPlayer : GameCreationViewPlayer
+        public class GameCreationViewAiPlayer : GameCreationViewPlayer
         {
             private IAIProgram ai;
             public GameCreationViewAiPlayer(OmegaGo.Core.AI.IAIProgram program)
@@ -294,12 +325,17 @@ namespace OmegaGo.UI.ViewModels
                 this.ai = program;
             }
 
-            public override GamePlayer Build(StoneColor color)
+            public override string Description => ai.Description;
+            public override bool IsAi => true;
+            public AICapabilities Capabilities => ai.Capabilities;
+
+            public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings)
             {
                 IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(ai.GetType());
                 return new AiPlayerBuilder(color)
                     .Name(ai.Name + "(" + color.ToIgsCharacterString() + ")")
                     .Rank("NR")
+                    .Clock(timeSettings.Build())
                     .AiProgram(newInstance)
                     .Build();
             }

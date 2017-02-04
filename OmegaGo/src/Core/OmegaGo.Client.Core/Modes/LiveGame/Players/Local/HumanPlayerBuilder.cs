@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 
         public override GamePlayer Build()
         {
-            return new GamePlayer(CreatePlayerInfo(), new HumanAgent(Color));
+            return new GamePlayer(CreatePlayerInfo(), new HumanAgent(Color), TimeClock);
         }
     }
 }

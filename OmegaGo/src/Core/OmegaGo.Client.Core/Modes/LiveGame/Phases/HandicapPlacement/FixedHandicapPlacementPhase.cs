@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
@@ -16,7 +17,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
 
         public override void StartPhase()
         {            
+
             var gameInfo = Controller.Info;
+            if (gameInfo is OnlineGameInfo)
+            {
+                GoToPhase(GamePhaseType.Main);
+                return; // IGS will handle this differently
+            }
             if (gameInfo.NumberOfHandicapStones > 0)
             {
                 GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
