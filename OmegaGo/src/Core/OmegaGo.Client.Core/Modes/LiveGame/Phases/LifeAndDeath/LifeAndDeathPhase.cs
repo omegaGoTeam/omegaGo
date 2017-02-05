@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
@@ -13,6 +15,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         }
 
         public override GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;
+
+        void RecalculateTerritories()
+        {
+             GameBoard boardAfterRemovalOfDeadStones =
+               this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+                    this.Controller.DeadPositions);
+            Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+            this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
+        }
 
         public void MarkGroupDead(Position position)
         {
@@ -30,7 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 }
             }
             _playersDoneWithLifeDeath.Clear();
-            Controller.OnBoardMustBeRefreshed();
+            RecalculateTerritories();
         }
         public void Done(GamePlayer player)
         {
@@ -43,17 +54,47 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
            //  this._game.Server?.LifeDeath_Done(this._game);
             if (_playersDoneWithLifeDeath.Count == 2) // && this._game.Server == null)
             {
-                // TODO proper scoring
-                GoToPhase(GamePhaseType.Finished);
+               ScoreIt();
             }
-            Controller.OnBoardMustBeRefreshed();
+            RecalculateTerritories();
+        }
+
+        private void ScoreIt()
+        {
+            GameBoard boardAfterRemovalOfDeadStones =
+                this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+                    this.Controller.DeadPositions);
+            Scores scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+            bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
+            GamePlayer winner;
+            GamePlayer loser;
+            if (isDraw)
+            {
+                winner = this.Controller.Players.Black;
+                loser = this.Controller.Players.White;
+            }
+            else if (scores.BlackScore > scores.WhiteScore)
+            {
+                winner = this.Controller.Players.Black;
+                loser = this.Controller.Players.White;
+            }
+            else if (scores.BlackScore < scores.WhiteScore)
+            {
+                winner = this.Controller.Players.White;
+                loser = this.Controller.Players.Black;
+            }
+            else
+            {
+                throw new Exception("This cannot happen.");
+            }
+            this.Controller.GoToEnd(GameEndInformation.ScoringComplete(isDraw, winner, loser, scores));
         }
 
         public void UndoPhase()
         {
             Controller.DeadPositions = new List<Position>();
             _playersDoneWithLifeDeath.Clear();
-            Controller.OnBoardMustBeRefreshed();
+            RecalculateTerritories();
             // TODO online
         }
 
@@ -62,14 +103,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.DeadPositions = new List<Position>();
             GoToPhase(GamePhaseType.Main);
             _playersDoneWithLifeDeath.Clear();
-            Controller.OnBoardMustBeRefreshed();
+            RecalculateTerritories();
             // TODO check
         }
 
         public override void StartPhase()
         {
-
-            //GoToPhase( GamePhaseType.Finished );
+            RecalculateTerritories();
         }
     }
 }

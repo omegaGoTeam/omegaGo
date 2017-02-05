@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
@@ -17,11 +18,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             this.HasWinnerAndLoser = hasWinnerAndLoser;
         }
 
-        GameEndReason Reason { get; }
+        public GameEndReason Reason { get; }
         public GamePlayer Loser { get; }
         public GamePlayer Winner { get; }
         public bool HasWinnerAndLoser { get; }
-        public float WinnerScoreDifference { private set; get; }
+        public Scores Scores { private set; get; }
         public string Mainline
         {
             get
@@ -37,7 +38,15 @@ namespace OmegaGo.Core.Modes.LiveGame
                     case GameEndReason.Timeout:
                         return Loser + " timed out.";
                     case GameEndReason.ScoringComplete:
-                        return (Winner.Info.Color == Game.StoneColor.Black ? "B" : "W") + "+" + WinnerScoreDifference;
+                        if (HasWinnerAndLoser)
+                        {
+                            return (Winner.Info.Color == Game.StoneColor.Black ? "B" : "W") + "+" +
+                                   Scores.PositiveScoreDifference;
+                        }
+                        else
+                        {
+                            return "Draw.";
+                        }
                 }
                 throw new Exception("Unknown game end reason.");
             }
@@ -72,11 +81,11 @@ namespace OmegaGo.Core.Modes.LiveGame
                 controller.Players.GetOpponentOf(whoDisconnected),
                 whoDisconnected);
         }
-        public static GameEndInformation ScoringComplete(bool isDraw, GamePlayer winner, GamePlayer loser, float winnerScoreDifference)
+        public static GameEndInformation ScoringComplete(bool isDraw, GamePlayer winner, GamePlayer loser, Scores scores)
         {
             return new LiveGame.GameEndInformation(GameEndReason.ScoringComplete, !isDraw, winner, loser)
             {
-                WinnerScoreDifference = winnerScoreDifference
+                Scores = scores
             };
         }
     }

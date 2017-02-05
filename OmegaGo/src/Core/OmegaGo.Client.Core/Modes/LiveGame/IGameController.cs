@@ -38,6 +38,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         List<Position> DeadPositions { get; set; }
         event EventHandler<GameEndInformation> GameEnded;
+        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
         /// <summary>
         /// Starts the game
         /// </summary>

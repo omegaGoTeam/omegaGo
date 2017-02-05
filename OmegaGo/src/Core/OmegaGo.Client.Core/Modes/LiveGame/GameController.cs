@@ -99,6 +99,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public event EventHandler<string> DebuggingMessage;
 
+        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+
         /// <summary>
         /// Ruleset of the game
         /// </summary>
@@ -333,6 +335,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         public event EventHandler BoardMustBeRefreshed;
         public void OnBoardMustBeRefreshed()
         {
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        {
+            LifeDeathTerritoryChanged?.Invoke(this, map);
             BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
         }
     }

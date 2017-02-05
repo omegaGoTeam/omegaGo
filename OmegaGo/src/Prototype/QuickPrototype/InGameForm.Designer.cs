@@ -77,6 +77,7 @@
             this.lblTimeBlackSub = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.bAddTimeToMyOpponent = new System.Windows.Forms.Button();
+            this.grpTiming = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -89,6 +90,7 @@
             this.grpLifeDeath.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).BeginInit();
+            this.grpTiming.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -103,7 +105,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.PeachPuff;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 76);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 55);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(474, 411);
             this.pictureBox1.TabIndex = 3;
@@ -115,7 +117,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(492, 234);
+            this.label2.Location = new System.Drawing.Point(497, 253);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 6;
@@ -125,7 +127,7 @@
             // 
             this.lblTurnPlayer.AutoSize = true;
             this.lblTurnPlayer.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTurnPlayer.Location = new System.Drawing.Point(521, 255);
+            this.lblTurnPlayer.Location = new System.Drawing.Point(526, 274);
             this.lblTurnPlayer.Name = "lblTurnPlayer";
             this.lblTurnPlayer.Size = new System.Drawing.Size(128, 31);
             this.lblTurnPlayer.TabIndex = 7;
@@ -164,7 +166,7 @@
             this.groupboxMoveMaker.Controls.Add(this.label3);
             this.groupboxMoveMaker.Controls.Add(this.tbInputMove);
             this.groupboxMoveMaker.Controls.Add(this.bMakeMove);
-            this.groupboxMoveMaker.Location = new System.Drawing.Point(493, 299);
+            this.groupboxMoveMaker.Location = new System.Drawing.Point(498, 318);
             this.groupboxMoveMaker.Name = "groupboxMoveMaker";
             this.groupboxMoveMaker.Size = new System.Drawing.Size(200, 188);
             this.groupboxMoveMaker.TabIndex = 11;
@@ -519,7 +521,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(493, 86);
+            this.label7.Location = new System.Drawing.Point(6, 18);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(63, 13);
             this.label7.TabIndex = 24;
@@ -528,7 +530,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(493, 159);
+            this.label8.Location = new System.Drawing.Point(6, 91);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(64, 13);
             this.label8.TabIndex = 25;
@@ -538,7 +540,7 @@
             // 
             this.lblTimeBlackMain.AutoSize = true;
             this.lblTimeBlackMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTimeBlackMain.Location = new System.Drawing.Point(508, 100);
+            this.lblTimeBlackMain.Location = new System.Drawing.Point(21, 32);
             this.lblTimeBlackMain.Name = "lblTimeBlackMain";
             this.lblTimeBlackMain.Size = new System.Drawing.Size(128, 31);
             this.lblTimeBlackMain.TabIndex = 26;
@@ -548,7 +550,7 @@
             // 
             this.lblTimeWhiteMain.AutoSize = true;
             this.lblTimeWhiteMain.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblTimeWhiteMain.Location = new System.Drawing.Point(508, 176);
+            this.lblTimeWhiteMain.Location = new System.Drawing.Point(21, 108);
             this.lblTimeWhiteMain.Name = "lblTimeWhiteMain";
             this.lblTimeWhiteMain.Size = new System.Drawing.Size(128, 31);
             this.lblTimeWhiteMain.TabIndex = 27;
@@ -557,7 +559,7 @@
             // lblTimeWhiteSub
             // 
             this.lblTimeWhiteSub.AutoSize = true;
-            this.lblTimeWhiteSub.Location = new System.Drawing.Point(511, 211);
+            this.lblTimeWhiteSub.Location = new System.Drawing.Point(24, 143);
             this.lblTimeWhiteSub.Name = "lblTimeWhiteSub";
             this.lblTimeWhiteSub.Size = new System.Drawing.Size(63, 13);
             this.lblTimeWhiteSub.TabIndex = 28;
@@ -566,7 +568,7 @@
             // lblTimeBlackSub
             // 
             this.lblTimeBlackSub.AutoSize = true;
-            this.lblTimeBlackSub.Location = new System.Drawing.Point(511, 134);
+            this.lblTimeBlackSub.Location = new System.Drawing.Point(24, 66);
             this.lblTimeBlackSub.Name = "lblTimeBlackSub";
             this.lblTimeBlackSub.Size = new System.Drawing.Size(63, 13);
             this.lblTimeBlackSub.TabIndex = 29;
@@ -587,18 +589,28 @@
             this.bAddTimeToMyOpponent.UseVisualStyleBackColor = true;
             this.bAddTimeToMyOpponent.Click += new System.EventHandler(this.bAddTimeToMyOpponent_Click);
             // 
+            // grpTiming
+            // 
+            this.grpTiming.Controls.Add(this.label8);
+            this.grpTiming.Controls.Add(this.label7);
+            this.grpTiming.Controls.Add(this.lblTimeBlackSub);
+            this.grpTiming.Controls.Add(this.lblTimeBlackMain);
+            this.grpTiming.Controls.Add(this.lblTimeWhiteSub);
+            this.grpTiming.Controls.Add(this.lblTimeWhiteMain);
+            this.grpTiming.Location = new System.Drawing.Point(493, 86);
+            this.grpTiming.Name = "grpTiming";
+            this.grpTiming.Size = new System.Drawing.Size(200, 164);
+            this.grpTiming.TabIndex = 30;
+            this.grpTiming.TabStop = false;
+            this.grpTiming.Text = "Time control";
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1230, 601);
+            this.Controls.Add(this.grpTiming);
             this.Controls.Add(this.bAddTimeToMyOpponent);
-            this.Controls.Add(this.lblTimeBlackSub);
-            this.Controls.Add(this.lblTimeWhiteSub);
-            this.Controls.Add(this.lblTimeWhiteMain);
-            this.Controls.Add(this.lblTimeBlackMain);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.lblTimeline);
             this.Controls.Add(this.trackTimeline);
             this.Controls.Add(this.groupBox1);
@@ -635,6 +647,8 @@
             this.grpLifeDeath.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackTimeline)).EndInit();
+            this.grpTiming.ResumeLayout(false);
+            this.grpTiming.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -689,5 +703,6 @@
         private System.Windows.Forms.Label lblTimeBlackSub;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button bAddTimeToMyOpponent;
+        private System.Windows.Forms.GroupBox grpTiming;
     }
 }

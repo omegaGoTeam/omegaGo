@@ -47,6 +47,7 @@
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
+    <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
