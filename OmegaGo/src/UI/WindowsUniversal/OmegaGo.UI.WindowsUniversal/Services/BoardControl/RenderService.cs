@@ -14,6 +14,7 @@ using Windows.UI;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.Core.Game;
+using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
@@ -21,16 +22,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
     {
         private BoardControlState _sharedBoardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
-        
         public BoardControlState SharedBoardControlState
         {
             get { return _sharedBoardControlState; }
             private set { _sharedBoardControlState = value; }
         }
-
         public RenderService(BoardControlState sharedBoardControlState)
         {
             SharedBoardControlState = sharedBoardControlState;
+            _textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
         }
 
         private CanvasBitmap blackStoneBitmap;
@@ -38,12 +38,24 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private CanvasBitmap oakBitmap;
         private CanvasBitmap kayaBitmap;
         private CanvasBitmap spaceBitmap;
+        private StoneTheme stoneDisplayTheme;
+        private BoardTheme _boardTheme;
+        private bool _showCoordinates;
+        private int _boardBorderThickness = 0;
+        private int _boardLineThickness;
+        private int _cellSize;
+        private int _halfSize;
+        private FpsCounter _fpsCounter = new FpsCounter();
 
-        public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        public void CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
+            stoneDisplayTheme = _settings.Display.StonesTheme;
+            _boardTheme = _settings.Display.BoardTheme;
+            _showCoordinates = _settings.Display.ShowCoordinates;
+            _boardLineThickness = SharedBoardControlState.BoardLineThickness;
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
-        async Task CreateResourcesAsync(CanvasControl sender)
+        async Task CreateResourcesAsync(CanvasAnimatedControl sender)
         {
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
@@ -54,57 +66,87 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         }
 
 
+        private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
+        {
+            session.FillRectangle(new Windows.Foundation.Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
+            DrawBackground(boardRectangle, session);
+        }
         /// <summary>
         /// Draws the entire game board for the provided state.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         /// <param name="gameState"></param>
-        public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
+        public void Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args, GameTreeNode gameState)
         {
-            /*
+
             args.DrawingSession.Antialiasing = CanvasAntialiasing.Aliased;
-            args.DrawingSession.TextAntialiasing = CanvasTextAntialiasing.Aliased;
-            */
+            // Calculations
+            double clientWidth = sender.Size.Width;
+            double clientHeight = sender.Size.Height;
             int boardWidth = SharedBoardControlState.BoardWidth;
+            int widthWithBorder = boardWidth + (_showCoordinates ? 2 : 0);
             int boardHeight = SharedBoardControlState.BoardHeight;
-            int cellSize = SharedBoardControlState.CellSize;
-            int halfSize = SharedBoardControlState.HalfCellSize;
-            Position lastMove = gameState?.Move?.Kind == MoveKind.PlaceStone
-                ? gameState.Move.Coordinates
-                : Position.Undefined;
+            Rect boardRectangle = RenderUtilities.Scale(new Rect(0, 0, clientWidth, clientHeight), 
+                boardWidth + (_showCoordinates ? 2 : 0), boardHeight + (_showCoordinates ? 2 : 0));
+            _cellSize = (int)(boardRectangle.Width/widthWithBorder);
+            _halfSize = _cellSize/2;
 
-            sender.Width = SharedBoardControlState.BoardActualWidth;
-            sender.Height = SharedBoardControlState.BoardActualHeight;
-            
-            DrawBackground(args);
+            // Draw parts
+            DrawBoard(args.DrawingSession, clientWidth, clientHeight, boardRectangle);
 
-            // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
+            // Draw coordinates   
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(
+            (float)boardRectangle.X , (float)boardRectangle.Y);
+            DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
 
-            if (_settings.Display.ShowCoordinates)
-            {
-                DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
-            }
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardControlState.BoardBorderThickness, SharedBoardControlState.BoardBorderThickness);
+
+            // Draw grid
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(
+                (float)boardRectangle.X + _boardBorderThickness, (float)boardRectangle.Y + _boardBorderThickness);
+
             DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
-            DrawBoardStarPoints(args.DrawingSession, SharedBoardControlState);
+            DrawBoardStarPoints(args.DrawingSession, boardWidth, boardHeight);
 
-            if (_sharedBoardControlState.SelectedPosition.IsDefined)
-            {
-                DrawStoneCellBackground(
-                    args.DrawingSession,
-                    SharedBoardControlState.SelectedPosition.X,
-                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.SelectedPosition.Y,
-                    SharedBoardControlState.SelectionColor.ToUWPColor());
-            }
+
+            // Shining position special case
             if (_sharedBoardControlState.ShiningPosition.IsDefined)
             {
                 DrawStoneCellBackground(
                     args.DrawingSession,
                     SharedBoardControlState.ShiningPosition.X,
                     (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.ShiningPosition.Y,
-                    Color.FromArgb(140, 100, 200,100));
+                    Color.FromArgb(140, 100, 200, 100));
             }
+
+
+            // Mouse over position special case
+            if (_sharedBoardControlState.MouseOverPosition.IsDefined)
+            {
+                // TODO only if legal
+                if (_sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
+                {
+                    DrawStone(args.DrawingSession, SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        _sharedBoardControlState.MouseOverShadowColor, 0.5);
+
+                }
+                else
+                {
+                    // legacy
+                    DrawStoneCellBackground(
+                        args.DrawingSession,
+                        SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        SharedBoardControlState.HighlightColor.ToUWPColor());
+                }
+
+            }
+
+            args.DrawingSession.Transform = Matrix3x2.Identity;
+            _fpsCounter.Draw(args, new Rect(clientWidth - 100, 10, 80, 30));
+#if false
+          
 
             if (gameState != null)
             {
@@ -152,7 +194,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     }
                 }
             }
-            
+
             if (_sharedBoardControlState.MouseOverPosition.IsDefined)
             {
                 // TODO only if legal
@@ -174,19 +216,27 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 }
                 
             }
-            
+#endif
+
+
         }
 
-        private void DrawBackground(CanvasDrawEventArgs args)
+       
+
+
+        private string fpsString = "";
+        private int framesSinceLastSecond = 0;
+        private DateTime lastFpsEmit = DateTime.Now;
+        private CanvasTextFormat _textFormat;
+
+        private void DrawBackground(Rect rect, CanvasDrawingSession session)
         {
-            args.DrawingSession.FillRectangle(
-                0, 0,
-                this.SharedBoardControlState.BoardActualWidth,
-                this.SharedBoardControlState.BoardActualHeight,
-                this._sharedBoardControlState.BoardColor.ToUWPColor());
             CanvasBitmap bitmapToDraw = null;
-            switch (this._settings.Display.BoardTheme)
+            switch (_boardTheme)
             {
+                case BoardTheme.SolidColor:
+                    session.FillRectangle(rect, this._sharedBoardControlState.BoardColor.ToUWPColor());
+                    break;
                 case BoardTheme.OakWood:
                     bitmapToDraw = this.oakBitmap;
                     break;
@@ -199,14 +249,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             }
             if (bitmapToDraw != null)
             {
-                args.DrawingSession.DrawImage(bitmapToDraw,
-                    new Rect(0, 0, this.SharedBoardControlState.BoardActualWidth, this.SharedBoardControlState.BoardActualHeight));
+                session.DrawImage(bitmapToDraw, rect);
             }
-            args.DrawingSession.DrawRectangle(
-                0, 0,
-                this.SharedBoardControlState.BoardActualWidth,
-                this.SharedBoardControlState.BoardActualHeight,
-                Colors.Black);
+            session.DrawRectangle(rect, Colors.Black);
         }
 
         public void Update()
@@ -223,23 +268,23 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color, double opacity)
         {
           
-
-            if (_settings.Display.StonesTheme == StoneTheme.PolishedBitmap)
+            
+            if (stoneDisplayTheme == StoneTheme.PolishedBitmap)
             {
-                double xPos = SharedBoardControlState.CellSize * (x + 0.025);
-                double yPos = SharedBoardControlState.CellSize * (y + 0.025);
+                double xPos = _cellSize * (x + 0.025);
+                double yPos = _cellSize * (y + 0.025);
                 drawingSession.DrawImage(color == StoneColor.Black ? blackStoneBitmap : whiteStoneBitmap,
                     new Rect(xPos, yPos,
-                        SharedBoardControlState.CellSize*0.95,
-                        SharedBoardControlState.CellSize*0.95), blackStoneBitmap.Bounds, (float) opacity);
+                        _cellSize*0.95,
+                        _cellSize * 0.95), blackStoneBitmap.Bounds, (float) opacity);
             }
             else
             {
                 // We need to translate the position of the stone by its half to get the center for the ellipse shape
-                int xPos = SharedBoardControlState.CellSize*x + SharedBoardControlState.HalfCellSize;
-                int yPos = SharedBoardControlState.CellSize*y + SharedBoardControlState.HalfCellSize;
+                int xPos = _cellSize*x + _halfSize;
+                int yPos = _cellSize * y + _halfSize;
                 float radiusModifier = 0.4f;
-                float radius = SharedBoardControlState.CellSize*radiusModifier;
+                float radius = _cellSize * radiusModifier;
 
                 drawingSession.FillEllipse(
                     xPos,
@@ -248,6 +293,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     radius,
                     color == StoneColor.Black ? Colors.Black : Colors.White);
             }
+
+    
         }
         
         /// <summary>
@@ -261,10 +308,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             // No need to find center as we are drawing a rectangle from top left position - which we have
             drawingSession.FillRoundedRectangle(
-                SharedBoardControlState.CellSize * x,
-                SharedBoardControlState.CellSize * y,
-                SharedBoardControlState.CellSize,
-                SharedBoardControlState.CellSize, 
+                _cellSize * x,
+                _cellSize * y,
+                _cellSize,
+                _cellSize, 
                 4, 4,
                 backgroundColor);
         }
@@ -272,13 +319,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <summary>
         /// Draws horizontal and vertical coordinates for the board.
         /// </summary>
-        /// <param name="resourceCreator">used for storing graphical resources</param>
         /// <param name="drawingSession">used for rendering</param>
         /// <param name="boardWidth">width of the game board</param>
         /// <param name="boardHeight">height of the game board</param>
         private void DrawBoardCoordinates(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
         {
-            CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
+            if (!_showCoordinates) return;
+            _boardBorderThickness = _cellSize;
             int charCode = 65;
             
             // Draw horizontal char coordinates
@@ -287,37 +334,42 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 if ((char)charCode == 'I')
                     charCode++;
 
-                CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, ((char)(charCode)).ToString(), textFormat, SharedBoardControlState.CellSize, SharedBoardControlState.CellSize);
+                CanvasTextLayout textLayout = RenderUtilities.GetCachedCanvasTextLayout(resourceCreator, ((char) (charCode)).ToString(), this._textFormat, _cellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
                 
                 drawingSession.DrawTextLayout(
                     textLayout,
-                    (i * SharedBoardControlState.CellSize) + SharedBoardControlState.BoardBorderThickness,
+                    ((i+1) * _cellSize),
                     0,
                     Colors.Black);
+                drawingSession.DrawTextLayout(
+                  textLayout,
+                  ((i + 1) * _cellSize),
+                  _cellSize * (boardHeight+1),
+                  Colors.Black);
 
                 charCode++;
-                textLayout.Dispose();
             }
  
             // Draw vertical numerical coordinates
             for (int i = 0; i < boardHeight; i++)
             {
-                CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, (boardHeight - i).ToString(), textFormat, SharedBoardControlState.CellSize, SharedBoardControlState.CellSize);
+                CanvasTextLayout textLayout = RenderUtilities.GetCachedCanvasTextLayout(resourceCreator, (boardHeight - i).ToString(), this._textFormat, _cellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
                 
                 drawingSession.DrawTextLayout(
                     textLayout,
                     0,
-                    (i * SharedBoardControlState.CellSize) + SharedBoardControlState.BoardBorderThickness,
+                    ((i+1) * _cellSize),
                     Colors.Black);
-
-                textLayout.Dispose();
+                drawingSession.DrawTextLayout(
+                    textLayout,
+                    _cellSize * (boardWidth +1),
+                    ((i+1) * _cellSize),
+                    Colors.Black);
             }
-
-            textFormat.Dispose();
         }
 
         /// <summary>
@@ -334,60 +386,62 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             for (int i = 0; i < boardWidth; i++)
             {
                 drawingSession.DrawLine(
-                    SharedBoardControlState.HalfCellSize + i * SharedBoardControlState.CellSize,              // x1
-                    SharedBoardControlState.HalfCellSize,                                              // y1
-                    SharedBoardControlState.HalfCellSize + i * SharedBoardControlState.CellSize,              // x2
-                    SharedBoardControlState.CellSize * boardHeight - SharedBoardControlState.HalfCellSize,    // y2
-                    _settings.Display.BoardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black,
-                    SharedBoardControlState.BoardLineThickness);
+                    _halfSize + i * _cellSize,              // x1
+                    _halfSize,                                              // y1
+                    _halfSize + i * _cellSize,              // x2
+                    _cellSize * boardHeight - _halfSize,    // y2
+                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black,
+                    _boardLineThickness);
             }
 
             // Draw horizontal lines
             for (int i = 0; i < boardHeight; i++)
             {
                 drawingSession.DrawLine(
-                    SharedBoardControlState.HalfCellSize,                                              // x1
-                    SharedBoardControlState.HalfCellSize + i * SharedBoardControlState.CellSize,              // y2
-                    SharedBoardControlState.CellSize * boardWidth - SharedBoardControlState.HalfCellSize,     // x2
-                    SharedBoardControlState.HalfCellSize + i * SharedBoardControlState.CellSize,              // y2
-                    _settings.Display.BoardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black,
-                    SharedBoardControlState.BoardLineThickness);
+                    _halfSize,                                              // x1
+                    _halfSize + i * _cellSize,              // y2
+                   _cellSize * boardWidth - _halfSize,     // x2
+                    _halfSize + i * _cellSize,              // y2
+                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black,
+                    _boardLineThickness);
             }
         }
 
-        private void DrawBoardStarPoints(CanvasDrawingSession drawingSession, BoardControlState boardControlState)
+        private void DrawBoardStarPoints(CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
         {
-            // Star point
-            int boardSize = boardControlState.BoardWidth;
-
-            switch(boardSize)
+            if (boardWidth != boardHeight)
+            {
+                // No star points for non-square boards
+                return;
+            }
+            switch(boardWidth)
             {
                 case 9:
-                    drawingSession.FillEllipse(2.5f * boardControlState.CellSize, 2.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(6.5f * boardControlState.CellSize, 2.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(4.5f * boardControlState.CellSize, 4.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(2.5f * boardControlState.CellSize, 6.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(6.5f * boardControlState.CellSize, 6.5f * boardControlState.CellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(2.5f * _cellSize, 2.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(6.5f * _cellSize, 2.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(4.5f * _cellSize, 4.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(2.5f * _cellSize, 6.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(6.5f * _cellSize, 6.5f * _cellSize, 4, 4, Colors.Black);
                     break;
                 case 13:
-                    drawingSession.FillEllipse(3.5f * boardControlState.CellSize, 3.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(9.5f * boardControlState.CellSize, 3.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(6.5f * boardControlState.CellSize, 6.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(3.5f * boardControlState.CellSize, 9.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(9.5f * boardControlState.CellSize, 9.5f * boardControlState.CellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(3.5f * _cellSize, 3.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(9.5f * _cellSize, 3.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(6.5f * _cellSize, 6.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(3.5f * _cellSize, 9.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(9.5f * _cellSize, 9.5f * _cellSize, 4, 4, Colors.Black);
                     break;
                 case 19:
-                    drawingSession.FillEllipse(3.5f * boardControlState.CellSize, 3.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(9.5f * boardControlState.CellSize, 3.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(15.5f * boardControlState.CellSize, 3.5f * boardControlState.CellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(3.5f * _cellSize, 3.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(9.5f * _cellSize, 3.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(15.5f * _cellSize, 3.5f * _cellSize, 4, 4, Colors.Black);
 
-                    drawingSession.FillEllipse(3.5f * boardControlState.CellSize, 9.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(9.5f * boardControlState.CellSize, 9.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(15.5f * boardControlState.CellSize, 9.5f * boardControlState.CellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(3.5f * _cellSize, 9.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(9.5f * _cellSize, 9.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(15.5f * _cellSize, 9.5f * _cellSize, 4, 4, Colors.Black);
 
-                    drawingSession.FillEllipse(3.5f * boardControlState.CellSize, 15.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(9.5f * boardControlState.CellSize, 15.5f * boardControlState.CellSize, 4, 4, Colors.Black);
-                    drawingSession.FillEllipse(15.5f * boardControlState.CellSize, 15.5f * boardControlState.CellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(3.5f * _cellSize, 15.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(9.5f * _cellSize, 15.5f * _cellSize, 4, 4, Colors.Black);
+                    drawingSession.FillEllipse(15.5f * _cellSize, 15.5f * _cellSize, 4, 4, Colors.Black);
                     break;
                 default:
                     break;

@@ -95,6 +95,7 @@
                 <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+                <Button Click="DebugFill">Fill</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
                 <Button>Done</Button>
                 <Button>Undo Death Marks</Button>
