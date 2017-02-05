@@ -27,7 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             this.InitializeComponent();
             window.Content = this;
             AppShells.Add(window, this);
-            
+
             InitNavigation();
 
             //debug-only cheats
@@ -41,9 +41,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             var view = AppFrame.Content as ViewBase;
 
+            //update title bar back button visibility
             TitleBarBackButtonVisibility = AppFrame.CanGoBack ? 
-                AppViewBackButtonVisibility.Visible : 
-                AppViewBackButtonVisibility.Collapsed;
+                Visibility.Visible : 
+                Visibility.Collapsed;
 
             if (view != null)
             {
@@ -108,18 +109,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Gets or sets the visibility of the back button in the title bar
         /// </summary>
-        public AppViewBackButtonVisibility TitleBarBackButtonVisibility
+        public Visibility TitleBarBackButtonVisibility
         {
-            get
-            {
-                return BackButton.Visibility == Visibility.Visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-            }
-            set
-            {
-                BackButton.Visibility = value == AppViewBackButtonVisibility.Visible
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            }
+            get { return BackButton.Visibility; }
+            set { BackButton.Visibility = value; }
         }
 
         /// <summary>
@@ -211,7 +204,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <param name="args"></param>
         private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
         {
-            if (args.VirtualKey == Windows.System.VirtualKey.Escape )
+            if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
                 if (!args.Handled)
                 {
