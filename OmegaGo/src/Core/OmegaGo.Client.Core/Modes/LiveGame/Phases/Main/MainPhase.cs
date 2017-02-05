@@ -167,8 +167,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         private void ClockOut(GamePlayer player)
         {
-            Controller.OnPlayerTimedOut(player);
-            GoToPhase(GamePhaseType.Finished);
+            Controller.GoToEnd(GameEndInformation.Timeout(player, this.Controller));
         }
 
         //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)

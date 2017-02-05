@@ -43,6 +43,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
            //  this._game.Server?.LifeDeath_Done(this._game);
             if (_playersDoneWithLifeDeath.Count == 2) // && this._game.Server == null)
             {
+                // TODO proper scoring
                 GoToPhase(GamePhaseType.Finished);
             }
             Controller.OnBoardMustBeRefreshed();

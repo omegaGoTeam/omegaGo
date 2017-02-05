@@ -566,12 +566,10 @@ namespace FormsPrototype
             _controller = _liveGame.Controller;
             _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             _controller.DebuggingMessage += _controller_DebuggingMessage;
-            _controller.Resignation += _controller_Resignation;
-            _controller.PlayerTimedOut += _controller_PlayerTimedOut; 
+            _controller.GameEnded += _controller_GameEnded;
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged;
-           //  this._controller.EnterPhase += _controller_EnterPhase;
            
             foreach (GamePlayer player in _liveGame.Controller.Players)
             {
@@ -584,7 +582,12 @@ namespace FormsPrototype
             _controller.BeginGame();
         }
 
-      
+        private void _controller_GameEnded(object sender, GameEndInformation e)
+        {
+            this.panelEnd.Visible = true;
+            this.lblEndCaption.Text = e.Mainline;
+            this.lblGameEndReason.Text = e.Subline;
+        }
 
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {

@@ -37,8 +37,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         PlayerPair Players { get; }
 
         List<Position> DeadPositions { get; set; }
-        event EventHandler<GamePlayer> Resignation;
-        event EventHandler<GamePlayer> PlayerTimedOut;
+        event EventHandler<GameEndInformation> GameEnded;
         /// <summary>
         /// Starts the game
         /// </summary>

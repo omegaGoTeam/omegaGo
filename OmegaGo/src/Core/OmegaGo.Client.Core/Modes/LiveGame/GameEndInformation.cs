@@ -22,6 +22,28 @@ namespace OmegaGo.Core.Modes.LiveGame
         public GamePlayer Winner { get; }
         public bool HasWinnerAndLoser { get; }
         public float WinnerScoreDifference { private set; get; }
+        public string Mainline
+        {
+            get
+            {
+                switch (Reason)
+                {
+                    case GameEndReason.Cancellation:
+                        return "Game cancelled.";
+                    case GameEndReason.Disconnection:
+                        return "Disconnected from server.";
+                    case GameEndReason.Resignation:
+                        return Loser + " resigned.";
+                    case GameEndReason.Timeout:
+                        return Loser + " timed out.";
+                    case GameEndReason.ScoringComplete:
+                        return (Winner.Info.Color == Game.StoneColor.Black ? "B" : "W") + "+" + WinnerScoreDifference;
+                }
+                throw new Exception("Unknown game end reason.");
+            }
+        }
+
+        public string Subline => (this.Winner) + " wins against " + this.Loser;
 
         public static GameEndInformation Timeout(GamePlayer whoTimedOut, IGameController controller)
         {

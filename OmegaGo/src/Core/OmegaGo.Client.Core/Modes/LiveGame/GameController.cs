@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
+            Debug.Assert(!(gameInfo is RemoteGameInfo));
             Info = gameInfo;
             Ruleset = ruleset;
             Players = players;
@@ -108,6 +110,13 @@ namespace OmegaGo.Core.Modes.LiveGame
         public PlayerPair Players { get; }
 
         public List<Position> DeadPositions { get; set; } = new List<Position>();
+        public GameEndInformation EndInformation { get; private set; }
+        public void GoToEnd(GameEndInformation endInformation)
+        {
+            EndInformation = endInformation;
+            OnGameEnded(endInformation);
+            SetPhase(GamePhaseType.Finished);
+        }
 
         /// <summary>
         /// Game phase factory
@@ -183,20 +192,14 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public void Resign(GamePlayer playerToMove)
         {
-            OnResignation(playerToMove);
+            GoToEnd(GameEndInformation.Resignation(playerToMove, this));
             // TODO    this._game.Server?.Resign(this._game);
-            SetPhase(GamePhaseType.Finished);
         }
 
-        public event EventHandler<GamePlayer> Resignation;
-        public event EventHandler<GamePlayer> PlayerTimedOut;
-        private void OnResignation(GamePlayer player)
+        public event EventHandler<GameEndInformation> GameEnded;
+        private void OnGameEnded(GameEndInformation endInformation)
         {
-            Resignation?.Invoke(this, player);
-        }
-        internal void OnPlayerTimedOut(GamePlayer player)
-        {
-            PlayerTimedOut?.Invoke(this, player);
+            GameEnded?.Invoke(this, endInformation);
         }
 
         protected virtual void OnTurnPlayerChanged()
