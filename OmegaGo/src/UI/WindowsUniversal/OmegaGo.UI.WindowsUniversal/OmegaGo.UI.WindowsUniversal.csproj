@@ -178,7 +178,7 @@
     <None Include="OmegaGo.UI.WindowsUniversal_TemporaryKey.pfx" />
     <None Include="project.json" />
     <Compile Include="Setup.cs" />
-    <PRIResource Include="Strings\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
     <PRIResource Include="Strings\cs\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
