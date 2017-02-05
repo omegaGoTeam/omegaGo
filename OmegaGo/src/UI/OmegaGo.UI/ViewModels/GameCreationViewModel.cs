@@ -94,6 +94,13 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        private string _server = "Local Game";
+        public string Server
+        {
+            get { return _server; }
+            set { SetProperty(ref _server, value); }
+        }
+
         /// <summary>
         /// Rulesets
         /// </summary>
@@ -221,6 +228,10 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
+            if (!Validate())
+            {
+                return;
+            }
             GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
             GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 
@@ -234,5 +245,18 @@ namespace OmegaGo.UI.ViewModels
                 Build();
             Mvx.RegisterSingleton<ILiveGame>(game);
         }
+
+        private bool Validate()
+        {
+            if (IgsLimitation)
+            {
+                if (!SelectedGameBoardSize.IsSquare) return false;
+                if (SelectedGameBoardSize.Width < 5 || SelectedGameBoardSize.Width > 19) return false;
+            }
+            return true;
+        }
+
+        public bool IgsLimitation { get; set; }
+        public bool RulesetCanBeSelected => !IgsLimitation;
     }
 }
