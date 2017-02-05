@@ -10,17 +10,18 @@ namespace OmegaGo.Core.Time
     public class AbsoluteTimeControl : TimeControl
     {
         public override TimeControlStyle Name => TimeControlStyle.Absolute;
-        public override TimeInformation GetDisplayTime(TimeSpan addThisTime)
+
+        protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return new AbsoluteTimeInformation(_mainTime - addThisTime);
         }
 
-        public override void UpdateSnapshot(TimeSpan timeSpent)
+        protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
             _mainTime = _mainTime - timeSpent;
         }
 
-        public override bool IsViolating(TimeSpan addThisTime)
+        protected override bool IsViolating(TimeSpan addThisTime)
         {
             return (_mainTime - addThisTime).Ticks <= 0;
         }

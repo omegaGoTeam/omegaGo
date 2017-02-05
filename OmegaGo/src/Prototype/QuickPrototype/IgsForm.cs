@@ -26,18 +26,19 @@ using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time;
 using OmegaGo.Core.Time.Canadian;
+using OmegaGo.Core.Time.Japanese;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
 
 namespace FormsPrototype
 {
-    public partial class PrimaryForm : Form
+    public partial class IgsForm : Form
     {
         private IgsConnection igs;
         private List<IgsGameInfo> observableGames;
 
-        public PrimaryForm()
+        public IgsForm()
         {
             InitializeComponent();
 
@@ -255,6 +256,10 @@ namespace FormsPrototype
             else if (rbCanadianTiming.Checked)
             {
                 timeControl = new CanadianTimeControl(1, 5, 1);
+            }
+            else if (rbJapaneseTiming.Checked)
+            {
+                timeControl = new JapaneseTimeControl(20, 30, 3);
             }
             if (text is string && ((string)text) == "Human")
             {

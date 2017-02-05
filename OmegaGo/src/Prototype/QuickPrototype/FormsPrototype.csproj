@@ -91,11 +91,11 @@
     <Compile Include="KgsForm.Designer.cs">
       <DependentUpon>KgsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PrimaryForm.cs">
+    <Compile Include="IgsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PrimaryForm.Designer.cs">
-      <DependentUpon>PrimaryForm.cs</DependentUpon>
+    <Compile Include="IgsForm.Designer.cs">
+      <DependentUpon>IgsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,8 +105,8 @@
     <EmbeddedResource Include="KgsForm.resx">
       <DependentUpon>KgsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PrimaryForm.resx">
-      <DependentUpon>PrimaryForm.cs</DependentUpon>
+    <EmbeddedResource Include="IgsForm.resx">
+      <DependentUpon>IgsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

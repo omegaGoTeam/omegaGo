@@ -46,7 +46,8 @@ namespace OmegaGo.Core.Time.Canadian
             return new Canadian.CanadianTimeInformation(TimeSpan.Zero,
                 minued.PeriodTimeLeft - subtrahend, minued.PeriodStonesLeft);
         }
-        public override TimeInformation GetDisplayTime(TimeSpan addThisTime)
+
+        protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime);
         }
@@ -65,15 +66,15 @@ namespace OmegaGo.Core.Time.Canadian
                     _periodTime, _stonesPerPeriod);
             }
         }
-        public override void UpdateSnapshot(TimeSpan timeSpent)
+
+        protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
             _snapshot = ReduceBy(_snapshot, timeSpent);
             _snapshot = ImproveByPlacingAStone(_snapshot);
         }
 
-       
 
-        public override bool IsViolating(TimeSpan addThisTime)
+        protected override bool IsViolating(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }

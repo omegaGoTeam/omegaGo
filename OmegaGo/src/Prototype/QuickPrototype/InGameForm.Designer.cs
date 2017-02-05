@@ -202,14 +202,14 @@
             this.panelEnd.Controls.Add(this.lblEndCaption);
             this.panelEnd.Location = new System.Drawing.Point(492, 524);
             this.panelEnd.Name = "panelEnd";
-            this.panelEnd.Size = new System.Drawing.Size(201, 65);
+            this.panelEnd.Size = new System.Drawing.Size(373, 65);
             this.panelEnd.TabIndex = 12;
             this.panelEnd.Visible = false;
             // 
             // lblGameEndReason
             // 
             this.lblGameEndReason.AutoSize = true;
-            this.lblGameEndReason.Location = new System.Drawing.Point(10, 36);
+            this.lblGameEndReason.Location = new System.Drawing.Point(10, 7);
             this.lblGameEndReason.Name = "lblGameEndReason";
             this.lblGameEndReason.Size = new System.Drawing.Size(120, 13);
             this.lblGameEndReason.TabIndex = 13;
@@ -219,7 +219,7 @@
             // 
             this.lblEndCaption.AutoSize = true;
             this.lblEndCaption.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.lblEndCaption.Location = new System.Drawing.Point(10, 9);
+            this.lblEndCaption.Location = new System.Drawing.Point(11, 29);
             this.lblEndCaption.Name = "lblEndCaption";
             this.lblEndCaption.Size = new System.Drawing.Size(101, 16);
             this.lblEndCaption.TabIndex = 0;
@@ -244,7 +244,7 @@
             // 
             // tbLog
             // 
-            this.tbLog.Location = new System.Drawing.Point(699, 361);
+            this.tbLog.Location = new System.Drawing.Point(887, 361);
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ReadOnly = true;
@@ -255,7 +255,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(711, 336);
+            this.label5.Location = new System.Drawing.Point(895, 336);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(65, 13);
             this.label5.TabIndex = 17;
