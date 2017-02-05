@@ -77,13 +77,6 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
 
-            <AppBarButton Icon="Setting" Label="Settings">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <controls:BoardSettingsControl BoardControlState="{x:Bind Path=VM.BoardViewModel.BoardControlState, Mode=OneWay}" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
         </CommandBar>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
             <StackPanel>

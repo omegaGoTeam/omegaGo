@@ -60,7 +60,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="y">position on y axis</param>
         public void PointerMoved(int x, int y)
         {
-            SharedBoardControlState.MousePos = new MouseX()
+            SharedBoardControlState.MouseOverPosition
+                = TranslateToBoardPosition(x, y);
         }
 
         /// <summary>
@@ -73,17 +74,17 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             Position position;
 
-            x = x - SharedBoardControlState.BoardBorderThickness;
-            y = y - SharedBoardControlState.BoardBorderThickness;
+            x = x - SharedBoardControlState.LeftPadding;
+            y = y - SharedBoardControlState.TopPadding;
 
-            if (x > 0 && x < (_sharedBoardControlState.BoardActualWidth - 2 * SharedBoardControlState.BoardBorderThickness) &&
-                y > 0 && y < (_sharedBoardControlState.BoardActualHeight - 2 * SharedBoardControlState.BoardBorderThickness))
+            if (x > 0 && x < (_sharedBoardControlState.NewCellSize * _sharedBoardControlState.BoardWidth) &&
+                y > 0 && y < (_sharedBoardControlState.NewCellSize * _sharedBoardControlState.BoardHeight))
             {
                 position = new Position();
-                position.X = x / SharedBoardControlState.CellSize;
+                position.X = x / SharedBoardControlState.NewCellSize;
                 // Take into account that we number the other way around, where the zero would be, we have max index.
                 // First calculate zero based index and then subtract from maximum index to get the resulting position.
-                position.Y = (SharedBoardControlState.BoardHeight - 1) - (y / SharedBoardControlState.CellSize);
+                position.Y = (SharedBoardControlState.BoardHeight - 1) - (y / SharedBoardControlState.NewCellSize);
             }
             else
             {
