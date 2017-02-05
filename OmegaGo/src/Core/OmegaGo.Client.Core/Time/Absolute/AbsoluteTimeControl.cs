@@ -7,6 +7,10 @@ using OmegaGo.Core.Time.Absolute;
 
 namespace OmegaGo.Core.Time
 {
+    /// <summary>
+    /// In absolute time control, a player has a number of minutes that must suffice for the entire game.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Time.TimeControl" />
     public class AbsoluteTimeControl : TimeControl
     {
         public override TimeControlStyle Name => TimeControlStyle.Absolute;

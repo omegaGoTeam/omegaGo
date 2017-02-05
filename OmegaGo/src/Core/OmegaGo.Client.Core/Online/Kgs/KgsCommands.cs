@@ -9,6 +9,10 @@ using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Online.Kgs
 {
+    /// <summary>
+    /// Call methods of this class to send commands to KGS.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Common.ICommonCommands" />
     public class KgsCommands : ICommonCommands
     {
         private readonly KgsConnection kgsConnection;

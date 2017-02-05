@@ -13,6 +13,27 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
+    /// <summary>
+    /// Represents our connection to the KGS server.
+    /// </summary>
+    /// <remarks>
+    /// Documentation may be found in the Docs subfolder. But here's the basics (also basics
+    /// that can't be found in that documentation):
+    /// 
+    /// We send POST requests as "commands" and receive "messages" (I sometimes call them
+    /// "responses" or "interrupts" from the server as a response to our GET requests. As per 
+    /// the documentation, there should always be a single GET request active. As soon as a GET 
+    /// request completes, another one is fired.
+    /// 
+    /// Our remote server is MetaKGS which hosts the translator .war applet. This applet 
+    /// acts as an intermediary between our JSON communication and the binary communication accepted
+    /// by the KGS server proper. So:
+    /// 
+    /// OmegaGo --json-- MetaKGS --binary-- KGS
+    /// 
+    /// All sending and processing happens on the main thread.
+    /// </remarks>
+    /// <seealso cref="OmegaGo.Core.Online.Common.IServerConnection" />
     public class KgsConnection : IServerConnection
     {
         private const string Uri = "https://metakgs.org/api/access";
@@ -27,35 +48,33 @@ namespace OmegaGo.Core.Online.Kgs
         public KgsCommands Commands { get; }
         public KgsEvents Events { get; }
         public KgsData Data { get; }
-
-
+        public bool LoggedIn { get; set; }
         public JsonSerializer Serializer { get; } = new JsonSerializer()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
-
-        ICommonCommands IServerConnection.Commands => Commands;
-
-        ICommonEvents IServerConnection.Events => Events;
-        public bool LoggedIn { get; set; }
-
-        private void StartGetLoop()
-        {
-            _getLoopRunning = true;
-            GetLoop();
-        }
         public KgsConnection()
         {
             this.Commands = new Kgs.KgsCommands(this);
             this.Events = new KgsEvents(this);
             this.Interrupts = new KgsInterrupts(this);
             this.Data = new Kgs.KgsData(this);
-            var handler = new HttpClientHandler() {CookieContainer = cookieContainer};
+            var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
             this._httpClient = new HttpClient(handler);
-           
-            
+
         }
 
+
+        ICommonCommands IServerConnection.Commands => Commands;
+        ICommonEvents IServerConnection.Events => Events;
+
+
+        private void StartGetLoop()
+        {
+            _getLoopRunning = true;
+            GetLoop();
+        }
+       
         private async void GetLoop()
         {
             while (true)
@@ -172,7 +191,8 @@ namespace OmegaGo.Core.Online.Kgs
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }
-        public async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
+
+        private async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
             where T : KgsResponse
         {
             JObject jo = JObject.FromObject(data, Serializer);
@@ -203,7 +223,7 @@ namespace OmegaGo.Core.Online.Kgs
         public string Fulltext { get; private set; }
         public static JsonResponse FromJObject(JObject response)
         {
-            return new Kgs.JsonResponse()
+            return new JsonResponse()
             {
                 Type = response.GetValue("type").Value<string>(),
                 Fulltext = response.ToString()

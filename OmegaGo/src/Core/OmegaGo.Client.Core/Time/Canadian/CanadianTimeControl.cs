@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.Canadian
 {
+    /// <summary>
+    /// The Canadian time control consists of a main time and then periods where during each period, the player must make X moves in Y minutes.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Time.TimeControl" />
     public class CanadianTimeControl : TimeControl
     {
         private readonly int _stonesPerPeriod;

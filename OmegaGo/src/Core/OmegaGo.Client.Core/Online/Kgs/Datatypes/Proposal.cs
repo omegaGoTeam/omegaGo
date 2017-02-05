@@ -7,9 +7,21 @@
     /// </summary>
     public class Proposal : IGameFlags
     {
+        /// <summary>
+        /// The <see cref="Kgs.Downstream.GameType"/>  of the game.
+        /// </summary>
         public string GameType { get; set; }
+        /// <summary>
+        /// The rules for the game.
+        /// </summary>
         public RulesDescription Rules { get; set; }
+        /// <summary>
+        /// If set, that means nigiri will be used to determine who plays white.
+        /// </summary>
         public bool Nigiri { get; set; }
+        /// <summary>
+        /// A list of players. All roles for this game type must be present.
+        /// </summary>
         public KgsPlayer[] Players { get; set; }
         #region Flags
         // This region may be copied to other messages that make use of flags.

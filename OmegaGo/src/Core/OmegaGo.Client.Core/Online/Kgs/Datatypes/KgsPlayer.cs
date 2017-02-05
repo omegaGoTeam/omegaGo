@@ -1,5 +1,8 @@
 ﻿namespace OmegaGo.Core.Online.Kgs.Downstream
 {
+    /// <summary>
+    /// Only used in <see cref="Proposal"/> to associate a role with a user. 
+    /// </summary>
     public class KgsPlayer
     {
         /// <summary>

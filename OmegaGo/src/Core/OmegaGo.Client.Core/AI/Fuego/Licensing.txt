@@ -1,0 +1,1 @@
+﻿This code belongs to the Omega Go Team, but, via a number of intermediaries, it links to FuegoUniversalComponent, which is under LGPL.

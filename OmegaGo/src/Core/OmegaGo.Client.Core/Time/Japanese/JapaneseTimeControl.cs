@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.Japanese
 {
+    /// <summary>
+    /// The Japanese time control is standard Japanese byo-yomi, i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// </summary>
     public class JapaneseTimeControl : TimeControl
     {
         private readonly int _byoyomiLengthInSeconds;
