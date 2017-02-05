@@ -62,7 +62,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
             base.OnNavigatedTo(e);
         }
 
