@@ -13,12 +13,13 @@ namespace OmegaGo.Core.Time
     public class NoTimeControl : TimeControl
     {
         public override TimeControlStyle Name => TimeControlStyle.None;
-        public override TimeInformation GetDisplayTime(TimeSpan addThisTime) => new NoTimeInformation();
-        public override void UpdateSnapshot(TimeSpan timeSpent)
+        protected override TimeInformation GetDisplayTime(TimeSpan addThisTime) => new NoTimeInformation();
+
+        protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
         }
 
-        public override bool IsViolating(TimeSpan addThisTime)
+        protected override bool IsViolating(TimeSpan addThisTime)
         {
             return false;
         }

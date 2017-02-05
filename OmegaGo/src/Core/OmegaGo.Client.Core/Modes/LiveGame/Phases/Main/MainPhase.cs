@@ -118,8 +118,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             
             if (result.Result == MoveResult.StartLifeAndDeath)
             {
-                GoToPhase(GamePhaseType.LifeDeathDetermination);
-                return;
+                if (this.Controller.IsOnlineGame)
+                {
+                    result.Result = MoveResult.Legal;
+                }
+                else
+                {
+                    GoToPhase(GamePhaseType.LifeDeathDetermination);
+                    return;
+                }
             }
             else if (result.Result != MoveResult.Legal)
             {
@@ -167,65 +174,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
         private void ClockOut(GamePlayer player)
         {
-            Controller.OnPlayerTimedOut(player);
-            GoToPhase(GamePhaseType.Finished);
+            Controller.GoToEnd(GameEndInformation.Timeout(player, this.Controller));
         }
 
-        //private void HandleIllegalMove(GamePlayer player, ref MoveProcessingResult result)
-        //{
-        //    if (player.Agent.HowToHandleIllegalMove == IllegalMoveHandling.PermitItAnyway)
-        //    {
-        //        OnDebuggingMessage("The agent asked us to make an ILLEGAL MOVE and we are DOING IT ANYWAY!");
-        //        result.Result = MoveResult.Legal;
-        //        return;
-        //    }
-        //    if (_game.Server == null) // In server games, we always permit all moves and leave the verification on the server.
-        //    {
-        //        if (this.EnforceRules)
-        //        {
-        //            // Move is forbidden.
-        //            OnDebuggingMessage("Move is illegal because: " + result.Result);
-        //            if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.Retry)
-        //            {
-        //                OnDebuggingMessage("Illegal move - retrying.");
-        //                _turnPlayer.Agent.PleaseMakeAMove();
-        //            }
-        //            else if (_turnPlayer.Agent.HowToHandleIllegalMove == IllegalMoveHandling.MakeRandomMove)
-        //            {
-
-        //                OnDebuggingMessage("Illegal move - making a random move instead.");
-        //                List<Position> possibleMoves = _game.Ruleset?.GetAllLegalMoves(player.Color,
-        //                    ObsoleteFastBoard.CreateBoardFromGame(_game), new List<GameBoard>()) ??
-        //                                               new List<Position>(); // TODO add history
-
-        //                if (possibleMoves.Count == 0)
-        //                {
-        //                    MakeMove(player, Move.Pass(player.Color));
-        //                }
-        //                else
-        //                {
-        //                    Position randomTargetposition = possibleMoves[Randomizer.Next(possibleMoves.Count)];
-        //                    Move newMove = Move.PlaceStone(player.Color, randomTargetposition);
-        //                    MakeMove(player, newMove);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                throw new Exception("This agent does not provide information on how to handle its illegal move.");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // Ok, we're not enforcing rules.
-        //            result.Result = MoveResult.Legal;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Ok, server will handle this.
-        //        result.Result = MoveResult.Legal;
-        //    }
-        //}
+       
 
         ///// <summary>
         ///// Undoes the last move made, regardless of which player made it. This is called whenever the server commands

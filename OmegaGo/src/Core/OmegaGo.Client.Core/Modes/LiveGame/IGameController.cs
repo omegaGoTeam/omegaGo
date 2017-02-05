@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -37,8 +38,9 @@ namespace OmegaGo.Core.Modes.LiveGame
         PlayerPair Players { get; }
 
         List<Position> DeadPositions { get; set; }
-        event EventHandler<GamePlayer> Resignation;
-        event EventHandler<GamePlayer> PlayerTimedOut;
+        IServerConnection Server { get; }
+        event EventHandler<GameEndInformation> GameEnded;
+        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
         /// <summary>
         /// Starts the game
         /// </summary>

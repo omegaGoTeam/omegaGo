@@ -269,7 +269,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         /// <param name="command">The command to send over Telnet.</param>
         /// <returns></returns>
-        private async Task<IgsResponse> MakeRequestAsync(string command)
+        internal async Task<IgsResponse> MakeRequestAsync(string command)
         {
             IgsRequest request = new IgsRequest(command);
             _outgoingRequests.Enqueue(request);
@@ -284,7 +284,11 @@ namespace OmegaGo.Core.Online.Igs
             return lines;
 
         }
-        private void MakeUnattendedRequest(string command)
+        /// <summary>
+        /// Enqueues a command to be send to IGS.
+        /// </summary>
+        /// <param name="command">The single-line command.</param>
+        public void MakeUnattendedRequest(string command)
         {
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
@@ -353,7 +357,7 @@ namespace OmegaGo.Core.Online.Igs
             IncomingShoutMessage?.Invoke(line);
         }
         #endregion
-        
+        // TODO send "ayt" or something regularly to prevent timeouts
         public string Username => _username;
 
         ICommonCommands IServerConnection.Commands => Commands;
@@ -523,9 +527,13 @@ namespace OmegaGo.Core.Online.Igs
 
     public class GamePlayerEventArgs : EventArgs
     {
+        public IgsGame Game { get; }
+        public GamePlayer Player { get; }
+
         public GamePlayerEventArgs(IgsGame game, GamePlayer player)
         {
-
+            this.Game = game;
+            this.Player = player;
         }
     }
     public class StoneRemovalEventArgs : EventArgs

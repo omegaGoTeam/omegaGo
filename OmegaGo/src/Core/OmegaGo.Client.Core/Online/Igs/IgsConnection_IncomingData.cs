@@ -192,97 +192,117 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (!interruptIsImpossible)
                     {
-                       
-                    if (igsLine.EntireLine == "9 You can check your score with the score command, type 'done' when finished.")
-                    {
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    if (igsLine.PureLine.Contains("Removing @"))
-                    {
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    if (igsLine.PureLine.EndsWith("has resigned the game."))
-                    {
-                        string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
-                        if (whoResigned != this._username)
+
+                        if (igsLine.EntireLine ==
+                            "9 You can check your score with the score command, type 'done' when finished.")
                         {
-                            foreach (var game in GetGamesIncluding(whoResigned))
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.Contains("Removing @"))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.EndsWith("has resigned the game."))
+                        {
+                            string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
+                            if (whoResigned != this._username)
                             {
-                                OnIncomingResignation(game.Metadata, whoResigned);
-                                // TODO handle in game controller
+                                foreach (var game in GetGamesIncluding(whoResigned))
+                                {
+                                    OnIncomingResignation(game.Metadata, whoResigned);
+                                    // TODO handle in game controller
+                                }
+                            }
+                            weAreHandlingAnInterrupt = true;
+                        }
+                        if (igsLine.PureLine.Contains("has typed done."))
+                        {
+                            string username = IgsRegex.GetFirstWord(igsLine);
+                            foreach (var game in GetGamesIncluding(username))
+                            {
+                                game.Controller.LifeDeath_Done(
+                                    game.Controller.Players.First(pl => pl.Info.Name == username));
                             }
                         }
-                        weAreHandlingAnInterrupt = true;
-                    }
-                    if (igsLine.PureLine.Contains("has typed done."))
-                    {
-                        string username = IgsRegex.GetFirstWord(igsLine);
-                        foreach (var game in GetGamesIncluding(username))
+                        if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
                         {
-                            game.Controller.LifeDeath_Done(game.Controller.Players.First(pl => pl.Info.Name == username));
+                            foreach (
+                                var game in
+                                    _gamesYouHaveOpened.Where(
+                                        gi =>
+                                            gi.Controller.Phase ==
+                                            Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
+                            {
+                                game.Controller.LifeDeath_UndoPhase();
+                            }
+                            weAreHandlingAnInterrupt = true;
+                            continue;
                         }
-                    }
-                    if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
-                    {
-                        foreach (var game in _gamesYouHaveOpened.Where(gi => gi.Controller.Phase == Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
-                        {
-                            game.Controller.LifeDeath_UndoPhase();
-                        }
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
 
-                    if (igsLine.PureLine.Contains("Removed game file"))
-                    {
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    if (igsLine.PureLine.Contains("game completed."))
-                    {
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
-                    {
-                        // Advertisement
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
-                    {
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    
-                    if (igsLine.PureLine.EndsWith("declines undo."))
-                    {
-                        string username = IgsRegex.WhoDeclinesUndo(igsLine);
-                        foreach (var game in GetGamesIncluding(username))
+                        if (igsLine.PureLine.Contains("Removed game file"))
                         {
-                            OnUndoDeclined(game.Metadata);
+                            weAreHandlingAnInterrupt = true;
+                            continue;
                         }
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    
-                    if (igsLine.PureLine.EndsWith("declines your request for a match."))
-                    {
-                        OnMatchRequestDeclined(igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' ')));
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    
-                    IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
-                    if (matchRequest != null)
-                    {
-                        this._incomingMatchRequests.Add(matchRequest);
-                        OnIncomingMatchRequest(matchRequest);
-                        weAreHandlingAnInterrupt = true;
-                        continue;
-                    }
-                    
+                        if (igsLine.PureLine.Contains("game completed."))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.StartsWith("!!*Pandanet*!!:"))
+                        {
+                            // Advertisement
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (IgsRegex.IsIrrelevantInterruptLine(igsLine))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.StartsWith("Increase "))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            string person = IgsRegex.ParseIncreaseXTimeByYMinute(igsLine);
+                            foreach(var game in this._gamesYouHaveOpened)
+                            {
+                                if (game.Metadata.Black.Name == person ||
+                                    game.Metadata.White.Name == person)
+                                {
+                                    MakeUnattendedRequest("refresh " + game.Metadata.IgsIndex);
+                                }
+                            }
+                        }
+
+                        if (igsLine.PureLine.EndsWith("declines undo."))
+                        {
+                            string username = IgsRegex.WhoDeclinesUndo(igsLine);
+                            foreach (var game in GetGamesIncluding(username))
+                            {
+                                OnUndoDeclined(game.Metadata);
+                            }
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+
+                        if (igsLine.PureLine.EndsWith("declines your request for a match."))
+                        {
+                            OnMatchRequestDeclined(igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' ')));
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+
+                        IgsMatchRequest matchRequest = IgsRegex.ParseMatchRequest(igsLine);
+                        if (matchRequest != null)
+                        {
+                            this._incomingMatchRequests.Add(matchRequest);
+                            OnIncomingMatchRequest(matchRequest);
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+
                     }
                 }
 

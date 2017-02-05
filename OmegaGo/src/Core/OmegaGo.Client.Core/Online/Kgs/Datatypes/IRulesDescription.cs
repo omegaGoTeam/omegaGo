@@ -1,5 +1,9 @@
 ﻿namespace OmegaGo.Core.Online.Kgs.Downstream
 {
+    /// <summary>
+    /// Because multiple data types may contain anything the rules description may contain,
+    /// all those types implement this interface so we don't forget anything.
+    /// </summary>
     public interface IRulesDescription
     {
         #region Rules Description

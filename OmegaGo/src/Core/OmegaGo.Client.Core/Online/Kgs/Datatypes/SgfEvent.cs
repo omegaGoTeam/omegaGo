@@ -4,13 +4,31 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 {
     public class SgfEvent
     {
+        /// <summary>
+        /// ID of the SGF node where the event takes place
+        /// </summary>
         public int NodeId { get; set; }
+        /// <summary>
+        /// Uppercase. What happened and what type of data is in the object, such as 'PROP_ADDED' or 'ACTIVATED'.
+        /// </summary>
         public string Type { get; set; }
+        /// <summary>
+        /// For PROP_ADDED, PROP_REMOVED, PROP_CHANGED, the property that is affected by the event.
+        /// </summary>
         public KgsSgfProperty Prop { get; set; }
+        /// <summary>
+        /// For CHILD_ADDED, the ID of the new child (which is a child of the current node).
+        /// </summary>
         public int ChildNodeId { get; set; }
+        /// <summary>
+        /// For CHILD_ADDED: Optional. This is the order, in the child list, of the current child. If this is missing, then it is child 0 (the first child) of the current node.
+        /// </summary>
         public int Position { get; set; }
+        /// <summary>
+        /// For PROP_GROUP_ADDED and PROP_GROUP_REMOVED, a list of properties that are affected.
+        /// </summary>
         public KgsSgfProperty[] Props { get; set; }
-        public int PrevNodeId { get; set; }
+
         // Some useless properties are missing
 
         public void ExecuteAsIncoming(KgsConnection connection, KgsGame ongame)

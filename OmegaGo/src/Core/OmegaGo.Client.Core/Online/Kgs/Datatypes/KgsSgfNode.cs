@@ -10,10 +10,24 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs.Sgf
 {
+    /// <summary>
+    /// Represents a node in the special KGS SGF file.
+    /// </summary>
     public class KgsSgfNode
     {
+        /// <summary>
+        /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1.
+        /// </summary>
         public int Index { get; set; }
+        /// <summary>
+        /// Gets the children of this node. Order matters.
+        /// </summary>
         public List<KgsSgfNode> Children { get; } = new List<KgsSgfNode>();
+        /// <summary>
+        /// Gets SGF roperties associated with this node. 
+        /// 
+        /// The SGF in KGS is not quite like "standard" SGF. Multiple marks of the same type are considered different properties, so for example TR[aa][bb][cc] on KGS would be three different properties, one for each location. All rules-related properties (SZ[], TM[], etc) are grouped together in one "rules" property, etc. Furthere, some properties, such as DEAD, are not part of SGF but are used internally by KGS to track the state of the game board.
+        /// </summary>
         public List<KgsSgfProperty> Properties { get; } = new List<KgsSgfProperty>();
 
         public KgsSgfNode(int index)

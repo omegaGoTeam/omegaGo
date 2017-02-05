@@ -154,5 +154,16 @@ empty string*/
         {
             return regexHandicapMove.Match(igsLine.EntireLine).Groups[1].Value.AsInteger();
         }
+
+        private static readonly Regex regexIncreaseTime = new Regex(@"9 Increase ([^']+)'s time by ([0-9]+) minutes");
+        /// <summary>
+        /// From a line such as '9 Increase OmegaGo2's time by 1096 minutes', extracts 'OmegaGo2'.
+        /// </summary>
+        /// <param name="line">The incoming instruction.</param>
+        /// <returns></returns>
+        public static string ParseIncreaseXTimeByYMinute(IgsLine line)
+        {
+            return regexIncreaseTime.Match(line.EntireLine).Groups[1].Value;
+        }
     }
 }
