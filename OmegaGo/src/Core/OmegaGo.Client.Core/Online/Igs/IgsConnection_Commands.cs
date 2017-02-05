@@ -255,12 +255,8 @@ namespace OmegaGo.Core.Online.Igs
             this._gamesYouHaveOpened.Add(game);
             return game;
         }
-        public void DEBUG_MakeUnattendedRequest(string command)
-        {
-            MakeUnattendedRequest(command);
-        }
 
-        
+
         public void MakeMove(IgsGameInfo game, Move move)
         {
             switch (move.Kind)
@@ -273,10 +269,7 @@ namespace OmegaGo.Core.Online.Igs
                     break;
             }
         }
-        public void Resign(IgsGameInfo game)
-        {
-            MakeUnattendedRequest("resign " + game.IgsIndex);
-        }
+     
         
         
         public async Task<bool> SayAsync(IgsGame game, string chat)
@@ -317,15 +310,6 @@ namespace OmegaGo.Core.Online.Igs
             MakeUnattendedRequest("noundo " + game.IgsIndex);
         }
 
-        public async void LifeDeath_Done(IgsGameInfo game)
-        {
-            await MakeRequestAsync("done " + game.IgsIndex);
-        }
-        public async void LifeDeath_MarkDead(Position position, IgsGameInfo game)
-        {
-            await MakeRequestAsync(position.ToIgsCoordinates() + " " + game.IgsIndex);
-        }
-        
 
         public async Task<bool> ToggleAsync(string toggleKey, bool newToggleValue)
         {

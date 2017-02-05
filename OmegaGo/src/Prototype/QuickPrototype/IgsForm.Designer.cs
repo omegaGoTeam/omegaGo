@@ -1,6 +1,6 @@
 ﻿namespace FormsPrototype
 {
-    partial class PrimaryForm
+    partial class IgsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -60,6 +60,9 @@
             this.nBoardSize = new System.Windows.Forms.NumericUpDown();
             this.cbMatchRecipient = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rbCanadianTiming = new System.Windows.Forms.RadioButton();
+            this.rbAbsoluteTiming = new System.Windows.Forms.RadioButton();
+            this.rbNoTimeControl = new System.Windows.Forms.RadioButton();
             this.bPlayLocal = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.cbWhite = new System.Windows.Forms.ComboBox();
@@ -81,9 +84,7 @@
             this.bSendOgsRequest = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.tbOgsUri = new System.Windows.Forms.TextBox();
-            this.rbNoTimeControl = new System.Windows.Forms.RadioButton();
-            this.rbAbsoluteTiming = new System.Windows.Forms.RadioButton();
-            this.rbCanadianTiming = new System.Windows.Forms.RadioButton();
+            this.rbJapaneseTiming = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -423,6 +424,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.rbJapaneseTiming);
             this.groupBox4.Controls.Add(this.rbCanadianTiming);
             this.groupBox4.Controls.Add(this.rbAbsoluteTiming);
             this.groupBox4.Controls.Add(this.rbNoTimeControl);
@@ -433,16 +435,48 @@
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.cbBlack);
             this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Location = new System.Drawing.Point(858, 258);
+            this.groupBox4.Location = new System.Drawing.Point(858, 209);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(237, 210);
+            this.groupBox4.Size = new System.Drawing.Size(237, 259);
             this.groupBox4.TabIndex = 19;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Local Play ";
             // 
+            // rbCanadianTiming
+            // 
+            this.rbCanadianTiming.AutoSize = true;
+            this.rbCanadianTiming.Location = new System.Drawing.Point(12, 152);
+            this.rbCanadianTiming.Name = "rbCanadianTiming";
+            this.rbCanadianTiming.Size = new System.Drawing.Size(104, 17);
+            this.rbCanadianTiming.TabIndex = 28;
+            this.rbCanadianTiming.Text = "Canadian Timing";
+            this.rbCanadianTiming.UseVisualStyleBackColor = true;
+            // 
+            // rbAbsoluteTiming
+            // 
+            this.rbAbsoluteTiming.AutoSize = true;
+            this.rbAbsoluteTiming.Location = new System.Drawing.Point(12, 129);
+            this.rbAbsoluteTiming.Name = "rbAbsoluteTiming";
+            this.rbAbsoluteTiming.Size = new System.Drawing.Size(100, 17);
+            this.rbAbsoluteTiming.TabIndex = 27;
+            this.rbAbsoluteTiming.Text = "Absolute Timing";
+            this.rbAbsoluteTiming.UseVisualStyleBackColor = true;
+            // 
+            // rbNoTimeControl
+            // 
+            this.rbNoTimeControl.AutoSize = true;
+            this.rbNoTimeControl.Checked = true;
+            this.rbNoTimeControl.Location = new System.Drawing.Point(12, 106);
+            this.rbNoTimeControl.Name = "rbNoTimeControl";
+            this.rbNoTimeControl.Size = new System.Drawing.Size(101, 17);
+            this.rbNoTimeControl.TabIndex = 26;
+            this.rbNoTimeControl.TabStop = true;
+            this.rbNoTimeControl.Text = "No Time Control";
+            this.rbNoTimeControl.UseVisualStyleBackColor = true;
+            // 
             // bPlayLocal
             // 
-            this.bPlayLocal.Location = new System.Drawing.Point(61, 178);
+            this.bPlayLocal.Location = new System.Drawing.Point(61, 202);
             this.bPlayLocal.Name = "bPlayLocal";
             this.bPlayLocal.Size = new System.Drawing.Size(116, 23);
             this.bPlayLocal.TabIndex = 20;
@@ -679,38 +713,17 @@
             this.tbOgsUri.Size = new System.Drawing.Size(340, 20);
             this.tbOgsUri.TabIndex = 0;
             // 
-            // rbNoTimeControl
+            // rbJapaneseTiming
             // 
-            this.rbNoTimeControl.AutoSize = true;
-            this.rbNoTimeControl.Checked = true;
-            this.rbNoTimeControl.Location = new System.Drawing.Point(12, 106);
-            this.rbNoTimeControl.Name = "rbNoTimeControl";
-            this.rbNoTimeControl.Size = new System.Drawing.Size(101, 17);
-            this.rbNoTimeControl.TabIndex = 26;
-            this.rbNoTimeControl.Text = "No Time Control";
-            this.rbNoTimeControl.UseVisualStyleBackColor = true;
+            this.rbJapaneseTiming.AutoSize = true;
+            this.rbJapaneseTiming.Location = new System.Drawing.Point(12, 175);
+            this.rbJapaneseTiming.Name = "rbJapaneseTiming";
+            this.rbJapaneseTiming.Size = new System.Drawing.Size(105, 17);
+            this.rbJapaneseTiming.TabIndex = 29;
+            this.rbJapaneseTiming.Text = "Japanese Timing";
+            this.rbJapaneseTiming.UseVisualStyleBackColor = true;
             // 
-            // rbAbsoluteTiming
-            // 
-            this.rbAbsoluteTiming.AutoSize = true;
-            this.rbAbsoluteTiming.Location = new System.Drawing.Point(12, 129);
-            this.rbAbsoluteTiming.Name = "rbAbsoluteTiming";
-            this.rbAbsoluteTiming.Size = new System.Drawing.Size(100, 17);
-            this.rbAbsoluteTiming.TabIndex = 27;
-            this.rbAbsoluteTiming.Text = "Absolute Timing";
-            this.rbAbsoluteTiming.UseVisualStyleBackColor = true;
-            // 
-            // rbCanadianTiming
-            // 
-            this.rbCanadianTiming.AutoSize = true;
-            this.rbCanadianTiming.Location = new System.Drawing.Point(12, 152);
-            this.rbCanadianTiming.Name = "rbCanadianTiming";
-            this.rbCanadianTiming.Size = new System.Drawing.Size(104, 17);
-            this.rbCanadianTiming.TabIndex = 28;
-            this.rbCanadianTiming.Text = "Canadian Timing";
-            this.rbCanadianTiming.UseVisualStyleBackColor = true;
-            // 
-            // PrimaryForm
+            // IgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -726,7 +739,7 @@
             this.Controls.Add(this.lbGames);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox3);
-            this.Name = "PrimaryForm";
+            this.Name = "IgsForm";
             this.Text = "OmegaGo: Windows Forms Prototype";
             this.Load += new System.EventHandler(this.PrimaryForm_Load);
             this.groupBox1.ResumeLayout(false);
@@ -806,6 +819,7 @@
         private System.Windows.Forms.RadioButton rbCanadianTiming;
         private System.Windows.Forms.RadioButton rbAbsoluteTiming;
         private System.Windows.Forms.RadioButton rbNoTimeControl;
+        private System.Windows.Forms.RadioButton rbJapaneseTiming;
     }
 }
 

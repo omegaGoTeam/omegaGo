@@ -9,6 +9,10 @@ using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Online.Kgs
 {
+    /// <summary>
+    /// Call methods of this class to send commands to KGS.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Common.ICommonCommands" />
     public class KgsCommands : ICommonCommands
     {
         private readonly KgsConnection kgsConnection;
@@ -65,6 +69,31 @@ namespace OmegaGo.Core.Online.Kgs
         }
 
         public void MakeMove(RemoteGameInfo remoteInfo, Move move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task LifeDeathDone(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Resign(RemoteGameInfo remoteInfo)
         {
             throw new NotImplementedException();
         }

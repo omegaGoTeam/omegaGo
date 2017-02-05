@@ -8,6 +8,10 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
+    /// <summary>
+    /// This is a router class that invokes various interrupt message handlers based on the 'type' field of
+    /// messages from the KGS server.
+    /// </summary>
     class KgsInterrupts
     {
         private KgsConnection kgsConnection;

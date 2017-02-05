@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time
 {
+    /// <summary>
+    /// Name of the time control system used.
+    /// </summary>
     public enum TimeControlStyle
     {
         /// <summary>

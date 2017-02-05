@@ -8,6 +8,10 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Online.Kgs
 {
+    /// <summary>
+    /// Contains information downloaded from KGS. This information is continuously updated whenever we receive
+    /// up-to-date information from KGS.
+    /// </summary>
     public class KgsData
     {
         private KgsConnection kgsConnection;

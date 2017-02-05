@@ -22,6 +22,8 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         public float WhiteScore { get; set; }
 
+        public float PositiveScoreDifference => Math.Abs(this.WhiteScore - this.BlackScore);
+
         /// <summary>
         /// Gets or sets score for a given stone color
         /// </summary>

@@ -33,7 +33,7 @@ namespace FormsPrototype
         private readonly RemoteGame _onlineGame;
         private readonly IServerConnection _server;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
-        private Territory[,] _territories = new Territory[19, 19];
+        private TerritoryMap _territories;
         private readonly Font _fontBasic = new Font(FontFamily.GenericSansSerif, 8);
         private int _mouseX;
         private int _mouseY;
@@ -207,19 +207,10 @@ namespace FormsPrototype
             _lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates
                 : Position.Undefined;
-            // Territories
-            if (_liveGame.Controller.GameTree.LastNode != null)
-            {
-                // TODO
                 
-                _territories = new Territory[_liveGame.Info.BoardSize.Width, _liveGame.Info.BoardSize.Height];
-                GameBoard boardAfterRemovalOfDeadStones =
-                   _liveGame.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                        _controller.DeadPositions);
-                Territory[,] territory = _liveGame.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-                _territories = territory;
+        
                 
-            }
+            
             pictureBox1.Refresh();
         }
 
@@ -239,17 +230,6 @@ namespace FormsPrototype
             lblTurnPlayer.Text = e.Info.Name;
             groupboxMoveMaker.Visible = 
              (_gamePhase == GamePhaseType.Main && e.IsHuman) ;
-        }
-
-        private void _controller_Resignation(object sender, GamePlayer resigner)
-        {
-            panelEnd.Visible = true;
-            lblEndCaption.Text = resigner + " resigned!";
-        }
-        private void _controller_PlayerTimedOut(object sender, GamePlayer e)
-        {
-            panelEnd.Visible = true;
-            lblEndCaption.Text = e + " timed out!";
         }
 
         private void _controller_DebuggingMessage(object sender, string obj)
@@ -318,10 +298,11 @@ namespace FormsPrototype
                     }
 
                     
-                    if (_inLifeDeathDeterminationPhase ||
-                        _gamePhase == GamePhaseType.Finished)
+                    if ((_gamePhase == GamePhaseType.LifeDeathDetermination ||
+                        _gamePhase == GamePhaseType.Finished) &&
+                        _territories != null)
                     {
-                        switch(_territories[x, y])
+                        switch(_territories.Board[x, y])
                         {
                             case Territory.Black:
                                 CrossPosition(Color.Black, r, e);
@@ -388,18 +369,25 @@ namespace FormsPrototype
             (PlayerToMove.Agent as IHumanAgentActions).Pass();
         }
 
-        private void bRESIGN_Click(object sender, EventArgs e)
+        private async void bRESIGN_Click(object sender, EventArgs e)
         {
             
             if (
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                _liveGame.Controller.Resign(PlayerToMove);
+                if (_liveGame.Controller.IsOnlineGame)
+                {
+                   await _liveGame.Controller.Server.Commands.Resign(_onlineGame.RemoteInfo);
+                }
+                else
+                {
+                    _liveGame.Controller.Resign(PlayerToMove);
+                }
             }
         }
 
-        private void bMakeMove_Click(object sender, EventArgs e)
+        private async void bMakeMove_Click(object sender, EventArgs e)
         {
             string coordinates = tbInputMove.Text;
             Position position;
@@ -414,17 +402,14 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-              //  if (_game.Server != null)
-               // {
-                    // TODO
-                    // _game.Server.LifeDeath_MarkDead(position, this._game);
-               // }
-               // else
-                //{
-                    // TODO later
-                  //  _controller.MarkGroupDead(position);
-                //}
-                _controller.LifeDeath_MarkGroupDead(position);
+                if (_liveGame.Controller.IsOnlineGame)
+                {
+                    await _liveGame.Controller.Server.Commands.LifeDeathMarkDeath(position, this._onlineGame.RemoteInfo);
+                }
+                else
+                {
+                    _controller.LifeDeath_MarkGroupDead(position);
+                }
             }
             else
             {
@@ -485,13 +470,20 @@ namespace FormsPrototype
            }
         }
 
-        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            foreach(var player in _liveGame.Controller.Players)
+            if (_liveGame.Controller.IsOnlineGame)
             {
-                if (player.Agent is HumanAgent || player.Agent is AiAgent)
+                await _liveGame.Controller.Server.Commands.LifeDeathDone(_onlineGame.RemoteInfo);
+            }
+            else
+            {
+                foreach (var player in _liveGame.Controller.Players)
                 {
-                    _controller.LifeDeath_Done(player);
+                    if (player.Agent is HumanAgent || player.Agent is AiAgent)
+                    {
+                        _controller.LifeDeath_Done(player);
+                    }
                 }
             }
         }
@@ -501,21 +493,26 @@ namespace FormsPrototype
             groupboxMoveMaker.Visible = true;
         }
 
-        private void bUndoLifeDeath_Click(object sender, EventArgs e)
+        private async void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            // TODO online
-            if (!_liveGame.Controller.IsOnlineGame)
+            if (_liveGame.Controller.IsOnlineGame)
             {
-                _controller.LifeDeath_UndoPhase();
+                await _liveGame.Controller.Server.Commands.UndoLifeDeath(_onlineGame.RemoteInfo);
+                SystemLog("Requesting server to undo life/death phase...");
             }
             else
             {
-// TODO                (this._liveGame as OnlineGame).Metadata.Server.(this._game);
+                _controller.LifeDeath_UndoPhase();
             }
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
         {
+            if (_controller.IsOnlineGame)
+            {
+                MessageBox.Show("Resuming is not supported in online games.");
+                return;
+            }
             _controller.LifeDeath_Resume();
         }
 
@@ -566,12 +563,11 @@ namespace FormsPrototype
             _controller = _liveGame.Controller;
             _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             _controller.DebuggingMessage += _controller_DebuggingMessage;
-            _controller.Resignation += _controller_Resignation;
-            _controller.PlayerTimedOut += _controller_PlayerTimedOut; 
+            _controller.GameEnded += _controller_GameEnded;
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged;
-           //  this._controller.EnterPhase += _controller_EnterPhase;
+            _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            
             foreach (GamePlayer player in _liveGame.Controller.Players)
             {
@@ -584,7 +580,30 @@ namespace FormsPrototype
             _controller.BeginGame();
         }
 
-      
+        private void _controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
+        {
+            _territories = e;
+        }
+
+        private void _controller_GameEnded(object sender, GameEndInformation e)
+        {
+            this.panelEnd.Visible = true;
+            this.lblEndCaption.Text = e.Mainline;
+            this.lblGameEndReason.Text = e.Subline;
+            if (e.Reason == GameEndReason.ScoringComplete)
+            {
+                var scores = e.Scores;
+                MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
+                                (scores.BlackScore > scores.WhiteScore
+                                    ? "Black wins!"
+                                    : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
+                                        ? "It's a draw!"
+                                        : "White wins!")),
+                    "Game completed!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+        }
 
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {
@@ -593,31 +612,14 @@ namespace FormsPrototype
             {
                 grpLifeDeath.Visible = true;
                 _inLifeDeathDeterminationPhase = true;
+                
             }
             else
             {
                 grpLifeDeath.Visible = false;
                 _inLifeDeathDeterminationPhase = false;
             }
-            if (e == GamePhaseType.Finished)
-            {
-                // TODO
-                //if (_game.Server == null)
-                // {
-                    GameBoard finalBoard =GameBoard.CreateBoardFromGameTree(_liveGame.Info, _liveGame.Controller.GameTree).BoardWithoutTheseStones( _controller.DeadPositions);
-                    Scores scores = _liveGame.Controller.Ruleset.CountScore(finalBoard);
-
-                    MessageBox.Show($"Black score: {scores.BlackScore}\nWhite score: {scores.WhiteScore}\n\n" +
-                                    (scores.BlackScore > scores.WhiteScore
-                                        ? "Black wins!"
-                                        : (Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.1f
-                                            ? "It's a draw!"
-                                            : "White wins!")),
-                        "Game completed!",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-              //  }
-            }
+            grpTiming.Visible = e == GamePhaseType.Main;
             RefreshBoard(); 
         }
 
@@ -637,6 +639,11 @@ namespace FormsPrototype
                 lblTimeWhiteMain.Text = whiteTime.MainText;
                 lblTimeWhiteSub.Text = whiteTime.SubText;
             }
+        }
+
+        private async void bAddTimeToMyOpponent_Click(object sender, EventArgs e)
+        {
+            await this._server.Commands.AddTime(this._gameInfo, TimeSpan.FromMinutes(2));
         }
     }
 }

@@ -21,7 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
     {
         private BoardControlState _sharedBoardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
-        
+
         public BoardControlState SharedBoardControlState
         {
             get { return _sharedBoardControlState; }
@@ -76,7 +76,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             sender.Width = SharedBoardControlState.BoardActualWidth;
             sender.Height = SharedBoardControlState.BoardActualHeight;
-            
+
             DrawBackground(args);
 
             // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
@@ -103,7 +103,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     args.DrawingSession,
                     SharedBoardControlState.ShiningPosition.X,
                     (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.ShiningPosition.Y,
-                    Color.FromArgb(140, 100, 200,100));
+                    Color.FromArgb(140, 100, 200, 100));
             }
 
             if (gameState != null)
@@ -112,14 +112,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 {
                     foreach (var position in gameState.TsumegoMarkedPositions)
                     {
-                        DrawStoneCellBackground(args.DrawingSession, 
+                        DrawStoneCellBackground(args.DrawingSession,
                             position.X,
                             (SharedBoardControlState.BoardHeight - 1) - position.Y,
                             Color.FromArgb(100, 255, 50, 0));
                     }
                 }
                 GameBoard boardState = gameState.BoardState;
-             
+
                 for (int x = 0; x < SharedBoardControlState.BoardWidth; x++)
                 {
                     for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
@@ -137,9 +137,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                                     gameState.Move.Coordinates.X == x &&
                                     gameState.Move.Coordinates.Y == y)
                                 {
-                                    args.DrawingSession.DrawEllipse(new Vector2(x*cellSize + halfSize,
-                                        translatedYCoordinate*cellSize + halfSize), cellSize*0.2f,
-                                        cellSize*0.2f,
+                                    args.DrawingSession.DrawEllipse(new Vector2(x * cellSize + halfSize,
+                                        translatedYCoordinate * cellSize + halfSize), cellSize * 0.2f,
+                                        cellSize * 0.2f,
                                         boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
                                 }
                             }
@@ -148,11 +148,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.Black);
                         else if (boardState[x, y] == StoneColor.White)
                             DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.White);*/
-                            
+
                     }
                 }
             }
-            
+
             if (_sharedBoardControlState.MouseOverPosition.IsDefined)
             {
                 // TODO only if legal
@@ -172,9 +172,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                         (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
                         SharedBoardControlState.HighlightColor.ToUWPColor());
                 }
-                
+
             }
-            
+
         }
 
         private void DrawBackground(CanvasDrawEventArgs args)
@@ -222,7 +222,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="y">position on y axis</param>
         private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color, double opacity)
         {
-          
+
 
             if (_settings.Display.StonesTheme == StoneTheme.PolishedBitmap)
             {
@@ -230,16 +230,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 double yPos = SharedBoardControlState.CellSize * (y + 0.025);
                 drawingSession.DrawImage(color == StoneColor.Black ? blackStoneBitmap : whiteStoneBitmap,
                     new Rect(xPos, yPos,
-                        SharedBoardControlState.CellSize*0.95,
-                        SharedBoardControlState.CellSize*0.95), blackStoneBitmap.Bounds, (float) opacity);
+                        SharedBoardControlState.CellSize * 0.95,
+                        SharedBoardControlState.CellSize * 0.95), blackStoneBitmap.Bounds, (float)opacity);
             }
             else
             {
                 // We need to translate the position of the stone by its half to get the center for the ellipse shape
-                int xPos = SharedBoardControlState.CellSize*x + SharedBoardControlState.HalfCellSize;
-                int yPos = SharedBoardControlState.CellSize*y + SharedBoardControlState.HalfCellSize;
+                int xPos = SharedBoardControlState.CellSize * x + SharedBoardControlState.HalfCellSize;
+                int yPos = SharedBoardControlState.CellSize * y + SharedBoardControlState.HalfCellSize;
                 float radiusModifier = 0.4f;
-                float radius = SharedBoardControlState.CellSize*radiusModifier;
+                float radius = SharedBoardControlState.CellSize * radiusModifier;
 
                 drawingSession.FillEllipse(
                     xPos,
@@ -249,7 +249,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     color == StoneColor.Black ? Colors.Black : Colors.White);
             }
         }
-        
+
         /// <summary>
         /// Draws a background for an intersection.
         /// </summary>
@@ -264,11 +264,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 SharedBoardControlState.CellSize * x,
                 SharedBoardControlState.CellSize * y,
                 SharedBoardControlState.CellSize,
-                SharedBoardControlState.CellSize, 
+                SharedBoardControlState.CellSize,
                 4, 4,
                 backgroundColor);
         }
-        
+
         /// <summary>
         /// Draws horizontal and vertical coordinates for the board.
         /// </summary>
@@ -280,7 +280,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             CanvasTextFormat textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
             int charCode = 65;
-            
+
             // Draw horizontal char coordinates
             for (int i = 0; i < boardWidth; i++)
             {
@@ -290,7 +290,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, ((char)(charCode)).ToString(), textFormat, SharedBoardControlState.CellSize, SharedBoardControlState.CellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
-                
+
                 drawingSession.DrawTextLayout(
                     textLayout,
                     (i * SharedBoardControlState.CellSize) + SharedBoardControlState.BoardBorderThickness,
@@ -300,14 +300,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 charCode++;
                 textLayout.Dispose();
             }
- 
+
             // Draw vertical numerical coordinates
             for (int i = 0; i < boardHeight; i++)
             {
                 CanvasTextLayout textLayout = new CanvasTextLayout(resourceCreator, (boardHeight - i).ToString(), textFormat, SharedBoardControlState.CellSize, SharedBoardControlState.CellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
-                
+
                 drawingSession.DrawTextLayout(
                     textLayout,
                     0,
@@ -360,7 +360,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Star point
             int boardSize = boardControlState.BoardWidth;
 
-            switch(boardSize)
+            switch (boardSize)
             {
                 case 9:
                     drawingSession.FillEllipse(2.5f * boardControlState.CellSize, 2.5f * boardControlState.CellSize, 4, 4, Colors.Black);

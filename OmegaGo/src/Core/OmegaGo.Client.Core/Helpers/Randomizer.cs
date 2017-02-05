@@ -5,12 +5,12 @@ namespace OmegaGo.Core.Helpers
     /// <summary>
     /// Random values provider. Warning - not thread-safe
     /// </summary>
-    internal class Randomizer
+    internal static class Randomizer
     {
         /// <summary>
         /// Shared <see cref="System.Random" /> instance
         /// </summary>
-        private static readonly Random Random = new Random();
+        private static readonly Random random = new Random();
 
         /// <summary>
         /// Gets next random non-negative number up to a given maximum (exclusive)
@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Helpers
         public static int Next(int maximum)
         {
             if (maximum <= 0) throw new ArgumentOutOfRangeException(nameof(maximum));
-            return Random.Next(maximum);
+            return Randomizer.random.Next(maximum);
         }
     }
 }

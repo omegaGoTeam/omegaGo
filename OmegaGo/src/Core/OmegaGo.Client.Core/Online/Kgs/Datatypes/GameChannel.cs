@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    // TODO sgf events
-    // TODO sgf properties
-    // TODO (maybe) subscription
-    // TODO (maybe) game summary
-
     public class GameChannel : IRulesDescription, IGameFlags
     {
         /// <summary>

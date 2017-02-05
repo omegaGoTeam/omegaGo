@@ -1,5 +1,9 @@
 ﻿namespace OmegaGo.Core.Online.Kgs.Downstream
 {
+    /// <summary>
+    /// Because multiple data types may contain flags, to ensure that we don't forget any, all
+    /// of those data types must implement this interface.
+    /// </summary>
     public interface IGameFlags
     {
         #region Flags
