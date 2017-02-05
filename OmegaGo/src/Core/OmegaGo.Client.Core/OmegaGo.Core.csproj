@@ -48,6 +48,8 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
+    <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
+    <Compile Include="Modes\LiveGame\GameEndReason.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
     <Compile Include="Modes\LiveGame\Online\KgsGameBuilder.cs" />
