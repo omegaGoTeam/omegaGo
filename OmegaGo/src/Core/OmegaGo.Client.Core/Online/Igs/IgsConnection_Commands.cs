@@ -163,6 +163,7 @@ namespace OmegaGo.Core.Online.Igs
                 // We're not observing this game.
                 return false;
             }
+            this.OneUnobserveExpected = false;
             var response = await MakeRequestAsync("unobserve " + game.Metadata.IgsIndex);
             this._gamesBeingObserved.Remove(game);
             this._gamesYouHaveOpened.Remove(game);

@@ -25,6 +25,7 @@ namespace OmegaGo.Core.Online.Igs
     partial class IgsConnection
     {
         private bool _ignoreNextPrompt;
+        public bool OneUnobserveExpected;
 
         private async Task HandleIncomingData(StreamReader sr)
         {

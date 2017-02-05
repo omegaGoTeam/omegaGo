@@ -42,21 +42,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
+            Controller.OnDebuggingMessage(position + " marked dead.");
         }
         public void Done(GamePlayer player)
         {
-            Controller.OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
             if (!_playersDoneWithLifeDeath.Contains(player))
             {
                 _playersDoneWithLifeDeath.Add(player);
             }
-            // TODO maybe infinite recursion here?
-           //  this._game.Server?.LifeDeath_Done(this._game);
-            if (_playersDoneWithLifeDeath.Count == 2) // && this._game.Server == null)
+            Controller.OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
+            if (_playersDoneWithLifeDeath.Count == 2) 
             {
                ScoreIt();
             }
-            RecalculateTerritories();
         }
 
         public void ScoreIt()
@@ -72,6 +70,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 winner = this.Controller.Players.Black;
                 loser = this.Controller.Players.White;
+                Controller.OnDebuggingMessage("It's a draw.");
             }
             else if (scores.BlackScore > scores.WhiteScore)
             {
@@ -87,6 +86,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 throw new Exception("This cannot happen.");
             }
+            if (!isDraw)
+            {
+                Controller.OnDebuggingMessage(winner + " wins.");
+            }
+            Controller.OnDebuggingMessage("Scoring complete! " + scores.PositiveScoreDifference);
             this.Controller.GoToEnd(GameEndInformation.ScoringComplete(isDraw, winner, loser, scores));
         }
 
@@ -95,7 +99,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.DeadPositions = new List<Position>();
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
-            // TODO online
+            Controller.OnDebuggingMessage("Life/death phase undone.");
         }
 
         public void Resume()
@@ -104,7 +108,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             GoToPhase(GamePhaseType.Main);
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
-            // TODO check
+            Controller.OnDebuggingMessage("Life/death phase cancelled. Resuming gameplay...");
         }
 
         public override void StartPhase()
