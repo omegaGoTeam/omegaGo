@@ -29,5 +29,10 @@ namespace OmegaGo.Core.Online.Common
         /// <param name="additionalTime">The time to add to our opponent's clock.</param>
         /// <returns></returns>
         Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime);
+
+        Task UndoLifeDeath(RemoteGameInfo remoteInfo);
+        Task LifeDeathDone(RemoteGameInfo remoteInfo);
+        Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo);
+        Task Resign(RemoteGameInfo remoteInfo);
     }
 }

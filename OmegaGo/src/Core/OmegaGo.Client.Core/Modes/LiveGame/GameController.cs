@@ -50,26 +50,55 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             GameTree = new GameTree(ruleset);
         }
-        public GameController(KgsGame game, IRuleset ruleset, PlayerPair players)
+        private GameController(RemoteGame game, IServerConnection server, IRuleset ruleset, PlayerPair players)
         {
             this.OnlineGame = game;
-            RemoteInfo = game.Metadata;
+            RemoteInfo = game.RemoteInfo;
             Info = RemoteInfo;
             Ruleset = ruleset;
             Players = players;
-            this.Server = game.Metadata.KgsConnection;
+            Server = server;
             GameTree = new GameTree(ruleset);
+
         }
-        public GameController(IgsGame game, IRuleset ruleset, PlayerPair players)
+        public GameController(KgsGame game, IRuleset ruleset, PlayerPair players) : this(game, game.Metadata.KgsConnection, ruleset, players)
         {
-            this.OnlineGame = game;
-            RemoteInfo = game.Metadata;
-            Info = game.Metadata;
-            Ruleset = ruleset;
-            Players = players;
-            Server = game.Metadata.Server;
-            GameTree = new GameTree(ruleset);
-            game.Metadata.Server.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+        }
+        public GameController(IgsGame game, IRuleset ruleset, PlayerPair players) : this(game, game.Metadata.Server, ruleset, players)
+        {
+            var igsServer = game.Metadata.Server;
+            igsServer.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
+
+            // Temporary: The following lines will be moved to the common constructor when life/death begins to work
+            // for KGS.
+            igsServer.IncomingResignation += IgsServer_IncomingResignation;
+            igsServer.StoneRemoval += IgsServer_StoneRemoval; // TODO (after refactoring) < move to Life/death
+            igsServer.Events.EnterLifeDeath += Events_EnterLifeDeath;
+            igsServer.GameScoredAndCompleted += IgsServer_GameScoredAndCompleted;
+        }
+
+        private void Events_EnterLifeDeath(object sender, IgsGame e)
+        {
+            SetPhase(GamePhaseType.LifeDeathDetermination);
+        }
+
+        private void IgsServer_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        {
+            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt();
+        }
+
+        private void IgsServer_StoneRemoval(object sender, StoneRemovalEventArgs e)
+        {
+            // TODO may not be our game
+            LifeDeath_MarkGroupDead(e.DeadPosition);
+        }
+
+        private void IgsServer_IncomingResignation(object sender, GamePlayerEventArgs e)
+        {
+            if (this.Players.Contains(e.Player))
+            {
+                Resign(e.Player);
+            }
         }
 
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
@@ -195,7 +224,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void Resign(GamePlayer playerToMove)
         {
             GoToEnd(GameEndInformation.Resignation(playerToMove, this));
-            // TODO    this._game.Server?.Resign(this._game);
         }
 
         public event EventHandler<GameEndInformation> GameEnded;

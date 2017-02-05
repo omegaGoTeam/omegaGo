@@ -73,5 +73,25 @@ namespace OmegaGo.Core.Online.Kgs
         {
             throw new NotImplementedException();
         }
+
+        public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task LifeDeathDone(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Resign(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

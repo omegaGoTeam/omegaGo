@@ -59,7 +59,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             RecalculateTerritories();
         }
 
-        private void ScoreIt()
+        public void ScoreIt()
         {
             GameBoard boardAfterRemovalOfDeadStones =
                 this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(

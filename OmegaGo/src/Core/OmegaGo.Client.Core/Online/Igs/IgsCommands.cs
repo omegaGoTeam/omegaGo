@@ -34,6 +34,32 @@ namespace OmegaGo.Core.Online.Igs
             return emptyTask;
         }
 
+        public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
+        {
+            IgsGameInfo igsGameInfo = ((IgsGameInfo)remoteInfo);
+            this.igsConnection.MakeUnattendedRequest("undo " + igsGameInfo.IgsIndex);
+            return emptyTask;
+        }
+
+        public async Task LifeDeathDone(RemoteGameInfo remoteInfo)
+        {
+            IgsGameInfo igsGameInfo = ((IgsGameInfo)remoteInfo);
+            await igsConnection.MakeRequestAsync("done " + igsGameInfo.IgsIndex);
+        }
+
+        public async Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
+        {
+            IgsGameInfo igsGameInfo = ((IgsGameInfo)remoteInfo);
+            await igsConnection.MakeRequestAsync(position.ToIgsCoordinates() + " " + igsGameInfo.IgsIndex);
+        }
+
+        public Task Resign(RemoteGameInfo remoteInfo)
+        {
+            IgsGameInfo igsGameInfo = ((IgsGameInfo)remoteInfo);
+            igsConnection.MakeUnattendedRequest("resign " + igsGameInfo.IgsIndex);
+            return emptyTask;
+        }
+
         private static Task emptyTask = Task.FromResult(0);
 
     }

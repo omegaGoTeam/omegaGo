@@ -369,18 +369,25 @@ namespace FormsPrototype
             (PlayerToMove.Agent as IHumanAgentActions).Pass();
         }
 
-        private void bRESIGN_Click(object sender, EventArgs e)
+        private async void bRESIGN_Click(object sender, EventArgs e)
         {
             
             if (
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                _liveGame.Controller.Resign(PlayerToMove);
+                if (_liveGame.Controller.IsOnlineGame)
+                {
+                   await _liveGame.Controller.Server.Commands.Resign(_onlineGame.RemoteInfo);
+                }
+                else
+                {
+                    _liveGame.Controller.Resign(PlayerToMove);
+                }
             }
         }
 
-        private void bMakeMove_Click(object sender, EventArgs e)
+        private async void bMakeMove_Click(object sender, EventArgs e)
         {
             string coordinates = tbInputMove.Text;
             Position position;
@@ -395,17 +402,14 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-              //  if (_game.Server != null)
-               // {
-                    // TODO
-                    // _game.Server.LifeDeath_MarkDead(position, this._game);
-               // }
-               // else
-                //{
-                    // TODO later
-                  //  _controller.MarkGroupDead(position);
-                //}
-                _controller.LifeDeath_MarkGroupDead(position);
+                if (_liveGame.Controller.IsOnlineGame)
+                {
+                    await _liveGame.Controller.Server.Commands.LifeDeathMarkDeath(position, this._onlineGame.RemoteInfo);
+                }
+                else
+                {
+                    _controller.LifeDeath_MarkGroupDead(position);
+                }
             }
             else
             {
@@ -466,13 +470,20 @@ namespace FormsPrototype
            }
         }
 
-        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            foreach(var player in _liveGame.Controller.Players)
+            if (_liveGame.Controller.IsOnlineGame)
             {
-                if (player.Agent is HumanAgent || player.Agent is AiAgent)
+                await _liveGame.Controller.Server.Commands.LifeDeathDone(_onlineGame.RemoteInfo);
+            }
+            else
+            {
+                foreach (var player in _liveGame.Controller.Players)
                 {
-                    _controller.LifeDeath_Done(player);
+                    if (player.Agent is HumanAgent || player.Agent is AiAgent)
+                    {
+                        _controller.LifeDeath_Done(player);
+                    }
                 }
             }
         }
@@ -482,21 +493,26 @@ namespace FormsPrototype
             groupboxMoveMaker.Visible = true;
         }
 
-        private void bUndoLifeDeath_Click(object sender, EventArgs e)
+        private async void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            // TODO online
-            if (!_liveGame.Controller.IsOnlineGame)
+            if (_liveGame.Controller.IsOnlineGame)
             {
-                _controller.LifeDeath_UndoPhase();
+                await _liveGame.Controller.Server.Commands.UndoLifeDeath(_onlineGame.RemoteInfo);
+                SystemLog("Requesting server to undo life/death phase...");
             }
             else
             {
-// TODO                (this._liveGame as OnlineGame).Metadata.Server.(this._game);
+                _controller.LifeDeath_UndoPhase();
             }
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
         {
+            if (_controller.IsOnlineGame)
+            {
+                MessageBox.Show("Resuming is not supported in online games.");
+                return;
+            }
             _controller.LifeDeath_Resume();
         }
 
