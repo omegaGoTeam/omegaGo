@@ -37,7 +37,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// <summary>
         /// Icon of the window (defaults to null)
         /// </summary>
-        public virtual Uri WindowTitleIconUri { get { return null; } }
+        public virtual Uri WindowTitleIconUri => null;
 
         private AppShell _appShell = null;
 

@@ -36,8 +36,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             var view = AppFrame.Content as ViewBase;
             if (view != null)
             {
-                WindowTitle = view.WindowTitle;
                 WindowTitleIconUri = view.WindowTitleIconUri;
+                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                var title = view.WindowTitle;
+                WindowTitle = title;
+                appView.Title = title;               
             }
         }
 
