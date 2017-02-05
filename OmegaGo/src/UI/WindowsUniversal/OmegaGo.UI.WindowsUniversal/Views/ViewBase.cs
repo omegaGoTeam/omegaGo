@@ -59,17 +59,5 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             //Set window title and icon
 
         }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-        }
-
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {         
-            base.OnNavigatingFrom(e);
-        }
-
     }
 }
