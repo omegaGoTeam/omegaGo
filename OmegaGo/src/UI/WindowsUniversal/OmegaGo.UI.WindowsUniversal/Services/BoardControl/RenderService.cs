@@ -39,11 +39,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private CanvasBitmap kayaBitmap;
         private CanvasBitmap spaceBitmap;
 
-        public void CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
+        public void CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
-        async Task CreateResourcesAsync(CanvasControl sender)
+        async Task CreateResourcesAsync(CanvasAnimatedControl sender)
         {
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
@@ -54,130 +54,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         }
 
 
-        /// <summary>
-        /// Draws the entire game board for the provided state.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        /// <param name="gameState"></param>
-        public void Draw(CanvasControl sender, CanvasDrawEventArgs args, GameTreeNode gameState)
-        {
-            /*
-            args.DrawingSession.Antialiasing = CanvasAntialiasing.Aliased;
-            args.DrawingSession.TextAntialiasing = CanvasTextAntialiasing.Aliased;
-            */
-            int boardWidth = SharedBoardControlState.BoardWidth;
-            int boardHeight = SharedBoardControlState.BoardHeight;
-            int cellSize = SharedBoardControlState.CellSize;
-            int halfSize = SharedBoardControlState.HalfCellSize;
-            Position lastMove = gameState?.Move?.Kind == MoveKind.PlaceStone
-                ? gameState.Move.Coordinates
-                : Position.Undefined;
-
-            sender.Width = SharedBoardControlState.BoardActualWidth;
-            sender.Height = SharedBoardControlState.BoardActualHeight;
-            
-            DrawBackground(args);
-
-            // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
-
-            if (_settings.Display.ShowCoordinates)
-            {
-                DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
-            }
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardControlState.BoardBorderThickness, SharedBoardControlState.BoardBorderThickness);
-            DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
-            DrawBoardStarPoints(args.DrawingSession, SharedBoardControlState);
-
-            if (_sharedBoardControlState.SelectedPosition.IsDefined)
-            {
-                DrawStoneCellBackground(
-                    args.DrawingSession,
-                    SharedBoardControlState.SelectedPosition.X,
-                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.SelectedPosition.Y,
-                    SharedBoardControlState.SelectionColor.ToUWPColor());
-            }
-            if (_sharedBoardControlState.ShiningPosition.IsDefined)
-            {
-                DrawStoneCellBackground(
-                    args.DrawingSession,
-                    SharedBoardControlState.ShiningPosition.X,
-                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.ShiningPosition.Y,
-                    Color.FromArgb(140, 100, 200,100));
-            }
-
-            if (gameState != null)
-            {
-                if (_settings.Tsumego.ShowPossibleMoves)
-                {
-                    foreach (var position in gameState.TsumegoMarkedPositions)
-                    {
-                        DrawStoneCellBackground(args.DrawingSession, 
-                            position.X,
-                            (SharedBoardControlState.BoardHeight - 1) - position.Y,
-                            Color.FromArgb(100, 255, 50, 0));
-                    }
-                }
-                GameBoard boardState = gameState.BoardState;
-             
-                for (int x = 0; x < SharedBoardControlState.BoardWidth; x++)
-                {
-                    for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
-                    {
-                        int translatedYCoordinate = (SharedBoardControlState.BoardHeight - y - 1);
-
-
-                        if (boardState[x, y] != StoneColor.None)
-                        {
-                            DrawStone(args.DrawingSession, x, translatedYCoordinate, boardState[x, y], 1);
-
-                            if (_settings.Display.HighlightLastMove)
-                            {
-                                if (gameState?.Move?.Kind == MoveKind.PlaceStone &&
-                                    gameState.Move.Coordinates.X == x &&
-                                    gameState.Move.Coordinates.Y == y)
-                                {
-                                    args.DrawingSession.DrawEllipse(new Vector2(x*cellSize + halfSize,
-                                        translatedYCoordinate*cellSize + halfSize), cellSize*0.2f,
-                                        cellSize*0.2f,
-                                        boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
-                                }
-                            }
-                        }
-                        /*
-                            DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.Black);
-                        else if (boardState[x, y] == StoneColor.White)
-                            DrawStone(args.DrawingSession, x, translatedYCoordinate, Colors.White);*/
-                            
-                    }
-                }
-            }
-            
-            if (_sharedBoardControlState.MouseOverPosition.IsDefined)
-            {
-                // TODO only if legal
-                if (_sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
-                {
-                    DrawStone(args.DrawingSession, SharedBoardControlState.MouseOverPosition.X,
-                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
-                        _sharedBoardControlState.MouseOverShadowColor, 0.5);
-
-                }
-                else
-                {
-                    // legacy
-                    DrawStoneCellBackground(
-                        args.DrawingSession,
-                        SharedBoardControlState.MouseOverPosition.X,
-                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
-                        SharedBoardControlState.HighlightColor.ToUWPColor());
-                }
-                
-            }
-            
-        }
-
-        private void DrawBackground(CanvasDrawEventArgs args)
+        private void DrawBackground(CanvasAnimatedDrawEventArgs args)
         {
             args.DrawingSession.FillRectangle(
                 0, 0,
@@ -392,6 +269,118 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 default:
                     break;
             }
+        }
+
+        public void DrawOnGameLoopThread(CanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args, GameTreeNode gameState)
+        {
+            int boardWidth = SharedBoardControlState.BoardWidth;
+            int boardHeight = SharedBoardControlState.BoardHeight;
+            int cellSize = SharedBoardControlState.CellSize;
+            int halfSize = SharedBoardControlState.HalfCellSize;
+            Position lastMove = gameState?.Move?.Kind == MoveKind.PlaceStone
+                ? gameState.Move.Coordinates
+                : Position.Undefined;
+
+            sender.Width = SharedBoardControlState.BoardActualWidth;
+            sender.Height = SharedBoardControlState.BoardActualHeight;
+
+            DrawBackground(args);
+
+            // TODO Perf. optimalization: Place drawing board and coordinates into a command list.
+
+            if (_settings.Display.ShowCoordinates)
+            {
+                DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
+            }
+            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(SharedBoardControlState.BoardBorderThickness, SharedBoardControlState.BoardBorderThickness);
+            DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
+            DrawBoardStarPoints(args.DrawingSession, SharedBoardControlState);
+
+            if (_sharedBoardControlState.SelectedPosition.IsDefined)
+            {
+                DrawStoneCellBackground(
+                    args.DrawingSession,
+                    SharedBoardControlState.SelectedPosition.X,
+                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.SelectedPosition.Y,
+                    SharedBoardControlState.SelectionColor.ToUWPColor());
+            }
+            if (_sharedBoardControlState.ShiningPosition.IsDefined)
+            {
+                DrawStoneCellBackground(
+                    args.DrawingSession,
+                    SharedBoardControlState.ShiningPosition.X,
+                    (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.ShiningPosition.Y,
+                    Color.FromArgb(140, 100, 200, 100));
+            }
+
+            if (gameState != null)
+            {
+                if (_settings.Tsumego.ShowPossibleMoves)
+                {
+                    foreach (var position in gameState.TsumegoMarkedPositions)
+                    {
+                        DrawStoneCellBackground(args.DrawingSession,
+                            position.X,
+                            (SharedBoardControlState.BoardHeight - 1) - position.Y,
+                            Color.FromArgb(100, 255, 50, 0));
+                    }
+                }
+                GameBoard boardState = gameState.BoardState;
+
+                for (int x = 0; x < SharedBoardControlState.BoardWidth; x++)
+                {
+                    for (int y = 0; y < SharedBoardControlState.BoardHeight; y++)
+                    {
+                        int translatedYCoordinate = (SharedBoardControlState.BoardHeight - y - 1);
+
+
+                        if (boardState[x, y] != StoneColor.None)
+                        {
+                            DrawStone(args.DrawingSession, x, translatedYCoordinate, boardState[x, y], 1);
+
+                            if (_settings.Display.HighlightLastMove)
+                            {
+                                if (gameState?.Move?.Kind == MoveKind.PlaceStone &&
+                                    gameState.Move.Coordinates.X == x &&
+                                    gameState.Move.Coordinates.Y == y)
+                                {
+                                    args.DrawingSession.DrawEllipse(new Vector2(x * cellSize + halfSize,
+                                        translatedYCoordinate * cellSize + halfSize), cellSize * 0.2f,
+                                        cellSize * 0.2f,
+                                        boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (_sharedBoardControlState.MouseOverPosition.IsDefined)
+            {
+                // TODO only if legal
+                if (_sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
+                {
+                    DrawStone(args.DrawingSession, SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        _sharedBoardControlState.MouseOverShadowColor, 0.5);
+
+                }
+                else
+                {
+                    // legacy
+                    DrawStoneCellBackground(
+                        args.DrawingSession,
+                        SharedBoardControlState.MouseOverPosition.X,
+                        (SharedBoardControlState.BoardHeight - 1) - SharedBoardControlState.MouseOverPosition.Y,
+                        SharedBoardControlState.HighlightColor.ToUWPColor());
+                }
+
+            }
+        }
+
+        public void UpdateOnGameLoopThread(CanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args, GameTreeNode gameTreeNode)
+        {
+
         }
     }
 }

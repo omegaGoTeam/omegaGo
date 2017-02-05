@@ -5,7 +5,7 @@
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:win2D="using:Microsoft.Graphics.Canvas.UI.Xaml"
     Loaded="BoardControl_Loaded"
     mc:Ignorable="d"
     d:DesignHeight="300"
@@ -22,10 +22,12 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             ZoomMode="Enabled">
-            <win2d:CanvasControl 
-                x:Name="canvas" 
+            <win2D:CanvasAnimatedControl
                 CreateResources="canvas_CreateResources"
-                Draw="canvas_Draw"
+                Name="Canvas"
+                IsFixedTimeStep="False"
+                Update="Canvas_Update"
+                Draw="canvas_Draw_1"
                 PointerPressed="canvas_PointerPressed"
                 PointerReleased="canvas_PointerReleased"
                 PointerMoved="canvas_PointerMoved"/>

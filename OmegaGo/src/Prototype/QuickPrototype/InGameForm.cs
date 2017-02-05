@@ -638,5 +638,10 @@ namespace FormsPrototype
                 lblTimeWhiteSub.Text = whiteTime.SubText;
             }
         }
+
+        private async void bAddTimeToMyOpponent_Click(object sender, EventArgs e)
+        {
+            await this._server.Commands.AddTime(this._gameInfo, TimeSpan.FromMinutes(2));
+        }
     }
 }

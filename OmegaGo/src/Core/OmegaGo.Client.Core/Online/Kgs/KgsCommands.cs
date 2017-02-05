@@ -68,5 +68,10 @@ namespace OmegaGo.Core.Online.Kgs
         {
             throw new NotImplementedException();
         }
+
+        public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

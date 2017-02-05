@@ -22,5 +22,15 @@ namespace OmegaGo.Core.Online.Igs
         {
             this.igsConnection.MakeMove((IgsGameInfo) remoteInfo, move);
         }
+
+        public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
+        {
+            IgsGameInfo igsGameInfo = ((IgsGameInfo) remoteInfo);
+            this.igsConnection.MakeUnattendedRequest("addtime " + igsGameInfo.IgsIndex + " " + additionalTime.Minutes);
+            return emptyTask;
+        }
+
+        private static Task emptyTask = Task.FromResult(0);
+
     }
 }

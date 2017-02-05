@@ -255,12 +255,8 @@ namespace OmegaGo.Core.Online.Igs
             this._gamesYouHaveOpened.Add(game);
             return game;
         }
-        public void DEBUG_MakeUnattendedRequest(string command)
-        {
-            MakeUnattendedRequest(command);
-        }
 
-        
+
         public void MakeMove(IgsGameInfo game, Move move)
         {
             switch (move.Kind)

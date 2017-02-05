@@ -284,7 +284,11 @@ namespace OmegaGo.Core.Online.Igs
             return lines;
 
         }
-        private void MakeUnattendedRequest(string command)
+        /// <summary>
+        /// Enqueues a command to be send to IGS.
+        /// </summary>
+        /// <param name="command">The single-line command.</param>
+        public void MakeUnattendedRequest(string command)
         {
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);

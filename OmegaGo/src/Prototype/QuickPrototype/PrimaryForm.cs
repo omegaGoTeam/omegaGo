@@ -340,7 +340,7 @@ namespace FormsPrototype
 
         private void button9_Click(object sender, EventArgs e)
         {
-            igs.DEBUG_MakeUnattendedRequest(this.tbCommand.Text);
+            this.igs.MakeUnattendedRequest(this.tbCommand.Text);
         }
 
         private async void bAcceptRequest_Click(object sender, EventArgs e)

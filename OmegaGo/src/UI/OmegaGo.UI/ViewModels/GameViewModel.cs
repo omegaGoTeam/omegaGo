@@ -29,7 +29,6 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
-
             ChatViewModel = new ChatViewModel();
             if (Game.Controller.IsOnlineGame)
             {

@@ -76,6 +76,7 @@
             this.lblTimeWhiteSub = new System.Windows.Forms.Label();
             this.lblTimeBlackSub = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.bAddTimeToMyOpponent = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupboxMoveMaker.SuspendLayout();
             this.panelEnd.SuspendLayout();
@@ -576,11 +577,22 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // bAddTimeToMyOpponent
+            // 
+            this.bAddTimeToMyOpponent.Location = new System.Drawing.Point(492, 55);
+            this.bAddTimeToMyOpponent.Name = "bAddTimeToMyOpponent";
+            this.bAddTimeToMyOpponent.Size = new System.Drawing.Size(188, 23);
+            this.bAddTimeToMyOpponent.TabIndex = 4;
+            this.bAddTimeToMyOpponent.Text = "Add 2 minutes to my opponent";
+            this.bAddTimeToMyOpponent.UseVisualStyleBackColor = true;
+            this.bAddTimeToMyOpponent.Click += new System.EventHandler(this.bAddTimeToMyOpponent_Click);
+            // 
             // InGameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1230, 601);
+            this.Controls.Add(this.bAddTimeToMyOpponent);
             this.Controls.Add(this.lblTimeBlackSub);
             this.Controls.Add(this.lblTimeWhiteSub);
             this.Controls.Add(this.lblTimeWhiteMain);
@@ -676,5 +688,6 @@
         private System.Windows.Forms.Label lblTimeWhiteSub;
         private System.Windows.Forms.Label lblTimeBlackSub;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button bAddTimeToMyOpponent;
     }
 }
