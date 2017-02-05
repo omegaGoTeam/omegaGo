@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -25,9 +26,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Back navigation requested
+        /// </summary>
         public void BackRequested()
         {
-               
+            //handle the back navigation request using app shell
+            AppShell.GetForCurrentView().GoBack();         
         }
     }
 }
