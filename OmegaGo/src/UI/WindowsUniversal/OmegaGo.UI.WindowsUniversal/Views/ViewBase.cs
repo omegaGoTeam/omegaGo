@@ -19,11 +19,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     /// </summary>
     public class ViewBase : MvxWindowsPage
     {
-        public ViewBase(string title = null, Uri uri = null ) : this()
-        {
-
-        }
-
         public ViewBase()
         {
             Loading += ViewBase_Loading;
@@ -68,50 +63,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            if (Frame.CanGoBack)
-            {
-                AppShell.TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
-                Window.Current.CoreWindow.KeyUp += EscapingHandling;
-            }
-            else
-            {
-                AppShell.TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            }
-
             base.OnNavigatedTo(e);
         }
 
-        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
-        {
-            if (args.VirtualKey == Windows.System.VirtualKey.Escape)
-            {
-                if (Frame.CanGoBack && !args.Handled)
-                {
-                    args.Handled = true;
-                    Frame.GoBack();
-                }
-            }
-        }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            Window.Current.CoreWindow.KeyDown -= EscapingHandling;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= BackRequested;
+        {         
             base.OnNavigatingFrom(e);
         }
 
-        private void BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (Frame.CanGoBack)
-            {
-                var vm = ViewModel as ViewModelBase;
-                if (vm != null)
-                {
-                    e.Handled = true;
-                    vm.GoBackCommand.Execute(null);
-                }
-            }
-        }
     }
 }

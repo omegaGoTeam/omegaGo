@@ -25,7 +25,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             this.InitializeComponent();
             window.Content = this;
             AppShells.Add(window, this);
-            AppFrame.Navigated += AppFrame_Navigated; ;
+            AppFrame.Navigated += AppFrame_Navigated;
         }
 
         /// <summary>
@@ -34,6 +34,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             var view = AppFrame.Content as ViewBase;
+
+            if (AppFrame.CanGoBack)
+            {
+                TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                TitleBarBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            }
+
             if (view != null)
             {
                 WindowTitle = view.WindowTitle;
@@ -129,8 +139,57 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             coreTitleBarAppView.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             coreTitleBarAppView.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DraggableTitleBarArea);
-
             Window.Current.Activated += WindowTitleBarActivationHandler;
+
+            InitNavigation();
+        }
+
+        /// <summary>
+        /// Initiates back navigation
+        /// </summary>
+        public void GoBack()
+        {
+            if (AppFrame.CanGoBack)
+            {
+                var view = AppFrame.Content as ViewBase;
+                var vm = view?.ViewModel as ViewModelBase;
+                vm?.GoBackCommand.Execute(null);
+            }
+        }
+
+        /// <summary>
+        /// Initializes navigation features
+        /// </summary>
+        private void InitNavigation()
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
+            Window.Current.CoreWindow.KeyUp += EscapingHandling;
+        }
+
+        /// <summary>
+        /// Handles the system back navigation
+        /// </summary>
+        private void BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            GoBack();
+        }
+
+        /// <summary>
+        /// Handles the Esc key for back navigation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.VirtualKey == Windows.System.VirtualKey.Escape )
+            {
+                if (!args.Handled)
+                {
+                    args.Handled = true;
+                    //handle back navigation as usual
+                    GoBack();
+                }
+            }
         }
 
         /// <summary>
