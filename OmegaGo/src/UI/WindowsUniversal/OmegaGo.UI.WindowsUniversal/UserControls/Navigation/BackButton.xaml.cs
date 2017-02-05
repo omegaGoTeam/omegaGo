@@ -26,6 +26,15 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
             this.InitializeComponent();
         }
 
+        public static readonly DependencyProperty FullScreenOnlyProperty = DependencyProperty.Register(
+            "FullScreenOnly", typeof(bool), typeof(BackButton), new PropertyMetadata(default(bool)));
+
+        public bool FullScreenOnly
+        {
+            get { return (bool) GetValue(FullScreenOnlyProperty); }
+            set { SetValue(FullScreenOnlyProperty, value); }
+        }
+
         /// <summary>
         /// Back navigation requested
         /// </summary>
