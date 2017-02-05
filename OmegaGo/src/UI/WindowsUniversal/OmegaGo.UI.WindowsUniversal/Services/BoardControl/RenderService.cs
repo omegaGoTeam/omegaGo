@@ -73,7 +73,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this.spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
 
         }
-
+       
 
         private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
         {
@@ -88,8 +88,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="gameState"></param>
         public void Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args, GameTreeNode gameState)
         {
-
-            args.DrawingSession.Antialiasing = CanvasAntialiasing.Aliased;
             // Calculations
             double clientWidth = sender.Size.Width;
             double clientHeight = sender.Size.Height;
@@ -100,6 +98,18 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 boardWidth + (this._showCoordinates ? 2 : 0), boardHeight + (this._showCoordinates ? 2 : 0));
             this._cellSize = (int)(boardRectangle.Width/widthWithBorder);
             this._halfSize = this._cellSize/2;
+            if (this._showCoordinates)
+            {
+                this._boardBorderThickness = this._cellSize;
+            }
+            else
+            {
+                this._boardBorderThickness = 0;
+            }
+            this.SharedBoardControlState.LeftPadding = (int)boardRectangle.X + this._boardBorderThickness;
+            this.SharedBoardControlState.TopPadding = (int)boardRectangle.Y + this._boardBorderThickness;
+            this.SharedBoardControlState.NewCellSize = this._cellSize;
+            // The above should only be probably called on demand, not always
 
             // Draw parts
             DrawBoard(args.DrawingSession, clientWidth, clientHeight, boardRectangle);
@@ -113,13 +123,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw grid
             args.DrawingSession.Transform = Matrix3x2.CreateTranslation(
                 (float)boardRectangle.X + this._boardBorderThickness, (float)boardRectangle.Y + this._boardBorderThickness);
-            this.SharedBoardControlState.LeftPadding = (int)boardRectangle.X + this._boardBorderThickness;
-            this.SharedBoardControlState.TopPadding = (int)boardRectangle.Y + this._boardBorderThickness;
-            this.SharedBoardControlState.NewCellSize = this._cellSize;
 
-            DrawBoardLines(args.DrawingSession, boardWidth, boardHeight);
+            CanvasCommandList lines = new CanvasCommandList(sender);
+            using (CanvasDrawingSession linesSession = lines.CreateDrawingSession())
+            {
+                linesSession.Antialiasing = CanvasAntialiasing.Aliased;
+                DrawBoardLines(linesSession, boardWidth, boardHeight);
+            }
+            args.DrawingSession.DrawImage(lines);
             DrawBoardStarPoints(args.DrawingSession, boardWidth, boardHeight);
-
 
             // Shining position special case
             if (this._sharedBoardControlState.ShiningPosition.IsDefined)
@@ -296,7 +308,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawBoardCoordinates(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
         {
             if (!this._showCoordinates) return;
-            this._boardBorderThickness = this._cellSize;
             int charCode = 65;
             
             // Draw horizontal char coordinates

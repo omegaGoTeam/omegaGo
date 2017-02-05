@@ -10,12 +10,20 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
 {
+    /// <summary>
+    /// Shows how many frames per seconds we have. Updates twice per second.
+    /// </summary>
     class FpsCounter
     {
         private string fpsString = "";
         private int framesSinceLastSecond;
         private DateTime lastFpsEmit = DateTime.Now;
 
+        /// <summary>
+        /// Draws the FPS counter on a <see cref="CanvasAnimatedControl"/>. 
+        /// </summary>
+        /// <param name="args">We use this to draw.</param>
+        /// <param name="rect">The rectangle (size about 100x35) where this component should display.</param>
         public void Draw(CanvasAnimatedDrawEventArgs args, Rect rect)
         {
             args.DrawingSession.FillRectangle(rect, Colors.CornflowerBlue);
