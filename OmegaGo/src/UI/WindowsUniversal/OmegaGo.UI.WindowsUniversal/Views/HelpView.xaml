@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
@@ -15,7 +16,7 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -27,7 +28,7 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0">Topics: </TextBlock>
+            <navigation:TitleControl Text="{x:Bind Localizer.Help}" />
             <ScrollViewer Grid.Row="1" >
                 <ListBox Width="350" ScrollViewer.HorizontalScrollMode="Enabled"
                      ItemsSource="{Binding HelpItems}"
@@ -35,10 +36,9 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 </ListBox>
             </ScrollViewer>
-                <Button Grid.Row="2"  Content="Back" HorizontalContentAlignment="Stretch" Click="GoBack_Click" />
         </Grid>
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
-        <WebView DefaultBackgroundColor="White" Name="WebView">
+            <WebView DefaultBackgroundColor="White" Name="WebView">
 
             </WebView>
         </Border>

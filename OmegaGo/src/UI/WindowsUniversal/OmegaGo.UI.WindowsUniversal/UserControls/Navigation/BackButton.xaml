@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.Navigation.BackButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userInterfaceTriggers="using:AdaptiveTriggerLibrary.Triggers.UserInterfaceTriggers"
+    xmlns:logicalTriggers="using:AdaptiveTriggerLibrary.Triggers.LogicalTriggers"
+    xmlns:triggers="using:OmegaGo.UI.WindowsUniversal.Infrastructure.Triggers"
+    xmlns:userInteractionTriggers="using:AdaptiveTriggerLibrary.Triggers.UserInteractionTriggers"
+    xmlns:hardwareInterfaceTriggers="using:AdaptiveTriggerLibrary.Triggers.HardwareInterfaceTriggers"
+    xmlns:logicalModifiers="using:AdaptiveTriggerLibrary.ConditionModifiers.LogicalModifiers"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400" x:Name="ControlWrapper">
+    <UserControl.Resources>
+        <logicalModifiers:OrModifier x:Key="OrModifier"/>
+    </UserControl.Resources>
+    <Button Padding="{x:Bind Padding, Mode=OneWay}" x:Name="BackButtonControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="{x:Bind BackRequested}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="ButtonHidingState">
+                    <VisualState.StateTriggers>
+                        <logicalTriggers:MultiTrigger>
+                            <logicalTriggers:MultiTrigger.Triggers>
+                                <triggers:BoolTrigger IsOn="{x:Bind FullScreenOnly}" />
+                                <!-- trigger when app is not full screen nor in tablet mode -->
+                                <userInteractionTriggers:InteractionModeTrigger Condition="Mouse" />
+                                <userInterfaceTriggers:FullScreenTrigger UseFullScreenModeProperty="True" Condition="False" />
+                            </logicalTriggers:MultiTrigger.Triggers>
+                        </logicalTriggers:MultiTrigger>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ControlWrapper.Visibility" Value="Collapsed" />
+                        <Setter Target="BackButtonControl.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SymbolIcon Symbol="Back" />
+    </Button>
+</UserControl>

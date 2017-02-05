@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
@@ -25,7 +27,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             this.InitializeComponent();
             window.Content = this;
             AppShells.Add(window, this);
-            AppFrame.Navigated += AppFrame_Navigated; ;
+
+            InitNavigation();
+
+            //debug-only cheats
+            InitCheats();
         }
 
         /// <summary>
@@ -34,10 +40,19 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             var view = AppFrame.Content as ViewBase;
+
+            //update title bar back button visibility
+            TitleBarBackButtonVisibility = AppFrame.CanGoBack ? 
+                Visibility.Visible : 
+                Visibility.Collapsed;
+
             if (view != null)
             {
-                WindowTitle = view.WindowTitle;
                 WindowTitleIconUri = view.WindowTitleIconUri;
+                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                var title = view.WindowTitle;
+                WindowTitle = title;
+                appView.Title = title;               
             }
         }
 
@@ -97,18 +112,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Gets or sets the visibility of the back button in the title bar
         /// </summary>
-        public AppViewBackButtonVisibility TitleBarBackButtonVisibility
+        public Visibility TitleBarBackButtonVisibility
         {
-            get
-            {
-                return BackButton.Visibility == Visibility.Visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-            }
-            set
-            {
-                BackButton.Visibility = value == AppViewBackButtonVisibility.Visible
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-            }
+            get { return BackButton.Visibility; }
+            set { BackButton.Visibility = value; }
         }
 
         /// <summary>
@@ -129,8 +136,86 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             coreTitleBarAppView.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             coreTitleBarAppView.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DraggableTitleBarArea);
-
             Window.Current.Activated += WindowTitleBarActivationHandler;
+
+
+        }
+
+        /// <summary>
+        /// Initiates back navigation
+        /// </summary>
+        public void GoBack()
+        {
+            if (AppFrame.CanGoBack)
+            {
+                var view = AppFrame.Content as ViewBase;
+                var vm = view?.ViewModel as ViewModelBase;
+                vm?.GoBackCommand.Execute(null);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        private void InitCheats()
+        {
+#if DEBUG
+            Window.Current.CoreWindow.KeyUp += CheatHandling;
+#endif
+        }
+
+        /// <summary>
+        /// Initializes navigation features
+        /// </summary>
+        private void InitNavigation()
+        {
+            SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
+            Window.Current.CoreWindow.KeyUp += EscapingHandling;
+            AppFrame.Navigated += AppFrame_Navigated;
+        }
+
+        /// <summary>
+        /// Handles the cheat shortcuts
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>    
+        private void CheatHandling(CoreWindow sender, KeyEventArgs args)
+        {
+            //toggle cheat mode
+            if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.PermitCheats = !Cheats.PermitCheats;
+                args.Handled = true;
+            }
+            //handle cheat key combinations
+            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.HandleKeyPress(args);
+            }
+        }
+
+        /// <summary>
+        /// Handles the system back navigation
+        /// </summary>
+        private void BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            GoBack();
+        }
+
+        /// <summary>
+        /// Handles the Esc key for back navigation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.VirtualKey == Windows.System.VirtualKey.Escape)
+            {
+                if (!args.Handled)
+                {
+                    args.Handled = true;
+                    //handle back navigation as usual
+                    GoBack();
+                }
+            }
         }
 
         /// <summary>
