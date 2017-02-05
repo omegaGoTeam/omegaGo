@@ -5,7 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    Width="48"
+    Height="32"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <Button Style="{StaticResource TitleBarBackButtonStyle}" Content="&#59179;" FontFamily="Segoe MDL2 Assets" Click="{x:Bind BackRequested}" />
+    <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}"  FontFamily="Segoe MDL2 Assets" Click="{x:Bind BackRequested}">
+        <Viewbox>
+            <SymbolIcon Symbol="Back" />
+        </Viewbox>
+    </Button>
 </UserControl>
