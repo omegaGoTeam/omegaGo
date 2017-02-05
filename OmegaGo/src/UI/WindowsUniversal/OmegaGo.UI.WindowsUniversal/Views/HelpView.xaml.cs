@@ -16,23 +16,17 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void VM_WebViewContentChanged(object sender, string e)
         {
-            this.WebView.NavigateToString(e);
+            WebView.NavigateToString(e);
         }
 
         public override string WindowTitle => Localizer.Help;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Help.png");
 
-        private void GoBack_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            Frame.GoBack();
-        }
-
         private void TransparencyViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             VM.WebViewContentChanged += VM_WebViewContentChanged; // TODO when unsubscribe?
             VM.NavigateToCurrentItem();
-
         }
     }
 }

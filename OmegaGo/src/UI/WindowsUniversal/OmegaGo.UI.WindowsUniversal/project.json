@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "AdaptiveTriggerLibrary": "1.2.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MvvmCross": "4.4.0",
     "MvvmCross.Plugin.Messenger": "4.4.0",

@@ -102,6 +102,7 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Triggers\BoolTrigger.cs" />
     <Compile Include="Services\Cheats\Cheats.cs" />
     <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Files\FilePickerService.cs" />
@@ -117,6 +118,12 @@
     </Compile>
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Navigation\BackButton.xaml.cs">
+      <DependentUpon>BackButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
+      <DependentUpon>TitleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PlayerPortrait.xaml.cs">
       <DependentUpon>PlayerPortrait.xaml</DependentUpon>
@@ -256,6 +263,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\ControlStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -275,6 +287,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Navigation\BackButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Navigation\TitleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
