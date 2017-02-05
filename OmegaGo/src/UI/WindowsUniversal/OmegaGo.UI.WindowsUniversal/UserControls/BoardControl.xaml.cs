@@ -4,7 +4,6 @@ using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
@@ -58,54 +57,44 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             // TODO Petr: the following two lines don't seem to do anything
             _boardControlState.BoardWidth = ViewModel.BoardControlState.BoardWidth;
             _boardControlState.BoardHeight = ViewModel.BoardControlState.BoardHeight;
-            _boardControlState.RedrawRequested += (s, ev) => this.Canvas.Invalidate();
+            _boardControlState.RedrawRequested += (s, ev) => canvas.Invalidate();
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-            
-            ViewModel.BoardRedrawRequsted += (s, ev) => 
+
+            ViewModel.BoardRedrawRequsted += (s, ev) =>
             {
-                this.Canvas.Invalidate();
-            };            
+                canvas.Invalidate();
+            };
         }
-        
+
+        private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+            RenderService.CreateResources(sender, args);
+        }
+
+        private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+        {
+            RenderService.Draw(sender, args, ViewModel.GameTreeNode);
+        }
 
         private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(this.Canvas).Position;
+            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
             InputService.PointerDown((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
         private void canvas_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(this.Canvas).Position;
+            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
             InputService.PointerUp((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
         private void canvas_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(this.Canvas).Position;
+            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
-        }
-
-        private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
-        {
-            RenderService.CreateResources(sender, args);
-        }
-
-        private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
-        {
-            /*
-            RenderService.DrawOnGameLoopThread((CanvasAnimatedControl)sender, args, ViewModel.GameTreeNode);
-            */
-        }
-
-        private void Canvas_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
-        {
-            /*
-            RenderService.UpdateOnGameLoopThread((CanvasAnimatedControl)sender, args, ViewModel.GameTreeNode);
-            */
         }
     }
 }
