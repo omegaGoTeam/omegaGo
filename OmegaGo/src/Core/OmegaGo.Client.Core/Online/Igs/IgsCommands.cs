@@ -25,6 +25,10 @@ namespace OmegaGo.Core.Online.Igs
 
         public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
         {
+            if (additionalTime.Seconds != 0)
+            {
+                throw new ArgumentException("IGS only supports adding whole minutes", nameof(additionalTime));
+            }
             IgsGameInfo igsGameInfo = ((IgsGameInfo) remoteInfo);
             this.igsConnection.MakeUnattendedRequest("addtime " + igsGameInfo.IgsIndex + " " + additionalTime.Minutes);
             return emptyTask;
