@@ -26,7 +26,9 @@ namespace OmegaGo.UI.ViewModels
             Game = Mvx.GetSingleton<ILiveGame>();
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
+            Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
             Game.Controller.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+            Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
             ChatViewModel = new ChatViewModel();
@@ -40,6 +42,24 @@ namespace OmegaGo.UI.ViewModels
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        private void Controller_GamePhaseChanged(object sender, Core.Modes.LiveGame.Phases.GamePhaseType e)
+        {
+            if (e == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination ||
+                e == Core.Modes.LiveGame.Phases.GamePhaseType.Finished)
+            {
+                BoardViewModel.BoardControlState.ShowTerritory = true;
+            }
+            else
+            {
+                BoardViewModel.BoardControlState.ShowTerritory = false;
+            }
+        }
+
+        private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
+        {
+            BoardViewModel.BoardControlState.TerritoryMap = e;
         }
 
         private void Controller_TurnPlayerChanged(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
@@ -82,7 +102,6 @@ namespace OmegaGo.UI.ViewModels
                 GameTreeNode whatIsShowing =
                   Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
                 OnBoardRefreshRequested(whatIsShowing);
-
             }
         }
 
@@ -120,11 +139,26 @@ namespace OmegaGo.UI.ViewModels
             _previousMoveIndex = newNumber;
         }
 
-        public void MakeMove(Position selectedPosition)
+        public async void MakeMove(Position selectedPosition)
         {
-            if (Game?.Controller?.TurnPlayer?.IsHuman ?? false)
+            if (Game?.Controller.Phase == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
             {
-                (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
+                if (Game.Controller.IsOnlineGame)
+                {
+                    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
+                }
+                else
+                {
+                    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                }
+                Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+            }
+            else
+            {
+                if (Game?.Controller.TurnPlayer?.IsHuman ?? false)
+                {
+                    (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
+                }
             }
             //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
         }
