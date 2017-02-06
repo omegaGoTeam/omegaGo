@@ -57,6 +57,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbContainers = new System.Windows.Forms.ListBox();
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
+            this.bLogin = new System.Windows.Forms.Button();
+            this.bLogout = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -118,6 +120,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.bLogout);
+            this.tabPage1.Controls.Add(this.bLogin);
             this.tabPage1.Controls.Add(this.tbLog);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -365,6 +369,26 @@
             this.timerIdle.Interval = 10000;
             this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
+            // bLogin
+            // 
+            this.bLogin.Location = new System.Drawing.Point(559, 26);
+            this.bLogin.Name = "bLogin";
+            this.bLogin.Size = new System.Drawing.Size(95, 29);
+            this.bLogin.TabIndex = 9;
+            this.bLogin.Text = "Login again";
+            this.bLogin.UseVisualStyleBackColor = true;
+            this.bLogin.Click += new System.EventHandler(this.bLogin_Click);
+            // 
+            // bLogout
+            // 
+            this.bLogout.Location = new System.Drawing.Point(559, 61);
+            this.bLogout.Name = "bLogout";
+            this.bLogout.Size = new System.Drawing.Size(95, 29);
+            this.bLogout.TabIndex = 10;
+            this.bLogout.Text = "Explicit Logout";
+            this.bLogout.UseVisualStyleBackColor = true;
+            this.bLogout.Click += new System.EventHandler(this.bLogout_Click);
+            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -425,5 +449,7 @@
         private System.Windows.Forms.ListBox lbContainerGames;
         private System.Windows.Forms.Button bObserveGame;
         private System.Windows.Forms.Timer timerIdle;
+        private System.Windows.Forms.Button bLogout;
+        private System.Windows.Forms.Button bLogin;
     }
 }
