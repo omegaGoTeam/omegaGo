@@ -79,7 +79,10 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void Events_EnterLifeDeath(object sender, IgsGame e)
         {
-            SetPhase(GamePhaseType.LifeDeathDetermination);
+            if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
+            {
+                SetPhase(GamePhaseType.LifeDeathDetermination);
+            }
         }
 
         private void IgsServer_GameScoredAndCompleted(object sender, GameScoreEventArgs e)

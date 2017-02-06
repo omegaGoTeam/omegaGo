@@ -41,7 +41,6 @@ namespace OmegaGo.Core.Online.Igs
                     line = await sr.ReadLineAsync();
                 }
                 catch (Exception ex)
-                    when (ex is ObjectDisposedException || ex is System.Runtime.InteropServices.COMException)
                 {
                     line = null;
                 }
@@ -113,6 +112,7 @@ namespace OmegaGo.Core.Online.Igs
                     weAreHandlingAnInterrupt = false;
                     HandleFullInterrupt(currentLineBatch);
                     thisIsNotAMove = false;
+                    interruptIsImpossible = false;
                     currentLineBatch = new List<IgsLine>();
                     continue;
                 }
@@ -205,7 +205,7 @@ namespace OmegaGo.Core.Online.Igs
                             weAreHandlingAnInterrupt = true;
                             continue;
                         }
-                        if (igsLine.PureLine.EndsWith("has resigned the game."))
+                        if (igsLine.PureLine.Contains("has resigned the game"))
                         {
                             string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
                             if (whoResigned != this._username)
