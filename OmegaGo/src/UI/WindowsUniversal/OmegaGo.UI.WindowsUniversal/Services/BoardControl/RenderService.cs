@@ -174,7 +174,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 if (this._tsumegoShow)
                 {
-                    foreach (var position in gameState.TsumegoMarkedPositions)
+                    foreach (var position in gameState.Tsumego.MarkedPositions)
                     {
                         DrawStoneCellBackground(session,
                             position.X,

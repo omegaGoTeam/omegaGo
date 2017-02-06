@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using OmegaGo.Core.Game.GameTreeNodeData;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game
 {
     /// <summary>
-    /// Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode"/>s
+    /// Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode" />s
     /// with each node having only a single child. In game analysis, the game tree may be an actual tree.
     /// </summary>
     public sealed class GameTreeNode
     {
-        private readonly IRuleset _ruleset;
+        private readonly Dictionary<Type, object> _additionalNodeInfo = new Dictionary<Type, object>();
 
-        public GameTreeNode( IRuleset ruleset )
+        public GameTreeNode(Move move = null)
         {
-            _ruleset = ruleset;
+            //none move is default
+            if ( move == null ) move = Move.NoneMove;           
+            Branches = new GameTreeNodeCollection(this);
+            Move = move;
         }
 
         // Information taken from official SGF file definition
@@ -38,7 +42,7 @@ namespace OmegaGo.Core.Game
         public List<KeyValuePair<Position, string>> Labels { get; set; }
 
         /// <summary>
-        /// Gets or sets the move that caused this <see cref="GameTreeNode"/> to exist. 
+        /// Gets or sets the move that caused this <see cref="GameTreeNode" /> to exist.
         /// </summary>
         public Move Move { get; }
 
@@ -54,6 +58,7 @@ namespace OmegaGo.Core.Game
          *  (;B[pp]N[B q4])     // Black plays - Possible Move A
          *  (;B[dp]N[B d4]))    // Black plays - Possible Move B
         */
+
         /// <summary>
         /// Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
         /// In normal games, there will only be a single element in this list.
@@ -66,15 +71,15 @@ namespace OmegaGo.Core.Game
         public bool IsLeafNode => Branches.Count == 0;
 
         /// <summary>
-        /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time. 
+        /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time.
         /// The move number is 1-based, i.e. the first move has the number "1".
         /// </summary>
         public int MoveNumber
         {
             get
             {
-                int number = 0;
-                GameTreeNode node = this;
+                var number = 0;
+                var node = this;
                 while (node != null)
                 {
                     node = node.Parent;
@@ -83,6 +88,7 @@ namespace OmegaGo.Core.Game
                 return number;
             }
         }
+
         /// <summary>
         /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
         /// </summary>
@@ -93,9 +99,13 @@ namespace OmegaGo.Core.Game
             {
                 switch (Branches.Count)
                 {
-                    case 0: return null;
-                    case 1: return Branches[0];
-                    default: throw new InvalidOperationException("This is a branching node. Therefore, there is no single 'next' move.");
+                    case 0:
+                        return null;
+                    case 1:
+                        return Branches[0];
+                    default:
+                        throw new InvalidOperationException(
+                            "This is a branching node. Therefore, there is no single 'next' move.");
                 }
             }
         }
@@ -105,19 +115,11 @@ namespace OmegaGo.Core.Game
         {
             get
             {
-                GameTreeNode parent = this.Parent;
+                var parent = Parent;
                 while (parent != null && parent.Move.Kind == MoveKind.None)
-                {
                     parent = parent.Parent;
-                }
                 return parent;
             }
-        }
-
-        public GameTreeNode(Move move)
-        {
-            this.Branches = new GameTreeNodeCollection(this);
-            this.Move = move;
         }
 
         public IEnumerable<GameTreeNode> GetTimelineView
@@ -125,7 +127,7 @@ namespace OmegaGo.Core.Game
             get
             {
                 yield return this;
-                GameTreeNode node = this.NextMove;
+                var node = NextMove;
                 while (node != null)
                 {
                     yield return node;
@@ -135,27 +137,9 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether reaching this node means the player has successfully
-        /// solved a tsumego problem.
+        /// Gets or creates Tsumego info for the game tree node
         /// </summary>
-        public bool TsumegoCorrect { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether reaching this node means that further exploration of 
-        /// this branch will not yield a correct solution to a tsumego problem, and the problem should count
-        /// as failed.
-        /// </summary>
-        public bool TsumegoWrong { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether this node is part of the tsumego definition. Other nodes
-        /// would be created by the player, are termed 'unexpected' and are considered wrong.
-        /// </summary>
-        public bool TsumegoExpected { get; set; }
-
-        /// <summary>
-        /// Gets the list of positions that are known as possible continuation from this node to the author
-        /// of the tsumego problem that contains this node.
-        /// </summary>
-        public List<Position> TsumegoMarkedPositions { get; } = new List<Position>();
+        public TsumegoNodeInfo Tsumego => GetOrCreateNodeInfo<TsumegoNodeInfo>();
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.
@@ -167,9 +151,9 @@ namespace OmegaGo.Core.Game
         public static List<GameTreeNode> GetNodeHistory(GameTreeNode node, bool filterNonMoves)
         {
             if (node == null)
-                throw new ArgumentNullException(nameof(node),"Node cant be null");
+                throw new ArgumentNullException(nameof(node), "Node cant be null");
 
-            List<GameTreeNode> nodeHistory = new List<GameTreeNode>();
+            var nodeHistory = new List<GameTreeNode>();
 
             do
             {
@@ -184,29 +168,77 @@ namespace OmegaGo.Core.Game
             return nodeHistory;
         }
 
+        /// <summary>
+        /// Gets node info of a given type. Throws <see cref="KeyNotFoundException"/> if info is not found.
+        /// </summary>
+        /// <typeparam name="T">Type of info to retrieve</typeparam>
+        /// <returns>Node info</returns>
+        public T GetNodeInfo<T>()
+        {
+            return (T) _additionalNodeInfo[typeof(T)];
+        }
+
+        /// <summary>
+        /// Gets or creates node info for types with parameterless constructor
+        /// </summary>
+        /// <typeparam name="T">Type of info to retrieve</typeparam>
+        /// <returns>Node info</returns>
+        public T GetOrCreateNodeInfo<T>() where T : new()
+        {
+            var type = typeof(T);
+            if (!_additionalNodeInfo.ContainsKey(type))
+                _additionalNodeInfo[type] = new T();
+            return (T) _additionalNodeInfo[type];
+        }
+
+        /// <summary>
+        /// Gets or creates node info. If node info does not exist, it is created using
+        /// the provided Functor
+        /// </summary>
+        /// <typeparam name="T">Type of info to retrieve</typeparam>
+        /// <param name="defaultValue">Default value builder</param>
+        /// <returns>Node info</returns>
+        public T GetOrCreateNodeInfo<T>(Func<T> defaultValue)
+        {
+            var type = typeof(T);
+            if (!_additionalNodeInfo.ContainsKey(type))
+                _additionalNodeInfo[type] = defaultValue();
+            return (T) _additionalNodeInfo[type];
+        }
+
+        /// <summary>
+        /// Stores node info
+        /// </summary>
+        /// <typeparam name="T">Type of info to store</typeparam>
+        /// <param name="nodeInfo">Node info to store</param>
+        public void SetNodeInfo<T>(T nodeInfo)
+        {
+            _additionalNodeInfo[typeof(T)] = nodeInfo;
+        }
+
         public void FillBoardStateOfRoot(GameBoardSize boardSize, IRuleset ruleset)
         {
-            if (this.Parent != null) throw new InvalidOperationException("Only call this on a root.");
+            if (Parent != null) throw new InvalidOperationException("Only call this on a root.");
             FillBoardStateInternal(new GameBoard(boardSize), ruleset);
         }
 
         public void FillBoardState(IRuleset ruleset)
         {
-            if (this.Parent == null) throw new InvalidOperationException("Only call this on a child node.");
-            FillBoardStateInternal(new GameBoard(this.Parent.BoardState), ruleset);
+            if (Parent == null) throw new InvalidOperationException("Only call this on a child node.");
+            FillBoardStateInternal(new GameBoard(Parent.BoardState), ruleset);
         }
 
         private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, IRuleset ruleset)
         {
-            foreach (var position in this.AddBlack)
+            foreach (var position in AddBlack)
                 copyOfPreviousBoard[position] = StoneColor.Black;
-            foreach (var position in this.AddWhite)
+            foreach (var position in AddWhite)
                 copyOfPreviousBoard[position] = StoneColor.White;
 
-           MoveProcessingResult mpr =
-                ruleset.ProcessMove(copyOfPreviousBoard, this.Move, new List<GameBoard>());
+            var mpr =
+                ruleset.ProcessMove(copyOfPreviousBoard, Move, new List<GameBoard>());
 
-          this.BoardState = mpr.NewBoard;
+            BoardState = mpr.NewBoard;
         }
     }
 }

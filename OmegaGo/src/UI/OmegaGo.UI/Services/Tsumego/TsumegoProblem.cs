@@ -5,6 +5,7 @@ using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Game.GameTreeNodeData;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.UI.Services.Settings;
@@ -55,27 +56,27 @@ namespace OmegaGo.UI.Services.Tsumego
                 {
                     if (node.Comment.StartsWith("Correct."))
                     {
-                        node.TsumegoCorrect = true;
+                        node.Tsumego.Correct = true;
                     }
                     else if (node.Comment.StartsWith("Wrong."))
                     {
-                        node.TsumegoWrong = true;
+                        node.Tsumego.Wrong = true;
                     }
                 }
-                node.TsumegoExpected = true;
+                node.Tsumego.Expected = true;
                 if (node.Parent == null)
                 {
                     node.FillBoardStateOfRoot(new GameBoardSize(19), TsumegoProblem.TsumegoRuleset);
                 }
                 else
                 {
-                    if (node.Parent.TsumegoCorrect) node.TsumegoCorrect = true;
-                    if (node.Parent.TsumegoWrong) node.TsumegoWrong = true;
+                    if (node.Parent.Tsumego.Correct) node.Tsumego.Correct = true;
+                    if (node.Parent.Tsumego.Wrong) node.Tsumego.Wrong = true;
                     node.FillBoardState(TsumegoProblem.TsumegoRuleset);
                 }
                 foreach(GameTreeNode continuation in node.Branches)
                 {
-                    node.TsumegoMarkedPositions.Add(continuation.Move.Coordinates);
+                    node.Tsumego.MarkedPositions.Add(continuation.Move.Coordinates);
                 }
             });
             return tree;

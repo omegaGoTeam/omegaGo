@@ -64,7 +64,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 CurrentNode = CurrentNode.Parent;
                 ReachNode(CurrentNode, true);
-                if (CurrentNode.TsumegoExpected &&
+                if (CurrentNode.Tsumego.Expected &&
                     CurrentNode.Move.WhoMoves == this._humansColor &&
                     CurrentNode.Parent != null)
                 {
@@ -100,12 +100,12 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 }
             }
             ReachNode(CurrentNode, false);
-            if (CurrentNode.TsumegoExpected && CurrentNode.Move.WhoMoves == this._humansColor)
+            if (CurrentNode.Tsumego.Expected && CurrentNode.Move.WhoMoves == this._humansColor)
             {
-                if (CurrentNode.Branches.Count(br => br.TsumegoExpected) >= 1)
+                if (CurrentNode.Branches.Count(br => br.Tsumego.Expected) >= 1)
                 {
                     // The opponent responds...
-                    CurrentNode = CurrentNode.Branches.First(br => br.TsumegoExpected);
+                    CurrentNode = CurrentNode.Branches.First(br => br.Tsumego.Expected);
                     ReachNode(CurrentNode, false);
                 }
             }
@@ -114,9 +114,9 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
 
         private void ReachNode(GameTreeNode node, bool afterUndo)
         {
-            bool mayContinue = node.Branches.Any(br => br.TsumegoExpected);
+            bool mayContinue = node.Branches.Any(br => br.Tsumego.Expected);
             string status;
-            if (node.TsumegoCorrect)
+            if (node.Tsumego.Correct)
             {
                 status = "SOLVED!";
                  var hashset = new HashSet<string>(_settings.Tsumego.SolvedProblems);
@@ -129,7 +129,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                  
 
             }
-            else if (node.TsumegoWrong)
+            else if (node.Tsumego.Wrong)
             {
                 status = "WRONG!";
             }
@@ -137,9 +137,9 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 status = "...";
             }
-            if (node.TsumegoExpected)
+            if (node.Tsumego.Expected)
             {
-                if (mayContinue && (node.TsumegoCorrect || node.TsumegoWrong))
+                if (mayContinue && (node.Tsumego.Correct || node.Tsumego.Wrong))
                 {
                     status += " (more moves available)";
                 }
