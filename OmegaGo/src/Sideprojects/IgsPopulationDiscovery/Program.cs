@@ -9,12 +9,15 @@ using OmegaGo.Core.Online.Igs;
 
 namespace IgsPopulationDiscovery
 {
+    
     class Program
     {
         static void Main()
         {
-            AsyncMain().Wait();
+            
+           // AsyncMain().Wait();
         }
+        /*
         public static async Task AsyncMain()
         {
             IgsConnection igs = Connections.Pandanet;
@@ -65,5 +68,6 @@ namespace IgsPopulationDiscovery
                 Console.WriteLine(DateTime.Now.ToShortTimeString() + ": Failed to append.");
             }
         }
+        */
     }
 }
