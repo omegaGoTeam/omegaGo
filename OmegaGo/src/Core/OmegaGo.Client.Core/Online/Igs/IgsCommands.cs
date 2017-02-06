@@ -53,11 +53,14 @@ namespace OmegaGo.Core.Online.Igs
             await igsConnection.MakeRequestAsync(position.ToIgsCoordinates() + " " + igsGameInfo.IgsIndex);
         }
 
-        public Task Resign(RemoteGameInfo remoteInfo)
+        public async Task Resign(RemoteGameInfo remoteInfo)
         {
             IgsGameInfo igsGameInfo = ((IgsGameInfo)remoteInfo);
-            igsConnection.MakeUnattendedRequest("resign " + igsGameInfo.IgsIndex);
-            return emptyTask;
+            var response = await igsConnection.MakeRequestAsync("resign " + igsGameInfo.IgsIndex);
+            if (!response.IsError)
+            {
+                this.igsConnection.OnIncomingResignation(igsGameInfo, igsConnection.Username);
+            }
         }
 
         private static Task emptyTask = Task.FromResult(0);

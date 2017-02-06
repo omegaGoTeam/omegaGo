@@ -146,7 +146,7 @@ namespace OmegaGo.Core.Online.Igs
                 .BoardSize(gameInfo.BoardSize)
                 .Build();
             _gamesBeingObserved.Add(onlineGame);
-            _gamesYouHaveOpened.Add(onlineGame);
+            this.GamesYouHaveOpened.Add(onlineGame);
             MakeUnattendedRequest("moves " + gameInfo.IgsIndex);
             return onlineGame;
         }
@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Online.Igs
             this.OneUnobserveExpected = false;
             var response = await MakeRequestAsync("unobserve " + game.Metadata.IgsIndex);
             this._gamesBeingObserved.Remove(game);
-            this._gamesYouHaveOpened.Remove(game);
+            this.GamesYouHaveOpened.Remove(game);
             return !response.IsError;
         }
         
@@ -253,7 +253,7 @@ namespace OmegaGo.Core.Online.Igs
             builder.BlackPlayer(youAreBlack ? humanPlayer : onlinePlayer)
                 .WhitePlayer(youAreBlack ? onlinePlayer : humanPlayer);
             var game = builder.Build();
-            this._gamesYouHaveOpened.Add(game);
+            this.GamesYouHaveOpened.Add(game);
             return game;
         }
 
@@ -275,14 +275,14 @@ namespace OmegaGo.Core.Online.Igs
         
         public async Task<bool> SayAsync(IgsGame game, string chat)
         {
-            if (!this._gamesYouHaveOpened.Contains(game))
+            if (!this.GamesYouHaveOpened.Contains(game))
                 throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
 
             IgsResponse response;
-            if (this._gamesYouHaveOpened.Count > 1)
+            if (this.GamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
                 response = await MakeRequestAsync("say " + game.Metadata.IgsIndex + " " + chat);

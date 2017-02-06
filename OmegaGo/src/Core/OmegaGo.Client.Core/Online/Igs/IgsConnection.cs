@@ -63,7 +63,7 @@ namespace OmegaGo.Core.Online.Igs
         // Status
       //  private List<OnlineGameInfo> _gamesInProgressOnIgs = new List<OnlineGameInfo>();
         private readonly List<IgsGame> _gamesBeingObserved = new List<IgsGame>();
-        private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
+        public readonly List<IgsGame> GamesYouHaveOpened = new List<IgsGame>();
         // Internal synchronization management
         private IgsGame _incomingMovesAreForThisGame;
         private readonly System.Collections.Concurrent.ConcurrentQueue<IgsRequest> _outgoingRequests =
@@ -102,7 +102,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             _incomingMovesAreForThisGame = null;
             _gamesBeingObserved.Clear();
-            _gamesYouHaveOpened.Clear();
+            this.GamesYouHaveOpened.Clear();
            // _gamesInProgressOnIgs.Clear();
         }
 
@@ -510,16 +510,17 @@ namespace OmegaGo.Core.Online.Igs
         public event EventHandler<StoneRemovalEventArgs> StoneRemoval;
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
+            var game = this.GamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
             StoneRemoval?.Invoke(this, new Igs.StoneRemovalEventArgs(game, deadPosition));
         }
 
         public event EventHandler<GamePlayerEventArgs> IncomingResignation;
-        private void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
+        public void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
+            var game = this.GamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
             IncomingResignation?.Invoke(this,
                 new Igs.GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
+            this.GamesYouHaveOpened.Remove(game);
         }
 
       
