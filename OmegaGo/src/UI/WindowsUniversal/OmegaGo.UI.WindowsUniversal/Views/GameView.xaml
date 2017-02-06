@@ -89,6 +89,7 @@
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
                 <Button Click="DebugFill">Fill</Button>
+                <Button>Save as SGF</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
                 <Button>Done</Button>
                 <Button>Undo Death Marks</Button>

@@ -212,7 +212,7 @@ namespace OmegaGo.Core.Online.Igs
 #pragma warning disable 4014
                 HandleIncomingData(_streamReader).ContinueWith(t =>
                 {
-                    // Fail silently.
+                    throw new Exception("If this is connection error, then fine, otherwise throw up.");
                 }, TaskContinuationOptions.OnlyOnFaulted);
 #pragma warning restore 4014
                 _composure = IgsComposure.InitialHandshake;

@@ -167,6 +167,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 Controller.Server?.Commands.MakeMove(Controller.RemoteInfo, move);
             }
+            Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
             Controller.NumberOfMoves++;
             var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            
             Controller.CurrentNode = newNode;

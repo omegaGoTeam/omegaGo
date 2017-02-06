@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Online.Igs
                     OnIncomingLine("..." + (weAreHandlingAnInterrupt ? "(I)" : "") + (interruptIsImpossible ? "(IIMPOSSIBLE)" : ""));
                     line = await sr.ReadLineAsync();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     line = null;
                 }
@@ -212,10 +212,10 @@ namespace OmegaGo.Core.Online.Igs
                             string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
                             if (whoResigned != this._username)
                             {
-                                foreach (var game in GetGamesIncluding(whoResigned))
+                                // .ToList() is used because the collection may be modified
+                                foreach (var game in GetGamesIncluding(whoResigned).ToList())
                                 {
                                     OnIncomingResignation(game.Metadata, whoResigned);
-                                    // TODO handle in game controller
                                 }
                             }
                             weAreHandlingAnInterrupt = true;
@@ -385,7 +385,7 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 _incomingMovesAreForThisGame = whatGame;
                 Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
-                ;
+                
             }
             else if (trim.Contains("Handicap"))
             {
