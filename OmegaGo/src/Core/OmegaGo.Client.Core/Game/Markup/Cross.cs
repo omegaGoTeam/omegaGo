@@ -2,14 +2,12 @@
 {
     public sealed class Cross : IMarkup
     {
-        private Position _position;
-
         public MarkupKind Kind => MarkupKind.Cross;
-        public Position Position => _position;
+        public Position Position { get; }
 
         public Cross(Position position)
         {
-            _position = position;
+            Position = position;
         }
     }
 }

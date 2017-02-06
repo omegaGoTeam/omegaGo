@@ -2,17 +2,16 @@
 {
     public sealed class Label : IMarkup
     {
-        private Position _position;
-        private string _text;
-
         public MarkupKind Kind => MarkupKind.Label;
-        public Position Position => _position;
-        public string Text => _text;
+
+        public Position Position { get; }
+
+        public string Text { get; }
 
         public Label(Position position, string text)
         {
-            _position = position;
-            _text = text;
+            Position = position;
+            Text = text;
         }
     }
 }

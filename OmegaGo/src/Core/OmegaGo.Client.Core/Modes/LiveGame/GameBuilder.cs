@@ -22,8 +22,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private RulesetType _rulesetType = RulesetType.Japanese;
         private GameBoardSize _boardSize = new GameBoardSize(19);
         private CountingType _countingType = Rules.CountingType.Area;
-        private HandicapPlacementType _handicapPlacementType = Rules.HandicapPlacementType.Fixed;
-        private int _aiStrength = 1;
+        private HandicapPlacementType _handicapPlacementType = Rules.HandicapPlacementType.Fixed;  
 
         private GamePlayer _whitePlayer = null;
         private GamePlayer _blackPlayer = null;
@@ -31,13 +30,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         protected GameBuilder()
         {
             _concreteBuilderInstance = (TBuilderType)this;
-        }
-
-        public TBuilderType AIStrength(int aiStrength)
-        {
-            if (aiStrength < 1 || aiStrength > 10) throw new ArgumentOutOfRangeException(nameof(aiStrength));
-            _aiStrength = aiStrength;
-            return _concreteBuilderInstance;
         }
 
         public TBuilderType Komi(float komi)

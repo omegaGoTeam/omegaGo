@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
+    /// <summary>
+    /// Type of the ruleset
+    /// </summary>
     public enum RulesetType
     {
         AGA,
