@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using OmegaGo.Core.Game.GameTreeNodeData;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game
@@ -135,27 +136,9 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether reaching this node means the player has successfully
-        /// solved a tsumego problem.
+        /// Tsumego-related node info
         /// </summary>
-        public bool TsumegoCorrect { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether reaching this node means that further exploration of 
-        /// this branch will not yield a correct solution to a tsumego problem, and the problem should count
-        /// as failed.
-        /// </summary>
-        public bool TsumegoWrong { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether this node is part of the tsumego definition. Other nodes
-        /// would be created by the player, are termed 'unexpected' and are considered wrong.
-        /// </summary>
-        public bool TsumegoExpected { get; set; }
-
-        /// <summary>
-        /// Gets the list of positions that are known as possible continuation from this node to the author
-        /// of the tsumego problem that contains this node.
-        /// </summary>
-        public List<Position> TsumegoMarkedPositions { get; } = new List<Position>();
+        public TsumegoNodeInfo Tsumego { get; } = new TsumegoNodeInfo();
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.
