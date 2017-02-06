@@ -38,10 +38,12 @@ namespace FormsPrototype
         private int _mouseX;
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
+        private bool _isOnline;
 
         public InGameForm(RemoteGame onlineGame, IServerConnection server)
         {
             InitializeComponent();
+            _isOnline = onlineGame != null;
 
             _onlineGame = onlineGame;
             if (onlineGame != null)
@@ -60,6 +62,7 @@ namespace FormsPrototype
                 connection.UndoDeclined += _igs_UndoDeclined;
                 connection.LastMoveUndone += _igs_LastMoveUndone;
                 connection.GameScoredAndCompleted += _igs_GameScoredAndCompleted;
+                bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
             else if (_server is KgsConnection)
@@ -68,6 +71,7 @@ namespace FormsPrototype
             }
             else
             {
+                bAddTimeToMyOpponent.Visible = false;
                 bUndoPlease.Visible = false;
                 bUndoYes.Visible = false;
                 bUndoNo.Visible = false;
@@ -113,27 +117,6 @@ namespace FormsPrototype
             }*/
         }
     
-
-        private void InGameForm_Load(object sender, EventArgs e)
-        {
-           
-            /*
-            this._controller = this._game.GameController;
-            this._controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
-            this._controller.DebuggingMessage += _controller_DebuggingMessage;
-            this._controller.Resignation += _controller_Resignation;
-            this._controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            this._controller.EnterPhase += _controller_EnterPhase;
-            this._controller.BeginGame();
-            foreach (Player player in this._game.Players)
-            {
-                if (player.Agent is ObsoleteAIAgent)
-                {
-                    ((ObsoleteAIAgent)player.Agent).LogMessage += InGameForm_LogMessage;
-                }
-            }*/
-        }
-
         private void InGameForm_LogMessage(object sender, string e)
         {
             tbAiLog.AppendText(e + Environment.NewLine);
@@ -620,6 +603,10 @@ namespace FormsPrototype
                 _inLifeDeathDeterminationPhase = false;
             }
             grpTiming.Visible = e == GamePhaseType.Main;
+            if (e != GamePhaseType.Main)
+            {
+                groupboxMoveMaker.Visible = false;
+            }
             RefreshBoard(); 
         }
 
@@ -644,6 +631,11 @@ namespace FormsPrototype
         private async void bAddTimeToMyOpponent_Click(object sender, EventArgs e)
         {
             await this._server.Commands.AddTime(this._gameInfo, TimeSpan.FromMinutes(2));
+        }
+
+        private void InGameForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

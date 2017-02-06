@@ -219,6 +219,10 @@ namespace OmegaGo.UI.ViewModels
 
         private void NavigateToGame()
         {
+            if (!Validate())
+            {
+                return;
+            }
             CreateAndRegisterGame();
             ShowViewModel<GameViewModel>();
         }
@@ -228,10 +232,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            if (!Validate())
-            {
-                return;
-            }
             GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
             GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 

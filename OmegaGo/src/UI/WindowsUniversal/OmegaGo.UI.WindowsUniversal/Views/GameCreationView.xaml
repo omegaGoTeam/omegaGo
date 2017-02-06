@@ -129,26 +129,28 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <TextBlock Text="White" Grid.Column="0" Grid.Row="4" 
+
+            <TextBlock Visibility="{x:Bind VM.RulesetCanBeSelected}"
+                        Text="White" Grid.Column="0" Grid.Row="4" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
+            <ComboBox Visibility="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-            <Button Grid.Column="2" Grid.Row="4"  Margin="5" Content="More...">
+            <Button Visibility="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="2" Grid.Row="4"  Margin="5" Content="More...">
                 <Button.Flyout>
                     <Flyout Placement="Right">
                         <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
                     </Flyout>
                 </Button.Flyout>
-            </Button>
+            </Button> 
 
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
             
-            <ComboBox Visibility="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones" SelectedIndex="0">
+            <ComboBox IsEnabled="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones" SelectedIndex="0">
                 <ComboBoxItem>0</ComboBoxItem>
                 <ComboBoxItem>1</ComboBoxItem>
                 <ComboBoxItem>2</ComboBoxItem>
