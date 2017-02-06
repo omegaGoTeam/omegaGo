@@ -51,6 +51,7 @@ namespace OmegaGo.UI.ViewModels
         private void Controller_GameEnded(object sender, GameEndInformation e)
         {
             _settings.Statistics.GameHasBeenCompleted(this.Game, e);
+            _settings.Quests.Events.GameCompleted(this.Game, e);
         }
 
         private void Controller_GamePhaseChanged(object sender, Core.Modes.LiveGame.Phases.GamePhaseType e)

@@ -21,5 +21,10 @@ namespace OmegaGo.Core.Online.Common
         /// (such as giving us additional time).
         /// </summary>
         ICommonEvents Events { get; }
+
+        /// <summary>
+        /// Gets information whether this is IGS or KGS.
+        /// </summary>
+        ServerId Name { get; }
     }
 }

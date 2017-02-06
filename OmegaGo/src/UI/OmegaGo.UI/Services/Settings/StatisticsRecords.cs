@@ -41,6 +41,7 @@ namespace OmegaGo.UI.Services.Settings
 
         public void GameHasBeenCompleted(ILiveGame game, GameEndInformation gameEndInformation)
         {
+            
             bool isOnlineGame = game.Controller.IsOnlineGame;
             bool isHotseatGame = game.Controller.Players.All(pl => pl.IsHuman);
             GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.IsHuman);

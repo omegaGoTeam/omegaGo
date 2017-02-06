@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OmegaGo.UI.Services.Quests.IndividualQuests;
 
 namespace OmegaGo.UI.Services.Quests
 {
@@ -15,14 +16,27 @@ namespace OmegaGo.UI.Services.Quests
     {
         /// <summary>
         /// ID of the quest description. This is serialized and this is how quests are found
-        /// upon reload. It should be language-independent. (TODO make it so)
+        /// upon reload. It should be language-independent.
         /// 
         /// Must be public because of serialization.
         /// </summary>
         public string QuestID { get; set; }
 
         [JsonIgnore]
-        public Quest Quest => Quest.AllQuests[QuestID];
+        public Quest Quest {
+            get
+            {
+                if (Quest.AllQuests.ContainsKey(QuestID))
+                {
+                    return Quest.AllQuests[QuestID];
+                }
+                else
+                {
+                    return Quest.AllQuests[Quest.HiddenQuestKey];
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the player's progress on this quest. When the progress reaches the
         /// quest's maximum, the quest is deemed completed.
