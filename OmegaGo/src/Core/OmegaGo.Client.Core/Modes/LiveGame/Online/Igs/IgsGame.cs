@@ -7,16 +7,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Online.Igs
     {
         public IgsGame(IgsGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
-            Metadata = info;
-            Controller = new GameController(this, ruleset, players);
+            Info = info;
+            Controller = new IgsGameController(Info, ruleset, players);
             foreach(var player in Controller.Players)
             {
                 player.AssignToGame(info, Controller);
             }
         }
 
-        public IgsGameInfo Metadata { get; }
+        public new IgsGameInfo Info { get; }
 
-        public override IGameController Controller { get; }
+        public sealed override IGameController Controller { get; }
     }
 }

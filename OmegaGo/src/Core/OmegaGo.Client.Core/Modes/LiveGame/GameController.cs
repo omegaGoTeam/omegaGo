@@ -29,56 +29,30 @@ namespace OmegaGo.Core.Modes.LiveGame
         private IGamePhase _currentGamePhase = null;
         private GameTreeNode _currentNode;
         private GamePlayer _turnPlayer;
-        
-        public RemoteGame OnlineGame;
-        public RemoteGameInfo RemoteInfo { get; }
-    
-        /// <summary>
-        /// Game info
-        /// </summary>
-        internal GameInfo Info { get; }
 
-        public bool IsOnlineGame => Server != null;
-        /// <summary>
-        /// Gets the server connection, or null if this is not an online game.
-        /// </summary>
-        public IServerConnection Server { get; }
 
+        /// <summary>
+        /// Creates the game controller
+        /// </summary>
+        /// <param name="gameInfo">Game info</param>
+        /// <param name="ruleset">Ruleset</param>
+        /// <param name="players">Players</param>
         public GameController(GameInfo gameInfo, IRuleset ruleset, PlayerPair players)
         {
-            Debug.Assert(!(gameInfo is RemoteGameInfo));
+            if (gameInfo == null) throw new ArgumentNullException(nameof(gameInfo));
+            if (ruleset == null) throw new ArgumentNullException(nameof(ruleset));
+            if (players == null) throw new ArgumentNullException(nameof(players));
             Info = gameInfo;
             Ruleset = ruleset;
             Players = players;
             GameTree = new GameTree(ruleset);
         }
-        private GameController(RemoteGame game, IServerConnection server, IRuleset ruleset, PlayerPair players)
-        {
-            this.OnlineGame = game;
-            RemoteInfo = game.RemoteInfo;
-            Info = RemoteInfo;
-            Ruleset = ruleset;
-            Players = players;
-            Server = server;
-            GameTree = new GameTree(ruleset);
 
-        }
-        public GameController(KgsGame game, IRuleset ruleset, PlayerPair players) : this(game, game.Metadata.KgsConnection, ruleset, players)
-        {
-        }
-        public GameController(IgsGame game, IRuleset ruleset, PlayerPair players) : this(game, game.Metadata.Server, ruleset, players)
-        {
-            var igsServer = game.Metadata.Server;
-            igsServer.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
-
-            // Temporary: The following lines will be moved to the common constructor when life/death begins to work
-            // for KGS.
-            igsServer.IncomingResignation += IgsServer_IncomingResignation;
-            igsServer.StoneRemoval += IgsServer_StoneRemoval; // TODO (after refactoring) < move to Life/death
-            igsServer.Events.EnterLifeDeath += Events_EnterLifeDeath;
-            igsServer.GameScoredAndCompleted += IgsServer_GameScoredAndCompleted;
-        }
-
+        /// <summary>
+        /// Game info
+        /// </summary>
+        internal GameInfo Info { get; }
+        
         private void Events_EnterLifeDeath(object sender, IgsGame e)
         {
             if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)

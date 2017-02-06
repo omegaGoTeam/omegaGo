@@ -14,7 +14,6 @@ namespace OmegaGo.Core.Modes.LiveGame
     /// </summary>
     public interface IGameController : IGameState
     {
-        RemoteGameInfo RemoteInfo { get; }
         /// <summary>
         /// Indicates that there is a new player on turn
         /// </summary>
@@ -26,17 +25,19 @@ namespace OmegaGo.Core.Modes.LiveGame
         event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
 
         /// <summary>
-        /// Debugging event
+        /// Indicates taht the current game has ended
         /// </summary>
-        event EventHandler<string> DebuggingMessage;
-
         event EventHandler<GameEndInformation> GameEnded;
-        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
 
+        /// <summary>
+        /// Indicates that the game phase has changed
+        /// </summary>
         event EventHandler<GamePhaseType> GamePhaseChanged;
-        event EventHandler BoardMustBeRefreshed;
 
-        bool IsOnlineGame { get; }
+        /// <summary>
+        /// Indicates that the game board must be refreshed
+        /// </summary>
+        event EventHandler BoardMustBeRefreshed;
 
         /// <summary>
         /// Gets the game's ruleset
@@ -48,21 +49,15 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         PlayerPair Players { get; }
 
-        List<Position> DeadPositions { get; set; }
-        IServerConnection Server { get; }
-
         /// <summary>
         /// Starts the game
         /// </summary>
         void BeginGame();
 
-        void Resign(GamePlayer playerToMove);
-
-        void Main_Undo();
-        void LifeDeath_Done(GamePlayer player);
-        void LifeDeath_UndoPhase();
-        void LifeDeath_Resume();
-        void LifeDeath_MarkGroupDead(Position position);
-
+        /// <summary>
+        /// Makes a player resign
+        /// </summary>
+        /// <param name="player">Player to resign</param>
+        void Resign(GamePlayer player);
     }
 }

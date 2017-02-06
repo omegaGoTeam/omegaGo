@@ -57,6 +57,7 @@
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
     <Compile Include="Modes\LiveGame\Online\Kgs\KgsGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\Kgs\KgsGame.cs" />
+    <Compile Include="Modes\LiveGame\Online\OnlineGameController.cs" />
     <Compile Include="Modes\LiveGame\Phases\GenericPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />

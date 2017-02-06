@@ -46,8 +46,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
         public int MainTime { get; set; }
         public int ByoyomiPeriod { get; set; }
 
+        /// <summary>
+        /// Unique identification of the game
+        /// </summary>
         public int IgsIndex { get; private set; }
-        
+
         public IgsConnection Server { get; }
         public int NumberOfObservers { get; set; }
 
