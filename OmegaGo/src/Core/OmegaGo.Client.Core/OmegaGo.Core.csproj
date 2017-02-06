@@ -201,8 +201,8 @@
     <Compile Include="Online\Kgs\Structures\KgsUser.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
-    <Compile Include="Rules\HandicapPlacementType.cs" />
-    <Compile Include="Rules\HandicapPositions.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPositions.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Rules\RulesetType.cs" />

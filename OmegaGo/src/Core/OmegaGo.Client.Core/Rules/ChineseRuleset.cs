@@ -48,19 +48,6 @@ namespace OmegaGo.Core.Rules
             return; //Chinese ruleset uses area counting, we do not need number of dead stones
         }
 
-        protected override void SetKomi(int handicapStoneCount)
-        {
-            if (handicapStoneCount == 0)
-            {
-                _komi = 7.5f;
-            }
-            else 
-            {
-                _komi = 0.5f + handicapStoneCount - 1;
-            }
-
-        }
-
         protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
         {
             return; //Chinese ruleset uses area counting, we do not need number of captured stones

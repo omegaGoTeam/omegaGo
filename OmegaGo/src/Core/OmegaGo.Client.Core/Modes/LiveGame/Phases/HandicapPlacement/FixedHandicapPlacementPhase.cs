@@ -28,10 +28,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
             {
                 GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
 
-                //place the handicap stones based on ruleset fixed positions
-                Controller.Ruleset.StartHandicapPlacementPhase(
-                    ref gameBoard, gameInfo.NumberOfHandicapStones, HandicapPlacementType.Fixed
-                );
+                PlaceFixedHandicapStones(ref gameBoard, gameInfo.NumberOfHandicapStones);
 
                 //TODO: This API is not good, make it cleaner
                 Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
@@ -40,5 +37,50 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
             }
             GoToPhase(GamePhaseType.Main);
         }
+
+        /// <summary>
+        /// Places handicape stones on fixed positions.
+        /// </summary>
+        /// <param name="currentBoard">Reference to the state of game board.</param>
+        /// <param name="stoneCount">Number of handicap stones.</param>
+        private void PlaceFixedHandicapStones(ref GameBoard currentBoard, int stoneCount)
+        {
+            switch (currentBoard.Size.Width)
+            {
+                case 9:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap9)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 13:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap13)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 19:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap19)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
     }
 }
