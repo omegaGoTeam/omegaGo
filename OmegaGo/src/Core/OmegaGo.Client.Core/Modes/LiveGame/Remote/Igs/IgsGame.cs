@@ -10,14 +10,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         {
             Info = info;
             Controller = new IgsGameController(Info, ruleset, players, serverConnection);
-            foreach (var player in Controller.Players)
-            {
-                player.AssignToGame(info, Controller);
-            }
         }
 
         public new IgsGameInfo Info { get; }
 
-        public sealed override IGameController Controller { get; }
+        public override IGameController Controller { get; }
     }
 }

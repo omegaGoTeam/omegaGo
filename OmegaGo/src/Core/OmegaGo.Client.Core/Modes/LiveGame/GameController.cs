@@ -39,7 +39,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Player on turn
         /// </summary>
         private GamePlayer _turnPlayer;
-        
+
         /// <summary>
         /// Creates the game controller
         /// </summary>
@@ -54,7 +54,8 @@ namespace OmegaGo.Core.Modes.LiveGame
             Info = gameInfo;
             Ruleset = ruleset;
             Players = players;
-            GameTree = new GameTree(ruleset);
+            AssignPlayers();
+            GameTree = new GameTree(ruleset);            
         }
 
         /// <summary>
@@ -178,6 +179,17 @@ namespace OmegaGo.Core.Modes.LiveGame
             GoToEnd(GameEndInformation.Resignation(playerToMove, this));
         }
 
+
+        /// <summary>
+        /// Assigns the players to this controller
+        /// </summary>
+        private void AssignPlayers()
+        {
+            foreach (var player in Players)
+            {
+                player.AssignToGame(Info, this);
+            }
+        }
 
         private void OnGameEnded(GameEndInformation endInformation)
         {

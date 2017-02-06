@@ -21,12 +21,14 @@ namespace OmegaGo.UI.ViewModels
 {
     public class IgsHomeViewModel : ViewModelBase
     {
-        private IGameSettings _settings;
+        private readonly IGameSettings _settings;
+
         public IgsHomeViewModel(IGameSettings settings)
         {
             this._settings = settings;
             this._password = _settings.Interface.IgsPassword;
         }
+
         public async Task Initialize()
         {
             LoginScreenVisible = !(Connections.Pandanet.LoggedIn);

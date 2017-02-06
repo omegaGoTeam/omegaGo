@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Online.Igs
         public IgsChatService(IgsGame onlineGame)
         {
             this._onlineGame = onlineGame;
-            this._onlineGame.Metadata.Server.IncomingInGameChatMessage += Server_IncomingInGameChatMessage;
+            this._onlineGame.Controller.Server.IncomingInGameChatMessage += Server_IncomingInGameChatMessage;
         }
 
         private void Server_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, ChatMessage> e)

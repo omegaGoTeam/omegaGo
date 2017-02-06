@@ -13,10 +13,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             Metadata = info;
             Controller = new GameController(info, ruleset, players);
             Nodes.Add(0, new KgsSgfNode(0));
-            foreach(var player in Controller.Players)
-            {
-                player.AssignToGame(info, Controller);
-            }
         }
 
         public Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();

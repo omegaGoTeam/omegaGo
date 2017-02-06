@@ -15,9 +15,7 @@ namespace OmegaGo.Core.Online.Common
     {
         protected RemoteGame(RemoteGameInfo info) : base(info)
         {
-            RemoteInfo = info;
+            
         }
-
-        public RemoteGameInfo RemoteInfo { get;}
     }
 }

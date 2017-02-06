@@ -11,10 +11,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Local
         public LocalGame(GameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
             Controller = new GameController(info, ruleset, players);
-            foreach (var player in Controller.Players)
-            {
-                player.AssignToGame(info, Controller);
-            }
         }
 
         public sealed override IGameController Controller { get; }

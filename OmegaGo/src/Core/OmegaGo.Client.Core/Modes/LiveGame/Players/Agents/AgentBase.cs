@@ -24,6 +24,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         }
 
         /// <summary>
+        /// Indicates that the player tried to place a stone
+        /// </summary>
+        public event EventHandler<Position> PlaceStone;       
+
+        /// <summary>
+        /// Indicates that the player resigned
+        /// </summary>
+        public event EventHandler Resign;
+
+        /// <summary>
+        /// Indicates that the player passed
+        /// </summary>
+        public event EventHandler Pass;
+
+        /// <summary>
         /// Player color
         /// </summary>
         public StoneColor Color { get; }
@@ -48,15 +63,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// </summary>
         public abstract IllegalMoveHandling IllegalMoveHandling { get; }
 
-        public event EventHandler<Position> PlaceStone;
-        public event EventHandler<int> PlaceHandicapStones;
 
-        public event EventHandler Pass;
         public virtual void PleaseMakeAMove()
         {
         }
-
-        public event EventHandler Resign;
 
         public abstract void MoveIllegal(MoveResult move);
 
@@ -75,7 +85,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
             GameInfo = gameInfo;
             GameState = gameState;
             WhenAssignedToGame();
-
         }    
 
         protected virtual void WhenAssignedToGame()
@@ -87,10 +96,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             PlaceStone?.Invoke(this, position);
         }
-        protected virtual void OnPlaceHandicapStones(int count)
-        {
-            PlaceHandicapStones?.Invoke(this, count);
-        }
+
         protected virtual void OnPass()
         {
             Pass?.Invoke(this, EventArgs.Empty);
@@ -105,5 +111,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             
         }
+
+
     }
 }

@@ -1,12 +1,14 @@
-﻿using OmegaGo.Core.Online.Common;
+﻿using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote
 {
     /// <summary>
     /// Base class for remote game controllers
     /// </summary>
-    internal abstract class RemoteGameController : GameController
+    public abstract class RemoteGameController : GameController
     {
         /// <summary>
         /// Creates a remote game controller
@@ -32,16 +34,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         internal new RemoteGameInfo Info { get; }
 
 
-        private void Events_EnterLifeDeath(object sender, IgsGame e)
+        private void Events_EnterLifeDeath(object sender, RemoteGame e)
         {
             if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
             {
                 SetPhase(GamePhaseType.LifeDeathDetermination);
             }
         }
-
-
-
+        
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
         {
             if (e.Game == this.OnlineGame)

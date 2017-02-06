@@ -1,30 +1,47 @@
 ﻿using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
+    //TODO documentation information is outdated
     /// <summary>
-     /// An agent makes moves for a player when this is requested by a game controller.
-     /// 
-     /// <para>
-     /// TODO this information is outdated
-     /// An agent is a class that each <see cref="GamePlayer"/> must refer to. An agent's role is to supply moves made by the player whenever
-     /// the game controller demands it. There are several different agents: the <see cref="ObsoleteAIAgent"/> makes moves for an AI program,
-     /// the <see cref="ObsoleteOnlineAgent"/> makes moves for a remote player whose moves are given to us by the server, and then there are GUI
-     /// agents (not part of this DLL library) that make moves made when the local player clicks on the game board.
-     /// </para>
-     /// 
-     /// <para>
-     /// Making a move, in general, takes a lot of time. The <see cref="ObsoleteAIAgent"/> will usually take about one second to make a move, and
-     /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the way this works is that 
-     /// the <see cref="ObsoleteGameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
-     /// the agent calls <see cref="ObsoleteGameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
-     /// </para>    
-     /// </summary>
+    /// An agent makes moves for a player when this is requested by a game controller.
+    /// 
+    /// <para>
+    /// 
+    /// An agent is a class that each <see cref="GamePlayer"/> must refer to. An agent's role is to supply moves made by the player whenever
+    /// the game controller demands it. There are several different agents: the <see cref="AiAgent"/> makes moves for an AI program,
+    /// the <see cref="AgentBase"/> makes moves for a remote player whose moves are given to us by the server, and then there are GUI
+    /// agents (not part of this DLL library) that make moves made when the local player clicks on the game board.
+    /// </para>
+    /// 
+    /// <para>
+    /// Making a move, in general, takes a lot of time. The <see cref="AiAgent"/> will usually take about one second to make a move, and
+    /// human players often take even longer, perhaps even twenty minutes in some games. Therefore, the way this works is that 
+    /// the <see cref="GameController"/> calls the method <see cref="PleaseMakeAMove"/> on an agent, and then, at unspecified time, 
+    /// the agent calls <see cref="GameController.MakeMove(GamePlayer, Move)"/> back on the controller.  
+    /// </para>    
+    /// </summary>
     public interface IAgent
     {
+        /// <summary>
+        /// Fired when the agent tries to place a stone on a position
+        /// </summary>
+        event EventHandler<Position> PlaceStone;
+
+        /// <summary>
+        /// Fired when the agent resigns
+        /// </summary>
+        event EventHandler Resign;
+
+        /// <summary>
+        /// Fired when the agent passes
+        /// </summary>
+        event EventHandler Pass;
+
         /// <summary>
         /// Gets the type of the agent
         /// </summary>
@@ -47,7 +64,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         void MovePerformed(Move move);
 
         /// <summary>
-        /// Informs the agent that his las move was illegal
+        /// Informs the agent that his last move was illegal
         /// </summary>
         /// <param name="reason">Reason</param>
         void MoveIllegal(MoveResult reason);
@@ -75,21 +92,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         void OnTurn();
 
         /// <summary>
-        /// Fired when the agent tries to place a stone on a position
+        /// Requests the player to make a move
         /// </summary>
-        event EventHandler<Position> PlaceStone;
-
-        event EventHandler<int> PlaceHandicapStones;
-
-        /// <summary>
-        /// Fired when the agent resigns
-        /// </summary>
-        event EventHandler Resign;
-        /// <summary>
-        /// Fired when the agent passes
-        /// </summary>
-        event EventHandler Pass;
-
         void PleaseMakeAMove();
     }
 }

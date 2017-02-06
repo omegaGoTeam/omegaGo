@@ -1,15 +1,12 @@
 ﻿using System.Linq;
 using MvvmCross.Platform;
-using OmegaGo.Core;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Game.GameTreeNodeData;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.UI.Services.Settings;
-using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.Services.Tsumego
 {

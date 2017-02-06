@@ -52,9 +52,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
             return this;
         }
 
-        public override GamePlayer Build()
-        {
-            return new GamePlayer(CreatePlayerInfo(), new AiAgent(Color, _aiProgram, _strength, _timeLimit), TimeClock);
-        }
+        public override GamePlayer Build() => 
+            new GamePlayer(CreatePlayerInfo(), new AiAgent(Color, _aiProgram, _strength, _timeLimit), TimeClock);
     }
 }

@@ -6,7 +6,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
-    internal class IgsGameController : RemoteGameController
+    public class IgsGameController : RemoteGameController
     {
         /// <summary>
         /// Creates IGS game controller
