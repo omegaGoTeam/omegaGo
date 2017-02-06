@@ -91,13 +91,13 @@
                 <Button Click="DebugFill">Fill</Button>
                 <Button>Save as SGF</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
-                <Button>Done</Button>
-                <Button>Undo Death Marks</Button>
-                <Button>Resume game</Button>
+                <Button Click="LifeDeathDone">Done</Button>
+                <Button Click="UndoDeathMarks">Undo Death Marks</Button>
+                <Button Click="ResumeGame">Resume game</Button>
                 <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button>undoplease</Button>
-                <Button>undo (yes)</Button>
-                <Button>noundo</Button>
+                <Button IsEnabled="False">undoplease</Button>
+                <Button IsEnabled="False">undo (yes)</Button>
+                <Button IsEnabled="False">noundo</Button>
                 <Button Click="UndoLocally">undo locally</Button>
                 <TextBlock Text="Moves" FontSize="20"></TextBlock>
                 <Button Click="ClickPass">PASS</Button>

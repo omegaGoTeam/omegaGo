@@ -29,7 +29,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GamePlayer _turnPlayer;
         
         public RemoteGame OnlineGame;
-        internal RemoteGameInfo RemoteInfo;
+        public RemoteGameInfo RemoteInfo { get; }
     
         /// <summary>
         /// Game info
