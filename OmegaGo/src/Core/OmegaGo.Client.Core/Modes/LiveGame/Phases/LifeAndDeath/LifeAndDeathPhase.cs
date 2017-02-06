@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
@@ -57,12 +58,20 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
         }
 
-        public void ScoreIt()
+        /// <summary>
+        /// Scores the game and moves us to the Finished phase.
+        /// </summary>
+        /// <param name="e">If this parameter is set, then it overriddes scores that would be determined from life/death determination and ruleset.</param>
+        public void ScoreIt(Scores e = null)
         {
-            GameBoard boardAfterRemovalOfDeadStones =
-                this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                    this.Controller.DeadPositions);
-            Scores scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+            Scores scores = e;
+            if (scores == null)
+            {
+                GameBoard boardAfterRemovalOfDeadStones =
+                    this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+                        this.Controller.DeadPositions);
+                scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+            }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
             GamePlayer winner;
             GamePlayer loser;

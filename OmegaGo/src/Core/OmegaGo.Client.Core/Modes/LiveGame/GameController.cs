@@ -84,7 +84,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void IgsServer_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {
-            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt();
+            // TODO this may not be our game (after refactor update)
+            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt(new Rules.Scores()
+            {
+                WhiteScore = e.WhiteScore,
+                BlackScore = e.BlackScore
+            });
         }
 
         private void IgsServer_StoneRemoval(object sender, StoneRemovalEventArgs e)
