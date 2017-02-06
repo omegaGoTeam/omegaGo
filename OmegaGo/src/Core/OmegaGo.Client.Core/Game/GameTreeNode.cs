@@ -13,8 +13,10 @@ namespace OmegaGo.Core.Game
     {
         private readonly Dictionary<Type, object> _additionalNodeInfo = new Dictionary<Type, object>();
 
-        public GameTreeNode(Move move)
+        public GameTreeNode(Move move = null)
         {
+            //none move is default
+            if ( move == null ) move = Move.NoneMove;           
             Branches = new GameTreeNodeCollection(this);
             Move = move;
         }
@@ -167,7 +169,7 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets node info of a given type. Throws if info not found.
+        /// Gets node info of a given type. Throws <see cref="KeyNotFoundException"/> if info is not found.
         /// </summary>
         /// <typeparam name="T">Type of info to retrieve</typeparam>
         /// <returns>Node info</returns>

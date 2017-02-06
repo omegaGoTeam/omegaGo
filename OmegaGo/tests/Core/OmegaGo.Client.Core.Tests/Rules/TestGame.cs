@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Tests.Rules
 
         public Move Move(string coordinates, StoneColor player)
         {
-            return Game.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
+            return Core.Game.Move.PlaceStone(player, Position.FromIgsCoordinates(coordinates));
         }
 
         public MoveResult IsLegal(string coordinates, StoneColor player)
