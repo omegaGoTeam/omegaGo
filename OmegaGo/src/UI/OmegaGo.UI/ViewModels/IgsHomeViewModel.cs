@@ -14,6 +14,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
@@ -347,7 +348,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (SelectedChallengeableUser != null)
             {
-                Mvx.RegisterSingleton(new IgsChallengeBundle(SelectedChallengeableUser));
+                Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
                 ShowViewModel<GameCreationViewModel>();
             }
         });
