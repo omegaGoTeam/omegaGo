@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
         {
-            session.FillRectangle(new Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
+          //  session.FillRectangle(new Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
             DrawBackground(boardRectangle, session);
         }
         /// <summary>
@@ -236,7 +236,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 session.DrawImage(bitmapToDraw, rect);
             }
-            session.DrawRectangle(rect, Colors.Black);
+            session.DrawRectangle(rect, Colors.Black, 2);
         }
 
         public void Update()
