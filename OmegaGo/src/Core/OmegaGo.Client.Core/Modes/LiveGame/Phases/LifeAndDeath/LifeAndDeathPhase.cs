@@ -122,6 +122,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public override void StartPhase()
         {
+            foreach(var player in Controller.Players)
+            {
+                 player.Clock.StopClock();
+            }
             RecalculateTerritories();
         }
     }
