@@ -54,11 +54,13 @@
         SolidColor,
         OakWood,
         KayaWood,
-        VirtualBoard
+        VirtualBoard,
+        SabakiBoard
     }
     public enum StoneTheme
     {
         SolidColor,
-        PolishedBitmap
+        PolishedBitmap,
+        Sabaki
     }
 }
