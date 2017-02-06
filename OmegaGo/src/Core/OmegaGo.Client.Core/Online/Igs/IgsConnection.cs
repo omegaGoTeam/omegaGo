@@ -270,6 +270,8 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public IgsEvents Events { get; }
 
+        public ServerId Name => ServerId.Igs;
+
         /// <summary>
         /// IGS commands
         /// </summary>

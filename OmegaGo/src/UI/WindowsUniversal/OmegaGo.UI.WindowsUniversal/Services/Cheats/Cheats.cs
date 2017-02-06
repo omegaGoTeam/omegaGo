@@ -19,7 +19,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
         public static bool PermitCheats;
         private static IGameSettings settings = Mvx.Resolve<IGameSettings>();
 
-        public static void HandleKeyPress(KeyEventArgs keyPressEventArgs)
+        public static void HandleKeyPress(AcceleratorKeyEventArgs keyPressEventArgs)
         {
             switch (keyPressEventArgs.VirtualKey)
             {
