@@ -18,14 +18,9 @@ namespace OmegaGo.UI.WindowsUniversal.DataTemplateSelectors
         {
             ChatMessage chatMessage = (ChatMessage)item;
 
-            if(chatMessage.Kind == ChatMessageKind.Incoming)
-            {
-                return IncomingTemplate;
-            }
-            else
-            {
-                return OutgoingTemplate;
-            }
+            return chatMessage.Kind == ChatMessageKind.Incoming ?
+                IncomingTemplate : 
+                OutgoingTemplate;
         }
     }
 }

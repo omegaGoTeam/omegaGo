@@ -12,6 +12,7 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
@@ -62,7 +63,7 @@ namespace OmegaGo.Core.Online.Igs
                 // IGS occasionally sends blank lines, I don't know why. They serve no reason.
                 if (line == "") continue;
 
-                switch (this._composure)
+                switch (this.Composure)
                 {
                     case IgsComposure.Confused:
                     case IgsComposure.Ok:
@@ -72,7 +73,7 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.InitialHandshake:
                         if (igsLine.EntireLine.Trim() == "1 5")
                         {
-                            this._composure = IgsComposure.Ok;
+                            this.Composure = IgsComposure.Ok;
                             continue;
                         }
                         else
@@ -83,19 +84,19 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.LoggingIn:
                         if (igsLine.EntireLine.Contains("Invalid password."))
                         {
-                            this._composure = IgsComposure.Confused;
+                            this.Composure = IgsComposure.Confused;
                             this._loginError = "The password is incorrect.";
                             continue;
                         }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
-                            this._composure = IgsComposure.Confused;
+                            this.Composure = IgsComposure.Confused;
                             this._loginError = "The username does not exist.";
                             continue;
                         }
                         if (igsLine.EntireLine.Contains("1 5"))
                         {
-                            this._composure = IgsComposure.Ok;
+                            this.Composure = IgsComposure.Ok;
                             continue;
                         }
                         break;
@@ -320,7 +321,7 @@ namespace OmegaGo.Core.Online.Igs
                         }
                         else
                         {
-                            if (this._composure == IgsComposure.Ok)
+                            if (this.Composure == IgsComposure.Ok)
                             {
                                 OnUnhandledLine(igsLine.EntireLine);
                             }
@@ -430,7 +431,7 @@ namespace OmegaGo.Core.Online.Igs
                     
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await GetGameByIdAsync(heading.GameNumber);
-                    Modes.LiveGame.Online.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
+                    Modes.LiveGame.Online.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
                     bool youAreBlack = ogi.Black.Name == _username;
                     bool youAreWhite = ogi.White.Name == _username;
                     if (youAreBlack)
@@ -489,7 +490,7 @@ namespace OmegaGo.Core.Online.Igs
                             }
                             else
                             {
-                                if (this._composure == IgsComposure.Ok)
+                                if (this.Composure == IgsComposure.Ok)
                                 {
                                     OnUnhandledLine(line.EntireLine);
                                 }

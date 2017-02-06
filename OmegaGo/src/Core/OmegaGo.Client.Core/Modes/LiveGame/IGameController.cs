@@ -14,7 +14,6 @@ namespace OmegaGo.Core.Modes.LiveGame
     /// </summary>
     public interface IGameController : IGameState
     {
-        bool IsOnlineGame { get; }
         /// <summary>
         /// Indicates that there is a new player on turn
         /// </summary>
@@ -25,7 +24,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
 
-        event EventHandler<string> DebuggingMessage;        
+        /// <summary>
+        /// Debugging event
+        /// </summary>
+        event EventHandler<string> DebuggingMessage;
+
+        event EventHandler<GameEndInformation> GameEnded;
+        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+
+        event EventHandler<GamePhaseType> GamePhaseChanged;
+        event EventHandler BoardMustBeRefreshed;
+
+        bool IsOnlineGame { get; }
 
         /// <summary>
         /// Gets the game's ruleset
@@ -39,16 +49,14 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         List<Position> DeadPositions { get; set; }
         IServerConnection Server { get; }
-        event EventHandler<GameEndInformation> GameEnded;
-        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+
         /// <summary>
         /// Starts the game
         /// </summary>
         void BeginGame();
 
         void Resign(GamePlayer playerToMove);
-        event EventHandler<GamePhaseType> GamePhaseChanged;
-        event EventHandler BoardMustBeRefreshed;
+
         void Main_Undo();
         void LifeDeath_Done(GamePlayer player);
         void LifeDeath_UndoPhase();

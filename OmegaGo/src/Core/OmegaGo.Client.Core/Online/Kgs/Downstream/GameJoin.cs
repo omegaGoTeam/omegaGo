@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream

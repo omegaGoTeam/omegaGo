@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Online.Kgs.Downstream;
 

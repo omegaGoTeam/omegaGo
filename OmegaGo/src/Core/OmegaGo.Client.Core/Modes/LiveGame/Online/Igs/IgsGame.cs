@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Game;
-using OmegaGo.Core.Online.Common;
+﻿using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online
+namespace OmegaGo.Core.Modes.LiveGame.Online.Igs
 {
     public class IgsGame : RemoteGame
     {

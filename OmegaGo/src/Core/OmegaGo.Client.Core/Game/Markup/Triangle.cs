@@ -2,14 +2,13 @@
 {
     public sealed class Triangle : IMarkup
     {
-        private Position _position;
-
         public MarkupKind Kind => MarkupKind.Triangle;
-        public Position Position => _position;
+
+        public Position Position { get; }
 
         public Triangle(Position position)
         {
-            _position = position;
+            Position = position;
         }
     }
 }

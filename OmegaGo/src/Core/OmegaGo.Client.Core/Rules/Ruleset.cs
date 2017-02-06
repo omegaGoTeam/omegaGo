@@ -13,7 +13,8 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public abstract class Ruleset : IRuleset
     {
-        private int _boardWidth, _boardHeight;
+        private readonly int _boardWidth;
+        private readonly int _boardHeight;
         private bool[,] _checkedInters;
         private bool[,] _liberty;
         private List<Position> _captures;
