@@ -11,14 +11,14 @@ namespace OmegaGo.Core.Online
     /// </summary>
     public static class Connections
     {
-        private static IgsConnection _connection;
+        private static IgsConnection _igsConnection;
         private static KgsConnection _kgsConnection;
 
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        public static IgsConnection Pandanet => _connection ??
-                                                (_connection = new IgsConnection());
+        public static IgsConnection Pandanet => _igsConnection ??
+                                                (_igsConnection = new IgsConnection());
 
         /// <summary>
         /// Gets the connection to KGS Go server. 

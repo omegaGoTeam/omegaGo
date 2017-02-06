@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 
 namespace OmegaGo.Core.Online.Igs

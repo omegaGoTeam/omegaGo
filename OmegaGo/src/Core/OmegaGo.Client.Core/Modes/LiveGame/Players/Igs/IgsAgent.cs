@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
@@ -83,7 +83,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
         {
         }
 
-        public override AgentType Type => AgentType.Online;
+        public override AgentType Type => AgentType.Remote;
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PermitItAnyway;
         public override void MoveIllegal(MoveResult move)
         {

@@ -56,21 +56,21 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public static GameEndInformation Timeout(GamePlayer whoTimedOut, IGameController controller)
         {
-            return new LiveGame.GameEndInformation(GameEndReason.Timeout,
+            return new GameEndInformation(GameEndReason.Timeout,
                 true,
                 controller.Players.GetOpponentOf(whoTimedOut),
                 whoTimedOut);
         }
         public static GameEndInformation Resignation(GamePlayer whoResigned, IGameController controller)
         {
-            return new LiveGame.GameEndInformation(GameEndReason.Resignation,
+            return new GameEndInformation(GameEndReason.Resignation,
                 true,
                 controller.Players.GetOpponentOf(whoResigned),
                 whoResigned);
         }
         public static GameEndInformation Cancellation()
         {
-            return new LiveGame.GameEndInformation(GameEndReason.Cancellation,
+            return new GameEndInformation(GameEndReason.Cancellation,
                 false,
                 null,
                 null);

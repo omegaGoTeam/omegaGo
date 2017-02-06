@@ -2,15 +2,15 @@
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online.Igs
+namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
     public class IgsGame : RemoteGame
     {
-        public IgsGame(IgsGameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
+        public IgsGame(IgsGameInfo info, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(info)
         {
             Info = info;
-            Controller = new IgsGameController(Info, ruleset, players);
-            foreach(var player in Controller.Players)
+            Controller = new IgsGameController(Info, ruleset, players, serverConnection);
+            foreach (var player in Controller.Players)
             {
                 player.AssignToGame(info, Controller);
             }

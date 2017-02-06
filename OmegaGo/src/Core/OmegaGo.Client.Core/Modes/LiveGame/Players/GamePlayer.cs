@@ -35,9 +35,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         public IAgent Agent { get; }
 
+        /// <summary>
+        /// Player's clock
+        /// </summary>
         public TimeControl Clock { get; }
-
-        public bool IsHuman => Agent is HumanAgent;
 
         /// <summary>
         /// Assigns the player to a game
@@ -49,9 +50,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
             Agent.AssignToGame(gameInfo, gameState);
         }
 
-        public override string ToString()
-        {
-            return Info.Name;
-        }
+        /// <summary>
+        /// Returns player's name
+        /// </summary>
+        /// <returns>Player's name</returns>
+        public override string ToString() => Info.Name;
     }
 }   

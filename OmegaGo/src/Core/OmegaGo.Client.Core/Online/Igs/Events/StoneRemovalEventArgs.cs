@@ -1,6 +1,6 @@
 ﻿using System;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 
 namespace OmegaGo.Core.Online.Igs.Events
 {

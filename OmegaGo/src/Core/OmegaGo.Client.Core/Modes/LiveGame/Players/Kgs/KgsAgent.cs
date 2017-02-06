@@ -49,7 +49,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Kgs
         {
         }
 
-        public override AgentType Type => AgentType.Online;
+        public override AgentType Type => AgentType.Remote;
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PermitItAnyway;
         public override void MoveIllegal(MoveResult move)
         {

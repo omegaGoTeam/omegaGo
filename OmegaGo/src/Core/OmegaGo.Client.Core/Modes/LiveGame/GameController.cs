@@ -5,9 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
-using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -16,6 +13,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
@@ -27,11 +25,21 @@ namespace OmegaGo.Core.Modes.LiveGame
 {
     internal class GameController : IGameController
     {
+        /// <summary>
+        /// The current game phase
+        /// </summary>
         private IGamePhase _currentGamePhase = null;
+
+        /// <summary>
+        /// Current game tree node
+        /// </summary>
         private GameTreeNode _currentNode;
+
+        /// <summary>
+        /// Player on turn
+        /// </summary>
         private GamePlayer _turnPlayer;
-
-
+        
         /// <summary>
         /// Creates the game controller
         /// </summary>
@@ -50,53 +58,9 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Game info
+        /// Indicates that the game has ended
         /// </summary>
-        internal GameInfo Info { get; }
-        
-        private void Events_EnterLifeDeath(object sender, IgsGame e)
-        {
-            if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
-            {
-                SetPhase(GamePhaseType.LifeDeathDetermination);
-            }
-        }
-
-        private void IgsServer_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
-        {
-            // TODO this may not be our game (after refactor update)
-            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt(new Rules.Scores()
-            {
-                WhiteScore = e.WhiteScore,
-                BlackScore = e.BlackScore
-            });
-        }
-
-        private void IgsServer_StoneRemoval(object sender, StoneRemovalEventArgs e)
-        {
-            // TODO may not be our game
-            LifeDeath_MarkGroupDead(e.DeadPosition);
-        }
-
-        private void IgsServer_IncomingResignation(object sender, GamePlayerEventArgs e)
-        {
-            if (this.Players.Contains(e.Player))
-            {
-                Resign(e.Player);
-            }
-        }
-
-        private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
-        {
-            if (e.Game == this.OnlineGame)
-            {
-                if (this.Players.Black.Clock is CanadianTimeControl)
-                {
-                    (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-                    (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
-                }
-            }
-        }
+        public event EventHandler<GameEndInformation> GameEnded;
 
         /// <summary>
         /// Indicates that there is a new player on turn
@@ -115,6 +79,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
 
+
+        /// <summary>
+        /// Game info
+        /// </summary>
+        internal GameInfo Info { get; }
+
         /// <summary>
         /// Ruleset of the game
         /// </summary>
@@ -125,19 +95,23 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public PlayerPair Players { get; }
 
-        public List<Position> DeadPositions { get; set; } = new List<Position>();
-        public GameEndInformation EndInformation { get; private set; }
-        public void GoToEnd(GameEndInformation endInformation)
-        {
-            EndInformation = endInformation;
-            OnGameEnded(endInformation);
-            SetPhase(GamePhaseType.Finished);
-        }
-
         /// <summary>
         /// Game phase factory
         /// </summary>
         protected virtual IGameControllerPhaseFactory PhaseFactory => CreateGameControllerPhaseFactory();
+
+        /// <summary>
+        /// Gets the current game tree node
+        /// </summary>
+        public GameTreeNode CurrentNode
+        {
+            get { return _currentNode; }
+            internal set
+            {
+                _currentNode = value;
+                OnCurrentGameTreeNodeChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the player currently on turn
@@ -174,18 +148,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public GameTree GameTree { get; }
 
-
-        /// <summary>
-        /// Gets the current game tree node
-        /// </summary>
-        public GameTreeNode CurrentNode
+         
+        public void GoToEnd(GameEndInformation endInformation)
         {
-            get { return _currentNode; }
-            internal set
-            {
-                _currentNode = value;
-                OnCurrentGameTreeNodeChanged();
-            }
+            OnGameEnded(endInformation);
+            SetPhase(GamePhaseType.Finished);
         }
 
         /// <summary>
@@ -211,7 +178,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             GoToEnd(GameEndInformation.Resignation(playerToMove, this));
         }
 
-        public event EventHandler<GameEndInformation> GameEnded;
+
         private void OnGameEnded(GameEndInformation endInformation)
         {
             GameEnded?.Invoke(this, endInformation);
@@ -219,7 +186,6 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         protected virtual void OnTurnPlayerChanged()
         {
-            
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
             //notify the agent about his turn       
             TurnPlayer?.Agent.OnTurn();
@@ -241,55 +207,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 throw new Exception("Not main phase.");
             }
-        }
-
-        public void LifeDeath_Done(GamePlayer player)
-        {
-            if (Phase == GamePhaseType.LifeDeathDetermination)
-            {
-                (_currentGamePhase as LifeAndDeathPhase).Done(player);
-            }
-            else
-            {
-                throw new Exception("Not life/death phase.");
-            }
-        }
-
-        public void LifeDeath_UndoPhase()
-        {
-            if (Phase == GamePhaseType.LifeDeathDetermination)
-            {
-                (_currentGamePhase as LifeAndDeathPhase).UndoPhase();
-            }
-            else
-            {
-                throw new Exception("Not life/death phase.");
-            }
-        }
-
-        public void LifeDeath_Resume()
-        {
-            if (Phase == GamePhaseType.LifeDeathDetermination)
-            {
-                (_currentGamePhase as LifeAndDeathPhase).Resume();
-            }
-            else
-            {
-                throw new Exception("Not life/death phase.");
-            }
-        }
-
-        public void LifeDeath_MarkGroupDead(Position position)
-        {
-            if (Phase == GamePhaseType.LifeDeathDetermination)
-            {
-                (_currentGamePhase as LifeAndDeathPhase).MarkGroupDead(position);
-            }
-            else
-            {
-                throw new Exception("Not life/death phase.");
-            }
-        }
+        }        
 
         internal void SetPhase(GamePhaseType phase)
         {
@@ -323,7 +241,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             TurnPlayer = Players.GetOpponentOf(TurnPlayer);
         }
-
 
         /// <summary>
         /// Creates the game controller phase factory based on the game info

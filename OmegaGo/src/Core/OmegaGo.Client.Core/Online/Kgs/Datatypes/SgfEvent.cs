@@ -1,4 +1,4 @@
-using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Players.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {

@@ -11,8 +11,7 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Events;
@@ -149,7 +148,6 @@ namespace OmegaGo.Core.Online.Igs
             Commands = new IgsCommands(this);
             Events = new IgsEvents(this);
         }
-
 
         /// <summary>
         /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 

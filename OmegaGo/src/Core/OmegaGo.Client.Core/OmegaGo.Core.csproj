@@ -53,11 +53,11 @@
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
-    <Compile Include="Modes\LiveGame\Online\Igs\IgsGameController.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\Kgs\KgsGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\Kgs\KgsGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\OnlineGameController.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\RemoteGameController.cs" />
     <Compile Include="Modes\LiveGame\Phases\GenericPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
@@ -107,7 +107,7 @@
     <Compile Include="Modes\LiveGame\LiveGameBase.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\Igs\IgsGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameBuilder.cs" />
     <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Online\Common\ICommonEvents.cs" />
@@ -138,7 +138,7 @@
     <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\AgentType.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\Igs\IgsGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Igs\IgsGame.cs" />
     <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />

@@ -11,11 +11,10 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
@@ -431,7 +430,7 @@ namespace OmegaGo.Core.Online.Igs
                     
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await GetGameByIdAsync(heading.GameNumber);
-                    Modes.LiveGame.Online.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
+                    Modes.LiveGame.Remote.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
                     bool youAreBlack = ogi.Black.Name == _username;
                     bool youAreWhite = ogi.White.Name == _username;
                     if (youAreBlack)

@@ -33,7 +33,6 @@ namespace OmegaGo.Core.Online.Igs
                 countingType)
         {
             NumberOfObservers = numberOfObservers;
-            this.Server = server;
             IgsIndex = igsIndex;
         }
         public int MainTime { get; set; }
@@ -44,7 +43,6 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public int IgsIndex { get; private set; }
 
-        public IgsConnection Server { get; }
         public int NumberOfObservers { get; set; }
 
         public override string ToString()

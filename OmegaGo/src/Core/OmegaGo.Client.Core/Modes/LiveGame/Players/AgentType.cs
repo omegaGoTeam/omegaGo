@@ -10,6 +10,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
     {
         Human,
         AI,
-        Online
+        Remote
     }
 }

@@ -1,8 +1,9 @@
-﻿using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Online.Kgs;
+﻿using System;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Kgs;
 using OmegaGo.Core.Online.Kgs.Structures;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online.Kgs
+namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
 {
     public class KgsGameBuilder : GameBuilder<KgsGame, KgsGameBuilder>
     {
@@ -21,9 +22,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Online.Kgs
         public override KgsGame Build() =>
             new KgsGame(_info, CreateRuleset(), CreatePlayers());
 
-        protected override void ValidatePlayer(GamePlayer player)
-        {
-            //allows any type of player
-        }
+        protected override bool ValidatePlayer(GamePlayer player) =>
+            player.Agent.Type != AgentType.Remote || player.Agent is KgsAgent;
     }
 }
