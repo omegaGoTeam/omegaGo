@@ -6,8 +6,8 @@ using OmegaGo.Core.Rules;
 namespace OmegaGo.Core.Game
 {
     /// <summary>
-    ///     Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode" />s
-    ///     with each node having only a single child. In game analysis, the game tree may be an actual tree.
+    /// Represents a node in a game tree. In games, the game tree will be a "path" of <see cref="GameTreeNode" />s
+    /// with each node having only a single child. In game analysis, the game tree may be an actual tree.
     /// </summary>
     public sealed class GameTreeNode
     {
@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Game
         public List<Position> AddWhite { get; set; } = new List<Position>();
 
         /// <summary>
-        ///     Describes current state of the entire game board. Can be null.
+        /// Describes current state of the entire game board. Can be null.
         /// </summary>
         public GameBoard BoardState { get; set; }
 
@@ -40,12 +40,12 @@ namespace OmegaGo.Core.Game
         public List<KeyValuePair<Position, string>> Labels { get; set; }
 
         /// <summary>
-        ///     Gets or sets the move that caused this <see cref="GameTreeNode" /> to exist.
+        /// Gets or sets the move that caused this <see cref="GameTreeNode" /> to exist.
         /// </summary>
         public Move Move { get; }
 
         /// <summary>
-        ///     Gets or sets the parent node of this node, i.e. the move before this one.
+        /// Gets or sets the parent node of this node, i.e. the move before this one.
         /// </summary>
         public GameTreeNode Parent { get; set; }
 
@@ -58,19 +58,19 @@ namespace OmegaGo.Core.Game
         */
 
         /// <summary>
-        ///     Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
-        ///     In normal games, there will only be a single element in this list.
+        /// Gets or sets the children of this node, i.e. the nodes/moves that follow this move.
+        /// In normal games, there will only be a single element in this list.
         /// </summary>
         public GameTreeNodeCollection Branches { get; }
 
         /// <summary>
-        ///     Gets a value indicating whether this node has no children, which usually means that it's the last move made.
+        /// Gets a value indicating whether this node has no children, which usually means that it's the last move made.
         /// </summary>
         public bool IsLeafNode => Branches.Count == 0;
 
         /// <summary>
-        ///     Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time.
-        ///     The move number is 1-based, i.e. the first move has the number "1".
+        /// Gets the move number of this node by moving up the chain of nodes until the root - takes O(N) time.
+        /// The move number is 1-based, i.e. the first move has the number "1".
         /// </summary>
         public int MoveNumber
         {
@@ -88,7 +88,7 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        ///     Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
+        /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
         /// </summary>
         /// <exception cref="InvalidOperationException">When this is a branching node.</exception>
         public GameTreeNode NextMove
@@ -135,13 +135,13 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        ///     Tsumego-related node info
+        /// Gets or creates Tsumego info for the game tree node
         /// </summary>
-        public TsumegoNodeInfo Tsumego { get; } = new TsumegoNodeInfo();
+        public TsumegoNodeInfo Tsumego => GetOrCreateNodeInfo<TsumegoNodeInfo>();
 
         /// <summary>
-        ///     Gets the list of all moves that lead to the provided node.
-        ///     The list is starting with root node.
+        /// Gets the list of all moves that lead to the provided node.
+        /// The list is starting with root node.
         /// </summary>
         /// <param name="node">target node</param>
         /// <param name="filterNonMoves">determines whether nodes with MoveKind.None should be included</param>
@@ -173,7 +173,7 @@ namespace OmegaGo.Core.Game
         /// <returns>Node info</returns>
         public T GetNodeInfo<T>()
         {
-            return (T)_additionalNodeInfo[typeof(T)];
+            return (T) _additionalNodeInfo[typeof(T)];
         }
 
         /// <summary>
@@ -185,10 +185,8 @@ namespace OmegaGo.Core.Game
         {
             var type = typeof(T);
             if (!_additionalNodeInfo.ContainsKey(type))
-            {
                 _additionalNodeInfo[type] = new T();
-            }
-            return (T)_additionalNodeInfo[type];
+            return (T) _additionalNodeInfo[type];
         }
 
         /// <summary>
@@ -202,9 +200,7 @@ namespace OmegaGo.Core.Game
         {
             var type = typeof(T);
             if (!_additionalNodeInfo.ContainsKey(type))
-            {
                 _additionalNodeInfo[type] = defaultValue();
-            }
             return (T) _additionalNodeInfo[type];
         }
 
