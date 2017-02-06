@@ -60,7 +60,7 @@ namespace OmegaGo.Core.Online.Igs
                 IgsLine igsLine = new IgsLine(code, line);
                 OnIncomingLine(line);
 
-                switch (this._composure)
+                switch (this.Composure)
                 {
                     case IgsComposure.Confused:
                     case IgsComposure.Ok:
@@ -70,7 +70,7 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.InitialHandshake:
                         if (igsLine.EntireLine.Trim() == "1 5")
                         {
-                            this._composure = IgsComposure.Ok;
+                            this.Composure = IgsComposure.Ok;
                             continue;
                         }
                         else
@@ -81,19 +81,19 @@ namespace OmegaGo.Core.Online.Igs
                     case IgsComposure.LoggingIn:
                         if (igsLine.EntireLine.Contains("Invalid password."))
                         {
-                            this._composure = IgsComposure.Confused;
+                            this.Composure = IgsComposure.Confused;
                             this._loginError = "The password is incorrect.";
                             continue;
                         }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
-                            this._composure = IgsComposure.Confused;
+                            this.Composure = IgsComposure.Confused;
                             this._loginError = "The username does not exist.";
                             continue;
                         }
                         if (igsLine.EntireLine.Contains("1 5"))
                         {
-                            this._composure = IgsComposure.Ok;
+                            this.Composure = IgsComposure.Ok;
                             continue;
                         }
                         break;
@@ -317,7 +317,7 @@ namespace OmegaGo.Core.Online.Igs
                         }
                         else
                         {
-                            if (this._composure == IgsComposure.Ok)
+                            if (this.Composure == IgsComposure.Ok)
                             {
                                 OnUnhandledLine(igsLine.EntireLine);
                             }
@@ -486,7 +486,7 @@ namespace OmegaGo.Core.Online.Igs
                             }
                             else
                             {
-                                if (this._composure == IgsComposure.Ok)
+                                if (this.Composure == IgsComposure.Ok)
                                 {
                                     OnUnhandledLine(line.EntireLine);
                                 }

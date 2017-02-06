@@ -109,7 +109,10 @@
     <Compile Include="Online\Common\ICommonEvents.cs" />
     <Compile Include="Online\Common\RemoteGame.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
+    <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
+    <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />
     <Compile Include="Online\Igs\IgsCommands.cs" />
+    <Compile Include="Online\Igs\IgsConnection.Composure.cs" />
     <Compile Include="Online\Igs\IgsGameInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
+    <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
@@ -247,8 +251,8 @@
     <Compile Include="Online\Igs\Structures\GameHeading.cs" />
     <Compile Include="Online\Igs\IgsCode.cs" />
     <Compile Include="Online\Igs\IgsConnection.cs" />
-    <Compile Include="Online\Igs\IgsConnection_Commands.cs" />
-    <Compile Include="Online\Igs\IgsConnection_IncomingData.cs" />
+    <Compile Include="Online\Igs\IgsConnection.Commands.cs" />
+    <Compile Include="Online\Igs\IgsConnection.IncomingData.cs" />
     <Compile Include="Online\Igs\IgsLine.cs" />
     <Compile Include="Online\Igs\Structures\IgsMatchRequest.cs" />
     <Compile Include="Online\Igs\IgsRegex.cs" />
