@@ -11,6 +11,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
     {
         private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
+        private List<Position> _deadPositions = new List<Position>();
+
         public LifeAndDeathPhase(GameController gameController) : base(gameController)
         {
         }
@@ -21,7 +23,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
              GameBoard boardAfterRemovalOfDeadStones =
                this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                    this.Controller.DeadPositions);
+                    _deadPositions);
             Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
             this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
         }
@@ -36,9 +38,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             var group = Controller.Ruleset.DiscoverGroup(position, board);
             foreach (var deadStone in group)
             {
-                if (!Controller.DeadPositions.Contains(deadStone))
+                if (!_deadPositions.Contains(deadStone))
                 {
-                    Controller.DeadPositions.Add(deadStone);
+                    _deadPositions.Add(deadStone);
                 }
             }
             _playersDoneWithLifeDeath.Clear();
@@ -69,7 +71,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 GameBoard boardAfterRemovalOfDeadStones =
                     this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                        this.Controller.DeadPositions);
+                        _deadPositions);
                 scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
             }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
@@ -105,7 +107,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public void UndoPhase()
         {
-            Controller.DeadPositions = new List<Position>();
+            _deadPositions = new List<Position>();
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
             Controller.OnDebuggingMessage("Life/death phase undone.");
@@ -113,7 +115,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public void Resume()
         {
-            Controller.DeadPositions = new List<Position>();
+            _deadPositions = new List<Position>();
             GoToPhase(GamePhaseType.Main);
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();

@@ -71,7 +71,6 @@
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IllegalMoveHandling.cs" />
     <Compile Include="Modes\LiveGame\Players\Local\IHumanAgentActions.cs" />
-    <Compile Include="Modes\LiveGame\Players\Agents\ObsoleteOnlineAgent.cs" />
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AiDecision.cs" />
     <Compile Include="AI\AIPreMoveInformation.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="Game\GameBoard.cs" />
     <Compile Include="Modes\LiveGame\GameBuilder.cs" />
     <Compile Include="Modes\LiveGame\GameController.cs" />
-    <Compile Include="Modes\LiveGame\ObsoletedGameController.cs" />
     <Compile Include="Modes\LiveGame\IGameController.cs" />
     <Compile Include="Game\Markup\AreaDim.cs" />
     <Compile Include="Game\Markup\Arrow.cs" />

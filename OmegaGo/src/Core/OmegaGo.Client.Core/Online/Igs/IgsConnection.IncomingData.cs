@@ -1,6 +1,7 @@
 ﻿using OmegaGo.Core.Extensions;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -215,7 +216,7 @@ namespace OmegaGo.Core.Online.Igs
                                 // .ToList() is used because the collection may be modified
                                 foreach (var game in GetGamesIncluding(whoResigned).ToList())
                                 {
-                                    OnIncomingResignation(game.Metadata, whoResigned);
+                                    OnIncomingResignation(game.Info, whoResigned);
                                 }
                             }
                             weAreHandlingAnInterrupt = true;
@@ -271,10 +272,10 @@ namespace OmegaGo.Core.Online.Igs
                             string person = IgsRegex.ParseIncreaseXTimeByYMinute(igsLine);
                             foreach(var game in _gamesYouHaveOpened)
                             {
-                                if (game.Metadata.Black.Name == person ||
-                                    game.Metadata.White.Name == person)
+                                if (game.Info.Black.Name == person ||
+                                    game.Info.White.Name == person)
                                 {
-                                    MakeUnattendedRequest("refresh " + game.Metadata.IgsIndex);
+                                    MakeUnattendedRequest("refresh " + game.Info.IgsIndex);
                                 }
                             }
                         }
@@ -284,7 +285,7 @@ namespace OmegaGo.Core.Online.Igs
                             string username = IgsRegex.WhoDeclinesUndo(igsLine);
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                OnUndoDeclined(game.Metadata);
+                                OnUndoDeclined(game.Info);
                             }
                             weAreHandlingAnInterrupt = true;
                             continue;
@@ -377,7 +378,7 @@ namespace OmegaGo.Core.Online.Igs
             GameHeading heading = IgsRegex.ParseGameHeading(igsLine);
             if (heading != null)
             {
-                IgsGame whatGame = _gamesYouHaveOpened.Find(gm => gm.Metadata.IgsIndex == heading.GameNumber);
+                IgsGame whatGame = _gamesYouHaveOpened.Find(gm => gm.Info.IgsIndex == heading.GameNumber);
                 if (whatGame == null)
                 {
                     // Do not remember this game, perhaps we're in match accept procedure
@@ -504,7 +505,7 @@ namespace OmegaGo.Core.Online.Igs
                    
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                    IgsGame relevantGame = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == gameNumber);
+                    IgsGame relevantGame = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == gameNumber);
                     if (relevantGame == null)
                     {
                         // We received a chat message for a game we no longer play.
@@ -515,7 +516,7 @@ namespace OmegaGo.Core.Online.Igs
                         chatLine.Text = chatLine.Text.Substring((gameNumber + " ").Length);
                     }
 
-                    OnIncomingInGameChatMessage(relevantGame.Metadata, chatLine);
+                    OnIncomingInGameChatMessage(relevantGame.Info, chatLine);
                 }
                 
                 if (currentLineBatch[0].Code == IgsCode.Tell &&
@@ -528,7 +529,7 @@ namespace OmegaGo.Core.Online.Igs
                     {
                         foreach (var game in games)
                         {
-                            OnUndoRequestReceived(game.Metadata);
+                            OnUndoRequestReceived(game.Info);
                         }
                     }
                     else
@@ -542,10 +543,10 @@ namespace OmegaGo.Core.Online.Igs
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
+                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
-                        OnLastMoveUndone(gameInfo.Metadata);
+                        OnLastMoveUndone(gameInfo.Info);
                     }
                 }
                 
@@ -553,15 +554,15 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
+                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == game);
                     Events.OnEnterLifeDeath(gameInfo);
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
                 {
                     ScoreLine scoreLine = IgsRegex.ParseScoreLine(currentLineBatch.Find(ln => ln.Code == IgsCode.Score));
                     IgsGame gameInfo = _gamesYouHaveOpened.Find(gi =>
-                        gi.Metadata.White.Name == scoreLine.White &&
-                        gi.Metadata.Black.Name == scoreLine.Black);
+                        gi.Info.White.Name == scoreLine.White &&
+                        gi.Info.Black.Name == scoreLine.Black);
                     OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
                 }
             }
