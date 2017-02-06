@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private GamePlayer _turnPlayer;
         
         public RemoteGame OnlineGame;
-        internal RemoteGameInfo RemoteInfo;
+        public RemoteGameInfo RemoteInfo { get; }
     
         /// <summary>
         /// Game info
@@ -81,12 +81,20 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void Events_EnterLifeDeath(object sender, IgsGame e)
         {
-            SetPhase(GamePhaseType.LifeDeathDetermination);
+            if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
+            {
+                SetPhase(GamePhaseType.LifeDeathDetermination);
+            }
         }
 
         private void IgsServer_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {
-            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt();
+            // TODO this may not be our game (after refactor update)
+            ((this._currentGamePhase as LifeAndDeathPhase)).ScoreIt(new Rules.Scores()
+            {
+                WhiteScore = e.WhiteScore,
+                BlackScore = e.BlackScore
+            });
         }
 
         private void IgsServer_StoneRemoval(object sender, StoneRemovalEventArgs e)

@@ -130,15 +130,18 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
             else if (result.Result != MoveResult.Legal)
             {
+                Controller.OnDebuggingMessage("That move was illegal: " + result.Result);
                 switch (player.Agent.IllegalMoveHandling)
                 {
                     case IllegalMoveHandling.InformAgent:
                         player.Agent.MoveIllegal(result.Result);
                         break;
                     case IllegalMoveHandling.PassInstead:
+                        Controller.OnDebuggingMessage("Passing instead.");
                         TryToMakeMove(Move.Pass(move.WhoMoves));
                         break;
                     case IllegalMoveHandling.PermitItAnyway:
+                        Controller.OnDebuggingMessage("Permitting it anyway.");
                         result.Result = MoveResult.Legal;
                         break;
                 }
@@ -164,6 +167,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 Controller.Server?.Commands.MakeMove(Controller.RemoteInfo, move);
             }
+            Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
             Controller.NumberOfMoves++;
             var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            
             Controller.CurrentNode = newNode;

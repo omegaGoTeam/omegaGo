@@ -67,7 +67,7 @@
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}">Only show players looking for a game</CheckBox>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}">
+                            <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
                                         <Setter Property="Padding" Value="10, 1, 0, 1"/>
@@ -76,7 +76,7 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </ScrollViewer>
-                        <Button Grid.Row="2">
+                        <Button Grid.Row="2" Command="{Binding ChallengeSelectedPlayer}">
                             Challenge selected player...
                         </Button>
                     </Grid>

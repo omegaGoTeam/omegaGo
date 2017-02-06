@@ -14,6 +14,7 @@ using Windows.UI;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
@@ -77,7 +78,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
         {
-            session.FillRectangle(new Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
+          //  session.FillRectangle(new Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
             DrawBackground(boardRectangle, session);
         }
         /// <summary>
@@ -205,13 +206,20 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                                         boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
                                 }
                             }
+                            
                         }
-
+                        if (SharedBoardControlState.ShowTerritory &&
+                                SharedBoardControlState.TerritoryMap != null)
+                        {
+                            DrawTerritoryMark(session, x, y, SharedBoardControlState.TerritoryMap.Board[x, y]);
+                        }
                     }
                 }
             }
         }
-        
+
+     
+
         private CanvasTextFormat _textFormat;
 
         private void DrawBackground(Rect rect, CanvasDrawingSession session)
@@ -236,7 +244,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 session.DrawImage(bitmapToDraw, rect);
             }
-            session.DrawRectangle(rect, Colors.Black);
+            session.DrawRectangle(rect, Colors.Black, 2);
         }
 
         public void Update()
@@ -279,10 +287,25 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     radius,
                     color == StoneColor.Black ? Colors.Black : Colors.White);
             }
-            
-    
+
+
         }
-        
+        private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
+        {
+            y = (this.SharedBoardControlState.BoardHeight - 1) - y;
+            // TODO dead positions
+            if (territory == Territory.Black || territory == Territory.White)
+            {
+                Color color = (territory == Territory.Black ? Colors.Black : Colors.White);
+                session.DrawLine(new Vector2(this._cellSize* (x + 0.2f), this._cellSize*(y+0.2f)),
+                    new Vector2(this._cellSize*(x + 0.8f), this._cellSize*(y + 0.8f)),
+                    color, 3);
+                session.DrawLine(new Vector2(this._cellSize * (x+0.8f), this._cellSize * (y+0.2f)),
+                 new Vector2(this._cellSize * (x+0.2f), this._cellSize * (y + 0.8f)),
+                 color, 3);
+            }
+        }
+
         /// <summary>
         /// Draws a background for an intersection.
         /// </summary>

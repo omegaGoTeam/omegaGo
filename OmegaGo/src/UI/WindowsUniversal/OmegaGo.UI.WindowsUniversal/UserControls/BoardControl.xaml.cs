@@ -56,16 +56,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
+            currentGameTreeNode = ViewModel.GameTreeNode;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
             
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-            
-            ViewModel.BoardRedrawRequested += (s, ev) => 
-            {
-                canvas.Invalidate();
-            };            
+            ;            
         }
 
         private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)

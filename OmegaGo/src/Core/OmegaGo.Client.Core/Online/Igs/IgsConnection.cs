@@ -31,6 +31,7 @@ namespace OmegaGo.Core.Online.Igs
         // TODO disconnections are not thread-safe
         // TODO switch prompt mode when necessary
         // TODO send "ayt" or something regularly to prevent timeouts
+        // TODO OnIncomingResignation should not be public
 
         /*
          * Synchronization
@@ -338,6 +339,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             return true;
         }
+
         public async Task DisconnectAsync()
         {
             _shouldBeConnected = false;
@@ -390,6 +392,19 @@ namespace OmegaGo.Core.Online.Igs
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
+        }
+        
+        /// <summary>
+        /// Handles incoming resignation
+        /// </summary>
+        /// <param name="gameInfo"></param>
+        /// <param name="whoResigned"></param>
+        public void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
+        {
+            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
+            IncomingResignation?.Invoke(this,
+                new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
+            _gamesYouHaveOpened.Remove(game);
         }
 
         /// <summary>
@@ -539,6 +554,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             OnIncomingShoutMessage(line);
         }
+
         private void HandleIncomingChatMessage(string line)
         {
             OnIncomingChatMessage(line);
@@ -617,22 +633,17 @@ namespace OmegaGo.Core.Online.Igs
         {
             ErrorMessageReceived?.Invoke(this, errorMessage);
         }
-
-
-
+        
         private void OnLastMoveUndone(IgsGameInfo whichGame)
         {
             LastMoveUndone?.Invoke(this, whichGame);
         }
-
-
+        
         private void OnUndoDeclined(IgsGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
         }
-
-
-
+        
         private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
         {
             GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
@@ -652,15 +663,7 @@ namespace OmegaGo.Core.Online.Igs
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
             var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
-            StoneRemoval?.Invoke(this, new Igs.StoneRemovalEventArgs(game, deadPosition));
-        }
-
-
-        private void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
-        {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
-            IncomingResignation?.Invoke(this,
-                new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
-        }
+            StoneRemoval?.Invoke(this, new StoneRemovalEventArgs(game, deadPosition));
+        }       
     }
 }
