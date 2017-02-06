@@ -59,7 +59,7 @@ namespace OmegaGo.Core.Online.Igs
             var response = await igsConnection.MakeRequestAsync("resign " + igsGameInfo.IgsIndex);
             if (!response.IsError)
             {
-                this.igsConnection.OnIncomingResignation(igsGameInfo, igsConnection.Username);
+                igsConnection.OnIncomingResignation(igsGameInfo, igsConnection.Username);
             }
         }
 

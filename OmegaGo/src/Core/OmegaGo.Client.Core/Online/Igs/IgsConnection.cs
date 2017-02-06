@@ -31,6 +31,7 @@ namespace OmegaGo.Core.Online.Igs
         // TODO disconnections are not thread-safe
         // TODO switch prompt mode when necessary
         // TODO send "ayt" or something regularly to prevent timeouts
+        // TODO OnIncomingResignation should not be public
 
         /*
          * Synchronization
@@ -392,6 +393,19 @@ namespace OmegaGo.Core.Online.Igs
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
         }
+        
+        /// <summary>
+        /// Handles incoming resignation
+        /// </summary>
+        /// <param name="gameInfo"></param>
+        /// <param name="whoResigned"></param>
+        public void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
+        {
+            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
+            IncomingResignation?.Invoke(this,
+                new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
+            _gamesYouHaveOpened.Remove(game);
+        }
 
         /// <summary>
         /// Enqueues the <paramref name="command"/> to be sent over Telnet to the IGS SERVER,
@@ -650,14 +664,6 @@ namespace OmegaGo.Core.Online.Igs
         {
             var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
             StoneRemoval?.Invoke(this, new StoneRemovalEventArgs(game, deadPosition));
-        }
-        
-        private void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
-        {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
-            IncomingResignation?.Invoke(this,
-                new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
-            _gamesYouHaveOpened.Remove(game);
-        }
+        }       
     }
 }

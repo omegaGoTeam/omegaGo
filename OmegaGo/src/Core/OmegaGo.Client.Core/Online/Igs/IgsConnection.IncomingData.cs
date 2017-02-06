@@ -234,7 +234,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             foreach (
                                 var game in
-                                    this.GamesYouHaveOpened.Where(
+                                    _gamesYouHaveOpened.Where(
                                         gi =>
                                             gi.Controller.Phase ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
@@ -270,7 +270,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             weAreHandlingAnInterrupt = true;
                             string person = IgsRegex.ParseIncreaseXTimeByYMinute(igsLine);
-                            foreach(var game in this.GamesYouHaveOpened)
+                            foreach(var game in _gamesYouHaveOpened)
                             {
                                 if (game.Metadata.Black.Name == person ||
                                     game.Metadata.White.Name == person)
@@ -335,7 +335,7 @@ namespace OmegaGo.Core.Online.Igs
         private IEnumerable<IgsGame> GetGamesIncluding(string username)
         {
 
-            return this.GamesYouHaveOpened.Where(ginfo => ginfo.Info.Black.Name == username ||
+            return _gamesYouHaveOpened.Where(ginfo => ginfo.Info.Black.Name == username ||
                                                            ginfo.Info.White.Name == username);
         }
 
@@ -378,7 +378,7 @@ namespace OmegaGo.Core.Online.Igs
             GameHeading heading = IgsRegex.ParseGameHeading(igsLine);
             if (heading != null)
             {
-                IgsGame whatGame = this.GamesYouHaveOpened.Find(gm => gm.Metadata.IgsIndex == heading.GameNumber);
+                IgsGame whatGame = _gamesYouHaveOpened.Find(gm => gm.Metadata.IgsIndex == heading.GameNumber);
                 if (whatGame == null)
                 {
                     // Do not remember this game, perhaps we're in match accept procedure
@@ -473,7 +473,7 @@ namespace OmegaGo.Core.Online.Igs
 
                     }
                     IgsGame newGame = builder.Build();
-                    this.GamesYouHaveOpened.Add(newGame);
+                    _gamesYouHaveOpened.Add(newGame);
                     OnMatchRequestAccepted(newGame);
                 }
                                
@@ -505,7 +505,7 @@ namespace OmegaGo.Core.Online.Igs
                    
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
-                    IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == gameNumber);
+                    IgsGame relevantGame = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == gameNumber);
                     if (relevantGame == null)
                     {
                         // We received a chat message for a game we no longer play.
@@ -543,7 +543,7 @@ namespace OmegaGo.Core.Online.Igs
                     int numberOfMovesToUndo = currentLineBatch.Count(line => line.Code == IgsCode.Undo);
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    IgsGame gameInfo = this.GamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
+                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
                         OnLastMoveUndone(gameInfo.Metadata);
@@ -554,13 +554,13 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
                     int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    IgsGame gameInfo = this.GamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
+                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Metadata.IgsIndex == game);
                     Events.OnEnterLifeDeath(gameInfo);
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
                 {
                     ScoreLine scoreLine = IgsRegex.ParseScoreLine(currentLineBatch.Find(ln => ln.Code == IgsCode.Score));
-                    IgsGame gameInfo = this.GamesYouHaveOpened.Find(gi =>
+                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi =>
                         gi.Metadata.White.Name == scoreLine.White &&
                         gi.Metadata.Black.Name == scoreLine.Black);
                     OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);

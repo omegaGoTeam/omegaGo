@@ -106,6 +106,7 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Online\Igs\IgsGameBuilder.cs" />
+    <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Online\Common\ICommonEvents.cs" />
     <Compile Include="Online\Common\RemoteGame.cs" />
@@ -136,7 +137,6 @@
     <Compile Include="Modes\LiveGame\Players\AgentType.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Online\Igs\IgsGame.cs" />
-    <Compile Include="Modes\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />
