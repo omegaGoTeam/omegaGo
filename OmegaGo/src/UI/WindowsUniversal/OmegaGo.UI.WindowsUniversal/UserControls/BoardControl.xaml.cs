@@ -4,6 +4,7 @@ using OmegaGo.UI.WindowsUniversal.Services.Game;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
@@ -25,6 +26,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         public InputService InputService => _inputService;
         public RenderService RenderService => _renderService;
 
+        private GameTreeNode currentGameTreeNode;
+
         public static readonly DependencyProperty ViewModelProperty =
                    DependencyProperty.Register(
                            "ViewModel",
@@ -39,42 +42,37 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         public BoardViewModel ViewModel
         {
             get { return (BoardViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            set {
+                SetValue(ViewModelProperty, value);
+            }
         }
 
         public BoardControl()
         {
             this.InitializeComponent();
+            this.canvas.TargetElapsedTime = System.TimeSpan.FromMilliseconds(32);
         }
 
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            // TODO implement easy re-registering for varying BoardControlState
+            ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
-
-            // TODO Petr: the following two lines don't seem to do anything
-            _boardControlState.BoardWidth = ViewModel.BoardControlState.BoardWidth;
-            _boardControlState.BoardHeight = ViewModel.BoardControlState.BoardHeight;
-            _boardControlState.RedrawRequested += (s, ev) => canvas.Invalidate();
+            
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-
-            ViewModel.BoardRedrawRequsted += (s, ev) =>
+            
+            ViewModel.BoardRedrawRequested += (s, ev) => 
             {
                 canvas.Invalidate();
-            };
+            };            
         }
 
-        private void canvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
         {
-            RenderService.CreateResources(sender, args);
+            currentGameTreeNode = e;
         }
-
-        private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
-        {
-            RenderService.Draw(sender, args, ViewModel.GameTreeNode);
-        }
+        
 
         private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
@@ -95,6 +93,21 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
+        }
+
+        private void canvas_CreateResources_1(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+            RenderService.CreateResources(sender, args);
+        }
+
+        private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
+        {
+            RenderService.Draw(sender, args, currentGameTreeNode);
+        }
+
+        private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        {
+
         }
     }
 }

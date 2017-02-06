@@ -14,21 +14,15 @@
     VerticalContentAlignment="Stretch">
 
     <Grid>
-        <ScrollViewer 
-            HorizontalScrollBarVisibility="Auto"
-            HorizontalScrollMode="Auto"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Auto"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            ZoomMode="Enabled">
-            <win2d:CanvasControl 
+
+        <win2d:CanvasAnimatedControl 
                 x:Name="canvas" 
-                CreateResources="canvas_CreateResources"
-                Draw="canvas_Draw"
+                IsFixedTimeStep="False"
+                Draw="canvas_Draw_1"
+                Update="canvas_Update"
+                CreateResources="canvas_CreateResources_1"
                 PointerPressed="canvas_PointerPressed"
                 PointerReleased="canvas_PointerReleased"
                 PointerMoved="canvas_PointerMoved"/>
-        </ScrollViewer>
     </Grid>
 </local:UserControlBase>
