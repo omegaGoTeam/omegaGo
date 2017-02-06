@@ -73,6 +73,26 @@ namespace OmegaGo.UI.ViewModels
 
         public TimelineViewModel TimelineViewModel { get; }
 
+        private int _selectedMoveIndex = 0;
+        public int SelectedMoveIndex
+        {
+            get { return _selectedMoveIndex; }
+            set {
+                SetProperty(ref _selectedMoveIndex, value);
+                GameTreeNode whatIsShowing =
+                  Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
+                OnBoardRefreshRequested(whatIsShowing);
+
+            }
+        }
+
+        private int _maximumMoveIndex = 0;
+        public int MaximumMoveIndex
+        {
+            get { return _maximumMoveIndex; }
+            set { SetProperty(ref _maximumMoveIndex, value); }
+        }
+
         public void Init()
         {
             Game.Controller.BeginGame();
@@ -81,7 +101,23 @@ namespace OmegaGo.UI.ViewModels
         private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
-                OnBoardRefreshRequested(e);
+            {
+                UpdateTimeline();
+            }
+        }
+
+        private int _previousMoveIndex = -1;
+        private void UpdateTimeline()
+        {
+            var primaryTimeline = this.Game.Controller.GameTree.PrimaryMoveTimeline;
+            int newNumber = primaryTimeline.Count() - 1;
+            bool autoUpdate = newNumber == 0 || SelectedMoveIndex == newNumber - 1;
+            MaximumMoveIndex = newNumber;
+            if (autoUpdate && _previousMoveIndex != newNumber)
+            {
+                SelectedMoveIndex = newNumber;
+            }
+            _previousMoveIndex = newNumber;
         }
 
         public void MakeMove(Position selectedPosition)

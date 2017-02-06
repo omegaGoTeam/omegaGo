@@ -133,7 +133,7 @@
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
-            <Slider Value="50" Minimum="0" Maximum="100"></Slider>
+            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
         </Border>
     </Grid>
 </views:TransparencyViewBase>
