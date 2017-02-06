@@ -26,8 +26,10 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Absolute;
 using OmegaGo.Core.Time.Canadian;
 using OmegaGo.Core.Time.Japanese;
+using OmegaGo.Core.Time.None;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion

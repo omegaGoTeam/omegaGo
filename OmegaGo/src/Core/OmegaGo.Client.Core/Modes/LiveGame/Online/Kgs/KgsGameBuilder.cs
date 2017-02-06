@@ -1,5 +1,6 @@
 ﻿using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online.Kgs
 {

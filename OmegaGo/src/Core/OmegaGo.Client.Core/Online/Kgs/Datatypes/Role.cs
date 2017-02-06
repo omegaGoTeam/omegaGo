@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Online.Kgs.Downstream
+﻿namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     public static class Role
     {

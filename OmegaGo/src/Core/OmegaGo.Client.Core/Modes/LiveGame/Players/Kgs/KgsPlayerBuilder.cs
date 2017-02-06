@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Game;
-using OmegaGo.Core.Online.Igs;
+﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Kgs;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
+namespace OmegaGo.Core.Modes.LiveGame.Players.Kgs
 {
     public sealed class KgsPlayerBuilder : PlayerBuilder<GamePlayer, KgsPlayerBuilder>
     {

@@ -1,15 +1,8 @@
 ﻿using OmegaGo.Core.Game;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online
+namespace OmegaGo.Core.Online.Igs
 {
     /// <summary>
     /// Contains metadata about a game that is or was in progress on the IGS server

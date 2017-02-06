@@ -18,6 +18,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;

@@ -1,10 +1,11 @@
 using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Online.Kgs
+namespace OmegaGo.Core.Online.Kgs.Structures
 {
     public class KgsGameInfo : RemoteGameInfo
     {

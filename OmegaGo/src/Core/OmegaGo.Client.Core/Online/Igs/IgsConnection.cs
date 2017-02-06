@@ -15,6 +15,7 @@ using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
@@ -646,7 +647,7 @@ namespace OmegaGo.Core.Online.Igs
         
         private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
         {
-            GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+            GameScoredAndCompleted?.Invoke(this, new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
         }
 
 

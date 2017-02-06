@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {

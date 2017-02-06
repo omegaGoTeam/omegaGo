@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
+namespace OmegaGo.Core.Modes.LiveGame.Players.Kgs
 {
     public class KgsAgent : AgentBase
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 
-namespace OmegaGo.Core.Online.Kgs
+namespace OmegaGo.Core.Online.Kgs.Structures
 {
     public abstract class KgsGameContainer : KgsChannel
     {

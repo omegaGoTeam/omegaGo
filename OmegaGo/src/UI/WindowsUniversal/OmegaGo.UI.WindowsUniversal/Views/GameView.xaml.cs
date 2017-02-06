@@ -6,6 +6,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.WindowsUniversal.Views

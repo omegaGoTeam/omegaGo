@@ -83,7 +83,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
         public static GameEndInformation ScoringComplete(bool isDraw, GamePlayer winner, GamePlayer loser, Scores scores)
         {
-            return new LiveGame.GameEndInformation(GameEndReason.ScoringComplete, !isDraw, winner, loser)
+            return new GameEndInformation(GameEndReason.ScoringComplete, !isDraw, winner, loser)
             {
                 Scores = scores
             };

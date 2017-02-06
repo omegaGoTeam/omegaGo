@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online.Igs
 {

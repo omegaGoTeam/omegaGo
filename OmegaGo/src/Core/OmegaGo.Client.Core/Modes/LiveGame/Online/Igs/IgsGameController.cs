@@ -1,5 +1,6 @@
 ﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Online.Igs

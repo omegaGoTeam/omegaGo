@@ -1,7 +1,6 @@
-using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
 
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     public class SgfEvent
     {
