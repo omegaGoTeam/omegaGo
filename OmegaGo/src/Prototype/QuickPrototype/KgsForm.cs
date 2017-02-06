@@ -177,5 +177,16 @@ namespace FormsPrototype
                 await kgs.Commands.WakeUpAsync();
             }
         }
+
+        private async void bLogout_Click(object sender, EventArgs e)
+        {
+            await kgs.Commands.LogoutAsync();
+        }
+
+        private async void bLogin_Click(object sender, EventArgs e)
+        {
+
+            await kgs.LoginAsync("OmegaGo1", "123456789");
+        }
     }
 }

@@ -77,13 +77,6 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
 
-            <AppBarButton Icon="Setting" Label="Settings">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <controls:BoardSettingsControl BoardControlState="{x:Bind Path=VM.BoardViewModel.BoardControlState, Mode=OneWay}" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
         </CommandBar>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
             <StackPanel>
@@ -95,6 +88,7 @@
                 <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+                <Button Click="DebugFill">Fill</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
                 <Button>Done</Button>
                 <Button>Undo Death Marks</Button>

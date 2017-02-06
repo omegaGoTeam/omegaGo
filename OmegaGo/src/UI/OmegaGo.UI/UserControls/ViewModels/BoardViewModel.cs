@@ -29,7 +29,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _boardControlState, value); OnBoardChanged(); }
         }
 
-        public event EventHandler<GameTreeNode> BoardRedrawRequsted;
+        public event EventHandler<GameTreeNode> BoardRedrawRequested;
 
         internal event EventHandler<Position> BoardTapped;
 
@@ -59,7 +59,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void OnBoardChanged()
         {
-            BoardRedrawRequsted?.Invoke(this, GameTreeNode);
+            BoardRedrawRequested?.Invoke(this, GameTreeNode);
         }
     }
 }

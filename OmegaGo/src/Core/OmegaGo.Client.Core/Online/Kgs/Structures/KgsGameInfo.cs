@@ -46,7 +46,9 @@ namespace OmegaGo.Core.Online.Kgs
 
         public static KgsGameInfo FromChannel(GameChannel channel, KgsConnection connection)
         {
-            if (channel.GameType == GameType.Challenge) return null;
+            if (channel.GameType !=  GameType.Free &&
+                channel.GameType != GameType.Ranked) return null;
+            
             // TODO this only works for full games in progress so far, I think
             var whiteInfo = new PlayerInfo(StoneColor.White, channel.Players["white"].Name,
                 channel.Players["white"].Rank ?? "??");
