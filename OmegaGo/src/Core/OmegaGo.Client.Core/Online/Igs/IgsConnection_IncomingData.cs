@@ -510,6 +510,10 @@ namespace OmegaGo.Core.Online.Igs
                         // We received a chat message for a game we no longer play.
                         return;
                     }
+                    if (chatLine.Text.StartsWith(gameNumber + " "))
+                    {
+                        chatLine.Text = chatLine.Text.Substring((gameNumber + " ").Length);
+                    }
 
                     OnIncomingInGameChatMessage(relevantGame.Metadata, chatLine);
                 }
