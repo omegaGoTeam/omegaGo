@@ -13,9 +13,7 @@
     HorizontalContentAlignment="Stretch"
     VerticalContentAlignment="Stretch">
 
-    <Grid>
-
-        <win2d:CanvasAnimatedControl 
+    <win2d:CanvasAnimatedControl 
                 x:Name="canvas" 
                 IsFixedTimeStep="False"
                 Draw="canvas_Draw_1"
@@ -24,5 +22,5 @@
                 PointerPressed="canvas_PointerPressed"
                 PointerReleased="canvas_PointerReleased"
                 PointerMoved="canvas_PointerMoved"/>
-    </Grid>
+    
 </local:UserControlBase>

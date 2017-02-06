@@ -146,7 +146,10 @@ namespace OmegaGo.UI.Services.Game
                 OnPropertyChanged(nameof(BoardHeight), true);
             }
         }
-        
+
+        public bool ShowTerritory { get; set; }
+        public TerritoryMap TerritoryMap { get; set; }
+
 
         public event EventHandler RedrawRequested;
         public event PropertyChangedEventHandler PropertyChanged;

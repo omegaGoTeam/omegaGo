@@ -407,9 +407,9 @@
             this.grpLifeDeath.Controls.Add(this.bResumeAsBlack);
             this.grpLifeDeath.Controls.Add(this.bUndoLifeDeath);
             this.grpLifeDeath.Controls.Add(this.bDoneWithLifeDeathDetermination);
-            this.grpLifeDeath.Location = new System.Drawing.Point(1027, 34);
+            this.grpLifeDeath.Location = new System.Drawing.Point(707, 319);
             this.grpLifeDeath.Name = "grpLifeDeath";
-            this.grpLifeDeath.Size = new System.Drawing.Size(200, 126);
+            this.grpLifeDeath.Size = new System.Drawing.Size(158, 181);
             this.grpLifeDeath.TabIndex = 6;
             this.grpLifeDeath.TabStop = false;
             this.grpLifeDeath.Text = "Life/Death Determination";
@@ -419,7 +419,7 @@
             // 
             this.bResumeAsBlack.Location = new System.Drawing.Point(16, 86);
             this.bResumeAsBlack.Name = "bResumeAsBlack";
-            this.bResumeAsBlack.Size = new System.Drawing.Size(166, 27);
+            this.bResumeAsBlack.Size = new System.Drawing.Size(136, 42);
             this.bResumeAsBlack.TabIndex = 15;
             this.bResumeAsBlack.Text = "Resume game (Black first)";
             this.bResumeAsBlack.UseVisualStyleBackColor = true;
@@ -429,7 +429,7 @@
             // 
             this.bUndoLifeDeath.Location = new System.Drawing.Point(16, 52);
             this.bUndoLifeDeath.Name = "bUndoLifeDeath";
-            this.bUndoLifeDeath.Size = new System.Drawing.Size(166, 27);
+            this.bUndoLifeDeath.Size = new System.Drawing.Size(136, 27);
             this.bUndoLifeDeath.TabIndex = 14;
             this.bUndoLifeDeath.Text = "Undo Death Marks";
             this.bUndoLifeDeath.UseVisualStyleBackColor = true;
@@ -439,7 +439,7 @@
             // 
             this.bDoneWithLifeDeathDetermination.Location = new System.Drawing.Point(16, 19);
             this.bDoneWithLifeDeathDetermination.Name = "bDoneWithLifeDeathDetermination";
-            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(166, 27);
+            this.bDoneWithLifeDeathDetermination.Size = new System.Drawing.Size(136, 27);
             this.bDoneWithLifeDeathDetermination.TabIndex = 13;
             this.bDoneWithLifeDeathDetermination.Text = "Done";
             this.bDoneWithLifeDeathDetermination.UseVisualStyleBackColor = true;

@@ -14,6 +14,8 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
@@ -32,12 +34,18 @@ namespace OmegaGo.UI.ViewModels
             Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
             Connections.Pandanet.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
-            Connections.Pandanet.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate; 
+            Connections.Pandanet.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
+            Connections.Pandanet.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             if (Connections.Pandanet.LoggedIn)
             {
                 await RefreshGames();
                 await RefreshUsers();
             }
+        }
+
+        private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
+        {
+            StartGame(e);
         }
 
         private void Pandanet_IncomingMatchRequest(IgsMatchRequest obj)
@@ -50,6 +58,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Pandanet.IncomingLine -= Pandanet_IncomingLine;
             Connections.Pandanet.OutgoingLine -= Pandanet_OutgoingLine;
             Connections.Pandanet.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
+            Connections.Pandanet.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Pandanet.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
         }
 
@@ -329,6 +338,21 @@ namespace OmegaGo.UI.ViewModels
             get { return _selectedSpectatableGame; }
             set { SetProperty(ref _selectedSpectatableGame, value); }
         }
+        private IgsUser _selectedChallengeableUser;
+        public IgsUser SelectedChallengeableUser
+        {
+            get { return _selectedChallengeableUser; }
+            set { SetProperty(ref _selectedChallengeableUser, value); }
+        }
+
+        public IMvxCommand ChallengeSelectedPlayer => new MvxCommand(() =>
+        {
+            if (SelectedChallengeableUser != null)
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
+                ShowViewModel<GameCreationViewModel>();
+            }
+        });
         public IMvxCommand ObserveSelectedGame => new MvxCommand(async () =>
         {
             ShowProgressPanel("Initiating observation of a game...");

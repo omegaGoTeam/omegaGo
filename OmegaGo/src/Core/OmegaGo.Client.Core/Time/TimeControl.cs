@@ -46,7 +46,11 @@ namespace OmegaGo.Core.Time
         /// </summary>
         public void StartClock()
         {
-            if (Running) throw new InvalidOperationException("Clock was already running.");
+            if (Running)
+            {
+                // It was already running.
+                return;
+            }
             this.LastTimeClockStarted = DateTime.Now;
             Running = true;
         }
@@ -56,7 +60,10 @@ namespace OmegaGo.Core.Time
         /// </summary>
         public void StopClock()
         {
-            if (!Running) throw new InvalidOperationException("Clock was not yet running.");
+            if (!Running)
+            {
+                return; // It was already stopped.
+            }
             TimeSpan timeSpent = DateTime.Now - this.LastTimeClockStarted;
             UpdateSnapshot(timeSpent);
             Running = false;

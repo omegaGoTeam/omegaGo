@@ -75,6 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameCreation\GameCreationBundle.cs" />
     <Compile Include="Services\GameCreation\HotseatBundle.cs" />
+    <Compile Include="Services\GameCreation\IgsChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />

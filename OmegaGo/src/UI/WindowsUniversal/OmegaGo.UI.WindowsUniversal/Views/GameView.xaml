@@ -89,14 +89,15 @@
                 <TextBlock Text="Debug:"></TextBlock>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
                 <Button Click="DebugFill">Fill</Button>
+                <Button>Save as SGF</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
-                <Button>Done</Button>
-                <Button>Undo Death Marks</Button>
-                <Button>Resume game</Button>
+                <Button Click="LifeDeathDone">Done</Button>
+                <Button Click="UndoDeathMarks">Undo Death Marks</Button>
+                <Button Click="ResumeGame">Resume game</Button>
                 <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button>undoplease</Button>
-                <Button>undo (yes)</Button>
-                <Button>noundo</Button>
+                <Button IsEnabled="False">undoplease</Button>
+                <Button IsEnabled="False">undo (yes)</Button>
+                <Button IsEnabled="False">noundo</Button>
                 <Button Click="UndoLocally">undo locally</Button>
                 <TextBlock Text="Moves" FontSize="20"></TextBlock>
                 <Button Click="ClickPass">PASS</Button>
@@ -132,7 +133,7 @@
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
-            <Slider Value="50" Minimum="0" Maximum="100"></Slider>
+            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
         </Border>
     </Grid>
 </views:TransparencyViewBase>
