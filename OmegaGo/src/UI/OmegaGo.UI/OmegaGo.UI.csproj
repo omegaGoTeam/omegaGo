@@ -419,6 +419,7 @@
     <EmbeddedResource Include="Services\Help\Data\footer.html" />
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
+    <Content Include="Services\Quests\ABOUT.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <ItemGroup>
