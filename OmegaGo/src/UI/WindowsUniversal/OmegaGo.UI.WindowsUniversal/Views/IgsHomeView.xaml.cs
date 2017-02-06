@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;

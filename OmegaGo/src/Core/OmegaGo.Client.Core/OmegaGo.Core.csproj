@@ -52,9 +52,10 @@
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
+    <Compile Include="Modes\LiveGame\Online\Igs\IgsGameController.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\KgsGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\KgsGame.cs" />
+    <Compile Include="Modes\LiveGame\Online\Kgs\KgsGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\Kgs\KgsGame.cs" />
     <Compile Include="Modes\LiveGame\Phases\GenericPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="Modes\LiveGame\LiveGameBase.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Online\IgsGameBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Online\Common\ICommonEvents.cs" />
     <Compile Include="Online\Common\RemoteGame.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\AgentType.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
-    <Compile Include="Modes\LiveGame\Online\IgsGame.cs" />
+    <Compile Include="Modes\LiveGame\Online\Igs\IgsGame.cs" />
     <Compile Include="Modes\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame

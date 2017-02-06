@@ -12,6 +12,7 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Structures;

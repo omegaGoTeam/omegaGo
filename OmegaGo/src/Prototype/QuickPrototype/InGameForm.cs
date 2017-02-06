@@ -16,6 +16,7 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;

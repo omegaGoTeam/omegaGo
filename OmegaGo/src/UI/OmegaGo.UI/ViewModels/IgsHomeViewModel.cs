@@ -9,6 +9,7 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Local;
-using OmegaGo.Core.Modes.LiveGame.Players;
+﻿using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Kgs;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online
+namespace OmegaGo.Core.Modes.LiveGame.Online.Kgs
 {
     public class KgsGameBuilder : GameBuilder<KgsGame, KgsGameBuilder>
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Online;
+using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 
 namespace OmegaGo.Core.Online.Igs
 {
