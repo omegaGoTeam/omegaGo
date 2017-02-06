@@ -65,7 +65,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
                 GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
 
-                Controller.Ruleset.StartHandicapPlacementPhase(ref gameBoard, count, HandicapPlacementType.Fixed);
+                PlaceIgsHandicapStones(ref gameBoard, count);
 
                 Controller.NumberOfMoves++;
                 Controller.CurrentNode = Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
@@ -75,6 +75,44 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
         }
 
+        private void PlaceIgsHandicapStones(ref GameBoard currentBoard, int stoneCount)
+        {
+            switch (currentBoard.Size.Width)
+            {
+                case 9:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap9)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 13:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap13)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                case 19:
+                    {
+                        if (stoneCount <= HandicapPositions.MaxFixedHandicap19)
+                            for (int i = 0; i < stoneCount; i++)
+                            {
+                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
+                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
+                            }
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
         private void Agent_Pass(object sender, EventArgs e)
         {
             var agent = (sender as IAgent);

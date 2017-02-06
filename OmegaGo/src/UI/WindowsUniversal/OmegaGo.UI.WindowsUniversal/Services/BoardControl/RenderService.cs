@@ -39,6 +39,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private CanvasBitmap oakBitmap;
         private CanvasBitmap kayaBitmap;
         private CanvasBitmap spaceBitmap;
+        private CanvasBitmap sabakiBoardBitmap;
+        private CanvasBitmap sabakiTatamiBitmap;
+        private CanvasBitmap sabakiBlackBitmap;
+        private CanvasBitmap sabakiWhiteBitmap;
+
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
         private bool _showCoordinates;
@@ -72,13 +77,29 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this.oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
             this.kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
             this.spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
+            this.sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
+            this.sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
+            this.sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
+            this.sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
 
         }
        
 
         private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
         {
-          //  session.FillRectangle(new Rect(0, 0, clientWidth, clientHeight), Colors.LightYellow);
+            // Draw tatami mats
+            int columns = (int)Math.Ceiling(clientWidth/sabakiTatamiBitmap.Bounds.Width);
+            int rows = (int) Math.Ceiling(clientHeight/sabakiTatamiBitmap.Bounds.Height);
+            for (int x =0; x< columns; x++)
+            {
+                for (int y= 0; y < rows; y++)
+                {
+                    session.DrawImage(sabakiTatamiBitmap,
+                        new Vector2(x*(float)sabakiTatamiBitmap.Bounds.Width, y*(float)sabakiTatamiBitmap.Bounds.Height));
+                }
+            }
+
+            // Draw board
             DrawBackground(boardRectangle, session);
         }
         /// <summary>
@@ -239,6 +260,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 case BoardTheme.VirtualBoard:
                     bitmapToDraw = this.spaceBitmap;
                     break;
+                case BoardTheme.SabakiBoard:
+                    bitmapToDraw = this.sabakiBoardBitmap;
+                    break;
             }
             if (bitmapToDraw != null)
             {
@@ -265,11 +289,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             y= (this.SharedBoardControlState.BoardHeight - 1) -y;
 
             
-            if (this.stoneDisplayTheme == StoneTheme.PolishedBitmap)
+            if (this.stoneDisplayTheme == StoneTheme.PolishedBitmap || this.stoneDisplayTheme == StoneTheme.Sabaki)
             {
+                CanvasBitmap bitmap = color == StoneColor.Black ? this.blackStoneBitmap : this.whiteStoneBitmap;
+                if (this.stoneDisplayTheme == StoneTheme.Sabaki)
+                {
+                    bitmap = color == StoneColor.Black ? this.sabakiBlackBitmap : this.sabakiWhiteBitmap;
+                }
                 double xPos = this._cellSize * (x + 0.025);
                 double yPos = this._cellSize * (y + 0.025);
-                drawingSession.DrawImage(color == StoneColor.Black ? this.blackStoneBitmap : this.whiteStoneBitmap,
+                drawingSession.DrawImage(bitmap,
                     new Rect(xPos, yPos, this._cellSize*0.95, this._cellSize * 0.95), this.blackStoneBitmap.Bounds, (float) opacity);
             }
             else
