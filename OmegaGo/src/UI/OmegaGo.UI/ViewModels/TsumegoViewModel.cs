@@ -175,7 +175,6 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             this._playerToMove = this._currentProblem.ColorToPlay;
             this._humansColor = this._playerToMove;
             this.CurrentNodeStatus = this._humansColor + " to play.";
-            this.BoardViewModel.BoardControlState.SelectedPosition = Position.Undefined;
         }
 
         public GameTreeNode CurrentNode
