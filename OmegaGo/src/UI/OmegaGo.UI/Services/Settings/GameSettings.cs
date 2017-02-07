@@ -40,9 +40,6 @@ namespace OmegaGo.UI.Services.Settings
             set { _settings.SetSetting(nameof(InputConfirmationRequired), value); }
         }
 
-       
-     
-
         private const string LanguageSettingKey = "Language";
         public string Language
         {

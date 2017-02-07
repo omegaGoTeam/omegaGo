@@ -49,6 +49,7 @@
             set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
         }
     }
+
     public enum BoardTheme
     {
         SolidColor,
