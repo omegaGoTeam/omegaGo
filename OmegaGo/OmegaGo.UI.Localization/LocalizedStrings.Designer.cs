@@ -548,6 +548,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total games played:.
+        /// </summary>
+        public static string TotalGamesPlayed {
+            get {
+                return ResourceManager.GetString("TotalGamesPlayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tutorial.
         /// </summary>
         public static string Tutorial {
