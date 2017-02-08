@@ -7,7 +7,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
-    internal interface IRemoteConnector
+    internal interface IRemoteConnector : IGameConnector
     {
       
     }

@@ -11,13 +11,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// </summary>
     public class IgsConnector : IRemoteConnector
     {
+        private readonly IgsConnection _connnection;
         private readonly IgsGameInfo _gameInfo;
         private readonly PlayerPair _players;
 
         private bool _handicapSet = false;
 
-        public IgsConnector(IgsGameInfo gameInfo, PlayerPair players)
+        public IgsConnector(IgsConnection connnection, IgsGameInfo gameInfo, PlayerPair players)
         {
+            _connnection = connnection;
             _gameInfo = gameInfo;
             _players = players;
         }
@@ -59,5 +61,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Indicates the handicap for the game
         /// </summary>
         public event EventHandler<int> GameHandicapSet;
+
+        /// <summary>
+        /// Informs the connection about a performed move
+        /// </summary>
+        /// <param name="move">Move that was performed</param>
+        public void MovePerformed( Move move)
+        {
+            //ignore IGS based moves
+            if (_players[move.WhoMoves].Agent is IgsAgent) return;
+            //inform the connection
+            _connnection.MadeMove(_gameInfo, move);
+        }
     }
 }

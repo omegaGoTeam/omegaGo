@@ -36,12 +36,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
         public override async void OnTurn()
         {
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
+                GameInfo,
                 Color,
                 GameState.GameTree,
                 _timeLimit,
-                GameInfo.RulesetType,
                 _strength
                 )));
+
             AiDecision decision = await aiTask;
             OnLogMessage(decision.Explanation);
             switch (decision.Kind)

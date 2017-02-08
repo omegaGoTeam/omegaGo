@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -25,6 +27,8 @@ namespace OmegaGo.Core.Modes.LiveGame
 {
     public class GameController : IGameController
     {
+        private readonly List<IGameConnector> _registeredConnectors = new List<IGameConnector>();
+
         /// <summary>
         /// The current game phase
         /// </summary>
@@ -55,7 +59,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             Ruleset = ruleset;
             Players = players;
             AssignPlayers();
-            GameTree = new GameTree(ruleset);            
+            GameTree = new GameTree(ruleset);
         }
 
         /// <summary>
@@ -95,6 +99,21 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Players in the game
         /// </summary>
         public PlayerPair Players { get; }
+
+        /// <summary>
+        /// Connectors in the game
+        /// </summary>
+        public IReadOnlyList<IGameConnector> Connectors => 
+            new ReadOnlyCollection<IGameConnector>(_registeredConnectors);
+
+        /// <summary>
+        /// Registers a connector
+        /// </summary>
+        /// <param name="connector">Game connector</param>
+        protected void RegisterConnector( IGameConnector connector )
+        {
+            _registeredConnectors.Add( connector );
+        }
 
         /// <summary>
         /// Game phase factory
@@ -149,8 +168,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public GameTree GameTree { get; }
 
-         
-        public void GoToEnd(GameEndInformation endInformation)
+
+        public void EndGame(GameEndInformation endInformation)
         {
             OnGameEnded(endInformation);
             SetPhase(GamePhaseType.Finished);
@@ -161,7 +180,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public void BeginGame()
         {
-            foreach(var player in Players)
+            foreach (var player in Players)
             {
                 player.Agent.Resign += Agent_Resign;
             }
@@ -171,12 +190,12 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         private void Agent_Resign(object sender, EventArgs e)
         {
-            Resign(Players[((IAgent) sender).Color]);
+            Resign(Players[((IAgent)sender).Color]);
         }
 
         public void Resign(GamePlayer playerToMove)
         {
-            GoToEnd(GameEndInformation.Resignation(playerToMove, this));
+            EndGame(GameEndInformation.CreateResignation(playerToMove, this));
         }
 
 
@@ -209,6 +228,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         public event EventHandler<GamePhaseType> GamePhaseChanged;
+
+        //TODO: REMOVE THIS
         public void Main_Undo()
         {
             if (Phase == GamePhaseType.Main)
@@ -219,7 +240,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 throw new Exception("Not main phase.");
             }
-        }        
+        }
 
         internal void SetPhase(GamePhaseType phase)
         {

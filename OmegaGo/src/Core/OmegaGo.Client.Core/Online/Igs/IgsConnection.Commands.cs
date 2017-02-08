@@ -101,12 +101,7 @@ namespace OmegaGo.Core.Online.Igs
         
         public async Task<IgsGame> StartObserving(IgsGameInfo gameInfo)
         {
-            if (gameInfo.Server != this)
-            {
-                // That is not an IGS game.
-                return null;
-            }
-            if (this._gamesBeingObserved.Any(g => g.Metadata.IgsIndex == gameInfo.IgsIndex))
+            if (this._gamesBeingObserved.Any(g => g.Info.IgsIndex == gameInfo.IgsIndex))
             {
                 // We are already observing this game.
                 return null;
@@ -165,7 +160,7 @@ namespace OmegaGo.Core.Online.Igs
                 return false;
             }
             this.OneUnobserveExpected = false;
-            var response = await MakeRequestAsync("unobserve " + game.Metadata.IgsIndex);
+            var response = await MakeRequestAsync("unobserve " + game.Info.IgsIndex);
             this._gamesBeingObserved.Remove(game);
             _gamesYouHaveOpened.Remove(game);
             return !response.IsError;
@@ -259,7 +254,7 @@ namespace OmegaGo.Core.Online.Igs
         }
 
 
-        public void MakeMove(IgsGameInfo game, Move move)
+        public void MadeMove(IgsGameInfo game, Move move)
         {
             switch (move.Kind)
             {
@@ -286,7 +281,7 @@ namespace OmegaGo.Core.Online.Igs
             if (_gamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
-                response = await MakeRequestAsync("say " + game.Metadata.IgsIndex + " " + chat);
+                response = await MakeRequestAsync("say " + game.Info.IgsIndex + " " + chat);
             }
             else
             {

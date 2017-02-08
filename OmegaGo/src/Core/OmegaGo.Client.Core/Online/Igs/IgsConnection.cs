@@ -405,7 +405,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <param name="whoResigned"></param>
         public void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
+            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameInfo.IgsIndex);
             IncomingResignation?.Invoke(this,
                 new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
             _gamesYouHaveOpened.Remove(game);
@@ -674,7 +674,7 @@ namespace OmegaGo.Core.Online.Igs
         
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
+            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
             StoneRemoval?.Invoke(this, new StoneRemovalEventArgs(game, deadPosition));
         }       
     }

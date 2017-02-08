@@ -26,17 +26,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Indicates that the player tried to place a stone
         /// </summary>
-        public event EventHandler<Position> PlaceStone;       
+        public event AgentEventHandler<Position> PlaceStone;       
 
         /// <summary>
         /// Indicates that the player resigned
         /// </summary>
-        public event EventHandler Resign;
+        public event AgentEventHandler Resign;
 
         /// <summary>
         /// Indicates that the player passed
         /// </summary>
-        public event EventHandler Pass;
+        public event AgentEventHandler Pass;
 
         /// <summary>
         /// Player color

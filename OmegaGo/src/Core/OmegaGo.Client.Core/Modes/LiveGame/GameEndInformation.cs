@@ -19,10 +19,15 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         public GameEndReason Reason { get; }
+
         public GamePlayer Loser { get; }
+
         public GamePlayer Winner { get; }
+
         public bool HasWinnerAndLoser { get; }
+
         public Scores Scores { private set; get; }
+
         public string Mainline
         {
             get
@@ -54,34 +59,38 @@ namespace OmegaGo.Core.Modes.LiveGame
 
         public string Subline => (this.Winner) + " wins against " + this.Loser;
 
-        public static GameEndInformation Timeout(GamePlayer whoTimedOut, IGameController controller)
+        public static GameEndInformation CreateTimeout(GamePlayer whoTimedOut, PlayerPair players)
         {
             return new GameEndInformation(GameEndReason.Timeout,
                 true,
-                controller.Players.GetOpponentOf(whoTimedOut),
+                players.GetOpponentOf(whoTimedOut),
                 whoTimedOut);
         }
-        public static GameEndInformation Resignation(GamePlayer whoResigned, IGameController controller)
+
+        public static GameEndInformation CreateResignation(GamePlayer whoResigned, PlayerPair players)
         {
             return new GameEndInformation(GameEndReason.Resignation,
                 true,
-                controller.Players.GetOpponentOf(whoResigned),
+                players.GetOpponentOf(whoResigned),
                 whoResigned);
         }
-        public static GameEndInformation Cancellation()
+
+        public static GameEndInformation CreateCancellation()
         {
             return new GameEndInformation(GameEndReason.Cancellation,
                 false,
                 null,
                 null);
         }
-        public static GameEndInformation Disconnection(GamePlayer whoDisconnected, IGameController controller)
+
+        public static GameEndInformation CreateDisconnection(GamePlayer whoDisconnected, PlayerPair players )
         {
-            return new LiveGame.GameEndInformation(GameEndReason.Disconnection, true,
-                controller.Players.GetOpponentOf(whoDisconnected),
+            return new GameEndInformation(GameEndReason.Disconnection, true,
+                players.GetOpponentOf(whoDisconnected),
                 whoDisconnected);
         }
-        public static GameEndInformation ScoringComplete(bool isDraw, GamePlayer winner, GamePlayer loser, Scores scores)
+
+        public static GameEndInformation CreateScoringComplete(bool isDraw, GamePlayer winner, GamePlayer loser, Scores scores)
         {
             return new GameEndInformation(GameEndReason.ScoringComplete, !isDraw, winner, loser)
             {

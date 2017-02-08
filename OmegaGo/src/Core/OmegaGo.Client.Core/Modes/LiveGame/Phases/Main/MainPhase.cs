@@ -15,71 +15,88 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
         }
 
+
+        /// <summary>
+        /// Main phase
+        /// </summary>
+        public override GamePhaseType PhaseType => GamePhaseType.Main;
+
+        /// <summary>
+        /// Starts main phase. Observes player events and asks the first player to move.
+        /// </summary>
         public override void StartPhase()
         {
             ObservePlayerEvents();
             AskFirstPlayerToMove();
         }
 
+        /// <summary>
+        /// Unsubscribes from player events
+        /// </summary>
         public override void EndPhase()
         {
             UnobservePlayerEvents();
         }
 
-        public override GamePhaseType PhaseType => GamePhaseType.Main;
-
-
+        /// <summary>
+        /// Asks the first player to make a move
+        /// </summary>
         private void AskFirstPlayerToMove()
         {
-            //handicapped game?
-            if (Controller.Info.NumberOfHandicapStones > 0)
-            {
-                Controller.TurnPlayer = Controller.Players.White;
-            }
-            else
-            {
-                Controller.TurnPlayer = Controller.Players.Black;
-            }
+            //decides who starts the game based on handicap information
+            Controller.TurnPlayer = Controller.Info.NumberOfHandicapStones > 0 ?
+                Controller.Players.White :
+                Controller.Players.Black;
+
             Controller.OnDebuggingMessage(Controller.TurnPlayer + " begins!");
+
+            //inform the agent that he is on turn
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
+        /// <summary>
+        /// Attaches player events
+        /// </summary>
         private void ObservePlayerEvents()
         {
             foreach (var player in Controller.Players)
             {
-                player.Agent.PlaceStone += HandleStonePlacement;
+                player.Agent.PlaceStone += Agent_PlaceStone;
                 player.Agent.Pass += Agent_Pass;
             }
         }
 
-        private void Agent_Pass(object sender, EventArgs e)
-        {
-            var agent = (sender as IAgent);
-            if (agent != null)
-            {
-                Move attemptedMove = Move.Pass(agent.Color);
-                TryToMakeMove(attemptedMove);
-            }
-        }
-
+        /// <summary>
+        /// Detaches player events
+        /// </summary>
         private void UnobservePlayerEvents()
         {
             foreach (var player in Controller.Players)
             {
-                player.Agent.PlaceStone -= HandleStonePlacement;
+                player.Agent.PlaceStone -= Agent_PlaceStone;
                 player.Agent.Pass -= Agent_Pass;
             }
         }
 
-        private void HandleStonePlacement(object sender, Position e)
+        /// <summary>
+        /// Handles the agent's place stone event
+        /// </summary>
+        /// <param name="agent">Agent who placed the stone</param>
+        /// <param name="position">Position played</param>
+        private void Agent_PlaceStone(IAgent agent, Position position)
         {
-            var agent = (sender as IAgent);
-            if (agent != null)
-            {
-                Move attemptedMove = Move.PlaceStone(agent.Color, e);
-                TryToMakeMove(attemptedMove);
-            }
+            Move attemptedMove = Move.PlaceStone(agent.Color, position);
+            TryToMakeMove(attemptedMove);
+        }
+
+        /// <summary>
+        /// Handles the agent's pass event
+        /// </summary>
+        /// <param name="agent">Agent</param>
+        private void Agent_Pass(IAgent agent)
+        {
+            Move attemptedMove = Move.Pass(agent.Color);
+            TryToMakeMove(attemptedMove);
         }
 
         private void TryToMakeMove(Move move)
@@ -88,84 +105,112 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             if (player != Controller.TurnPlayer)
                 throw new InvalidOperationException("It is not your turn.");
 
-            MoveProcessingResult result =
+            //ask the ruleset to validate the move
+            MoveProcessingResult processingResult =
                    Controller.Ruleset.ProcessMove(
                        Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
                        move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]); 
-            
-            if (result.Result == MoveResult.StartLifeAndDeath)
+                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
+
+            //are we about to enter life and death phase?
+            if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
-                if (this.Controller.IsOnlineGame)
-                {
-                    result.Result = MoveResult.Legal;
-                }
-                else
-                {
-                    GoToPhase(GamePhaseType.LifeDeathDetermination);
-                    return;
-                }
+                //TODO: IS THIS REALLY NECESSARY?
+                //if (this.Controller.IsOnlineGame)
+                //{
+                //    processingResult.Result = MoveResult.Legal;
+                //}
+                GoToPhase(GamePhaseType.LifeDeathDetermination);
+                return;
             }
-            else if (result.Result != MoveResult.Legal)
+
+            //is the move illegal?
+            if (processingResult.Result != MoveResult.Legal)
             {
-                Controller.OnDebuggingMessage("That move was illegal: " + result.Result);
-                switch (player.Agent.IllegalMoveHandling)
+                Controller.OnDebuggingMessage("That move was illegal: " + processingResult.Result);
+
+                //handle the illegal move
+                if (HandlePlayersIllegalMove(move, processingResult) != IllegalMoveHandling.PermitItAnyway)
                 {
-                    case IllegalMoveHandling.InformAgent:
-                        player.Agent.MoveIllegal(result.Result);
-                        break;
-                    case IllegalMoveHandling.PassInstead:
-                        Controller.OnDebuggingMessage("Passing instead.");
-                        TryToMakeMove(Move.Pass(move.WhoMoves));
-                        break;
-                    case IllegalMoveHandling.PermitItAnyway:
-                        Controller.OnDebuggingMessage("Permitting it anyway.");
-                        result.Result = MoveResult.Legal;
-                        break;
-                }
-                if (result.Result != MoveResult.Legal)
-                {
-                    // Still illegal.
+                    //stop processing, this stone will not be placed
                     return;
                 }
             }
 
+            //we have a legal move
             if (move.Kind == MoveKind.PlaceStone)
             {
-                move.Captures.AddRange(result.Captures);
+                move.Captures.AddRange(processingResult.Captures);
             }
-            if (!Controller.IsOnlineGame && player.Clock.IsViolating())
+
+            //TODO: WHY NOT IN ONLINE GAME?
+            // if ( !Controller.IsOnlineGame && ... )
+            if (player.Clock.IsViolating())
             {
                 ClockOut(player);
                 return;
             }
 
-            // The move stands, let's make the other player move now.
-            if (Controller.TurnPlayer.IsHuman)
-            {
-                Controller.Server?.Commands.MakeMove(Controller.RemoteInfo, move);
-            }
+            //applies the legal move
             Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
-            Controller.NumberOfMoves++;
-            var newNode = Controller.GameTree.AddMoveToEnd(move, new GameBoard(result.NewBoard));            
-            Controller.CurrentNode = newNode;
+            ApplyMove(move, processingResult.NewBoard);
+
+            //switches players
             Controller.SwitchTurnPlayer();
-            Controller.TurnPlayer.Agent.PleaseMakeAMove();
             Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
-        private void ClockOut(GamePlayer player)
+        /// <summary>
+        /// Applies a move in the game state
+        /// </summary>
+        /// <param name="move">Move</param>
+        /// <param name="newBoard">Game board state after the move</param>
+        private void ApplyMove(Move move, GameBoard newBoard)
         {
-            Controller.GoToEnd(GameEndInformation.Timeout(player, this.Controller));
+            Controller.NumberOfMoves++;
+            var newNode = Controller.GameTree.AddMoveToEnd(move, newBoard);
+            Controller.CurrentNode = newNode;
+
+            //inform the players that a move occured
+            foreach (var connector in Controller.Connectors)
+            {
+                connector.MovePerformed(move);
+            }
         }
 
-        ///// <summary>
-        ///// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
-        ///// us to undo, or whenever the user clicks to locally undo.
-        ///// </summary>
+        /// <summary>
+        /// Handles an illegal move
+        /// </summary>
+        /// <param name="move">Move</param>
+        /// <param name="processingResult">Why was the move illegal</param>
+        private IllegalMoveHandling HandlePlayersIllegalMove(Move move, MoveProcessingResult processingResult)
+        {
+            var player = Controller.Players[move.WhoMoves];
+            switch (player.Agent.IllegalMoveHandling)
+            {
+                case IllegalMoveHandling.InformAgent:
+                    player.Agent.MoveIllegal(processingResult.Result);
+                    break;
+                case IllegalMoveHandling.PassInstead:
+                    Controller.OnDebuggingMessage("Passing instead.");
+                    TryToMakeMove(Move.Pass(move.WhoMoves));
+                    break;
+                case IllegalMoveHandling.PermitItAnyway:
+                    Controller.OnDebuggingMessage("Permitting it anyway.");
+                    processingResult.Result = MoveResult.Legal;
+                    break;
+            }
+            return player.Agent.IllegalMoveHandling;
+        }
+        
+        //TODO: Extract last node deletion to a GameTree method and ensure the undo works with IGS
+        /// <summary>
+        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
+        /// us to undo, or whenever the user clicks to locally undo.
+        /// </summary>
         public void Undo()
         {
-           
             var latestMove = Controller.GameTree.LastNode;
             if (latestMove == null)
             {
@@ -192,6 +237,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.OnBoardMustBeRefreshed();
         }
 
-      
+        /// <summary>
+        /// Called when a player clocks out. Ends the game as a timeout.
+        /// </summary>
+        /// <param name="player">Player that clocked out</param>
+        private void ClockOut(GamePlayer player)
+        {
+            var endGameInformation = GameEndInformation.CreateTimeout(player, Controller.Players);
+            Controller.EndGame(endGameInformation);
+        }
     }
 }

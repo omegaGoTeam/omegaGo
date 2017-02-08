@@ -30,17 +30,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Fired when the agent tries to place a stone on a position
         /// </summary>
-        event EventHandler<Position> PlaceStone;
+        event AgentEventHandler<Position> PlaceStone;
 
         /// <summary>
         /// Fired when the agent resigns
         /// </summary>
-        event EventHandler Resign;
+        event AgentEventHandler Resign;
 
         /// <summary>
         /// Fired when the agent passes
         /// </summary>
-        event EventHandler Pass;
+        event AgentEventHandler Pass;
 
         /// <summary>
         /// Gets the type of the agent

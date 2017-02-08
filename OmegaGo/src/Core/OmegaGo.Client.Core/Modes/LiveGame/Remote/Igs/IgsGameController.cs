@@ -31,7 +31,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             Info = gameInfo;
 
             //create and register connector
-            IgsConnector = new IgsConnector(gameInfo, players);
+            IgsConnector = new IgsConnector(serverConnection, gameInfo, players);
+            RegisterConnector(IgsConnector);
             InitializeServer(serverConnection);
         }
 
