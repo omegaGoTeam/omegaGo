@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
@@ -180,8 +181,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
             Controller.GoToEnd(GameEndInformation.Timeout(player, this.Controller));
         }
-
-       
 
         ///// <summary>
         ///// Undoes the last move made, regardless of which player made it. This is called whenever the server commands

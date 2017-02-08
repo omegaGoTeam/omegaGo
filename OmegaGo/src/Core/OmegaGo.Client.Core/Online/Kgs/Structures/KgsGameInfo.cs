@@ -1,5 +1,6 @@
 using System;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream;

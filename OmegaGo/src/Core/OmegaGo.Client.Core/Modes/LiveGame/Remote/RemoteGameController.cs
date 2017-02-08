@@ -8,7 +8,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
     /// <summary>
     /// Base class for remote game controllers
     /// </summary>
-    public abstract class RemoteGameController : GameController
+    internal abstract class RemoteGameController : GameController
     {
         /// <summary>
         /// Creates a remote game controller
@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         /// <param name="ruleset">Ruleset that guides the game</param>
         /// <param name="players">Players playing the game</param>
         /// <param name="serverConnection">Server connection</param>
-        protected RemoteGameController(RemoteGameInfo remoteGameInfo, IRuleset ruleset, PlayerPair players, IServerConnection serverConnection) : base(gameInfo, ruleset, players)
+        protected RemoteGameController(RemoteGameInfo remoteGameInfo, IRuleset ruleset, PlayerPair players, IServerConnection serverConnection) : base(remoteGameInfo, ruleset, players)
         {
             Info = remoteGameInfo;                   
             Server = serverConnection;            
@@ -34,13 +34,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         internal new RemoteGameInfo Info { get; }
 
 
-        private void Events_EnterLifeDeath(object sender, RemoteGame e)
-        {
-            if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
-            {
-                SetPhase(GamePhaseType.LifeDeathDetermination);
-            }
-        }
         
         private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
         {

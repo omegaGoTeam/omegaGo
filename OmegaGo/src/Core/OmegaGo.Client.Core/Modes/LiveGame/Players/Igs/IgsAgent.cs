@@ -9,21 +9,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 {
     public class IgsAgent : AgentBase
     {
-        private readonly IgsConnection _pandanet;
+        private readonly IgsConnection _connection;
+        private readonly Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
         private int handicapStones = -1;
 
-        public IgsAgent(StoneColor color, IgsConnection pandanet) : base(color)
+        public IgsAgent(StoneColor color, IgsConnection connection) : base(color)
         {
-            this._pandanet = pandanet;
+            this._connection = connection;
         }
 
         protected override void WhenAssignedToGame()
         {
-            _pandanet.IncomingMove += _pandanet_IncomingMove;
-            _pandanet.IncomingHandicapInformation += _pandanet_IncomingHandicapInformation;
+            _connection.IncomingMove += ConnectionIncomingMove;
+            _connection.IncomingHandicapInformation += ConnectionIncomingHandicapInformation;
         }
 
-        private void _pandanet_IncomingHandicapInformation(object sender, System.Tuple<IgsGame, int> e)
+        private void ConnectionIncomingHandicapInformation(object sender, System.Tuple<IgsGame, int> e)
         {
             if (e.Item1.Info == this.GameInfo)
             {
@@ -35,9 +36,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
             }
         }
 
-        private Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
 
-        private void _pandanet_IncomingMove(object sender, System.Tuple<IgsGame, int, Move> e)
+        private void ConnectionIncomingMove(object sender, System.Tuple<IgsGame, int, Move> e)
         {
             if (e.Item1.Info == this.GameInfo)
             {

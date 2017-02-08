@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             this._info = info;
             this.BoardSize(info.BoardSize);
             this.CountingType(Rules.CountingType.Territory);
-            this.HandicapPlacementType(Rules.HandicapPlacementType.Fixed);
+            this.HandicapPlacementType(Phases.HandicapPlacement.HandicapPlacementType.Fixed);
             this.Komi(info.Komi);
             this.WhiteHandicap(info.NumberOfHandicapStones);
         }

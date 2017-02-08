@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;

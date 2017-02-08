@@ -6,7 +6,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
-    public class IgsGameController : RemoteGameController
+    internal class IgsGameController : RemoteGameController
     {
         /// <summary>
         /// Creates IGS game controller
@@ -26,12 +26,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// </summary>
         private void InitializeServer( IgsConnection serverConnection )
         {
-            serverConnection.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
-
-            // Temporary: The following lines will be moved to the common constructor when life/death begins to work
+            // TODO: (after refactoring) < move to Life/death
+            // TODO: Temporary: The following lines will be moved to the common constructor when life/death begins to work
             // for KGS.
+            serverConnection.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
             serverConnection.IncomingResignation += IncomingResignation;
-            serverConnection.StoneRemoval += StoneRemoval; // TODO (after refactoring) < move to Life/death
+            serverConnection.StoneRemoval += StoneRemoval;
             serverConnection.Events.EnterLifeDeath += Events_EnterLifeDeath;
             serverConnection.GameScoredAndCompleted += GameScoredAndCompleted;
         }
@@ -45,7 +45,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {
             // TODO this may not be our game (after refactor update)
-            ((thPhase as LifeAndDeathPhase)).ScoreIt(new Rules.Scores()
+            ((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
             {
                 WhiteScore = e.WhiteScore,
                 BlackScore = e.BlackScore

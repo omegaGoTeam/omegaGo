@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Rules
+namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
-    public enum HandicapPlacementType
+    public interface IConnectorToAgent
     {
-        Free,
-        Fixed
     }
 }

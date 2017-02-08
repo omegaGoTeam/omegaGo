@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Igs;
 using IgsGameBuilder = OmegaGo.Core.Modes.LiveGame.Remote.Igs.IgsGameBuilder;
@@ -23,7 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private RulesetType _rulesetType = RulesetType.Japanese;
         private GameBoardSize _boardSize = new GameBoardSize(19);
         private CountingType _countingType = Rules.CountingType.Area;
-        private HandicapPlacementType _handicapPlacementType = Rules.HandicapPlacementType.Fixed;
+        private HandicapPlacementType _handicapPlacementType = Phases.HandicapPlacement.HandicapPlacementType.Fixed;
 
         private GamePlayer _whitePlayer = null;
         private GamePlayer _blackPlayer = null;
