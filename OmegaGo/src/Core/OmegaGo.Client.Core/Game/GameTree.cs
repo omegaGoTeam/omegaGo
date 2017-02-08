@@ -56,7 +56,7 @@ namespace OmegaGo.Core.Game
                 while (node != null)
                 {
                     yield return node;
-                    node = node.NextMove;
+                    node = node.NextNode;
                 }
             }
         }

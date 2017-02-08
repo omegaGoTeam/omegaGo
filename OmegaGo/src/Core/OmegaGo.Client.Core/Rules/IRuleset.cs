@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">The move of a player.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
-        MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
+        MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history);
 
         /// <summary>
         /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
@@ -36,7 +36,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">The current full board position.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>List of legal moves.</returns>
-        List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history);
+        List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, GameBoard[] history);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
@@ -45,7 +45,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, List<GameBoard> history);
+        MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, GameBoard[] history);
         
         void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
 

@@ -35,13 +35,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 
         public override async void OnTurn()
         {
-            GameBoard createdBoard = GameBoard.CreateBoardFromGameTree(GameInfo, GameState.GameTree);
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
                 Color,
-                createdBoard,
+                GameState.GameTree,
                 _timeLimit,
-                _strength,
-                GameState.GameTree.PrimaryMoveTimeline.ToList()
+                GameInfo.RulesetType,
+                _strength
                 )));
             AiDecision decision = await aiTask;
             OnLogMessage(decision.Explanation);

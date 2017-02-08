@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI
 {
@@ -13,13 +14,18 @@ namespace OmegaGo.Core.AI
     public class AIPreMoveInformation
     {
         /// <summary>
+        /// Game info
+        /// </summary>
+        public GameInfo GameInfo { get; set; }
+
+        /// <summary>
         /// The player whose turn it is. The AI will make a move for this player.
         /// </summary>
         public StoneColor AIColor { get; }
         /// <summary>
         /// The current full board state (excluding information about Ko). 
         /// </summary>
-        public GameBoard Board { get; }
+        public GameTree GameTree { get; }
         /// <summary>
         /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,
         /// it may provide its decision earlier or later. If it doesn't provide a decision by this time, the
@@ -31,22 +37,22 @@ namespace OmegaGo.Core.AI
         /// Level of strength the AI should demonstrate. Levels go from 1 (lowest) to 10 (highest).
         /// </summary>
         public int Difficulty { get; }
-        public IEnumerable<Move> History { get; }
 
         /// <summary>
         /// Creates a new structure that gives the AI information it needs to make a move.
         /// </summary>
+        /// <param name="gameInfo">Game info</param>
         /// <param name="aiColor">The player whose turn it is. The AI will make a move for this player.</param>
-        /// <param name="board">The current full board state (excluding information about Ko). </param>        
+        /// <param name="gameTree">The current full board state (excluding information about Ko). </param>        
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
-        /// <param name="history">What moves were played previously in the game, starting with the first.</param>
-        public AIPreMoveInformation(StoneColor aiColor, GameBoard board,TimeSpan timeLimit, int difficulty, IEnumerable<Move> history)
+        /// <param name="rulesetType">Ruleset type</param>
+        public AIPreMoveInformation(GameInfo gameInfo, StoneColor aiColor, GameTree gameTree, TimeSpan timeLimit, int difficulty)
         {
+            GameInfo = gameInfo;
             Difficulty = difficulty;
             AIColor = aiColor;
-            History = history;
-            Board = board;
+            GameTree = gameTree;
             TimeLimit = timeLimit;
         }
     }

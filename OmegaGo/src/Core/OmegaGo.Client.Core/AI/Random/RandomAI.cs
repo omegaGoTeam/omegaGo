@@ -21,14 +21,17 @@ namespace OmegaGo.Core.AI.Random
 
         public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
-            if (preMoveInformation.History.Any() &&
-                preMoveInformation.History.Last().Kind == MoveKind.Pass)
+            var moves = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            if (moves.Any() &&
+               moves.Last().Kind == MoveKind.Pass)
             {
                 return AiDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
-            //TODO: The all legal moves request is not correct; to get the possible legal moves we need: the color of player, board state, history of game board states; the ruleset cannot check the move legality without this information
-            //List<Position> possibleIntersections = new ChineseRuleset(preMoveInformation.Board.Size).GetAllLegalMoves(preMoveInformation.AIColor,preMoveInformation.Board,"history of game board states");
-            List<Position> possibleIntersections = new ChineseRuleset(preMoveInformation.Board.Size).GetAllLegalMoves(preMoveInformation.Board);
+            GameBoard createdBoard = GameBoard.CreateBoardFromGameTree(preMoveInformation.GameInfo, preMoveInformation.GameTree);
+            List<Position> possibleIntersections = 
+                Ruleset.Create(
+                    preMoveInformation.GameInfo.RulesetType, 
+                    preMoveInformation.GameInfo.BoardSize).GetAllLegalMoves(preMoveInformation.AIColor, createdBoard, preMoveInformation.GameTree.LastNode.GetNodeHistory().ToArray());
             if (possibleIntersections.Count == 0)
             {
                 return AiDecision.Resign("There are no more moves left to do.");

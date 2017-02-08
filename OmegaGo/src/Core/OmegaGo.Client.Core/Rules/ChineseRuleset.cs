@@ -69,7 +69,7 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
         {
             _isPreviousMovePass = false;
 
