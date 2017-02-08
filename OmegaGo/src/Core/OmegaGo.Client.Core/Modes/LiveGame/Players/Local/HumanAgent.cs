@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Local
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.InformAgent;
 
-        public override void MoveIllegal(MoveResult move)
+        public override void MoveIllegal(MoveResult moveResult)
         {
             PleaseMakeAMove();
         }

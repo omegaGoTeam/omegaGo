@@ -58,8 +58,10 @@
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IgsHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeath.cs" />
+    <Compile Include="Modes\LiveGame\Players\Igs\IIgsAgent.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameBuilder.cs" />

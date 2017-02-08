@@ -9,6 +9,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
     internal interface IRemoteConnector
     {
-        void IncomingMove(int moveIndex, Move move);
+      
     }
 }

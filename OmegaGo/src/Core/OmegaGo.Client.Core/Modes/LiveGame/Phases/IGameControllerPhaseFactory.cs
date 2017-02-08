@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
     /// <summary>
     /// Provides factory for game controller's phases
     /// </summary>
-    interface IGameControllerPhaseFactory
+    public interface IGameControllerPhaseFactory
     {
         /// <summary>
         /// Creates a given phase

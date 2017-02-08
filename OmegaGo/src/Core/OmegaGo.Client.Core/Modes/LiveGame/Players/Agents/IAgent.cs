@@ -66,8 +66,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Informs the agent that his last move was illegal
         /// </summary>
-        /// <param name="reason">Reason</param>
-        void MoveIllegal(MoveResult reason);
+        /// <param name="moveResult">Reason</param>
+        void MoveIllegal(MoveResult moveResult);
 
         /// <summary>
         /// Assigns the agent to a game

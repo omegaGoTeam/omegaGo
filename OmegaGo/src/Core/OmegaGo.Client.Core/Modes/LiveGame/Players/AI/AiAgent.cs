@@ -57,7 +57,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
             }
         }
 
-        public override void MoveIllegal(MoveResult move)
+        public override void MoveIllegal(MoveResult moveResult)
         {
             throw new Exception("This should never be called.");
         }

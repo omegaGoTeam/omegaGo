@@ -1,6 +1,11 @@
 ﻿using System.Linq;
 using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
+using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
+using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
@@ -12,7 +17,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// <summary>
         /// IGS Connector
         /// </summary>
-        private readonly IgsConnector _igsConnector = null;
+        internal readonly IgsConnector IgsConnector = null;
 
         /// <summary>
         /// Creates IGS game controller
@@ -24,8 +29,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         public IgsGameController(IgsGameInfo gameInfo, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
-            _igsConnector = new IgsConnector(gameInfo);
-            serverConnection.RegisterConnector(_igsConnector);
+
+            //create and register connector
+            IgsConnector = new IgsConnector(gameInfo, players);
             InitializeServer(serverConnection);
         }
 
@@ -34,6 +40,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// </summary>
         private void InitializeServer(IgsConnection serverConnection)
         {
+            serverConnection.RegisterConnector(IgsConnector);
+
             // TODO: (after refactoring) < move to Life/death
             // TODO: Temporary: The following lines will be moved to the common constructor when life/death begins to work
             // for KGS.
@@ -72,5 +80,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
                 Resign(e.Player);
             }
         }
+
+        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
     }
 }

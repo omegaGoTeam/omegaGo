@@ -51,7 +51,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Kgs
 
         public override AgentType Type => AgentType.Remote;
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PermitItAnyway;
-        public override void MoveIllegal(MoveResult move)
+        public override void MoveIllegal(MoveResult moveResult)
         {
             throw new System.Exception(
                 "We represent the server and our moves are inherently superior. What does the caller think he is, calling our moves 'illega'. Pche.");

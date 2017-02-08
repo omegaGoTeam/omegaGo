@@ -84,5 +84,20 @@ namespace OmegaGo.Core.Game
             LastNode = node;
             return node;
         }
+
+        /// <summary>
+        /// Adds a new non-move node to the end
+        /// </summary>
+        /// <param name="newBlackStones">Newly added black stones</param>
+        /// <param name="newWhiteStones">Newly added white stones</param>
+        /// <param name="gameBoard">Game board</param>
+        /// <returns></returns>
+        public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard)
+        {
+            var newNode = AddMoveToEnd(Move.NoneMove, gameBoard);
+            newNode.AddBlack.AddRange(newBlackStones);
+            newNode.AddWhite.AddRange(newWhiteStones);
+            return newNode;
+        }
     }
 }

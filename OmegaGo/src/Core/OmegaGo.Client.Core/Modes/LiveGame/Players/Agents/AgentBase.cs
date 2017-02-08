@@ -68,7 +68,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
         }
 
-        public abstract void MoveIllegal(MoveResult move);
+        public abstract void MoveIllegal(MoveResult moveResult);
 
         public virtual void GameInitialized()
         {

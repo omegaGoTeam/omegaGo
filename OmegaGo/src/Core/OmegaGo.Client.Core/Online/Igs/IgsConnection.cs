@@ -589,14 +589,12 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingMove(IgsGame game, int moveIndex, Move theMove)
         {
-            _availableConnectors[game.Info.IgsIndex].IncomingMove(moveIndex, theMove);
+            _availableConnectors[game.Info.IgsIndex].IncomingMoveFromServer(moveIndex, theMove);
         }
-       
 
         private void OnIncomingHandicapInformation(IgsGame game, int stoneCount)
         {
-            IncomingHandicapInformation?.Invoke(this,
-                new Tuple<IgsGame, int>(game, stoneCount));
+            _availableConnectors[game.Info.IgsIndex].SetHandicap(stoneCount);
         }        
 
         private void OnBeep()

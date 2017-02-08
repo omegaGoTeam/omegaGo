@@ -33,7 +33,7 @@ namespace OmegaGo.Core.AI
         /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history.
         /// </summary>
         /// <param name="preMoveInformation">Information the AI might need.</param>
-        /// <returns></returns>
+        /// <returns>Decision</returns>
         AiDecision RequestMove (AIPreMoveInformation preMoveInformation);
 
         /// <summary>

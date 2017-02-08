@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
@@ -7,88 +8,85 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
 {
-    public class IgsAgent : AgentBase
+    /// <summary>
+    /// IGS agent
+    /// </summary>
+    public class IgsAgent : AgentBase, IIgsAgent
     {
-        private readonly IgsConnection _connection;
+        /// <summary>
+        /// Contains the moves already received from the server
+        /// </summary>
         private readonly Dictionary<int, Move> _storedMoves = new Dictionary<int, Move>();
-        private int handicapStones = -1;
 
-        public IgsAgent(StoneColor color, IgsConnection connection) : base(color)
+        /// <summary>
+        /// Creates the IGS Agent
+        /// </summary>
+        /// <param name="color">Color the agent plays</param>
+        public IgsAgent(StoneColor color) : base(color)
         {
-            this._connection = connection;
         }
 
-        protected override void WhenAssignedToGame()
+        /// <summary>
+        /// Type of the agent
+        /// </summary>
+        public override AgentType Type => AgentType.Remote;
+
+        /// <summary>
+        /// Handling of illegal moves
+        /// </summary>
+        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PermitItAnyway;
+
+        /// <summary>
+        /// Handles incoming move from server
+        /// </summary>
+        /// <param name="moveIndex">Index of the move</param>
+        /// <param name="move">Move</param>
+        public void IncomingMoveFromServer(int moveIndex, Move move)
         {
-            _connection.IncomingMove += ConnectionIncomingMove;
-            _connection.IncomingHandicapInformation += ConnectionIncomingHandicapInformation;
+            if (move.WhoMoves != Color) throw new InvalidOperationException("Agent received a move that is not his.");
+            _storedMoves[moveIndex] = move;
+            MakeMoveIfOnTurn();
         }
 
-        private void ConnectionIncomingHandicapInformation(object sender, System.Tuple<IgsGame, int> e)
+        /// <summary>
+        /// May perform a move if on turn
+        /// </summary>
+        private void MakeMoveIfOnTurn()
         {
-            if (e.Item1.Info == this.GameInfo)
-            {
-                if (this.Color == StoneColor.Black)
-                {
-                    this.handicapStones = e.Item2;
-                    MaybeMakeMove();
-                }
-            }
-        }
-
-
-        private void ConnectionIncomingMove(object sender, System.Tuple<IgsGame, int, Move> e)
-        {
-            if (e.Item1.Info == this.GameInfo)
-            {
-                if (e.Item3.WhoMoves == this.Color)
-                {
-                    _storedMoves[e.Item2] = e.Item3;
-                    MaybeMakeMove();
-                }
-            }
-        }
-
-        private void MaybeMakeMove()
-        {
-            int moveToMake = this.GameState.NumberOfMoves;
-            if (moveToMake == 0)
-            {
-                if (handicapStones != -1)
-                {
-                    OnPlaceHandicapStones(this.handicapStones);
-                }
-            }
+            int moveToMake = GameState.NumberOfMoves;
             if (_storedMoves.ContainsKey(moveToMake))
             {
                 Move move = _storedMoves[moveToMake];
                 if (move.Kind == MoveKind.PlaceStone)
                 {
                     OnPlaceStone(move.Coordinates);
-                }else if (move.Kind == MoveKind.Pass)
+                }
+                else if (move.Kind == MoveKind.Pass)
                 {
                     OnPass();
                 }
             }
         }
 
+        /// <summary>
+        /// Asks the player to make a move.
+        /// If a the move was already received from server, it will be performed immediately.
+        /// </summary>
         public override void PleaseMakeAMove()
         {
             // TODO add request received flag, so we don't make moves before such is demanded
             // TODO (sigh) this will be hard to debug, I guess
-            MaybeMakeMove();
+            MakeMoveIfOnTurn();
         }
 
-        public override void GameInitialized()
+        /// <summary>
+        /// In the case of IGS, the move should be made even if evaluated as illegal
+        /// </summary>
+        /// <param name="moveResult">Move result</param>
+        public override void MoveIllegal(MoveResult moveResult)
         {
-        }
-
-        public override AgentType Type => AgentType.Remote;
-        public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PermitItAnyway;
-        public override void MoveIllegal(MoveResult move)
-        {
-            throw new System.Exception(
-                "We represent the server and our moves are inherently superior. What does the caller think he is, calling our moves 'illega'. Pche.");
+            throw new InvalidOperationException(
+                "We represent the server and our moves are inherently superior. What does the caller think he is, calling our moves 'illegal'. Pche.");
         }
     }
 }

@@ -46,7 +46,6 @@ namespace OmegaGo.Core.AI
         /// <param name="gameTree">The current full board state (excluding information about Ko). </param>        
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
-        /// <param name="rulesetType">Ruleset type</param>
         public AIPreMoveInformation(GameInfo gameInfo, StoneColor aiColor, GameTree gameTree, TimeSpan timeLimit, int difficulty)
         {
             GameInfo = gameInfo;

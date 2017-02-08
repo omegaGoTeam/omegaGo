@@ -49,71 +49,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var player in Controller.Players)
             {
                 player.Agent.PlaceStone += HandleStonePlacement;
-                player.Agent.PlaceHandicapStones += Agent_PlaceHandicapStones;
                 player.Agent.Pass += Agent_Pass;
             }
         }
 
-        private void Agent_PlaceHandicapStones(object sender, int count)
-        {
-            var agent = (sender as IAgent);
-            if (agent != null)
-            {
-
-                Controller.OnDebuggingMessage("Placing " + count + " handicap stones...");
-
-                Controller.Info.NumberOfHandicapStones = count;
-
-                GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
-
-                PlaceIgsHandicapStones(ref gameBoard, count);
-
-                Controller.NumberOfMoves++;
-                Controller.CurrentNode = Controller.GameTree.AddMoveToEnd(Move.NoneMove, gameBoard);
-                Controller.TurnPlayer = Controller.Players.White;
-                Controller.TurnPlayer.Agent.PleaseMakeAMove();
-                Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
-            }
-        }
-
-        private void PlaceIgsHandicapStones(ref GameBoard currentBoard, int stoneCount)
-        {
-            switch (currentBoard.Size.Width)
-            {
-                case 9:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap9)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 13:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap13)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 19:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap19)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }
         private void Agent_Pass(object sender, EventArgs e)
         {
             var agent = (sender as IAgent);
