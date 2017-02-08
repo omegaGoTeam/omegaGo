@@ -153,7 +153,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                    Controller.Ruleset.ProcessMove(
                        Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
                        move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToList() ?? new List<GameBoard>()); 
+                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]); 
             
             if (result.Result == MoveResult.StartLifeAndDeath)
             {

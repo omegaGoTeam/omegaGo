@@ -53,10 +53,12 @@
     <Compile Include="Modes\LiveGame\Connectors\IConnectorToAgent.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IConnectorToGame.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
+    <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IgsHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeath.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="Modes\LiveGame\ILiveGame.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
@@ -9,22 +10,29 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
     internal class IgsGameController : RemoteGameController
     {
         /// <summary>
+        /// IGS Connector
+        /// </summary>
+        private readonly IgsConnector _igsConnector = null;
+
+        /// <summary>
         /// Creates IGS game controller
         /// </summary>
         /// <param name="gameInfo">Game info</param>
         /// <param name="ruleset">Ruleset</param>
         /// <param name="players">Players</param>
         /// <param name="serverConnection">Connection to IGS server</param>
-        public IgsGameController(IgsGameInfo gameInfo, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection ) : base(gameInfo, ruleset, players, serverConnection)
+        public IgsGameController(IgsGameInfo gameInfo, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
-            InitializeServer( serverConnection );
+            _igsConnector = new IgsConnector(gameInfo);
+            serverConnection.RegisterConnector(_igsConnector);
+            InitializeServer(serverConnection);
         }
 
         /// <summary>
         /// Initializes server
         /// </summary>
-        private void InitializeServer( IgsConnection serverConnection )
+        private void InitializeServer(IgsConnection serverConnection)
         {
             // TODO: (after refactoring) < move to Life/death
             // TODO: Temporary: The following lines will be moved to the common constructor when life/death begins to work
@@ -35,12 +43,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             serverConnection.Events.EnterLifeDeath += Events_EnterLifeDeath;
             serverConnection.GameScoredAndCompleted += GameScoredAndCompleted;
         }
-        
+
         /// <summary>
         /// IGS game info
         /// </summary>
         internal new IgsGameInfo Info { get; }
-
 
         private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
         {

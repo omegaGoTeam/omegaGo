@@ -8,11 +8,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
     {
         public IgsGame(IgsGameInfo info, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(info)
         {
-            Info = info;
+            Info = info;            
             Controller = new IgsGameController(Info, ruleset, players, serverConnection);
         }
 
-        public new IgsGameInfo Info { get; }
+        public new IgsGameInfo Info { get; }      
 
         public override IGameController Controller { get; }
     }

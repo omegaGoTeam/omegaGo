@@ -244,7 +244,7 @@ namespace OmegaGo.Core.Game
                 copyOfPreviousBoard[position] = StoneColor.White;
 
             var mpr =
-                ruleset.ProcessMove(copyOfPreviousBoard, Move, new List<GameBoard>());
+                ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
 
             BoardState = mpr.NewBoard;
         }

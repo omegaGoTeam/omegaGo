@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
-    internal abstract class GamePhaseBase : IGamePhase
+    public abstract class GamePhaseBase : IGamePhase
     {
         protected GamePhaseBase(GameController gameController)
         {

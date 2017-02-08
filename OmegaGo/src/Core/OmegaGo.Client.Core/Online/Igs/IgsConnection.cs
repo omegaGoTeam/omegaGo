@@ -11,6 +11,7 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
@@ -56,6 +57,8 @@ namespace OmegaGo.Core.Online.Igs
          * Status    
          */
 
+        private readonly Dictionary<int,IgsConnector> _availableConnectors = new Dictionary<int, IgsConnector>();
+        
         /// <summary>
         /// List of games that are being observed
         /// </summary>
@@ -409,6 +412,17 @@ namespace OmegaGo.Core.Online.Igs
         }
 
         /// <summary>
+        /// Registers a IGS game connector
+        /// </summary>
+        /// <param name="connector">Connector</param>
+        public void RegisterConnector(IgsConnector connector)
+        {
+            if (connector == null) throw new ArgumentNullException(nameof(connector));
+            if ( _availableConnectors.ContainsKey( connector.GameId ) ) throw new ArgumentException("This game was already registered", nameof(connector));
+            _availableConnectors[connector.GameId] = connector;
+        }
+
+        /// <summary>
         /// Enqueues the <paramref name="command"/> to be sent over Telnet to the IGS SERVER,
         /// then asynchronously receives the entirety of the server's response to this command.
         /// </summary>
@@ -575,8 +589,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingMove(IgsGame game, int moveIndex, Move theMove)
         {
-            IncomingMove?.Invoke(this,
-                new Tuple<IgsGame, int, Move>(game, moveIndex, theMove));
+            _availableConnectors[game.Info.IgsIndex].IncomingMove(moveIndex, theMove);
         }
        
 

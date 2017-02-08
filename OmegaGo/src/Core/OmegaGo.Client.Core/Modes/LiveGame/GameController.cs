@@ -23,7 +23,7 @@ using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    internal class GameController : IGameController
+    public class GameController : IGameController
     {
         /// <summary>
         /// The current game phase
