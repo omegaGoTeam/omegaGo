@@ -30,7 +30,7 @@ namespace OmegaGo.Core.AI.Fuego
         {
             if (!initialized)
             {
-                engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.Board.Size.Width);
+                engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
                 engine.SendCommand("uct_param_player ponder 1");
                 // TODO komi
                 initialized = true;
@@ -40,7 +40,7 @@ namespace OmegaGo.Core.AI.Fuego
                 engine.SendCommand("go_param timelimit " + preMoveInformation.Difficulty);
                 timelimit = preMoveInformation.Difficulty;
             }
-            var trueHistory = preMoveInformation.History.ToList();
+            var trueHistory = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
             for (int i = 0; i < trueHistory.Count; i++)
             {
                 if (history.Count == i)
