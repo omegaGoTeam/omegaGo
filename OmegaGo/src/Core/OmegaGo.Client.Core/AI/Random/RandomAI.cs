@@ -31,7 +31,7 @@ namespace OmegaGo.Core.AI.Random
             List<Position> possibleIntersections = 
                 Ruleset.Create(
                     preMoveInformation.GameInfo.RulesetType, 
-                    preMoveInformation.GameInfo.BoardSize).GetAllLegalMoves(preMoveInformation.AIColor, createdBoard, preMoveInformation.GameTree.LastNode.GetNodeHistory().ToArray());
+                    preMoveInformation.GameInfo.BoardSize).GetAllLegalMoves(preMoveInformation.AIColor, createdBoard, preMoveInformation.GameTree.LastNode.GetGameBoardHistory().ToArray());
             if (possibleIntersections.Count == 0)
             {
                 return AiDecision.Resign("There are no more moves left to do.");
