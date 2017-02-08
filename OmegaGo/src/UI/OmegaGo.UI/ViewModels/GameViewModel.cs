@@ -17,11 +17,13 @@ using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
+        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<ILiveGame>();
@@ -30,6 +32,7 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
             Game.Controller.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
             Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
+            Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
             ChatViewModel = new ChatViewModel();
@@ -43,6 +46,12 @@ namespace OmegaGo.UI.ViewModels
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        private void Controller_GameEnded(object sender, GameEndInformation e)
+        {
+            _settings.Statistics.GameHasBeenCompleted(this.Game, e);
+            _settings.Quests.Events.GameCompleted(this.Game, e);
         }
 
         private void Controller_GamePhaseChanged(object sender, Core.Modes.LiveGame.Phases.GamePhaseType e)

@@ -53,14 +53,14 @@
                     <DataTemplate x:DataType="quests:ActiveQuest">
                         <Border BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
                             <StackPanel>
-                                <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="36" TextWrapping="Wrap" />
+                                <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="28" TextWrapping="Wrap" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock  FontSize="28" Margin="0,0,10,0" >Reward: </TextBlock>
+                                    <TextBlock  FontSize="22" Margin="0,0,10,0" >Reward: </TextBlock>
                                     <TextBlock Text="{Binding Quest.PointReward}"
-                                           Foreground="Black" FontSize="28" />
+                                        FontWeight="Bold"   Foreground="Black" FontSize="22" />
                                 </StackPanel>
                                 <TextBlock Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
-                                           FontSize="22" TextWrapping="Wrap" />
+                                           FontSize="18" TextWrapping="Wrap" />
                                 <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
                                 </ProgressBar>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

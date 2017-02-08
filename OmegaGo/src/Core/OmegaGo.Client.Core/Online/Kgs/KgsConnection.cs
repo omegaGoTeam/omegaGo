@@ -48,6 +48,7 @@ namespace OmegaGo.Core.Online.Kgs
         private KgsInterrupts Interrupts { get; }
         public KgsCommands Commands { get; }
         public KgsEvents Events { get; }
+        public ServerId Name => ServerId.Kgs;
         public KgsData Data { get; }
         public bool LoggedIn { get; set; }
         public JsonSerializer Serializer { get; } = new JsonSerializer()

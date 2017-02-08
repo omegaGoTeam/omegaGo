@@ -34,78 +34,6 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Calculates the default compensation (komi)
-        /// </summary>
-        /// <param name="rsType">Type of the ruleset</param>
-        /// <param name="gbSize">Game board size</param>
-        /// <param name="handicapStoneCount">Handicap stone count</param>
-        /// <param name="cType">Counting type</param>
-        /// <returns></returns>
-        public static float GetDefaultCompensation(RulesetType rsType, GameBoardSize gbSize, int handicapStoneCount, CountingType cType)
-        {
-            if (rsType == RulesetType.AGA)
-                return AGARuleset.GetAGACompensation(gbSize, handicapStoneCount, cType);
-            if (rsType == RulesetType.Chinese)
-                return ChineseRuleset.GetChineseCompensation(gbSize, handicapStoneCount);
-            if (rsType == RulesetType.Japanese)
-                return JapaneseRuleset.GetJapaneseCompensation(gbSize, handicapStoneCount);
-
-            return 0;
-        }
-
-        /// <summary>
-        /// There are two ways to score. One is based on territory, the other on area.
-        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
-        /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
-        /// <returns>The score of players.</returns>
-        public abstract Scores CountScore(GameBoard currentBoard);
-
-        public abstract void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
-
-        /// <summary>
-        /// Sets the value of Komi. 
-        /// If the type of handicap placement is fixed, places handicap stones on the board.
-        /// Otherwise, PlaceFreeHandicapStone should be called "handicapStoneCount" times.
-        /// </summary>
-        /// <param name="currentBoard">Reference to the state of board.</param>
-        /// <param name="handicapStoneCount">Number of handicap stones.</param>
-        /// <param name="placementType"></param>
-        public void StartHandicapPlacementPhase(ref GameBoard currentBoard, int handicapStoneCount, HandicapPlacementType placementType)
-        {
-            if (handicapStoneCount == 0)
-            {
-                SetKomi(handicapStoneCount);
-                return;
-            }
-
-            if (placementType == HandicapPlacementType.Fixed)
-                PlaceFixedHandicapStones(ref currentBoard, handicapStoneCount);
-
-            SetKomi(handicapStoneCount);
-        }
-
-        /// <summary>
-        /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
-        /// This method is called, if the ruleset allows free handicap placement.
-        /// </summary>
-        /// <param name="currentBoard">Reference to the state of board.</param>
-        /// <param name="moveToMake">Move to check.</param>
-        /// <returns>The result of legality check.</returns>
-        public MoveResult PlaceFreeHandicapStone(ref GameBoard currentBoard, Move moveToMake)
-        {
-            Position position = moveToMake.Coordinates;
-            if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
-                return MoveResult.OutsideTheBoard;
-            if (IsPositionOccupied(currentBoard, moveToMake) == MoveResult.OccupiedPosition)
-                return MoveResult.OccupiedPosition;
-
-            currentBoard[position.X, position.Y] = StoneColor.Black;
-            return MoveResult.Legal;
-
-        }
-
-        /// <summary>
         /// Factory method that creates a ruleset of given type and gameboard size
         /// </summary>
         /// <param name="ruleset">Ruleset</param>
@@ -134,6 +62,106 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
+        /// Calculates the default compensation (komi)
+        /// </summary>
+        /// <param name="rsType">Type of the ruleset</param>
+        /// <param name="gbSize">Game board size</param>
+        /// <param name="handicapStoneCount">Handicap stone count</param>
+        /// <param name="cType">Counting type</param>
+        /// <returns></returns>
+        public static float GetDefaultCompensation(RulesetType rsType, GameBoardSize gbSize, int handicapStoneCount, CountingType cType)
+        {
+            if (rsType == RulesetType.AGA)
+                return AGARuleset.GetAGACompensation(gbSize, handicapStoneCount, cType);
+            if (rsType == RulesetType.Chinese)
+                return ChineseRuleset.GetChineseCompensation(gbSize, handicapStoneCount);
+            if (rsType == RulesetType.Japanese)
+                return JapaneseRuleset.GetJapaneseCompensation(gbSize, handicapStoneCount);
+
+            return 0;
+        }
+
+        public abstract void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
+
+        /// <summary>
+        /// There are two ways to score. One is based on territory, the other on area.
+        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
+        /// </summary>
+        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <returns>The score of players.</returns>
+        public abstract Scores CountScore(GameBoard currentBoard);
+
+        /// <summary>
+        /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
+        /// This method is called, if the ruleset allows free handicap placement.
+        /// </summary>
+        /// <param name="currentBoard">Reference to the state of board.</param>
+        /// <param name="position">Position to check.</param>
+        /// <returns>The result of legality check.</returns>
+        public MoveResult PlaceFreeHandicapStone(ref GameBoard currentBoard, Position position)
+        {
+            if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
+                return MoveResult.OutsideTheBoard;
+            if (IsPositionOccupied(currentBoard, position) == MoveResult.OccupiedPosition)
+                return MoveResult.OccupiedPosition;
+
+            currentBoard[position.X, position.Y] = StoneColor.Black;
+            return MoveResult.Legal;
+        }
+
+        /// <summary>
+        /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
+        /// </summary>
+        /// <param name="currentBoard">The current full board position.</param>
+        /// <param name="moveToMake">The move of a player.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns>The result of legality check.</returns>
+        public MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
+        {
+            // TODO this should not alter the ruleset or players, the "IsLegalMove" method should be pure
+            MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
+            return result.Result;
+        }
+
+        /// <summary>
+        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// </summary>
+        /// <param name="player">The player who wants to make a move.</param>
+        /// <param name="currentBoard">The current full board position.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns>List of legal moves.</returns>
+        public List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history)
+        {
+            List<Position> possiblePositions = new List<Position>();
+            for (int x = 0; x < _boardWidth; x++)
+                for (int y = 0; y < _boardHeight; y++)
+                {
+                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
+                    {
+                        possiblePositions.Add(new Position(x, y));
+                    }
+                }
+
+            return possiblePositions;
+        }
+
+        // TODO: remove this method and use the other one
+        public List<Position> GetAllLegalMoves(GameBoard board)
+        {
+            // TODO make this work according to rules
+            List<Position> legalMoves = new List<Position>();
+            for (int i = 0; i < board.Size.Width; i++)
+                for (int j = 0; j < board.Size.Height; j++)
+                {
+                    if (board[i, j] == StoneColor.None)
+                    {
+                        legalMoves.Add(new Position() { X = i, Y = j });
+                    }
+                }
+            return legalMoves;
+        }
+
+        /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
         /// <param name="previousBoard">The state of board before the move.</param>
@@ -159,7 +187,7 @@ namespace OmegaGo.Core.Rules
                 processingResult.Result = MoveResult.OutsideTheBoard;
                 return processingResult;
             }
-            else if (IsPositionOccupied(previousBoard, moveToMake) == MoveResult.OccupiedPosition)
+            else if (IsPositionOccupied(previousBoard, position) == MoveResult.OccupiedPosition)
             {
                 processingResult.Result = MoveResult.OccupiedPosition;
                 return processingResult;
@@ -195,44 +223,7 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
-        /// </summary>
-        /// <param name="player">The player who wants to make a move.</param>
-        /// <param name="currentBoard">The current full board position.</param>
-        /// <param name="history">All previous full board positions.</param>
-        /// <returns>List of legal moves.</returns>
-        public List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, List<GameBoard> history)
-        {
-            List<Position> possiblePositions = new List<Position>();
-            for (int x = 0; x < _boardWidth; x++)
-                for (int y = 0; y < _boardHeight; y++)
-                {
-                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
-                    {
-                        possiblePositions.Add(new Position(x, y));
-                    }
-                }
-
-            return possiblePositions;
-        }
-
-        /// <summary>
-        /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
-        /// </summary>
-        /// <param name="currentBoard">The current full board position.</param>
-        /// <param name="moveToMake">The move of a player.</param>
-        /// <param name="history">All previous full board positions.</param>
-        /// <returns>The result of legality check.</returns>
-        public MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
-        {
-            // TODO this should not alter the ruleset or players, the "IsLegalMove" method should be pure
-            MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
-            return result.Result;
-        }
-
-        /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method
-        /// is not thread-safe (it depends on <see cref="_checkedInters"/>).
+        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method.
         /// </summary>
         /// <param name="pos">The position whose group we want to identify.</param>
         /// <param name="board">The current full board position.</param>
@@ -241,8 +232,8 @@ namespace OmegaGo.Core.Rules
         {
             _checkedInters = new bool[_boardWidth, _boardHeight];
             List<Position> group = new List<Position>();
-            bool iDontCare = false;
-            GetGroup(ref group, ref iDontCare, pos, board);
+            bool hasGroupLiberty = false;
+            GetGroup(ref group, ref hasGroupLiberty, pos, board);
             return group;
         }
 
@@ -286,12 +277,6 @@ namespace OmegaGo.Core.Rules
             return regions;
         }
 
-        /// <summary>
-        /// Sets the value of Komi.
-        /// </summary>
-        /// <param name="handicapStoneCount">Number of handicap stones.</param>
-        protected abstract void SetKomi(int handicapStoneCount);
-
         protected abstract MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, List<GameBoard> history);
 
         /// <summary>
@@ -304,49 +289,95 @@ namespace OmegaGo.Core.Rules
         protected abstract void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor);
 
         /// <summary>
-        /// Places handicape stones on fixed positions.
+        /// Checks whether the player places a stone on the intersection where the opponent has just captured a stone.
         /// </summary>
-        /// <param name="currentBoard">Reference to the state of game board.</param>
-        /// <param name="stoneCount">Number of handicap stones.</param>
-        protected void PlaceFixedHandicapStones(ref GameBoard currentBoard, int stoneCount)
+        /// <param name="currentBoard">The state of game board.</param>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <param name="history">List of game boards that represents the history of game.</param>
+        /// <returns>The result of legality check.</returns>
+        protected MoveResult IsKo(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
         {
-            switch (_boardWidth)
+            int boardHistoryCount = history.Count;
+            if (boardHistoryCount >= 2 && history.ElementAt(boardHistoryCount - 2).Equals(currentBoard))
+                return MoveResult.Ko;
+
+            return MoveResult.Legal;
+        }
+
+        /// <summary>
+        /// Determines whether the move causes a full board position to repeat again in the same game.
+        /// </summary>
+        /// <param name="currentBoard">The state of game board.</param>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <param name="history">List of game boards that represents the history of game.</param>
+        /// <returns>The result of legality check.</returns>
+        protected MoveResult IsSuperKo(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
+        {
+            for (int i = 0; i < history.Count; i++)
             {
-                case 9:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap9)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions9[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 13:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap13)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions13[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                case 19:
-                    {
-                        if (stoneCount <= HandicapPositions.MaxFixedHandicap19)
-                            for (int i = 0; i < stoneCount; i++)
-                            {
-                                Position handicapPosition = HandicapPositions.FixedHandicapPositions19[i];
-                                currentBoard[handicapPosition.X, handicapPosition.Y] = StoneColor.Black;
-                            }
-                        break;
-                    }
-                default:
-                    break;
+                if (history.ElementAt(i).Equals(currentBoard))
+                    return MoveResult.SuperKo;
+            }
+            return MoveResult.Legal;
+        }
+
+        /// <summary>
+        /// Determines whether the intersection is already occupied by another stone.
+        /// </summary>
+        /// <param name="currentBoard">The state of game board.</param>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <returns>The result of legality check.</returns>
+        protected MoveResult IsPositionOccupied(GameBoard currentBoard, Position p)
+        {
+            if (currentBoard[p.X, p.Y] != StoneColor.None)
+            {
+                return MoveResult.OccupiedPosition;
+            }
+            else
+            {
+                return MoveResult.Legal;
+            }
+
+        }
+
+        /// <summary>
+        /// Determines whether the move is suicidal.
+        /// </summary>
+        /// <param name="currentBoard">The state of game board.</param>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <returns>The result of legality check.</returns>
+        protected MoveResult IsSelfCapture(GameBoard currentBoard, Move moveToMake)
+        {
+            Position p = moveToMake.Coordinates;
+            List<Position> group = new List<Position>();
+            bool groupHasLiberty = false;
+            _checkedInters = new bool[_boardWidth, _boardHeight];
+
+            currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
+            _liberty = FillLibertyTable(currentBoard);
+            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
+            if (groupHasLiberty)
+            {
+                return MoveResult.Legal;
+            }
+            else
+            {
+                return MoveResult.SelfCapture;
             }
         }
 
+        /// <summary>
+        /// Determines whether the player places a stone outside the game board.
+        /// </summary>
+        /// <param name="p">Position to place stone.</param>
+        /// <returns>The result of legality check.</returns>
+        protected MoveResult IsOutsideTheBoard(Position p)
+        {
+            if (p.X < 0 || p.X >= _boardWidth || p.Y < 0 || p.Y >= _boardHeight)
+                return MoveResult.OutsideTheBoard;
+            else
+                return MoveResult.Legal;
+        }
 
         /// <summary>
         /// Finds the prisoners of opponent player.
@@ -362,7 +393,6 @@ namespace OmegaGo.Core.Rules
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
             StoneColor opponentColor = moveToMake.WhoMoves.GetOpponentColor();
-
 
             //check whether neighbour groups have liberty
             //right neighbour
@@ -383,22 +413,7 @@ namespace OmegaGo.Core.Rules
 
             return _captures;
         }
-
-        public List<Position> GetAllLegalMoves(GameBoard board)
-        {
-            // TODO make this work according to rules
-            List<Position> legalMoves = new List<Position>();
-            for (int i = 0; i < board.Size.Width; i++)
-                for (int j = 0; j < board.Size.Height; j++)
-                {
-                    if (board[i, j] == StoneColor.None)
-                    {
-                        legalMoves.Add(new Position() { X = i, Y = j });
-                    }
-                }
-            return legalMoves;
-        }
-
+        
         /// <summary>
         /// Checks the liberty of surrounding groups.
         /// </summary>
@@ -506,99 +521,7 @@ namespace OmegaGo.Core.Rules
                 GetGroup(ref group, ref hasLiberty, newp, currentBoard);
             }
         }
-
-        /// <summary>
-        /// Checks whether the player places a stone on the intersection where the opponent has just captured a stone.
-        /// </summary>
-        /// <param name="currentBoard">The state of game board.</param>
-        /// <param name="moveToMake">Move to check.</param>
-        /// <param name="history">List of game boards that represents the history of game.</param>
-        /// <returns>The result of legality check.</returns>
-        protected MoveResult IsKo(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
-        {
-            int boardHistoryCount = history.Count;
-            if (boardHistoryCount >= 2 && history.ElementAt(boardHistoryCount - 2).Equals(currentBoard))
-                return MoveResult.Ko;
-
-            return MoveResult.Legal;
-        }
-
-        /// <summary>
-        /// Determines whether the move causes a full board position to repeat again in the same game.
-        /// </summary>
-        /// <param name="currentBoard">The state of game board.</param>
-        /// <param name="moveToMake">Move to check.</param>
-        /// <param name="history">List of game boards that represents the history of game.</param>
-        /// <returns>The result of legality check.</returns>
-        protected MoveResult IsSuperKo(GameBoard currentBoard, Move moveToMake, List<GameBoard> history)
-        {
-            for (int i = 0; i < history.Count; i++)
-            {
-                if (history.ElementAt(i).Equals(currentBoard))
-                    return MoveResult.SuperKo;
-            }
-            return MoveResult.Legal;
-        }
-
-        /// <summary>
-        /// Determines whether the intersection is already occupied by another stone.
-        /// </summary>
-        /// <param name="currentBoard">The state of game board.</param>
-        /// <param name="moveToMake">Move to check.</param>
-        /// <returns>The result of legality check.</returns>
-        protected MoveResult IsPositionOccupied(GameBoard currentBoard, Move moveToMake)
-        {
-            Position p = moveToMake.Coordinates;
-            if (currentBoard[p.X, p.Y] != StoneColor.None)
-            {
-                return MoveResult.OccupiedPosition;
-            }
-            else
-            {
-                return MoveResult.Legal;
-            }
-
-        }
-
-        /// <summary>
-        /// Determines whether the move is suicidal.
-        /// </summary>
-        /// <param name="currentBoard">The state of game board.</param>
-        /// <param name="moveToMake">Move to check.</param>
-        /// <returns>The result of legality check.</returns>
-        protected MoveResult IsSelfCapture(GameBoard currentBoard, Move moveToMake)
-        {
-            Position p = moveToMake.Coordinates;
-            List<Position> group = new List<Position>();
-            bool groupHasLiberty = false;
-            _checkedInters = new bool[_boardWidth, _boardHeight];
-
-            currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
-            _liberty = FillLibertyTable(currentBoard);
-            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
-            if (groupHasLiberty)
-            {
-                return MoveResult.Legal;
-            }
-            else
-            {
-                return MoveResult.SelfCapture;
-            }
-        }
-
-        /// <summary>
-        /// Determines whether the player places a stone outside the game board.
-        /// </summary>
-        /// <param name="p">Position to place stone.</param>
-        /// <returns>The result of legality check.</returns>
-        protected MoveResult IsOutsideTheBoard(Position p)
-        {
-            if (p.X < 0 || p.X >= _boardWidth || p.Y < 0 || p.Y >= _boardHeight)
-                return MoveResult.OutsideTheBoard;
-            else
-                return MoveResult.Legal;
-        }
-
+        
         /// <summary>
         /// The area of a player are all live stones of player left on the board together with any points of his territory. In this case, prisoners are ignored.
         /// This method adds up total area of players.
@@ -763,7 +686,6 @@ namespace OmegaGo.Core.Rules
                         GetRegion(ref region, ref regionBelongsTo, newp, currentBoard);
                         break;
                     default:
-                        //TODO Exception
                         break;
                 }
             }

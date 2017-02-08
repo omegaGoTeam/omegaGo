@@ -59,22 +59,6 @@ namespace OmegaGo.Core.Rules
             }
         }
 
-        protected override void SetKomi(int handicapStoneCount)
-        {
-            if (handicapStoneCount == 0)
-            {
-                _komi = 7.5f;
-            }
-            else if (handicapStoneCount > 0 && _countingType == CountingType.Area)
-            {
-                _komi = 0.5f + handicapStoneCount - 1;
-            }
-            else if (handicapStoneCount > 0 && _countingType == CountingType.Territory)
-            {
-                _komi = 0.5f;
-            }
-        }
-        
         protected override MoveResult Pass(StoneColor playerColor)
         {
             StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;

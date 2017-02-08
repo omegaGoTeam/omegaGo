@@ -248,6 +248,10 @@
           <source>Japanese</source>
           <target state="final">Japonská</target>
         </trans-unit>
+        <trans-unit id="TotalGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Total games played:</source>
+          <target state="final">Celkem her odehráno:</target>
+        </trans-unit>
       </group>
     </body>
   </file>

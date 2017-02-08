@@ -192,4 +192,7 @@
   <data name="RulesetType_Japanese" xml:space="preserve">
     <value>Japonská</value>
   </data>
+  <data name="TotalGamesPlayed" xml:space="preserve">
+    <value>Celkem her odehráno:</value>
+  </data>
 </root>

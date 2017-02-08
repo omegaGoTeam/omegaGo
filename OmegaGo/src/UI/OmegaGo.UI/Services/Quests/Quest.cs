@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.UI.Services.Quests.IndividualQuests;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.Quests
 {
@@ -15,7 +17,10 @@ namespace OmegaGo.UI.Services.Quests
         public string Description { get; }
         public int PointReward { get; }
         public int MaximumProgress { get; }
-        public abstract Type GetViewModelToTry();
+        public virtual Type GetViewModelToTry()
+        {
+            return typeof(GameCreationViewModel);
+        }
 
         protected Quest(string name, string description, int pointReward, int maximumProgress)
         {
@@ -33,9 +38,25 @@ namespace OmegaGo.UI.Services.Quests
 
         public static Dictionary<string, Quest> AllQuests = new Dictionary<string, Quest>
         {
-            ["Learner"] = new LearnerQuest(),
-            ["Great Learner"] = new GreatLearnerQuest()
+            ["IgsChallenge"] = new IgsChallengeQuest(),
+            ["KgsChallenge"] = new KgsChallengeQuest(),
+            ["TraditionalQuest"] = new TraditionalQuest(),
+            ["OnlineTraditionalQuest"] = new OnlineTraditionalQuest(),
+            ["SoloVictoriesQuest"] = new SoloVictoriesQuest(),
+            ["LearnerQuest"] = new LearnerQuest(),
+            ["GreatLearnerQuest"] = new GreatLearnerQuest(),
+            ["MasterLearnerQuest"] = new MasterLearnerQuest(),
+            ["BlitzRocketQuest"] = new BlitzRocketQuest(),
+            ["WisdomQuest"] = new WisdomQuest(),
+            ["UnevenStrengthQuest"] = new UnevenStrengthQuest(),
+            ["GettingStrongerQuest"] = new GettingStrongerQuest(),
+            ["PureSkillQuest"] = new PureSkillQuest(),
+            ["TotalMasteryQuest"] = new TotalMasteryQuest(),
+            [HiddenQuestKey] = new HiddenQuest() 
         };
+
+
+        public const string HiddenQuestKey = "HIDDEN";
         
 
         public const int MAXIMUM_NUMBER_OF_QUESTS = 3;
@@ -59,5 +80,11 @@ namespace OmegaGo.UI.Services.Quests
 
 */
         public virtual bool NewTsumegoSolved() => false;
+
+        /// <summary>
+        /// Returns a value indicating whether the fact that the user just finished a game they were actually playing in should 
+        /// advance progress on this quest.
+        /// </summary>
+        public virtual bool GameCompleted(GameCompletedQuestInformation info) => false;
     }
 }

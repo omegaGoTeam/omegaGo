@@ -1,4 +1,8 @@
-﻿namespace OmegaGo.UI.Services.Settings
+﻿using System.Linq;
+using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
+
+namespace OmegaGo.UI.Services.Settings
 {
     public class StatisticsRecords : SettingsGroup
     {
@@ -35,5 +39,46 @@
             set { SetSetting(nameof(LocalGamesWon), value, SettingLocality.Roamed); }
         }
 
+        public void GameHasBeenCompleted(ILiveGame game, GameEndInformation gameEndInformation)
+        {
+            
+            bool isOnlineGame = game.Controller.IsOnlineGame;
+            bool isHotseatGame = game.Controller.Players.All(pl => pl.IsHuman);
+            GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.IsHuman);
+            bool isPlayedByUs = human != null;
+            if (!isPlayedByUs)
+            {
+                return; // We keep no statistics of games between AI's or that are merely observed.
+            }
+            if (isHotseatGame)
+            {
+                HotseatGamesPlayed++;
+                return; // Hotseat games don't count for any other statistics
+            }
+
+            // Played
+            if (isOnlineGame)
+            {
+                OnlineGamesPlayed++;
+            }
+            else
+            {
+                LocalGamesPlayed++;
+            }
+
+            // Won
+            if (gameEndInformation.HasWinnerAndLoser &&
+                gameEndInformation.Winner == human)
+            {
+                if (isOnlineGame)
+                {
+                    OnlineGamesWon++;
+                }
+                else
+                {
+                    LocalGamesWon++;
+                }
+            }
+        }
     }
 }

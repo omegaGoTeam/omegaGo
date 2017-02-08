@@ -1,0 +1,5 @@
+﻿Quests function as in Hearthstone.
+
+A player may have up to 3 active quests. An active quest (ActiveQuest class) retains an integer as progress information and a link to the quest description (a Quest class). Each quest type, such as "Win 3 games" or "Play 5 games" or "Solve 3 tsumego problems" has a single class. 
+
+Code throughout the code base may cause a quest to progress. To do this, the code calls settings.Quests.Events.[method] - the method name and parameters are forwarded via the QuestEvents class to individual Quest classes that correspond to active quests and these determine whether the quest should progress in response to that event.

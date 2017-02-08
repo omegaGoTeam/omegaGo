@@ -49,16 +49,19 @@
             set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
         }
     }
+
     public enum BoardTheme
     {
         SolidColor,
         OakWood,
         KayaWood,
-        VirtualBoard
+        VirtualBoard,
+        SabakiBoard
     }
     public enum StoneTheme
     {
         SolidColor,
-        PolishedBitmap
+        PolishedBitmap,
+        Sabaki
     }
 }

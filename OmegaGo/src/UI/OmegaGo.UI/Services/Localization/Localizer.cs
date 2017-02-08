@@ -71,6 +71,7 @@ namespace OmegaGo.UI.Services.Localization
         public string GameLibrary => LocalizeCaller();
 
         public string Statistics => LocalizeCaller();
+        public string TotalGamesPlayed => LocalizeCaller();
 
         public string Help => LocalizeCaller();
 

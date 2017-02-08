@@ -158,8 +158,29 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
 #if DEBUG
-            Window.Current.CoreWindow.KeyUp += CheatHandling;
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += CheatHandling;
 #endif
+        }
+
+        /// <summary>
+        /// Handles the cheat shortcuts
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>    
+        private void CheatHandling(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        {
+            // activate cheat mode -- disabling is not needed, cheats are used in short
+            // debug sessions anyway
+            if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.PermitCheats = true;
+                args.Handled = true;
+            }
+            //handle cheat key combinations
+            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
+            {
+                Cheats.HandleKeyPress(args);
+            }
         }
 
         /// <summary>
@@ -171,26 +192,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             Window.Current.CoreWindow.KeyUp += EscapingHandling;
             AppFrame.Navigated += AppFrame_Navigated;
         }
-
-        /// <summary>
-        /// Handles the cheat shortcuts
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>    
-        private void CheatHandling(CoreWindow sender, KeyEventArgs args)
-        {
-            //toggle cheat mode
-            if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
-            {
-                Cheats.PermitCheats = !Cheats.PermitCheats;
-                args.Handled = true;
-            }
-            //handle cheat key combinations
-            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
-            {
-                Cheats.HandleKeyPress(args);
-            }
-        }
+        
 
         /// <summary>
         /// Handles the system back navigation

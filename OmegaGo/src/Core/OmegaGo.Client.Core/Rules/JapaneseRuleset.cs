@@ -50,18 +50,6 @@ namespace OmegaGo.Core.Rules
             _blackScore -= deadBlackStoneCount;
         }
 
-        protected override void SetKomi(int handicapStoneCount)
-        {
-            if (handicapStoneCount == 0)
-            {
-                _komi = 6.5f;
-            }
-            else
-            {
-                _komi = 0.5f;
-            }
-        }
-
         protected override MoveResult Pass(StoneColor playerColor)
         {
             if (_isPreviousMovePass)
