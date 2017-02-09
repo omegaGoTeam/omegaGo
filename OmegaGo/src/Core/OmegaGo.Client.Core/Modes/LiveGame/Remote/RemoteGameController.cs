@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;

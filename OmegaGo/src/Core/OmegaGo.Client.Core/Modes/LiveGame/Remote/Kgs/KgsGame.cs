@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;

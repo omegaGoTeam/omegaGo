@@ -1,4 +1,5 @@
-﻿using OmegaGo.Core.Online.Common;
+﻿using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 

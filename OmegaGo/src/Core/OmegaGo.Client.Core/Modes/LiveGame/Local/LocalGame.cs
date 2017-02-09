@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Local

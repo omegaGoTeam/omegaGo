@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players;
 
-namespace OmegaGo.Core.Modes.LiveGame
+namespace OmegaGo.Core.Modes.LiveGame.Players
 {
     /// <summary>
     /// Represents a pair of players in the game

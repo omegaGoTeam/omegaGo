@@ -6,6 +6,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;

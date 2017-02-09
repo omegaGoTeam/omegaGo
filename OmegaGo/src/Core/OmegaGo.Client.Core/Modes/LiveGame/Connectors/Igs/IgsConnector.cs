@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Igs;
 using OmegaGo.Core.Online.Igs;
 

@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Game\GameTreeNodeTests.cs" />
     <Compile Include="Game\Mocks\TestGameTreeNodeInfo.cs" />
+    <Compile Include="Modes\LiveGame\Players\PlayerPairTests.cs" />
     <Compile Include="Online\Igs\ObsoleteIgsConnectionTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
