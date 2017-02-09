@@ -13,8 +13,8 @@ namespace OmegaGo.Core.AI.Joker23.Players
         public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
             _internalPlayer = new RandomPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
-            char[,] board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.Board, preMoveInformation.Board.Size);
-            JokerPoint point = _internalPlayer.makeMove(board, preMoveInformation.Board.Size.Width, preMoveInformation.Board.Size.Height);
+            char[,] board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize);
+            JokerPoint point = _internalPlayer.makeMove(board, preMoveInformation.GameInfo.BoardSize.Width, preMoveInformation.GameInfo.BoardSize.Height);
             return AiDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
                 "I chose at random.");
         }

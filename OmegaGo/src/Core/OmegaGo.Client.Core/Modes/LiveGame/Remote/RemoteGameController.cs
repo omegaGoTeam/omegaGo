@@ -34,17 +34,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         internal new RemoteGameInfo Info { get; }
 
 
-        
-        private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
-        {
-            if (e.Game == this.OnlineGame)
-            {
-                if (this.Players.Black.Clock is CanadianTimeControl)
-                {
-                    (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-                    (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
-                }
-            }
-        }
+        //TODO: IMPLEMENT THIS
+        //private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
+        //{
+        //    if (e.Game == this.OnlineGame)
+        //    {
+        //        if (this.Players.Black.Clock is CanadianTimeControl)
+        //        {
+        //            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+        //            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+        //        }
+        //    }
+        //}
     }
 }

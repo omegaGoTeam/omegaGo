@@ -25,7 +25,7 @@ using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
-    public class GameController : IGameController
+    public class GameController : IGameController, IDebuggingMessageProvider
     {
         private readonly List<IGameConnector> _registeredConnectors = new List<IGameConnector>();
 
@@ -182,20 +182,20 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             foreach (var player in Players)
             {
-                player.Agent.Resign += Agent_Resign;
+                player.Agent.Resigned += AgentResigned;
             }
             //start initialization phase
             SetPhase(GamePhaseType.Initialization);
         }
 
-        private void Agent_Resign(object sender, EventArgs e)
+        private void AgentResigned(IAgent sender)
         {
             Resign(Players[((IAgent)sender).Color]);
         }
 
         public void Resign(GamePlayer playerToMove)
         {
-            EndGame(GameEndInformation.CreateResignation(playerToMove, this));
+            EndGame(GameEndInformation.CreateResignation(playerToMove, Players));
         }
 
 

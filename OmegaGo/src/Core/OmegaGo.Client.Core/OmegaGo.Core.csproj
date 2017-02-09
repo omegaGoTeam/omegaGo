@@ -57,6 +57,7 @@
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\GameEndReason.cs" />
+    <Compile Include="Modes\LiveGame\IDebuggingMessageProvider.cs" />
     <Compile Include="Modes\LiveGame\IGameState.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IgsHandicapPlacementPhase.cs" />

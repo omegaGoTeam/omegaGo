@@ -9,12 +9,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
     class RemoteLifeAndDeath
     {
 
-        private void Events_EnterLifeDeath(object sender, RemoteGame e)
-        {
-            if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
-            {
-                SetPhase(GamePhaseType.LifeDeathDetermination);
-            }
-        }
+        //private void Events_EnterLifeDeath(object sender, RemoteGame e)
+        //{
+        //    if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
+        //    {
+        //        SetPhase(GamePhaseType.LifeDeathDetermination);
+        //    }
+        //}
     }
 }

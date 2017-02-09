@@ -17,25 +17,26 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
-            if (preMoveInformation.History.Any() &&
-                  preMoveInformation.History.Last().Kind == MoveKind.Pass)
+            var history = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            if (history.Any() &&
+                  history.Last().Kind == MoveKind.Pass)
             {
                 return AiDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
             internalPlayer = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
 
-            JokerGame currentGame = new JokerGame(preMoveInformation.Board.Size.Height,
-                preMoveInformation.Board.Size.Width,
+            JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
+                preMoveInformation.GameInfo.BoardSize.Width,
                 null,
                 null);
 
-            foreach(Move move in preMoveInformation.History)
+            foreach(Move move in history)
             {
                 currentGame.moves.AddLast(new JokerMove(move.WhoMoves == StoneColor.Black ? 'B' : 'W',
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 
-            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.Board, preMoveInformation.Board.Size );
+            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize );
 
             JokerPoint point = internalPlayer.betterPlanMove(currentGame);
             

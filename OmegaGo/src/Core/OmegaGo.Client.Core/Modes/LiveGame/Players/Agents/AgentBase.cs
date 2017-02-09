@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Indicates that the player resigned
         /// </summary>
-        public event AgentEventHandler Resign;
+        public event AgentEventHandler Resigned;
 
         /// <summary>
         /// Indicates that the player passed
@@ -99,12 +99,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         protected virtual void OnPass()
         {
-            Pass?.Invoke(this, EventArgs.Empty);
+            Pass?.Invoke(this);
         }
 
         protected virtual void OnResign()
         {
-            Resign?.Invoke(this, EventArgs.Empty);
+            Resigned?.Invoke(this);
         }
 
         public virtual void MovePerformed(Move move)

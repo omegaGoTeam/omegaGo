@@ -226,8 +226,9 @@ namespace OmegaGo.Core.Online.Igs
                             string username = IgsRegex.GetFirstWord(igsLine);
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                game.Controller.LifeDeath_Done(
-                                    game.Controller.Players.First(pl => pl.Info.Name == username));
+                                //TODO: implement
+                                //game.Controller.LifeDeath_Done(
+                                //    game.Controller.Players.First(pl => pl.Info.Name == username));
                             }
                         }
                         if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
@@ -239,7 +240,8 @@ namespace OmegaGo.Core.Online.Igs
                                             gi.Controller.Phase ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
-                                game.Controller.LifeDeath_UndoPhase();
+                                //TODO: Implement
+                                //game.Controller.LifeDeath_UndoPhase();
                             }
                             weAreHandlingAnInterrupt = true;
                             continue;

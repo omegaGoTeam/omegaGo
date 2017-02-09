@@ -11,6 +11,7 @@ using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
@@ -30,17 +31,20 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
-            Game.Controller.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
-            Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
+            //TODO: not very nice
+            (Game.Controller as GameController).DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+            //TODO: Implement
+            //Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
             ChatViewModel = new ChatViewModel();
-            if (Game.Controller.IsOnlineGame)
-            {
-                ChatViewModel.ChatService = new IgsChatService(Game as IgsGame);
-                ChatViewModel.HumanAuthor = "You";
-            }
+            //TODO: Implement
+            //if (Game.Controller.IsOnlineGame)
+            //{
+            //    ChatViewModel.ChatService = new IgsChatService(Game as IgsGame);
+            //    ChatViewModel.HumanAuthor = "You";
+            //}
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
             WhitePortrait = new UserControls.ViewModels.PlayerPortraitViewModel(Game.Controller.Players.White);
 
@@ -74,18 +78,13 @@ namespace OmegaGo.UI.ViewModels
 
         private void Controller_TurnPlayerChanged(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
         {
-            if (e.IsHuman)
-            {
-                BoardViewModel.BoardControlState.MouseOverShadowColor =
-                    e.Info.Color;
-            }
-            else
-            {
-                BoardViewModel.BoardControlState.MouseOverShadowColor = StoneColor.None;
-            }
+            BoardViewModel.BoardControlState.MouseOverShadowColor = e.Agent.Type == AgentType.Human ?
+                e.Info.Color :
+                StoneColor.None;
         }
 
         private string _systemLog;
+
         public string SystemLog
         {
             get { return _systemLog; }
@@ -107,7 +106,8 @@ namespace OmegaGo.UI.ViewModels
         public int SelectedMoveIndex
         {
             get { return _selectedMoveIndex; }
-            set {
+            set
+            {
                 SetProperty(ref _selectedMoveIndex, value);
                 GameTreeNode whatIsShowing =
                   Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
@@ -153,19 +153,21 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
             {
-                if (Game.Controller.IsOnlineGame)
-                {
-                    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
-                }
-                else
-                {
-                    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
-                }
-                Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                //TODO: IMPLEMENT
+                //if (Game.Controller.IsOnlineGame)
+                //{
+                //    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
+                //}
+                //else
+                //{
+                //    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                //}
+                //Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
             }
             else
             {
-                if (Game?.Controller.TurnPlayer?.IsHuman ?? false)
+                //TODO: Implement
+                if (Game?.Controller.TurnPlayer?.Agent.Type == AgentType.Human)
                 {
                     (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
                 }
@@ -193,11 +195,12 @@ namespace OmegaGo.UI.ViewModels
 
         public async void Unload()
         {
-            if (this.Game is IgsGame)
-            {
-                await ((IgsGame) this.Game).Metadata.Server.EndObserving((IgsGame) this.Game);
-            }
+            //TODO: IMPLEMENT this
+            //if (this.Game is IgsGame)
+            //{
+            //    await ((IgsGame)this.Game).Info.Server.EndObserving((IgsGame)this.Game);
+            //}
         }
     }
-    
+
 }

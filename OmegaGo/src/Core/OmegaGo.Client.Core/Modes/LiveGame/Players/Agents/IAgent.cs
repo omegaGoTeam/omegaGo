@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Fired when the agent resigns
         /// </summary>
-        event AgentEventHandler Resign;
+        event AgentEventHandler Resigned;
 
         /// <summary>
         /// Fired when the agent passes
