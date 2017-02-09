@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OmegaGo.Core.Modes.LiveGame
+﻿namespace OmegaGo.Core.Modes.LiveGame.State
 {
+    /// <summary>
+    /// Describes the reason why the game has ended
+    /// </summary>
     public enum GameEndReason
     {
         /// <summary>

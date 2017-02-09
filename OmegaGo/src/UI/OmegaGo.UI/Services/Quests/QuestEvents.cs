@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Quests
@@ -18,7 +19,7 @@ namespace OmegaGo.UI.Services.Quests
             this._questsSettings = _questsSettings;
         }
 
-        public void GameCompleted(ILiveGame game, GameEndInformation end)
+        public void GameCompleted(IGame game, GameEndInformation end)
         {
             bool isOnlineGame = game.Controller.IsOnlineGame;
             bool isHotseatGame = game.Controller.Players.All(pl => pl.IsHuman);

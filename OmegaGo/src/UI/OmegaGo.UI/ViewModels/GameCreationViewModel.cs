@@ -243,7 +243,7 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();
-            Mvx.RegisterSingleton<ILiveGame>(game);
+            Mvx.RegisterSingleton<IGame>(game);
         }
 
         private bool Validate()

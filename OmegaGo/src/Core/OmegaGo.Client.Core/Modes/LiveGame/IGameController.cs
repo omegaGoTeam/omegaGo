@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
@@ -52,12 +53,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Starts the game
         /// </summary>
-        void BeginGame();
-
-        /// <summary>
-        /// Makes a player resign
-        /// </summary>
-        /// <param name="player">Player to resign</param>
-        void Resign(GamePlayer player);
+        void BeginGame();        
     }
 }

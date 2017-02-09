@@ -15,6 +15,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Game;
@@ -27,7 +28,7 @@ namespace OmegaGo.UI.ViewModels
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         public GameViewModel()
         {
-            Game = Mvx.GetSingleton<ILiveGame>();
+            Game = Mvx.GetSingleton<IGame>();
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
@@ -91,7 +92,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _systemLog, value); }
         }
 
-        public ILiveGame Game { get; }
+        public IGame Game { get; }
 
         public BoardViewModel BoardViewModel { get; }
 

@@ -364,7 +364,7 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                Mvx.RegisterSingleton<ILiveGame>(onlinegame); 
+                Mvx.RegisterSingleton<IGame>(onlinegame); 
                 ShowViewModel<GameViewModel>();
             }
             ProgressPanelVisible = false;
@@ -395,7 +395,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void StartGame(IgsGame game)
         {
-            Mvx.RegisterSingleton<ILiveGame>(game);
+            Mvx.RegisterSingleton<IGame>(game);
             ShowViewModel<GameViewModel>();
         }
     }

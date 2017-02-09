@@ -12,6 +12,8 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class Scores
     {
+        
+
         /// <summary>
         /// Score of the black player
         /// </summary>

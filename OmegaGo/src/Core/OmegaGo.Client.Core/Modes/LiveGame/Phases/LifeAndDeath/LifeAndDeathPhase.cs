@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
@@ -21,9 +22,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         void RecalculateTerritories()
         {
-             GameBoard boardAfterRemovalOfDeadStones =
-               this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                    _deadPositions);
+            GameBoard boardAfterRemovalOfDeadStones =
+              this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+                   _deadPositions);
             Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
             this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
         }
@@ -54,9 +55,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 _playersDoneWithLifeDeath.Add(player);
             }
             Controller.OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
-            if (_playersDoneWithLifeDeath.Count == 2) 
+            if (_playersDoneWithLifeDeath.Count == 2)
             {
-               ScoreIt();
+                ScoreIt();
             }
         }
 
@@ -102,7 +103,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 Controller.OnDebuggingMessage(winner + " wins.");
             }
             Controller.OnDebuggingMessage("Scoring complete! " + scores.PositiveScoreDifference);
-            this.Controller.EndGame(GameEndInformation.CreateScoringComplete(isDraw, winner, loser, scores));
+            GameEndInformation gameEndInfo = null;
+            if (isDraw)
+            {
+                gameEndInfo = GameEndInformation.CreateDraw(Controller.Players, scores);
+            }
+            else
+            {
+                gameEndInfo = GameEndInformation.CreateScoredGame(winner, loser, scores);
+            }
+            this.Controller.EndGame(gameEndInfo);
         }
 
         public void UndoPhase()
@@ -124,9 +134,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public override void StartPhase()
         {
-            foreach(var player in Controller.Players)
+            foreach (var player in Controller.Players)
             {
-                 player.Clock.StopClock();
+                player.Clock.StopClock();
             }
             RecalculateTerritories();
         }

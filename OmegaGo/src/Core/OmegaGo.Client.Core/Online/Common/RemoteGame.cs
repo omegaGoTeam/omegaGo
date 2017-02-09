@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Online.Common
     /// <summary>
     /// A common base class for games which run on an online server.
     /// </summary>
-    public abstract class RemoteGame : LiveGameBase
+    public abstract class RemoteGame : GameBase
     {
         protected RemoteGame(RemoteGameInfo info) : base(info)
         {

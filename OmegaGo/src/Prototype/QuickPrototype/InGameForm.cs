@@ -21,6 +21,7 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs;
@@ -167,9 +168,9 @@ namespace FormsPrototype
         private int _previousMoveNumber = -1;
         private void RefreshBoard()
         {
-            if (_liveGame?.Controller?.GameTree == null) return;
+            if (_game?.Controller?.GameTree == null) return;
             int whereWeAt = 0;
-            var primaryTimeline = _liveGame.Controller.GameTree.PrimaryMoveTimeline;
+            var primaryTimeline = _game.Controller.GameTree.PrimaryMoveTimeline;
             if (primaryTimeline.Any())
             {
                 int newNumber = primaryTimeline.Count() - 1;
@@ -187,7 +188,7 @@ namespace FormsPrototype
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
             GameTreeNode whatIsShowing =
-                _liveGame.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+                _game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
             _truePositions = whatIsShowing?.BoardState ?? positions;
             _lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates
@@ -233,7 +234,7 @@ namespace FormsPrototype
 
             const int ofx = 20;
             const int ofy = 20;
-            int boardSize = _liveGame.Info.BoardSize.Width;
+            int boardSize = _game.Info.BoardSize.Width;
             for (int x = 0; x < boardSize; x++)
             {
                 e.Graphics.DrawLine(boardSize - x - 1 == _lastMove.Y ? new Pen(Color.Black, 2) : Pens.Black, 0 + ofx + 10 , x * 20 + 10+ofy, boardSize * 20 + ofx - 10 , x * 20 + 10+ofy);
@@ -330,7 +331,7 @@ namespace FormsPrototype
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             
-            int boardSize = _liveGame.Info.BoardSize.Width;
+            int boardSize = _game.Info.BoardSize.Width;
             const int ofx = 20;
             const int ofy = 20;
             int x = (e.X - 2 - ofx) / 20;
@@ -361,13 +362,13 @@ namespace FormsPrototype
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_liveGame.Controller.IsOnlineGame)
+                if (_game.Controller.IsOnlineGame)
                 {
-                   await _liveGame.Controller.Server.Commands.Resign(_onlineGame.RemoteInfo);
+                   await _game.Controller.Server.Commands.Resign(_onlineGame.RemoteInfo);
                 }
                 else
                 {
-                    _liveGame.Controller.Resign(PlayerToMove);
+                    _game.Controller.Resign(PlayerToMove);
                 }
             }
         }
@@ -387,9 +388,9 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-                if (_liveGame.Controller.IsOnlineGame)
+                if (_game.Controller.IsOnlineGame)
                 {
-                    await _liveGame.Controller.Server.Commands.LifeDeathMarkDeath(position, this._onlineGame.RemoteInfo);
+                    await _game.Controller.Server.Commands.LifeDeathMarkDeath(position, this._onlineGame.RemoteInfo);
                 }
                 else
                 {
@@ -441,15 +442,15 @@ namespace FormsPrototype
         {
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
             AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
-                _liveGame.Controller.GameTree.LastNode.BoardState,
+                _game.Controller.GameTree.LastNode.BoardState,
                 new TimeSpan(1),
-                5, _liveGame.Controller.GameTree.PrimaryMoveTimeline.ToList()));
+                5, _game.Controller.GameTree.PrimaryMoveTimeline.ToList()));
             MessageBox.Show("I recommend you make this move: " + decision);
         }
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           foreach (GamePlayer player in _liveGame.Controller.Players)
+           foreach (GamePlayer player in _game.Controller.Players)
            {
                (player.Agent as AiAgent)?.SetStrength((int) nAiStrength.Value);
            }
@@ -457,13 +458,13 @@ namespace FormsPrototype
 
         private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            if (_liveGame.Controller.IsOnlineGame)
+            if (_game.Controller.IsOnlineGame)
             {
-                await _liveGame.Controller.Server.Commands.LifeDeathDone(_onlineGame.RemoteInfo);
+                await _game.Controller.Server.Commands.LifeDeathDone(_onlineGame.RemoteInfo);
             }
             else
             {
-                foreach (var player in _liveGame.Controller.Players)
+                foreach (var player in _game.Controller.Players)
                 {
                     if (player.Agent is HumanAgent || player.Agent is AiAgent)
                     {
@@ -480,9 +481,9 @@ namespace FormsPrototype
 
         private async void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            if (_liveGame.Controller.IsOnlineGame)
+            if (_game.Controller.IsOnlineGame)
             {
-                await _liveGame.Controller.Server.Commands.UndoLifeDeath(_onlineGame.RemoteInfo);
+                await _game.Controller.Server.Commands.UndoLifeDeath(_onlineGame.RemoteInfo);
                 SystemLog("Requesting server to undo life/death phase...");
             }
             else
@@ -502,7 +503,7 @@ namespace FormsPrototype
         }
 
 
-        public IgsGameInfo OnlineInfo => (IgsGameInfo) _liveGame.Info;
+        public IgsGameInfo OnlineInfo => (IgsGameInfo) _game.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
             await (_server as IgsConnection).UndoPleaseAsync(OnlineInfo);
@@ -535,17 +536,17 @@ namespace FormsPrototype
             RefreshBoard();
         }
 
-        private ILiveGame _liveGame;
+        private IGame _game;
         private IGameController _controller;
         private GamePhaseType _gamePhase;
 
-        public void LoadGame(ILiveGame game)
+        public void LoadGame(IGame game)
         {
-            _liveGame = game;
+            _game = game;
 
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
-            _controller = _liveGame.Controller;
+            _controller = _game.Controller;
             _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
             _controller.DebuggingMessage += _controller_DebuggingMessage;
             _controller.GameEnded += _controller_GameEnded;
@@ -554,7 +555,7 @@ namespace FormsPrototype
             _controller.GamePhaseChanged += _controller_GamePhaseChanged;
             _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            
-            foreach (GamePlayer player in _liveGame.Controller.Players)
+            foreach (GamePlayer player in _game.Controller.Players)
             {
                 if (player.Agent is AiAgent)
                 {
@@ -573,8 +574,8 @@ namespace FormsPrototype
         private void _controller_GameEnded(object sender, GameEndInformation e)
         {
             this.panelEnd.Visible = true;
-            this.lblEndCaption.Text = e.Mainline;
-            this.lblGameEndReason.Text = e.Subline;
+            this.lblEndCaption.Text = e.ToString();
+            this.lblGameEndReason.Text = (e.Winner) + " wins against " + e.Loser;
             if (e.Reason == GameEndReason.ScoringComplete)
             {
                 var scores = e.Scores;
@@ -619,12 +620,12 @@ namespace FormsPrototype
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (_liveGame != null)
+            if (_game != null)
             {
-                TimeInformation blackTime = _liveGame.Controller.Players.Black.Clock.GetDisplayTime();
+                TimeInformation blackTime = _game.Controller.Players.Black.Clock.GetDisplayTime();
                 lblTimeBlackMain.Text = blackTime.MainText;
                 lblTimeBlackSub.Text = blackTime.SubText;
-                TimeInformation whiteTime = _liveGame.Controller.Players.White.Clock.GetDisplayTime();
+                TimeInformation whiteTime = _game.Controller.Players.White.Clock.GetDisplayTime();
                 lblTimeWhiteMain.Text = whiteTime.MainText;
                 lblTimeWhiteSub.Text = whiteTime.SubText;
             }

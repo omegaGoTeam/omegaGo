@@ -15,14 +15,29 @@ namespace OmegaGo.Core.Modes.LiveGame
     public class PlayerPair : IEnumerable<GamePlayer>
     {
         /// <summary>
-        /// Creates pair of players
+        /// Creates pair of players in a game
         /// </summary>
-        /// <param name="black">Black player</param>
-        /// <param name="white">White player</param>
-        public PlayerPair(GamePlayer black, GamePlayer white)
+        /// <param name="firstPlayer">First player</param>
+        /// <param name="secondPlayer">Second player</param>
+        public PlayerPair(GamePlayer firstPlayer, GamePlayer secondPlayer)
         {
-            Black = black;
-            White = white;
+            if (firstPlayer == null) throw new ArgumentNullException(nameof(firstPlayer));
+            if (secondPlayer == null) throw new ArgumentNullException(nameof(secondPlayer));
+            if (firstPlayer.Info.Color == StoneColor.None) throw new ArgumentException("First player has none color", nameof(firstPlayer));
+            if (secondPlayer.Info.Color == StoneColor.None) throw new ArgumentException("Second player has none color", nameof(secondPlayer));
+            if (firstPlayer.Info.Color == secondPlayer.Info.Color) throw new ArgumentException("Both players in a pair have the same color.");
+
+            //set the players according to their color
+            if (firstPlayer.Info.Color == StoneColor.Black)
+            {
+                Black = firstPlayer;
+                White = secondPlayer;
+            }
+            else
+            {
+                Black = secondPlayer;
+                White = firstPlayer;
+            }
         }
 
         /// <summary>
@@ -66,7 +81,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             if (player == Black) return White;
             if (player == White) return Black;
-            throw new ArgumentOutOfRangeException(nameof(player),"This player is not a player in this game");
+            throw new ArgumentOutOfRangeException(nameof(player), "This player is not a player in this game");
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ using IgsGameBuilder = OmegaGo.Core.Modes.LiveGame.Remote.Igs.IgsGameBuilder;
 namespace OmegaGo.Core.Modes.LiveGame
 {
     public abstract class GameBuilder<TGameType, TBuilderType>
-        where TGameType : LiveGameBase
+        where TGameType : GameBase
         where TBuilderType : GameBuilder<TGameType, TBuilderType>
     {
         private readonly TBuilderType _concreteBuilderInstance;

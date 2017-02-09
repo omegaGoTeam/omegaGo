@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 
 namespace OmegaGo.UI.Services.Settings
 {
@@ -39,7 +40,7 @@ namespace OmegaGo.UI.Services.Settings
             set { SetSetting(nameof(LocalGamesWon), value, SettingLocality.Roamed); }
         }
 
-        public void GameHasBeenCompleted(ILiveGame game, GameEndInformation gameEndInformation)
+        public void GameHasBeenCompleted(IGame game, GameEndInformation gameEndInformation)
         {
             
             bool isOnlineGame = game.Controller.IsOnlineGame;

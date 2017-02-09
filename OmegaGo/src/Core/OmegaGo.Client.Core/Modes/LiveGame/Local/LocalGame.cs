@@ -6,7 +6,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Local
     /// <summary>
     /// Represents a local game
     /// </summary>
-    public class LocalGame : LiveGameBase
+    public class LocalGame : GameBase
     {        
         public LocalGame(GameInfo info, IRuleset ruleset, PlayerPair players) : base(info)
         {
