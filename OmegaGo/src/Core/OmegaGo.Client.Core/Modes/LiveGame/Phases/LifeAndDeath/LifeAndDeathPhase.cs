@@ -102,7 +102,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 Controller.OnDebuggingMessage(winner + " wins.");
             }
-            Controller.OnDebuggingMessage("Scoring complete! " + scores.PositiveScoreDifference);
+            Controller.OnDebuggingMessage("Scoring complete! " + scores.AbsoluteScoreDifference);
             GameEndInformation gameEndInfo = null;
             if (isDraw)
             {

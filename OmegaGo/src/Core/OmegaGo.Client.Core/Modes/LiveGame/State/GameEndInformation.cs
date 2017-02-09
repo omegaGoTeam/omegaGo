@@ -148,7 +148,7 @@ namespace OmegaGo.Core.Modes.LiveGame.State
                     if (HasWinnerAndLoser)
                     {
                         return (Winner.Info.Color == Game.StoneColor.Black ? "B" : "W") + "+" +
-                               Scores.PositiveScoreDifference;
+                               Scores.AbsoluteScoreDifference;
                     }
                     else
                     {

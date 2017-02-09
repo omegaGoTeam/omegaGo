@@ -12,7 +12,23 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class Scores
     {
-        
+        /// <summary>
+        /// Creates empty scores
+        /// </summary>
+        public Scores()
+        {
+        }
+
+        /// <summary>
+        /// Creates scores
+        /// </summary>
+        /// <param name="blackScore">Black's score</param>
+        /// <param name="whiteScore">White's score</param>
+        public Scores(float blackScore, float whiteScore)
+        {
+            BlackScore = blackScore;
+            WhiteScore = whiteScore;
+        }
 
         /// <summary>
         /// Score of the black player
@@ -24,7 +40,10 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         public float WhiteScore { get; set; }
 
-        public float PositiveScoreDifference => Math.Abs(this.WhiteScore - this.BlackScore);
+        /// <summary>
+        /// Absolute score difference
+        /// </summary>
+        public float AbsoluteScoreDifference => Math.Abs(this.WhiteScore - this.BlackScore);
 
         /// <summary>
         /// Gets or sets score for a given stone color
