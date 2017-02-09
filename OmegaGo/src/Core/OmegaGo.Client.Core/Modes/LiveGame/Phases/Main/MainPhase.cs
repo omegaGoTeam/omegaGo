@@ -247,5 +247,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             var endGameInformation = GameEndInformation.CreateTimeout(player, Controller.Players);
             Controller.EndGame(endGameInformation);
         }
+
+
+        //TODO: REMOVE THIS
+        public void Main_Undo()
+        {
+            if (Phase == GamePhaseType.Main)
+            {
+                (_currentGamePhase as MainPhase).Undo();
+            }
+            else
+            {
+                throw new Exception("Not main phase.");
+            }
+        }
     }
 }

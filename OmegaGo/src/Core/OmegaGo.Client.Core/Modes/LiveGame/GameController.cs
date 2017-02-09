@@ -11,6 +11,8 @@ using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free;
 using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
@@ -84,8 +86,15 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public event EventHandler<string> DebuggingMessage;
 
-        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+        /// <summary>
+        /// Indicates that the board must be refreshed
+        /// </summary>
+        public event EventHandler BoardMustBeRefreshed;
 
+        /// <summary>
+        /// Indicates that the game phase has changed
+        /// </summary>
+        public event EventHandler<GamePhaseType> GamePhaseChanged;
 
         /// <summary>
         /// Game info
@@ -228,21 +237,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
         }
-
-        public event EventHandler<GamePhaseType> GamePhaseChanged;
-
-        //TODO: REMOVE THIS
-        public void Main_Undo()
-        {
-            if (Phase == GamePhaseType.Main)
-            {
-                (_currentGamePhase as MainPhase).Undo();
-            }
-            else
-            {
-                throw new Exception("Not main phase.");
-            }
-        }
+        
 
         internal void SetPhase(GamePhaseType phase)
         {
@@ -278,10 +273,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Fires the board refresh event
+        /// </summary>
+        internal void OnBoardMustBeRefreshed()
+        {
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
         /// Creates the game controller phase factory based on the game info
         /// </summary>
         /// <returns>Game controller phase factory</returns>
-        protected IGameControllerPhaseFactory CreateGameControllerPhaseFactory()
+        private IGameControllerPhaseFactory CreateGameControllerPhaseFactory()
         {
             if (Info.HandicapPlacementType == HandicapPlacementType.Fixed)
             {
@@ -295,18 +298,6 @@ namespace OmegaGo.Core.Modes.LiveGame
                     new GenericPhaseFactory
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
-        }
-
-        public event EventHandler BoardMustBeRefreshed;
-        public void OnBoardMustBeRefreshed()
-        {
-            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
-        }
-
-        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
-        {
-            LifeDeathTerritoryChanged?.Invoke(this, map);
-            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

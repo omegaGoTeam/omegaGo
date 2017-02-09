@@ -39,6 +39,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         private string _team = "";
 
+        /// <summary>
+        /// Time clock for the player
+        /// </summary>
         protected TimeControl TimeClock { get; private set; } = new NoTimeControl();
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Sets the name
         /// </summary>
-        /// <param name="name">Name</param>
+        /// <param name="clock">Clock</param>
         /// <returns>Builder</returns>
         public TBuilderType Clock(TimeControl clock)
         {

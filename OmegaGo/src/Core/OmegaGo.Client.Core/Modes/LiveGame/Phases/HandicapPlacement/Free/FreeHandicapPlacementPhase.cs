@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
 {
     class FreeHandicapPlacementPhase : HandicapPlacementPhaseBase
     {

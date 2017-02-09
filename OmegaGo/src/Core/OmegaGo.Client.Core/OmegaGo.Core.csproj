@@ -59,8 +59,8 @@
     <Compile Include="Modes\LiveGame\State\GameEndReason.cs" />
     <Compile Include="Helpers\IDebuggingMessageProvider.cs" />
     <Compile Include="Modes\LiveGame\State\IGameState.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhaseBase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IgsHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPlacementPhaseBase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Igs\IgsHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeath.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentEventHandler.cs" />
     <Compile Include="Modes\LiveGame\Players\Igs\IIgsAgent.cs" />
@@ -70,8 +70,8 @@
     <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\RemoteGameController.cs" />
     <Compile Include="Modes\LiveGame\Phases\GenericPhaseFactory.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FixedHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\FreeHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPlacementPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Free\FreeHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGameControllerPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerPair.cs" />
@@ -212,7 +212,7 @@
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
-    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPositions.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Rules\RulesetType.cs" />

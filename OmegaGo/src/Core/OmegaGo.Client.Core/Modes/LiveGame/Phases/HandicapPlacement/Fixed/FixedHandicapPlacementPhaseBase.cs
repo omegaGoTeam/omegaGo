@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 {
     abstract class FixedHandicapPlacementPhaseBase : HandicapPlacementPhaseBase
     {
@@ -24,7 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
                 Controller.OnDebuggingMessage("Placing " + gameInfo.NumberOfHandicapStones + " fixed handicap stones...");
                 GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
 
-                var positions = HandicapPositions.GetHandicapStonePositions(gameInfo.BoardSize, gameInfo.NumberOfHandicapStones).ToArray();
+                var positions = FixedHandicapPositions.GetHandicapStonePositions(gameInfo.BoardSize, gameInfo.NumberOfHandicapStones).ToArray();
 
                 //set game board stones
                 foreach (var position in positions)

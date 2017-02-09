@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 {
-    public static class HandicapPositions
+    public static class FixedHandicapPositions
     {
         public const int MaxFixedHandicap9 = 5;
         public const int MaxFixedHandicap13 = 9;

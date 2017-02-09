@@ -140,5 +140,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
             RecalculateTerritories();
         }
+
+
+        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        {
+            LifeDeathTerritoryChanged?.Invoke(this, map);
+            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

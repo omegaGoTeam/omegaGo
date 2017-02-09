@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+﻿using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 
-namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
+namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
 {
     /// <summary>
     /// IGS specific handicap placement phase

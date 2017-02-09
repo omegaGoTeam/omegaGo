@@ -3,6 +3,7 @@ using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;

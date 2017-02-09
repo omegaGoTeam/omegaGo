@@ -48,6 +48,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <param name="gameState">Game state</param>
         public void AssignToGame(GameInfo gameInfo, IGameState gameState)
         {
+            //assign the agent player to this game
             Agent.AssignToGame(gameInfo, gameState);
         }
 
