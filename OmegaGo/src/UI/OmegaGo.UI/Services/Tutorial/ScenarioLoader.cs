@@ -27,6 +27,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
+                if (line.Trim() == "") continue;
                 ParsedLine parsedLine = ParsedLine.Parse(line);
                 if (parsedLine.Command == "menu")
                 {
