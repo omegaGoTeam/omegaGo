@@ -125,6 +125,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oak Tree Bambus.
+        /// </summary>
+        public static string BoardTheme_OakWood {
+            get {
+                return ResourceManager.GetString("BoardTheme_OakWood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell size.
         /// </summary>
         public static string CellSize {

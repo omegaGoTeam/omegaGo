@@ -252,6 +252,10 @@
           <source>Total games played:</source>
           <target state="final">Celkem her odehráno:</target>
         </trans-unit>
+        <trans-unit id="BoardTheme_OakWood" translate="yes" xml:space="preserve">
+          <source>Oak Tree Bambus</source>
+          <target state="new">Oak Tree Bambus</target>
+        </trans-unit>
       </group>
     </body>
   </file>

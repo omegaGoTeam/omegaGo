@@ -139,6 +139,9 @@
     <value>Board Size</value>
     <comment>:-)</comment>
   </data>
+  <data name="BoardTheme_OakWood" xml:space="preserve">
+    <value>Oak Tree Bambus</value>
+  </data>
   <data name="CellSize" xml:space="preserve">
     <value>Cell size</value>
   </data>

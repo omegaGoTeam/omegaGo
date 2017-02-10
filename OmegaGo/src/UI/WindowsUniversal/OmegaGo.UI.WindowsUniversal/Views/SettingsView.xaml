@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:system="using:System"
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     Loaded="SettingsView_Loaded"
     mc:Ignorable="d">
     
@@ -18,17 +19,15 @@
         </TransitionCollection>
     </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Pivot Title="{x:Bind Localizer.Settings}" Grid.Row="0">
+        <Pivot HorizontalContentAlignment="Center" Title="{x:Bind Localizer.Settings}" HorizontalAlignment="Center">
             <Pivot.TitleTemplate>
                 <DataTemplate>
-                    <TextBlock ContinuumNavigationTransitionInfo.IsEntranceElement="True" Text="{Binding}" FontSize="34" FontWeight="Light" />
+                    <navigation:TitleControl ContinuumNavigationTransitionInfo.IsEntranceElement="True"  Text="{Binding}">
+                    </navigation:TitleControl>
                 </DataTemplate>
             </Pivot.TitleTemplate>
             <PivotItem Header="{x:Bind Localizer.UserInterface}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Padding="15">
                     <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
                               Checked="Fullscreen_Checked"
@@ -37,7 +36,13 @@
                     <ComboBox Width="140" 
                               ItemsSource="{Binding BoardThemes}"
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
-                    </ComboBox>
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                    
                     <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox ItemsSource="{Binding StoneThemes}" 
@@ -55,7 +60,8 @@
                     </StackPanel>
                     <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                     <CheckBox Content="Show tutorial button in main menu" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Input">
                 <StackPanel Padding="15">
@@ -125,5 +131,6 @@
                 </StackPanel>
             </PivotItem>
         </Pivot>
+    
     </Grid>
 </views:TransparencyViewBase>

@@ -8,8 +8,9 @@
 
     <Border>
         <Border.Background>
-            <ImageBrush ImageSource="/Assets/MainMenu/backgroundimage.jpg" Stretch="UniformToFill" />
+            <ImageBrush Opacity="0.3" ImageSource="/Assets/MainMenu/shintoShrine.jpg" Stretch="UniformToFill" />
         </Border.Background>
+   <!--     <Grid Background="#5532CD32">-->
         <Grid Background="#AAFDD270">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
