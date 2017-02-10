@@ -2,7 +2,6 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Time;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Modes.LiveGame.State;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players

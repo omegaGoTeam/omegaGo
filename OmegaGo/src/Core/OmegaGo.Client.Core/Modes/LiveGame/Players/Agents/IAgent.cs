@@ -1,7 +1,7 @@
 ﻿using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -86,11 +86,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// Informs the agent that the game phase changed
         /// </summary>
         void GamePhaseChanged(GamePhaseType phase);
-
-        /// <summary>
-        /// Informs the agent that he is on turn
-        /// </summary>
-        void OnTurn();
 
         /// <summary>
         /// Requests the player to make a move

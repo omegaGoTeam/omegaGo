@@ -13,7 +13,7 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;

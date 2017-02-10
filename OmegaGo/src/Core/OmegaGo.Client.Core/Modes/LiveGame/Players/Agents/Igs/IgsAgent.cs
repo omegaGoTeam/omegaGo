@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
 {
     /// <summary>
     /// IGS agent

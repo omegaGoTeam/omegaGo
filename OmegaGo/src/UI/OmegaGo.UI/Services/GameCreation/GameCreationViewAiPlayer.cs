@@ -2,7 +2,7 @@ using System;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.UserControls.ViewModels;
 

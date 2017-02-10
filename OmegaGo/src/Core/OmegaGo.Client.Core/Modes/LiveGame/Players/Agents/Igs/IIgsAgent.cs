@@ -1,6 +1,6 @@
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Igs
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
 {
     public interface IIgsAgent
     {

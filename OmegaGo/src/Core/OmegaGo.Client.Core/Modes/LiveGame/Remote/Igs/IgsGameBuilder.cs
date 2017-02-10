@@ -1,6 +1,7 @@
 ﻿using System;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs

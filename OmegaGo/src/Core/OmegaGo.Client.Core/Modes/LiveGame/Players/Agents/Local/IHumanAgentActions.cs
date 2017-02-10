@@ -1,6 +1,6 @@
 ﻿using OmegaGo.Core.Game;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Local
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Local
 {
     /// <summary>
     /// This interface is what the user interface classes use to make a player perform an action in the game. This merits further refactoring,

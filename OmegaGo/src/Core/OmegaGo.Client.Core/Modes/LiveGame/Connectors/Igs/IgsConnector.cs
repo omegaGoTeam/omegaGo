@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs

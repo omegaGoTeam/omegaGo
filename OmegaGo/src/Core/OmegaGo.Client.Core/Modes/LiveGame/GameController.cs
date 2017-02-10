@@ -209,46 +209,15 @@ namespace OmegaGo.Core.Modes.LiveGame
             SetPhase(GamePhaseType.Initialization);
         }
 
-        private void AgentResigned(IAgent sender)
-        {
-            Resign(Players[((IAgent)sender).Color]);
-        }
-
         public void Resign(GamePlayer playerToMove)
         {
             EndGame(GameEndInformation.CreateResignation(playerToMove, Players));
         }
 
-
         /// <summary>
-        /// Assigns the players to this controller
+        /// Sets the current phase of the game
         /// </summary>
-        private void AssignPlayers()
-        {
-            foreach (var player in Players)
-            {
-                player.AssignToGame(Info, this);
-            }
-        }
-
-        private void OnGameEnded(GameEndInformation endInformation)
-        {
-            GameEnded?.Invoke(this, endInformation);
-        }
-
-        protected virtual void OnTurnPlayerChanged()
-        {
-            TurnPlayerChanged?.Invoke(this, TurnPlayer);
-            //notify the agent about his turn       
-            TurnPlayer?.Agent.OnTurn();
-        }
-
-        protected virtual void OnCurrentGameTreeNodeChanged()
-        {
-            CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
-        }
-        
-
+        /// <param name="phase">Phase type to set</param>
         internal void SetPhase(GamePhaseType phase)
         {
             this._currentGamePhase?.EndPhase();
@@ -269,6 +238,10 @@ namespace OmegaGo.Core.Modes.LiveGame
             _currentGamePhase.StartPhase();
         }
 
+        /// <summary>
+        /// Debugging message
+        /// </summary>
+        /// <param name="message"></param>
         internal void OnDebuggingMessage(string message)
         {
             DebuggingMessage?.Invoke(this, message);
@@ -288,6 +261,41 @@ namespace OmegaGo.Core.Modes.LiveGame
         internal void OnBoardMustBeRefreshed()
         {
             BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Assigns the players to this controller
+        /// </summary>
+        private void AssignPlayers()
+        {
+            foreach (var player in Players)
+            {
+                player.AssignToGame(Info, this);
+            }
+        }
+
+        private void OnGameEnded(GameEndInformation endInformation)
+        {
+            GameEnded?.Invoke(this, endInformation);
+        }
+
+        /// <summary>
+        /// Firest the turn player changed event
+        /// </summary>
+        protected virtual void OnTurnPlayerChanged()
+        {
+            TurnPlayerChanged?.Invoke(this, TurnPlayer);
+            //TODO: should we do this?
+            //notify the agent about his turn       
+            TurnPlayer?.Agent.OnTurn();
+        }
+
+        /// <summary>
+        /// Fires the current game tree node changed event
+        /// </summary>
+        protected virtual void OnCurrentGameTreeNodeChanged()
+        {
+            CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
         }
 
         /// <summary>

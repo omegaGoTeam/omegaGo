@@ -1,9 +1,8 @@
 ﻿using System;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Local
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Local
 {
     public class HumanAgent : AgentBase, IHumanAgentActions
     {

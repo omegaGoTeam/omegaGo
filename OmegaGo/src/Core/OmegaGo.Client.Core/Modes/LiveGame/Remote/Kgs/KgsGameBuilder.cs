@@ -1,6 +1,7 @@
 ﻿using System;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs

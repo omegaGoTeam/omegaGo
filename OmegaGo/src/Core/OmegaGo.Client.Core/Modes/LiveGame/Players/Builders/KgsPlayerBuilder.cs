@@ -1,7 +1,8 @@
 ﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Online.Kgs;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Kgs
+namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
 {
     public sealed class KgsPlayerBuilder : PlayerBuilder<GamePlayer, KgsPlayerBuilder>
     {
