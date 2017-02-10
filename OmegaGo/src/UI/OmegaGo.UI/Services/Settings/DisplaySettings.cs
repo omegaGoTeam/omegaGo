@@ -73,13 +73,15 @@
         Go,
         Forest,
         Shrine,
-        Temple
+        Temple,
+        None
 
     }
     public enum BackgroundColor
     {
         Basic,
-        Green
+        Green,
+        None
     }
     public enum BoardTheme
     {

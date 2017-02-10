@@ -20,6 +20,36 @@ namespace OmegaGo.UI.Services.Localization
 
         }
 
+        public string ThemesPanel => LocalizeCaller();
+        public string BoardTheme => LocalizeCaller();
+        public string StonesTheme => LocalizeCaller();
+        public string BackgroundImage => LocalizeCaller();
+        public string BackgroundColor => LocalizeCaller();
+        public string FullscreenModeCheckbox => LocalizeCaller();
+        public string HighlightLastMove => LocalizeCaller();
+        public string HighlightRecentCaptures => LocalizeCaller();
+        public string HighlightRecentCapturesTooltip => LocalizeCaller();
+        public string HighlightIllegalKoMoves => LocalizeCaller();
+        public string HighlightIllegalKoMovesTooltip => LocalizeCaller();
+        public string ShowCoordinates => LocalizeCaller();
+        public string MakingAMoveRequiresAConfirmationClick => LocalizeCaller();
+        public string EnableHints => LocalizeCaller();
+        public string EnableEvenInOnlineGames => LocalizeCaller();
+        public string EnableEvenInOnlineGamesTooltip => LocalizeCaller();
+        public string Strength => LocalizeCaller();
+        public string AssistantAIProgram => LocalizeCaller();
+        public string ASoundEffectShouldPlay => LocalizeCaller();
+        public string WhenIPlaceAStone => LocalizeCaller();
+        public string WhenAnotherPlayerPlacesAStone => LocalizeCaller();
+        public string WhenIReceiveANotification => LocalizeCaller();
+        public string SfxVolume => LocalizeCaller();
+        public string MusicVolume => LocalizeCaller();
+        public string MuteAll => LocalizeCaller();
+        public string MasterVolume => LocalizeCaller();
+        public string ShowTutorialButton => LocalizeCaller();
+        public string InputPanel => LocalizeCaller();
+        public string AudioPanel => LocalizeCaller();
+        public string AssistPanel => LocalizeCaller();
         public string OmegaGo => LocalizeCaller();
 
         public string Game => LocalizeCaller();

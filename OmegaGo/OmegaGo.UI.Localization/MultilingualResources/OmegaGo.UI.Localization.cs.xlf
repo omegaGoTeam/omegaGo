@@ -253,8 +253,184 @@
           <target state="final">Celkem her odehráno:</target>
         </trans-unit>
         <trans-unit id="BoardTheme_OakWood" translate="yes" xml:space="preserve">
-          <source>Oak Tree Bambus</source>
-          <target state="new">Oak Tree Bambus</target>
+          <source>Oak wood</source>
+          <target state="new">Oak wood</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor" translate="yes" xml:space="preserve">
+          <source>Background Color</source>
+          <target state="new">Background Color</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_Basic" translate="yes" xml:space="preserve">
+          <source>Basic orange</source>
+          <target state="new">Basic orange</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_Green" translate="yes" xml:space="preserve">
+          <source>Green</source>
+          <target state="new">Green</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage" translate="yes" xml:space="preserve">
+          <source>Background Image</source>
+          <target state="new">Background Image</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Forest" translate="yes" xml:space="preserve">
+          <source>Bamboo forest</source>
+          <target state="new">Bamboo forest</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Go" translate="yes" xml:space="preserve">
+          <source>Go board</source>
+          <target state="new">Go board</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Shrine" translate="yes" xml:space="preserve">
+          <source>Shinto shrine</source>
+          <target state="new">Shinto shrine</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Temple" translate="yes" xml:space="preserve">
+          <source>Zen temple</source>
+          <target state="new">Zen temple</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme" translate="yes" xml:space="preserve">
+          <source>Board Theme</source>
+          <target state="new">Board Theme</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_KayaWood" translate="yes" xml:space="preserve">
+          <source>Kaya wood</source>
+          <target state="new">Kaya wood</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SabakiBoard" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="new">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="new">Solid color</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_VirtualBoard" translate="yes" xml:space="preserve">
+          <source>Virtual board</source>
+          <target state="new">Virtual board</target>
+        </trans-unit>
+        <trans-unit id="StonesTheme" translate="yes" xml:space="preserve">
+          <source>Stones Theme</source>
+          <target state="new">Stones Theme</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_PolishedBitmap" translate="yes" xml:space="preserve">
+          <source>Polished stones</source>
+          <target state="new">Polished stones</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_Sabaki" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="new">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="new">Solid color</target>
+        </trans-unit>
+        <trans-unit id="ThemesPanel" translate="yes" xml:space="preserve">
+          <source>Themes</source>
+          <target state="new">Themes</target>
+        </trans-unit>
+        <trans-unit id="AssistPanel" translate="yes" xml:space="preserve">
+          <source>Artifical intelligence</source>
+          <target state="new">Artifical intelligence</target>
+        </trans-unit>
+        <trans-unit id="AudioPanel" translate="yes" xml:space="preserve">
+          <source>Audio</source>
+          <target state="new">Audio</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMoves" translate="yes" xml:space="preserve">
+          <source>Highlight illegal Ko moves</source>
+          <target state="new">Highlight illegal Ko moves</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMovesTooltip" translate="yes" xml:space="preserve">
+          <source>If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</source>
+          <target state="new">If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</target>
+        </trans-unit>
+        <trans-unit id="HighlightLastMove" translate="yes" xml:space="preserve">
+          <source>Highlight last move</source>
+          <target state="new">Highlight last move</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCaptures" translate="yes" xml:space="preserve">
+          <source>Highlight recent captures</source>
+          <target state="new">Highlight recent captures</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCapturesTooltip" translate="yes" xml:space="preserve">
+          <source>If a stone was captured during the previous move, its intersection will be highlighted.</source>
+          <target state="new">If a stone was captured during the previous move, its intersection will be highlighted.</target>
+        </trans-unit>
+        <trans-unit id="InputPanel" translate="yes" xml:space="preserve">
+          <source>Input</source>
+          <target state="new">Input</target>
+        </trans-unit>
+        <trans-unit id="ShowCoordinates" translate="yes" xml:space="preserve">
+          <source>Show coordinates</source>
+          <target state="new">Show coordinates</target>
+        </trans-unit>
+        <trans-unit id="ShowTutorialButton" translate="yes" xml:space="preserve">
+          <source>Show the tutorial button in main menu</source>
+          <target state="new">Show the tutorial button in main menu</target>
+        </trans-unit>
+        <trans-unit id="ASoundEffectShouldPlay" translate="yes" xml:space="preserve">
+          <source>A sound effect should play:</source>
+          <target state="new">A sound effect should play:</target>
+        </trans-unit>
+        <trans-unit id="AssistantAIProgram" translate="yes" xml:space="preserve">
+          <source>Assistant AI program</source>
+          <target state="new">Assistant AI program</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGames" translate="yes" xml:space="preserve">
+          <source>Enable even in online games</source>
+          <target state="new">Enable even in online games</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGamesTooltip" translate="yes" xml:space="preserve">
+          <source>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</source>
+          <target state="new">It is frowned upon to use AI assistance during games against human opponents without their knowledge.</target>
+        </trans-unit>
+        <trans-unit id="EnableHints" translate="yes" xml:space="preserve">
+          <source>Enable hints</source>
+          <target state="new">Enable hints</target>
+        </trans-unit>
+        <trans-unit id="MakingAMoveRequiresAConfirmationClick" translate="yes" xml:space="preserve">
+          <source>Making a move requires a confirmation click</source>
+          <target state="new">Making a move requires a confirmation click</target>
+        </trans-unit>
+        <trans-unit id="MasterVolume" translate="yes" xml:space="preserve">
+          <source>Master volume</source>
+          <target state="new">Master volume</target>
+        </trans-unit>
+        <trans-unit id="MusicVolume" translate="yes" xml:space="preserve">
+          <source>Music volume</source>
+          <target state="new">Music volume</target>
+        </trans-unit>
+        <trans-unit id="MuteAll" translate="yes" xml:space="preserve">
+          <source>Mute all</source>
+          <target state="new">Mute all</target>
+        </trans-unit>
+        <trans-unit id="SfxVolume" translate="yes" xml:space="preserve">
+          <source>Sound effects volume</source>
+          <target state="new">Sound effects volume</target>
+        </trans-unit>
+        <trans-unit id="Strength" translate="yes" xml:space="preserve">
+          <source>Strength</source>
+          <target state="new">Strength</target>
+        </trans-unit>
+        <trans-unit id="WhenAnotherPlayerPlacesAStone" translate="yes" xml:space="preserve">
+          <source>When another player places a stone</source>
+          <target state="new">When another player places a stone</target>
+        </trans-unit>
+        <trans-unit id="WhenIPlaceAStone" translate="yes" xml:space="preserve">
+          <source>When I place a stone</source>
+          <target state="new">When I place a stone</target>
+        </trans-unit>
+        <trans-unit id="WhenIReceiveANotification" translate="yes" xml:space="preserve">
+          <source>When I receive a notification</source>
+          <target state="new">When I receive a notification</target>
         </trans-unit>
       </group>
     </body>

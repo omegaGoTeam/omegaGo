@@ -26,10 +26,10 @@
                     </navigation:TitleControl>
                 </DataTemplate>
             </Pivot.TitleTemplate>
-            <PivotItem Header="Themes">
+            <PivotItem Header="{x:Bind Localizer.ThemesPanel}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Padding="15">
-                        <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.BoardTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox Width="240" 
                               ItemsSource="{Binding BoardThemes}"
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
@@ -41,7 +41,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.StonesTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox ItemsSource="{Binding StoneThemes}" 
                               SelectedIndex="{Binding SelectedStonesTheme, Mode=TwoWay}"
                               Width="240">
@@ -52,7 +52,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <TextBlock Text="Background Image" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.BackgroundImage}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         
                         <ComboBox ItemsSource="{Binding BackgroundImages}" 
                               SelectedIndex="{Binding SelectedBackgroundImage, Mode=TwoWay}"
@@ -63,8 +63,8 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        
-                        <TextBlock Text="Background Color" Style="{ThemeResource SubtitleTextBlockStyle}" />
+
+                        <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox ItemsSource="{Binding BackgroundColors}" 
                               SelectedIndex="{Binding SelectedBackgroundColor, Mode=TwoWay}"
                               Width="240">
@@ -80,47 +80,50 @@
             <PivotItem Header="{x:Bind Localizer.UserInterface}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
+                    <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
-             
-                    <CheckBox Content="Highlight Last Move" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
-                    <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Highlight illegal Ko moves" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted." />
+
+                        <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{x:Bind Localizer.HighlightRecentCaptures}" IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightRecentCapturesTooltip}"  />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{x:Bind Localizer.HighlightIllegalKoMoves}" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
+                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
                     </StackPanel>
-                    <CheckBox Content="Show Coordinates" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
-                    <CheckBox Content="Show tutorial button in main menu" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
+                    <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                    <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
-            <PivotItem Header="Input">
+            <PivotItem Header="{x:Bind Localizer.InputPanel}">
                 
                 <StackPanel Padding="15">
-                    <CheckBox Content="Making a move requires a confirmation click"
+                    <CheckBox Content="{x:Bind Localizer.MakingAMoveRequiresAConfirmationClick}"
                               IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Sounds">
+            <PivotItem Header="{x:Bind Localizer.AudioPanel}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Padding="15">
-                        <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.MasterVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
-                        <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}">Mute All</CheckBox>
+                        <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}" Content="{x:Bind Localizer.MuteAll}"></CheckBox>
 
-                        <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.MusicVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
-                        <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 
-                        <TextBlock Text="A sound effect should play:"/>
-                        <CheckBox Content="When I place a stone." IsChecked="{Binding PlayWhenYouPlaceStone, Mode=TwoWay}" />
-                        <CheckBox Content="When another player places a stone." IsChecked="{Binding PlayWhenOthersPlaceStone, Mode=TwoWay}"  />
-                        <CheckBox Content="When I receive a notification" IsChecked="{Binding PlayWhenNotificationReceived, Mode=TwoWay}"  />
+                        <TextBlock Text="{x:Bind Localizer.ASoundEffectShouldPlay}"/>
+                        <CheckBox Content="{x:Bind Localizer.WhenIPlaceAStone}" IsChecked="{Binding PlayWhenYouPlaceStone, Mode=TwoWay}" />
+                        <CheckBox Content="{x:Bind Localizer.WhenAnotherPlayerPlacesAStone}" IsChecked="{Binding PlayWhenOthersPlaceStone, Mode=TwoWay}"  />
+                        <CheckBox Content="{x:Bind Localizer.WhenIReceiveANotification}" IsChecked="{Binding PlayWhenNotificationReceived, Mode=TwoWay}"  />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -137,16 +140,16 @@
                     <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Artificial Intelligence">
+            <PivotItem Header="{x:Bind Localizer.AssistPanel}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Padding="15">
-                        <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.AssistantAIProgram}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox Width="140"
                               ItemsSource="{Binding AiPrograms}"
                               SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
                         </ComboBox>
 
-                        <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.Strength}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
                             <x:String>1</x:String>
                             <x:String>2</x:String>
@@ -160,10 +163,10 @@
                             <x:String>10</x:String>
                         </ComboBox>
 
-                        <CheckBox Content="Enable hints" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
+                        <CheckBox Content="{x:Bind Localizer.EnableHints}" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Enable even in online games" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
-                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
+                            <CheckBox Content="{x:Bind Localizer.EnableEvenInOnlineGames}" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.EnableEvenInOnlineGamesTooltip}" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

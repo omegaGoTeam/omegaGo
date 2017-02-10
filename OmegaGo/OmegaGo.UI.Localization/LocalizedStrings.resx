@@ -117,14 +117,56 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ASoundEffectShouldPlay" xml:space="preserve">
+    <value>A sound effect should play:</value>
+  </data>
   <data name="Assistant" xml:space="preserve">
     <value>Assistant</value>
+  </data>
+  <data name="AssistantAIProgram" xml:space="preserve">
+    <value>Assistant AI program</value>
+  </data>
+  <data name="AssistPanel" xml:space="preserve">
+    <value>Artifical intelligence</value>
+  </data>
+  <data name="AudioPanel" xml:space="preserve">
+    <value>Audio</value>
   </data>
   <data name="AutoLanguage" xml:space="preserve">
     <value>Auto</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Back</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
+  <data name="BackgroundColor_Basic" xml:space="preserve">
+    <value>Basic orange</value>
+  </data>
+  <data name="BackgroundColor_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="BackgroundColor_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background Image</value>
+  </data>
+  <data name="BackgroundImage_Forest" xml:space="preserve">
+    <value>Bamboo forest</value>
+  </data>
+  <data name="BackgroundImage_Go" xml:space="preserve">
+    <value>Go board</value>
+  </data>
+  <data name="BackgroundImage_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="BackgroundImage_Shrine" xml:space="preserve">
+    <value>Shinto shrine</value>
+  </data>
+  <data name="BackgroundImage_Temple" xml:space="preserve">
+    <value>Zen temple</value>
   </data>
   <data name="Black" xml:space="preserve">
     <value>Black</value>
@@ -139,8 +181,23 @@
     <value>Board Size</value>
     <comment>:-)</comment>
   </data>
+  <data name="BoardTheme" xml:space="preserve">
+    <value>Board Theme</value>
+  </data>
+  <data name="BoardTheme_KayaWood" xml:space="preserve">
+    <value>Kaya wood</value>
+  </data>
   <data name="BoardTheme_OakWood" xml:space="preserve">
-    <value>Oak Tree Bambus</value>
+    <value>Oak wood</value>
+  </data>
+  <data name="BoardTheme_SabakiBoard" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="BoardTheme_SolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="BoardTheme_VirtualBoard" xml:space="preserve">
+    <value>Virtual board</value>
   </data>
   <data name="CellSize" xml:space="preserve">
     <value>Cell size</value>
@@ -166,6 +223,15 @@
   <data name="Easy" xml:space="preserve">
     <value>Easy</value>
   </data>
+  <data name="EnableEvenInOnlineGames" xml:space="preserve">
+    <value>Enable even in online games</value>
+  </data>
+  <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
+    <value>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</value>
+  </data>
+  <data name="EnableHints" xml:space="preserve">
+    <value>Enable hints</value>
+  </data>
   <data name="FilterBySource" xml:space="preserve">
     <value>Filter by source</value>
   </data>
@@ -189,6 +255,24 @@
   </data>
   <data name="HelpToolTip" xml:space="preserve">
     <value>Read the rules, documentation and other interesting information.</value>
+  </data>
+  <data name="HighlightIllegalKoMoves" xml:space="preserve">
+    <value>Highlight illegal Ko moves</value>
+  </data>
+  <data name="HighlightIllegalKoMovesTooltip" xml:space="preserve">
+    <value>If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</value>
+  </data>
+  <data name="HighlightLastMove" xml:space="preserve">
+    <value>Highlight last move</value>
+  </data>
+  <data name="HighlightRecentCaptures" xml:space="preserve">
+    <value>Highlight recent captures</value>
+  </data>
+  <data name="HighlightRecentCapturesTooltip" xml:space="preserve">
+    <value>If a stone was captured during the previous move, its intersection will be highlighted.</value>
+  </data>
+  <data name="InputPanel" xml:space="preserve">
+    <value>Input</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -214,8 +298,20 @@
   <data name="LocalGameToolTip" xml:space="preserve">
     <value>Play Go against another player on the same device or against an AI.</value>
   </data>
+  <data name="MakingAMoveRequiresAConfirmationClick" xml:space="preserve">
+    <value>Making a move requires a confirmation click</value>
+  </data>
+  <data name="MasterVolume" xml:space="preserve">
+    <value>Master volume</value>
+  </data>
   <data name="Medium" xml:space="preserve">
     <value>Medium</value>
+  </data>
+  <data name="MusicVolume" xml:space="preserve">
+    <value>Music volume</value>
+  </data>
+  <data name="MuteAll" xml:space="preserve">
+    <value>Mute all</value>
   </data>
   <data name="OmegaGo" xml:space="preserve">
     <value>Omega Go</value>
@@ -259,6 +355,15 @@
   <data name="SettingsToolTip" xml:space="preserve">
     <value>Change language, audio, visual style and many other things.</value>
   </data>
+  <data name="SfxVolume" xml:space="preserve">
+    <value>Sound effects volume</value>
+  </data>
+  <data name="ShowCoordinates" xml:space="preserve">
+    <value>Show coordinates</value>
+  </data>
+  <data name="ShowTutorialButton" xml:space="preserve">
+    <value>Show the tutorial button in main menu</value>
+  </data>
   <data name="Singleplayer" xml:space="preserve">
     <value>Singleplayer</value>
   </data>
@@ -273,6 +378,24 @@
   </data>
   <data name="StatisticsToolTip" xml:space="preserve">
     <value>View your winrate and other statistics.</value>
+  </data>
+  <data name="StonesTheme" xml:space="preserve">
+    <value>Stones Theme</value>
+  </data>
+  <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
+    <value>Polished stones</value>
+  </data>
+  <data name="StoneTheme_Sabaki" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="StoneTheme_SolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>Strength</value>
+  </data>
+  <data name="ThemesPanel" xml:space="preserve">
+    <value>Themes</value>
   </data>
   <data name="Tips" xml:space="preserve">
     <value>Tips</value>
@@ -294,6 +417,15 @@
   </data>
   <data name="UserInterface" xml:space="preserve">
     <value>Display</value>
+  </data>
+  <data name="WhenAnotherPlayerPlacesAStone" xml:space="preserve">
+    <value>When another player places a stone</value>
+  </data>
+  <data name="WhenIPlaceAStone" xml:space="preserve">
+    <value>When I place a stone</value>
+  </data>
+  <data name="WhenIReceiveANotification" xml:space="preserve">
+    <value>When I receive a notification</value>
   </data>
   <data name="White" xml:space="preserve">
     <value>White</value>
