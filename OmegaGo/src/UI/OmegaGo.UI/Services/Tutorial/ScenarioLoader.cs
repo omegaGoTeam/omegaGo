@@ -22,7 +22,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         public static List<ScenarioCommand> LoadFromText(string data)
         {
             List<ScenarioCommand> commands = new List<ScenarioCommand>();
-            // TODO HACK the menu parsing system is a little.... fragiles
+
             string[] lines = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
