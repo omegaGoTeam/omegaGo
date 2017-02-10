@@ -41,5 +41,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             FullscreenModeManager.Toggle();
         }
+
+        private void AppShellComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        {
+            AppShell.GetForCurrentView().RefreshBindings();
+        }
     }
 }

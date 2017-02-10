@@ -8,12 +8,10 @@
 
     <Border>
         <Border.Background>
-            <ImageBrush Opacity="0.3" ImageSource="{x:Bind BackgroundImageUrl}" Stretch="UniformToFill" />
-            <!--
-            <ImageBrush Opacity="0.3" ImageSource="/Assets/MainMenu/shintoShrine.jpg" Stretch="UniformToFill" />-->
+            <ImageBrush Opacity="{x:Bind BackgroundOpacity}" ImageSource="{x:Bind BackgroundImageUrl}" Stretch="UniformToFill" />
         </Border.Background>
-      <!-- <Grid Background="#AA32CD32">-->
-        <Grid Background="#AAFDD270">
+        <!-- <Grid Background="#AA32CD32" #AAFDD270>-->
+        <Grid Background="{x:Bind BackgroundColor}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

@@ -228,6 +228,7 @@
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\MainMenu\bambooForest.jpg" />
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
+    <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
     <Content Include="Assets\Sounds\Sabaki\place0.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place1.mp3" />

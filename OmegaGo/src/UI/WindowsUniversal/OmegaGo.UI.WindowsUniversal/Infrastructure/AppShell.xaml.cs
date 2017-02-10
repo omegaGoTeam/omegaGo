@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Windows.ApplicationModel.Core;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -267,6 +268,52 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         private IGameSettings _settings;
+
+        public void RefreshBindings()
+        {
+            Bindings.Update();
+        }
+        public float BackgroundOpacity
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                    case BackgroundImage.None:
+                        return 1;
+                    case BackgroundImage.Shrine:
+                    case BackgroundImage.Temple:
+                    case BackgroundImage.Forest:
+                        return 0.5f;
+                    default:
+                        return 1;
+                }
+            }
+        }
+        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        {
+            get
+            {
+                var color = Colors.White;
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundColor)
+                {
+                    case UI.Services.Settings.BackgroundColor.Basic:
+                        color = Color.FromArgb(170, 253, 210, 112);
+                        break;
+                    case UI.Services.Settings.BackgroundColor.Green:
+                        color = Color.FromArgb(220, 164, 242, 167);
+                        break;
+                    case UI.Services.Settings.BackgroundColor.None:
+                    default:
+                        color = Colors.Transparent;
+                        break;
+                }
+                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+            }
+        }
         public string BackgroundImageUrl {
             get
             {
@@ -275,8 +322,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 {
                     case BackgroundImage.Go:
                         return "/Assets/MainMenu/backgroundimage.jpg";
-                    default:
+                    case BackgroundImage.Forest:
+                        return "/Assets/MainMenu/bambooForest.jpg";
+                    case BackgroundImage.Shrine:
                         return "/Assets/MainMenu/shintoShrine.jpg";
+                    case BackgroundImage.Temple:
+                        return "/Assets/MainMenu/ginkakuJi.jpg";
+                    case BackgroundImage.None:
+                    default:
+                        return "/Assets/MainMenu/pixel.png";
                 }
             }
 
