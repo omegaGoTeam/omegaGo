@@ -6,12 +6,12 @@ using OmegaGo.Core.Game;
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 {
     /// <summary>
-    /// Provides fixed handicap positions
+    ///     Provides fixed handicap positions
     /// </summary>
-    public static class FixedHandicapPositions
+    internal static class FixedHandicapPositions
     {
         /// <summary>
-        /// Fixed handicap positions for 9x9 board
+        ///     Fixed handicap positions for 9x9 board
         /// </summary>
         private static readonly Position[] FixedHandicapPositions9 =
         {
@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         };
 
         /// <summary>
-        /// Fixed handicap positions 13x13 board
+        ///     Fixed handicap positions 13x13 board
         /// </summary>
         private static readonly Position[] FixedHandicapPositions13 =
         {
@@ -39,7 +39,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         };
 
         /// <summary>
-        /// Fixed handic positions for 19x19 boards
+        ///     Fixed handic positions for 19x19 boards
         /// </summary>
         private static readonly Position[] FixedHandicapPositions19 =
         {
@@ -55,32 +55,33 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         };
 
         /// <summary>
-        /// Returns the positions of handicap stones
+        ///     Returns the positions of handicap stones
         /// </summary>
         /// <param name="size">Size of the game board</param>
         /// <param name="handicap">Handicap stone count</param>
         /// <returns>Positions of handicap stones</returns>
         public static IEnumerable<Position> GetHandicapStonePositions(GameBoardSize size, int handicap)
         {
-            if (!size.IsSquare) throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
+            if (!size.IsSquare)
+                throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
             Position[] sourceArray = null;
             switch (size.Width)
             {
                 case 9:
-                    {
-                        sourceArray = FixedHandicapPositions9;
-                        break;
-                    }
+                {
+                    sourceArray = FixedHandicapPositions9;
+                    break;
+                }
                 case 13:
-                    {
-                        sourceArray = FixedHandicapPositions13;
-                        break;
-                    }
+                {
+                    sourceArray = FixedHandicapPositions13;
+                    break;
+                }
                 case 19:
-                    {
-                        sourceArray = FixedHandicapPositions19;
-                        break;
-                    }
+                {
+                    sourceArray = FixedHandicapPositions19;
+                    break;
+                }
                 default:
                     throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
             }
@@ -90,5 +91,34 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 
             return sourceArray.Take(handicap);
         }
+
+        /// <summary>
+        ///     Returns the maximum fixed handicap for a given board size
+        /// </summary>
+        /// <param name="size">Game board size</param>
+        /// <returns>Maximum fixed handicap value</returns>
+        public static int GetMaximumHandicap(GameBoardSize size)
+        {
+            if (!size.IsSquare)
+                throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
+            switch (size.Width)
+            {
+                case 9:
+                    return FixedHandicapPositions9.Length;
+                case 13:
+                    return FixedHandicapPositions13.Length;
+                case 19:
+                    return FixedHandicapPositions19.Length;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
+            }
+        }
+
+        /// <summary>
+        ///     Returns game board sizes supported for fixed handicap
+        /// </summary>
+        /// <returns>Supported game board sizes</returns>
+        public static IEnumerable<GameBoardSize> GetSupportedBoardSizes() =>
+            new[] {new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19)};
     }
 }

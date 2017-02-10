@@ -26,7 +26,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
               this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                    _deadPositions);
             Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-            this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
+            //TODO: Implement
+            //this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
         }
 
         public void MarkGroupDead(Position position)
@@ -141,11 +142,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             RecalculateTerritories();
         }
 
-
-        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
-        {
-            LifeDeathTerritoryChanged?.Invoke(this, map);
-            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
-        }
+        //TODO: Implement
+        //public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        //{
+        //    LifeDeathTerritoryChanged?.Invoke(this, map);
+        //    BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        //}
     }
 }

@@ -249,17 +249,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         }
 
 
-        //TODO: REMOVE THIS
-        public void Main_Undo()
-        {
-            if (Phase == GamePhaseType.Main)
-            {
-                (_currentGamePhase as MainPhase).Undo();
-            }
-            else
-            {
-                throw new Exception("Not main phase.");
-            }
-        }
+        //TODO: IMPLEMENT THIS
+        //public void Main_Undo()
+        //{
+        //    if (Phase == GamePhaseType.Main)
+        //    {
+        //        (_currentGamePhase as MainPhase).Undo();
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Not main phase.");
+        //    }
+        //}
     }
 }
