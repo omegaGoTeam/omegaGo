@@ -68,20 +68,20 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             switch (size.Width)
             {
                 case 9:
-                {
-                    sourceArray = FixedHandicapPositions9;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions9;
+                        break;
+                    }
                 case 13:
-                {
-                    sourceArray = FixedHandicapPositions13;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions13;
+                        break;
+                    }
                 case 19:
-                {
-                    sourceArray = FixedHandicapPositions19;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions19;
+                        break;
+                    }
                 default:
                     throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
             }
@@ -119,6 +119,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         /// </summary>
         /// <returns>Supported game board sizes</returns>
         public static IEnumerable<GameBoardSize> GetSupportedBoardSizes() =>
-            new[] {new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19)};
+            new[] { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19) };
     }
 }
