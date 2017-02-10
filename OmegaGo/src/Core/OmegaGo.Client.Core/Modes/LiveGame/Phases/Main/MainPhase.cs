@@ -248,7 +248,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.EndGame(endGameInformation);
         }
 
-
         //TODO: IMPLEMENT THIS
         //public void Main_Undo()
         //{

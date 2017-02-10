@@ -5,10 +5,17 @@
     /// </summary>
     class InitializationPhase : GamePhaseBase, IInitializationPhase
     {
+        /// <summary>
+        /// Creates initializaiton phase
+        /// </summary>
+        /// <param name="gameController">Game controller</param>
         public InitializationPhase(GameController gameController) : base(gameController)
         {
         }
 
+        /// <summary>
+        /// Initialization phase
+        /// </summary>
         public override GamePhaseType PhaseType => GamePhaseType.Initialization;
 
         /// <summary>
