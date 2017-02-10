@@ -89,7 +89,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Artifical intelligence.
+        ///   Looks up a localized string similar to Artificial intelligence.
         /// </summary>
         public static string AssistPanel {
             get {
