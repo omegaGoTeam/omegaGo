@@ -195,4 +195,139 @@
   <data name="TotalGamesPlayed" xml:space="preserve">
     <value>Celkem her odehráno:</value>
   </data>
+  <data name="BoardTheme_OakWood" xml:space="preserve">
+    <value>Dub</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Barva pozadí</value>
+  </data>
+  <data name="BackgroundColor_Basic" xml:space="preserve">
+    <value>Základní oranžová</value>
+  </data>
+  <data name="BackgroundColor_Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="BackgroundColor_None" xml:space="preserve">
+    <value>Žádná</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="BackgroundImage_Forest" xml:space="preserve">
+    <value>Bambusový les</value>
+  </data>
+  <data name="BackgroundImage_Go" xml:space="preserve">
+    <value>Herní deska</value>
+  </data>
+  <data name="BackgroundImage_None" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="BackgroundImage_Shrine" xml:space="preserve">
+    <value>Šintoistická svatyně</value>
+  </data>
+  <data name="BackgroundImage_Temple" xml:space="preserve">
+    <value>Zenový chrám</value>
+  </data>
+  <data name="BoardTheme" xml:space="preserve">
+    <value>Motiv desky</value>
+  </data>
+  <data name="BoardTheme_KayaWood" xml:space="preserve">
+    <value>Dřevo kaya</value>
+  </data>
+  <data name="BoardTheme_SabakiBoard" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="BoardTheme_SolidColor" xml:space="preserve">
+    <value>Jednoduchá barva</value>
+  </data>
+  <data name="BoardTheme_VirtualBoard" xml:space="preserve">
+    <value>Virtuální deska</value>
+  </data>
+  <data name="StonesTheme" xml:space="preserve">
+    <value>Motiv kamenů</value>
+  </data>
+  <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
+    <value>Leštěné kameny</value>
+  </data>
+  <data name="StoneTheme_Sabaki" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="StoneTheme_SolidColor" xml:space="preserve">
+    <value>Plná barva</value>
+  </data>
+  <data name="ThemesPanel" xml:space="preserve">
+    <value>Motivy</value>
+  </data>
+  <data name="AssistPanel" xml:space="preserve">
+    <value>Umělá inteligence</value>
+  </data>
+  <data name="AudioPanel" xml:space="preserve">
+    <value>Zvuk</value>
+  </data>
+  <data name="HighlightIllegalKoMoves" xml:space="preserve">
+    <value>Zvýraznit neplatné tahy Ko</value>
+  </data>
+  <data name="HighlightIllegalKoMovesTooltip" xml:space="preserve">
+    <value>Pokud není možné položit kámen na bod, protože by bylo porušeno pravidlo Ko, tak daný bod bude zvýrazněn.</value>
+  </data>
+  <data name="HighlightLastMove" xml:space="preserve">
+    <value>Zvýraznit poslední tah</value>
+  </data>
+  <data name="HighlightRecentCaptures" xml:space="preserve">
+    <value>Zvýraznit zajmuté kameny</value>
+  </data>
+  <data name="HighlightRecentCapturesTooltip" xml:space="preserve">
+    <value>Pokud byl kámen zajat během předcházejícího tahu, bod, kde se nacházel, bude zvýrazněn.</value>
+  </data>
+  <data name="InputPanel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="ShowCoordinates" xml:space="preserve">
+    <value>Zobrazovat souřanice</value>
+  </data>
+  <data name="ShowTutorialButton" xml:space="preserve">
+    <value>Zobrazit tlačítko tutoriálu v hlavní nabídce</value>
+  </data>
+  <data name="ASoundEffectShouldPlay" xml:space="preserve">
+    <value>Zvuk by měl být přehrán:</value>
+  </data>
+  <data name="AssistantAIProgram" xml:space="preserve">
+    <value>Poskytovatel nápovědy</value>
+  </data>
+  <data name="EnableEvenInOnlineGames" xml:space="preserve">
+    <value>Povolit i v online hrách</value>
+  </data>
+  <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
+    <value>Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
+  </data>
+  <data name="EnableHints" xml:space="preserve">
+    <value>Povolit nápovědu</value>
+  </data>
+  <data name="MakingAMoveRequiresAConfirmationClick" xml:space="preserve">
+    <value>Položení kamene vyžaduje potvrzující kliknutí</value>
+  </data>
+  <data name="MasterVolume" xml:space="preserve">
+    <value>Celková hlasitost</value>
+  </data>
+  <data name="MusicVolume" xml:space="preserve">
+    <value>Hlasitost hudby</value>
+  </data>
+  <data name="MuteAll" xml:space="preserve">
+    <value>Ztlumit vše</value>
+  </data>
+  <data name="SfxVolume" xml:space="preserve">
+    <value>Hlasitost zvukových efektů</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>Síla</value>
+  </data>
+  <data name="WhenAnotherPlayerPlacesAStone" xml:space="preserve">
+    <value>Když jiný hráč umístí kámen</value>
+  </data>
+  <data name="WhenIPlaceAStone" xml:space="preserve">
+    <value>Když já umístím kámen</value>
+  </data>
+  <data name="WhenIReceiveANotification" xml:space="preserve">
+    <value>Kdy obdržím upozornění</value>
+  </data>
 </root>
