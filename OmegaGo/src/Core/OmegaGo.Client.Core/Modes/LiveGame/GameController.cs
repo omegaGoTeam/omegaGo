@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
@@ -17,20 +14,19 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Common;
-using OmegaGo.Core.Online.Igs;
-using OmegaGo.Core.Online.Igs.Events;
-using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Rules;
-using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
+    /// <summary>
+    /// Represents a controller of a live game
+    /// </summary>
     public class GameController : IGameController, IDebuggingMessageProvider
     {
+        /// <summary>
+        /// List of connectors registered to this game controller
+        /// </summary>
         private readonly List<IGameConnector> _registeredConnectors = new List<IGameConnector>();
 
         /// <summary>
@@ -94,12 +90,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the game phase has changed
         /// </summary>
-        public event EventHandler<GamePhaseType> GamePhaseChanged;
-
-        /// <summary>
-        /// Game info
-        /// </summary>
-        internal GameInfo Info { get; }
+        public event EventHandler<GamePhaseType> GamePhaseChanged;       
 
         /// <summary>
         /// Ruleset of the game
@@ -112,34 +103,45 @@ namespace OmegaGo.Core.Modes.LiveGame
         public PlayerPair Players { get; }
 
         /// <summary>
+        /// Gets the game tree
+        /// </summary>
+        public GameTree GameTree { get; }
+
+        /// <summary>
+        /// Gets the current game phase
+        /// </summary>
+        public GamePhaseType Phase => _currentGamePhase.PhaseType;
+
+
+        /// <summary>
         /// Connectors in the game
         /// </summary>
-        public IReadOnlyList<IGameConnector> Connectors => 
+        public IReadOnlyList<IGameConnector> Connectors =>
             new ReadOnlyCollection<IGameConnector>(_registeredConnectors);
 
         /// <summary>
-        /// Registers a connector
+        /// Gets the current number of moves
         /// </summary>
-        /// <param name="connector">Game connector</param>
-        public void RegisterConnector( IGameConnector connector )
-        {
-            _registeredConnectors.Add( connector );
-        }
+        public int NumberOfMoves { get; internal set; }
 
         /// <summary>
-        /// Returns a registered connector of a given type
+        /// Game info
         /// </summary>
-        /// <typeparam name="T">Type of connector to return</typeparam>
-        /// <returns>Connector or default in case not found</returns>
-        internal T GetConnector<T>() where T : IGameConnector
-        {
-            return _registeredConnectors.OfType<T>().FirstOrDefault();
-        }
+        internal GameInfo Info { get; }
 
         /// <summary>
         /// Game phase factory
         /// </summary>
         protected virtual IGameControllerPhaseFactory PhaseFactory => CreateGameControllerPhaseFactory();
+
+        /// <summary>
+        /// Registers a connector
+        /// </summary>
+        /// <param name="connector">Game connector</param>
+        public void RegisterConnector(IGameConnector connector)
+        {
+            _registeredConnectors.Add(connector);
+        }        
 
         /// <summary>
         /// Gets the current game tree node
@@ -164,74 +166,83 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 if (_turnPlayer != value)
                 {
-                    this._turnPlayer?.Clock.StopClock();
+                    _turnPlayer?.Clock.StopClock();
 
                     _turnPlayer = value;
-                    this._turnPlayer.Clock.StartClock();
+                    _turnPlayer.Clock.StartClock();
 
                     OnTurnPlayerChanged();
                 }
             }
         }
 
-        /// <summary>
-        /// Gets the current game phase
-        /// </summary>
-        public GamePhaseType Phase => _currentGamePhase.PhaseType;
 
-        /// <summary>
-        /// Gets the current number of moves
-        /// </summary>
-        public int NumberOfMoves { get; internal set; }
-
-        /// <summary>
-        /// Gets the game tree
-        /// </summary>
-        public GameTree GameTree { get; }
-
-
-        public void EndGame(GameEndInformation endInformation)
-        {
-            OnGameEnded(endInformation);
-            SetPhase(GamePhaseType.Finished);
-        }
 
         /// <summary>
         /// Begins the game once UI is ready
         /// </summary>
         public void BeginGame()
         {
-            foreach (var player in Players)
-            {
-                player.Agent.Resigned += AgentResigned;
-            }
+            //TODO: Where to handle resignation?
+            //foreach (var player in Players)
+            //{
+            //    player.Agent.Resigned += AgentResigned;
+            //}
+
             //start initialization phase
             SetPhase(GamePhaseType.Initialization);
         }
 
-        public void Resign(GamePlayer playerToMove)
+        /// <summary>
+        /// Ends the game
+        /// </summary>
+        /// <param name="endInformation">Game end info</param>
+        public void EndGame(GameEndInformation endInformation)
         {
-            EndGame(GameEndInformation.CreateResignation(playerToMove, Players));
+            OnGameEnded(endInformation);
+            SetPhase(GamePhaseType.Finished);
+        }
+        
+        /// <summary>
+        /// Returns a registered connector of a given type
+        /// </summary>
+        /// <typeparam name="T">Type of connector to return</typeparam>
+        /// <returns>Connector or default in case not found</returns>
+        internal T GetConnector<T>() where T : IGameConnector
+        {
+            return _registeredConnectors.OfType<T>().FirstOrDefault();
         }
 
         /// <summary>
-        /// Sets the current phase of the game
+        /// Sets the default phase of the game
         /// </summary>
         /// <param name="phase">Phase type to set</param>
         internal void SetPhase(GamePhaseType phase)
         {
-            this._currentGamePhase?.EndPhase();
-            OnDebuggingMessage("Now moving to " + phase);
-            //set the new phase
+            //create new phase of the requested type from the factory
             var newPhase = PhaseFactory.CreatePhase(phase, this);
-            _currentGamePhase = newPhase;
+            SetPhase(newPhase);
+        }
 
-            GamePhaseChanged?.Invoke(this, phase);
+        /// <summary>
+        /// Sets a concrete phase of the game
+        /// </summary>
+        /// <param name="phase">Phase instance</param>
+        internal void SetPhase(IGamePhase phase)
+        {
+            if (phase == null) throw new ArgumentNullException(nameof(phase));
+
+            _currentGamePhase?.EndPhase();
+            OnDebuggingMessage("Now moving to " + phase.PhaseType);
+
+            _currentGamePhase = phase;
+
+            GamePhaseChanged?.Invoke(this, phase.PhaseType);
 
             //inform agents about new phase and provide them access
             foreach (var player in Players)
             {
-                player.Agent.GamePhaseChanged(phase);
+                player.Agent.GamePhaseChanged(phase.PhaseType);
             }
 
             //start the new phase
@@ -285,9 +296,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         protected virtual void OnTurnPlayerChanged()
         {
             TurnPlayerChanged?.Invoke(this, TurnPlayer);
-            //TODO: should we do this?
-            //notify the agent about his turn       
-            TurnPlayer?.Agent.OnTurn();
         }
 
         /// <summary>
@@ -317,5 +325,12 @@ namespace OmegaGo.Core.Modes.LiveGame
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
         }
+
+
+        //TODO: This should not be here
+        //public void Resign(GamePlayer playerToMove)
+        //{
+        //    EndGame(GameEndInformation.CreateResignation(playerToMove, Players));
+        //}
     }
 }
