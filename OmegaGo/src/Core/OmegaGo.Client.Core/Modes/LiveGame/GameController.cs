@@ -121,9 +121,19 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Registers a connector
         /// </summary>
         /// <param name="connector">Game connector</param>
-        protected void RegisterConnector( IGameConnector connector )
+        public void RegisterConnector( IGameConnector connector )
         {
             _registeredConnectors.Add( connector );
+        }
+
+        /// <summary>
+        /// Returns a registered connector of a given type
+        /// </summary>
+        /// <typeparam name="T">Type of connector to return</typeparam>
+        /// <returns>Connector or default in case not found</returns>
+        internal T GetConnector<T>() where T : IGameConnector
+        {
+            return _registeredConnectors.OfType<T>().FirstOrDefault();
         }
 
         /// <summary>

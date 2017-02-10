@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -53,6 +54,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Starts the game
         /// </summary>
-        void BeginGame();        
+        void BeginGame();
+
+        /// <summary>
+        /// Registers a connector
+        /// </summary>
+        /// <param name="connector">Connector to register</param>
+        void RegisterConnector(IGameConnector connector);
     }
 }
