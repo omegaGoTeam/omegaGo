@@ -11,6 +11,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
     {
         private readonly IgsConnector _connector = null;
 
+        /// <summary>
+        /// Creates IGS handicap placement phase
+        /// </summary>
+        /// <param name="gameController"></param>
         public IgsHandicapPlacementPhase(IgsGameController gameController) : base(gameController)
         {
             _connector = gameController.IgsConnector;

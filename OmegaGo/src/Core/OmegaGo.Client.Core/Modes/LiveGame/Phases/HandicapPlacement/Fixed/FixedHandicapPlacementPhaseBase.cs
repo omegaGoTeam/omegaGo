@@ -10,7 +10,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         }
 
         /// <summary>
-        /// Places the fixed handicap stones and ends the phase
+        /// Fixed handicap placement type
+        /// </summary>
+        public override HandicapPlacementType PlacementType => HandicapPlacementType.Fixed;
+
+        /// <summary>
+        /// Places the fixed handicap stones based on the game info
         /// </summary>
         protected void PlaceHandicapStones()
         {
@@ -36,8 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 
                 //change the player on turn
                 Controller.SwitchTurnPlayer();
-            }
-            GoToPhase(GamePhaseType.Main);
+            }            
         }
     }
 }

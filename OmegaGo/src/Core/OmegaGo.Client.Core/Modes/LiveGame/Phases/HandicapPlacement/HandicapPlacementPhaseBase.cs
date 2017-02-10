@@ -19,5 +19,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
         /// Handicap placement phase
         /// </summary>
         public override GamePhaseType PhaseType => GamePhaseType.HandicapPlacement;
+
+        /// <summary>
+        /// Type of handicap placement
+        /// </summary>
+        public abstract HandicapPlacementType PlacementType { get; }
     }
 }
