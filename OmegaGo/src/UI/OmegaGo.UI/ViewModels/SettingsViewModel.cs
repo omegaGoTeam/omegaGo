@@ -92,6 +92,21 @@ namespace OmegaGo.UI.ViewModels
             get { return (int)_gameSettings.Display.StonesTheme; }
             set { _gameSettings.Display.StonesTheme = (StoneTheme)value; RaisePropertyChanged(); }
         }
+        public ObservableCollection<BackgroundImage> BackgroundImages { get; } =
+          new ObservableCollection<BackgroundImage>((BackgroundImage[])Enum.GetValues(typeof(BackgroundImage)));
+        public int SelectedBackgroundImage
+        {
+            get { return (int)_gameSettings.Display.BackgroundImage; }
+            set { _gameSettings.Display.BackgroundImage = (BackgroundImage)value; RaisePropertyChanged(); }
+        }
+        public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
+         new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
+        public int SelectedBackgroundColor
+        {
+            get { return (int)_gameSettings.Display.BackgroundColor; }
+            set { _gameSettings.Display.BackgroundColor = (BackgroundColor)value; RaisePropertyChanged(); }
+        }
+
         public bool HighlightLastMove
         {
             get { return _gameSettings.Display.HighlightLastMove; }
@@ -127,6 +142,11 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _gameSettings.Audio.MasterVolume; }
             set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged(); }
+        }
+        public bool MuteAll
+        {
+            get { return _gameSettings.Audio.Mute; }
+            set { _gameSettings.Audio.Mute = value; RaisePropertyChanged(); }
         }
         public int MusicVolume
         {

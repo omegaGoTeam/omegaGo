@@ -5,6 +5,8 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
@@ -263,5 +265,21 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             var vm = view?.ViewModel as ViewModelBase;
             vm?.GoBackCommand.Execute();
         }
+
+        private IGameSettings _settings;
+        public string BackgroundImageUrl {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                        return "/Assets/MainMenu/backgroundimage.jpg";
+                    default:
+                        return "/Assets/MainMenu/shintoShrine.jpg";
+                }
+            }
+
+        } 
     }
 }

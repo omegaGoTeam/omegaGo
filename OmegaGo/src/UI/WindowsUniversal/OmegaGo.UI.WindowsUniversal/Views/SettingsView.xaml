@@ -26,14 +26,11 @@
                     </navigation:TitleControl>
                 </DataTemplate>
             </Pivot.TitleTemplate>
-            <PivotItem Header="{x:Bind Localizer.UserInterface}">
+            <PivotItem Header="Themes">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
-                              Checked="Fullscreen_Checked"
-                              Unchecked="FullscreenMode_Unchecked"/>
-                    <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Width="140" 
+                    <StackPanel Padding="15">
+                        <TextBlock Text="Board Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox Width="240" 
                               ItemsSource="{Binding BoardThemes}"
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
 
@@ -43,15 +40,50 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                   
-                    <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox ItemsSource="{Binding StoneThemes}" 
+
+                        <TextBlock Text="Stones Theme" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox ItemsSource="{Binding StoneThemes}" 
                               SelectedIndex="{Binding SelectedStonesTheme, Mode=TwoWay}"
-                              Width="140">
-                    </ComboBox>
+                              Width="240">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                    
-
+                        <TextBlock Text="Background Image" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        
+                        <ComboBox ItemsSource="{Binding BackgroundImages}" 
+                              SelectedIndex="{Binding SelectedBackgroundImage, Mode=TwoWay}"
+                              Width="240">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        
+                        <TextBlock Text="Background Color" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox ItemsSource="{Binding BackgroundColors}" 
+                              SelectedIndex="{Binding SelectedBackgroundColor, Mode=TwoWay}"
+                              Width="240">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="{x:Bind Localizer.UserInterface}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Padding="15">
+                    <CheckBox Name="FullscreenMode" Content="Fullscreen Mode" 
+                              Checked="Fullscreen_Checked"
+                              Unchecked="FullscreenMode_Unchecked"/>
+             
                     <CheckBox Content="Highlight Last Move" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
                     <CheckBox Content="Highlight Recent Captures" ToolTipService.ToolTip="If a stone was captured during the previous move, its intersection will be highlighted." IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
                     <StackPanel Orientation="Horizontal">
@@ -64,29 +96,33 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Input">
+                
                 <StackPanel Padding="15">
                     <CheckBox Content="Making a move requires a confirmation click"
                               IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Sounds">
-                <StackPanel Padding="15">
-                    <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Padding="15">
+                        <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                        <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}">Mute All</CheckBox>
 
-                    <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                        <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
-                    <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
+                        <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 
-                    <TextBlock Text="A sound effect should play:"/>
-                    <CheckBox Content="When I place a stone." IsChecked="{Binding PlayWhenYouPlaceStone, Mode=TwoWay}" />
-                    <CheckBox Content="When another player places a stone." IsChecked="{Binding PlayWhenOthersPlaceStone, Mode=TwoWay}"  />
-                    <CheckBox Content="When I receive a notification" IsChecked="{Binding PlayWhenNotificationReceived, Mode=TwoWay}"  />
-                </StackPanel>
+                        <TextBlock Text="A sound effect should play:"/>
+                        <CheckBox Content="When I place a stone." IsChecked="{Binding PlayWhenYouPlaceStone, Mode=TwoWay}" />
+                        <CheckBox Content="When another player places a stone." IsChecked="{Binding PlayWhenOthersPlaceStone, Mode=TwoWay}"  />
+                        <CheckBox Content="When I receive a notification" IsChecked="{Binding PlayWhenNotificationReceived, Mode=TwoWay}"  />
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.Language}">
                 <StackPanel Padding="15">
@@ -102,33 +138,35 @@
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Artificial Intelligence">
-                <StackPanel Padding="15">
-                    <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Width="140"
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Padding="15">
+                        <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox Width="140"
                               ItemsSource="{Binding AiPrograms}"
                               SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
-                    </ComboBox>
+                        </ComboBox>
 
-                    <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
-                        <x:String>1</x:String>
-                        <x:String>2</x:String>
-                        <x:String>3</x:String>
-                        <x:String>4</x:String>
-                        <x:String>5</x:String>
-                        <x:String>6</x:String>
-                        <x:String>7</x:String>
-                        <x:String>8</x:String>
-                        <x:String>9</x:String>
-                        <x:String>10</x:String>
-                    </ComboBox>
+                        <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
+                            <x:String>1</x:String>
+                            <x:String>2</x:String>
+                            <x:String>3</x:String>
+                            <x:String>4</x:String>
+                            <x:String>5</x:String>
+                            <x:String>6</x:String>
+                            <x:String>7</x:String>
+                            <x:String>8</x:String>
+                            <x:String>9</x:String>
+                            <x:String>10</x:String>
+                        </ComboBox>
 
-                    <CheckBox Content="Enable hints" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Enable even in online games" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
+                        <CheckBox Content="Enable hints" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="Enable even in online games" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="It is frowned upon to use AI assistance during games against human opponents without their knowledge." />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </PivotItem>
         </Pivot>
     

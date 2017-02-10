@@ -14,6 +14,24 @@
             }
             set { SetSetting(nameof(BoardTheme), (int)value); }
         }
+        public BackgroundImage BackgroundImage
+        {
+            get
+            {
+                int theSetting = GetSetting(nameof(BackgroundImage), () => (int)BackgroundImage.Go);
+                return (BackgroundImage)theSetting;
+            }
+            set { SetSetting(nameof(BackgroundImage), (int)value); }
+        }
+        public BackgroundColor BackgroundColor
+        {
+            get
+            {
+                int theSetting = GetSetting(nameof(BackgroundColor), () => (int)BackgroundColor.Basic);
+                return (BackgroundColor)theSetting;
+            }
+            set { SetSetting(nameof(BackgroundColor), (int)value); }
+        }
         public StoneTheme StonesTheme
         {
             get
@@ -50,6 +68,19 @@
         }
     }
 
+    public enum BackgroundImage
+    {
+        Go,
+        Forest,
+        Shrine,
+        Temple
+
+    }
+    public enum BackgroundColor
+    {
+        Basic,
+        Green
+    }
     public enum BoardTheme
     {
         SolidColor,
