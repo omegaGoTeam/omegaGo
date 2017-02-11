@@ -54,6 +54,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board\Styles\StoneTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Services\Quests\Points.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestEvents.cs" />
+    <Compile Include="Board\Styles\BoardTheme.cs" />
     <Compile Include="Services\Settings\InterfaceMementos.cs" />
     <Compile Include="Services\Settings\StatisticsRecords.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />

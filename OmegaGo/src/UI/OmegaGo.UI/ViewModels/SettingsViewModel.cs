@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 

@@ -1,4 +1,6 @@
-﻿namespace OmegaGo.UI.Services.Settings
+﻿using OmegaGo.UI.Board.Styles;
+
+namespace OmegaGo.UI.Services.Settings
 {
     public class DisplaySettings : SettingsGroup
     {
@@ -23,6 +25,7 @@
             }
             set { SetSetting(nameof(StonesTheme), (int)value); }
         }
+
         public bool HighlightLastMove
         {
             get { return GetSetting(nameof(HighlightLastMove), () => true, SettingLocality.Roamed); }
@@ -50,18 +53,4 @@
         }
     }
 
-    public enum BoardTheme
-    {
-        SolidColor,
-        OakWood,
-        KayaWood,
-        VirtualBoard,
-        SabakiBoard
-    }
-    public enum StoneTheme
-    {
-        SolidColor,
-        PolishedBitmap,
-        Sabaki
-    }
 }
