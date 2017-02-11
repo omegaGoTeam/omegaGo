@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Extensions
     public static class ListExtensions
     {
         /// <summary>
-        /// Shuffles the specified list so that its elements are then in a random order.
+        /// Shuffles the specified list in-place so that its elements are then in a random order.
         /// 
         /// Source: http://stackoverflow.com/a/1262619/1580088 
         /// </summary>
@@ -32,6 +32,12 @@ namespace OmegaGo.Core.Extensions
             }
         }
 
+        /// <summary>
+        /// Returns random item from a list
+        /// </summary>
+        /// <typeparam name="T">Type of the list items</typeparam>
+        /// <param name="list">List</param>
+        /// <returns>Random item</returns>
         public static T GetRandom<T>(this IList<T> list)
         {
             int index = Randomizer.Next(list.Count);
