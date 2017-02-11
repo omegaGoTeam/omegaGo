@@ -12,12 +12,6 @@ namespace OmegaGo.Core.AI.Random
     public class RandomAI : AIProgramBase
     {
         public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
-        public override string Name => "Random";
-
-        public override string Description
-            =>
-                "This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes."
-            ;
 
         public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {

@@ -88,7 +88,7 @@
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\DefeatistAI.cs" />
-    <Compile Include="AI\Fuego\FuegoWrapper.cs" />
+    <Compile Include="AI\Fuego\FuegoAI.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
     <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />

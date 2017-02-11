@@ -67,13 +67,13 @@ namespace FormsPrototype
         {
             this.cbBlack.Items.Clear();
             this.cbBlack.Items.Add("Human");
-            this.cbBlack.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbBlack.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhite.Items.Clear();
             this.cbWhite.Items.Add("Human");
-            this.cbWhite.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhite.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhoPlaysOnline.Items.Clear();
             this.cbWhoPlaysOnline.Items.Add("Human");
-            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhite.SelectedIndex = 0;
             this.cbBlack.SelectedIndex = 0;
             this.cbWhoPlaysOnline.SelectedIndex = 0;

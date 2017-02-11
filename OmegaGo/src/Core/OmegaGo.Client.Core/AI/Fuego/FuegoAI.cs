@@ -11,14 +11,26 @@ namespace OmegaGo.Core.AI.Fuego
     /// The Fuego AI is a Monte Carlo advanced Go intelligence.
     /// </summary>
     /// <seealso cref="AIProgramBase" />
-    internal class FuegoWrapper : AIProgramBase
+    internal class FuegoAI : AIProgramBase
     {
+        private const float ComparisonTolerance = 0.00001f;
+
         private readonly List<Move> _history = new List<Move>();
 
         private bool _initialized;
         private IGtpEngine _engine;
         private int _timelimit = -1;
-        
+
+        /// <summary>
+        /// Capabilities of the AI
+        /// </summary>
+        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
+
+        /// <summary>
+        /// Requests a move from Fuego AI
+        /// </summary>
+        /// <param name="preMoveInformation">Information about the requested move</param>
+        /// <returns>Decision</returns>
         public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
             if (!_initialized)
@@ -61,25 +73,7 @@ namespace OmegaGo.Core.AI.Fuego
                 value = 1 - value;
             }
             return AIDecision.MakeMove(
-                move, (value == 0) || (value == 1) ? "Reading from opening book." : "Win chance (" + preMoveInformation.AIColor + "): " + (100*value) + "%");
+                move, (Math.Abs(value) < ComparisonTolerance) || (Math.Abs(value - 1) < ComparisonTolerance) ? "Reading from opening book." : "Win chance (" + preMoveInformation.AIColor + "): " + (100*value) + "%");
         }
-
-        /// <summary>
-        /// Name of the AI
-        /// </summary>
-        public override string Name => "Fuego (recommended)";
-
-        /// <summary>
-        /// Capabilities of the AI
-        /// </summary>
-        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
-
-        /// <summary>
-        /// Description of the AI
-        /// </summary>
-        public override string Description
-            => @"Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.\n\n
-                 It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.\n\n
-                 We recommend you use this AI program for all of your games.";
     }
 }

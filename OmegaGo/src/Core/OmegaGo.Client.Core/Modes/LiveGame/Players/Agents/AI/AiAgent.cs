@@ -28,15 +28,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
 
-        public override async void OnTurn()
+        public override async void PleaseMakeAMove()
         {
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
-                GameInfo,
-                Color,
-                GameState.GameTree,
-                _timeLimit,
-                _strength
-                )));
+               GameInfo,
+               Color,
+               GameState.GameTree,
+               _timeLimit,
+               _strength
+               )));
 
             AIDecision decision = await aiTask;
             OnLogMessage(decision.Explanation);

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI;
 using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
@@ -154,9 +155,11 @@ namespace OmegaGo.UI.ViewModels
             get { return _gameSettings.Audio.PlayWhenNotificationReceived; }
             set { _gameSettings.Audio.PlayWhenNotificationReceived = value; RaisePropertyChanged(); }
         }
+
         // AI
-        public ObservableCollection<string> AiPrograms { get; } =
-            new ObservableCollection<string>(OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => program.Name));
+        public ObservableCollection<IAIProgram> AiPrograms { get; } =
+            new ObservableCollection<IAIProgram>(AISystems.AIPrograms);
+
         public string SelectedAiProgram
         {
             get { return _gameSettings.Assistant.ProgramName; }

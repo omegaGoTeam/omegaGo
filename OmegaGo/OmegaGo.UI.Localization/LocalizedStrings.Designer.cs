@@ -62,6 +62,121 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+        ///Fluffy will always and only pass in response to its opponent passing.
+        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
+        /// </summary>
+        public static string AI_AlphaBetaPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluffy (minimax).
+        /// </summary>
+        public static string AI_AlphaBetaPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+        ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
+        /// </summary>
+        public static string AI_DefeatistAI_Description {
+            get {
+                return ResourceManager.GetString("AI_DefeatistAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defeatist.
+        /// </summary>
+        public static string AI_DefeatistAI_Name {
+            get {
+                return ResourceManager.GetString("AI_DefeatistAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+        ///It uses Monte Carlo tree search to make moves. It&apos;s capable of placing stones, passing and resigning, as the situation calls for.
+        ///We recommend you use this AI program for all of your games..
+        /// </summary>
+        public static string AI_FuegoAI_Description {
+            get {
+                return ResourceManager.GetString("AI_FuegoAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego.
+        /// </summary>
+        public static string AI_FuegoAI_Name {
+            get {
+                return ResourceManager.GetString("AI_FuegoAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+        ///This AI will pass only in response to its opponent passing, in which case it will always pass..
+        /// </summary>
+        public static string AI_HeuristicPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_HeuristicPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Puppy (heuristic).
+        /// </summary>
+        public static string AI_HeuristicPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_HeuristicPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes..
+        /// </summary>
+        public static string AI_RandomAI_Description {
+            get {
+                return ResourceManager.GetString("AI_RandomAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random.
+        /// </summary>
+        public static string AI_RandomAI_Name {
+            get {
+                return ResourceManager.GetString("AI_RandomAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI plays random moves while the board is not empty.
+        ///I dare you to let two Fish play against each other. The game will never end (unless you&apos;re very lucky)..
+        /// </summary>
+        public static string AI_RandomPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_RandomPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Fish.
+        /// </summary>
+        public static string AI_RandomPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_RandomPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assistant.
         /// </summary>
         public static string Assistant {

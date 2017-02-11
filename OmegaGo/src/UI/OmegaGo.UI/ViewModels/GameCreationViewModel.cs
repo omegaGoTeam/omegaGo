@@ -131,7 +131,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 new GameCreationViewHumanPlayer("Human")
             }.Concat(
-                Core.AI.AISystems.AiPrograms.Select(program => new GameCreationViewAiPlayer(program))
+                Core.AI.AISystems.AIPrograms.Select(program => new GameCreationViewAiPlayer(program))
                 )
             );
 
