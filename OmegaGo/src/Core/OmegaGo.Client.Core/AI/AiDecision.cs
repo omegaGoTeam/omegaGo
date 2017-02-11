@@ -10,7 +10,7 @@ namespace OmegaGo.Core.AI
     /// <summary>
     /// Represents a decision made by an AI agent in response to a move request.
     /// </summary>
-    public class AiDecision
+    public class AIDecision
     {
         /// <summary>
         /// Gets the form of decision that the agent took. The most common decisions are making a move or resigning.
@@ -26,25 +26,25 @@ namespace OmegaGo.Core.AI
         public string Explanation { get; set; }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="AiDecision"/> class from being created. Use <see cref="MakeMove(Game.Move,string)"/>
+        /// Prevents a default instance of the <see cref="AIDecision"/> class from being created. Use <see cref="MakeMove(Game.Move,string)"/>
         /// or <see cref="Resign(string)"/> instead.  
         /// </summary>
-        private AiDecision()
+        private AIDecision()
         {
            
         }
-        public static AiDecision MakeMove(Move move, string why)
+        public static AIDecision MakeMove(Move move, string why)
         {
-            return new AiDecision()
+            return new AIDecision()
             {
                 Kind = AgentDecisionKind.Move,
                 Move = move,
                 Explanation = why
             };
         }
-        public static AiDecision Resign(string why)
+        public static AIDecision Resign(string why)
         {
-            return new AiDecision()
+            return new AIDecision()
             {
                 Kind = AgentDecisionKind.Resign,
                 Explanation = why

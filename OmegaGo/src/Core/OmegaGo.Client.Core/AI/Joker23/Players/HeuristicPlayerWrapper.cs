@@ -4,7 +4,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23.Players
 {
-    public class HeuristicPlayerWrapper : AiProgramBase
+    public class HeuristicPlayerWrapper : AIProgramBase
     {
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);
         public override string Name { get; } = "The Puppy (heuristics)";
@@ -15,13 +15,13 @@ namespace OmegaGo.Core.AI.Joker23.Players
             ;
         private HeuristicPlayer internalPlayer;
 
-        public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
             var history = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
             if (history.Any() &&
                   history.Last().Kind == MoveKind.Pass)
             {
-                return AiDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
+                return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
             internalPlayer = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
 
@@ -41,7 +41,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
             JokerPoint point = internalPlayer.betterPlanMove(currentGame);
             
 
-            return AiDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
+            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
                 "I chose using heuristics.");
         }
     }

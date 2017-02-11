@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI
 {
-    public abstract class AiProgramBase : IAIProgram
+    /// <summary>
+    /// Base of AI programs
+    /// </summary>
+    public abstract class AIProgramBase : IAIProgram
     {
         public abstract AICapabilities Capabilities { get; }
-        public abstract string Name { get; }
-        public abstract string Description { get; }
-        public abstract AiDecision RequestMove(AIPreMoveInformation preMoveInformation);
 
-        public virtual AiDecision GetHint(AIPreMoveInformation preMoveInformation)
+        public abstract AIDecision RequestMove(AIPreMoveInformation preMoveInformation);
+
+        public virtual AIDecision GetHint(AIPreMoveInformation preMoveInformation)
         {
             if (!Capabilities.ProvidesHints)
             {

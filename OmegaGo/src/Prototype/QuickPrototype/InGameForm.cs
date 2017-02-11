@@ -441,7 +441,7 @@ namespace FormsPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
-            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
+            AIDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
                 _game.Controller.GameTree.LastNode.BoardState,
                 new TimeSpan(1),
                 5, _game.Controller.GameTree.PrimaryMoveTimeline.ToList()));

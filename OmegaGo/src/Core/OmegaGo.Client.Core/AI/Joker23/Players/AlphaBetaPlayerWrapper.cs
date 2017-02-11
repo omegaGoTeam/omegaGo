@@ -3,7 +3,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23.Players
 {
-    public class AlphaBetaPlayerWrapper : AiProgramBase
+    public class AlphaBetaPlayerWrapper : AIProgramBase
     {
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);
         public override string Name { get; } = "Fluffy (minimax)";
@@ -15,7 +15,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
         // TODO allow setting depth
         private AlphaBetaPlayer _internalPlayer;
 
-        public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
             this._internalPlayer = new AlphaBetaPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
 
@@ -35,7 +35,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
             JokerPoint point = this._internalPlayer.betterPlanMove(currentGame, preMoveInformation.Difficulty);
             
 
-            return AiDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
+            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
                 "I chose using the minimax algorithm and heuristics.");
         }
     }

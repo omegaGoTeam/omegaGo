@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
                 _strength
                 )));
 
-            AiDecision decision = await aiTask;
+            AIDecision decision = await aiTask;
             OnLogMessage(decision.Explanation);
             switch (decision.Kind)
             {
