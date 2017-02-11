@@ -13,26 +13,34 @@ namespace OmegaGo.Core.AI
     public class AIDecision
     {
         /// <summary>
+        /// Prevents a default instance of the <see cref="AIDecision"/> class from being created. Use <see cref="MakeMove(Game.Move,string)"/>
+        /// or <see cref="Resign(string)"/> instead.  
+        /// </summary>
+        private AIDecision()
+        {
+        }
+
+        /// <summary>
         /// Gets the form of decision that the agent took. The most common decisions are making a move or resigning.
         /// </summary>
         public AgentDecisionKind Kind { get; private set; }
+        
         /// <summary>
         /// If the <see cref="Kind"/> is <see cref="AgentDecisionKind.Move"/>, then this gets the <see cref="Move"/> that the agent wants to make.  
         /// </summary>
         public Move Move { get; private set; }
+
         /// <summary>
         /// Gets the agent's explanation for why it made this decision.
         /// </summary>
         public string Explanation { get; set; }
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="AIDecision"/> class from being created. Use <see cref="MakeMove(Game.Move,string)"/>
-        /// or <see cref="Resign(string)"/> instead.  
+        /// Creates a move decision
         /// </summary>
-        private AIDecision()
-        {
-           
-        }
+        /// <param name="move">Move</param>
+        /// <param name="why">Reason for the move</param>
+        /// <returns>AI decision</returns>
         public static AIDecision MakeMove(Move move, string why)
         {
             return new AIDecision()
@@ -42,6 +50,12 @@ namespace OmegaGo.Core.AI
                 Explanation = why
             };
         }
+        
+        /// <summary>
+        /// Resigns
+        /// </summary>
+        /// <param name="why">Reason for resignation</param>
+        /// <returns>AI decision</returns>
         public static AIDecision Resign(string why)
         {
             return new AIDecision()
@@ -51,6 +65,10 @@ namespace OmegaGo.Core.AI
             };
         }
 
+        /// <summary>
+        /// Serializes decision into debug string
+        /// </summary>
+        /// <returns>Debug string representation of the AI Decision</returns>
         public override string ToString()
         {
             switch (Kind)
@@ -62,21 +80,5 @@ namespace OmegaGo.Core.AI
             }
             throw new Exception("This AgentDecisionKind does not exist.");
         }
-    }
-
-
-    /// <summary>
-    /// Represents the kind of the decision: whether it's making a move or resigning.
-    /// </summary>
-    public enum AgentDecisionKind
-    {
-        /// <summary>
-        /// The agent wishes to make a move - either to place a stone or to pass.
-        /// </summary>
-        Move,
-        /// <summary>
-        /// Only AI programs will use the "resign" option. Human players will use a different channel to resign.
-        /// </summary>
-        Resign
     }
 }

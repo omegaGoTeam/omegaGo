@@ -157,7 +157,7 @@ namespace OmegaGo.UI.ViewModels
         }
 
         // AI
-        public ObservableCollection<IAIProgram> AiPrograms { get; } =
+        public ObservableCollection<IAIProgram> AIPrograms { get; } =
             new ObservableCollection<IAIProgram>(AISystems.AIPrograms);
 
         public string SelectedAiProgram

@@ -43,6 +43,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\AIStrength.cs" />
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />

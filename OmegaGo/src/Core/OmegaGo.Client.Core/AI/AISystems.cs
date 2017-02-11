@@ -16,6 +16,11 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
+        /// Fuego AI builder
+        /// </summary>
+        internal static IGtpEngineBuilder FuegoBuilder;
+
+        /// <summary>
         /// Indicates whether the AI systems have been registered
         /// </summary>
         private static bool _registrationComplete;
@@ -54,11 +59,6 @@ namespace OmegaGo.Core.AI
                     };
             }
         }
-
-        /// <summary>
-        /// Fuego AI builder
-        /// </summary>
-        internal static IGtpEngineBuilder FuegoBuilder;
 
         /// <summary>
         /// Registers a Fuego wrapper builder. This method should be called once, at the start of 

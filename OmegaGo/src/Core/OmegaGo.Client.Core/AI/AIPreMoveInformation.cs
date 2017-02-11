@@ -14,31 +14,6 @@ namespace OmegaGo.Core.AI
     public class AIPreMoveInformation
     {
         /// <summary>
-        /// Game info
-        /// </summary>
-        public GameInfo GameInfo { get; set; }
-
-        /// <summary>
-        /// The player whose turn it is. The AI will make a move for this player.
-        /// </summary>
-        public StoneColor AIColor { get; }
-        /// <summary>
-        /// The current full board state (excluding information about Ko). 
-        /// </summary>
-        public GameTree GameTree { get; }
-        /// <summary>
-        /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,
-        /// it may provide its decision earlier or later. If it doesn't provide a decision by this time, the
-        /// main program may perform some actions such as ending the game, or asking the player whether
-        /// he wishes to continue waiting.
-        /// </summary>
-        public TimeSpan TimeLimit { get; }
-        /// <summary>
-        /// Level of strength the AI should demonstrate. Levels go from 1 (lowest) to 10 (highest).
-        /// </summary>
-        public int Difficulty { get; }
-
-        /// <summary>
         /// Creates a new structure that gives the AI information it needs to make a move.
         /// </summary>
         /// <param name="gameInfo">Game info</param>
@@ -54,5 +29,33 @@ namespace OmegaGo.Core.AI
             GameTree = gameTree;
             TimeLimit = timeLimit;
         }
+
+        /// <summary>
+        /// Game info
+        /// </summary>
+        public GameInfo GameInfo { get; set; }
+
+        /// <summary>
+        /// The player whose turn it is. The AI will make a move for this player.
+        /// </summary>
+        public StoneColor AIColor { get; }
+
+        /// <summary>
+        /// The current full board state (excluding information about Ko). 
+        /// </summary>
+        public GameTree GameTree { get; }
+
+        /// <summary>
+        /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,
+        /// it may provide its decision earlier or later. If it doesn't provide a decision by this time, the
+        /// main program may perform some actions such as ending the game, or asking the player whether
+        /// he wishes to continue waiting.
+        /// </summary>
+        public TimeSpan TimeLimit { get; }
+
+        /// <summary>
+        /// Level of strength the AI should demonstrate. Levels go from 1 (lowest) to 10 (highest).
+        /// </summary>
+        public int Difficulty { get; }
     }
 }
