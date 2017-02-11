@@ -14,8 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
         public override void StartPhase()
         {
             if (Controller.Info.NumberOfHandicapStones > 0)
-            {
-                
+            {                
                 //TODO: IMPLEMENT
                 //use method PlaceFreeHandicapStone from Ruleset to check the legality
             }
