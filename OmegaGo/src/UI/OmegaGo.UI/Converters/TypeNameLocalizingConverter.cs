@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using MvvmCross.Platform.Converters;
+using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.Converters
 {
@@ -14,11 +16,13 @@ namespace OmegaGo.UI.Converters
     /// </summary>
     public class TypeNameLocalizingConverter : MvxValueConverter
     {
+        private static readonly Lazy<ILocalizationService> Localizer = new Lazy<ILocalizationService>(Mvx.Resolve<ILocalizationService>);
+
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var typeName = value.GetType().Name;
             var formatString = (parameter as string) ?? "{0}";
-            return string.Format(formatString, typeName);
+            return Localizer.Value[string.Format(formatString, typeName)];
         }
     }
 }

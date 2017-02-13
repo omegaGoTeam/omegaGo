@@ -60,30 +60,30 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// </summary>
         internal new IgsGameInfo Info { get; }
 
-        private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
-        {
-            //TODO: Implement this
-            // TODO this may not be our game (after refactor update)
-            //((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
-            //{
-            //    WhiteScore = e.WhiteScore,
-            //    BlackScore = e.BlackScore
-            //});
-        }
+        //private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        //{
+        //TODO: Implement this
+        // TODO this may not be our game (after refactor update)
+        //    //((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
+        //    //{
+        //    //    WhiteScore = e.WhiteScore,
+        //    //    BlackScore = e.BlackScore
+        //    //});
+        //}
 
-        private void StoneRemoval(object sender, StoneRemovalEventArgs e)
-        {
-            // TODO may not be our game
-            //LifeDeath_MarkGroupDead(e.DeadPosition);
-        }
+        //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
+        //{
+        // TODO may not be our game
+        //    //LifeDeath_MarkGroupDead(e.DeadPosition);
+        //}
 
-        private void IncomingResignation(object sender, GamePlayerEventArgs e)
-        {
-            if (this.Players.Contains(e.Player))
-            {
-                Resign(e.Player);
-            }
-        }
+        //private void IncomingResignation(object sender, GamePlayerEventArgs e)
+        //{
+        //    if (this.Players.Contains(e.Player))
+        //    {
+        //        Resign(e.Player);
+        //    }
+        //}
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();

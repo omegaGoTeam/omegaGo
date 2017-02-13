@@ -41,6 +41,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         public TimeControl Clock { get; }
 
         /// <summary>
+        /// Checks if the player is a local human player
+        /// </summary>
+        public bool IsHuman => Agent.Type == AgentType.Human;       
+
+        /// <summary>
         /// Assigns the player to a game
         /// </summary>
         /// <param name="gameInfo">Game info</param>

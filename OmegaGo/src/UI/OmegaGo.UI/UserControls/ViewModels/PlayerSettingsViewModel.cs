@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.Joker23.Players;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.UserControls.ViewModels

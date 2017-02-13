@@ -125,7 +125,7 @@ namespace OmegaGo.UI.ViewModels
                     tmpNode = tmpNode.Parent;
                 } while (tmpNode != null);
 
-                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory);
+                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory.ToArray());
                 node.BoardState = result.NewBoard;
             }
             

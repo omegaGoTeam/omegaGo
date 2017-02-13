@@ -32,14 +32,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void UndoLocally(object sender, RoutedEventArgs e)
         {
-            if (VM.Game.Controller.IsOnlineGame)
-            {
+            //TODO: Implement this
+            //if (VM.Game.Controller.IsOnlineGame)
+            //{
 
-            }
-            else
-            {
-                VM.Game.Controller.Main_Undo();
-            }
+            //}
+            //else
+            //{
+            //    VM.Game.Controller.Main_Undo();
+            //}
         }
 
         private void ClickPass(object sender, RoutedEventArgs e)
@@ -92,48 +93,51 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private async void LifeDeathDone(object sender, RoutedEventArgs e)
         {
-            var game = VM.Game;
-            if (game.Controller.IsOnlineGame)
-            {
-                await game.Controller.Server.Commands.LifeDeathDone(game.Controller.RemoteInfo);
-            }
-            else
-            {
-                foreach (var player in game.Controller.Players)
-                {
-                    if (player.Agent is HumanAgent || player.Agent is AiAgent)
-                    {
-                        game.Controller.LifeDeath_Done(player);
-                    }
-                }
-            }
+            //TODO: Implement this
+            //var game = VM.Game;
+            //if (game.Controller.IsOnlineGame)
+            //{
+            //    await game.Controller.Server.Commands.LifeDeathDone(game.Controller.RemoteInfo);
+            //}
+            //else
+            //{
+            //    foreach (var player in game.Controller.Players)
+            //    {
+            //        if (player.Agent is HumanAgent || player.Agent is AiAgent)
+            //        {
+            //            game.Controller.LifeDeath_Done(player);
+            //        }
+            //    }
+            //}
         }
 
         private void ResumeGame(object sender, RoutedEventArgs e)
         {
-            if (VM.Game.Controller.IsOnlineGame)
-            {
-                // unsupported on IGS
-            }
-            else
-            {
-                VM.Game.Controller.LifeDeath_Resume();
-            }
+            //TODO: Implement this
+            //if (VM.Game.Controller.IsOnlineGame)
+            //{
+            //    // unsupported on IGS
+            //}
+            //else
+            //{
+            //    VM.Game.Controller.LifeDeath_Resume();
+            //}
         }
 
         private async void UndoDeathMarks(object sender, RoutedEventArgs e)
         {
-            var liveGame = VM.Game;
-            if (liveGame.Controller.IsOnlineGame)
-            {
-                var onlineGame = (RemoteGame)liveGame;
-                await liveGame.Controller.Server.Commands.UndoLifeDeath(onlineGame.RemoteInfo);
-            }
-            else
-            {
-                var controller = VM.Game.Controller;
-                controller.LifeDeath_UndoPhase();
-            }
+            //TODO: Implement this
+            //var liveGame = VM.Game;
+            //if (liveGame.Controller.IsOnlineGame)
+            //{
+            //    var onlineGame = (RemoteGame)liveGame;
+            //    await liveGame.Controller.Server.Commands.UndoLifeDeath(onlineGame.RemoteInfo);
+            //}
+            //else
+            //{
+            //    var controller = VM.Game.Controller;
+            //    controller.LifeDeath_UndoPhase();
+            //}
         }
     }
 }

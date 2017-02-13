@@ -16,6 +16,7 @@ using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Time;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
@@ -157,9 +158,15 @@ namespace OmegaGo.UI.ViewModels
         public string CustomWidth
         {
             get { return _customWidth.ToString(); }
-            set { SetProperty(ref _customWidth, int.Parse(value));
-                SetCustomBoardSize();
-              
+            set
+            {
+                int parsed = 0;
+                if (int.TryParse(value, out parsed))
+                {
+                    SetProperty(ref _customWidth, parsed);
+                    SetCustomBoardSize();
+                }
+
             } // TODO check for exceptions
         }
 
