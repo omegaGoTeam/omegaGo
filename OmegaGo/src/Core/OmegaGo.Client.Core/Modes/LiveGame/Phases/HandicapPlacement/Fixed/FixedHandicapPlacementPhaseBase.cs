@@ -33,14 +33,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
                     gameBoard[position.X, position.Y] = StoneColor.Black;
                 }
 
+                //reflect the number of placed stones to listeners
+                StonesPlaced = gameInfo.NumberOfHandicapStones;
+
                 //add the board to game
-                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard);
+                var handicapNode = Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard);
+                Controller.CurrentNode = handicapNode;
 
                 //first move is handicap
-                Controller.NumberOfMoves++;
-
-                //change the player on turn
-                Controller.SwitchTurnPlayer();
+                Controller.NumberOfMoves++;                
             }            
         }
     }

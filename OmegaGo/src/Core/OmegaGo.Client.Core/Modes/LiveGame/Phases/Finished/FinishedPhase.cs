@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
         /// <summary>
         /// Finished phase
         /// </summary>
-        public override GamePhaseType PhaseType => GamePhaseType.Finished;
+        public override GamePhaseType Type => GamePhaseType.Finished;
 
         public override void StartPhase()
         {

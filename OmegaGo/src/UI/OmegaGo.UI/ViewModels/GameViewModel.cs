@@ -30,6 +30,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Game = Mvx.GetSingleton<IGame>();
             Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
+            Game.Controller.BoardMustBeRefreshed += Game_BoardMustBeRefreshed;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
             //TODO: not very nice
@@ -51,6 +52,11 @@ namespace OmegaGo.UI.ViewModels
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        private void Game_BoardMustBeRefreshed(object sender, EventArgs e)
+        {
+            OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
         private void Controller_GameEnded(object sender, GameEndInformation e)
@@ -152,7 +158,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async void MakeMove(Position selectedPosition)
         {
-            if (Game?.Controller.Phase == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+            if (Game?.Controller.Phase.Type == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
             {
                 //TODO: IMPLEMENT
                 //if (Game.Controller.IsOnlineGame)

@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
             _connector = gameController.IgsConnector;
         }
 
-        public override GamePhaseType PhaseType  => GamePhaseType.HandicapPlacement;
+        public override GamePhaseType Type  => GamePhaseType.HandicapPlacement;
 
         /// <summary>
         /// Attaches the events on phase start

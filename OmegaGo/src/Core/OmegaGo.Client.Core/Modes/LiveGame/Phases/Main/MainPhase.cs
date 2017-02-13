@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// <summary>
         /// Main phase
         /// </summary>
-        public override GamePhaseType PhaseType => GamePhaseType.Main;
+        public override GamePhaseType Type => GamePhaseType.Main;
 
         /// <summary>
         /// Starts main phase. Observes player events and asks the first player to move.

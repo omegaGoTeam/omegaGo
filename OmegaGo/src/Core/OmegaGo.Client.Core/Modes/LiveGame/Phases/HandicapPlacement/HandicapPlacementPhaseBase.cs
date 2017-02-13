@@ -11,6 +11,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
     /// </summary>
     internal abstract class HandicapPlacementPhaseBase : GamePhaseBase, IHandicapPlacementPhase
     {
+        private int _stonesPlaced = 0;
+
         protected HandicapPlacementPhaseBase(GameController gameController) : base(gameController)
         {
         }
@@ -18,11 +20,24 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement
         /// <summary>
         /// Handicap placement phase
         /// </summary>
-        public override GamePhaseType PhaseType => GamePhaseType.HandicapPlacement;
+        public override GamePhaseType Type => GamePhaseType.HandicapPlacement;
 
         /// <summary>
         /// Type of handicap placement
         /// </summary>
         public abstract HandicapPlacementType PlacementType { get; }
+
+        /// <summary>
+        /// Number of stones already placed
+        /// </summary>
+        public int StonesPlaced
+        {
+            get { return _stonesPlaced; }
+            protected set
+            {
+                _stonesPlaced = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// <summary>
         /// Gets the current game phase
         /// </summary>
-        GamePhaseType Phase { get; }
+        IGamePhase Phase { get; }
 
         /// <summary>
         /// Gets the number of moves that were played

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Time;
@@ -25,18 +26,18 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameCreationViewModel : ViewModelBase
     {
-        private int _whiteHandicap;
-        private float _compensation = 0;
+        private int _handicap = 0;
+        private bool _isHandicapFixed = true;
+        private float _compensation = 0;        
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
         private RulesetType _selectedRuleset = RulesetType.Chinese;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
         private ICommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
-        
+
         public GameCreationViewModel()
-        {
-            WhiteHandicap = 0;
+        {            
             _customWidth = _settings.Interface.BoardWidth;
             _customHeight = _settings.Interface.BoardHeight;
             SetCustomBoardSize();
@@ -52,7 +53,7 @@ namespace OmegaGo.UI.ViewModels
             get { return _timeControl; }
             set { SetProperty(ref _timeControl, value); }
         }
-        
+
         public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } = new ObservableCollection
             <TimeControlStyle>
         {
@@ -84,7 +85,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameBoardSize, value);
-                RaisePropertyChanged(()=>SampleGameBoard);
+                RaisePropertyChanged(() => SampleGameBoard);
                 _customHeight = value.Height;
                 _customWidth = value.Width;
                 RaisePropertyChanged(nameof(CustomHeight));
@@ -123,6 +124,8 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+
+
         public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } = new ObservableCollection<GameCreationViewPlayer>(
                GameCreationViewModel.playerList
             );
@@ -141,14 +144,18 @@ namespace OmegaGo.UI.ViewModels
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }
-            set { SetProperty(ref _blackPlayer, value);
+            set
+            {
+                SetProperty(ref _blackPlayer, value);
                 BlackPlayerSettings.ChangePlayer(value);
             }
         }
         public GameCreationViewPlayer WhitePlayer
         {
             get { return _whitePlayer; }
-            set { SetProperty(ref _whitePlayer, value);
+            set
+            {
+                SetProperty(ref _whitePlayer, value);
                 WhitePlayerSettings.ChangePlayer(value);
             }
         }
@@ -183,20 +190,37 @@ namespace OmegaGo.UI.ViewModels
         public string CustomHeight
         {
             get { return _customHeight.ToString(); }
-            set { SetProperty(ref _customHeight, int.Parse(value));
+            set
+            {
+                SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
             } // TODO check for exceptions
         }
         /// <summary>
         /// Handicap of white player
         /// </summary>
-        public int WhiteHandicap
+        public int Handicap
         {
-            get { return _whiteHandicap; }
+            get { return _handicap; }
             set
             {
-                SetProperty(ref _whiteHandicap, value);
+                SetProperty(ref _handicap, value);
                 SetDefaultCompensation();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the type of handicap
+        /// </summary>
+        public bool IsHandicapFixed
+        {
+            get
+            {
+                return _isHandicapFixed;
+            }
+            set
+            {
+                SetProperty(ref _isHandicapFixed, value);                
             }
         }
 
@@ -219,7 +243,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void SetDefaultCompensation()
         {
-            Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, WhiteHandicap, CountingType.Area);
+            Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap, CountingType.Area);
         }
 
         public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
@@ -247,6 +271,11 @@ namespace OmegaGo.UI.ViewModels
                 BoardSize(SelectedGameBoardSize).
                 Ruleset(SelectedRuleset).
                 Komi(Compensation).
+                Handicap(Handicap).
+                HandicapPlacementType( 
+                    IsHandicapFixed ? 
+                        HandicapPlacementType.Fixed :
+                        HandicapPlacementType.Free).
                 WhitePlayer(whitePlayer).
                 BlackPlayer(blackPlayer).
                 Build();

@@ -236,7 +236,7 @@ namespace OmegaGo.Core.Online.Igs
                                 var game in
                                     _gamesYouHaveOpened.Where(
                                         gi =>
-                                            gi.Controller.Phase ==
+                                            gi.Controller.Phase.Type ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
                                 //TODO: Implement

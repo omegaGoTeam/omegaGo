@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             this.CountingType(Rules.CountingType.Territory);
             this.HandicapPlacementType(Phases.HandicapPlacement.HandicapPlacementType.Fixed);
             this.Komi(info.Komi);
-            this.WhiteHandicap(info.NumberOfHandicapStones);
+            this.Handicap(info.NumberOfHandicapStones);
         }
 
         public IgsGameBuilder Connection(IgsConnection connection)

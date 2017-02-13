@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
         }
 
-        public override GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;
+        public override GamePhaseType Type => GamePhaseType.LifeDeathDetermination;
 
         void RecalculateTerritories()
         {

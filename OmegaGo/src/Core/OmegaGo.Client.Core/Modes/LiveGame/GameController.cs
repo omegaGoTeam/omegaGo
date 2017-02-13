@@ -110,7 +110,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Gets the current game phase
         /// </summary>
-        public GamePhaseType Phase => _currentGamePhase.PhaseType;
+        public IGamePhase Phase => _currentGamePhase;
 
 
         /// <summary>
@@ -233,16 +233,16 @@ namespace OmegaGo.Core.Modes.LiveGame
             if (phase == null) throw new ArgumentNullException(nameof(phase));
 
             _currentGamePhase?.EndPhase();
-            OnDebuggingMessage("Now moving to " + phase.PhaseType);
+            OnDebuggingMessage("Now moving to " + phase.Type);
 
             _currentGamePhase = phase;
 
-            GamePhaseChanged?.Invoke(this, phase.PhaseType);
+            GamePhaseChanged?.Invoke(this, phase.Type);
 
             //inform agents about new phase and provide them access
             foreach (var player in Players)
             {
-                player.Agent.GamePhaseChanged(phase.PhaseType);
+                player.Agent.GamePhaseChanged(phase.Type);
             }
 
             //start the new phase

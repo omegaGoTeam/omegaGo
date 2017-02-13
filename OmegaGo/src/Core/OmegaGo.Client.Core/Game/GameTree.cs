@@ -91,13 +91,23 @@ namespace OmegaGo.Core.Game
         /// <param name="newBlackStones">Newly added black stones</param>
         /// <param name="newWhiteStones">Newly added white stones</param>
         /// <param name="gameBoard">Game board</param>
-        /// <returns></returns>
+        /// <returns>Newly added node</returns>
         public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard)
         {
             var newNode = AddMoveToEnd(Move.NoneMove, gameBoard);
             newNode.AddBlack.AddRange(newBlackStones);
             newNode.AddWhite.AddRange(newWhiteStones);
             return newNode;
+        }
+
+        /// <summary>
+        /// Adds a given board to the end of the tree
+        /// </summary>
+        /// <param name="gameBoard">Game board instance</param>
+        /// <returns>Newly added node</returns>
+        public GameTreeNode AddBoardToEnd(GameBoard gameBoard)
+        {
+            return AddMoveToEnd(Move.NoneMove, gameBoard);
         }
     }
 }

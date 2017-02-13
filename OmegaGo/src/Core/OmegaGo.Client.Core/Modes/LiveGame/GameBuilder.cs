@@ -40,7 +40,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
-        public TBuilderType WhiteHandicap(int handicap)
+        public TBuilderType Handicap(int handicap)
         {
             _handicap = handicap;
             return _concreteBuilderInstance;

@@ -16,7 +16,7 @@
         /// <summary>
         /// Initialization phase
         /// </summary>
-        public override GamePhaseType PhaseType => GamePhaseType.Initialization;
+        public override GamePhaseType Type => GamePhaseType.Initialization;
 
         /// <summary>
         /// Starts the initialization phase
