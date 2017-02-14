@@ -1,5 +1,6 @@
 ﻿using OmegaGo.UI.ViewModels;
 using System;
+using Windows.UI.Xaml;
 using OmegaGo.UI.Services;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
@@ -27,6 +28,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.WebViewContentChanged += VM_WebViewContentChanged; // TODO when unsubscribe?
             VM.NavigateToCurrentItem();
+        }
+
+        private void OpenCloseHelp(object sender, RoutedEventArgs e)
+        {
+            this.HelpSplitView.IsPaneOpen = !this.HelpSplitView.IsPaneOpen;
         }
     }
 }

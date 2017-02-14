@@ -338,8 +338,7 @@
         </trans-unit>
         <trans-unit id="AssistPanel" translate="yes" xml:space="preserve">
           <source>Artificial intelligence</source>
-          <target state="needs-review-translation">Umělá inteligence</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">Umělá inteligence</target>
         </trans-unit>
         <trans-unit id="AudioPanel" translate="yes" xml:space="preserve">
           <source>Audio</source>
