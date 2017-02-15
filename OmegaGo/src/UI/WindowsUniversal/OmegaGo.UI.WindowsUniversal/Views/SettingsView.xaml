@@ -66,13 +66,13 @@
             <PivotItem Header="Sounds">
                 <StackPanel Padding="15">
                     <TextBlock Text="Master Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                    <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" ValueChanged="SfxVolumeChanged" />
 
                     <TextBlock Text="Music Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
                     <TextBlock Text="SFX Volume" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
+                    <Slider Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" ValueChanged="SfxVolumeChanged" />
 
 
 

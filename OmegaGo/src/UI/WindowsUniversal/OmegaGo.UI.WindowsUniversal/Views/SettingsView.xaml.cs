@@ -5,6 +5,8 @@ using Windows.UI.ViewManagement;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using System;
+using Windows.UI.Xaml.Input;
+using OmegaGo.UI.Services.Audio;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -41,5 +43,12 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             FullscreenModeManager.Toggle();
         }
+
+        private async void SfxVolumeChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            await Sounds.TestSfx.PlayAsync();
+        }
+
+      
     }
 }

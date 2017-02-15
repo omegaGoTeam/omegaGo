@@ -16,6 +16,7 @@ using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 
@@ -127,11 +128,43 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.BeginGame();
         }
 
-        private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
+        private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
             {
+                await ConsiderPlayingASound(e);
                 UpdateTimeline();
+            }
+        }
+
+        private async Task ConsiderPlayingASound(GameTreeNode e)
+        {
+            if (e.Branches.Count == 0)
+            {
+                // This is the final node.
+                if (e.Move != null)
+                {
+                    bool humanPlayed = (this.Game.Controller.Players[e.Move.WhoMoves].IsHuman);
+                    bool notificationDemanded =
+                        (humanPlayed
+                            ? this._settings.Audio.PlayWhenYouPlaceStone
+                            : this._settings.Audio.PlayWhenOthersPlaceStone);
+                    if (notificationDemanded)
+                    {
+                        if (e.Move.Kind == MoveKind.PlaceStone)
+                        {
+                            await Sounds.PlaceStone.PlayAsync();
+                            if (e.Move.Captures.Count > 0)
+                            {
+                                await Sounds.Capture.PlayAsync();
+                            }
+                        }
+                        else if (e.Move.Kind == MoveKind.Pass)
+                        {
+                            await Sounds.Pass.PlayAsync();
+                        }
+                    }
+                }
             }
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
@@ -126,7 +127,8 @@ namespace OmegaGo.UI.ViewModels
         public int MasterVolume
         {
             get { return _gameSettings.Audio.MasterVolume; }
-            set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged(); }
+            set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged();
+            }
         }
         public int MusicVolume
         {
@@ -136,7 +138,8 @@ namespace OmegaGo.UI.ViewModels
         public int SfxVolume
         {
             get { return _gameSettings.Audio.SfxVolume; }
-            set { _gameSettings.Audio.SfxVolume = value; RaisePropertyChanged(); }
+            set { _gameSettings.Audio.SfxVolume = value; RaisePropertyChanged();
+            }
         }
         public bool PlayWhenYouPlaceStone
         {

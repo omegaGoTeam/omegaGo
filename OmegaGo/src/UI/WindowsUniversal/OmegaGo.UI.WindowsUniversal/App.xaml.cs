@@ -25,6 +25,7 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Audio;
 #if WITHOUT_FUEGO
 #else
 using OmegaGo.UI.WindowsUniversal.Fuego;
@@ -114,6 +115,7 @@ namespace OmegaGo.UI.WindowsUniversal
         private void SetupWindowServices(Window window)
         {
             FullscreenModeManager.RegisterForWindow(window);
+
         }
 
         /// <summary>
