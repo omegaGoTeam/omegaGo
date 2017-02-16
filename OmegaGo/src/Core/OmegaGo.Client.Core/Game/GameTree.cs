@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OmegaGo.Core.Rules;
 
@@ -9,15 +10,34 @@ namespace OmegaGo.Core.Game
     /// </summary>
     public sealed class GameTree
     {
+        /// <summary>
+        /// Contains the last node on the tree's primary timeline
+        /// </summary>
+        private GameTreeNode _lastNode = null;
+        
+        /// <summary>
+        /// Creates a game tree with a given ruleset
+        /// </summary>
+        /// <param name="ruleset">Ruleset instance</param>
         public GameTree(IRuleset ruleset)
         {
             Ruleset = ruleset;
         }
 
         /// <summary>
+        /// Indicates that tha last node of the game tree has changed
+        /// </summary>
+        public event EventHandler<GameTreeNode> LastNodeChanged;
+
+        /// <summary>
         /// Ruleset
         /// </summary>
         public IRuleset Ruleset { get; }
+
+        /// <summary>
+        /// Primary timeline length
+        /// </summary>
+        public int PrimaryTimelineLength { get; private set; } = 0;
 
         /// <summary>
         /// Game board size
@@ -28,11 +48,19 @@ namespace OmegaGo.Core.Game
         /// Root of the game tree
         /// </summary>
         public GameTreeNode GameTreeRoot { get; set; }
-
+        
         /// <summary>
         /// Reference to the last added node
         /// </summary>
-        public GameTreeNode LastNode { get; set; }
+        public GameTreeNode LastNode
+        {
+            get { return _lastNode; }
+            set
+            {                
+                _lastNode = value;
+                OnLastNodeChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the primary timeline moves
@@ -68,21 +96,7 @@ namespace OmegaGo.Core.Game
         /// <param name="boardState">Game board for the move</param>
         public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState)
         {
-            GameTreeNode node = new GameTreeNode(move);
-            node.BoardState = boardState;
-
-            if (GameTreeRoot == null)
-            {
-                GameTreeRoot = node;
-            }
-            else
-            {
-                LastNode.Branches.AddNode(node);
-                node.Parent = LastNode;
-            }
-
-            LastNode = node;
-            return node;
+            return AddMoveToEndInternal(move, boardState);
         }
 
         /// <summary>
@@ -108,6 +122,62 @@ namespace OmegaGo.Core.Game
         public GameTreeNode AddBoardToEnd(GameBoard gameBoard)
         {
             return AddMoveToEnd(Move.NoneMove, gameBoard);
+        }
+
+        /// <summary>
+        /// Removes the last node from the primary timeline
+        /// </summary>
+        public void RemoveLastNode()
+        {
+            //is there actually something to remove?
+            if (LastNode == null)
+            {
+                throw new InvalidOperationException("There is no node to remove from the GameTree.");
+            }
+            //remove last node, make its parent last
+            var previousMove = LastNode.Parent;            
+            if (previousMove == null)
+            {
+                GameTreeRoot = null;
+                LastNode = null;
+            }
+            else
+            {
+                previousMove.Branches.RemoveNode(LastNode);
+                LastNode = previousMove;
+            }
+        }
+
+        /// <summary>
+        /// Implementation of adding a new mode into the primary timeline of the tree
+        /// </summary>
+        /// <param name="move">Added move</param>
+        /// <param name="boardState">State of the board</param>
+        /// <returns></returns>
+        private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState)
+        {
+            GameTreeNode node = new GameTreeNode(move) { BoardState = boardState };
+
+            if (GameTreeRoot == null)
+            {
+                GameTreeRoot = node;
+            }
+            else
+            {
+                LastNode.Branches.AddNode(node);
+                node.Parent = LastNode;
+            }
+            PrimaryTimelineLength++;
+            LastNode = node;
+            return node;
+        }
+
+        /// <summary>
+        /// Fires the <see cref="LastNodeChanged" /> event
+        /// </summary>
+        private void OnLastNodeChanged()
+        {
+            LastNodeChanged?.Invoke(this, LastNode);
         }
     }
 }
