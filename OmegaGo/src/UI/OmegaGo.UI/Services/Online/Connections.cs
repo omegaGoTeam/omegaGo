@@ -30,7 +30,7 @@ namespace OmegaGo.UI.Services.Online
         /// <summary>
         /// Gets the connection to the specified server.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Identification of the server</param>
         /// <returns></returns>
         public static IServerConnection GetConnection(ServerId id)
         {
