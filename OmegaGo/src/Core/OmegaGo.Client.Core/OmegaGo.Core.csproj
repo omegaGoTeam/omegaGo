@@ -56,6 +56,7 @@
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndReason.cs" />
     <Compile Include="Helpers\IDebuggingMessageProvider.cs" />

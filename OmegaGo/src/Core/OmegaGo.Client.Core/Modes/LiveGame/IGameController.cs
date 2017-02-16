@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the game phase has changed
         /// </summary>
-        event EventHandler<GamePhaseType> GamePhaseChanged;
+        event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
         /// <summary>
         /// Indicates that the game board must be refreshed

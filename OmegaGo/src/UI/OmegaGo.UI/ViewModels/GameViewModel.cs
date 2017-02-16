@@ -11,6 +11,7 @@ using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
@@ -65,10 +66,10 @@ namespace OmegaGo.UI.ViewModels
             _settings.Quests.Events.GameCompleted(this.Game, e);
         }
 
-        private void Controller_GamePhaseChanged(object sender, Core.Modes.LiveGame.Phases.GamePhaseType e)
+        private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs )
         {
-            if (e == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination ||
-                e == Core.Modes.LiveGame.Phases.GamePhaseType.Finished)
+            if (eventArgs.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
+                eventArgs.NewPhase.Type == GamePhaseType.Finished)
             {
                 BoardViewModel.BoardControlState.ShowTerritory = true;
             }
@@ -78,6 +79,11 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        /// <summary>
+        /// TODO: this is not yet attached
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;

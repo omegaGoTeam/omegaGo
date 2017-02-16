@@ -92,7 +92,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the game phase has changed
         /// </summary>
-        public event EventHandler<GamePhaseType> GamePhaseChanged;       
+        public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
         /// <summary>
         /// Ruleset of the game
@@ -135,7 +135,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Game phase factory
         /// </summary>
         protected virtual IGameControllerPhaseFactory PhaseFactory => CreateGameControllerPhaseFactory();
-        
+
         /// <summary>
         /// Specifies whether the current game node should be in sync
         ///  with the last game tree node
@@ -149,7 +149,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void RegisterConnector(IGameConnector connector)
         {
             _registeredConnectors.Add(connector);
-        }        
+        }
 
         /// <summary>
         /// Gets the current game tree node
@@ -210,7 +210,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             OnGameEnded(endInformation);
             SetPhase(GamePhaseType.Finished);
         }
-        
+
         /// <summary>
         /// Returns a registered connector of a given type
         /// </summary>
@@ -241,11 +241,18 @@ namespace OmegaGo.Core.Modes.LiveGame
             if (phase == null) throw new ArgumentNullException(nameof(phase));
 
             _currentGamePhase?.EndPhase();
+
+            var previousPhase = _currentGamePhase;
+
             OnDebuggingMessage("Now moving to " + phase.Type);
 
             _currentGamePhase = phase;
 
-            GamePhaseChanged?.Invoke(this, phase.Type);
+            //there was no phase previously - we are just initializing
+            if (previousPhase != null)
+            {
+                GamePhaseChanged?.Invoke(this, new GamePhaseChangedEventArgs(previousPhase, _currentGamePhase));
+            }
 
             //inform agents about new phase and provide them access
             foreach (var player in Players)
