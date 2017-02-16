@@ -57,6 +57,8 @@
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\Igs\IgsMainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\MainPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameController.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndInformation.cs" />

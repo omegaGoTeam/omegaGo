@@ -27,6 +27,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
         /// </summary>
         public override void StartPhase()
         {
+            base.StartPhase();
             _connector.GameHandicapSet += GameHandicapSet;
         }
 
@@ -45,8 +46,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
         /// Deattaches the events after phase end
         /// </summary>
         public override void EndPhase()
-        {
+        {            
             _connector.GameHandicapSet -= GameHandicapSet;
+            base.EndPhase();
         }
     }
 }
