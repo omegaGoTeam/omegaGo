@@ -1,9 +1,10 @@
 ﻿using System;
+using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 
-namespace OmegaGo.Core.Online
+namespace OmegaGo.UI.Services.Online
 {
     /// <summary>
     /// This class holds a single connection instance to each online server. These can be used throughout
@@ -17,7 +18,7 @@ namespace OmegaGo.Core.Online
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        public static IgsConnection Pandanet => _igsConnection ??
+        public static IgsConnection Igs => _igsConnection ??
                                                 (_igsConnection = new IgsConnection());
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace OmegaGo.Core.Online
         public static IServerConnection GetConnection(ServerId id)
         {
             if (id == ServerId.Igs)
-                return Pandanet;
+                return Igs;
             if (id == ServerId.Kgs)
                 return Kgs;
             throw new Exception("That server does not exist.");
