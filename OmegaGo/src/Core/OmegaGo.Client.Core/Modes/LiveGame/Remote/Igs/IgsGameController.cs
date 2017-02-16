@@ -14,7 +14,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
-    internal class IgsGameController : RemoteGameController
+    public class IgsGameController : RemoteGameController
     {
         /// <summary>
         /// IGS Connector
@@ -28,7 +28,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// <param name="ruleset">Ruleset</param>
         /// <param name="players">Players</param>
         /// <param name="serverConnection">Connection to IGS server</param>
-        public IgsGameController(IgsGameInfo gameInfo, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(gameInfo, ruleset, players, serverConnection)
+        public IgsGameController(
+            IgsGameInfo gameInfo,
+            IRuleset ruleset, 
+            PlayerPair players, 
+            IgsConnection serverConnection) : 
+                base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
 

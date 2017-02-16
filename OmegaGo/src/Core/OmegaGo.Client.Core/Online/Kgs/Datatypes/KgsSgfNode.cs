@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             var newNode = new KgsSgfNode(childNodeId);
             Children.Insert(position, newNode);
-            game.Nodes[childNodeId] = newNode;
+            game.Controller.Nodes[childNodeId] = newNode;
         }
 
         public void AddProperty(KgsSgfProperty prop, KgsGame ongame)

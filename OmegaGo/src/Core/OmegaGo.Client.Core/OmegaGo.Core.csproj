@@ -57,6 +57,8 @@
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
+    <Compile Include="Modes\LiveGame\Remote\IRemoteGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameController.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndReason.cs" />
     <Compile Include="Helpers\IDebuggingMessageProvider.cs" />
@@ -122,7 +124,7 @@
     <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Online\Common\ICommonEvents.cs" />
-    <Compile Include="Online\Common\RemoteGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\RemoteGame.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
     <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
     <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />

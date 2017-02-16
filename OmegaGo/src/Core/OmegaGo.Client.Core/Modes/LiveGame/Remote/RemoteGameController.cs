@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
     /// <summary>
     /// Base class for remote game controllers
     /// </summary>
-    internal abstract class RemoteGameController : GameController
+    public abstract class RemoteGameController : GameController
     {
         /// <summary>
         /// Creates a remote game controller

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.UI.Services.Settings;
@@ -23,7 +24,7 @@ namespace OmegaGo.UI.Services.Quests
 
         public void GameCompleted(IGame game, GameEndInformation end)
         {
-            bool isOnlineGame = game is RemoteGame;
+            bool isOnlineGame = game is IRemoteGame;
             bool isHotseatGame = game.Controller.Players.All(pl => pl.Agent.Type == AgentType.Human);
             GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.Agent.Type == AgentType.Human);
             bool isPlayedByUs = human != null;
