@@ -50,6 +50,7 @@
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
+    <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
