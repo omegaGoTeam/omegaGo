@@ -37,11 +37,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
                 StonesPlaced = gameInfo.NumberOfHandicapStones;
 
                 //add the board to game
-                var handicapNode = Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard);
-                Controller.CurrentNode = handicapNode;
-
-                //first move is handicap
-                Controller.NumberOfMoves++;                
+                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard);                              
             }            
         }
     }

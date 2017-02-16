@@ -6,6 +6,9 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
 {
+    /// <summary>
+    /// Default local game implementation of the free handicap phase
+    /// </summary>
     class FreeHandicapPlacementPhase : HandicapPlacementPhaseBase
     {
         /// <summary>
@@ -31,8 +34,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
             if (Controller.Info.NumberOfHandicapStones > 0)
             {
                 _gameBoard = new GameBoard(Controller.Info.BoardSize);
-                var newNode = Controller.GameTree.AddBoardToEnd(_gameBoard);
-                Controller.CurrentNode = newNode;
+                Controller.GameTree.AddBoardToEnd(_gameBoard);
                 //let the black player play
                 Controller.TurnPlayer = Controller.Players.Black;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
@@ -67,9 +69,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
                 Controller.OnBoardMustBeRefreshed();
                 if (StonesPlaced == Controller.Info.NumberOfHandicapStones)
                 {
-                    //first move is handicap
-                    Controller.NumberOfMoves++;
-
+                    //start main phase                    
                     GoToPhase(GamePhaseType.Main);
                 }
                 else

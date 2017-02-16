@@ -547,11 +547,11 @@ namespace FormsPrototype
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
-            _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            _controller.CurrentNodeStateChanged += _controller_BoardMustBeRefreshed;
             _controller.DebuggingMessage += _controller_DebuggingMessage;
             _controller.GameEnded += _controller_GameEnded;
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            _controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
+            _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged;
             _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            

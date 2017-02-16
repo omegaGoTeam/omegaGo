@@ -60,6 +60,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             AssignPlayers();
             GameTree = new GameTree(ruleset);
+            InitGameTree();
         }
 
         /// <summary>
@@ -75,17 +76,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the current game tree node has changed
         /// </summary>
-        public event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+        public event EventHandler<GameTreeNode> CurrentNodeChanged;
+
+        /// <summary>
+        /// Indicates that the state of the current node has changed
+        /// Imporant when the board is modified without switching node
+        /// </summary>
+        public event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
         /// Occurs when a debugging message is to be printed to the user in debug mode.
         /// </summary>
         public event EventHandler<string> DebuggingMessage;
-
-        /// <summary>
-        /// Indicates that the board must be refreshed
-        /// </summary>
-        public event EventHandler BoardMustBeRefreshed;
 
         /// <summary>
         /// Indicates that the game phase has changed
@@ -122,7 +124,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Gets the current number of moves
         /// </summary>
-        public int NumberOfMoves { get; internal set; }
+        public int NumberOfMoves => GameTree.PrimaryTimelineLength;
 
         /// <summary>
         /// Game info
@@ -133,6 +135,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Game phase factory
         /// </summary>
         protected virtual IGameControllerPhaseFactory PhaseFactory => CreateGameControllerPhaseFactory();
+        
+        /// <summary>
+        /// Specifies whether the current game node should be in sync
+        ///  with the last game tree node
+        /// </summary>
+        public bool KeepLastNodeSync { get; set; } = true;
 
         /// <summary>
         /// Registers a connector
@@ -152,7 +160,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             internal set
             {
                 _currentNode = value;
-                OnCurrentGameTreeNodeChanged();
+                OnCurrentNodeChanged();
             }
         }
 
@@ -271,7 +279,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         internal void OnBoardMustBeRefreshed()
         {
-            BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+            CurrentNodeStateChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -301,9 +309,31 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Fires the current game tree node changed event
         /// </summary>
-        protected virtual void OnCurrentGameTreeNodeChanged()
+        protected virtual void OnCurrentNodeChanged()
         {
-            CurrentGameTreeNodeChanged?.Invoke(this, CurrentNode);
+            CurrentNodeChanged?.Invoke(this, CurrentNode);
+        }
+
+        /// <summary>
+        /// Initializes the game tree
+        /// </summary>
+        private void InitGameTree()
+        {
+            GameTree.LastNodeChanged += GameTree_LastNodeChanged;
+        }
+
+        /// <summary>
+        /// Handles the change of the last game tree node
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="newLastNode">New last node</param>
+        private void GameTree_LastNodeChanged(object sender, GameTreeNode newLastNode)
+        {
+            if (KeepLastNodeSync)
+            {
+                //update the current node
+                CurrentNode = newLastNode;
+            }
         }
 
         /// <summary>
@@ -325,6 +355,7 @@ namespace OmegaGo.Core.Modes.LiveGame
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
         }
+
 
 
         //TODO: This should not be here

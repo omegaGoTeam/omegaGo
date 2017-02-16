@@ -168,10 +168,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// <param name="move">Move</param>
         /// <param name="newBoard">Game board state after the move</param>
         private void ApplyMove(Move move, GameBoard newBoard)
-        {
-            Controller.NumberOfMoves++;
-            var newNode = Controller.GameTree.AddMoveToEnd(move, newBoard);
-            Controller.CurrentNode = newNode;
+        {            
+            //add new move to game tree
+            Controller.GameTree.AddMoveToEnd(move, newBoard);            
 
             //inform the players that a move occured
             foreach (var connector in Controller.Connectors)
@@ -212,30 +211,18 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         public void Undo()
         {
-            var latestMove = Controller.GameTree.LastNode;
-            if (latestMove == null)
+            //is there a move to undo?
+            if (Controller.GameTree.LastNode != null)
             {
-                throw new InvalidOperationException("There are no moves to undo.");
+                Controller.GameTree.RemoveLastNode();
+                Controller.SwitchTurnPlayer();
+                // Order here matters:
+                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
+                //_game.NumberOfMovesPlayed--;
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
+                // TODO
+                Controller.OnBoardMustBeRefreshed();
             }
-            var previousMove = latestMove.Parent;
-            var _game = Controller;
-            if (previousMove == null)
-            {
-                _game.GameTree.GameTreeRoot = null;
-                _game.GameTree.LastNode = null;
-            }
-            else
-            {
-                previousMove.Branches.RemoveNode(latestMove);
-                _game.GameTree.LastNode = previousMove;
-            }
-            Controller.SwitchTurnPlayer();
-            // Order here matters:
-            //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
-            //_game.NumberOfMovesPlayed--;
-            Controller.TurnPlayer.Agent.PleaseMakeAMove();
-            // TODO
-            Controller.OnBoardMustBeRefreshed();
         }
 
         /// <summary>

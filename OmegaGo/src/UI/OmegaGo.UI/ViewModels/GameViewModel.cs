@@ -29,8 +29,8 @@ namespace OmegaGo.UI.ViewModels
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<IGame>();
-            Game.Controller.CurrentGameTreeNodeChanged += Game_CurrentGameTreeNodeChanged;
-            Game.Controller.BoardMustBeRefreshed += Game_BoardMustBeRefreshed;
+            Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
+            Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
             //TODO: not very nice

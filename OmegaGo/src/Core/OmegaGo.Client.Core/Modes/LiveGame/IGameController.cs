@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the current game tree node has changed
         /// </summary>
-        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+        event EventHandler<GameTreeNode> CurrentNodeChanged;
 
         /// <summary>
         /// Indicates taht the current game has ended
@@ -39,7 +39,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the game board must be refreshed
         /// </summary>
-        event EventHandler BoardMustBeRefreshed;
+        event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
         /// Gets the game's ruleset
@@ -50,6 +50,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the pair of participating players
         /// </summary>
         PlayerPair Players { get; }
+
+        /// <summary>
+        /// Specifies whether the current game node should be in sync
+        ///  with the last game tree node
+        /// </summary>
+        bool KeepLastNodeSync { get; set; }
 
         /// <summary>
         /// Starts the game
