@@ -1,15 +1,16 @@
 ﻿using System;
+using Windows.Storage;
 using OmegaGo.UI.Services.Files;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Files
 {
     sealed class FileService : IFileService
     {
-        private string _rootFolderPath;
+        private readonly string _rootFolderPath = ApplicationData.Current.LocalFolder.Path;
 
         public FileService()
         {
-            _rootFolderPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+            
         }
 
         public string ReadFile(string filePath)
