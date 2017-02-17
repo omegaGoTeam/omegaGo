@@ -415,7 +415,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Registers a IGS game connector
         /// </summary>
         /// <param name="connector">Connector</param>
-        public void RegisterConnector(IgsConnector connector)
+        internal void RegisterConnector(IgsConnector connector)
         {
             if (connector == null) throw new ArgumentNullException(nameof(connector));
             if ( _availableConnectors.ContainsKey( connector.GameId ) ) throw new ArgumentException("This game was already registered", nameof(connector));

@@ -36,9 +36,9 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 />
-        
-        
-        <CommandBar Grid.ColumnSpan="3" VerticalAlignment="Top"
+
+
+        <CommandBar Grid.ColumnSpan="3" Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top"
                     Grid.Column="0"
                     
                 Grid.Row="0" Content="">
@@ -65,7 +65,7 @@
             <AppBarButton Icon="Message" Label="Chat"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
-                    <Flyout>
+                    <Flyout Placement="Bottom">
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />

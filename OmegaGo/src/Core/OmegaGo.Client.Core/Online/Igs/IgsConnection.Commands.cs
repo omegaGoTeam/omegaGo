@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             throw new Exception("No game with this ID.");
         }
-        
+
         public async Task<List<IgsGameInfo>> ListGamesInProgressAsync()
         {
             await EnsureConnectedAsync();
@@ -90,14 +90,14 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[12].Value.AsInteger(),
                 this);
             game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
-                // DO *NOT* DO this: the displayed number might be something different from what our client wants
-                // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
-                // Do not uncomment the preceding line. I will fix it in time. I hope.
+            // DO *NOT* DO this: the displayed number might be something different from what our client wants
+            // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
+            // Do not uncomment the preceding line. I will fix it in time. I hope.
 
-                return game;
+            return game;
 
         }
-        
+
         public async Task<IgsGame> StartObserving(IgsGameInfo gameInfo)
         {
             if (this._gamesBeingObserved.Any(g => g.Info.IgsIndex == gameInfo.IgsIndex))
@@ -134,6 +134,7 @@ namespace OmegaGo.Core.Online.Igs
                       .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
                     .Build();
             IgsGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
+                .Connection(this)
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Ruleset(RulesetType.Japanese)
@@ -152,7 +153,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <returns>True if we succeeded in ending observation, false if we were not observing that game or the game already ended.</returns>
         public async Task<bool> EndObserving(IgsGame game)
         {
-            
+
             if (!this._gamesBeingObserved.Contains(game))
             {
                 // We're not observing this game.
@@ -164,7 +165,7 @@ namespace OmegaGo.Core.Online.Igs
             _gamesYouHaveOpened.Remove(game);
             return !response.IsError;
         }
-        
+
         /// <summary>
         /// Sends a private message to the specified user using the 'tell' feature of IGS.
         /// </summary>
@@ -265,9 +266,9 @@ namespace OmegaGo.Core.Online.Igs
                     break;
             }
         }
-     
-        
-        
+
+
+
         public async Task<bool> SayAsync(IgsGame game, string chat)
         {
             if (!_gamesYouHaveOpened.Contains(game))
@@ -290,7 +291,7 @@ namespace OmegaGo.Core.Online.Igs
             return !response.IsError;
         }
 
-            
+
         public async Task UndoPleaseAsync(IgsGameInfo game)
         {
             await MakeRequestAsync("undoplease " + game.IgsIndex);

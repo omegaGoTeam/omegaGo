@@ -30,15 +30,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// <param name="serverConnection">Connection to IGS server</param>
         public IgsGameController(
             IgsGameInfo gameInfo,
-            IRuleset ruleset, 
-            PlayerPair players, 
-            IgsConnection serverConnection) : 
+            IRuleset ruleset,
+            PlayerPair players,
+            IgsConnection serverConnection) :
                 base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
 
             //create and register connector
-            IgsConnector = new IgsConnector(serverConnection, gameInfo, players);
+            IgsConnector = new IgsConnector(this, serverConnection);
             RegisterConnector(IgsConnector);
             InitializeServer(serverConnection);
         }

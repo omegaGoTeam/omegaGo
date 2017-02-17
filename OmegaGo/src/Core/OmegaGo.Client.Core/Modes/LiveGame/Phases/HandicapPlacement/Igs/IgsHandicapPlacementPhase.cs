@@ -40,6 +40,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
         {
             Controller.Info.NumberOfHandicapStones = handicapCount;
             PlaceHandicapStones();
+            GoToPhase(GamePhaseType.Main);
         }
 
         /// <summary>
