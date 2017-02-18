@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -184,18 +185,12 @@ namespace OmegaGo.Core.Modes.LiveGame
             }
         }
 
-
-
         /// <summary>
         /// Begins the game once UI is ready
         /// </summary>
         public void BeginGame()
         {
-            //TODO: Where to handle resignation?
-            //foreach (var player in Players)
-            //{
-            //    player.Agent.Resigned += AgentResigned;
-            //}
+            SubscribePlayerEvents();
 
             //start initialization phase
             SetPhase(GamePhaseType.Initialization);
@@ -209,6 +204,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             OnGameEnded(endInformation);
             SetPhase(GamePhaseType.Finished);
+
+            UnsubscribePlayerEvents();
         }
 
         /// <summary>
@@ -290,6 +287,28 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Subscribes the player events
+        /// </summary>
+        private void SubscribePlayerEvents()
+        {
+            foreach (var player in Players)
+            {
+                player.Agent.Resigned += Agent_Resigned;
+            }
+        }
+
+        /// <summary>
+        /// Unsubscribes the player events
+        /// </summary>
+        private void UnsubscribePlayerEvents()
+        {
+            foreach (var player in Players)
+            {
+                player.Agent.Resigned -= Agent_Resigned;
+            }
+        }
+
+        /// <summary>
         /// Assigns the players to this controller
         /// </summary>
         private void AssignPlayers()
@@ -300,13 +319,17 @@ namespace OmegaGo.Core.Modes.LiveGame
             }
         }
 
+        /// <summary>
+        /// Fires the game ended event
+        /// </summary>
+        /// <param name="endInformation"></param>
         private void OnGameEnded(GameEndInformation endInformation)
         {
             GameEnded?.Invoke(this, endInformation);
         }
 
         /// <summary>
-        /// Firest the turn player changed event
+        /// Fires the turn player changed event
         /// </summary>
         protected virtual void OnTurnPlayerChanged()
         {
@@ -327,6 +350,16 @@ namespace OmegaGo.Core.Modes.LiveGame
         private void InitGameTree()
         {
             GameTree.LastNodeChanged += GameTree_LastNodeChanged;
+        }
+
+        /// <summary>
+        /// Handles player resignation
+        /// </summary>
+        /// <param name="agent">Agent that resigned</param>
+        private void Agent_Resigned(IAgent agent)
+        {
+            //end game with resignation
+            EndGame(GameEndInformation.CreateResignation(Players[agent.Color], Players));
         }
 
         /// <summary>
@@ -362,13 +395,5 @@ namespace OmegaGo.Core.Modes.LiveGame
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
         }
-
-
-
-        //TODO: This should not be here
-        //public void Resign(GamePlayer playerToMove)
-        //{
-        //    EndGame(GameEndInformation.CreateResignation(playerToMove, Players));
-        //}
     }
 }

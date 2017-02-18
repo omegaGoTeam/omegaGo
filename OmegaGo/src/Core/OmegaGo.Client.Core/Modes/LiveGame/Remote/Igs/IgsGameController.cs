@@ -80,15 +80,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         //{
         // TODO may not be our game
         //    //LifeDeath_MarkGroupDead(e.DeadPosition);
-        //}
-
-        //private void IncomingResignation(object sender, GamePlayerEventArgs e)
-        //{
-        //    if (this.Players.Contains(e.Player))
-        //    {
-        //        Resign(e.Player);
-        //    }
-        //}
+        //}       
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();

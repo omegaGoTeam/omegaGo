@@ -54,6 +54,7 @@
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
+    <Compile Include="Modes\LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />

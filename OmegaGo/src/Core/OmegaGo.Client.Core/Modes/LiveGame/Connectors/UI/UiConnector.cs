@@ -8,5 +8,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
     public class UIConnector
     {
+        
     }
 }

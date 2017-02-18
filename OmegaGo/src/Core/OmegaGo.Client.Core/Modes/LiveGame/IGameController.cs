@@ -63,6 +63,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         void BeginGame();
 
         /// <summary>
+        /// Ends the game
+        /// </summary>
+        /// <param name="endInformation">Game end info</param>
+        void EndGame(GameEndInformation endInformation);
+
+        /// <summary>
         /// Registers a connector
         /// </summary>
         /// <param name="connector">Connector to register</param>

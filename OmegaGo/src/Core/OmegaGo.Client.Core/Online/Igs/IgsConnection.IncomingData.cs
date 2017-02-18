@@ -215,7 +215,7 @@ namespace OmegaGo.Core.Online.Igs
                                 // .ToList() is used because the collection may be modified
                                 foreach (var game in GetGamesIncluding(whoResigned).ToList())
                                 {
-                                    OnIncomingResignation(game.Info, whoResigned);
+                                    HandleIncomingResignation(game.Info, whoResigned);
                                 }
                             }
                             weAreHandlingAnInterrupt = true;
@@ -418,7 +418,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                OnIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
+                HandleIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
             }
         }
 

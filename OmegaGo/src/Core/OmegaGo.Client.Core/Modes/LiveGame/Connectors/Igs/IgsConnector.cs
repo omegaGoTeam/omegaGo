@@ -6,6 +6,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
@@ -13,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// <summary>
     /// Connects the IgsConnection to a specific game
     /// </summary>
-    internal class IgsConnector : IRemoteConnector
+    internal class IgsConnector : IRemoteConnector, IIgsConnectorServerActions, IIgsConnectorServerActions
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
@@ -41,12 +42,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// </summary>
         /// <param name="moveIndex">Index of the move</param>
         /// <param name="move">Move</param>
-        public void IncomingMoveFromServer(int moveIndex, Move move)
+        public void MoveFromServer(int moveIndex, Move move)
         {
             if (!_handicapSet)
             {
                 //there is no handicap for this IGS game
-                SetHandicap(0);
+                HandicapFromServer(0);
             }
             var targetPlayer = _gameController.Players[move.WhoMoves];
             var igsAgent = targetPlayer.Agent as IgsAgent;
@@ -57,7 +58,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// <summary>
         /// A undo operation is coming from the server
         /// </summary>
-        public void IncomingUndoFromServer()
+        public void UndoFromServer()
         {
             ( _gameController.Phase as IgsMainPhase )?.Undo();
         }
@@ -66,7 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Sets the game's handicap
         /// </summary>
         /// <param name="stoneCount">Number of handicap stones</param>
-        public void SetHandicap(int stoneCount)
+        public void HandicapFromServer(int stoneCount)
         {
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
@@ -82,6 +83,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
             //inform the connection
             _connnection.MadeMove(_gameController.Info, move);
+        }
+
+        /// <summary>
+        /// Receives and handles resignation from server
+        /// </summary>
+        /// <param name="resigningPlayerColor">Color of the resigning player</param>
+        public void ResignationFromServer( StoneColor resigningPlayerColor )
+        {
+            var player = _gameController.Players[resigningPlayerColor];
+            if ( !( player.Agent is IgsAgent ) ) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
+            //TODO: implement this
         }
     }
 }
