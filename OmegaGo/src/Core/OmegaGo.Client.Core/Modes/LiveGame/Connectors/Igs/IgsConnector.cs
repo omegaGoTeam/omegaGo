@@ -54,6 +54,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// <param name="stoneCount">Number of handicap stones</param>
         public void SetHandicap(int stoneCount)
         {
+            // TODO (Petr): This should probably have a guard or not use null coalescing (if GameHandicapSet is not set, something is wrong)
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
         }

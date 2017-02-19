@@ -418,6 +418,8 @@ namespace OmegaGo.Core.Online.Igs
         public void RegisterConnector(IgsConnector connector)
         {
             if (connector == null) throw new ArgumentNullException(nameof(connector));
+            // TODO (Petr) We might, in some corner (error) cases, have two games with the same ID, since the server immediately reassings
+            // TODO (Petr) a lost ID to a newly created game; think about this later to see if there's something we can do about it
             if ( _availableConnectors.ContainsKey( connector.GameId ) ) throw new ArgumentException("This game was already registered", nameof(connector));
             _availableConnectors[connector.GameId] = connector;
         }

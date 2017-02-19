@@ -22,9 +22,6 @@ namespace OmegaGo.Core.AI
         /// The player whose turn it is. The AI will make a move for this player.
         /// </summary>
         public StoneColor AIColor { get; }
-        /// <summary>
-        /// The current full board state (excluding information about Ko). 
-        /// </summary>
         public GameTree GameTree { get; }
         /// <summary>
         /// How much time does the AI have before it must make a decision. The AI will use this as a guidance,

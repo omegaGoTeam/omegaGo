@@ -117,6 +117,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
                 //TODO: IS THIS REALLY NECESSARY?
+                // (Petr) It's the best way to keep the server in control of the game, and not move to life/death
+                // until the server is ready to do so. Keep it (or propose an alternative solution).
+
                 //if (this.Controller.IsOnlineGame)
                 //{
                 //    processingResult.Result = MoveResult.Legal;
@@ -144,7 +147,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 move.Captures.AddRange(processingResult.Captures);
             }
 
-            //TODO: WHY NOT IN ONLINE GAME?
+            //TODO: WHY NOT IN ONLINE GAME? 
+            // (Petr) This condition is correct. In online game, we must not cause a player to clock out.
             // if ( !Controller.IsOnlineGame && ... )
             if (player.Clock.IsViolating())
             {
@@ -250,6 +254,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
 
         //TODO: REMOVE THIS
+        //(Petr) I suggest adding a Connector to the UI, as we discussed at the meeting, to solve this
         public void Main_Undo()
         {
             if (Phase == GamePhaseType.Main)
