@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
@@ -26,10 +29,33 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameViewModel : ViewModelBase
     {
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly UIConnector _uiConnector;
+
+        private ICommand _passCommand = null;
+        private ICommand _resignCommand = null;
+        private ICommand _undoCommand = null;
+
+        private string _debugInfo = "n/a";
+
+        private int _maximumMoveIndex = 0;
+
+        private int _previousMoveIndex = -1;
+
+
+        private int _selectedMoveIndex = 0;
+
+        private string _systemLog;
+
+        private int frames = 0;
+
         public GameViewModel()
         {
             Game = Mvx.GetSingleton<IGame>();
+
+            _uiConnector = new UIConnector(Game.Controller);
+
+            Game.Controller.RegisterConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
@@ -49,10 +75,66 @@ namespace OmegaGo.UI.ViewModels
             //    ChatViewModel.HumanAuthor = "You";
             //}
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
-            WhitePortrait = new UserControls.ViewModels.PlayerPortraitViewModel(Game.Controller.Players.White);
+            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        /// <summary>
+        /// Pass command from UI
+        /// </summary>
+        public ICommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass));
+
+        /// <summary>
+        /// Resignation command from UI
+        /// </summary>
+        public ICommand ResignCommand => _resignCommand ?? (_resignCommand = new MvxCommand(Resign));
+
+        /// <summary>
+        /// Undo command from UI
+        /// </summary>
+        public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+
+        public string SystemLog
+        {
+            get { return _systemLog; }
+            set { SetProperty(ref _systemLog, value); }
+        }
+
+        public IGame Game { get; }
+
+        public BoardViewModel BoardViewModel { get; }
+
+        public PlayerPortraitViewModel BlackPortrait { get; }
+        public PlayerPortraitViewModel WhitePortrait { get; }
+
+        public ChatViewModel ChatViewModel { get; }
+
+        public TimelineViewModel TimelineViewModel { get; }
+
+        public int SelectedMoveIndex
+        {
+            get { return _selectedMoveIndex; }
+            set
+            {
+                SetProperty(ref _selectedMoveIndex, value);
+                GameTreeNode whatIsShowing =
+                  Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
+                OnBoardRefreshRequested(whatIsShowing);
+            }
+        }
+
+        public int MaximumMoveIndex
+        {
+            get { return _maximumMoveIndex; }
+            set { SetProperty(ref _maximumMoveIndex, value); }
+        }
+
+        public string DebugInfo
+        {
+            get { return _debugInfo; }
+            set { SetProperty(ref _debugInfo, value); }
         }
 
         private void Game_BoardMustBeRefreshed(object sender, EventArgs e)
@@ -62,11 +144,11 @@ namespace OmegaGo.UI.ViewModels
 
         private void Controller_GameEnded(object sender, GameEndInformation e)
         {
-            _settings.Statistics.GameHasBeenCompleted(this.Game, e);
-            _settings.Quests.Events.GameCompleted(this.Game, e);
+            _settings.Statistics.GameHasBeenCompleted(Game, e);
+            _settings.Quests.Events.GameCompleted(Game, e);
         }
 
-        private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs )
+        private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)
         {
             if (eventArgs.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 eventArgs.NewPhase.Type == GamePhaseType.Finished)
@@ -89,50 +171,11 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardControlState.TerritoryMap = e;
         }
 
-        private void Controller_TurnPlayerChanged(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
+        private void Controller_TurnPlayerChanged(object sender, GamePlayer e)
         {
             BoardViewModel.BoardControlState.MouseOverShadowColor = e.Agent.Type == AgentType.Human ?
                 e.Info.Color :
                 StoneColor.None;
-        }
-
-        private string _systemLog;
-
-        public string SystemLog
-        {
-            get { return _systemLog; }
-            set { SetProperty(ref _systemLog, value); }
-        }
-
-        public IGame Game { get; }
-
-        public BoardViewModel BoardViewModel { get; }
-
-        public PlayerPortraitViewModel BlackPortrait { get; }
-        public PlayerPortraitViewModel WhitePortrait { get; }
-
-        public ChatViewModel ChatViewModel { get; }
-
-        public TimelineViewModel TimelineViewModel { get; }
-
-        private int _selectedMoveIndex = 0;
-        public int SelectedMoveIndex
-        {
-            get { return _selectedMoveIndex; }
-            set
-            {
-                SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                  Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
-                OnBoardRefreshRequested(whatIsShowing);
-            }
-        }
-
-        private int _maximumMoveIndex = 0;
-        public int MaximumMoveIndex
-        {
-            get { return _maximumMoveIndex; }
-            set { SetProperty(ref _maximumMoveIndex, value); }
         }
 
         public void Init()
@@ -148,23 +191,18 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        private int _previousMoveIndex = -1;
-        private void UpdateTimeline()
+        public void Unload()
         {
-            var primaryTimeline = this.Game.Controller.GameTree.PrimaryMoveTimeline;
-            int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex == newNumber - 1;
-            MaximumMoveIndex = newNumber;
-            if (autoUpdate && _previousMoveIndex != newNumber)
-            {
-                SelectedMoveIndex = newNumber;
-            }
-            _previousMoveIndex = newNumber;
+            //TODO: IMPLEMENT this
+            //if (this.Game is IgsGame)
+            //{
+            //    await ((IgsGame)this.Game).Info.Server.EndObserving((IgsGame)this.Game);
+            //}
         }
 
-        public async void MakeMove(Position selectedPosition)
+        public void MakeMove(Position selectedPosition)
         {
-            if (Game?.Controller.Phase.Type == Core.Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+            if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
                 //TODO: IMPLEMENT
                 //if (Game.Controller.IsOnlineGame)
@@ -179,13 +217,40 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                //TODO: Implement
-                if (Game?.Controller.TurnPlayer?.Agent.Type == AgentType.Human)
-                {
-                    (Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(selectedPosition);
-                }
+                _uiConnector.MakeMove(selectedPosition);
             }
-            //the turn player should be here as a property on game view model and we should be able to call its turn method without "seeing" the fact that it sits in the controller
+        }
+
+        /// <summary>
+        /// Resignation from UI
+        /// </summary>
+        private void Resign()
+        {
+            _uiConnector.Resign();
+        }
+
+        /// <summary>
+        /// Pass from UI
+        /// </summary>
+        private void Pass()
+        {
+            _uiConnector.Pass();
+        }
+
+        /// <summary>
+        /// Undo from UI
+        /// </summary>
+        private void Undo()
+        {
+            //TODO: Implement this
+            //if (VM.Game.Controller.IsOnlineGame)
+            //{
+
+            //}
+            //else
+            //{
+            //    VM.Game.Controller.Main_Undo();
+            //}
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -198,21 +263,17 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.Redraw();
         }
 
-        private int frames = 0;
-        private string _debugInfo = "n/a";
-        public string DebugInfo
+        private void UpdateTimeline()
         {
-            get { return _debugInfo; }
-            set { SetProperty(ref _debugInfo, value); }
-        }
-
-        public async void Unload()
-        {
-            //TODO: IMPLEMENT this
-            //if (this.Game is IgsGame)
-            //{
-            //    await ((IgsGame)this.Game).Info.Server.EndObserving((IgsGame)this.Game);
-            //}
+            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
+            int newNumber = primaryTimeline.Count() - 1;
+            bool autoUpdate = newNumber == 0 || SelectedMoveIndex == newNumber - 1;
+            MaximumMoveIndex = newNumber;
+            if (autoUpdate && _previousMoveIndex != newNumber)
+            {
+                SelectedMoveIndex = newNumber;
+            }
+            _previousMoveIndex = newNumber;
         }
     }
 

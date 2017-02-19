@@ -98,10 +98,10 @@
                 <Button IsEnabled="False">undoplease</Button>
                 <Button IsEnabled="False">undo (yes)</Button>
                 <Button IsEnabled="False">noundo</Button>
-                <Button Click="UndoLocally">undo locally</Button>
+                <Button Command="{x:Bind VM.UndoCommand}">undo locally</Button>
                 <TextBlock Text="Moves" FontSize="20"></TextBlock>
-                <Button Click="ClickPass">PASS</Button>
-                <Button Click="ClickResign">Resign</Button>
+                <Button Command="{x:Bind VM.PassCommand}">PASS</Button>
+                <Button Command="{x:Bind VM.ResignCommand}">Resign</Button>
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
                 <StackPanel Orientation="Horizontal">
                     <ProgressRing IsActive="True"></ProgressRing>
