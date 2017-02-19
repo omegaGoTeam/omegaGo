@@ -118,6 +118,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
                 //TODO: IS THIS REALLY NECESSARY?
+                // (Petr) yes (because we want to keep the server in control)
                 //if (this.Controller.IsOnlineGame)
                 //{
                 //    processingResult.Result = MoveResult.Legal;
@@ -146,6 +147,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
 
             //TODO: WHY NOT IN ONLINE GAME?
+            // (Petr) because we want to keep the server in control (it has more authoritative information)
             // if ( !Controller.IsOnlineGame && ... )
             if (player.Clock.IsViolating())
             {
