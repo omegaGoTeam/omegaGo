@@ -252,6 +252,68 @@
           <source>Total games played:</source>
           <target state="final">Celkem her odehráno:</target>
         </trans-unit>
+        <trans-unit id="AI_AlphaBetaPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+Fluffy will always and only pass in response to its opponent passing.
+You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
+          <target state="new">Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+Fluffy will always and only pass in response to its opponent passing.
+You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</target>
+        </trans-unit>
+        <trans-unit id="AI_AlphaBetaPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>Fluffy (minimax)</source>
+          <target state="new">Fluffy (minimax)</target>
+        </trans-unit>
+        <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
+          <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
+          <target state="new">The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</target>
+        </trans-unit>
+        <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
+          <source>Defeatist</source>
+          <target state="new">Defeatist</target>
+        </trans-unit>
+        <trans-unit id="AI_FuegoAI_Description" translate="yes" xml:space="preserve">
+          <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
+We recommend you use this AI program for all of your games.</source>
+          <target state="new">Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
+We recommend you use this AI program for all of your games.</target>
+        </trans-unit>
+        <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
+          <source>Fuego</source>
+          <target state="new">Fuego</target>
+        </trans-unit>
+        <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+This AI will pass only in response to its opponent passing, in which case it will always pass.</source>
+          <target state="new">This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+This AI will pass only in response to its opponent passing, in which case it will always pass.</target>
+        </trans-unit>
+        <trans-unit id="AI_HeuristicPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>The Puppy (heuristic)</source>
+          <target state="new">The Puppy (heuristic)</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomAI_Description" translate="yes" xml:space="preserve">
+          <source>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</source>
+          <target state="new">This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
+          <source>Random</source>
+          <target state="new">Random</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>This AI plays random moves while the board is not empty.
+I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</source>
+          <target state="new">This AI plays random moves while the board is not empty.
+I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>The Fish</source>
+          <target state="new">The Fish</target>
+        </trans-unit>
       </group>
     </body>
   </file>

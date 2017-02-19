@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.Modes.LiveGame.Connectors
+namespace OmegaGo.UI.Board.Styles
 {
-    public interface IConnectorToAgent
+
+    public enum StoneTheme
     {
+        SolidColor,
+        PolishedBitmap,
+        Sabaki
     }
 }

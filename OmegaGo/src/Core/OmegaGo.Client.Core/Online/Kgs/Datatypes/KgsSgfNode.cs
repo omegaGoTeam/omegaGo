@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             var newNode = new KgsSgfNode(childNodeId);
             Children.Insert(position, newNode);
-            game.Nodes[childNodeId] = newNode;
+            game.Controller.Nodes[childNodeId] = newNode;
         }
 
         public void AddProperty(KgsSgfProperty prop, KgsGame ongame)

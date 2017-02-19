@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.AI
+namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
 {
     public sealed class AiPlayerBuilder : PlayerBuilder<GamePlayer, AiPlayerBuilder>
     {

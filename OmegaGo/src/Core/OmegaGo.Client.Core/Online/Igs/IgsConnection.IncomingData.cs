@@ -13,8 +13,7 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Igs;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Structures;
@@ -216,7 +215,7 @@ namespace OmegaGo.Core.Online.Igs
                                 // .ToList() is used because the collection may be modified
                                 foreach (var game in GetGamesIncluding(whoResigned).ToList())
                                 {
-                                    OnIncomingResignation(game.Info, whoResigned);
+                                    HandleIncomingResignation(game.Info, whoResigned);
                                 }
                             }
                             weAreHandlingAnInterrupt = true;
@@ -237,7 +236,7 @@ namespace OmegaGo.Core.Online.Igs
                                 var game in
                                     _gamesYouHaveOpened.Where(
                                         gi =>
-                                            gi.Controller.Phase ==
+                                            gi.Controller.Phase.Type ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
                                 //TODO: Implement
@@ -419,7 +418,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
                     move.Captures.Add(Position.FromIgsCoordinates(capture));
                 }
-                OnIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
+                HandleIncomingMove(_incomingMovesAreForThisGame, int.Parse(moveIndex), move);
             }
         }
 

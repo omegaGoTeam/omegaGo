@@ -14,7 +14,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
-    internal class IgsGameController : RemoteGameController
+    public class IgsGameController : RemoteGameController
     {
         /// <summary>
         /// IGS Connector
@@ -28,12 +28,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// <param name="ruleset">Ruleset</param>
         /// <param name="players">Players</param>
         /// <param name="serverConnection">Connection to IGS server</param>
-        public IgsGameController(IgsGameInfo gameInfo, IRuleset ruleset, PlayerPair players, IgsConnection serverConnection) : base(gameInfo, ruleset, players, serverConnection)
+        public IgsGameController(
+            IgsGameInfo gameInfo,
+            IRuleset ruleset,
+            PlayerPair players,
+            IgsConnection serverConnection) :
+                base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
 
             //create and register connector
-            IgsConnector = new IgsConnector(serverConnection, gameInfo, players);
+            IgsConnector = new IgsConnector(this, serverConnection);
             RegisterConnector(IgsConnector);
             InitializeServer(serverConnection);
         }
@@ -60,30 +65,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// </summary>
         internal new IgsGameInfo Info { get; }
 
-        private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
-        {
-            //TODO: Implement this
-            // TODO this may not be our game (after refactor update)
-            //((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
-            //{
-            //    WhiteScore = e.WhiteScore,
-            //    BlackScore = e.BlackScore
-            //});
-        }
+        //private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        //{
+        //TODO: Implement this
+        // TODO this may not be our game (after refactor update)
+        //    //((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
+        //    //{
+        //    //    WhiteScore = e.WhiteScore,
+        //    //    BlackScore = e.BlackScore
+        //    //});
+        //}
 
-        private void StoneRemoval(object sender, StoneRemovalEventArgs e)
-        {
-            // TODO may not be our game
-            //LifeDeath_MarkGroupDead(e.DeadPosition);
-        }
-
-        private void IncomingResignation(object sender, GamePlayerEventArgs e)
-        {
-            if (this.Players.Contains(e.Player))
-            {
-                Resign(e.Player);
-            }
-        }
+        //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
+        //{
+        // TODO may not be our game
+        //    //LifeDeath_MarkGroupDead(e.DeadPosition);
+        //}       
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();

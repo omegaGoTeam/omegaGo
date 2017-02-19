@@ -14,6 +14,21 @@ namespace OmegaGo.Core.AI
     public class AICapabilities
     {
         /// <summary>
+        /// Creates AI capabilities
+        /// </summary>
+        /// <param name="handlesNonSquareBoards">Non-square board handling</param>
+        /// <param name="providesHints">Does AI provide hints</param>
+        /// <param name="minSize">Minimum supported size</param>
+        /// <param name="maxSize">Maximum supported size</param>
+        public AICapabilities(bool handlesNonSquareBoards, bool providesHints, int minSize, int maxSize)
+        {
+            HandlesNonSquareBoards = handlesNonSquareBoards;
+            ProvidesHints = providesHints;
+            MinimumBoardSize = minSize;
+            MaximumBoardSize = maxSize;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the AI can handle non-square boards.
         /// </summary>
         public bool HandlesNonSquareBoards { get; }
@@ -33,13 +48,5 @@ namespace OmegaGo.Core.AI
         /// and height for the AI to work. 
         /// </summary>
         public int MaximumBoardSize { get; }
-
-        public AICapabilities(bool handlesNonSquareBoards, bool providesHints, int minSize, int maxSize)
-        {
-            HandlesNonSquareBoards = handlesNonSquareBoards;
-            ProvidesHints = providesHints;
-            MinimumBoardSize = minSize;
-            MaximumBoardSize = maxSize;
-        }
     }
 }

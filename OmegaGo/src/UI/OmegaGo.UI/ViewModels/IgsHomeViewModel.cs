@@ -15,6 +15,7 @@ using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
@@ -31,13 +32,13 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task Initialize()
         {
-            LoginScreenVisible = !(Connections.Pandanet.LoggedIn);
-            Connections.Pandanet.IncomingLine += Pandanet_IncomingLine;
-            Connections.Pandanet.OutgoingLine += Pandanet_OutgoingLine;
-            Connections.Pandanet.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
-            Connections.Pandanet.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
-            Connections.Pandanet.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
-            if (Connections.Pandanet.LoggedIn)
+            LoginScreenVisible = !(Connections.Igs.LoggedIn);
+            Connections.Igs.IncomingLine += Pandanet_IncomingLine;
+            Connections.Igs.OutgoingLine += Pandanet_OutgoingLine;
+            Connections.Igs.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
+            Connections.Igs.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
+            Connections.Igs.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
+            if (Connections.Igs.LoggedIn)
             {
                 await RefreshGames();
                 await RefreshUsers();
@@ -56,11 +57,11 @@ namespace OmegaGo.UI.ViewModels
 
         public void Deinitialize()
         {
-            Connections.Pandanet.IncomingLine -= Pandanet_IncomingLine;
-            Connections.Pandanet.OutgoingLine -= Pandanet_OutgoingLine;
-            Connections.Pandanet.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Pandanet.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
-            Connections.Pandanet.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
+            Connections.Igs.IncomingLine -= Pandanet_IncomingLine;
+            Connections.Igs.OutgoingLine -= Pandanet_OutgoingLine;
+            Connections.Igs.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
+            Connections.Igs.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
+            Connections.Igs.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
         }
 
         //***************************************************************
@@ -69,9 +70,9 @@ namespace OmegaGo.UI.ViewModels
         {
             get
             {
-                if (Connections.Pandanet.LoggedIn)
+                if (Connections.Igs.LoggedIn)
                 {
-                    return Connections.Pandanet.Username;
+                    return Connections.Igs.Username;
                 }
                 else
                 {
@@ -113,13 +114,13 @@ namespace OmegaGo.UI.ViewModels
         private async void ToggleRefusingAllGamesTo(bool value)
         {
             ShowProgressPanel("Toggling whether we are open...");
-            await Connections.Pandanet.ToggleAsync("open", !value);
+            await Connections.Igs.ToggleAsync("open", !value);
             ProgressPanelVisible = false;
         }
         private async void ToggleHumanLookingForGameTo(bool value)
         {
             ShowProgressPanel("Toggling whether we are looking for games...");
-            await Connections.Pandanet.ToggleAsync("looking", value);
+            await Connections.Igs.ToggleAsync("looking", value);
             ProgressPanelVisible = false;
         }
 
@@ -149,9 +150,9 @@ namespace OmegaGo.UI.ViewModels
             LoginErrorMessageOpacity = 0;
             ProgressPanelVisible = true;
             ProgressPanelText = "Connecting to Pandanet...";
-            if (!Connections.Pandanet.ConnectionEstablished)
+            if (!Connections.Igs.ConnectionEstablished)
             {
-                bool success = await Connections.Pandanet.ConnectAsync();
+                bool success = await Connections.Igs.ConnectAsync();
                 if (!success)
                 {
                     LoginErrorMessage = "Could not connect to Pandanet. Maybe your internet connection failed?";
@@ -163,7 +164,7 @@ namespace OmegaGo.UI.ViewModels
 
 
             ProgressPanelText = "Logging in as " + UsernameTextBox + "...";
-            bool loginSuccess = await Connections.Pandanet.LoginAsync(UsernameTextBox, PasswordTextBox);
+            bool loginSuccess = await Connections.Igs.LoginAsync(UsernameTextBox, PasswordTextBox);
             if (loginSuccess)
             {
                 RaisePropertyChanged(nameof(LoggedInUser));
@@ -182,14 +183,14 @@ namespace OmegaGo.UI.ViewModels
 
         public async void Logout()
         {
-            if (!Connections.Pandanet.LoggedIn)
+            if (!Connections.Igs.LoggedIn)
             {
                 Debug.WriteLine("You are not yet logged in.");
                 return;
             }
             ProgressPanelVisible = true;
             ProgressPanelText = "Disconnecting...";
-            await Connections.Pandanet.DisconnectAsync();
+            await Connections.Igs.DisconnectAsync();
             RaisePropertyChanged(nameof(LoggedInUser));
             ProgressPanelVisible = false;
             LoginScreenVisible = true;
@@ -273,7 +274,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task RefreshUsers()
         {
             ShowProgressPanel("Refreshing the list of logged-in users...");
-            allUsers = await Connections.Pandanet.ListOnlinePlayersAsync();
+            allUsers = await Connections.Igs.ListOnlinePlayersAsync();
             RefillChallengeableUsersFromAllUsers();
             ProgressPanelVisible = false;
         }
@@ -315,7 +316,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task RefreshGames()
         {
             ShowProgressPanel("Refreshing the list of observable games...");
-            var games = await Connections.Pandanet.ListGamesInProgressAsync();
+            var games = await Connections.Igs.ListGamesInProgressAsync();
             ObservableGames.Clear();
             foreach (var game in games)
             {
@@ -357,7 +358,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand ObserveSelectedGame => new MvxCommand(async () =>
         {
             ShowProgressPanel("Initiating observation of a game...");
-            var onlinegame = await Connections.Pandanet.StartObserving(SelectedSpectatableGame);
+            var onlinegame = await Connections.Igs.StartObserving(SelectedSpectatableGame);
             if (onlinegame == null)
             {
                 // TODO error report

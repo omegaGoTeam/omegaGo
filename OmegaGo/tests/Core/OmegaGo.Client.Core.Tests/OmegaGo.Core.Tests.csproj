@@ -63,13 +63,13 @@
   <ItemGroup>
     <Compile Include="Game\GameTreeNodeTests.cs" />
     <Compile Include="Game\Mocks\TestGameTreeNodeInfo.cs" />
+    <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositionsTests.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerPairTests.cs" />
     <Compile Include="Online\Igs\ObsoleteIgsConnectionTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\AdvancedLegalityTests.cs" />
     <Compile Include="Rules\BasicLegalityTests.cs" />
-    <Compile Include="Rules\SgfGamesTests.cs" />
     <Compile Include="Rules\TestGame.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverterTests.cs" />
     <Compile Include="Sgf\Properties\SgfKnownPropertiesTests.cs" />

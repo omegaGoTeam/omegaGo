@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -23,7 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the current game tree node has changed
         /// </summary>
-        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+        event EventHandler<GameTreeNode> CurrentNodeChanged;
 
         /// <summary>
         /// Indicates taht the current game has ended
@@ -33,12 +34,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the game phase has changed
         /// </summary>
-        event EventHandler<GamePhaseType> GamePhaseChanged;
+        event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
         /// <summary>
         /// Indicates that the game board must be refreshed
         /// </summary>
-        event EventHandler BoardMustBeRefreshed;
+        event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
         /// Gets the game's ruleset
@@ -51,8 +52,26 @@ namespace OmegaGo.Core.Modes.LiveGame
         PlayerPair Players { get; }
 
         /// <summary>
+        /// Specifies whether the current game node should be in sync
+        ///  with the last game tree node
+        /// </summary>
+        bool KeepLastNodeSync { get; set; }
+
+        /// <summary>
         /// Starts the game
         /// </summary>
-        void BeginGame();        
+        void BeginGame();
+
+        /// <summary>
+        /// Ends the game
+        /// </summary>
+        /// <param name="endInformation">Game end info</param>
+        void EndGame(GameEndInformation endInformation);
+
+        /// <summary>
+        /// Registers a connector
+        /// </summary>
+        /// <param name="connector">Connector to register</param>
+        void RegisterConnector(IGameConnector connector);
     }
 }

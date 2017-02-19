@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Game
             Branches = new GameTreeNodeCollection(this);
             Move = move;
         }
-
+        
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples

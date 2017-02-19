@@ -38,14 +38,14 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 case "PROP_GROUP_ADDED":
                     foreach (var prop in Props)
                     {
-                        ongame.Nodes[NodeId].AddProperty(prop, ongame);
+                        ongame.Controller.Nodes[NodeId].AddProperty(prop, ongame);
                     }
                     break;
                 case "CHILD_ADDED":
-                    ongame.Nodes[NodeId].AddChild(ChildNodeId, Position, ongame);
+                    ongame.Controller.Nodes[NodeId].AddChild(ChildNodeId, Position, ongame);
                     break;
                 case "PROP_ADDED":
-                    ongame.Nodes[NodeId].AddProperty(Prop, ongame);
+                    ongame.Controller.Nodes[NodeId].AddProperty(Prop, ongame);
                     break;
                 default:
                     break;

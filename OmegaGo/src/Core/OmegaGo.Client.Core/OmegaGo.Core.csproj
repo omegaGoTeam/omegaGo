@@ -43,18 +43,26 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\AIStrength.cs" />
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
+    <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
-    <Compile Include="Modes\LiveGame\Connectors\IConnectorToAgent.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
+    <Compile Include="Modes\LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
+    <Compile Include="Modes\LiveGame\Connectors\UI\IUiConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
+    <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\Igs\IgsMainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\MainPhaseBase.cs" />
+    <Compile Include="Modes\LiveGame\Remote\IRemoteGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameController.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndInformation.cs" />
     <Compile Include="Modes\LiveGame\State\GameEndReason.cs" />
     <Compile Include="Helpers\IDebuggingMessageProvider.cs" />
@@ -63,7 +71,7 @@
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Igs\IgsHandicapPlacementPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeath.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentEventHandler.cs" />
-    <Compile Include="Modes\LiveGame\Players\Igs\IIgsAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\Igs\IIgsAgent.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="Modes\LiveGame\IGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Kgs\KgsGameBuilder.cs" />
@@ -76,12 +84,12 @@
     <Compile Include="Modes\LiveGame\Phases\IGameControllerPhaseFactory.cs" />
     <Compile Include="Modes\LiveGame\Players\PlayerPair.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentBase.cs" />
-    <Compile Include="Modes\LiveGame\Players\Kgs\KgsAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Kgs\KgsPlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\Local\HumanAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\Kgs\KgsAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Builders\KgsPlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\Local\HumanAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IAgent.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\IllegalMoveHandling.cs" />
-    <Compile Include="Modes\LiveGame\Players\Local\IHumanAgentActions.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\Local\IHumanAgentActions.cs" />
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AiDecision.cs" />
     <Compile Include="AI\AIPreMoveInformation.cs" />
@@ -89,7 +97,7 @@
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\DefeatistAI.cs" />
-    <Compile Include="AI\Fuego\FuegoWrapper.cs" />
+    <Compile Include="AI\Fuego\FuegoAI.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
     <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />
@@ -120,7 +128,7 @@
     <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Online\Common\ICommonEvents.cs" />
-    <Compile Include="Online\Common\RemoteGame.cs" />
+    <Compile Include="Modes\LiveGame\Remote\RemoteGame.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
     <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
     <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />
@@ -139,13 +147,13 @@
     <Compile Include="Modes\LiveGame\Phases\Main\IMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\IGamePhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\IHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Players\AI\AiAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\AI\AiPlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\Igs\IgsAgent.cs" />
-    <Compile Include="Modes\LiveGame\Players\Igs\IgsPlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\Local\HumanPlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\PlayerBuilder.cs" />
-    <Compile Include="Modes\LiveGame\Players\AgentType.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\AI\AiAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Builders\AiPlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\Igs\IgsAgent.cs" />
+    <Compile Include="Modes\LiveGame\Players\Builders\IgsPlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Builders\HumanPlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Builders\PlayerBuilder.cs" />
+    <Compile Include="Modes\LiveGame\Players\Agents\AgentType.cs" />
     <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGame.cs" />
     <Compile Include="Modes\Tutorial\Tutorial.cs" />
@@ -210,6 +218,7 @@
     <Compile Include="Online\Kgs\Datatypes\KgsSgfNode.cs" />
     <Compile Include="Online\Kgs\Structures\KgsUser.cs" />
     <Compile Include="Online\ServerID.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />

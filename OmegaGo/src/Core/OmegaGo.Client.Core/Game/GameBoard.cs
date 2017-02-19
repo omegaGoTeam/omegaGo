@@ -44,6 +44,33 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public GameBoardSize Size { get; }
 
+        public static bool operator ==(GameBoard first, GameBoard second) => Equals(first, second);
+
+        public static bool operator !=(GameBoard first, GameBoard second) => !(first == second);
+
+        /// <summary>
+        /// Creates a game board from a Game Tree Node
+        /// </summary>
+        /// <param name="gameInfo"></param>
+        /// <param name="gameTree">Game tree</param>
+        /// <returns></returns>
+        public static GameBoard CreateBoardFromGameTree(GameInfo gameInfo, GameTree gameTree)
+        {
+            GameBoard createdBoard = new GameBoard(gameInfo.BoardSize);
+            foreach (Move move in gameTree.PrimaryMoveTimeline)
+            {
+                if (move.Kind == MoveKind.PlaceStone)
+                {
+                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
+                }
+                foreach (Position p in move.Captures)
+                {
+                    createdBoard[p.X, p.Y] = StoneColor.None;
+                }
+            }
+            return createdBoard;
+        }
+
         /// <summary>
         /// Gets or sets the stone at a given position
         /// </summary>
@@ -77,33 +104,6 @@ namespace OmegaGo.Core.Game
             {
                 _board[x, y] = value;
             }
-        }
-
-        public static bool operator ==(GameBoard first, GameBoard second) => Equals(first, second);
-
-        public static bool operator !=(GameBoard first, GameBoard second) => !(first == second);
-
-        /// <summary>
-        /// Creates a game board from a Game Tree Node
-        /// </summary>
-        /// <param name="gameInfo"></param>
-        /// <param name="gameTree">Game tree</param>
-        /// <returns></returns>
-        public static GameBoard CreateBoardFromGameTree(GameInfo gameInfo, GameTree gameTree)
-        {
-            GameBoard createdBoard = new GameBoard(gameInfo.BoardSize);
-            foreach (Move move in gameTree.PrimaryMoveTimeline)
-            {
-                if (move.Kind == MoveKind.PlaceStone)
-                {
-                    createdBoard[move.Coordinates.X, move.Coordinates.Y] = move.WhoMoves;
-                }
-                foreach (Position p in move.Captures)
-                {
-                    createdBoard[p.X, p.Y] = StoneColor.None;
-                }
-            }
-            return createdBoard;
         }
 
         /// <summary>

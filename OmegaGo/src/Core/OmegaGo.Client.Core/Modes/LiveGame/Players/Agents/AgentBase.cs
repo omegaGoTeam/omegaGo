@@ -77,10 +77,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public virtual void GamePhaseChanged(GamePhaseType phase) { }
 
-        public virtual void OnTurn()
-        {
-        }
-
         public void AssignToGame(GameInfo gameInfo, IGameState gameState)
         {
             GameInfo = gameInfo;

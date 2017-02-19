@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.Local
+namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
 {
     public sealed class HumanPlayerBuilder : PlayerBuilder<GamePlayer, HumanPlayerBuilder>
     {

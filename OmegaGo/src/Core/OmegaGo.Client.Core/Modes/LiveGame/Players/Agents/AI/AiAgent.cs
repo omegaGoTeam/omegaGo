@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Phases;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Players.AI
+namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
 {
     public class AiAgent : AgentBase
     {
@@ -33,17 +28,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.AI
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
 
-        public override async void OnTurn()
+        public override async void PleaseMakeAMove()
         {
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
-                GameInfo,
-                Color,
-                GameState.GameTree,
-                _timeLimit,
-                _strength
-                )));
+               GameInfo,
+               Color,
+               GameState.GameTree,
+               _timeLimit,
+               _strength
+               )));
 
-            AiDecision decision = await aiTask;
+            AIDecision decision = await aiTask;
             OnLogMessage(decision.Explanation);
             switch (decision.Kind)
             {

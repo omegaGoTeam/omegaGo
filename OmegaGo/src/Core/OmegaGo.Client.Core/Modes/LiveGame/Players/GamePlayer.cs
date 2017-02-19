@@ -2,7 +2,6 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Time;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
 using OmegaGo.Core.Modes.LiveGame.State;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
@@ -40,6 +39,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// Player's clock
         /// </summary>
         public TimeControl Clock { get; }
+
+        /// <summary>
+        /// Checks if the player is a local human player
+        /// </summary>
+        public bool IsHuman => Agent.Type == AgentType.Human;       
 
         /// <summary>
         /// Assigns the player to a game

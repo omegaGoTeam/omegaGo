@@ -15,6 +15,7 @@ namespace OmegaGo.Core.AI.Fuego
         /// Creates a new AI program engine for a new game.
         /// </summary>
         /// <param name="boardSize">Size of the board in the game.</param>
+        /// <returns>GTP engine instance</returns>
         IGtpEngine CreateEngine(int boardSize);
     }
 }

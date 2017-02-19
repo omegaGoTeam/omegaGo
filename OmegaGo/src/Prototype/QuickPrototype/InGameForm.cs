@@ -18,8 +18,8 @@ using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
@@ -441,7 +441,7 @@ namespace FormsPrototype
         private void button4_Click(object sender, EventArgs e)
         {
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
-            AiDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
+            AIDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
                 _game.Controller.GameTree.LastNode.BoardState,
                 new TimeSpan(1),
                 5, _game.Controller.GameTree.PrimaryMoveTimeline.ToList()));
@@ -547,11 +547,11 @@ namespace FormsPrototype
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
-            _controller.BoardMustBeRefreshed += _controller_BoardMustBeRefreshed;
+            _controller.CurrentNodeStateChanged += _controller_BoardMustBeRefreshed;
             _controller.DebuggingMessage += _controller_DebuggingMessage;
             _controller.GameEnded += _controller_GameEnded;
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            _controller.CurrentGameTreeNodeChanged += _controller_CurrentGameTreeNodeChanged;
+            _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged;
             _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            

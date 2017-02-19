@@ -11,18 +11,23 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
     {
         private readonly IgsConnector _connector = null;
 
+        /// <summary>
+        /// Creates IGS handicap placement phase
+        /// </summary>
+        /// <param name="gameController"></param>
         public IgsHandicapPlacementPhase(IgsGameController gameController) : base(gameController)
         {
             _connector = gameController.IgsConnector;
         }
 
-        public override GamePhaseType PhaseType  => GamePhaseType.HandicapPlacement;
+        public override GamePhaseType Type  => GamePhaseType.HandicapPlacement;
 
         /// <summary>
         /// Attaches the events on phase start
         /// </summary>
         public override void StartPhase()
         {
+            base.StartPhase();
             _connector.GameHandicapSet += GameHandicapSet;
         }
 
@@ -35,14 +40,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
         {
             Controller.Info.NumberOfHandicapStones = handicapCount;
             PlaceHandicapStones();
+            GoToPhase(GamePhaseType.Main);
         }
 
         /// <summary>
         /// Deattaches the events after phase end
         /// </summary>
         public override void EndPhase()
-        {
+        {            
             _connector.GameHandicapSet -= GameHandicapSet;
+            base.EndPhase();
         }
     }
 }
