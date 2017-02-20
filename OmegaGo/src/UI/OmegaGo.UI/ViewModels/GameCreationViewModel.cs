@@ -173,8 +173,7 @@ namespace OmegaGo.UI.ViewModels
                     SetProperty(ref _customWidth, parsed);
                     SetCustomBoardSize();
                 }
-
-            } // TODO check for exceptions
+            } // TODO Petr: check for exceptions
         }
 
         private void SetCustomBoardSize()
@@ -194,7 +193,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
-            } // TODO check for exceptions
+            } // TODO Petr: check for exceptions
         }
         /// <summary>
         /// Handicap of white player
@@ -266,7 +265,7 @@ namespace OmegaGo.UI.ViewModels
             GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
             GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
 
-            //TODO: set counting type
+            //TODO Petr: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
                 BoardSize(SelectedGameBoardSize).
                 Ruleset(SelectedRuleset).

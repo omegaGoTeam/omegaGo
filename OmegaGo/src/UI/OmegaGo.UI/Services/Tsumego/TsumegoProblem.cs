@@ -16,7 +16,7 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblem
     {
-        // TODO does not work at design time
+        // TODO Petr: does not work at design time
         protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
 
         /// <summary>

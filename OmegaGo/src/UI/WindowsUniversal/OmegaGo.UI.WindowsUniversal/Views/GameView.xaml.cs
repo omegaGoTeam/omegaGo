@@ -64,7 +64,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private async void LifeDeathDone(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement this
+            //TODO Petr : Implement this
             //var game = VM.Game;
             //if (game.Controller.IsOnlineGame)
             //{
@@ -84,7 +84,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void ResumeGame(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement this
+            //TODO Petr : Implement this
             //if (VM.Game.Controller.IsOnlineGame)
             //{
             //    // unsupported on IGS
@@ -97,7 +97,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private async void UndoDeathMarks(object sender, RoutedEventArgs e)
         {
-            //TODO: Implement this
+            //TODO Petr: Implement this
             //var liveGame = VM.Game;
             //if (liveGame.Controller.IsOnlineGame)
             //{

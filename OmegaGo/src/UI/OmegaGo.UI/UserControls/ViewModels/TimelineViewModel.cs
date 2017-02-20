@@ -46,7 +46,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             GameTree = gameTree;
         }
 
-        // TODO GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
+        // TODO Petr: GameTree now has LastNodeChanged event, use it to fix this - GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
         public void OnTimelineRedrawRequested()
         {
             TimelineRedrawRequsted?.Invoke(this, EventArgs.Empty);

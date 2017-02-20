@@ -25,7 +25,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TransparencyViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            VM.WebViewContentChanged += VM_WebViewContentChanged; // TODO when unsubscribe?
+            VM.WebViewContentChanged += VM_WebViewContentChanged; // TODO Martin : when unsubscribe?
             VM.NavigateToCurrentItem();
         }
     }

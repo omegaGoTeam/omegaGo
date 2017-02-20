@@ -37,13 +37,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
             catch(Exception)
             {
-                // TODO Fill
+                // TODO Martin : Fill
             }
         }
 
         public string ReadSettingsFile()
         {
-            // TODO Finish
+            // TODO Martin : Finish
             return String.Empty;
         }
     }

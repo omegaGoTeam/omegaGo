@@ -12,6 +12,6 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         {
         }
 
-        // TODO not yet implemented
+        // TODO Petr: not yet implemented
     }
 }

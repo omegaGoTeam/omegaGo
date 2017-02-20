@@ -2,6 +2,7 @@
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
@@ -60,15 +62,16 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
-            //TODO: not very nice
-            (Game.Controller as GameController).DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
-            //TODO: Implement
+            
+            ObserveDebuggingMessages();
+
+            //TODO Petr: Implement - Observe the Phase changed event and wire up this event in Life and death phase
             //Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
             ChatViewModel = new ChatViewModel();
-            //TODO: Implement
+            //TODO Martin: Implement - online games will have their own ViewModel with specific properties
             //if (Game.Controller.IsOnlineGame)
             //{
             //    ChatViewModel.ChatService = new IgsChatService(Game as IgsGame);
@@ -79,6 +82,19 @@ namespace OmegaGo.UI.ViewModels
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
+
+        /// <summary>
+        /// Observes debugging messages from controller
+        /// </summary>
+        [Conditional("DEBUG")]
+        private void ObserveDebuggingMessages()
+        {
+            var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
+            if (debuggingMessagesProvider != null)
+            {
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+            }
         }
 
         /// <summary>
@@ -162,7 +178,7 @@ namespace OmegaGo.UI.ViewModels
         }
 
         /// <summary>
-        /// TODO: this is not yet attached
+        /// TODO Petr : this is not yet attached (see to-do above)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -193,7 +209,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void Unload()
         {
-            //TODO: IMPLEMENT this
+            //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
             //if (this.Game is IgsGame)
             //{
             //    await ((IgsGame)this.Game).Info.Server.EndObserving((IgsGame)this.Game);
@@ -204,7 +220,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                //TODO: IMPLEMENT
+                //TODO Petr: if life and death will use the same event (probably yes?), then this logic is not really necessary
                 //if (Game.Controller.IsOnlineGame)
                 //{
                 //    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
@@ -242,7 +258,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            //TODO: Implement this
+            //TODO Petr: Implement this, without having to check for type of game (online / local), this should be a part of controller
             //if (VM.Game.Controller.IsOnlineGame)
             //{
 
@@ -256,7 +272,7 @@ namespace OmegaGo.UI.ViewModels
         private void OnBoardRefreshRequested(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
-            // TODO GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
+            // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
             //TimelineViewModel.OnTimelineRedrawRequested();
             frames++;
             DebugInfo = frames.ToString();
