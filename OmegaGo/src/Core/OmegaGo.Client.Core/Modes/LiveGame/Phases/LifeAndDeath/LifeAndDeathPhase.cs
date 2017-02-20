@@ -20,6 +20,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public override GamePhaseType Type => GamePhaseType.LifeDeathDetermination;
 
+        /// <summary>
+        /// Dead positions
+        /// </summary>
+        public IEnumerable<Position> DeadPositions => _deadPositions;
+
         void RecalculateTerritories()
         {
             GameBoard boardAfterRemovalOfDeadStones =
@@ -58,63 +63,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
             if (_playersDoneWithLifeDeath.Count == 2)
             {
-                ScoreIt();
+                GoToPhase(GamePhaseType.Finished);
             }
-        }
-
-        /// <summary>
-        /// Scores the game and moves us to the Finished phase.
-        /// </summary>
-        /// <param name="e">If this parameter is set, then it overriddes scores that would be determined from life/death determination and ruleset.</param>
-        public void ScoreIt(Scores e = null)
-        {
-            Scores scores = e;
-            if (scores == null)
-            {
-                GameBoard boardAfterRemovalOfDeadStones =
-                    this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                        _deadPositions);
-                scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
-            }
-            bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
-            GamePlayer winner;
-            GamePlayer loser;
-            if (isDraw)
-            {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
-                Controller.OnDebuggingMessage("It's a draw.");
-            }
-            else if (scores.BlackScore > scores.WhiteScore)
-            {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
-            }
-            else if (scores.BlackScore < scores.WhiteScore)
-            {
-                winner = this.Controller.Players.White;
-                loser = this.Controller.Players.Black;
-            }
-            else
-            {
-                throw new Exception("This cannot happen.");
-            }
-            if (!isDraw)
-            {
-                Controller.OnDebuggingMessage(winner + " wins.");
-            }
-            Controller.OnDebuggingMessage("Scoring complete! " + scores.AbsoluteScoreDifference);
-            GameEndInformation gameEndInfo = null;
-            if (isDraw)
-            {
-                gameEndInfo = GameEndInformation.CreateDraw(Controller.Players, scores);
-            }
-            else
-            {
-                gameEndInfo = GameEndInformation.CreateScoredGame(winner, loser, scores);
-            }
-            this.Controller.EndGame(gameEndInfo);
-        }
+        }       
 
         public void UndoPhase()
         {
@@ -141,6 +92,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
             RecalculateTerritories();
         }
+
 
         //TODO: Implement
         //public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)

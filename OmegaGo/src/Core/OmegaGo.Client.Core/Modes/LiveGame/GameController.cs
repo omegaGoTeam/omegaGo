@@ -31,6 +31,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         private readonly List<IGameConnector> _registeredConnectors = new List<IGameConnector>();
 
         /// <summary>
+        /// Storage of previous game phases
+        /// </summary>
+        private readonly List<IGamePhase> _previousPhases = new List<IGamePhase>();
+
+        /// <summary>
         /// The current game phase
         /// </summary>
         private IGamePhase _currentGamePhase = null;
@@ -115,6 +120,10 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public IGamePhase Phase => _currentGamePhase;
 
+        /// <summary>
+        /// Previous phases in the game
+        /// </summary>
+        public IEnumerable<IGamePhase> PreviousPhases => _previousPhases;
 
         /// <summary>
         /// Connectors in the game
@@ -240,6 +249,10 @@ namespace OmegaGo.Core.Modes.LiveGame
             _currentGamePhase?.EndPhase();
 
             var previousPhase = _currentGamePhase;
+            if (previousPhase != null)
+            {
+                _previousPhases.Add(previousPhase);
+            }
 
             OnDebuggingMessage("Now moving to " + phase.Type);
 
@@ -395,5 +408,6 @@ namespace OmegaGo.Core.Modes.LiveGame
                         <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
         }
+
     }
 }

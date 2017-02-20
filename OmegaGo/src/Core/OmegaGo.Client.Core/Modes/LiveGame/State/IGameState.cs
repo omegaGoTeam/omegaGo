@@ -1,4 +1,5 @@
-﻿using OmegaGo.Core.Game;
+﻿using System.Collections.Generic;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 
@@ -28,6 +29,11 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// Gets the current game phase
         /// </summary>
         IGamePhase Phase { get; }
+
+        /// <summary>
+        /// Previous phases in the game
+        /// </summary>
+        IEnumerable<IGamePhase> PreviousPhases { get; }
 
         /// <summary>
         /// Gets the number of moves that were played
