@@ -154,11 +154,10 @@ namespace OmegaGo.Core.Game
             var currentNode = this;
             do
             {
-                if (filterNonMoves && (currentNode.Move.Kind == MoveKind.Pass || currentNode.Move.Kind == MoveKind.PlaceStone))
+                var isMoveNode = (currentNode.Move.Kind == MoveKind.Pass || currentNode.Move.Kind == MoveKind.PlaceStone);
+                if (!filterNonMoves || isMoveNode) { 
                     nodeHistory.Insert(0, currentNode);
-                else
-                    nodeHistory.Insert(0, currentNode);
-
+                }                   
                 currentNode = currentNode.Parent;
             } while (currentNode != null);
 
