@@ -180,7 +180,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 args.Handled = true;
             }
             //handle cheat key combinations
-            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
+            if (Cheats.PermitCheats)
             {
                 Cheats.HandleKeyPress(args);
             }

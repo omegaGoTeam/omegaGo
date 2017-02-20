@@ -32,47 +32,35 @@ namespace OmegaGo.UI.ViewModels
 
         public int Points => this._settings.Quests.Points;
 
+        public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_settings);
+
         public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
             = new ObservableCollection<ActiveQuest>();
 
       
         public void Load()
         {
+            ActiveQuests.Clear();
+            QuestCooldownActions.CheckForNewQuests(_settings);
             foreach(var quest in _settings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
             }
-            while (_settings.Quests.LastQuestReceivedWhen.AddDays(1) < DateTime.Now &&
-                _settings.Quests.ActiveQuests.Count() < Quest.MAXIMUM_NUMBER_OF_QUESTS)
-                {
-                    AddAQuest();
-                }
             
-        }
-
-        private void AddAQuest()
-        {
-            _settings.Quests.LastQuestReceivedWhen = DateTime.Now; // TODO make it so that quests can stack in history, but not limitlessly
-
-            var nq = Quest.SpawnRandomQuest();
-            _settings.Quests.AddQuest(nq);
-            ActiveQuests.Add(nq);
         }
 
         public void ExchangeQuest(ActiveQuest activeQuest)
         {
-            if (_settings.Quests.LastQuestExchangedWhen.AddDays(1) < DateTime.Now)
+            if (ExchangeIsPossible)
             {
+                var newQuest = Quest.SpawnRandomQuest(_settings.Quests.ActiveQuests.Select(q => q.QuestID));
                 _settings.Quests.LoseQuest(activeQuest);
                 ActiveQuests.Remove(activeQuest);
-                _settings.Quests.AddQuest(Quest.SpawnRandomQuest());
-                ActiveQuests.Add(activeQuest);
+                _settings.Quests.AddQuest(newQuest);
+                ActiveQuests.Add(newQuest);
                 _settings.Quests.LastQuestExchangedWhen = DateTime.Now;
             }
-            else
-            {
-                throw new Exception("The button should not have been displayed.");
-            }
+            RaisePropertyChanged(nameof(ExchangeIsPossible));
         }
 
         public void TryThisNow(ActiveQuest activeQuest)

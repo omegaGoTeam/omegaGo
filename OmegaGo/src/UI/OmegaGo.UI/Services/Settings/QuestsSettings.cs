@@ -20,12 +20,18 @@ namespace OmegaGo.UI.Services.Settings
         
         public DateTime LastQuestReceivedWhen
         {
-            get { return GetComplexSetting(nameof(LastQuestReceivedWhen), ()=>DateTime.Now.AddDays(-1.2f)); }
+            get
+            {
+                return GetComplexSetting(nameof(LastQuestReceivedWhen), () => DateTime.Today.GetNoon().GetPreviousDay());
+            }
             set { SetComplexSetting(nameof(LastQuestReceivedWhen), value); }
         }
         public DateTime LastQuestExchangedWhen
         {
-            get { return GetComplexSetting(nameof(LastQuestExchangedWhen), () => DateTime.Now.AddDays(-1.2f)); }
+            get
+            {
+                return GetComplexSetting(nameof(LastQuestExchangedWhen), () => DateTime.Today.GetNoon().GetPreviousDay());
+            }
             set { SetComplexSetting(nameof(LastQuestExchangedWhen), value); }
         }
 

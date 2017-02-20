@@ -30,9 +30,10 @@ namespace OmegaGo.UI.Services.Quests
             MaximumProgress = maximumProgress;
         }
 
-        public static ActiveQuest SpawnRandomQuest()
+        public static ActiveQuest SpawnRandomQuest(IEnumerable<string> avoidTheseQuests)
         {
-            string randomQuestName = Quest.AllQuests.Keys.ToList().GetRandom();
+            List<string> questsToAvoid = avoidTheseQuests.ToList();
+            string randomQuestName = Quest.AllQuests.Keys.Where(key => !questsToAvoid.Contains(key)).ToList().GetRandom();
             return ActiveQuest.Create(randomQuestName);
         }
 
