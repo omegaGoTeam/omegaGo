@@ -69,8 +69,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void OpenFile()
         {
-            throw new NotImplementedException();
-            ////TODO: Temporary implementation only
+            //TODO Martin Temporary implementation only
             //var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
             //SgfParser parser = new SgfParser();
             //var sgfCollection = parser.Parse(fileContents);

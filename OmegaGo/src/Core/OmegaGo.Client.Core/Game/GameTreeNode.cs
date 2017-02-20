@@ -242,10 +242,18 @@ namespace OmegaGo.Core.Game
             foreach (var position in AddWhite)
                 copyOfPreviousBoard[position] = StoneColor.White;
 
-            var mpr =
-                ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
-
-            BoardState = mpr.NewBoard;
+            //process only if move was performed
+            if (Move.Kind != MoveKind.None)
+            {
+                var processMove = ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
+                //TODO Martin, Aniko Store captures?
+                BoardState = processMove.NewBoard;
+            }
+            else
+            {
+                //set the same board with new added colors
+                BoardState = copyOfPreviousBoard;
+            }
         }
     }
 }

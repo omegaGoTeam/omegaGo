@@ -29,18 +29,6 @@ namespace OmegaGo.Core.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
-        }
-
-        /// <summary>
-        /// Returns random item from a list
-        /// </summary>
-        /// <typeparam name="T">Type of the list items</typeparam>
-        /// <param name="list">List</param>
-        /// <returns>Random item</returns>
-        public static T GetRandom<T>(this IList<T> list)
-        {
-            int index = Randomizer.Next(list.Count);
-            return list[index];
-        }        
+        }  
     }
 }
