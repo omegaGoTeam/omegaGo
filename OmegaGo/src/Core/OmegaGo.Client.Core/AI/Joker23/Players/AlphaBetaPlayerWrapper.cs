@@ -5,8 +5,8 @@ namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class AlphaBetaPlayerWrapper : AIProgramBase
     {
-        // TODO make it pass in other scenarios, too
-        // TODO allow setting depth
+        // TODO Petr make it pass in other scenarios, too
+        // TODO Petr allow setting depth
         private AlphaBetaPlayer _internalPlayer;
 
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);

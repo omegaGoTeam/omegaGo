@@ -6,6 +6,7 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Tsumego

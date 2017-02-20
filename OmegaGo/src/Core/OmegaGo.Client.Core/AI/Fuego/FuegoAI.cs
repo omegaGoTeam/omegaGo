@@ -37,7 +37,7 @@ namespace OmegaGo.Core.AI.Fuego
             {
                 _engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
                 _engine.SendCommand("uct_param_player ponder 1");
-                // TODO komi
+                // TODO Petr komi
                 _initialized = true;
             }
             if (preMoveInformation.Difficulty != _timelimit)
