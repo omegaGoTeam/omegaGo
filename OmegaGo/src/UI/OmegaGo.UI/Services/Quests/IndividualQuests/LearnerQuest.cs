@@ -14,11 +14,11 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         {
 
         }
-
         public override Type GetViewModelToTry()
         {
             return typeof(TsumegoMenuViewModel);
         }
+        public override bool TryThisNowButtonVisible => true;
 
         public override bool NewTsumegoSolved() => true;
     }

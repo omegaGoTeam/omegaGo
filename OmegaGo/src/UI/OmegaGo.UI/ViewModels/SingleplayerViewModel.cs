@@ -65,9 +65,10 @@ namespace OmegaGo.UI.ViewModels
 
         public void TryThisNow(ActiveQuest activeQuest)
         {
-            if (activeQuest.Quest.GetViewModelToTry() != null)
+            Type model = activeQuest.Quest.GetViewModelToTry();
+            if (model != null)
             {
-                ShowViewModel(activeQuest.Quest.GetViewModelToTry());
+                ShowViewModel(model);
             }
         }
     }

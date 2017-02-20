@@ -17,9 +17,17 @@ namespace OmegaGo.UI.Services.Quests
         public string Description { get; }
         public int PointReward { get; }
         public int MaximumProgress { get; }
+
+        public virtual bool TryThisNowButtonVisible => false;
+
+    /// <summary>
+        /// Prepares us for jump to a viewmodel where we can make progress on this quest, then returns the type
+        /// of the viewmodel to jump to. The preparation would usually consist of preparing the GameCreationBundle.
+        /// </summary>
+        /// <returns></returns>
         public virtual Type GetViewModelToTry()
         {
-            return typeof(GameCreationViewModel);
+            return null;
         }
 
         protected Quest(string name, string description, int pointReward, int maximumProgress)
