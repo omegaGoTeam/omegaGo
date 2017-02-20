@@ -41,22 +41,22 @@ namespace OmegaGo.UI.Services.Quests
                 {
                     if (isOnlineGame)
                     {
-                        points = Points.ONLINE_WIN;
+                        points = RewardPoints.OnlineWin;
                     }
                     else if (!isHotseatGame)
                     {
-                        points = Points.LOCAL_WIN;
+                        points = RewardPoints.LocalWin;
                     }
                 }
                 else
                 {
                     if (isOnlineGame)
                     {
-                        points = Points.ONLINE_LOSS;
+                        points = RewardPoints.OnlineLoss;
                     }
                     else if (!isHotseatGame)
                     {
-                        points = Points.LOCAL_LOSS;
+                        points = RewardPoints.LocalLoss;
                     }
                 }
 

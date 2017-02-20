@@ -10,7 +10,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class GreatLearnerQuest : Quest
     {
-        public GreatLearnerQuest() : base("Great Learner", "Solve 20 tsumego problems.", Points.HARD_REWARD, 20)
+        public GreatLearnerQuest() : base("Great Learner", "Solve 20 tsumego problems.", RewardPoints.HardReward, 20)
         {
         }
         public override Type GetViewModelToTry()

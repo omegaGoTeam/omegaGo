@@ -10,7 +10,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class IgsChallengeQuest : Quest
     {
-        public IgsChallengeQuest() : base("Pandanet Challenge", "Finish 3 games on the Pandanet server.", Points.HARD_REWARD, 3)
+        public IgsChallengeQuest() : base("Pandanet Challenge", "Finish 3 games on the Pandanet server.", RewardPoints.HardReward, 3)
         {
         }
 
