@@ -83,6 +83,7 @@
     <Compile Include="Services\Localization\ILocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizationService.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
+    <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />

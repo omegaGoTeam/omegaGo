@@ -7,7 +7,9 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using MvvmCross.Platform;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
 {
@@ -25,13 +27,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
             {
                 case VirtualKey.F1:
                     Cheats.settings.Quests.Points = 20;
+                    AppShell.GetForCurrentView().DEBUG_TriggerNotification(new BubbleNotification("CHEAT: Points set to 20."));
                     break;
                 case VirtualKey.F2:
                     Cheats.settings.Quests.LastQuestReceivedWhen = DateTime.Now.AddDays(-1.5f);
                     Cheats.settings.Quests.LastQuestExchangedWhen = DateTime.Now.AddDays(-1.5f);
+                    AppShell.GetForCurrentView().DEBUG_TriggerNotification(new BubbleNotification("CHEAT: Cooldowns refreshed to 1 day."));
                     break;
                 case VirtualKey.F3:
                     Cheats.settings.Quests.ClearAllQuests();
+                    AppShell.GetForCurrentView().DEBUG_TriggerNotification(new BubbleNotification("CHEAT: All quests cleared."));
                     break;
                 default:
                     //not handled, just return

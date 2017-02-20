@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
@@ -7,6 +8,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
@@ -176,6 +178,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             // debug sessions anyway
             if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
             {
+                if (!Cheats.PermitCheats)
+                {
+                    AppShell.GetForCurrentView().DEBUG_TriggerNotification(new BubbleNotification("Cheats enabled."));
+                }
                 Cheats.PermitCheats = true;
                 args.Handled = true;
             }
@@ -267,6 +273,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             vm?.GoBackCommand.Execute();
         }
 
+
+        /// <summary>
+        /// Add this to a server when SFX is merged in.
+        /// </summary>
+        /// <param name="notification">The notification.</param>
+        public void DEBUG_TriggerNotification(BubbleNotification notification)
+        {
+            BubbleNotifications.Add(notification);
+        }
+        public ObservableCollection<BubbleNotification> BubbleNotifications = new ObservableCollection
+            <BubbleNotification>
+        {
+            new BubbleNotification("Welcome to OmegaGo. Press Alt+C to cheat.")
+        };
         private IGameSettings _settings;
 
         public void RefreshBindings()
@@ -334,6 +354,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 }
             }
 
-        } 
+        }
+
+        private void CloseNotification_Click(object sender, RoutedEventArgs e)
+        {
+            BubbleNotifications.Remove(
+                ((BubbleNotification) ((Button) sender).Tag)
+                );
+        }
     }
 }
