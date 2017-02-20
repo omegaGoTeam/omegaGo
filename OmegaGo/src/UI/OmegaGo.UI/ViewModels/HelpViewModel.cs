@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Help;
+using System.Collections.ObjectModel;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
@@ -16,7 +17,7 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class HelpViewModel : ViewModelBase
     {
-        private List<HelpPage> _helpItems;
+        private ObservableCollection<HelpPage> _helpItems;
         private HelpPage _selectedHelpItem;
 
         /// <summary>
@@ -27,20 +28,27 @@ namespace OmegaGo.UI.ViewModels
 
         public HelpViewModel()
         {
-            _helpItems  = HelpPage.CreateAllHelpPages();
+            _helpItems = new ObservableCollection<HelpPage>(); 
+
+            foreach (var helpPage in HelpPage.CreateAllHelpPages())
+            {
+                _helpItems.Add(helpPage);
+            }
+            
             SelectedHelpItem = _helpItems[0];
         }
 
         public HelpPage SelectedHelpItem
         {
             get { return _selectedHelpItem; }
-            set {
+            set
+            {
                 SetProperty(ref _selectedHelpItem, value);
                 NavigateToCurrentItem();
             }
         }
 
-        public IEnumerable<HelpPage> HelpItems => this._helpItems;
+        public ObservableCollection<HelpPage> HelpItems => _helpItems;
 
         public void NavigateToCurrentItem()
         {

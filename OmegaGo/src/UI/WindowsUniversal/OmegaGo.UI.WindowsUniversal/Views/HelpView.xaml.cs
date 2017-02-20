@@ -32,7 +32,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void OpenCloseHelp(object sender, RoutedEventArgs e)
         {
-            this.HelpSplitView.IsPaneOpen = !this.HelpSplitView.IsPaneOpen;
+            this.helpSplitView.IsPaneOpen = !this.helpSplitView.IsPaneOpen;
         }
     }
 }

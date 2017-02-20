@@ -14,6 +14,11 @@ namespace OmegaGo.UI.Services.Help
         private string _name;
         private string _filename;
 
+        public string Name
+        {
+            get { return _name; }
+        }
+
         private HelpPage(string name, string filename)
         {
             this._name = name;
@@ -53,11 +58,6 @@ namespace OmegaGo.UI.Services.Help
                 new HelpPage("Copyright notice", "copyright"),                
                 new HelpPage("Credits", "credits")
             };
-        }
-
-        public override string ToString()
-        {
-            return this._name;
         }
     }
 }
