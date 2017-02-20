@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             var targetPlayer = _gameController.Players[move.WhoMoves];
             var igsAgent = targetPlayer.Agent as IgsAgent;
             if (igsAgent == null) throw new InvalidOperationException("Server sent a move for non-IGS agent");
-            igsAgent.IncomingMoveFromServer(moveIndex, move);
+            igsAgent.MoveFromServer(moveIndex, move);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// <param name="stoneCount">Number of handicap stones</param>
         public void HandicapFromServer(int stoneCount)
         {
-            // TODO (Petr): This should probably have a guard or not use null coalescing (if GameHandicapSet is not set, something is wrong)
+            // TODO Petr: Can Handicap info arrive before HandicapPlacement starts?
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
         }
@@ -93,8 +93,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         public void ResignationFromServer( StoneColor resigningPlayerColor )
         {
             var player = _gameController.Players[resigningPlayerColor];
-            if ( !( player.Agent is IgsAgent ) ) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
-            //TODO: implement this
+            var igsAgent = player.Agent as IgsAgent;
+            if ( igsAgent == null ) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
+            igsAgent.ResignationFromServer();
         }
     }
 }

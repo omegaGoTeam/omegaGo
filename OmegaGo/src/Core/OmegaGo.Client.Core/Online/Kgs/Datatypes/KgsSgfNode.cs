@@ -48,17 +48,17 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
             switch (prop.Name)
             {
                 case "RULES":
-                    // TODO solve later
+                    // TODO Petr : solve later
                     break;
                 case "PLAYERNAME":
                 case "PLAYERRANK":
                 case "DATE":
                 case "PLACE":
-                    // TODO ignore for now
+                    // TODO Petr : ignore for now
                     break;
                 case "COMMENT":
                 case "TIMELEFT":
-                    // TODO ignore for lesser now
+                    // TODO Petr : ignore for lesser now
                     break;
                 case "MOVE":
                     Move move;

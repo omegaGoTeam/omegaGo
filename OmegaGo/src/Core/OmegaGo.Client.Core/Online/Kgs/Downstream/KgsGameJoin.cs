@@ -9,7 +9,7 @@ using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    public class GameJoin : GameState
+    public class KgsGameJoin : KgsGameState
     {
         public User[] Users { get; set; }
         public GameSummary GameSummary { get; set; }
@@ -37,9 +37,9 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         }
         public override void Process(KgsConnection connection)
         {
-            // todo handle bad types
+            // TODO Petr : handle bad types
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
-            if (info == null) return; // TODO warn the user that joining failed
+            if (info == null) return; // TODO Petr : warn the user that joining failed
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)
                 .Name(info.Black.Name)
                 .Rank(info.Black.Rank)

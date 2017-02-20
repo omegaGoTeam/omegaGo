@@ -38,11 +38,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
         /// </summary>
         /// <param name="moveIndex">Index of the move</param>
         /// <param name="move">Move</param>
-        public void IncomingMoveFromServer(int moveIndex, Move move)
+        public void MoveFromServer(int moveIndex, Move move)
         {
             if (move.WhoMoves != Color) throw new InvalidOperationException("Agent received a move that is not his.");
             _storedMoves[moveIndex] = move;
             MakeMoveIfOnTurn();
+        }
+
+        /// <summary>
+        /// Resigns the game
+        /// </summary>
+        public void ResignationFromServer()
+        {
+            OnResign();
         }
 
         /// <summary>
@@ -71,8 +79,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
         /// </summary>
         public override void PleaseMakeAMove()
         {
-            // TODO add request received flag, so we don't make moves before such is demanded
-            // TODO (sigh) this will be hard to debug, I guess
+            // TODO Petr : add request received flag, so we don't make moves before such is demanded
+            // TODO Petr : (sigh) this will be hard to debug, I guess
             MakeMoveIfOnTurn();
         }
 

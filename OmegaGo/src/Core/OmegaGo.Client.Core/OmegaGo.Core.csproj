@@ -186,9 +186,9 @@
     <Compile Include="Online\Kgs\Datatypes\RulesDescription.cs" />
     <Compile Include="Online\Kgs\Datatypes\User.cs" />
     <Compile Include="Online\Kgs\Downstream\GameContainerRemoveGame.cs" />
-    <Compile Include="Online\Kgs\Downstream\GameJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\KgsGameJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameList.cs" />
-    <Compile Include="Online\Kgs\Downstream\GameState.cs" />
+    <Compile Include="Online\Kgs\Downstream\KgsGameState.cs" />
     <Compile Include="Online\Kgs\Datatypes\GameSummary.cs" />
     <Compile Include="Online\Kgs\Downstream\GameUpdate.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\IGameStateMessage.cs" />
@@ -197,7 +197,7 @@
     <Compile Include="Online\Kgs\Downstream\GlobalGamesJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\Logout.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />
-    <Compile Include="Online\Kgs\Downstream\RoomJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\KgsRoomJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomNames.cs" />
     <Compile Include="Online\Kgs\Datatypes\SgfEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\Unjoin.cs" />

@@ -48,7 +48,7 @@ namespace OmegaGo.Core.Online.Igs
                 if (line == null)
                 {
                     OnIncomingLine("The connection has been terminated.");
-                    // TODO add thread safety
+                    // TODO Petr : add thread safety
                     this._client = null;
                     return;
                 }
@@ -225,7 +225,7 @@ namespace OmegaGo.Core.Online.Igs
                             string username = IgsRegex.GetFirstWord(igsLine);
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                //TODO: implement
+                                //TODO Petr : implement
                                 //game.Controller.LifeDeath_Done(
                                 //    game.Controller.Players.First(pl => pl.Info.Name == username));
                             }
@@ -239,7 +239,7 @@ namespace OmegaGo.Core.Online.Igs
                                             gi.Controller.Phase.Type ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
-                                //TODO: Implement
+                                //TODO Petr: Implement
                                 //game.Controller.LifeDeath_UndoPhase();
                             }
                             weAreHandlingAnInterrupt = true;

@@ -118,7 +118,6 @@ namespace OmegaGo.Core.Rules
         /// <returns>The result of legality check.</returns>
         public MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
         {
-            // TODO this should not alter the ruleset or players, the "IsLegalMove" method should be pure
             MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
             return result.Result;
         }

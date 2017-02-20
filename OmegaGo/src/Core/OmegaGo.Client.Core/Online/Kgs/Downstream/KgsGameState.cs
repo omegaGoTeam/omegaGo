@@ -11,12 +11,12 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// <summary>
     /// Updates with more information about the game.
     /// </summary>
-    public class GameState : KgsInterruptChannelMessage, IGameStateMessage
+    public class KgsGameState : KgsInterruptChannelMessage, IGameStateMessage
     {
 
         public override void Process(KgsConnection connection)
         {
-            // TODO
+            // TODO Petr
         }
         #region Flags
         // This region may be copied to other messages that make use of flags.

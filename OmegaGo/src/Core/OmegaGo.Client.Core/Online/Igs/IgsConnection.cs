@@ -21,7 +21,7 @@ using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    // TODO make it reconnect automatically when connection is interrupted
+
 
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
@@ -29,10 +29,10 @@ namespace OmegaGo.Core.Online.Igs
     /// </summary>
     public partial class IgsConnection : IServerConnection
     {
-        // TODO disconnections are not thread-safe
-        // TODO switch prompt mode when necessary
-        // TODO send "ayt" or something regularly to prevent timeouts
-        // TODO OnIncomingResignation should not be public
+        // TODO Petr :  make it reconnect automatically when connection is interrupted
+        // TODO Petr : disconnections are not thread-safe
+        // TODO Petr : switch prompt mode when necessary
+        // TODO Petr : send "ayt" or something regularly to prevent timeouts        
 
         /*
          * Synchronization
@@ -403,7 +403,7 @@ namespace OmegaGo.Core.Online.Igs
         internal void RegisterConnector(IgsConnector connector)
         {
             if (connector == null) throw new ArgumentNullException(nameof(connector));
-            //TODO: Replace the old connector? The index can be reused?
+            //TODO Petr : Replace the old connector? The index can be reused?
             // (Petr) Right, so, the way it works is this:
             // At a single moment, there can be only one game with an ID on the server. However, as soon as
             // that game ends (for any reason), the server is free to reassign its ID to a newly created game.

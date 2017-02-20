@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         internal new RemoteGameInfo Info { get; }
 
 
-        //TODO: IMPLEMENT THIS
+        //TODO Petr : IMPLEMENT THIS
         //private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
         //{
         //    if (e.Game == this.OnlineGame)

@@ -117,7 +117,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
-                //TODO: IS THIS REALLY NECESSARY?
+                //TODO Martin Implement
                 // (Petr) yes (because we want to keep the server in control)
                 //if (this.Controller.IsOnlineGame)
                 //{
@@ -146,7 +146,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 move.Captures.AddRange(processingResult.Captures);
             }
 
-            //TODO: WHY NOT IN ONLINE GAME?
+            //TODO Martin: Implement
             // (Petr) because we want to keep the server in control (it has more authoritative information)
             // if ( !Controller.IsOnlineGame && ... )
             if (player.Clock.IsViolating())
@@ -206,8 +206,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
             return player.Agent.IllegalMoveHandling;
         }
-
-        //TODO: Extract last node deletion to a GameTree method and ensure the undo works with IGS
+       
         /// <summary>
         /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
         /// us to undo, or whenever the user clicks to locally undo.
@@ -219,11 +218,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 Controller.GameTree.RemoveLastNode();
                 Controller.SwitchTurnPlayer();
+                // TODO Petr What is this?
                 // Order here matters:
                 //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
                 //_game.NumberOfMovesPlayed--;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
-                // TODO
+                
                 Controller.OnBoardMustBeRefreshed();
             }
         }

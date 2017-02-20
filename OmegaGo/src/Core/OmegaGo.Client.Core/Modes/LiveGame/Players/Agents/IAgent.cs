@@ -7,7 +7,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 {
-    //TODO documentation information is outdated
+    //TODO Martin Update documentation
     /// <summary>
     /// An agent makes moves for a player when this is requested by a game controller.
     /// 

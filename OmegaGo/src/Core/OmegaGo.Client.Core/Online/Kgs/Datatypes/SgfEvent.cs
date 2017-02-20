@@ -49,7 +49,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     break;
                 default:
                     break;
-                    // TODO
+                    // TODO Petr 
                    // throw new System.Exception("Unexpected SGF event.");
             }
         }

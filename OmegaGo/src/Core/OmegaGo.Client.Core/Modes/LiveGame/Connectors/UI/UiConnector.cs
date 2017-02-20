@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// </summary>
         public void Resign()
         {
-            // TODO make this possible even on opponent's turn, and ask for confirmation first
+            // TODO Petr : make this possible even on opponent's turn, and ask for confirmation first
             GetHumanAgentOnTurn()?.Resign();
         }
 

@@ -57,12 +57,12 @@ namespace OmegaGo.Core.Rules
         {
             if (_isPreviousMovePass)
             {
-                //TODO check whether opponents score increases according to Chinese rules
+                //TODO Aniko : check whether opponents score increases according to Chinese rules
                 return MoveResult.StartLifeAndDeath;
             }
             else 
             {
-                //TODO check whether opponents score increases according to Chinese rules
+                //TODO Aniko : check whether opponents score increases according to Chinese rules
                 _isPreviousMovePass = true;
                 return MoveResult.Legal;
             }

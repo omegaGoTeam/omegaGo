@@ -22,8 +22,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs
       
         public override void PleaseMakeAMove()
         {
-            // TODO add request received flag, so we don't make moves before such is demanded
-            // TODO (sigh) this will be hard to debug, I guess
+            // TODO Petr: add request received flag, so we don't make moves before such is demanded
+            // TODO Petr: (sigh) this will be hard to debug, I guess
             MaybeMakeAMove();
         }
 

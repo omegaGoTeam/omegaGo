@@ -45,7 +45,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 {
                     Games.Remove(equiv);
                 }
-                // TODO update instead of replace
+                // TODO Petr : update instead of replace
                 AddGame(g, connection);
             }
         }

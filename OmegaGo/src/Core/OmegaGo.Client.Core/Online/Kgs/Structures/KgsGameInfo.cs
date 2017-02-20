@@ -12,19 +12,19 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
         public int ChannelId;
 
-        public static KgsGameInfo FromGameJoin(GameJoin gameJoin, KgsConnection connection)
+        public static KgsGameInfo FromGameJoin(KgsGameJoin kgsGameJoin, KgsConnection connection)
         {
             var whiteInfo = new PlayerInfo(StoneColor.White,
-                gameJoin.GameSummary.Players["white"].Name,
-                gameJoin.GameSummary.Players["white"].Rank);
+                kgsGameJoin.GameSummary.Players["white"].Name,
+                kgsGameJoin.GameSummary.Players["white"].Rank);
             var blackInfo = new PlayerInfo(StoneColor.Black,
-                gameJoin.GameSummary.Players["black"].Name,
-                gameJoin.GameSummary.Players["black"].Rank);
-            if (!IsSupportedRuleset(gameJoin.Rules.Rules))
+                kgsGameJoin.GameSummary.Players["black"].Name,
+                kgsGameJoin.GameSummary.Players["black"].Rank);
+            if (!IsSupportedRuleset(kgsGameJoin.Rules.Rules))
             {
                 return null;
             }
-            var rules = gameJoin.Rules;
+            var rules = kgsGameJoin.Rules;
             var kgi = new KgsGameInfo(
                 whiteInfo,
                 blackInfo,
@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 rules.Komi,
                 CountingType.Area,
                 connection,
-                gameJoin.ChannelId);
+                kgsGameJoin.ChannelId);
             return kgi;
         }
 
@@ -51,7 +51,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             if (channel.GameType !=  GameType.Free &&
                 channel.GameType != GameType.Ranked) return null;
             
-            // TODO this only works for full games in progress so far, I think
+            // TODO Petr : this only works for full games in progress so far, I think
             var whiteInfo = new PlayerInfo(StoneColor.White, channel.Players["white"].Name,
                 channel.Players["white"].Rank ?? "??");
             var blackInfo = new PlayerInfo(StoneColor.Black, channel.Players["black"].Name,

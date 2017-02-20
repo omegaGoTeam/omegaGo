@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Online.Igs
         public IgsChatService(IgsGame onlineGame)
         {
             this._onlineGame = onlineGame;
-            //TODO: IMPLEMENT:
+            //TODO Martin : Move handling to IGS Connector
             //this._onlineGame.Controller.Server.IncomingInGameChatMessage += Server_IncomingInGameChatMessage;
         }
 
@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Online.Igs
         public async void SendMessage(string message)
         {
             if (String.IsNullOrWhiteSpace(message)) return; // this step is mandatory or else we might crash
-            //TODO: implement
+            //TODO Martin: move handling to IGSConnector
             //await this._onlineGame.Info.Server.SayAsync(_onlineGame, message);
         }
     }

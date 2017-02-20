@@ -50,12 +50,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
-            //TODO: THIS IS NOT IMPLEMENTED!
-            // TODO: (after refactoring) < move to Life/death
-            // TODO: Temporary: The following lines will be moved to the common constructor when life/death begins to work
+            //TODO Petr : THIS IS NOT IMPLEMENTED!            
+            // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
             // for KGS.
             //serverConnection.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
-            //serverConnection.IncomingResignation += IncomingResignation;
             //serverConnection.StoneRemoval += StoneRemoval;
             //serverConnection.Events.EnterLifeDeath += Events_EnterLifeDeath;
             //serverConnection.GameScoredAndCompleted += GameScoredAndCompleted;
@@ -66,20 +64,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// </summary>
         internal new IgsGameInfo Info { get; }
 
-        //private void GameScoredAndCompleted(object sender, GameScoreEventArgs e)
-        //{
-        //TODO: Implement this
-        // TODO this may not be our game (after refactor update)
-        //    //((thPhase as LifeAndDeathPhase)).ScoreIt(new Scores()
-        //    //{
-        //    //    WhiteScore = e.WhiteScore,
-        //    //    BlackScore = e.BlackScore
-        //    //});
-        //}
-
+        // TODO Petr: where should this be?
         //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
         //{
-        // TODO may not be our game
         //    //LifeDeath_MarkGroupDead(e.DeadPosition);
         //}       
 
