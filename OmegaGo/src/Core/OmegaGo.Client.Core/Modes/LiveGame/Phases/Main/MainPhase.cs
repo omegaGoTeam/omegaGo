@@ -15,5 +15,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         public MainPhase(GameController gameController) : base(gameController)
         {
         }
+
+        /// <summary>
+        /// In local game we are in control of time, clock out the player
+        /// </summary>
+        /// <param name="player">Player the clocked out</param>
+        protected override bool HandleLocalClockOut(GamePlayer player)
+        {
+            var endGameInformation = GameEndInformation.CreateTimeout(player, Controller.Players);
+            Controller.EndGame(endGameInformation);
+            return true;
+        }
     }
 }

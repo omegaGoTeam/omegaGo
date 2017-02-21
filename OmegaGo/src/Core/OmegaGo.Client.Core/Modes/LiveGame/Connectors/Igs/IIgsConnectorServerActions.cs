@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
 {
@@ -27,5 +28,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// </summary>
         /// <param name="resigningPlayerColor">Color of the resigning player</param>
         void ResignationFromServer( StoneColor resigningPlayerColor );
+
+        /// <summary>
+        /// Server indicates that it wants to change the game phase
+        /// </summary>
+        /// <param name="gamePhase">Game phase type to start</param>
+        void SetPhaseFromServer(GamePhaseType gamePhase);
     }
 }

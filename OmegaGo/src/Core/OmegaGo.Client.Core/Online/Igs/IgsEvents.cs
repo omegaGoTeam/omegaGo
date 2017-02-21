@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             Connection = parent;
         }
-        public event EventHandler<IgsGame> EnterLifeDeath;
+                
         internal void OnEnterLifeDeath(IgsGame gameInfo)
         {
             EnterLifeDeath?.Invoke(this, gameInfo);

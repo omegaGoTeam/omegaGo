@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
@@ -60,7 +61,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// </summary>
         public void UndoFromServer()
         {
-            ( _gameController.Phase as IgsMainPhase )?.Undo();
+            (_gameController.Phase as IgsMainPhase)?.Undo();
         }
 
         /// <summary>
@@ -78,7 +79,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Informs the connection about a performed move
         /// </summary>
         /// <param name="move">Move that was performed</param>
-        public void MovePerformed( Move move)
+        public void MovePerformed(Move move)
         {
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
@@ -90,12 +91,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Receives and handles resignation from server
         /// </summary>
         /// <param name="resigningPlayerColor">Color of the resigning player</param>
-        public void ResignationFromServer( StoneColor resigningPlayerColor )
+        public void ResignationFromServer(StoneColor resigningPlayerColor)
         {
             var player = _gameController.Players[resigningPlayerColor];
             var igsAgent = player.Agent as IgsAgent;
-            if ( igsAgent == null ) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
+            if (igsAgent == null) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
             igsAgent.ResignationFromServer();
+        }
+
+        /// <summary>
+        /// Server indicates that it wants to change the game phase
+        /// </summary>
+        /// <param name="gamePhase">Game phase type to start</param>
+        public void SetPhaseFromServer(GamePhaseType gamePhase)
+        {
+            _gameController.SetPhase(gamePhase);
         }
     }
 }

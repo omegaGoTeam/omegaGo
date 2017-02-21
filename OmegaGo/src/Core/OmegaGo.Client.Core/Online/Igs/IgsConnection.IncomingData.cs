@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
@@ -554,9 +555,8 @@ namespace OmegaGo.Core.Online.Igs
                 if (currentLineBatch[0].EntireLine.Contains("'done'"))
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
-                    int game = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
-                    IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == game);
-                    Events.OnEnterLifeDeath(gameInfo);
+                    int gameIndex = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);                   
+                    _availableConnectors[gameIndex].SetPhaseFromServer(GamePhaseType.LifeDeathDetermination);
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
                 {

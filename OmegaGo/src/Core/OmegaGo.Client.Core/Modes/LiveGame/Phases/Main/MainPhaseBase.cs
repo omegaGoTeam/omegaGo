@@ -114,15 +114,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                        move,
                        Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
 
+            //let the specific game controller alter the processing result to match game type
+            AlterMoveProcessingResult(move, processingResult);
+            
+            //ignored?
+            if (processingResult.Result == MoveResult.Ignore) return;
+
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
-                //TODO Martin Implement
-                // (Petr) yes (because we want to keep the server in control)
-                //if (this.Controller.IsOnlineGame)
-                //{
-                //    processingResult.Result = MoveResult.Legal;
-                //}
                 GoToPhase(GamePhaseType.LifeDeathDetermination);
                 return;
             }
@@ -132,38 +132,52 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             {
                 Controller.OnDebuggingMessage("That move was illegal: " + processingResult.Result);
 
-                //handle the illegal move
-                if (HandlePlayersIllegalMove(move, processingResult) != IllegalMoveHandling.PermitItAnyway)
+                //handle the illegal move, this may alter the 
+                HandlePlayersIllegalMove(move, processingResult);
+            }
+
+            if (processingResult.Result == MoveResult.Legal)
+            {
+                //we have a legal move
+                if (move.Kind == MoveKind.PlaceStone)
                 {
-                    //stop processing, this stone will not be placed
-                    return;
+                    move.Captures.AddRange(processingResult.Captures);
                 }
+
+                if (player.Clock.IsViolating())
+                {
+                    if (HandleLocalClockOut(player))
+                    {
+                        return;
+                    }
+                }
+
+                //applies the legal move
+                Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
+                ApplyMove(move, processingResult.NewBoard);
+
+                //switches players
+                Controller.SwitchTurnPlayer();
+                Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
             }
-
-            //we have a legal move
-            if (move.Kind == MoveKind.PlaceStone)
-            {
-                move.Captures.AddRange(processingResult.Captures);
-            }
-
-            //TODO Martin: Implement
-            // (Petr) because we want to keep the server in control (it has more authoritative information)
-            // if ( !Controller.IsOnlineGame && ... )
-            if (player.Clock.IsViolating())
-            {
-                ClockOut(player);
-                return;
-            }
-
-            //applies the legal move
-            Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
-            ApplyMove(move, processingResult.NewBoard);
-
-            //switches players
-            Controller.SwitchTurnPlayer();
-            Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
-            Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
+
+        /// <summary>
+        /// Alters the processing result before it is handled by the move logic
+        /// </summary>
+        /// <param name="move">Move processed</param>
+        /// <param name="result">Result of processing</param>
+        protected virtual void AlterMoveProcessingResult(Move move, MoveProcessingResult result)
+        {
+            //keep the rules logic inact
+        }
+
+        /// <summary>
+        /// Handles the local clockout
+        /// </summary>
+        /// <param name="player">Player that clocked out</param>
+        protected abstract bool HandleLocalClockOut(GamePlayer player);
 
         /// <summary>
         /// Applies a move in the game state
@@ -187,7 +201,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         /// <param name="move">Move</param>
         /// <param name="processingResult">Why was the move illegal</param>
-        private IllegalMoveHandling HandlePlayersIllegalMove(Move move, MoveProcessingResult processingResult)
+        private void HandlePlayersIllegalMove(Move move, MoveProcessingResult processingResult)
         {
             var player = Controller.Players[move.WhoMoves];
             switch (player.Agent.IllegalMoveHandling)
@@ -203,8 +217,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                     Controller.OnDebuggingMessage("Permitting it anyway.");
                     processingResult.Result = MoveResult.Legal;
                     break;
-            }
-            return player.Agent.IllegalMoveHandling;
+            }            
         }
        
         /// <summary>
@@ -226,16 +239,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 
                 Controller.OnBoardMustBeRefreshed();
             }
-        }
-
-        /// <summary>
-        /// Called when a player clocks out. Ends the game as a timeout.
-        /// </summary>
-        /// <param name="player">Player that clocked out</param>
-        private void ClockOut(GamePlayer player)
-        {
-            var endGameInformation = GameEndInformation.CreateTimeout(player, Controller.Players);
-            Controller.EndGame(endGameInformation);
         }
     }
 }
