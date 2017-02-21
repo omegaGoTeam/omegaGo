@@ -14,20 +14,20 @@ using OmegaGo.Core.AI.Random;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Local;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
-using OmegaGo.Core.Modes.LiveGame.Players.Igs;
-using OmegaGo.Core.Modes.LiveGame.Players.Local;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
+using OmegaGo.Core.Modes.LiveGame.Players.Builders;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Absolute;
 using OmegaGo.Core.Time.Canadian;
 using OmegaGo.Core.Time.Japanese;
+using OmegaGo.Core.Time.None;
 using StoneColor = OmegaGo.Core.Game.StoneColor;
 
 // ReSharper disable CoVariantArrayConversion
@@ -67,13 +67,13 @@ namespace FormsPrototype
         {
             this.cbBlack.Items.Clear();
             this.cbBlack.Items.Add("Human");
-            this.cbBlack.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbBlack.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhite.Items.Clear();
             this.cbWhite.Items.Add("Human");
-            this.cbWhite.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhite.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhoPlaysOnline.Items.Clear();
             this.cbWhoPlaysOnline.Items.Add("Human");
-            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AiPrograms.ToArray());
+            this.cbWhoPlaysOnline.Items.AddRange(AISystems.AIPrograms.ToArray());
             this.cbWhite.SelectedIndex = 0;
             this.cbBlack.SelectedIndex = 0;
             this.cbWhoPlaysOnline.SelectedIndex = 0;

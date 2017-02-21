@@ -1,11 +1,12 @@
 ﻿using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 
 namespace OmegaGo.UI.Services.Quests
 {
     public class GameCompletedQuestInformation
     {
-        public GameCompletedQuestInformation(bool isOnline, bool isHotseat, bool isPlayedByUs, bool isVictory, GamePlayer human, ILiveGame game, GameEndInformation end)
+        public GameCompletedQuestInformation(bool isOnline, bool isHotseat, bool isPlayedByUs, bool isVictory, GamePlayer human, IGame game, GameEndInformation end)
         {
             this.IsOnline = isOnline;
             this.IsHotseat = isHotseat;
@@ -21,7 +22,7 @@ namespace OmegaGo.UI.Services.Quests
         public bool IsPlayedByUs { get; }
         public bool IsVictory { get; }
         public GamePlayer Human { get; }
-        public ILiveGame Game { get; }
+        public IGame Game { get; }
         public GameEndInformation End { get; }
     }
 }

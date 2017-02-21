@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class EpicPlayQuest : Quest
     {
-        public EpicPlayQuest() : base("Epic", "Finish any game on a 25x25 or larger board.", Points.EXTREME_REWARD, 1)
+        public EpicPlayQuest() : base("Epic", "Finish any game on a 25x25 or larger board.", RewardPoints.ExtremeReward, 1)
         {
         }
         public override bool GameCompleted(GameCompletedQuestInformation info)

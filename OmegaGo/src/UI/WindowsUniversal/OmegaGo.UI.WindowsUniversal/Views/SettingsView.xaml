@@ -99,8 +99,14 @@
                 <StackPanel Padding="15">
                     <TextBlock Text="Assistant AI Program" Style="{ThemeResource SubtitleTextBlockStyle}" />
                     <ComboBox Width="140"
-                              ItemsSource="{Binding AiPrograms}"
+                              ItemsSource="{Binding AIPrograms}"
                               SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
+                                           ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
 
                     <TextBlock Text="Strength" Style="{ThemeResource SubtitleTextBlockStyle}" />

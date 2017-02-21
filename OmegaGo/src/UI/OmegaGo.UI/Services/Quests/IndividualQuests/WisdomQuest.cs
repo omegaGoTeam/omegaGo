@@ -8,10 +8,10 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class WisdomQuest : Quest
     {
-        public WisdomQuest() : base("Wisdom", "Win an online game on a 19x19 board that took 1 hour or more.", Points.EXTREME_REWARD, 1)
+        public WisdomQuest() : base("Wisdom", "Win an online game on a 19x19 board that took 1 hour or more.", RewardPoints.ExtremeReward, 1)
         {
         }
 
-        // TODO not yet implemented
+        // TODO Petr: not yet implemented
     }
 }

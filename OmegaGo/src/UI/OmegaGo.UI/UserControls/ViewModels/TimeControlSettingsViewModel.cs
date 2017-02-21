@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Absolute;
 using OmegaGo.Core.Time.Canadian;
+using OmegaGo.Core.Time.None;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {

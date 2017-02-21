@@ -70,7 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                     boardSide, boardSide,
                     Colors.Black);
 
-                // TODO Perf. optimization: Place drawing board and coordinates into a command list.                               
+                // TODO Martin : Perf. optimization: Place drawing board and coordinates into a command list.                               
                 DrawBoardLines(args.DrawingSession);
                 DrawBoardStarPoints(args.DrawingSession);
 

@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Online.Kgs
+﻿namespace OmegaGo.Core.Online.Kgs.Structures
 {
     public class KgsRoom : KgsGameContainer
     {

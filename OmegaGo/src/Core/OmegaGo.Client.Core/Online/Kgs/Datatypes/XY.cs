@@ -1,4 +1,4 @@
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// In a KGS SGF property, represents a location on the game board, or a pass.

@@ -1,5 +1,4 @@
 ﻿using OmegaGo.Core.Modes.LiveGame.Local;
-using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Rules;
 using System;
 using System.Collections.Generic;
@@ -7,13 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Igs;
+using IgsGameBuilder = OmegaGo.Core.Modes.LiveGame.Remote.Igs.IgsGameBuilder;
 
 namespace OmegaGo.Core.Modes.LiveGame
 {
     public abstract class GameBuilder<TGameType, TBuilderType>
-        where TGameType : LiveGameBase
+        where TGameType : IGame
         where TBuilderType : GameBuilder<TGameType, TBuilderType>
     {
         private readonly TBuilderType _concreteBuilderInstance;
@@ -23,7 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private RulesetType _rulesetType = RulesetType.Japanese;
         private GameBoardSize _boardSize = new GameBoardSize(19);
         private CountingType _countingType = Rules.CountingType.Area;
-        private HandicapPlacementType _handicapPlacementType = Rules.HandicapPlacementType.Fixed;  
+        private HandicapPlacementType _handicapPlacementType = Phases.HandicapPlacement.HandicapPlacementType.Fixed;
 
         private GamePlayer _whitePlayer = null;
         private GamePlayer _blackPlayer = null;
@@ -39,7 +40,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
-        public TBuilderType WhiteHandicap(int handicap)
+        public TBuilderType Handicap(int handicap)
         {
             _handicap = handicap;
             return _concreteBuilderInstance;
@@ -86,8 +87,17 @@ namespace OmegaGo.Core.Modes.LiveGame
             return _concreteBuilderInstance;
         }
 
-        protected abstract void ValidatePlayer(GamePlayer player);
+        /// <summary>
+        /// This should validate the player for the concrete builder
+        /// </summary>
+        /// <param name="player">Player to validate</param>
+        /// <returns>Is player valid?</returns>
+        protected abstract bool ValidatePlayer(GamePlayer player);
 
+        /// <summary>
+        /// Builds the game
+        /// </summary>
+        /// <returns>Built game</returns>
         public abstract TGameType Build();
 
         /// <summary>
@@ -127,8 +137,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             if (color == StoneColor.None) throw new ArgumentOutOfRangeException(nameof(color), "Color must be valid for a player");
             if (player == null) throw new ArgumentNullException(nameof(player));
-            if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.");
-            ValidatePlayer(player);
+            if (player.Info.Color != color) throw new ArgumentException("The provided player color doesn't match expectation.", nameof(player));
+            if (!ValidatePlayer(player)) throw new ArgumentException("The provided player is not valid for this type of game", nameof(player));
             if (color == StoneColor.White) _whitePlayer = player;
             if (color == StoneColor.Black) _blackPlayer = player;
         }

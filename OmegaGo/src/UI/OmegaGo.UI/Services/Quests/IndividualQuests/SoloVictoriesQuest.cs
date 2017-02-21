@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class SoloVictoriesQuest : Quest
     {
-        public SoloVictoriesQuest() : base("Human > Computer", "Win 3 solo games against an AI program.", Points.MEDIUM_REWARD, 3)
+        public SoloVictoriesQuest() : base("Human > Computer", "Win 3 solo games against an AI program.", RewardPoints.MediumReward, 3)
         {
         }
 

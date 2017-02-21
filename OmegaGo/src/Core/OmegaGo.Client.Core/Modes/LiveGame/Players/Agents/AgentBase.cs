@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
@@ -22,6 +23,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             Color = color;
         }
+
+        /// <summary>
+        /// Indicates that the player tried to place a stone
+        /// </summary>
+        public event AgentEventHandler<Position> PlaceStone;       
+
+        /// <summary>
+        /// Indicates that the player resigned
+        /// </summary>
+        public event AgentEventHandler Resigned;
+
+        /// <summary>
+        /// Indicates that the player passed
+        /// </summary>
+        public event AgentEventHandler Pass;
 
         /// <summary>
         /// Player color
@@ -48,17 +64,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// </summary>
         public abstract IllegalMoveHandling IllegalMoveHandling { get; }
 
-        public event EventHandler<Position> PlaceStone;
-        public event EventHandler<int> PlaceHandicapStones;
 
-        public event EventHandler Pass;
         public virtual void PleaseMakeAMove()
         {
         }
 
-        public event EventHandler Resign;
-
-        public abstract void MoveIllegal(MoveResult move);
+        public abstract void MoveIllegal(MoveResult moveResult);
 
         public virtual void GameInitialized()
         {
@@ -66,16 +77,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         public virtual void GamePhaseChanged(GamePhaseType phase) { }
 
-        public virtual void OnTurn()
-        {
-        }
-
         public void AssignToGame(GameInfo gameInfo, IGameState gameState)
         {
             GameInfo = gameInfo;
             GameState = gameState;
             WhenAssignedToGame();
-
         }    
 
         protected virtual void WhenAssignedToGame()
@@ -87,23 +93,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             PlaceStone?.Invoke(this, position);
         }
-        protected virtual void OnPlaceHandicapStones(int count)
-        {
-            PlaceHandicapStones?.Invoke(this, count);
-        }
+
         protected virtual void OnPass()
         {
-            Pass?.Invoke(this, EventArgs.Empty);
+            Pass?.Invoke(this);
         }
 
         protected virtual void OnResign()
         {
-            Resign?.Invoke(this, EventArgs.Empty);
+            Resigned?.Invoke(this);
         }
 
         public virtual void MovePerformed(Move move)
         {
             
         }
+
+
     }
 }

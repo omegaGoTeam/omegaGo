@@ -54,10 +54,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board\Styles\StoneTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
+    <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SortObservableCollections.cs" />
+    <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
@@ -82,6 +86,7 @@
     <Compile Include="Services\Localization\GameLanguages.cs" />
     <Compile Include="Services\Localization\ILocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizationService.cs" />
+    <Compile Include="Services\Localization\LocalizedMetadata\AiProgramLocalizedMetadata.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
@@ -103,9 +108,10 @@
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
-    <Compile Include="Services\Quests\Points.cs" />
+    <Compile Include="Services\Quests\RewardPoints.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestEvents.cs" />
+    <Compile Include="Board\Styles\BoardTheme.cs" />
     <Compile Include="Services\Settings\InterfaceMementos.cs" />
     <Compile Include="Services\Settings\StatisticsRecords.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />
@@ -139,11 +145,9 @@
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\ObsoleteIGSLobbyViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
-    <Compile Include="ViewModels\OGSLobbyView.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />

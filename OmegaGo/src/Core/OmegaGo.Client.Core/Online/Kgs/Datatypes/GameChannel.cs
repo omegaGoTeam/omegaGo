@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     public class GameChannel : IRulesDescription, IGameFlags
     {
@@ -13,7 +9,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         /// </summary>
         public int ChannelId { get; set; }
         /// <summary>
-        /// Refers to <see cref="Downstream.GameType"/>. 
+        /// Refers to <see cref="Datatypes.GameType"/>. 
         /// </summary>
         public string GameType { get; set; }
         /// <summary>
