@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
-    Loaded="TransparencyViewBase_Loaded"
+    xmlns:xaml="using:OmegaGo.UI.WindowsUniversal.Extensions.Xaml"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -38,7 +38,7 @@
             </ScrollViewer>
         </Grid>
         <Border Grid.Column="1" BorderBrush="Black" BorderThickness="2">
-            <WebView DefaultBackgroundColor="White" Name="WebView">
+            <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView">
 
             </WebView>
         </Border>
