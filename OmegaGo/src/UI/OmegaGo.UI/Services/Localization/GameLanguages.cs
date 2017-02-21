@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Localization
 {
@@ -13,6 +15,8 @@ namespace OmegaGo.UI.Services.Localization
     public static class GameLanguages
     {
         private const string AutoLanguageKey = "auto";
+
+        private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();
 
         /// <summary>
         /// Returns supported game languages in a dictionary. 
@@ -34,5 +38,10 @@ namespace OmegaGo.UI.Services.Localization
         /// Default language (auto)
         /// </summary>
         public static GameLanguage DefaultLanguage => SupportedLanguages[AutoLanguageKey];
+
+        /// <summary>
+        /// Gets the current game language
+        /// </summary>
+        public static GameLanguage CurrentLanguage => SupportedLanguages[GameSettings.Language];
     }
 }
