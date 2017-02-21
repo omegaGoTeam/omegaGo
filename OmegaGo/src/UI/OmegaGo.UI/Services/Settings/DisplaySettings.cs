@@ -9,10 +9,10 @@
         public BoardTheme BoardTheme
         {
             get {
-                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.SolidColor);
+                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.SolidColor, SettingLocality.Roamed);
                 return (BoardTheme) theSetting;
             }
-            set { SetSetting(nameof(BoardTheme), (int)value); }
+            set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
         }
 
         public BackgroundImage BackgroundImage
@@ -22,27 +22,27 @@
                 int theSetting = GetSetting(nameof(BackgroundImage), () => (int)BackgroundImage.Go, SettingLocality.Roamed);
                 return (BackgroundImage)theSetting;
             }
-            set { SetSetting(nameof(BackgroundImage), (int)value); }
+            set { SetSetting(nameof(BackgroundImage), (int)value, SettingLocality.Roamed); }
         }
 
         public BackgroundColor BackgroundColor
         {
             get
             {
-                int theSetting = GetSetting(nameof(BackgroundColor), () => (int)BackgroundColor.Basic);
+                int theSetting = GetSetting(nameof(BackgroundColor), () => (int)BackgroundColor.Basic, SettingLocality.Roamed);
                 return (BackgroundColor)theSetting;
             }
-            set { SetSetting(nameof(BackgroundColor), (int)value); }
+            set { SetSetting(nameof(BackgroundColor), (int)value, SettingLocality.Roamed); }
         }
 
         public StoneTheme StonesTheme
         {
             get
             {
-                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.SolidColor);
+                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.SolidColor, SettingLocality.Roamed);
                 return (StoneTheme)theSetting;
             }
-            set { SetSetting(nameof(StonesTheme), (int)value); }
+            set { SetSetting(nameof(StonesTheme), (int)value, SettingLocality.Roamed); }
         }
 
         public bool HighlightLastMove
