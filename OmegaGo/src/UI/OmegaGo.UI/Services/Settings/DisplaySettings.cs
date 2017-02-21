@@ -14,15 +14,17 @@
             }
             set { SetSetting(nameof(BoardTheme), (int)value); }
         }
+
         public BackgroundImage BackgroundImage
         {
             get
             {
-                int theSetting = GetSetting(nameof(BackgroundImage), () => (int)BackgroundImage.Go);
+                int theSetting = GetSetting(nameof(BackgroundImage), () => (int)BackgroundImage.Go, SettingLocality.Roamed);
                 return (BackgroundImage)theSetting;
             }
             set { SetSetting(nameof(BackgroundImage), (int)value); }
         }
+
         public BackgroundColor BackgroundColor
         {
             get
@@ -32,6 +34,7 @@
             }
             set { SetSetting(nameof(BackgroundColor), (int)value); }
         }
+
         public StoneTheme StonesTheme
         {
             get
@@ -41,21 +44,25 @@
             }
             set { SetSetting(nameof(StonesTheme), (int)value); }
         }
+
         public bool HighlightLastMove
         {
             get { return GetSetting(nameof(HighlightLastMove), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(HighlightLastMove), value, SettingLocality.Roamed); }
         }
+
         public bool HighlightRecentCaptures
         {
             get { return GetSetting(nameof(HighlightRecentCaptures), () => false, SettingLocality.Roamed); }
             set { SetSetting(nameof(HighlightRecentCaptures), value, SettingLocality.Roamed); }
         }
+
         public bool HighlightIllegalKoMoves
         {
             get { return GetSetting(nameof(HighlightIllegalKoMoves), () => false, SettingLocality.Roamed); }
             set { SetSetting(nameof(HighlightIllegalKoMoves), value, SettingLocality.Roamed); }
         }
+
         public bool ShowCoordinates
         {
             get { return GetSetting(nameof(ShowCoordinates), () => true, SettingLocality.Roamed); }
