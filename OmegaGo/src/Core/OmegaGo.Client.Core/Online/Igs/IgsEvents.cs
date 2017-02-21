@@ -9,18 +9,14 @@ using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    public class IgsEvents : ICommonEvents 
+    public class IgsEvents
     {
-        private IgsConnection Connection;
-        internal IgsEvents(IgsConnection parent)
+        private IgsConnection _connection;
+
+        internal IgsEvents(IgsConnection connection)
         {
-            Connection = parent;
-        }
-                
-        internal void OnEnterLifeDeath(IgsGame gameInfo)
-        {
-            EnterLifeDeath?.Invoke(this, gameInfo);
-        }
+            _connection = connection;
+        }  
 
         public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlAdjustment;
         public void OnTimeControlAdjustment(IgsGame whatGame, CanadianTimeInformation whiteTimeRemaining, CanadianTimeInformation blackTimeRemaining)

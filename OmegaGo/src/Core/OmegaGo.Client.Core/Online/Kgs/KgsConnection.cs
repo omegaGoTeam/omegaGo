@@ -68,7 +68,6 @@ namespace OmegaGo.Core.Online.Kgs
 
 
         ICommonCommands IServerConnection.Commands => Commands;
-        ICommonEvents IServerConnection.Events => Events;
 
 
         private void StartGetLoop()

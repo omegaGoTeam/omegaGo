@@ -12,9 +12,14 @@ namespace OmegaGo.Core.Online.Kgs
     /// Use events in this class to receive information from KGS. The Raise* message (such as <see cref="RaiseGameJoined(KgsGame)"/>) should only be called by classes within the <see cref="OmegaGo.Core.Online.Kgs"/> namespace.  
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Online.Common.ICommonEvents" />
-    public class KgsEvents : ICommonEvents
+    public class KgsEvents
     {
-        private KgsConnection kgsConnection;
+        private readonly KgsConnection _kgsConnection;
+        
+        public KgsEvents(KgsConnection kgsConnection)
+        {
+            _kgsConnection = kgsConnection;
+        }
 
         public event EventHandler<string> SystemMessage;
         public event EventHandler<string> OutgoingRequest;
@@ -38,11 +43,6 @@ namespace OmegaGo.Core.Online.Kgs
         public void RaiseOutgoingRequest(string request)
         {
             OutgoingRequest?.Invoke(this, request);
-        }
-
-        public KgsEvents(KgsConnection kgsConnection)
-        {
-            this.kgsConnection = kgsConnection;
         }
 
         public void RaiseGameJoined(KgsGame ongame)
