@@ -14,9 +14,7 @@ namespace OmegaGo.UI.Services.Localization
     /// </summary>
     public static class GameLanguages
     {
-        private const string AutoLanguageKey = "auto";
-
-        private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();
+        private const string AutoLanguageKey = "auto";        
 
         /// <summary>
         /// Returns supported game languages in a dictionary. 
@@ -42,6 +40,6 @@ namespace OmegaGo.UI.Services.Localization
         /// <summary>
         /// Gets the current game language
         /// </summary>
-        public static GameLanguage CurrentLanguage => SupportedLanguages[GameSettings.Language];
+        public static GameLanguage CurrentLanguage => SupportedLanguages[Mvx.Resolve<IGameSettings>().Language];
     }
 }

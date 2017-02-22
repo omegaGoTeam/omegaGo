@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
 using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
