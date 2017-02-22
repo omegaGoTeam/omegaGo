@@ -104,7 +104,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-
+            RenderService.Update(args.Timing.ElapsedTime);
         }
     }
 }

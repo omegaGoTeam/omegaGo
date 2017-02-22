@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OmegaGo.Core;
 using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Services.Tutorial;
 
 namespace OmegaGo.UI.ViewModels.Tutorial
 {

@@ -17,12 +17,9 @@
 
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"              
-                   Style="{ThemeResource HeaderTextBlockStyle}">
-                <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
-        </TextBlock>
+        <ScrollViewer HorizontalAlignment="Center" 
+                      VerticalAlignment="Center"
+                      VerticalScrollBarVisibility="Auto">
         <StackPanel HorizontalAlignment="Center" 
                         VerticalAlignment="Center">
 
@@ -31,6 +28,12 @@
                     <Setter Property="Margin" Value="0,10,0,0" />
                 </Style>
             </StackPanel.Resources>
+            <TextBlock 
+                   HorizontalAlignment="Center"
+                   Margin="0,20,0,0"              
+                   Style="{ThemeResource HeaderTextBlockStyle}">
+                <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
+            </TextBlock>
             <Button Content="{x:Bind Localizer.Tutorial}"                     
                     Command="{Binding Path=NavigateToTutorial}"
                     ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
@@ -67,7 +70,7 @@
                     ToolTipService.ToolTip="{x:Bind Localizer.HelpToolTip}"
                     HorizontalAlignment="Stretch" />
         </StackPanel>
-
+        </ScrollViewer>
 
         <Button VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
             <FontIcon Glyph="&#xE1D9;" />

@@ -67,7 +67,8 @@ namespace OmegaGo.Core.AI.Fuego
                 ? Move.Pass(preMoveInformation.AIColor)
                 : Move.PlaceStone(preMoveInformation.AIColor, Position.FromIgsCoordinates(result));
             _history.Add(move);
-            float value = float.Parse(_engine.SendCommand("uct_value_black"));
+            string commandResult = _engine.SendCommand("uct_value_black");
+            float value = float.Parse(commandResult, System.Globalization.CultureInfo.InvariantCulture);            
             if (preMoveInformation.AIColor == StoneColor.White)
             {
                 value = 1 - value;

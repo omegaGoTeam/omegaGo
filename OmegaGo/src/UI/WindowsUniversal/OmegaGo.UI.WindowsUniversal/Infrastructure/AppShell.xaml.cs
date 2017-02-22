@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using MvvmCross.Platform;
+using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Game.Styles;
+using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
@@ -14,7 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// <summary>
     /// The Shell around the whole app
     /// </summary>
-    public sealed partial class AppShell : Page
+    public sealed partial class AppShell : Page, INotifyPropertyChanged
     {
         /// <summary>
         /// Contains the app shells for opened windows
@@ -262,6 +269,88 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             var view = AppFrame.Content as ViewBase;
             var vm = view?.ViewModel as ViewModelBase;
             vm?.GoBackCommand.Execute();
+        }
+
+        private IGameSettings _settings;
+
+        public void RefreshVisualSettings()
+        {
+            OnPropertyChanged(nameof(BackgroundOpacity));
+            OnPropertyChanged(nameof(BackgroundColor));
+            OnPropertyChanged(nameof(BackgroundImageUrl));
+        }
+
+        public float BackgroundOpacity
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                    case BackgroundImage.None:
+                        return 1;
+                    case BackgroundImage.Shrine:
+                    case BackgroundImage.Temple:
+                    case BackgroundImage.Forest:
+                        return 0.5f;
+                    default:
+                        return 1;
+                }
+            }
+        }
+
+        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        {
+            get
+            {
+                var color = Colors.White;
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundColor)
+                {
+                    case Game.Styles.BackgroundColor.Basic:
+                        color = Color.FromArgb(170, 253, 210, 112);
+                        break;
+                    case Game.Styles.BackgroundColor.Green:
+                        color = Color.FromArgb(220, 164, 242, 167);
+                        break;
+                    case Game.Styles.BackgroundColor.None:
+                    default:
+                        color = Colors.Transparent;
+                        break;
+                }
+                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+            }
+        }
+
+        public string BackgroundImageUrl {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                        return "/Assets/MainMenu/backgroundimage.jpg";
+                    case BackgroundImage.Forest:
+                        return "/Assets/MainMenu/bambooForest.jpg";
+                    case BackgroundImage.Shrine:
+                        return "/Assets/MainMenu/shintoShrine.jpg";
+                    case BackgroundImage.Temple:
+                        return "/Assets/MainMenu/ginkakuJi.jpg";
+                    case BackgroundImage.None:
+                    default:
+                        return "/Assets/MainMenu/pixel.png";
+                }
+            }
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

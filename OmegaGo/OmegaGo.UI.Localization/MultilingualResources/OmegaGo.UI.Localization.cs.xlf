@@ -252,67 +252,185 @@
           <source>Total games played:</source>
           <target state="final">Celkem her odehráno:</target>
         </trans-unit>
-        <trans-unit id="AI_AlphaBetaPlayerWrapper_Description" translate="yes" xml:space="preserve">
-          <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-Fluffy will always and only pass in response to its opponent passing.
-You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
-          <target state="new">Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-Fluffy will always and only pass in response to its opponent passing.
-You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</target>
+        <trans-unit id="BoardTheme_OakWood" translate="yes" xml:space="preserve">
+          <source>Oak wood</source>
+          <target state="translated">Dub</target>
         </trans-unit>
-        <trans-unit id="AI_AlphaBetaPlayerWrapper_Name" translate="yes" xml:space="preserve">
-          <source>Fluffy (minimax)</source>
-          <target state="new">Fluffy (minimax)</target>
+        <trans-unit id="BackgroundColor" translate="yes" xml:space="preserve">
+          <source>Background Color</source>
+          <target state="translated">Barva pozadí</target>
         </trans-unit>
-        <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
-          <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
-After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
-          <target state="new">The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
-After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</target>
+        <trans-unit id="BackgroundColor_Basic" translate="yes" xml:space="preserve">
+          <source>Basic orange</source>
+          <target state="translated">Základní oranžová</target>
         </trans-unit>
-        <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
-          <source>Defeatist</source>
-          <target state="new">Defeatist</target>
+        <trans-unit id="BackgroundColor_Green" translate="yes" xml:space="preserve">
+          <source>Green</source>
+          <target state="translated">Zelená</target>
         </trans-unit>
-        <trans-unit id="AI_FuegoAI_Description" translate="yes" xml:space="preserve">
-          <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
-It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
-We recommend you use this AI program for all of your games.</source>
-          <target state="new">Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
-It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
-We recommend you use this AI program for all of your games.</target>
+        <trans-unit id="BackgroundColor_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated" state-qualifier="tm-suggestion">Žádná</target>
         </trans-unit>
-        <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
-          <source>Fuego</source>
-          <target state="new">Fuego</target>
+        <trans-unit id="BackgroundImage" translate="yes" xml:space="preserve">
+          <source>Background Image</source>
+          <target state="translated">Obrázek na pozadí</target>
         </trans-unit>
-        <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
-          <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
-This AI will pass only in response to its opponent passing, in which case it will always pass.</source>
-          <target state="new">This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
-This AI will pass only in response to its opponent passing, in which case it will always pass.</target>
+        <trans-unit id="BackgroundImage_Forest" translate="yes" xml:space="preserve">
+          <source>Bamboo forest</source>
+          <target state="translated">Bambusový les</target>
         </trans-unit>
-        <trans-unit id="AI_HeuristicPlayerWrapper_Name" translate="yes" xml:space="preserve">
-          <source>The Puppy (heuristic)</source>
-          <target state="new">The Puppy (heuristic)</target>
+        <trans-unit id="BackgroundImage_Go" translate="yes" xml:space="preserve">
+          <source>Go board</source>
+          <target state="translated">Herní deska</target>
         </trans-unit>
-        <trans-unit id="AI_RandomAI_Description" translate="yes" xml:space="preserve">
-          <source>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</source>
-          <target state="new">This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</target>
+        <trans-unit id="BackgroundImage_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Žádný</target>
         </trans-unit>
-        <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
-          <source>Random</source>
-          <target state="new">Random</target>
+        <trans-unit id="BackgroundImage_Shrine" translate="yes" xml:space="preserve">
+          <source>Shinto shrine</source>
+          <target state="translated">Šintoistická svatyně</target>
         </trans-unit>
-        <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
-          <source>This AI plays random moves while the board is not empty.
-I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</source>
-          <target state="new">This AI plays random moves while the board is not empty.
-I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</target>
+        <trans-unit id="BackgroundImage_Temple" translate="yes" xml:space="preserve">
+          <source>Zen temple</source>
+          <target state="translated">Zenový chrám</target>
         </trans-unit>
-        <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
-          <source>The Fish</source>
-          <target state="new">The Fish</target>
+        <trans-unit id="BoardTheme" translate="yes" xml:space="preserve">
+          <source>Board Theme</source>
+          <target state="translated">Motiv desky</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_KayaWood" translate="yes" xml:space="preserve">
+          <source>Kaya wood</source>
+          <target state="translated">Dřevo kaya</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SabakiBoard" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="translated">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="translated">Jednoduchá barva</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_VirtualBoard" translate="yes" xml:space="preserve">
+          <source>Virtual board</source>
+          <target state="translated">Virtuální deska</target>
+        </trans-unit>
+        <trans-unit id="StonesTheme" translate="yes" xml:space="preserve">
+          <source>Stones Theme</source>
+          <target state="translated">Motiv kamenů</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_PolishedBitmap" translate="yes" xml:space="preserve">
+          <source>Polished stones</source>
+          <target state="translated">Leštěné kameny</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_Sabaki" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="translated">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="translated">Plná barva</target>
+        </trans-unit>
+        <trans-unit id="ThemesPanel" translate="yes" xml:space="preserve">
+          <source>Themes</source>
+          <target state="translated">Motivy</target>
+        </trans-unit>
+        <trans-unit id="AssistPanel" translate="yes" xml:space="preserve">
+          <source>Artificial intelligence</source>
+          <target state="final">Umělá inteligence</target>
+        </trans-unit>
+        <trans-unit id="AudioPanel" translate="yes" xml:space="preserve">
+          <source>Audio</source>
+          <target state="translated">Zvuk</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMoves" translate="yes" xml:space="preserve">
+          <source>Highlight illegal Ko moves</source>
+          <target state="translated">Zvýraznit neplatné tahy Ko</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMovesTooltip" translate="yes" xml:space="preserve">
+          <source>If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</source>
+          <target state="translated">Pokud není možné položit kámen na bod, protože by bylo porušeno pravidlo Ko, tak daný bod bude zvýrazněn.</target>
+        </trans-unit>
+        <trans-unit id="HighlightLastMove" translate="yes" xml:space="preserve">
+          <source>Highlight last move</source>
+          <target state="translated">Zvýraznit poslední tah</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCaptures" translate="yes" xml:space="preserve">
+          <source>Highlight recent captures</source>
+          <target state="translated">Zvýraznit zajmuté kameny</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCapturesTooltip" translate="yes" xml:space="preserve">
+          <source>If a stone was captured during the previous move, its intersection will be highlighted.</source>
+          <target state="translated">Pokud byl kámen zajat během předcházejícího tahu, bod, kde se nacházel, bude zvýrazněn.</target>
+        </trans-unit>
+        <trans-unit id="InputPanel" translate="yes" xml:space="preserve">
+          <source>Input</source>
+          <target state="translated">Vstup</target>
+        </trans-unit>
+        <trans-unit id="ShowCoordinates" translate="yes" xml:space="preserve">
+          <source>Show coordinates</source>
+          <target state="translated">Zobrazovat souřanice</target>
+        </trans-unit>
+        <trans-unit id="ShowTutorialButton" translate="yes" xml:space="preserve">
+          <source>Show the tutorial button in main menu</source>
+          <target state="translated">Zobrazit tlačítko tutoriálu v hlavní nabídce</target>
+        </trans-unit>
+        <trans-unit id="ASoundEffectShouldPlay" translate="yes" xml:space="preserve">
+          <source>A sound effect should play:</source>
+          <target state="translated">Zvuk by měl být přehrán:</target>
+        </trans-unit>
+        <trans-unit id="AssistantAIProgram" translate="yes" xml:space="preserve">
+          <source>Assistant AI program</source>
+          <target state="translated">Poskytovatel nápovědy</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGames" translate="yes" xml:space="preserve">
+          <source>Enable even in online games</source>
+          <target state="translated">Povolit i v online hrách</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGamesTooltip" translate="yes" xml:space="preserve">
+          <source>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</source>
+          <target state="translated">Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</target>
+        </trans-unit>
+        <trans-unit id="EnableHints" translate="yes" xml:space="preserve">
+          <source>Enable hints</source>
+          <target state="translated">Povolit nápovědu</target>
+        </trans-unit>
+        <trans-unit id="MakingAMoveRequiresAConfirmationClick" translate="yes" xml:space="preserve">
+          <source>Making a move requires a confirmation click</source>
+          <target state="translated">Položení kamene vyžaduje potvrzující kliknutí</target>
+        </trans-unit>
+        <trans-unit id="MasterVolume" translate="yes" xml:space="preserve">
+          <source>Master volume</source>
+          <target state="translated">Celková hlasitost</target>
+        </trans-unit>
+        <trans-unit id="MusicVolume" translate="yes" xml:space="preserve">
+          <source>Music volume</source>
+          <target state="translated">Hlasitost hudby</target>
+        </trans-unit>
+        <trans-unit id="MuteAll" translate="yes" xml:space="preserve">
+          <source>Mute all</source>
+          <target state="translated">Ztlumit vše</target>
+        </trans-unit>
+        <trans-unit id="SfxVolume" translate="yes" xml:space="preserve">
+          <source>Sound effects volume</source>
+          <target state="translated">Hlasitost zvukových efektů</target>
+        </trans-unit>
+        <trans-unit id="Strength" translate="yes" xml:space="preserve">
+          <source>Strength</source>
+          <target state="translated">Síla</target>
+        </trans-unit>
+        <trans-unit id="WhenAnotherPlayerPlacesAStone" translate="yes" xml:space="preserve">
+          <source>When another player places a stone</source>
+          <target state="translated">Když jiný hráč umístí kámen</target>
+        </trans-unit>
+        <trans-unit id="WhenIPlaceAStone" translate="yes" xml:space="preserve">
+          <source>When I place a stone</source>
+          <target state="translated">Když já umístím kámen</target>
+        </trans-unit>
+        <trans-unit id="WhenIReceiveANotification" translate="yes" xml:space="preserve">
+          <source>When I receive a notification</source>
+          <target state="translated">Kdy obdržím upozornění</target>
         </trans-unit>
       </group>
     </body>
