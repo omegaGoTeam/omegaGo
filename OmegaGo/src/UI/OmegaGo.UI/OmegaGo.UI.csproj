@@ -62,6 +62,8 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SortObservableCollections.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
+    <Compile Include="Game\Styles\BackgroundColor.cs" />
+    <Compile Include="Game\Styles\BackgroundImage.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
@@ -406,10 +408,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\TutorialCZ.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.cs.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.auto.txt" />
     <EmbeddedResource Include="Services\Help\Data\intro.html" />
     <EmbeddedResource Include="Services\Help\Data\japanese.html" />
     <EmbeddedResource Include="Services\Help\Data\resources.html" />

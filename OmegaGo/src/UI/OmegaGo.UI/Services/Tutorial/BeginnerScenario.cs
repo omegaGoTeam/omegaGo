@@ -1,32 +1,77 @@
 ﻿using System.IO;
 using System.Reflection;
 using MvvmCross.Platform;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.ViewModels.Tutorial;
 
-namespace OmegaGo.UI.ViewModels.Tutorial
+namespace OmegaGo.UI.Services.Tutorial
 {
     /// <summary>
-    /// The <see cref="BeginnerScenario"/> represents the primary, and perhaps the only, single-player story-like experience
+    /// The <see cref="BeginnerScenario"/> represents the primary, and only, single-player story-like experience
     /// in this game. It is loaded by the <see cref="TutorialViewModel"/>.  
     /// </summary>
     /// <seealso cref="OmegaGo.UI.ViewModels.Tutorial.Scenario" />
     public class BeginnerScenario : Scenario
     {
-        private IGameSettings settings = Mvx.Resolve<IGameSettings>();
+        /// <summary>
+        /// Format string for all tutorial resources
+        /// </summary>
+        private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial.{0}.txt";
+
+        /// <summary>
+        /// Creates the beginner tutorial scenario
+        /// </summary>
         public BeginnerScenario()
         {
-            // Loads the dialogue from this folder.
-            var filename = "OmegaGo.UI.Services.Tutorial.Tutorial.txt";
-            var filenameCz = "OmegaGo.UI.Services.Tutorial.TutorialCZ.txt";
-            if (settings.Language.StartsWith("cs"))
+            var currentLanguageResourceName = FormatTutorialResourceName(GameLanguages.CurrentLanguage.CultureTag);
+            Stream sourceStream = null;
+            if ((sourceStream = GetTutorialResourceStream(currentLanguageResourceName)) == null)
             {
-                filename = filenameCz;
+                //fallback to default language
+                var defaultLanguageResourceName = FormatTutorialResourceName(GameLanguages.DefaultLanguage.CultureTag);
+                sourceStream = GetTutorialResourceStream(defaultLanguageResourceName);
             }
-            var ggg = (typeof(BeginnerScenario).GetTypeInfo().Assembly).GetManifestResourceNames();
-            Stream stream = (typeof(BeginnerScenario).GetTypeInfo().Assembly).GetManifestResourceStream(filename);
-            StreamReader sr = new StreamReader(stream);
-            string data = sr.ReadToEnd();
-            this.LoadCommandsFromText(data);
+            if (sourceStream == null) throw new InvalidDataException("No tutorial resource was found for current language nor default language.");
+
+            using (sourceStream)
+            {
+                using (StreamReader sr = new StreamReader(sourceStream))
+                {
+                    string data = sr.ReadToEnd();
+                    LoadCommandsFromText(data);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Formats the tutorial resource name for a given culture tag
+        /// </summary>
+        /// <param name="cultureTag">Culture tag</param>
+        /// <returns>Tutorial resource name</returns>
+        private string FormatTutorialResourceName(string cultureTag)
+        {
+            return string.Format(TutorialResourceFormatString, cultureTag);
+        }
+
+        /// <summary>
+        /// Gets reading stream for a given embedded resource
+        /// </summary>
+        /// <param name="resourceName">Reosource name</param>
+        /// <returns>Stream</returns>
+        private Stream GetTutorialResourceStream(string resourceName)
+        {
+            try
+            {
+                //try to fetch the resource
+                return (typeof(BeginnerScenario).GetTypeInfo().Assembly).GetManifestResourceStream(resourceName);
+            }
+            catch
+            {
+                //resource does not exist
+                return null;
+            }
         }
     }
 }

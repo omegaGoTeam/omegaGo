@@ -7,6 +7,8 @@
     /// option [option 2 button caption]
     /// s [option 2 outcome text]
     /// 
+    /// If this is not followed, strange things may happen.
+    /// 
     /// This command, when executed, will display the choice dialogue to the user and then stop. When the user picks a choice,
     /// this command will change the teacher's line and then continue executing the next command (which should usually be
     /// the <see cref="NextCommand"/>). 

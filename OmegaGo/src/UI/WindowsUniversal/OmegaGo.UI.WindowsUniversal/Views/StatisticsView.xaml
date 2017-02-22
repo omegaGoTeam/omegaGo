@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -14,23 +15,23 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+    <Page.Resources>
+        <Style TargetType="TextBlock"  x:Key="LeftColumn">
+            <Setter Property="Margin" Value="0,0,20,0"></Setter>
+            <Setter Property="TextAlignment" Value="Right"></Setter>
+        </Style>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal"
-                   HorizontalAlignment="Center">
-            <TextBlock Text="{x:Bind Localizer.Statistics}" 
-                       Margin="0,20,0,0"
-                       Style="{ThemeResource HeaderTextBlockStyle}" />
-        </StackPanel>
-        <Grid HorizontalAlignment="Center"
-              Grid.Row="1">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel  VerticalAlignment="Center"
+                     HorizontalAlignment="Center">
+            <navigation:TitleControl Text="{x:Bind Localizer.Statistics}" />
+            <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="FirstColumn" Width="Auto" />
-                <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
+                    <ColumnDefinition x:Name="FirstColumn" Width="Auto">
+                    </ColumnDefinition>
+                    <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -40,39 +41,56 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Bind Localizer.TotalGamesPlayed}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed}"></TextBlock>
-            
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Hotseat games played:"></TextBlock>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Bind Localizer.TotalGamesPlayed}" Style="{StaticResource LeftColumn}" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed}"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Hotseat games played:" Style="{StaticResource LeftColumn}"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HotseatGamesPlayed}"></TextBlock>
-            
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Solo games played:"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Solo games played:" Style="{StaticResource LeftColumn}"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding LocalGamesPlayed}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="Online games played:"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="Online games played:" Style="{StaticResource LeftColumn}"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding OnlineGamesPlayed}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Total games won:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding TotalGamesWon}"></TextBlock>
+                <TextBlock Grid.Row="4"></TextBlock>
+                
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="Total games won:" Style="{StaticResource LeftColumn}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding TotalGamesWon}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="Solo games won:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding LocalGamesWon}"></TextBlock>
-            
-            <TextBlock Grid.Column="0" Grid.Row="6" Text="Online games won:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding OnlineGamesWon}"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="Solo games won:" Style="{StaticResource LeftColumn}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LocalGamesWon}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="7" Text="Quests completed:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding QuestsCompleted}"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="Online games won:" Style="{StaticResource LeftColumn}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding OnlineGamesWon}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="8" Text="Tsumego problems solved:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding TsumegoProblemsSolved}"></TextBlock>
+                <TextBlock Grid.Row="8"></TextBlock>
+                
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="Quests completed:" Style="{StaticResource LeftColumn}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding QuestsCompleted}"></TextBlock>
 
-            <TextBlock Grid.Column="0" Grid.Row="9" Text="Points:"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding Points}"></TextBlock>
-        </Grid>
+                <TextBlock Grid.Column="0" Grid.Row="10" Text="Tsumego problems solved:" Style="{StaticResource LeftColumn}"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="10" Text="{Binding TsumegoProblemsSolved}"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="11" Text="Points:" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="11" Text="{Binding Points}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="12" Text="OmegaGo Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="12" Text="N/A"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="13" Text="IGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="13" Text="N/A"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="14" Text="KGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="14" Text="N/A"></TextBlock>
+                </Grid>
+        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </views:TransparencyViewBase>

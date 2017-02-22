@@ -24,87 +24,53 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
                                 Grid.Row="1"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
                                 Tapped="BoardControl_Tapped"
                                 VerticalAlignment="Stretch"/>
 
-
         <Border BorderThickness="2"
                 BorderBrush="Black"
                 CornerRadius="20"
-                Width="600"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Margin="10,10,0,0"
+                Margin="5"
                 Grid.Row="0"
-                Grid.Column="0"
-                Height="200">
-            <Border CornerRadius="20">
+                MaxWidth="600"
+                Height="100"
+                Name="TheBorder"
+                Grid.Column="0">
+            <Border CornerRadius="20" >
                 <Border.Background>
                     <SolidColorBrush Opacity="0.7" Color="LightBlue" />
                 </Border.Background>
-                <Grid>
-
-
-                    <StackPanel>
-                        <TextBlock FontSize="26" Margin="20, 20, 0, 0">Sensei speaks:</TextBlock>
-                        <TextBlock FontSize="18" Margin="20, 5,20,20" Text="Sensei's Line Goes Here"
-                               Name="SenseisLine"
-                               TextWrapping="Wrap"
-                               />
-                    </StackPanel>
-                    <Button 
-                    Name="ButtonNext"
-                    Content="Next"
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Click="Next_Click"></Button>
-                </Grid>
+                <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Name="SenseisLine" FontSize="18" Width="{Binding Path=ActualWidth, ElementName=TheBorder}"
+                   TextWrapping="Wrap" TextTrimming="None" VerticalAlignment="Top">
+            Sensei says something.
+                    </TextBlock>
+                </Viewbox>
             </Border>
         </Border>
-        <Border BorderThickness="2"
-                BorderBrush="Black"
-                CornerRadius="10"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Margin="10,10,0,0"
-                Visibility="Collapsed"
-                Grid.Row="0"
-                Grid.Column="1"
-                Height="100">
-            <Grid>
-                <Border CornerRadius="10">
-                    <Border.Background>
-                        <SolidColorBrush Opacity="0.8" Color="LightBlue" />
-                    </Border.Background>
-                </Border>
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="30">
-                    You are doing fine, player.
-                </TextBlock>
-            </Grid>
-        </Border>
+     
         <Border BorderThickness="2"
                 BorderBrush="Black"
                 CornerRadius="20"
-                Width="800"
+                HorizontalAlignment="Center"
                 Name="MakeYourChoiceDialog"
                 Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Height="400">
+                VerticalAlignment="Center">
             <Grid>
                 <Border
-                Name="mask"
+                Name="Mask"
                 Background="LightBlue"
                 CornerRadius="20"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel HorizontalAlignment="Center" Margin="20">
-                    <TextBlock FontSize="26" HorizontalAlignment="Center">Make Your Choice:</TextBlock>
+                    <TextBlock FontSize="26" HorizontalAlignment="Center"
+                               Text="{Binding Path=Text, ElementName=SenseisLine}" TextWrapping="Wrap">
+                    </TextBlock>
                     <Button Name="Option1" Click="Option1_Click" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
                         <TextBlock Name="Option1Text" TextWrapping="Wrap">
                             I choose option 1
@@ -115,8 +81,22 @@
                             I choose option 2
                         </TextBlock>
                     </Button>
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
         </Border>
+        <Button Grid.Row="1"
+                        Name="ButtonNext"
+                        Content="Next"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        BorderBrush="Black"
+                        BorderThickness="3"
+                        FontWeight="Bold"
+                        MinWidth="200"
+                        MinHeight="100"
+                        FontSize="26"
+                        Margin="10" Click="Next_Click"></Button>
     </Grid>
 </views:TransparencyViewBase>
