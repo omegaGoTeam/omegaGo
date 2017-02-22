@@ -15,6 +15,7 @@ using MvvmCross.Platform;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
+using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
@@ -59,7 +60,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private bool _highlightLastMove;
         private void ReloadSettings()
         {
-            // TODO call this when tsumego checkbox changes
+            // TODO Petr: call this when tsumego checkbox changes, but in a clean fashion please :-D !
             this.stoneDisplayTheme = this._settings.Display.StonesTheme;
             this._boardTheme = this._settings.Display.BoardTheme;
             this._showCoordinates = this._settings.Display.ShowCoordinates;
@@ -177,11 +178,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Mouse over position special case
             if (this._sharedBoardControlState.MouseOverPosition.IsDefined)
             {
-                // TODO only if legal
+                // TODO Petr : only if legal - use Ruleset IsLegalMove? But it would be slow, you can implement caching to check for each intersection only once
                 if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
                 {
                     DrawStone(args.DrawingSession, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
-
                 }
                 else
                 {
@@ -340,7 +340,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
         {
             y = (this.SharedBoardControlState.BoardHeight - 1) - y;
-            // TODO dead positions
+            // TODO Vita : dead positions
             if (territory == Territory.Black || territory == Territory.White)
             {
                 Color color = (territory == Territory.Black ? Colors.Black : Colors.White);

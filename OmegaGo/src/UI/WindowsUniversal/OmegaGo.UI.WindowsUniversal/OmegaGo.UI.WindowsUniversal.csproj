@@ -98,6 +98,7 @@
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\MvxColorExtensions.cs" />
+    <Compile Include="Extensions\Xaml\WebViewHtmlBinding.cs" />
     <Compile Include="Infrastructure\AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>

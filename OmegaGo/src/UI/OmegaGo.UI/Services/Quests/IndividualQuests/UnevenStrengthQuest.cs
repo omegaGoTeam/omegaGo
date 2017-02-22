@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class UnevenStrengthQuest : Quest
     {
-        public UnevenStrengthQuest() : base("Uneven Strength", "Finish two solo or online games where one player has a handicap of two stones or more.", Points.MEDIUM_REWARD, 2)
+        public UnevenStrengthQuest() : base("Uneven Strength", "Finish two solo or online games where one player has a handicap of two stones or more.", RewardPoints.MediumReward, 2)
         {
         }
 

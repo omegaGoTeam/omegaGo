@@ -92,7 +92,7 @@ namespace OmegaGo.Core.Time.Canadian
                     timeRemaining.PeriodTimeLeft,
                     timeRemaining.PeriodStonesLeft + 1);
             }
-            this._snapshot = timeRemaining; // TODO minus current time, I guess?
+            this._snapshot = timeRemaining; // TODO Petr:  minus current time, I guess?
             return this;
         }
     }

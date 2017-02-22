@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote;
+using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Quests
@@ -18,11 +22,11 @@ namespace OmegaGo.UI.Services.Quests
             this._questsSettings = _questsSettings;
         }
 
-        public void GameCompleted(ILiveGame game, GameEndInformation end)
+        public void GameCompleted(IGame game, GameEndInformation end)
         {
-            bool isOnlineGame = game.Controller.IsOnlineGame;
-            bool isHotseatGame = game.Controller.Players.All(pl => pl.IsHuman);
-            GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.IsHuman);
+            bool isOnlineGame = game is IRemoteGame;
+            bool isHotseatGame = game.Controller.Players.All(pl => pl.Agent.Type == AgentType.Human);
+            GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.Agent.Type == AgentType.Human);
             bool isPlayedByUs = human != null;
             bool isVictory = (end.HasWinnerAndLoser &&
                               end.Winner == human);
@@ -37,22 +41,22 @@ namespace OmegaGo.UI.Services.Quests
                 {
                     if (isOnlineGame)
                     {
-                        points = Points.ONLINE_WIN;
+                        points = RewardPoints.OnlineWin;
                     }
                     else if (!isHotseatGame)
                     {
-                        points = Points.LOCAL_WIN;
+                        points = RewardPoints.LocalWin;
                     }
                 }
                 else
                 {
                     if (isOnlineGame)
                     {
-                        points = Points.ONLINE_LOSS;
+                        points = RewardPoints.OnlineLoss;
                     }
                     else if (!isHotseatGame)
                     {
-                        points = Points.LOCAL_LOSS;
+                        points = RewardPoints.LocalLoss;
                     }
                 }
 

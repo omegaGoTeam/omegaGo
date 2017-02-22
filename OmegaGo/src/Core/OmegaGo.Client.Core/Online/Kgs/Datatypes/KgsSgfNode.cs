@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
-using OmegaGo.Core.Modes.LiveGame.Players.Igs;
-using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
-namespace OmegaGo.Core.Online.Kgs.Sgf
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// Represents a node in the special KGS SGF file.
@@ -38,9 +32,9 @@ namespace OmegaGo.Core.Online.Kgs.Sgf
 
         public void AddChild(int childNodeId, int position, KgsGame game)
         {
-            var newNode = new Sgf.KgsSgfNode(childNodeId);
+            var newNode = new KgsSgfNode(childNodeId);
             Children.Insert(position, newNode);
-            game.Nodes[childNodeId] = newNode;
+            game.Controller.Nodes[childNodeId] = newNode;
         }
 
         public void AddProperty(KgsSgfProperty prop, KgsGame ongame)
@@ -54,17 +48,17 @@ namespace OmegaGo.Core.Online.Kgs.Sgf
             switch (prop.Name)
             {
                 case "RULES":
-                    // TODO solve later
+                    // TODO Petr : solve later
                     break;
                 case "PLAYERNAME":
                 case "PLAYERRANK":
                 case "DATE":
                 case "PLACE":
-                    // TODO ignore for now
+                    // TODO Petr : ignore for now
                     break;
                 case "COMMENT":
                 case "TIMELEFT":
-                    // TODO ignore for lesser now
+                    // TODO Petr : ignore for lesser now
                     break;
                 case "MOVE":
                     Move move;

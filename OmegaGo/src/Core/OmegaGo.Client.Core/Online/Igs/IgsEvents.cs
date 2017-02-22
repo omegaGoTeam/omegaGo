@@ -3,25 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    public class IgsEvents : ICommonEvents 
+    public class IgsEvents
     {
-        private IgsConnection Connection;
-        internal IgsEvents(IgsConnection parent)
+        private IgsConnection _connection;
+
+        internal IgsEvents(IgsConnection connection)
         {
-            Connection = parent;
-        }
-        public event EventHandler<IgsGame> EnterLifeDeath;
-        internal void OnEnterLifeDeath(IgsGame gameInfo)
-        {
-            EnterLifeDeath?.Invoke(this, gameInfo);
-        }
+            _connection = connection;
+        }  
 
         public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlAdjustment;
         public void OnTimeControlAdjustment(IgsGame whatGame, CanadianTimeInformation whiteTimeRemaining, CanadianTimeInformation blackTimeRemaining)

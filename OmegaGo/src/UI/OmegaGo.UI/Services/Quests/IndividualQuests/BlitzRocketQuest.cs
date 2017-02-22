@@ -8,10 +8,10 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class BlitzRocketQuest : Quest
     {
-        public BlitzRocketQuest() : base("Blitz Rocket (N)", "Win a solo or online game, taking 5 minutes or less to do so.", Points.MEDIUM_REWARD, 1)
+        public BlitzRocketQuest() : base("Blitz Rocket (N)", "Win a solo or online game, taking 5 minutes or less to do so.", RewardPoints.MediumReward, 1)
         {
         }
 
-        // TODO not yet implemented
+        // TODO Petr: not yet implemented
     }
 }

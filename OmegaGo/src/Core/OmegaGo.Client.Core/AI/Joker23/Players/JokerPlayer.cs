@@ -14,7 +14,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
         public JokerPlayer(char color)
         {
             this.numPieces = 0;
-            this.color = color; //TODO throw exception if we don't have the right color
+            this.color = color; //TODO Petr throw exception if we don't have the right color
             this.moves = new LinkedList<JokerMove>();
         }
 

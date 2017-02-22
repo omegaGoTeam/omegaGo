@@ -6,9 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
-    xmlns:viewModels="using:OmegaGo.UI.ViewModels"
-    Loaded="TransparencyViewBase_Loaded"
-    d:DataContext="{d:DesignInstance viewModels:HelpViewModel, IsDesignTimeCreatable=True}"
+    xmlns:xaml="using:OmegaGo.UI.WindowsUniversal.Extensions.Xaml"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -68,7 +66,7 @@
         </SplitView.Pane>
         
         <Border BorderBrush="Black" BorderThickness="2">
-            <WebView DefaultBackgroundColor="White" Name="WebView" />
+             <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView" />
         </Border>
     </SplitView>
 </views:TransparencyViewBase>

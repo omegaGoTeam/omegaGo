@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using OmegaGo.Core.Online.Kgs.Downstream;
+﻿using OmegaGo.Core.Online.Kgs.Datatypes;
+using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
-namespace OmegaGo.Core.Online.Kgs
+namespace OmegaGo.Core.Online.Kgs.Downstream
 {
     class GlobalGamesJoin : KgsInterruptChannelMessage
     {

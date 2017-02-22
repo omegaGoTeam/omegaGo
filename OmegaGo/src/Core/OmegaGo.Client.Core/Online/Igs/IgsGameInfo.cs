@@ -1,15 +1,9 @@
 ﻿using OmegaGo.Core.Game;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Online;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Online.Common;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.Modes.LiveGame.Online
+namespace OmegaGo.Core.Online.Igs
 {
     /// <summary>
     /// Contains metadata about a game that is or was in progress on the IGS server
@@ -40,15 +34,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Online
                 countingType)
         {
             NumberOfObservers = numberOfObservers;
-            this.Server = server;
             IgsIndex = igsIndex;
         }
         public int MainTime { get; set; }
         public int ByoyomiPeriod { get; set; }
 
+        /// <summary>
+        /// Unique identification of the game
+        /// </summary>
         public int IgsIndex { get; private set; }
-        
-        public IgsConnection Server { get; }
+
         public int NumberOfObservers { get; set; }
 
         public override string ToString()

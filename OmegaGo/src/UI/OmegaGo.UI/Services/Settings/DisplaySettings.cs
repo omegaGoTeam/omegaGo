@@ -1,4 +1,6 @@
-﻿namespace OmegaGo.UI.Services.Settings
+﻿using OmegaGo.UI.Board.Styles;
+
+namespace OmegaGo.UI.Services.Settings
 {
     public class DisplaySettings : SettingsGroup
     {

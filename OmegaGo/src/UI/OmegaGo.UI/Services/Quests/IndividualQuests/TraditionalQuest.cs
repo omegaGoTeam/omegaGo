@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class TraditionalQuest : Quest
     {
-        public TraditionalQuest() : base("Traditional", "Finish any game on a 19x19 board.", Points.EASY_REWARD, 1)
+        public TraditionalQuest() : base("Traditional", "Finish any game on a 19x19 board.", RewardPoints.EasyReward, 1)
         {
         }
 

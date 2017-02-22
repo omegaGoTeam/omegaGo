@@ -16,11 +16,6 @@ namespace OmegaGo.Core.Online.Common
         /// Commands are used when our client wants to send information to the server (such as making a move).
         /// </summary>
         ICommonCommands Commands { get; }
-        /// <summary>
-        /// Events are used when the server wants to send information to the client
-        /// (such as giving us additional time).
-        /// </summary>
-        ICommonEvents Events { get; }
 
         /// <summary>
         /// Gets information whether this is IGS or KGS.

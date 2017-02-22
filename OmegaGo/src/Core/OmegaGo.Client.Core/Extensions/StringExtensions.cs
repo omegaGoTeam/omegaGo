@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Extensions
         /// Parses string to int
         /// </summary>
         /// <param name="text">Text</param>
-        /// <returns></returns>
+        /// <returns>String converted to integer</returns>
         public static int AsInteger(this string text)
         {
             return int.Parse(text);
@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Extensions
         /// </summary>
         /// <param name="text">Text</param>
         /// <param name="formatProvider">Format provider</param>
-        /// <returns></returns>
+        /// <returns>String converted to float</returns>
         public static float AsFloat(this string text, IFormatProvider formatProvider = null)
         {            
             return float.Parse(text, NumberStyles.Float, formatProvider ?? CultureInfo.InvariantCulture);

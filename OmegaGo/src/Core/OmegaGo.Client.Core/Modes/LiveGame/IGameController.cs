@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
@@ -14,7 +16,6 @@ namespace OmegaGo.Core.Modes.LiveGame
     /// </summary>
     public interface IGameController : IGameState
     {
-        RemoteGameInfo RemoteInfo { get; }
         /// <summary>
         /// Indicates that there is a new player on turn
         /// </summary>
@@ -23,20 +24,22 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Indicates that the current game tree node has changed
         /// </summary>
-        event EventHandler<GameTreeNode> CurrentGameTreeNodeChanged;
+        event EventHandler<GameTreeNode> CurrentNodeChanged;
 
         /// <summary>
-        /// Debugging event
+        /// Indicates taht the current game has ended
         /// </summary>
-        event EventHandler<string> DebuggingMessage;
-
         event EventHandler<GameEndInformation> GameEnded;
-        event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
 
-        event EventHandler<GamePhaseType> GamePhaseChanged;
-        event EventHandler BoardMustBeRefreshed;
+        /// <summary>
+        /// Indicates that the game phase has changed
+        /// </summary>
+        event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
-        bool IsOnlineGame { get; }
+        /// <summary>
+        /// Indicates that the game board must be refreshed
+        /// </summary>
+        event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
         /// Gets the game's ruleset
@@ -48,21 +51,27 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         PlayerPair Players { get; }
 
-        List<Position> DeadPositions { get; set; }
-        IServerConnection Server { get; }
+        /// <summary>
+        /// Specifies whether the current game node should be in sync
+        ///  with the last game tree node
+        /// </summary>
+        bool KeepLastNodeSync { get; set; }
 
         /// <summary>
         /// Starts the game
         /// </summary>
         void BeginGame();
 
-        void Resign(GamePlayer playerToMove);
+        /// <summary>
+        /// Ends the game
+        /// </summary>
+        /// <param name="endInformation">Game end info</param>
+        void EndGame(GameEndInformation endInformation);
 
-        void Main_Undo();
-        void LifeDeath_Done(GamePlayer player);
-        void LifeDeath_UndoPhase();
-        void LifeDeath_Resume();
-        void LifeDeath_MarkGroupDead(Position position);
-
+        /// <summary>
+        /// Registers a connector
+        /// </summary>
+        /// <param name="connector">Connector to register</param>
+        void RegisterConnector(IGameConnector connector);
     }
 }

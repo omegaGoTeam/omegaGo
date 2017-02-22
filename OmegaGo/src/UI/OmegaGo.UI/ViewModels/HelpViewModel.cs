@@ -17,42 +17,43 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class HelpViewModel : ViewModelBase
     {
-        private ObservableCollection<HelpPage> _helpItems;
-        private HelpPage _selectedHelpItem;
+        /// <summary>
+        /// List of all help items
+        /// </summary>
+        private readonly List<HelpPage> _helpItems;
 
         /// <summary>
-        /// Occurs when the contents of the WebView control displaying the current help page should be
-        /// updated.
+        /// Stores the selected help item
         /// </summary>
-        public event EventHandler<string> WebViewContentChanged;
-
+        private HelpPage _selectedHelpItem;
+        
+        /// <summary>
+        /// Creates the View Model
+        /// </summary>
         public HelpViewModel()
         {
-            _helpItems = new ObservableCollection<HelpPage>(); 
-
-            foreach (var helpPage in HelpPage.CreateAllHelpPages())
-            {
-                _helpItems.Add(helpPage);
-            }
-            
+            _helpItems = HelpPage.CreateAllHelpPages();
             SelectedHelpItem = _helpItems[0];
-        }
+        }        
 
+        /// <summary>
+        /// Enumerates all help items
+        /// </summary>
+        public IEnumerable<HelpPage> HelpItems => _helpItems;
+
+        /// <summary>
+        /// Currently selected help item
+        /// </summary>
         public HelpPage SelectedHelpItem
         {
-            get { return _selectedHelpItem; }
+            get
+            {
+                return _selectedHelpItem;
+            }
             set
             {
                 SetProperty(ref _selectedHelpItem, value);
-                NavigateToCurrentItem();
             }
-        }
-
-        public ObservableCollection<HelpPage> HelpItems => _helpItems;
-
-        public void NavigateToCurrentItem()
-        {
-            WebViewContentChanged?.Invoke(this, _selectedHelpItem.Content);
         }
     }
 }

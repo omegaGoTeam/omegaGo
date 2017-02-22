@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI
 {
+    /// <summary>
+    /// Strength of the AI
+    /// </summary>
     public enum AIStrength
     {
         Easy,

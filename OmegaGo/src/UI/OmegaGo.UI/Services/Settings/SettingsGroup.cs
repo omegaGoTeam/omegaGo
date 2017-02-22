@@ -72,7 +72,7 @@ namespace OmegaGo.UI.Services.Settings
         /// <returns></returns>
         protected T GetComplexSetting<T>(string key, Func<T> defaultValueBuilder,
             SettingLocality locality = SettingLocality.Local) where T : new()
-            => _service.GetComplexSetting(key, defaultValueBuilder, locality);
+            => _service.GetComplexSetting(CreateGroupedSettingKey(key), defaultValueBuilder, locality);
 
         /// <summary>
         /// Before storing the setting, it is first serialized to JSON
@@ -83,6 +83,6 @@ namespace OmegaGo.UI.Services.Settings
         /// <param name="locality">Locality</param>
         protected void SetComplexSetting<T>(string key, T value, SettingLocality locality = SettingLocality.Local)
             where T : new()
-            => _service.SetComplexSetting(key, value, locality);
+            => _service.SetComplexSetting(CreateGroupedSettingKey(key), value, locality);
     }
 }

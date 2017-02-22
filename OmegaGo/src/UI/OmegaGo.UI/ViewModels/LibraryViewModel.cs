@@ -69,8 +69,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void OpenFile()
         {
-            throw new NotImplementedException();
-            ////TODO: Temporary implementation only
+            //TODO Martin Temporary implementation only
             //var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
             //SgfParser parser = new SgfParser();
             //var sgfCollection = parser.Parse(fileContents);
@@ -125,7 +124,7 @@ namespace OmegaGo.UI.ViewModels
                     tmpNode = tmpNode.Parent;
                 } while (tmpNode != null);
 
-                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory);
+                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory.ToArray());
                 node.BoardState = result.NewBoard;
             }
             

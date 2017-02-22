@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Game.GameTreeNodeData;
 using OmegaGo.Core.Rules;
 
@@ -20,7 +21,7 @@ namespace OmegaGo.Core.Game
             Branches = new GameTreeNodeCollection(this);
             Move = move;
         }
-
+        
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
@@ -93,7 +94,7 @@ namespace OmegaGo.Core.Game
         /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
         /// </summary>
         /// <exception cref="InvalidOperationException">When this is a branching node.</exception>
-        public GameTreeNode NextMove
+        public GameTreeNode NextNode
         {
             get
             {
@@ -127,11 +128,11 @@ namespace OmegaGo.Core.Game
             get
             {
                 yield return this;
-                var node = NextMove;
+                var node = NextNode;
                 while (node != null)
                 {
                     yield return node;
-                    node = node.NextMove;
+                    node = node.NextNode;
                 }
             }
         }
@@ -145,27 +146,33 @@ namespace OmegaGo.Core.Game
         /// Gets the list of all moves that lead to the provided node.
         /// The list is starting with root node.
         /// </summary>
-        /// <param name="node">target node</param>
         /// <param name="filterNonMoves">determines whether nodes with MoveKind.None should be included</param>
         /// <returns>nodes history</returns>
-        public static List<GameTreeNode> GetNodeHistory(GameTreeNode node, bool filterNonMoves)
+        public IEnumerable<GameTreeNode> GetNodeHistory( bool filterNonMoves = true )
         {
-            if (node == null)
-                throw new ArgumentNullException(nameof(node), "Node cant be null");
-
             var nodeHistory = new List<GameTreeNode>();
-
+            var currentNode = this;
             do
             {
-                if (filterNonMoves && (node.Move.Kind == MoveKind.Pass || node.Move.Kind == MoveKind.PlaceStone))
-                    nodeHistory.Insert(0, node);
-                else
-                    nodeHistory.Insert(0, node);
-
-                node = node.Parent;
-            } while (node != null);
+                var isMoveNode = (currentNode.Move.Kind == MoveKind.Pass || currentNode.Move.Kind == MoveKind.PlaceStone);
+                if (!filterNonMoves || isMoveNode) { 
+                    nodeHistory.Insert(0, currentNode);
+                }                   
+                currentNode = currentNode.Parent;
+            } while (currentNode != null);
 
             return nodeHistory;
+        }
+
+        /// <summary>
+        /// Returns the list of all preceding game boards including current node
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<GameBoard> GetGameBoardHistory()
+        {
+            var nodes = GetNodeHistory();
+            var boards = nodes.Select(node => node.BoardState).ToList();
+            return boards;
         }
 
         /// <summary>
@@ -235,10 +242,18 @@ namespace OmegaGo.Core.Game
             foreach (var position in AddWhite)
                 copyOfPreviousBoard[position] = StoneColor.White;
 
-            var mpr =
-                ruleset.ProcessMove(copyOfPreviousBoard, Move, new List<GameBoard>());
-
-            BoardState = mpr.NewBoard;
+            //process only if move was performed
+            if (Move.Kind != MoveKind.None)
+            {
+                var processMove = ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
+                //TODO Martin, Aniko Store captures?
+                BoardState = processMove.NewBoard;
+            }
+            else
+            {
+                //set the same board with new added colors
+                BoardState = copyOfPreviousBoard;
+            }
         }
     }
 }
