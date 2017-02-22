@@ -1,4 +1,5 @@
 ﻿using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.Game.Styles;
 
 namespace OmegaGo.UI.Services.Settings
 {
@@ -75,35 +76,5 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(ShowTutorialInMainMenu), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
         }
-    }
-
-    public enum BackgroundImage
-    {
-        Go,
-        Forest,
-        Shrine,
-        Temple,
-        None
-
-    }
-    public enum BackgroundColor
-    {
-        Basic,
-        Green,
-        None
-    }
-    public enum BoardTheme
-    {
-        SolidColor,
-        OakWood,
-        KayaWood,
-        VirtualBoard,
-        SabakiBoard
-    }
-    public enum StoneTheme
-    {
-        SolidColor,
-        PolishedBitmap,
-        Sabaki
-    }
+    }   
 }
