@@ -78,7 +78,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         void AssignToGame(GameInfo gameInfo, IGameState gameState);
 
         /// <summary>
-        /// Informs the agent that the game is on
+        /// Informs the agent that the game is passing through its initialization phase.
         /// </summary>
         void GameInitialized();
 

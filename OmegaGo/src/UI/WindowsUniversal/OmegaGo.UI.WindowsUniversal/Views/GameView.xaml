@@ -101,21 +101,23 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
+
                     <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
-                        
                     </controls:PlayerPortrait>
                     <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
                     </controls:PlayerPortrait>
+                    <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    <TextBox Text="{Binding SystemLog, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
+                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
                         
                     </TextBox>
                 </ScrollViewer>
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
-            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
+            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
         </Border>
     </Grid>
 </views:TransparencyViewBase>

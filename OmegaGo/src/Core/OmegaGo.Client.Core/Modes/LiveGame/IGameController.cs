@@ -50,13 +50,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the pair of participating players
         /// </summary>
         PlayerPair Players { get; }
-
-        /// <summary>
-        /// Specifies whether the current game node should be in sync
-        ///  with the last game tree node
-        /// </summary>
-        bool KeepLastNodeSync { get; set; }
-
+        
         /// <summary>
         /// Starts the game
         /// </summary>

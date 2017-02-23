@@ -50,8 +50,7 @@ namespace OmegaGo.UI.ViewModels
 
 
         private int _selectedMoveIndex;
-
-        private string _systemLog;
+        
 
         private int frames;
 
@@ -97,7 +96,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+                debuggingMessagesProvider.DebuggingMessage += (s, e) =>  _systemLog.AppendLine(e);
             }
         }
 
@@ -116,10 +115,11 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
 
+
+        private StringBuilder _systemLog = new StringBuilder();
         public string SystemLog
         {
-            get { return _systemLog; }
-            set { SetProperty(ref _systemLog, value); }
+            get { return _systemLog.ToString(); }
         }
 
         public IGame Game { get; }
@@ -206,8 +206,11 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e != null)
             {
-                await PlaySoundIfAppropriate(e);
+                _systemLog.AppendLine("NODE: " + e.Move);
                 UpdateTimeline();
+                // It is ABSOLUTELY necessary for this to be the last statement in this method,
+                // because we need the UpdateTimeline calls to be in order.
+                await PlaySoundIfAppropriate(e);
             }
         }
 

@@ -110,5 +110,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             //    controller.LifeDeath_UndoPhase();
             //}
         }
+
+        private void UpdateSystemLog(object sender, RoutedEventArgs e)
+        {
+            this.SystemLog.Text = this.VM.SystemLog;
+        }
     }
 }

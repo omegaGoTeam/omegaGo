@@ -347,7 +347,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Fires the current <see cref="CurrentNodeChanged"/> event. 
         /// </summary>
-        protected virtual void OnCurrentNodeChanged()
+        public virtual void OnCurrentNodeChanged()
         {
             CurrentNodeChanged?.Invoke(this, CurrentNode);
         }
