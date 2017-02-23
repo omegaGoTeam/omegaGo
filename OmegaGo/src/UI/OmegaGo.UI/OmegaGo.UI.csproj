@@ -54,10 +54,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board\Styles\StoneTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
+    <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SortObservableCollections.cs" />
+    <Compile Include="Extensions\TreeExtensions.cs" />
+    <Compile Include="Game\Styles\BackgroundColor.cs" />
+    <Compile Include="Game\Styles\BackgroundImage.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
@@ -67,6 +73,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Audio\ISfxPlayerService.cs" />
+    <Compile Include="Services\Audio\SfxId.cs" />
+    <Compile Include="Services\Audio\AudioFilePack.cs" />
+    <Compile Include="Services\Audio\Sounds.cs" />
     <Compile Include="Services\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
@@ -82,6 +92,7 @@
     <Compile Include="Services\Localization\GameLanguages.cs" />
     <Compile Include="Services\Localization\ILocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizationService.cs" />
+    <Compile Include="Services\Localization\LocalizedMetadata\AiProgramLocalizedMetadata.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
@@ -104,10 +115,11 @@
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
-    <Compile Include="Services\Quests\Points.cs" />
+    <Compile Include="Services\Quests\RewardPoints.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestCooldownActions.cs" />
     <Compile Include="Services\Quests\QuestEvents.cs" />
+    <Compile Include="Board\Styles\BoardTheme.cs" />
     <Compile Include="Services\Settings\InterfaceMementos.cs" />
     <Compile Include="Services\Settings\StatisticsRecords.cs" />
     <Compile Include="Services\Settings\AssistantSettings.cs" />
@@ -141,11 +153,9 @@
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
-    <Compile Include="ViewModels\ObsoleteIGSLobbyViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
-    <Compile Include="ViewModels\OGSLobbyView.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
@@ -404,10 +414,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\TutorialCZ.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.cs.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial.auto.txt" />
     <EmbeddedResource Include="Services\Help\Data\intro.html" />
     <EmbeddedResource Include="Services\Help\Data\japanese.html" />
     <EmbeddedResource Include="Services\Help\Data\resources.html" />

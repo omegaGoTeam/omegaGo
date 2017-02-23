@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Online;
 using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Online.Igs
@@ -20,7 +19,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public void MakeMove(RemoteGameInfo remoteInfo, Move move)
         {
-            this.igsConnection.MakeMove((IgsGameInfo) remoteInfo, move);
+            this.igsConnection.MadeMove((IgsGameInfo) remoteInfo, move);
         }
 
         public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
@@ -59,7 +58,7 @@ namespace OmegaGo.Core.Online.Igs
             var response = await igsConnection.MakeRequestAsync("resign " + igsGameInfo.IgsIndex);
             if (!response.IsError)
             {
-                igsConnection.OnIncomingResignation(igsGameInfo, igsConnection.Username);
+                igsConnection.HandleIncomingResignation(igsGameInfo, igsConnection.Username);
             }
         }
 

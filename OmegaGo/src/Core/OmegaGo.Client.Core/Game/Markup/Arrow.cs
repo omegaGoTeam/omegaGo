@@ -3,6 +3,7 @@
     public sealed class Arrow : IMarkup
     {
         public MarkupKind Kind => MarkupKind.Arrow;
+
         public Position From { get; }
 
         public Position To { get; }

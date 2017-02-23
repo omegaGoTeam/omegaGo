@@ -18,7 +18,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class SingleplayerViewModel : ViewModelBase
     {
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly IGameSettings _gameSettings;
+
+        public SingleplayerViewModel( IGameSettings gameSettings )
+        {
+            _gameSettings = gameSettings;
+        }
+
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
         public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
@@ -30,9 +36,9 @@ namespace OmegaGo.UI.ViewModels
         }
             );
 
-        public int Points => this._settings.Quests.Points;
+        public int Points => this._gameSettings.Quests.Points;
 
-        public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_settings);
+        public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_gameSettings);
 
         public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
             = new ObservableCollection<ActiveQuest>();
@@ -42,7 +48,7 @@ namespace OmegaGo.UI.ViewModels
         {
             ActiveQuests.Clear();
             QuestCooldownActions.CheckForNewQuests(_settings);
-            foreach(var quest in _settings.Quests.ActiveQuests)
+            foreach(var quest in _gameSettings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
             }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Services.Tutorial;
 using OmegaGo.UI.UserControls.ViewModels;
 using OmegaGo.UI.ViewModels.Tutorial;
 

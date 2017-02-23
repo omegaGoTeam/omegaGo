@@ -11,16 +11,17 @@ using System.Threading.Tasks.Dataflow;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    // TODO make it reconnect automatically when connection is interrupted
+
 
     /// <summary>
     /// Represents a connection established with the IGS server. This may not necessarily be a persistent TCP connection, but it retains information
@@ -28,10 +29,10 @@ namespace OmegaGo.Core.Online.Igs
     /// </summary>
     public partial class IgsConnection : IServerConnection
     {
-        // TODO disconnections are not thread-safe
-        // TODO switch prompt mode when necessary
-        // TODO send "ayt" or something regularly to prevent timeouts
-        // TODO OnIncomingResignation should not be public
+        // TODO Petr :  make it reconnect automatically when connection is interrupted
+        // TODO Petr : disconnections are not thread-safe
+        // TODO Petr : switch prompt mode when necessary
+        // TODO Petr : send "ayt" or something regularly to prevent timeouts        
 
         /*
          * Synchronization
@@ -56,10 +57,12 @@ namespace OmegaGo.Core.Online.Igs
          * Status    
          */
 
+        private readonly Dictionary<int, IgsConnector> _availableConnectors = new Dictionary<int, IgsConnector>();
+
         /// <summary>
         /// List of games that are being observed
         /// </summary>
-        private readonly List<IgsGame> _gamesBeingObserved = new List<IgsGame>();        
+        private readonly List<IgsGame> _gamesBeingObserved = new List<IgsGame>();
         /// <summary>
         /// List of games opened
         /// </summary>
@@ -138,8 +141,8 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// This reader receives text lines from the server.
         /// </summary>
-        private StreamReader _streamReader;        
-        
+        private StreamReader _streamReader;
+
         /// <summary>
         /// Default IGS connection constructor
         /// </summary>
@@ -148,7 +151,6 @@ namespace OmegaGo.Core.Online.Igs
             Commands = new IgsCommands(this);
             Events = new IgsEvents(this);
         }
-
 
         /// <summary>
         /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 
@@ -224,20 +226,10 @@ namespace OmegaGo.Core.Online.Igs
         public event EventHandler<StoneRemovalEventArgs> StoneRemoval;
 
         /// <summary>
-        /// Occurs when a resignation is coming from the other player
-        /// </summary>
-        public event EventHandler<GamePlayerEventArgs> IncomingResignation;
-        
-        /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
         /// current request for which we're expecting a reply.
         /// </summary>
         public event Action<string> UnhandledLine;
-
-        /// <summary>
-        /// Occurs when the handicap information is coming in
-        /// </summary>
-        public event EventHandler<Tuple<IgsGame, int>> IncomingHandicapInformation;
 
         /// <summary>
         /// Occurs when a player send a message directly to us.
@@ -249,12 +241,6 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public event Action<string> IncomingShoutMessage;
 
-        /// <summary>
-        /// Occurs when a MOVE zero-indexed INT in order from the beginning of the game, is received from the server for
-        /// a GAME. The move may be our own.
-        /// </summary>
-        public event EventHandler<Tuple<IgsGame, int, Move>> IncomingMove;
-        
         /// <summary>
         /// Checks if  the connection has been established
         /// </summary>
@@ -285,12 +271,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Implements IServerConnection Commands
         /// </summary>
-        ICommonCommands IServerConnection.Commands => Commands;
-
-        /// <summary>
-        /// Implements IServerConnection Events
-        /// </summary>
-        ICommonEvents IServerConnection.Events => Events;
+        ICommonCommands IServerConnection.Commands => Commands;        
 
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
@@ -314,7 +295,8 @@ namespace OmegaGo.Core.Online.Igs
         /// The response to the command will be handled by the main response loop.
         /// </summary>
         /// <param name="command">The command to send to IGS.</param>
-        public void DEBUG_SendRawText(string command)
+        [Conditional("DEBUG")]
+        private void DEBUG_SendRawText(string command)
         {
             _streamWriter.WriteLine(command);
         }
@@ -389,24 +371,46 @@ namespace OmegaGo.Core.Online.Igs
         /// Enqueues a command to be send to IGS.
         /// </summary>
         /// <param name="command">The single-line command.</param>
-        public void MakeUnattendedRequest(string command)
+        internal void MakeUnattendedRequest(string command)
         {
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
             ExecuteRequestFromQueue();
         }
-        
+
         /// <summary>
         /// Handles incoming resignation
         /// </summary>
-        /// <param name="gameInfo"></param>
-        /// <param name="whoResigned"></param>
-        public void OnIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
+        /// <param name="gameInfo">Game info</param>
+        /// <param name="whoResigned">Name of the player who resigned</param>
+        internal void HandleIncomingResignation(IgsGameInfo gameInfo, string whoResigned)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameInfo.IgsIndex);
-            IncomingResignation?.Invoke(this,
-                new GamePlayerEventArgs(game, game.Controller.Players.First(pl => pl.Info.Name == whoResigned)));
-            _gamesYouHaveOpened.Remove(game);
+            var stoneColor = GetStoneColorForPlayerName(gameInfo.IgsIndex, whoResigned);
+            if (stoneColor == StoneColor.None) throw new InvalidOperationException("The player resignation is invalid for this game");
+            _availableConnectors[gameInfo.IgsIndex].ResignationFromServer(stoneColor);
+            _gamesYouHaveOpened.Remove(_gamesYouHaveOpened.FirstOrDefault(g => g.Info.IgsIndex == gameInfo.IgsIndex));
+        }
+
+        /// <summary>
+        /// Registers a IGS game connector
+        /// </summary>
+        /// <param name="connector">Connector</param>
+        internal void RegisterConnector(IgsConnector connector)
+        {
+            if (connector == null) throw new ArgumentNullException(nameof(connector));
+            //TODO Petr : Replace the old connector? The index can be reused?
+            // (Petr) Right, so, the way it works is this:
+            // At a single moment, there can be only one game with an ID on the server. However, as soon as
+            // that game ends (for any reason), the server is free to reassign its ID to a newly created game.
+            // This does happen in practice, often immediately, because new games are always being created.
+            // The IgsConnection class IS catching most of the messages that cause a game to be deleted and
+            // if that happens, it is removed from _gamesYouHaveOpened. A game-deletion message should arrive for 
+            // all games that we have opened before we receive any information about a new game with the same ID,
+            // BUT I'm certainly not sure that I handle all these messages correctly or that I catch all of them.
+            // This part of the protocol (and my implementation in this area) is rather messy.
+            // (Petr) I'll think about what can be done about this.
+            if (_availableConnectors.ContainsKey(connector.GameId)) throw new ArgumentException("This game was already registered", nameof(connector));
+            _availableConnectors[connector.GameId] = connector;
         }
 
         /// <summary>
@@ -552,6 +556,13 @@ namespace OmegaGo.Core.Online.Igs
             return IgsCode.Unknown;
         }
 
+        private StoneColor GetStoneColorForPlayerName(int igsGameIndex, string playerName)
+        {
+            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == igsGameIndex);
+            var player = game.Controller.Players.FirstOrDefault(p => p.Info.Name == playerName);
+            return player?.Info.Color ?? StoneColor.None;
+        }
+
         private void HandleIncomingShoutMessage(string line)
         {
             OnIncomingShoutMessage(line);
@@ -561,31 +572,28 @@ namespace OmegaGo.Core.Online.Igs
         {
             OnIncomingChatMessage(line);
         }
-        
+
 
         private void OnIncomingChatMessage(string line)
         {
             IncomingChatMessage?.Invoke(line);
         }
-       
+
 
         private void OnIncomingShoutMessage(string line)
         {
             IncomingShoutMessage?.Invoke(line);
         }
 
-        private void OnIncomingMove(IgsGame game, int moveIndex, Move theMove)
+        private void HandleIncomingMove(IgsGame game, int moveIndex, Move theMove)
         {
-            IncomingMove?.Invoke(this,
-                new Tuple<IgsGame, int, Move>(game, moveIndex, theMove));
+            _availableConnectors[game.Info.IgsIndex].MoveFromServer(moveIndex, theMove);
         }
-       
 
         private void OnIncomingHandicapInformation(IgsGame game, int stoneCount)
         {
-            IncomingHandicapInformation?.Invoke(this,
-                new Tuple<IgsGame, int>(game, stoneCount));
-        }        
+            _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
+        }
 
         private void OnBeep()
         {
@@ -601,7 +609,7 @@ namespace OmegaGo.Core.Online.Igs
         {
             UnhandledLine?.Invoke(unhandledLine);
         }
-        
+
         private void OnIncomingMatchRequest(IgsMatchRequest matchRequest)
         {
             IncomingMatchRequest?.Invoke(matchRequest);
@@ -611,12 +619,12 @@ namespace OmegaGo.Core.Online.Igs
         {
             MatchRequestDeclined?.Invoke(this, playerName);
         }
-        
+
         private void OnMatchRequestAccepted(IgsGame acceptedGame)
         {
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
-        
+
         /// <summary>
         /// Fires incoming in-game chat message
         /// </summary>
@@ -629,26 +637,25 @@ namespace OmegaGo.Core.Online.Igs
         {
             UndoRequestReceived?.Invoke(this, game);
         }
-        
 
         private void OnErrorMessageReceived(string errorMessage)
         {
             ErrorMessageReceived?.Invoke(this, errorMessage);
         }
-        
+
         private void OnLastMoveUndone(IgsGameInfo whichGame)
         {
             LastMoveUndone?.Invoke(this, whichGame);
         }
-        
+
         private void OnUndoDeclined(IgsGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
         }
-        
+
         private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
         {
-            GameScoredAndCompleted?.Invoke(this, new Igs.GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+            GameScoredAndCompleted?.Invoke(this, new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
         }
 
 
@@ -661,11 +668,11 @@ namespace OmegaGo.Core.Online.Igs
         {
             PersonalInformationUpdate?.Invoke(this, e);
         }
-        
+
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Metadata.IgsIndex == gameNumber);
+            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
             StoneRemoval?.Invoke(this, new StoneRemovalEventArgs(game, deadPosition));
-        }       
+        }
     }
 }

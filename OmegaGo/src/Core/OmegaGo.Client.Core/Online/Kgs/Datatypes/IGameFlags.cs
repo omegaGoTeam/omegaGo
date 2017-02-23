@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Online.Kgs.Downstream
+﻿namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// Because multiple data types may contain flags, to ensure that we don't forget any, all

@@ -9,7 +9,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class HiddenQuest : Quest
     {
-        public HiddenQuest() : base("Hidden Quest!", "Your quest transformed! Solve any one tsumego problem.", Points.EXTREME_REWARD, 1)
+        public HiddenQuest() : base("Hidden Quest!", "Your quest transformed! Solve any one tsumego problem.", RewardPoints.ExtremeReward, 1)
         {
         }
         public override Type GetViewModelToTry()

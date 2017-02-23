@@ -70,7 +70,7 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        // TODO a converter is probably a better idea
+        // TODO Martin: fix this display with custom control
         private string DO_MUTE = "MUTE";
         private string DO_UNMUTE = "UNMUTE";
         public string MuteGlyph {

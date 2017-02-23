@@ -118,7 +118,7 @@
                         <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
                         <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
+                        <Slider Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 
@@ -149,7 +149,13 @@
                         <ComboBox Width="140"
                               ItemsSource="{Binding AiPrograms}"
                               SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
-                        </ComboBox>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
+                                           ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                         <TextBlock Text="{x:Bind Localizer.Strength}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">

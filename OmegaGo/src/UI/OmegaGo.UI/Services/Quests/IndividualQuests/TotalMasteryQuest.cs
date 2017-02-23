@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class TotalMasteryQuest : Quest
     {
-        public TotalMasteryQuest() : base("Total Mastery", "Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more.", Points.EXTREME_REWARD + Points.MEDIUM_REWARD, 1)
+        public TotalMasteryQuest() : base("Total Mastery", "Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more.", RewardPoints.ExtremeReward + RewardPoints.MediumReward, 1)
         {
         }
 

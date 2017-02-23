@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
+using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
@@ -17,7 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// <summary>
     /// The Shell around the whole app
     /// </summary>
-    public sealed partial class AppShell : Page
+    public sealed partial class AppShell : Page, INotifyPropertyChanged
     {
         /// <summary>
         /// Contains the app shells for opened windows
@@ -269,10 +273,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
         private IGameSettings _settings;
 
-        public void RefreshBindings()
+        public void RefreshVisualSettings()
         {
-            Bindings.Update();
+            OnPropertyChanged(nameof(BackgroundOpacity));
+            OnPropertyChanged(nameof(BackgroundColor));
+            OnPropertyChanged(nameof(BackgroundImageUrl));
         }
+
         public float BackgroundOpacity
         {
             get
@@ -292,6 +299,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 }
             }
         }
+
         public Windows.UI.Xaml.Media.Brush BackgroundColor
         {
             get
@@ -300,13 +308,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
                 switch (_settings.Display.BackgroundColor)
                 {
-                    case UI.Services.Settings.BackgroundColor.Basic:
+                    case Game.Styles.BackgroundColor.Basic:
                         color = Color.FromArgb(170, 253, 210, 112);
                         break;
-                    case UI.Services.Settings.BackgroundColor.Green:
+                    case Game.Styles.BackgroundColor.Green:
                         color = Color.FromArgb(220, 164, 242, 167);
                         break;
-                    case UI.Services.Settings.BackgroundColor.None:
+                    case Game.Styles.BackgroundColor.None:
                     default:
                         color = Colors.Transparent;
                         break;
@@ -314,6 +322,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 return new Windows.UI.Xaml.Media.SolidColorBrush(color);
             }
         }
+
         public string BackgroundImageUrl {
             get
             {
@@ -334,6 +343,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 }
             }
 
-        } 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -1,25 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Platform;
-using OmegaGo.UI.Infrastructure;
 using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
@@ -114,6 +103,7 @@ namespace OmegaGo.UI.WindowsUniversal
         private void SetupWindowServices(Window window)
         {
             FullscreenModeManager.RegisterForWindow(window);
+
         }
 
         /// <summary>
@@ -208,7 +198,7 @@ namespace OmegaGo.UI.WindowsUniversal
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
+            
             deferral.Complete();
         }
     }

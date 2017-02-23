@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -67,7 +68,6 @@ namespace OmegaGo.Core.Online.Kgs
 
 
         ICommonCommands IServerConnection.Commands => Commands;
-        ICommonEvents IServerConnection.Events => Events;
 
 
         private void StartGetLoop()
