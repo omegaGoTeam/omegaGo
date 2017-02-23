@@ -38,11 +38,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             FullscreenModeManager.Toggle();
         }
 
-        private async void SfxVolumeChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            await Sounds.VolumeTestSound.PlayAsync();
-        }
-
         private void AppShellComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             AppShell.GetForCurrentView().RefreshVisualSettings();

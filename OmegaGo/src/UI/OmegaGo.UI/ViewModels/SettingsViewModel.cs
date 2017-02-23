@@ -161,9 +161,16 @@ namespace OmegaGo.UI.ViewModels
         public int SfxVolume
         {
             get { return _gameSettings.Audio.SfxVolume; }
-            set { _gameSettings.Audio.SfxVolume = value; RaisePropertyChanged();
+            set {
+                if (_gameSettings.Audio.SfxVolume != value)
+                {
+                    _gameSettings.Audio.SfxVolume = value;
+                    RaisePropertyChanged();
+                    PlaySampleSound();
+                }
             }
         }
+
         public bool PlayWhenYouPlaceStone
         {
             get { return _gameSettings.Audio.PlayWhenYouPlaceStone; }
@@ -204,5 +211,14 @@ namespace OmegaGo.UI.ViewModels
             get { return _gameSettings.Assistant.EnableInOnlineGames; }
             set { _gameSettings.Assistant.EnableInOnlineGames = value; RaisePropertyChanged(); }
         }
+        
+        /// <summary>
+        /// Plays a sample sound
+        /// </summary>
+        private async void PlaySampleSound()
+        {
+            await Sounds.VolumeTestSound.PlayAsync();
+        }
+
     }
 }
