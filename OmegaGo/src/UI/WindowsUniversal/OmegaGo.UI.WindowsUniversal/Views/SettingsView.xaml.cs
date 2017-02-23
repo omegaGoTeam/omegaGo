@@ -18,8 +18,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         }
 
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
-
-
+        
         public override string WindowTitle => Localizer.Settings;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");
@@ -41,10 +40,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private async void SfxVolumeChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
-            await Sounds.TestSfx.PlayAsync();
+            await Sounds.VolumeTestSound.PlayAsync();
         }
-
-      
 
         private void AppShellComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {

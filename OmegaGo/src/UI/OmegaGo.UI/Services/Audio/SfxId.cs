@@ -12,13 +12,20 @@ namespace OmegaGo.UI.Services.Audio
     /// </summary>
     public enum SfxId
     {
+        //place stone sounds
         SabakiPlace0,
         SabakiPlace1,
         SabakiPlace2,
         SabakiPlace3,
         SabakiPlace4,
+
+        //pass sounds
         SabakiPass,
+
+        //new game sounds
         SabakiNewGame,
+
+        //capture sounds
         SabakiCapture0,
         SabakiCapture1,
         SabakiCapture2,

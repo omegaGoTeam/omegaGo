@@ -17,7 +17,6 @@ namespace OmegaGo.UI.Services.Audio
         /// sound has finished playing, merely that it has started playing.
         /// </summary>
         /// <param name="id">The sound effect to play.</param>
-        /// <returns></returns>
         Task PlaySoundEffectAsync(SfxId id);
     }
 }
