@@ -1,8 +1,7 @@
 using System;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 
-namespace OmegaGo.Core.Online.Igs
+namespace OmegaGo.Core.Online.Igs.Events
 {
     public class GameScoreEventArgs : EventArgs
     {

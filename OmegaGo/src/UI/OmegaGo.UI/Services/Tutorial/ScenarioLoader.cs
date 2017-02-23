@@ -22,11 +22,12 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         public static List<ScenarioCommand> LoadFromText(string data)
         {
             List<ScenarioCommand> commands = new List<ScenarioCommand>();
-            // TODO HACK the menu parsing system is a little.... fragiles
+            // TODO Petr: HACK the menu parsing system is a little.... fragiles
             string[] lines = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
+                if (line.Trim() == "") continue;
                 ParsedLine parsedLine = ParsedLine.Parse(line);
                 if (parsedLine.Command == "menu")
                 {
@@ -93,7 +94,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                     yield return new ButtonNextTextCommand(parsedLine.FullArgument);
                     break;
                 case "suicidal_move_message":
-                    // TODO
+                    // TODO Petr:
                     break;
                 case "black":
                     yield return new PlaceCommand(StoneColor.Black, parsedLine.Arguments);

@@ -15,6 +15,7 @@ using MvvmCross.Platform;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
+using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
@@ -23,6 +24,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
     {
         private BoardControlState _sharedBoardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private double _flickerPercentage;
+        private bool _flickerAscending = true;
+        private const double _flickersPerSecond = 0.5f;
         public BoardControlState SharedBoardControlState
         {
             get { return this._sharedBoardControlState; }
@@ -56,7 +60,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private bool _highlightLastMove;
         private void ReloadSettings()
         {
-            // TODO call this when tsumego checkbox changes
+            // TODO Petr: call this when tsumego checkbox changes, but in a clean fashion please :-D !
             this.stoneDisplayTheme = this._settings.Display.StonesTheme;
             this._boardTheme = this._settings.Display.BoardTheme;
             this._showCoordinates = this._settings.Display.ShowCoordinates;
@@ -158,8 +162,13 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Shining position special case
             if (this._sharedBoardControlState.ShiningPosition.IsDefined)
             {
-                DrawStoneCellBackground(
-                    args.DrawingSession, this.SharedBoardControlState.ShiningPosition.X, this.SharedBoardControlState.ShiningPosition.Y,
+                int x = this.SharedBoardControlState.ShiningPosition.X;
+                int y = ((this.SharedBoardControlState.BoardHeight - 1) - this.SharedBoardControlState.ShiningPosition.Y);
+                float minusWhat = (float)_flickerPercentage*_cellSize*0.07f;
+                args.DrawingSession.FillRoundedRectangle(
+                    this._cellSize * x + minusWhat,
+                    this._cellSize * y + minusWhat, this._cellSize - 2 * minusWhat, this._cellSize - 2 * minusWhat,
+               4, 4,
                     Color.FromArgb(140, 100, 200, 100));
             }
 
@@ -169,11 +178,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Mouse over position special case
             if (this._sharedBoardControlState.MouseOverPosition.IsDefined)
             {
-                // TODO only if legal
+                // TODO Petr : only if legal - use Ruleset IsLegalMove? But it would be slow, you can implement caching to check for each intersection only once
                 if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
                 {
                     DrawStone(args.DrawingSession, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
-
                 }
                 else
                 {
@@ -271,9 +279,19 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             session.DrawRectangle(rect, Colors.Black, 2);
         }
 
-        public void Update()
+        public void Update(TimeSpan elapsedTime)
         {
-
+            _flickerPercentage += _flickersPerSecond*elapsedTime.TotalSeconds*(_flickerAscending ?1:-1);
+            if (_flickerPercentage >= 1)
+            {
+                _flickerPercentage = 1;
+                _flickerAscending = false;
+            }
+            else if (_flickerPercentage <= 0)
+            {
+                _flickerPercentage = 0;
+                _flickerAscending = true;
+            }
         }
 
         /// <summary>
@@ -322,7 +340,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
         {
             y = (this.SharedBoardControlState.BoardHeight - 1) - y;
-            // TODO dead positions
+            // TODO Vita : dead positions
             if (territory == Territory.Black || territory == Territory.White)
             {
                 Color color = (territory == Territory.Black ? Colors.Black : Colors.White);

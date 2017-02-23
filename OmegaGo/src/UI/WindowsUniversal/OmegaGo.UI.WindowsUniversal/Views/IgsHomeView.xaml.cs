@@ -3,11 +3,11 @@ using OmegaGo.UI.ViewModels;
 using System;
 using System.Linq;
 using Windows.UI.Xaml;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.Online;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -120,7 +120,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 IgsMatchRequest mr = (IgsMatchRequest) this.TempIncomingMatchRequests.SelectedItem;
                 VM.ShowProgressPanel("Declining request...");
                 VM.IncomingMatchRequests.Remove(mr);
-                await Connections.Pandanet.DeclineMatchRequestAsync(mr);
+                await Connections.Igs.DeclineMatchRequestAsync(mr);
                 VM.ProgressPanelVisible = false;
             }
         }
@@ -132,7 +132,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 IgsMatchRequest mr = (IgsMatchRequest)this.TempIncomingMatchRequests.SelectedItem;
                 VM.ShowProgressPanel("Accepting request...");
                 VM.IncomingMatchRequests.Remove(mr);
-                IgsGame game = await Connections.Pandanet.AcceptMatchRequestAsync(mr);
+                IgsGame game = await Connections.Igs.AcceptMatchRequestAsync(mr);
                 VM.ProgressPanelVisible = false;
                 VM.StartGame(game);
             }

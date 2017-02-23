@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class GettingStrongerQuest : Quest
     {
-        public GettingStrongerQuest() : base("Getting Stronger", "Win a solo game against Fuego.", Points.EASY_REWARD, 1)
+        public GettingStrongerQuest() : base("Getting Stronger", "Win a solo game against Fuego.", RewardPoints.EasyReward, 1)
         {
         }
 

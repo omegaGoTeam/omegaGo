@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Quests.IndividualQuests;
 using OmegaGo.UI.ViewModels;
 

@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI.Fuego
         /// Sends a GTP command to the engine and blocks until the engine returns a result. The result is returned as a string, excluding the starting "= " or "? ".
         /// </summary>
         /// <param name="command">The GTP command to send.</param>
-        /// <returns></returns>
+        /// <returns>Command response</returns>
         string SendCommand(string command);
     }
 }

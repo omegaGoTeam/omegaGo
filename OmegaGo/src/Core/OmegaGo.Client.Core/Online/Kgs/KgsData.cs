@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Online;
-using OmegaGo.Core.Modes.LiveGame.Online.Kgs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -92,9 +93,9 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public void JoinGame(KgsGame ongame)
         {
-            Channels[ongame.Metadata.ChannelId] = new KgsGameChannel(ongame.Metadata.ChannelId);
-            JoinedChannels.Add(ongame.Metadata.ChannelId);
-            joinedGames.Add(ongame.Metadata.ChannelId, ongame);
+            Channels[ongame.Info.ChannelId] = new KgsGameChannel(ongame.Info.ChannelId);
+            JoinedChannels.Add(ongame.Info.ChannelId);
+            joinedGames.Add(ongame.Info.ChannelId, ongame);
         }
         public KgsGame GetGame(int channelId)
         {

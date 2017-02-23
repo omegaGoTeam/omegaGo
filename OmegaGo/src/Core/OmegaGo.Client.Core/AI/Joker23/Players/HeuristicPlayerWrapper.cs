@@ -4,43 +4,39 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23.Players
 {
-    public class HeuristicPlayerWrapper : AiProgramBase
+    public class HeuristicPlayerWrapper : AIProgramBase
     {
-        public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);
-        public override string Name { get; } = "The Puppy (heuristics)";
+        private HeuristicPlayer _internalPlayer;
 
-        public override string Description
-            =>
-                "This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.\n\nThis AI will pass only in response to its opponent passing, in which case it will always pass."
-            ;
-        private HeuristicPlayer internalPlayer;
+        public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);        
 
-        public override AiDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
-            if (preMoveInformation.History.Any() &&
-                  preMoveInformation.History.Last().Kind == MoveKind.Pass)
+            var history = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            if (history.Any() &&
+                  history.Last().Kind == MoveKind.Pass)
             {
-                return AiDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
+                return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
-            internalPlayer = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
+            _internalPlayer = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
 
-            JokerGame currentGame = new JokerGame(preMoveInformation.Board.Size.Height,
-                preMoveInformation.Board.Size.Width,
+            JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
+                preMoveInformation.GameInfo.BoardSize.Width,
                 null,
                 null);
 
-            foreach(Move move in preMoveInformation.History)
+            foreach(Move move in history)
             {
                 currentGame.moves.AddLast(new JokerMove(move.WhoMoves == StoneColor.Black ? 'B' : 'W',
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 
-            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.Board, preMoveInformation.Board.Size );
+            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize );
 
-            JokerPoint point = internalPlayer.betterPlanMove(currentGame);
+            JokerPoint point = _internalPlayer.betterPlanMove(currentGame);
             
 
-            return AiDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
+            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
                 "I chose using heuristics.");
         }
     }

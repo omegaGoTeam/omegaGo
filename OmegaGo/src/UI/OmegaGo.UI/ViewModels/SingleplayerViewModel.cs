@@ -18,7 +18,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class SingleplayerViewModel : ViewModelBase
     {
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly IGameSettings _gameSettings;
+
+        public SingleplayerViewModel( IGameSettings gameSettings )
+        {
+            _gameSettings = gameSettings;
+        }
+
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
         public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
@@ -30,7 +36,7 @@ namespace OmegaGo.UI.ViewModels
         }
             );
 
-        public int Points => this._settings.Quests.Points;
+        public int Points => this._gameSettings.Quests.Points;
 
         public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
             = new ObservableCollection<ActiveQuest>();
@@ -38,12 +44,12 @@ namespace OmegaGo.UI.ViewModels
       
         public void Load()
         {
-            foreach(var quest in _settings.Quests.ActiveQuests)
+            foreach(var quest in _gameSettings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
             }
-            while (_settings.Quests.LastQuestReceivedWhen.AddDays(1) < DateTime.Now &&
-                _settings.Quests.ActiveQuests.Count() < Quest.MAXIMUM_NUMBER_OF_QUESTS)
+            while (_gameSettings.Quests.LastQuestReceivedWhen.AddDays(1) < DateTime.Now &&
+                _gameSettings.Quests.ActiveQuests.Count() < Quest.MAXIMUM_NUMBER_OF_QUESTS)
                 {
                     AddAQuest();
                 }
@@ -52,22 +58,22 @@ namespace OmegaGo.UI.ViewModels
 
         private void AddAQuest()
         {
-            _settings.Quests.LastQuestReceivedWhen = DateTime.Now; // TODO make it so that quests can stack in history, but not limitlessly
+            _gameSettings.Quests.LastQuestReceivedWhen = DateTime.Now; // TODO Petr : make it so that quests can stack in history, but not limitlessly
 
             var nq = Quest.SpawnRandomQuest();
-            _settings.Quests.AddQuest(nq);
+            _gameSettings.Quests.AddQuest(nq);
             ActiveQuests.Add(nq);
         }
 
         public void ExchangeQuest(ActiveQuest activeQuest)
         {
-            if (_settings.Quests.LastQuestExchangedWhen.AddDays(1) < DateTime.Now)
+            if (_gameSettings.Quests.LastQuestExchangedWhen.AddDays(1) < DateTime.Now)
             {
-                _settings.Quests.LoseQuest(activeQuest);
+                _gameSettings.Quests.LoseQuest(activeQuest);
                 ActiveQuests.Remove(activeQuest);
-                _settings.Quests.AddQuest(Quest.SpawnRandomQuest());
+                _gameSettings.Quests.AddQuest(Quest.SpawnRandomQuest());
                 ActiveQuests.Add(activeQuest);
-                _settings.Quests.LastQuestExchangedWhen = DateTime.Now;
+                _gameSettings.Quests.LastQuestExchangedWhen = DateTime.Now;
             }
             else
             {

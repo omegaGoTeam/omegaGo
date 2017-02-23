@@ -149,21 +149,10 @@
             <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
                        HorizontalAlignment="Right" VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />
-            
-            <ComboBox IsEnabled="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" PlaceholderText="Number of stones" SelectedIndex="0">
-                <ComboBoxItem>0</ComboBoxItem>
-                <ComboBoxItem>1</ComboBoxItem>
-                <ComboBoxItem>2</ComboBoxItem>
-                <ComboBoxItem>3</ComboBoxItem>
-                <ComboBoxItem>4</ComboBoxItem>
-                <ComboBoxItem>5</ComboBoxItem>
-                <ComboBoxItem>6</ComboBoxItem>
-                <ComboBoxItem>7</ComboBoxItem>
-                <ComboBoxItem>8</ComboBoxItem>
-                <ComboBoxItem>9</ComboBoxItem>
-            </ComboBox>
 
-            <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
+            <Slider Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" />
+            <TextBlock Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom" />
+                <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center" 
                        FontSize="22" Margin="5" />

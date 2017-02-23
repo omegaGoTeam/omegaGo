@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class IgsChallengeQuest : Quest
     {
-        public IgsChallengeQuest() : base("Pandanet Challenge", "Finish 3 games on the Pandanet server.", Points.HARD_REWARD, 3)
+        public IgsChallengeQuest() : base("Pandanet Challenge", "Finish 3 games on the Pandanet server.", RewardPoints.HardReward, 3)
         {
         }
 
@@ -17,7 +18,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         {
             return info.IsPlayedByUs &&
                    info.IsOnline &&
-                   info.Game.Controller.Server.Name == ServerId.Igs;
+                   info.Game is IgsGame;
         }
     }
 }

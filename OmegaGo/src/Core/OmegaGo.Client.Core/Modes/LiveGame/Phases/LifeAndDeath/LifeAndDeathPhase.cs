@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
@@ -11,19 +12,27 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
     {
         private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
+        private List<Position> _deadPositions = new List<Position>();
+
         public LifeAndDeathPhase(GameController gameController) : base(gameController)
         {
         }
 
-        public override GamePhaseType PhaseType => GamePhaseType.LifeDeathDetermination;
+        public override GamePhaseType Type => GamePhaseType.LifeDeathDetermination;
+
+        /// <summary>
+        /// Dead positions
+        /// </summary>
+        public IEnumerable<Position> DeadPositions => _deadPositions;
 
         void RecalculateTerritories()
         {
-             GameBoard boardAfterRemovalOfDeadStones =
-               this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                    this.Controller.DeadPositions);
+            GameBoard boardAfterRemovalOfDeadStones =
+              this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+                   _deadPositions);
             Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-            this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
+            //TODO Petr: Implement
+            //this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
         }
 
         public void MarkGroupDead(Position position)
@@ -36,9 +45,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             var group = Controller.Ruleset.DiscoverGroup(position, board);
             foreach (var deadStone in group)
             {
-                if (!Controller.DeadPositions.Contains(deadStone))
+                if (!_deadPositions.Contains(deadStone))
                 {
-                    Controller.DeadPositions.Add(deadStone);
+                    _deadPositions.Add(deadStone);
                 }
             }
             _playersDoneWithLifeDeath.Clear();
@@ -52,60 +61,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 _playersDoneWithLifeDeath.Add(player);
             }
             Controller.OnDebuggingMessage(player + " has completed his part of the Life/Death determination phase.");
-            if (_playersDoneWithLifeDeath.Count == 2) 
+            if (_playersDoneWithLifeDeath.Count == 2)
             {
-               ScoreIt();
+                GoToPhase(GamePhaseType.Finished);
             }
-        }
-
-        /// <summary>
-        /// Scores the game and moves us to the Finished phase.
-        /// </summary>
-        /// <param name="e">If this parameter is set, then it overriddes scores that would be determined from life/death determination and ruleset.</param>
-        public void ScoreIt(Scores e = null)
-        {
-            Scores scores = e;
-            if (scores == null)
-            {
-                GameBoard boardAfterRemovalOfDeadStones =
-                    this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
-                        this.Controller.DeadPositions);
-                scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
-            }
-            bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
-            GamePlayer winner;
-            GamePlayer loser;
-            if (isDraw)
-            {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
-                Controller.OnDebuggingMessage("It's a draw.");
-            }
-            else if (scores.BlackScore > scores.WhiteScore)
-            {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
-            }
-            else if (scores.BlackScore < scores.WhiteScore)
-            {
-                winner = this.Controller.Players.White;
-                loser = this.Controller.Players.Black;
-            }
-            else
-            {
-                throw new Exception("This cannot happen.");
-            }
-            if (!isDraw)
-            {
-                Controller.OnDebuggingMessage(winner + " wins.");
-            }
-            Controller.OnDebuggingMessage("Scoring complete! " + scores.PositiveScoreDifference);
-            this.Controller.GoToEnd(GameEndInformation.ScoringComplete(isDraw, winner, loser, scores));
-        }
+        }       
 
         public void UndoPhase()
         {
-            Controller.DeadPositions = new List<Position>();
+            _deadPositions = new List<Position>();
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
             Controller.OnDebuggingMessage("Life/death phase undone.");
@@ -113,7 +77,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public void Resume()
         {
-            Controller.DeadPositions = new List<Position>();
+            _deadPositions = new List<Position>();
             GoToPhase(GamePhaseType.Main);
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
@@ -122,11 +86,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
         public override void StartPhase()
         {
-            foreach(var player in Controller.Players)
+            foreach (var player in Controller.Players)
             {
-                 player.Clock.StopClock();
+                player.Clock.StopClock();
             }
             RecalculateTerritories();
         }
+
+
+        //TODO Petr: Implement
+        //public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        //{
+        //    LifeDeathTerritoryChanged?.Invoke(this, map);
+        //    BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
+        //}
     }
 }

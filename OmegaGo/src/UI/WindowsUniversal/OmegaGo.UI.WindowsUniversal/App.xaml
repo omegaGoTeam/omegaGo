@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Colors.xaml" />
                 <ResourceDictionary Source="/Resources/Converters.xaml" />
+                <ResourceDictionary Source="/Resources/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Resources/TitleBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

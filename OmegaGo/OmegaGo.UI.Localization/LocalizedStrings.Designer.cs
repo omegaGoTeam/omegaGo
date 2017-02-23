@@ -62,11 +62,162 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+        ///Fluffy will always and only pass in response to its opponent passing.
+        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
+        /// </summary>
+        public static string AI_AlphaBetaPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluffy (minimax).
+        /// </summary>
+        public static string AI_AlphaBetaPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+        ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
+        /// </summary>
+        public static string AI_DefeatistAI_Description {
+            get {
+                return ResourceManager.GetString("AI_DefeatistAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defeatist.
+        /// </summary>
+        public static string AI_DefeatistAI_Name {
+            get {
+                return ResourceManager.GetString("AI_DefeatistAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+        ///It uses Monte Carlo tree search to make moves. It&apos;s capable of placing stones, passing and resigning, as the situation calls for.
+        ///We recommend you use this AI program for all of your games..
+        /// </summary>
+        public static string AI_FuegoAI_Description {
+            get {
+                return ResourceManager.GetString("AI_FuegoAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego.
+        /// </summary>
+        public static string AI_FuegoAI_Name {
+            get {
+                return ResourceManager.GetString("AI_FuegoAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+        ///This AI will pass only in response to its opponent passing, in which case it will always pass..
+        /// </summary>
+        public static string AI_HeuristicPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_HeuristicPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Puppy (heuristic).
+        /// </summary>
+        public static string AI_HeuristicPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_HeuristicPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes..
+        /// </summary>
+        public static string AI_RandomAI_Description {
+            get {
+                return ResourceManager.GetString("AI_RandomAI_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Random.
+        /// </summary>
+        public static string AI_RandomAI_Name {
+            get {
+                return ResourceManager.GetString("AI_RandomAI_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This AI plays random moves while the board is not empty.
+        ///I dare you to let two Fish play against each other. The game will never end (unless you&apos;re very lucky)..
+        /// </summary>
+        public static string AI_RandomPlayerWrapper_Description {
+            get {
+                return ResourceManager.GetString("AI_RandomPlayerWrapper_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Fish.
+        /// </summary>
+        public static string AI_RandomPlayerWrapper_Name {
+            get {
+                return ResourceManager.GetString("AI_RandomPlayerWrapper_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A sound effect should play:.
+        /// </summary>
+        public static string ASoundEffectShouldPlay {
+            get {
+                return ResourceManager.GetString("ASoundEffectShouldPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assistant.
         /// </summary>
         public static string Assistant {
             get {
                 return ResourceManager.GetString("Assistant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assistant AI program.
+        /// </summary>
+        public static string AssistantAIProgram {
+            get {
+                return ResourceManager.GetString("AssistantAIProgram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artificial intelligence.
+        /// </summary>
+        public static string AssistPanel {
+            get {
+                return ResourceManager.GetString("AssistPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio.
+        /// </summary>
+        public static string AudioPanel {
+            get {
+                return ResourceManager.GetString("AudioPanel", resourceCulture);
             }
         }
         
@@ -85,6 +236,96 @@ namespace OmegaGo.UI.Localization {
         public static string Back {
             get {
                 return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background Color.
+        /// </summary>
+        public static string BackgroundColor {
+            get {
+                return ResourceManager.GetString("BackgroundColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic orange.
+        /// </summary>
+        public static string BackgroundColor_Basic {
+            get {
+                return ResourceManager.GetString("BackgroundColor_Basic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Green.
+        /// </summary>
+        public static string BackgroundColor_Green {
+            get {
+                return ResourceManager.GetString("BackgroundColor_Green", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string BackgroundColor_None {
+            get {
+                return ResourceManager.GetString("BackgroundColor_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Background Image.
+        /// </summary>
+        public static string BackgroundImage {
+            get {
+                return ResourceManager.GetString("BackgroundImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bamboo forest.
+        /// </summary>
+        public static string BackgroundImage_Forest {
+            get {
+                return ResourceManager.GetString("BackgroundImage_Forest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go board.
+        /// </summary>
+        public static string BackgroundImage_Go {
+            get {
+                return ResourceManager.GetString("BackgroundImage_Go", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string BackgroundImage_None {
+            get {
+                return ResourceManager.GetString("BackgroundImage_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shinto shrine.
+        /// </summary>
+        public static string BackgroundImage_Shrine {
+            get {
+                return ResourceManager.GetString("BackgroundImage_Shrine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zen temple.
+        /// </summary>
+        public static string BackgroundImage_Temple {
+            get {
+                return ResourceManager.GetString("BackgroundImage_Temple", resourceCulture);
             }
         }
         
@@ -121,6 +362,60 @@ namespace OmegaGo.UI.Localization {
         public static string BoardSize {
             get {
                 return ResourceManager.GetString("BoardSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Board Theme.
+        /// </summary>
+        public static string BoardTheme {
+            get {
+                return ResourceManager.GetString("BoardTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kaya wood.
+        /// </summary>
+        public static string BoardTheme_KayaWood {
+            get {
+                return ResourceManager.GetString("BoardTheme_KayaWood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oak wood.
+        /// </summary>
+        public static string BoardTheme_OakWood {
+            get {
+                return ResourceManager.GetString("BoardTheme_OakWood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sabaki.
+        /// </summary>
+        public static string BoardTheme_SabakiBoard {
+            get {
+                return ResourceManager.GetString("BoardTheme_SabakiBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solid color.
+        /// </summary>
+        public static string BoardTheme_SolidColor {
+            get {
+                return ResourceManager.GetString("BoardTheme_SolidColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Virtual board.
+        /// </summary>
+        public static string BoardTheme_VirtualBoard {
+            get {
+                return ResourceManager.GetString("BoardTheme_VirtualBoard", resourceCulture);
             }
         }
         
@@ -197,6 +492,33 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable even in online games.
+        /// </summary>
+        public static string EnableEvenInOnlineGames {
+            get {
+                return ResourceManager.GetString("EnableEvenInOnlineGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is frowned upon to use AI assistance during games against human opponents without their knowledge..
+        /// </summary>
+        public static string EnableEvenInOnlineGamesTooltip {
+            get {
+                return ResourceManager.GetString("EnableEvenInOnlineGamesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable hints.
+        /// </summary>
+        public static string EnableHints {
+            get {
+                return ResourceManager.GetString("EnableHints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by source.
         /// </summary>
         public static string FilterBySource {
@@ -265,6 +587,60 @@ namespace OmegaGo.UI.Localization {
         public static string HelpToolTip {
             get {
                 return ResourceManager.GetString("HelpToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight illegal Ko moves.
+        /// </summary>
+        public static string HighlightIllegalKoMoves {
+            get {
+                return ResourceManager.GetString("HighlightIllegalKoMoves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you can&apos;t place a stone on a point because it would violate the Ko rule, the point will be highlighted..
+        /// </summary>
+        public static string HighlightIllegalKoMovesTooltip {
+            get {
+                return ResourceManager.GetString("HighlightIllegalKoMovesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight last move.
+        /// </summary>
+        public static string HighlightLastMove {
+            get {
+                return ResourceManager.GetString("HighlightLastMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Highlight recent captures.
+        /// </summary>
+        public static string HighlightRecentCaptures {
+            get {
+                return ResourceManager.GetString("HighlightRecentCaptures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If a stone was captured during the previous move, its intersection will be highlighted..
+        /// </summary>
+        public static string HighlightRecentCapturesTooltip {
+            get {
+                return ResourceManager.GetString("HighlightRecentCapturesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input.
+        /// </summary>
+        public static string InputPanel {
+            get {
+                return ResourceManager.GetString("InputPanel", resourceCulture);
             }
         }
         
@@ -341,11 +717,47 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Making a move requires a confirmation click.
+        /// </summary>
+        public static string MakingAMoveRequiresAConfirmationClick {
+            get {
+                return ResourceManager.GetString("MakingAMoveRequiresAConfirmationClick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master volume.
+        /// </summary>
+        public static string MasterVolume {
+            get {
+                return ResourceManager.GetString("MasterVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
         public static string Medium {
             get {
                 return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Music volume.
+        /// </summary>
+        public static string MusicVolume {
+            get {
+                return ResourceManager.GetString("MusicVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mute all.
+        /// </summary>
+        public static string MuteAll {
+            get {
+                return ResourceManager.GetString("MuteAll", resourceCulture);
             }
         }
         
@@ -476,6 +888,33 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sound effects volume.
+        /// </summary>
+        public static string SfxVolume {
+            get {
+                return ResourceManager.GetString("SfxVolume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show coordinates.
+        /// </summary>
+        public static string ShowCoordinates {
+            get {
+                return ResourceManager.GetString("ShowCoordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the tutorial button in main menu.
+        /// </summary>
+        public static string ShowTutorialButton {
+            get {
+                return ResourceManager.GetString("ShowTutorialButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Singleplayer.
         /// </summary>
         public static string Singleplayer {
@@ -517,6 +956,60 @@ namespace OmegaGo.UI.Localization {
         public static string StatisticsToolTip {
             get {
                 return ResourceManager.GetString("StatisticsToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stones Theme.
+        /// </summary>
+        public static string StonesTheme {
+            get {
+                return ResourceManager.GetString("StonesTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Polished stones.
+        /// </summary>
+        public static string StoneTheme_PolishedBitmap {
+            get {
+                return ResourceManager.GetString("StoneTheme_PolishedBitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sabaki.
+        /// </summary>
+        public static string StoneTheme_Sabaki {
+            get {
+                return ResourceManager.GetString("StoneTheme_Sabaki", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solid color.
+        /// </summary>
+        public static string StoneTheme_SolidColor {
+            get {
+                return ResourceManager.GetString("StoneTheme_SolidColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strength.
+        /// </summary>
+        public static string Strength {
+            get {
+                return ResourceManager.GetString("Strength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Themes.
+        /// </summary>
+        public static string ThemesPanel {
+            get {
+                return ResourceManager.GetString("ThemesPanel", resourceCulture);
             }
         }
         
@@ -580,6 +1073,33 @@ namespace OmegaGo.UI.Localization {
         public static string UserInterface {
             get {
                 return ResourceManager.GetString("UserInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When another player places a stone.
+        /// </summary>
+        public static string WhenAnotherPlayerPlacesAStone {
+            get {
+                return ResourceManager.GetString("WhenAnotherPlayerPlacesAStone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When I place a stone.
+        /// </summary>
+        public static string WhenIPlaceAStone {
+            get {
+                return ResourceManager.GetString("WhenIPlaceAStone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When I receive a notification.
+        /// </summary>
+        public static string WhenIReceiveANotification {
+            get {
+                return ResourceManager.GetString("WhenIReceiveANotification", resourceCulture);
             }
         }
         

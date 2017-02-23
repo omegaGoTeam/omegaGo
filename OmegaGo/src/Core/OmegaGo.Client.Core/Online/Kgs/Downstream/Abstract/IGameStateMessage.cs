@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Downstream.Abstract
 {
     internal interface IGameStateMessage : IGameFlags
     {

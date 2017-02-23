@@ -2,6 +2,7 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Time;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.State;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players
 {
@@ -34,9 +35,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         public IAgent Agent { get; }
 
+        /// <summary>
+        /// Player's clock
+        /// </summary>
         public TimeControl Clock { get; }
 
-        public bool IsHuman => Agent is HumanAgent;
+        /// <summary>
+        /// Checks if the player is a local human player
+        /// </summary>
+        public bool IsHuman => Agent.Type == AgentType.Human;       
 
         /// <summary>
         /// Assigns the player to a game
@@ -45,12 +52,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <param name="gameState">Game state</param>
         public void AssignToGame(GameInfo gameInfo, IGameState gameState)
         {
+            //assign the agent player to this game
             Agent.AssignToGame(gameInfo, gameState);
         }
 
-        public override string ToString()
-        {
-            return Info.Name;
-        }
+        /// <summary>
+        /// Returns player's name
+        /// </summary>
+        /// <returns>Player's name</returns>
+        public override string ToString() => Info.Name;
     }
 }   

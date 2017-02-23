@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using OmegaGo.Core.Online.Kgs.Downstream;
+using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -44,7 +45,7 @@ namespace OmegaGo.Core.Online.Kgs
                     HandleInterruptMessage<RoomDesc>(message);
                     return true;
                 case "ROOM_JOIN":
-                    HandleInterruptMessage<RoomJoin>(message);
+                    HandleInterruptMessage<KgsRoomJoin>(message);
                     return true;
                 case "JOIN_COMPLETE":
                     HandleInterruptMessage<JoinComplete>(message);
@@ -74,13 +75,13 @@ namespace OmegaGo.Core.Online.Kgs
                     HandleInterruptMessage<GameList>(message);
                     return true;
                 case "GAME_STATE":
-                    HandleInterruptMessage<GameState>(message);
+                    HandleInterruptMessage<KgsGameState>(message);
                     return true;
                 case "GAME_UPDATE":
                     HandleInterruptMessage<GameUpdate>(message);
                     return true;
                 case "GAME_JOIN":
-                    HandleInterruptMessage<GameJoin>(message);
+                    HandleInterruptMessage<KgsGameJoin>(message);
                     return true;
                 case "LOGOUT":
                     HandleInterruptMessage<Logout>(message);

@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:quests="using:OmegaGo.UI.Services.Quests"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
@@ -19,41 +20,38 @@
     </Page.Transitions>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-
-        <TextBlock Text="Singleplayer Menu" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
-        <StackPanel HorizontalAlignment="Center" Margin="0,100,0,0" Width="200">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="0,20,0,0"></Setter>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-                </Style>
-                <Style TargetType="ComboBox">
-                    <Setter Property="Margin" Value="0,20,0,0"></Setter>
+                    <Setter Property="MaxWidth" Value="300"></Setter>
                     <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
                 </Style>
             </StackPanel.Resources>
-            <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
-            
+                <navigation:TitleControl Text="Singleplayer Menu" HorizontalAlignment="Center"></navigation:TitleControl>
+
+                <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
             <Button Content="Solve Puzzles" Command="{Binding Path=GoToTsumegoMenu}"></Button>
             <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
             <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Points: " FontSize="26" Margin="0,0,10,0"></TextBlock>
                 <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Rank: " FontSize="26" Margin="0,0,10,0"></TextBlock>
+                <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
+            </StackPanel>
+            <TextBlock Text="Upcoming Rank Information" FontSize="26" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock FontSize="26"><!-- SPACER --></TextBlock>
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" Width="950" Height="270" ItemsSource="{Binding ActiveQuests}">
+            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" ItemsSource="{Binding ActiveQuests}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="quests:ActiveQuest">
-                        <Border BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
-                            <StackPanel>
-                                <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="28" TextWrapping="Wrap" />
+                        <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
+                                <StackPanel>
+                                    <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="28" TextWrapping="Wrap" />
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <TextBlock  FontSize="22" Margin="0,0,10,0" >Reward: </TextBlock>
                                     <TextBlock Text="{Binding Quest.PointReward}"
@@ -76,11 +74,12 @@
                         </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
-                <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
-                <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
-            </GridView>
+                    <!-- A grid view maybe won't work... we need larger LastViewItems -->
+                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
+                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
+                </GridView>
             <TextBlock Text="You receive a new quest every 24 hours, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </views:TransparencyViewBase>

@@ -6,6 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.Core.AI;
+using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
@@ -93,6 +96,21 @@ namespace OmegaGo.UI.ViewModels
             get { return (int)_gameSettings.Display.StonesTheme; }
             set { _gameSettings.Display.StonesTheme = (StoneTheme)value; RaisePropertyChanged(); }
         }
+        public ObservableCollection<BackgroundImage> BackgroundImages { get; } =
+          new ObservableCollection<BackgroundImage>((BackgroundImage[])Enum.GetValues(typeof(BackgroundImage)));
+        public int SelectedBackgroundImage
+        {
+            get { return (int)_gameSettings.Display.BackgroundImage; }
+            set { _gameSettings.Display.BackgroundImage = (BackgroundImage)value; RaisePropertyChanged(); }
+        }
+        public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
+         new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
+        public int SelectedBackgroundColor
+        {
+            get { return (int)_gameSettings.Display.BackgroundColor; }
+            set { _gameSettings.Display.BackgroundColor = (BackgroundColor)value; RaisePropertyChanged(); }
+        }
+
         public bool HighlightLastMove
         {
             get { return _gameSettings.Display.HighlightLastMove; }
@@ -130,6 +148,11 @@ namespace OmegaGo.UI.ViewModels
             set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged();
             }
         }
+        public bool MuteAll
+        {
+            get { return _gameSettings.Audio.Mute; }
+            set { _gameSettings.Audio.Mute = value; RaisePropertyChanged(); }
+        }
         public int MusicVolume
         {
             get { return _gameSettings.Audio.MusicVolume; }
@@ -156,9 +179,11 @@ namespace OmegaGo.UI.ViewModels
             get { return _gameSettings.Audio.PlayWhenNotificationReceived; }
             set { _gameSettings.Audio.PlayWhenNotificationReceived = value; RaisePropertyChanged(); }
         }
+
         // AI
-        public ObservableCollection<string> AiPrograms { get; } =
-            new ObservableCollection<string>(OmegaGo.Core.AI.AISystems.AiPrograms.Select(program => program.Name));
+        public ObservableCollection<IAIProgram> AIPrograms { get; } =
+            new ObservableCollection<IAIProgram>(AISystems.AIPrograms);
+
         public string SelectedAiProgram
         {
             get { return _gameSettings.Assistant.ProgramName; }

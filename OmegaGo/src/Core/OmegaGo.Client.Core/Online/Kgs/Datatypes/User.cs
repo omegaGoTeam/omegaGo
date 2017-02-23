@@ -1,4 +1,4 @@
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// A user. Always an object. Users are sent in downstream messages, but upstream just the name is provided. It would have been cleaner to have the user flags a separate JSON fields, but users are sent a lot and I didn't want to use so much bandwidth.

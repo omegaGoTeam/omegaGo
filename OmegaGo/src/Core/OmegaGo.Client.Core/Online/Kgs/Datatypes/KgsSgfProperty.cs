@@ -2,12 +2,12 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace OmegaGo.Core.Online.Kgs.Downstream
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// The SGF in KGS is not quite like "standard" SGF. Multiple marks of the same type are considered different properties, so for example TR[aa][bb][cc] on KGS would be three different properties, one for each location. All rules-related properties (SZ[], TM[], etc) are grouped together in one "rules" property, etc. Furthere, some properties, such as DEAD, are not part of SGF but are used internally by KGS to track the state of the game board.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.RulesDescription" />
+    /// <seealso cref="RulesDescription" />
     public class KgsSgfProperty : RulesDescription
     {
         /// <summary>

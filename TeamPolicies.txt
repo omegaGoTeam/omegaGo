@@ -1,0 +1,13 @@
+- Everything in PRs
+- Each PR = 1 User Story
+- Ensure the PRs are bite-sized and do just one thing
+- Follow-on tips here - http://blog.ploeh.dk/2015/01/15/10-tips-for-better-pull-requests/
+- Each User story has assigned Parent and subtasks
+- Code readability - following C# file ordering conventions (public, private...; fields, constructors, events, properties, methods; related members of similar purpose should be in one place)
+- For code ordering see - http://stackoverflow.com/questions/150479/order-of-items-in-classes-fields-properties-constructors-methods
+- Each TODO in code should have a User story and should indicate the person who is to resolve
+- Each PR has to be approved by some other team member
+- Code readability - naming conventions for methods, variables, names should be sensible
+- If code of a different team member is changed, this team member must approve such PR
+- Maintain the state of features, user stories and tasks
+- Each public member of a class has to have documentation comment, complicated or important non-public members as well
