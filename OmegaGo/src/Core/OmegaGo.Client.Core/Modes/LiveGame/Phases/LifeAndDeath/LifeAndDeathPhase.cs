@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -92,6 +93,50 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 player.Clock.StopClock();
             }
             RecalculateTerritories();
+            
+            foreach(var connector in Controller.Connectors)
+            {
+                connector.LifeDeathForceReturnToMain += Connector_LifeDeathForceReturnToMain;
+                connector.LifeDeathRequestDone += Connector_LifeDeathRequestDone;
+                connector.LifeDeathRequestUndoDeathMarks += Connector_LifeDeathRequestUndoDeathMarks;
+            }
+        }
+
+        private void Connector_LifeDeathRequestUndoDeathMarks(object sender, EventArgs e)
+        {
+            LifeDeathRequestUndoDeathMarks();
+        }
+
+        protected virtual Task LifeDeathRequestUndoDeathMarks()
+        {
+            UndoPhase();
+            return Task.FromResult(0);
+        }
+
+        private void Connector_LifeDeathRequestDone(object sender, EventArgs e)
+        {
+            LifeDeathRequestDone();
+        }
+
+        protected virtual Task LifeDeathRequestDone()
+        {
+            ScoreIt();
+            return Task.FromResult(0);
+        }
+
+        private void Connector_LifeDeathForceReturnToMain(object sender, EventArgs e)
+        {
+            Resume();
+        }
+
+        public override void EndPhase()
+        {
+            foreach (var connector in Controller.Connectors)
+            {
+                connector.LifeDeathForceReturnToMain -= Connector_LifeDeathForceReturnToMain;
+                connector.LifeDeathRequestDone -= Connector_LifeDeathRequestDone;
+                connector.LifeDeathRequestUndoDeathMarks -= Connector_LifeDeathRequestUndoDeathMarks;
+            }
         }
 
         /// <summary>
@@ -103,7 +148,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Scores scores = e;
             if (scores == null)
             {
-                var deadPositions = Controller.PreviousPhases.OfType<ILifeAndDeathPhase>().Last().DeadPositions;
+                var deadPositions = DeadPositions;
                 GameBoard boardAfterRemovalOfDeadStones =
                     this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
                 scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);

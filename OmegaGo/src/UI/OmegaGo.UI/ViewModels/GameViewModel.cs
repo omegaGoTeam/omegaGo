@@ -37,7 +37,7 @@ namespace OmegaGo.UI.ViewModels
     public class GameViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings = Mvx.Resolve<IGameSettings>();
-        private readonly UIConnector _uiConnector;
+        public readonly UiConnector UiConnector;
 
         private ICommand _passCommand;
         private ICommand _resignCommand;
@@ -59,9 +59,9 @@ namespace OmegaGo.UI.ViewModels
         {
             Game = Mvx.GetSingleton<IGame>();
 
-            _uiConnector = new UIConnector(Game.Controller);
+            this.UiConnector = new UiConnector(Game.Controller);
 
-            Game.Controller.RegisterConnector(_uiConnector);
+            Game.Controller.RegisterConnector(this.UiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
@@ -208,7 +208,6 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e != null)
             {
-                _systemLog.AppendLine("NODE: " + e.Move);
                 UpdateTimeline();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
                 // because we need the UpdateTimeline calls to be in order.
@@ -277,7 +276,7 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                _uiConnector.MakeMove(selectedPosition);
+                this.UiConnector.MakeMove(selectedPosition);
             }
         }
 
@@ -286,7 +285,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Resign()
         {
-            _uiConnector.Resign();
+            this.UiConnector.Resign();
         }
 
         /// <summary>
@@ -294,7 +293,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Pass()
         {
-            _uiConnector.Pass();
+            this.UiConnector.Pass();
         }
 
         /// <summary>

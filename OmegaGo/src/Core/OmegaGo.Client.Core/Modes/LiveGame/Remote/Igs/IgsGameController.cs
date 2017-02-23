@@ -71,6 +71,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         //}       
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, LifeAndDeathPhase, FinishedPhase>();
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
     }
 }

@@ -17,5 +17,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// </summary>
         /// <param name="move">Move</param>
         void MovePerformed(Move move);
+
+        event EventHandler LifeDeathForceReturnToMain;
+        event EventHandler LifeDeathRequestUndoDeathMarks;
+        event EventHandler LifeDeathRequestDone;
     }
 }
