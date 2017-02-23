@@ -8,7 +8,7 @@ namespace OmegaGo.Core.Helpers
     internal static class Randomizer
     {
         /// <summary>
-        /// Shared <see cref="System.Random" /> instance
+        /// Shared Core <see cref="System.Random" /> instance
         /// </summary>
         private static readonly Random Generator = new Random();
 

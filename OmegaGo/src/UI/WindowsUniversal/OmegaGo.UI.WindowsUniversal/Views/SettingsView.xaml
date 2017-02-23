@@ -118,7 +118,7 @@
                         <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
 
                         <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <Slider  Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
+                        <Slider Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 

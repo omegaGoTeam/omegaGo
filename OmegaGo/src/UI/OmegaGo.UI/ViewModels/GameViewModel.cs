@@ -24,6 +24,7 @@ using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 
@@ -199,14 +200,50 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.BeginGame();
         }
 
-        private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
+        private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
             {
+                await PlaySoundIfAppropriate(e);
                 UpdateTimeline();
             }
         }
 
+        /// <summary>
+        /// Plays a sound if its is appropriate in the current state
+        /// </summary>
+        /// <param name="currentState">Current game tree node</param>        
+        private async Task PlaySoundIfAppropriate(GameTreeNode currentState)
+        {
+            if (currentState.Branches.Count == 0)
+            {
+                // This is the final node.
+                if (currentState.Move != null)
+                {
+                    bool humanPlayed = (Game.Controller.Players[currentState.Move.WhoMoves].IsHuman);
+                    bool notificationDemanded =
+                        (humanPlayed
+                            ? _settings.Audio.PlayWhenYouPlaceStone
+                            : _settings.Audio.PlayWhenOthersPlaceStone);
+                    if (notificationDemanded)
+                    {
+                        if (currentState.Move.Kind == MoveKind.PlaceStone)
+                        {
+                            await Sounds.PlaceStone.PlayAsync();
+                            if (currentState.Move.Captures.Count > 0)
+                            {
+                                await Sounds.Capture.PlayAsync();
+                            }
+                        }
+                        else if (currentState.Move.Kind == MoveKind.Pass)
+                        {
+                            await Sounds.Pass.PlayAsync();
+                        }
+                    }
+                }
+            }
+        }
+                
         public void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -292,5 +329,4 @@ namespace OmegaGo.UI.ViewModels
             _previousMoveIndex = newNumber;
         }
     }
-
 }

@@ -5,6 +5,8 @@ using Windows.UI.ViewManagement;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using System;
+using Windows.UI.Xaml.Input;
+using OmegaGo.UI.Services.Audio;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -16,8 +18,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         }
 
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
-
-
+        
         public override string WindowTitle => Localizer.Settings;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");

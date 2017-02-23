@@ -5,11 +5,13 @@ using MvvmCross.WindowsUWP.Platform;
 using OmegaGo.UI.Services;
 using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.WindowsUniversal.Services.Audio;
 using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
 
 namespace OmegaGo.UI.WindowsUniversal
@@ -36,6 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
+            Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
 
             base.InitializeFirstChance();
         }

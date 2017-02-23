@@ -106,6 +106,7 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
     <Compile Include="Infrastructure\Triggers\BoolTrigger.cs" />
