@@ -194,7 +194,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void Init()
         {
-            Game.Controller.BeginGame();
+            UpdateTimeline();
         }
 
         private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)

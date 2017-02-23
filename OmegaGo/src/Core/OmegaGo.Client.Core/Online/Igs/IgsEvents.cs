@@ -17,11 +17,10 @@ namespace OmegaGo.Core.Online.Igs
         {
             _connection = connection;
         }  
-
-        public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlAdjustment;
+        
         public void OnTimeControlAdjustment(IgsGame whatGame, CanadianTimeInformation whiteTimeRemaining, CanadianTimeInformation blackTimeRemaining)
         {
-            TimeControlAdjustment?.Invoke(this,
+            _connection.GetConnector(whatGame.Info).TimeControlAdjustment(
                 new Igs.TimeControlAdjustmentEventArgs(whatGame, whiteTimeRemaining, blackTimeRemaining));
         }
     }

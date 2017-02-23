@@ -117,5 +117,32 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         {
             _gameController.SetPhase(gamePhase);
         }
+
+        internal void LifeDeath_ForceKillGroup(Position deadPosition)
+        {
+            LifeDeathForceKillGroup?.Invoke(this, deadPosition);
+        }
+
+        public void LifeDeath_ForceUndoDeathMarks()
+        {
+            LifeDeathForceUndoDeathMarks?.Invoke(this, EventArgs.Empty);
+        }
+
+        public EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
+        public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
+        {
+            GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
+        }
+
+        public void Main_ForceUndo()
+        {
+            MainForceUndo?.Invoke(this, EventArgs.Empty);
+        }
+
+        public EventHandler<TimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
+        public void TimeControlAdjustment(TimeControlAdjustmentEventArgs timeControlAdjustmentEventArgs)
+        {
+            TimeControlShouldAdjust?.Invoke(this, timeControlAdjustmentEventArgs);
+        }
     }
 }

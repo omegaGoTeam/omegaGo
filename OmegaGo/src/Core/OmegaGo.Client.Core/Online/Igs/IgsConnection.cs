@@ -590,6 +590,11 @@ namespace OmegaGo.Core.Online.Igs
             _availableConnectors[game.Info.IgsIndex].MoveFromServer(moveIndex, theMove);
         }
 
+        internal IgsConnector GetConnector(IgsGameInfo gameinfo)
+        {
+            return _availableConnectors[gameinfo.IgsIndex];
+        }
+
         private void OnIncomingHandicapInformation(IgsGame game, int stoneCount)
         {
             _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
@@ -655,7 +660,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
         {
-            GameScoredAndCompleted?.Invoke(this, new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+            GetConnector(gameInfo.Info).ScoreGame(new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
         }
 
 
@@ -672,7 +677,7 @@ namespace OmegaGo.Core.Online.Igs
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
             var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
-            StoneRemoval?.Invoke(this, new StoneRemovalEventArgs(game, deadPosition));
+            GetConnector(game.Info).LifeDeath_ForceKillGroup(deadPosition);
         }
     }
 }
