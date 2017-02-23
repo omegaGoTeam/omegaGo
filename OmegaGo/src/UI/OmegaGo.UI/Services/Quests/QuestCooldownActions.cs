@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Quests
         public static void CheckForNewQuests(IGameSettings settings)
         {
             int newQuestCount = (DateTime.Today - settings.Quests.LastQuestReceivedWhen.Date).Days;
-            int slots = Quest.MAXIMUM_NUMBER_OF_QUESTS - settings.Quests.ActiveQuests.Count();
+            int slots = Quest.MaximumNumberOfQuests - settings.Quests.ActiveQuests.Count();
             if (newQuestCount > slots)
             {
                 newQuestCount = slots;
