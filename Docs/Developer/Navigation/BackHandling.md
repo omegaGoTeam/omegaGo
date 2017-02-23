@@ -2,9 +2,7 @@
 
 ## General
 
-Back button is handled in two ways in Omega Go. The system handles common navigation patterns on all devices - title back button on Desktop, back button on Mobile, B button on Xbox, virtual back button on HoloLens and also hardware back keys on mouse or keyboard. 
-These events all surface as the `SystemNavigationManager.GetForCurrentView().BackRequested` event.
-Omega Go also wires up the Esc key as it is quite common for apps to use it for back navigation.
+Back button is handled in two ways in Omega Go. The system handles common navigation patterns on all devices - title back button on Desktop, back button on Mobile, B button on Xbox, virtual back button on HoloLens and also hardware back keys on mouse or keyboard. These events all surface as the `SystemNavigationManager.GetForCurrentView().BackRequested` event. Omega Go also wires up the Esc key as it is quite common for apps to use it for back navigation.
 
 Both back button handling paths are handled by the `AppShell` which also allows you to trigger back navigation manually using the `GoBack` method.
 

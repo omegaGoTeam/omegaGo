@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Online.Kgs.Downstream
+﻿namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// Only used in <see cref="Proposal"/> to associate a role with a user. 
@@ -6,7 +6,7 @@
     public class KgsPlayer
     {
         /// <summary>
-        /// The <see cref="Downstream.Role"/>  of the player.
+        /// The <see cref="Datatypes.Role"/>  of the player.
         /// </summary>
         public string Role { get; set; }
         /// <summary>

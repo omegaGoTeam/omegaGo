@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.Online.Kgs.Downstream
+﻿namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
     /// A proposal is an offer to start a game. It includes the rules and may include some or all of the players. If all the players needed are present in the proposal, then it is called a "complete" proposal.
@@ -8,7 +8,7 @@
     public class Proposal : IGameFlags
     {
         /// <summary>
-        /// The <see cref="Kgs.Downstream.GameType"/>  of the game.
+        /// The <see cref="Datatypes.GameType"/>  of the game.
         /// </summary>
         public string GameType { get; set; }
         /// <summary>

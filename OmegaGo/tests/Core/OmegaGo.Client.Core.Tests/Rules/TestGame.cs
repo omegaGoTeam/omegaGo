@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Tests.Rules
 
         public GameBoard CurrentBoard => _fullHistory.Last();
 
-        public List<GameBoard> History => _fullHistory.Take(_fullHistory.Count - 1).ToList();
+        public GameBoard[] History => _fullHistory.Take(_fullHistory.Count - 1).ToArray();        
 
         public static TestGame New(int size, Ruleset ruleset = null)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -37,7 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             else if (Content is Border)
             {
                 ((Border)Content).Background = transparentBackground;
-            }
+            }         
         }
     }
 }

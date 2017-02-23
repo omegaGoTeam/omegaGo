@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Time.None;
 
-namespace OmegaGo.Core.Time
+namespace OmegaGo.Core.Time.None
 {
     /// <summary>
     /// The "no time control" time control means that both players have infinite time available.

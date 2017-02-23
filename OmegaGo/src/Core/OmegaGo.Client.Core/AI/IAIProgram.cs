@@ -8,7 +8,7 @@ namespace OmegaGo.Core.AI
 {
     /// <summary>
     /// Represents an AI program that can intelligently play Go by making moves in response to requests by
-    /// the controller application. DO NOT implement this interface directly, instead use the <see cref="AiProgramBase"/> as your base class. 
+    /// the controller application. DO NOT implement this interface directly, instead use the <see cref="AIProgramBase"/> as your base class. 
     /// </summary>
     public interface IAIProgram
     {
@@ -18,29 +18,20 @@ namespace OmegaGo.Core.AI
         AICapabilities Capabilities { get; }
 
         /// <summary>
-        /// Gets a human-readable text description of the AI program.
-        /// </summary>
-        string Description { get; }
-        /// <summary>
-        /// Gets the name of the AI as it will be displayed to the user.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
         /// Asks the AI to make a move or resign, synchronously. It is guaranteed that this method
         /// will be called in order, (TODO undos), but it may be called on white or black. The AI
         /// should check the history whether it agrees with its own. In case of a conflict,
         /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history.
         /// </summary>
         /// <param name="preMoveInformation">Information the AI might need.</param>
-        /// <returns></returns>
-        AiDecision RequestMove (AIPreMoveInformation preMoveInformation);
+        /// <returns>Decision</returns>
+        AIDecision RequestMove (AIPreMoveInformation preMoveInformation);
 
         /// <summary>
         /// Asks the AI to tell us its best move for the given situation. This method must not have side-effects or
         /// be affected by the state of the class.
         /// </summary>
         /// <param name="preMoveInformation">Information the AI might need.</param>
-        AiDecision GetHint(AIPreMoveInformation preMoveInformation);
+        AIDecision GetHint(AIPreMoveInformation preMoveInformation);
     }
 }

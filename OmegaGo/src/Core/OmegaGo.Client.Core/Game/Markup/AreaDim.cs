@@ -1,5 +1,8 @@
 ﻿namespace OmegaGo.Core.Game.Markup
 {
+    /// <summary>
+    /// Markup for dimming a given area on board
+    /// </summary>
     public sealed class AreaDim : IMarkup
     {
         public MarkupKind Kind => MarkupKind.AreaDim;

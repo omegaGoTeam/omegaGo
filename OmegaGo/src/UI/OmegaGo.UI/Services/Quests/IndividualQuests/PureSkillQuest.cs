@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Players.AI;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class PureSkillQuest : Quest
     {
-        public PureSkillQuest() : base("Pure Skill", "Win a solo game against Fuego without handicap.", Points.EXTREME_REWARD, 1)
+        public PureSkillQuest() : base("Pure Skill", "Win a solo game against Fuego without handicap.", RewardPoints.ExtremeReward, 1)
         {
         }
 

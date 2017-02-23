@@ -43,6 +43,10 @@ namespace OmegaGo.Core.Game
         /// Checks if the board is square.
         /// </summary>
         public bool IsSquare => Width == Height;
+        
+        public static bool operator ==(GameBoardSize first, GameBoardSize second) => first.Equals(second);
+
+        public static bool operator !=(GameBoardSize first, GameBoardSize second) => !(first == second);
 
         public bool Equals(GameBoardSize other)
         {
@@ -62,10 +66,6 @@ namespace OmegaGo.Core.Game
             if (ReferenceEquals(null, obj)) return false;
             return obj is GameBoardSize && Equals((GameBoardSize)obj);
         }
-
-        public static bool operator ==( GameBoardSize first, GameBoardSize second) => first.Equals(second);
-
-        public static bool operator !=(GameBoardSize first, GameBoardSize second) => !( first == second );
 
         public override string ToString()
         {

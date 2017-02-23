@@ -8,7 +8,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
     class OnlineTraditionalQuest : Quest
     {
-        public OnlineTraditionalQuest() : base("Net Traditional", "Finish an online game on a 19x19 board.", Points.HARD_REWARD, 1)
+        public OnlineTraditionalQuest() : base("Net Traditional", "Finish an online game on a 19x19 board.", RewardPoints.HardReward, 1)
         {
         }
 

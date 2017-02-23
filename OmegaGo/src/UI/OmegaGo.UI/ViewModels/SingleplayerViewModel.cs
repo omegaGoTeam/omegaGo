@@ -18,7 +18,13 @@ namespace OmegaGo.UI.ViewModels
 {
     public class SingleplayerViewModel : ViewModelBase
     {
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly IGameSettings _gameSettings;
+
+        public SingleplayerViewModel( IGameSettings gameSettings )
+        {
+            _gameSettings = gameSettings;
+        }
+
         public IMvxCommand GoToTutorial => new MvxCommand(() => ShowViewModel<TutorialViewModel>());
         public MvxCommand GoToStatistics => new MvxCommand(() => ShowViewModel<StatisticsViewModel>());
         public MvxCommand GoToTsumegoMenu => new MvxCommand(() => ShowViewModel<TsumegoMenuViewModel>());
@@ -30,7 +36,9 @@ namespace OmegaGo.UI.ViewModels
         }
             );
 
-        public int Points => this._settings.Quests.Points;
+        public int Points => this._gameSettings.Quests.Points;
+
+        public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_gameSettings);
 
         public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }
             = new ObservableCollection<ActiveQuest>();
@@ -38,48 +46,35 @@ namespace OmegaGo.UI.ViewModels
       
         public void Load()
         {
-            foreach(var quest in _settings.Quests.ActiveQuests)
+            ActiveQuests.Clear();
+            QuestCooldownActions.CheckForNewQuests(_gameSettings);
+            foreach(var quest in _gameSettings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
             }
-            while (_settings.Quests.LastQuestReceivedWhen.AddDays(1) < DateTime.Now &&
-                _settings.Quests.ActiveQuests.Count() < Quest.MAXIMUM_NUMBER_OF_QUESTS)
-                {
-                    AddAQuest();
-                }
             
-        }
-
-        private void AddAQuest()
-        {
-            _settings.Quests.LastQuestReceivedWhen = DateTime.Now; // TODO make it so that quests can stack in history, but not limitlessly
-
-            var nq = Quest.SpawnRandomQuest();
-            _settings.Quests.AddQuest(nq);
-            ActiveQuests.Add(nq);
         }
 
         public void ExchangeQuest(ActiveQuest activeQuest)
         {
-            if (_settings.Quests.LastQuestExchangedWhen.AddDays(1) < DateTime.Now)
+            if (ExchangeIsPossible)
             {
-                _settings.Quests.LoseQuest(activeQuest);
+                var newQuest = Quest.SpawnRandomQuest(_gameSettings.Quests.ActiveQuests.Select(q => q.QuestID));
+                _gameSettings.Quests.LoseQuest(activeQuest);
                 ActiveQuests.Remove(activeQuest);
-                _settings.Quests.AddQuest(Quest.SpawnRandomQuest());
-                ActiveQuests.Add(activeQuest);
-                _settings.Quests.LastQuestExchangedWhen = DateTime.Now;
+                _gameSettings.Quests.AddQuest(newQuest);
+                ActiveQuests.Add(newQuest);
+                _gameSettings.Quests.LastQuestExchangedWhen = DateTime.Now;
             }
-            else
-            {
-                throw new Exception("The button should not have been displayed.");
-            }
+            RaisePropertyChanged(nameof(ExchangeIsPossible));
         }
 
         public void TryThisNow(ActiveQuest activeQuest)
         {
-            if (activeQuest.Quest.GetViewModelToTry() != null)
+            Type model = activeQuest.Quest.GetViewModelToTry();
+            if (model != null)
             {
-                ShowViewModel(activeQuest.Quest.GetViewModelToTry());
+                ShowViewModel(model);
             }
         }
     }

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Time.Absolute;
 
-namespace OmegaGo.Core.Time
+namespace OmegaGo.Core.Time.Absolute
 {
     /// <summary>
     /// In absolute time control, a player has a number of minutes that must suffice for the entire game.

@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
-    Loaded="TransparencyViewBase_Loaded"
+    xmlns:xaml="using:OmegaGo.UI.WindowsUniversal.Extensions.Xaml"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -18,32 +18,55 @@
     </Page.Transitions>
 
     <SplitView IsPaneOpen="True"
-               Name="HelpSplitView"
-               DisplayMode="CompactInline">
+               Name="helpSplitView"
+               DisplayMode="CompactInline"
+               CompactPaneLength="40"
+               OpenPaneLength="300">
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Button x:Name="HamburgerButton" Grid.Row="0" Click="OpenCloseHelp">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <Button x:Name="hamburgerButton" 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Background="Transparent"
+                        Click="OpenCloseHelp">
                     <FontIcon Glyph="&#xE700;"></FontIcon>
                 </Button>
-                <navigation:TitleControl Text="{x:Bind Localizer.Help}" Grid.Row="1" />
-                <ScrollViewer Grid.Row="2">
-                    <ListBox ScrollViewer.HorizontalScrollMode="Enabled"
-                     ItemsSource="{Binding HelpItems}"
-                     SelectedItem="{Binding SelectedHelpItem, Mode=TwoWay}"
-                     ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                    </ListBox>
-                </ScrollViewer>
+                
+                <navigation:TitleControl x:Name="viewName" 
+                                         Text="{x:Bind Localizer.Help}" 
+                                         Grid.Row="0"
+                                         Grid.Column="1"/>
+                
+                <ListView x:Name="helpPagesList"
+                          Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          ItemsSource="{Binding Path=HelpItems}"
+                          SelectedItem="{Binding Path=SelectedHelpItem, Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon Glyph="&#xE1D3;" />
+                                <TextBlock Margin="15,0,0,0" Text="{Binding Path=Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </Grid>
         </SplitView.Pane>
+        
         <Border BorderBrush="Black" BorderThickness="2">
-            <WebView DefaultBackgroundColor="White" Name="WebView">
-
-            </WebView>
+             <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView" />
         </Border>
     </SplitView>
 </views:TransparencyViewBase>

@@ -15,41 +15,37 @@ namespace OmegaGo.Core.AI
     /// </summary>
     public static class AISystems
     {
-        private static bool _registrationComplete;
-
-        internal static IGtpEngineBuilder FuegoBuilder;
         /// <summary>
-        /// Registers a Fuego wrapper builder. This method should be called once, at the start of 
-        /// the application, by the frontend. The builder will be stored as a static member in this class and will be used to create a new Fuego instance for each game. Fuego must be registered externally because it uses C++ code which cannot be referenced from a Portable .NET library.
+        /// Fuego AI builder
         /// </summary>
-        /// <param name="builder">The builder that can create Fuego instances.</param>
-        public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
-        {
-            FuegoBuilder = builder;
-            AISystems._registrationComplete = true;
-        }
+        internal static IGtpEngineBuilder FuegoBuilder;
+
+        /// <summary>
+        /// Indicates whether the AI systems have been registered
+        /// </summary>
+        private static bool _registrationComplete;
 
         /// <summary>
         /// Gets the list of AI programs known to this application. This cannot be used until
         /// Fuego is registered.
         /// </summary>
         /// <exception cref="Exception">Fuego was not yet registered!</exception>
-        public static List<IAIProgram> AiPrograms
+        public static IEnumerable<IAIProgram> AIPrograms
         {
             get
             {
-                if (!AISystems._registrationComplete)
+                if (!_registrationComplete)
                 {
                     // Fuego is not available
                     return
-                    new List<IAIProgram>
-                    {
-                        new DefeatistAI(),
-                        new RandomAI(),
-                        new RandomPlayerWrapper(),
-                        new HeuristicPlayerWrapper(),
-                        new AlphaBetaPlayerWrapper()
-                    };
+                        new List<IAIProgram>
+                        {
+                            new DefeatistAI(),
+                            new RandomAI(),
+                            new RandomPlayerWrapper(),
+                            new HeuristicPlayerWrapper(),
+                            new AlphaBetaPlayerWrapper()
+                        };
                 }
                 return
                     new List<IAIProgram>
@@ -59,10 +55,20 @@ namespace OmegaGo.Core.AI
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new AlphaBetaPlayerWrapper(),
-                        new FuegoWrapper()
+                        new FuegoAI()
                     };
             }
-
         }
+
+        /// <summary>
+        /// Registers a Fuego wrapper builder. This method should be called once, at the start of 
+        /// the application, by the frontend. The builder will be stored as a static member in this class and will be used to create a new Fuego instance for each game. Fuego must be registered externally because it uses C++ code which cannot be referenced from a Portable .NET library.
+        /// </summary>
+        /// <param name="builder">The builder that can create Fuego instances.</param>
+        public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
+        {
+            FuegoBuilder = builder;
+            _registrationComplete = true;
+        }        
     }
 }

@@ -11,3 +11,5 @@
 **KGS.**
 * OmegaGo1 (password 123456789)
 * OmegaGo2 (password 123456789)
+
+test
