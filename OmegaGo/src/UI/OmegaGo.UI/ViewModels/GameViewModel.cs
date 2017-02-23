@@ -204,34 +204,38 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e != null)
             {
-                await ConsiderPlayingASound(e);
+                await PlaySoundIfAppropriate(e);
                 UpdateTimeline();
             }
         }
 
-        private async Task ConsiderPlayingASound(GameTreeNode e)
+        /// <summary>
+        /// Plays a sound if its is appropriate in the current state
+        /// </summary>
+        /// <param name="currentState">Current game tree node</param>        
+        private async Task PlaySoundIfAppropriate(GameTreeNode currentState)
         {
-            if (e.Branches.Count == 0)
+            if (currentState.Branches.Count == 0)
             {
                 // This is the final node.
-                if (e.Move != null)
+                if (currentState.Move != null)
                 {
-                    bool humanPlayed = (this.Game.Controller.Players[e.Move.WhoMoves].IsHuman);
+                    bool humanPlayed = (Game.Controller.Players[currentState.Move.WhoMoves].IsHuman);
                     bool notificationDemanded =
                         (humanPlayed
-                            ? this._settings.Audio.PlayWhenYouPlaceStone
-                            : this._settings.Audio.PlayWhenOthersPlaceStone);
+                            ? _settings.Audio.PlayWhenYouPlaceStone
+                            : _settings.Audio.PlayWhenOthersPlaceStone);
                     if (notificationDemanded)
                     {
-                        if (e.Move.Kind == MoveKind.PlaceStone)
+                        if (currentState.Move.Kind == MoveKind.PlaceStone)
                         {
                             await Sounds.PlaceStone.PlayAsync();
-                            if (e.Move.Captures.Count > 0)
+                            if (currentState.Move.Captures.Count > 0)
                             {
                                 await Sounds.Capture.PlayAsync();
                             }
                         }
-                        else if (e.Move.Kind == MoveKind.Pass)
+                        else if (currentState.Move.Kind == MoveKind.Pass)
                         {
                             await Sounds.Pass.PlayAsync();
                         }
