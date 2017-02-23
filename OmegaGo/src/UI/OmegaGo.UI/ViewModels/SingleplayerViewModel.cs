@@ -47,7 +47,7 @@ namespace OmegaGo.UI.ViewModels
         public void Load()
         {
             ActiveQuests.Clear();
-            QuestCooldownActions.CheckForNewQuests(_settings);
+            QuestCooldownActions.CheckForNewQuests(_gameSettings);
             foreach(var quest in _gameSettings.Quests.ActiveQuests)
             {
                 ActiveQuests.Add(quest);
@@ -59,12 +59,12 @@ namespace OmegaGo.UI.ViewModels
         {
             if (ExchangeIsPossible)
             {
-                var newQuest = Quest.SpawnRandomQuest(_settings.Quests.ActiveQuests.Select(q => q.QuestID));
-                _settings.Quests.LoseQuest(activeQuest);
+                var newQuest = Quest.SpawnRandomQuest(_gameSettings.Quests.ActiveQuests.Select(q => q.QuestID));
+                _gameSettings.Quests.LoseQuest(activeQuest);
                 ActiveQuests.Remove(activeQuest);
-                _settings.Quests.AddQuest(newQuest);
+                _gameSettings.Quests.AddQuest(newQuest);
                 ActiveQuests.Add(newQuest);
-                _settings.Quests.LastQuestExchangedWhen = DateTime.Now;
+                _gameSettings.Quests.LastQuestExchangedWhen = DateTime.Now;
             }
             RaisePropertyChanged(nameof(ExchangeIsPossible));
         }
