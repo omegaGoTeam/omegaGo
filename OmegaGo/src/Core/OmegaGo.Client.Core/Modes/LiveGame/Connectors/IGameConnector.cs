@@ -25,5 +25,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         event EventHandler LifeDeathForceDone;
         event EventHandler<Position> LifeDeathRequestKillGroup;
         event EventHandler<Position> LifeDeathForceKillGroup;
+        event EventHandler MainRequestUndo;
+        event EventHandler MainForceUndo;
     }
 }

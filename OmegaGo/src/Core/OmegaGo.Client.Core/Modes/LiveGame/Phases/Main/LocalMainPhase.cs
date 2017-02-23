@@ -10,10 +10,20 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 {
-    internal class MainPhase : MainPhaseBase
+    internal class LocalMainPhase : MainPhaseBase
     {
-        public MainPhase(GameController gameController) : base(gameController)
+        public LocalMainPhase(GameController gameController) : base(gameController)
         {
+        }
+
+        protected override void MainForceUndo()
+        {
+            Undo();
+        }
+
+        protected override void MainRequestUndo()
+        {
+            MainForceUndo();
         }
 
         /// <summary>

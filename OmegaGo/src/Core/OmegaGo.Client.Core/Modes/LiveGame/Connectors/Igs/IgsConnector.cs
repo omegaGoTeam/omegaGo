@@ -94,6 +94,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         public event EventHandler LifeDeathForceDone;
         public event EventHandler<Position> LifeDeathRequestKillGroup;
         public event EventHandler<Position> LifeDeathForceKillGroup;
+        public event EventHandler MainRequestUndo;
+        public event EventHandler MainForceUndo;
 
         /// <summary>
         /// Receives and handles resignation from server

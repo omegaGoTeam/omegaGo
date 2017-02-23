@@ -69,6 +69,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler LifeDeathForceDone;
         public event EventHandler<Position> LifeDeathRequestKillGroup;
         public event EventHandler<Position> LifeDeathForceKillGroup;
+        public event EventHandler MainRequestUndo;
+        public event EventHandler MainForceUndo;
 
 
         /// <summary>
@@ -82,6 +84,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public void LifeDeath_RequestKillGroup(Position selectedPosition)
         {
             LifeDeathRequestKillGroup?.Invoke(this, selectedPosition);
+        }
+
+        public void Main_RequestUndo()
+        {
+            MainRequestUndo?.Invoke(this, EventArgs.Empty);
         }
     }
 }

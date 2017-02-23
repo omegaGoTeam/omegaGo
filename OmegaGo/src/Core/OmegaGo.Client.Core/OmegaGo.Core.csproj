@@ -138,7 +138,7 @@
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\LifeAndDeathPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\Main\MainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\LocalMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhases.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\IFinishedPhase.cs" />

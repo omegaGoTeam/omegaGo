@@ -17,6 +17,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
         {
         }
 
+        protected override void MainForceUndo()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void MainRequestUndo()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Ensures moves from IGS are properly handled
         /// </summary>
