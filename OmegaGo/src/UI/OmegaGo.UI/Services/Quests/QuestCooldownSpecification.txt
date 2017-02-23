@@ -1,0 +1,25 @@
+﻿From Hearthstone wikia:
+
+New quest cooldown
+
+Daily quests are awarded at midnight server time, determined by region. This is often referred to as the "quest reset" or "reset time". The Americas region is set to PST; the Europe region set to CET; and the Asia region set to Korea time.[1] Player reports suggest that the reset time changes to match daylight saving time during the summer months.[2] However, note that if the country in which the player is based has a different daylight saving time schedule to that of the country in which the server is located, there will be periods during which the reset does not take place at the usual local time.
+
+Once the reset time has passed, players with less than 3 quests become eligible to be awarded a new quest. It should be noted that while the new quest is assigned according to the server's reset time, it is only added to the player's quest log when they either log into the game from offline, complete a match, or perform certain other actions.[3] Progress cannot be made on such quests until they have been added to the quest log and revealed to the player. Therefore, players awaiting a new quest while in game menus are advised to log out and back in again after the reset time, in order to activate it before resuming play. One exception to these rules is when certain bugs prevent new quests from being displayed upon logging in; in these cases progress can be made for the new quests, but they will not be revealed until after the completion of a match.[4]
+
+Players do not need to be online during the quest reset in order to be assigned a new quest. Quests will accumulate in the player's profile, up to a maximum of 3, and will be presented to the player when they next log in.
+Exchange cooldown
+Players can choose to abandon up to 1 quest each day by clicking the X in the corner of its plaque in the Quest Log, immediately receiving a different, random quest in its place. Abandonment is also known as "replacement" or "re-rolling", since the replacement quests are randomly determined, as with dice rolls. If no Xs are present in the Quest Log, re-rolls are not possible again until the next day.
+
+Any quest may be selected for replacement. An empty slot cannot be "abandoned" - a real quest is always lost, so there is no way to use this process to increase the number of new quests, only to change which quests are active. Note that despite the term "abandon", the player also does not end up with fewerquests to do since the quest is replaced.
+
+All progress on a quest is erased when it is abandoned; the next time the same quest is randomly assigned to the player, it will start with 0 objectives complete.
+
+Unlike the quests automatically granted to fill empty quest slots, re-rolls do not accumulate over multiple days. If a re-roll is not used on one day, it is still only possible to re-roll once the next day. However, there used to be a bug in which there was a way to infinitely re-roll quests, but this has been fixed.[5]
+Limits
+
+While players may be assigned the same quest more than once over the course of their Hearthstone play, they will never be assigned a duplicate of a quest they are already on. This is true whether the quest is a re-roll replacement, or a new quest filling an empty slot.
+
+The once-per-day abandonment limit and once-per-day new quest are completely independent. Each day, players may log in, gain a new quest in an empty slot, AND re-roll a quest. This gives a total of two opportunities per day to try to obtain desired quests.
+
+Players are unable to accumulate daily quests beyond the maximum of 3. If a player already has 3 quests when the reset time is reached, the potential new quest will simply be lost; even if the player completes 2 or 3 quests prior to the next quest reset, they will still only receive a single new quest at that point. Prior to Patch 6.2.0.15181 (2016-10-20) it was sometimes possible for the player to 'save up' new quests, and be awarded up to 3 more at once when the quest reset is reached,[6] but this should now be fixed.
+
