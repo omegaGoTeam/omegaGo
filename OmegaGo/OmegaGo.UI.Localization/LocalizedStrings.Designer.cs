@@ -528,6 +528,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fullscreen Mode.
+        /// </summary>
+        public static string FullscreenModeCheckbox {
+            get {
+                return ResourceManager.GetString("FullscreenModeCheckbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Game.
         /// </summary>
         public static string Game {
@@ -632,6 +641,15 @@ namespace OmegaGo.UI.Localization {
         public static string HighlightRecentCapturesTooltip {
             get {
                 return ResourceManager.GetString("HighlightRecentCapturesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotseat games played:.
+        /// </summary>
+        public static string HotseatGamesPlayed {
+            get {
+                return ResourceManager.GetString("HotseatGamesPlayed", resourceCulture);
             }
         }
         
@@ -771,11 +789,38 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Omega Go rank:.
+        /// </summary>
+        public static string OmegaGoRankColon {
+            get {
+                return ResourceManager.GetString("OmegaGoRankColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On-line game.
         /// </summary>
         public static string OnlineGame {
             get {
                 return ResourceManager.GetString("OnlineGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Online games played:.
+        /// </summary>
+        public static string OnlineGamesPlayed {
+            get {
+                return ResourceManager.GetString("OnlineGamesPlayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Online games won:.
+        /// </summary>
+        public static string OnlineGamesWon {
+            get {
+                return ResourceManager.GetString("OnlineGamesWon", resourceCulture);
             }
         }
         
@@ -812,6 +857,24 @@ namespace OmegaGo.UI.Localization {
         public static string Player {
             get {
                 return ResourceManager.GetString("Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points:.
+        /// </summary>
+        public static string PointsColon {
+            get {
+                return ResourceManager.GetString("PointsColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quests completed:.
+        /// </summary>
+        public static string QuestsCompleted {
+            get {
+                return ResourceManager.GetString("QuestsCompleted", resourceCulture);
             }
         }
         
@@ -933,6 +996,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solo games played:.
+        /// </summary>
+        public static string SoloGamesPlayed {
+            get {
+                return ResourceManager.GetString("SoloGamesPlayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solo games won:.
+        /// </summary>
+        public static string SoloGamesWon {
+            get {
+                return ResourceManager.GetString("SoloGamesWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sounds.
         /// </summary>
         public static string Sounds {
@@ -1046,6 +1127,24 @@ namespace OmegaGo.UI.Localization {
         public static string TotalGamesPlayed {
             get {
                 return ResourceManager.GetString("TotalGamesPlayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total games won:.
+        /// </summary>
+        public static string TotalGamesWon {
+            get {
+                return ResourceManager.GetString("TotalGamesWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tsumego problems solved:.
+        /// </summary>
+        public static string TsumegoProblemsSolved {
+            get {
+                return ResourceManager.GetString("TsumegoProblemsSolved", resourceCulture);
             }
         }
         

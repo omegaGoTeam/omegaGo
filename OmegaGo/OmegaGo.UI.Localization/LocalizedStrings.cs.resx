@@ -330,4 +330,57 @@
   <data name="WhenIReceiveANotification" xml:space="preserve">
     <value>Kdy obdržím upozornění</value>
   </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
+  <data name="AI_DefeatistAI_Name" xml:space="preserve">
+    <value>Defeatist</value>
+  </data>
+  <data name="AI_FuegoAI_Name" xml:space="preserve">
+    <value>Fuego</value>
+  </data>
+  <data name="AI_RandomAI_Name" xml:space="preserve">
+    <value>Náhodné tahy</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Name" xml:space="preserve">
+    <value>Rybka</value>
+  </data>
+  <data name="HotseatGamesPlayed" xml:space="preserve">
+    <value>Her v horkém křesle:</value>
+  </data>
+  <data name="OmegaGoRankColon" xml:space="preserve">
+    <value>Tvoje hodnost:</value>
+  </data>
+  <data name="OnlineGamesPlayed" xml:space="preserve">
+    <value>Online her odehráno:</value>
+  </data>
+  <data name="OnlineGamesWon" xml:space="preserve">
+    <value>Vítězství v online hrách:</value>
+  </data>
+  <data name="PointsColon" xml:space="preserve">
+    <value>Body:</value>
+  </data>
+  <data name="QuestsCompleted" xml:space="preserve">
+    <value>Počet dokončených questů:</value>
+  </data>
+  <data name="SoloGamesPlayed" xml:space="preserve">
+    <value>Počet odehraných sólových her:</value>
+  </data>
+  <data name="SoloGamesWon" xml:space="preserve">
+    <value>Vítězství v sólových hrách:</value>
+  </data>
+  <data name="TotalGamesWon" xml:space="preserve">
+    <value>Celkem vítězství:</value>
+  </data>
+  <data name="TsumegoProblemsSolved" xml:space="preserve">
+    <value>Počet vyřešených tsumego problémů:</value>
+  </data>
+  <data name="FullscreenModeCheckbox" xml:space="preserve">
+    <value>Celoobrazovkový režim</value>
+  </data>
 </root>
