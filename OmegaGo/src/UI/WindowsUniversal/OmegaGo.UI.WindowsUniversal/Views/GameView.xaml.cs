@@ -63,55 +63,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
         }
 
-        private async void LifeDeathDone(object sender, RoutedEventArgs e)
+        private void LifeDeathDone(object sender, RoutedEventArgs e)
         {
             VM.UiConnector.LifeDeath_RequestDone();
-            //var game = VM.Game;
-            //if (game.Controller.IsOnlineGame)
-            //{
-            //    await game.Controller.Server.Commands.LifeDeathDone(game.Controller.RemoteInfo);
-            //}
-            //else
-            //{
-            //    foreach (var player in game.Controller.Players)
-            //    {
-            //        if (player.Agent is HumanAgent || player.Agent is AiAgent)
-            //        {
-            //            game.Controller.LifeDeath_Done(player);
-            //        }
-            //    }
-            //}
         }
 
         private void ResumeGame(object sender, RoutedEventArgs e)
         {
             VM.UiConnector.LifeDeath_ForceReturnToMain();
-            //TODO Petr : Implement this
-            //if (VM.Game.Controller.IsOnlineGame)
-            //{
-            //    // unsupported on IGS
-            //}
-            //else
-            //{
-            //    VM.Game.Controller.LifeDeath_Resume();
-            //}
         }
 
-        private async void UndoDeathMarks(object sender, RoutedEventArgs e)
+        private void UndoDeathMarks(object sender, RoutedEventArgs e)
         {
             VM.UiConnector.LifeDeath_RequestUndoDeathMarks();
-            //TODO Petr: Implement this
-            //var liveGame = VM.Game;
-            //if (liveGame.Controller.IsOnlineGame)
-            //{
-            //    var onlineGame = (RemoteGame)liveGame;
-            //    await liveGame.Controller.Server.Commands.UndoLifeDeath(onlineGame.RemoteInfo);
-            //}
-            //else
-            //{
-            //    var controller = VM.Game.Controller;
-            //    controller.LifeDeath_UndoPhase();
-            //}
         }
 
         private void UpdateSystemLog(object sender, RoutedEventArgs e)

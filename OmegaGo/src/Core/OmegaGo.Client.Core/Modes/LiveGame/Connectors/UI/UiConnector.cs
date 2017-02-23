@@ -64,7 +64,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 
         public event EventHandler LifeDeathForceReturnToMain;
         public event EventHandler LifeDeathRequestUndoDeathMarks;
+        public event EventHandler LifeDeathForceUndoDeathMarks;
         public event EventHandler LifeDeathRequestDone;
+        public event EventHandler LifeDeathForceDone;
+        public event EventHandler<Position> LifeDeathRequestKillGroup;
+        public event EventHandler<Position> LifeDeathForceKillGroup;
 
 
         /// <summary>
@@ -74,6 +78,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         private IHumanAgentActions GetHumanAgentOnTurn() =>
             _gameController.TurnPlayer.Agent as IHumanAgentActions;
 
-       
+
+        public void LifeDeath_RequestKillGroup(Position selectedPosition)
+        {
+            LifeDeathRequestKillGroup?.Invoke(this, selectedPosition);
+        }
     }
 }

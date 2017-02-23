@@ -69,8 +69,7 @@ namespace OmegaGo.UI.ViewModels
             
             ObserveDebuggingMessages();
 
-            //TODO Petr: Implement - Observe the Phase changed event and wire up this event in Life and death phase
-            //Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
+            Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -181,12 +180,7 @@ namespace OmegaGo.UI.ViewModels
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
         }
-
-        /// <summary>
-        /// TODO Petr : this is not yet attached (see to-do above)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
@@ -263,16 +257,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                //TODO Petr: if life and death will use the same event (probably yes?), then this logic is not really necessary
-                //if (Game.Controller.IsOnlineGame)
-                //{
-                //    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
-                //}
-                //else
-                //{
-                //    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
-                //}
-                //Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                this.UiConnector.LifeDeath_RequestKillGroup(selectedPosition);
             }
             else
             {

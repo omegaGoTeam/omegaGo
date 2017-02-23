@@ -101,6 +101,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
+        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+        public void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        {
+            LifeDeathTerritoryChanged?.Invoke(this, map);
+        }
+
         /// <summary>
         /// Ruleset of the game.
         /// </summary>

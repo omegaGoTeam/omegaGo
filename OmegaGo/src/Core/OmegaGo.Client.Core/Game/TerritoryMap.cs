@@ -12,10 +12,13 @@ namespace OmegaGo.Core.Game
         public Territory[,] Board { get; }
         public GameBoardSize BoardSize { get; }
 
-        public TerritoryMap(Territory[,] territoryMap, GameBoardSize size)
+        public List<Position> DeadPositions = new List<Position>();
+
+        public TerritoryMap(Territory[,] territoryMap, GameBoardSize size, List<Position> deadPositions)
         {
             this.BoardSize = size;
             this.Board = territoryMap;
+            DeadPositions = deadPositions;
         }
     }
 }

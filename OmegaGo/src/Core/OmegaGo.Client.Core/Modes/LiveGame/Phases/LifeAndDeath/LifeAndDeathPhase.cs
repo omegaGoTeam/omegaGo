@@ -33,8 +33,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
               this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                    _deadPositions);
             Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-            //TODO Petr: Implement
-            //this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
+            OnLifeDeathTerritoryChanged(new Game.TerritoryMap(
+                territory,
+                this.Controller.Info.BoardSize,
+                _deadPositions.ToList()));
         }
 
         public void MarkGroupDead(Position position)
@@ -99,7 +101,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathForceReturnToMain += Connector_LifeDeathForceReturnToMain;
                 connector.LifeDeathRequestDone += Connector_LifeDeathRequestDone;
                 connector.LifeDeathRequestUndoDeathMarks += Connector_LifeDeathRequestUndoDeathMarks;
+                connector.LifeDeathRequestKillGroup += Connector_LifeDeathRequestKillGroup;
             }
+        }
+
+        private void Connector_LifeDeathRequestKillGroup(object sender, Position e)
+        {
+            LifeDeathRequestKillGroup(e);
+        }
+
+        protected virtual Task LifeDeathRequestKillGroup(Position groupMember)
+        {
+            MarkGroupDead(groupMember);
+            return Task.FromResult(0);
         }
 
         private void Connector_LifeDeathRequestUndoDeathMarks(object sender, EventArgs e)
@@ -136,6 +150,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathForceReturnToMain -= Connector_LifeDeathForceReturnToMain;
                 connector.LifeDeathRequestDone -= Connector_LifeDeathRequestDone;
                 connector.LifeDeathRequestUndoDeathMarks -= Connector_LifeDeathRequestUndoDeathMarks;
+                connector.LifeDeathRequestKillGroup -= Connector_LifeDeathRequestKillGroup;
             }
         }
 
@@ -194,11 +209,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         }
 
 
-        //TODO Petr: Implement
-        //public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
-        //{
-        //    LifeDeathTerritoryChanged?.Invoke(this, map);
-        //    BoardMustBeRefreshed?.Invoke(this, EventArgs.Empty);
-        //}
+        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        {
+            Controller.OnLifeDeathTerritoryChanged(map);
+            Controller.OnBoardMustBeRefreshed();
+        }
     }
 }
