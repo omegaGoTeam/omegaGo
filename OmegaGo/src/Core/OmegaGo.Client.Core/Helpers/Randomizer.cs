@@ -5,7 +5,7 @@ namespace OmegaGo.Core.Helpers
     /// <summary>
     /// Generator values provider. Warning - not thread-safe
     /// </summary>
-    public static class Randomizer
+    internal static class Randomizer
     {
         /// <summary>
         /// Shared <see cref="System.Random" /> instance

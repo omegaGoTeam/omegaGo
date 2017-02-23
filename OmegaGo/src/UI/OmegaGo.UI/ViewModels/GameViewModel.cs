@@ -239,9 +239,7 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-
-        private int _previousMoveIndex = -1;
-        private void UpdateTimeline()
+                
         public void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -327,5 +325,4 @@ namespace OmegaGo.UI.ViewModels
             _previousMoveIndex = newNumber;
         }
     }
-
 }

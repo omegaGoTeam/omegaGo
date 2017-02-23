@@ -15,10 +15,20 @@ namespace OmegaGo.UI.Services.Audio
     /// </summary>
     public class AudioFilePack
     {
-        private static ISfxPlayerService player;
+        /// <summary>
+        /// Randomizer
+        /// </summary>
+        private static readonly Random Random = new Random();
 
-        private List<SfxId> _sounds = new List<SfxId>();
+        /// <summary>
+        /// SFX effect player
+        /// </summary>
+        private static ISfxPlayerService _sfxPlayer;
 
+        /// <summary>
+        /// Sounds inside this audio file pack
+        /// </summary>
+        private readonly SfxId[] _sounds;
 
         /// <summary>
         /// Initializes a new <see cref="AudioFilePack"/> that, when played, plays one of the
@@ -27,7 +37,16 @@ namespace OmegaGo.UI.Services.Audio
         /// <param name="sounds">The possible sound effects to play.</param>
         public AudioFilePack(params SfxId[] sounds)
         {
-            this._sounds.AddRange(sounds);
+            _sounds = sounds;
+        }
+
+        /// <summary>
+        /// Creates a new Audio file pack from a single sound
+        /// </summary>
+        /// <param name="sound"></param>
+        public static implicit operator AudioFilePack(SfxId sound)
+        {
+            return new AudioFilePack(sound);
         }
 
         /// <summary>
@@ -35,17 +54,20 @@ namespace OmegaGo.UI.Services.Audio
         /// </summary>
         public async Task PlayAsync()
         {
-            if (player == null)
-            {
-                player = Mvx.Resolve<ISfxPlayerService>();
-            }
-            var selectedSound = this._sounds[Randomizer.Next(this._sounds.Count)];
-            await player.PlaySoundEffectAsync(selectedSound);
+            ResolveSfxPlayer();
+            var selectedSound = _sounds[Random.Next(_sounds.Length)];
+            await _sfxPlayer.PlaySoundEffectAsync(selectedSound);
         }
 
-        public static implicit operator AudioFilePack(SfxId sound)
+        /// <summary>
+        /// Resolves SFX player service
+        /// </summary>
+        private void ResolveSfxPlayer()
         {
-            return new AudioFilePack(sound);
+            if (_sfxPlayer == null)
+            {
+                _sfxPlayer = Mvx.Resolve<ISfxPlayerService>();
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
     internal class UwpSfxPlayerService : ISfxPlayerService
     {
         private IGameSettings _settings;
-        private Dictionary<SfxId, string> _filenames = new Dictionary<SfxId, string>
+        private readonly Dictionary<SfxId, string> _filenames = new Dictionary<SfxId, string>
         {
             [SfxId.SabakiCapture0] = "Sounds\\Sabaki\\capture0.mp3",
             [SfxId.SabakiCapture1] = "Sounds\\Sabaki\\capture1.mp3",
@@ -51,14 +51,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
                 // This method is always run from the same thread, so there is no race condition here.
                 if (_initializing)
                 {
-                    await InitializationTask.Task;
+                    await _initializationTask.Task;
                 }
                 else
                 {
                     _initializing = true;
                     _settings = Mvx.Resolve<IGameSettings>();
                     await Initialize();
-                    InitializationTask.SetResult(true);
+                    _initializationTask.SetResult(true);
                     _initialized = true;
                 }
             }
@@ -67,7 +67,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
             await PlaySound(file, gain);
         }
 
-        private TaskCompletionSource<bool> InitializationTask = new TaskCompletionSource<bool>();
+        private readonly TaskCompletionSource<bool> _initializationTask = new TaskCompletionSource<bool>();
         private bool _initialized = false;
         private bool _initializing = false;
         
