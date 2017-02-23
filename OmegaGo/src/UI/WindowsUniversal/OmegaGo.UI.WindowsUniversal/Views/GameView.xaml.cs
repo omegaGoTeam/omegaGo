@@ -44,6 +44,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
+
         }
 
         private void DebugFill(object sender, RoutedEventArgs e)

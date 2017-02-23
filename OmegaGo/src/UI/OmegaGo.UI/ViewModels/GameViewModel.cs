@@ -25,6 +25,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
@@ -161,10 +162,11 @@ namespace OmegaGo.UI.ViewModels
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
-        private void Controller_GameEnded(object sender, GameEndInformation e)
+        private async void Controller_GameEnded(object sender, GameEndInformation e)
         {
             _settings.Statistics.GameHasBeenCompleted(Game, e);
             _settings.Quests.Events.GameCompleted(Game, e);
+            await Mvx.Resolve<IDialogService>().ShowAsync(e.ToString(), "End reason: " + e.Reason.ToString());
         }
 
         private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)

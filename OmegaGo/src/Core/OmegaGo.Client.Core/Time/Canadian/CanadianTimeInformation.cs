@@ -25,12 +25,20 @@ namespace OmegaGo.Core.Time.Canadian
         }
 
         public override string MainText {
-            get {
+            get
+            {
                 if (this.MainTimeLeft > TimeSpan.Zero)
                 {
                     return this.MainTimeLeft.ToString(@"mm\:ss");
                 }
-                return this.PeriodTimeLeft.ToString(@"mm\:ss");
+                if (this.PeriodTimeLeft > TimeSpan.Zero)
+                {
+                    return this.PeriodTimeLeft.ToString(@"mm\:ss");
+                }
+                else
+                {
+                    return "Time exceeded";
+                }
             }
         }
 
