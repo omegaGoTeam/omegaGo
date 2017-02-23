@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Quests;
 
 namespace OmegaGo.UI.Services.Settings

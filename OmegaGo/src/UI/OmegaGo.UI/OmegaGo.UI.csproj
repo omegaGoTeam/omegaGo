@@ -96,7 +96,7 @@
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
-    <Compile Include="Services\Quests\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
     <Compile Include="Services\Quests\GameCompletedQuestInformation.cs" />
     <Compile Include="Services\Quests\IndividualQuests\BlitzRocketQuest.cs" />

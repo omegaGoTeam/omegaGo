@@ -7,6 +7,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using MvvmCross.Platform;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 
