@@ -414,6 +414,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Condition="'$(Configuration)' != 'DebugWithoutFuego'" Project="..\OmegaGo.UI.WindowsUniversal.BoostLibraries\OmegaGo.UI.WindowsUniversal.BoostLibraries.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
