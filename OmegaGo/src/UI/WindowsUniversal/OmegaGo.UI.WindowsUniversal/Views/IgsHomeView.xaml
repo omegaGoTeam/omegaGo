@@ -108,13 +108,18 @@
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console">
+                    <StackPanel>
+                        <Button Click="RefreshConsole">Refresh</Button>
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
-                    <TextBlock
+                        
+                    <TextBox
                        
                         Padding="20"
-                                Text="{Binding Console, Mode=OneWay}" TextWrapping="Wrap"
-                               FontFamily="Consolas" FontSize="14"></TextBlock>
+                               Name="IgsConsole" 
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas" FontSize="14"></TextBox>
                     </ScrollViewer>
+                    </StackPanel>
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
