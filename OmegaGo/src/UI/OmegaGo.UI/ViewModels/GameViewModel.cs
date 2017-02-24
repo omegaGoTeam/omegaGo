@@ -27,30 +27,32 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace OmegaGo.UI.ViewModels
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class GameViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         private readonly UIConnector _uiConnector;
 
-        private ICommand _passCommand = null;
-        private ICommand _resignCommand = null;
-        private ICommand _undoCommand = null;
+        private ICommand _passCommand;
+        private ICommand _resignCommand;
+        private ICommand _undoCommand;
 
         private string _debugInfo = "n/a";
 
-        private int _maximumMoveIndex = 0;
+        private int _maximumMoveIndex;
 
         private int _previousMoveIndex = -1;
 
 
-        private int _selectedMoveIndex = 0;
+        private int _selectedMoveIndex;
+        
 
-        private string _systemLog;
-
-        private int frames = 0;
+        private int frames;
 
         public GameViewModel()
         {
@@ -94,7 +96,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+                debuggingMessagesProvider.DebuggingMessage += (s, e) =>  _systemLog.AppendLine(e);
             }
         }
 
@@ -113,10 +115,11 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
 
+
+        private StringBuilder _systemLog = new StringBuilder();
         public string SystemLog
         {
-            get { return _systemLog; }
-            set { SetProperty(ref _systemLog, value); }
+            get { return _systemLog.ToString(); }
         }
 
         public IGame Game { get; }
@@ -127,8 +130,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel WhitePortrait { get; }
 
         public ChatViewModel ChatViewModel { get; }
-
-        public TimelineViewModel TimelineViewModel { get; }
+        
 
         public int SelectedMoveIndex
         {
@@ -204,8 +206,11 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e != null)
             {
-                await PlaySoundIfAppropriate(e);
+                _systemLog.AppendLine("NODE: " + e.Move);
                 UpdateTimeline();
+                // It is ABSOLUTELY necessary for this to be the last statement in this method,
+                // because we need the UpdateTimeline calls to be in order.
+                await PlaySoundIfAppropriate(e);
             }
         }
 

@@ -135,7 +135,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 //handle the illegal move, this may alter the 
                 HandlePlayersIllegalMove(move, processingResult);
             }
-
+            // These MUST NOT be an "else" here because HandlePlayersIllegalMove may change processingResult.
             if (processingResult.Result == MoveResult.Legal)
             {
                 //we have a legal move
@@ -174,7 +174,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         }
 
         /// <summary>
-        /// Handles the local clockout
+        /// Handles the local clockout. Returns true if processing the current move should be aborted. 
         /// </summary>
         /// <param name="player">Player that clocked out</param>
         protected abstract bool HandleLocalClockOut(GamePlayer player);
@@ -193,7 +193,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }
+            }            
         }
 
         /// <summary>

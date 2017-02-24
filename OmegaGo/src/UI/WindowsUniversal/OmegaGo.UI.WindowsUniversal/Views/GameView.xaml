@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
-    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     Unloaded="TransparencyViewBase_Unloaded"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
@@ -46,22 +45,6 @@
                 <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
             </AppBar.Background>
 
-            <AppBarButton Icon="Bookmarks" Label="Timeline"
-                          AllowFocusOnInteraction="True">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <!--<Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>-->
-                        <!--
-                        <controls:TimelineControl Width="300" Height="300" ViewModel="{x:Bind Path=VM.TimelineViewModel, Mode=OneWay}" />
-                        -->
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-
             <AppBarButton Icon="Message" Label="Chat"
                           AllowFocusOnInteraction="True">
                 <AppBarButton.Flyout>
@@ -71,7 +54,6 @@
                                 <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
-
                         <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -119,21 +101,23 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
+
                     <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
-                        
                     </controls:PlayerPortrait>
                     <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
                     </controls:PlayerPortrait>
+                    <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    <TextBox Text="{Binding SystemLog, Mode=OneWay}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
+                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
                         
                     </TextBox>
                 </ScrollViewer>
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
-            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
+            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
         </Border>
     </Grid>
 </views:TransparencyViewBase>

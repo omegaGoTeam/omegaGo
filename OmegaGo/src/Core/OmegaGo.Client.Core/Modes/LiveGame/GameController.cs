@@ -21,37 +21,38 @@ using OmegaGo.Core.Rules;
 namespace OmegaGo.Core.Modes.LiveGame
 {
     /// <summary>
-    /// Represents a controller of a live game
+    /// Represents the controller of a live game.
     /// </summary>
     public class GameController : IGameController, IDebuggingMessageProvider
     {
         /// <summary>
-        /// List of connectors registered to this game controller
+        /// List of connectors registered to this game controller.
         /// </summary>
         private readonly List<IGameConnector> _registeredConnectors = new List<IGameConnector>();
 
         /// <summary>
-        /// Storage of previous game phases
+        /// Ordered list of phases that have been completed, chronologically. A phase is added to the list
+        /// whenever the <see cref="SetPhase(GamePhaseType)"/> method is called. 
         /// </summary>
         private readonly List<IGamePhase> _previousPhases = new List<IGamePhase>();
 
         /// <summary>
-        /// The current game phase
+        /// The current game phase.
         /// </summary>
-        private IGamePhase _currentGamePhase = null;
+        private IGamePhase _currentGamePhase;
 
         /// <summary>
-        /// Current game tree node
+        /// The node that represents the tip of the game timeline. In other words, the current node is the last node in the primary timeline that has not yet been undone.
         /// </summary>
         private GameTreeNode _currentNode;
 
         /// <summary>
-        /// Player on turn
+        /// The player on turn.
         /// </summary>
         private GamePlayer _turnPlayer;
 
         /// <summary>
-        /// Creates the game controller
+        /// Creates the game controller.
         /// </summary>
         /// <param name="gameInfo">Game info</param>
         /// <param name="ruleset">Ruleset</param>
@@ -70,17 +71,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Indicates that the game has ended
+        /// Indicates that the game has ended.
         /// </summary>
         public event EventHandler<GameEndInformation> GameEnded;
 
         /// <summary>
-        /// Indicates that there is a new player on turn
+        /// Indicates that there is a new player on turn.
         /// </summary>
         public event EventHandler<GamePlayer> TurnPlayerChanged;
 
         /// <summary>
-        /// Indicates that the current game tree node has changed
+        /// Indicates that the current game tree node has changed, either because a move was undone
+        /// or because a new move was made, or because handicap stones were placed.
         /// </summary>
         public event EventHandler<GameTreeNode> CurrentNodeChanged;
 
@@ -96,48 +98,48 @@ namespace OmegaGo.Core.Modes.LiveGame
         public event EventHandler<string> DebuggingMessage;
 
         /// <summary>
-        /// Indicates that the game phase has changed
+        /// Indicates that the game phase has changed.
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
         /// <summary>
-        /// Ruleset of the game
+        /// Ruleset of the game.
         /// </summary>
         public IRuleset Ruleset { get; }
 
         /// <summary>
-        /// Players in the game
+        /// Players in the game.
         /// </summary>
         public PlayerPair Players { get; }
 
         /// <summary>
-        /// Gets the game tree
+        /// Gets the game tree.
         /// </summary>
         public GameTree GameTree { get; }
 
         /// <summary>
-        /// Gets the current game phase
+        /// Gets the current game phase.
         /// </summary>
         public IGamePhase Phase => _currentGamePhase;
 
         /// <summary>
-        /// Previous phases in the game
+        /// Gets an ordered list of phases that have been completed, chronologically. A phase is added to the list whenever the <see cref="SetPhase(GamePhaseType)"/> method is called. 
         /// </summary>
         public IEnumerable<IGamePhase> PreviousPhases => _previousPhases;
 
         /// <summary>
-        /// Connectors in the game
+        /// Gets a read-only list of connectors in the game.
         /// </summary>
         public IReadOnlyList<IGameConnector> Connectors =>
             new ReadOnlyCollection<IGameConnector>(_registeredConnectors);
 
         /// <summary>
-        /// Gets the current number of moves
+        /// Gets the number of moves that have already been made. If, for examples, 3 stones were placed, and now Black is on turn, <see cref="NumberOfMoves"/> will be 3. A pass counts as a move. 
         /// </summary>
         public int NumberOfMoves => GameTree.PrimaryTimelineLength;
 
         /// <summary>
-        /// Game info
+        /// Get the associated metadata.
         /// </summary>
         internal GameInfo Info { get; }
 
@@ -145,12 +147,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Game phase factory
         /// </summary>
         protected virtual IGameControllerPhaseFactory PhaseFactory => CreateGameControllerPhaseFactory();
-
-        /// <summary>
-        /// Specifies whether the current game node should be in sync
-        ///  with the last game tree node
-        /// </summary>
-        public bool KeepLastNodeSync { get; set; } = true;
 
         /// <summary>
         /// Registers a connector
@@ -167,7 +163,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         public GameTreeNode CurrentNode
         {
             get { return _currentNode; }
-            internal set
+            private set
             {
                 _currentNode = value;
                 OnCurrentNodeChanged();
@@ -201,7 +197,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             SubscribePlayerEvents();
 
-            //start initialization phase
             SetPhase(GamePhaseType.Initialization);
         }
 
@@ -300,7 +295,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Subscribes the player events
+        /// Subscribes to whole-game events raisable by agents. Whole-game events may happen regardless 
+        /// of the current phase.
         /// </summary>
         private void SubscribePlayerEvents()
         {
@@ -342,7 +338,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Fires the turn player changed event
+        /// Fires the <see cref="TurnPlayerChanged"/> event. 
         /// </summary>
         protected virtual void OnTurnPlayerChanged()
         {
@@ -350,19 +346,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Fires the current game tree node changed event
+        /// Fires the current <see cref="CurrentNodeChanged"/> event. 
         /// </summary>
-        protected virtual void OnCurrentNodeChanged()
+        public virtual void OnCurrentNodeChanged()
         {
             CurrentNodeChanged?.Invoke(this, CurrentNode);
-        }
-
-        /// <summary>
-        /// Initializes the game tree
-        /// </summary>
-        private void InitGameTree()
-        {
-            GameTree.LastNodeChanged += GameTree_LastNodeChanged;
         }
 
         /// <summary>
@@ -376,17 +364,22 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Initializes the game tree
+        /// </summary>
+        private void InitGameTree()
+        {
+            GameTree.LastNodeChanged += GameTree_LastNodeChanged;
+        }
+
+        /// <summary>
         /// Handles the change of the last game tree node
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="newLastNode">New last node</param>
         private void GameTree_LastNodeChanged(object sender, GameTreeNode newLastNode)
         {
-            if (KeepLastNodeSync)
-            {
-                //update the current node
-                CurrentNode = newLastNode;
-            }
+            //update the current node
+            CurrentNode = newLastNode;
         }
 
         /// <summary>
