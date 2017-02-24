@@ -7,27 +7,23 @@ using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.Services.Notifications
 {
+    /// <summary>
+    /// In-app bubble notification 
+    /// </summary>
     public class BubbleNotification : ControlViewModelBase
     {
-        private string _text;
-
+        /// <summary>
+        /// Creates a bubble notification
+        /// </summary>
+        /// <param name="text">Text of the notification</param>
         public BubbleNotification(string text)
         {
             Text = text;
         }
 
-        public string Text
-        {
-            get { return _text; }
-            set { SetProperty(ref _text, value); }
-        }
-
-        private bool _closeable = true;
-
-        public bool Closeable
-        {
-            get { return _closeable; }
-            set { SetProperty(ref _closeable, value); }
-        }
+        /// <summary>
+        /// Text of the notification
+        /// </summary>
+        public string Text { get; }
     }
 }
