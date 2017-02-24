@@ -13,13 +13,16 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
@@ -33,7 +36,7 @@ namespace FormsPrototype
     public partial class InGameForm : Form
     {
         private readonly RemoteGameInfo _gameInfo;
-        private readonly RemoteGame _onlineGame;
+        private readonly RemoteGameController _onlineGameController;
         private readonly IServerConnection _server;
         private GameBoard _truePositions = new GameBoard(new GameBoardSize(19));
         private TerritoryMap _territories;
@@ -42,16 +45,16 @@ namespace FormsPrototype
         private int _mouseY;
         private bool _inLifeDeathDeterminationPhase;
         private bool _isOnline;
-
-        public InGameForm(RemoteGame onlineGame, IServerConnection server)
+        private UiConnector _uiConnector;
+        public InGameForm(RemoteGameInfo info, RemoteGameController onlineGameController, IServerConnection server)
         {
             InitializeComponent();
-            _isOnline = onlineGame != null;
+            _isOnline = onlineGameController != null;
 
-            _onlineGame = onlineGame;
-            if (onlineGame != null)
+            this._onlineGameController = onlineGameController;
+            if (onlineGameController != null)
             {
-                _gameInfo = (RemoteGameInfo) onlineGame?.Info;
+                _gameInfo = info;
                 _server = server;
             }
 
@@ -81,6 +84,55 @@ namespace FormsPrototype
             }
             RefreshBoard();
         }
+        public void LoadGame(IGame game)
+        {
+            _game = game;
+            _uiConnector = new UiConnector(game.Controller);
+            game.Controller.RegisterConnector(_uiConnector);
+            Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
+
+            _controller = _game.Controller;
+            _controller.CurrentNodeStateChanged += _controller_BoardMustBeRefreshed;
+            (_controller as IDebuggingMessageProvider).DebuggingMessage += _controller_DebuggingMessage;
+            _controller.GameEnded += _controller_GameEnded;
+            _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
+            _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
+            _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
+            _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
+
+            foreach (GamePlayer player in _game.Controller.Players)
+            {
+                if (player.Agent is AiAgent)
+                {
+                    ((AiAgent)player.Agent).LogMessage += InGameForm_LogMessage;
+                }
+            }
+
+            _controller.BeginGame();
+        }
+
+        private void _controller_GamePhaseChanged1(object sender, GamePhaseChangedEventArgs e)
+        {
+            _gamePhase = e.NewPhase.Type;
+            if (e.NewPhase.Type == GamePhaseType.LifeDeathDetermination)
+            {
+                grpLifeDeath.Visible = true;
+                _inLifeDeathDeterminationPhase = true;
+
+            }
+            else
+            {
+                grpLifeDeath.Visible = false;
+                _inLifeDeathDeterminationPhase = false;
+            }
+            grpTiming.Visible = e.NewPhase.Type == GamePhaseType.Main;
+            if (e.NewPhase.Type != GamePhaseType.Main)
+            {
+                groupboxMoveMaker.Visible = false;
+            }
+            RefreshBoard();
+        }
+
         private void InGameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             
@@ -138,10 +190,6 @@ namespace FormsPrototype
             if (e == _gameInfo as IgsGameInfo) SystemLog("An UNDO REQUEST was denied.");
         }
         
-        private void _igs_UndoRequestReceived(object sender, IgsGame e)
-        {
-            if (e == _onlineGame as IgsGame) SystemLog("We have received an UNDO REQUEST!");
-        }
         
         private void _igs_ErrorMessageReceived(object sender, string e)
         {
@@ -297,7 +345,7 @@ namespace FormsPrototype
                                 CrossPosition(Color.White, r, e);
                                 break;
                             default:
-                                if (_controller.DeadPositions.Contains(new Position(x, y)))
+                                if (_territories.DeadPositions.Contains(new Position(x, y)))
                                 {
                                     CrossPosition(Color.Red, r, e);
                                 }
@@ -341,7 +389,7 @@ namespace FormsPrototype
             tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
             // TODO
             
-            if (_inLifeDeathDeterminationPhase || PlayerToMove.Agent is HumanAgent)
+            if (_inLifeDeathDeterminationPhase || PlayerToMove?.Agent is HumanAgent)
             {
                 bMakeMove_Click(sender, EventArgs.Empty);
             }
@@ -362,13 +410,13 @@ namespace FormsPrototype
                 MessageBox.Show("Do you really want to resign?", "Resign confirmation", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                if (_game.Controller.IsOnlineGame)
+                if (_isOnline)
                 {
-                   await _game.Controller.Server.Commands.Resign(_onlineGame.RemoteInfo);
+                   await _onlineGameController.Server.Commands.Resign(this._gameInfo);
                 }
                 else
                 {
-                    _game.Controller.Resign(PlayerToMove);
+                    _uiConnector.Resign();
                 }
             }
         }
@@ -388,14 +436,7 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-                if (_game.Controller.IsOnlineGame)
-                {
-                    await _game.Controller.Server.Commands.LifeDeathMarkDeath(position, this._onlineGame.RemoteInfo);
-                }
-                else
-                {
-                    _controller.LifeDeath_MarkGroupDead(position);
-                }
+                _uiConnector.LifeDeath_RequestKillGroup(position);
             }
             else
             {
@@ -417,7 +458,8 @@ namespace FormsPrototype
             if (_server is IgsConnection)
             {
                 var connection = ((IgsConnection) _server);
-                if (!await connection.SayAsync(_onlineGame as IgsGame, tbSayWhat.Text))
+                /*
+                if (!await connection.SayAsync(this._onlineGameController as IgsGame, tbSayWhat.Text))
                 {
                     MessageBox.Show("Say failed.");
                 }
@@ -426,7 +468,7 @@ namespace FormsPrototype
                     lbPlayerChat.Items.Add("[" + DateTimeOffset.Now.ToString("H:m") + "] You: " +
                                                 tbSayWhat.Text);
                     tbSayWhat.Clear();
-                }
+                }*/
             }
         }
 
@@ -439,13 +481,13 @@ namespace FormsPrototype
         }
 
         private void button4_Click(object sender, EventArgs e)
-        {
+        {/*
             HeuristicPlayerWrapper hpw = new HeuristicPlayerWrapper();
             AIDecision decision = hpw.RequestMove(new AIPreMoveInformation(PlayerToMove.Info.Color,
                 _game.Controller.GameTree.LastNode.BoardState,
                 new TimeSpan(1),
                 5, _game.Controller.GameTree.PrimaryMoveTimeline.ToList()));
-            MessageBox.Show("I recommend you make this move: " + decision);
+            MessageBox.Show("I recommend you make this move: " + decision);*/
         }
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
@@ -458,20 +500,7 @@ namespace FormsPrototype
 
         private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            if (_game.Controller.IsOnlineGame)
-            {
-                await _game.Controller.Server.Commands.LifeDeathDone(_onlineGame.RemoteInfo);
-            }
-            else
-            {
-                foreach (var player in _game.Controller.Players)
-                {
-                    if (player.Agent is HumanAgent || player.Agent is AiAgent)
-                    {
-                        _controller.LifeDeath_Done(player);
-                    }
-                }
-            }
+            _uiConnector.LifeDeath_RequestDone();
         }
 
         public void GuiAgent_PleaseMakeAMove(object sender, GamePlayer e)
@@ -481,25 +510,17 @@ namespace FormsPrototype
 
         private async void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            if (_game.Controller.IsOnlineGame)
-            {
-                await _game.Controller.Server.Commands.UndoLifeDeath(_onlineGame.RemoteInfo);
-                SystemLog("Requesting server to undo life/death phase...");
-            }
-            else
-            {
-                _controller.LifeDeath_UndoPhase();
-            }
+            _uiConnector.LifeDeath_RequestUndoDeathMarks();
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
         {
-            if (_controller.IsOnlineGame)
+            if (_isOnline)
             {
                 MessageBox.Show("Resuming is not supported in online games.");
                 return;
             }
-            _controller.LifeDeath_Resume();
+            _uiConnector.LifeDeath_ForceReturnToMain();
         }
 
 
@@ -527,7 +548,7 @@ namespace FormsPrototype
         private void LocalUndo()
         {
             SystemLog("Undoing last move...");
-            _controller.Main_Undo();
+            _uiConnector.Main_RequestUndo();
             SystemLog("Undone.");
         }
 
@@ -540,32 +561,7 @@ namespace FormsPrototype
         private IGameController _controller;
         private GamePhaseType _gamePhase;
 
-        public void LoadGame(IGame game)
-        {
-            _game = game;
-
-            Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
-
-            _controller = _game.Controller;
-            _controller.CurrentNodeStateChanged += _controller_BoardMustBeRefreshed;
-            _controller.DebuggingMessage += _controller_DebuggingMessage;
-            _controller.GameEnded += _controller_GameEnded;
-            _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
-            _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
-            _controller.GamePhaseChanged += _controller_GamePhaseChanged;
-            _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
-           
-            foreach (GamePlayer player in _game.Controller.Players)
-            {
-                if (player.Agent is AiAgent)
-                {
-                    ((AiAgent)player.Agent).LogMessage += InGameForm_LogMessage;
-                }
-            }
-            
-            _controller.BeginGame();
-        }
-
+  
         private void _controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
         {
             _territories = e;
@@ -593,24 +589,7 @@ namespace FormsPrototype
 
         private void _controller_GamePhaseChanged(object sender, GamePhaseType e)
         {
-            _gamePhase = e;
-            if (e == GamePhaseType.LifeDeathDetermination)
-            {
-                grpLifeDeath.Visible = true;
-                _inLifeDeathDeterminationPhase = true;
-                
-            }
-            else
-            {
-                grpLifeDeath.Visible = false;
-                _inLifeDeathDeterminationPhase = false;
-            }
-            grpTiming.Visible = e == GamePhaseType.Main;
-            if (e != GamePhaseType.Main)
-            {
-                groupboxMoveMaker.Visible = false;
-            }
-            RefreshBoard(); 
+           
         }
 
         private void _controller_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
