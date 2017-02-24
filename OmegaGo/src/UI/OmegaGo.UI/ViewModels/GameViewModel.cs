@@ -194,6 +194,7 @@ namespace OmegaGo.UI.ViewModels
 
         public void Init()
         {
+            Game.Controller.BeginGame();
             UpdateTimeline();
         }
 

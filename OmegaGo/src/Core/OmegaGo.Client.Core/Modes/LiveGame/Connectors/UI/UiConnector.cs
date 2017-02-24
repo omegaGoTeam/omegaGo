@@ -23,7 +23,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// <param name="position">Position to play</param>
         public void MakeMove(Position position)
         {
-            GetHumanAgentOnTurn()?.PlaceStone(position);
+            if (_gameController.TurnPlayer.IsHuman)
+            {
+                GetHumanAgentOnTurn()?.PlaceStone(position);
+            }
         }
 
         /// <summary>

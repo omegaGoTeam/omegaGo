@@ -68,11 +68,6 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             AssignPlayers();
             GameTree = new GameTree(ruleset);
-            if (!(this is RemoteGameController))
-            {
-                // TODO (Petr) hack
-                BeginGame();
-            }
         }
 
         /// <summary>

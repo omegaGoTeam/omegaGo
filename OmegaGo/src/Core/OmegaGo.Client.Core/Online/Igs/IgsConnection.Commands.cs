@@ -230,7 +230,7 @@ namespace OmegaGo.Core.Online.Igs
             if (lines.IsError) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
             var ogi = await GetGameByIdAsync(heading.GameNumber);
-            var builder = GameBuilder.CreateOnlineGame(ogi);
+            var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
             bool youAreBlack = heading.BlackName == this._username;
             var humanPlayer =
                 new HumanPlayerBuilder(youAreBlack ? StoneColor.Black : StoneColor.White).Name(youAreBlack
