@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Text;
@@ -55,7 +56,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private int _boardLineThickness;
         private int _cellSize;
         private int _halfSize;
-        private bool _tsumegoShow;
         private FpsCounter _fpsCounter = new FpsCounter();
         private bool _highlightLastMove;
         private void ReloadSettings()
@@ -65,7 +65,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._boardTheme = this._settings.Display.BoardTheme;
             this._showCoordinates = this._settings.Display.ShowCoordinates;
             this._boardLineThickness = this.SharedBoardControlState.BoardLineThickness;
-            this._tsumegoShow = this._settings.Tsumego.ShowPossibleMoves;
             this._highlightLastMove = this._settings.Display.HighlightLastMove;
         }
 
@@ -202,8 +201,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             if (gameState != null)
             {
-                if (this._tsumegoShow)
+                if (gameState.Tsumego.MarkedPositions.Any() &&
+                    _settings.Tsumego.ShowPossibleMoves)
                 {
+                    
                     foreach (var position in gameState.Tsumego.MarkedPositions)
                     {
                         DrawStoneCellBackground(session,
