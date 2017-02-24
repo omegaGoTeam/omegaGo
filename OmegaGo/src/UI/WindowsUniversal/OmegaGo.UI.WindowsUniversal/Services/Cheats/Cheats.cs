@@ -7,6 +7,8 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using MvvmCross.Platform;
+using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
@@ -27,8 +29,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
                     Cheats.settings.Quests.Points = 20;
                     break;
                 case VirtualKey.F2:
-                    Cheats.settings.Quests.LastQuestReceivedWhen = DateTime.Now.AddDays(-1.5f);
-                    Cheats.settings.Quests.LastQuestExchangedWhen = DateTime.Now.AddDays(-1.5f);
+                    Cheats.settings.Quests.LastQuestReceivedWhen = DateTime.Today.GetNoon().GetPreviousDay();
+                    Cheats.settings.Quests.LastQuestExchangedWhen = DateTime.Today.GetNoon().GetPreviousDay();
                     break;
                 case VirtualKey.F3:
                     Cheats.settings.Quests.ClearAllQuests();
