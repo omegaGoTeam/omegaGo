@@ -37,17 +37,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             AskFirstPlayerToMove();
         }
 
-        protected abstract void MainForceUndo();
-        protected abstract void MainRequestUndo();
+        protected abstract Task MainForceUndo();
+        protected abstract Task MainRequestUndo();
 
-        private void Connector_MainForceUndo(object sender, EventArgs e)
+        private async void Connector_MainForceUndo(object sender, EventArgs e)
         {
-            MainForceUndo();
+            await MainForceUndo();
         }
 
-        private void Connector_MainRequestUndo(object sender, EventArgs e)
+        private async void Connector_MainRequestUndo(object sender, EventArgs e)
         {
-            MainRequestUndo();
+            await MainRequestUndo();
         }
 
         /// <summary>

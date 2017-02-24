@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Online.Common;
 
@@ -27,13 +28,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
             await this._serverConnection.Commands.UndoLifeDeath(_remoteGameInfo);
         }
-
-        //private void Events_EnterLifeDeath(object sender, RemoteGame e)
-        //{
-        //    if (e.Metadata.IgsIndex == ((IgsGameInfo)this.RemoteInfo).IgsIndex)
-        //    {
-        //        SetPhase(GamePhaseType.LifeDeathDetermination);
-        //    }
-        //}
+        protected override async Task LifeDeathRequestKillGroup(Position groupMember)
+        {
+            await this._serverConnection.Commands.LifeDeathMarkDeath(groupMember, _remoteGameInfo);
+        }
     }
 }

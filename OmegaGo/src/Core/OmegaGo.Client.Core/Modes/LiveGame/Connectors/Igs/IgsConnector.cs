@@ -128,7 +128,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             LifeDeathForceUndoDeathMarks?.Invoke(this, EventArgs.Empty);
         }
 
-        public EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
+        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
         public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
         {
             GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
@@ -139,7 +139,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             MainForceUndo?.Invoke(this, EventArgs.Empty);
         }
 
-        public EventHandler<TimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
+        public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public void TimeControlAdjustment(TimeControlAdjustmentEventArgs timeControlAdjustmentEventArgs)
         {
             TimeControlShouldAdjust?.Invoke(this, timeControlAdjustmentEventArgs);

@@ -7,26 +7,33 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
 {
     public class IgsMainPhase : MainPhaseBase
     {
+        private readonly IgsGameController _gameController;
+        private IgsConnection _serverConnection;
+
         public IgsMainPhase(IgsGameController gameController) : base(gameController)
         {
+            this._gameController = gameController;
+            this._serverConnection = gameController.IgsConnection;
         }
 
-        protected override void MainForceUndo()
+        protected override Task MainForceUndo()
         {
-            throw new NotImplementedException();
+            this.Undo();
+            return Task.FromResult(0);
         }
 
-        protected override void MainRequestUndo()
+        protected override async Task MainRequestUndo()
         {
-            throw new NotImplementedException();
+            await _serverConnection.UndoPleaseAsync(this._gameController.Info);
         }
-
         /// <summary>
         /// Ensures moves from IGS are properly handled
         /// </summary>

@@ -12,6 +12,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
@@ -44,19 +45,32 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             InitializeServer(serverConnection);
         }
 
+        public IgsConnection IgsConnection;
         /// <summary>
         /// Initializes server
         /// </summary>
         private void InitializeServer(IgsConnection serverConnection)
         {
+            this.IgsConnection = serverConnection;
             serverConnection.RegisterConnector(IgsConnector);
-            //TODO Petr : THIS IS NOT IMPLEMENTED!            
             // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
-            // for KGS.
-            //serverConnection.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
-            //serverConnection.StoneRemoval += StoneRemoval;
-            //serverConnection.Events.EnterLifeDeath += Events_EnterLifeDeath;
-            //serverConnection.GameScoredAndCompleted += GameScoredAndCompleted;
+            IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
+            IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
+        }
+
+        private void IgsConnector_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        {
+            if (Phase.Type != GamePhaseType.LifeDeathDetermination)
+            {
+                SetPhase(GamePhaseType.LifeDeathDetermination);
+            }
+            (Phase as LifeAndDeathPhase).ScoreIt(new Scores(e.BlackScore, e.WhiteScore));
+        }
+
+        private void IgsConnector_TimeControlShouldAdjust(object sender, TimeControlAdjustmentEventArgs e)
+        {
+            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
         }
 
         /// <summary>
