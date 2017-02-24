@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d">
 
     <Border>
@@ -16,6 +17,32 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Frame Grid.Row="1" x:Name="MainFrame" />
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <ItemsControl ItemsSource="{x:Bind BubbleNotifications, Mode=OneWay}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="1"
+                BorderBrush="Black"
+                CornerRadius="8"
+                                    MaxWidth="300"
+                                    Margin="0,0,0,10">
+                                <Grid>
+                                    <Border
+                Name="Mask"
+                Background="LightBlue"
+                CornerRadius="8"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Visibility="{Binding Closeable, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}" Margin="8" Click="CloseNotification_Click">
+                                            <FontIcon Glyph="&#xE8BB;" FontSize="10"></FontIcon>
+                                        </Button>
+                                        <TextBlock TextWrapping="Wrap" Margin="10,0,0,0" Padding="4" Text="{Binding Text, Mode=OneWay}" FontSize="12" />
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
             <Grid x:Name="TitleBar"  Visibility="Visible">
                 <Grid.Background>
                     <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
