@@ -182,7 +182,18 @@ namespace OmegaGo.UI.Services.Localization
         public string Black => LocalizeCaller();
 
         public string White => LocalizeCaller();
-        
+
+        public string HotseatGamesPlayed => LocalizeCaller();
+        public string SoloGamesPlayed => LocalizeCaller();
+        public string OnlineGamesPlayed => LocalizeCaller();
+        public string TotalGamesWon => LocalizeCaller();
+        public string SoloGamesWon => LocalizeCaller();
+        public string OnlineGamesWon => LocalizeCaller();
+        public string QuestsCompleted => LocalizeCaller();
+        public string TsumegoProblemsSolved => LocalizeCaller();
+        public string PointsColon => LocalizeCaller();
+        public string OmegaGoRankColon => LocalizeCaller();
+
         // Board settings control strings
         public string BoardSettings => LocalizeCaller();
 

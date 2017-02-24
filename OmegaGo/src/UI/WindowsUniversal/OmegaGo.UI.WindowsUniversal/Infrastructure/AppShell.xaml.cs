@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Settings;
@@ -18,6 +20,7 @@ using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 {
+    //TODO Martin : Reimplement bubble notifications using a custom control, custom view model and custom service, this version mixes it all in app shell
     /// <summary>
     /// The Shell around the whole app
     /// </summary>
@@ -27,6 +30,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// Contains the app shells for opened windows
         /// </summary>
         private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
+
+        private IGameSettings _settings;
 
         private AppShell(Window window)
         {
@@ -41,53 +46,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             InitCheats();
         }
 
-        /// <summary>
-        /// Synchronizes the title bar with the currently displayed view
-        /// </summary>
-        private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            var view = AppFrame.Content as ViewBase;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-            //update title bar back button visibility
-            TitleBarBackButtonVisibility = AppFrame.CanGoBack ? 
-                Visibility.Visible : 
-                Visibility.Collapsed;
-
-            if (view != null)
-            {
-                WindowTitleIconUri = view.WindowTitleIconUri;
-                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-                var title = view.WindowTitle;
-                WindowTitle = title;
-                appView.Title = title;               
-            }
-        }
-
-        /// <summary>
-        /// Creates and registers a App Shell for a given Window
-        /// </summary>
-        /// <param name="window">Window</param>
-        /// <returns>App shell</returns>
-        public static AppShell CreateForWindow(Window window) => new AppShell(window);
-
-        /// <summary>
-        /// Returns the App Shell asociated with the current dispatcher
-        /// </summary>
-        /// <returns></returns>
-        public static AppShell GetForCurrentView()
-        {
-            AppShell shell = null;
-            if (AppShells.TryGetValue(Window.Current, out shell))
-            {
-                return shell;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Custom app title bar
-        /// </summary>
-        public FrameworkElement AppTitleBar => TitleBar;
 
         /// <summary>
         /// Gets or sets text in the title bar of the window
@@ -126,9 +86,124 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         /// <summary>
+        /// Bubble notifications displayed in in the shell
+        /// </summary>
+        public ObservableCollection<BubbleNotification> BubbleNotifications { get; } = new ObservableCollection<BubbleNotification>();
+
+        /// <summary>
+        /// URL of the background image
+        /// </summary>
+        public string BackgroundImageUrl
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                        return "/Assets/MainMenu/backgroundimage.jpg";
+                    case BackgroundImage.Forest:
+                        return "/Assets/MainMenu/bambooForest.jpg";
+                    case BackgroundImage.Shrine:
+                        return "/Assets/MainMenu/shintoShrine.jpg";
+                    case BackgroundImage.Temple:
+                        return "/Assets/MainMenu/ginkakuJi.jpg";
+                    case BackgroundImage.None:
+                    default:
+                        return "/Assets/MainMenu/pixel.png";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Background opacity
+        /// </summary>
+        public float BackgroundOpacity
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundImage)
+                {
+                    case BackgroundImage.Go:
+                    case BackgroundImage.None:
+                        return 1;
+                    case BackgroundImage.Shrine:
+                    case BackgroundImage.Temple:
+                    case BackgroundImage.Forest:
+                        return 0.5f;
+                    default:
+                        return 1;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Background color
+        /// </summary>
+        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        {
+            get
+            {
+                Color color;
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                switch (_settings.Display.BackgroundColor)
+                {
+                    case Game.Styles.BackgroundColor.Basic:
+                        color = Color.FromArgb(170, 253, 210, 112);
+                        break;
+                    case Game.Styles.BackgroundColor.Green:
+                        color = Color.FromArgb(220, 164, 242, 167);
+                        break;
+                    case Game.Styles.BackgroundColor.None:
+                    default:
+                        color = Colors.Transparent;
+                        break;
+                }
+                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+            }
+        }
+
+        /// <summary>
+        /// Custom app title bar
+        /// </summary>
+        public FrameworkElement AppTitleBar => TitleBar;
+
+        /// <summary>
         /// Main frame that hosts app views
         /// </summary>
         public Frame AppFrame => MainFrame;
+
+        /// <summary>
+        /// Creates and registers a App Shell for a given Window
+        /// </summary>
+        /// <param name="window">Window</param>
+        /// <returns>App shell</returns>
+        public static AppShell CreateForWindow(Window window) => new AppShell(window);
+
+        /// <summary>
+        /// Returns the App Shell asociated with the current dispatcher
+        /// </summary>
+        /// <returns></returns>
+        public static AppShell GetForCurrentView()
+        {
+            AppShell shell = null;
+            if (AppShells.TryGetValue(Window.Current, out shell))
+            {
+                return shell;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Refreshes the shell visual settings
+        /// </summary>
+        public void RefreshVisualSettings()
+        {
+            OnPropertyChanged(nameof(BackgroundOpacity));
+            OnPropertyChanged(nameof(BackgroundColor));
+            OnPropertyChanged(nameof(BackgroundImageUrl));
+        }
 
         /// <summary>
         /// Sets up the custom title bar
@@ -144,8 +219,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             coreTitleBarAppView.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DraggableTitleBarArea);
             Window.Current.Activated += WindowTitleBarActivationHandler;
-
-
         }
 
         /// <summary>
@@ -161,32 +234,35 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             }
         }
 
-        [Conditional("DEBUG")]
-        private void InitCheats()
+
+        /// <summary>
+        /// Add this to a server when SFX is merged in.
+        /// </summary>
+        /// <param name="notification">The notification.</param>
+        public void TriggerBubbleNotification(BubbleNotification notification)
         {
-#if DEBUG
-            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += CheatHandling;
-#endif
+            BubbleNotifications.Add(notification);
         }
 
         /// <summary>
-        /// Handles the cheat shortcuts
+        /// Synchronizes the title bar with the currently displayed view
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>    
-        private void CheatHandling(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            // activate cheat mode -- disabling is not needed, cheats are used in short
-            // debug sessions anyway
-            if (args.VirtualKey == Windows.System.VirtualKey.C && args.KeyStatus.IsMenuKeyDown)
+            var view = AppFrame.Content as ViewBase;
+
+            //update title bar back button visibility
+            TitleBarBackButtonVisibility = AppFrame.CanGoBack ?
+                Visibility.Visible :
+                Visibility.Collapsed;
+
+            if (view != null)
             {
-                Cheats.PermitCheats = true;
-                args.Handled = true;
-            }
-            //handle cheat key combinations
-            if (Cheats.PermitCheats && args.KeyStatus.IsMenuKeyDown)
-            {
-                Cheats.HandleKeyPress(args);
+                WindowTitleIconUri = view.WindowTitleIconUri;
+                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
+                var title = view.WindowTitle;
+                WindowTitle = title;
+                appView.Title = title;
             }
         }
 
@@ -199,7 +275,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             Window.Current.CoreWindow.KeyUp += EscapingHandling;
             AppFrame.Navigated += AppFrame_Navigated;
         }
-        
+
 
         /// <summary>
         /// Handles the system back navigation
@@ -271,86 +347,26 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             vm?.GoBackCommand.Execute();
         }
 
-        private IGameSettings _settings;
-
-        public void RefreshVisualSettings()
+        /// <summary>
+        /// Closes a bubble notification
+        /// </summary>
+        private void CloseNotification_Click(object sender, RoutedEventArgs e)
         {
-            OnPropertyChanged(nameof(BackgroundOpacity));
-            OnPropertyChanged(nameof(BackgroundColor));
-            OnPropertyChanged(nameof(BackgroundImageUrl));
+            BubbleNotifications.Remove(
+                ((BubbleNotification)((Button)sender).Tag)
+                );
         }
-
-        public float BackgroundOpacity
-        {
-            get
-            {
-                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundImage)
-                {
-                    case BackgroundImage.Go:
-                    case BackgroundImage.None:
-                        return 1;
-                    case BackgroundImage.Shrine:
-                    case BackgroundImage.Temple:
-                    case BackgroundImage.Forest:
-                        return 0.5f;
-                    default:
-                        return 1;
-                }
-            }
-        }
-
-        public Windows.UI.Xaml.Media.Brush BackgroundColor
-        {
-            get
-            {
-                var color = Colors.White;
-                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundColor)
-                {
-                    case Game.Styles.BackgroundColor.Basic:
-                        color = Color.FromArgb(170, 253, 210, 112);
-                        break;
-                    case Game.Styles.BackgroundColor.Green:
-                        color = Color.FromArgb(220, 164, 242, 167);
-                        break;
-                    case Game.Styles.BackgroundColor.None:
-                    default:
-                        color = Colors.Transparent;
-                        break;
-                }
-                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
-            }
-        }
-
-        public string BackgroundImageUrl {
-            get
-            {
-                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundImage)
-                {
-                    case BackgroundImage.Go:
-                        return "/Assets/MainMenu/backgroundimage.jpg";
-                    case BackgroundImage.Forest:
-                        return "/Assets/MainMenu/bambooForest.jpg";
-                    case BackgroundImage.Shrine:
-                        return "/Assets/MainMenu/shintoShrine.jpg";
-                    case BackgroundImage.Temple:
-                        return "/Assets/MainMenu/ginkakuJi.jpg";
-                    case BackgroundImage.None:
-                    default:
-                        return "/Assets/MainMenu/pixel.png";
-                }
-            }
-
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        [Conditional("DEBUG")]
+        private void InitCheats()
+        {
+            Cheats.Initialize();
         }
     }
 }
