@@ -31,7 +31,7 @@ namespace OmegaGo.UI.Services.Online
                 if (_igsConnection == null)
                 {
                     _igsConnection = new IgsConnection();
-                    _igsConnection.IncomingLine += _igsConnection_IncomingLine;
+                //    _igsConnection.IncomingLine += _igsConnection_IncomingLine;
                 }
                 return _igsConnection;
             }

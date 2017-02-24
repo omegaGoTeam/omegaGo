@@ -111,13 +111,11 @@
                     <StackPanel>
                         <Button Click="RefreshConsole">Refresh</Button>
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
-                        
-                    <TextBox
-                       
+                    <TextBlock
                         Padding="20"
                                Name="IgsConsole" 
                                TextWrapping="Wrap"
-                               FontFamily="Consolas" FontSize="14"></TextBox>
+                               FontFamily="Consolas" FontSize="14"></TextBlock>
                     </ScrollViewer>
                     </StackPanel>
                 </PivotItem>
@@ -167,3 +165,4 @@
         </Border>
     </Grid>
 </views:TransparencyViewBase>
+

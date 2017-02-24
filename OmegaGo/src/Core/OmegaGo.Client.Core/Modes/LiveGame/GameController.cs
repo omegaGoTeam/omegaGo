@@ -15,6 +15,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -67,7 +68,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             AssignPlayers();
             GameTree = new GameTree(ruleset);
-            BeginGame();
+            if (!(this is RemoteGameController))
+            {
+                // TODO (Petr) hack
+                BeginGame();
+            }
         }
 
         /// <summary>
