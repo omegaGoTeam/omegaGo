@@ -243,3 +243,7 @@ ModelManifest.xml
 
 # But include all boost libraries
 !**/FuegoLibraries/**/*
+/OmegaGo/src/UI/WindowsUniversal/OmegaGo.UI.WindowsUniversal.BoostLibraries/boost_thread.uwp.dll
+/OmegaGo/src/UI/WindowsUniversal/OmegaGo.UI.WindowsUniversal.BoostLibraries/boost_system.uwp.dll
+/OmegaGo/src/UI/WindowsUniversal/OmegaGo.UI.WindowsUniversal.BoostLibraries/boost_date_time.uwp.dll
+/OmegaGo/src/UI/WindowsUniversal/OmegaGo.UI.WindowsUniversal.BoostLibraries/boost_chrono.uwp.dll
