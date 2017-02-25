@@ -312,24 +312,13 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            //TODO Petr: Implement this, without having to check for type of game (online / local), this should be a part of controller
-            //if (VM.Game.Controller.IsOnlineGame)
-            //{
-
-            //}
-            //else
-            //{
-            //    VM.Game.Controller.Main_Undo();
-            //}
+            UiConnector.Main_RequestUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
             // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
-            //TimelineViewModel.OnTimelineRedrawRequested();
-            frames++;
-            DebugInfo = frames.ToString();
             BoardViewModel.Redraw();
         }
 
@@ -337,7 +326,7 @@ namespace OmegaGo.UI.ViewModels
         {
             var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
             int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex == newNumber - 1;
+            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
             MaximumMoveIndex = newNumber;
             if (autoUpdate && _previousMoveIndex != newNumber)
             {

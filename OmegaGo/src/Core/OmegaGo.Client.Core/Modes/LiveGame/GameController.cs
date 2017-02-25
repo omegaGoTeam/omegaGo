@@ -392,13 +392,13 @@ namespace OmegaGo.Core.Modes.LiveGame
             {
                 return
                     new GenericPhaseFactory
-                        <InitializationPhase, FixedHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
+                        <InitializationPhase, FixedHandicapPlacementPhase, LocalMainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
             else
             {
                 return
                     new GenericPhaseFactory
-                        <InitializationPhase, FreeHandicapPlacementPhase, MainPhase, LifeAndDeathPhase, FinishedPhase>();
+                        <InitializationPhase, FreeHandicapPlacementPhase, LocalMainPhase, LifeAndDeathPhase, FinishedPhase>();
             }
         }
 

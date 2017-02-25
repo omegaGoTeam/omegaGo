@@ -29,7 +29,25 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         public override void StartPhase()
         {
             ObservePlayerEvents();
+            foreach(var connector in Controller.Connectors)
+            {
+                connector.MainRequestUndo += Connector_MainRequestUndo;
+                connector.MainForceUndo += Connector_MainForceUndo;
+            }
             AskFirstPlayerToMove();
+        }
+
+        protected abstract void MainForceUndo();
+        protected abstract void MainRequestUndo();
+
+        private void Connector_MainForceUndo(object sender, EventArgs e)
+        {
+            MainForceUndo();
+        }
+
+        private void Connector_MainRequestUndo(object sender, EventArgs e)
+        {
+            MainRequestUndo();
         }
 
         /// <summary>
@@ -37,6 +55,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         public override void EndPhase()
         {
+            foreach (var connector in Controller.Connectors)
+            {
+                connector.MainRequestUndo -= Connector_MainRequestUndo;
+                connector.MainForceUndo -= Connector_MainForceUndo;
+            }
             UnobservePlayerEvents();
         }
 
