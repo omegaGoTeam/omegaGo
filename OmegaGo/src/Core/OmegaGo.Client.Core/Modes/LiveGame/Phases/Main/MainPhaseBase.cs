@@ -133,7 +133,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //ask the ruleset to validate the move
             MoveProcessingResult processingResult =
                    Controller.Ruleset.ProcessMove(
-                       Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
                        move,
                        Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
 

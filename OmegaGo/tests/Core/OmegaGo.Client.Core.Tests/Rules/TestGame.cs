@@ -46,9 +46,7 @@ namespace OmegaGo.Core.Tests.Rules
 
         public MoveResult IsLegal(string coordinates, StoneColor player)
         {
-            return _ruleset.IsLegalMove(this.CurrentBoard,
-                this.Move(coordinates, player),
-                this.History);
+            return _ruleset.IsLegalMove(Move(coordinates, player), History);
         }
     }
 }

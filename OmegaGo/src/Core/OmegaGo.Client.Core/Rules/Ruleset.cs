@@ -110,30 +110,28 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>
-        /// <param name="currentBoard">The current full board position.</param>
         /// <param name="moveToMake">The move of a player.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
-        public MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
+        public MoveResult IsLegalMove(Move moveToMake, GameBoard[] history)
         {
-            MoveProcessingResult result = ProcessMove(currentBoard, moveToMake, history);
+            MoveProcessingResult result = ProcessMove(moveToMake, history);
             return result.Result;
         }
 
         /// <summary>
-        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// Gets all moves that can be legally made by the PLAYER on the board in a game with the specified HISTORY.
         /// </summary>
         /// <param name="player">The player who wants to make a move.</param>
-        /// <param name="currentBoard">The current full board position.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>List of legal moves.</returns>
-        public List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, GameBoard[] history)
+        public List<Position> GetAllLegalMoves(StoneColor player, GameBoard[] history)
         {
             List<Position> possiblePositions = new List<Position>();
             for (int x = 0; x < _boardWidth; x++)
                 for (int y = 0; y < _boardHeight; y++)
                 {
-                    if (IsLegalMove(currentBoard, Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
+                    if (IsLegalMove(Move.PlaceStone(player, new Position(x, y)), history) == MoveResult.Legal)
                     {
                         possiblePositions.Add(new Position(x, y));
                     }
@@ -145,14 +143,16 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
-        /// <param name="previousBoard">The state of board before the move.</param>
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        public MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, GameBoard[] history)
+        public MoveProcessingResult ProcessMove(Move moveToMake, GameBoard[] history)
         {
+            GameBoard previousBoard = new GameBoard(history.Last());
             GameBoard currentBoard = new GameBoard(previousBoard);
             Position position = moveToMake.Coordinates;
+            StoneColor player = moveToMake.WhoMoves;
+
             MoveProcessingResult processingResult = new MoveProcessingResult
             {
                 Captures = new List<Position>(),
@@ -162,7 +162,7 @@ namespace OmegaGo.Core.Rules
             //1. step: check intersection
             if (moveToMake.Kind == MoveKind.Pass)
             {
-                processingResult.Result = Pass(moveToMake.WhoMoves);
+                processingResult.Result = Pass(player);
                 return processingResult;
             }
             else if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
@@ -178,7 +178,7 @@ namespace OmegaGo.Core.Rules
             else
             {
                 //2. step: add stone
-                currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = moveToMake.WhoMoves;
+                currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = player;
                 //3. step: find captures and remove prisoners
                 processingResult.Captures = CheckCapture(currentBoard, moveToMake);
                 for (int i = 0; i < processingResult.Captures.Count; i++)
@@ -189,18 +189,12 @@ namespace OmegaGo.Core.Rules
                 //4. step: check selfcapture, ko, superko
                 MoveResult r = CheckSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
-                {
-                    processingResult.Result = r;
                     processingResult.NewBoard = currentBoard;
-                    return processingResult;
-                }
                 else
-                {
-                    processingResult.Result = r;
-                    processingResult.Captures = new List<Position>();
                     processingResult.NewBoard = previousBoard;
-                    return processingResult;
-                }
+
+                processingResult.Result = r;
+                return processingResult;
             }
         }
 
