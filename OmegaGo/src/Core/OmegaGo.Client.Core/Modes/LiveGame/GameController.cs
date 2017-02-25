@@ -196,7 +196,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void BeginGame()
         {
             SubscribePlayerEvents();
-
             SetPhase(GamePhaseType.Initialization);
         }
 
@@ -290,7 +289,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Fires the board refresh event
         /// </summary>
-        internal void OnBoardMustBeRefreshed()
+        internal void OnCurrentNodeStateChanged()
         {
             CurrentNodeStateChanged?.Invoke(this, EventArgs.Empty);
         }

@@ -237,7 +237,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 //_game.NumberOfMovesPlayed--;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
                 
-                Controller.OnBoardMustBeRefreshed();
+                Controller.OnCurrentNodeStateChanged();
             }
         }
     }

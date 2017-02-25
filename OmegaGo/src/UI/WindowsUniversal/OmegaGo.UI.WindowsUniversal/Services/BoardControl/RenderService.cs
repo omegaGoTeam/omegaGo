@@ -241,6 +241,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                         if (SharedBoardControlState.ShowTerritory &&
                                 SharedBoardControlState.TerritoryMap != null)
                         {
+                            if (SharedBoardControlState.TerritoryMap.DeadPositions.Contains(new Position(x, y)))
+                            {
+                                DrawCrossOutMark(session, x, y, Colors.Red);
+                            }
                             DrawTerritoryMark(session, x, y, SharedBoardControlState.TerritoryMap.Board[x, y]);
                         }
                     }
@@ -338,19 +342,24 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
 
         }
-        private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
+        private void DrawCrossOutMark(CanvasDrawingSession session, int x, int y, Color color)
         {
             y = (this.SharedBoardControlState.BoardHeight - 1) - y;
-            // TODO Vita : dead positions
+            session.DrawLine(new Vector2(this._cellSize * (x + 0.2f), this._cellSize * (y + 0.2f)),
+                new Vector2(this._cellSize * (x + 0.8f), this._cellSize * (y + 0.8f)),
+                color, 3);
+            session.DrawLine(new Vector2(this._cellSize * (x + 0.8f), this._cellSize * (y + 0.2f)),
+             new Vector2(this._cellSize * (x + 0.2f), this._cellSize * (y + 0.8f)),
+             color, 3);
+
+        }
+        private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
+        {
             if (territory == Territory.Black || territory == Territory.White)
             {
+
                 Color color = (territory == Territory.Black ? Colors.Black : Colors.White);
-                session.DrawLine(new Vector2(this._cellSize* (x + 0.2f), this._cellSize*(y+0.2f)),
-                    new Vector2(this._cellSize*(x + 0.8f), this._cellSize*(y + 0.8f)),
-                    color, 3);
-                session.DrawLine(new Vector2(this._cellSize * (x+0.8f), this._cellSize * (y+0.2f)),
-                 new Vector2(this._cellSize * (x+0.2f), this._cellSize * (y + 0.8f)),
-                 color, 3);
+                DrawCrossOutMark(session, x, y, color);
             }
         }
 

@@ -8,11 +8,11 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
-    public class UIConnector : IGameConnector, IUiConnectorActions
+    public class UiConnector : BaseConnector, IGameConnector, IUiConnectorActions
     {
         private readonly IGameController _gameController;
 
-        public UIConnector(IGameController gameController)
+        public UiConnector(IGameController gameController)
         {
             _gameController = gameController;
         }
@@ -48,11 +48,40 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
             //UI does not care about the fact that a move was actually performed
         }
 
+        public void LifeDeath_RequestDone()
+        {
+            LifeDeathRequestDone?.Invoke(this, EventArgs.Empty);
+        }
+        public void LifeDeath_ForceReturnToMain()
+        {
+            LifeDeathForceReturnToMain?.Invoke(this, EventArgs.Empty);
+        }
+        public void LifeDeath_RequestUndoDeathMarks()
+        {
+            LifeDeathRequestUndoDeathMarks?.Invoke(this, EventArgs.Empty);
+
+        }
+
+        public event EventHandler LifeDeathForceReturnToMain;
+        public event EventHandler LifeDeathRequestUndoDeathMarks;
+        public event EventHandler LifeDeathForceUndoDeathMarks;
+        public event EventHandler LifeDeathRequestDone;
+        public event EventHandler LifeDeathForceDone;
+        public event EventHandler<Position> LifeDeathRequestKillGroup;
+        public event EventHandler<Position> LifeDeathForceKillGroup;
+
+
         /// <summary>
         /// Gets the human player currently on turn
         /// </summary>
         /// <returns>Human agent actions</returns>
         private IHumanAgentActions GetHumanAgentOnTurn() =>
             _gameController.TurnPlayer.Agent as IHumanAgentActions;
+
+
+        public void LifeDeath_RequestKillGroup(Position selectedPosition)
+        {
+            LifeDeathRequestKillGroup?.Invoke(this, selectedPosition);
+        }
     }
 }

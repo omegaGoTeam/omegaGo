@@ -1,5 +1,4 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.UserControls.ViewModels;
+﻿using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,25 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.Rules;
-using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Chat;
-using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
-using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -38,12 +31,16 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _gameSettings;
         private readonly IDialogService _dialogService;
-
-        private readonly UIConnector _uiConnector;
+        private readonly UiConnector _uiConnector;
+        private readonly StringBuilder _systemLog = new StringBuilder();
 
         private ICommand _passCommand;
         private ICommand _resignCommand;
         private ICommand _undoCommand;
+
+        private ICommand _lifeAndDeathDoneCommand;
+        private ICommand _resumeGameCommand;
+        private ICommand _requestUndoDeathMarksCommand;
 
         private string _debugInfo = "n/a";
 
@@ -53,28 +50,34 @@ namespace OmegaGo.UI.ViewModels
 
 
         private int _selectedMoveIndex;
-        
+
 
         private int frames;
 
-        public GameViewModel( IGameSettings gameSettings, IDialogService dialogService )
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
+
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
+
+        public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
             _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
-            _uiConnector = new UIConnector(Game.Controller);
+            _uiConnector = new UiConnector(Game.Controller);
+
+            SetupPhaseChangeHandlers();
 
             Game.Controller.RegisterConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
-            Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
+            Game.Controller.CurrentNodeStateChanged += Game_CurrentNodeStateChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
-            
+
             ObserveDebuggingMessages();
 
-            //TODO Petr: Implement - Observe the Phase changed event and wire up this event in Life and death phase
-            //Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -101,7 +104,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) =>  _systemLog.AppendLine(e);
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
             }
         }
 
@@ -119,13 +122,18 @@ namespace OmegaGo.UI.ViewModels
         /// Undo command from UI
         /// </summary>
         public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+        
+        public ICommand LifeAndDeathDoneCommand
+            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone));
 
+        public ICommand ResumeGameCommand
+            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame));
 
-        private StringBuilder _systemLog = new StringBuilder();
-        public string SystemLog
-        {
-            get { return _systemLog.ToString(); }
-        }
+        public ICommand RequestUndoDeathMarksCommand
+            => _requestUndoDeathMarksCommand ??
+            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
+
+        public string SystemLog => _systemLog.ToString();
 
         public IGame Game { get; }
 
@@ -135,7 +143,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel WhitePortrait { get; }
 
         public ChatViewModel ChatViewModel { get; }
-        
+
 
         public int SelectedMoveIndex
         {
@@ -161,7 +169,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _debugInfo, value); }
         }
 
-        private void Game_BoardMustBeRefreshed(object sender, EventArgs e)
+        private void Game_CurrentNodeStateChanged(object sender, EventArgs e)
         {
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
@@ -175,6 +183,12 @@ namespace OmegaGo.UI.ViewModels
 
         private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)
         {
+            if (eventArgs.PreviousPhase != null)
+            {
+                _phaseEndHandlers.ItemOrDefault(eventArgs.PreviousPhase.Type)?.
+                    Invoke(eventArgs.PreviousPhase);
+            }
+
             if (eventArgs.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 eventArgs.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -184,16 +198,18 @@ namespace OmegaGo.UI.ViewModels
             {
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
+
+            if (eventArgs.NewPhase != null)
+            {
+                _phaseStartHandlers.ItemOrDefault(eventArgs.NewPhase.Type)?.
+                    Invoke(eventArgs.PreviousPhase);
+            }
         }
 
-        /// <summary>
-        /// TODO Petr : this is not yet attached (see to-do above)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
+        private void LifeDeath_TerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
+            OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
         private void Controller_TurnPlayerChanged(object sender, GamePlayer e)
@@ -212,7 +228,6 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e != null)
             {
-                _systemLog.AppendLine("NODE: " + e.Move);
                 UpdateTimeline();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
                 // because we need the UpdateTimeline calls to be in order.
@@ -254,7 +269,7 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-                
+
         public void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -268,16 +283,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                //TODO Petr: if life and death will use the same event (probably yes?), then this logic is not really necessary
-                //if (Game.Controller.IsOnlineGame)
-                //{
-                //    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
-                //}
-                //else
-                //{
-                //    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
-                //}
-                //Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
             }
             else
             {
@@ -338,6 +344,39 @@ namespace OmegaGo.UI.ViewModels
                 SelectedMoveIndex = newNumber;
             }
             _previousMoveIndex = newNumber;
+        }
+
+        private void LifeAndDeathDone()
+        {
+            _uiConnector.LifeDeath_RequestDone();
+        }
+        
+        private void ResumeGame()
+        {
+            _uiConnector.LifeDeath_ForceReturnToMain();
+        }
+        
+        private void RequestUndoDeathMarks()
+        {
+            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+        }
+
+        private void SetupPhaseChangeHandlers()
+        {
+            _phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
+            _phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
+        }
+
+        private void StartLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged += LifeDeath_TerritoryChanged;
+        }
+
+        private void EndLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged -= LifeDeath_TerritoryChanged;
         }
     }
 }

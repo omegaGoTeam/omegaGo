@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// <summary>
     /// Connects the IgsConnection to a specific game
     /// </summary>
-    internal class IgsConnector : IRemoteConnector, IIgsConnectorServerActions
+    internal class IgsConnector : BaseConnector, IRemoteConnector, IIgsConnectorServerActions
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
@@ -86,6 +86,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             //inform the connection
             _connnection.MadeMove(_gameController.Info, move);
         }
+
+        public event EventHandler LifeDeathForceReturnToMain;
+        public event EventHandler LifeDeathRequestUndoDeathMarks;
+        public event EventHandler LifeDeathForceUndoDeathMarks;
+        public event EventHandler LifeDeathRequestDone;
+        public event EventHandler LifeDeathForceDone;
+        public event EventHandler<Position> LifeDeathRequestKillGroup;
+        public event EventHandler<Position> LifeDeathForceKillGroup;
 
         /// <summary>
         /// Receives and handles resignation from server
