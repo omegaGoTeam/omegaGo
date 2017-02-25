@@ -102,12 +102,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
-        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
-        public void OnLifeDeathTerritoryChanged(TerritoryMap map)
-        {
-            LifeDeathTerritoryChanged?.Invoke(this, map);
-        }
-
         /// <summary>
         /// Ruleset of the game.
         /// </summary>
@@ -202,7 +196,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void BeginGame()
         {
             SubscribePlayerEvents();
-
             SetPhase(GamePhaseType.Initialization);
         }
 
@@ -296,7 +289,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Fires the board refresh event
         /// </summary>
-        internal void OnBoardMustBeRefreshed()
+        internal void OnCurrentNodeStateChanged()
         {
             CurrentNodeStateChanged?.Invoke(this, EventArgs.Empty);
         }

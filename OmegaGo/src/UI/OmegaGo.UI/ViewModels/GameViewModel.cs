@@ -39,7 +39,7 @@ namespace OmegaGo.UI.ViewModels
         private readonly IGameSettings _gameSettings;
         private readonly IDialogService _dialogService;
 
-        private readonly UIConnector _uiConnector;
+        private readonly UiConnector _uiConnector;
 
         private ICommand _passCommand;
         private ICommand _resignCommand;
@@ -53,24 +53,24 @@ namespace OmegaGo.UI.ViewModels
 
 
         private int _selectedMoveIndex;
-        
+
 
         private int frames;
 
-        public GameViewModel( IGameSettings gameSettings, IDialogService dialogService )
+        public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
             _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
-            this.UiConnector = new UiConnector(Game.Controller);
+            _uiConnector = new UiConnector(Game.Controller);
 
-            Game.Controller.RegisterConnector(this.UiConnector);
+            Game.Controller.RegisterConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
-            Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
+            Game.Controller.CurrentNodeStateChanged += Game_CurrentNodeStateChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
-            
+
             ObserveDebuggingMessages();
 
             Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
@@ -100,7 +100,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) =>  _systemLog.AppendLine(e);
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
             }
         }
 
@@ -134,7 +134,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel WhitePortrait { get; }
 
         public ChatViewModel ChatViewModel { get; }
-        
+
 
         public int SelectedMoveIndex
         {
@@ -160,7 +160,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _debugInfo, value); }
         }
 
-        private void Game_BoardMustBeRefreshed(object sender, EventArgs e)
+        private void Game_CurrentNodeStateChanged(object sender, EventArgs e)
         {
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
@@ -184,10 +184,11 @@ namespace OmegaGo.UI.ViewModels
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
         }
-        
+
         private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
+            OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
         private void Controller_TurnPlayerChanged(object sender, GamePlayer e)
@@ -247,7 +248,7 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-                
+
         public void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)

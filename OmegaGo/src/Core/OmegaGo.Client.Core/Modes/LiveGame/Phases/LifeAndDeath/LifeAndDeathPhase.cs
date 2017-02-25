@@ -19,6 +19,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
         }
 
+        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
+
         public override GamePhaseType Type => GamePhaseType.LifeDeathDetermination;
 
         /// <summary>
@@ -31,10 +33,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             GameBoard boardAfterRemovalOfDeadStones =
               Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                    _deadPositions);
-            Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-            OnLifeDeathTerritoryChanged(new Game.TerritoryMap(
+            Territory[,] territory = Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+            OnLifeDeathTerritoryChanged(new TerritoryMap(
                 territory,
-                this.Controller.Info.BoardSize,
                 _deadPositions.ToList()));
         }
 
@@ -57,6 +58,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             RecalculateTerritories();
             Controller.OnDebuggingMessage(position + " marked dead.");
         }
+
         public void Done(GamePlayer player)
         {
             if (!_playersDoneWithLifeDeath.Contains(player))
@@ -196,22 +198,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
             Controller.OnDebuggingMessage("Scoring complete! " + scores.AbsoluteScoreDifference);
             GameEndInformation gameEndInfo = null;
-            if (isDraw)
-            {
-                gameEndInfo = GameEndInformation.CreateDraw(Controller.Players, scores);
-            }
-            else
-            {
-                gameEndInfo = GameEndInformation.CreateScoredGame(winner, loser, scores);
-            }
+            gameEndInfo = isDraw ?
+                GameEndInformation.CreateDraw(Controller.Players, scores) : 
+                GameEndInformation.CreateScoredGame(winner, loser, scores);
             Controller.EndGame(gameEndInfo);
         }
 
-
-        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        /// <summary>
+        /// Fires the life and death event
+        /// </summary>
+        /// <param name="map">Territory map</param>
+        private void OnLifeDeathTerritoryChanged(TerritoryMap map)
         {
-            Controller.OnLifeDeathTerritoryChanged(map);
-            Controller.OnBoardMustBeRefreshed();
+            LifeDeathTerritoryChanged?.Invoke(this, map);
         }
     }
 }
