@@ -245,7 +245,10 @@ namespace OmegaGo.Core.Game
             //process only if move was performed
             if (Move.Kind != MoveKind.None)
             {
-                var processMove = ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
+                //TODO Martin: use GetGameBoardHistory() to get board history?
+                GameBoard[] history = new GameBoard[1];
+                history[0] = copyOfPreviousBoard;
+                var processMove = ruleset.ProcessMove(Move, history);
                 //TODO Martin, Aniko Store captures?
                 BoardState = processMove.NewBoard;
             }

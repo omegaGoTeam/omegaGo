@@ -23,29 +23,26 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>
-        /// <param name="currentBoard">The current full board position.</param>
         /// <param name="moveToMake">The move of a player.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
-        MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history);
+        MoveResult IsLegalMove(Move moveToMake, GameBoard[] history);
 
         /// <summary>
-        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// Gets all moves that can be legally made by the PLAYER on the board in a game with the specified HISTORY.
         /// </summary>
         /// <param name="player">The player who wants to make a move.</param>
-        /// <param name="currentBoard">The current full board position.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>List of legal moves.</returns>
-        List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, GameBoard[] history);
+        List<Position> GetAllLegalMoves(StoneColor player, GameBoard[] history);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
-        /// <param name="previousBoard">The state of board before the move.</param>
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, GameBoard[] history);
+        MoveProcessingResult ProcessMove(Move moveToMake, GameBoard[] history);
         
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
