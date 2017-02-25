@@ -4,14 +4,13 @@ using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
     class LifeAndDeathPhase : GamePhaseBase, ILifeAndDeathPhase
     {
-        private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
+        private readonly List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
         private List<Position> _deadPositions = new List<Position>();
 
@@ -29,9 +28,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         void RecalculateTerritories()
         {
             GameBoard boardAfterRemovalOfDeadStones =
-              this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+              Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                    _deadPositions);
-            Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+            Territory[,] territory = Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
             //TODO Petr: Implement
             //this.Controller.OnLifeDeathTerritoryChanged(new Game.TerritoryMap(territory, this.Controller.Info.BoardSize));
         }
@@ -105,27 +104,27 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 var deadPositions = Controller.PreviousPhases.OfType<ILifeAndDeathPhase>().Last().DeadPositions;
                 GameBoard boardAfterRemovalOfDeadStones =
-                    this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
-                scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+                    Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
+                scores = Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
             }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
             GamePlayer winner;
             GamePlayer loser;
             if (isDraw)
             {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
+                winner = Controller.Players.Black;
+                loser = Controller.Players.White;
                 Controller.OnDebuggingMessage("It's a draw.");
             }
             else if (scores.BlackScore > scores.WhiteScore)
             {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
+                winner = Controller.Players.Black;
+                loser = Controller.Players.White;
             }
             else if (scores.BlackScore < scores.WhiteScore)
             {
-                winner = this.Controller.Players.White;
-                loser = this.Controller.Players.Black;
+                winner = Controller.Players.White;
+                loser = Controller.Players.Black;
             }
             else
             {
@@ -145,7 +144,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 gameEndInfo = GameEndInformation.CreateScoredGame(winner, loser, scores);
             }
-            this.Controller.EndGame(gameEndInfo);
+            Controller.EndGame(gameEndInfo);
         }
 
 
