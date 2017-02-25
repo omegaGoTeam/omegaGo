@@ -206,6 +206,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <param name="endInformation">Game end info</param>
         public void EndGame(GameEndInformation endInformation)
         {
+            OnDebuggingMessage("Game ended: " + endInformation);
             OnGameEnded(endInformation);
             SetPhase(GamePhaseType.Finished);
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.Canadian
 {
@@ -22,9 +18,9 @@ namespace OmegaGo.Core.Time.Canadian
 
         public CanadianTimeControl(int mainTime, int stonesPerPeriod, int periodMinutes)
         {
-            this._snapshot = new CanadianTimeInformation(TimeSpan.FromMinutes(mainTime), TimeSpan.Zero, 0);
-            this._stonesPerPeriod = stonesPerPeriod;
-            this._periodTime = TimeSpan.FromMinutes(periodMinutes);
+            _snapshot = new CanadianTimeInformation(TimeSpan.FromMinutes(mainTime), TimeSpan.Zero, 0);
+            _stonesPerPeriod = stonesPerPeriod;
+            _periodTime = TimeSpan.FromMinutes(periodMinutes);
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Canadian;
@@ -37,17 +33,14 @@ namespace OmegaGo.Core.Time.Canadian
             {
                 if (maintime > subtrahend)
                 {
-                    return new Canadian.CanadianTimeInformation(maintime - subtrahend, minued.PeriodTimeLeft,
+                    return new CanadianTimeInformation(maintime - subtrahend, minued.PeriodTimeLeft,
                         minued.PeriodStonesLeft);
                 }
-                else
-                {
-                    minued = new Canadian.CanadianTimeInformation(TimeSpan.Zero, _periodTime, _stonesPerPeriod);
-                    subtrahend = subtrahend - maintime;
-                }
+                minued = new CanadianTimeInformation(TimeSpan.Zero, _periodTime, _stonesPerPeriod);
+                subtrahend = subtrahend - maintime;
             }
             // Now we're eliminating periods.
-            return new Canadian.CanadianTimeInformation(TimeSpan.Zero,
+            return new CanadianTimeInformation(TimeSpan.Zero,
                 minued.PeriodTimeLeft - subtrahend, minued.PeriodStonesLeft);
         }
 
@@ -60,15 +53,12 @@ namespace OmegaGo.Core.Time.Canadian
             if (snapshot.MainTimeLeft > TimeSpan.Zero) return snapshot;
             if (snapshot.PeriodStonesLeft > 1)
             {
-                return new Canadian.CanadianTimeInformation(snapshot.MainTimeLeft,
+                return new CanadianTimeInformation(snapshot.MainTimeLeft,
                     snapshot.PeriodTimeLeft,
                     snapshot.PeriodStonesLeft - 1);
             }
-            else
-            {
-                return new Canadian.CanadianTimeInformation(snapshot.MainTimeLeft,
-                    _periodTime, _stonesPerPeriod);
-            }
+            return new CanadianTimeInformation(snapshot.MainTimeLeft,
+                _periodTime, _stonesPerPeriod);
         }
 
         protected override void UpdateSnapshot(TimeSpan timeSpent)
@@ -85,14 +75,14 @@ namespace OmegaGo.Core.Time.Canadian
 
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)
         {
-            this.LastTimeClockStarted = DateTime.Now;
+            LastTimeClockStarted = DateTime.Now;
             if (Running)
             {
                 timeRemaining = new CanadianTimeInformation(timeRemaining.MainTimeLeft,
                     timeRemaining.PeriodTimeLeft,
                     timeRemaining.PeriodStonesLeft + 1);
             }
-            this._snapshot = timeRemaining; // TODO Petr:  minus current time, I guess?
+            _snapshot = timeRemaining; // TODO Petr:  minus current time, I guess?
             return this;
         }
     }

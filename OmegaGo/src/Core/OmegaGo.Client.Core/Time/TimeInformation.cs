@@ -1,5 +1,6 @@
 ﻿namespace OmegaGo.Core.Time
 {
+    //TODO Martin - Texts can't be inside Core!
     /// <summary>
     /// Represents the time remaining on the clock for a single player in a game.
     /// </summary>

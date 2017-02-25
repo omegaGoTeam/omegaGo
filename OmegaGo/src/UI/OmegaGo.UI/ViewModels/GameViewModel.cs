@@ -25,6 +25,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
@@ -35,7 +36,9 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class GameViewModel : ViewModelBase
     {
-        private readonly IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private readonly IGameSettings _gameSettings;
+        private readonly IDialogService _dialogService;
+
         private readonly UIConnector _uiConnector;
 
         private ICommand _passCommand;
@@ -54,8 +57,10 @@ namespace OmegaGo.UI.ViewModels
 
         private int frames;
 
-        public GameViewModel()
+        public GameViewModel( IGameSettings gameSettings, IDialogService dialogService )
         {
+            _gameSettings = gameSettings;
+            _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
             _uiConnector = new UIConnector(Game.Controller);
@@ -161,10 +166,11 @@ namespace OmegaGo.UI.ViewModels
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
-        private void Controller_GameEnded(object sender, GameEndInformation e)
+        private async void Controller_GameEnded(object sender, GameEndInformation e)
         {
-            _settings.Statistics.GameHasBeenCompleted(Game, e);
-            _settings.Quests.Events.GameCompleted(Game, e);
+            _gameSettings.Statistics.GameHasBeenCompleted(Game, e);
+            _gameSettings.Quests.Events.GameCompleted(Game, e);
+            await _dialogService.ShowAsync(e.ToString(), $"End reason: {e.Reason}");
         }
 
         private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)
@@ -228,8 +234,8 @@ namespace OmegaGo.UI.ViewModels
                     bool humanPlayed = (Game.Controller.Players[currentState.Move.WhoMoves].IsHuman);
                     bool notificationDemanded =
                         (humanPlayed
-                            ? _settings.Audio.PlayWhenYouPlaceStone
-                            : _settings.Audio.PlayWhenOthersPlaceStone);
+                            ? _gameSettings.Audio.PlayWhenYouPlaceStone
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
                     if (notificationDemanded)
                     {
                         if (currentState.Move.Kind == MoveKind.PlaceStone)

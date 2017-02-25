@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Time.Absolute
             RemainingMainTime = remainingTime;
         }
 
-        public override string MainText => RemainingMainTime.ToString(@"mm\:ss");
+        public override string MainText => RemainingMainTime > TimeSpan.Zero ? RemainingMainTime.ToString(@"mm\:ss") : "Time exceeded";
         public override string SubText => "No overtime available!";
         public override TimeControlStyle Style => TimeControlStyle.Absolute;
     }
