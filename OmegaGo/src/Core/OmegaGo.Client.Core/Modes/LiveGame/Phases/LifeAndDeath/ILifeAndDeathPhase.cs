@@ -4,7 +4,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
-    interface ILifeAndDeathPhase : IGamePhase
+    public interface ILifeAndDeathPhase : IGamePhase
     {
         event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
 

@@ -1,5 +1,4 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.UserControls.ViewModels;
+﻿using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,25 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.Rules;
-using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Chat;
-using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
-using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -38,12 +31,16 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _gameSettings;
         private readonly IDialogService _dialogService;
-
         private readonly UiConnector _uiConnector;
+        private readonly StringBuilder _systemLog = new StringBuilder();
 
         private ICommand _passCommand;
         private ICommand _resignCommand;
         private ICommand _undoCommand;
+
+        private ICommand _lifeAndDeathDoneCommand;
+        private ICommand _resumeGameCommand;
+        private ICommand _requestUndoDeathMarksCommand;
 
         private string _debugInfo = "n/a";
 
@@ -57,6 +54,12 @@ namespace OmegaGo.UI.ViewModels
 
         private int frames;
 
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
+
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
+
         public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
@@ -64,6 +67,8 @@ namespace OmegaGo.UI.ViewModels
             Game = Mvx.GetSingleton<IGame>();
 
             _uiConnector = new UiConnector(Game.Controller);
+
+            SetupPhaseChangeHandlers();
 
             Game.Controller.RegisterConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
@@ -73,7 +78,6 @@ namespace OmegaGo.UI.ViewModels
 
             ObserveDebuggingMessages();
 
-            Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -118,13 +122,18 @@ namespace OmegaGo.UI.ViewModels
         /// Undo command from UI
         /// </summary>
         public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+        
+        public ICommand LifeAndDeathDoneCommand
+            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone));
 
+        public ICommand ResumeGameCommand
+            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame));
 
-        private StringBuilder _systemLog = new StringBuilder();
-        public string SystemLog
-        {
-            get { return _systemLog.ToString(); }
-        }
+        public ICommand RequestUndoDeathMarksCommand
+            => _requestUndoDeathMarksCommand ??
+            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
+
+        public string SystemLog => _systemLog.ToString();
 
         public IGame Game { get; }
 
@@ -174,6 +183,12 @@ namespace OmegaGo.UI.ViewModels
 
         private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)
         {
+            if (eventArgs.PreviousPhase != null)
+            {
+                _phaseEndHandlers.ItemOrDefault(eventArgs.PreviousPhase.Type)?.
+                    Invoke(eventArgs.PreviousPhase);
+            }
+
             if (eventArgs.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 eventArgs.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -183,9 +198,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
+
+            if (eventArgs.NewPhase != null)
+            {
+                _phaseStartHandlers.ItemOrDefault(eventArgs.NewPhase.Type)?.
+                    Invoke(eventArgs.PreviousPhase);
+            }
         }
 
-        private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
+        private void LifeDeath_TerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
@@ -262,11 +283,11 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                this.UiConnector.LifeDeath_RequestKillGroup(selectedPosition);
+                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
             }
             else
             {
-                this.UiConnector.MakeMove(selectedPosition);
+                _uiConnector.MakeMove(selectedPosition);
             }
         }
 
@@ -275,7 +296,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Resign()
         {
-            this.UiConnector.Resign();
+            _uiConnector.Resign();
         }
 
         /// <summary>
@@ -283,7 +304,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Pass()
         {
-            this.UiConnector.Pass();
+            _uiConnector.Pass();
         }
 
         /// <summary>
@@ -323,6 +344,39 @@ namespace OmegaGo.UI.ViewModels
                 SelectedMoveIndex = newNumber;
             }
             _previousMoveIndex = newNumber;
+        }
+
+        private void LifeAndDeathDone()
+        {
+            _uiConnector.LifeDeath_RequestDone();
+        }
+        
+        private void ResumeGame()
+        {
+            _uiConnector.LifeDeath_ForceReturnToMain();
+        }
+        
+        private void RequestUndoDeathMarks()
+        {
+            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+        }
+
+        private void SetupPhaseChangeHandlers()
+        {
+            _phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
+            _phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
+        }
+
+        private void StartLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged += LifeDeath_TerritoryChanged;
+        }
+
+        private void EndLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged -= LifeDeath_TerritoryChanged;
         }
     }
 }
