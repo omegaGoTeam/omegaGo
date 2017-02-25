@@ -94,8 +94,10 @@
     <Compile Include="Services\Localization\LocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizedMetadata\AiProgramLocalizedMetadata.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
+    <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
     <Compile Include="Services\Quests\GameCompletedQuestInformation.cs" />
     <Compile Include="Services\Quests\IndividualQuests\BlitzRocketQuest.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
     <Compile Include="Services\Quests\RewardPoints.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
+    <Compile Include="Services\Quests\QuestCooldownActions.cs" />
     <Compile Include="Services\Quests\QuestEvents.cs" />
     <Compile Include="Board\Styles\BoardTheme.cs" />
     <Compile Include="Services\Settings\InterfaceMementos.cs" />
@@ -430,6 +433,7 @@
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
     <Content Include="Services\Quests\ABOUT.txt" />
+    <Content Include="Services\Quests\QuestCooldownSpecification.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <ItemGroup>

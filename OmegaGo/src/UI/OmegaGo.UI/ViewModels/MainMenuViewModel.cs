@@ -17,6 +17,7 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _gameSettings;
         private readonly IDialogService _dialogService;
+
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
         private IMvxCommand _navigateToGameCreation;
@@ -73,6 +74,7 @@ namespace OmegaGo.UI.ViewModels
         // TODO Martin: fix this display with custom control
         private string DO_MUTE = "MUTE";
         private string DO_UNMUTE = "UNMUTE";
+
         public string MuteGlyph {
             get
             {

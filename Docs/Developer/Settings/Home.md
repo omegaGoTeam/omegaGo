@@ -111,3 +111,9 @@ Now you can access the car properties with the syntax `settingsManager.Car.MaxSp
 This class implements the `ISettingsService` for UWP platform. It uses the built in `ApplicationData` feature and supports both `Local` and `Roamed` settings.
 
 Be aware that the `Roamed` settings may reach at most 100 KB (`ApplicationData.RoamingStorageQuota`) otherwise the roaming will stop working altogether and some entries will need to be removed.
+
+## Caching
+
+During the project we have learned that UWP settings read and store is very CPU-intenstive and causes singificant garbage collection. See http://blog.mzikmund.com/2017/02/uwp-application-settings-performance
+
+This speed degradation was prohibitive, especially in the board control render service, therefore we implemented the solution described in the above-linked blog post and cache settings, once they are first loaded, until they are changed by our application.
