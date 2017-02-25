@@ -193,9 +193,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }
-
-            Controller.CurrentNode = Controller.GameTree.LastNode;
+            }            
         }
 
         /// <summary>
