@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:quests="using:OmegaGo.UI.Services.Quests"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    x:Name="SingleplayerViewLayout"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
 
@@ -66,11 +67,21 @@
                                     <TextBlock Text="/"></TextBlock>
                                     <TextBlock Text="{Binding Quest.MaximumProgress}"></TextBlock>
                                 </StackPanel>
-                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                    <Button Content="Try this now" Tag="{Binding}" Click="TryThisNow_Click"></Button>
-                                    <Button Content="I don't want this" Tag="{Binding}" Click="ExchangeQuest_Click"></Button>
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}" Click="TryThisNow_Click" ToolTipService.ToolTip="This will take you to a screen where you can work on this quest.">
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE768;" Margin="0,0,10,0"></FontIcon>
+                                                <TextBlock>Try this now</TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Visibility="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Tag="{Binding}" Click="ExchangeQuest_Click" ToolTipService.ToolTip="You will lose this quest and any progress towards it, but you will immediately gain a different random quest.">
+                                            <StackPanel Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE72C;" Margin="0,0,10,0"></FontIcon>
+                                                <TextBlock>Replace</TextBlock>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -78,7 +89,7 @@
                     <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
                     <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
                 </GridView>
-            <TextBlock Text="You receive a new quest every 24 hours, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
+            <TextBlock Text="You receive a new quest every midnight, local time, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>

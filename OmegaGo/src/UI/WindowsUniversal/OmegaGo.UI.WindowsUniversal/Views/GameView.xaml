@@ -73,9 +73,9 @@
                 <Button Click="DebugFill">Fill</Button>
                 <Button>Save as SGF</Button>
                 <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
-                <Button Click="LifeDeathDone">Done</Button>
-                <Button Click="UndoDeathMarks">Undo Death Marks</Button>
-                <Button Click="ResumeGame">Resume game</Button>
+                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}">Done</Button>
+                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}">Undo Death Marks</Button>
+                <Button Command="{x:Bind VM.ResumeGameCommand}">Resume game</Button>
                 <TextBlock Text="Undo" FontSize="20"></TextBlock>
                 <Button IsEnabled="False">undoplease</Button>
                 <Button IsEnabled="False">undo (yes)</Button>

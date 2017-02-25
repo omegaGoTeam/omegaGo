@@ -68,6 +68,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             Players = players;
             AssignPlayers();
             GameTree = new GameTree(ruleset);
+            InitGameTree();
         }
 
         /// <summary>
@@ -101,12 +102,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Indicates that the game phase has changed.
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
-
-        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
-        public void OnLifeDeathTerritoryChanged(TerritoryMap map)
-        {
-            LifeDeathTerritoryChanged?.Invoke(this, map);
-        }
 
         /// <summary>
         /// Ruleset of the game.
@@ -169,7 +164,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         public GameTreeNode CurrentNode
         {
             get { return _currentNode; }
-            internal set
+            private set
             {
                 _currentNode = value;
                 OnCurrentNodeChanged();
@@ -202,7 +197,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void BeginGame()
         {
             SubscribePlayerEvents();
-
             SetPhase(GamePhaseType.Initialization);
         }
 
@@ -296,7 +290,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <summary>
         /// Fires the board refresh event
         /// </summary>
-        internal void OnBoardMustBeRefreshed()
+        internal void OnCurrentNodeStateChanged()
         {
             CurrentNodeStateChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -359,7 +353,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             CurrentNodeChanged?.Invoke(this, CurrentNode);
         }
-        
+
         /// <summary>
         /// Handles player resignation
         /// </summary>
@@ -370,6 +364,24 @@ namespace OmegaGo.Core.Modes.LiveGame
             EndGame(GameEndInformation.CreateResignation(Players[agent.Color], Players));
         }
 
+        /// <summary>
+        /// Initializes the game tree
+        /// </summary>
+        private void InitGameTree()
+        {
+            GameTree.LastNodeChanged += GameTree_LastNodeChanged;
+        }
+
+        /// <summary>
+        /// Handles the change of the last game tree node
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="newLastNode">New last node</param>
+        private void GameTree_LastNodeChanged(object sender, GameTreeNode newLastNode)
+        {
+            //update the current node
+            CurrentNode = newLastNode;
+        }
 
         /// <summary>
         /// Creates the game controller phase factory based on the game info

@@ -74,14 +74,10 @@ namespace OmegaGo.Core.Time
         /// </summary>
         internal bool IsViolating()
         {
-            if (Running)
-            {
-                return IsViolating(DateTime.Now - this.LastTimeClockStarted);
-            }
-            else
-            {
-                return IsViolating(TimeSpan.Zero);
-            }
+            return IsViolating(
+                Running ?
+                    (DateTime.Now - this.LastTimeClockStarted) :
+                    TimeSpan.Zero);
         }
     }
 }
