@@ -476,4 +476,37 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="WhiteHandicap" xml:space="preserve">
     <value>White Handicap</value>
   </data>
+  <data name="FullscreenModeCheckbox" xml:space="preserve">
+    <value>Fullscreen Mode</value>
+  </data>
+  <data name="HotseatGamesPlayed" xml:space="preserve">
+    <value>Hotseat games played:</value>
+  </data>
+  <data name="OmegaGoRankColon" xml:space="preserve">
+    <value>Omega Go rank:</value>
+  </data>
+  <data name="OnlineGamesPlayed" xml:space="preserve">
+    <value>Online games played:</value>
+  </data>
+  <data name="OnlineGamesWon" xml:space="preserve">
+    <value>Online games won:</value>
+  </data>
+  <data name="PointsColon" xml:space="preserve">
+    <value>Points:</value>
+  </data>
+  <data name="QuestsCompleted" xml:space="preserve">
+    <value>Quests completed:</value>
+  </data>
+  <data name="SoloGamesPlayed" xml:space="preserve">
+    <value>Solo games played:</value>
+  </data>
+  <data name="SoloGamesWon" xml:space="preserve">
+    <value>Solo games won:</value>
+  </data>
+  <data name="TotalGamesWon" xml:space="preserve">
+    <value>Total games won:</value>
+  </data>
+  <data name="TsumegoProblemsSolved" xml:space="preserve">
+    <value>Tsumego problems solved:</value>
+  </data>
 </root>

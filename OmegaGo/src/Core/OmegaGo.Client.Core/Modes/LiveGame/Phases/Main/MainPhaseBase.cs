@@ -216,9 +216,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }
-
-            Controller.CurrentNode = Controller.GameTree.LastNode;
+            }            
         }
 
         /// <summary>
@@ -254,16 +252,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //is there a move to undo?
             if (Controller.GameTree.LastNode != null)
             {
-                var previousNode = Controller.GameTree.LastNode.Parent;
                 Controller.GameTree.RemoveLastNode();
-                Controller.CurrentNode = previousNode;
                 Controller.SwitchTurnPlayer();
                 // TODO Petr What is this?
                 // Order here matters:
                 //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
                 //_game.NumberOfMovesPlayed--;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
-                Controller.OnBoardMustBeRefreshed();
+                
+                Controller.OnCurrentNodeStateChanged();
             }
         }
     }

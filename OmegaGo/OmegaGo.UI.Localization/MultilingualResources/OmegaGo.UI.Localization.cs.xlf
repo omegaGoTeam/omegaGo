@@ -436,13 +436,13 @@
           <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
 Fluffy will always and only pass in response to its opponent passing.
 You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
-          <target state="new">Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-Fluffy will always and only pass in response to its opponent passing.
-You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</target>
+          <target state="translated">Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</target>
         </trans-unit>
         <trans-unit id="AI_AlphaBetaPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>Fluffy (minimax)</source>
-          <target state="new">Fluffy (minimax)</target>
+          <target state="translated">Fluffy (minimax)</target>
         </trans-unit>
         <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
           <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
@@ -452,7 +452,7 @@ After you make your first move, or even before that, the AI will conclude that i
         </trans-unit>
         <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
           <source>Defeatist</source>
-          <target state="new">Defeatist</target>
+          <target state="final">Defeatist</target>
         </trans-unit>
         <trans-unit id="AI_FuegoAI_Description" translate="yes" xml:space="preserve">
           <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
@@ -464,7 +464,7 @@ We recommend you use this AI program for all of your games.</target>
         </trans-unit>
         <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
           <source>Fuego</source>
-          <target state="new">Fuego</target>
+          <target state="final">Fuego</target>
         </trans-unit>
         <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
@@ -482,7 +482,7 @@ This AI will pass only in response to its opponent passing, in which case it wil
         </trans-unit>
         <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
           <source>Random</source>
-          <target state="new">Random</target>
+          <target state="translated">Náhodné tahy</target>
         </trans-unit>
         <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI plays random moves while the board is not empty.
@@ -492,7 +492,51 @@ I dare you to let two Fish play against each other. The game will never end (unl
         </trans-unit>
         <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>The Fish</source>
-          <target state="new">The Fish</target>
+          <target state="translated">Rybka</target>
+        </trans-unit>
+        <trans-unit id="HotseatGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Hotseat games played:</source>
+          <target state="translated">Her v horkém křesle:</target>
+        </trans-unit>
+        <trans-unit id="OmegaGoRankColon" translate="yes" xml:space="preserve">
+          <source>Omega Go rank:</source>
+          <target state="translated">Tvoje hodnost:</target>
+        </trans-unit>
+        <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Online games played:</source>
+          <target state="translated">Online her odehráno:</target>
+        </trans-unit>
+        <trans-unit id="OnlineGamesWon" translate="yes" xml:space="preserve">
+          <source>Online games won:</source>
+          <target state="translated">Vítězství v online hrách:</target>
+        </trans-unit>
+        <trans-unit id="PointsColon" translate="yes" xml:space="preserve">
+          <source>Points:</source>
+          <target state="translated">Body:</target>
+        </trans-unit>
+        <trans-unit id="QuestsCompleted" translate="yes" xml:space="preserve">
+          <source>Quests completed:</source>
+          <target state="translated">Počet dokončených questů:</target>
+        </trans-unit>
+        <trans-unit id="SoloGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Solo games played:</source>
+          <target state="translated">Počet odehraných sólových her:</target>
+        </trans-unit>
+        <trans-unit id="SoloGamesWon" translate="yes" xml:space="preserve">
+          <source>Solo games won:</source>
+          <target state="translated">Vítězství v sólových hrách:</target>
+        </trans-unit>
+        <trans-unit id="TotalGamesWon" translate="yes" xml:space="preserve">
+          <source>Total games won:</source>
+          <target state="translated">Celkem vítězství:</target>
+        </trans-unit>
+        <trans-unit id="TsumegoProblemsSolved" translate="yes" xml:space="preserve">
+          <source>Tsumego problems solved:</source>
+          <target state="translated">Počet vyřešených tsumego problémů:</target>
+        </trans-unit>
+        <trans-unit id="FullscreenModeCheckbox" translate="yes" xml:space="preserve">
+          <source>Fullscreen Mode</source>
+          <target state="translated">Celoobrazovkový režim</target>
         </trans-unit>
       </group>
     </body>

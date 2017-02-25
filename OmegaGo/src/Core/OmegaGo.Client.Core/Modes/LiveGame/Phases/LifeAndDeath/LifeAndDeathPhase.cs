@@ -5,20 +5,21 @@ using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
     class LifeAndDeathPhase : GamePhaseBase, ILifeAndDeathPhase
     {
-        private List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
+        private readonly List<GamePlayer> _playersDoneWithLifeDeath = new List<GamePlayer>();
 
         private List<Position> _deadPositions = new List<Position>();
 
         public LifeAndDeathPhase(GameController gameController) : base(gameController)
         {
         }
+
+        public event EventHandler<TerritoryMap> LifeDeathTerritoryChanged;
 
         public override GamePhaseType Type => GamePhaseType.LifeDeathDetermination;
 
@@ -30,12 +31,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         void RecalculateTerritories()
         {
             GameBoard boardAfterRemovalOfDeadStones =
-              this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
+              Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(
                    _deadPositions);
-            Territory[,] territory = this.Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
-            OnLifeDeathTerritoryChanged(new Game.TerritoryMap(
+            Territory[,] territory = Controller.Ruleset.DetermineTerritory(boardAfterRemovalOfDeadStones);
+            OnLifeDeathTerritoryChanged(new TerritoryMap(
                 territory,
-                this.Controller.Info.BoardSize,
                 _deadPositions.ToList()));
         }
 
@@ -58,6 +58,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             RecalculateTerritories();
             Controller.OnDebuggingMessage(position + " marked dead.");
         }
+
         public void Done(GamePlayer player)
         {
             if (!_playersDoneWithLifeDeath.Contains(player))
@@ -165,27 +166,27 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             {
                 var deadPositions = DeadPositions;
                 GameBoard boardAfterRemovalOfDeadStones =
-                    this.Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
-                scores = this.Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+                    Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
+                scores = Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
             }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
             GamePlayer winner;
             GamePlayer loser;
             if (isDraw)
             {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
+                winner = Controller.Players.Black;
+                loser = Controller.Players.White;
                 Controller.OnDebuggingMessage("It's a draw.");
             }
             else if (scores.BlackScore > scores.WhiteScore)
             {
-                winner = this.Controller.Players.Black;
-                loser = this.Controller.Players.White;
+                winner = Controller.Players.Black;
+                loser = Controller.Players.White;
             }
             else if (scores.BlackScore < scores.WhiteScore)
             {
-                winner = this.Controller.Players.White;
-                loser = this.Controller.Players.Black;
+                winner = Controller.Players.White;
+                loser = Controller.Players.Black;
             }
             else
             {
@@ -197,22 +198,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             }
             Controller.OnDebuggingMessage("Scoring complete! " + scores.AbsoluteScoreDifference);
             GameEndInformation gameEndInfo = null;
-            if (isDraw)
-            {
-                gameEndInfo = GameEndInformation.CreateDraw(Controller.Players, scores);
-            }
-            else
-            {
-                gameEndInfo = GameEndInformation.CreateScoredGame(winner, loser, scores);
-            }
-            this.Controller.EndGame(gameEndInfo);
+            gameEndInfo = isDraw ?
+                GameEndInformation.CreateDraw(Controller.Players, scores) : 
+                GameEndInformation.CreateScoredGame(winner, loser, scores);
+            Controller.EndGame(gameEndInfo);
         }
 
-
-        public virtual void OnLifeDeathTerritoryChanged(TerritoryMap map)
+        /// <summary>
+        /// Fires the life and death event
+        /// </summary>
+        /// <param name="map">Territory map</param>
+        private void OnLifeDeathTerritoryChanged(TerritoryMap map)
         {
-            Controller.OnLifeDeathTerritoryChanged(map);
-            Controller.OnBoardMustBeRefreshed();
+            LifeDeathTerritoryChanged?.Invoke(this, map);
         }
     }
 }
