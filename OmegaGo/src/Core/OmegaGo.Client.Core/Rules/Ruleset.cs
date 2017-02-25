@@ -81,8 +81,6 @@ namespace OmegaGo.Core.Rules
             return 0;
         }
 
-        public abstract void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
-
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
@@ -192,7 +190,6 @@ namespace OmegaGo.Core.Rules
                 MoveResult r = CheckSelfCaptureKoSuperko(currentBoard, moveToMake, history);
                 if (r == MoveResult.Legal)
                 {
-                    ModifyScoresAfterCapture(processingResult.Captures.Count, moveToMake.WhoMoves);
                     processingResult.Result = r;
                     processingResult.NewBoard = currentBoard;
                     return processingResult;
@@ -270,8 +267,6 @@ namespace OmegaGo.Core.Rules
         /// <param name="playerColor">Color of player, who passes.</param>
         /// <returns>The legality of move or new game phase notification.</returns>
         protected abstract MoveResult Pass(StoneColor playerColor);
-
-        protected abstract void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor);
 
         /// <summary>
         /// Checks whether the player places a stone on the intersection where the opponent has just captured a stone.

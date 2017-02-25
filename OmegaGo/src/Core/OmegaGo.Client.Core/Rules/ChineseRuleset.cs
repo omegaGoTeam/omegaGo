@@ -43,16 +43,6 @@ namespace OmegaGo.Core.Rules
             return compensation;
         }
 
-        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
-        {
-            return; //Chinese ruleset uses area counting, we do not need number of dead stones
-        }
-
-        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
-        {
-            return; //Chinese ruleset uses area counting, we do not need number of captured stones
-        }
-
         protected override MoveResult Pass(StoneColor playerColor)
         {
             if (_isPreviousMovePass)

@@ -47,8 +47,6 @@ namespace OmegaGo.Core.Rules
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
         MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, GameBoard[] history);
         
-        void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
-
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.

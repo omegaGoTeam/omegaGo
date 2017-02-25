@@ -50,15 +50,6 @@ namespace OmegaGo.Core.Rules
             return compensation;
         }
 
-        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
-        {
-            if (_countingType == CountingType.Territory)
-            {
-                _whiteScore -= deadWhiteStoneCount;
-                _blackScore -= deadBlackStoneCount;
-            }
-        }
-
         protected override MoveResult Pass(StoneColor playerColor)
         {
             StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
@@ -107,15 +98,5 @@ namespace OmegaGo.Core.Rules
             
         }
 
-        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
-        {
-            if (_countingType == CountingType.Territory)
-            {
-                if (removedStonesColor == StoneColor.Black)
-                    _blackScore -= capturedStoneCount;
-                else if (removedStonesColor == StoneColor.White)
-                    _whiteScore -= capturedStoneCount;
-            }
-        }
     }
 }
