@@ -199,30 +199,15 @@ namespace OmegaGo.Core.Online.Igs
         public event EventHandler<string> ErrorMessageReceived;
 
         /// <summary>
-        /// Occurs when the server commands us to act as though the last move didn't take place.
-        /// </summary>
-        public event EventHandler<IgsGameInfo> LastMoveUndone;
-
-        /// <summary>
         /// Occurs when the opponent in a GAME declines our request to undo a move.
         /// This will also prevent all further undo's in this game.
         /// </summary>
         public event EventHandler<IgsGameInfo> UndoDeclined;
 
         /// <summary>
-        /// Occurs when the game is scored and completed
-        /// </summary>
-        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-
-        /// <summary>
         /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
         /// </summary>
         public event EventHandler<string> IncomingLine;
-
-        /// <summary>
-        /// Occurs when a stone is removed
-        /// </summary>
-        public event EventHandler<StoneRemovalEventArgs> StoneRemoval;
 
         /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
