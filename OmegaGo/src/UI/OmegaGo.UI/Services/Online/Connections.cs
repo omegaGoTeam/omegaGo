@@ -13,12 +13,7 @@ namespace OmegaGo.UI.Services.Online
     /// </summary>
     public static class Connections
     {
-        // TODO Petr: The log might or might not be present in the final version, we'll see
-        public static string IgsLog
-        {
-            get { return _igsLog.ToString(); }
-        }
-        private static StringBuilder _igsLog = new StringBuilder();
+        private static readonly StringBuilder _igsLog = new StringBuilder();
 
         private static IgsConnection _igsConnection;
         private static KgsConnection _kgsConnection;
@@ -36,15 +31,10 @@ namespace OmegaGo.UI.Services.Online
                 if (_igsConnection == null)
                 {
                     _igsConnection = new IgsConnection();
-                    _igsConnection.IncomingLine += _igsConnection_IncomingLine;
+                    _igsConnection.IncomingLine += IgsConnection_IncomingLine;
                 }
                 return _igsConnection;
             }
-        }
-
-        private static void _igsConnection_IncomingLine(object sender, string e)
-        {
-            _igsLog.AppendLine(e);
         }
 
         /// <summary>
@@ -52,6 +42,12 @@ namespace OmegaGo.UI.Services.Online
         /// </summary>
         public static KgsConnection Kgs => _kgsConnection ??
                                            (_kgsConnection = new KgsConnection());
+
+        // TODO Petr: The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Log of Igs
+        /// </summary>
+        public static string IgsLog => _igsLog.ToString();
 
         /// <summary>
         /// Gets the connection to the specified server.
@@ -65,6 +61,12 @@ namespace OmegaGo.UI.Services.Online
             if (id == ServerId.Kgs)
                 return Kgs;
             throw new Exception("That server does not exist.");
+        }
+
+
+        private static void IgsConnection_IncomingLine(object sender, string e)
+        {
+            _igsLog.AppendLine(e);
         }
     }
 }
