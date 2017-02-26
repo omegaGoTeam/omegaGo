@@ -45,61 +45,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <!--<ScrollViewer HorizontalAlignment="Center" 
-                      VerticalAlignment="Center"
-                      VerticalScrollBarVisibility="Auto">
-        <StackPanel HorizontalAlignment="Center" 
-                        VerticalAlignment="Center">
-
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,10,0,0" />
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"              
-                   Style="{ThemeResource HeaderTextBlockStyle}">
-                <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
-            </TextBlock>
-            <Button Content="{x:Bind Localizer.Tutorial}"                     
-                    Command="{Binding Path=NavigateToTutorial}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.TutorialToolTip}"
-                    HorizontalAlignment="Stretch"
-                    Visibility="{x:Bind VM.ShowTutorialButton}"
-                    />
-            <Button Content="{x:Bind Localizer.Singleplayer}" 
-                    Command="{Binding Path=NavigateToSingleplayer}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.SingleplayerToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.LocalGame}" 
-                    Command="{Binding Path=NavigateToGameCreation}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.LocalGameToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.OnlineGame}" 
-                    Command="{Binding Path=NavigateToMultiplayerDashboard}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.OnlineGameToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.GameLibrary}"
-                    Command="{Binding Path=NavigateToLibrary}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.GameLibraryToolTip}"
-                    HorizontalAlignment="Stretch"/>
-            <Button Content="{x:Bind Localizer.Statistics}" 
-                    Command="{Binding Path=NavigateToStatistics}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.StatisticsToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.Settings}" 
-                        ContinuumNavigationTransitionInfo.IsExitElement="True"
-                    Command="{Binding Path=NavigateToSettings}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.SettingsToolTip}"
-                    HorizontalAlignment="Stretch" />
-            <Button Content="{x:Bind Localizer.Help}" 
-                    Command="{Binding Path=NavigateToHelp}"
-                    ToolTipService.ToolTip="{x:Bind Localizer.HelpToolTip}"
-                    HorizontalAlignment="Stretch" />
-        </StackPanel>
-        </ScrollViewer>-->
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
