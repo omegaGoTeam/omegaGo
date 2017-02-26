@@ -87,15 +87,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             _connnection.MadeMove(_gameController.Info, move);
         }
 
-        public event EventHandler LifeDeathForceReturnToMain;
-        public event EventHandler LifeDeathRequestUndoDeathMarks;
-        public event EventHandler LifeDeathForceUndoDeathMarks;
-        public event EventHandler LifeDeathRequestDone;
-        public event EventHandler LifeDeathForceDone;
-        public event EventHandler<Position> LifeDeathRequestKillGroup;
-        public event EventHandler<Position> LifeDeathForceKillGroup;
-        public event EventHandler MainRequestUndo;
-        public event EventHandler MainForceUndo;
+        public event EventHandler LifeDeathReturnToMainForced;
+        public event EventHandler LifeDeathUndoDeathMarksRequested;
+        public event EventHandler LifeDeathUndoDeathMarksForced;
+        public event EventHandler LifeDeathDoneRequested;
+        public event EventHandler LifeDeathDoneForced;
+        public event EventHandler<Position> LifeDeathKillGroupRequested;
+        public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler MainUndoRequested;
+        public event EventHandler MainUndoForced;
 
         /// <summary>
         /// Receives and handles resignation from server
@@ -120,12 +120,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
 
         internal void LifeDeath_ForceKillGroup(Position deadPosition)
         {
-            LifeDeathForceKillGroup?.Invoke(this, deadPosition);
+            LifeDeathKillGroupForced?.Invoke(this, deadPosition);
         }
 
         public void LifeDeath_ForceUndoDeathMarks()
         {
-            LifeDeathForceUndoDeathMarks?.Invoke(this, EventArgs.Empty);
+            LifeDeathUndoDeathMarksForced?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
@@ -136,7 +136,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
 
         public void Main_ForceUndo()
         {
-            MainForceUndo?.Invoke(this, EventArgs.Empty);
+            MainUndoForced?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlShouldAdjust;

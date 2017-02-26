@@ -284,7 +284,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
+                _uiConnector.RequestLifeDeathKillGroup(selectedPosition);
             }
             else
             {
@@ -313,7 +313,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            UiConnector.Main_RequestUndo();
+            UiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -338,17 +338,17 @@ namespace OmegaGo.UI.ViewModels
 
         private void LifeAndDeathDone()
         {
-            _uiConnector.LifeDeath_RequestDone();
+            _uiConnector.RequestLifeDeathDone();
         }
         
         private void ResumeGame()
         {
-            _uiConnector.LifeDeath_ForceReturnToMain();
+            _uiConnector.ForceLifeDeathReturnToMain();
         }
         
         private void RequestUndoDeathMarks()
         {
-            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
         private void SetupPhaseChangeHandlers()

@@ -57,10 +57,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
             foreach (var connector in Controller.Connectors)
             {
-                connector.LifeDeathForceReturnToMain += Connector_LifeDeathForceReturnToMain;
-                connector.LifeDeathRequestDone += Connector_LifeDeathRequestDone;
-                connector.LifeDeathRequestUndoDeathMarks += Connector_LifeDeathRequestUndoDeathMarks;
-                connector.LifeDeathRequestKillGroup += Connector_LifeDeathRequestKillGroup;
+                connector.LifeDeathReturnToMainForced += ConnectorLifeDeathReturnToMainForced;
+                connector.LifeDeathDoneRequested += ConnectorLifeDeathDoneRequested;
+                connector.LifeDeathUndoDeathMarksRequested += ConnectorLifeDeathUndoDeathMarksRequested;
+                connector.LifeDeathKillGroupRequested += ConnectorLifeDeathKillGroupRequested;
             }
         }
 
@@ -71,10 +71,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
             foreach (var connector in Controller.Connectors)
             {
-                connector.LifeDeathForceReturnToMain -= Connector_LifeDeathForceReturnToMain;
-                connector.LifeDeathRequestDone -= Connector_LifeDeathRequestDone;
-                connector.LifeDeathRequestUndoDeathMarks -= Connector_LifeDeathRequestUndoDeathMarks;
-                connector.LifeDeathRequestKillGroup -= Connector_LifeDeathRequestKillGroup;
+                connector.LifeDeathReturnToMainForced -= ConnectorLifeDeathReturnToMainForced;
+                connector.LifeDeathDoneRequested -= ConnectorLifeDeathDoneRequested;
+                connector.LifeDeathUndoDeathMarksRequested -= ConnectorLifeDeathUndoDeathMarksRequested;
+                connector.LifeDeathKillGroupRequested -= ConnectorLifeDeathKillGroupRequested;
             }
         }
 
@@ -148,7 +148,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.OnDebuggingMessage("Life/death phase cancelled. Resuming gameplay...");
         }
         
-        private void Connector_LifeDeathRequestKillGroup(object sender, Position e)
+        private void ConnectorLifeDeathKillGroupRequested(object sender, Position e)
         {
             LifeDeathRequestKillGroup(e);
         }
@@ -159,7 +159,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             return Task.FromResult(0);
         }
 
-        private void Connector_LifeDeathRequestUndoDeathMarks(object sender, EventArgs e)
+        private void ConnectorLifeDeathUndoDeathMarksRequested(object sender, EventArgs e)
         {
             LifeDeathRequestUndoDeathMarks();
         }
@@ -170,7 +170,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             return Task.FromResult(0);
         }
 
-        private void Connector_LifeDeathRequestDone(object sender, EventArgs e)
+        private void ConnectorLifeDeathDoneRequested(object sender, EventArgs e)
         {
             LifeDeathRequestDone();
         }
@@ -181,7 +181,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             return Task.FromResult(0);
         }
 
-        private void Connector_LifeDeathForceReturnToMain(object sender, EventArgs e)
+        private void ConnectorLifeDeathReturnToMainForced(object sender, EventArgs e)
         {
             Resume();
         }

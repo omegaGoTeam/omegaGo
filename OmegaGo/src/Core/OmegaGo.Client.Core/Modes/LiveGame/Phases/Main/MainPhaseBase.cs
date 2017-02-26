@@ -31,8 +31,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             ObservePlayerEvents();
             foreach(var connector in Controller.Connectors)
             {
-                connector.MainRequestUndo += Connector_MainRequestUndo;
-                connector.MainForceUndo += Connector_MainForceUndo;
+                connector.MainUndoRequested += ConnectorMainUndoRequested;
+                connector.MainUndoForced += ConnectorMainUndoForced;
             }
             AskFirstPlayerToMove();
         }
@@ -40,12 +40,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         protected abstract Task MainForceUndo();
         protected abstract Task MainRequestUndo();
 
-        private async void Connector_MainForceUndo(object sender, EventArgs e)
+        private async void ConnectorMainUndoForced(object sender, EventArgs e)
         {
             await MainForceUndo();
         }
 
-        private async void Connector_MainRequestUndo(object sender, EventArgs e)
+        private async void ConnectorMainUndoRequested(object sender, EventArgs e)
         {
             await MainRequestUndo();
         }
@@ -57,8 +57,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
             foreach (var connector in Controller.Connectors)
             {
-                connector.MainRequestUndo -= Connector_MainRequestUndo;
-                connector.MainForceUndo -= Connector_MainForceUndo;
+                connector.MainUndoRequested -= ConnectorMainUndoRequested;
+                connector.MainUndoForced -= ConnectorMainUndoForced;
             }
             UnobservePlayerEvents();
         }

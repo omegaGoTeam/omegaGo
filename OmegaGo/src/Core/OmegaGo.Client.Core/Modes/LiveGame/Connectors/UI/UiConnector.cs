@@ -17,6 +17,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
             _gameController = gameController;
         }
 
+        public event EventHandler LifeDeathReturnToMainForced;
+        public event EventHandler LifeDeathUndoDeathMarksRequested;
+        public event EventHandler LifeDeathUndoDeathMarksForced;
+        public event EventHandler LifeDeathDoneRequested;
+        public event EventHandler LifeDeathDoneForced;
+        public event EventHandler<Position> LifeDeathKillGroupRequested;
+        public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler MainUndoRequested;
+        public event EventHandler MainUndoForced;
+
         /// <summary>
         /// Tries to make a move for the turn player only if it is a human player
         /// </summary>
@@ -48,33 +58,32 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         
         public void MovePerformed(Move move)
         {
-            //UI does not care about the fact that a move was actually performed
         }
 
-        public void LifeDeath_RequestDone()
+        public void RequestLifeDeathDone()
         {
-            LifeDeathRequestDone?.Invoke(this, EventArgs.Empty);
+            LifeDeathDoneRequested?.Invoke(this, EventArgs.Empty);
         }
-        public void LifeDeath_ForceReturnToMain()
+
+        public void ForceLifeDeathReturnToMain()
         {
-            LifeDeathForceReturnToMain?.Invoke(this, EventArgs.Empty);
+            LifeDeathReturnToMainForced?.Invoke(this, EventArgs.Empty);
         }
-        public void LifeDeath_RequestUndoDeathMarks()
+
+        public void RequestLifeDeathUndoDeathMarks()
         {
-            LifeDeathRequestUndoDeathMarks?.Invoke(this, EventArgs.Empty);
-
+            LifeDeathUndoDeathMarksRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler LifeDeathForceReturnToMain;
-        public event EventHandler LifeDeathRequestUndoDeathMarks;
-        public event EventHandler LifeDeathForceUndoDeathMarks;
-        public event EventHandler LifeDeathRequestDone;
-        public event EventHandler LifeDeathForceDone;
-        public event EventHandler<Position> LifeDeathRequestKillGroup;
-        public event EventHandler<Position> LifeDeathForceKillGroup;
-        public event EventHandler MainRequestUndo;
-        public event EventHandler MainForceUndo;
+        public void RequestLifeDeathKillGroup(Position selectedPosition)
+        {
+            LifeDeathKillGroupRequested?.Invoke(this, selectedPosition);
+        }
 
+        public void RequestMainUndo()
+        {
+            MainUndoRequested?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// Gets the human player currently on turn
@@ -82,16 +91,5 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// <returns>Human agent actions</returns>
         private IHumanAgentActions GetHumanAgentOnTurn() =>
             _gameController.TurnPlayer.Agent as IHumanAgentActions;
-
-
-        public void LifeDeath_RequestKillGroup(Position selectedPosition)
-        {
-            LifeDeathRequestKillGroup?.Invoke(this, selectedPosition);
-        }
-
-        public void Main_RequestUndo()
-        {
-            MainRequestUndo?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

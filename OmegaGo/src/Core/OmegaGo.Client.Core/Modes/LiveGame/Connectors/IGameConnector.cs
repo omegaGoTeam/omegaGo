@@ -15,47 +15,47 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// <summary>
         /// Indicates that return to main phase is forced
         /// </summary>
-        event EventHandler LifeDeathForceReturnToMain;
+        event EventHandler LifeDeathReturnToMainForced;
 
         /// <summary>
         /// Indicates that undo of death marks is requested
         /// </summary>
-        event EventHandler LifeDeathRequestUndoDeathMarks;
+        event EventHandler LifeDeathUndoDeathMarksRequested;
 
         /// <summary>
         /// Indicates that undo of death marks is forced
         /// </summary>
-        event EventHandler LifeDeathForceUndoDeathMarks;
+        event EventHandler LifeDeathUndoDeathMarksForced;
 
         /// <summary>
         /// Indicates that life and death is requested to be finished
         /// </summary>
-        event EventHandler LifeDeathRequestDone;
+        event EventHandler LifeDeathDoneRequested;
 
         /// <summary>
         /// Indicates that life and death is forced to be finished
         /// </summary>
-        event EventHandler LifeDeathForceDone;
+        event EventHandler LifeDeathDoneForced;
 
         /// <summary>
         /// Indicates that a group is requested to be killed
         /// </summary>
-        event EventHandler<Position> LifeDeathRequestKillGroup;
+        event EventHandler<Position> LifeDeathKillGroupRequested;
 
         /// <summary>
         /// Indicates that a group is forced to be killed
         /// </summary>
-        event EventHandler<Position> LifeDeathForceKillGroup;
+        event EventHandler<Position> LifeDeathKillGroupForced;
 
         /// <summary>
         /// Indicates a request to undo a move in main phase
         /// </summary>
-        event EventHandler MainRequestUndo;
+        event EventHandler MainUndoRequested;
 
         /// <summary>
         /// Indicates that undo is being forced in main phase
         /// </summary>
-        event EventHandler MainForceUndo;
+        event EventHandler MainUndoForced;
 
         /// <summary>
         /// Informs the connector about a performed move
