@@ -37,7 +37,7 @@ namespace FormsPrototype
 
         private void Events_GameJoined(object sender, KgsGame e)
         {
-            InGameForm ingameForm = new FormsPrototype.InGameForm(e, this.kgs);
+            InGameForm ingameForm = new FormsPrototype.InGameForm(e.Info, e.Controller, this.kgs);
             ingameForm.LoadGame(e);
             ingameForm.Show();
 
