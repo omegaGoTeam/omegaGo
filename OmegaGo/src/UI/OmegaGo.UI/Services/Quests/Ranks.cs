@@ -63,7 +63,24 @@ namespace OmegaGo.UI.Services.Quests
                     return "Impossible rank";
             }
         }
-
+        public static string GetRankName(ILocalizationService localizationService, int points)
+        {
+            switch (PointsToRank(points))
+            {
+                case 0:
+                    return localizationService["Rank1"];
+                case 1:
+                    return localizationService["Rank2"];
+                case 2:
+                    return localizationService["Rank3"];
+                case 3:
+                    return localizationService["Rank4"];
+                case 4:
+                    return localizationService["Rank5"];
+                default:
+                    return "Impossible rank";
+            }
+        }
         /// <summary>
         /// Gets the number of points the user needs (in total) to become the next omegaGo rank.
         /// </summary>
@@ -72,5 +89,7 @@ namespace OmegaGo.UI.Services.Quests
             int yourRank = PointsToRank(points);
             return rankLines[yourRank];
         }
+
+       
     }
 }

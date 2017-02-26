@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Quests;
 
 namespace OmegaGo.UI.Services.Settings
@@ -14,11 +16,14 @@ namespace OmegaGo.UI.Services.Settings
     /// </summary>
     public class QuestsSettings : SettingsGroup
     {
+        private INotificationService _notificationService;
+        private ILocalizationService _localizationService;
+
         public QuestsSettings(ISettingsService service) : base("Quests", service)
         {
             Events = new Quests.QuestEvents(this);
         }
-        
+
         public DateTime LastQuestReceivedWhen
         {
             get
@@ -39,7 +44,25 @@ namespace OmegaGo.UI.Services.Settings
         public int Points
         {
             get { return GetSetting(nameof(Points), () => 0); }
-            set { SetSetting(nameof(Points), value); }
+            set
+            {
+                int oldvalue = GetSetting(nameof(Points), () => 0);
+                if (value > oldvalue)
+                {
+                    if (_notificationService == null)
+                    {
+                        this._notificationService = Mvx.Resolve<INotificationService>();
+                        this._localizationService = Mvx.Resolve<ILocalizationService>();
+                    }
+                    int gain = value - oldvalue;
+                    _notificationService.TriggerNotification(new BubbleNotification(String.Format(_localizationService["YouHaveGainedXPointsNowYouHaveY"], gain, value)));
+                    if (Ranks.AdvancedInRank(oldvalue, value))
+                    {
+                       _notificationService.TriggerNotification(new BubbleNotification(String.Format(_localizationService["YouHaveAdvancedToNewRankX"], Ranks.GetRankName(_localizationService, value))));
+                    }
+                }
+                SetSetting(nameof(Points), value);
+            }
         }
 
         private List<ActiveQuest> _activeQuests;
