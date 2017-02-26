@@ -58,7 +58,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             foreach (var connector in Controller.Connectors)
             {
                 connector.LifeDeathReturnToMainForced += Connector_LifeDeathReturnToMainForced;
-                connector.LifeDeathDoneRequested += ConnectorLifeDeathDoneRequested;
+                connector.LifeDeathDoneRequested += Connector_LifeDeathDoneRequested;
                 connector.LifeDeathUndoDeathMarksRequested += Connector_LifeDeathUndoDeathMarksRequested;
                 connector.LifeDeathKillGroupRequested += Connector_LifeDeathKillGroupRequested;
             }
@@ -72,7 +72,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             foreach (var connector in Controller.Connectors)
             {
                 connector.LifeDeathReturnToMainForced -= Connector_LifeDeathReturnToMainForced;
-                connector.LifeDeathDoneRequested -= ConnectorLifeDeathDoneRequested;
+                connector.LifeDeathDoneRequested -= Connector_LifeDeathDoneRequested;
                 connector.LifeDeathUndoDeathMarksRequested -= Connector_LifeDeathUndoDeathMarksRequested;
                 connector.LifeDeathKillGroupRequested -= Connector_LifeDeathKillGroupRequested;
             }
@@ -148,49 +148,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.OnDebuggingMessage("Life/death phase cancelled. Resuming gameplay...");
         }
 
-        protected virtual Task LifeDeathRequestKillGroup(Position groupMember)
-        {
-            MarkGroupDead(groupMember);
-            return Task.FromResult(0);
-        }
-
-        protected virtual Task LifeDeathRequestUndoDeathMarks()
-        {
-            UndoPhase();
-            return Task.FromResult(0);
-        }
-
-        private void ConnectorLifeDeathDoneRequested(object sender, EventArgs e)
-        {
-            LifeDeathRequestDone();
-        }
-
-        protected virtual Task LifeDeathRequestDone()
-        {
-            ScoreIt();
-            return Task.FromResult(0);
-        }
-
-        private void Connector_LifeDeathKillGroupRequested(object sender, Position e)
-        {
-            LifeDeathRequestKillGroup(e);
-        }
-
-        private void Connector_LifeDeathUndoDeathMarksRequested(object sender, EventArgs e)
-        {
-            LifeDeathRequestUndoDeathMarks();
-        }
-
-        private void Connector_LifeDeathReturnToMainForced(object sender, EventArgs e)
-        {
-            Resume();
-        }
-        
         /// <summary>
         /// Scores the game and moves us to the Finished phase.
         /// </summary>
         /// <param name="e">If this parameter is set, then it overriddes scores that would be determined from life/death determination and ruleset.</param>
-        public void ScoreIt(Scores e = null)
+        internal void ScoreIt(Scores e = null)
         {
             Scores scores = e;
             if (scores == null)
@@ -230,10 +192,48 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Controller.OnDebuggingMessage("Scoring complete! " + scores.AbsoluteScoreDifference);
             GameEndInformation gameEndInfo = null;
             gameEndInfo = isDraw ?
-                GameEndInformation.CreateDraw(Controller.Players, scores) : 
+                GameEndInformation.CreateDraw(Controller.Players, scores) :
                 GameEndInformation.CreateScoredGame(winner, loser, scores);
             Controller.EndGame(gameEndInfo);
         }
+
+        protected virtual Task LifeDeathRequestKillGroup(Position groupMember)
+        {
+            MarkGroupDead(groupMember);
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task LifeDeathRequestUndoDeathMarks()
+        {
+            UndoPhase();
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task LifeDeathRequestDone()
+        {
+            ScoreIt();
+            return Task.FromResult(0);
+        }
+
+        private void Connector_LifeDeathDoneRequested(object sender, EventArgs e)
+        {
+            LifeDeathRequestDone();
+        }
+
+        private void Connector_LifeDeathKillGroupRequested(object sender, Position e)
+        {
+            LifeDeathRequestKillGroup(e);
+        }
+
+        private void Connector_LifeDeathUndoDeathMarksRequested(object sender, EventArgs e)
+        {
+            LifeDeathRequestUndoDeathMarks();
+        }
+
+        private void Connector_LifeDeathReturnToMainForced(object sender, EventArgs e)
+        {
+            Resume();
+        }               
 
         /// <summary>
         /// Recalculates territories

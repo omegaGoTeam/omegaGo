@@ -7,6 +7,7 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
+    //TODO Martin : Some of these events are completely useless for non-remote connectors and do not belong here!
     /// <summary>
     /// Connects a game to a endpoint
     /// </summary>
