@@ -52,6 +52,43 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
             UnobservePlayerEvents();
         }
+        
+        /// <summary>
+        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
+        /// us to undo, or whenever the user clicks to locally undo.
+        /// </summary>
+        public void Undo()
+        {
+            //is there a move to undo?
+            if (Controller.GameTree.LastNode != null)
+            {
+                Controller.GameTree.RemoveLastNode();
+                Controller.SwitchTurnPlayer();
+                // TODO Petr What is this?
+                // Order here matters:
+                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
+                //_game.NumberOfMovesPlayed--;
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
+
+                Controller.OnCurrentNodeStateChanged();
+            }
+        }
+
+        /// <summary>
+        /// Alters the processing result before it is handled by the move logic
+        /// </summary>
+        /// <param name="move">Move processed</param>
+        /// <param name="result">Result of processing</param>
+        protected virtual void AlterMoveProcessingResult(Move move, MoveProcessingResult result)
+        {
+            //keep the rules logic inact
+        }
+
+        /// <summary>
+        /// Handles the local clockout. Returns true if processing the current move should be aborted. 
+        /// </summary>
+        /// <param name="player">Player that clocked out</param>
+        protected abstract bool HandleLocalClockOut(GamePlayer player);
 
         /// <summary>
         /// Attaches player events
@@ -187,22 +224,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         }
 
         /// <summary>
-        /// Alters the processing result before it is handled by the move logic
-        /// </summary>
-        /// <param name="move">Move processed</param>
-        /// <param name="result">Result of processing</param>
-        protected virtual void AlterMoveProcessingResult(Move move, MoveProcessingResult result)
-        {
-            //keep the rules logic inact
-        }
-
-        /// <summary>
-        /// Handles the local clockout. Returns true if processing the current move should be aborted. 
-        /// </summary>
-        /// <param name="player">Player that clocked out</param>
-        protected abstract bool HandleLocalClockOut(GamePlayer player);
-
-        /// <summary>
         /// Applies a move in the game state
         /// </summary>
         /// <param name="move">Move</param>
@@ -241,27 +262,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                     processingResult.Result = MoveResult.Legal;
                     break;
             }            
-        }
-       
-        /// <summary>
-        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
-        /// us to undo, or whenever the user clicks to locally undo.
-        /// </summary>
-        public void Undo()
-        {
-            //is there a move to undo?
-            if (Controller.GameTree.LastNode != null)
-            {
-                Controller.GameTree.RemoveLastNode();
-                Controller.SwitchTurnPlayer();
-                // TODO Petr What is this?
-                // Order here matters:
-                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
-                //_game.NumberOfMovesPlayed--;
-                Controller.TurnPlayer.Agent.PleaseMakeAMove();
-                
-                Controller.OnCurrentNodeStateChanged();
-            }
         }
     }
 }
