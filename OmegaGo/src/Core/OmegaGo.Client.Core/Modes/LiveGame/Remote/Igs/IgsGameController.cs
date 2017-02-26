@@ -12,6 +12,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
@@ -41,8 +42,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             //create and register connector
             IgsConnector = new IgsConnector(this, serverConnection);
             RegisterConnector(IgsConnector);
+            Server = serverConnection;
             InitializeServer(serverConnection);
         }
+        
+        /// <summary>
+        /// Igs server connection
+        /// </summary>
+        internal new IgsConnection Server { get; }
+
+        /// <summary>
+        /// IGS game info
+        /// </summary>
+        internal new IgsGameInfo Info { get; }
+
+        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
 
         /// <summary>
         /// Initializes server
@@ -50,27 +65,30 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
-            //TODO Petr : THIS IS NOT IMPLEMENTED!            
             // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
-            // for KGS.
-            //serverConnection.Events.TimeControlAdjustment += Events_TimeControlAdjustment;
-            //serverConnection.StoneRemoval += StoneRemoval;
-            //serverConnection.Events.EnterLifeDeath += Events_EnterLifeDeath;
-            //serverConnection.GameScoredAndCompleted += GameScoredAndCompleted;
+            IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
+            IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
         }
 
-        /// <summary>
-        /// IGS game info
-        /// </summary>
-        internal new IgsGameInfo Info { get; }
+        private void IgsConnector_GameScoredAndCompleted(object sender, GameScoreEventArgs e)
+        {
+            if (Phase.Type != GamePhaseType.LifeDeathDetermination)
+            {
+                SetPhase(GamePhaseType.LifeDeathDetermination);
+            }
+            (Phase as LifeAndDeathPhase).ScoreIt(new Scores(e.BlackScore, e.WhiteScore));
+        }
+
+        private void IgsConnector_TimeControlShouldAdjust(object sender, IgsTimeControlAdjustmentEventArgs e)
+        {
+            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+        }
 
         // TODO Petr: where should this be?
         //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
         //{
         //    //LifeDeath_MarkGroupDead(e.DeadPosition);
         //}       
-
-        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
     }
 }

@@ -43,17 +43,10 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _resumeGameCommand;
         private ICommand _requestUndoDeathMarksCommand;
 
-        private string _debugInfo = "n/a";
-
+        private string _debugInfo = "n/a";    
         private int _maximumMoveIndex;
-
         private int _previousMoveIndex = -1;
-
-
-        private int _selectedMoveIndex;
-
-
-        private int frames;
+        private int _selectedMoveIndex;        
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -223,6 +216,7 @@ namespace OmegaGo.UI.ViewModels
         public void Init()
         {
             Game.Controller.BeginGame();
+            UpdateTimeline();
         }
 
         private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
@@ -284,7 +278,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
+                _uiConnector.RequestLifeDeathKillGroup(selectedPosition);
             }
             else
             {
@@ -313,7 +307,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            _uiConnector.Main_RequestUndo();
+            _uiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -338,19 +332,19 @@ namespace OmegaGo.UI.ViewModels
 
         private void LifeAndDeathDone()
         {
-            _uiConnector.LifeDeath_RequestDone();
+            _uiConnector.RequestLifeDeathDone();
         }
         
         private void ResumeGame()
         {
             Mvx.Resolve<INotificationService>()
                 .TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
-            _uiConnector.LifeDeath_ForceReturnToMain();
+            _uiConnector.ForceLifeDeathReturnToMain();
         }
         
         private void RequestUndoDeathMarks()
         {
-            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
         private void SetupPhaseChangeHandlers()
