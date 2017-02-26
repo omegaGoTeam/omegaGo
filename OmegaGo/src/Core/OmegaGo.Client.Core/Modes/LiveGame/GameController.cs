@@ -101,6 +101,39 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Indicates that the game phase has changed.
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
+        
+        /// <summary>
+        /// Gets the player currently on turn
+        /// </summary>
+        public GamePlayer TurnPlayer
+        {
+            get { return _turnPlayer; }
+            internal set
+            {
+                if (_turnPlayer != value)
+                {
+                    _turnPlayer?.Clock.StopClock();
+
+                    _turnPlayer = value;
+                    _turnPlayer.Clock.StartClock();
+
+                    OnTurnPlayerChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the current game tree node
+        /// </summary>
+        public GameTreeNode CurrentNode
+        {
+            get { return _currentNode; }
+            private set
+            {
+                _currentNode = value;
+                OnCurrentNodeChanged();
+            }
+        }
 
         /// <summary>
         /// Ruleset of the game.
@@ -155,39 +188,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void RegisterConnector(IGameConnector connector)
         {
             _registeredConnectors.Add(connector);
-        }
-
-        /// <summary>
-        /// Gets the current game tree node
-        /// </summary>
-        public GameTreeNode CurrentNode
-        {
-            get { return _currentNode; }
-            private set
-            {
-                _currentNode = value;
-                OnCurrentNodeChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets the player currently on turn
-        /// </summary>
-        public GamePlayer TurnPlayer
-        {
-            get { return _turnPlayer; }
-            internal set
-            {
-                if (_turnPlayer != value)
-                {
-                    _turnPlayer?.Clock.StopClock();
-
-                    _turnPlayer = value;
-                    _turnPlayer.Clock.StartClock();
-
-                    OnTurnPlayerChanged();
-                }
-            }
         }
 
         /// <summary>

@@ -42,17 +42,10 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _resumeGameCommand;
         private ICommand _requestUndoDeathMarksCommand;
 
-        private string _debugInfo = "n/a";
-
+        private string _debugInfo = "n/a";    
         private int _maximumMoveIndex;
-
         private int _previousMoveIndex = -1;
-
-
-        private int _selectedMoveIndex;
-
-
-        private int frames;
+        private int _selectedMoveIndex;        
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
