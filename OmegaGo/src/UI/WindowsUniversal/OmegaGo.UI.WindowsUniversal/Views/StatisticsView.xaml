@@ -98,7 +98,7 @@
                 
                     <TextBlock Grid.Column="0" Grid.Row="15" Grid.ColumnSpan="2"></TextBlock>
                 
-                    <Button Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Click="ResetAllProgress_Click">Reset all progress</Button>
+                    <Button Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ResetAllProgressCommand}">Reset all progress</Button>
                 </Grid>
         </StackPanel>
         </ScrollViewer>

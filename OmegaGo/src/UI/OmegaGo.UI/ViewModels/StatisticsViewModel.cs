@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
@@ -33,7 +34,9 @@ namespace OmegaGo.UI.ViewModels
         public int TsumegoProblemsSolved => _settings.Tsumego.SolvedProblems.Count();
         public int Points => _settings.Quests.Points;
 
-        public async Task ResetAllProgress()
+        public IMvxCommand ResetAllProgressCommand => new MvxCommand(ResetAllProgress);
+
+        private async void ResetAllProgress()
         {
             if (await _dialogService.ShowConfirmationDialogAsync(
                 "All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.",
