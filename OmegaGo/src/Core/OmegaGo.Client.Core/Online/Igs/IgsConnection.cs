@@ -642,11 +642,6 @@ namespace OmegaGo.Core.Online.Igs
             ErrorMessageReceived?.Invoke(this, errorMessage);
         }
 
-        private void OnLastMoveUndone(IgsGameInfo whichGame)
-        {
-            LastMoveUndone?.Invoke(this, whichGame);
-        }
-
         private void OnUndoDeclined(IgsGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
