@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,6 +68,13 @@ namespace OmegaGo.Core.Online.Igs
         /// List of games opened
         /// </summary>
         private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
+
+        private readonly StringBuilder _log = new StringBuilder();     
+        // TODO Petr: The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Log of Igs
+        /// </summary>
+        public string Log => _log.ToString();
 
         /// <summary>
         /// Outgoing IGS requests
@@ -641,6 +649,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingLine(string message)
         {
+            _log.AppendLine(message);
             IncomingLine?.Invoke(this, message);
         }
 

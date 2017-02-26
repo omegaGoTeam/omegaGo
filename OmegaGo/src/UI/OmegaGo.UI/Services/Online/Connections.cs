@@ -13,7 +13,6 @@ namespace OmegaGo.UI.Services.Online
     /// </summary>
     public static class Connections
     {
-        private static readonly StringBuilder _igsLog = new StringBuilder();
 
         private static IgsConnection _igsConnection;
         private static KgsConnection _kgsConnection;
@@ -31,7 +30,6 @@ namespace OmegaGo.UI.Services.Online
                 if (_igsConnection == null)
                 {
                     _igsConnection = new IgsConnection();
-                    _igsConnection.IncomingLine += IgsConnection_IncomingLine;
                 }
                 return _igsConnection;
             }
@@ -43,11 +41,7 @@ namespace OmegaGo.UI.Services.Online
         public static KgsConnection Kgs => _kgsConnection ??
                                            (_kgsConnection = new KgsConnection());
 
-        // TODO Petr: The log might or might not be present in the final version, we'll see
-        /// <summary>
-        /// Log of Igs
-        /// </summary>
-        public static string IgsLog => _igsLog.ToString();
+   
 
         /// <summary>
         /// Gets the connection to the specified server.
@@ -62,11 +56,6 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
-
-
-        private static void IgsConnection_IncomingLine(object sender, string e)
-        {
-            _igsLog.AppendLine(e);
-        }
+        
     }
 }
