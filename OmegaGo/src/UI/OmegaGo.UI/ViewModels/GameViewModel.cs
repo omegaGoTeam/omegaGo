@@ -42,17 +42,10 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _resumeGameCommand;
         private ICommand _requestUndoDeathMarksCommand;
 
-        private string _debugInfo = "n/a";
-
+        private string _debugInfo = "n/a";    
         private int _maximumMoveIndex;
-
         private int _previousMoveIndex = -1;
-
-
-        private int _selectedMoveIndex;
-
-
-        private int frames;
+        private int _selectedMoveIndex;        
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -90,7 +83,7 @@ namespace OmegaGo.UI.ViewModels
             //}
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
             WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
-            
+
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
@@ -222,6 +215,7 @@ namespace OmegaGo.UI.ViewModels
         public void Init()
         {
             Game.Controller.BeginGame();
+            UpdateTimeline();
         }
 
         private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
@@ -283,7 +277,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
+                _uiConnector.RequestLifeDeathKillGroup(selectedPosition);
             }
             else
             {
@@ -294,17 +288,9 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private async void Resign()
+        private void Resign()
         {
-            if (
-                await
-                    _dialogService.ShowConfirmationDialogAsync(
-                        "You are resigning as PLAYER-COLOR. This cannot be undone.", "Resign this game?", "Resign",
-                        "Return to game"))
-            {
-
-                _uiConnector.Resign();
-            }
+            _uiConnector.Resign();
         }
 
         /// <summary>
@@ -320,7 +306,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            _uiConnector.Main_RequestUndo();
+            _uiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -345,17 +331,17 @@ namespace OmegaGo.UI.ViewModels
 
         private void LifeAndDeathDone()
         {
-            _uiConnector.LifeDeath_RequestDone();
+            _uiConnector.RequestLifeDeathDone();
         }
         
         private void ResumeGame()
         {
-            _uiConnector.LifeDeath_ForceReturnToMain();
+            _uiConnector.ForceLifeDeathReturnToMain();
         }
         
         private void RequestUndoDeathMarks()
         {
-            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
         private void SetupPhaseChangeHandlers()

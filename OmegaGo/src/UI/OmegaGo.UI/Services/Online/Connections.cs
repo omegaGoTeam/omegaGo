@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
@@ -18,14 +19,16 @@ namespace OmegaGo.UI.Services.Online
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        public static IgsConnection Igs => _igsConnection ??
-                                                (_igsConnection = new IgsConnection());
+        public static IgsConnection Igs => _igsConnection ?? 
+                                            (_igsConnection = new IgsConnection());
 
         /// <summary>
         /// Gets the connection to KGS Go server. 
         /// </summary>
         public static KgsConnection Kgs => _kgsConnection ??
                                            (_kgsConnection = new KgsConnection());
+
+
 
         /// <summary>
         /// Gets the connection to the specified server.
@@ -40,5 +43,6 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
+
     }
 }
