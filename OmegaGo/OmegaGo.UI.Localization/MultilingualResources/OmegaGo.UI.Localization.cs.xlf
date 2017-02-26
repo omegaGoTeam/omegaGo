@@ -538,6 +538,34 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <source>Fullscreen Mode</source>
           <target state="translated">Celoobrazovkový režim</target>
         </trans-unit>
+        <trans-unit id="Rank1" translate="yes" xml:space="preserve">
+          <source>Omega Novice</source>
+          <target state="new">Omega Novice</target>
+        </trans-unit>
+        <trans-unit id="Rank2" translate="yes" xml:space="preserve">
+          <source>Omega Apprentice</source>
+          <target state="new">Omega Apprentice</target>
+        </trans-unit>
+        <trans-unit id="Rank3" translate="yes" xml:space="preserve">
+          <source>Omega Expert</source>
+          <target state="new">Omega Expert</target>
+        </trans-unit>
+        <trans-unit id="Rank4" translate="yes" xml:space="preserve">
+          <source>Omega Master</source>
+          <target state="new">Omega Master</target>
+        </trans-unit>
+        <trans-unit id="Rank5" translate="yes" xml:space="preserve">
+          <source>Omega Graduate</source>
+          <target state="new">Omega Graduate</target>
+        </trans-unit>
+        <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
+          <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
+          <target state="new">You have advanced to a new omegaGo rank: {0}. Congratulations!</target>
+        </trans-unit>
+        <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
+          <source>+{0} points (now you have {1})</source>
+          <target state="new">+{0} points (now you have {1})</target>
+        </trans-unit>
       </group>
     </body>
   </file>

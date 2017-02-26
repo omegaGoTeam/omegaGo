@@ -38,6 +38,10 @@ namespace OmegaGo.UI.ViewModels
 
         public int Points => this._gameSettings.Quests.Points;
 
+        public string Rank => Ranks.GetRankName(Localizer, Points);
+
+        public int NextRankPoints => Ranks.GetNextRankPoints(Points);
+
         public bool ExchangeIsPossible => QuestCooldownActions.IsExchangePossible(_gameSettings);
 
         public ObservableCollection<ActiveQuest> ActiveQuests { get; set; }

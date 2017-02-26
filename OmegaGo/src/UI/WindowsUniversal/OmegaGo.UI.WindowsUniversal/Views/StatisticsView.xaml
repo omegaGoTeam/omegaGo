@@ -84,7 +84,7 @@
                     <TextBlock Grid.Column="0" Grid.Row="11" Text="{x:Bind Localizer.PointsColon}" Style="{StaticResource LeftColumn}"></TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="11" Text="{Binding Points}"></TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="12" Text="{x:Bind Localizer.OmegaGoRankColon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="12" Text="N/A"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="12" Text="{Binding Rank}"></TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="13" Text="IGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="13" Text="N/A"></TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="14" Text="KGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
