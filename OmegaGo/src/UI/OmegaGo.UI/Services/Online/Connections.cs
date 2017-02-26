@@ -19,9 +19,6 @@ namespace OmegaGo.UI.Services.Online
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        /// <summary>
-        /// Gets the connection to Pandanet-IGS Go server. 
-        /// </summary>
         public static IgsConnection Igs => _igsConnection ?? 
                                             (_igsConnection = new IgsConnection());
 
