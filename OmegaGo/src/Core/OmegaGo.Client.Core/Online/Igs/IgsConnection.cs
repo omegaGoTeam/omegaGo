@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,6 +68,11 @@ namespace OmegaGo.Core.Online.Igs
         /// List of games opened
         /// </summary>
         private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
+
+        /// <summary>
+        /// Logger
+        /// </summary>
+        private readonly StringBuilder _log = new StringBuilder();
 
         /// <summary>
         /// Outgoing IGS requests
@@ -148,7 +154,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public IgsConnection()
         {
-            Commands = new IgsCommands(this);            
+            Commands = new IgsCommands(this);
         }
 
         /// <summary>
@@ -247,10 +253,16 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
+        // TODO Petr: The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Log of Igs
+        /// </summary>
+        public string Log => _log.ToString();
+
         /// <summary>
         /// Implements IServerConnection Commands
         /// </summary>
-        ICommonCommands IServerConnection.Commands => Commands;        
+        ICommonCommands IServerConnection.Commands => Commands;
 
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
@@ -346,11 +358,12 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
+        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
         /// <param name="command">The single-line command.</param>
-        internal void MakeUnattendedRequest(string command)
+        public void MakeUnattendedRequest(string command)
         {
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
@@ -640,6 +653,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingLine(string message)
         {
+            _log.AppendLine(message);
             IncomingLine?.Invoke(this, message);
         }
 
