@@ -118,6 +118,7 @@
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
+    <Compile Include="Services\Quests\Ranks.cs" />
     <Compile Include="Services\Quests\RewardPoints.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestCooldownActions.cs" />

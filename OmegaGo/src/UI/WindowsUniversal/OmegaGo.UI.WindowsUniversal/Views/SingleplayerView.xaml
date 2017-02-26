@@ -42,10 +42,13 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Rank: " FontSize="26" Margin="0,0,10,0"></TextBlock>
-                <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
-            </StackPanel>
-            <TextBlock Text="Upcoming Rank Information" FontSize="26" HorizontalAlignment="Center"></TextBlock>
-            <TextBlock FontSize="26"><!-- SPACER --></TextBlock>
+                <TextBlock Text="{Binding Rank}" FontSize="26" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Next rank at: " FontSize="26" Margin="0,0,10,0"></TextBlock>
+                    <TextBlock Text="{Binding NextRankPoints}" FontSize="26" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+                <TextBlock FontSize="26"><!-- SPACER --></TextBlock>
             <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
             <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" ItemsSource="{Binding ActiveQuests}">
                 <GridView.ItemTemplate>
