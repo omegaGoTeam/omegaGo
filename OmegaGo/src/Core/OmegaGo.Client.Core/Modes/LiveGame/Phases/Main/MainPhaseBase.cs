@@ -17,6 +17,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
         }
 
+        protected abstract Task MainRequestUndo();
+
+        protected abstract void MainForceUndo();
 
         /// <summary>
         /// Main phase
@@ -31,23 +34,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             ObservePlayerEvents();
             foreach(var connector in Controller.Connectors)
             {
-                connector.MainUndoRequested += ConnectorMainUndoRequested;
-                connector.MainUndoForced += ConnectorMainUndoForced;
+                connector.MainUndoRequested += Connector_MainUndoRequested;
+                connector.MainUndoForced += Connector_MainUndoForced;
             }
             AskFirstPlayerToMove();
-        }
-
-        protected abstract Task MainForceUndo();
-        protected abstract Task MainRequestUndo();
-
-        private async void ConnectorMainUndoForced(object sender, EventArgs e)
-        {
-            await MainForceUndo();
-        }
-
-        private async void ConnectorMainUndoRequested(object sender, EventArgs e)
-        {
-            await MainRequestUndo();
         }
 
         /// <summary>
@@ -57,12 +47,24 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
             foreach (var connector in Controller.Connectors)
             {
-                connector.MainUndoRequested -= ConnectorMainUndoRequested;
-                connector.MainUndoForced -= ConnectorMainUndoForced;
+                connector.MainUndoRequested -= Connector_MainUndoRequested;
+                connector.MainUndoForced -= Connector_MainUndoForced;
             }
             UnobservePlayerEvents();
         }
 
+        /// <summary>
+        /// Attaches player events
+        /// </summary>
+        private void ObservePlayerEvents()
+        {
+            foreach (var player in Controller.Players)
+            {
+                player.Agent.PlaceStone += Agent_PlaceStone;
+                player.Agent.Pass += Agent_Pass;
+            }
+        }
+        
         /// <summary>
         /// Asks the first player to make a move
         /// </summary>
@@ -79,16 +81,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
-        /// <summary>
-        /// Attaches player events
-        /// </summary>
-        private void ObservePlayerEvents()
+        private async void Connector_MainUndoForced(object sender, EventArgs e)
         {
-            foreach (var player in Controller.Players)
-            {
-                player.Agent.PlaceStone += Agent_PlaceStone;
-                player.Agent.Pass += Agent_Pass;
-            }
+            await MainForceUndo();
+        }
+
+        private async void Connector_MainUndoRequested(object sender, EventArgs e)
+        {
+            await MainRequestUndo();
         }
 
         /// <summary>

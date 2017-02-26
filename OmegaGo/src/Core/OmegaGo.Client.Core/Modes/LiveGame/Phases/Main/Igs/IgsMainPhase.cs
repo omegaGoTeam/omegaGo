@@ -15,24 +15,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
 {
     public class IgsMainPhase : MainPhaseBase
     {
-        private readonly IgsGameController _gameController;
-        private IgsConnection _serverConnection;
+        private readonly IgsGameController _gameController;        
 
         public IgsMainPhase(IgsGameController gameController) : base(gameController)
         {
             this._gameController = gameController;
-            this._serverConnection = gameController.IgsConnection;
         }
 
-        protected override Task MainForceUndo()
+        protected override void MainForceUndo()
         {
-            this.Undo();
-            return Task.FromResult(0);
+            Undo();
         }
 
         protected override async Task MainRequestUndo()
         {
-            await _serverConnection.UndoPleaseAsync(this._gameController.Info);
+            await _gameController.Server.UndoPleaseAsync(this._gameController.Info);
         }
         /// <summary>
         /// Ensures moves from IGS are properly handled

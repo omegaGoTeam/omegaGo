@@ -42,16 +42,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             //create and register connector
             IgsConnector = new IgsConnector(this, serverConnection);
             RegisterConnector(IgsConnector);
+            Server = serverConnection;
             InitializeServer(serverConnection);
         }
-
-        public IgsConnection IgsConnection;
+        
         /// <summary>
         /// Initializes server
         /// </summary>
         private void InitializeServer(IgsConnection serverConnection)
         {
-            this.IgsConnection = serverConnection;
             serverConnection.RegisterConnector(IgsConnector);
             // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
@@ -72,6 +71,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
             (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
         }
+
+        /// <summary>
+        /// Igs server connection
+        /// </summary>
+        internal new IgsConnection Server { get; }
 
         /// <summary>
         /// IGS game info
