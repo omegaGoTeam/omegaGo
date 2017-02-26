@@ -69,12 +69,10 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
 
-        private readonly StringBuilder _log = new StringBuilder();     
-        // TODO Petr: The log might or might not be present in the final version, we'll see
         /// <summary>
-        /// Log of Igs
+        /// Logger
         /// </summary>
-        public string Log => _log.ToString();
+        private readonly StringBuilder _log = new StringBuilder();
 
         /// <summary>
         /// Outgoing IGS requests
@@ -156,7 +154,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public IgsConnection()
         {
-            Commands = new IgsCommands(this);            
+            Commands = new IgsCommands(this);
         }
 
         /// <summary>
@@ -255,10 +253,16 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
+        // TODO Petr: The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Log of Igs
+        /// </summary>
+        public string Log => _log.ToString();
+
         /// <summary>
         /// Implements IServerConnection Commands
         /// </summary>
-        ICommonCommands IServerConnection.Commands => Commands;        
+        ICommonCommands IServerConnection.Commands => Commands;
 
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
