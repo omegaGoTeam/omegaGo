@@ -509,4 +509,25 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="TsumegoProblemsSolved" xml:space="preserve">
     <value>Tsumego problems solved:</value>
   </data>
+  <data name="Rank1" xml:space="preserve">
+    <value>Omega Novice</value>
+  </data>
+  <data name="Rank2" xml:space="preserve">
+    <value>Omega Apprentice</value>
+  </data>
+  <data name="Rank3" xml:space="preserve">
+    <value>Omega Expert</value>
+  </data>
+  <data name="Rank4" xml:space="preserve">
+    <value>Omega Master</value>
+  </data>
+  <data name="Rank5" xml:space="preserve">
+    <value>Omega Graduate</value>
+  </data>
+  <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
+    <value>You have advanced to a new omegaGo rank: {0}. Congratulations!</value>
+  </data>
+  <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
+    <value>+{0} points (now you have {1})</value>
+  </data>
 </root>

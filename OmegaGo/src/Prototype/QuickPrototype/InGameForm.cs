@@ -66,8 +66,6 @@ namespace FormsPrototype
                 connection.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
                 connection.UndoDeclined += _igs_UndoDeclined;
-                connection.LastMoveUndone += _igs_LastMoveUndone;
-                connection.GameScoredAndCompleted += _igs_GameScoredAndCompleted;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -98,7 +96,6 @@ namespace FormsPrototype
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
-            _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
 
             foreach (GamePlayer player in _game.Controller.Players)
             {
@@ -143,8 +140,6 @@ namespace FormsPrototype
                 connection.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 connection.UndoDeclined -= _igs_UndoDeclined;
-                connection.LastMoveUndone -= _igs_LastMoveUndone;
-                connection.GameScoredAndCompleted -= _igs_GameScoredAndCompleted;
             }
            // _controller.AbortGame();*/
         }
@@ -436,7 +431,7 @@ namespace FormsPrototype
             }
             if (_gamePhase == GamePhaseType.LifeDeathDetermination)
             {
-                _uiConnector.LifeDeath_RequestKillGroup(position);
+                _uiConnector.RequestLifeDeathKillGroup(position);
             }
             else
             {
@@ -500,7 +495,7 @@ namespace FormsPrototype
 
         private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
-            _uiConnector.LifeDeath_RequestDone();
+            _uiConnector.RequestLifeDeathDone();
         }
 
         public void GuiAgent_PleaseMakeAMove(object sender, GamePlayer e)
@@ -510,7 +505,7 @@ namespace FormsPrototype
 
         private async void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
-            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
         private void bResumeAsBlack_Click(object sender, EventArgs e)
@@ -520,7 +515,7 @@ namespace FormsPrototype
                 MessageBox.Show("Resuming is not supported in online games.");
                 return;
             }
-            _uiConnector.LifeDeath_ForceReturnToMain();
+            _uiConnector.ForceLifeDeathReturnToMain();
         }
 
 
@@ -548,7 +543,7 @@ namespace FormsPrototype
         private void LocalUndo()
         {
             SystemLog("Undoing last move...");
-            _uiConnector.Main_RequestUndo();
+            _uiConnector.RequestMainUndo();
             SystemLog("Undone.");
         }
 
