@@ -11,8 +11,10 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.WindowsUniversal.Services.Audio;
 using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
+using OmegaGo.UI.WindowsUniversal.Services.Notifications;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -39,6 +41,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
+            Mvx.LazyConstructAndRegisterSingleton<INotificationService, NotificationService>();
 
             base.InitializeFirstChance();
         }

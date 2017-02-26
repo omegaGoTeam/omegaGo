@@ -20,6 +20,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -202,7 +203,7 @@ namespace OmegaGo.UI.ViewModels
             if (eventArgs.NewPhase != null)
             {
                 _phaseStartHandlers.ItemOrDefault(eventArgs.NewPhase.Type)?.
-                    Invoke(eventArgs.PreviousPhase);
+                    Invoke(eventArgs.NewPhase);
             }
         }
 
@@ -312,7 +313,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            UiConnector.Main_RequestUndo();
+            _uiConnector.Main_RequestUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -342,6 +343,8 @@ namespace OmegaGo.UI.ViewModels
         
         private void ResumeGame()
         {
+            Mvx.Resolve<INotificationService>()
+                .TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
             _uiConnector.LifeDeath_ForceReturnToMain();
         }
         
