@@ -1,4 +1,11 @@
-﻿namespace OmegaGo.Core.Online.Kgs.Datatypes
+﻿using System;
+using OmegaGo.Core.Time;
+using OmegaGo.Core.Time.Absolute;
+using OmegaGo.Core.Time.Canadian;
+using OmegaGo.Core.Time.Japanese;
+using OmegaGo.Core.Time.None;
+
+namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     public class RulesDescription : IRulesDescription
     {
@@ -50,5 +57,24 @@
         public const string TimeSystemAbsolute = "absolute";
         public const string TimeSystemJapanese = "byo_yomi";
         public const string TimeSystemCanadian = "canadian";
+
+        public TimeControl CreateTimeControl()
+        {
+            switch (TimeSystem)
+            {
+                case TimeSystemNone:
+                    return new NoTimeControl();
+                case TimeSystemAbsolute:
+                    return new AbsoluteTimeControl(this.MainTime);
+                case TimeSystemJapanese:
+                    return new JapaneseTimeControl(this.MainTime,
+                        this.ByoYomiTime, this.ByoYomiPeriods);
+                case TimeSystemCanadian:
+                    return new CanadianTimeControl(TimeSpan.FromSeconds(this.MainTime),
+                        this.ByoYomiStones, TimeSpan.FromSeconds(this.ByoYomiTime));
+                default:
+                    throw new System.Exception("This time control is not supported.");
+            }
+        }
     }
 }

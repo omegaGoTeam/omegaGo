@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Player's clock
         /// </summary>
-        public TimeControl Clock { get; }
+        public TimeControl Clock { get; set; }
 
         /// <summary>
         /// Checks if the player is a local human player

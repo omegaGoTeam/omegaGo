@@ -18,12 +18,14 @@ using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Local;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Events;
@@ -98,7 +100,16 @@ namespace FormsPrototype
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
-            _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
+            _controller.ChatMessageReceived += _controller_ChatMessageReceived;  
+            if(game is KgsGame)
+            {
+                KgsGameController kgsController = ((KgsGame) game).Controller;
+                foreach(var msg in kgsController.MessageLog)
+                {
+                    _controller_ChatMessageReceived(this, msg);
+                }
+            }
+           // _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
 
             foreach (GamePlayer player in _game.Controller.Players)
             {
@@ -111,6 +122,12 @@ namespace FormsPrototype
             _controller.BeginGame();
         }
 
+        private void _controller_ChatMessageReceived(object sender, OmegaGo.Core.Online.Chat.ChatMessage e)
+        {
+            lbPlayerChat.Items.Add("[" + e.Time.ToString("H:m") + "] " + e.UserName + ": " +
+                                            e.Text);
+        }
+
         private void _controller_GamePhaseChanged1(object sender, GamePhaseChangedEventArgs e)
         {
             _gamePhase = e.NewPhase.Type;
@@ -118,12 +135,17 @@ namespace FormsPrototype
             {
                 grpLifeDeath.Visible = true;
                 _inLifeDeathDeterminationPhase = true;
+                (e.NewPhase as ILifeAndDeathPhase).LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
 
             }
             else
             {
                 grpLifeDeath.Visible = false;
                 _inLifeDeathDeterminationPhase = false;
+            }
+            if (e.PreviousPhase.Type == GamePhaseType.LifeDeathDetermination)
+            {
+                (e.NewPhase as ILifeAndDeathPhase).LifeDeathTerritoryChanged -= _controller_LifeDeathTerritoryChanged;
             }
             grpTiming.Visible = e.NewPhase.Type == GamePhaseType.Main;
             if (e.NewPhase.Type != GamePhaseType.Main)

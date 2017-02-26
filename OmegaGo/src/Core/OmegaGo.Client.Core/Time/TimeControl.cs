@@ -79,5 +79,7 @@ namespace OmegaGo.Core.Time
                     (DateTime.Now - this.LastTimeClockStarted) :
                     TimeSpan.Zero);
         }
+
+        public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
     }
 }

@@ -2,6 +2,7 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
@@ -47,19 +48,42 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             switch (prop.Name)
             {
+                
                 case "RULES":
-                    // TODO Petr : solve later
+                    RulesDescription rules = prop;
+                    ongame.Info.BoardSize = new Game.GameBoardSize(rules.Size);
+                    foreach(var player in ongame.Controller.Players)
+                    {
+                        player.Clock = rules.CreateTimeControl();
+                    }
+                    ongame.Info.NumberOfHandicapStones = rules.Handicap;
+                    ongame.Info.Komi = rules.Komi;
+                    ongame.Info.RulesetType = KgsGameInfo.ConvertRuleset(rules.Rules);
+                    // TODO (Petr) ensure that even written late, these values are respected
                     break;
                 case "PLAYERNAME":
                 case "PLAYERRANK":
                 case "DATE":
                 case "PLACE":
-                    // TODO Petr : ignore for now
+                    // We do not need this information - we already have some and don't need the trest.
                     break;
                 case "COMMENT":
-                case "TIMELEFT":
-                    // TODO Petr : ignore for lesser now
+                    // "Putti [2k]: hi\n
+                    var tuple = KgsRegex.ParseCommentAsChat(prop.Text);
+                    if (tuple != null)
+                    {
+                        ongame.GetChatMessage(tuple);
+                    }
                     break;
+                case "TIMELEFT":
+                    StoneColor colorTimeLeft = (prop.Color == "black" ? StoneColor.Black : StoneColor.White);
+                    ongame.Controller.Players[colorTimeLeft].Clock.UpdateFromKgsFloat(prop.Float);
+                    break;
+                /*
+            case "TIMELEFT":
+                // TODO Petr : ignore for lesser now
+                break;
+                */
                 case "MOVE":
                     Move move;
                     string propColor = prop.Color;
@@ -81,6 +105,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                             ((KgsAgent) player.Agent).StoreMove(this.Index, color, move);
                         }
                     }
+                    break;
+                default:
                     break;
             }
         }

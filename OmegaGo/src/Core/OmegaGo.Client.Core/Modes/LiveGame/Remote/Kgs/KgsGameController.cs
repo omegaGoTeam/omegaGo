@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Connectors.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
@@ -21,7 +23,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             base(kgsGameInfo, ruleset, players, serverConnection)
         {
             Info = kgsGameInfo;
+            this.KgsConnector = new LiveGame.Connectors.Kgs.KgsConnector();
+            RegisterConnector(this.KgsConnector);
         }
+
+        public KgsConnector KgsConnector { get; }
 
         /// <summary>
         /// KGS game info
@@ -32,5 +38,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         /// KGS SGF Nodes
         /// </summary>
         internal Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
+
+        public List<ChatMessage> MessageLog = new List<ChatMessage>();
     }
 }

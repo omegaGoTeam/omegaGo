@@ -69,5 +69,12 @@ namespace OmegaGo.Core.Time.Japanese
         {
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
+
+        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
+                _snapshot.PeriodsLeft, _snapshot.InByoYomi);
+        }
     }
 }
