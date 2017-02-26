@@ -63,6 +63,8 @@
             this.bRefreshJoinedChannels = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.lbJoinedChannels = new System.Windows.Forms.ListBox();
+            this.lbContainerChallenges = new System.Windows.Forms.ListBox();
+            this.bAccept = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -330,6 +332,8 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.bAccept);
+            this.tabPage8.Controls.Add(this.lbContainerChallenges);
             this.tabPage8.Controls.Add(this.bObserveGame);
             this.tabPage8.Controls.Add(this.lbContainerGames);
             this.tabPage8.Controls.Add(this.bRefreshLocalContainers);
@@ -435,6 +439,23 @@
             this.lbJoinedChannels.Size = new System.Drawing.Size(393, 420);
             this.lbJoinedChannels.TabIndex = 6;
             // 
+            // lbContainerChallenges
+            // 
+            this.lbContainerChallenges.FormattingEnabled = true;
+            this.lbContainerChallenges.Location = new System.Drawing.Point(817, 55);
+            this.lbContainerChallenges.Name = "lbContainerChallenges";
+            this.lbContainerChallenges.Size = new System.Drawing.Size(331, 420);
+            this.lbContainerChallenges.TabIndex = 8;
+            // 
+            // bAccept
+            // 
+            this.bAccept.Location = new System.Drawing.Point(987, 481);
+            this.bAccept.Name = "bAccept";
+            this.bAccept.Size = new System.Drawing.Size(161, 23);
+            this.bAccept.TabIndex = 9;
+            this.bAccept.Text = "Accept";
+            this.bAccept.UseVisualStyleBackColor = true;
+            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,5 +524,7 @@
         private System.Windows.Forms.Button bRefreshJoinedChannels;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ListBox lbJoinedChannels;
+        private System.Windows.Forms.Button bAccept;
+        private System.Windows.Forms.ListBox lbContainerChallenges;
     }
 }

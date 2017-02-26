@@ -67,6 +67,9 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 case "PLACE":
                     // We do not need this information - we already have some and don't need the trest.
                     break;
+                case "PHANTOMCLEAR":
+                    // I don't know what to do with this yet.
+                    break;
                 case "COMMENT":
                     // "Putti [2k]: hi\n
                     var tuple = KgsRegex.ParseCommentAsChat(prop.Text);

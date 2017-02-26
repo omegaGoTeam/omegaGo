@@ -159,6 +159,12 @@ namespace FormsPrototype
                 {
                     this.lbContainerGames.Items.Add(game);
                 }
+                this.lbContainerChallenges.Items.Clear();
+
+                foreach (var game in container.GetChallenges())
+                {
+                    this.lbContainerChallenges.Items.Add(game);
+                }
             }
         }
 

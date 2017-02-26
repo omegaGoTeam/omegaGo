@@ -76,5 +76,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     throw new System.Exception("This time control is not supported.");
             }
         }
+
+        public string ToShortDescription()
+        {
+            return Rules + "/" + TimeSystem + "/" + Size + "x" + Size + "/" + (MainTime/60) + "min/H"+ Handicap;
+        }
     }
 }
