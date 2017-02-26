@@ -57,7 +57,6 @@
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IRemoteConnector.cs" />
-    <Compile Include="Modes\LiveGame\Connectors\Kgs\KgsConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\IUiConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
@@ -365,6 +364,7 @@
     <Content Include="Online\Kgs\Docs\kgsApiTry.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Modes\LiveGame\Connectors\Kgs\" />
     <Folder Include="Sgf\Serializing\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

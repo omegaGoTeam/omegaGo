@@ -52,7 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         PlayerPair Players { get; }
 
-        event EventHandler<ChatMessage> ChatMessageReceived;
 
         /// <summary>
         /// Starts the game

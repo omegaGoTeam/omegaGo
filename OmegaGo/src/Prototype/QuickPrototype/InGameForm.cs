@@ -98,11 +98,11 @@ namespace FormsPrototype
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
-            _controller.ChatMessageReceived += _controller_ChatMessageReceived;  
             if(game is KgsGame)
             {
                 KgsGameController kgsController = ((KgsGame) game).Controller;
-                foreach(var msg in kgsController.MessageLog)
+                kgsController.ChatMessageReceived += _controller_ChatMessageReceived;
+                foreach (var msg in kgsController.MessageLog)
                 {
                     _controller_ChatMessageReceived(this, msg);
                 }

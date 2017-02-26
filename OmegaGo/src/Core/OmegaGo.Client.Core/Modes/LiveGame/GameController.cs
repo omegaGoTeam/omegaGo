@@ -146,11 +146,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public PlayerPair Players { get; }
 
-        public event EventHandler<ChatMessage> ChatMessageReceived;
-        internal void OnChatMessageReceived(ChatMessage message)
-        {
-            ChatMessageReceived?.Invoke(this, message);
-        }
 
         /// <summary>
         /// Gets the game tree.
