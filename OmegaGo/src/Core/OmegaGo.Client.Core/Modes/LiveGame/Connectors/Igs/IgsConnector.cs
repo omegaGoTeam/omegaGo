@@ -32,6 +32,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Indicates the handicap for the game
         /// </summary>
         public event EventHandler<int> GameHandicapSet;
+        public event EventHandler LifeDeathReturnToMainForced;
+        public event EventHandler LifeDeathUndoDeathMarksRequested;
+        public event EventHandler LifeDeathUndoDeathMarksForced;
+        public event EventHandler LifeDeathDoneRequested;
+        public event EventHandler LifeDeathDoneForced;
+        public event EventHandler<Position> LifeDeathKillGroupRequested;
+        public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler MainUndoRequested;
+        public event EventHandler MainUndoForced;
+        public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
+        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 
         /// <summary>
         /// Unique identification of the game
@@ -87,16 +98,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             _connnection.MadeMove(_gameController.Info, move);
         }
 
-        public event EventHandler LifeDeathReturnToMainForced;
-        public event EventHandler LifeDeathUndoDeathMarksRequested;
-        public event EventHandler LifeDeathUndoDeathMarksForced;
-        public event EventHandler LifeDeathDoneRequested;
-        public event EventHandler LifeDeathDoneForced;
-        public event EventHandler<Position> LifeDeathKillGroupRequested;
-        public event EventHandler<Position> LifeDeathKillGroupForced;
-        public event EventHandler MainUndoRequested;
-        public event EventHandler MainUndoForced;
-
         /// <summary>
         /// Receives and handles resignation from server
         /// </summary>
@@ -118,31 +119,29 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             _gameController.SetPhase(gamePhase);
         }
 
-        internal void LifeDeath_ForceKillGroup(Position deadPosition)
+        public void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs)
+        {
+            TimeControlShouldAdjust?.Invoke(this, igsTimeControlAdjustmentEventArgs);
+        }
+
+        public void ForceLifeDeathKillGroup(Position deadPosition)
         {
             LifeDeathKillGroupForced?.Invoke(this, deadPosition);
         }
 
-        public void LifeDeath_ForceUndoDeathMarks()
+        public void ForceLifeDeathUndoDeathMarks()
         {
             LifeDeathUndoDeathMarksForced?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
         public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
         {
             GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
         }
 
-        public void Main_ForceUndo()
+        public void ForceMainUndo()
         {
             MainUndoForced?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
-        public void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs)
-        {
-            TimeControlShouldAdjust?.Invoke(this, igsTimeControlAdjustmentEventArgs);
         }
     }
 }

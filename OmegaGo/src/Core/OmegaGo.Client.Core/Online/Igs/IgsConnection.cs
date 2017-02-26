@@ -651,7 +651,7 @@ namespace OmegaGo.Core.Online.Igs
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
             var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
-            GetConnector(game.Info).LifeDeath_ForceKillGroup(deadPosition);
+            GetConnector(game.Info).ForceLifeDeathKillGroup(deadPosition);
         }
     }
 }
