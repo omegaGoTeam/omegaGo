@@ -90,7 +90,7 @@ namespace OmegaGo.UI.ViewModels
             //}
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
             WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
-
+            
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
@@ -294,9 +294,17 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private void Resign()
+        private async void Resign()
         {
-            _uiConnector.Resign();
+            if (
+                await
+                    _dialogService.ShowConfirmationDialogAsync(
+                        "You are resigning as PLAYER-COLOR. This cannot be undone.", "Resign this game?", "Resign",
+                        "Return to game"))
+            {
+
+                _uiConnector.Resign();
+            }
         }
 
         /// <summary>
@@ -312,7 +320,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            UiConnector.Main_RequestUndo();
+            _uiConnector.Main_RequestUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

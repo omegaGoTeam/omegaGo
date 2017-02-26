@@ -144,6 +144,5 @@ namespace OmegaGo.UI.ViewModels
 
         public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
 
-
     }
 }

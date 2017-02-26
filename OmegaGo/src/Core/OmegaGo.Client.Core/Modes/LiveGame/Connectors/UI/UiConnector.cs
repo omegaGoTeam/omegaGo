@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
@@ -31,8 +32,18 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// </summary>
         public void Resign()
         {
-            // TODO Petr : make this possible even on opponent's turn, and ask for confirmation first
-            GetHumanAgentOnTurn()?.Resign();
+            if (_gameController.TurnPlayer.IsHuman)
+            {
+                GetHumanAgentOnTurn()?.Resign();
+            }
+            else
+            {
+                GamePlayer human = _gameController.Players.FirstOrDefault(pl => pl.IsHuman);
+                if (human != null)
+                {
+                    (human.Agent as IHumanAgentActions).Resign();
+                }
+            }
         }
 
         /// <summary>
