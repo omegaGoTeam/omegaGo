@@ -213,14 +213,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        /// Fires the current <see cref="CurrentNodeChanged"/> event. 
-        /// </summary>
-        private void OnCurrentNodeChanged()
-        {
-            CurrentNodeChanged?.Invoke(this, CurrentNode);
-        }
-
-        /// <summary>
         /// Returns a registered connector of a given type
         /// </summary>
         /// <typeparam name="T">Type of connector to return</typeparam>
@@ -351,7 +343,15 @@ namespace OmegaGo.Core.Modes.LiveGame
         private void OnGameEnded(GameEndInformation endInformation)
         {
             GameEnded?.Invoke(this, endInformation);
-        }        
+        }
+        
+        /// <summary>
+        /// Fires the current <see cref="CurrentNodeChanged"/> event. 
+        /// </summary>
+        private void OnCurrentNodeChanged()
+        {
+            CurrentNodeChanged?.Invoke(this, CurrentNode);
+        }
 
         /// <summary>
         /// Handles player resignation
