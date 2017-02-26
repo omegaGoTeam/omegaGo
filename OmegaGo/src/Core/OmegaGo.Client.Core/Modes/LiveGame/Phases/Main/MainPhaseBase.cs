@@ -81,9 +81,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
-        private async void Connector_MainUndoForced(object sender, EventArgs e)
+        private void Connector_MainUndoForced(object sender, EventArgs e)
         {
-            await MainForceUndo();
+            MainForceUndo();
         }
 
         private async void Connector_MainUndoRequested(object sender, EventArgs e)
