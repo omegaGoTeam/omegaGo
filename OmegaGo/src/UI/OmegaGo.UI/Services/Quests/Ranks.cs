@@ -13,7 +13,7 @@ namespace OmegaGo.UI.Services.Quests
     /// </summary>
     internal static class Ranks
     {
-        private static int[] rankLines = {100, 400, 800, 1400, 1000000 };
+        private readonly static int[] rankLines = {100, 400, 800, 1400, 1000000 };
 
         private static int PointsToRank(int points)
         {

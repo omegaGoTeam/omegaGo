@@ -140,7 +140,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void RefreshConsole(object sender, RoutedEventArgs e)
         {
-            this.IgsConsole.Text = Connections.IgsLog;
+            this.IgsConsole.Text = Connections.Igs.Log;
         }
     }
 

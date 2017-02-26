@@ -42,6 +42,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
+            Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
 
             base.InitializeFirstChance();
         }
