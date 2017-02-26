@@ -233,6 +233,14 @@
     <Content Include="Assets\Logos\Square310x310Logo.scale-200.png" />
     <Content Include="Assets\Logos\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <Content Include="Assets\MainMenu\bambooForest.jpg" />
+    <Content Include="Assets\MainMenu\Buttons\Help.png" />
+    <Content Include="Assets\MainMenu\Buttons\Library.png" />
+    <Content Include="Assets\MainMenu\Buttons\Local.png" />
+    <Content Include="Assets\MainMenu\Buttons\Multiplayer.png" />
+    <Content Include="Assets\MainMenu\Buttons\Settings.png" />
+    <Content Include="Assets\MainMenu\Buttons\SinglePlayer.png" />
+    <Content Include="Assets\MainMenu\Buttons\Statistics.png" />
+    <Content Include="Assets\MainMenu\Buttons\Tutorial.png" />
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
@@ -297,6 +305,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

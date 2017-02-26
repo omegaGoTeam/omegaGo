@@ -19,10 +19,9 @@
                     <VisualState.Setters>
                         <Setter Target="Button.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Button.Height" Value="80" />
-                        <Setter Target="IconContent.(RelativePanel.AlignLeftWithPanel)" Value="True" />
-                        <Setter Target="IconContent.(RelativePanel.AlignVerticalCenterWithPanel)" Value="True" />
-                        <Setter Target="TextArea.(RelativePanel.RightOf)" Value="IconContent" />
-                        <Setter Target="TextArea.(RelativePanel.AlignVerticalCenterWith)" Value="IconContent" />
+                        <Setter Target="RelativeContainer.Orientation" Value="Horizontal" />
+                        <Setter Target="IconContent.Width" Value="24" />
+                        <Setter Target="IconContent.Height" Value="24" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -31,17 +30,21 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Button.Width" Value="200" />
-                        <Setter Target="Button.Height" Value="320" />
+                        <Setter Target="RelativeContainer.Orientation" Value="Vertical" />
+                        <Setter Target="Button.Height" Value="150" />
+                        <Setter Target="IconContent.Width" Value="64" />
+                        <Setter Target="IconContent.Height" Value="64" />
+                        <Setter Target="TextArea.FontSize" Value="20" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <RelativePanel>
+        <StackPanel x:Name="RelativeContainer">
             <Viewbox x:Name="IconContent">
                 <ContentPresenter Content="{x:Bind Icon}" />
             </Viewbox>
-            <TextBlock x:Name="TextArea" Text="{x:Bind Text}" Margin="10" />
-        </RelativePanel>
+            <TextBlock x:Name="TextArea" Text="{x:Bind Text}" Margin="12" />
+        </StackPanel>
     </Button>
 
 </UserControl>
