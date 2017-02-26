@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -384,7 +385,7 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
-                Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
+                GetConnector(whatGame.Info).TimeControlAdjustment(new IgsTimeControlAdjustmentEventArgs( heading.WhiteTimeRemaining, heading.BlackTimeRemaining));               
                 
             }
             else if (trim.Contains("Handicap"))

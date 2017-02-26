@@ -148,8 +148,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public IgsConnection()
         {
-            Commands = new IgsCommands(this);
-            Events = new IgsEvents(this);
+            Commands = new IgsCommands(this);            
         }
 
         /// <summary>
@@ -250,11 +249,6 @@ namespace OmegaGo.Core.Online.Igs
         /// Checks if the user has been logged in
         /// </summary>
         public bool LoggedIn => ConnectionEstablished && Composure == IgsComposure.Ok;
-
-        /// <summary>
-        /// IGS events
-        /// </summary>
-        public IgsEvents Events { get; }
 
         public ServerId Name => ServerId.Igs;
 

@@ -139,10 +139,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             MainUndoForced?.Invoke(this, EventArgs.Empty);
         }
 
-        public event EventHandler<TimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
-        public void TimeControlAdjustment(TimeControlAdjustmentEventArgs timeControlAdjustmentEventArgs)
+        public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
+        public void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs)
         {
-            TimeControlShouldAdjust?.Invoke(this, timeControlAdjustmentEventArgs);
+            TimeControlShouldAdjust?.Invoke(this, igsTimeControlAdjustmentEventArgs);
         }
     }
 }

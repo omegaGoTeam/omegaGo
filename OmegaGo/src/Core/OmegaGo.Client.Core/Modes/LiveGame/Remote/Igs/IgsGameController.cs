@@ -67,7 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             (Phase as LifeAndDeathPhase).ScoreIt(new Scores(e.BlackScore, e.WhiteScore));
         }
 
-        private void IgsConnector_TimeControlShouldAdjust(object sender, TimeControlAdjustmentEventArgs e)
+        private void IgsConnector_TimeControlShouldAdjust(object sender, IgsTimeControlAdjustmentEventArgs e)
         {
             (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
             (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
