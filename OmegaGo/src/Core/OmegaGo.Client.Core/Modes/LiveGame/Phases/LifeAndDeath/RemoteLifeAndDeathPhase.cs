@@ -7,8 +7,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 {
     class RemoteLifeAndDeathPhase : LifeAndDeathPhase
     {
-        private IServerConnection _serverConnection;
-        private RemoteGameInfo _remoteGameInfo;
+        private readonly IServerConnection _serverConnection;
+        private readonly RemoteGameInfo _remoteGameInfo;
 
         public RemoteLifeAndDeathPhase(RemoteGameController controller) : base(controller)
         {
