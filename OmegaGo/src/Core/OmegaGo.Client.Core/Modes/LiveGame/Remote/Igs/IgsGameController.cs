@@ -47,6 +47,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         }
         
         /// <summary>
+        /// Igs server connection
+        /// </summary>
+        internal new IgsConnection Server { get; }
+
+        /// <summary>
+        /// IGS game info
+        /// </summary>
+        internal new IgsGameInfo Info { get; }
+
+        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+
+        /// <summary>
         /// Initializes server
         /// </summary>
         private void InitializeServer(IgsConnection serverConnection)
@@ -72,23 +85,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
         }
 
-        /// <summary>
-        /// Igs server connection
-        /// </summary>
-        internal new IgsConnection Server { get; }
-
-        /// <summary>
-        /// IGS game info
-        /// </summary>
-        internal new IgsGameInfo Info { get; }
-
         // TODO Petr: where should this be?
         //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
         //{
         //    //LifeDeath_MarkGroupDead(e.DeadPosition);
         //}       
-
-        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
     }
 }

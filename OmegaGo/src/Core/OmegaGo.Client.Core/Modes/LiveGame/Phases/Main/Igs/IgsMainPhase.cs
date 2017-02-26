@@ -19,7 +19,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
 
         public IgsMainPhase(IgsGameController gameController) : base(gameController)
         {
-            this._gameController = gameController;
+            _gameController = gameController;
         }
 
         protected override void MainForceUndo()
