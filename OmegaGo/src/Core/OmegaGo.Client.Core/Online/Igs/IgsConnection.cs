@@ -346,11 +346,12 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
+        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
         /// <param name="command">The single-line command.</param>
-        internal void MakeUnattendedRequest(string command)
+        public void MakeUnattendedRequest(string command)
         {
             IgsRequest request = new IgsRequest(command) { Unattended = true };
             _outgoingRequests.Enqueue(request);
