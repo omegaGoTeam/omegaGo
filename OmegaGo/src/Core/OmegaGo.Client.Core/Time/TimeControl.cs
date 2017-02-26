@@ -80,6 +80,7 @@ namespace OmegaGo.Core.Time
                     TimeSpan.Zero);
         }
 
+        // TODO Petr is the parameter indeed "seconds left"?
         public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
     }
 }
