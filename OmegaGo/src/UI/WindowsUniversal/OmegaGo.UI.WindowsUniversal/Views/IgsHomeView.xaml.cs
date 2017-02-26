@@ -137,6 +137,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 VM.StartGame(game);
             }
         }
+
+        private void RefreshConsole(object sender, RoutedEventArgs e)
+        {
+            this.IgsConsole.Text = Connections.Igs.Log;
+        }
     }
 
     internal static class RankNumerizator
