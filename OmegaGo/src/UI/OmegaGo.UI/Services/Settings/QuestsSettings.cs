@@ -50,7 +50,7 @@ namespace OmegaGo.UI.Services.Settings
                 int oldvalue = GetSetting(nameof(Points), () => 0);
                 if (value > oldvalue)
                 {
-                    var notificationService = Mvx.Resolve<INotificationService>();
+                    var notificationService = Mvx.Resolve<IAppNotificationService>();
                     var localizationService = Mvx.Resolve<ILocalizationService>();
                     int gain = value - oldvalue;
                     notificationService.TriggerNotification(new BubbleNotification(String.Format(localizationService["YouHaveGainedXPointsNowYouHaveY"], gain, value)));

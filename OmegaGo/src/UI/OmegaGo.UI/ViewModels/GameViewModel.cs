@@ -337,7 +337,7 @@ namespace OmegaGo.UI.ViewModels
         
         private void ResumeGame()
         {
-            Mvx.Resolve<INotificationService>()
+            Mvx.Resolve<IAppNotificationService>()
                 .TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
             _uiConnector.ForceLifeDeathReturnToMain();
         }
