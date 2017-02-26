@@ -38,10 +38,10 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
+            Mvx.LazyConstructAndRegisterSingleton<INotificationService, NotificationService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
-            Mvx.LazyConstructAndRegisterSingleton<INotificationService, NotificationService>();
 
             base.InitializeFirstChance();
         }

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Localization;
@@ -11,18 +8,21 @@ using OmegaGo.UI.Services.Quests;
 
 namespace OmegaGo.UI.Services.Settings
 {
+    //TODO Martin : Separate Quest notification logic from this class - it should be just a setting container
     /// <summary>
     /// Manages Tsumego related settings
     /// </summary>
     public class QuestsSettings : SettingsGroup
     {
-        private INotificationService _notificationService;
-        private ILocalizationService _localizationService;
+        private List<ActiveQuest> _activeQuests;
 
         public QuestsSettings(ISettingsService service) : base("Quests", service)
         {
-            Events = new Quests.QuestEvents(this);
+            Events = new QuestEvents(this);
+
         }
+
+        public QuestEvents Events { get; }
 
         public DateTime LastQuestReceivedWhen
         {
@@ -32,6 +32,7 @@ namespace OmegaGo.UI.Services.Settings
             }
             set { SetComplexSetting(nameof(LastQuestReceivedWhen), value); }
         }
+
         public DateTime LastQuestExchangedWhen
         {
             get
@@ -49,23 +50,18 @@ namespace OmegaGo.UI.Services.Settings
                 int oldvalue = GetSetting(nameof(Points), () => 0);
                 if (value > oldvalue)
                 {
-                    if (_notificationService == null)
-                    {
-                        this._notificationService = Mvx.Resolve<INotificationService>();
-                        this._localizationService = Mvx.Resolve<ILocalizationService>();
-                    }
+                    var notificationService = Mvx.Resolve<INotificationService>();
+                    var localizationService = Mvx.Resolve<ILocalizationService>();
                     int gain = value - oldvalue;
-                    _notificationService.TriggerNotification(new BubbleNotification(String.Format(_localizationService["YouHaveGainedXPointsNowYouHaveY"], gain, value)));
+                    notificationService.TriggerNotification(new BubbleNotification(String.Format(localizationService["YouHaveGainedXPointsNowYouHaveY"], gain, value)));
                     if (Ranks.AdvancedInRank(oldvalue, value))
                     {
-                       _notificationService.TriggerNotification(new BubbleNotification(String.Format(_localizationService["YouHaveAdvancedToNewRankX"], Ranks.GetRankName(_localizationService, value))));
+                        notificationService.TriggerNotification(new BubbleNotification(String.Format(localizationService["YouHaveAdvancedToNewRankX"], Ranks.GetRankName(localizationService, value))));
                     }
                 }
                 SetSetting(nameof(Points), value);
             }
         }
-
-        private List<ActiveQuest> _activeQuests;
 
         public IEnumerable<ActiveQuest> ActiveQuests
         {
@@ -73,27 +69,19 @@ namespace OmegaGo.UI.Services.Settings
             {
                 if (_activeQuests == null)
                 {
-                    _activeQuests = GetComplexSetting(nameof(this.ActiveQuests),
+                    _activeQuests = GetComplexSetting(nameof(ActiveQuests),
                         () => new List<ActiveQuest>());
                 }
                 return _activeQuests;
             }
-        }
-        private void SaveChanges()
-        {
-            if (_activeQuests == null)
-            {
-                _activeQuests = GetComplexSetting(nameof(this.ActiveQuests),
-                      () => new List<ActiveQuest>());
-            }
-            SetComplexSetting(nameof(this.ActiveQuests), _activeQuests);
-        }
+        }        
 
         public void AddQuest(ActiveQuest quest)
         {
             _activeQuests.Add(quest);
             SaveChanges();
         }
+
         public void ProgressQuest(ActiveQuest quest, int additionalProgress)
         {
             quest.Progress += additionalProgress;
@@ -105,6 +93,7 @@ namespace OmegaGo.UI.Services.Settings
             }
             SaveChanges();
         }
+
         public void LoseQuest(ActiveQuest quest)
         {
             _activeQuests.Remove(quest);
@@ -113,11 +102,18 @@ namespace OmegaGo.UI.Services.Settings
 
         public void ClearAllQuests()
         {
-            _activeQuests = new List<Quests.ActiveQuest>();
+            _activeQuests = new List<ActiveQuest>();
             SaveChanges();
         }
 
-        public QuestEvents Events { get; }
-    
+        private void SaveChanges()
+        {
+            if (_activeQuests == null)
+            {
+                _activeQuests = GetComplexSetting(nameof(ActiveQuests),
+                      () => new List<ActiveQuest>());
+            }
+            SetComplexSetting(nameof(ActiveQuests), _activeQuests);
+        }
     }
 }
