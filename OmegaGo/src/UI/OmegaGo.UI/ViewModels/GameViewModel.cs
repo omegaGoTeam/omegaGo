@@ -313,7 +313,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            UiConnector.RequestMainUndo();
+            _uiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)

@@ -213,6 +213,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Fires the current <see cref="CurrentNodeChanged"/> event. 
+        /// </summary>
+        private void OnCurrentNodeChanged()
+        {
+            CurrentNodeChanged?.Invoke(this, CurrentNode);
+        }
+
+        /// <summary>
         /// Returns a registered connector of a given type
         /// </summary>
         /// <typeparam name="T">Type of connector to return</typeparam>
@@ -295,6 +303,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Fires the <see cref="TurnPlayerChanged"/> event. 
+        /// </summary>
+        protected virtual void OnTurnPlayerChanged()
+        {
+            TurnPlayerChanged?.Invoke(this, TurnPlayer);
+        }        
+
+        /// <summary>
         /// Subscribes to whole-game events raisable by agents. Whole-game events may happen regardless 
         /// of the current phase.
         /// </summary>
@@ -335,23 +351,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private void OnGameEnded(GameEndInformation endInformation)
         {
             GameEnded?.Invoke(this, endInformation);
-        }
-
-        /// <summary>
-        /// Fires the <see cref="TurnPlayerChanged"/> event. 
-        /// </summary>
-        protected virtual void OnTurnPlayerChanged()
-        {
-            TurnPlayerChanged?.Invoke(this, TurnPlayer);
-        }
-
-        /// <summary>
-        /// Fires the current <see cref="CurrentNodeChanged"/> event. 
-        /// </summary>
-        public virtual void OnCurrentNodeChanged()
-        {
-            CurrentNodeChanged?.Invoke(this, CurrentNode);
-        }
+        }        
 
         /// <summary>
         /// Handles player resignation
