@@ -584,7 +584,7 @@ namespace OmegaGo.Core.Online.Igs
             _availableConnectors[game.Info.IgsIndex].MoveFromServer(moveIndex, theMove);
         }
 
-        internal IgsConnector GetConnector(IgsGameInfo gameinfo)
+        private IgsConnector GetConnector(IgsGameInfo gameinfo)
         {
             return _availableConnectors[gameinfo.IgsIndex];
         }
