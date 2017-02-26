@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
@@ -19,7 +20,7 @@ namespace OmegaGo.UI.Services.Online
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
         public static IgsConnection Igs => _igsConnection ??
-                                                (_igsConnection = new IgsConnection());
+                                           (_igsConnection = new IgsConnection());
 
         /// <summary>
         /// Gets the connection to KGS Go server. 
