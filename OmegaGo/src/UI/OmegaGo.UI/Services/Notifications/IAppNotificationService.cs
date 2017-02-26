@@ -9,7 +9,7 @@ namespace OmegaGo.UI.Services.Notifications
     /// <summary>
     /// Allows the UI project to submit quick toast-like notifications to the UI.
     /// </summary>
-    public interface INotificationService
+    public interface IAppNotificationService
     {
         /// <summary>
         /// Immediately show a notification on screen.

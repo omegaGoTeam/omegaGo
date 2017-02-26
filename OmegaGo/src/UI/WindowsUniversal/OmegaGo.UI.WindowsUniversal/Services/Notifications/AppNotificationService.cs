@@ -8,7 +8,7 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Notifications
 {
-    public class NotificationService : INotificationService
+    public class AppNotificationService : IAppNotificationService
     {
         public void TriggerNotification(BubbleNotification notification)
         {
