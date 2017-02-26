@@ -42,16 +42,28 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             //create and register connector
             IgsConnector = new IgsConnector(this, serverConnection);
             RegisterConnector(IgsConnector);
+            Server = serverConnection;
             InitializeServer(serverConnection);
         }
+        
+        /// <summary>
+        /// Igs server connection
+        /// </summary>
+        internal new IgsConnection Server { get; }
 
-        public IgsConnection IgsConnection;
+        /// <summary>
+        /// IGS game info
+        /// </summary>
+        internal new IgsGameInfo Info { get; }
+
+        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+
         /// <summary>
         /// Initializes server
         /// </summary>
         private void InitializeServer(IgsConnection serverConnection)
         {
-            this.IgsConnection = serverConnection;
             serverConnection.RegisterConnector(IgsConnector);
             // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
@@ -67,24 +79,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             (Phase as LifeAndDeathPhase).ScoreIt(new Scores(e.BlackScore, e.WhiteScore));
         }
 
-        private void IgsConnector_TimeControlShouldAdjust(object sender, TimeControlAdjustmentEventArgs e)
+        private void IgsConnector_TimeControlShouldAdjust(object sender, IgsTimeControlAdjustmentEventArgs e)
         {
             (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
             (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
         }
-
-        /// <summary>
-        /// IGS game info
-        /// </summary>
-        internal new IgsGameInfo Info { get; }
 
         // TODO Petr: where should this be?
         //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
         //{
         //    //LifeDeath_MarkGroupDead(e.DeadPosition);
         //}       
-
-        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
     }
 }

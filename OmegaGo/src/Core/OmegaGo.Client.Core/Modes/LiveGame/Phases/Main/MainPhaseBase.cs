@@ -17,6 +17,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
         }
 
+        protected abstract Task MainRequestUndo();
+
+        protected abstract void MainForceUndo();
 
         /// <summary>
         /// Main phase
@@ -31,23 +34,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             ObservePlayerEvents();
             foreach(var connector in Controller.Connectors)
             {
-                connector.MainRequestUndo += Connector_MainRequestUndo;
-                connector.MainForceUndo += Connector_MainForceUndo;
+                connector.MainUndoRequested += Connector_MainUndoRequested;
+                connector.MainUndoForced += Connector_MainUndoForced;
             }
             AskFirstPlayerToMove();
-        }
-
-        protected abstract Task MainForceUndo();
-        protected abstract Task MainRequestUndo();
-
-        private async void Connector_MainForceUndo(object sender, EventArgs e)
-        {
-            await MainForceUndo();
-        }
-
-        private async void Connector_MainRequestUndo(object sender, EventArgs e)
-        {
-            await MainRequestUndo();
         }
 
         /// <summary>
@@ -57,12 +47,61 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
             foreach (var connector in Controller.Connectors)
             {
-                connector.MainRequestUndo -= Connector_MainRequestUndo;
-                connector.MainForceUndo -= Connector_MainForceUndo;
+                connector.MainUndoRequested -= Connector_MainUndoRequested;
+                connector.MainUndoForced -= Connector_MainUndoForced;
             }
             UnobservePlayerEvents();
         }
+        
+        /// <summary>
+        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
+        /// us to undo, or whenever the user clicks to locally undo.
+        /// </summary>
+        public void Undo()
+        {
+            //is there a move to undo?
+            if (Controller.GameTree.LastNode != null)
+            {
+                Controller.GameTree.RemoveLastNode();
+                Controller.SwitchTurnPlayer();
+                // TODO Petr What is this?
+                // Order here matters:
+                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
+                //_game.NumberOfMovesPlayed--;
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
 
+                Controller.OnCurrentNodeStateChanged();
+            }
+        }
+
+        /// <summary>
+        /// Alters the processing result before it is handled by the move logic
+        /// </summary>
+        /// <param name="move">Move processed</param>
+        /// <param name="result">Result of processing</param>
+        protected virtual void AlterMoveProcessingResult(Move move, MoveProcessingResult result)
+        {
+            //keep the rules logic inact
+        }
+
+        /// <summary>
+        /// Handles the local clockout. Returns true if processing the current move should be aborted. 
+        /// </summary>
+        /// <param name="player">Player that clocked out</param>
+        protected abstract bool HandleLocalClockOut(GamePlayer player);
+
+        /// <summary>
+        /// Attaches player events
+        /// </summary>
+        private void ObservePlayerEvents()
+        {
+            foreach (var player in Controller.Players)
+            {
+                player.Agent.PlaceStone += Agent_PlaceStone;
+                player.Agent.Pass += Agent_Pass;
+            }
+        }
+        
         /// <summary>
         /// Asks the first player to make a move
         /// </summary>
@@ -79,16 +118,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
         }
 
-        /// <summary>
-        /// Attaches player events
-        /// </summary>
-        private void ObservePlayerEvents()
+        private void Connector_MainUndoForced(object sender, EventArgs e)
         {
-            foreach (var player in Controller.Players)
-            {
-                player.Agent.PlaceStone += Agent_PlaceStone;
-                player.Agent.Pass += Agent_Pass;
-            }
+            MainForceUndo();
+        }
+
+        private async void Connector_MainUndoRequested(object sender, EventArgs e)
+        {
+            await MainRequestUndo();
         }
 
         /// <summary>
@@ -187,22 +224,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         }
 
         /// <summary>
-        /// Alters the processing result before it is handled by the move logic
-        /// </summary>
-        /// <param name="move">Move processed</param>
-        /// <param name="result">Result of processing</param>
-        protected virtual void AlterMoveProcessingResult(Move move, MoveProcessingResult result)
-        {
-            //keep the rules logic inact
-        }
-
-        /// <summary>
-        /// Handles the local clockout. Returns true if processing the current move should be aborted. 
-        /// </summary>
-        /// <param name="player">Player that clocked out</param>
-        protected abstract bool HandleLocalClockOut(GamePlayer player);
-
-        /// <summary>
         /// Applies a move in the game state
         /// </summary>
         /// <param name="move">Move</param>
@@ -241,27 +262,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                     processingResult.Result = MoveResult.Legal;
                     break;
             }            
-        }
-       
-        /// <summary>
-        /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
-        /// us to undo, or whenever the user clicks to locally undo.
-        /// </summary>
-        public void Undo()
-        {
-            //is there a move to undo?
-            if (Controller.GameTree.LastNode != null)
-            {
-                Controller.GameTree.RemoveLastNode();
-                Controller.SwitchTurnPlayer();
-                // TODO Petr What is this?
-                // Order here matters:
-                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
-                //_game.NumberOfMovesPlayed--;
-                Controller.TurnPlayer.Agent.PleaseMakeAMove();
-                
-                Controller.OnCurrentNodeStateChanged();
-            }
         }
     }
 }

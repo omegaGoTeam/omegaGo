@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -238,7 +239,7 @@ namespace OmegaGo.Core.Online.Igs
                                             gi.Controller.Phase.Type ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
-                                GetConnector(game.Info).LifeDeath_ForceUndoDeathMarks();
+                                GetConnector(game.Info).ForceLifeDeathUndoDeathMarks();
                             }
                             weAreHandlingAnInterrupt = true;
                             continue;
@@ -384,7 +385,7 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
-                Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
+                GetConnector(whatGame.Info).TimeControlAdjustment(new IgsTimeControlAdjustmentEventArgs( heading.WhiteTimeRemaining, heading.BlackTimeRemaining));               
                 
             }
             else if (trim.Contains("Handicap"))
@@ -545,7 +546,7 @@ namespace OmegaGo.Core.Online.Igs
                     IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
-                        GetConnector(gameInfo.Info).Main_ForceUndo();
+                        GetConnector(gameInfo.Info).ForceMainUndo();
                     }
                 }
                 

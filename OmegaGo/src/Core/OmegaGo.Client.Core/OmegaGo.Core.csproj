@@ -165,11 +165,11 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
-    <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
+    <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />

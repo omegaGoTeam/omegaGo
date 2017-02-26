@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,6 +68,11 @@ namespace OmegaGo.Core.Online.Igs
         /// List of games opened
         /// </summary>
         private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
+
+        /// <summary>
+        /// Logger
+        /// </summary>
+        private readonly StringBuilder _log = new StringBuilder();
 
         /// <summary>
         /// Outgoing IGS requests
@@ -149,7 +155,6 @@ namespace OmegaGo.Core.Online.Igs
         public IgsConnection()
         {
             Commands = new IgsCommands(this);
-            Events = new IgsEvents(this);
         }
 
         /// <summary>
@@ -200,30 +205,15 @@ namespace OmegaGo.Core.Online.Igs
         public event EventHandler<string> ErrorMessageReceived;
 
         /// <summary>
-        /// Occurs when the server commands us to act as though the last move didn't take place.
-        /// </summary>
-        public event EventHandler<IgsGameInfo> LastMoveUndone;
-
-        /// <summary>
         /// Occurs when the opponent in a GAME declines our request to undo a move.
         /// This will also prevent all further undo's in this game.
         /// </summary>
         public event EventHandler<IgsGameInfo> UndoDeclined;
 
         /// <summary>
-        /// Occurs when the game is scored and completed
-        /// </summary>
-        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-
-        /// <summary>
         /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
         /// </summary>
         public event EventHandler<string> IncomingLine;
-
-        /// <summary>
-        /// Occurs when a stone is removed
-        /// </summary>
-        public event EventHandler<StoneRemovalEventArgs> StoneRemoval;
 
         /// <summary>
         /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
@@ -251,11 +241,6 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public bool LoggedIn => ConnectionEstablished && Composure == IgsComposure.Ok;
 
-        /// <summary>
-        /// IGS events
-        /// </summary>
-        public IgsEvents Events { get; }
-
         public ServerId Name => ServerId.Igs;
 
         /// <summary>
@@ -268,10 +253,16 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
+        // TODO Petr: The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Log of Igs
+        /// </summary>
+        public string Log => _log.ToString();
+
         /// <summary>
         /// Implements IServerConnection Commands
         /// </summary>
-        ICommonCommands IServerConnection.Commands => Commands;        
+        ICommonCommands IServerConnection.Commands => Commands;
 
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
@@ -367,6 +358,7 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
+        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
@@ -590,7 +582,7 @@ namespace OmegaGo.Core.Online.Igs
             _availableConnectors[game.Info.IgsIndex].MoveFromServer(moveIndex, theMove);
         }
 
-        internal IgsConnector GetConnector(IgsGameInfo gameinfo)
+        private IgsConnector GetConnector(IgsGameInfo gameinfo)
         {
             return _availableConnectors[gameinfo.IgsIndex];
         }
@@ -648,11 +640,6 @@ namespace OmegaGo.Core.Online.Igs
             ErrorMessageReceived?.Invoke(this, errorMessage);
         }
 
-        private void OnLastMoveUndone(IgsGameInfo whichGame)
-        {
-            LastMoveUndone?.Invoke(this, whichGame);
-        }
-
         private void OnUndoDeclined(IgsGameInfo game)
         {
             UndoDeclined?.Invoke(this, game);
@@ -666,6 +653,7 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingLine(string message)
         {
+            _log.AppendLine(message);
             IncomingLine?.Invoke(this, message);
         }
 
@@ -677,7 +665,7 @@ namespace OmegaGo.Core.Online.Igs
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
             var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
-            GetConnector(game.Info).LifeDeath_ForceKillGroup(deadPosition);
+            GetConnector(game.Info).ForceLifeDeathKillGroup(deadPosition);
         }
     }
 }

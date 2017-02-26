@@ -1,5 +1,6 @@
 ﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Online.Igs.Events;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
 {
@@ -34,5 +35,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// </summary>
         /// <param name="gamePhase">Game phase type to start</param>
         void SetPhaseFromServer(GamePhaseType gamePhase);
+
+        void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs);
+        void ForceLifeDeathKillGroup(Position deadPosition);
+        void ForceLifeDeathUndoDeathMarks();
+        void ScoreGame(GameScoreEventArgs gameScoreEventArgs);
+        void ForceMainUndo();
     }
 }

@@ -13,40 +13,22 @@ namespace OmegaGo.UI.Services.Online
     /// </summary>
     public static class Connections
     {
-        public static string IgsLog
-        {
-            get { return _igsLog.ToString(); }
-        }
-        private static StringBuilder _igsLog = new StringBuilder();
         private static IgsConnection _igsConnection;
         private static KgsConnection _kgsConnection;
 
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        public static IgsConnection Igs
-        {
-            get
-            {
-                if (_igsConnection == null)
-                {
-                    _igsConnection = new IgsConnection();
-                //    _igsConnection.IncomingLine += _igsConnection_IncomingLine;
-                }
-                return _igsConnection;
-            }
-        }
-
-        private static void _igsConnection_IncomingLine(object sender, string e)
-        {
-            _igsLog.AppendLine(e);
-        }
+        public static IgsConnection Igs => _igsConnection ?? 
+                                            (_igsConnection = new IgsConnection());
 
         /// <summary>
         /// Gets the connection to KGS Go server. 
         /// </summary>
         public static KgsConnection Kgs => _kgsConnection ??
                                            (_kgsConnection = new KgsConnection());
+
+
 
         /// <summary>
         /// Gets the connection to the specified server.
@@ -61,5 +43,6 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
+
     }
 }
