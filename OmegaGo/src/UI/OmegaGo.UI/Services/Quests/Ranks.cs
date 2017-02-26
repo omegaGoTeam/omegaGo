@@ -13,19 +13,8 @@ namespace OmegaGo.UI.Services.Quests
     /// </summary>
     internal static class Ranks
     {
-        private static int[] rankLines = {100, 400, 800, 1400, 1000000 };
+        private static readonly int[] rankLines = {100, 400, 800, 1400, 1000000 };
 
-        private static int PointsToRank(int points)
-        {
-            for (int i = 0; i < Ranks.rankLines.Length; i++)
-            {
-                if (points < Ranks.rankLines[i])
-                {
-                    return i;
-                }
-            }
-            return Ranks.rankLines.Length;
-        }
         /// <summary>
         /// Determines whether an increase in points from <paramref name="previously"/> to <paramref name="now"/> will increase the player's rank.
         /// </summary>
@@ -71,6 +60,17 @@ namespace OmegaGo.UI.Services.Quests
         {
             int yourRank = PointsToRank(points);
             return rankLines[yourRank];
+        }
+        private static int PointsToRank(int points)
+        {
+            for (int i = 0; i < Ranks.rankLines.Length; i++)
+            {
+                if (points < Ranks.rankLines[i])
+                {
+                    return i;
+                }
+            }
+            return Ranks.rankLines.Length;
         }
     }
 }
