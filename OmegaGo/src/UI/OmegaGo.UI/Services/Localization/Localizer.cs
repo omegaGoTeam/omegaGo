@@ -12,6 +12,7 @@ namespace OmegaGo.UI.Services.Localization
     /// </summary>
     public class Localizer : LocalizationService
     {
+
         /// <summary>
         /// Initializes localizer
         /// </summary>
@@ -200,5 +201,9 @@ namespace OmegaGo.UI.Services.Localization
         public string CellSize => LocalizeCaller();
         
         public string BoardBorderThickness => LocalizeCaller();
+        public string ResetAllProgress_Content => LocalizeCaller();
+        public string ResetAllProgress_Caption => LocalizeCaller();
+        public string ResetAllProgress_Yes => LocalizeCaller();
+        public string ResetAllProgress_No => LocalizeCaller();
     }
 }

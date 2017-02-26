@@ -39,8 +39,8 @@ namespace OmegaGo.UI.ViewModels
         private async void ResetAllProgress()
         {
             if (await _dialogService.ShowConfirmationDialogAsync(
-                "All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.",
-                "Reset all progress?", "Reset all progress!", "Cancel"))
+                Localizer.ResetAllProgress_Content,
+               Localizer.ResetAllProgress_Caption, Localizer.ResetAllProgress_Yes, Localizer.ResetAllProgress_No))
             {
                 Stats.Reset();
                 _settings.Tsumego.SolvedProblems = new string[0];
