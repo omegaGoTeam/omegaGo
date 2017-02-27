@@ -103,7 +103,6 @@ namespace OmegaGo.UI.WindowsUniversal
         private void SetupWindowServices(Window window)
         {
             FullscreenModeManager.RegisterForWindow(window);
-
         }
 
         /// <summary>

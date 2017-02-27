@@ -224,14 +224,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Initiates back navigation
         /// </summary>
-        public void GoBack()
+        /// <returns>Was back navigation handled?</returns>
+        public bool GoBack()
         {
             if (AppFrame.CanGoBack)
             {
                 var view = AppFrame.Content as ViewBase;
                 var vm = view?.ViewModel as ViewModelBase;
                 vm?.GoBackCommand.Execute(null);
+                return true;
             }
+            return false;
         }
 
 
@@ -282,7 +285,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void BackRequested(object sender, BackRequestedEventArgs e)
         {
-            GoBack();
+            if (GoBack())
+            {
+                //prevent navigation from the app
+                e.Handled = true;
+            }
         }
 
         /// <summary>
