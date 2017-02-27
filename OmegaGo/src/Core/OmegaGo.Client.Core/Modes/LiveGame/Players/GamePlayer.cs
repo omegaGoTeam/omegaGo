@@ -38,7 +38,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Player's clock
         /// </summary>
-        public TimeControl Clock { get; set; }
+        // TODO Petr: If time is available, and KGS does not use the TIMESYSTEM property during a game, consider
+        // refactoring this so that the setter is not necessary.
+        public TimeControl Clock { get; internal set; }
 
         /// <summary>
         /// Checks if the player is a local human player
