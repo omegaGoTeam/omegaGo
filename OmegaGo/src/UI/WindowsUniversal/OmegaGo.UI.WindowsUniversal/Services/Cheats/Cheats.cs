@@ -22,6 +22,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
     {
         public static bool PermitCheats;
         private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();
+        private static readonly IQuestsManager QuestManager = Mvx.Resolve<IQuestsManager>();
 
         /// <summary>
         /// Initializes cheat handling for the current app window
@@ -82,7 +83,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
                     AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: All quests cleared."));
                     break;
                 case VirtualKey.F4:
-                    Cheats.GameSettings.Quests.Points += 100;
+                    QuestManager.AddPoints(100);
                     AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: +100 points"));
                     break;
                 default:
