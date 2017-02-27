@@ -21,7 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
     static class Cheats
     {
         public static bool PermitCheats;
-        private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();
+        private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();           
 
         /// <summary>
         /// Initializes cheat handling for the current app window

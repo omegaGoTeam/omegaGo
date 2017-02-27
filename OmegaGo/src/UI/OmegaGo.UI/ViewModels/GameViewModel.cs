@@ -21,6 +21,7 @@ using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -31,6 +32,7 @@ namespace OmegaGo.UI.ViewModels
     public class GameViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
+        private readonly IQuestsManager _questsManager;
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly StringBuilder _systemLog = new StringBuilder();
@@ -54,9 +56,10 @@ namespace OmegaGo.UI.ViewModels
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
 
-        public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
+        public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
+            _questsManager = questsManager;
             _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
@@ -171,7 +174,7 @@ namespace OmegaGo.UI.ViewModels
         private async void Controller_GameEnded(object sender, GameEndInformation e)
         {
             _gameSettings.Statistics.GameHasBeenCompleted(Game, e);
-            _gameSettings.Quests.Events.GameCompleted(Game, e);
+            _questsManager.GameCompleted(Game, e);
             await _dialogService.ShowAsync(e.ToString(), $"End reason: {e.Reason}");
         }
 

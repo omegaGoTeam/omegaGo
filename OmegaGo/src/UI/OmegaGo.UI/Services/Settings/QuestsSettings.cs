@@ -7,8 +7,7 @@ using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Quests;
 
 namespace OmegaGo.UI.Services.Settings
-{
-    //TODO Martin : Separate Quest notification logic from this class - it should be just a setting container
+{  
     /// <summary>
     /// Manages Tsumego related settings
     /// </summary>
@@ -18,11 +17,7 @@ namespace OmegaGo.UI.Services.Settings
 
         public QuestsSettings(ISettingsService service) : base("Quests", service)
         {
-            Events = new QuestEvents(this);
-
         }
-
-        public QuestEvents Events { get; }
 
         public DateTime LastQuestReceivedWhen
         {
@@ -47,18 +42,6 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(Points), () => 0); }
             set
             {
-                int oldvalue = GetSetting(nameof(Points), () => 0);
-                if (value > oldvalue)
-                {
-                    var notificationService = Mvx.Resolve<IAppNotificationService>();
-                    var localizationService = Mvx.Resolve<ILocalizationService>();
-                    int gain = value - oldvalue;
-                    notificationService.TriggerNotification(new BubbleNotification(String.Format(localizationService["YouHaveGainedXPointsNowYouHaveY"], gain, value)));
-                    if (Ranks.AdvancedInRank(oldvalue, value))
-                    {
-                        notificationService.TriggerNotification(new BubbleNotification(String.Format(localizationService["YouHaveAdvancedToNewRankX"], Ranks.GetRankName(localizationService, value))));
-                    }
-                }
                 SetSetting(nameof(Points), value);
             }
         }
@@ -81,19 +64,7 @@ namespace OmegaGo.UI.Services.Settings
             _activeQuests.Add(quest);
             SaveChanges();
         }
-
-        public void ProgressQuest(ActiveQuest quest, int additionalProgress)
-        {
-            quest.Progress += additionalProgress;
-            if (quest.Progress >= quest.Quest.MaximumProgress)
-            {
-                LoseQuest(quest);
-                Points += quest.Quest.PointReward;
-                Mvx.Resolve<IGameSettings>().Statistics.QuestsCompleted++;
-            }
-            SaveChanges();
-        }
-
+        
         public void LoseQuest(ActiveQuest quest)
         {
             _activeQuests.Remove(quest);
