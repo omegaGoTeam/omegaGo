@@ -933,6 +933,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset all progress?.
+        /// </summary>
+        public static string ResetAllProgress_Caption {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests..
+        /// </summary>
+        public static string ResetAllProgress_Content {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string ResetAllProgress_No {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all progress!.
+        /// </summary>
+        public static string ResetAllProgress_Yes {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rules.
         /// </summary>
         public static string Rules {

@@ -530,4 +530,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
     <value>+{0} points (now you have {1})</value>
   </data>
+  <data name="ResetAllProgress_Caption" xml:space="preserve">
+    <value>Reset all progress?</value>
+  </data>
+  <data name="ResetAllProgress_Content" xml:space="preserve">
+    <value>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</value>
+  </data>
+  <data name="ResetAllProgress_No" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ResetAllProgress_Yes" xml:space="preserve">
+    <value>Reset all progress!</value>
+  </data>
 </root>

@@ -84,5 +84,15 @@ namespace OmegaGo.UI.Services.Settings
                 }
             }
         }
+
+        public void Reset()
+        {
+            this.HotseatGamesPlayed = 0;
+            this.LocalGamesPlayed = 0;
+            this.LocalGamesWon = 0;
+            this.OnlineGamesPlayed = 0;
+            this.OnlineGamesWon = 0;
+            this.QuestsCompleted = 0;
+        }
     }
 }

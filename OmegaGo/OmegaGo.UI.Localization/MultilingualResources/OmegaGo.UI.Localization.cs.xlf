@@ -566,6 +566,22 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <source>+{0} points (now you have {1})</source>
           <target state="new">+{0} points (now you have {1})</target>
         </trans-unit>
+        <trans-unit id="ResetAllProgress_Caption" translate="yes" xml:space="preserve">
+          <source>Reset all progress?</source>
+          <target state="new">Reset all progress?</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_Content" translate="yes" xml:space="preserve">
+          <source>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</source>
+          <target state="new">All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_No" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_Yes" translate="yes" xml:space="preserve">
+          <source>Reset all progress!</source>
+          <target state="new">Reset all progress!</target>
+        </trans-unit>
       </group>
     </body>
   </file>
