@@ -10,6 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
     /// </summary>
     internal static class FixedHandicapPositions
     {
+        //TODO Petr: check whether IGS places the handicap stone on the lower right or upper right.
         /// <summary>
         /// Fixed handicap positions for 9x9 board
         /// </summary>
@@ -31,11 +32,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             new Position(3, 3),
             new Position(9, 3),
             new Position(3, 9),
-            new Position(9, 6),
+            new Position(6, 6),
             new Position(3, 6),
+            new Position(9, 6),
             new Position(6, 9),
-            new Position(6, 3),
-            new Position(6, 6)
+            new Position(6, 3)
         };
 
         /// <summary>
@@ -47,11 +48,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             new Position(3, 3),
             new Position(15, 3),
             new Position(3, 15),
-            new Position(15, 9),
+            new Position(9, 9),
             new Position(3, 9),
+            new Position(15, 9),
             new Position(9, 15),
-            new Position(9, 3),
-            new Position(9, 9)
+            new Position(9, 3)
         };
 
         /// <summary>
@@ -68,20 +69,20 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             switch (size.Width)
             {
                 case 9:
-                {
-                    sourceArray = FixedHandicapPositions9;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions9;
+                        break;
+                    }
                 case 13:
-                {
-                    sourceArray = FixedHandicapPositions13;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions13;
+                        break;
+                    }
                 case 19:
-                {
-                    sourceArray = FixedHandicapPositions19;
-                    break;
-                }
+                    {
+                        sourceArray = FixedHandicapPositions19;
+                        break;
+                    }
                 default:
                     throw new ArgumentOutOfRangeException(nameof(size), "Invalid game board size for fixed handicap");
             }
@@ -89,7 +90,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
             if (handicap > sourceArray.Length)
                 throw new ArgumentOutOfRangeException(nameof(handicap), "Too many handicap stones requested");
 
+            if (handicap == 6 || handicap == 8) 
+                sourceArray = sourceArray.Take(4).Concat(sourceArray.Skip(5)).ToArray();
+
             return sourceArray.Take(handicap);
+            
         }
 
         /// <summary>
@@ -119,6 +124,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
         /// </summary>
         /// <returns>Supported game board sizes</returns>
         public static IEnumerable<GameBoardSize> GetSupportedBoardSizes() =>
-            new[] {new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19)};
+            new[] { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19) };
     }
 }

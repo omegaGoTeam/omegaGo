@@ -879,6 +879,51 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Omega Novice.
+        /// </summary>
+        public static string Rank1 {
+            get {
+                return ResourceManager.GetString("Rank1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Apprentice.
+        /// </summary>
+        public static string Rank2 {
+            get {
+                return ResourceManager.GetString("Rank2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Expert.
+        /// </summary>
+        public static string Rank3 {
+            get {
+                return ResourceManager.GetString("Rank3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Master.
+        /// </summary>
+        public static string Rank4 {
+            get {
+                return ResourceManager.GetString("Rank4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Graduate.
+        /// </summary>
+        public static string Rank5 {
+            get {
+                return ResourceManager.GetString("Rank5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string Rename {
@@ -1253,6 +1298,24 @@ namespace OmegaGo.UI.Localization {
         public static string WhiteHandicap {
             get {
                 return ResourceManager.GetString("WhiteHandicap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have advanced to a new omegaGo rank: {0}. Congratulations!.
+        /// </summary>
+        public static string YouHaveAdvancedToNewRankX {
+            get {
+                return ResourceManager.GetString("YouHaveAdvancedToNewRankX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0} points (now you have {1}).
+        /// </summary>
+        public static string YouHaveGainedXPointsNowYouHaveY {
+            get {
+                return ResourceManager.GetString("YouHaveGainedXPointsNowYouHaveY", resourceCulture);
             }
         }
     }
