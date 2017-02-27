@@ -31,10 +31,11 @@
                     <VisualState.Setters>
                         <Setter Target="Button.Width" Value="200" />
                         <Setter Target="RelativeContainer.Orientation" Value="Vertical" />
-                        <Setter Target="Button.Height" Value="150" />
+                        <Setter Target="Button.Height" Value="160" />
                         <Setter Target="IconContent.Width" Value="64" />
                         <Setter Target="IconContent.Height" Value="64" />
-                        <Setter Target="TextArea.FontSize" Value="20" />
+                        <Setter Target="TextContent.FontSize" Value="20" />
+                        <Setter Target="TextArea.Height" Value="70" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -43,8 +44,9 @@
             <Viewbox x:Name="IconContent">
                 <ContentPresenter Content="{x:Bind Icon}" />
             </Viewbox>
-            <TextBlock x:Name="TextArea" Text="{x:Bind Text}" Margin="12" />
+            <Grid x:Name="TextArea">
+                <TextBlock x:Name="TextContent" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Text}" Margin="12" />
+            </Grid>
         </StackPanel>
     </Button>
-
 </UserControl>
