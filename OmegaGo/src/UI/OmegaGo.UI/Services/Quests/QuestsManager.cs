@@ -153,7 +153,7 @@ namespace OmegaGo.UI.Services.Quests
         /// Adds quest points with possible notification to the user
         /// </summary>
         /// <param name="addedPoints">Points to add to the user</param>
-        private void AddPoints(int addedPoints)
+        public void AddPoints(int addedPoints)
         {
             var newValue = _gameSettings.Quests.Points + addedPoints;
             int oldvalue = _gameSettings.Quests.Points;
