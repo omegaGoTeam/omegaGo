@@ -70,6 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                 //temporarily place splash into the root frame
                 shell.AppFrame.Content = extendedSplash;
+                shell.AppFrame.NavigationFailed += OnNavigationFailed;
                 //setup the title bar
                 SetupTitleBar();
 
