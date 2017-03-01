@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
-    xmlns:core="using:OmegaGo.Core"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=True}">
@@ -75,7 +74,7 @@
                        FontSize="22" Margin="5" />
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
                       ItemsSource="{Binding Path=BoardSizes}"
-                      SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
+                      SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}" Style="{StaticResource StandardComboBoxStyle}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock>
