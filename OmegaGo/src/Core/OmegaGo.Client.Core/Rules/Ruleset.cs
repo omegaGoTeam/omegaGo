@@ -557,9 +557,11 @@ namespace OmegaGo.Core.Rules
             if (region.Contains(pos)) return;
 
             region.Add(pos);
+
+            Position newp = new Position();
+
             if (pos.X < _boardWidth - 1) //has right neighbour
             {
-                Position newp = new Position();
                 newp.X = pos.X + 1;
                 newp.Y = pos.Y;
 
@@ -587,7 +589,6 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.Y < _boardHeight - 1) //has upper neighbour
             {
-                Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y + 1;
                 switch (currentBoard[pos.X, pos.Y + 1])
@@ -613,7 +614,6 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.X > 0) //has left neighbour
             {
-                Position newp = new Position();
                 newp.X = pos.X - 1;
                 newp.Y = pos.Y;
                 switch (currentBoard[pos.X - 1, pos.Y])
@@ -639,7 +639,6 @@ namespace OmegaGo.Core.Rules
             }
             if (pos.Y > 0) //has bottom neighbour
             {
-                Position newp = new Position();
                 newp.X = pos.X;
                 newp.Y = pos.Y - 1;
                 switch (currentBoard[pos.X, pos.Y - 1])
