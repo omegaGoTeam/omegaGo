@@ -149,6 +149,15 @@
     <Compile Include="Views\IgsHomeView.xaml.cs">
       <DependentUpon>IgsHomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LocalGameView.xaml.cs">
+      <DependentUpon>LocalGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObserverGameView.xaml.cs">
+      <DependentUpon>ObserverGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OnlineGameView.xaml.cs">
+      <DependentUpon>OnlineGameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>
@@ -353,6 +362,18 @@
     <Page Include="Views\IgsHomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LocalGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObserverGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OnlineGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TsumegoMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>

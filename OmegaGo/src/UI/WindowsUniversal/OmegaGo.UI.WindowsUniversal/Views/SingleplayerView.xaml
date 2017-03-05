@@ -22,77 +22,78 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,20,0,0"></Setter>
-                    <Setter Property="MaxWidth" Value="300"></Setter>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
-                </Style>
-            </StackPanel.Resources>
-                <navigation:TitleControl Text="Singleplayer Menu" HorizontalAlignment="Center"></navigation:TitleControl>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="0,20,0,0"></Setter>
+                        <Setter Property="MaxWidth" Value="300"></Setter>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <navigation:TitleControl Text="Singleplayer Menu" HorizontalAlignment="Center" />
 
-                <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}"></Button>
-            <Button Content="Solve Puzzles" Command="{Binding Path=GoToTsumegoMenu}"></Button>
-            <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}"></Button>
-            <Button Content="Statistics" Command="{Binding Path=GoToStatistics}"></Button>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Points: " FontSize="26" Margin="0,0,10,0"></TextBlock>
-                <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Rank: " FontSize="26" Margin="0,0,10,0"></TextBlock>
-                <TextBlock Text="{Binding Rank}" FontSize="26" FontWeight="Bold"></TextBlock>
+                <Button Content="Tutorial" Command="{Binding Path=GoToTutorial}" />
+                <Button Content="Solve Puzzles" Command="{Binding Path=GoToTsumegoMenu}" />
+                <Button Content="Play Against AI" Command="{Binding Path=GoToLocalGame}" />
+                <Button Content="Statistics" Command="{Binding Path=GoToStatistics}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Points: " FontSize="26" Margin="0,0,10,0" />
+                    <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Next rank at: " FontSize="26" Margin="0,0,10,0"></TextBlock>
-                    <TextBlock Text="{Binding NextRankPoints}" FontSize="26" FontWeight="Bold"></TextBlock>
+                    <TextBlock Text="Rank: " FontSize="26" Margin="0,0,10,0" />
+                    <TextBlock Text="{Binding Rank}" FontSize="26" FontWeight="Bold" />
                 </StackPanel>
-                <TextBlock FontSize="26"><!-- SPACER --></TextBlock>
-            <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26"></TextBlock>
-            <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" ItemsSource="{Binding ActiveQuests}">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="quests:ActiveQuest">
-                        <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Next rank at: " FontSize="26" Margin="0,0,10,0" />
+                    <TextBlock Text="{Binding NextRankPoints}" FontSize="26" FontWeight="Bold" />
+                </StackPanel>
+                <!-- SPACER -->
+                <TextBlock FontSize="26" />
+                <TextBlock Text="Quests" HorizontalAlignment="Center" FontSize="26" />
+                <GridView SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" ItemsSource="{Binding ActiveQuests}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="quests:ActiveQuest">
+                            <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
                                 <StackPanel>
                                     <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="28" TextWrapping="Wrap" />
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock  FontSize="22" Margin="0,0,10,0" >Reward: </TextBlock>
-                                    <TextBlock Text="{Binding Quest.PointReward}"
-                                        FontWeight="Bold"   Foreground="Black" FontSize="22" />
-                                </StackPanel>
-                                <TextBlock Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
-                                           FontSize="18" TextWrapping="Wrap" />
-                                <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
-                                </ProgressBar>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding Progress}"></TextBlock>
-                                    <TextBlock Text="/"></TextBlock>
-                                    <TextBlock Text="{Binding Quest.MaximumProgress}"></TextBlock>
-                                </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock  FontSize="22" Margin="0,0,10,0" Text="Reward:" />
+                                        <TextBlock  Text="{Binding Quest.PointReward}"
+                                                    FontWeight="Bold"   Foreground="Black" FontSize="22" />
+                                    </StackPanel>
+                                    <TextBlock  Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
+                                                FontSize="18" TextWrapping="Wrap" />
+                                    <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
+                                    </ProgressBar>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Progress}" />
+                                        <TextBlock Text="/" />
+                                        <TextBlock Text="{Binding Quest.MaximumProgress}" />
+                                    </StackPanel>
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                         <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}" Click="TryThisNow_Click" ToolTipService.ToolTip="This will take you to a screen where you can work on this quest.">
                                             <StackPanel Orientation="Horizontal">
-                                                <FontIcon Glyph="&#xE768;" Margin="0,0,10,0"></FontIcon>
-                                                <TextBlock>Try this now</TextBlock>
+                                                <FontIcon Glyph="&#xE768;" Margin="0,0,10,0" />
+                                                <TextBlock Text="Try this now" />
                                             </StackPanel>
                                         </Button>
                                         <Button Visibility="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Tag="{Binding}" Click="ExchangeQuest_Click" ToolTipService.ToolTip="You will lose this quest and any progress towards it, but you will immediately gain a different random quest.">
                                             <StackPanel Orientation="Horizontal">
-                                                <FontIcon Glyph="&#xE72C;" Margin="0,0,10,0"></FontIcon>
-                                                <TextBlock>Replace</TextBlock>
+                                                <FontIcon Glyph="&#xE72C;" Margin="0,0,10,0" />
+                                                <TextBlock Text="Replace" />
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
                                 </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
                     <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
-                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
+                    <quests:ExampleActiveQuest />
+                    <quests:ExampleActiveQuest />
                 </GridView>
-            <TextBlock Text="You receive a new quest every midnight, local time, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
+                <TextBlock Text="You receive a new quest every midnight, local time, unless you already have 3 quests." HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
             </StackPanel>
         </ScrollViewer>
     </Grid>

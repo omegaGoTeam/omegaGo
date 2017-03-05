@@ -151,6 +151,9 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="ViewModels\ObserverGameViewModel.cs" />
+    <Compile Include="ViewModels\OnlineGameViewModel.cs" />
+    <Compile Include="ViewModels\LocalGameViewModel.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
