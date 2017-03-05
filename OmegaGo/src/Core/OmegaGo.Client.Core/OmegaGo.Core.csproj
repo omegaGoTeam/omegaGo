@@ -222,6 +222,8 @@
     <Compile Include="Rules\CountingType.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="Rules\Group.cs" />
+    <Compile Include="Rules\GroupState.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Rules\RulesetType.cs" />
