@@ -14,20 +14,20 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     public sealed partial class ObserverGameView : TransparencyViewBase
     {
         private DispatcherTimer _updateTimer;
+        
+        public ObserverGameViewModel VM => (ObserverGameViewModel)ViewModel;
+        public override string WindowTitle => Localizer.Game;
+        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
+
 
         public ObserverGameView()
         {
             this.InitializeComponent();
         }
         
-        public ObserverGameViewModel VM => (ObserverGameViewModel)ViewModel;
-
-        public override string WindowTitle => Localizer.Game;
-
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
-
         private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
         {
+            _updateTimer.Stop();
             _updateTimer.Tick -= UpdateTimer_Tick;
             VM.Unload();
         }
@@ -43,25 +43,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
-
         }
-
-        private void DebugFill(object sender, RoutedEventArgs e)
-        {
-            for (int x = 1; x < VM.BoardViewModel.BoardControlState.BoardWidth; x += 3)
-            {
-                for (int xi = x; xi <= x + 1; xi++)
-                {
-                    for (int y = 1; y < VM.BoardViewModel.BoardControlState.BoardHeight - 1; y += 1)
-                    {
-                        (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Position(
-                            xi, y));
-
-                    }
-                }
-            }
-        }
-
+        
         private void UpdateSystemLog(object sender, RoutedEventArgs e)
         {
             SystemLog.Text = VM.SystemLog;

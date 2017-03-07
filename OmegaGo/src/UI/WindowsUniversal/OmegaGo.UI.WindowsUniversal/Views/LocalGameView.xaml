@@ -101,10 +101,10 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
 
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
-                    </controls:PlayerPortrait>
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
-                    </controls:PlayerPortrait>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}">
+                    </controls:PlayerPortraitControl>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}">
+                    </controls:PlayerPortraitControl>
                     <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">

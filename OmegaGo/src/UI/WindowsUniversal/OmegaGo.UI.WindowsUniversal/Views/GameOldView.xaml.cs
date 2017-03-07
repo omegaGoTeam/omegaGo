@@ -6,16 +6,16 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class GameView : TransparencyViewBase
+    public sealed partial class GameOldView : TransparencyViewBase
     { 
         private DispatcherTimer _updateTimer;
         
-        public GameView()
+        public GameOldView()
         {
             InitializeComponent();
         }
 
-        public GameViewModel VM => (GameViewModel)ViewModel;
+        public GameOldViewModel VM => (GameOldViewModel)ViewModel;
 
         public override string WindowTitle => Localizer.Game;
 
@@ -24,7 +24,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
         {
             _updateTimer.Tick -= UpdateTimer_Tick;
-            VM.Unload();
+            //VM.Unload();
         }
 
         private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
@@ -36,8 +36,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void UpdateTimer_Tick(object sender, object e)
         {
-            VM.BlackPortrait.Update();
-            VM.WhitePortrait.Update();
+            //VM.BlackPortrait.Update();
+            //VM.WhitePortrait.Update();
 
         }
 
@@ -49,8 +49,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 {
                     for (int y = 1; y < VM.BoardViewModel.BoardControlState.BoardHeight - 1; y += 1)
                     {
-                        (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Position(
-                            xi, y));
+                        //(VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Position(
+                        //    xi, y));
 
                     }
                 }
@@ -59,7 +59,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void UpdateSystemLog(object sender, RoutedEventArgs e)
         {
-            SystemLog.Text = VM.SystemLog;
+            //SystemLog.Text = VM.SystemLog;
         }
     }
 }

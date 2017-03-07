@@ -151,6 +151,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
     <Compile Include="ViewModels\LocalGameViewModel.cs" />
@@ -160,7 +161,7 @@
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
