@@ -654,11 +654,29 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IGS Rank:.
+        /// </summary>
+        public static string IgsRankColon {
+            get {
+                return ResourceManager.GetString("IgsRankColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input.
         /// </summary>
         public static string InputPanel {
             get {
                 return ResourceManager.GetString("InputPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS Rank:.
+        /// </summary>
+        public static string KgsRankColon {
+            get {
+                return ResourceManager.GetString("KgsRankColon", resourceCulture);
             }
         }
         
@@ -1167,6 +1185,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Themes.
         /// </summary>
         public static string ThemesPanel {
@@ -1235,6 +1262,15 @@ namespace OmegaGo.UI.Localization {
         public static string Tutorial {
             get {
                 return ResourceManager.GetString("Tutorial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Tutorial_Next {
+            get {
+                return ResourceManager.GetString("Tutorial_Next", resourceCulture);
             }
         }
         

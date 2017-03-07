@@ -542,4 +542,17 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ResetAllProgress_Yes" xml:space="preserve">
     <value>Reset all progress!</value>
   </data>
+  <data name="IgsRankColon" xml:space="preserve">
+    <value>IGS Rank:</value>
+  </data>
+  <data name="KgsRankColon" xml:space="preserve">
+    <value>KGS Rank:</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+    <comment>Default option to continue to next line in tutorial</comment>
+  </data>
+  <data name="Tutorial_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

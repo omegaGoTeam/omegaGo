@@ -212,5 +212,8 @@ namespace OmegaGo.UI.Services.Localization
         public string ResetAllProgress_Caption => LocalizeCaller();
         public string ResetAllProgress_Yes => LocalizeCaller();
         public string ResetAllProgress_No => LocalizeCaller();
+        public string IgsRankColon => LocalizeCaller();
+        public string KgsRankColon => LocalizeCaller();
+        public string Tutorial_Next => LocalizeCaller();
     }
 }

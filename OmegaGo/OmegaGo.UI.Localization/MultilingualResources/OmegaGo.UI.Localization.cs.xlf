@@ -584,6 +584,23 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <source>Reset all progress!</source>
           <target state="new">Reset all progress!</target>
         </trans-unit>
+        <trans-unit id="IgsRankColon" translate="yes" xml:space="preserve">
+          <source>IGS Rank:</source>
+          <target state="new">IGS Rank:</target>
+        </trans-unit>
+        <trans-unit id="KgsRankColon" translate="yes" xml:space="preserve">
+          <source>KGS Rank:</source>
+          <target state="new">KGS Rank:</target>
+        </trans-unit>
+        <trans-unit id="String1" translate="yes" xml:space="preserve">
+          <source></source>
+          <target state="new"></target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
+        </trans-unit>
+        <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="new">Next</target>
+        </trans-unit>
       </group>
     </body>
   </file>
