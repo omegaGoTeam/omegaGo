@@ -7,6 +7,7 @@
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -16,40 +17,110 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+    <SplitView IsPaneOpen="True"
+               Name="TsumegoSplitView"
+               DisplayMode="CompactInline"
+               CompactPaneLength="40"
+               OpenPaneLength="300">
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="HamburgerButton" 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                        Background="Transparent"
+                        Click="OpenCloseMenu">
+                    <FontIcon Glyph="&#xE700;"></FontIcon>
+                </Button>
+
+                <navigation:TitleControl  
+                                         Text="Tsumego" 
+                                         Grid.Row="0"
+                                         Grid.Column="1"/>
+                    <StackPanel Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                        <StackPanel.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="45,0,0,5"></Setter>
+                            </Style>
+                        </StackPanel.Resources>
+                        <StackPanel Margin="45,0,0,0" Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
+                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays."  />
+                        </StackPanel>
+                        <TextBlock FontWeight="Bold">Problem name:</TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
+                        <TextBlock FontWeight="Bold">Instructions:</TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+                        <TextBlock FontWeight="Bold">Current node status:</TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
+                        <TextBlock FontWeight="Bold">Current problem status:</TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap"  Text="Unsolved"></TextBlock>
+                        <TextBlock FontWeight="Bold">How to solve tsumego:</TextBlock>
+                        <TextBlock Width="200" TextWrapping="Wrap">You play black stones. Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, see help.</TextBlock>
+                    </StackPanel>
+               
+            </Grid>
+        </SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:BoardControl  
+                                ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+                                Grid.Row="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-            <Button Command="{Binding Path=GoToPreviousProblem}">Previous Problem</Button>
-            <Button Command="{Binding Path=GoToNextProblem}">Next Problem</Button>
-            <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="10">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="0,0,0,5"></Setter>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock FontWeight="Bold">
-                Problem name:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
-            <TextBlock FontWeight="Bold">
-                Instructions:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <Button Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE892;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="Previous problem"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE893;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="Next problem"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE7A7;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="Undo last move"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Border Margin="2" BorderBrush="Black" Background="White" Visibility="Visible">
+                        
+                    </Border>
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Background="LimeGreen" Visibility="Visible">
+                        <StackPanel Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE73E;"></FontIcon>
+                            <TextBlock VerticalAlignment="Center">Solved</TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Background="OrangeRed" Visibility="Visible">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xEDAE;"></FontIcon>
+                            <TextBlock VerticalAlignment="Center">Wrong</TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-            <TextBlock FontWeight="Bold">
-                Current node status:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
-            <Button Command="{Binding Path=UndoOneMoveCommand}">Undo one move</Button>
-        </StackPanel>
-        
-       
-
-     </Grid>
+            </Grid>
+        </SplitView>
+    </Grid>
 </views:TransparencyViewBase>
+ 
