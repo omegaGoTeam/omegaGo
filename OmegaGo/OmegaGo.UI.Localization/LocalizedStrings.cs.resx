@@ -338,14 +338,36 @@ Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</valu
   <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
     <value>Fluffy (minimax)</value>
   </data>
+  <data name="AI_DefeatistAI_Description" xml:space="preserve">
+    <value>Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</value>
+  </data>
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
+  </data>
+  <data name="AI_FuegoAI_Description" xml:space="preserve">
+    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="AI_FuegoAI_Name" xml:space="preserve">
     <value>Fuego</value>
   </data>
+  <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
+    <value>Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
+Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</value>
+  </data>
+  <data name="AI_HeuristicPlayerWrapper_Name" xml:space="preserve">
+    <value>Štěně (heuristika</value>
+  </data>
+  <data name="AI_RandomAI_Description" xml:space="preserve">
+    <value>Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</value>
+  </data>
   <data name="AI_RandomAI_Name" xml:space="preserve">
     <value>Náhodné tahy</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Description" xml:space="preserve">
+    <value>Tato umělá inteligence hraje náhodně, dokud je nějaké místo volné.
+Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud nebudete mít zvláštní štěstí).</value>
   </data>
   <data name="AI_RandomPlayerWrapper_Name" xml:space="preserve">
     <value>Rybka</value>

@@ -447,8 +447,7 @@ Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</targ
         <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
           <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
 After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
-          <target state="new">The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
-After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</target>
+          <target state="translated">Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</target>
         </trans-unit>
         <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
           <source>Defeatist</source>
@@ -458,9 +457,9 @@ After you make your first move, or even before that, the AI will conclude that i
           <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
 It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
 We recommend you use this AI program for all of your games.</source>
-          <target state="new">Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
-It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
-We recommend you use this AI program for all of your games.</target>
+          <target state="translated">Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
           <source>Fuego</source>
@@ -469,16 +468,16 @@ We recommend you use this AI program for all of your games.</target>
         <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
 This AI will pass only in response to its opponent passing, in which case it will always pass.</source>
-          <target state="new">This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
-This AI will pass only in response to its opponent passing, in which case it will always pass.</target>
+          <target state="translated">Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
+Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</target>
         </trans-unit>
         <trans-unit id="AI_HeuristicPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>The Puppy (heuristic)</source>
-          <target state="new">The Puppy (heuristic)</target>
+          <target state="translated">Štěně (heuristika</target>
         </trans-unit>
         <trans-unit id="AI_RandomAI_Description" translate="yes" xml:space="preserve">
           <source>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</source>
-          <target state="new">This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</target>
+          <target state="translated">Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</target>
         </trans-unit>
         <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
           <source>Random</source>
@@ -487,8 +486,8 @@ This AI will pass only in response to its opponent passing, in which case it wil
         <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI plays random moves while the board is not empty.
 I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</source>
-          <target state="new">This AI plays random moves while the board is not empty.
-I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</target>
+          <target state="translated">Tato umělá inteligence hraje náhodně, dokud je nějaké místo volné.
+Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud nebudete mít zvláštní štěstí).</target>
         </trans-unit>
         <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>The Fish</source>
@@ -659,11 +658,11 @@ I dare you to let two Fish play against each other. The game will never end (unl
         </trans-unit>
         <trans-unit id="TsumegoMenuCaption" translate="yes" xml:space="preserve">
           <source>Solve tsumego problems</source>
-          <target state="new">Solve tsumego problems</target>
+          <target state="translated">Řešit problémy tsumego</target>
         </trans-unit>
         <trans-unit id="SolvedExclamationPoint" translate="yes" xml:space="preserve">
           <source>Solved!</source>
-          <target state="new">Solved!</target>
+          <target state="translated">Vyřešeno!</target>
         </trans-unit>
       </group>
     </body>
