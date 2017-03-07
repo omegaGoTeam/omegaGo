@@ -88,6 +88,12 @@ namespace OmegaGo.Core.Time.Canadian
             }
         }
 
+        public override string GetGtpInitializationCommand()
+        {
+            return "time_settings " + (int) _snapshot.MainTimeLeft.TotalSeconds + " " +
+                   (int) this._periodTime.TotalSeconds + " " + this._stonesPerPeriod;
+        }
+
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)
         {
             LastTimeClockStarted = DateTime.Now;

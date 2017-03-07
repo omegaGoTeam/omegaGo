@@ -34,6 +34,7 @@ namespace OmegaGo.Core.AI
         /// Gets the agent's explanation for why it made this decision.
         /// </summary>
         public string Explanation { get; set; }
+        public List<string> AiNotes { get; set; }
 
         /// <summary>
         /// Creates a move decision

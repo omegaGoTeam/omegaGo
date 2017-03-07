@@ -82,5 +82,14 @@ namespace OmegaGo.Core.Time
 
         // TODO Petr is the parameter indeed "seconds left"?
         public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
+
+        /// <summary>
+        /// Gets the GTP time_settings command that should be used to initialize this time control to the value at the beginning
+        /// of a game, as per http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html#SECTION00073400000000000000.
+        /// Returns null if no command should be sent (because we play with no time limit or because the GTP protocol does not
+        /// understand this time control.
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetGtpInitializationCommand();
     }
 }

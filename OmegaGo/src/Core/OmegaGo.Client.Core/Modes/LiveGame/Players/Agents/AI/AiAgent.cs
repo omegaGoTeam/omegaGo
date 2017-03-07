@@ -20,8 +20,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
         {
             _aiProgram = aiProgram;
+            _aiProgram.SetAgent(this);
             _strength = strength;
             _timeLimit = timeLimit;
+        }
+
+        public override void GameInitialized()
+        {
         }
 
         public override AgentType Type => AgentType.AI;
@@ -33,13 +38,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
                GameInfo,
                Color,
+               GameState.Players[Color],
                GameState.GameTree,
                _timeLimit,
                _strength
                )));
 
             AIDecision decision = await aiTask;
-            OnLogMessage(decision.Explanation);
+            foreach(var aiNote in decision.AiNotes)
+            {
+                SendAiNote(aiNote);
+            }
             switch (decision.Kind)
             {
                 case AgentDecisionKind.Move:
@@ -57,12 +66,5 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             throw new Exception("This should never be called.");
         }
-
-        private void OnLogMessage(string msg)
-        {
-            LogMessage?.Invoke(this, msg);
-        }
-
-        public event EventHandler<string> LogMessage;
     }
 }

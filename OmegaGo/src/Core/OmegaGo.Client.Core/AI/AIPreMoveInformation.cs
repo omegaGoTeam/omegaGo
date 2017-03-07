@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI
@@ -18,18 +19,21 @@ namespace OmegaGo.Core.AI
         /// </summary>
         /// <param name="gameInfo">Game info</param>
         /// <param name="aiColor">The player whose turn it is. The AI will make a move for this player.</param>
-        /// <param name="gameTree">The current full board state (excluding information about Ko). </param>        
+        /// <param name="tree"></param>
+        /// <param name="gameTree">The current full board state (excluding information about Ko). </param>
         /// <param name="timeLimit">How much time does the AI have before it must make a decision.</param>
         /// <param name="difficulty">How powerful should the AI be.</param>
-        public AIPreMoveInformation(GameInfo gameInfo, StoneColor aiColor, GameTree gameTree, TimeSpan timeLimit, int difficulty)
+        public AIPreMoveInformation(GameInfo gameInfo, StoneColor aiColor, GamePlayer aiPlayer, GameTree gameTree, TimeSpan timeLimit, int difficulty)
         {
             GameInfo = gameInfo;
             Difficulty = difficulty;
             AIColor = aiColor;
+            AiPlayer = aiPlayer;
             GameTree = gameTree;
             TimeLimit = timeLimit;
         }
 
+        public GamePlayer AiPlayer { get; set; }
         /// <summary>
         /// Game info
         /// </summary>

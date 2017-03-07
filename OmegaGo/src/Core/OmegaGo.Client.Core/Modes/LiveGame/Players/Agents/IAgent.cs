@@ -39,6 +39,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         event AgentEventHandler Resigned;
 
         /// <summary>
+        /// Fired when the associated AI program wants to put something in the client-visible AI log.
+        /// </summary>
+        event AgentEventHandler<string> AiNote;
+
+        /// <summary>
         /// Fired when the agent passes
         /// </summary>
         event AgentEventHandler Pass;

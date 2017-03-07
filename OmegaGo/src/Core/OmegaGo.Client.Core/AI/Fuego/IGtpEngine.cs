@@ -17,6 +17,6 @@ namespace OmegaGo.Core.AI.Fuego
         /// </summary>
         /// <param name="command">The GTP command to send.</param>
         /// <returns>Command response</returns>
-        string SendCommand(string command);
+        GtpResponse SendCommand(string command);
     }
 }

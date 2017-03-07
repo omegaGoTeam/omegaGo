@@ -38,6 +38,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// Indicates that the player passed
         /// </summary>
         public event AgentEventHandler Pass;
+        
+        public event AgentEventHandler<string> AiNote;
 
         /// <summary>
         /// Player color
@@ -107,6 +109,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         public virtual void MovePerformed(Move move)
         {
             
+        }
+
+        public void SendAiNote(string note)
+        {
+            AiNote?.Invoke(this, note);
+
         }
 
 

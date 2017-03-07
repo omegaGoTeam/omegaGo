@@ -23,5 +23,10 @@ namespace OmegaGo.Core.Time.None
         {
             
         }
+
+        public override string GetGtpInitializationCommand()
+        {
+            return null; // no time limit
+        }
     }
 }

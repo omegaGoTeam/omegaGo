@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.Core.AI
 {
@@ -35,6 +36,18 @@ namespace OmegaGo.Core.AI
                 throw new InvalidOperationException("This AI is incapable of providing hints.");
             }
             return RequestMove(preMoveInformation);
+        }
+
+        protected AiAgent Agent { get; set; }
+
+        public void SetAgent(AiAgent agent)
+        {
+            this.Agent = agent;
+        }
+
+        public override string ToString()
+        {
+            return this.GetType().Name;
         }
     }
 }

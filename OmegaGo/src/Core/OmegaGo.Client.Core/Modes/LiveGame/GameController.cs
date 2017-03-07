@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -313,7 +314,19 @@ namespace OmegaGo.Core.Modes.LiveGame
             foreach (var player in Players)
             {
                 player.Agent.Resigned += Agent_Resigned;
+                player.Agent.AiNote += Agent_AiNote;
             }
+        }
+
+        /// <summary>
+        /// Fired when a line should be added to the AI log.
+        /// </summary>
+        public event EventHandler<string> AiLog;
+        private void Agent_AiNote(IAgent agent, string eventArgs)
+        {
+            string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + eventArgs;
+            AiLog?.Invoke(this, aiLogLine);
+            OnDebuggingMessage("AI - " + aiLogLine);
         }
 
         /// <summary>

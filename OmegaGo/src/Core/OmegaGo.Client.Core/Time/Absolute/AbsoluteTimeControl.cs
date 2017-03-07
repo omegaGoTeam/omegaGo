@@ -31,6 +31,11 @@ namespace OmegaGo.Core.Time.Absolute
             _mainTime = TimeSpan.FromSeconds(secondsLeftIThink);
         }
 
+        public override string GetGtpInitializationCommand()
+        {
+            return "time_settings " + (int) _mainTime.TotalSeconds + " 0 0";
+        }
+
         private TimeSpan _mainTime;
 
         public AbsoluteTimeControl(int seconds)
