@@ -17,6 +17,19 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+    <Page.Resources>
+        <Style x:Key="CaptionStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="40,15,5,0"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+        <Style x:Key="ContentStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="50,0,5,0"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="LowerBarButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38" />
+        </Style>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <SplitView IsPaneOpen="True"
                Name="TsumegoSplitView"
@@ -47,9 +60,10 @@
                                          Text="Tsumego" 
                                          Grid.Row="0"
                                          Grid.Column="1"/>
-                    <StackPanel Grid.Row="1"
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2">
+                    <StackPanel>
                         <StackPanel.Resources>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Margin" Value="45,0,0,5"></Setter>
@@ -59,19 +73,19 @@
                         <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
                         <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays."  />
                         </StackPanel>
-                        <TextBlock FontWeight="Bold">Problem name:</TextBlock>
-                        <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
-                        <TextBlock FontWeight="Bold">Instructions:</TextBlock>
-                        <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
-                        <TextBlock FontWeight="Bold">Current node status:</TextBlock>
-                        <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
-                        <TextBlock FontWeight="Bold">Current problem status:</TextBlock>
-                        <TextBlock Width="200" TextWrapping="Wrap"  Text="Unsolved"></TextBlock>
-                        <TextBlock FontWeight="Bold">How to solve tsumego:</TextBlock>
-                        <TextBlock Width="200" TextWrapping="Wrap">You play black stones. Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, see help.</TextBlock>
-                    </StackPanel>
-               
-            </Grid>
+                        <TextBlock Style="{StaticResource CaptionStyle}">Problem name:</TextBlock>
+                        <TextBlock Style="{StaticResource ContentStyle}" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
+                        <TextBlock Style="{StaticResource CaptionStyle}">Instructions:</TextBlock>
+                        <TextBlock Style="{StaticResource ContentStyle}" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+                        <TextBlock Style="{StaticResource CaptionStyle}">Current node status:</TextBlock>
+                        <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
+                        <TextBlock Style="{StaticResource CaptionStyle}">Current problem status:</TextBlock>
+                        <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentProblemPermanentlySolved}"></TextBlock>
+                        <TextBlock Style="{StaticResource CaptionStyle}">How to solve tsumego:</TextBlock>
+                        <TextBlock Style="{StaticResource ContentStyle}">Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
         </SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
@@ -84,19 +98,19 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <Button Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE892;"></FontIcon>
                             <TextBlock Padding="5,0,0,0" Text="Previous problem"></TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE893;"></FontIcon>
                             <TextBlock Padding="5,0,0,0" Text="Next problem"></TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE7A7;"></FontIcon>
                             <TextBlock Padding="5,0,0,0" Text="Undo last move"></TextBlock>
@@ -105,13 +119,13 @@
                     <Border Margin="2" BorderBrush="Black" Background="White" Visibility="Visible">
                         
                     </Border>
-                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Background="LimeGreen" Visibility="Visible">
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.CorrectVisible, Mode=OneWay}" Background="LimeGreen">
                         <StackPanel Orientation="Horizontal">
                         <FontIcon Glyph="&#xE73E;"></FontIcon>
                             <TextBlock VerticalAlignment="Center">Solved</TextBlock>
                         </StackPanel>
                     </Border>
-                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Background="OrangeRed" Visibility="Visible">
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.WrongVisible, Mode=OneWay}"  Background="OrangeRed">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xEDAE;"></FontIcon>
                             <TextBlock VerticalAlignment="Center">Wrong</TextBlock>

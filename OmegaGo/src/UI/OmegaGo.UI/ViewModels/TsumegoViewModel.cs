@@ -18,21 +18,28 @@ namespace OmegaGo.UI.ViewModels
     {
         /* 
          * Description of this screen:
-         * 
-         
-In the Solve Tsumego screen, the player can select a problem from a list as on the rightmost screenshot in this section. Then, the player is presented with the problem. The player always plays as black. 
+         *          
+In the Solve Tsumego screen, the player can select a problem from a list as on the rightmost screenshot in this section. 
+Then, the player is presented with the problem. The player always plays as black. 
 
-The player makes a move, then the problem either says "That move is wrong." or "That move is wrong, because your opponent would respond [this move]" or "That move is correct and you win the problem." or "Hm, alright, your opponent responds like this [move], what are you going to do now?"
+The player makes a move, then the problem either says "That move is wrong." or 
+"That move is wrong, because your opponent would respond [this move]" or
+"That move is correct and you win the problem." or 
+"Hm, alright, your opponent responds like this [move], what are you going to do now?"
 
 Tsumego problems will be loaded from SGF files.
 
-The program will tell the player whether they won or lost, it will keep track (and persist) information about which problems are solved and which were correctly solved the first time.
+The program will tell the player whether they won or lost, 
+it will keep track (and persist) information about which problems are solved and which were correctly solved the first time.
 
-When a problem is over (either by victory or failure), the player can proceed to add stones to the problem, as though he were in analysis mode.
+When a problem is over (either by victory or failure), 
+the player can proceed to add stones to the problem, as though he were in analysis mode.
 
-While solving a problem, the player can undo his moves. Undoing from the "analysis mode" back into the tsumego problem will resume the tsumego actions.
+While solving a problem, the player can undo his moves. 
+Undoing from the "analysis mode" back into the tsumego problem will resume the tsumego actions.
 
-A tsumego problem will also display a problem statement (such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
+A tsumego problem will also display a problem statement
+(such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
 
         private readonly IQuestsManager _questsManager;
         private readonly IGameSettings _gameSettings;
@@ -46,6 +53,8 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         private string _currentProblemName = "A";
         private string _currentProblemInstructions = "B";
         private string _currentNodeStatus = "";
+        private bool _correctVisible;
+        private bool _wrongVisible;
         private GameTreeNode _currentNode;
 
         /// <summary>
@@ -69,7 +78,6 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             get { return _boardViewModel; }
             set { SetProperty(ref _boardViewModel, value); }
         }
-        
         public GameTreeNode CurrentNode
         {
             get { return _currentNode; }
@@ -79,12 +87,17 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 BoardViewModel.GameTreeNode = value;
             }
         }
-
         public string CurrentNodeStatus
         {
             get { return _currentNodeStatus; }
             set { SetProperty(ref _currentNodeStatus, value); }
         }
+        public string CurrentProblemPermanentlySolved => 
+            this._gameSettings.Tsumego.SolvedProblems.Contains(this.CurrentProblemName)
+            ? (this._currentNode.Tsumego.Correct
+                ? "You have solved this problem!"
+                : "Solved (you have previously solved this problem).")
+            : "Not yet solved.";
 
         public string CurrentProblemName
         {
@@ -97,6 +110,16 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             set { SetProperty(ref _currentProblemInstructions, value); }
         }
 
+        public bool CorrectVisible
+        {
+            get { return _correctVisible; }
+            set { SetProperty(ref _correctVisible, value); }
+        }
+        public bool WrongVisible
+        {
+            get { return _wrongVisible; }
+            set { SetProperty(ref _wrongVisible, value); }
+        }
         public bool ShowPossibleMoves
         {
             get { return _gameSettings.Tsumego.ShowPossibleMoves; }
@@ -146,6 +169,14 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 {
                     newNode.BoardState = mpr.NewBoard;
                     CurrentNode.Branches.AddNode(newNode);
+                    if (CurrentNode.Tsumego.Correct)
+                    {
+                        newNode.Tsumego.Correct = true;
+                    }
+                    if (CurrentNode.Tsumego.Wrong)
+                    {
+                        newNode.Tsumego.Wrong = true;
+                    }
                     CurrentNode = newNode;
                 }
             }
@@ -176,16 +207,20 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 }
                  hashset.Add(_currentProblem.Name);
                 _gameSettings.Tsumego.SolvedProblems = hashset;
-                 
-
+                WrongVisible = false;
+                CorrectVisible = true;
             }
             else if (node.Tsumego.Wrong)
             {
                 status = "WRONG!";
+                WrongVisible = true;
+                CorrectVisible = false;
             }
             else
             {
                 status = "...";
+                WrongVisible = false;
+                CorrectVisible = false;
             }
             if (node.Tsumego.Expected)
             {
@@ -196,6 +231,10 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             }
             else
             {
+                if (!CorrectVisible)
+                {
+                    WrongVisible = true;
+                }
                 status += " (unexpected)";
             }
             if (afterUndo)
@@ -213,6 +252,8 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 _playerToMove = node.Move.WhoMoves.GetOpponentColor();
             }
             CurrentNodeStatus = status;
+            RaisePropertyChanged(nameof(CurrentProblemPermanentlySolved));
+            RaisePropertyChanged(nameof(UndoOneMoveCommand));
         }
 
         private void LoadProblem(TsumegoProblem problem)
@@ -225,11 +266,17 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             _playerToMove = _currentProblem.ColorToPlay;
             _humansColor = _playerToMove;
             CurrentNodeStatus = _humansColor + " to play.";
+            WrongVisible = false;
+            CorrectVisible = false;
+            RaisePropertyChanged(nameof(GoToPreviousProblem));
+            RaisePropertyChanged(nameof(GoToNextProblem));
+            RaisePropertyChanged(nameof(UndoOneMoveCommand));
+            RaisePropertyChanged(nameof(CurrentProblemPermanentlySolved));
         }
 
 
 
-        // Navigation
+        // Action buttons
         public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
         {
             int i = Problems.AllProblems.IndexOf(_currentProblem);
@@ -238,6 +285,10 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 LoadProblem(Problems.AllProblems[prev]);
             }
+        }, () => {
+            int i = Problems.AllProblems.IndexOf(_currentProblem);
+            int prev = i - 1;
+            return prev >= 0;
         });
         public IMvxCommand GoToNextProblem => new MvxCommand(() =>
         {
@@ -247,11 +298,13 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 LoadProblem(Problems.AllProblems[next]);
             }
+        }, () => {
+            int i = Problems.AllProblems.IndexOf(_currentProblem);
+            int next = i + 1;
+            return (next < Problems.AllProblems.Count);
         });
-        public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove);
-
-
-
-
+        public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove, () => {
+            return CurrentNode.Parent != null;
+        });
     }
 }
