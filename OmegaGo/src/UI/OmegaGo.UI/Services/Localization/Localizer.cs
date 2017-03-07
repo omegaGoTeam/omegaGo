@@ -230,5 +230,7 @@ namespace OmegaGo.UI.Services.Localization
         public string QuitConfirm => LocalizeCaller();
         public string QuitCancel => LocalizeCaller();
         public string QuestsFooter => LocalizeCaller();
+        public string TsumegoMenuCaption => LocalizeCaller();
+        public string SolvedExclamationPoint => LocalizeCaller(); 
     }
 }

@@ -657,6 +657,14 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <source>You receive a new quest every midnight, local time, unless you already have 3 quests.</source>
           <target state="translated">Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</target>
         </trans-unit>
+        <trans-unit id="TsumegoMenuCaption" translate="yes" xml:space="preserve">
+          <source>Solve tsumego problems</source>
+          <target state="new">Solve tsumego problems</target>
+        </trans-unit>
+        <trans-unit id="SolvedExclamationPoint" translate="yes" xml:space="preserve">
+          <source>Solved!</source>
+          <target state="new">Solved!</target>
+        </trans-unit>
       </group>
     </body>
   </file>

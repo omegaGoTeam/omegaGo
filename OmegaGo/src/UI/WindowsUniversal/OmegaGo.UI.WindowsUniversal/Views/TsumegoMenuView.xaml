@@ -7,6 +7,8 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:tsumego="using:OmegaGo.UI.Services.Tsumego"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    x:Name="TsumegoMenuPage"
     mc:Ignorable="d">
     
 
@@ -24,21 +26,19 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="Select a problem" 
+        <navigation:TitleControl Text="{x:Bind Localizer.TsumegoMenuCaption}" 
                    HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Grid.Row="0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
-        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
+                   Margin="0,20,0,20"
+                   Grid.Row="0" />
+        <Border Margin="10" BorderThickness="1" BorderBrush="Black" Grid.Row="1">
             <GridView Grid.Row="1" ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="tsumego:TsumegoProblem">
-                        <Border Width="200" Height="200" BorderBrush="Black" BorderThickness="1">
+                        <Border Width="140" Height="140" BorderBrush="Black" BorderThickness="1">
                             <StackPanel>
-                                <!--<TextBlock Text="{Binding Name}" TextWrapping="Wrap"></TextBlock>
-                                <TextBlock Text="Initial Tree Board View Here" TextWrapping="Wrap"></TextBlock>-->
-                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="20" GameBoard="{Binding InitialBoard}"  />
-                                <TextBlock Text="Solved!" FontWeight="Bold"
+                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="4" GameBoard="{Binding InitialBoard}"  />
+                                <TextBlock Text="{Binding ElementName=TsumegoMenuPage, Path=Localizer.SolvedExclamationPoint}" FontWeight="Bold"
+                                           HorizontalAlignment="Center"
                                            Visibility="{Binding Solved, Converter={StaticResource VisibilityConverter}}"></TextBlock>
                             </StackPanel>
                         </Border>

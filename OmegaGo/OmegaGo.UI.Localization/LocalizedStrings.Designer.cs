@@ -1239,6 +1239,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solved!.
+        /// </summary>
+        public static string SolvedExclamationPoint {
+            get {
+                return ResourceManager.GetString("SolvedExclamationPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Solve puzzles.
         /// </summary>
         public static string SolvePuzzles {
@@ -1370,6 +1379,15 @@ namespace OmegaGo.UI.Localization {
         public static string TotalGamesWon {
             get {
                 return ResourceManager.GetString("TotalGamesWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve tsumego problems.
+        /// </summary>
+        public static string TsumegoMenuCaption {
+            get {
+                return ResourceManager.GetString("TsumegoMenuCaption", resourceCulture);
             }
         }
         

@@ -592,9 +592,15 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="SingleplayerMenu" xml:space="preserve">
     <value>Singleplayer Menu</value>
   </data>
+  <data name="SolvedExclamationPoint" xml:space="preserve">
+    <value>Solved!</value>
+  </data>
   <data name="SolvePuzzles" xml:space="preserve">
     <value>Solve puzzles</value>
     <comment>Goes to tsumego menu</comment>
+  </data>
+  <data name="TsumegoMenuCaption" xml:space="preserve">
+    <value>Solve tsumego problems</value>
   </data>
   <data name="Tutorial_Next" xml:space="preserve">
     <value>Next</value>
