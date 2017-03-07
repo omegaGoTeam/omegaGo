@@ -6,6 +6,7 @@ using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
@@ -77,9 +78,7 @@ namespace OmegaGo.UI.ViewModels
 
         public virtual void Init()
         {
-            // Original GameViewModel included an Init method, tho unused.
-            
-            //Game.Controller.BeginGame();
+            Game.Controller.BeginGame();
             //UpdateTimeline();
         }
 
@@ -110,7 +109,29 @@ namespace OmegaGo.UI.ViewModels
 
         protected virtual void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
+            if (phaseState.PreviousPhase != null)
+            {
+                _phaseEndHandlers.ItemOrDefault(phaseState.PreviousPhase.Type)?
+                    .Invoke(phaseState.PreviousPhase);
+            }
+            
+            if (phaseState.NewPhase != null)
+            {
+                _phaseStartHandlers.ItemOrDefault(phaseState.NewPhase.Type)?
+                    .Invoke(phaseState.NewPhase);
+            }
 
+
+            // Should be implemented by the specific registered Action
+            //if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
+            //    phaseState.NewPhase.Type == GamePhaseType.Finished)
+            //{
+            //    BoardViewModel.BoardControlState.ShowTerritory = true;
+            //}
+            //else
+            //{
+            //    BoardViewModel.BoardControlState.ShowTerritory = false;
+            //}
         }
 
         public virtual void Unload()
@@ -126,7 +147,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // Game View Model Services      
         ////////////////
-
+        
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
