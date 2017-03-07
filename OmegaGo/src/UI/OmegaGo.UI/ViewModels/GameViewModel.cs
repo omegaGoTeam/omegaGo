@@ -29,12 +29,13 @@ namespace OmegaGo.UI.ViewModels
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
-        
+
+        public IGame Game => _game;
         public BoardViewModel BoardViewModel { get; private set; }
         
         protected IGameSettings GameSettings => _gameSettings;
-        protected IGame Game => _game;
         protected IDialogService DialogService => _dialogService;
+        protected UiConnector UiConnector => _uiConnector;
 
         public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
         {
@@ -48,7 +49,9 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
 
             _uiConnector = new UiConnector(Game.Controller);
-            
+
+            _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
+            _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
 
             Game.Controller.RegisterConnector(_uiConnector);
@@ -56,16 +59,19 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
-
-            _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
-            _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
-
+            
             ObserveDebuggingMessages();
         }
 
         ////////////////
         // Initial setup overrides      
         ////////////////
+
+        public virtual void Init()
+        {
+            Game.Controller.BeginGame();
+            //UpdateTimeline();
+        }
 
         protected virtual void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
@@ -75,13 +81,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
-
-        public virtual void Init()
-        {
-            Game.Controller.BeginGame();
-            //UpdateTimeline();
-        }
-
+        
         protected virtual void OnGameEnded(GameEndInformation endInformation)
         {
 

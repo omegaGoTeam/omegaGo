@@ -104,9 +104,12 @@
                     <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}" />
                     <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
-                </ScrollViewer>
+                <TextBox Grid.Row="1"
+                         x:Name="SystemLog" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True" 
+                         AcceptsReturn="True" 
+                         TextWrapping="Wrap"/>
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
