@@ -357,7 +357,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Mute all</value>
   </data>
   <data name="OmegaGo" xml:space="preserve">
-    <value>Omega Go</value>
+    <value>omegaGo</value>
   </data>
   <data name="OnlineGame" xml:space="preserve">
     <value>On-line game</value>
@@ -483,7 +483,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Hotseat games played:</value>
   </data>
   <data name="OmegaGoRankColon" xml:space="preserve">
-    <value>Omega Go rank:</value>
+    <value>omegaGo rank:</value>
   </data>
   <data name="OnlineGamesPlayed" xml:space="preserve">
     <value>Online games played:</value>

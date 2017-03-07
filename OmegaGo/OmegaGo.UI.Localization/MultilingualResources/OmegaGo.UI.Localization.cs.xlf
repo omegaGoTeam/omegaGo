@@ -217,8 +217,9 @@
           <target state="final">Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</target>
         </trans-unit>
         <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
-          <source>Omega Go</source>
-          <target state="final">Omega Go</target>
+          <source>omegaGo</source>
+          <target state="needs-review-translation">Omega Go</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Game" translate="yes" xml:space="preserve">
           <source>Game</source>
@@ -499,8 +500,9 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <target state="translated">Her v horkém křesle:</target>
         </trans-unit>
         <trans-unit id="OmegaGoRankColon" translate="yes" xml:space="preserve">
-          <source>Omega Go rank:</source>
-          <target state="translated">Tvoje hodnost:</target>
+          <source>omegaGo rank:</source>
+          <target state="needs-review-translation">Tvoje hodnost:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
           <source>Online games played:</source>

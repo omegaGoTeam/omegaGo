@@ -34,6 +34,8 @@ namespace OmegaGo.UI.ViewModels
             _gameSettings = gameSettings;
             _dialogService = dialogService;
         }
+        
+    
 
         /// <summary>
         /// Game languages list

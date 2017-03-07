@@ -22,6 +22,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             base.OnNavigatedTo(e);
             LoadLanguageMenu();
+            if (!VM.ShowTutorialButton)
+            {
+                this.MenuItemsControl.Items.RemoveAt(0);
+            }
         }
 
         /// <summary>

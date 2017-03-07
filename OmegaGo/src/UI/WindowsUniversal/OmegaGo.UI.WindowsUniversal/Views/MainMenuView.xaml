@@ -75,7 +75,7 @@
 
             <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListPanel}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ItemsControl.Items>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
+                    <mainMenu:MainMenuButton Margin="10" x:Name="TutorialButton" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Tutorial.png" />

@@ -780,7 +780,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Omega Go.
+        ///   Looks up a localized string similar to omegaGo.
         /// </summary>
         public static string OmegaGo {
             get {
@@ -789,7 +789,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Omega Go rank:.
+        ///   Looks up a localized string similar to omegaGo rank:.
         /// </summary>
         public static string OmegaGoRankColon {
             get {
