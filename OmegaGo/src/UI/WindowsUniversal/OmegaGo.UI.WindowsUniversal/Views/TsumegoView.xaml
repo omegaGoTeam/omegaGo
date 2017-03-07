@@ -56,8 +56,9 @@
                     <FontIcon Glyph="&#xE700;"></FontIcon>
                 </Button>
 
+                
                 <navigation:TitleControl  
-                                         Text="Tsumego" 
+                                         Text="{x:Bind Localizer.Tsumego_ViewCaption}" 
                                          Grid.Row="0"
                                          Grid.Column="1"/>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1"
@@ -70,19 +71,19 @@
                             </Style>
                         </StackPanel.Resources>
                         <StackPanel Margin="45,0,0,0" Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays."  />
+                        <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}" Content="{x:Bind Localizer.Tsumego_ShowPossibleMoves}"></CheckBox>
+                                <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.Tsumego_ShowPossibleMoves_Tooltip}"  />
                         </StackPanel>
-                        <TextBlock Style="{StaticResource CaptionStyle}">Problem name:</TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_ProblemName}"></TextBlock>
                         <TextBlock Style="{StaticResource ContentStyle}" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
-                        <TextBlock Style="{StaticResource CaptionStyle}">Instructions:</TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_Instructions}"></TextBlock>
                         <TextBlock Style="{StaticResource ContentStyle}" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
-                        <TextBlock Style="{StaticResource CaptionStyle}">Current node status:</TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_CurrentNodeStatus}"></TextBlock>
                         <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
-                        <TextBlock Style="{StaticResource CaptionStyle}">Current problem status:</TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_CurrentProblemStatus}"></TextBlock>
                         <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentProblemPermanentlySolved}"></TextBlock>
-                        <TextBlock Style="{StaticResource CaptionStyle}">How to solve tsumego:</TextBlock>
-                        <TextBlock Style="{StaticResource ContentStyle}">Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoCaption}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoText}"></TextBlock>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -101,19 +102,19 @@
                     <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE892;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="Previous problem"></TextBlock>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_PreviousProblem}"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE893;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="Next problem"></TextBlock>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_NextProblem}"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE7A7;"></FontIcon>
-                            <TextBlock Padding="5,0,0,0" Text="Undo last move"></TextBlock>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_UndoOneMove}"></TextBlock>
                         </StackPanel>
                     </Button>
                     <Border Margin="2" BorderBrush="Black" Background="White" Visibility="Visible">
@@ -122,13 +123,13 @@
                     <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.CorrectVisible, Mode=OneWay}" Background="LimeGreen">
                         <StackPanel Orientation="Horizontal">
                         <FontIcon Glyph="&#xE73E;"></FontIcon>
-                            <TextBlock VerticalAlignment="Center">Solved</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_CorrectPanel}"></TextBlock>
                         </StackPanel>
                     </Border>
                     <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.WrongVisible, Mode=OneWay}"  Background="OrangeRed">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xEDAE;"></FontIcon>
-                            <TextBlock VerticalAlignment="Center">Wrong</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_WrongPanel}"></TextBlock>
                         </StackPanel>
                     </Border>
                 </StackPanel>

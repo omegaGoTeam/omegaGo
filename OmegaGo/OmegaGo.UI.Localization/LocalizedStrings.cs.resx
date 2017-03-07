@@ -383,4 +383,76 @@ Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</valu
   <data name="FullscreenModeCheckbox" xml:space="preserve">
     <value>Celoobrazovkový režim</value>
   </data>
+  <data name="Tsumego_BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu.</value>
+  </data>
+  <data name="Tsumego_CorrectPanel" xml:space="preserve">
+    <value>Vyřešeno</value>
+  </data>
+  <data name="Tsumego_CurrentNodeStatus" xml:space="preserve">
+    <value>Stav aktuálního uzlu:</value>
+  </data>
+  <data name="Tsumego_CurrentProblemStatus" xml:space="preserve">
+    <value>Stav tohoto problému:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoCaption" xml:space="preserve">
+    <value>Jak řešit tsumego:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
+    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+  </data>
+  <data name="Tsumego_Instructions" xml:space="preserve">
+    <value>Pokyny:</value>
+  </data>
+  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
+    <value>(je možné dále táhnout)</value>
+  </data>
+  <data name="Tsumego_NextProblem" xml:space="preserve">
+    <value>Další problém</value>
+  </data>
+  <data name="Tsumego_NotYetSolved" xml:space="preserve">
+    <value>Zatím nevyřešen</value>
+  </data>
+  <data name="Tsumego_PreviousProblem" xml:space="preserve">
+    <value>Předchozí problém</value>
+  </data>
+  <data name="Tsumego_ProblemName" xml:space="preserve">
+    <value>Název problému:</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves" xml:space="preserve">
+    <value>Zobrazit možné tahy</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves_Tooltip" xml:space="preserve">
+    <value>Je-li políčko zaškrtnuto, aplikace zvýrazní pozice, kde by mohlo dávat smysl hrát. Nemusí to být nutně správné tahy, ale na nezvýrazněných pozicích je rozhodně nesprávné hrát.</value>
+  </data>
+  <data name="Tsumego_StatusContinue" xml:space="preserve">
+    <value>Pokračujte...</value>
+  </data>
+  <data name="Tsumego_StatusCorrect" xml:space="preserve">
+    <value>Správně!</value>
+  </data>
+  <data name="Tsumego_StatusWrong" xml:space="preserve">
+    <value>Špatně.</value>
+  </data>
+  <data name="Tsumego_UndoOneMove" xml:space="preserve">
+    <value>Vrátit zpět poslední tah</value>
+  </data>
+  <data name="Tsumego_Unexpected" xml:space="preserve">
+    <value>(neočekávané)</value>
+  </data>
+  <data name="Tsumego_WhiteToPlay" xml:space="preserve">
+    <value>Bílý je na tahu.</value>
+  </data>
+  <data name="Tsumego_WrongPanel" xml:space="preserve">
+    <value>Špatně</value>
+  </data>
+  <data name="Tsumego_YouHavePreviouslySolvedThisProblem" xml:space="preserve">
+    <value>Vyřešeno (tento problém jste již dříve vyřešili).</value>
+  </data>
+  <data name="Tsumego_YouHaveSolvedThisProblem" xml:space="preserve">
+    <value>Tento problém jste vyřešili!</value>
+  </data>
+  <data name="Tsumego_ViewCaption" xml:space="preserve">
+    <value>Tsumego</value>
+  </data>
 </root>
