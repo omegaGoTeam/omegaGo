@@ -664,6 +664,102 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>Solved!</source>
           <target state="translated">Vyřešeno!</target>
         </trans-unit>
+        <trans-unit id="Tsumego_BlackToPlay" translate="yes" xml:space="preserve">
+          <source>Black to play.</source>
+          <target state="translated">Černý je na tahu.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CorrectPanel" translate="yes" xml:space="preserve">
+          <source>Solved</source>
+          <target state="translated">Vyřešeno</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CurrentNodeStatus" translate="yes" xml:space="preserve">
+          <source>Current node status:</source>
+          <target state="translated">Stav aktuálního uzlu:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CurrentProblemStatus" translate="yes" xml:space="preserve">
+          <source>Current problem status:</source>
+          <target state="translated">Stav tohoto problému:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_HowToSolveTsumegoCaption" translate="yes" xml:space="preserve">
+          <source>How to solve tsumego:</source>
+          <target state="translated">Jak řešit tsumego:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_HowToSolveTsumegoText" translate="yes" xml:space="preserve">
+          <source>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</source>
+          <target state="translated">Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_Instructions" translate="yes" xml:space="preserve">
+          <source>Instructions:</source>
+          <target state="translated">Pokyny:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_MoreMovesAvailable" translate="yes" xml:space="preserve">
+          <source>(more moves available)</source>
+          <target state="translated">(je možné dále táhnout)</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_NextProblem" translate="yes" xml:space="preserve">
+          <source>Next problem</source>
+          <target state="translated">Další problém</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_NotYetSolved" translate="yes" xml:space="preserve">
+          <source>Not yet solved</source>
+          <target state="translated">Zatím nevyřešen</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_PreviousProblem" translate="yes" xml:space="preserve">
+          <source>Previous problem</source>
+          <target state="translated">Předchozí problém</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ProblemName" translate="yes" xml:space="preserve">
+          <source>Problem name:</source>
+          <target state="translated">Název problému:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ShowPossibleMoves" translate="yes" xml:space="preserve">
+          <source>Show possible moves</source>
+          <target state="translated">Zobrazit možné tahy</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ShowPossibleMoves_Tooltip" translate="yes" xml:space="preserve">
+          <source>If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays.</source>
+          <target state="translated">Je-li políčko zaškrtnuto, aplikace zvýrazní pozice, kde by mohlo dávat smysl hrát. Nemusí to být nutně správné tahy, ale na nezvýrazněných pozicích je rozhodně nesprávné hrát.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusContinue" translate="yes" xml:space="preserve">
+          <source>Continue...</source>
+          <target state="translated">Pokračujte...</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusCorrect" translate="yes" xml:space="preserve">
+          <source>Correct!</source>
+          <target state="translated">Správně!</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusWrong" translate="yes" xml:space="preserve">
+          <source>Wrong.</source>
+          <target state="translated">Špatně.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_UndoOneMove" translate="yes" xml:space="preserve">
+          <source>Undo last move</source>
+          <target state="translated">Vrátit zpět poslední tah</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_Unexpected" translate="yes" xml:space="preserve">
+          <source>(unexpected)</source>
+          <target state="translated">(neočekávané)</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_WhiteToPlay" translate="yes" xml:space="preserve">
+          <source>White to play.</source>
+          <target state="translated">Bílý je na tahu.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_WrongPanel" translate="yes" xml:space="preserve">
+          <source>Wrong</source>
+          <target state="translated">Špatně</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_YouHavePreviouslySolvedThisProblem" translate="yes" xml:space="preserve">
+          <source>Solved (you have previously solved this problem).</source>
+          <target state="translated">Vyřešeno (tento problém jste již dříve vyřešili).</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_YouHaveSolvedThisProblem" translate="yes" xml:space="preserve">
+          <source>You have solved this problem!</source>
+          <target state="translated">Tento problém jste vyřešili!</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ViewCaption" translate="yes" xml:space="preserve">
+          <source>Tsumego</source>
+          <target state="translated">Tsumego</target>
+        </trans-unit>
       </group>
     </body>
   </file>

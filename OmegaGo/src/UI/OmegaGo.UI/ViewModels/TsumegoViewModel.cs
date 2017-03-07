@@ -95,9 +95,9 @@ A tsumego problem will also display a problem statement
         public string CurrentProblemPermanentlySolved => 
             this._gameSettings.Tsumego.SolvedProblems.Contains(this.CurrentProblemName)
             ? (this._currentNode.Tsumego.Correct
-                ? "You have solved this problem!"
-                : "Solved (you have previously solved this problem).")
-            : "Not yet solved.";
+                ? Localizer.Tsumego_YouHaveSolvedThisProblem
+                : Localizer.Tsumego_YouHavePreviouslySolvedThisProblem)
+            : Localizer.Tsumego_NotYetSolved;
 
         public string CurrentProblemName
         {
@@ -144,10 +144,6 @@ A tsumego problem will also display a problem statement
                     UndoOneMove();
                 }
             }
-            else
-            {
-                CurrentNodeStatus = "You are at the first move.";
-            }
         }
 
         private void BoardViewModel_BoardTapped(object sender, Position e)
@@ -164,7 +160,10 @@ A tsumego problem will also display a problem statement
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
                 MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(
-                    new GameBoard(CurrentNode.BoardState), move, new GameBoard[0]); // TODO Petr: ko???
+                    new GameBoard(CurrentNode.BoardState), move, new GameBoard[0]);
+                // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
+                // and which positions are correct or wrong is written in the .sgf file anyway, so this is not a big deal.
+
                 if (mpr.Result == MoveResult.Legal)
                 {
                     newNode.BoardState = mpr.NewBoard;
@@ -173,7 +172,7 @@ A tsumego problem will also display a problem statement
                     {
                         newNode.Tsumego.Correct = true;
                     }
-                    if (CurrentNode.Tsumego.Wrong)
+                    else
                     {
                         newNode.Tsumego.Wrong = true;
                     }
@@ -199,7 +198,7 @@ A tsumego problem will also display a problem statement
             string status;
             if (node.Tsumego.Correct)
             {
-                status = "SOLVED!";
+                status = Localizer.Tsumego_StatusCorrect;
                  var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
                 if (!hashset.Contains(_currentProblem.Name))
                 {
@@ -212,21 +211,32 @@ A tsumego problem will also display a problem statement
             }
             else if (node.Tsumego.Wrong)
             {
-                status = "WRONG!";
+                status = Localizer.Tsumego_StatusWrong;
                 WrongVisible = true;
                 CorrectVisible = false;
             }
             else
             {
-                status = "...";
+                status =  Localizer.Tsumego_StatusContinue;
                 WrongVisible = false;
                 CorrectVisible = false;
+            }
+            if (node.Parent == null)
+            {
+                if (_humansColor == StoneColor.Black)
+                {
+                    status = Localizer.Tsumego_BlackToPlay;
+                }
+                else
+                {
+                    status = Localizer.Tsumego_WhiteToPlay;
+                }
             }
             if (node.Tsumego.Expected)
             {
                 if (mayContinue && (node.Tsumego.Correct || node.Tsumego.Wrong))
                 {
-                    status += " (more moves available)";
+                    status += "\n" + Localizer.Tsumego_MoreMovesAvailable;
                 }
             }
             else
@@ -235,12 +245,15 @@ A tsumego problem will also display a problem statement
                 {
                     WrongVisible = true;
                 }
-                status += " (unexpected)";
+                status += "\n" + Localizer.Tsumego_Unexpected;
             }
+            /*
+             // We'll see what users say, but this is probably unnecessary:
             if (afterUndo)
             {
-                status += " (move undone)";
+                status += "\n(move undone)";
             }
+            */
 
             // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (node.Parent == null)
@@ -265,7 +278,14 @@ A tsumego problem will also display a problem statement
             CurrentNode = _currentProblemTree;
             _playerToMove = _currentProblem.ColorToPlay;
             _humansColor = _playerToMove;
-            CurrentNodeStatus = _humansColor + " to play.";
+            if (_humansColor == StoneColor.Black)
+            {
+                CurrentNodeStatus = Localizer.Tsumego_BlackToPlay;
+            }
+            else
+            {
+                CurrentNodeStatus = Localizer.Tsumego_WhiteToPlay;
+            }
             WrongVisible = false;
             CorrectVisible = false;
             RaisePropertyChanged(nameof(GoToPreviousProblem));
