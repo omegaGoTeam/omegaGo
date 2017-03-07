@@ -169,7 +169,7 @@
     <value>Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</value>
   </data>
   <data name="OmegaGo" xml:space="preserve">
-    <value>Omega Go</value>
+    <value>omegaGo</value>
   </data>
   <data name="Game" xml:space="preserve">
     <value>Hra</value>
@@ -382,5 +382,95 @@ Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</valu
   </data>
   <data name="FullscreenModeCheckbox" xml:space="preserve">
     <value>Celoobrazovkový režim</value>
+  </data>
+  <data name="Rank1" xml:space="preserve">
+    <value>Novic při omegaGo</value>
+  </data>
+  <data name="Rank2" xml:space="preserve">
+    <value>Učeň při omegaGo</value>
+  </data>
+  <data name="Rank3" xml:space="preserve">
+    <value>Expert v omegaGo</value>
+  </data>
+  <data name="Rank4" xml:space="preserve">
+    <value>Mistr omegaGo</value>
+  </data>
+  <data name="Rank5" xml:space="preserve">
+    <value>Absolvent omegaGo</value>
+  </data>
+  <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
+    <value>Povýšili jste na novou hodnost: {0}. Gratulujeme!</value>
+  </data>
+  <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
+    <value>+{0} bodů (nyní máte {1})</value>
+  </data>
+  <data name="ResetAllProgress_Caption" xml:space="preserve">
+    <value>Zahodit všechny statistiky?</value>
+  </data>
+  <data name="ResetAllProgress_Content" xml:space="preserve">
+    <value>Všechny herní čítače budou sníženy na nulu. Všechny body budou ztraceny. Budete mít znovu nejnižší omega hodnost. Informace o tom, které problémy tsumego byly vyřešeny, budou ztraceny. Zůstanou vám vaše současné questy.</value>
+  </data>
+  <data name="ResetAllProgress_No" xml:space="preserve">
+    <value>Storno</value>
+  </data>
+  <data name="ResetAllProgress_Yes" xml:space="preserve">
+    <value>Zahodit všechny statistiky!</value>
+  </data>
+  <data name="IgsRankColon" xml:space="preserve">
+    <value>Třída na IGS:</value>
+  </data>
+  <data name="KgsRankColon" xml:space="preserve">
+    <value>Třída na KGS:</value>
+  </data>
+  <data name="Tutorial_Next" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="MuteTooltip" xml:space="preserve">
+    <value>Povolí nebo vypne všechny zvuky (ikonka zobrazuje současný stav)</value>
+    <comment>Default option to continue to next line in tutorial</comment>
+  </data>
+  <data name="NextRankAtColon" xml:space="preserve">
+    <value>Body na další hodnost:</value>
+  </data>
+  <data name="PlayAgainstAI" xml:space="preserve">
+    <value>Hrát proti počítači</value>
+    <comment>Goes to solo menu</comment>
+  </data>
+  <data name="Quests" xml:space="preserve">
+    <value>Questy</value>
+  </data>
+  <data name="Quest_Replace" xml:space="preserve">
+    <value>Vyměnit</value>
+  </data>
+  <data name="Quest_ReplaceTooltip" xml:space="preserve">
+    <value>Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
+  </data>
+  <data name="Quest_TryThisNow" xml:space="preserve">
+    <value>Zkusit nyní</value>
+  </data>
+  <data name="Quest_TryThisNowTooltip" xml:space="preserve">
+    <value>Toto tlačítko vás přesune na obrazovku, kde můžete pracovat na tomto questu.</value>
+  </data>
+  <data name="QuitCancel" xml:space="preserve">
+    <value>Storno</value>
+  </data>
+  <data name="QuitCaption" xml:space="preserve">
+    <value>Ukončit hru?</value>
+  </data>
+  <data name="QuitConfirm" xml:space="preserve">
+    <value>Ukončit</value>
+  </data>
+  <data name="QuitText" xml:space="preserve">
+    <value>Opravdu chcete ukončit hru?</value>
+  </data>
+  <data name="SingleplayerMenu" xml:space="preserve">
+    <value>Menu pro hru jednoho hráče</value>
+  </data>
+  <data name="SolvePuzzles" xml:space="preserve">
+    <value>Řešit problémy tsumego</value>
+    <comment>Goes to tsumego menu</comment>
+  </data>
+  <data name="QuestsFooter" xml:space="preserve">
+    <value>Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</value>
   </data>
 </root>

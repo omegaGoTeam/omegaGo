@@ -218,8 +218,7 @@
         </trans-unit>
         <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
           <source>omegaGo</source>
-          <target state="needs-review-translation">Omega Go</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="final">omegaGo</target>
         </trans-unit>
         <trans-unit id="Game" translate="yes" xml:space="preserve">
           <source>Game</source>
@@ -501,8 +500,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
         </trans-unit>
         <trans-unit id="OmegaGoRankColon" translate="yes" xml:space="preserve">
           <source>omegaGo rank:</source>
-          <target state="needs-review-translation">Tvoje hodnost:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Tvoje hodnost:</target>
         </trans-unit>
         <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
           <source>Online games played:</source>
@@ -542,118 +540,122 @@ I dare you to let two Fish play against each other. The game will never end (unl
         </trans-unit>
         <trans-unit id="Rank1" translate="yes" xml:space="preserve">
           <source>Omega Novice</source>
-          <target state="new">Omega Novice</target>
+          <target state="translated">Novic při omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank2" translate="yes" xml:space="preserve">
           <source>Omega Apprentice</source>
-          <target state="new">Omega Apprentice</target>
+          <target state="translated">Učeň při omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank3" translate="yes" xml:space="preserve">
           <source>Omega Expert</source>
-          <target state="new">Omega Expert</target>
+          <target state="translated">Expert v omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank4" translate="yes" xml:space="preserve">
           <source>Omega Master</source>
-          <target state="new">Omega Master</target>
+          <target state="translated">Mistr omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank5" translate="yes" xml:space="preserve">
           <source>Omega Graduate</source>
-          <target state="new">Omega Graduate</target>
+          <target state="translated">Absolvent omegaGo</target>
         </trans-unit>
         <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
           <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
-          <target state="new">You have advanced to a new omegaGo rank: {0}. Congratulations!</target>
+          <target state="translated">Povýšili jste na novou hodnost: {0}. Gratulujeme!</target>
         </trans-unit>
         <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
           <source>+{0} points (now you have {1})</source>
-          <target state="new">+{0} points (now you have {1})</target>
+          <target state="translated">+{0} bodů (nyní máte {1})</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Caption" translate="yes" xml:space="preserve">
           <source>Reset all progress?</source>
-          <target state="new">Reset all progress?</target>
+          <target state="needs-review-translation">Zahodit všechny statistiky?</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Content" translate="yes" xml:space="preserve">
           <source>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</source>
-          <target state="new">All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</target>
+          <target state="translated">Všechny herní čítače budou sníženy na nulu. Všechny body budou ztraceny. Budete mít znovu nejnižší omega hodnost. Informace o tom, které problémy tsumego byly vyřešeny, budou ztraceny. Zůstanou vám vaše současné questy.</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_No" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation">Storno</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Yes" translate="yes" xml:space="preserve">
           <source>Reset all progress!</source>
-          <target state="new">Reset all progress!</target>
+          <target state="needs-review-translation">Zahodit všechny statistiky!</target>
         </trans-unit>
         <trans-unit id="IgsRankColon" translate="yes" xml:space="preserve">
           <source>IGS Rank:</source>
-          <target state="new">IGS Rank:</target>
+          <target state="translated">Třída na IGS:</target>
         </trans-unit>
         <trans-unit id="KgsRankColon" translate="yes" xml:space="preserve">
           <source>KGS Rank:</source>
-          <target state="new">KGS Rank:</target>
+          <target state="translated">Třída na KGS:</target>
         </trans-unit>
         <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
           <source>Next</source>
-          <target state="new">Next</target>
+          <target state="translated">Další</target>
         </trans-unit>
         <trans-unit id="MuteTooltip" translate="yes" xml:space="preserve">
           <source>Toggle muting all sounds (icon shows current state)</source>
-          <target state="new">Toggle muting all sounds (icon shows current state)</target>
+          <target state="translated">Povolí nebo vypne všechny zvuky (ikonka zobrazuje současný stav)</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
         </trans-unit>
         <trans-unit id="NextRankAtColon" translate="yes" xml:space="preserve">
           <source>Next rank at:</source>
-          <target state="new">Next rank at:</target>
+          <target state="translated">Body na další hodnost:</target>
         </trans-unit>
         <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
           <source>Play against AI</source>
-          <target state="new">Play against AI</target>
+          <target state="translated">Hrát proti počítači</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
         </trans-unit>
         <trans-unit id="Quests" translate="yes" xml:space="preserve">
           <source>Quests</source>
-          <target state="new">Quests</target>
+          <target state="translated">Questy</target>
         </trans-unit>
         <trans-unit id="Quest_Replace" translate="yes" xml:space="preserve">
           <source>Replace</source>
-          <target state="new">Replace</target>
+          <target state="translated">Vyměnit</target>
         </trans-unit>
         <trans-unit id="Quest_ReplaceTooltip" translate="yes" xml:space="preserve">
           <source>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</source>
-          <target state="new">You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</target>
+          <target state="translated">Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</target>
         </trans-unit>
         <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
           <source>Try this now</source>
-          <target state="new">Try this now</target>
+          <target state="translated">Zkusit nyní</target>
         </trans-unit>
         <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
           <source>This will take you to a screen where you can work on this quest.</source>
-          <target state="new">This will take you to a screen where you can work on this quest.</target>
+          <target state="translated">Toto tlačítko vás přesune na obrazovku, kde můžete pracovat na tomto questu.</target>
         </trans-unit>
         <trans-unit id="QuitCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Storno</target>
         </trans-unit>
         <trans-unit id="QuitCaption" translate="yes" xml:space="preserve">
           <source>Quit game?</source>
-          <target state="new">Quit game?</target>
+          <target state="translated">Ukončit hru?</target>
         </trans-unit>
         <trans-unit id="QuitConfirm" translate="yes" xml:space="preserve">
           <source>Quit</source>
-          <target state="new">Quit</target>
+          <target state="translated">Ukončit</target>
         </trans-unit>
         <trans-unit id="QuitText" translate="yes" xml:space="preserve">
           <source>Do you really want to quit the game?</source>
-          <target state="new">Do you really want to quit the game?</target>
+          <target state="translated">Opravdu chcete ukončit hru?</target>
         </trans-unit>
         <trans-unit id="SingleplayerMenu" translate="yes" xml:space="preserve">
           <source>Singleplayer Menu</source>
-          <target state="new">Singleplayer Menu</target>
+          <target state="translated">Menu pro hru jednoho hráče</target>
         </trans-unit>
         <trans-unit id="SolvePuzzles" translate="yes" xml:space="preserve">
           <source>Solve puzzles</source>
-          <target state="new">Solve puzzles</target>
+          <target state="translated">Řešit problémy tsumego</target>
           <note from="MultilingualBuild" annotates="source" priority="2">Goes to tsumego menu</note>
+        </trans-unit>
+        <trans-unit id="QuestsFooter" translate="yes" xml:space="preserve">
+          <source>You receive a new quest every midnight, local time, unless you already have 3 quests.</source>
+          <target state="translated">Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</target>
         </trans-unit>
       </group>
     </body>
