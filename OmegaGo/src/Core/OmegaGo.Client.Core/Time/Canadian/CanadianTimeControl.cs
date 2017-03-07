@@ -16,11 +16,11 @@ namespace OmegaGo.Core.Time.Canadian
         /// </summary>
         private CanadianTimeInformation _snapshot;
 
-        public CanadianTimeControl(int mainTime, int stonesPerPeriod, int periodMinutes)
+        public CanadianTimeControl(TimeSpan mainTime, int stonesPerPeriod, TimeSpan periodTime)
         {
-            _snapshot = new CanadianTimeInformation(TimeSpan.FromMinutes(mainTime), TimeSpan.Zero, 0);
+            _snapshot = new CanadianTimeInformation(mainTime, TimeSpan.Zero, 0);
             _stonesPerPeriod = stonesPerPeriod;
-            _periodTime = TimeSpan.FromMinutes(periodMinutes);
+            _periodTime = periodTime;
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Canadian;
@@ -71,6 +71,21 @@ namespace OmegaGo.Core.Time.Canadian
         protected override bool IsViolating(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime).IsViolating();
+        }
+
+        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            if (_snapshot.MainTimeLeft > TimeSpan.Zero)
+            {
+                _snapshot = new Canadian.CanadianTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink), _snapshot.PeriodTimeLeft,
+                    _snapshot.PeriodStonesLeft);
+            }
+            else
+            {
+                _snapshot = new Canadian.CanadianTimeInformation(_snapshot.MainTimeLeft, TimeSpan.FromSeconds(secondsLeftIThink),
+                    _snapshot.PeriodStonesLeft);
+            }
         }
 
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)

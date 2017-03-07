@@ -5,6 +5,7 @@ using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
@@ -50,7 +51,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the pair of participating players
         /// </summary>
         PlayerPair Players { get; }
-        
+
+
         /// <summary>
         /// Starts the game
         /// </summary>

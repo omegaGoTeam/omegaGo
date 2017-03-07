@@ -73,7 +73,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             return kgi;
         }
 
-        private static RulesetType ConvertRuleset(string rules)
+        public static RulesetType ConvertRuleset(string rules)
         {
             switch (rules)
             {
