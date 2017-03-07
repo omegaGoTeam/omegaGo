@@ -133,8 +133,8 @@
     <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
       <DependentUpon>TitleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PlayerPortrait.xaml.cs">
-      <DependentUpon>PlayerPortrait.xaml</DependentUpon>
+    <Compile Include="UserControls\PlayerPortraitControl.xaml.cs">
+      <DependentUpon>PlayerPortraitControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PlayerSettingsControl.xaml.cs">
       <DependentUpon>PlayerSettingsControl.xaml</DependentUpon>
@@ -339,7 +339,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PlayerPortrait.xaml">
+    <Page Include="UserControls\PlayerPortraitControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

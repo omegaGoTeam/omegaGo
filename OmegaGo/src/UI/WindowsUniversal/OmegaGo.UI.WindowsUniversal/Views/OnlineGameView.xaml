@@ -66,12 +66,12 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
-                <TextBlock Text="Debug:"></TextBlock>
-                <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+                <TextBlock Text="DEBUG BAR" FontSize="24"/>
+                <TextBlock Text="Debug:"/>
+                <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"/>
                 <Button Click="DebugFill">Fill</Button>
                 <Button>Save as SGF</Button>
-                <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
+                <TextBlock Text="Life/Death" FontSize="20"/>
                 <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}">Done</Button>
                 <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}">Undo Death Marks</Button>
                 <Button Command="{x:Bind VM.ResumeGameCommand}">Resume game</Button>
@@ -85,38 +85,33 @@
                 <Button Command="{x:Bind VM.ResignCommand}">Resign</Button>
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
                     <StackPanel Orientation="Horizontal">
-                        <ProgressRing IsActive="True"></ProgressRing>
-                        <TextBlock Text="AI is thinking..."></TextBlock>
+                        <ProgressRing IsActive="True"/>
+                        <TextBlock Text="AI is thinking..."/>
                     </StackPanel>
                 </Border>
-                <TextBlock Text="Hint" FontSize="20"></TextBlock>
+                <TextBlock Text="Hint" FontSize="20"/>
                 <Button>Get Hint from Assistant</Button>
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
-
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
-                    </controls:PlayerPortrait>
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
-                    </controls:PlayerPortrait>
+                    <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}" />
+                    <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}" />
                     <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
-
-                    </TextBox>
+                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap"/>
                 </ScrollViewer>
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
-                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>
     </Grid>
 </views:TransparencyViewBase>
