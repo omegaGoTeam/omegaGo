@@ -91,5 +91,23 @@ namespace OmegaGo.Core.Time
         /// </summary>
         /// <returns></returns>
         public abstract string GetGtpInitializationCommand();
+
+        /// <summary>
+        /// Gets arguments for the GTP time_left command that should be called prior to every move generation request.
+        /// Returns null if no command should be sent.
+        /// </summary>
+        /// <returns></returns>
+        public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
+    }
+
+    public class TimeLeftArguments
+    {
+        public int NumberOfSecondsRemaining { get; }
+        public int NumberOfStonesRemaining { get; }
+        public TimeLeftArguments(int seconds, int stones)
+        {
+            NumberOfSecondsRemaining = seconds;
+            NumberOfStonesRemaining = stones;
+        }
     }
 }

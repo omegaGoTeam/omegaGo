@@ -28,5 +28,10 @@ namespace OmegaGo.Core.Time.None
         {
             return null; // no time limit
         }
+
+        public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
+        {
+            return null;
+        }
     }
 }

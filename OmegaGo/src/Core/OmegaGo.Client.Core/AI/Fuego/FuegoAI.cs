@@ -60,6 +60,13 @@ namespace OmegaGo.Core.AI.Fuego
                 }
             }
             string movecolor = preMoveInformation.AIColor == StoneColor.Black ? "B" : "W";
+            var timeLeftArguments = preMoveInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+            if (timeLeftArguments != null)
+            {
+                int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
+                secondsRemaining = Math.Max(secondsRemaining - 2, 0); // let's give the AI less time to ensure it does its move on time
+                SendCommand("time_left " + movecolor + " " + secondsRemaining + " " + timeLeftArguments.NumberOfStonesRemaining);
+            }
             string result = SendCommand("genmove " + movecolor).Text;
             if (result == "resign")
             {

@@ -40,6 +40,11 @@ namespace OmegaGo.Core.Time.Japanese
             return "time_settings " + (int) _snapshot.TimeLeft.TotalSeconds + " " + _byoyomiLengthInSeconds + " 1";
         }
 
+        public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
+        {
+            return new Time.TimeLeftArguments((int) _snapshot.TimeLeft.TotalSeconds, _snapshot.InByoYomi ? 1 : 0);
+        }
+
         protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime);
