@@ -144,6 +144,7 @@
             </Button>
 
             <Button Margin="12,0,0,0"
+                    ToolTipService.ToolTip="{x:Bind Localizer.MuteTooltip}"
                     Command="{Binding Path=ToggleMute}" >
                 <FontIcon Glyph="{Binding Path=MuteGlyph}" />
             </Button>

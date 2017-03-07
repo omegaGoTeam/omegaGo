@@ -798,6 +798,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Toggle muting all sounds (icon shows current state).
+        /// </summary>
+        public static string MuteTooltip {
+            get {
+                return ResourceManager.GetString("MuteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next rank at:.
+        /// </summary>
+        public static string NextRankAtColon {
+            get {
+                return ResourceManager.GetString("NextRankAtColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to omegaGo.
         /// </summary>
         public static string OmegaGo {
@@ -870,6 +888,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play against AI.
+        /// </summary>
+        public static string PlayAgainstAI {
+            get {
+                return ResourceManager.GetString("PlayAgainstAI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Player.
         /// </summary>
         public static string Player {
@@ -888,11 +915,101 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Replace.
+        /// </summary>
+        public static string Quest_Replace {
+            get {
+                return ResourceManager.GetString("Quest_Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You will lose this quest and any progress towards it, but you will immediately gain a different random quest..
+        /// </summary>
+        public static string Quest_ReplaceTooltip {
+            get {
+                return ResourceManager.GetString("Quest_ReplaceTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try this now.
+        /// </summary>
+        public static string Quest_TryThisNow {
+            get {
+                return ResourceManager.GetString("Quest_TryThisNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will take you to a screen where you can work on this quest..
+        /// </summary>
+        public static string Quest_TryThisNowTooltip {
+            get {
+                return ResourceManager.GetString("Quest_TryThisNowTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quests.
+        /// </summary>
+        public static string Quests {
+            get {
+                return ResourceManager.GetString("Quests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quests completed:.
         /// </summary>
         public static string QuestsCompleted {
             get {
                 return ResourceManager.GetString("QuestsCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You receive a new quest every midnight, local time, unless you already have 3 quests..
+        /// </summary>
+        public static string QuestsFooter {
+            get {
+                return ResourceManager.GetString("QuestsFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string QuitCancel {
+            get {
+                return ResourceManager.GetString("QuitCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit game?.
+        /// </summary>
+        public static string QuitCaption {
+            get {
+                return ResourceManager.GetString("QuitCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string QuitConfirm {
+            get {
+                return ResourceManager.GetString("QuitConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to quit the game?.
+        /// </summary>
+        public static string QuitText {
+            get {
+                return ResourceManager.GetString("QuitText", resourceCulture);
             }
         }
         
@@ -1086,6 +1203,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Singleplayer Menu.
+        /// </summary>
+        public static string SingleplayerMenu {
+            get {
+                return ResourceManager.GetString("SingleplayerMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn Go, play against an AI, solve problems or gain experience completing quests..
         /// </summary>
         public static string SingleplayerToolTip {
@@ -1109,6 +1235,15 @@ namespace OmegaGo.UI.Localization {
         public static string SoloGamesWon {
             get {
                 return ResourceManager.GetString("SoloGamesWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve puzzles.
+        /// </summary>
+        public static string SolvePuzzles {
+            get {
+                return ResourceManager.GetString("SolvePuzzles", resourceCulture);
             }
         }
         
@@ -1181,15 +1316,6 @@ namespace OmegaGo.UI.Localization {
         public static string Strength {
             get {
                 return ResourceManager.GetString("Strength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

@@ -592,14 +592,68 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <source>KGS Rank:</source>
           <target state="new">KGS Rank:</target>
         </trans-unit>
-        <trans-unit id="String1" translate="yes" xml:space="preserve">
-          <source></source>
-          <target state="new"></target>
-          <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
-        </trans-unit>
         <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
           <source>Next</source>
           <target state="new">Next</target>
+        </trans-unit>
+        <trans-unit id="MuteTooltip" translate="yes" xml:space="preserve">
+          <source>Toggle muting all sounds (icon shows current state)</source>
+          <target state="new">Toggle muting all sounds (icon shows current state)</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
+        </trans-unit>
+        <trans-unit id="NextRankAtColon" translate="yes" xml:space="preserve">
+          <source>Next rank at:</source>
+          <target state="new">Next rank at:</target>
+        </trans-unit>
+        <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
+          <source>Play against AI</source>
+          <target state="new">Play against AI</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
+        </trans-unit>
+        <trans-unit id="Quests" translate="yes" xml:space="preserve">
+          <source>Quests</source>
+          <target state="new">Quests</target>
+        </trans-unit>
+        <trans-unit id="Quest_Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="new">Replace</target>
+        </trans-unit>
+        <trans-unit id="Quest_ReplaceTooltip" translate="yes" xml:space="preserve">
+          <source>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</source>
+          <target state="new">You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
+          <source>Try this now</source>
+          <target state="new">Try this now</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
+          <source>This will take you to a screen where you can work on this quest.</source>
+          <target state="new">This will take you to a screen where you can work on this quest.</target>
+        </trans-unit>
+        <trans-unit id="QuitCancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="QuitCaption" translate="yes" xml:space="preserve">
+          <source>Quit game?</source>
+          <target state="new">Quit game?</target>
+        </trans-unit>
+        <trans-unit id="QuitConfirm" translate="yes" xml:space="preserve">
+          <source>Quit</source>
+          <target state="new">Quit</target>
+        </trans-unit>
+        <trans-unit id="QuitText" translate="yes" xml:space="preserve">
+          <source>Do you really want to quit the game?</source>
+          <target state="new">Do you really want to quit the game?</target>
+        </trans-unit>
+        <trans-unit id="SingleplayerMenu" translate="yes" xml:space="preserve">
+          <source>Singleplayer Menu</source>
+          <target state="new">Singleplayer Menu</target>
+        </trans-unit>
+        <trans-unit id="SolvePuzzles" translate="yes" xml:space="preserve">
+          <source>Solve puzzles</source>
+          <target state="new">Solve puzzles</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to tsumego menu</note>
         </trans-unit>
       </group>
     </body>
