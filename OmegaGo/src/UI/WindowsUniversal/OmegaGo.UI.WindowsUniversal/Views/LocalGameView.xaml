@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Unloaded="TransparencyViewBase_Unloaded"
+    Loaded="TransparencyViewBase_Loaded">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -52,20 +54,20 @@
                 <TextBlock Text="DEBUG BAR" FontSize="24"/>
                 <TextBlock Text="Debug:"/>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"/>
-                <Button Click="DebugFill">Fill</Button>
-                <Button>Save as SGF</Button>
+                <Button Click="DebugFill" Content="Fill"/>
+                <Button Content="Save as SGF"/>
                 <TextBlock Text="Life/Death" FontSize="20"/>
-                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}">Done</Button>
-                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}">Undo Death Marks</Button>
-                <Button Command="{x:Bind VM.ResumeGameCommand}">Resume game</Button>
+                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done"/>
+                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks"/>
+                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game"/> 
                 <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button IsEnabled="False">undoplease</Button>
-                <Button IsEnabled="False">undo (yes)</Button>
-                <Button IsEnabled="False">noundo</Button>
-                <Button Command="{x:Bind VM.UndoCommand}">undo locally</Button>
-                <TextBlock Text="Moves" FontSize="20"></TextBlock>
-                <Button Command="{x:Bind VM.PassCommand}">PASS</Button>
-                <Button Command="{x:Bind VM.ResignCommand}">Resign</Button>
+                <Button IsEnabled="False" Content="undoplease"/>
+                <Button IsEnabled="False" Content="undo (yes)"/>
+                <Button IsEnabled="False" Content="noundo"/>
+                <Button Command="{x:Bind VM.UndoCommand}" Content="undo locally"/>
+                <TextBlock Text="Moves" FontSize="20"/>
+                <Button Command="{x:Bind VM.PassCommand}" Content="PASS"/>
+                <Button Command="{x:Bind VM.ResignCommand}" Content="Resign"/> 
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
                     <StackPanel Orientation="Horizontal">
                         <ProgressRing IsActive="True"/>
@@ -73,7 +75,7 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Hint" FontSize="20"/>
-                <Button>Get Hint from Assistant</Button>
+                <Button Content="Get Hint from Assistant"/> 
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
@@ -83,9 +85,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
-                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}"/>
-                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}"/>
-                    <Button Click="UpdateSystemLog">Update system log</Button>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}"/>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}"/>
+                    <Button Click="UpdateSystemLog" Content="Update system log"/>
                 </StackPanel>
                 <TextBox Grid.Row="1"
                          x:Name="SystemLog" 
@@ -97,7 +99,7 @@
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
-                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>
     </Grid>
 </views:TransparencyViewBase>

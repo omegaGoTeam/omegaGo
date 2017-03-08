@@ -23,7 +23,7 @@
                CompactPaneLength="40"
                OpenPaneLength="300">
         <SplitView.Pane>
-            <Grid>
+            <Grid Background="{StaticResource GameColorBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
