@@ -1,20 +1,14 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.UserControls.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.Rules;
-using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
-using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
-using OmegaGo.UI.Services.Game;
+using OmegaGo.Core.Rules;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
+using OmegaGo.UI.UserControls.ViewModels;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedMember.Global
@@ -39,14 +33,11 @@ When a problem is over (either by victory or failure), the player can proceed to
 While solving a problem, the player can undo his moves. Undoing from the "analysis mode" back into the tsumego problem will resume the tsumego actions.
 
 A tsumego problem will also display a problem statement (such as "Black to kill." or "Black to live." or "Black to score 10 points.")*/
-        private BoardViewModel _boardViewModel;
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
 
-        public BoardViewModel BoardViewModel
-        {
-            get { return _boardViewModel; }
-            set { SetProperty(ref _boardViewModel, value); }
-        }
+        private readonly IQuestsManager _questsManager;
+        private readonly IGameSettings _gameSettings;
+
+        private BoardViewModel _boardViewModel;
 
         private TsumegoProblem _currentProblem;
         private GameTreeNode _currentProblemTree;
@@ -57,6 +48,65 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         private string _currentNodeStatus = "";
         private GameTreeNode _currentNode;
 
+        /// <summary>
+        /// Creates the tsumego view model
+        /// </summary>
+        public TsumegoViewModel(IQuestsManager questsManager, IGameSettings gameSettings )
+        {
+            _questsManager = questsManager;
+            _gameSettings = gameSettings;
+
+            var problem = Mvx.GetSingleton<TsumegoProblem>();
+
+            BoardViewModel = new BoardViewModel(new GameBoardSize(19));
+            BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
+
+            LoadProblem(problem);
+        }
+
+        public BoardViewModel BoardViewModel
+        {
+            get { return _boardViewModel; }
+            set { SetProperty(ref _boardViewModel, value); }
+        }
+        
+        public GameTreeNode CurrentNode
+        {
+            get { return _currentNode; }
+            set
+            {
+                SetProperty(ref _currentNode, value);
+                BoardViewModel.GameTreeNode = value;
+            }
+        }
+
+        public string CurrentNodeStatus
+        {
+            get { return _currentNodeStatus; }
+            set { SetProperty(ref _currentNodeStatus, value); }
+        }
+
+        public string CurrentProblemName
+        {
+            get { return _currentProblemName; }
+            set { SetProperty(ref _currentProblemName, value); }
+        }
+        public string CurrentProblemInstructions
+        {
+            get { return _currentProblemInstructions; }
+            set { SetProperty(ref _currentProblemInstructions, value); }
+        }
+
+        public bool ShowPossibleMoves
+        {
+            get { return _gameSettings.Tsumego.ShowPossibleMoves; }
+            set
+            {
+                _gameSettings.Tsumego.ShowPossibleMoves = value;
+                BoardViewModel.Redraw();
+                RaisePropertyChanged();
+            }
+        }
 
         public void UndoOneMove()
         {
@@ -65,7 +115,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 CurrentNode = CurrentNode.Parent;
                 ReachNode(CurrentNode, true);
                 if (CurrentNode.Tsumego.Expected &&
-                    CurrentNode.Move.WhoMoves == this._humansColor &&
+                    CurrentNode.Move.WhoMoves == _humansColor &&
                     CurrentNode.Parent != null)
                 {
                     UndoOneMove();
@@ -75,8 +125,8 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 CurrentNodeStatus = "You are at the first move.";
             }
-
         }
+
         private void BoardViewModel_BoardTapped(object sender, Position e)
         {
             Move move = Move.PlaceStone(_playerToMove, e);
@@ -102,7 +152,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 }
             }
             ReachNode(CurrentNode, false);
-            if (CurrentNode.Tsumego.Expected && CurrentNode.Move.WhoMoves == this._humansColor)
+            if (CurrentNode.Tsumego.Expected && CurrentNode.Move.WhoMoves == _humansColor)
             {
                 if (CurrentNode.Branches.Count(br => br.Tsumego.Expected) >= 1)
                 {
@@ -121,13 +171,13 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             if (node.Tsumego.Correct)
             {
                 status = "SOLVED!";
-                 var hashset = new HashSet<string>(_settings.Tsumego.SolvedProblems);
+                 var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
                 if (!hashset.Contains(_currentProblem.Name))
                 {
-                    _settings.Quests.Events.NewTsumegoSolved();
+                    _questsManager.TsumegoSolved();
                 }
                  hashset.Add(_currentProblem.Name);
-                _settings.Tsumego.SolvedProblems = hashset;
+                _gameSettings.Tsumego.SolvedProblems = hashset;
                  
 
             }
@@ -164,62 +214,27 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
             {
                 _playerToMove = node.Move.WhoMoves.GetOpponentColor();
             }
-            this.CurrentNodeStatus = status;
+            CurrentNodeStatus = status;
         }
 
         private void LoadProblem(TsumegoProblem problem)
         {
-            this._currentProblem = problem;
-            this._currentProblemTree = this._currentProblem.SpawnThisProblem();
-            this.CurrentProblemName = this._currentProblem.Name;
-            this.CurrentProblemInstructions = this._currentProblemTree.Comment;
-            this.CurrentNode = this._currentProblemTree;
-            this._playerToMove = this._currentProblem.ColorToPlay;
-            this._humansColor = this._playerToMove;
-            this.CurrentNodeStatus = this._humansColor + " to play.";
+            _currentProblem = problem;
+            _currentProblemTree = _currentProblem.SpawnThisProblem();
+            CurrentProblemName = _currentProblem.Name;
+            CurrentProblemInstructions = _currentProblemTree.Comment;
+            CurrentNode = _currentProblemTree;
+            _playerToMove = _currentProblem.ColorToPlay;
+            _humansColor = _playerToMove;
+            CurrentNodeStatus = _humansColor + " to play.";
         }
 
-        public GameTreeNode CurrentNode
-        {
-            get { return this._currentNode; }
-            set
-            {
-                SetProperty(ref _currentNode, value);
-                BoardViewModel.GameTreeNode = value;
-            }
-        }
-        public string CurrentNodeStatus
-        {
-            get { return this._currentNodeStatus; }
-            set { SetProperty(ref _currentNodeStatus, value); }
-        }
-        public string CurrentProblemName
-        {
-            get { return this._currentProblemName; }
-            set { SetProperty(ref _currentProblemName, value); }
-        }
-        public string CurrentProblemInstructions
-        {
-            get { return this._currentProblemInstructions; }
-            set { SetProperty(ref _currentProblemInstructions, value); }
-        }
-
-        public bool ShowPossibleMoves
-        {
-            get { return this._settings.Tsumego.ShowPossibleMoves; }
-            set
-            {
-                this._settings.Tsumego.ShowPossibleMoves = value;
-                this.BoardViewModel.Redraw();
-                this.RaisePropertyChanged();
-            }
-        }
 
 
         // Navigation
         public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
         {
-            int i = Problems.AllProblems.IndexOf(this._currentProblem);
+            int i = Problems.AllProblems.IndexOf(_currentProblem);
             int prev = i - 1;
             if (prev >= 0)
             {
@@ -228,7 +243,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         });
         public IMvxCommand GoToNextProblem => new MvxCommand(() =>
         {
-            int i = Problems.AllProblems.IndexOf(this._currentProblem);
+            int i = Problems.AllProblems.IndexOf(_currentProblem);
             int next = i + 1;
             if (next < Problems.AllProblems.Count)
             {
@@ -237,16 +252,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
         });
         public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove);
 
-        // Init
-        public TsumegoViewModel()
-        {
-            var problem = Mvx.GetSingleton<TsumegoProblem>();
 
-            BoardViewModel = new BoardViewModel(new GameBoardSize(19));
-            BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
-
-            LoadProblem(problem);
-        }
 
 
     }

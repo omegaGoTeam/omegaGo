@@ -18,5 +18,10 @@ namespace OmegaGo.Core.Time.None
         {
             return false;
         }
+
+        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        {
+            
+        }
     }
 }

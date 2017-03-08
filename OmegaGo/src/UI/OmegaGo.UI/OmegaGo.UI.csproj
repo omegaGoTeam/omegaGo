@@ -96,6 +96,7 @@
     <Compile Include="Services\Localization\LocalizedMetadata\AiProgramLocalizedMetadata.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
+    <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -117,10 +118,12 @@
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
+    <Compile Include="Services\Quests\IQuestsManager.cs" />
+    <Compile Include="Services\Quests\QuestsManager.cs" />
+    <Compile Include="Services\Quests\Ranks.cs" />
     <Compile Include="Services\Quests\RewardPoints.cs" />
     <Compile Include="Services\Quests\Quest.cs" />
     <Compile Include="Services\Quests\QuestCooldownActions.cs" />
-    <Compile Include="Services\Quests\QuestEvents.cs" />
     <Compile Include="Board\Styles\BoardTheme.cs" />
     <Compile Include="Services\Settings\InterfaceMementos.cs" />
     <Compile Include="Services\Settings\StatisticsRecords.cs" />

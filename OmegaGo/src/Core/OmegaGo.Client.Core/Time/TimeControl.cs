@@ -79,5 +79,8 @@ namespace OmegaGo.Core.Time
                     (DateTime.Now - this.LastTimeClockStarted) :
                     TimeSpan.Zero);
         }
+
+        // TODO Petr is the parameter indeed "seconds left"?
+        public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
     }
 }

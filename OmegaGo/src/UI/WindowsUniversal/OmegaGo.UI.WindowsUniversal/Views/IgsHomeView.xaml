@@ -108,13 +108,16 @@
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console">
+                    <StackPanel>
+                        <Button Click="RefreshConsole">Refresh</Button>
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
                     <TextBlock
-                       
                         Padding="20"
-                                Text="{Binding Console, Mode=OneWay}" TextWrapping="Wrap"
+                               Name="IgsConsole" 
+                               TextWrapping="Wrap"
                                FontFamily="Consolas" FontSize="14"></TextBlock>
                     </ScrollViewer>
+                    </StackPanel>
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -162,3 +165,4 @@
         </Border>
     </Grid>
 </views:TransparencyViewBase>
+

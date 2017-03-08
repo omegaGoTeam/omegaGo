@@ -1,5 +1,7 @@
-﻿using OmegaGo.Core.Modes.LiveGame.Phases;
+﻿using System;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -34,18 +36,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         /// </summary>
         internal new RemoteGameInfo Info { get; }
 
-
-        //TODO Petr : IMPLEMENT THIS
-        //private void Events_TimeControlAdjustment(object sender, TimeControlAdjustmentEventArgs e)
-        //{
-        //    if (e.Game == this.OnlineGame)
-        //    {
-        //        if (this.Players.Black.Clock is CanadianTimeControl)
-        //        {
-        //            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-        //            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
-        //        }
-        //    }
-        //}
+        public event EventHandler<ChatMessage> ChatMessageReceived;
+        internal void OnChatMessageReceived(ChatMessage message)
+        {
+            ChatMessageReceived?.Invoke(this, message);
+        }
     }
 }

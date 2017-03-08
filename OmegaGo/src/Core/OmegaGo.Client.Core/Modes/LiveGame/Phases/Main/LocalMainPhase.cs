@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -21,9 +22,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             Undo();
         }
 
-        protected override void MainRequestUndo()
+        protected override Task MainRequestUndo()
         {
             MainForceUndo();
+            return Task.FromResult(0);
         }
 
         /// <summary>

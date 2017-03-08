@@ -20,6 +20,8 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -30,6 +32,7 @@ namespace OmegaGo.UI.ViewModels
     public class GameViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
+        private readonly IQuestsManager _questsManager;
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly StringBuilder _systemLog = new StringBuilder();
@@ -42,17 +45,10 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _resumeGameCommand;
         private ICommand _requestUndoDeathMarksCommand;
 
-        private string _debugInfo = "n/a";
-
+        private string _debugInfo = "n/a";    
         private int _maximumMoveIndex;
-
         private int _previousMoveIndex = -1;
-
-
-        private int _selectedMoveIndex;
-
-
-        private int frames;
+        private int _selectedMoveIndex;        
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -60,9 +56,10 @@ namespace OmegaGo.UI.ViewModels
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers =
             new Dictionary<GamePhaseType, Action<IGamePhase>>();
 
-        public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
+        public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
+            _questsManager = questsManager;
             _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
@@ -177,7 +174,7 @@ namespace OmegaGo.UI.ViewModels
         private async void Controller_GameEnded(object sender, GameEndInformation e)
         {
             _gameSettings.Statistics.GameHasBeenCompleted(Game, e);
-            _gameSettings.Quests.Events.GameCompleted(Game, e);
+            _questsManager.GameCompleted(Game, e);
             await _dialogService.ShowAsync(e.ToString(), $"End reason: {e.Reason}");
         }
 
@@ -202,7 +199,7 @@ namespace OmegaGo.UI.ViewModels
             if (eventArgs.NewPhase != null)
             {
                 _phaseStartHandlers.ItemOrDefault(eventArgs.NewPhase.Type)?.
-                    Invoke(eventArgs.PreviousPhase);
+                    Invoke(eventArgs.NewPhase);
             }
         }
 
@@ -222,6 +219,7 @@ namespace OmegaGo.UI.ViewModels
         public void Init()
         {
             Game.Controller.BeginGame();
+            UpdateTimeline();
         }
 
         private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
@@ -283,7 +281,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                _uiConnector.LifeDeath_RequestKillGroup(selectedPosition);
+                _uiConnector.RequestLifeDeathKillGroup(selectedPosition);
             }
             else
             {
@@ -312,7 +310,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            UiConnector.Main_RequestUndo();
+            _uiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
@@ -337,17 +335,19 @@ namespace OmegaGo.UI.ViewModels
 
         private void LifeAndDeathDone()
         {
-            _uiConnector.LifeDeath_RequestDone();
+            _uiConnector.RequestLifeDeathDone();
         }
         
         private void ResumeGame()
         {
-            _uiConnector.LifeDeath_ForceReturnToMain();
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
+            _uiConnector.ForceLifeDeathReturnToMain();
         }
         
         private void RequestUndoDeathMarks()
         {
-            _uiConnector.LifeDeath_RequestUndoDeathMarks();
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
         private void SetupPhaseChangeHandlers()

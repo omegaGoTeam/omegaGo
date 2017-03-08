@@ -162,7 +162,6 @@
             this.button4.TabIndex = 6;
             this.button4.Text = "Send Command";
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // tbCommand
             // 
@@ -171,7 +170,6 @@
             this.tbCommand.Name = "tbCommand";
             this.tbCommand.Size = new System.Drawing.Size(253, 23);
             this.tbCommand.TabIndex = 7;
-            this.tbCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommand_KeyDown);
             // 
             // lbUsers
             // 

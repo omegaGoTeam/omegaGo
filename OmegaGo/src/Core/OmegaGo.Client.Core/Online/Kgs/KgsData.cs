@@ -94,6 +94,7 @@ namespace OmegaGo.Core.Online.Kgs
         public void JoinGame(KgsGame ongame)
         {
             Channels[ongame.Info.ChannelId] = new KgsGameChannel(ongame.Info.ChannelId);
+            Channels[ongame.Info.ChannelId].Joined = true;
             JoinedChannels.Add(ongame.Info.ChannelId);
             joinedGames.Add(ongame.Info.ChannelId, ongame);
         }

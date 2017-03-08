@@ -22,6 +22,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
     {
         public static bool PermitCheats;
         private static readonly IGameSettings GameSettings = Mvx.Resolve<IGameSettings>();
+        private static readonly IQuestsManager QuestManager = Mvx.Resolve<IQuestsManager>();
 
         /// <summary>
         /// Initializes cheat handling for the current app window
@@ -61,6 +62,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
 
         public static void HandleKeyPress(AcceleratorKeyEventArgs keyPressEventArgs)
         {
+            if (keyPressEventArgs.EventType != CoreAcceleratorKeyEventType.KeyDown)
+            {
+                return;
+            }
             switch (keyPressEventArgs.VirtualKey)
             {
                 case VirtualKey.F1:
@@ -76,6 +81,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
                 case VirtualKey.F3:
                     Cheats.GameSettings.Quests.ClearAllQuests();
                     AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: All quests cleared."));
+                    break;
+                case VirtualKey.F4:
+                    QuestManager.AddPoints(100);
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: +100 points"));
                     break;
                 default:
                     //not handled, just return

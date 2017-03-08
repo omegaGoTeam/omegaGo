@@ -16,6 +16,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -101,6 +102,39 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Indicates that the game phase has changed.
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
+        
+        /// <summary>
+        /// Gets the player currently on turn
+        /// </summary>
+        public GamePlayer TurnPlayer
+        {
+            get { return _turnPlayer; }
+            internal set
+            {
+                if (_turnPlayer != value)
+                {
+                    _turnPlayer?.Clock.StopClock();
+
+                    _turnPlayer = value;
+                    _turnPlayer.Clock.StartClock();
+
+                    OnTurnPlayerChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the current game tree node
+        /// </summary>
+        public GameTreeNode CurrentNode
+        {
+            get { return _currentNode; }
+            private set
+            {
+                _currentNode = value;
+                OnCurrentNodeChanged();
+            }
+        }
 
         /// <summary>
         /// Ruleset of the game.
@@ -111,6 +145,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Players in the game.
         /// </summary>
         public PlayerPair Players { get; }
+
 
         /// <summary>
         /// Gets the game tree.
@@ -155,39 +190,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void RegisterConnector(IGameConnector connector)
         {
             _registeredConnectors.Add(connector);
-        }
-
-        /// <summary>
-        /// Gets the current game tree node
-        /// </summary>
-        public GameTreeNode CurrentNode
-        {
-            get { return _currentNode; }
-            private set
-            {
-                _currentNode = value;
-                OnCurrentNodeChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets the player currently on turn
-        /// </summary>
-        public GamePlayer TurnPlayer
-        {
-            get { return _turnPlayer; }
-            internal set
-            {
-                if (_turnPlayer != value)
-                {
-                    _turnPlayer?.Clock.StopClock();
-
-                    _turnPlayer = value;
-                    _turnPlayer.Clock.StartClock();
-
-                    OnTurnPlayerChanged();
-                }
-            }
         }
 
         /// <summary>
@@ -295,6 +297,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
+        /// Fires the <see cref="TurnPlayerChanged"/> event. 
+        /// </summary>
+        protected virtual void OnTurnPlayerChanged()
+        {
+            TurnPlayerChanged?.Invoke(this, TurnPlayer);
+        }        
+
+        /// <summary>
         /// Subscribes to whole-game events raisable by agents. Whole-game events may happen regardless 
         /// of the current phase.
         /// </summary>
@@ -336,19 +346,11 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             GameEnded?.Invoke(this, endInformation);
         }
-
-        /// <summary>
-        /// Fires the <see cref="TurnPlayerChanged"/> event. 
-        /// </summary>
-        protected virtual void OnTurnPlayerChanged()
-        {
-            TurnPlayerChanged?.Invoke(this, TurnPlayer);
-        }
-
+        
         /// <summary>
         /// Fires the current <see cref="CurrentNodeChanged"/> event. 
         /// </summary>
-        public virtual void OnCurrentNodeChanged()
+        private void OnCurrentNodeChanged()
         {
             CurrentNodeChanged?.Invoke(this, CurrentNode);
         }

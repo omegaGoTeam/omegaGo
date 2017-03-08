@@ -25,11 +25,17 @@ namespace OmegaGo.Core.Time.Absolute
             return (_mainTime - addThisTime).Ticks <= 0;
         }
 
+        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            _mainTime = TimeSpan.FromSeconds(secondsLeftIThink);
+        }
+
         private TimeSpan _mainTime;
 
-        public AbsoluteTimeControl(int minutes)
+        public AbsoluteTimeControl(int seconds)
         {
-            _mainTime = TimeSpan.FromMinutes(minutes);
+            _mainTime = TimeSpan.FromSeconds(seconds);
         }
     }
 }

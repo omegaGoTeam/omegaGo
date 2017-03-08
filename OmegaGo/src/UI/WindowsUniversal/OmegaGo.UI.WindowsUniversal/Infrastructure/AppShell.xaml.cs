@@ -13,6 +13,7 @@ using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Game.Styles;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
@@ -224,14 +225,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <summary>
         /// Initiates back navigation
         /// </summary>
-        public void GoBack()
+        /// <returns>Was back navigation handled?</returns>
+        public bool GoBack()
         {
             if (AppFrame.CanGoBack)
             {
                 var view = AppFrame.Content as ViewBase;
                 var vm = view?.ViewModel as ViewModelBase;
                 vm?.GoBackCommand.Execute(null);
+                return true;
             }
+            return false;
         }
 
 
@@ -282,7 +286,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void BackRequested(object sender, BackRequestedEventArgs e)
         {
-            GoBack();
+            if (GoBack())
+            {
+                //prevent navigation from the app
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -290,11 +298,19 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        private async void EscapingHandling(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
-                if (!args.Handled)
+                var view = AppFrame.Content as MainMenuView;
+                if (!AppFrame.CanGoBack && view != null)
+                {
+                    if (await Mvx.Resolve<IDialogService>().ShowConfirmationDialogAsync( "Do you really want to quit the game?", "Quit game?", "Quit", "Cancel"))
+                    {
+                        Application.Current.Exit();
+                    }
+                }
+                else if (!args.Handled)
                 {
                     args.Handled = true;
                     //handle back navigation as usual

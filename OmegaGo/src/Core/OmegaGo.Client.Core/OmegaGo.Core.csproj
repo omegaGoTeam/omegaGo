@@ -164,12 +164,13 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
-    <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
+    <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
     <Compile Include="Online\Kgs\Downstream\AutomatchPrefs.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
     <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
     <Compile Include="Online\Kgs\Downstream\UserUpdate.cs" />
+    <Compile Include="Online\Kgs\Structures\KgsChallenge.cs" />
     <Compile Include="Online\Kgs\Structures\KgsChannel.cs" />
     <Compile Include="Online\Kgs\KgsCommands.cs" />
     <Compile Include="Online\Kgs\KgsConnection.cs" />

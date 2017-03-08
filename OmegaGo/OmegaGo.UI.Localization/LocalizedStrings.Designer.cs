@@ -879,11 +879,92 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Omega Novice.
+        /// </summary>
+        public static string Rank1 {
+            get {
+                return ResourceManager.GetString("Rank1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Apprentice.
+        /// </summary>
+        public static string Rank2 {
+            get {
+                return ResourceManager.GetString("Rank2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Expert.
+        /// </summary>
+        public static string Rank3 {
+            get {
+                return ResourceManager.GetString("Rank3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Master.
+        /// </summary>
+        public static string Rank4 {
+            get {
+                return ResourceManager.GetString("Rank4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Omega Graduate.
+        /// </summary>
+        public static string Rank5 {
+            get {
+                return ResourceManager.GetString("Rank5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rename.
         /// </summary>
         public static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all progress?.
+        /// </summary>
+        public static string ResetAllProgress_Caption {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests..
+        /// </summary>
+        public static string ResetAllProgress_Content {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string ResetAllProgress_No {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all progress!.
+        /// </summary>
+        public static string ResetAllProgress_Yes {
+            get {
+                return ResourceManager.GetString("ResetAllProgress_Yes", resourceCulture);
             }
         }
         
@@ -1217,6 +1298,24 @@ namespace OmegaGo.UI.Localization {
         public static string WhiteHandicap {
             get {
                 return ResourceManager.GetString("WhiteHandicap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have advanced to a new omegaGo rank: {0}. Congratulations!.
+        /// </summary>
+        public static string YouHaveAdvancedToNewRankX {
+            get {
+                return ResourceManager.GetString("YouHaveAdvancedToNewRankX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0} points (now you have {1}).
+        /// </summary>
+        public static string YouHaveGainedXPointsNowYouHaveY {
+            get {
+                return ResourceManager.GetString("YouHaveGainedXPointsNowYouHaveY", resourceCulture);
             }
         }
     }
