@@ -29,7 +29,9 @@
         </GradientStopCollection>
     </LinearGradientBrush>
 
-    <Style x:Key="StandardButtonStyle" TargetType="Button">
+    <!--x:Key="StandardButtonStyle"-->
+    
+    <Style TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
