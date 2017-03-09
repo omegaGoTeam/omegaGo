@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Quests
     /// <summary>
     /// Manages quests
     /// </summary>
-    public class QuestsManager : IQuestsManager
+    internal class QuestsManager : IQuestsManager
     {
         private readonly IGameSettings _gameSettings;
         private readonly IAppNotificationService _appNotificationService;
