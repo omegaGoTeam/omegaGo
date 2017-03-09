@@ -33,8 +33,8 @@ namespace OmegaGo.UI.ViewModels
     {
         public ChatViewModel ChatViewModel { get; private set; }
 
-        public OnlineGameViewModel(IGameSettings gameSettings, IDialogService dialogService)
-            : base(gameSettings, dialogService)
+        public OnlineGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+            : base(gameSettings, questsManager, dialogService)
         {
             ChatViewModel = new ChatViewModel();
         }

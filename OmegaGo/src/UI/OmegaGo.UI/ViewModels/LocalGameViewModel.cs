@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Quests;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -81,8 +82,8 @@ namespace OmegaGo.UI.ViewModels
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
         
 
-        public LocalGameViewModel(IGameSettings gameSettings, IDialogService dialogService)
-            : base (gameSettings, dialogService)
+        public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+            : base (gameSettings, questsManager, dialogService)
         {
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
             WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
