@@ -59,11 +59,8 @@
                 <TextBlock Text="Life/Death" FontSize="20"/>
                 <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done"/>
                 <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks"/>
-                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game"/> 
+                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game"/>
                 <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button IsEnabled="False" Content="undoplease"/>
-                <Button IsEnabled="False" Content="undo (yes)"/>
-                <Button IsEnabled="False" Content="noundo"/>
                 <Button Command="{x:Bind VM.UndoCommand}" Content="undo locally"/>
                 <TextBlock Text="Moves" FontSize="20"/>
                 <Button Command="{x:Bind VM.PassCommand}" Content="PASS"/>

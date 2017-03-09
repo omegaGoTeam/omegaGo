@@ -126,6 +126,7 @@ namespace OmegaGo.UI.ViewModels
         protected override async void OnGameEnded(GameEndInformation endInformation)
         {
             GameSettings.Statistics.GameHasBeenCompleted(Game, endInformation);
+            QuestsManager.GameCompleted(Game, endInformation);
             await DialogService.ShowAsync(endInformation.ToString(), $"End reason: {endInformation.Reason}");
         }
         

@@ -9,6 +9,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
@@ -26,6 +27,7 @@ namespace OmegaGo.UI.ViewModels
         private readonly IGame _game;
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
+        private readonly IQuestsManager _questsManager;
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
@@ -36,10 +38,12 @@ namespace OmegaGo.UI.ViewModels
         protected IGameSettings GameSettings => _gameSettings;
         protected IDialogService DialogService => _dialogService;
         protected UiConnector UiConnector => _uiConnector;
-
-        public GameViewModel(IGameSettings gameSettings, IDialogService dialogService)
+        protected IQuestsManager QuestsManager => _questsManager;
+        
+        public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
+            _questsManager = questsManager;
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
