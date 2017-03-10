@@ -306,10 +306,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 var view = AppFrame.Content as MainMenuView;
                 if (!AppFrame.CanGoBack && view != null)
                 {
-                    OmegaGo.UI.Services.Localization.ILocalizationService loc =
-                        Mvx.Resolve<OmegaGo.UI.Services.Localization.ILocalizationService>();
-                    Localizer localizer = (Localizer)loc;
-                    if (await Mvx.Resolve<IDialogService>().ShowConfirmationDialogAsync(
+                    var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
+                    var dialogService = Mvx.Resolve<IDialogService>();
+                    if (await dialogService.ShowConfirmationDialogAsync(
                         localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
                     {
                         Application.Current.Exit();
