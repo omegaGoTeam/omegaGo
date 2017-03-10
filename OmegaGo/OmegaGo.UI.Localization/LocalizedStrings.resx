@@ -357,7 +357,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Mute all</value>
   </data>
   <data name="OmegaGo" xml:space="preserve">
-    <value>Omega Go</value>
+    <value>omegaGo</value>
   </data>
   <data name="OnlineGame" xml:space="preserve">
     <value>On-line game</value>
@@ -483,7 +483,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Hotseat games played:</value>
   </data>
   <data name="OmegaGoRankColon" xml:space="preserve">
-    <value>Omega Go rank:</value>
+    <value>omegaGo rank:</value>
   </data>
   <data name="OnlineGamesPlayed" xml:space="preserve">
     <value>Online games played:</value>
@@ -541,5 +541,68 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="ResetAllProgress_Yes" xml:space="preserve">
     <value>Reset all progress!</value>
+  </data>
+  <data name="IgsRankColon" xml:space="preserve">
+    <value>IGS Rank:</value>
+  </data>
+  <data name="KgsRankColon" xml:space="preserve">
+    <value>KGS Rank:</value>
+  </data>
+  <data name="MuteTooltip" xml:space="preserve">
+    <value>Toggle muting all sounds (icon shows current state)</value>
+    <comment>Default option to continue to next line in tutorial</comment>
+  </data>
+  <data name="NextRankAtColon" xml:space="preserve">
+    <value>Next rank at:</value>
+  </data>
+  <data name="PlayAgainstAI" xml:space="preserve">
+    <value>Play against AI</value>
+    <comment>Goes to solo menu</comment>
+  </data>
+  <data name="Quests" xml:space="preserve">
+    <value>Quests</value>
+  </data>
+  <data name="QuestsFooter" xml:space="preserve">
+    <value>You receive a new quest every midnight, local time, unless you already have 3 quests.</value>
+  </data>
+  <data name="Quest_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Quest_ReplaceTooltip" xml:space="preserve">
+    <value>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</value>
+  </data>
+  <data name="Quest_TryThisNow" xml:space="preserve">
+    <value>Try this now</value>
+  </data>
+  <data name="Quest_TryThisNowTooltip" xml:space="preserve">
+    <value>This will take you to a screen where you can work on this quest.</value>
+  </data>
+  <data name="QuitCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="QuitCaption" xml:space="preserve">
+    <value>Quit game?</value>
+  </data>
+  <data name="QuitConfirm" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="QuitText" xml:space="preserve">
+    <value>Do you really want to quit the game?</value>
+  </data>
+  <data name="SingleplayerMenu" xml:space="preserve">
+    <value>Singleplayer Menu</value>
+  </data>
+  <data name="SolvedExclamationPoint" xml:space="preserve">
+    <value>Solved!</value>
+  </data>
+  <data name="SolvePuzzles" xml:space="preserve">
+    <value>Solve puzzles</value>
+    <comment>Goes to tsumego menu</comment>
+  </data>
+  <data name="TsumegoMenuCaption" xml:space="preserve">
+    <value>Solve tsumego problems</value>
+  </data>
+  <data name="Tutorial_Next" xml:space="preserve">
+    <value>Next</value>
   </data>
 </root>

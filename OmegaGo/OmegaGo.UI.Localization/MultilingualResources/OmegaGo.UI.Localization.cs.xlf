@@ -217,8 +217,8 @@
           <target state="final">Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</target>
         </trans-unit>
         <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
-          <source>Omega Go</source>
-          <target state="final">Omega Go</target>
+          <source>omegaGo</source>
+          <target state="final">omegaGo</target>
         </trans-unit>
         <trans-unit id="Game" translate="yes" xml:space="preserve">
           <source>Game</source>
@@ -447,8 +447,7 @@ Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</targ
         <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
           <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
 After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
-          <target state="new">The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
-After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</target>
+          <target state="translated">Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</target>
         </trans-unit>
         <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
           <source>Defeatist</source>
@@ -458,9 +457,9 @@ After you make your first move, or even before that, the AI will conclude that i
           <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
 It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
 We recommend you use this AI program for all of your games.</source>
-          <target state="new">Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
-It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
-We recommend you use this AI program for all of your games.</target>
+          <target state="translated">Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
           <source>Fuego</source>
@@ -469,16 +468,16 @@ We recommend you use this AI program for all of your games.</target>
         <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
 This AI will pass only in response to its opponent passing, in which case it will always pass.</source>
-          <target state="new">This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
-This AI will pass only in response to its opponent passing, in which case it will always pass.</target>
+          <target state="translated">Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
+Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</target>
         </trans-unit>
         <trans-unit id="AI_HeuristicPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>The Puppy (heuristic)</source>
-          <target state="new">The Puppy (heuristic)</target>
+          <target state="translated">Štěně (heuristika</target>
         </trans-unit>
         <trans-unit id="AI_RandomAI_Description" translate="yes" xml:space="preserve">
           <source>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</source>
-          <target state="new">This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</target>
+          <target state="translated">Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</target>
         </trans-unit>
         <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
           <source>Random</source>
@@ -487,8 +486,8 @@ This AI will pass only in response to its opponent passing, in which case it wil
         <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI plays random moves while the board is not empty.
 I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</source>
-          <target state="new">This AI plays random moves while the board is not empty.
-I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</target>
+          <target state="translated">Tato umělá inteligence hraje náhodně, dokud je nějaké místo volné.
+Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud nebudete mít zvláštní štěstí).</target>
         </trans-unit>
         <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
           <source>The Fish</source>
@@ -499,7 +498,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
           <target state="translated">Her v horkém křesle:</target>
         </trans-unit>
         <trans-unit id="OmegaGoRankColon" translate="yes" xml:space="preserve">
-          <source>Omega Go rank:</source>
+          <source>omegaGo rank:</source>
           <target state="translated">Tvoje hodnost:</target>
         </trans-unit>
         <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
@@ -540,47 +539,130 @@ I dare you to let two Fish play against each other. The game will never end (unl
         </trans-unit>
         <trans-unit id="Rank1" translate="yes" xml:space="preserve">
           <source>Omega Novice</source>
-          <target state="new">Omega Novice</target>
+          <target state="translated">Novic při omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank2" translate="yes" xml:space="preserve">
           <source>Omega Apprentice</source>
-          <target state="new">Omega Apprentice</target>
+          <target state="translated">Učeň při omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank3" translate="yes" xml:space="preserve">
           <source>Omega Expert</source>
-          <target state="new">Omega Expert</target>
+          <target state="translated">Expert v omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank4" translate="yes" xml:space="preserve">
           <source>Omega Master</source>
-          <target state="new">Omega Master</target>
+          <target state="translated">Mistr omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank5" translate="yes" xml:space="preserve">
           <source>Omega Graduate</source>
-          <target state="new">Omega Graduate</target>
+          <target state="translated">Absolvent omegaGo</target>
         </trans-unit>
         <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
           <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
-          <target state="new">You have advanced to a new omegaGo rank: {0}. Congratulations!</target>
+          <target state="translated">Povýšili jste na novou hodnost: {0}. Gratulujeme!</target>
         </trans-unit>
         <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
           <source>+{0} points (now you have {1})</source>
-          <target state="new">+{0} points (now you have {1})</target>
+          <target state="translated">+{0} bodů (nyní máte {1})</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Caption" translate="yes" xml:space="preserve">
           <source>Reset all progress?</source>
-          <target state="new">Reset all progress?</target>
+          <target state="needs-review-translation">Zahodit všechny statistiky?</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Content" translate="yes" xml:space="preserve">
           <source>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</source>
-          <target state="new">All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</target>
+          <target state="translated">Všechny herní čítače budou sníženy na nulu. Všechny body budou ztraceny. Budete mít znovu nejnižší omega hodnost. Informace o tom, které problémy tsumego byly vyřešeny, budou ztraceny. Zůstanou vám vaše současné questy.</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_No" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation">Storno</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Yes" translate="yes" xml:space="preserve">
           <source>Reset all progress!</source>
-          <target state="new">Reset all progress!</target>
+          <target state="needs-review-translation">Zahodit všechny statistiky!</target>
+        </trans-unit>
+        <trans-unit id="IgsRankColon" translate="yes" xml:space="preserve">
+          <source>IGS Rank:</source>
+          <target state="translated">Třída na IGS:</target>
+        </trans-unit>
+        <trans-unit id="KgsRankColon" translate="yes" xml:space="preserve">
+          <source>KGS Rank:</source>
+          <target state="translated">Třída na KGS:</target>
+        </trans-unit>
+        <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="translated">Další</target>
+        </trans-unit>
+        <trans-unit id="MuteTooltip" translate="yes" xml:space="preserve">
+          <source>Toggle muting all sounds (icon shows current state)</source>
+          <target state="translated">Povolí nebo vypne všechny zvuky (ikonka zobrazuje současný stav)</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
+        </trans-unit>
+        <trans-unit id="NextRankAtColon" translate="yes" xml:space="preserve">
+          <source>Next rank at:</source>
+          <target state="translated">Body na další hodnost:</target>
+        </trans-unit>
+        <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
+          <source>Play against AI</source>
+          <target state="translated">Hrát proti počítači</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
+        </trans-unit>
+        <trans-unit id="Quests" translate="yes" xml:space="preserve">
+          <source>Quests</source>
+          <target state="translated">Questy</target>
+        </trans-unit>
+        <trans-unit id="Quest_Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="translated">Vyměnit</target>
+        </trans-unit>
+        <trans-unit id="Quest_ReplaceTooltip" translate="yes" xml:space="preserve">
+          <source>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</source>
+          <target state="translated">Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
+          <source>Try this now</source>
+          <target state="translated">Zkusit nyní</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
+          <source>This will take you to a screen where you can work on this quest.</source>
+          <target state="translated">Toto tlačítko vás přesune na obrazovku, kde můžete pracovat na tomto questu.</target>
+        </trans-unit>
+        <trans-unit id="QuitCancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Storno</target>
+        </trans-unit>
+        <trans-unit id="QuitCaption" translate="yes" xml:space="preserve">
+          <source>Quit game?</source>
+          <target state="translated">Ukončit hru?</target>
+        </trans-unit>
+        <trans-unit id="QuitConfirm" translate="yes" xml:space="preserve">
+          <source>Quit</source>
+          <target state="translated">Ukončit</target>
+        </trans-unit>
+        <trans-unit id="QuitText" translate="yes" xml:space="preserve">
+          <source>Do you really want to quit the game?</source>
+          <target state="translated">Opravdu chcete ukončit hru?</target>
+        </trans-unit>
+        <trans-unit id="SingleplayerMenu" translate="yes" xml:space="preserve">
+          <source>Singleplayer Menu</source>
+          <target state="translated">Menu pro hru jednoho hráče</target>
+        </trans-unit>
+        <trans-unit id="SolvePuzzles" translate="yes" xml:space="preserve">
+          <source>Solve puzzles</source>
+          <target state="translated">Řešit problémy tsumego</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to tsumego menu</note>
+        </trans-unit>
+        <trans-unit id="QuestsFooter" translate="yes" xml:space="preserve">
+          <source>You receive a new quest every midnight, local time, unless you already have 3 quests.</source>
+          <target state="translated">Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</target>
+        </trans-unit>
+        <trans-unit id="TsumegoMenuCaption" translate="yes" xml:space="preserve">
+          <source>Solve tsumego problems</source>
+          <target state="translated">Řešit problémy tsumego</target>
+        </trans-unit>
+        <trans-unit id="SolvedExclamationPoint" translate="yes" xml:space="preserve">
+          <source>Solved!</source>
+          <target state="translated">Vyřešeno!</target>
         </trans-unit>
       </group>
     </body>

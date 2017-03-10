@@ -212,5 +212,25 @@ namespace OmegaGo.UI.Services.Localization
         public string ResetAllProgress_Caption => LocalizeCaller();
         public string ResetAllProgress_Yes => LocalizeCaller();
         public string ResetAllProgress_No => LocalizeCaller();
+        public string IgsRankColon => LocalizeCaller();
+        public string KgsRankColon => LocalizeCaller();
+        public string Tutorial_Next => LocalizeCaller();
+        public string MuteTooltip => LocalizeCaller();
+        public string SingleplayerMenu => LocalizeCaller();
+        public string SolvePuzzles => LocalizeCaller();
+        public string PlayAgainstAI => LocalizeCaller();
+        public string NextRankAtColon => LocalizeCaller();
+        public string Quests => LocalizeCaller();
+        public string Quest_TryThisNow => LocalizeCaller();
+        public string Quest_Replace => LocalizeCaller();
+        public string Quest_TryThisNowTooltip => LocalizeCaller();
+        public string Quest_ReplaceTooltip => LocalizeCaller();
+        public string QuitText => LocalizeCaller();
+        public string QuitCaption => LocalizeCaller();
+        public string QuitConfirm => LocalizeCaller();
+        public string QuitCancel => LocalizeCaller();
+        public string QuestsFooter => LocalizeCaller();
+        public string TsumegoMenuCaption => LocalizeCaller();
+        public string SolvedExclamationPoint => LocalizeCaller(); 
     }
 }
