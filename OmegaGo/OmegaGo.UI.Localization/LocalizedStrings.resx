@@ -542,6 +542,78 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ResetAllProgress_Yes" xml:space="preserve">
     <value>Reset all progress!</value>
   </data>
+  <data name="Tsumego_BlackToPlay" xml:space="preserve">
+    <value>Black to play.</value>
+  </data>
+  <data name="Tsumego_CorrectPanel" xml:space="preserve">
+    <value>Solved</value>
+  </data>
+  <data name="Tsumego_CurrentNodeStatus" xml:space="preserve">
+    <value>Current node status:</value>
+  </data>
+  <data name="Tsumego_CurrentProblemStatus" xml:space="preserve">
+    <value>Current problem status:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoCaption" xml:space="preserve">
+    <value>How to solve tsumego:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
+    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+  </data>
+  <data name="Tsumego_Instructions" xml:space="preserve">
+    <value>Instructions:</value>
+  </data>
+  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
+    <value>(more moves available)</value>
+  </data>
+  <data name="Tsumego_NextProblem" xml:space="preserve">
+    <value>Next problem</value>
+  </data>
+  <data name="Tsumego_NotYetSolved" xml:space="preserve">
+    <value>Not yet solved</value>
+  </data>
+  <data name="Tsumego_PreviousProblem" xml:space="preserve">
+    <value>Previous problem</value>
+  </data>
+  <data name="Tsumego_ProblemName" xml:space="preserve">
+    <value>Problem name:</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves" xml:space="preserve">
+    <value>Show possible moves</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves_Tooltip" xml:space="preserve">
+    <value>If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays.</value>
+  </data>
+  <data name="Tsumego_StatusContinue" xml:space="preserve">
+    <value>Continue...</value>
+  </data>
+  <data name="Tsumego_StatusCorrect" xml:space="preserve">
+    <value>Correct!</value>
+  </data>
+  <data name="Tsumego_StatusWrong" xml:space="preserve">
+    <value>Wrong.</value>
+  </data>
+  <data name="Tsumego_UndoOneMove" xml:space="preserve">
+    <value>Undo last move</value>
+  </data>
+  <data name="Tsumego_Unexpected" xml:space="preserve">
+    <value>(unexpected)</value>
+  </data>
+  <data name="Tsumego_ViewCaption" xml:space="preserve">
+    <value>Tsumego</value>
+  </data>
+  <data name="Tsumego_WhiteToPlay" xml:space="preserve">
+    <value>White to play.</value>
+  </data>
+  <data name="Tsumego_WrongPanel" xml:space="preserve">
+    <value>Wrong</value>
+  </data>
+  <data name="Tsumego_YouHavePreviouslySolvedThisProblem" xml:space="preserve">
+    <value>Solved (you have previously solved this problem).</value>
+  </data>
+  <data name="Tsumego_YouHaveSolvedThisProblem" xml:space="preserve">
+    <value>You have solved this problem!</value>
+  </data>
   <data name="IgsRankColon" xml:space="preserve">
     <value>IGS Rank:</value>
   </data>

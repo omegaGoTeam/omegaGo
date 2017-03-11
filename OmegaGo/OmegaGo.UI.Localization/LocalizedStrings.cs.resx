@@ -501,4 +501,31 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="SolvedExclamationPoint" xml:space="preserve">
     <value>Vyřešeno!</value>
   </data>
+  <data name="Tsumego_BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu.</value>
+  </data>
+  <data name="Tsumego_CorrectPanel" xml:space="preserve">
+    <value>Vyřešeno</value>
+  </data>
+  <data name="Tsumego_CurrentProblemStatus" xml:space="preserve">
+    <value>Stav tohoto problému:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoCaption" xml:space="preserve">
+    <value>Jak řešit tsumego:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
+    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+  </data>
+  <data name="Tsumego_Instructions" xml:space="preserve">
+    <value>Pokyny:</value>
+  </data>
+  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
+    <value>(je možné dále táhnout)</value>
+  </data>
+  <data name="Tsumego_NextProblem" xml:space="preserve">
+    <value>Další problém</value>
+  </data>
+  <data name="Tsumego_NotYetSolved" xml:space="preserve">
+    <value>Zatím nevyřešen</value>
+  </data>
 </root>
