@@ -450,7 +450,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</value>
   </data>
   <data name="TotalGamesPlayed" xml:space="preserve">
-    <value>Total games played:</value>
+    <value>Total games played</value>
   </data>
   <data name="Tutorial" xml:space="preserve">
     <value>Tutorial</value>
@@ -480,34 +480,34 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Fullscreen Mode</value>
   </data>
   <data name="HotseatGamesPlayed" xml:space="preserve">
-    <value>Hotseat games played:</value>
+    <value>Hotseat games played</value>
   </data>
-  <data name="OmegaGoRankColon" xml:space="preserve">
-    <value>omegaGo rank:</value>
+  <data name="OmegaGoRank" xml:space="preserve">
+    <value>omegaGo rank</value>
   </data>
   <data name="OnlineGamesPlayed" xml:space="preserve">
-    <value>Online games played:</value>
+    <value>Online games played</value>
   </data>
   <data name="OnlineGamesWon" xml:space="preserve">
-    <value>Online games won:</value>
+    <value>Online games won</value>
   </data>
   <data name="PointsColon" xml:space="preserve">
     <value>Points:</value>
   </data>
   <data name="QuestsCompleted" xml:space="preserve">
-    <value>Quests completed:</value>
+    <value>Quests completed</value>
   </data>
   <data name="SoloGamesPlayed" xml:space="preserve">
-    <value>Solo games played:</value>
+    <value>Solo games played</value>
   </data>
   <data name="SoloGamesWon" xml:space="preserve">
-    <value>Solo games won:</value>
+    <value>Solo games won</value>
   </data>
   <data name="TotalGamesWon" xml:space="preserve">
-    <value>Total games won:</value>
+    <value>Total games won</value>
   </data>
   <data name="TsumegoProblemsSolved" xml:space="preserve">
-    <value>Tsumego problems solved:</value>
+    <value>Tsumego problems solved</value>
   </data>
   <data name="Rank1" xml:space="preserve">
     <value>Omega Novice</value>
@@ -614,11 +614,11 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Tsumego_YouHaveSolvedThisProblem" xml:space="preserve">
     <value>You have solved this problem!</value>
   </data>
-  <data name="IgsRankColon" xml:space="preserve">
-    <value>IGS Rank:</value>
+  <data name="IgsRank" xml:space="preserve">
+    <value>IGS rank</value>
   </data>
-  <data name="KgsRankColon" xml:space="preserve">
-    <value>KGS Rank:</value>
+  <data name="KgsRank" xml:space="preserve">
+    <value>KGS rank</value>
   </data>
   <data name="MuteTooltip" xml:space="preserve">
     <value>Toggle muting all sounds (icon shows current state)</value>
@@ -676,5 +676,8 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="Tutorial_Next" xml:space="preserve">
     <value>Next</value>
+  </data>
+  <data name="ResetAllProgress" xml:space="preserve">
+    <value>Reset all progress</value>
   </data>
 </root>
