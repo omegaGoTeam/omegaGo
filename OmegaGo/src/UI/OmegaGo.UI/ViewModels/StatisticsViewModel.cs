@@ -32,6 +32,8 @@ namespace OmegaGo.UI.ViewModels
         public int OnlineGamesWon => Stats.OnlineGamesWon;
 
         public int QuestsCompleted => Stats.QuestsCompleted;
+        public string IgsRank => Stats.IgsRank;
+        public string KgsRank => Stats.KgsRank;
         public int TsumegoProblemsSolved => _settings.Tsumego.SolvedProblems.Count();
         public int Points => _settings.Quests.Points;
         public string Rank => Ranks.GetRankName(Localizer, Points);
