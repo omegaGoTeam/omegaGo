@@ -34,6 +34,10 @@ namespace OmegaGo.Core.AI
         /// Gets the agent's explanation for why it made this decision.
         /// </summary>
         public string Explanation { get; set; }
+
+        /// <summary>
+        /// Log of AI's decisions
+        /// </summary>
         public List<string> AiNotes { get; set; }
 
         /// <summary>

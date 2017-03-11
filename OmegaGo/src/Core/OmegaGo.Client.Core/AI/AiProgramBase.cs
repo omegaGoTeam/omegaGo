@@ -18,6 +18,11 @@ namespace OmegaGo.Core.AI
         public abstract AICapabilities Capabilities { get; }
 
         /// <summary>
+        /// AI agent backed by this AI
+        /// </summary>
+        protected AiAgent Agent { get; set; }
+
+        /// <summary>
         /// Requests a move from the AI
         /// </summary>
         /// <param name="preMoveInformation"></param>
@@ -37,9 +42,7 @@ namespace OmegaGo.Core.AI
             }
             return RequestMove(preMoveInformation);
         }
-
-        protected AiAgent Agent { get; set; }
-
+        
         public void SetAgent(AiAgent agent)
         {
             this.Agent = agent;
