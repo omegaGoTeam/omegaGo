@@ -42,6 +42,16 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(LocalGamesWon), () => 0, SettingLocality.Roamed); }
             set { SetSetting(nameof(LocalGamesWon), value, SettingLocality.Roamed); }
         }
+        public string IgsRank
+        {
+            get { return GetSetting(nameof(IgsRank), () => "N/A", SettingLocality.Roamed); }
+            set { SetSetting(nameof(IgsRank), value, SettingLocality.Roamed); }
+        }
+        public string KgsRank
+        {
+            get { return GetSetting(nameof(KgsRank), () => "N/A", SettingLocality.Roamed); }
+            set { SetSetting(nameof(KgsRank), value, SettingLocality.Roamed); }
+        }
 
         public void GameHasBeenCompleted(IGame game, GameEndInformation gameEndInformation)
         {

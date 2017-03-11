@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text;
+using MvvmCross.Platform;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Online
 {
@@ -19,8 +21,21 @@ namespace OmegaGo.UI.Services.Online
         /// <summary>
         /// Gets the connection to Pandanet-IGS Go server. 
         /// </summary>
-        public static IgsConnection Igs => _igsConnection ?? 
-                                            (_igsConnection = new IgsConnection());
+        public static IgsConnection Igs
+        {
+            get
+            {
+                if (Connections._igsConnection != null) return Connections._igsConnection;
+                _igsConnection = new IgsConnection();
+                _igsConnection.PersonalInformationUpdate += Connections.IgsRankUpdate;
+                return _igsConnection;
+            }
+        }
+
+        private static void IgsRankUpdate(object sender, IgsUser e)
+        {
+            Mvx.Resolve<IGameSettings>().Statistics.IgsRank = e.Rank.Trim();
+        }
 
         /// <summary>
         /// Gets the connection to KGS Go server. 
