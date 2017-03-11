@@ -25,16 +25,13 @@ namespace OmegaGo.UI.Services.Online
         {
             get
             {
-                if (Connections._igsConnection != null) return Connections._igsConnection;
-                _igsConnection = new IgsConnection();
-                _igsConnection.PersonalInformationUpdate += Connections.IgsRankUpdate;
-                return _igsConnection;
+                if (_igsConnection == null)
+                {
+                    _igsConnection = new IgsConnection();
+                    _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
+                }
+                return _igsConnection;                               
             }
-        }
-
-        private static void IgsRankUpdate(object sender, IgsUser e)
-        {
-            Mvx.Resolve<IGameSettings>().Statistics.IgsRank = e.Rank.Trim();
         }
 
         /// <summary>
@@ -58,6 +55,14 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
-
+        
+        /// <summary>
+        /// Handles IGS user update
+        /// </summary>
+        private static void IgsUserUpdate(object sender, IgsUser user)
+        {
+            //cache the IGS ranking
+            Mvx.Resolve<IGameSettings>().Statistics.IgsRank = user.Rank.Trim();
+        }
     }
 }
