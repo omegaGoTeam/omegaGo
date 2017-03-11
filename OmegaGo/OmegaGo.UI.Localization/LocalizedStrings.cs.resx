@@ -418,7 +418,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>omegaGo Absolvent</value>
   </data>
   <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
-    <value>Povýšili jste na novou hodnost: {0}. Gratulujeme!</value>
+    <value>Základní oranžová</value>
   </data>
   <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
     <value>+{0} bodů (nyní máte {1})</value>
@@ -496,7 +496,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Zahodit statistiky</value>
   </data>
   <data name="OmegaGoRank" xml:space="preserve">
-    <value>Třída v omegaGo</value>
+    <value>omegaGo rank</value>
   </data>
   <data name="IgsRank" xml:space="preserve">
     <value>IGS rank</value>
