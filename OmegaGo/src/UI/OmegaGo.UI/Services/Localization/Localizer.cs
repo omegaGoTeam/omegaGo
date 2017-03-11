@@ -238,34 +238,7 @@ namespace OmegaGo.UI.Services.Localization
         public string Tsumego_CorrectPanel => LocalizeCaller();
         public string Tsumego_WrongPanel => LocalizeCaller();
         public string Tsumego_CurrentProblemStatus => LocalizeCaller();
-        public string Tsumego_ViewCaption => LocalizeCaller();
-
-
-        public string Tsumego_YouHaveSolvedThisProblem => LocalizeCaller();
-        public string Tsumego_YouHavePreviouslySolvedThisProblem => LocalizeCaller();
-        public string Tsumego_NotYetSolved => LocalizeCaller();
-        public string Tsumego_StatusCorrect => LocalizeCaller();
-        public string Tsumego_StatusWrong => LocalizeCaller();
-        public string Tsumego_StatusContinue => LocalizeCaller();
-        public string Tsumego_BlackToPlay => LocalizeCaller();
-        public string Tsumego_WhiteToPlay => LocalizeCaller();
-        public string Tsumego_MoreMovesAvailable => LocalizeCaller();
-        public string Tsumego_Unexpected => LocalizeCaller();
-
-        public string Tsumego_ShowPossibleMoves => LocalizeCaller();
-        public string Tsumego_ShowPossibleMoves_Tooltip => LocalizeCaller();
-        public string Tsumego_ProblemName => LocalizeCaller();
-        public string Tsumego_Instructions => LocalizeCaller();
-        public string Tsumego_CurrentNodeStatus => LocalizeCaller();
-        public string Tsumego_HowToSolveTsumegoCaption => LocalizeCaller();
-        public string Tsumego_HowToSolveTsumegoText => LocalizeCaller();
-        public string Tsumego_PreviousProblem => LocalizeCaller();
-        public string Tsumego_NextProblem => LocalizeCaller();
-        public string Tsumego_UndoOneMove => LocalizeCaller();
-        public string Tsumego_CorrectPanel => LocalizeCaller();
-        public string Tsumego_WrongPanel => LocalizeCaller();
-        public string Tsumego_CurrentProblemStatus => LocalizeCaller();
-        public string Tsumego_ViewCaption => LocalizeCaller();
+        public string Tsumego_ViewCaption => LocalizeCaller();        
         public string IgsRankColon => LocalizeCaller();
         public string KgsRankColon => LocalizeCaller();
         public string Tutorial_Next => LocalizeCaller();
