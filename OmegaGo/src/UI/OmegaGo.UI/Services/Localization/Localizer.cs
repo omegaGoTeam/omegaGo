@@ -193,7 +193,7 @@ namespace OmegaGo.UI.Services.Localization
         public string QuestsCompleted => LocalizeCaller();
         public string TsumegoProblemsSolved => LocalizeCaller();
         public string PointsColon => LocalizeCaller();
-        public string OmegaGoRankColon => LocalizeCaller();
+        public string OmegaGoRank => LocalizeCaller();
 
         // Board settings control strings
         public string BoardSettings => LocalizeCaller();
@@ -208,12 +208,14 @@ namespace OmegaGo.UI.Services.Localization
         public string Rank5 => LocalizeCaller();
         public string YouHaveAdvancedToNewRankX => LocalizeCaller();
         public string YouHaveGainedXPointsNowYouHaveY => LocalizeCaller();
+
+        public string ResetAllProgress => LocalizeCaller();
         public string ResetAllProgress_Content => LocalizeCaller();
         public string ResetAllProgress_Caption => LocalizeCaller();
         public string ResetAllProgress_Yes => LocalizeCaller();
         public string ResetAllProgress_No => LocalizeCaller();
-        public string IgsRankColon => LocalizeCaller();
-        public string KgsRankColon => LocalizeCaller();
+        public string IgsRank => LocalizeCaller();
+        public string KgsRank => LocalizeCaller();
         public string Tutorial_Next => LocalizeCaller();
         public string MuteTooltip => LocalizeCaller();
         public string SingleplayerMenu => LocalizeCaller();

@@ -249,8 +249,8 @@
           <target state="final">Japonská</target>
         </trans-unit>
         <trans-unit id="TotalGamesPlayed" translate="yes" xml:space="preserve">
-          <source>Total games played:</source>
-          <target state="final">Celkem her odehráno:</target>
+          <source>Total games played</source>
+          <target state="final">Celkem her odehráno</target>
         </trans-unit>
         <trans-unit id="BoardTheme_OakWood" translate="yes" xml:space="preserve">
           <source>Oak wood</source>
@@ -494,44 +494,40 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Rybka</target>
         </trans-unit>
         <trans-unit id="HotseatGamesPlayed" translate="yes" xml:space="preserve">
-          <source>Hotseat games played:</source>
-          <target state="translated">Her v horkém křesle:</target>
-        </trans-unit>
-        <trans-unit id="OmegaGoRankColon" translate="yes" xml:space="preserve">
-          <source>omegaGo rank:</source>
-          <target state="translated">Tvoje hodnost:</target>
+          <source>Hotseat games played</source>
+          <target state="final">Her v horkém křesle</target>
         </trans-unit>
         <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
-          <source>Online games played:</source>
-          <target state="translated">Online her odehráno:</target>
+          <source>Online games played</source>
+          <target state="final">Online her odehráno</target>
         </trans-unit>
         <trans-unit id="OnlineGamesWon" translate="yes" xml:space="preserve">
-          <source>Online games won:</source>
-          <target state="translated">Vítězství v online hrách:</target>
+          <source>Online games won</source>
+          <target state="final">Vítězství v online hrách</target>
         </trans-unit>
         <trans-unit id="PointsColon" translate="yes" xml:space="preserve">
           <source>Points:</source>
           <target state="translated">Body:</target>
         </trans-unit>
         <trans-unit id="QuestsCompleted" translate="yes" xml:space="preserve">
-          <source>Quests completed:</source>
-          <target state="translated">Počet dokončených questů:</target>
+          <source>Quests completed</source>
+          <target state="final">Dokončených questů</target>
         </trans-unit>
         <trans-unit id="SoloGamesPlayed" translate="yes" xml:space="preserve">
-          <source>Solo games played:</source>
-          <target state="translated">Počet odehraných sólových her:</target>
+          <source>Solo games played</source>
+          <target state="final">Odehraných sólových her</target>
         </trans-unit>
         <trans-unit id="SoloGamesWon" translate="yes" xml:space="preserve">
-          <source>Solo games won:</source>
-          <target state="translated">Vítězství v sólových hrách:</target>
+          <source>Solo games won</source>
+          <target state="final">Vítězství v sólových hrách</target>
         </trans-unit>
         <trans-unit id="TotalGamesWon" translate="yes" xml:space="preserve">
-          <source>Total games won:</source>
-          <target state="translated">Celkem vítězství:</target>
+          <source>Total games won</source>
+          <target state="final">Celkem vítězství</target>
         </trans-unit>
         <trans-unit id="TsumegoProblemsSolved" translate="yes" xml:space="preserve">
-          <source>Tsumego problems solved:</source>
-          <target state="translated">Počet vyřešených tsumego problémů:</target>
+          <source>Tsumego problems solved</source>
+          <target state="final">Vyřešených tsumego problémů</target>
         </trans-unit>
         <trans-unit id="FullscreenModeCheckbox" translate="yes" xml:space="preserve">
           <source>Fullscreen Mode</source>
@@ -539,27 +535,27 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="Rank1" translate="yes" xml:space="preserve">
           <source>Omega Novice</source>
-          <target state="translated">Novic při omegaGo</target>
+          <target state="final">omegaGo Novic</target>
         </trans-unit>
         <trans-unit id="Rank2" translate="yes" xml:space="preserve">
           <source>Omega Apprentice</source>
-          <target state="translated">Učeň při omegaGo</target>
+          <target state="final">omegaGo Učeň</target>
         </trans-unit>
         <trans-unit id="Rank3" translate="yes" xml:space="preserve">
           <source>Omega Expert</source>
-          <target state="translated">Expert v omegaGo</target>
+          <target state="final">omegaGo Expert</target>
         </trans-unit>
         <trans-unit id="Rank4" translate="yes" xml:space="preserve">
           <source>Omega Master</source>
-          <target state="translated">Mistr omegaGo</target>
+          <target state="final">omegaGo Mistr</target>
         </trans-unit>
         <trans-unit id="Rank5" translate="yes" xml:space="preserve">
           <source>Omega Graduate</source>
-          <target state="translated">Absolvent omegaGo</target>
+          <target state="final">omegaGo Absolvent</target>
         </trans-unit>
         <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
           <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
-          <target state="translated">Povýšili jste na novou hodnost: {0}. Gratulujeme!</target>
+          <target state="translated">Základní oranžová</target>
         </trans-unit>
         <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
           <source>+{0} points (now you have {1})</source>
@@ -567,7 +563,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="ResetAllProgress_Caption" translate="yes" xml:space="preserve">
           <source>Reset all progress?</source>
-          <target state="needs-review-translation">Zahodit všechny statistiky?</target>
+          <target state="final">Zahodit všechny statistiky?</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Content" translate="yes" xml:space="preserve">
           <source>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</source>
@@ -575,19 +571,11 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="ResetAllProgress_No" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="needs-review-translation">Storno</target>
+          <target state="final">Storno</target>
         </trans-unit>
         <trans-unit id="ResetAllProgress_Yes" translate="yes" xml:space="preserve">
           <source>Reset all progress!</source>
-          <target state="needs-review-translation">Zahodit všechny statistiky!</target>
-        </trans-unit>
-        <trans-unit id="IgsRankColon" translate="yes" xml:space="preserve">
-          <source>IGS Rank:</source>
-          <target state="translated">Třída na IGS:</target>
-        </trans-unit>
-        <trans-unit id="KgsRankColon" translate="yes" xml:space="preserve">
-          <source>KGS Rank:</source>
-          <target state="translated">Třída na KGS:</target>
+          <target state="final">Zahodit všechny statistiky!</target>
         </trans-unit>
         <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
           <source>Next</source>
@@ -663,6 +651,22 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         <trans-unit id="SolvedExclamationPoint" translate="yes" xml:space="preserve">
           <source>Solved!</source>
           <target state="translated">Vyřešeno!</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress" translate="yes" xml:space="preserve">
+          <source>Reset all progress</source>
+          <target state="final">Zahodit statistiky</target>
+        </trans-unit>
+        <trans-unit id="OmegaGoRank" translate="yes" xml:space="preserve">
+          <source>omegaGo rank</source>
+          <target state="translated">omegaGo rank</target>
+        </trans-unit>
+        <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
+          <source>IGS rank</source>
+          <target state="final">IGS rank</target>
+        </trans-unit>
+        <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
+          <source>KGS rank</source>
+          <target state="final">KGS rank</target>
         </trans-unit>
       </group>
     </body>

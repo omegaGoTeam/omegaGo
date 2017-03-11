@@ -645,7 +645,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hotseat games played:.
+        ///   Looks up a localized string similar to Hotseat games played.
         /// </summary>
         public static string HotseatGamesPlayed {
             get {
@@ -654,11 +654,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IGS Rank:.
+        ///   Looks up a localized string similar to IGS rank.
         /// </summary>
-        public static string IgsRankColon {
+        public static string IgsRank {
             get {
-                return ResourceManager.GetString("IgsRankColon", resourceCulture);
+                return ResourceManager.GetString("IgsRank", resourceCulture);
             }
         }
         
@@ -672,11 +672,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to KGS Rank:.
+        ///   Looks up a localized string similar to KGS rank.
         /// </summary>
-        public static string KgsRankColon {
+        public static string KgsRank {
             get {
-                return ResourceManager.GetString("KgsRankColon", resourceCulture);
+                return ResourceManager.GetString("KgsRank", resourceCulture);
             }
         }
         
@@ -825,11 +825,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to omegaGo rank:.
+        ///   Looks up a localized string similar to omegaGo rank.
         /// </summary>
-        public static string OmegaGoRankColon {
+        public static string OmegaGoRank {
             get {
-                return ResourceManager.GetString("OmegaGoRankColon", resourceCulture);
+                return ResourceManager.GetString("OmegaGoRank", resourceCulture);
             }
         }
         
@@ -843,7 +843,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Online games played:.
+        ///   Looks up a localized string similar to Online games played.
         /// </summary>
         public static string OnlineGamesPlayed {
             get {
@@ -852,7 +852,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Online games won:.
+        ///   Looks up a localized string similar to Online games won.
         /// </summary>
         public static string OnlineGamesWon {
             get {
@@ -960,7 +960,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quests completed:.
+        ///   Looks up a localized string similar to Quests completed.
         /// </summary>
         public static string QuestsCompleted {
             get {
@@ -1064,6 +1064,15 @@ namespace OmegaGo.UI.Localization {
         public static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all progress.
+        /// </summary>
+        public static string ResetAllProgress {
+            get {
+                return ResourceManager.GetString("ResetAllProgress", resourceCulture);
             }
         }
         
@@ -1221,7 +1230,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solo games played:.
+        ///   Looks up a localized string similar to Solo games played.
         /// </summary>
         public static string SoloGamesPlayed {
             get {
@@ -1230,7 +1239,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solo games won:.
+        ///   Looks up a localized string similar to Solo games won.
         /// </summary>
         public static string SoloGamesWon {
             get {
@@ -1365,7 +1374,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total games played:.
+        ///   Looks up a localized string similar to Total games played.
         /// </summary>
         public static string TotalGamesPlayed {
             get {
@@ -1374,7 +1383,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total games won:.
+        ///   Looks up a localized string similar to Total games won.
         /// </summary>
         public static string TotalGamesWon {
             get {
@@ -1392,7 +1401,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tsumego problems solved:.
+        ///   Looks up a localized string similar to Tsumego problems solved.
         /// </summary>
         public static string TsumegoProblemsSolved {
             get {
