@@ -507,7 +507,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="PointsColon" translate="yes" xml:space="preserve">
           <source>Points:</source>
-          <target state="translated">Body:</target>
+          <target state="translated">Body</target>
         </trans-unit>
         <trans-unit id="QuestsCompleted" translate="yes" xml:space="preserve">
           <source>Quests completed</source>
@@ -527,7 +527,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="TsumegoProblemsSolved" translate="yes" xml:space="preserve">
           <source>Tsumego problems solved</source>
-          <target state="final">Vyřešených tsumego problémů</target>
+          <target state="final">Vyřešených problémů tsumego</target>
         </trans-unit>
         <trans-unit id="FullscreenModeCheckbox" translate="yes" xml:space="preserve">
           <source>Fullscreen Mode</source>
@@ -658,15 +658,15 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="OmegaGoRank" translate="yes" xml:space="preserve">
           <source>omegaGo rank</source>
-          <target state="translated">omegaGo rank</target>
+          <target state="translated">Hodnost omegaGo</target>
         </trans-unit>
         <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
           <source>IGS rank</source>
-          <target state="final">IGS rank</target>
+          <target state="final">Třída IGS</target>
         </trans-unit>
         <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
           <source>KGS rank</source>
-          <target state="final">KGS rank</target>
+          <target state="final">Třída KGS</target>
         </trans-unit>
       </group>
     </body>

@@ -30,9 +30,9 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <navigation:TitleControl Margin="10" Text="{x:Bind Localizer.Statistics}" />
+            <navigation:TitleControl Margin="10" HorizontalAlignment="Center" Text="{x:Bind Localizer.Statistics}" />
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ItemsControl HorizontalContentAlignment="Center" ItemsSource="{x:Bind VM.StatisticsItems, Mode=OneWay}">
+                <ItemsControl MaxWidth="1300" HorizontalContentAlignment="Center" ItemsSource="{x:Bind VM.StatisticsItems, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
