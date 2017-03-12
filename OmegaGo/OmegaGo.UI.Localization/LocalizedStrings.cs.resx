@@ -421,7 +421,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Absolvent omegaGo</value>
   </data>
   <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
-    <value>Povýšili jste na novou hodnost: {0}. Gratulujeme!</value>
+    <value>Základní oranžová</value>
   </data>
   <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
     <value>+{0} bodů (nyní máte {1})</value>
@@ -519,8 +519,8 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="Tsumego_Instructions" xml:space="preserve">
     <value>Pokyny:</value>
   </data>
-  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
-    <value>(je možné dále táhnout)</value>
+  <data name="OmegaGoRank" xml:space="preserve">
+    <value>omegaGo rank</value>
   </data>
   <data name="Tsumego_NextProblem" xml:space="preserve">
     <value>Další problém</value>

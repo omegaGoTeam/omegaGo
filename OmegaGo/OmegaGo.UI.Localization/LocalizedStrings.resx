@@ -491,8 +491,8 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="OnlineGamesWon" xml:space="preserve">
     <value>Online games won</value>
   </data>
-  <data name="PointsColon" xml:space="preserve">
-    <value>Points:</value>
+  <data name="Points" xml:space="preserve">
+    <value>Points</value>
   </data>
   <data name="QuestsCompleted" xml:space="preserve">
     <value>Quests completed</value>

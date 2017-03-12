@@ -906,11 +906,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Points:.
+        ///   Looks up a localized string similar to Points.
         /// </summary>
-        public static string PointsColon {
+        public static string Points {
             get {
-                return ResourceManager.GetString("PointsColon", resourceCulture);
+                return ResourceManager.GetString("Points", resourceCulture);
             }
         }
         

@@ -8,7 +8,6 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:statistics="using:OmegaGo.UI.Models.Statistics"
     mc:Ignorable="d">
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -17,13 +16,43 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <Style TargetType="TextBlock"  x:Key="LeftColumn">
-            <Setter Property="Margin" Value="0,0,20,0"></Setter>
-            <Setter Property="TextAlignment" Value="Right"></Setter>
-        </Style>
+        <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="LargeScreenStatisticsItemTemplate">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="130" Height="130" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="28" FontWeight="SemiLight" />
+                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontSize="18" FontWeight="Normal" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="SmallScreenStatisticsItemTemplate">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="100" Height="100" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="24" FontWeight="SemiLight" />
+                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontWeight="Normal" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
-
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="480" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StatisticsItemsControl.ItemTemplate" Value="{StaticResource LargeScreenStatisticsItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -32,25 +61,12 @@
             </Grid.RowDefinitions>
             <navigation:TitleControl Margin="10" HorizontalAlignment="Center" Text="{x:Bind Localizer.Statistics}" />
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ItemsControl MaxWidth="1300" HorizontalContentAlignment="Center" ItemsSource="{x:Bind VM.StatisticsItems, Mode=OneWay}">
+                <ItemsControl x:Name="StatisticsItemsControl" MaxWidth="1300" HorizontalContentAlignment="Center" ItemTemplate="{StaticResource SmallScreenStatisticsItemTemplate}" ItemsSource="{x:Bind VM.StatisticsItems, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="statistics:StatisticsItem">
-                            <Grid Margin="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="60" />
-                                </Grid.RowDefinitions>
-                                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="140" Height="140" />
-                                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="28" FontWeight="SemiLight" />
-                                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontSize="18" FontWeight="Normal" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
             <Button Grid.Row="2" Margin="10" HorizontalAlignment="Center" Command="{Binding ResetAllProgressCommand}">
