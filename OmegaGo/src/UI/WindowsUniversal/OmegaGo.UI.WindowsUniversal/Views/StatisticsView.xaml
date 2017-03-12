@@ -6,8 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:statistics="using:OmegaGo.UI.Models.Statistics"
     mc:Ignorable="d">
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -16,90 +16,65 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <Style TargetType="TextBlock"  x:Key="LeftColumn">
-            <Setter Property="Margin" Value="0,0,20,0"></Setter>
-            <Setter Property="TextAlignment" Value="Right"></Setter>
-        </Style>
+        <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="LargeScreenStatisticsItemTemplate">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="130" Height="130" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="28" FontWeight="SemiLight" />
+                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontSize="18" FontWeight="Normal" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="SmallScreenStatisticsItemTemplate">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="60" />
+                </Grid.RowDefinitions>
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="100" Height="100" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="24" FontWeight="SemiLight" />
+                <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontWeight="Normal" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
-
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel  VerticalAlignment="Center"
-                     HorizontalAlignment="Center">
-            <navigation:TitleControl Text="{x:Bind Localizer.Statistics}" />
-            <Grid HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="FirstColumn" Width="Auto">
-                    </ColumnDefinition>
-                    <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="480" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="StatisticsItemsControl.ItemTemplate" Value="{StaticResource LargeScreenStatisticsItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Bind Localizer.TotalGamesPlayed}" Style="{StaticResource LeftColumn}" />
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Bind Localizer.HotseatGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HotseatGamesPlayed, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{x:Bind Localizer.SoloGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding LocalGamesPlayed, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="3" Text="{x:Bind Localizer.OnlineGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding OnlineGamesPlayed, Mode=OneWay}"></TextBlock>
-
-                <TextBlock Grid.Row="4"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="5" Text="{x:Bind Localizer.TotalGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding TotalGamesWon, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="6" Text="{x:Bind Localizer.SoloGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LocalGamesWon, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="7" Text="{x:Bind Localizer.OnlineGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding OnlineGamesWon, Mode=OneWay}"></TextBlock>
-
-                <TextBlock Grid.Row="8"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="9" Text="{x:Bind Localizer.QuestsCompleted}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding QuestsCompleted, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="10" Text="{x:Bind Localizer.TsumegoProblemsSolved}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="10" Text="{Binding TsumegoProblemsSolved, Mode=OneWay}"></TextBlock>
-
-                    <TextBlock Grid.Column="0" Grid.Row="11" Text="{x:Bind Localizer.PointsColon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="11" Text="{Binding Points, Mode=OneWay}"></TextBlock>
-                    <TextBlock Grid.Column="0" Grid.Row="12" Text="{x:Bind Localizer.OmegaGoRankColon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="12" Text="{Binding Rank}"></TextBlock>
-                    <TextBlock Grid.Column="0" Grid.Row="13" Text="{x:Bind Localizer.IgsRankColon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="13" Text="{Binding IgsRank}"></TextBlock>
-                    <TextBlock Grid.Column="0" Grid.Row="14" Text="{x:Bind Localizer.KgsRankColon}" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="14" Text="{Binding KgsRank}"></TextBlock>
-                
-                    <TextBlock Grid.Column="0" Grid.Row="15" Grid.ColumnSpan="2"></TextBlock>
-                
-                    <Button Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ResetAllProgressCommand}">Reset all progress</Button>
-                </Grid>
-        </StackPanel>
-        </ScrollViewer>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <navigation:TitleControl Margin="10" HorizontalAlignment="Center" Text="{x:Bind Localizer.Statistics}" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="StatisticsItemsControl" MaxWidth="1300" HorizontalContentAlignment="Center" ItemTemplate="{StaticResource SmallScreenStatisticsItemTemplate}" ItemsSource="{x:Bind VM.StatisticsItems, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+            <Button Grid.Row="2" Margin="10" HorizontalAlignment="Center" Command="{Binding ResetAllProgressCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Delete" />
+                    <TextBlock Margin="10,0,0,0" Text="{x:Bind Localizer.ResetAllProgress}" />
+                </StackPanel>
+            </Button>
+        </Grid>
     </Grid>
 </views:TransparencyViewBase>

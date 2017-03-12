@@ -193,7 +193,7 @@
     <value>Japonská</value>
   </data>
   <data name="TotalGamesPlayed" xml:space="preserve">
-    <value>Celkem her odehráno:</value>
+    <value>Celkem her odehráno</value>
   </data>
   <data name="BoardTheme_OakWood" xml:space="preserve">
     <value>Dub</value>
@@ -373,46 +373,43 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Rybka</value>
   </data>
   <data name="HotseatGamesPlayed" xml:space="preserve">
-    <value>Her v horkém křesle:</value>
-  </data>
-  <data name="OmegaGoRankColon" xml:space="preserve">
-    <value>Tvoje hodnost:</value>
+    <value>Her v horkém křesle</value>
   </data>
   <data name="OnlineGamesPlayed" xml:space="preserve">
-    <value>Online her odehráno:</value>
+    <value>Online her odehráno</value>
   </data>
   <data name="OnlineGamesWon" xml:space="preserve">
-    <value>Vítězství v online hrách:</value>
+    <value>Vítězství v online hrách</value>
   </data>
-  <data name="PointsColon" xml:space="preserve">
-    <value>Body:</value>
+  <data name="Points" xml:space="preserve">
+    <value>Body</value>
   </data>
   <data name="QuestsCompleted" xml:space="preserve">
-    <value>Počet dokončených questů:</value>
+    <value>Dokončených questů</value>
   </data>
   <data name="SoloGamesPlayed" xml:space="preserve">
-    <value>Počet odehraných sólových her:</value>
+    <value>Odehraných sólových her</value>
   </data>
   <data name="SoloGamesWon" xml:space="preserve">
-    <value>Vítězství v sólových hrách:</value>
+    <value>Vítězství v sólových hrách</value>
   </data>
   <data name="TotalGamesWon" xml:space="preserve">
-    <value>Celkem vítězství:</value>
+    <value>Celkem vítězství</value>
   </data>
   <data name="TsumegoProblemsSolved" xml:space="preserve">
-    <value>Počet vyřešených tsumego problémů:</value>
+    <value>Vyřešených problémů tsumego</value>
   </data>
   <data name="FullscreenModeCheckbox" xml:space="preserve">
     <value>Celoobrazovkový režim</value>
   </data>
   <data name="Rank1" xml:space="preserve">
-    <value>Novic při omegaGo</value>
+    <value>Novic omegaGo</value>
   </data>
   <data name="Rank2" xml:space="preserve">
-    <value>Učeň při omegaGo</value>
+    <value>Učeň omegaGo</value>
   </data>
   <data name="Rank3" xml:space="preserve">
-    <value>Expert v omegaGo</value>
+    <value>Expert omegaGo</value>
   </data>
   <data name="Rank4" xml:space="preserve">
     <value>Mistr omegaGo</value>
@@ -421,7 +418,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Absolvent omegaGo</value>
   </data>
   <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
-    <value>Povýšili jste na novou hodnost: {0}. Gratulujeme!</value>
+    <value>Dosáhli jste nové hodnosti omegaGo: {0}. Gratulujeme!</value>
   </data>
   <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
     <value>+{0} bodů (nyní máte {1})</value>
@@ -437,12 +434,6 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="ResetAllProgress_Yes" xml:space="preserve">
     <value>Zahodit všechny statistiky!</value>
-  </data>
-  <data name="IgsRankColon" xml:space="preserve">
-    <value>Třída na IGS:</value>
-  </data>
-  <data name="KgsRankColon" xml:space="preserve">
-    <value>Třída na KGS:</value>
   </data>
   <data name="Tutorial_Next" xml:space="preserve">
     <value>Další</value>
@@ -527,5 +518,17 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="Tsumego_NotYetSolved" xml:space="preserve">
     <value>Zatím nevyřešen</value>
+  </data>
+  <data name="ResetAllProgress" xml:space="preserve">
+    <value>Zahodit statistiky</value>
+  </data>
+  <data name="OmegaGoRank" xml:space="preserve">
+    <value>Hodnost omegaGo</value>
+  </data>
+  <data name="IgsRank" xml:space="preserve">
+    <value>Třída IGS</value>
+  </data>
+  <data name="KgsRank" xml:space="preserve">
+    <value>Třída KGS</value>
   </data>
 </root>
