@@ -51,7 +51,6 @@
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
-    <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\Connectors\BaseConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
@@ -108,7 +107,6 @@
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
-    <Compile Include="Modes\IMode.cs" />
     <Compile Include="Game\GameBoard.cs" />
     <Compile Include="Modes\LiveGame\GameBuilder.cs" />
     <Compile Include="Modes\LiveGame\GameController.cs" />
@@ -126,7 +124,6 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameBuilder.cs" />
-    <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Modes\LiveGame\Remote\RemoteGame.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
@@ -154,9 +151,7 @@
     <Compile Include="Modes\LiveGame\Players\Builders\HumanPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Builders\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentType.cs" />
-    <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGame.cs" />
-    <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />
     <Compile Include="Online\Chat\IChatService.cs" />
