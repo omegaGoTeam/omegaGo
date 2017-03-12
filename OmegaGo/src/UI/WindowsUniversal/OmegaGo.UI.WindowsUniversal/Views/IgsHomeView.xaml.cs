@@ -8,6 +8,7 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Online;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {

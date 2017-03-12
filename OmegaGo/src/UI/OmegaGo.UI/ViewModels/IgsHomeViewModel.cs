@@ -17,12 +17,14 @@ using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class IgsHomeViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings;
+       
 
         public IgsHomeViewModel(IGameSettings settings)
         {
@@ -44,6 +46,9 @@ namespace OmegaGo.UI.ViewModels
                 await RefreshUsers();
             }
         }
+        
+        public LoginFormViewModel LoginForm => new IgsLoginForm(Localizer);
+    
 
         private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
         {
