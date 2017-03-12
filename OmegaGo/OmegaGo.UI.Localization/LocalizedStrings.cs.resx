@@ -381,8 +381,8 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="OnlineGamesWon" xml:space="preserve">
     <value>Vítězství v online hrách</value>
   </data>
-  <data name="PointsColon" xml:space="preserve">
-    <value>Body:</value>
+  <data name="Points" xml:space="preserve">
+    <value>Body</value>
   </data>
   <data name="QuestsCompleted" xml:space="preserve">
     <value>Dokončených questů</value>
@@ -397,28 +397,28 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Celkem vítězství</value>
   </data>
   <data name="TsumegoProblemsSolved" xml:space="preserve">
-    <value>Vyřešených tsumego problémů</value>
+    <value>Vyřešených problémů tsumego</value>
   </data>
   <data name="FullscreenModeCheckbox" xml:space="preserve">
     <value>Celoobrazovkový režim</value>
   </data>
   <data name="Rank1" xml:space="preserve">
-    <value>omegaGo Novic</value>
+    <value>Novic omegaGo</value>
   </data>
   <data name="Rank2" xml:space="preserve">
-    <value>omegaGo Učeň</value>
+    <value>Učeň omegaGo</value>
   </data>
   <data name="Rank3" xml:space="preserve">
-    <value>omegaGo Expert</value>
+    <value>Expert omegaGo</value>
   </data>
   <data name="Rank4" xml:space="preserve">
-    <value>omegaGo Mistr</value>
+    <value>Mistr omegaGo</value>
   </data>
   <data name="Rank5" xml:space="preserve">
-    <value>omegaGo Absolvent</value>
+    <value>Absolvent omegaGo</value>
   </data>
   <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
-    <value>Základní oranžová</value>
+    <value>Dosáhli jste nové hodnosti omegaGo: {0}. Gratulujeme!</value>
   </data>
   <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
     <value>+{0} bodů (nyní máte {1})</value>
@@ -496,12 +496,12 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Zahodit statistiky</value>
   </data>
   <data name="OmegaGoRank" xml:space="preserve">
-    <value>omegaGo rank</value>
+    <value>Hodnost omegaGo</value>
   </data>
   <data name="IgsRank" xml:space="preserve">
-    <value>IGS rank</value>
+    <value>Třída IGS</value>
   </data>
   <data name="KgsRank" xml:space="preserve">
-    <value>KGS rank</value>
+    <value>Třída KGS</value>
   </data>
 </root>

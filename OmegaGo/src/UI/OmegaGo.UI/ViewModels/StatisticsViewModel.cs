@@ -75,7 +75,7 @@ namespace OmegaGo.UI.ViewModels
                 new StatisticsItem( Localizer.TsumegoProblemsSolved, _gameSettings.Tsumego.SolvedProblems.Count().ToString()),                
                 new StatisticsItem( Localizer.QuestsCompleted, _statisticsRecords.QuestsCompleted.ToString()),
 
-                new StatisticsItem( Localizer.PointsColon, points.ToString()),
+                new StatisticsItem( Localizer.Points, points.ToString()),
 
                 new StatisticsItem( Localizer.OmegaGoRank, Ranks.GetRankName(Localizer, points)),
                 new StatisticsItem( Localizer.IgsRank, _statisticsRecords.IgsRank ),

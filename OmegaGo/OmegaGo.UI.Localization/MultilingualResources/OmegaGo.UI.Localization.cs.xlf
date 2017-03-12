@@ -505,8 +505,8 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>Online games won</source>
           <target state="final">Vítězství v online hrách</target>
         </trans-unit>
-        <trans-unit id="PointsColon" translate="yes" xml:space="preserve">
-          <source>Points:</source>
+        <trans-unit id="Points" translate="yes" xml:space="preserve">
+          <source>Points</source>
           <target state="translated">Body</target>
         </trans-unit>
         <trans-unit id="QuestsCompleted" translate="yes" xml:space="preserve">
@@ -535,27 +535,27 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="Rank1" translate="yes" xml:space="preserve">
           <source>Omega Novice</source>
-          <target state="final">omegaGo Novic</target>
+          <target state="final">Novic omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank2" translate="yes" xml:space="preserve">
           <source>Omega Apprentice</source>
-          <target state="final">omegaGo Učeň</target>
+          <target state="final">Učeň omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank3" translate="yes" xml:space="preserve">
           <source>Omega Expert</source>
-          <target state="final">omegaGo Expert</target>
+          <target state="final">Expert omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank4" translate="yes" xml:space="preserve">
           <source>Omega Master</source>
-          <target state="final">omegaGo Mistr</target>
+          <target state="final">Mistr omegaGo</target>
         </trans-unit>
         <trans-unit id="Rank5" translate="yes" xml:space="preserve">
           <source>Omega Graduate</source>
-          <target state="final">omegaGo Absolvent</target>
+          <target state="final">Absolvent omegaGo</target>
         </trans-unit>
         <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
           <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
-          <target state="translated">Základní oranžová</target>
+          <target state="translated">Dosáhli jste nové hodnosti omegaGo: {0}. Gratulujeme!</target>
         </trans-unit>
         <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
           <source>+{0} points (now you have {1})</source>
