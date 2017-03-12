@@ -159,6 +159,7 @@ namespace OmegaGo.Core.Online.Kgs
                 {
                     roomsArray[i] = response.Rooms[i].ChannelId;
                 }
+                Events.RaisePersonalInformationUpdate(response.You);
                 Events.RaiseSystemMessage("Requesting room names...");
                 await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
                         Rooms = roomsArray

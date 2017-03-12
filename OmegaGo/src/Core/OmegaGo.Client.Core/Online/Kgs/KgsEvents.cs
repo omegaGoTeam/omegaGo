@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -27,7 +28,12 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
         public event EventHandler<string> Disconnection;
+        public event EventHandler<User> PersonalInformationUpdate;
 
+        public void RaisePersonalInformationUpdate(User you)
+        {
+            PersonalInformationUpdate?.Invoke(this, you);
+        }
         public void RaiseIncomingMessage(JsonResponse message)
         {
             IncomingMessage?.Invoke(this, message);
