@@ -20,7 +20,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
         {
             _aiProgram = aiProgram;
-            _aiProgram.SetAgent(this);
             _strength = strength;
             _timeLimit = timeLimit;
         }

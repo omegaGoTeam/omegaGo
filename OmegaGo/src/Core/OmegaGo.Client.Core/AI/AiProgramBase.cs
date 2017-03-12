@@ -42,11 +42,6 @@ namespace OmegaGo.Core.AI
             }
             return RequestMove(preMoveInformation);
         }
-        
-        public void SetAgent(AiAgent agent)
-        {
-            this.Agent = agent;
-        }
 
         public override string ToString()
         {

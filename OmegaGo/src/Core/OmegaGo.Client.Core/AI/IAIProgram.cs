@@ -34,12 +34,5 @@ namespace OmegaGo.Core.AI
         /// </summary>
         /// <param name="preMoveInformation">Information the AI might need.</param>
         AIDecision GetHint(AIPreMoveInformation preMoveInformation);
-
-
-        /// <summary>
-        /// Prior to any other calls on an active Fuego AI, this method must be called.
-        /// </summary>
-        /// <param name="agent">The agent that this AI controls.</param>
-        void SetAgent(AiAgent agent);
     }
 }
