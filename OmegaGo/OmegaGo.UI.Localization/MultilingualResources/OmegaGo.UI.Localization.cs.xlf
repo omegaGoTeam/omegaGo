@@ -764,6 +764,22 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>KGS rank</source>
           <target state="final">Třída KGS</target>
         </trans-unit>
+        <trans-unit id="ResetAllProgress" translate="yes" xml:space="preserve">
+          <source>Reset all progress</source>
+          <target state="final">Zahodit statistiky</target>
+        </trans-unit>
+        <trans-unit id="OmegaGoRank" translate="yes" xml:space="preserve">
+          <source>omegaGo rank</source>
+          <target state="translated">Hodnost omegaGo</target>
+        </trans-unit>
+        <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
+          <source>IGS rank</source>
+          <target state="final">Třída IGS</target>
+        </trans-unit>
+        <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
+          <source>KGS rank</source>
+          <target state="final">Třída KGS</target>
+        </trans-unit>
       </group>
     </body>
   </file>
