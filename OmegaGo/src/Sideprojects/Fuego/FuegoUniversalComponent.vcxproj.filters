@@ -273,4 +273,7 @@
     <ClInclude Include="fuego\smartgame\SgWrite.h" />
     <ClInclude Include="FuegoInstance.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="LICENSE.txt" />
+  </ItemGroup>
 </Project>

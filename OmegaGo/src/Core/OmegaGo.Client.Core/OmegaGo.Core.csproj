@@ -325,7 +325,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AI\Joker23\LICENSE" />
+    <Content Include="AI\Joker23\LICENSE.txt" />
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -346,12 +346,11 @@
     <Content Include="AI\Joker23\Java originals\Players\PlayerFactory.java" />
     <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
     <Content Include="AI\Joker23\Java originals\Util\AiUtil.java" />
-    <Content Include="AI\Joker23\Licensing.txt" />
     <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
     <Compile Include="AI\Joker23\Players\HeuristicPlayer.cs" />
     <Compile Include="AI\Joker23\Players\AlphaBetaPlayer.cs" />
-    <Content Include="AI\Licensing.txt" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Kgs\Docs\ABOUT.txt" />
