@@ -82,7 +82,7 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Singleplayer}" Command="{Binding Path=NavigateToSingleplayer}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
+                    <mainMenu:MainMenuButton Margin="10" x:Name="SinglePlayerButton" Text="{x:Bind Localizer.Singleplayer}" Command="{Binding Path=NavigateToSingleplayer}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/SinglePlayer.png" />
