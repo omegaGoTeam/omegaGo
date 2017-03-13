@@ -98,8 +98,11 @@ namespace FormsPrototype
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
-            _controller.AiLog += _controller_AiLog;
-            if(game is KgsGame)
+            foreach (var aiAgent in _controller.Players.Select(p => p.Agent).OfType<AiAgent>())
+            {
+                aiAgent.AiNote += AiAgent_AiNote;
+            }
+            if (game is KgsGame)
             {
                 KgsGameController kgsController = ((KgsGame) game).Controller;
                 kgsController.ChatMessageReceived += _controller_ChatMessageReceived;
@@ -121,9 +124,15 @@ namespace FormsPrototype
             _controller.BeginGame();
         }
 
-        private void _controller_AiLog(object sender, string e)
+        /// <summary>
+        /// AI agent log
+        /// </summary>
+        /// <param name="agent">Agent</param>
+        /// <param name="note">Note to add</param>
+        private void AiAgent_AiNote(IAgent agent, string note)
         {
-            this.tbAiLog.AppendText(e + Environment.NewLine);
+            string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + note;
+            this.tbAiLog.AppendText(aiLogLine + Environment.NewLine);
         }
 
         private void _controller_ChatMessageReceived(object sender, OmegaGo.Core.Online.Chat.ChatMessage e)

@@ -313,20 +313,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             foreach (var player in Players)
             {
-                player.Agent.Resigned += Agent_Resigned;
-                player.Agent.AiNote += Agent_AiNote;
+                player.Agent.Resigned += Agent_Resigned;                
             }
-        }
-
-        /// <summary>
-        /// Fired when a line should be added to the AI log.
-        /// </summary>
-        public event EventHandler<string> AiLog;
-        private void Agent_AiNote(IAgent agent, string eventArgs)
-        {
-            string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + eventArgs;
-            AiLog?.Invoke(this, aiLogLine);
-            OnDebuggingMessage("AI - " + aiLogLine);
         }
 
         /// <summary>

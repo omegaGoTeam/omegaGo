@@ -43,26 +43,15 @@ namespace OmegaGo.Core.Modes.LiveGame
         event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
-        /// Fired when a line should be added to the AI log.
-        /// </summary>
-        event EventHandler<string> AiLog;
-
-
-        /// <summary>
         /// Gets the game's ruleset
         /// </summary>
         IRuleset Ruleset { get; }
-
-        /// <summary>
-        /// Gets the pair of participating players
-        /// </summary>
-        PlayerPair Players { get; }
-
-
+        
         /// <summary>
         /// Starts the game
         /// </summary>
         void BeginGame();
+
         /// <summary>
         /// Ends the game
         /// </summary>
