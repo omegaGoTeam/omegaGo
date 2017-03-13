@@ -6,5 +6,9 @@
         {
             ChannelId = channelId;
         }
+        public override string ToString()
+        {
+            return "Game channel " + ChannelId;
+        }
     }
 }

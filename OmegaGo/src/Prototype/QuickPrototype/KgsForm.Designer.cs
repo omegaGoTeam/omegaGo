@@ -34,6 +34,8 @@
             this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.bLogout = new System.Windows.Forms.Button();
+            this.bLogin = new System.Windows.Forms.Button();
             this.tbLog = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -57,8 +59,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.lbContainers = new System.Windows.Forms.ListBox();
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
-            this.bLogin = new System.Windows.Forms.Button();
-            this.bLogout = new System.Windows.Forms.Button();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.bRefreshJoinedChannels = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lbJoinedChannels = new System.Windows.Forms.ListBox();
+            this.lbContainerChallenges = new System.Windows.Forms.ListBox();
+            this.bAccept = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -68,6 +74,7 @@
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbUnhandledMessagesFull
@@ -111,6 +118,7 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -130,6 +138,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "System log";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // bLogout
+            // 
+            this.bLogout.Location = new System.Drawing.Point(559, 61);
+            this.bLogout.Name = "bLogout";
+            this.bLogout.Size = new System.Drawing.Size(95, 29);
+            this.bLogout.TabIndex = 10;
+            this.bLogout.Text = "Explicit Logout";
+            this.bLogout.UseVisualStyleBackColor = true;
+            this.bLogout.Click += new System.EventHandler(this.bLogout_Click);
+            // 
+            // bLogin
+            // 
+            this.bLogin.Location = new System.Drawing.Point(559, 26);
+            this.bLogin.Name = "bLogin";
+            this.bLogin.Size = new System.Drawing.Size(95, 29);
+            this.bLogin.TabIndex = 9;
+            this.bLogin.Text = "Login again";
+            this.bLogin.UseVisualStyleBackColor = true;
+            this.bLogin.Click += new System.EventHandler(this.bLogin_Click);
             // 
             // tbLog
             // 
@@ -304,6 +332,8 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.bAccept);
+            this.tabPage8.Controls.Add(this.lbContainerChallenges);
             this.tabPage8.Controls.Add(this.bObserveGame);
             this.tabPage8.Controls.Add(this.lbContainerGames);
             this.tabPage8.Controls.Add(this.bRefreshLocalContainers);
@@ -369,25 +399,62 @@
             this.timerIdle.Interval = 10000;
             this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
-            // bLogin
+            // tabPage9
             // 
-            this.bLogin.Location = new System.Drawing.Point(559, 26);
-            this.bLogin.Name = "bLogin";
-            this.bLogin.Size = new System.Drawing.Size(95, 29);
-            this.bLogin.TabIndex = 9;
-            this.bLogin.Text = "Login again";
-            this.bLogin.UseVisualStyleBackColor = true;
-            this.bLogin.Click += new System.EventHandler(this.bLogin_Click);
+            this.tabPage9.Controls.Add(this.bRefreshJoinedChannels);
+            this.tabPage9.Controls.Add(this.label4);
+            this.tabPage9.Controls.Add(this.lbJoinedChannels);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(1169, 553);
+            this.tabPage9.TabIndex = 8;
+            this.tabPage9.Text = "Channels";
+            this.tabPage9.UseVisualStyleBackColor = true;
             // 
-            // bLogout
+            // bRefreshJoinedChannels
             // 
-            this.bLogout.Location = new System.Drawing.Point(559, 61);
-            this.bLogout.Name = "bLogout";
-            this.bLogout.Size = new System.Drawing.Size(95, 29);
-            this.bLogout.TabIndex = 10;
-            this.bLogout.Text = "Explicit Logout";
-            this.bLogout.UseVisualStyleBackColor = true;
-            this.bLogout.Click += new System.EventHandler(this.bLogout_Click);
+            this.bRefreshJoinedChannels.Location = new System.Drawing.Point(210, 16);
+            this.bRefreshJoinedChannels.Name = "bRefreshJoinedChannels";
+            this.bRefreshJoinedChannels.Size = new System.Drawing.Size(161, 23);
+            this.bRefreshJoinedChannels.TabIndex = 8;
+            this.bRefreshJoinedChannels.Text = "Refresh Joined Channels";
+            this.bRefreshJoinedChannels.UseVisualStyleBackColor = true;
+            this.bRefreshJoinedChannels.Click += new System.EventHandler(this.bRefreshJoinedChannels_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 26);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(87, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Joined channels:";
+            // 
+            // lbJoinedChannels
+            // 
+            this.lbJoinedChannels.FormattingEnabled = true;
+            this.lbJoinedChannels.Location = new System.Drawing.Point(15, 45);
+            this.lbJoinedChannels.Name = "lbJoinedChannels";
+            this.lbJoinedChannels.Size = new System.Drawing.Size(393, 420);
+            this.lbJoinedChannels.TabIndex = 6;
+            // 
+            // lbContainerChallenges
+            // 
+            this.lbContainerChallenges.FormattingEnabled = true;
+            this.lbContainerChallenges.Location = new System.Drawing.Point(817, 55);
+            this.lbContainerChallenges.Name = "lbContainerChallenges";
+            this.lbContainerChallenges.Size = new System.Drawing.Size(331, 420);
+            this.lbContainerChallenges.TabIndex = 8;
+            // 
+            // bAccept
+            // 
+            this.bAccept.Location = new System.Drawing.Point(987, 481);
+            this.bAccept.Name = "bAccept";
+            this.bAccept.Size = new System.Drawing.Size(161, 23);
+            this.bAccept.TabIndex = 9;
+            this.bAccept.Text = "Accept";
+            this.bAccept.UseVisualStyleBackColor = true;
             // 
             // KgsForm
             // 
@@ -415,6 +482,8 @@
             this.tabPage7.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
+            this.tabPage9.ResumeLayout(false);
+            this.tabPage9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -451,5 +520,11 @@
         private System.Windows.Forms.Timer timerIdle;
         private System.Windows.Forms.Button bLogout;
         private System.Windows.Forms.Button bLogin;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.Button bRefreshJoinedChannels;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ListBox lbJoinedChannels;
+        private System.Windows.Forms.Button bAccept;
+        private System.Windows.Forms.ListBox lbContainerChallenges;
     }
 }

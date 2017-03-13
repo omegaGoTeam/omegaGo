@@ -16,6 +16,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -144,6 +145,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Players in the game.
         /// </summary>
         public PlayerPair Players { get; }
+
 
         /// <summary>
         /// Gets the game tree.

@@ -244,7 +244,7 @@ namespace FormsPrototype
             }
             else if (rbCanadianTiming.Checked)
             {
-                timeControl = new CanadianTimeControl(1, 5, 1);
+                timeControl = new CanadianTimeControl(TimeSpan.FromMinutes(1), 5, TimeSpan.FromMinutes(1));
             }
             else if (rbJapaneseTiming.Checked)
             {

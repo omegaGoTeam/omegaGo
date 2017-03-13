@@ -1,5 +1,7 @@
-﻿using OmegaGo.Core.Modes.LiveGame.Phases;
+﻿using System;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -33,5 +35,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         /// Gets the remote game info
         /// </summary>
         internal new RemoteGameInfo Info { get; }
+
+        public event EventHandler<ChatMessage> ChatMessageReceived;
+        internal void OnChatMessageReceived(ChatMessage message)
+        {
+            ChatMessageReceived?.Invoke(this, message);
+        }
     }
 }

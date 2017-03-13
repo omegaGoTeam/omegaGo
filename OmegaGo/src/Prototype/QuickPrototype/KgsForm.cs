@@ -159,6 +159,12 @@ namespace FormsPrototype
                 {
                     this.lbContainerGames.Items.Add(game);
                 }
+                this.lbContainerChallenges.Items.Clear();
+
+                foreach (var game in container.GetChallenges())
+                {
+                    this.lbContainerChallenges.Items.Add(game);
+                }
             }
         }
 
@@ -188,6 +194,18 @@ namespace FormsPrototype
         {
 
             await kgs.LoginAsync("OmegaGo1", "123456789");
+        }
+
+        private void bRefreshJoinedChannels_Click(object sender, EventArgs e)
+        {
+            this.lbJoinedChannels.Items.Clear();
+            foreach(var channel in kgs.Data.Channels)
+            {
+                if (channel.Value.Joined)
+                {
+                    this.lbJoinedChannels.Items.Add(channel.Value);
+                }
+            }
         }
     }
 }

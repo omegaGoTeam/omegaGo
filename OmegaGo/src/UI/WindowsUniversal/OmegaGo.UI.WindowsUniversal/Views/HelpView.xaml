@@ -16,57 +16,72 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
-    <SplitView IsPaneOpen="True"
-               Name="helpSplitView"
-               DisplayMode="CompactInline"
-               CompactPaneLength="40"
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="768" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="HelpSplitView.DisplayMode" Value="CompactInline" />
+                        <Setter Target="HelpSplitView.IsPaneOpen" Value="true" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView PaneBackground="{ThemeResource GameColorBrush}" IsPaneOpen="True"
+               Name="HelpSplitView"
+               DisplayMode="CompactOverlay"
+               CompactPaneLength="48"
                OpenPaneLength="300">
-        <SplitView.Pane>
-            <Grid Background="{StaticResource GameColorBrush}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                
-                <Button x:Name="hamburgerButton" 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="hamburgerButton" 
                         Grid.Row="0" 
                         Grid.Column="0"
+                            Width="48" Height="48"
                         Background="Transparent"
                         Click="OpenCloseHelp">
-                    <FontIcon Glyph="&#xE700;"></FontIcon>
-                </Button>
-                
-                <navigation:TitleControl x:Name="viewName" 
+                        <FontIcon Glyph="&#xE700;"></FontIcon>
+                    </Button>
+
+                    <navigation:TitleControl x:Name="viewName" 
                                          Text="{x:Bind Localizer.Help}" 
                                          Grid.Row="0"
                                          Grid.Column="1"/>
-                
-                <ListView x:Name="helpPagesList"
+
+                    <ListView x:Name="helpPagesList"
                           Grid.Row="1"
                           Grid.Column="0"
                           Grid.ColumnSpan="2"
                           ItemsSource="{Binding Path=HelpItems}"
                           SelectedItem="{Binding Path=SelectedHelpItem, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <FontIcon Glyph="&#xE1D3;" />
-                                <TextBlock Margin="15,0,0,0" Text="{Binding Path=Name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Grid>
-        </SplitView.Pane>
-        
-        <Border BorderBrush="Black" BorderThickness="2">
-             <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView" />
-        </Border>
-    </SplitView>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE1D3;" />
+                                    <TextBlock Margin="15,0,0,0" Text="{Binding Path=Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </SplitView.Pane>
+
+            <Border>
+                <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView" />
+            </Border>
+        </SplitView>
+    </Grid>
 </views:TransparencyViewBase>

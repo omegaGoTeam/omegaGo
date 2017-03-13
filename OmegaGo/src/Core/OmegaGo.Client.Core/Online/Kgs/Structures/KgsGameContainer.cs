@@ -7,16 +7,21 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
         public string Name { get; set; }
         private readonly List<KgsGameInfo> Games = new List<KgsGameInfo>();
+        private readonly List<KgsChallenge> Challenges = new List<KgsChallenge>();
 
         public void AddGame(GameChannel channel, KgsConnection connection)
         {
             var kinfo = KgsGameInfo.FromChannel(channel, connection);
-            if (kinfo == null)
-            {
-                // This game is not supported by our client.
+            if (kinfo != null)
+            { 
+                Games.Add(kinfo);
                 return;
             }
-            Games.Add(kinfo);
+            var kchallenge = KgsChallenge.FromChannel(channel, connection);
+            if (kchallenge != null)
+            {
+                Challenges.Add(kchallenge);
+            }
         }
 
         public void RemoveGame(int gameId)
@@ -31,6 +36,10 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public IEnumerable<KgsGameInfo> GetGames()
         {
             return Games;
+        }
+        public IEnumerable<KgsChallenge> GetChallenges()
+        {
+            return Challenges;
         }
 
         public void UpdateGames(GameChannel[] games, KgsConnection connection)
