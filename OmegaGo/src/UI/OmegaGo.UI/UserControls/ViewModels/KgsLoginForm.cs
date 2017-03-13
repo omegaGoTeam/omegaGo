@@ -10,7 +10,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 {
     class KgsLoginForm : LoginFormViewModel
     {
-        public KgsLoginForm(IGameSettings settings, Localizer localizer) : base(settings, localizer)
+        public KgsLoginForm(Localizer localizer, IGameSettings settings) : base(settings, localizer)
         {
         }
 

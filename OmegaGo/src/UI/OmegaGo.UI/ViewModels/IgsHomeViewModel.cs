@@ -175,6 +175,8 @@ namespace OmegaGo.UI.ViewModels
                 RaisePropertyChanged(nameof(LoggedInUser));
                 LoginForm.FormVisible = false;
                 LoginForm.LoginErrorMessageOpacity = 0;
+                await RefreshGames();
+                await RefreshUsers();
             }
             else
             {
@@ -182,8 +184,6 @@ namespace OmegaGo.UI.ViewModels
                 LoginForm.LoginErrorMessageOpacity = 1;
             }
             ProgressPanelVisible = false;
-            await RefreshGames();
-            await RefreshUsers();
         }
 
         public async void Logout()

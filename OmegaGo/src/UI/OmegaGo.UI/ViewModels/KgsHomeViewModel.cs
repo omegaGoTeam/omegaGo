@@ -29,9 +29,34 @@ namespace OmegaGo.UI.ViewModels
         public KgsHomeViewModel(IGameSettings settings)
         {
             this._settings = settings;
+            this.LoginForm = new KgsLoginForm(this.Localizer, this._settings);
+            this.LoginForm.LoginClick += LoginForm_LoginClick;
         }
-        
-        public LoginFormViewModel LoginForm => new KgsLoginForm(_settings, Localizer);
-    
+
+        private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
+        {
+            await AttemptLoginCommand(e.Username, e.Password);
+        }
+
+        public LoginFormViewModel LoginForm { get; }
+        public async Task AttemptLoginCommand(string username, string password)
+        {
+            LoginForm.LoginErrorMessageOpacity = 1;
+            LoginForm.FormEnabled = false;
+            
+            LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
+            bool loginSuccess = await Connections.Kgs.LoginAsync(username, password);
+            LoginForm.FormEnabled = true;
+            if (loginSuccess)
+            {
+                LoginForm.FormVisible = false;
+                LoginForm.LoginErrorMessageOpacity = 0;
+            }
+            else
+            {
+                LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
+                LoginForm.LoginErrorMessageOpacity = 1;
+            }
+        }
     }
 }
