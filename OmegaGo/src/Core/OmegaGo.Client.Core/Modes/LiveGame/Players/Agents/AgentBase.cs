@@ -37,7 +37,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Indicates that the player passed
         /// </summary>
-        public event AgentEventHandler Pass;
+        public event AgentEventHandler Pass;       
 
         /// <summary>
         /// Player color
@@ -108,7 +108,5 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         {
             
         }
-
-
     }
 }

@@ -32,6 +32,19 @@ namespace OmegaGo.Core.Time.Japanese
             _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
                 _snapshot.PeriodsLeft, _snapshot.InByoYomi);
         }
+
+        public override string GetGtpInitializationCommand()
+        {
+            // Go Text Protocol does not support japanese byo-yomi but we can approximate but disallowing the engine
+            // from ever using additional periods: the engine will think that its first byoyomi period is all it has.
+            return "time_settings " + (int) _snapshot.TimeLeft.TotalSeconds + " " + _byoyomiLengthInSeconds + " 1";
+        }
+
+        public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
+        {
+            return new Time.TimeLeftArguments((int) _snapshot.TimeLeft.TotalSeconds, _snapshot.InByoYomi ? 1 : 0);
+        }
+
         protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime);

@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame
@@ -312,7 +313,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             foreach (var player in Players)
             {
-                player.Agent.Resigned += Agent_Resigned;
+                player.Agent.Resigned += Agent_Resigned;                
             }
         }
 
