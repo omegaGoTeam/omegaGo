@@ -160,7 +160,6 @@
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
     <Compile Include="ViewModels\LocalGameViewModel.cs" />
     <Compile Include="ViewModels\KgsHomeViewModel.cs" />
-    <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
