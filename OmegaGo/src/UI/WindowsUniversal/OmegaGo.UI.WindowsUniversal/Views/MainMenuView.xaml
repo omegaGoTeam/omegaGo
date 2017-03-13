@@ -96,10 +96,27 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.OnlineGame}" Command="{Binding Path=NavigateToMultiplayerDashboard}" ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
+                    <mainMenu:MainMenuButton Margin="10" Text="Pandanet"
+                                             Command="{Binding Path=NavigateToIgsHome}" 
+                                             ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
-                                <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Multiplayer.png" />
+                                <Grid Width="32" Height="32">
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Multiplayer.png" />
+                                    <TextBlock FontFamily="Consolas" HorizontalAlignment="Center" Width="32" TextAlignment="Center" Margin="0,8,0,0" Text="IGS" FontWeight="SemiBold" FontSize="6"  />
+                                </Grid>
+                            </Viewbox>
+                        </mainMenu:MainMenuButton.Icon>
+                    </mainMenu:MainMenuButton>
+                    <mainMenu:MainMenuButton Margin="10" Text="KGS"
+                                             Command="{Binding Path=NavigateToKgsHome}" 
+                                             ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
+                        <mainMenu:MainMenuButton.Icon>
+                            <Viewbox>
+                                <Grid Width="32" Height="32">
+                                    <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Multiplayer.png" />
+                                    <TextBlock FontFamily="Consolas" HorizontalAlignment="Center" Width="32" TextAlignment="Center" Margin="0,8,0,0" Text="KGS" FontWeight="SemiBold" FontSize="6"  />
+                                </Grid>
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>

@@ -144,6 +144,9 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\IgsLoginForm.cs" />
+    <Compile Include="UserControls\ViewModels\KgsLoginForm.cs" />
+    <Compile Include="UserControls\ViewModels\LoginFormViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
@@ -156,6 +159,7 @@
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
     <Compile Include="ViewModels\LocalGameViewModel.cs" />
+    <Compile Include="ViewModels\KgsHomeViewModel.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />

@@ -5,6 +5,7 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.Services.Online
@@ -30,17 +31,26 @@ namespace OmegaGo.UI.Services.Online
                     _igsConnection = new IgsConnection();
                     _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
                 }
-                return _igsConnection;                               
+                return _igsConnection;
             }
         }
 
         /// <summary>
         /// Gets the connection to KGS Go server. 
         /// </summary>
-        public static KgsConnection Kgs => _kgsConnection ??
-                                           (_kgsConnection = new KgsConnection());
+        public static KgsConnection Kgs
 
-
+        {
+            get
+            {
+                if (_kgsConnection == null)
+                {
+                    _kgsConnection = new KgsConnection();
+                    _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
+                }
+                return _kgsConnection;
+            }
+        }
 
         /// <summary>
         /// Gets the connection to the specified server.
@@ -55,7 +65,7 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
-        
+
         /// <summary>
         /// Handles IGS user update
         /// </summary>
@@ -63,6 +73,16 @@ namespace OmegaGo.UI.Services.Online
         {
             //cache the IGS ranking
             Mvx.Resolve<IGameSettings>().Statistics.IgsRank = user.Rank.Trim();
+        }
+
+        /// <summary>
+        /// Handles KGS user update
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="user"></param>
+        private static void KgsUserUpdate(object sender, User user)
+        {
+            Mvx.Resolve<IGameSettings>().Statistics.KgsRank = user.Rank.Trim();
         }
     }
 }

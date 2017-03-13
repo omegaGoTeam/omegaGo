@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     Loaded="IgsHomeLoaded"
     Unloaded="IgsHomeUnloaded"
     mc:Ignorable="d">
@@ -112,10 +113,11 @@
                     <StackPanel>
                         <Button Click="RefreshConsole">Refresh</Button>
                         <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
-                            <TextBlock  x:Name="IgsConsole" 
-                                        Padding="20"
-                                        TextWrapping="Wrap"
-                                        FontFamily="Consolas" FontSize="14"/>
+                            <TextBlock
+                        Padding="20"
+                               Name="IgsConsole" 
+                               TextWrapping="Wrap"
+                               FontFamily="Consolas" FontSize="14"></TextBlock>
                         </ScrollViewer>
                     </StackPanel>
                 </PivotItem>
@@ -135,37 +137,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-
-        <Border Name="LoginScreen" 
-                Background="White" BorderBrush="Black" BorderThickness="2"
-                Margin="100,100,100,100" 
-                Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
-            <Grid>
-                <TextBlock FontSize="32" Margin="0,20,0,0" 
-                           TextAlignment="Center"
-                           Text="Pandanet - Internet Go Server"/>
-                <Button Content="[x]" 
-                        Click="Button_Click" 
-                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0" />
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
-                    <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
-                    <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
-                    <TextBlock TextAlignment="Center">Password</TextBlock>
-                    <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
-                    <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
-                    <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch" >Log In</Button>
-                    <TextBlock Width="300" TextWrapping="Wrap" Opacity="{Binding LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{Binding LoginErrorMessage, Mode=OneWay}"></TextBlock>
-                </StackPanel>
-                <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                    <HyperlinkButton Click="HyperlinkButton_Click">Create a new Pandanet account (opens a browser window)</HyperlinkButton>
-                    <TextBlock TextWrapping="Wrap" Width="400">
-                        Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards.
-
-                    </TextBlock>
-                </StackPanel>
-            </Grid>
-        </Border>
+        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
     </Grid>
 </views:TransparencyViewBase>
 

@@ -124,6 +124,9 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\LoginFormControl.xaml.cs">
+      <DependentUpon>LoginFormControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
       <DependentUpon>MainMenuButton.xaml</DependentUpon>
     </Compile>
@@ -146,6 +149,9 @@
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="Views\KgsHomeView.xaml.cs">
+      <DependentUpon>KgsHomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IgsHomeView.xaml.cs">
       <DependentUpon>IgsHomeView.xaml</DependentUpon>
     </Compile>
@@ -333,6 +339,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\LoginFormControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Navigation\BackButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -360,6 +370,10 @@
     <Page Include="UserControls\TimelineControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KgsHomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\IgsHomeView.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -8,6 +8,7 @@ using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Online;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -19,14 +20,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
-
-        private async void HyperlinkButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            var pandanetUri = new Uri(@"http://pandanet-igs.com/igs_users/register");
-            await Windows.System.Launcher.LaunchUriAsync(pandanetUri);
-
-        }
-
         private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await VM.Initialize();
@@ -36,16 +29,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.Deinitialize();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // temporary, maybe permanent
-            VM.LoginScreenVisible = false;
-        }
-
+        
         private void ChangeUser_Click(object sender, RoutedEventArgs e)
         {
-            VM.LoginScreenVisible = true;
+            VM.LoginForm.FormVisible = true;
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

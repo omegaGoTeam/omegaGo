@@ -21,7 +21,8 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
         private IMvxCommand _navigateToGameCreation;
-        private IMvxCommand _navigateToMultiplayerDashboard;
+        private IMvxCommand _navigateToIgsHome;
+        private IMvxCommand _navigateToKgsHome;
         private IMvxCommand _navigateToLibrary;
         private IMvxCommand _navigateToStatistics;
         private IMvxCommand _navigateToSettings;
@@ -29,13 +30,13 @@ namespace OmegaGo.UI.ViewModels
 
         public bool ShowTutorialButton => _gameSettings.Display.ShowTutorialInMainMenu;
 
-        public MainMenuViewModel( IGameSettings gameSettings, IDialogService dialogService )
+        public MainMenuViewModel(IGameSettings gameSettings, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
             _dialogService = dialogService;
         }
-        
-    
+
+
 
         /// <summary>
         /// Game languages list
@@ -77,7 +78,8 @@ namespace OmegaGo.UI.ViewModels
         private string DO_MUTE = "MUTE";
         private string DO_UNMUTE = "UNMUTE";
 
-        public string MuteGlyph {
+        public string MuteGlyph
+        {
             get
             {
                 return _gameSettings.Audio.Mute
@@ -85,24 +87,27 @@ namespace OmegaGo.UI.ViewModels
                     : "\uE995"; //"&#xE995";
 
             }
-            set {
+            set
+            {
                 if (value == DO_MUTE)
                 {
                     _gameSettings.Audio.Mute = true;
-                } else if (value == DO_UNMUTE)
+                }
+                else if (value == DO_UNMUTE)
                 {
                     _gameSettings.Audio.Mute = false;
                 }
                 RaisePropertyChanged();
-            } 
-        } 
+            }
+        }
 
         public IMvxCommand ToggleMute => new MvxCommand(() =>
         {
             if (_gameSettings.Audio.Mute)
             {
                 MuteGlyph = DO_UNMUTE;
-            } else
+            }
+            else
             {
                 MuteGlyph = DO_MUTE;
             }
@@ -126,9 +131,13 @@ namespace OmegaGo.UI.ViewModels
                                                          ShowViewModel<GameCreationViewModel>();
                                                      }));
 
-        public IMvxCommand NavigateToMultiplayerDashboard => _navigateToMultiplayerDashboard ??
-                                                             (_navigateToMultiplayerDashboard =
+        public IMvxCommand NavigateToIgsHome => _navigateToIgsHome ??
+                                                             (_navigateToIgsHome =
                                                                  new MvxCommand(() => ShowViewModel<IgsHomeViewModel>()));
+
+        public IMvxCommand NavigateToKgsHome => _navigateToKgsHome ??
+                                                (_navigateToKgsHome =
+                                                    new MvxCommand(() => ShowViewModel<KgsHomeViewModel>()));
 
         public IMvxCommand NavigateToLibrary => _navigateToLibrary ??
                                                 (_navigateToLibrary = new MvxCommand(() => ShowViewModel<LibraryViewModel>()));
@@ -139,7 +148,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand NavigateToSettings => _navigateToSettings ??
                                                  (_navigateToSettings = new MvxCommand(() => ShowViewModel<SettingsViewModel>()));
 
-    
+
 
         public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
 
