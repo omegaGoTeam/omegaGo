@@ -133,6 +133,8 @@ namespace OmegaGo.UI.ViewModels
                                                              (_navigateToMultiplayerDashboard =
                                                                  new MvxCommand(() => ShowViewModel<IgsHomeViewModel>()));
 
+        public IMvxCommand NavigateToKgsHome => new MvxCommand(() => ShowViewModel<KgsHomeViewModel>());
+
         public IMvxCommand NavigateToLibrary => _navigateToLibrary ??
                                                 (_navigateToLibrary = new MvxCommand(() => ShowViewModel<LibraryViewModel>()));
 

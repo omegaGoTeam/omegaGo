@@ -12,5 +12,18 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public KgsLoginForm(Localizer localizer) : base(localizer)
         {
         }
+
+        public override string HyperlinkCaption => "Download the official KGS client";
+
+        public override Uri RegistrationUri => new Uri("http://files.gokgs.com/javaBin/cgoban.exe");
+
+        public override string ServerInformation
+            =>
+                "You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User->Register."
+            ;
+
+        public override string ServerName => "KGS Go Server";
+
+        public override string UsernameCaption => "KGS Username";
     }
 }

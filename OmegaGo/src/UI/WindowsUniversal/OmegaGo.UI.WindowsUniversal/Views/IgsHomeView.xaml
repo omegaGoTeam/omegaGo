@@ -138,7 +138,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <userControls:LoginFormControl Name="LoginForm" ViewModel="{Binding LoginForm}" />
+        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
     </Grid>
 </views:TransparencyViewBase>
 

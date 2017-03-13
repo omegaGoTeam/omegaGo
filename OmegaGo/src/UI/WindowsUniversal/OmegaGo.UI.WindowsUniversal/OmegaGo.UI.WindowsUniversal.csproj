@@ -149,6 +149,9 @@
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="Views\KgsHomeView.xaml.cs">
+      <DependentUpon>KgsHomeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IgsHomeView.xaml.cs">
       <DependentUpon>IgsHomeView.xaml</DependentUpon>
     </Compile>
@@ -358,6 +361,10 @@
     <Page Include="UserControls\TimelineControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\KgsHomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\IgsHomeView.xaml">
       <Generator>MSBuild:Compile</Generator>

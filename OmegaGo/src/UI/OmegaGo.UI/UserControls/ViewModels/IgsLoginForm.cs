@@ -13,7 +13,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public IgsLoginForm(Localizer localizer) : base(localizer)
         {
         }
-
+        
         public override string HyperlinkCaption => "Create a new Pandanet account(opens a browser window)";
         public override Uri RegistrationUri => new Uri(@"http://pandanet-igs.com/igs_users/register");
 
@@ -22,5 +22,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 "Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards."
             ;
         public override string ServerName => "Pandanet - Internet Go Server";
+        public override string UsernameCaption => "Pandanet username";
     }
 }

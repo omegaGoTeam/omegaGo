@@ -16,31 +16,82 @@ namespace OmegaGo.UI.UserControls.ViewModels
             this.Localizer = localizer;
         }
 
+        
+        public abstract string HyperlinkCaption { get; }
+        public abstract Uri RegistrationUri {get;}
 
-        public virtual string HyperlinkCaption => "Create a new Pandanet account(opens a browser window)";
-        public virtual Uri RegistrationUri => new Uri(@"http://pandanet-igs.com/igs_users/register");
-
-        public virtual string ServerInformation
-            =>
-                "Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards."
-            ;
-        public virtual string ServerName => "Pandanet - Internet Go Server";
-
-        public virtual string FormCaption => "Login";
-        public virtual string UsernameCaption => "Pandanet username";
-        public virtual string PasswordCaption => "Password";
+        public abstract string ServerInformation { get; }
+        
+        public abstract string ServerName { get; }
+        
+        public string FormCaption => "Login";
+        public abstract string UsernameCaption { get; }
+        public string PasswordCaption => "Password";
 
         public double LoginErrorMessageOpacity => 1;
         public string LogInButtonCaption => "Log In";
         public string LoginAtStartupCaption => "Log in whenever you start omegaGo";
         public string RememberPasswordCaption => "Remember password";
+        
+        private string _username;
+        private string _password;
+        private string _loginErrorMessage;
+        private bool _rememberPassword;
+        private bool _loginAtStartup;
+        private bool _formVisible = true;
+        private bool _formDisabled;
+        public bool FormVisible
+        {
+            get { return _formVisible; }
+            set { SetProperty(ref _formVisible, value); }
 
-        // TODO bind to events
-        public string UsernameText { get; set; } 
-        public string PasswordText { get; set; } 
-        public bool RememberPassword { get; set; }
-        public bool LoginAtStartup { get; set; }
-        public string LoginErrorMessage { get; set; }
+        }
+        public bool FormDisabled
+        {
+            get { return _formDisabled; }
+            set { SetProperty(ref _formDisabled, value); }
 
+        }
+        public string UsernameText {
+            get { return _username; }
+            set { SetProperty(ref _username, value); }
+        }
+        public string PasswordText
+        {
+            get { return _password; }
+            set { SetProperty(ref _password, value); }
+        }
+        public bool RememberPassword
+        {
+            get { return _rememberPassword; }
+            set { SetProperty(ref _rememberPassword, value); }
+        }
+        public bool LoginAtStartup
+        {
+            get { return _loginAtStartup; }
+            set { SetProperty(ref _loginAtStartup, value); }
+        }
+        public string LoginErrorMessage
+        {
+            get { return _loginErrorMessage; }
+            set { SetProperty(ref _loginErrorMessage, value); }
+        }
+
+        public void LogIn()
+        {
+            LoginClick?.Invoke(this, new LoginEventArgs(UsernameText, PasswordText));
+        }
+
+        public event EventHandler<LoginEventArgs> LoginClick;
+    }
+    public class LoginEventArgs : EventArgs
+    {
+        public string Username { get; }
+        public string Password { get; }
+        public LoginEventArgs(string username, string password)
+        {
+            this.Username = username;
+            this.Password = password;
+        }
     }
 }

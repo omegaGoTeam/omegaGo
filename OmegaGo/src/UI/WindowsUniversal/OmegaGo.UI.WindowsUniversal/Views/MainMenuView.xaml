@@ -96,7 +96,18 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.OnlineGame}" Command="{Binding Path=NavigateToMultiplayerDashboard}" ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
+                    <mainMenu:MainMenuButton Margin="10" Text="IGS"
+                                             Command="{Binding Path=NavigateToMultiplayerDashboard}" 
+                                             ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
+                        <mainMenu:MainMenuButton.Icon>
+                            <Viewbox>
+                                <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Multiplayer.png" />
+                            </Viewbox>
+                        </mainMenu:MainMenuButton.Icon>
+                    </mainMenu:MainMenuButton>
+                    <mainMenu:MainMenuButton Margin="10" Text="KGS"
+                                             Command="{Binding Path=NavigateToKgsHome}" 
+                                             ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Multiplayer.png" />

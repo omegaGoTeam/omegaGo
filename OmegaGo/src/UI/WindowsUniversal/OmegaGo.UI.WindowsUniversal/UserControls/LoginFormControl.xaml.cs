@@ -42,12 +42,12 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ViewModel.FormVisible = false;
         }
 
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            ViewModel.LogIn();
         }
 
         private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
