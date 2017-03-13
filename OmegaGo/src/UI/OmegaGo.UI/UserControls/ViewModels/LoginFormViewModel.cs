@@ -4,19 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
     public abstract class LoginFormViewModel : ControlViewModelBase
     {
+        protected readonly IGameSettings Settings;
         protected Localizer Localizer { get; }
 
-        protected LoginFormViewModel(Localizer localizer)
+        protected LoginFormViewModel(IGameSettings settings, Localizer localizer)
         {
+            this.Settings = settings;
             this.Localizer = localizer;
+            if (RememberPassword)
+            {
+                this._password = RetrievePassword();
+            } else
+            {
+                this._password = "";
+            }
         }
 
-        
+
         public abstract string HyperlinkCaption { get; }
         public abstract Uri RegistrationUri {get;}
 
@@ -32,14 +42,40 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public string LogInButtonCaption => "Log In";
         public string LoginAtStartupCaption => "Log in whenever you start omegaGo";
         public string RememberPasswordCaption => "Remember password";
-        
-        private string _username;
+
         private string _password;
         private string _loginErrorMessage;
-        private bool _rememberPassword;
-        private bool _loginAtStartup;
         private bool _formVisible = true;
         private bool _formDisabled;
+
+
+        protected abstract string RetrievePassword();
+        protected abstract void StorePassword(string password);
+
+        public abstract string UsernameText { get; set; }
+        public string PasswordText
+        {
+            get { return _password; }
+            set {
+                SetProperty(ref _password, value);
+                if (RememberPassword)
+                {
+                    StorePassword(value);
+                }
+
+            }
+        }
+        public abstract bool RememberPassword { get; set; }
+        public abstract bool LoginAtStartup { get; set; }
+
+
+
+
+        public string LoginErrorMessage
+        {
+            get { return _loginErrorMessage; }
+            set { SetProperty(ref _loginErrorMessage, value); }
+        }
         public bool FormVisible
         {
             get { return _formVisible; }
@@ -50,32 +86,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             get { return _formDisabled; }
             set { SetProperty(ref _formDisabled, value); }
+        }
 
-        }
-        public string UsernameText {
-            get { return _username; }
-            set { SetProperty(ref _username, value); }
-        }
-        public string PasswordText
-        {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
-        }
-        public bool RememberPassword
-        {
-            get { return _rememberPassword; }
-            set { SetProperty(ref _rememberPassword, value); }
-        }
-        public bool LoginAtStartup
-        {
-            get { return _loginAtStartup; }
-            set { SetProperty(ref _loginAtStartup, value); }
-        }
-        public string LoginErrorMessage
-        {
-            get { return _loginErrorMessage; }
-            set { SetProperty(ref _loginErrorMessage, value); }
-        }
+
+
 
         public void LogIn()
         {

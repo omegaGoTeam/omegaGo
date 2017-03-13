@@ -29,14 +29,15 @@ namespace OmegaGo.UI.ViewModels
         public IgsHomeViewModel(IGameSettings settings)
         {
             this._settings = settings;
-            this._password = _settings.Interface.IgsPassword;
+            if (_settings.Interface.IgsRememberPassword)
+            {
+                this.LoginForm.PasswordText = _settings.Interface.IgsPassword;
+            }
         }
 
         public async Task Initialize()
         {
             LoginScreenVisible = !(Connections.Igs.LoggedIn);
-            Connections.Igs.IncomingLine += Pandanet_IncomingLine;
-            Connections.Igs.OutgoingLine += Pandanet_OutgoingLine;
             Connections.Igs.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
@@ -47,7 +48,7 @@ namespace OmegaGo.UI.ViewModels
             }
         }
         
-        public LoginFormViewModel LoginForm => new IgsLoginForm(Localizer);
+        public LoginFormViewModel LoginForm => new IgsLoginForm(this.Localizer, _settings);
     
 
         private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
@@ -62,8 +63,6 @@ namespace OmegaGo.UI.ViewModels
 
         public void Deinitialize()
         {
-            Connections.Igs.IncomingLine -= Pandanet_IncomingLine;
-            Connections.Igs.OutgoingLine -= Pandanet_OutgoingLine;
             Connections.Igs.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
             Connections.Igs.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Igs.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
@@ -287,16 +286,17 @@ namespace OmegaGo.UI.ViewModels
         {
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
+                ChallengeableUsers = new List<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
             }
             else
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+                ChallengeableUsers = new List<IgsUser>(allUsers);
             }
+            RaisePropertyChanged(nameof(ChallengeableUsers));
         }
         private List<IgsUser> allUsers = new List<IgsUser>();
-        private ObservableCollection<IgsUser> _challengeableUsers = new ObservableCollection<IgsUser>();
-        public ObservableCollection<IgsUser> ChallengeableUsers
+        private List<IgsUser> _challengeableUsers = new List<IgsUser>();
+        public List<IgsUser> ChallengeableUsers
         {
             get { return _challengeableUsers; }
             set { SetProperty(ref _challengeableUsers, value); }
@@ -313,6 +313,7 @@ namespace OmegaGo.UI.ViewModels
         {
             allUsers.Sort(comparison);
             ChallengeableUsers.Sort(comparison);
+            RaisePropertyChanged(nameof(ChallengeableUsers));
         }
         //** GAMES *************************************************************
 
@@ -330,13 +331,15 @@ namespace OmegaGo.UI.ViewModels
             ProgressPanelVisible = false;
         }
 
-        public ObservableCollection<IgsGameInfo> ObservableGames { get; set; } =
-            new ObservableCollection<IgsGameInfo>();
+        public List<IgsGameInfo> ObservableGames { get; set; } =
+            new List<IgsGameInfo>();
 
 
         public void SortGames(Comparison<IgsGameInfo> comparison)
         {
             ObservableGames.Sort(comparison);
+            RaisePropertyChanged(nameof(ObservableGames));
+
         }
 
         private IgsGameInfo _selectedSpectatableGame;
@@ -375,29 +378,6 @@ namespace OmegaGo.UI.ViewModels
             }
             ProgressPanelVisible = false;
         });
-
-
-        //** CONSOLE *************************************************************
-        private static string consoleContents = "";
-        public string Console
-        {
-            get { return consoleContents; }
-            set
-            {
-                consoleContents = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private void Pandanet_OutgoingLine(object sender, string e)
-        {
-            this.Console += "\n>" + e;
-        }
-        private void Pandanet_IncomingLine(object sender, string e)
-        {
-            this.Console += "\n" + e;
-        }
-
 
         public void StartGame(IgsGame game)
         {

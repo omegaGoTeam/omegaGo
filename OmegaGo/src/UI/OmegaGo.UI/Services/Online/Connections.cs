@@ -37,8 +37,21 @@ namespace OmegaGo.UI.Services.Online
         /// <summary>
         /// Gets the connection to KGS Go server. 
         /// </summary>
-        public static KgsConnection Kgs => _kgsConnection ??
-                                           (_kgsConnection = new KgsConnection());
+        public static KgsConnection Kgs
+
+        {
+            get
+            {
+                if (_kgsConnection == null)
+                {
+                    _kgsConnection = new KgsConnection();
+                    _kgsConnection.Events.PersonalInformationUpdate += Connections.KgsUserUpdate;
+                }
+                return _kgsConnection;
+            }
+
+        }
+
 
 
 
@@ -63,6 +76,10 @@ namespace OmegaGo.UI.Services.Online
         {
             //cache the IGS ranking
             Mvx.Resolve<IGameSettings>().Statistics.IgsRank = user.Rank.Trim();
+        }
+        private static void KgsUserUpdate(object sender, Core.Online.Kgs.Datatypes.User e)
+        {
+            Mvx.Resolve<IGameSettings>().Statistics.KgsRank = e.Rank.Trim();
         }
     }
 }

@@ -96,7 +96,7 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="IGS"
+                    <mainMenu:MainMenuButton Margin="10" Text="Pandanet"
                                              Command="{Binding Path=NavigateToMultiplayerDashboard}" 
                                              ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
                         <mainMenu:MainMenuButton.Icon>

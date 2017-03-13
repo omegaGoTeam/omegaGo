@@ -31,7 +31,7 @@ namespace OmegaGo.UI.ViewModels
             this._settings = settings;
         }
         
-        public LoginFormViewModel LoginForm => new KgsLoginForm(Localizer);
+        public LoginFormViewModel LoginForm => new KgsLoginForm(_settings, Localizer);
     
     }
 }
