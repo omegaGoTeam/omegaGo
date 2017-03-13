@@ -15,6 +15,7 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Helpers.Device;
 #if WITHOUT_FUEGO
 #else
 using OmegaGo.UI.WindowsUniversal.Fuego;
@@ -34,8 +35,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+            this.InitializeComponent();            
             this.Suspending += OnSuspending;
 #if WITHOUT_FUEGO
 #else
@@ -181,8 +181,9 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private void OptimizeDisplay()
         {
-            if (AnalyticsInfo.VersionInfo.DeviceFamily.IndexOf("xbox", StringComparison.OrdinalIgnoreCase) != -1)
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox)
             {
+                this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
                 XboxDisplayOptimization();
             }
         }
