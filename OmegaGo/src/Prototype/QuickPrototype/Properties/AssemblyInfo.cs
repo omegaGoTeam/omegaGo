@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OmegaGo")]
-[assembly: AssemblyCopyright("Copyright © Omega Go Team 2016")]
+[assembly: AssemblyCopyright("Copyright © omegaGo Team 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

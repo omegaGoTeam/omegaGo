@@ -645,11 +645,20 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hotseat games played:.
+        ///   Looks up a localized string similar to Hotseat games played.
         /// </summary>
         public static string HotseatGamesPlayed {
             get {
                 return ResourceManager.GetString("HotseatGamesPlayed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IGS rank.
+        /// </summary>
+        public static string IgsRank {
+            get {
+                return ResourceManager.GetString("IgsRank", resourceCulture);
             }
         }
         
@@ -659,6 +668,15 @@ namespace OmegaGo.UI.Localization {
         public static string InputPanel {
             get {
                 return ResourceManager.GetString("InputPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS rank.
+        /// </summary>
+        public static string KgsRank {
+            get {
+                return ResourceManager.GetString("KgsRank", resourceCulture);
             }
         }
         
@@ -780,7 +798,25 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Omega Go.
+        ///   Looks up a localized string similar to Toggle muting all sounds (icon shows current state).
+        /// </summary>
+        public static string MuteTooltip {
+            get {
+                return ResourceManager.GetString("MuteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next rank at:.
+        /// </summary>
+        public static string NextRankAtColon {
+            get {
+                return ResourceManager.GetString("NextRankAtColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to omegaGo.
         /// </summary>
         public static string OmegaGo {
             get {
@@ -789,11 +825,11 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Omega Go rank:.
+        ///   Looks up a localized string similar to omegaGo rank.
         /// </summary>
-        public static string OmegaGoRankColon {
+        public static string OmegaGoRank {
             get {
-                return ResourceManager.GetString("OmegaGoRankColon", resourceCulture);
+                return ResourceManager.GetString("OmegaGoRank", resourceCulture);
             }
         }
         
@@ -807,7 +843,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Online games played:.
+        ///   Looks up a localized string similar to Online games played.
         /// </summary>
         public static string OnlineGamesPlayed {
             get {
@@ -816,7 +852,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Online games won:.
+        ///   Looks up a localized string similar to Online games won.
         /// </summary>
         public static string OnlineGamesWon {
             get {
@@ -852,6 +888,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Play against AI.
+        /// </summary>
+        public static string PlayAgainstAI {
+            get {
+                return ResourceManager.GetString("PlayAgainstAI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Player.
         /// </summary>
         public static string Player {
@@ -861,20 +906,110 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Points:.
+        ///   Looks up a localized string similar to Points.
         /// </summary>
-        public static string PointsColon {
+        public static string Points {
             get {
-                return ResourceManager.GetString("PointsColon", resourceCulture);
+                return ResourceManager.GetString("Points", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quests completed:.
+        ///   Looks up a localized string similar to Replace.
+        /// </summary>
+        public static string Quest_Replace {
+            get {
+                return ResourceManager.GetString("Quest_Replace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You will lose this quest and any progress towards it, but you will immediately gain a different random quest..
+        /// </summary>
+        public static string Quest_ReplaceTooltip {
+            get {
+                return ResourceManager.GetString("Quest_ReplaceTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Try this now.
+        /// </summary>
+        public static string Quest_TryThisNow {
+            get {
+                return ResourceManager.GetString("Quest_TryThisNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will take you to a screen where you can work on this quest..
+        /// </summary>
+        public static string Quest_TryThisNowTooltip {
+            get {
+                return ResourceManager.GetString("Quest_TryThisNowTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quests.
+        /// </summary>
+        public static string Quests {
+            get {
+                return ResourceManager.GetString("Quests", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quests completed.
         /// </summary>
         public static string QuestsCompleted {
             get {
                 return ResourceManager.GetString("QuestsCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You receive a new quest every midnight, local time, unless you already have 3 quests..
+        /// </summary>
+        public static string QuestsFooter {
+            get {
+                return ResourceManager.GetString("QuestsFooter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string QuitCancel {
+            get {
+                return ResourceManager.GetString("QuitCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit game?.
+        /// </summary>
+        public static string QuitCaption {
+            get {
+                return ResourceManager.GetString("QuitCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quit.
+        /// </summary>
+        public static string QuitConfirm {
+            get {
+                return ResourceManager.GetString("QuitConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to quit the game?.
+        /// </summary>
+        public static string QuitText {
+            get {
+                return ResourceManager.GetString("QuitText", resourceCulture);
             }
         }
         
@@ -929,6 +1064,15 @@ namespace OmegaGo.UI.Localization {
         public static string Rename {
             get {
                 return ResourceManager.GetString("Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset all progress.
+        /// </summary>
+        public static string ResetAllProgress {
+            get {
+                return ResourceManager.GetString("ResetAllProgress", resourceCulture);
             }
         }
         
@@ -1068,6 +1212,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Singleplayer Menu.
+        /// </summary>
+        public static string SingleplayerMenu {
+            get {
+                return ResourceManager.GetString("SingleplayerMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Learn Go, play against an AI, solve problems or gain experience completing quests..
         /// </summary>
         public static string SingleplayerToolTip {
@@ -1077,7 +1230,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solo games played:.
+        ///   Looks up a localized string similar to Solo games played.
         /// </summary>
         public static string SoloGamesPlayed {
             get {
@@ -1086,11 +1239,29 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Solo games won:.
+        ///   Looks up a localized string similar to Solo games won.
         /// </summary>
         public static string SoloGamesWon {
             get {
                 return ResourceManager.GetString("SoloGamesWon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solved!.
+        /// </summary>
+        public static string SolvedExclamationPoint {
+            get {
+                return ResourceManager.GetString("SolvedExclamationPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve puzzles.
+        /// </summary>
+        public static string SolvePuzzles {
+            get {
+                return ResourceManager.GetString("SolvePuzzles", resourceCulture);
             }
         }
         
@@ -1203,7 +1374,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total games played:.
+        ///   Looks up a localized string similar to Total games played.
         /// </summary>
         public static string TotalGamesPlayed {
             get {
@@ -1212,7 +1383,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total games won:.
+        ///   Looks up a localized string similar to Total games won.
         /// </summary>
         public static string TotalGamesWon {
             get {
@@ -1221,7 +1392,232 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Tsumego problems solved:.
+        ///   Looks up a localized string similar to Black to play..
+        /// </summary>
+        public static string Tsumego_BlackToPlay {
+            get {
+                return ResourceManager.GetString("Tsumego_BlackToPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solved.
+        /// </summary>
+        public static string Tsumego_CorrectPanel {
+            get {
+                return ResourceManager.GetString("Tsumego_CorrectPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current node status:.
+        /// </summary>
+        public static string Tsumego_CurrentNodeStatus {
+            get {
+                return ResourceManager.GetString("Tsumego_CurrentNodeStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current problem status:.
+        /// </summary>
+        public static string Tsumego_CurrentProblemStatus {
+            get {
+                return ResourceManager.GetString("Tsumego_CurrentProblemStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to How to solve tsumego:.
+        /// </summary>
+        public static string Tsumego_HowToSolveTsumegoCaption {
+            get {
+                return ResourceManager.GetString("Tsumego_HowToSolveTsumegoCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it&apos;s solved. For more information, access help pages from the main menu..
+        /// </summary>
+        public static string Tsumego_HowToSolveTsumegoText {
+            get {
+                return ResourceManager.GetString("Tsumego_HowToSolveTsumegoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instructions:.
+        /// </summary>
+        public static string Tsumego_Instructions {
+            get {
+                return ResourceManager.GetString("Tsumego_Instructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (more moves available).
+        /// </summary>
+        public static string Tsumego_MoreMovesAvailable {
+            get {
+                return ResourceManager.GetString("Tsumego_MoreMovesAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next problem.
+        /// </summary>
+        public static string Tsumego_NextProblem {
+            get {
+                return ResourceManager.GetString("Tsumego_NextProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not yet solved.
+        /// </summary>
+        public static string Tsumego_NotYetSolved {
+            get {
+                return ResourceManager.GetString("Tsumego_NotYetSolved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous problem.
+        /// </summary>
+        public static string Tsumego_PreviousProblem {
+            get {
+                return ResourceManager.GetString("Tsumego_PreviousProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem name:.
+        /// </summary>
+        public static string Tsumego_ProblemName {
+            get {
+                return ResourceManager.GetString("Tsumego_ProblemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show possible moves.
+        /// </summary>
+        public static string Tsumego_ShowPossibleMoves {
+            get {
+                return ResourceManager.GetString("Tsumego_ShowPossibleMoves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays..
+        /// </summary>
+        public static string Tsumego_ShowPossibleMoves_Tooltip {
+            get {
+                return ResourceManager.GetString("Tsumego_ShowPossibleMoves_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue....
+        /// </summary>
+        public static string Tsumego_StatusContinue {
+            get {
+                return ResourceManager.GetString("Tsumego_StatusContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Correct!.
+        /// </summary>
+        public static string Tsumego_StatusCorrect {
+            get {
+                return ResourceManager.GetString("Tsumego_StatusCorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong..
+        /// </summary>
+        public static string Tsumego_StatusWrong {
+            get {
+                return ResourceManager.GetString("Tsumego_StatusWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo last move.
+        /// </summary>
+        public static string Tsumego_UndoOneMove {
+            get {
+                return ResourceManager.GetString("Tsumego_UndoOneMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (unexpected).
+        /// </summary>
+        public static string Tsumego_Unexpected {
+            get {
+                return ResourceManager.GetString("Tsumego_Unexpected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tsumego.
+        /// </summary>
+        public static string Tsumego_ViewCaption {
+            get {
+                return ResourceManager.GetString("Tsumego_ViewCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White to play..
+        /// </summary>
+        public static string Tsumego_WhiteToPlay {
+            get {
+                return ResourceManager.GetString("Tsumego_WhiteToPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong.
+        /// </summary>
+        public static string Tsumego_WrongPanel {
+            get {
+                return ResourceManager.GetString("Tsumego_WrongPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solved (you have previously solved this problem)..
+        /// </summary>
+        public static string Tsumego_YouHavePreviouslySolvedThisProblem {
+            get {
+                return ResourceManager.GetString("Tsumego_YouHavePreviouslySolvedThisProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have solved this problem!.
+        /// </summary>
+        public static string Tsumego_YouHaveSolvedThisProblem {
+            get {
+                return ResourceManager.GetString("Tsumego_YouHaveSolvedThisProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solve tsumego problems.
+        /// </summary>
+        public static string TsumegoMenuCaption {
+            get {
+                return ResourceManager.GetString("TsumegoMenuCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tsumego problems solved.
         /// </summary>
         public static string TsumegoProblemsSolved {
             get {
@@ -1235,6 +1631,15 @@ namespace OmegaGo.UI.Localization {
         public static string Tutorial {
             get {
                 return ResourceManager.GetString("Tutorial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Tutorial_Next {
+            get {
+                return ResourceManager.GetString("Tutorial_Next", resourceCulture);
             }
         }
         

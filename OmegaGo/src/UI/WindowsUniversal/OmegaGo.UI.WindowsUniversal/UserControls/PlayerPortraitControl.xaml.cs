@@ -19,19 +19,24 @@ using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class PlayerPortrait : UserControl
+    public sealed partial class PlayerPortraitControl : UserControl
     {
-        public PlayerPortrait()
+        public PlayerPortraitControl()
         {
             this.InitializeComponent();
         }
 
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-            "ViewModel", typeof(PlayerPortraitViewModel), typeof(PlayerSettingsControl), new PropertyMetadata(default(PlayerPortraitViewModel), ViewModelChanged));
+        public static readonly DependencyProperty ViewModelProperty = 
+                DependencyProperty.Register(
+                        "ViewModel", 
+                        typeof(PlayerPortraitViewModel), 
+                        typeof(PlayerPortraitControl), 
+                        new PropertyMetadata(null));
 
-        private static void ViewModelChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        public PlayerPortraitViewModel ViewModel
         {
-            ((PlayerPortrait)dependencyObject).DataContext = dependencyPropertyChangedEventArgs.NewValue;
+            get { return (PlayerPortraitViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
         }
 
         public Brush Color
@@ -43,11 +48,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 else
                     return new SolidColorBrush(Colors.White);
             }
-        }
-        public PlayerPortraitViewModel ViewModel
-        {
-            get { return (PlayerPortraitViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
+        }        
     }
 }

@@ -69,6 +69,7 @@
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
+    <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -151,13 +152,17 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\ObserverGameViewModel.cs" />
+    <Compile Include="ViewModels\OnlineGameViewModel.cs" />
+    <Compile Include="ViewModels\LocalGameViewModel.cs" />
     <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
@@ -436,6 +441,7 @@
     <EmbeddedResource Include="Services\Help\Data\footer.html" />
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Services\Quests\ABOUT.txt" />
     <Content Include="Services\Quests\QuestCooldownSpecification.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />

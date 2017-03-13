@@ -16,8 +16,8 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>OmegaGo.UI.WindowsUniversal_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>4239F7F8FC15C8E8B14FDD380C44C07BDDFC91BA</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>OmegaGo.UI.WindowsUniversal_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>435702973E98824AD897412BC1354225117EF85F</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
@@ -133,8 +133,8 @@
     <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
       <DependentUpon>TitleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PlayerPortrait.xaml.cs">
-      <DependentUpon>PlayerPortrait.xaml</DependentUpon>
+    <Compile Include="UserControls\PlayerPortraitControl.xaml.cs">
+      <DependentUpon>PlayerPortraitControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PlayerSettingsControl.xaml.cs">
       <DependentUpon>PlayerSettingsControl.xaml</DependentUpon>
@@ -149,6 +149,15 @@
     <Compile Include="Views\IgsHomeView.xaml.cs">
       <DependentUpon>IgsHomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LocalGameView.xaml.cs">
+      <DependentUpon>LocalGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObserverGameView.xaml.cs">
+      <DependentUpon>ObserverGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OnlineGameView.xaml.cs">
+      <DependentUpon>OnlineGameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>
@@ -161,8 +170,8 @@
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameView.xaml.cs">
-      <DependentUpon>GameView.xaml</DependentUpon>
+    <Compile Include="Views\GameOldView.xaml.cs">
+      <DependentUpon>GameOldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -187,6 +196,7 @@
       <DependentUpon>TutorialView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
+    <None Include="OmegaGo.UI.WindowsUniversal_StoreKey.pfx" />
     <None Include="OmegaGo.UI.WindowsUniversal_TemporaryKey.pfx" />
     <None Include="project.json" />
     <Compile Include="Setup.cs" />
@@ -265,6 +275,7 @@
     <Content Include="Assets\Textures\SabakiWhite.png" />
     <Content Include="Assets\Textures\space.png" />
     <Content Include="Assets\Textures\white.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logos\SplashScreen.scale-200.png" />
@@ -330,7 +341,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PlayerPortrait.xaml">
+    <Page Include="UserControls\PlayerPortraitControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -354,6 +365,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\LocalGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObserverGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OnlineGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TsumegoMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -370,7 +393,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameView.xaml">
+    <Page Include="Views\GameOldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

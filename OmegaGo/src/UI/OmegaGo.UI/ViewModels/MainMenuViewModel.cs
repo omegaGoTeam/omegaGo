@@ -34,6 +34,8 @@ namespace OmegaGo.UI.ViewModels
             _gameSettings = gameSettings;
             _dialogService = dialogService;
         }
+        
+    
 
         /// <summary>
         /// Game languages list
@@ -121,10 +123,7 @@ namespace OmegaGo.UI.ViewModels
                                                      (_navigateToGameCreation = new MvxCommand(() =>
                                                      {
                                                          Mvx.RegisterSingleton<GameCreationBundle>(new HotseatBundle());
-                                                         ShowViewModel
-                                                             <
-                                                                 GameCreationViewModel
-                                                                 >();
+                                                         ShowViewModel<GameCreationViewModel>();
                                                      }));
 
         public IMvxCommand NavigateToMultiplayerDashboard => _navigateToMultiplayerDashboard ??
