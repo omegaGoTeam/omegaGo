@@ -16,11 +16,12 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Pivot Grid.Row="0">
                 <PivotItem Header="Spectate a game">
@@ -31,11 +32,11 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <Button Click="RefreshGames">Refresh list of games</Button>
-                            <Button Click="SortByObservers_Click">Sort by number of observers</Button>
-                            <Button Click="SortByHighestRank_Click">Sort by rank (highest first)</Button>
-                            <Button Click="SortByBlackName_Click">Sort by Black's name</Button>
-                            <Button Click="SortByWhiteName_Click">Sort by White's name</Button>
+                            <Button Click="RefreshGames" Content="Refresh list of games" />
+                            <Button Click="SortByObservers_Click" Content="Sort by number of observers"/>
+                            <Button Click="SortByHighestRank_Click" Content="Sort by rank (highest first)"/>
+                            <Button Click="SortByBlackName_Click" Content="Sort by Black's name"/>
+                            <Button Click="SortByWhiteName_Click" Content="Sort by White's name"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                             <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
@@ -47,24 +48,24 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Command="{Binding ObserveSelectedGame}">
-                            Observe this game
-                        </Button>
+                        <Button Grid.Row="2"
+                                Content="Observe this game"
+                                Command="{Binding ObserveSelectedGame}" />
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Issue a challenge">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <Button Click="RefreshUsers">Refresh list of users</Button>
-                            <Button Click="SortUsersByName">Sort by name</Button>
-                            <Button Click="SortUsersByRankAscending">Sort by rank (lowest first)</Button>
-                            <Button Click="SortUsersByRankDescending">Sort by rank (highest first)</Button>
-                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}">Only show players looking for a game</CheckBox>
+                            <Button Click="RefreshUsers" Content="Refresh list of users"/>
+                            <Button Click="SortUsersByName" Content="Sort by name"/>
+                            <Button Click="SortUsersByRankAscending" Content="Sort by rank (lowest first)"/>
+                            <Button Click="SortUsersByRankDescending" Content="Sort by rank (highest first)"/>
+                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="Only show players looking for a game"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                             <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
@@ -76,20 +77,20 @@
                                 </ListBox.ItemContainerStyle>
                             </ListBox>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Command="{Binding ChallengeSelectedPlayer}">
-                            Challenge selected player...
-                        </Button>
+                        <Button Grid.Row="2" 
+                                Content="Challenge selected player..."
+                                Command="{Binding ChallengeSelectedPlayer}"/>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Incoming Match Requests">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <TextBlock Text="You have these match requests:"></TextBlock>
+                            <TextBlock Text="You have these match requests:"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                             <ListBox Name="TempIncomingMatchRequests" ItemsSource="{Binding IncomingMatchRequests, Mode=OneWay}">
@@ -110,50 +111,52 @@
                 <PivotItem Header="Console">
                     <StackPanel>
                         <Button Click="RefreshConsole">Refresh</Button>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
-                    <TextBlock
-                        Padding="20"
-                               Name="IgsConsole" 
-                               TextWrapping="Wrap"
-                               FontFamily="Consolas" FontSize="14"></TextBlock>
-                    </ScrollViewer>
+                        <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
+                            <TextBlock  x:Name="IgsConsole" 
+                                        Padding="20"
+                                        TextWrapping="Wrap"
+                                        FontFamily="Consolas" FontSize="14"/>
+                        </ScrollViewer>
                     </StackPanel>
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as: </TextBlock>
+                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as:</TextBlock>
                 <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
                 <Button Click="ChangeUser_Click">Change user...</Button>
                 <Button Click="Logout_Click">Logout</Button>
                 <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
                 <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center"  >
-
-                    </ProgressRing>
+                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
                     <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
                         Communicating with Pandanet...
                     </TextBlock>
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <Border Name="LoginScreen" Background="White" Margin="100,100,100,100" BorderBrush="Black" BorderThickness="2" Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
-            <Grid>
-                <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center">Pandanet - Internet Go Server</TextBlock>
 
-                <Button Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
-                    [x]
-                </Button>
+        <Border Name="LoginScreen" 
+                Background="White" BorderBrush="Black" BorderThickness="2"
+                Margin="100,100,100,100" 
+                Visibility="{Binding LoginScreenVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
+            <Grid>
+                <TextBlock FontSize="32" Margin="0,20,0,0" 
+                           TextAlignment="Center"
+                           Text="Pandanet - Internet Go Server"/>
+                <Button Content="[x]" 
+                        Click="Button_Click" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0" />
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
-                <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
-                 <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
-                <TextBlock TextAlignment="Center">Password</TextBlock>
-                <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
-                <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
-                <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch" >Log In</Button>
+                    <TextBlock FontSize="26" TextAlignment="Center">Login</TextBlock>
+                    <TextBlock TextAlignment="Center">Pandanet username</TextBlock>
+                    <TextBox Width="300" Text="{Binding UsernameTextBox, Mode=TwoWay}"></TextBox>
+                    <TextBlock TextAlignment="Center">Password</TextBlock>
+                    <PasswordBox Width="300" Password="{Binding PasswordTextBox, Mode=TwoWay}"></PasswordBox>
+                    <CheckBox IsChecked="{Binding RememberPassword, Mode=TwoWay}">Remember password</CheckBox>
+                    <Button Command="{Binding AttemptLoginCommand}" HorizontalAlignment="Stretch" >Log In</Button>
                     <TextBlock Width="300" TextWrapping="Wrap" Opacity="{Binding LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{Binding LoginErrorMessage, Mode=OneWay}"></TextBlock>
-            </StackPanel>
+                </StackPanel>
                 <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <HyperlinkButton Click="HyperlinkButton_Click">Create a new Pandanet account (opens a browser window)</HyperlinkButton>
                     <TextBlock TextWrapping="Wrap" Width="400">
