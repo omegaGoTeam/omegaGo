@@ -36,6 +36,11 @@ namespace OmegaGo.Core.AI
         public string Explanation { get; set; }
 
         /// <summary>
+        /// Log of AI's decisions
+        /// </summary>
+        public List<string> AiNotes { get; set; }
+
+        /// <summary>
         /// Creates a move decision
         /// </summary>
         /// <param name="move">Move</param>

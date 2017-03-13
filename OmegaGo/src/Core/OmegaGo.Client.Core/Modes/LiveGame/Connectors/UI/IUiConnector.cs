@@ -27,5 +27,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// Makes the player pass
         /// </summary>
         void Pass();
+
+        /// <summary>
+        /// AI log
+        /// </summary>
+        event EventHandler<string> AiLog;
     }
 }

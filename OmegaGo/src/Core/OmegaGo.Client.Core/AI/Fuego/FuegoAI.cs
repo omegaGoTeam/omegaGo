@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.Fuego
 {
@@ -13,6 +15,9 @@ namespace OmegaGo.Core.AI.Fuego
     /// <seealso cref="AIProgramBase" />
     internal class FuegoAI : AIProgramBase
     {
+        private bool SendAllAiOutputToLog = true;
+        private bool SendDebuggingInformationToLogToo = true;
+
         private const float ComparisonTolerance = 0.00001f;
 
         private readonly List<Move> _history = new List<Move>();
@@ -35,14 +40,12 @@ namespace OmegaGo.Core.AI.Fuego
         {
             if (!_initialized)
             {
-                _engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
-                _engine.SendCommand("uct_param_player ponder 1");
-                // TODO Petr komi
+                Initialize(preMoveInformation);
                 _initialized = true;
             }
             if (preMoveInformation.Difficulty != _timelimit)
             {
-                _engine.SendCommand("go_param timelimit " + preMoveInformation.Difficulty);
+                SendCommand("go_param timelimit " + preMoveInformation.Difficulty);
                 _timelimit = preMoveInformation.Difficulty;
             }
             var trueHistory = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
@@ -52,29 +55,106 @@ namespace OmegaGo.Core.AI.Fuego
                 {
                     Move trueMove = trueHistory[i];
                     _history.Add(trueMove);
-                    string throwaway =
-                        _engine.SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
+                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
                                            trueMove.Coordinates.ToIgsCoordinates());
                 }
             }
             string movecolor = preMoveInformation.AIColor == StoneColor.Black ? "B" : "W";
-            string result = _engine.SendCommand("genmove " + movecolor);
+            var timeLeftArguments = preMoveInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+            if (timeLeftArguments != null)
+            {
+                int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
+                secondsRemaining = Math.Max(secondsRemaining - 2, 0); // let's give the AI less time to ensure it does its move on time
+                SendCommand("time_left " + movecolor + " " + secondsRemaining + " " + timeLeftArguments.NumberOfStonesRemaining);
+            }
+            string result = SendCommand("genmove " + movecolor).Text;
             if (result == "resign")
             {
-                return AIDecision.Resign("Resigned because of low win chance.");
+                AIDecision resignDecision = AIDecision.Resign("Resigned because of low win chance.");
+                resignDecision.AiNotes = _storedNotes;
+                _storedNotes = new List<string>();
+                return resignDecision;
             }
             var move = result == "PASS"
                 ? Move.Pass(preMoveInformation.AIColor)
                 : Move.PlaceStone(preMoveInformation.AIColor, Position.FromIgsCoordinates(result));
             _history.Add(move);
-            string commandResult = _engine.SendCommand("uct_value_black");
+            string commandResult = SendCommand("uct_value_black").Text;
             float value = float.Parse(commandResult, System.Globalization.CultureInfo.InvariantCulture);            
             if (preMoveInformation.AIColor == StoneColor.White)
             {
                 value = 1 - value;
             }
-            return AIDecision.MakeMove(
-                move, (Math.Abs(value) < ComparisonTolerance) || (Math.Abs(value - 1) < ComparisonTolerance) ? "Reading from opening book." : "Win chance (" + preMoveInformation.AIColor + "): " + (100*value) + "%");
+            string winChanceNote = (Math.Abs(value) < ComparisonTolerance) ||
+                                   (Math.Abs(value - 1) < ComparisonTolerance)
+                ? "Reading from opening book."
+                : "Win chance (" + preMoveInformation.AIColor + "): " + (100*value) + "%";
+            Note(winChanceNote);
+            var moveDecision = AIDecision.MakeMove(
+                move, winChanceNote);
+            moveDecision.AiNotes = _storedNotes;
+            _storedNotes = new List<string>();
+            return moveDecision;
+        }
+
+        private void Initialize(AIPreMoveInformation preMoveInformation)
+        {
+            this._engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
+
+            // Strength
+            SendCommand("uct_param_player ponder 1");
+
+            // Rules
+            switch (preMoveInformation.GameInfo.RulesetType)
+            {
+                case RulesetType.AGA:
+                case RulesetType.Chinese:
+                    SendCommand("go_rules chinese");
+                    SendCommand("go_param_rules japanese_scoring 0");
+                    break;
+                case RulesetType.Japanese:
+                    SendCommand("go_rules japanese");
+                    SendCommand("go_param_rules japanese_scoring 1");
+                    break;
+            }
+            SendCommand("komi " + preMoveInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
+            // TODO on IGS, make it so two passes don't end a game
+
+            // Time settings
+            string timeSettings = preMoveInformation.AiPlayer.Clock.GetGtpInitializationCommand();
+            if (timeSettings != null)
+            {
+                SendCommand(timeSettings);
+            }
+
+            // Print beginning info
+            Note("Komi set to " + SendCommand("get_komi").Text);
+            DebuggingNote("Random seed is " + SendCommand("get_random_seed").Text);
+            SendCommand("go_param_rules");
+        }
+
+        private GtpResponse SendCommand(string command)
+        {
+            GtpResponse output = _engine.SendCommand(command);
+            if (SendAllAiOutputToLog)
+            {
+                Note(">" + command);
+                Note(output.ToString());
+            }
+            return output;
+        }
+
+        private List<string> _storedNotes = new List<string>();
+        private void Note(string note)
+        {
+            this._storedNotes.Add(note);
+        }
+        private void DebuggingNote(string note)
+        {
+            if (SendDebuggingInformationToLogToo)
+            {
+                this._storedNotes.Add(note);
+            }
         }
     }
 }

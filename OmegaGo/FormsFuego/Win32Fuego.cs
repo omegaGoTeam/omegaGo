@@ -40,18 +40,20 @@ namespace FormsFuego
         private Process Process;
 
 
-        public string SendCommand(string command)
+        public GtpResponse SendCommand(string command)
         {
             WriteCommand(command, null);
             string code;
             string msg;
-            ReadResponse(out code, out msg);
-            return msg;
+            bool success;
+            ReadResponse(out code, out success, out msg);
+            return new GtpResponse(success, msg);
         }
         private readonly ConcurrentQueue<string> _inputs = new ConcurrentQueue<string>();
         readonly List<string> _debugLines = new List<string>();
-        private void ReadResponse(out string code, out string msg)
+        private void ReadResponse(out string code, out Boolean success, out string msg)
         {
+            success = false;
             code = null;
             msg = null;
 
@@ -80,11 +82,13 @@ namespace FormsFuego
                                 // If line starts with '?', indicates an error has occurred in Fuego.
                                 haveResult = true;
                                 ParseEngineOutput(line, out code, out msg);
+                                success = false;
                                 break;
                             case '=':
                                 // If line starts with '=', no error.
                                 haveResult = true;
                                 ParseEngineOutput(line, out code, out msg);
+                                success = true;
                                 break;
                             default:
                                 // If line starts with something else, save it.

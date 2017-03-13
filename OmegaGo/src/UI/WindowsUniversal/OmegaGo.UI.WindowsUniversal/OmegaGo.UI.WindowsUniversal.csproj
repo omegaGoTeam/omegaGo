@@ -136,8 +136,8 @@
     <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
       <DependentUpon>TitleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PlayerPortrait.xaml.cs">
-      <DependentUpon>PlayerPortrait.xaml</DependentUpon>
+    <Compile Include="UserControls\PlayerPortraitControl.xaml.cs">
+      <DependentUpon>PlayerPortraitControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PlayerSettingsControl.xaml.cs">
       <DependentUpon>PlayerSettingsControl.xaml</DependentUpon>
@@ -155,6 +155,15 @@
     <Compile Include="Views\IgsHomeView.xaml.cs">
       <DependentUpon>IgsHomeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LocalGameView.xaml.cs">
+      <DependentUpon>LocalGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObserverGameView.xaml.cs">
+      <DependentUpon>ObserverGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OnlineGameView.xaml.cs">
+      <DependentUpon>OnlineGameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>
@@ -167,8 +176,8 @@
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameView.xaml.cs">
-      <DependentUpon>GameView.xaml</DependentUpon>
+    <Compile Include="Views\GameOldView.xaml.cs">
+      <DependentUpon>GameOldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -342,7 +351,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PlayerPortrait.xaml">
+    <Page Include="UserControls\PlayerPortraitControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -370,6 +379,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\LocalGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObserverGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OnlineGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TsumegoMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -386,7 +407,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameView.xaml">
+    <Page Include="Views\GameOldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

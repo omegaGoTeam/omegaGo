@@ -1,43 +1,67 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.AI.Joker23.Players;
-using OmegaGo.Core.Game;
+﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Time;
-using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public class PlayerPortraitViewModel : ControlViewModelBase
+    /// <summary>
+    /// Represents a player in the game
+    /// </summary>
+    public sealed class PlayerPortraitViewModel : ControlViewModelBase
     {
-        public string Name => _player.Info.Name + " (" + _player.Info.Rank + ")";
-        public StoneColor Color => _player?.Info?.Color ?? StoneColor.Black;
-        public TimeControl Clock => _player.Clock;
+        /// <summary>
+        /// Player
+        /// </summary>
+        private readonly GamePlayer _player;
 
         private string _timeControlMainLine = "f";
+        private string _timeControlSubLine = "f";
 
+        /// <summary>
+        /// Creates the player portrait view model
+        /// </summary>
+        /// <param name="player">Player for which this portrait is applicable</param>
+        public PlayerPortraitViewModel(GamePlayer player)
+        {
+            _player = player;
+        }
+
+        /// <summary>
+        /// Name of the player joined with her rank
+        /// </summary>
+        public string Name => $"{_player.Info.Name} ({_player.Info.Rank})";
+
+        /// <summary>
+        /// Color of the player
+        /// </summary>
+        public StoneColor Color => _player?.Info?.Color ?? StoneColor.Black;
+
+        /// <summary>
+        /// Time control
+        /// </summary>
+        public TimeControl Clock => _player.Clock;
+        
+        /// <summary>
+        /// Main line of the clock control
+        /// </summary>
         public string TimeControlMainLine
         {
             get { return _timeControlMainLine; }
             set { SetProperty(ref _timeControlMainLine, value); }
         }
-        private string _timeControlSubLine = "f";
-
+        
+        /// <summary>
+        /// Sub line of the clock control
+        /// </summary>
         public string TimeControlSubLine
         {
             get { return _timeControlSubLine; }
             set { SetProperty(ref _timeControlSubLine, value); }
         }
-        private GamePlayer _player;
-
-        public PlayerPortraitViewModel(GamePlayer player)
-        {
-            this._player = player;
-        }
-
+        
+        /// <summary>
+        /// Updates the time control
+        /// </summary>
         public void Update()
         {
             TimeInformation info = Clock.GetDisplayTime();

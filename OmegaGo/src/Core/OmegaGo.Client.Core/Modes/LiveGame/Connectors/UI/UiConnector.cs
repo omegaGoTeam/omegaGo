@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
+using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
@@ -16,6 +19,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public UiConnector(IGameController gameController)
         {
             _gameController = gameController;
+            InitAgents();
         }
 
         public event EventHandler LifeDeathReturnToMainForced;
@@ -49,10 +53,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
             else
             {
                 GamePlayer human = _gameController.Players.FirstOrDefault(pl => pl.IsHuman);
-                if (human != null)
-                {
-                    (human.Agent as IHumanAgentActions).Resign();
-                }
+                (human?.Agent as IHumanAgentActions)?.Resign();
             }
         }
 
@@ -63,6 +64,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         {
             GetHumanAgentOnTurn()?.Pass();
         }
+
+        public event EventHandler<string> AiLog;
 
         public void MovePerformed(Move move)
         {
@@ -91,6 +94,28 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public void RequestMainUndo()
         {
             MainUndoRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Initializes agents
+        /// </summary>
+        private void InitAgents()
+        {
+            foreach (var aiAgent in _gameController.Players.Select(p => p.Agent).OfType<AiAgent>())
+            {
+                aiAgent.AiNote += AiAgent_AiNote;
+            }
+        }
+
+        /// <summary>
+        /// AI agent log
+        /// </summary>
+        /// <param name="agent">Agent</param>
+        /// <param name="note">Note to add</param>
+        private void AiAgent_AiNote(IAgent agent, string note)
+        {
+            string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + note;
+            AiLog?.Invoke(this, aiLogLine);           
         }
 
         /// <summary>

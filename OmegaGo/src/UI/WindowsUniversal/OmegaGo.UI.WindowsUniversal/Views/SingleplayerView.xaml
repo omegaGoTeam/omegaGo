@@ -56,20 +56,20 @@
                         <Border Background="Wheat" BorderBrush="Blue" BorderThickness="1" Width="300" Height="250">
                                 <StackPanel>
                                     <TextBlock TextAlignment="Center" Text="{Binding Quest.Name}"  Foreground="Black" FontSize="28" TextWrapping="Wrap" />
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock  FontSize="22" Margin="0,0,10,0" >Reward: </TextBlock>
-                                    <TextBlock Text="{Binding Quest.PointReward}"
-                                        FontWeight="Bold"   Foreground="Black" FontSize="22" />
-                                </StackPanel>
-                                <TextBlock Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
-                                           FontSize="18" TextWrapping="Wrap" />
-                                <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
-                                </ProgressBar>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding Progress}"></TextBlock>
-                                    <TextBlock Text="/"></TextBlock>
-                                    <TextBlock Text="{Binding Quest.MaximumProgress}"></TextBlock>
-                                </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock  FontSize="22" Margin="0,0,10,0" Text="Reward:" />
+                                        <TextBlock  Text="{Binding Quest.PointReward}"
+                                                    FontWeight="Bold"   Foreground="Black" FontSize="22" />
+                                    </StackPanel>
+                                    <TextBlock  Text="{Binding Quest.Description}" Padding="0,10,0,0" TextAlignment="Center"
+                                                FontSize="18" TextWrapping="Wrap" />
+                                    <ProgressBar Minimum="0" Maximum="{Binding Quest.MaximumProgress}" Value="{Binding Progress}" Height="20" Margin="0,10,0,0" >
+                                    </ProgressBar>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Progress}" />
+                                        <TextBlock Text="/" />
+                                        <TextBlock Text="{Binding Quest.MaximumProgress}" />
+                                    </StackPanel>
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                         <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}"
                                                 Click="TryThisNow_Click" ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNowTooltip}">
@@ -87,12 +87,12 @@
                                         </Button>
                                     </StackPanel>
                                 </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
                     <!-- A grid view maybe won't work... we need larger LastViewItems -->
-                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
-                    <quests:ExampleActiveQuest></quests:ExampleActiveQuest>
+                    <quests:ExampleActiveQuest />
+                    <quests:ExampleActiveQuest />
                 </GridView>
             <TextBlock Text="{x:Bind Localizer.QuestsFooter}" HorizontalAlignment="Center" Margin="0,0,0,20"></TextBlock>
             </StackPanel>

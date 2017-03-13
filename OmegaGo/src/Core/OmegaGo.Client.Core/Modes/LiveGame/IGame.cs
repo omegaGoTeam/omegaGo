@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame
     /// <summary>
     /// Base interface for a live game
     /// </summary>
-    public interface IGame : IMode
+    public interface IGame 
     {
         /// <summary>
         /// Controller of the live game

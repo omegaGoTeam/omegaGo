@@ -45,13 +45,13 @@
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\AIStrength.cs" />
+    <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
-    <Compile Include="Modes\Analysis\AnalysisMode.cs" />
     <Compile Include="Modes\LiveGame\Connectors\BaseConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
@@ -108,7 +108,6 @@
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />
-    <Compile Include="Modes\IMode.cs" />
     <Compile Include="Game\GameBoard.cs" />
     <Compile Include="Modes\LiveGame\GameBuilder.cs" />
     <Compile Include="Modes\LiveGame\GameController.cs" />
@@ -126,7 +125,6 @@
     <Compile Include="Modes\LiveGame\Local\LocalGame.cs" />
     <Compile Include="Modes\LiveGame\Local\LocalGameBuilder.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameBuilder.cs" />
-    <Compile Include="Modes\Tsumego\TsumegoMode.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="Modes\LiveGame\Remote\RemoteGame.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
@@ -154,9 +152,7 @@
     <Compile Include="Modes\LiveGame\Players\Builders\HumanPlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Builders\PlayerBuilder.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentType.cs" />
-    <Compile Include="Modes\Observing\ObservedOnlineGame.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGame.cs" />
-    <Compile Include="Modes\Tutorial\Tutorial.cs" />
     <Compile Include="Online\Chat\ChatMessage.cs" />
     <Compile Include="Online\Chat\ChatMessageKind.cs" />
     <Compile Include="Online\Chat\IChatService.cs" />
@@ -325,7 +321,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AI\Joker23\LICENSE" />
+    <Content Include="AI\Joker23\LICENSE.txt" />
     <None Include="Online\Igs\IGS Protocol Specification.md" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -346,12 +342,11 @@
     <Content Include="AI\Joker23\Java originals\Players\PlayerFactory.java" />
     <Content Include="AI\Joker23\Java originals\Players\RandomPlayer.java" />
     <Content Include="AI\Joker23\Java originals\Util\AiUtil.java" />
-    <Content Include="AI\Joker23\Licensing.txt" />
     <Compile Include="AI\Joker23\Players\JokerPlayer.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayer.cs" />
     <Compile Include="AI\Joker23\Players\HeuristicPlayer.cs" />
     <Compile Include="AI\Joker23\Players\AlphaBetaPlayer.cs" />
-    <Content Include="AI\Licensing.txt" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
     <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Kgs\Docs\ABOUT.txt" />

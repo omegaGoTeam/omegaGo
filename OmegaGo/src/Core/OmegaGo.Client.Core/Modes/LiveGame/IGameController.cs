@@ -46,13 +46,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the game's ruleset
         /// </summary>
         IRuleset Ruleset { get; }
-
-        /// <summary>
-        /// Gets the pair of participating players
-        /// </summary>
-        PlayerPair Players { get; }
-
-
+        
         /// <summary>
         /// Starts the game
         /// </summary>
