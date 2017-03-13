@@ -21,50 +21,88 @@ namespace OmegaGo.UI.ViewModels
 {
     public class GameCreationViewModel : ViewModelBase
     {
-        private static List<GameCreationViewPlayer> playerList = new List<GameCreationViewPlayer>(
+        private static readonly List<GameCreationViewPlayer> PlayerList = new List<GameCreationViewPlayer>(
             new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer("Human") }
                 .Concat(Core.AI.AISystems.AIPrograms.Select(
                     program => new GameCreationViewAiPlayer(program))));
 
+        private readonly IGameSettings _gameSettings;
+
         private int _handicap = 0;
         private bool _isHandicapFixed = true;
-        private float _compensation = 0;        
+        private float _compensation = 0;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
-        private RulesetType _selectedRuleset = RulesetType.Chinese;
-        private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private RulesetType _selectedRuleset = RulesetType.Chinese;        
 
         private int _customWidth = 19;
         private int _customHeight = 19;
         private string _server = "Local Game";
 
         // Game Mode specific View Model
-        private Type _gameModeViewModel;
+        private readonly Type _gameModeViewModel;
 
-        private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.playerList[0];
-        private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.playerList[0];
+        private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.PlayerList[0];
+        private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.PlayerList[0];
 
         private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
 
         private IMvxCommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
 
+        public GameCreationViewModel( IGameSettings gameSettings )
+        {
+            _gameSettings = gameSettings;
+            _customWidth = _gameSettings.Interface.BoardWidth;
+            _customHeight = _gameSettings.Interface.BoardHeight;
+            SetCustomBoardSize();
 
-        public PlayerSettingsViewModel BlackPlayerSettings { get; private set; }
-        public PlayerSettingsViewModel WhitePlayerSettings { get; private set; } 
+            var bundle = Mvx.GetSingleton<GameCreationBundle>();
+            bundle?.OnLoad(this);
+
+            // Get View Model type for the provided bundle.
+            _gameModeViewModel = GetGameModeViewModel(bundle);
+        }
+
+        /// <summary>
+        /// Gets the black player settings
+        /// </summary>
+        public PlayerSettingsViewModel BlackPlayerSettings { get; } =
+            new PlayerSettingsViewModel(PlayerList.First());
+
+        /// <summary>
+        /// Gets the white player settings
+        /// </summary>
+        public PlayerSettingsViewModel WhitePlayerSettings { get; } =
+            new PlayerSettingsViewModel(PlayerList.First());
+
         public bool IgsLimitation { get; set; }
+
         public bool RulesetCanBeSelected => !IgsLimitation;
+
         public TimeControlSettingsViewModel TimeControl
         {
             get { return _timeControl; }
             set { SetProperty(ref _timeControl, value); }
         }
 
-        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; private set; }
+        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } =
+            new ObservableCollection<TimeControlStyle>
+            {
+                TimeControlStyle.None,
+                TimeControlStyle.Absolute,
+                TimeControlStyle.Canadian
+            };
 
         /// <summary>
-        /// Default offered game board sizes
+        /// Gets the default offered game board sizes
         /// </summary>
-        public ObservableCollection<GameBoardSize> BoardSizes { get; private set; }
+        public ObservableCollection<GameBoardSize> BoardSizes { get; } =
+            new ObservableCollection<GameBoardSize>()
+            {
+                new GameBoardSize(9),
+                new GameBoardSize(13),
+                new GameBoardSize(19)
+            };
 
         /// <summary>
         /// Selected game board size
@@ -84,8 +122,8 @@ namespace OmegaGo.UI.ViewModels
                 _customWidth = value.Width;
                 RaisePropertyChanged(nameof(CustomHeight));
                 RaisePropertyChanged(nameof(CustomWidth));
-                _settings.Interface.BoardWidth = _customWidth;
-                _settings.Interface.BoardHeight = _customHeight;
+                _gameSettings.Interface.BoardWidth = _customWidth;
+                _gameSettings.Interface.BoardHeight = _customHeight;
                 SetDefaultCompensation();
             }
         }
@@ -99,7 +137,8 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Rulesets
         /// </summary>
-        public ObservableCollection<RulesetType> Rulesets { get; private set; }
+        public ObservableCollection<RulesetType> Rulesets { get; } =
+            new ObservableCollection<RulesetType>() { RulesetType.Chinese, RulesetType.Japanese, RulesetType.AGA };
 
         /// <summary>
         /// Selected ruleset
@@ -117,8 +156,9 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; private set; }
-        
+        public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } =
+            new ObservableCollection<GameCreationViewPlayer>(GameCreationViewModel.PlayerList);
+
         public GameCreationViewPlayer BlackPlayer
         {
             get { return _blackPlayer; }
@@ -137,7 +177,7 @@ namespace OmegaGo.UI.ViewModels
                 WhitePlayerSettings.ChangePlayer(value);
             }
         }
-        
+
         public string CustomWidth
         {
             get { return _customWidth.ToString(); }
@@ -201,27 +241,8 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
 
 
-        public GameCreationViewModel()
-        {
-            TimeControlStyles = new ObservableCollection<TimeControlStyle> { TimeControlStyle.None, TimeControlStyle.Absolute, TimeControlStyle.Canadian };
-            BoardSizes = new ObservableCollection<GameBoardSize>() { new GameBoardSize(9), new GameBoardSize(13), new GameBoardSize(19) };
-            PossiblePlayers = new ObservableCollection<GameCreationViewPlayer>(GameCreationViewModel.playerList);
-            Rulesets = new ObservableCollection<RulesetType>() { RulesetType.Chinese, RulesetType.Japanese, RulesetType.AGA };
 
-            BlackPlayerSettings = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
-            WhitePlayerSettings = new PlayerSettingsViewModel(GameCreationViewModel.playerList[0]);
 
-            _customWidth = _settings.Interface.BoardWidth;
-            _customHeight = _settings.Interface.BoardHeight;
-            SetCustomBoardSize();
-
-            var bundle = Mvx.GetSingleton<GameCreationBundle>();
-            bundle?.OnLoad(this);
-
-            // Get View Model type for the provided bundle.
-            _gameModeViewModel = GetGameModeViewModel(bundle);
-        }
-        
 
         private void SetCustomBoardSize()
         {
@@ -234,12 +255,12 @@ namespace OmegaGo.UI.ViewModels
 
             SelectedGameBoardSize = thisSize;
         }
-        
+
         private void SetDefaultCompensation()
         {
             Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap, CountingType.Area);
         }
-        
+
         private void NavigateToGame()
         {
             if (!Validate())
@@ -267,8 +288,8 @@ namespace OmegaGo.UI.ViewModels
                 Ruleset(SelectedRuleset).
                 Komi(Compensation).
                 Handicap(Handicap).
-                HandicapPlacementType( 
-                    IsHandicapFixed ? 
+                HandicapPlacementType(
+                    IsHandicapFixed ?
                         HandicapPlacementType.Fixed :
                         HandicapPlacementType.Free).
                 WhitePlayer(whitePlayer).
@@ -299,7 +320,7 @@ namespace OmegaGo.UI.ViewModels
             //if (gameCreationBundle is GameCreationViewAiPlayer)
             //    return typeof(LocalGameViewModel);
             //if (gameCreationBundle is GameCreationViewHumanPlayer)
-                return typeof(LocalGameViewModel);
+            return typeof(LocalGameViewModel);
             if (gameCreationBundle is HotseatBundle)
                 return typeof(LocalGameViewModel);
             if (gameCreationBundle is IgsChallengeBundle)
@@ -308,6 +329,6 @@ namespace OmegaGo.UI.ViewModels
             //    return typeof(LocalGameViewModel);
 
             throw new ArgumentException($"Specific Game View Model not yet implemented for Bundle: {gameCreationBundle.GetType().Name}");
-        } 
+        }
     }
 }
