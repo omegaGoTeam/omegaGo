@@ -1,21 +1,26 @@
-﻿using System;
-using Windows.UI.Xaml;
-using OmegaGo.Core.Game;
+﻿using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.UI.ViewModels;
+using System;
+using Windows.UI.Xaml;
+
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class GameView : TransparencyViewBase
-    { 
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class LocalGameView : TransparencyViewBase
+    {
         private DispatcherTimer _updateTimer;
-        
-        public GameView()
-        {
-            InitializeComponent();
-        }
 
-        public GameViewModel VM => (GameViewModel)ViewModel;
+        public LocalGameView()
+        {
+            this.InitializeComponent();
+        }
+        
+        public LocalGameViewModel VM => (LocalGameViewModel)ViewModel;
 
         public override string WindowTitle => Localizer.Game;
 
@@ -29,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
         {
-            _updateTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(100)};
+            _updateTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
             _updateTimer.Tick += UpdateTimer_Tick;
             _updateTimer.Start();
         }

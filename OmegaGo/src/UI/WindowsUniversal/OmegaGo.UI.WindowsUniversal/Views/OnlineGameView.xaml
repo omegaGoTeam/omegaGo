@@ -1,14 +1,15 @@
 ﻿<views:TransparencyViewBase
-    x:Class="OmegaGo.UI.WindowsUniversal.Views.GameView"
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.OnlineGameView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    mc:Ignorable="d"
     Unloaded="TransparencyViewBase_Unloaded"
-    Loaded="TransparencyViewBase_Loaded"
-    mc:Ignorable="d">
+    Loaded="TransparencyViewBase_Loaded">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -67,12 +68,12 @@
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="DEBUG BAR" FontSize="24"></TextBlock>
-                <TextBlock Text="Debug:"></TextBlock>
-                <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"></TextBlock>
+                <TextBlock Text="DEBUG BAR" FontSize="24"/>
+                <TextBlock Text="Debug:"/>
+                <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"/>
                 <Button Click="DebugFill">Fill</Button>
                 <Button>Save as SGF</Button>
-                <TextBlock Text="Life/Death" FontSize="20"></TextBlock>
+                <TextBlock Text="Life/Death" FontSize="20"/>
                 <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}">Done</Button>
                 <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}">Undo Death Marks</Button>
                 <Button Command="{x:Bind VM.ResumeGameCommand}">Resume game</Button>
@@ -85,39 +86,37 @@
                 <Button Command="{x:Bind VM.PassCommand}">PASS</Button>
                 <Button Command="{x:Bind VM.ResignCommand}">Resign</Button>
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
-                <StackPanel Orientation="Horizontal">
-                    <ProgressRing IsActive="True"></ProgressRing>
-                    <TextBlock Text="AI is thinking..."></TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <ProgressRing IsActive="True"/>
+                        <TextBlock Text="AI is thinking..."/>
                     </StackPanel>
                 </Border>
-                <TextBlock Text="Hint" FontSize="20"></TextBlock>
+                <TextBlock Text="Hint" FontSize="20"/>
                 <Button>Get Hint from Assistant</Button>
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
-
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.WhitePortrait}">
-                    </controls:PlayerPortrait>
-                    <controls:PlayerPortrait ViewModel="{x:Bind VM.BlackPortrait}">
-                    </controls:PlayerPortrait>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}" />
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}" />
                     <Button Click="UpdateSystemLog">Update system log</Button>
                 </StackPanel>
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                    <TextBox Name="SystemLog" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap">
-                        
-                    </TextBox>
-                </ScrollViewer>
+                <TextBox Grid.Row="1"
+                         x:Name="SystemLog" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True" 
+                         AcceptsReturn="True" 
+                         TextWrapping="Wrap"/>
             </Grid>
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
-                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"></Slider>
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>
     </Grid>
 </views:TransparencyViewBase>

@@ -127,9 +127,7 @@ namespace OmegaGo.UI.ViewModels
         public string ProgressPanelText
         {
             get { return _progressPanelText; }
-            set {
-                SetProperty(ref _progressPanelText, value);
-            }
+            set { SetProperty(ref _progressPanelText, value); }
 
         }
         private string _loginErrorMessage = "TODO twolines or oneline";
@@ -366,7 +364,7 @@ namespace OmegaGo.UI.ViewModels
             else
             {
                 Mvx.RegisterSingleton<IGame>(onlinegame); 
-                ShowViewModel<GameViewModel>();
+                ShowViewModel<ObserverGameViewModel>();
             }
             ProgressPanelVisible = false;
         });
@@ -397,7 +395,7 @@ namespace OmegaGo.UI.ViewModels
         public void StartGame(IgsGame game)
         {
             Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<GameViewModel>();
+            ShowViewModel<OnlineGameViewModel>();
         }
     }
 }

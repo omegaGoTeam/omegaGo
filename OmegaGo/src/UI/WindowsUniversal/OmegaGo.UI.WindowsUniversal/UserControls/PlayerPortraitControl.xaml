@@ -1,0 +1,24 @@
+﻿<UserControl
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.PlayerPortraitControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"    
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:PlayerPortraitViewModel, IsDesignTimeCreatable=False}"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Border Background="{x:Bind Color}">
+        <Border Background="White" BorderBrush="Black" BorderThickness="1" Margin="10">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center" Text="{x:Bind Path=ViewModel.Name, Mode=OneWay}" />
+                <TextBlock HorizontalAlignment="Center" Text="Prisoners: (uncounted)" />
+                <TextBlock HorizontalAlignment="Center" FontSize="26" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlMainLine, Mode=OneWay}" />
+                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlSubLine, Mode=OneWay}" />
+            </StackPanel>
+        </Border>
+    </Border>
+</UserControl>
