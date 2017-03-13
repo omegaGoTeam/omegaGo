@@ -20,7 +20,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public override string ServerInformation
             =>
-                "Pandanet is an online server popular in East Asia. It uses Japanese rules and Canadian time control. Pandanet is only recommended to more experienced players who wish to mainly play on 19x19 boards."
+                "Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online."
             ;
         public override string ServerName => "Pandanet - Internet Go Server";
         public override string UsernameCaption => "Pandanet username";

@@ -29,15 +29,19 @@ namespace OmegaGo.UI.ViewModels
         public IgsHomeViewModel(IGameSettings settings)
         {
             this._settings = settings;
-            if (_settings.Interface.IgsRememberPassword)
-            {
-                this.LoginForm.PasswordText = _settings.Interface.IgsPassword;
-            }
+            this.LoginForm = new IgsLoginForm(this.Localizer, _settings);
+            LoginForm.LoginClick +=  LoginForm_LoginClick;
+
+        }
+
+        private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
+        {
+            await this.AttemptLoginCommand(e.Username, e.Password);
         }
 
         public async Task Initialize()
         {
-            LoginScreenVisible = !(Connections.Igs.LoggedIn);
+            LoginForm.FormVisible = !(Connections.Igs.LoggedIn);
             Connections.Igs.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
@@ -47,8 +51,8 @@ namespace OmegaGo.UI.ViewModels
                 await RefreshUsers();
             }
         }
-        
-        public LoginFormViewModel LoginForm => new IgsLoginForm(this.Localizer, _settings);
+
+        public LoginFormViewModel LoginForm { get; }
     
 
         private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
@@ -136,54 +140,51 @@ namespace OmegaGo.UI.ViewModels
             }
 
         }
-        private string _loginErrorMessage = "TODO twolines or oneline";
-        public string LoginErrorMessage
-        {
-            get { return _loginErrorMessage; }
-            set { SetProperty(ref _loginErrorMessage, value); }
-
-        }
         private bool _progressPanelVisible = false;
         public bool ProgressPanelVisible
         {
             get { return _progressPanelVisible; }
             set { SetProperty(ref _progressPanelVisible, value); }
         }
-        public IMvxCommand AttemptLoginCommand => new MvxCommand(async () =>
+        public async Task AttemptLoginCommand(string username, string password)
         {
-            LoginErrorMessageOpacity = 0;
+            LoginForm.LoginErrorMessageOpacity = 1;
             ProgressPanelVisible = true;
             ProgressPanelText = "Connecting to Pandanet...";
+            LoginForm.FormEnabled = false;
+            LoginForm.LoginErrorMessage = "Connecting to Pandanet...";
             if (!Connections.Igs.ConnectionEstablished)
             {
                 bool success = await Connections.Igs.ConnectAsync();
                 if (!success)
                 {
-                    LoginErrorMessage = "Could not connect to Pandanet. Maybe your internet connection failed?";
-                    LoginErrorMessageOpacity = 1;
+                    LoginForm.LoginErrorMessage = "Could not connect to Pandanet. Maybe your internet connection failed?";
+                    LoginForm.LoginErrorMessageOpacity = 1;
                     ProgressPanelVisible = false;
                     return;
                 }
             }
 
 
-            ProgressPanelText = "Logging in as " + UsernameTextBox + "...";
-            bool loginSuccess = await Connections.Igs.LoginAsync(UsernameTextBox, PasswordTextBox);
+            ProgressPanelText = "Logging in as " + username + "...";
+            LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
+            bool loginSuccess = await Connections.Igs.LoginAsync(username, password);
+            LoginForm.FormEnabled = true;
             if (loginSuccess)
             {
                 RaisePropertyChanged(nameof(LoggedInUser));
-                LoginScreenVisible = false;
+                LoginForm.FormVisible = false;
+                LoginForm.LoginErrorMessageOpacity = 0;
             }
             else
             {
-                LoginErrorMessage = "The username or password you entered is incorrect.";
-                LoginErrorMessageOpacity = 1;
+                LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
+                LoginForm.LoginErrorMessageOpacity = 1;
             }
             ProgressPanelVisible = false;
             await RefreshGames();
             await RefreshUsers();
-            //Connections.Pandanet.LoginAsync
-        });
+        }
 
         public async void Logout()
         {
@@ -197,7 +198,7 @@ namespace OmegaGo.UI.ViewModels
             await Connections.Igs.DisconnectAsync();
             RaisePropertyChanged(nameof(LoggedInUser));
             ProgressPanelVisible = false;
-            LoginScreenVisible = true;
+            LoginForm.FormVisible = true;
         }
         public void ShowProgressPanel(string caption)
         {
@@ -211,60 +212,6 @@ namespace OmegaGo.UI.ViewModels
             this.HumanRefusingAllGames = e.RejectsRequests;
             _incomingCheckboxChange = false;
         }
-
-        //** LOGIN SCREEN *********************************************************
-        private bool _loginScreenVisible = true;
-        public bool LoginScreenVisible
-        {
-            get { return _loginScreenVisible; }
-            set { SetProperty(ref _loginScreenVisible, value); }
-        }
-        private int _LoginErrorMessageOpacity = 0;
-        public int LoginErrorMessageOpacity
-        {
-            get { return _LoginErrorMessageOpacity; }
-            set { SetProperty(ref _LoginErrorMessageOpacity, value); }
-        }
-        public string UsernameTextBox
-        {
-            get { return _settings.Interface.IgsName; }
-            set
-            {
-                _settings.Interface.IgsName = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        private string _password;
-        public string PasswordTextBox
-        {
-            get { return _password; }
-            set
-            {
-                SetProperty(ref _password, value);
-                MaybeStorePassword();
-            }
-        }
-
-        public bool RememberPassword
-        {
-            get { return _settings.Interface.IgsRememberPassword; }
-            set
-            {
-                _settings.Interface.IgsRememberPassword = value;
-                RaisePropertyChanged();
-                MaybeStorePassword();
-            }
-        }
-
-        private void MaybeStorePassword()
-        {
-            if (_settings.Interface.IgsRememberPassword)
-            {
-                _settings.Interface.IgsPassword = _password;
-            }
-        }
-
         //** USERS *************************************************************
         private bool _onlyShowLfgUsers = false;
         public bool OnlyShowLfgUsers
@@ -286,17 +233,16 @@ namespace OmegaGo.UI.ViewModels
         {
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new List<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
             }
             else
             {
-                ChallengeableUsers = new List<IgsUser>(allUsers);
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
             }
-            RaisePropertyChanged(nameof(ChallengeableUsers));
         }
         private List<IgsUser> allUsers = new List<IgsUser>();
-        private List<IgsUser> _challengeableUsers = new List<IgsUser>();
-        public List<IgsUser> ChallengeableUsers
+        private ObservableCollection<IgsUser> _challengeableUsers = new ObservableCollection<IgsUser>();
+        public ObservableCollection<IgsUser> ChallengeableUsers
         {
             get { return _challengeableUsers; }
             set { SetProperty(ref _challengeableUsers, value); }
@@ -312,8 +258,7 @@ namespace OmegaGo.UI.ViewModels
         public void SortUsers(Comparison<IgsUser> comparison)
         {
             allUsers.Sort(comparison);
-            ChallengeableUsers.Sort(comparison);
-            RaisePropertyChanged(nameof(ChallengeableUsers));
+            ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
         }
         //** GAMES *************************************************************
 
@@ -323,23 +268,23 @@ namespace OmegaGo.UI.ViewModels
         {
             ShowProgressPanel("Refreshing the list of observable games...");
             var games = await Connections.Igs.ListGamesInProgressAsync();
-            ObservableGames.Clear();
-            foreach (var game in games)
-            {
-                ObservableGames.Add(game);
-            }
+            ObservableGames = new ObservableCollection<IgsGameInfo>(games);
             ProgressPanelVisible = false;
         }
 
-        public List<IgsGameInfo> ObservableGames { get; set; } =
-            new List<IgsGameInfo>();
+        private ObservableCollection<IgsGameInfo> _games = new ObservableCollection<IgsGameInfo>();
+        public ObservableCollection<IgsGameInfo> ObservableGames
+        {
+            get { return _games; }
+            set { SetProperty(ref _games, value); }
+        }
 
 
         public void SortGames(Comparison<IgsGameInfo> comparison)
         {
-            ObservableGames.Sort(comparison);
-            RaisePropertyChanged(nameof(ObservableGames));
-
+            var list = ObservableGames.ToList();
+            list.Sort(comparison);
+            ObservableGames = new ObservableCollection<IgsGameInfo>(list);
         }
 
         private IgsGameInfo _selectedSpectatableGame;

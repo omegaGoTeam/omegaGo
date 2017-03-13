@@ -19,12 +19,12 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock FontSize="26" TextAlignment="Center" Text="{x:Bind ViewModel.FormCaption}"></TextBlock>
                 <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.UsernameCaption}">Pandanet username</TextBlock>
-                <TextBox Width="300" Text="{x:Bind ViewModel.UsernameText, Mode=TwoWay}"></TextBox>
+                <TextBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Width="300" Text="{x:Bind ViewModel.UsernameText, Mode=TwoWay}"></TextBox>
                 <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.PasswordCaption}">Password</TextBlock>
-                <PasswordBox Width="300" Password="{x:Bind ViewModel.PasswordText, Mode=TwoWay}"></PasswordBox>
-                <CheckBox IsChecked="{x:Bind ViewModel.RememberPassword, Mode=TwoWay}" Content="{x:Bind ViewModel.RememberPasswordCaption}"></CheckBox>
-                <CheckBox IsChecked="{x:Bind ViewModel.LoginAtStartup, Mode=TwoWay}" Content="{x:Bind ViewModel.LoginAtStartupCaption}"></CheckBox>
-                <Button Click="LogIn_Click" HorizontalAlignment="Stretch" Content="{x:Bind ViewModel.LogInButtonCaption}"></Button>
+                <PasswordBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Width="300" Password="{x:Bind ViewModel.PasswordText, Mode=TwoWay}"></PasswordBox>
+                <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.RememberPassword, Mode=TwoWay}" Content="{x:Bind ViewModel.RememberPasswordCaption}"></CheckBox>
+                <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.LoginAtStartup, Mode=TwoWay}" Content="{x:Bind ViewModel.LoginAtStartupCaption}"></CheckBox>
+                <Button IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Click="LogIn_Click" HorizontalAlignment="Stretch" Content="{x:Bind ViewModel.LogInButtonCaption}"></Button>
                 <TextBlock Width="300" TextWrapping="Wrap" Opacity="{x:Bind ViewModel.LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}"></TextBlock>
             </StackPanel>
             <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">

@@ -38,7 +38,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public abstract string UsernameCaption { get; }
         public string PasswordCaption => "Password";
 
-        public double LoginErrorMessageOpacity => 1;
+        private double _loginErrorMessageOpacity = 0;
+        public double LoginErrorMessageOpacity
+        {
+            get { return _loginErrorMessageOpacity; }
+            set { SetProperty(ref _loginErrorMessageOpacity, value); }
+        }
         public string LogInButtonCaption => "Log In";
         public string LoginAtStartupCaption => "Log in whenever you start omegaGo";
         public string RememberPasswordCaption => "Remember password";
@@ -46,7 +51,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private string _password;
         private string _loginErrorMessage;
         private bool _formVisible = true;
-        private bool _formDisabled;
+        private bool _formEnabled = true;
 
 
         protected abstract string RetrievePassword();
@@ -82,10 +87,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _formVisible, value); }
 
         }
-        public bool FormDisabled
+        public bool FormEnabled
         {
-            get { return _formDisabled; }
-            set { SetProperty(ref _formDisabled, value); }
+            get { return this._formEnabled; }
+            set { SetProperty(ref this._formEnabled, value); }
         }
 
 
