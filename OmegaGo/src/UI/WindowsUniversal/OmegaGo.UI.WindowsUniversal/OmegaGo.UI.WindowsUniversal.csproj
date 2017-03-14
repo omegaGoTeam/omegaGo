@@ -284,6 +284,7 @@
     <Content Include="Assets\Textures\space.png" />
     <Content Include="Assets\Textures\white.png" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\Textures\WoodenButton.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logos\SplashScreen.scale-200.png" />
@@ -313,10 +314,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\ButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Resources\ComboBoxStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\ControlStyles.xaml">
       <SubType>Designer</SubType>
