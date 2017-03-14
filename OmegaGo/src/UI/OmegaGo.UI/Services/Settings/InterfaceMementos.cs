@@ -40,5 +40,40 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(IgsRememberPassword), () => true); }
             set { SetSetting(nameof(IgsRememberPassword), value); }
         }
+        public bool IgsAutoLogin
+        {
+            get { return GetSetting(nameof(IgsAutoLogin), () => false); }
+            set { SetSetting(nameof(IgsAutoLogin), value); }
+        }
+        public string KgsName
+        {
+            get { return GetSetting(nameof(KgsName), () => "OmegaGo1"); }
+            set { SetSetting(nameof(KgsName), value); }
+        }
+        public string KgsPassword
+        {
+            get
+            {
+                if (KgsRememberPassword)
+                {
+                    return GetSetting(nameof(KgsPassword), () => "123456789");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+            set { SetSetting(nameof(KgsPassword), value); }
+        }
+        public bool KgsRememberPassword
+        {
+            get { return GetSetting(nameof(KgsRememberPassword), () => true); }
+            set { SetSetting(nameof(KgsRememberPassword), value); }
+        }
+        public bool KgsAutoLogin
+        {
+            get { return GetSetting(nameof(KgsAutoLogin), () => false); }
+            set { SetSetting(nameof(KgsAutoLogin), value); }
+        }
     }
 }

@@ -7,6 +7,7 @@
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -16,40 +17,135 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
+    <Page.Resources>
+        <Style x:Key="CaptionStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,15,5,0"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+        <Style x:Key="ContentStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,5,0"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <Style x:Key="LowerBarButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="38" />
+        </Style>
+    </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="768" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TsumegoSplitView.DisplayMode" Value="CompactInline" />
+                        <Setter Target="TsumegoSplitView.IsPaneOpen" Value="true" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView PaneBackground="{ThemeResource GameColorBrush}" IsPaneOpen="True"
+               Name="TsumegoSplitView"
+               DisplayMode="CompactOverlay"
+               CompactPaneLength="48"
+               OpenPaneLength="300">
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="HamburgerButton" 
+                        Grid.Row="0" 
+                        Grid.Column="0"
+                            Width="48"
+                            Height="48"
+                        Background="Transparent"
+                        Click="OpenCloseMenu">
+                        <FontIcon Glyph="&#xE700;"></FontIcon>
+                    </Button>
+
+
+                    <navigation:TitleControl  
+                                         Text="{x:Bind Localizer.Tsumego_ViewCaption}" 
+                                         Grid.Row="0"
+                                         Grid.Column="1"/>
+                    <ScrollViewer Margin="48,0,0,0" VerticalScrollBarVisibility="Auto" Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}" Content="{x:Bind Localizer.Tsumego_ShowPossibleMoves}"></CheckBox>
+                                <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.Tsumego_ShowPossibleMoves_Tooltip}"  />
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_ProblemName}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_Instructions}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_CurrentNodeStatus}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_CurrentProblemStatus}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentProblemPermanentlySolved}"></TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoCaption}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoText}"></TextBlock>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <controls:BoardControl  
+                                ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+                                Grid.Row="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-            <Button Command="{Binding Path=GoToPreviousProblem}">Previous Problem</Button>
-            <Button Command="{Binding Path=GoToNextProblem}">Next Problem</Button>
-            <CheckBox IsChecked="{Binding Path=ShowPossibleMoves, Mode=TwoWay}">Show possible moves</CheckBox>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="10">
-            <StackPanel.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="0,0,0,5"></Setter>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock FontWeight="Bold">
-                Problem name:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap" Name="ProblemName" Text="{Binding Path=CurrentProblemName}"></TextBlock>
-            <TextBlock FontWeight="Bold">
-                Instructions:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap" Name="Instructions" Text="{Binding Path=CurrentProblemInstructions}"></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE892;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_PreviousProblem}"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE893;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_NextProblem}"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=UndoOneMoveCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE7A7;"></FontIcon>
+                            <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_UndoOneMove}"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Border Margin="2" BorderBrush="Black" Background="White" Visibility="Visible">
 
-            <TextBlock FontWeight="Bold">
-                Current node status:
-            </TextBlock>
-            <TextBlock Width="200" TextWrapping="Wrap"  Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
-            <Button Command="{Binding Path=UndoOneMoveCommand}">Undo one move</Button>
-        </StackPanel>
-        
-       
+                    </Border>
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.CorrectVisible, Mode=OneWay}" Background="LimeGreen">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xE73E;"></FontIcon>
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_CorrectPanel}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Border Margin="2" Padding="4" BorderBrush="Black" BorderThickness="1" Visibility="{x:Bind VM.WrongVisible, Mode=OneWay}"  Background="OrangeRed">
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon Glyph="&#xEDAE;"></FontIcon>
+                            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.Tsumego_WrongPanel}"></TextBlock>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
 
-     </Grid>
+            </Grid>
+        </SplitView>
+    </Grid>
 </views:TransparencyViewBase>
+ 

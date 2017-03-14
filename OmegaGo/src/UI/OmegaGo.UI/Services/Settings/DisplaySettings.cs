@@ -23,7 +23,7 @@ namespace OmegaGo.UI.Services.Settings
         public BoardTheme BoardTheme
         {
             get {
-                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.SolidColor, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.OakWood, SettingLocality.Roamed);
                 return (BoardTheme) theSetting;
             }
             set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
@@ -53,7 +53,7 @@ namespace OmegaGo.UI.Services.Settings
         {
             get
             {
-                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.SolidColor, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.PolishedBitmap, SettingLocality.Roamed);
                 return (StoneTheme)theSetting;
             }
             set { SetSetting(nameof(StonesTheme), (int)value, SettingLocality.Roamed); }

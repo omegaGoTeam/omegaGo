@@ -25,12 +25,20 @@ namespace OmegaGo.UI.WindowsUniversal.Fuego
             this._fuegoInstance.StartGame((byte)boardSize);
         }
 
-        public string SendCommand(string command)
+        public GtpResponse SendCommand(string command)
         {
             string res = _fuegoInstance.HandleCommand(command);
-            if (res.StartsWith("= ")) res = res.Substring(2);
-            if (res.StartsWith("? ")) res = res.Substring(2);
-            return res.Trim();
+            bool success = false;
+            if (res.StartsWith("= "))
+            {
+                success = true;
+                res = res.Substring(2);
+            }
+            if (res.StartsWith("? ")) {
+                success = false;
+                res = res.Substring(2);
+            }
+            return new GtpResponse(success, res.Trim());
         }
     }
 }

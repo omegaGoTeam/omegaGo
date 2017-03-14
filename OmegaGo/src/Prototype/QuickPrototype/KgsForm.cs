@@ -19,12 +19,18 @@ namespace FormsPrototype
         public KgsForm()
         {
             InitializeComponent();
+            kgs.Events.PersonalInformationUpdate += Events_PersonalInformationUpdate;
             kgs.Events.UnhandledMessage += Kgs_IncomingMessage;
             kgs.Events.IncomingMessage += Events_IncomingMessage;
             kgs.Events.SystemMessage += Events_SystemMessage;
             kgs.Events.OutgoingRequest += Events_OutgoingRequest;
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
+        }
+
+        private void Events_PersonalInformationUpdate(object sender, OmegaGo.Core.Online.Kgs.Datatypes.User e)
+        {
+            this.lblYourRank.Text = "Your rank: " + e.Rank;
         }
 
         private void Events_Disconnection(object sender, string e)

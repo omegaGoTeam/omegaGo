@@ -27,7 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void Next_Click(object sender, RoutedEventArgs e)
         {
             this.ButtonNext.Visibility = Visibility.Collapsed;
-            this.ButtonNext.Content = "Next";
+            this.ButtonNext.Content = Localizer.Tutorial_Next;
             this.VM.Scenario.ClickNext();
         }
 
