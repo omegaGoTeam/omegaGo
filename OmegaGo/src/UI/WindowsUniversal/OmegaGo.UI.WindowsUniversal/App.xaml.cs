@@ -77,6 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                InitializeStyle();
             }
 
             if (e.PrelaunchActivated == false)
@@ -85,6 +86,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 Window.Current.Activate();
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                InitializeStyle();
             }
         }
 
