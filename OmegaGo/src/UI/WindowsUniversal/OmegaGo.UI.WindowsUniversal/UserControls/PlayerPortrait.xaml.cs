@@ -38,7 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         {
             get
             {
-                if (ViewModel.Color == Core.Game.StoneColor.Black)
+                if (ViewModel?.Color == Core.Game.StoneColor.Black)
                     return new SolidColorBrush(Colors.Black);
                 else
                     return new SolidColorBrush(Colors.White);

@@ -89,10 +89,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 case TimeControlStyle.None:
                     return new NoTimeControl();
                 case TimeControlStyle.Absolute:
-                    return new AbsoluteTimeControl(int.Parse(MainTime));
+                    return new AbsoluteTimeControl(int.Parse(MainTime)*60);
                 case TimeControlStyle.Canadian:
-                    return new CanadianTimeControl(int.Parse(MainTime), int.Parse(StonesPerPeriod),
-                        int.Parse(OvertimeMinutes));
+                    return new CanadianTimeControl(TimeSpan.FromMinutes(int.Parse(MainTime)), int.Parse(StonesPerPeriod),
+                        TimeSpan.FromMinutes(int.Parse(OvertimeMinutes)));
             }
             throw new Exception("This style is unsupported.");
         }

@@ -14,7 +14,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
     public class PlayerPortraitViewModel : ControlViewModelBase
     {
         public string Name => _player.Info.Name + " (" + _player.Info.Rank + ")";
-        public StoneColor Color => _player.Info.Color;
+        public StoneColor Color => _player?.Info?.Color ?? StoneColor.Black;
         public TimeControl Clock => _player.Clock;
 
         private string _timeControlMainLine = "f";

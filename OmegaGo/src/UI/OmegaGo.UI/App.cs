@@ -2,11 +2,12 @@ using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
 using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI
 {
-    public class App : MvvmCross.Core.ViewModels.MvxApplication
+    public class App : MvxApplication
     {
         public override void Initialize()
         {
@@ -27,6 +28,7 @@ namespace OmegaGo.UI
         {
             RegisterSettings();
             RegisterLocalization();
+            RegisterQuests();
         }
 
         /// <summary>
@@ -42,7 +44,15 @@ namespace OmegaGo.UI
         /// </summary>
         private void RegisterLocalization()
         {
-            Mvx.ConstructAndRegisterSingleton<ILocalizationService, Localizer>();
+            Mvx.ConstructAndRegisterSingleton<ILocalizationService, Localizer>();            
+        }
+
+        /// <summary>
+        /// Registers quest related services
+        /// </summary>
+        private void RegisterQuests()
+        {
+            Mvx.LazyConstructAndRegisterSingleton<IQuestsManager, QuestsManager>();
         }
     }
 }

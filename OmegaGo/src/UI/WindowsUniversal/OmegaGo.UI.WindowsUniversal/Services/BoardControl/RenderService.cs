@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.Text;
@@ -55,7 +56,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private int _boardLineThickness;
         private int _cellSize;
         private int _halfSize;
-        private bool _tsumegoShow;
         private FpsCounter _fpsCounter = new FpsCounter();
         private bool _highlightLastMove;
         private void ReloadSettings()
@@ -65,7 +65,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._boardTheme = this._settings.Display.BoardTheme;
             this._showCoordinates = this._settings.Display.ShowCoordinates;
             this._boardLineThickness = this.SharedBoardControlState.BoardLineThickness;
-            this._tsumegoShow = this._settings.Tsumego.ShowPossibleMoves;
             this._highlightLastMove = this._settings.Display.HighlightLastMove;
         }
 
@@ -202,8 +201,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             if (gameState != null)
             {
-                if (this._tsumegoShow)
+                if (gameState.Tsumego.MarkedPositions.Any() &&
+                    _settings.Tsumego.ShowPossibleMoves)
                 {
+                    
                     foreach (var position in gameState.Tsumego.MarkedPositions)
                     {
                         DrawStoneCellBackground(session,
@@ -240,6 +241,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                         if (SharedBoardControlState.ShowTerritory &&
                                 SharedBoardControlState.TerritoryMap != null)
                         {
+                            if (SharedBoardControlState.TerritoryMap.DeadPositions.Contains(new Position(x, y)))
+                            {
+                                DrawCrossOutMark(session, x, y, Colors.Red);
+                            }
                             DrawTerritoryMark(session, x, y, SharedBoardControlState.TerritoryMap.Board[x, y]);
                         }
                     }
@@ -337,19 +342,24 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
 
         }
-        private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
+        private void DrawCrossOutMark(CanvasDrawingSession session, int x, int y, Color color)
         {
             y = (this.SharedBoardControlState.BoardHeight - 1) - y;
-            // TODO Vita : dead positions
+            session.DrawLine(new Vector2(this._cellSize * (x + 0.2f), this._cellSize * (y + 0.2f)),
+                new Vector2(this._cellSize * (x + 0.8f), this._cellSize * (y + 0.8f)),
+                color, 3);
+            session.DrawLine(new Vector2(this._cellSize * (x + 0.8f), this._cellSize * (y + 0.2f)),
+             new Vector2(this._cellSize * (x + 0.2f), this._cellSize * (y + 0.8f)),
+             color, 3);
+
+        }
+        private void DrawTerritoryMark(CanvasDrawingSession session, int x, int y, Territory territory)
+        {
             if (territory == Territory.Black || territory == Territory.White)
             {
+
                 Color color = (territory == Territory.Black ? Colors.Black : Colors.White);
-                session.DrawLine(new Vector2(this._cellSize* (x + 0.2f), this._cellSize*(y+0.2f)),
-                    new Vector2(this._cellSize*(x + 0.8f), this._cellSize*(y + 0.8f)),
-                    color, 3);
-                session.DrawLine(new Vector2(this._cellSize * (x+0.8f), this._cellSize * (y+0.2f)),
-                 new Vector2(this._cellSize * (x+0.2f), this._cellSize * (y + 0.8f)),
-                 color, 3);
+                DrawCrossOutMark(session, x, y, color);
             }
         }
 

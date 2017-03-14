@@ -178,7 +178,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>if not "$(ConfigurationName)" == "DebugWithoutFuego" (
-  xcopy /E /Y "$(SolutionDir)src\Sideprojects\Fuego\FuegoLibraries\dll\$(PlatformName)\$(ConfigurationName)\*" "$(SolutionDir)src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal\bin\$(PlatformName)\$(ConfigurationName)\AppX"
+  xcopy /E /Y "$(SolutionDir)src\Sideprojects\Fuego\FuegoLibraries\dll\$(PlatformName)\$(ConfigurationName)\*" "$(SolutionDir)src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal.BoostLibraries"
 ) ELSE (
   echo "fuego was excluded"
 )</PreBuildEvent>

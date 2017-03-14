@@ -12,6 +12,8 @@ namespace OmegaGo.Core.Extensions
     /// </summary>
     internal static class ListExtensions
     {
+        private static readonly Random Random = new Random();
+
         /// <summary>
         /// Shuffles the specified list in-place so that its elements are then in a random order.
         /// 
@@ -24,7 +26,7 @@ namespace OmegaGo.Core.Extensions
             while (n > 1)
             {
                 n--;
-                int k = Randomizer.Next(n + 1);
+                int k = Random.Next(n + 1);
                 T value = list[k];
                 list[k] = list[n];
                 list[n] = value;

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.Canadian
 {
+    //TODO Martin - FromIgs does absolutely not belong here
     public class CanadianTimeInformation : TimeInformation
     {
         public TimeSpan MainTimeLeft { get;  }
@@ -14,33 +11,38 @@ namespace OmegaGo.Core.Time.Canadian
 
         public bool IsViolating()
         {
-            return this.MainTimeLeft <= TimeSpan.Zero && this.PeriodTimeLeft <= TimeSpan.Zero;
+            return MainTimeLeft <= TimeSpan.Zero && PeriodTimeLeft <= TimeSpan.Zero;
         }
 
         public CanadianTimeInformation(TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
         {
-            this.MainTimeLeft = mainTimeLeft;
-            this.PeriodTimeLeft = periodTimeLeft;
-            this.PeriodStonesLeft = periodStonesLeft;
+            MainTimeLeft = mainTimeLeft;
+            PeriodTimeLeft = periodTimeLeft;
+            PeriodStonesLeft = periodStonesLeft;
         }
 
         public override string MainText {
-            get {
-                if (this.MainTimeLeft > TimeSpan.Zero)
+            get
+            {
+                if (MainTimeLeft > TimeSpan.Zero)
                 {
-                    return this.MainTimeLeft.ToString(@"mm\:ss");
+                    return MainTimeLeft.ToString(@"mm\:ss");
                 }
-                return this.PeriodTimeLeft.ToString(@"mm\:ss");
+                if (PeriodTimeLeft > TimeSpan.Zero)
+                {
+                    return PeriodTimeLeft.ToString(@"mm\:ss");
+                }
+                return "Time exceeded";
             }
         }
 
         public override string SubText {
             get {
-                if (this.MainTimeLeft > TimeSpan.Zero)
+                if (MainTimeLeft > TimeSpan.Zero)
                 {
                     return "Main time";
                 }
-                return this.PeriodStonesLeft + " stones left for this period";
+                return PeriodStonesLeft + " stones left for this period";
             }
         }
         public override TimeControlStyle Style => TimeControlStyle.Canadian;
@@ -51,11 +53,8 @@ namespace OmegaGo.Core.Time.Canadian
             {
                 return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
             }
-            else
-            {
-                return new Canadian.CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
-                    secondValueStones);
-            }
+            return new CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
+                secondValueStones);
         }
     }
 }

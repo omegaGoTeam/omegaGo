@@ -5,6 +5,7 @@ using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Rules;
 
@@ -51,11 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         PlayerPair Players { get; }
 
-        /// <summary>
-        /// Specifies whether the current game node should be in sync
-        ///  with the last game tree node
-        /// </summary>
-        bool KeepLastNodeSync { get; set; }
 
         /// <summary>
         /// Starts the game

@@ -4,18 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
-    public class UIConnector : IGameConnector, IUiConnectorActions
+    public class UiConnector : BaseConnector, IGameConnector, IUiConnectorActions
     {
         private readonly IGameController _gameController;
 
-        public UIConnector(IGameController gameController)
+        public UiConnector(IGameController gameController)
         {
             _gameController = gameController;
         }
+
+        public event EventHandler LifeDeathReturnToMainForced;
+        public event EventHandler LifeDeathUndoDeathMarksRequested;
+        public event EventHandler LifeDeathUndoDeathMarksForced;
+        public event EventHandler LifeDeathDoneRequested;
+        public event EventHandler LifeDeathDoneForced;
+        public event EventHandler<Position> LifeDeathKillGroupRequested;
+        public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler MainUndoRequested;
+        public event EventHandler MainUndoForced;
 
         /// <summary>
         /// Tries to make a move for the turn player only if it is a human player
@@ -31,8 +42,18 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// </summary>
         public void Resign()
         {
-            // TODO Petr : make this possible even on opponent's turn, and ask for confirmation first
-            GetHumanAgentOnTurn()?.Resign();
+            if (_gameController.TurnPlayer.IsHuman)
+            {
+                GetHumanAgentOnTurn()?.Resign();
+            }
+            else
+            {
+                GamePlayer human = _gameController.Players.FirstOrDefault(pl => pl.IsHuman);
+                if (human != null)
+                {
+                    (human.Agent as IHumanAgentActions).Resign();
+                }
+            }
         }
 
         /// <summary>
@@ -42,10 +63,34 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         {
             GetHumanAgentOnTurn()?.Pass();
         }
-        
+
         public void MovePerformed(Move move)
         {
-            //UI does not care about the fact that a move was actually performed
+        }
+
+        public void RequestLifeDeathDone()
+        {
+            LifeDeathDoneRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ForceLifeDeathReturnToMain()
+        {
+            LifeDeathReturnToMainForced?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RequestLifeDeathUndoDeathMarks()
+        {
+            LifeDeathUndoDeathMarksRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void RequestLifeDeathKillGroup(Position selectedPosition)
+        {
+            LifeDeathKillGroupRequested?.Invoke(this, selectedPosition);
+        }
+
+        public void RequestMainUndo()
+        {
+            MainUndoRequested?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

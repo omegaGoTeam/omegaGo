@@ -34,61 +34,70 @@
                     <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Bind Localizer.TotalGamesPlayed}" Style="{StaticResource LeftColumn}" />
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TotalGamesPlayed, Mode=OneWay}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="Hotseat games played:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HotseatGamesPlayed}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Bind Localizer.HotseatGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding HotseatGamesPlayed, Mode=OneWay}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Solo games played:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding LocalGamesPlayed}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="{x:Bind Localizer.SoloGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding LocalGamesPlayed, Mode=OneWay}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="3" Text="Online games played:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding OnlineGamesPlayed}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="{x:Bind Localizer.OnlineGamesPlayed}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding OnlineGamesPlayed, Mode=OneWay}"></TextBlock>
 
                 <TextBlock Grid.Row="4"></TextBlock>
-                
-                <TextBlock Grid.Column="0" Grid.Row="5" Text="Total games won:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding TotalGamesWon}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="6" Text="Solo games won:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LocalGamesWon}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="{x:Bind Localizer.TotalGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding TotalGamesWon, Mode=OneWay}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="7" Text="Online games won:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding OnlineGamesWon}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="6" Text="{x:Bind Localizer.SoloGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding LocalGamesWon, Mode=OneWay}"></TextBlock>
+
+                    <TextBlock Grid.Column="0" Grid.Row="7" Text="{x:Bind Localizer.OnlineGamesWon}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding OnlineGamesWon, Mode=OneWay}"></TextBlock>
 
                 <TextBlock Grid.Row="8"></TextBlock>
-                
-                <TextBlock Grid.Column="0" Grid.Row="9" Text="Quests completed:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding QuestsCompleted}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="10" Text="Tsumego problems solved:" Style="{StaticResource LeftColumn}"></TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="10" Text="{Binding TsumegoProblemsSolved}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="9" Text="{x:Bind Localizer.QuestsCompleted}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding QuestsCompleted, Mode=OneWay}"></TextBlock>
 
-                <TextBlock Grid.Column="0" Grid.Row="11" Text="Points:" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="11" Text="{Binding Points}"></TextBlock>
-                    <TextBlock Grid.Column="0" Grid.Row="12" Text="OmegaGo Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="12" Text="N/A"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="10" Text="{x:Bind Localizer.TsumegoProblemsSolved}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="10" Text="{Binding TsumegoProblemsSolved, Mode=OneWay}"></TextBlock>
+
+                    <TextBlock Grid.Column="0" Grid.Row="11" Text="{x:Bind Localizer.PointsColon}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="11" Text="{Binding Points, Mode=OneWay}"></TextBlock>
+                    <TextBlock Grid.Column="0" Grid.Row="12" Text="{x:Bind Localizer.OmegaGoRankColon}" Style="{StaticResource LeftColumn}"></TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="12" Text="{Binding Rank}"></TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="13" Text="IGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="13" Text="N/A"></TextBlock>
                     <TextBlock Grid.Column="0" Grid.Row="14" Text="KGS Rank:" Style="{StaticResource LeftColumn}"></TextBlock>
                     <TextBlock Grid.Column="1" Grid.Row="14" Text="N/A"></TextBlock>
+                
+                    <TextBlock Grid.Column="0" Grid.Row="15" Grid.ColumnSpan="2"></TextBlock>
+                
+                    <Button Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" Command="{Binding ResetAllProgressCommand}">Reset all progress</Button>
                 </Grid>
         </StackPanel>
         </ScrollViewer>

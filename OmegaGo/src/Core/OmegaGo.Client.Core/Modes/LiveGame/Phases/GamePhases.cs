@@ -8,7 +8,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 namespace OmegaGo.Core.Modes.LiveGame.Phases
 {
     /// <summary>
-    /// Indicates at which stage of the game the game currently is. Most of the time during gameplay, the game will be in the <see cref="MainPhase"/>. 
+    /// Indicates at which stage of the game the game currently is 
     /// </summary>
     public enum GamePhaseType
     {

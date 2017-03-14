@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// <summary>
     /// Connects the IgsConnection to a specific game
     /// </summary>
-    internal class IgsConnector : IRemoteConnector, IIgsConnectorServerActions
+    internal class IgsConnector : BaseConnector, IRemoteConnector, IIgsConnectorServerActions
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
@@ -32,6 +32,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         /// Indicates the handicap for the game
         /// </summary>
         public event EventHandler<int> GameHandicapSet;
+        public event EventHandler LifeDeathReturnToMainForced;
+        public event EventHandler LifeDeathUndoDeathMarksRequested;
+        public event EventHandler LifeDeathUndoDeathMarksForced;
+        public event EventHandler LifeDeathDoneRequested;
+        public event EventHandler LifeDeathDoneForced;
+        public event EventHandler<Position> LifeDeathKillGroupRequested;
+        public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler MainUndoRequested;
+        public event EventHandler MainUndoForced;
+        public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
+        public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 
         /// <summary>
         /// Unique identification of the game
@@ -106,6 +117,31 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         public void SetPhaseFromServer(GamePhaseType gamePhase)
         {
             _gameController.SetPhase(gamePhase);
+        }
+
+        public void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs)
+        {
+            TimeControlShouldAdjust?.Invoke(this, igsTimeControlAdjustmentEventArgs);
+        }
+
+        public void ForceLifeDeathKillGroup(Position deadPosition)
+        {
+            LifeDeathKillGroupForced?.Invoke(this, deadPosition);
+        }
+
+        public void ForceLifeDeathUndoDeathMarks()
+        {
+            LifeDeathUndoDeathMarksForced?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
+        {
+            GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
+        }
+
+        public void ForceMainUndo()
+        {
+            MainUndoForced?.Invoke(this, EventArgs.Empty);
         }
     }
 }

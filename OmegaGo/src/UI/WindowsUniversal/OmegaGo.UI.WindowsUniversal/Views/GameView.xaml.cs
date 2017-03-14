@@ -1,13 +1,8 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.ViewModels;
-using OmegaGo.UI.WindowsUniversal.Services.Game;
-using System;
-using Windows.Foundation;
+﻿using System;
 using Windows.UI.Xaml;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
-using OmegaGo.Core.Online.Common;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -17,16 +12,16 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         
         public GameView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        public GameViewModel VM => (GameViewModel)this.ViewModel;
+        public GameViewModel VM => (GameViewModel)ViewModel;
 
         public override string WindowTitle => Localizer.Game;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
 
-        private void TransparencyViewBase_Unloaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
         {
             _updateTimer.Tick -= UpdateTimer_Tick;
             VM.Unload();
@@ -34,8 +29,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
         {
-            _updateTimer = new DispatcherTimer();
-            _updateTimer.Interval = TimeSpan.FromMilliseconds(100);
+            _updateTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(100)};
             _updateTimer.Tick += UpdateTimer_Tick;
             _updateTimer.Start();
         }
@@ -44,6 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
+
         }
 
         private void DebugFill(object sender, RoutedEventArgs e)
@@ -54,7 +49,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 {
                     for (int y = 1; y < VM.BoardViewModel.BoardControlState.BoardHeight - 1; y += 1)
                     {
-                        (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Core.Game.Position(
+                        (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Position(
                             xi, y));
 
                     }
@@ -62,53 +57,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
         }
 
-        private async void LifeDeathDone(object sender, RoutedEventArgs e)
+        private void UpdateSystemLog(object sender, RoutedEventArgs e)
         {
-            //TODO Petr : Implement this
-            //var game = VM.Game;
-            //if (game.Controller.IsOnlineGame)
-            //{
-            //    await game.Controller.Server.Commands.LifeDeathDone(game.Controller.RemoteInfo);
-            //}
-            //else
-            //{
-            //    foreach (var player in game.Controller.Players)
-            //    {
-            //        if (player.Agent is HumanAgent || player.Agent is AiAgent)
-            //        {
-            //            game.Controller.LifeDeath_Done(player);
-            //        }
-            //    }
-            //}
-        }
-
-        private void ResumeGame(object sender, RoutedEventArgs e)
-        {
-            //TODO Petr : Implement this
-            //if (VM.Game.Controller.IsOnlineGame)
-            //{
-            //    // unsupported on IGS
-            //}
-            //else
-            //{
-            //    VM.Game.Controller.LifeDeath_Resume();
-            //}
-        }
-
-        private async void UndoDeathMarks(object sender, RoutedEventArgs e)
-        {
-            //TODO Petr: Implement this
-            //var liveGame = VM.Game;
-            //if (liveGame.Controller.IsOnlineGame)
-            //{
-            //    var onlineGame = (RemoteGame)liveGame;
-            //    await liveGame.Controller.Server.Commands.UndoLifeDeath(onlineGame.RemoteInfo);
-            //}
-            //else
-            //{
-            //    var controller = VM.Game.Controller;
-            //    controller.LifeDeath_UndoPhase();
-            //}
+            SystemLog.Text = VM.SystemLog;
         }
     }
 }

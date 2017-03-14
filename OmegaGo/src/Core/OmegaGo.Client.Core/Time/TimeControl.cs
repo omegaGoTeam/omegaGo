@@ -74,14 +74,13 @@ namespace OmegaGo.Core.Time
         /// </summary>
         internal bool IsViolating()
         {
-            if (Running)
-            {
-                return IsViolating(DateTime.Now - this.LastTimeClockStarted);
-            }
-            else
-            {
-                return IsViolating(TimeSpan.Zero);
-            }
+            return IsViolating(
+                Running ?
+                    (DateTime.Now - this.LastTimeClockStarted) :
+                    TimeSpan.Zero);
         }
+
+        // TODO Petr is the parameter indeed "seconds left"?
+        public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
     }
 }

@@ -125,13 +125,13 @@ namespace OmegaGo.Core.Online.Igs
                   new IgsPlayerBuilder(StoneColor.Black, this)
                       .Name(gameInfo.Black.Name)
                       .Rank(gameInfo.Black.Rank)
-                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
+                      .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes( gameInfo.ByoyomiPeriod)).UpdateFrom(heading.BlackTimeRemaining))
                       .Build();
             GamePlayer whitePlayer =
                 new IgsPlayerBuilder(StoneColor.White, this)
                     .Name(gameInfo.White.Name)
                     .Rank(gameInfo.White.Rank)
-                      .Clock(new CanadianTimeControl(0, 25, gameInfo.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
+                      .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(gameInfo.ByoyomiPeriod)).UpdateFrom(heading.WhiteTimeRemaining))
                     .Build();
             IgsGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .Connection(this)
@@ -230,21 +230,21 @@ namespace OmegaGo.Core.Online.Igs
             if (lines.IsError) return null;
             GameHeading heading = IgsRegex.ParseGameHeading(lines[0]);
             var ogi = await GetGameByIdAsync(heading.GameNumber);
-            var builder = GameBuilder.CreateOnlineGame(ogi);
+            var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
             bool youAreBlack = heading.BlackName == this._username;
             var humanPlayer =
                 new HumanPlayerBuilder(youAreBlack ? StoneColor.Black : StoneColor.White).Name(youAreBlack
                     ? heading.BlackName
                     : heading.WhiteName)
                     .Rank(youAreBlack ? ogi.Black.Rank : ogi.White.Rank)
-                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)))
                     .Build();
             var onlinePlayer =
                 new IgsPlayerBuilder(youAreBlack ? StoneColor.White : StoneColor.Black, this).Name(youAreBlack
                     ? heading.WhiteName
                     : heading.BlackName)
                     .Rank(youAreBlack ? ogi.White.Rank : ogi.Black.Rank)
-                    .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod))
+                    .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)))
                     .Build();
             builder.BlackPlayer(youAreBlack ? humanPlayer : onlinePlayer)
                 .WhitePlayer(youAreBlack ? onlinePlayer : humanPlayer);

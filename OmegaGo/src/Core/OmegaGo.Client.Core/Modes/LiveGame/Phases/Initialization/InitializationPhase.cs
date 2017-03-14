@@ -6,7 +6,7 @@
     class InitializationPhase : GamePhaseBase, IInitializationPhase
     {
         /// <summary>
-        /// Creates initializaiton phase
+        /// Creates initialization phase
         /// </summary>
         /// <param name="gameController">Game controller</param>
         public InitializationPhase(GameController gameController) : base(gameController)
@@ -27,10 +27,6 @@
             GoToPhase(GamePhaseType.HandicapPlacement);
         }
         
-        /// <summary>
-        /// Begins the main game loop by asking the first player (who plays black) to make a move, and then the second player, then the first,
-        /// and so on until the game concludes. This method will return immediately but it will launch this loop in a Task on another thread.
-        /// </summary>
         private void BeginGame()
         {
             Controller.OnDebuggingMessage("Game begins!");

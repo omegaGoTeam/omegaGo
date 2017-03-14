@@ -1,5 +1,4 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.UserControls.ViewModels;
+﻿using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,65 +7,74 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
-using OmegaGo.Core.AI;
-using OmegaGo.Core.Rules;
-using OmegaGo.UI.Infrastructure;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Chat;
-using OmegaGo.Core.Online.Igs;
-using OmegaGo.UI.Services.Game;
+using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace OmegaGo.UI.ViewModels
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class GameViewModel : ViewModelBase
     {
-        private readonly IGameSettings _settings = Mvx.Resolve<IGameSettings>();
-        private readonly UIConnector _uiConnector;
+        private readonly IGameSettings _gameSettings;
+        private readonly IQuestsManager _questsManager;
+        private readonly IDialogService _dialogService;
+        private readonly UiConnector _uiConnector;
+        private readonly StringBuilder _systemLog = new StringBuilder();
 
-        private ICommand _passCommand = null;
-        private ICommand _resignCommand = null;
-        private ICommand _undoCommand = null;
+        private ICommand _passCommand;
+        private ICommand _resignCommand;
+        private ICommand _undoCommand;
 
-        private string _debugInfo = "n/a";
+        private ICommand _lifeAndDeathDoneCommand;
+        private ICommand _resumeGameCommand;
+        private ICommand _requestUndoDeathMarksCommand;
 
-        private int _maximumMoveIndex = 0;
-
+        private string _debugInfo = "n/a";    
+        private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
+        private int _selectedMoveIndex;        
 
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
 
-        private int _selectedMoveIndex = 0;
+        private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers =
+            new Dictionary<GamePhaseType, Action<IGamePhase>>();
 
-        private string _systemLog;
-
-        private int frames = 0;
-
-        public GameViewModel()
+        public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
+            _gameSettings = gameSettings;
+            _questsManager = questsManager;
+            _dialogService = dialogService;
             Game = Mvx.GetSingleton<IGame>();
 
-            _uiConnector = new UIConnector(Game.Controller);
+            _uiConnector = new UiConnector(Game.Controller);
+
+            SetupPhaseChangeHandlers();
 
             Game.Controller.RegisterConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
-            Game.Controller.CurrentNodeStateChanged += Game_BoardMustBeRefreshed;
+            Game.Controller.CurrentNodeStateChanged += Game_CurrentNodeStateChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
             Game.Controller.GamePhaseChanged += Controller_GamePhaseChanged;
-            
+
             ObserveDebuggingMessages();
 
-            //TODO Petr: Implement - Observe the Phase changed event and wire up this event in Life and death phase
-            //Game.Controller.LifeDeathTerritoryChanged += Controller_LifeDeathTerritoryChanged;
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
@@ -93,7 +101,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => SystemLog += e + Environment.NewLine;
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
             }
         }
 
@@ -111,12 +119,18 @@ namespace OmegaGo.UI.ViewModels
         /// Undo command from UI
         /// </summary>
         public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+        
+        public ICommand LifeAndDeathDoneCommand
+            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone));
 
-        public string SystemLog
-        {
-            get { return _systemLog; }
-            set { SetProperty(ref _systemLog, value); }
-        }
+        public ICommand ResumeGameCommand
+            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame));
+
+        public ICommand RequestUndoDeathMarksCommand
+            => _requestUndoDeathMarksCommand ??
+            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
+
+        public string SystemLog => _systemLog.ToString();
 
         public IGame Game { get; }
 
@@ -127,7 +141,6 @@ namespace OmegaGo.UI.ViewModels
 
         public ChatViewModel ChatViewModel { get; }
 
-        public TimelineViewModel TimelineViewModel { get; }
 
         public int SelectedMoveIndex
         {
@@ -153,19 +166,26 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _debugInfo, value); }
         }
 
-        private void Game_BoardMustBeRefreshed(object sender, EventArgs e)
+        private void Game_CurrentNodeStateChanged(object sender, EventArgs e)
         {
             OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
-        private void Controller_GameEnded(object sender, GameEndInformation e)
+        private async void Controller_GameEnded(object sender, GameEndInformation e)
         {
-            _settings.Statistics.GameHasBeenCompleted(Game, e);
-            _settings.Quests.Events.GameCompleted(Game, e);
+            _gameSettings.Statistics.GameHasBeenCompleted(Game, e);
+            _questsManager.GameCompleted(Game, e);
+            await _dialogService.ShowAsync(e.ToString(), $"End reason: {e.Reason}");
         }
 
         private void Controller_GamePhaseChanged(object sender, GamePhaseChangedEventArgs eventArgs)
         {
+            if (eventArgs.PreviousPhase != null)
+            {
+                _phaseEndHandlers.ItemOrDefault(eventArgs.PreviousPhase.Type)?.
+                    Invoke(eventArgs.PreviousPhase);
+            }
+
             if (eventArgs.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 eventArgs.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -175,16 +195,18 @@ namespace OmegaGo.UI.ViewModels
             {
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
+
+            if (eventArgs.NewPhase != null)
+            {
+                _phaseStartHandlers.ItemOrDefault(eventArgs.NewPhase.Type)?.
+                    Invoke(eventArgs.NewPhase);
+            }
         }
 
-        /// <summary>
-        /// TODO Petr : this is not yet attached (see to-do above)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Controller_LifeDeathTerritoryChanged(object sender, TerritoryMap e)
+        private void LifeDeath_TerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
+            OnBoardRefreshRequested(Game.Controller.CurrentNode);
         }
 
         private void Controller_TurnPlayerChanged(object sender, GamePlayer e)
@@ -197,13 +219,52 @@ namespace OmegaGo.UI.ViewModels
         public void Init()
         {
             Game.Controller.BeginGame();
+            UpdateTimeline();
         }
 
-        private void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
+        private async void Game_CurrentGameTreeNodeChanged(object sender, GameTreeNode e)
         {
             if (e != null)
             {
                 UpdateTimeline();
+                // It is ABSOLUTELY necessary for this to be the last statement in this method,
+                // because we need the UpdateTimeline calls to be in order.
+                await PlaySoundIfAppropriate(e);
+            }
+        }
+
+        /// <summary>
+        /// Plays a sound if its is appropriate in the current state
+        /// </summary>
+        /// <param name="currentState">Current game tree node</param>        
+        private async Task PlaySoundIfAppropriate(GameTreeNode currentState)
+        {
+            if (currentState.Branches.Count == 0)
+            {
+                // This is the final node.
+                if (currentState.Move != null)
+                {
+                    bool humanPlayed = (Game.Controller.Players[currentState.Move.WhoMoves].IsHuman);
+                    bool notificationDemanded =
+                        (humanPlayed
+                            ? _gameSettings.Audio.PlayWhenYouPlaceStone
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
+                    if (notificationDemanded)
+                    {
+                        if (currentState.Move.Kind == MoveKind.PlaceStone)
+                        {
+                            await Sounds.PlaceStone.PlayAsync();
+                            if (currentState.Move.Captures.Count > 0)
+                            {
+                                await Sounds.Capture.PlayAsync();
+                            }
+                        }
+                        else if (currentState.Move.Kind == MoveKind.Pass)
+                        {
+                            await Sounds.Pass.PlayAsync();
+                        }
+                    }
+                }
             }
         }
 
@@ -220,16 +281,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                //TODO Petr: if life and death will use the same event (probably yes?), then this logic is not really necessary
-                //if (Game.Controller.IsOnlineGame)
-                //{
-                //    await Game.Controller.Server.Commands.LifeDeathMarkDeath(selectedPosition, this.Game.Controller.RemoteInfo);
-                //}
-                //else
-                //{
-                //    Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
-                //}
-                //Game.Controller.LifeDeath_MarkGroupDead(selectedPosition);
+                _uiConnector.RequestLifeDeathKillGroup(selectedPosition);
             }
             else
             {
@@ -258,24 +310,13 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
-            //TODO Petr: Implement this, without having to check for type of game (online / local), this should be a part of controller
-            //if (VM.Game.Controller.IsOnlineGame)
-            //{
-
-            //}
-            //else
-            //{
-            //    VM.Game.Controller.Main_Undo();
-            //}
+            _uiConnector.RequestMainUndo();
         }
 
         private void OnBoardRefreshRequested(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
             // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
-            //TimelineViewModel.OnTimelineRedrawRequested();
-            frames++;
-            DebugInfo = frames.ToString();
             BoardViewModel.Redraw();
         }
 
@@ -283,7 +324,7 @@ namespace OmegaGo.UI.ViewModels
         {
             var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
             int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex == newNumber - 1;
+            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
             MaximumMoveIndex = newNumber;
             if (autoUpdate && _previousMoveIndex != newNumber)
             {
@@ -291,6 +332,40 @@ namespace OmegaGo.UI.ViewModels
             }
             _previousMoveIndex = newNumber;
         }
-    }
 
+        private void LifeAndDeathDone()
+        {
+            _uiConnector.RequestLifeDeathDone();
+        }
+        
+        private void ResumeGame()
+        {
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification("[DEBUG TEST] Resuming game."));
+            _uiConnector.ForceLifeDeathReturnToMain();
+        }
+        
+        private void RequestUndoDeathMarks()
+        {
+            _uiConnector.RequestLifeDeathUndoDeathMarks();
+        }
+
+        private void SetupPhaseChangeHandlers()
+        {
+            _phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
+            _phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
+        }
+
+        private void StartLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged += LifeDeath_TerritoryChanged;
+        }
+
+        private void EndLifeAndDeathPhase(IGamePhase phase)
+        {
+            var lifeAndDeath = (ILifeAndDeathPhase)phase;
+            lifeAndDeath.LifeDeathTerritoryChanged -= LifeDeath_TerritoryChanged;
+        }
+    }
 }

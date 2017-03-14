@@ -56,12 +56,7 @@ namespace FormsPrototype
             this.lbGames.Items.Clear();
             this.lbGames.Items.AddRange(this.observableGames.ToArray());
         }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            this.igs.DEBUG_SendRawText(this.tbCommand.Text);
-            this.tbCommand.Clear();
-        }
+        
 
         private async void PrimaryForm_Load(object sender, EventArgs e)
         {
@@ -103,7 +98,7 @@ namespace FormsPrototype
         
         private void Igs_MatchRequestAccepted(object sender, IgsGame game)
         {
-            InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
+            InGameForm ingameForm = new FormsPrototype.InGameForm(game.Info, game.Controller, igs);
             ingameForm.LoadGame(game);
             ingameForm.Show();
         }
@@ -155,7 +150,7 @@ namespace FormsPrototype
                 if (obs != null)
                 {
                     this.lbObservedGames.Items.Add(obs);
-                    InGameForm ingameForm = new FormsPrototype.InGameForm(obs, igs);
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(obs.Info, obs.Controller, igs);
                     ingameForm.LoadGame(obs);
                     ingameForm.Show();
                 }
@@ -199,14 +194,7 @@ namespace FormsPrototype
             MessageBox.Show( error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void tbCommand_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.button4_Click(sender, EventArgs.Empty);
-            }
-        }
-
+    
         private void bSortGames_Click(object sender, EventArgs e)
         {
             this.observableGames.Sort((g1, g2) => g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
@@ -230,7 +218,7 @@ namespace FormsPrototype
 
         private void bPlayLocal_Click(object sender, EventArgs e)
         {
-            InGameForm ingameForm = new FormsPrototype.InGameForm(null, null);
+            InGameForm ingameForm = new FormsPrototype.InGameForm(null, null, null);
             LocalGame game = GameBuilder.CreateLocalGame()
                 .BlackPlayer(CreateAgentFromComboboxObject(ingameForm, this.cbBlack.SelectedItem, StoneColor.Black))
                 .WhitePlayer(CreateAgentFromComboboxObject(ingameForm, this.cbWhite.SelectedItem, StoneColor.White))
@@ -256,7 +244,7 @@ namespace FormsPrototype
             }
             else if (rbCanadianTiming.Checked)
             {
-                timeControl = new CanadianTimeControl(1, 5, 1);
+                timeControl = new CanadianTimeControl(TimeSpan.FromMinutes(1), 5, TimeSpan.FromMinutes(1));
             }
             else if (rbJapaneseTiming.Checked)
             {
@@ -358,7 +346,7 @@ namespace FormsPrototype
                 IgsGame game = await igs.AcceptMatchRequestAsync(selectedItem);
                 if (game != null)
                 {
-                    InGameForm ingameForm = new FormsPrototype.InGameForm(game, igs);
+                    InGameForm ingameForm = new FormsPrototype.InGameForm(game.Info, game.Controller, igs);
                     ingameForm.LoadGame(game);
                     ingameForm.Show();
                 }

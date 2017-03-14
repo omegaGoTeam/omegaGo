@@ -27,9 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
-    {
-        private Frame _rootFrame = null;
-        
+    {      
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -63,38 +61,30 @@ namespace OmegaGo.UI.WindowsUniversal
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
-            _rootFrame = Window.Current.Content as Frame;
+            var appShell = AppShell.GetForCurrentView();
 
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (_rootFrame == null)
+            if (appShell == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                _rootFrame = new Frame();
-                // Set the default language
-                _rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+                //create app shell to hold app content
+                var shell = AppShell.CreateForWindow(Window.Current);
+                //create extended splash screen
+                ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
+                //temporarily place splash into the root frame
+                shell.AppFrame.Content = extendedSplash;
+                shell.AppFrame.NavigationFailed += OnNavigationFailed;
+                //setup the title bar
+                SetupTitleBar();
 
-                _rootFrame.NavigationFailed += OnNavigationFailed;
+                SetupWindowServices(Window.Current);
+                await InitializeMvvmCrossAsync();
             }
 
             if (e.PrelaunchActivated == false)
             {
-                if (_rootFrame.Content == null)
-                {
-                    //create app shell to hold app content
-                    var shell = AppShell.CreateForWindow(Window.Current);
-                    //create extended splash screen
-                    ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
-                    //temporarily place splash into the root frame
-                    shell.AppFrame.Content = extendedSplash;
-                    //setup the title bar
-                    SetupTitleBar();
-                }
                 // Ensure the current window is active
                 Window.Current.Activate();
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
-                InitializeStyle();
             }
         }
 

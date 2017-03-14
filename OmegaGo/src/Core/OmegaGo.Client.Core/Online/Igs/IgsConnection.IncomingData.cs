@@ -17,6 +17,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Time.Canadian;
@@ -226,9 +227,7 @@ namespace OmegaGo.Core.Online.Igs
                             string username = IgsRegex.GetFirstWord(igsLine);
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                //TODO Petr : implement
-                                //game.Controller.LifeDeath_Done(
-                                //    game.Controller.Players.First(pl => pl.Info.Name == username));
+                                // TODO petr inform the controller that a 'done' was typed (when interface exists)
                             }
                         }
                         if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
@@ -240,8 +239,7 @@ namespace OmegaGo.Core.Online.Igs
                                             gi.Controller.Phase.Type ==
                                             Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
                             {
-                                //TODO Petr: Implement
-                                //game.Controller.LifeDeath_UndoPhase();
+                                GetConnector(game.Info).ForceLifeDeathUndoDeathMarks();
                             }
                             weAreHandlingAnInterrupt = true;
                             continue;
@@ -387,7 +385,7 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
-                Events.OnTimeControlAdjustment(whatGame, heading.WhiteTimeRemaining, heading.BlackTimeRemaining);
+                GetConnector(whatGame.Info).TimeControlAdjustment(new IgsTimeControlAdjustmentEventArgs( heading.WhiteTimeRemaining, heading.BlackTimeRemaining));               
                 
             }
             else if (trim.Contains("Handicap"))
@@ -433,7 +431,7 @@ namespace OmegaGo.Core.Online.Igs
                     
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await GetGameByIdAsync(heading.GameNumber);
-                    Modes.LiveGame.Remote.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi);
+                    Modes.LiveGame.Remote.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
                     bool youAreBlack = ogi.Black.Name == _username;
                     bool youAreWhite = ogi.White.Name == _username;
                     if (youAreBlack)
@@ -442,7 +440,7 @@ namespace OmegaGo.Core.Online.Igs
                             new HumanPlayerBuilder(StoneColor.Black)
                             .Name(ogi.Black.Name)
                             .Rank(ogi.Black.Rank)
-                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
+                            .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)).UpdateFrom(heading.BlackTimeRemaining))
                             .Build());
                     }
                     else
@@ -451,7 +449,7 @@ namespace OmegaGo.Core.Online.Igs
                             new IgsPlayerBuilder(StoneColor.Black, this)
                                 .Name(ogi.Black.Name)
                                 .Rank(ogi.Black.Rank)
-                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.BlackTimeRemaining))
+                            .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)).UpdateFrom(heading.BlackTimeRemaining))
                                 .Build());
 
                     }
@@ -461,7 +459,7 @@ namespace OmegaGo.Core.Online.Igs
                             new HumanPlayerBuilder(StoneColor.White)
                             .Name(ogi.White.Name)
                             .Rank(ogi.White.Rank)
-                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
+                            .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)).UpdateFrom(heading.WhiteTimeRemaining))
                             .Build());
                     }
                     else
@@ -470,7 +468,7 @@ namespace OmegaGo.Core.Online.Igs
                             new IgsPlayerBuilder(StoneColor.White, this)
                                 .Name(ogi.White.Name)
                                 .Rank(ogi.White.Rank)
-                            .Clock(new CanadianTimeControl(0, 25, ogi.ByoyomiPeriod).UpdateFrom(heading.WhiteTimeRemaining))
+                            .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(ogi.ByoyomiPeriod)).UpdateFrom(heading.WhiteTimeRemaining))
                                 .Build());
 
                     }
@@ -548,7 +546,7 @@ namespace OmegaGo.Core.Online.Igs
                     IgsGame gameInfo = _gamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == game);
                     for (int i = 0; i < numberOfMovesToUndo; i++)
                     {
-                        OnLastMoveUndone(gameInfo.Info);
+                        GetConnector(gameInfo.Info).ForceMainUndo();
                     }
                 }
                 

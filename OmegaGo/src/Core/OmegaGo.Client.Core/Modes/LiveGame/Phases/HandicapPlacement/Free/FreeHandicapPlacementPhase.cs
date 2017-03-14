@@ -66,7 +66,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
             {
                 //add the placed stone
                 StonesPlaced++;                
-                Controller.OnBoardMustBeRefreshed();
+                Controller.OnCurrentNodeStateChanged();
                 if (StonesPlaced == Controller.Info.NumberOfHandicapStones)
                 {
                     //start main phase                    

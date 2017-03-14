@@ -26,11 +26,33 @@ namespace OmegaGo.Core.Time.Japanese
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
-
+        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
+                _snapshot.PeriodsLeft, _snapshot.InByoYomi);
+        }
         protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime);
         }
+        protected override void UpdateSnapshot(TimeSpan timeSpent)
+        {
+            // A move was just made.
+            _snapshot = ReduceBy(_snapshot, timeSpent);
+            if (_snapshot.InByoYomi)
+            {
+                _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(_byoyomiLengthInSeconds),
+                    _snapshot.PeriodsLeft, true);
+            }
+        }
+
+        protected override bool IsViolating(TimeSpan addThisTime)
+        {
+            return ReduceBy(_snapshot, addThisTime).IsViolating();
+        }
+
+     
         private JapaneseTimeInformation ReduceBy(JapaneseTimeInformation minued, TimeSpan subtrahend)
         {
             TimeSpan subtractStill = subtrahend;
@@ -54,20 +76,6 @@ namespace OmegaGo.Core.Time.Japanese
             return result;
         }
 
-        protected override void UpdateSnapshot(TimeSpan timeSpent)
-        {
-            // A move was just made.
-            _snapshot = ReduceBy(_snapshot, timeSpent);
-            if (_snapshot.InByoYomi)
-            {
-                _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(_byoyomiLengthInSeconds),
-                    _snapshot.PeriodsLeft, true);
-            }
-        }
 
-        protected override bool IsViolating(TimeSpan addThisTime)
-        {
-            return ReduceBy(_snapshot, addThisTime).IsViolating();
-        }
     }
 }

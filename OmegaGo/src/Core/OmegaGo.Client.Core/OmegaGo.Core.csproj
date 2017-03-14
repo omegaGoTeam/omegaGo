@@ -52,6 +52,7 @@
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="Modes\Analysis\AnalysisMode.cs" />
+    <Compile Include="Modes\LiveGame\Connectors\BaseConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="Modes\LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Modes\LiveGame\State\IGameState.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPlacementPhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Igs\IgsHandicapPlacementPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeath.cs" />
+    <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeathPhase.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\AgentEventHandler.cs" />
     <Compile Include="Modes\LiveGame\Players\Agents\Igs\IIgsAgent.cs" />
     <Compile Include="Modes\LiveGame\Remote\Igs\IgsGameController.cs" />
@@ -137,7 +138,7 @@
     <Compile Include="Modes\LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\Initialization\InitializationPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\LifeAndDeath\LifeAndDeathPhase.cs" />
-    <Compile Include="Modes\LiveGame\Phases\Main\MainPhase.cs" />
+    <Compile Include="Modes\LiveGame\Phases\Main\LocalMainPhase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhaseBase.cs" />
     <Compile Include="Modes\LiveGame\Phases\GamePhases.cs" />
     <Compile Include="Modes\LiveGame\Phases\Finished\IFinishedPhase.cs" />
@@ -163,12 +164,13 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
-    <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
+    <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
     <Compile Include="Online\Kgs\Downstream\AutomatchPrefs.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="Online\Kgs\Downstream\UserAdded.cs" />
     <Compile Include="Online\Kgs\Downstream\UserRemoved.cs" />
     <Compile Include="Online\Kgs\Downstream\UserUpdate.cs" />
+    <Compile Include="Online\Kgs\Structures\KgsChallenge.cs" />
     <Compile Include="Online\Kgs\Structures\KgsChannel.cs" />
     <Compile Include="Online\Kgs\KgsCommands.cs" />
     <Compile Include="Online\Kgs\KgsConnection.cs" />

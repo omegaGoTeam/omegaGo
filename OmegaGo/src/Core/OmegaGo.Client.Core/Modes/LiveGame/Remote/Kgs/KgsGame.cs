@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
@@ -17,5 +19,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         }
 
         public override KgsGameController Controller { get; }
+
+        public void GetChatMessage(Tuple<string, string> tuple)
+        {
+            var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
+                DateTimeOffset.Now, ChatMessageKind.Incoming);
+            Controller.OnChatMessageReceived(chatMessage);
+            Controller.AddMessage(chatMessage);
+        }
     }
 }
