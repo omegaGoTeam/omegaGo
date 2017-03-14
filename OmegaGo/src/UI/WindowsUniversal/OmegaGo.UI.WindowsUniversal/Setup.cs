@@ -2,8 +2,6 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsUWP.Platform;
-using OmegaGo.UI.Services;
-using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
@@ -36,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
-
+            
             base.InitializeFirstChance();
         }
     }

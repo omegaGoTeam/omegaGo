@@ -8,7 +8,9 @@
     xmlns:system="using:System"
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     Loaded="SettingsView_Loaded"
+    d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     
     <Page.Transitions>
@@ -76,6 +78,20 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+
+                        <TextBlock Text="Control Styles" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <ComboBox ItemsSource="{Binding ControlStyles}" 
+                              SelectedIndex="{Binding SelectedControlStyle, Mode=TwoWay}"
+                              SelectionChanged="AppShellComboBox_SelectionChanged"
+                              Width="240">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

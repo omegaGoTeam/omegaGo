@@ -10,6 +10,7 @@ using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Controls.Styles;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -23,6 +24,14 @@ namespace OmegaGo.UI.ViewModels
         public SettingsViewModel( IGameSettings gameSettings )
         {
             _gameSettings = gameSettings;
+        }
+        
+        public ObservableCollection<ControlStyle> ControlStyles { get; } =
+          new ObservableCollection<ControlStyle>((ControlStyle[])Enum.GetValues(typeof(ControlStyle)));
+        public int SelectedControlStyle
+        {
+            get { return (int)_gameSettings.Display.ControlStyle; }
+            set { _gameSettings.Display.ControlStyle = (ControlStyle)value; RaisePropertyChanged(); }
         }
 
         /// <summary>

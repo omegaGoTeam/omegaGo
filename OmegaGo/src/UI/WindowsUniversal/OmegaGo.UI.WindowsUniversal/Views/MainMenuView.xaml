@@ -22,12 +22,6 @@
                       VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" 
                         VerticalAlignment="Center">
-
-                <!--<StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,10,0,0" />
-                </Style>
-            </StackPanel.Resources>-->
                 <TextBlock 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"              

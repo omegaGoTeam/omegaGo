@@ -1,4 +1,5 @@
 ﻿using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.Game.Styles;
 
 namespace OmegaGo.UI.Services.Settings
@@ -9,6 +10,16 @@ namespace OmegaGo.UI.Services.Settings
         {
         }
 
+        public ControlStyle ControlStyle
+        {
+            get
+            {
+                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.Wood, SettingLocality.Roamed);
+                return (ControlStyle)theSetting;
+            }
+            set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }
+        }
+        
         public BoardTheme BoardTheme
         {
             get {

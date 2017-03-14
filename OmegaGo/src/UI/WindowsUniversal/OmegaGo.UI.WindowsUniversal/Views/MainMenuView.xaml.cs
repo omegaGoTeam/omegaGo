@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Navigation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
+using Windows.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -73,6 +74,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void GoFullScreen_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             FullscreenModeManager.Toggle();
+        }
+
+        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Application.Current.Resources["testStyle"] = Application.Current.Resources["testStyle2"];
         }
     }
 }

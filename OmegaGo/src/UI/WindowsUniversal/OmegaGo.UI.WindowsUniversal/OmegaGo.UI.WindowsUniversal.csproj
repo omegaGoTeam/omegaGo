@@ -252,6 +252,7 @@
     <Content Include="Assets\Textures\SabakiWhite.png" />
     <Content Include="Assets\Textures\space.png" />
     <Content Include="Assets\Textures\white.png" />
+    <Content Include="Assets\Textures\WoodenButton.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logos\SplashScreen.scale-200.png" />

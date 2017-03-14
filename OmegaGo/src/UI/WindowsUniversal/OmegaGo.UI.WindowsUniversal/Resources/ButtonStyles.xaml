@@ -2,36 +2,36 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="StandardButtonBorderDarkColor">#FF974B00</Color>
-    <Color x:Key="StandardButtonBorderLightColor">#FFC76300</Color>
+    <!-- WOOD STYLE -->
 
-    <Color x:Key="StandardButtonBackgroundDarkColor">#FFC59525</Color>
-    <Color x:Key="StandardButtonBackgroundLightColor">#e4bd65</Color>
+    <Color x:Key="StandardWoodButtonBorderDarkColor">#FF974B00</Color>
+    <Color x:Key="StandardWoodButtonBorderLightColor">#FFC76300</Color>
 
-    <LinearGradientBrush x:Key="StandardButtonBackgroundNormalBrush" EndPoint="0.5 0" StartPoint="0.5 1">
-        <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="0"/>
-        <GradientStop Color="{StaticResource StandardButtonBackgroundLightColor}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="1"/>
+    <Color x:Key="StandardWoodButtonBackgroundDarkColor">#FFC59525</Color>
+    <Color x:Key="StandardWoodButtonBackgroundLightColor">#e4bd65</Color>
+
+    <LinearGradientBrush x:Key="StandardWoodButtonBackgroundNormalBrush" EndPoint="0.5 0" StartPoint="0.5 1">
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundDarkColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundLightColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundDarkColor}" Offset="1"/>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="StandardButtonBackgroundPressedBrush" EndPoint="0.5 0" StartPoint="0.5 1">
-        <GradientStop Color="{StaticResource StandardButtonBackgroundLightColor}" Offset="0"/>
-        <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="0.5"/>
-        <GradientStop Color="{StaticResource StandardButtonBackgroundLightColor}" Offset="1"/>
+    <LinearGradientBrush x:Key="StandardWoodButtonBackgroundPressedBrush" EndPoint="0.5 0" StartPoint="0.5 1">
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundLightColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundDarkColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardWoodButtonBackgroundLightColor}" Offset="1"/>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="StandardButtonBorderNormalBrush" StartPoint="0.5 0" EndPoint="0.5 1" >
+    <LinearGradientBrush x:Key="StandardWoodButtonBorderNormalBrush" StartPoint="0.5 0" EndPoint="0.5 1" >
         <GradientStopCollection>
-            <GradientStop Color="{StaticResource StandardButtonBorderDarkColor}" Offset="0" />
-            <GradientStop Color="{StaticResource StandardButtonBorderLightColor}" Offset="0.4" />
-            <GradientStop Color="{StaticResource StandardButtonBorderLightColor}" Offset="0.7" />
-            <GradientStop Color="{StaticResource StandardButtonBorderDarkColor}" Offset="1" />
+            <GradientStop Color="{StaticResource StandardWoodButtonBorderDarkColor}" Offset="0" />
+            <GradientStop Color="{StaticResource StandardWoodButtonBorderLightColor}" Offset="0.4" />
+            <GradientStop Color="{StaticResource StandardWoodButtonBorderLightColor}" Offset="0.7" />
+            <GradientStop Color="{StaticResource StandardWoodButtonBorderDarkColor}" Offset="1" />
         </GradientStopCollection>
     </LinearGradientBrush>
 
-    <!--x:Key="StandardButtonStyle"-->
-    
-    <Style TargetType="Button">
+    <Style x:Key="woodButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
@@ -82,7 +82,7 @@
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="roundedBorder">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource StandardButtonBackgroundPressedBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource StandardWoodButtonBackgroundPressedBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
@@ -105,9 +105,9 @@
                         </VisualStateManager.VisualStateGroups>
                         <Rectangle  x:Name="roundedBorder"
                                     StrokeThickness="1"
-                                    Stroke="{StaticResource StandardButtonBorderNormalBrush}"
-                                    Fill="{StaticResource StandardButtonBackgroundNormalBrush}"
-                                    RadiusX="8" RadiusY="8">
+                                    Stroke="{StaticResource StandardWoodButtonBorderNormalBrush}"
+                                    Fill="{StaticResource StandardWoodButtonBackgroundNormalBrush}"
+                                    RadiusX="2" RadiusY="2">
                             <!--<Rectangle.Fill>
                                 <LinearGradientBrush EndPoint="0.5 0" StartPoint="0.5 1">
                                     <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="0"/>
@@ -133,4 +133,139 @@
         </Setter>
     </Style>
 
+    <!-- AQUA STYLE -->
+
+    <Color x:Key="StandardNatureButtonBorderDarkColor">#FF5170AD</Color>
+    <Color x:Key="StandardNatureButtonBorderLightColor">#FF6085D0</Color>
+
+    <Color x:Key="StandardNatureButtonBackgroundDarkColor">#FF2E5A71</Color>
+    <Color x:Key="StandardNatureButtonBackgroundLightColor">#FF1A75D2</Color>
+
+    <LinearGradientBrush x:Key="StandardNatureButtonBackgroundNormalBrush" EndPoint="1 0" StartPoint="0 1">
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundDarkColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundLightColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundDarkColor}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="StandardNatureButtonBackgroundPressedBrush" EndPoint="0.5 0" StartPoint="0.5 1">
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundLightColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundDarkColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardNatureButtonBackgroundLightColor}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="StandardNatureButtonBorderNormalBrush" StartPoint="0.5 0" EndPoint="0.5 1" >
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource StandardNatureButtonBorderDarkColor}" Offset="0" />
+            <GradientStop Color="{StaticResource StandardNatureButtonBorderLightColor}" Offset="0.4" />
+            <GradientStop Color="{StaticResource StandardNatureButtonBorderLightColor}" Offset="0.7" />
+            <GradientStop Color="{StaticResource StandardNatureButtonBorderDarkColor}" Offset="1" />
+        </GradientStopCollection>
+    </LinearGradientBrush>
+
+    <Style x:Key="natureButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+        <Setter Property="Padding" Value="8,4,8,4"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="roundedBorder">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource StandardNatureButtonBackgroundPressedBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="RootGrid">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle  x:Name="roundedBorder"
+                                    RadiusX="2" RadiusY="2">
+                            <Rectangle.Fill>
+                                <ImageBrush Stretch="Fill" ImageSource="ms-appx:///Assets/Textures/WoodenButton.png"  />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <!--<Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5 0" StartPoint="0.5 1">
+                                    <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="0"/>
+                                    <GradientStop Color="{StaticResource StandardButtonBackgroundLightColor}" Offset="0.5"/>
+                                    <GradientStop Color="{StaticResource StandardButtonBackgroundDarkColor}" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>-->
+                            <!--<Rectangle.Stroke>
+                                <LinearGradientBrush StartPoint="0.5 0" EndPoint="0.5 1" >
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{StaticResource StandardButtonBorderDarkColor}" Offset="0" />
+                                        <GradientStop Color="{StaticResource StandardButtonBorderLightColor}" Offset="0.4" />
+                                        <GradientStop Color="{StaticResource StandardButtonBorderLightColor}" Offset="0.7" />
+                                        <GradientStop Color="{StaticResource StandardButtonBorderDarkColor}" Offset="1" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </Rectangle.Stroke>-->
+                        
+                        <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Windows STYLE -->
+    <!-- Windows does not need a style -->
+    
 </ResourceDictionary>

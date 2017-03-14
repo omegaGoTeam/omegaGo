@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Platform;
-using OmegaGo.UI.Infrastructure;
 using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Controls.Styles;
 #if WITHOUT_FUEGO
 #else
 using OmegaGo.UI.WindowsUniversal.Fuego;
@@ -104,6 +94,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 Window.Current.Activate();
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                InitializeStyle();
             }
         }
 
@@ -186,6 +177,26 @@ namespace OmegaGo.UI.WindowsUniversal
 
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
+        }
+
+        private void InitializeStyle()
+        {
+            IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
+
+            ControlStyle controlStyle = settingsService.Display.ControlStyle;
+
+            switch (controlStyle)
+            {
+                case ControlStyle.Wood:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
+                    break;
+                case ControlStyle.Nature:
+                    // aquaButtonStyle
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["natureButtonStyle"]);
+                    break;
+                case ControlStyle.Windows:
+                    break;
+            }
         }
 
         /// <summary>
