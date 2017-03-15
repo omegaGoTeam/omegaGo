@@ -134,6 +134,12 @@ namespace OmegaGo.Core.Online.Igs
                 whiteClock = new NoTimeControl();
             }
 
+            IgsLine titleLine = response.LastOrDefault(line => line.Code == IgsCode.Info);
+            string gameName = null;
+            if (titleLine != null)
+            {
+                gameName = IgsRegex.ParseTitleInformation(titleLine);
+            }
             GamePlayer blackPlayer =
                   new IgsPlayerBuilder(StoneColor.Black, this)
                       .Name(gameInfo.Black.Name)
@@ -146,13 +152,14 @@ namespace OmegaGo.Core.Online.Igs
                     .Rank(gameInfo.White.Rank)
                     .Clock(whiteClock)
                     .Build();
-            IgsGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
+            var onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .Connection(this)
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Ruleset(RulesetType.Japanese)
                 .Komi(gameInfo.Komi)
                 .BoardSize(gameInfo.BoardSize)
+                .Name(gameName)
                 .Build();
             _gamesBeingObserved.Add(onlineGame);
             _gamesYouHaveOpened.Add(onlineGame);

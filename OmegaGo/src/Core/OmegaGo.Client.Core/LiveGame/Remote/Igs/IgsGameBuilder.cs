@@ -38,5 +38,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         /// <param name="player">Player to validate</param>
         protected override bool ValidatePlayer(GamePlayer player) =>
             player.Agent.Type != AgentType.Remote || player.Agent is IgsAgent;
+
+        public IgsGameBuilder Name(string gameName)
+        {
+            this._info.GameName = gameName;
+            return this;
+        }
     }
 }
