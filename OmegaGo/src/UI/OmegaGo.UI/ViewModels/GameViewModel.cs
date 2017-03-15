@@ -174,7 +174,8 @@ namespace OmegaGo.UI.ViewModels
                     bool notificationDemanded =
                         (humanPlayed
                             ? _gameSettings.Audio.PlayWhenYouPlaceStone
-                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone) &&
+                        (state.MoveNumber > Game.Controller.MuteSoundsUntilMove);
                     if (notificationDemanded)
                     {
                         if (state.Move.Kind == MoveKind.PlaceStone)

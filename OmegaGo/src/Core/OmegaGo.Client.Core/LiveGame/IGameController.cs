@@ -46,7 +46,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Gets the game's ruleset
         /// </summary>
         IRuleset Ruleset { get; }
-        
+        int MuteSoundsUntilMove { get; }
+
         /// <summary>
         /// Starts the game
         /// </summary>
