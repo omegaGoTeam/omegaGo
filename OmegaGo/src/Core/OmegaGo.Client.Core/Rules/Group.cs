@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Rules
         private List<Position> _members;
         private int _libertyCount;
         private readonly StoneColor _groupColor;
+        private bool[,] _checkedInters;
 
         public Group(int id, StoneColor color)
         {
@@ -20,6 +21,7 @@ namespace OmegaGo.Core.Rules
             _groupColor = color;
             _libertyCount = 0;
             _members = new List<Position>();
+            _checkedInters = new bool[GroupState.BoardSize.Width, GroupState.BoardSize.Height];
         }
 
         public int ID
@@ -91,13 +93,7 @@ namespace OmegaGo.Core.Rules
                 _members.Add(p);
             }
         }
-
-        internal void DiscoverGroup(Position position)
-        {
-            //add members
-            
-            //set liberty
-        }
+        
 
         internal void DeleteGroup()
         {
@@ -116,6 +112,46 @@ namespace OmegaGo.Core.Rules
             else
                 throw new Exception("Liberty count cannot be lower than 0");
         }
+
+        public void DiscoverGroup(Position position)
+        {
+            if (!_checkedInters[position.X, position.Y])
+            {
+                _members.Add(position);
+                _checkedInters[position.X, position.Y] = true;
+            }
+            Position newp = new Position();
+
+            //has same unchecked right neighbour
+            if (position.X < GroupState.BoardSize.Width - 1 && GroupState.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
+            {
+                newp.X = position.X + 1;
+                newp.Y = position.Y;
+                DiscoverGroup(newp);
+            }
+            //has same unchecked upper neighbour
+            if (position.Y < GroupState.BoardSize.Height - 1 && GroupState.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
+            {
+                newp.X = position.X;
+                newp.Y = position.Y + 1;
+                DiscoverGroup( newp);
+            }
+            //has same unchecked left neighbour
+            if (position.X > 0 && GroupState.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
+            {
+                newp.X = position.X - 1;
+                newp.Y = position.Y;
+                DiscoverGroup( newp);
+            }
+            //has same unchecked bottom neighbour
+            if (position.Y > 0 && GroupState.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
+            {
+                newp.X = position.X;
+                newp.Y = position.Y - 1;
+                DiscoverGroup( newp);
+            }
+        }
+
         private List<int> GetNeighbourGroups(Position position)
         {
             List<int> neighbours = new List<int>();

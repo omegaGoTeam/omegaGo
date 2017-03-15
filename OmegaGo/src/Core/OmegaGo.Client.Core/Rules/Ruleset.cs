@@ -16,8 +16,6 @@ namespace OmegaGo.Core.Rules
     {
         private readonly int _boardWidth;
         private readonly int _boardHeight;
-        private bool[,] _checkedInters;
-        private bool[,] _liberty;
         private List<Position> _captures;
 
         /// <summary>
@@ -28,8 +26,6 @@ namespace OmegaGo.Core.Rules
         {
             _boardWidth = gbSize.Width;
             _boardHeight = gbSize.Height;
-            _checkedInters = new bool[_boardWidth, _boardHeight];
-            _liberty = new bool[_boardWidth, _boardHeight];
             _captures = new List<Position>();
         }
 
@@ -199,21 +195,6 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method.
-        /// </summary>
-        /// <param name="pos">The position whose group we want to identify.</param>
-        /// <param name="board">The current full board position.</param>
-        /// <returns></returns>
-        public IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board)
-        {
-            _checkedInters = new bool[_boardWidth, _boardHeight];
-            List<Position> group = new List<Position>();
-            bool hasGroupLiberty = false;
-            GetGroup(ref group, ref hasGroupLiberty, pos, board);
-            return group;
-        }
-
-        /// <summary>
         /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
         /// All stones on the board are considered alive for the purposes of determining territory using this method.
         /// </summary>
@@ -325,11 +306,12 @@ namespace OmegaGo.Core.Rules
             Position p = moveToMake.Coordinates;
             List<Position> group = new List<Position>();
             bool groupHasLiberty = false;
-            _checkedInters = new bool[_boardWidth, _boardHeight];
+            //TODO Aniko: implement
+            /*_checkedInters = new bool[_boardWidth, _boardHeight];
 
             currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
             _liberty = FillLibertyTable(currentBoard);
-            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
+            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);*/
             if (groupHasLiberty)
             {
                 return MoveResult.Legal;
@@ -361,9 +343,11 @@ namespace OmegaGo.Core.Rules
         /// <returns>List of prisoners/captured stones.</returns>
         protected List<Position> CheckCapture(GameBoard currentBoard, Move moveToMake)
         {
-            _liberty = FillLibertyTable(currentBoard);
-            _checkedInters = new bool[_boardWidth, _boardHeight];
+            //TODO Aniko: implement
             _captures = new List<Position>();
+
+            /*_liberty = FillLibertyTable(currentBoard);
+            _checkedInters = new bool[_boardWidth, _boardHeight];
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
             StoneColor opponentColor = moveToMake.WhoMoves.GetOpponentColor();
@@ -384,7 +368,7 @@ namespace OmegaGo.Core.Rules
             //bottom neighbour
             if (currentY > 0 && currentBoard[currentX, currentY - 1] == opponentColor && !_liberty[currentX, currentY - 1])
                 CheckNeighbourGroup(currentX, currentY - 1, currentBoard);
-
+                */
             return _captures;
         }
         
@@ -400,7 +384,8 @@ namespace OmegaGo.Core.Rules
             bool groupHasLiberty = false;
             Position p = new Position();
 
-            p.X = x;
+            //TODO Aniko: implement
+            /*p.X = x;
             p.Y = y;
             GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
 
@@ -416,85 +401,11 @@ namespace OmegaGo.Core.Rules
                 {
                     _captures.Add(groupMember);
                 }
-            }
+            }*/
 
         }
 
-        protected bool[,] FillLibertyTable(GameBoard currentBoard)
-        {
-            _liberty = new bool[_boardWidth, _boardHeight];
-
-            //check whether position has liberty
-            for (int i = 0; i < _boardWidth; i++)
-            {
-                for (int j = 0; j < _boardHeight; j++)
-                {
-                    bool emptyNeighbour = false;
-                    //it has empty left neighbour
-                    if (i > 0 && currentBoard[i - 1, j] == StoneColor.None)
-                    {
-                        emptyNeighbour = true;
-                    }
-                    else if (i < _boardWidth - 1 && currentBoard[i + 1, j] == StoneColor.None) //it has empty right neighbour
-                    {
-                        emptyNeighbour = true;
-                    }
-                    else if (j > 0 && currentBoard[i, j - 1] == StoneColor.None) //it has empty bottom neighbour
-                    {
-                        emptyNeighbour = true;
-                    }
-                    else if (j < _boardHeight - 1 && currentBoard[i, j + 1] == StoneColor.None) //it has empty upper neighbour
-                    {
-                        emptyNeighbour = true;
-                    }
-                    _liberty[i, j] = emptyNeighbour;
-                }
-            }
-
-            return _liberty;
-        }
-
-        protected void GetGroup(ref List<Position> group, ref bool hasLiberty, Position pos, GameBoard currentBoard)
-        {
-            StoneColor currentColor = currentBoard[pos.X, pos.Y];
-            if (!_checkedInters[pos.X, pos.Y])
-            {
-                group.Add(pos);
-                _checkedInters[pos.X, pos.Y] = true;
-            }
-            Position newp = new Position();
-
-            if (_liberty[pos.X, pos.Y])
-                hasLiberty = true;
-            //has same unchecked right neighbour
-            if (pos.X < _boardWidth - 1 && currentBoard[pos.X + 1, pos.Y] == currentColor && !_checkedInters[pos.X + 1, pos.Y])
-            {
-                newp.X = pos.X + 1;
-                newp.Y = pos.Y;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
-            }
-            //has same unchecked upper neighbour
-            if (pos.Y < _boardHeight - 1 && currentBoard[pos.X, pos.Y + 1] == currentColor && !_checkedInters[pos.X, pos.Y + 1])
-            {
-                newp.X = pos.X;
-                newp.Y = pos.Y + 1;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
-            }
-            //has same unchecked left neighbour
-            if (pos.X > 0 && currentBoard[pos.X - 1, pos.Y] == currentColor && !_checkedInters[pos.X - 1, pos.Y])
-            {
-                newp.X = pos.X - 1;
-                newp.Y = pos.Y;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
-            }
-            //has same unchecked bottom neighbour
-            if (pos.Y > 0 && currentBoard[pos.X, pos.Y - 1] == currentColor && !_checkedInters[pos.X, pos.Y - 1])
-            {
-                newp.X = pos.X;
-                newp.Y = pos.Y - 1;
-                GetGroup(ref group, ref hasLiberty, newp, currentBoard);
-            }
-        }
+        
         
         /// <summary>
         /// The area of a player are all live stones of player left on the board together with any points of his territory. In this case, prisoners are ignored.

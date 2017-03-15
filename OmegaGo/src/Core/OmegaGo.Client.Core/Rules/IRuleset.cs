@@ -53,14 +53,6 @@ namespace OmegaGo.Core.Rules
         Scores CountScore(GameBoard currentBoard);
         
         /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method is not thread-safe.
-        /// </summary>
-        /// <param name="pos">The position whose group we want to identify.</param>
-        /// <param name="board">The current full board position.</param>
-        /// <returns></returns>
-        IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board);
-
-        /// <summary>
         /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
         /// All stones on the board are considered alive for the purposes of determining territory using this method.
         /// </summary>
