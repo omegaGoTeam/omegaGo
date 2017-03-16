@@ -3,7 +3,7 @@
     public enum ControlStyle
     {
         Wood,
-        Nature,
-        Windows,
+        Lite,
+        OperatingSystem,
     }
 }

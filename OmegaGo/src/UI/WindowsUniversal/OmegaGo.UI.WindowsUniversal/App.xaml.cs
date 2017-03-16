@@ -173,6 +173,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private void InitializeStyle()
         {
+            // TODO Martin Do we keep it like this, or we move it somewhere? Possibly define and implement IControlStyleService/IStylingService?
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
@@ -182,11 +183,10 @@ namespace OmegaGo.UI.WindowsUniversal
                 case ControlStyle.Wood:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
                     break;
-                case ControlStyle.Nature:
-                    // aquaButtonStyle
-                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["natureButtonStyle"]);
+                case ControlStyle.Lite:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
                     break;
-                case ControlStyle.Windows:
+                case ControlStyle.OperatingSystem:
                     break;
             }
         }

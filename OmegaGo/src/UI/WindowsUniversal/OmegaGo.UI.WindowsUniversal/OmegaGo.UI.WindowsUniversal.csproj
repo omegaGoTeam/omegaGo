@@ -285,6 +285,8 @@
     <Content Include="Assets\Textures\white.png" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\Textures\WoodenButton.png" />
+    <Content Include="Assets\Textures\WoodenButtonHighlighted.png" />
+    <Content Include="Assets\Textures\WoodenButtonPressed.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logos\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Logos\SplashScreen.scale-200.png" />

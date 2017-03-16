@@ -24,8 +24,7 @@
         <Pivot HorizontalContentAlignment="Center" Title="{x:Bind Localizer.Settings}" HorizontalAlignment="Center">
             <Pivot.TitleTemplate>
                 <DataTemplate>
-                    <navigation:TitleControl ContinuumNavigationTransitionInfo.IsEntranceElement="True"  Text="{Binding}">
-                    </navigation:TitleControl>
+                    <navigation:TitleControl ContinuumNavigationTransitionInfo.IsEntranceElement="True"  Text="{Binding}" />
                 </DataTemplate>
             </Pivot.TitleTemplate>
             <PivotItem Header="{x:Bind Localizer.ThemesPanel}">
@@ -79,7 +78,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <TextBlock Text="Control Styles" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <ComboBox ItemsSource="{Binding ControlStyles}" 
                               SelectedIndex="{Binding SelectedControlStyle, Mode=TwoWay}"
                               SelectionChanged="AppShellComboBox_SelectionChanged"
@@ -90,8 +89,6 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-
-
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

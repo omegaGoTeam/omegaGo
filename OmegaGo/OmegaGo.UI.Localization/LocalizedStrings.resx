@@ -680,4 +680,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ResetAllProgress" xml:space="preserve">
     <value>Reset all progress</value>
   </data>
+  <data name="ControlStyle_OperatingSystem" xml:space="preserve">
+    <value>Operating System</value>
+  </data>
+  <data name="ControlStyle_Wood" xml:space="preserve">
+    <value>Wood</value>
+  </data>
+  <data name="ControlStyle" xml:space="preserve">
+    <value>Control Style</value>
+  </data>
+  <data name="ControlStyle_Lite" xml:space="preserve">
+    <value>Lite</value>
+  </data>
 </root>
