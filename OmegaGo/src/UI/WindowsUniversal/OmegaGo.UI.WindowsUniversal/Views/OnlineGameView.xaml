@@ -21,14 +21,14 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
@@ -36,7 +36,6 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 />
-
 
         <CommandBar Grid.ColumnSpan="3" Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top"
                     Grid.Column="0"
@@ -59,32 +58,27 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-
         </CommandBar>
+        
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
             <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    </Style>
-                </StackPanel.Resources>
                 <TextBlock Text="DEBUG BAR" FontSize="24"/>
                 <TextBlock Text="Debug:"/>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"/>
-                <Button Click="DebugFill">Fill</Button>
-                <Button>Save as SGF</Button>
+                <Button Click="DebugFill" Content="Fill" HorizontalAlignment="Stretch" />
+                <Button Content="Save as SGF" HorizontalAlignment="Stretch" /> 
                 <TextBlock Text="Life/Death" FontSize="20"/>
-                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}">Done</Button>
-                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}">Undo Death Marks</Button>
-                <Button Command="{x:Bind VM.ResumeGameCommand}">Resume game</Button>
-                <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button IsEnabled="False">undoplease</Button>
-                <Button IsEnabled="False">undo (yes)</Button>
-                <Button IsEnabled="False">noundo</Button>
-                <Button Command="{x:Bind VM.UndoCommand}">undo locally</Button>
-                <TextBlock Text="Moves" FontSize="20"></TextBlock>
-                <Button Command="{x:Bind VM.PassCommand}">PASS</Button>
-                <Button Command="{x:Bind VM.ResignCommand}">Resign</Button>
+                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done"/>
+                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks" HorizontalAlignment="Stretch"/>
+                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game" HorizontalAlignment="Stretch"/>
+                <TextBlock Text="Undo" FontSize="20"/>
+                <Button IsEnabled="False" Content="Undo please" HorizontalAlignment="Stretch" />
+                <Button IsEnabled="False" Content="Undo (yes)" HorizontalAlignment="Stretch"/>
+                <Button IsEnabled="False" Content="Undo (no)" HorizontalAlignment="Stretch" />
+                <Button Command="{x:Bind VM.UndoCommand}" Content="Undo locally" HorizontalAlignment="Stretch" />
+                <TextBlock Text="Moves" FontSize="20"/>
+                <Button Command="{x:Bind VM.PassCommand}" Content="Pass" HorizontalAlignment="Stretch"/>
+                <Button Command="{x:Bind VM.ResignCommand}" Content="Resign" HorizontalAlignment="Stretch"/>
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
                     <StackPanel Orientation="Horizontal">
                         <ProgressRing IsActive="True"/>
@@ -92,7 +86,7 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Hint" FontSize="20"/>
-                <Button>Get Hint from Assistant</Button>
+                <Button Content="Get Hint from Assistant" HorizontalAlignment="Stretch"/>
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
@@ -104,7 +98,7 @@
                 <StackPanel Grid.Row="0">
                     <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}" />
                     <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}" />
-                    <Button Click="UpdateSystemLog">Update system log</Button>
+                    <Button Click="UpdateSystemLog" Content="Update system log" />
                 </StackPanel>
                 <TextBox Grid.Row="1"
                          x:Name="SystemLog" 

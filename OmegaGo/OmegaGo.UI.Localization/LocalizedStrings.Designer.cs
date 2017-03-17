@@ -438,6 +438,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Control Style.
+        /// </summary>
+        public static string ControlStyle {
+            get {
+                return ResourceManager.GetString("ControlStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lite.
+        /// </summary>
+        public static string ControlStyle_Lite {
+            get {
+                return ResourceManager.GetString("ControlStyle_Lite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operating System.
+        /// </summary>
+        public static string ControlStyle_OperatingSystem {
+            get {
+                return ResourceManager.GetString("ControlStyle_OperatingSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wood.
+        /// </summary>
+        public static string ControlStyle_Wood {
+            get {
+                return ResourceManager.GetString("ControlStyle_Wood", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credits.
         /// </summary>
         public static string Credits {

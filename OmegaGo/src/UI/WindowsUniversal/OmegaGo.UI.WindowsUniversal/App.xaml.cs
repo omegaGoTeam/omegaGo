@@ -16,6 +16,7 @@ using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Helpers.Device;
+using OmegaGo.UI.Controls.Styles;
 #if WITHOUT_FUEGO
 #else
 using OmegaGo.UI.WindowsUniversal.Fuego;
@@ -79,6 +80,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                InitializeStyle();
             }
 
             if (e.PrelaunchActivated == false)
@@ -167,6 +169,26 @@ namespace OmegaGo.UI.WindowsUniversal
 
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
+        }
+
+        private void InitializeStyle()
+        {
+            // TODO Martin Do we keep it like this, or we move it somewhere? Possibly define and implement IControlStyleService/IStylingService?
+            IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
+
+            ControlStyle controlStyle = settingsService.Display.ControlStyle;
+
+            switch (controlStyle)
+            {
+                case ControlStyle.Wood:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
+                    break;
+                case ControlStyle.Lite:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
+                    break;
+                case ControlStyle.OperatingSystem:
+                    break;
+            }
         }
 
         /// <summary>

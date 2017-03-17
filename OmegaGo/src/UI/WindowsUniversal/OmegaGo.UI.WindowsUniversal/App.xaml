@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="/Resources/Converters.xaml" />
                 <ResourceDictionary Source="/Resources/ControlStyles.xaml" />
                 <ResourceDictionary Source="/Resources/TitleBarStyles.xaml" />
+                <ResourceDictionary Source="/Resources/ButtonStyles.xaml" />
+                <ResourceDictionary Source="/Resources/ComboBoxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
