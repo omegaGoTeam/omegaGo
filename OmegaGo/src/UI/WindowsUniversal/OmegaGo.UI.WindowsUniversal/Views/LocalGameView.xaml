@@ -46,25 +46,20 @@
         </CommandBar>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
             <StackPanel>
-                <StackPanel.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    </Style>
-                </StackPanel.Resources>
                 <TextBlock Text="DEBUG BAR" FontSize="24"/>
                 <TextBlock Text="Debug:"/>
                 <TextBlock Text="{Binding DebugInfo, Mode=OneWay}"/>
-                <Button Click="DebugFill" Content="Fill"/>
-                <Button Content="Save as SGF"/>
+                <Button Click="DebugFill" Content="Fill" HorizontalAlignment="Stretch"/>
+                <Button Content="Save as SGF" HorizontalAlignment="Stretch"/>
                 <TextBlock Text="Life/Death" FontSize="20"/>
-                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done"/>
-                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks"/>
-                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game"/>
-                <TextBlock Text="Undo" FontSize="20"></TextBlock>
-                <Button Command="{x:Bind VM.UndoCommand}" Content="undo locally"/>
+                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done" HorizontalAlignment="Stretch"/>
+                <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks" HorizontalAlignment="Stretch"/>
+                <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game" HorizontalAlignment="Stretch"/>
+                <TextBlock Text="Undo" FontSize="20" />
+                <Button Command="{x:Bind VM.UndoCommand}" Content="undo locally" HorizontalAlignment="Stretch"/>
                 <TextBlock Text="Moves" FontSize="20"/>
-                <Button Command="{x:Bind VM.PassCommand}" Content="PASS"/>
-                <Button Command="{x:Bind VM.ResignCommand}" Content="Resign"/> 
+                <Button Command="{x:Bind VM.PassCommand}" Content="PASS" HorizontalAlignment="Stretch"/>
+                <Button Command="{x:Bind VM.ResignCommand}" Content="Resign" HorizontalAlignment="Stretch"/> 
                 <Border BorderThickness="1" Margin="5" BorderBrush="Blue">
                     <StackPanel Orientation="Horizontal">
                         <ProgressRing IsActive="True"/>

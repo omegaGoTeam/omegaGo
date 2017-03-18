@@ -764,6 +764,22 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>KGS rank</source>
           <target state="final">Třída KGS</target>
         </trans-unit>
+        <trans-unit id="ControlStyle_OperatingSystem" translate="yes" xml:space="preserve">
+          <source>Operating System</source>
+          <target state="needs-review-translation">Operační systém</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle_Wood" translate="yes" xml:space="preserve">
+          <source>Wood</source>
+          <target state="needs-review-translation">Dřevo</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle" translate="yes" xml:space="preserve">
+          <source>Control Style</source>
+          <target state="needs-review-translation">Styl ovládacích prvků</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle_Lite" translate="yes" xml:space="preserve">
+          <source>Lite</source>
+          <target state="needs-review-translation">Odlehčené</target>
+        </trans-unit>
       </group>
     </body>
   </file>

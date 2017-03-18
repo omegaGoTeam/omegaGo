@@ -67,13 +67,12 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    </Style>
-                </Grid.Resources>
+                
                 <TextBlock Grid.Row="0" Text="DEBUG BAR" FontSize="24"></TextBlock>
-                <Button Grid.Row="1" Click="UpdateSystemLog" Content="Update system log"/>
+                <Button Grid.Row="1" 
+                        Click="UpdateSystemLog" 
+                        Content="Update system log"
+                        HorizontalAlignment="Stretch"/>
                 <TextBox    Grid.Row="2"
                             x:Name="SystemLog"
                             ScrollViewer.VerticalScrollBarVisibility="Auto"

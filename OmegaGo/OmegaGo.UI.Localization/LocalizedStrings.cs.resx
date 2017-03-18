@@ -531,4 +531,16 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="KgsRank" xml:space="preserve">
     <value>Třída KGS</value>
   </data>
+  <data name="ControlStyle_OperatingSystem" xml:space="preserve">
+    <value>Operační systém</value>
+  </data>
+  <data name="ControlStyle_Wood" xml:space="preserve">
+    <value>Dřevo</value>
+  </data>
+  <data name="ControlStyle" xml:space="preserve">
+    <value>Styl ovládacích prvků</value>
+  </data>
+  <data name="ControlStyle_Lite" xml:space="preserve">
+    <value>Odlehčené</value>
+  </data>
 </root>
