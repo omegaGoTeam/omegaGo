@@ -100,15 +100,17 @@
                               Unchecked="FullscreenMode_Unchecked"/>
 
                         <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
-                        <StackPanel Orientation="Horizontal">
+                    <!--    
+                    <StackPanel Orientation="Horizontal">
                             <CheckBox Content="{x:Bind Localizer.HighlightRecentCaptures}" IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
                             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightRecentCapturesTooltip}"  />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Content="{x:Bind Localizer.HighlightIllegalKoMoves}" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
-                    </StackPanel>
-                    <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
+                        </StackPanel>
+                    -->
+                        <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                     <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
                     </StackPanel>
                 </ScrollViewer>
