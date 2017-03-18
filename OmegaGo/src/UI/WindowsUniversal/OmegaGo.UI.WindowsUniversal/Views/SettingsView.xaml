@@ -8,6 +8,7 @@
     xmlns:system="using:System"
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     Loaded="SettingsView_Loaded"
     mc:Ignorable="d">
     
@@ -146,30 +147,27 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Padding="15">
                         <TextBlock Text="{x:Bind Localizer.AssistantAIProgram}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <StackPanel Orientation="Horizontal">
                         <ComboBox Width="140"
-                              ItemsSource="{Binding AiPrograms}"
-                              SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
-                                           ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                              ItemsSource="{x:Bind VM.AiPrograms, Mode=OneWay}"
+                                  SelectedItem="{x:Bind VM.SelectedAiProgram, Mode=TwoWay}">
 
-                        <TextBlock Text="{x:Bind Localizer.Strength}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
-                            <x:String>1</x:String>
-                            <x:String>2</x:String>
-                            <x:String>3</x:String>
-                            <x:String>4</x:String>
-                            <x:String>5</x:String>
-                            <x:String>6</x:String>
-                            <x:String>7</x:String>
-                            <x:String>8</x:String>
-                            <x:String>9</x:String>
-                            <x:String>10</x:String>
-                        </ComboBox>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
+                                                   ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Button Content="Configure...">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
+                        </StackPanel>
 
                         <CheckBox Content="{x:Bind Localizer.EnableHints}" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
                         <StackPanel Orientation="Horizontal">

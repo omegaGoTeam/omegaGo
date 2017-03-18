@@ -13,7 +13,7 @@ namespace OmegaGo.Core.AI.Fuego
     /// The Fuego AI is a Monte Carlo advanced Go intelligence.
     /// </summary>
     /// <seealso cref="AIProgramBase" />
-    internal class FuegoAI : AIProgramBase
+    public class FuegoAI : AIProgramBase
     {
         private bool SendAllAiOutputToLog = true;
         private bool SendDebuggingInformationToLogToo = true;
@@ -30,6 +30,12 @@ namespace OmegaGo.Core.AI.Fuego
         /// Capabilities of the AI
         /// </summary>
         public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
+
+        public bool AllowResign { get; set; }
+
+        public int MaxGames { get; set; }
+
+        public bool Ponder { get; set; }
 
         /// <summary>
         /// Requests a move from Fuego AI
@@ -101,8 +107,11 @@ namespace OmegaGo.Core.AI.Fuego
         {
             this._engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
 
+            // Board size
+            SendCommand("boardsize " + preMoveInformation.GameInfo.BoardSize.Width);
+
             // Strength
-            SendCommand("uct_param_player ponder 1");
+            SendCommand("uct_param_player ponder " + (this.Ponder ? "1": "0"));
 
             // Rules
             switch (preMoveInformation.GameInfo.RulesetType)
@@ -118,6 +127,16 @@ namespace OmegaGo.Core.AI.Fuego
                     break;
             }
             SendCommand("komi " + preMoveInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
+            if (MaxGames > 0)
+            {
+                SendCommand("uct_param_player max_games " + MaxGames);
+            }
+            
+            if (!AllowResign)
+            {
+                SendCommand("uct_param_player resign_threshold 0");
+            }
+            // TODO send commands for allowResign, maxgames
             // TODO on IGS, make it so two passes don't end a game
 
             // Time settings
@@ -133,7 +152,7 @@ namespace OmegaGo.Core.AI.Fuego
             SendCommand("go_param_rules");
         }
 
-        private GtpResponse SendCommand(string command)
+        public GtpResponse SendCommand(string command)
         {
             GtpResponse output = _engine.SendCommand(command);
             if (SendAllAiOutputToLog)

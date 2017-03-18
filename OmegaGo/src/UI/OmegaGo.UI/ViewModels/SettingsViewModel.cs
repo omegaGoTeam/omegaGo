@@ -7,10 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.Random;
 using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Game.Styles;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -24,6 +28,11 @@ namespace OmegaGo.UI.ViewModels
         public SettingsViewModel( IGameSettings gameSettings )
         {
             _gameSettings = gameSettings;
+            var program = SelectedAiProgram;
+            this.AssistantSettingsViewModel =
+                new PlayerSettingsViewModel(
+                    new GameCreationViewAiPlayer(program), true);
+                    
         }
 
         /// <summary>
@@ -188,16 +197,44 @@ namespace OmegaGo.UI.ViewModels
         }
 
         // AI
-        public ObservableCollection<IAIProgram> AIPrograms { get; } =
-            new ObservableCollection<IAIProgram>(AISystems.AIPrograms);
-
-        public string SelectedAiProgram
+        public PlayerSettingsViewModel AssistantSettingsViewModel { get; }
+        private IAIProgram ProgramFromClassName(string name)
         {
-            get { return _gameSettings.Assistant.ProgramName; }
+            foreach(var program in AiPrograms)
+            {
+                if (program.GetType().Name == name)
+                {
+                    return program;
+                }
+            }
+            return null;
+        }
+
+        private ObservableCollection<IAIProgram> _aiPrograms = new ObservableCollection<IAIProgram>(
+           AISystems.AIPrograms
+            );
+        public ObservableCollection<IAIProgram> AiPrograms
+        {
+            get { return _aiPrograms; }
+        }
+
+        public IAIProgram SelectedAiProgram
+        {
+
+            get {
+                var program = ProgramFromClassName(_gameSettings.Assistant.ProgramName);
+                if (program == null)
+                {
+                    program = AiPrograms.Last();
+                    _gameSettings.Assistant.ProgramName = program.GetType().Name;
+                }
+                return program;
+            }
             set
             {
-                _gameSettings.Assistant.ProgramName = value;
-                RaisePropertyChanged();
+                _gameSettings.Assistant.ProgramName = value.GetType().Name;
+                AssistantSettingsViewModel.ChangePlayer(new GameCreationViewAiPlayer(value));
+                //RaisePropertyChanged();
             }
         }
 

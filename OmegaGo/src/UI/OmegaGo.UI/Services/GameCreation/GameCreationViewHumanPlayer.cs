@@ -17,7 +17,7 @@ namespace OmegaGo.UI.ViewModels
 
         public override bool IsAi => false;
 
-        public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings)
+        public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings, PlayerSettingsViewModel settings)
         {
             return new HumanPlayerBuilder(color)
                 .Name(color.ToString())

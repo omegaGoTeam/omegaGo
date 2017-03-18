@@ -53,6 +53,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
 
             _uiConnector = new UiConnector(Game.Controller);
+            _uiConnector.AiLog += _uiConnector_AiLog;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -65,6 +66,11 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             
             ObserveDebuggingMessages();
+        }
+
+        private void _uiConnector_AiLog(object sender, string e)
+        {
+            _systemLog.AppendLine("AI: " + e);
         }
 
         ////////////////

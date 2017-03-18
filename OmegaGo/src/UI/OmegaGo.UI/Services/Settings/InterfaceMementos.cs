@@ -75,5 +75,28 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(KgsAutoLogin), () => false); }
             set { SetSetting(nameof(KgsAutoLogin), value); }
         }
+
+        public int FluffyDepth
+        {
+            get { return GetSetting(nameof(FluffyDepth), () => 3, SettingLocality.Roamed); }
+            set { SetSetting(nameof(FluffyDepth), value, SettingLocality.Roamed); }
+        }
+        public int FuegoMaxGames
+        {
+            get { return GetSetting(nameof(FuegoMaxGames), () => 100000, SettingLocality.Roamed); }
+            set { SetSetting(nameof(FuegoMaxGames), value, SettingLocality.Roamed); }
+        }
+        public bool FuegoPonder
+        {
+            get { return GetSetting(nameof(FuegoPonder), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(FuegoPonder), value, SettingLocality.Roamed); }
+        }
+        public bool FuegoAllowResign
+        {
+            get { return GetSetting(nameof(FuegoAllowResign), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(FuegoAllowResign), value, SettingLocality.Roamed); }
+        }
+
+
     }
 }

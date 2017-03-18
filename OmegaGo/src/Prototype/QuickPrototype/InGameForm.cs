@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.Fuego;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
@@ -650,6 +651,18 @@ namespace FormsPrototype
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach(var pl in _game.Controller.Players)
+            {
+                if (pl.Agent is AiAgent)
+                {
+                    var fuego = (FuegoAI) ((AiAgent) pl.Agent).AI;
+                    MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
+                }
+            }
         }
     }
 }
