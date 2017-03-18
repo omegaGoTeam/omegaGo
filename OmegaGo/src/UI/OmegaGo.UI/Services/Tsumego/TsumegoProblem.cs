@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MvvmCross.Platform;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
@@ -8,6 +9,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
@@ -16,7 +18,7 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblem
     {
-        // TODO Petr: does not work at design time
+        // This field causes TsumegoProblem to not work at design time, but who cares.
         protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
 
         /// <summary>
@@ -126,6 +128,43 @@ namespace OmegaGo.UI.Services.Tsumego
                 }
             }
             return new TsumegoProblem(problemName, sgfTree, playerToPlay);
+        }
+
+        public Rectangle GetBoundingBoard()
+        {
+            var board = InitialBoard;
+            int x1 = InitialBoard.Size.Width;
+            int y1 = InitialBoard.Size.Height;
+            int x2 = 0;
+            int y2 = 0;
+            for (int x = 0; x < board.Size.Width; x++)
+            {
+                for (int y= 0;y< board.Size.Height; y++)
+                {
+                    bool filled = board[x, y] != StoneColor.None;
+                    if (filled)
+                    {
+                        if (x < x1) x1 = x;
+                        if (y < y1) y1 = y;
+                        if (x > x2) x2 = x;
+                        if (y > y2) y2 = y;
+                    }
+                }
+            }
+            int safeSpace = 3;
+            // Correction
+            x1 = Math.Max(0, x1 - safeSpace);
+            y1 = Math.Max(0, y1 - safeSpace);
+            x2 = Math.Min(InitialBoard.Size.Width - 1, x2 + safeSpace);
+            y2 = Math.Min(InitialBoard.Size.Height - 1, y2 + safeSpace);
+            int w = x2 - x1 + 1;
+            int h = y2 - y1 + 1;
+            return new Utility.Rectangle(
+                x1,
+                y1,
+                w,
+                h)
+            ;
         }
     }
 }
