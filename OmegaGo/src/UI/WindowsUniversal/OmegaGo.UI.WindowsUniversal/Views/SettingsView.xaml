@@ -115,6 +115,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+            <!--
             <PivotItem Header="{x:Bind Localizer.InputPanel}">
                 
                 <StackPanel Padding="15">
@@ -122,6 +123,7 @@
                               IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
                 </StackPanel>
             </PivotItem>
+            -->
             <PivotItem Header="{x:Bind Localizer.AudioPanel}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Padding="15">
