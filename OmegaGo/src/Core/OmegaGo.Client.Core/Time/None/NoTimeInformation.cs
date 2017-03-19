@@ -8,8 +8,8 @@ namespace OmegaGo.Core.Time.None
 {
     class NoTimeInformation : TimeInformation
     {
-        public override string MainText => "No time limit";
-        public override string SubText => "Relax...";
+        public override string MainText => "";
+        public override string SubText => "No time limit";
         public override TimeControlStyle Style => TimeControlStyle.None;
     }
 }

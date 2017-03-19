@@ -754,10 +754,27 @@ Note that the typo at `'done` (missing apostrophe) is present in the IGS protoco
 ```
 The line starting with the code `20` gives the final score. The board given on the preceding lines shows encoded territory.
 
+## Professional games
+In a professional game streamed by IGS, both usernames may be the same, such as `kansai1` or `kansai2`.
+
+The information with each move sent will be like this:
+
+```
+15 Game 593 I: kansai1 (0 0 -1) vs kansai1 (0 0 -1)
+15  90(B): L16
+9 Game is titled: The 61st Kansai Ki-in Best Player Tournament, 2nd Round, Arakaki Shun 9-dan(W) vs Yokota Shigeaki 9-dan(B)
+2
+1 8
+```
+
+Note the information line with the game title and the time information sent as 0 0 -1.
+
+The official client does show player names and ranks instead of "kansai1" and "kansai2", but not always.
 
 ## Multiple games vs. single game
 
 If you are only in a single game, you don't need to type the game number as an argument to each command.
+
 
 
 ## List of reply codes
