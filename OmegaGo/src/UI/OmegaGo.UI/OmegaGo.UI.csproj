@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
+    <ProjectReference Include="..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
       <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
       <Name>OmegaGo.UI.Localization</Name>
     </ProjectReference>

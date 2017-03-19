@@ -133,7 +133,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FormsFuego\FormsFuego.csproj">
+    <ProjectReference Include="..\FormsFuego\FormsFuego.csproj">
       <Project>{59468521-149e-45d5-ac96-1ad10734e96f}</Project>
       <Name>FormsFuego</Name>
     </ProjectReference>
