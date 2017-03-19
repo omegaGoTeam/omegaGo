@@ -178,8 +178,8 @@
           <target state="final">Pravidla</target>
         </trans-unit>
         <trans-unit id="WhiteHandicap" translate="yes" xml:space="preserve">
-          <source>White Handicap</source>
-          <target state="final">Handicap bílého</target>
+          <source>Handicap</source>
+          <target state="translated">Handicap</target>
         </trans-unit>
         <trans-unit id="Play" translate="yes" xml:space="preserve">
           <source>Play</source>
@@ -779,6 +779,58 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         <trans-unit id="ControlStyle_Lite" translate="yes" xml:space="preserve">
           <source>Lite</source>
           <target state="needs-review-translation">Odlehčené</target>
+        </trans-unit>
+        <trans-unit id="IgsHyperlink" translate="yes" xml:space="preserve">
+          <source>Create a new Pandanet account (opens a browser window)</source>
+          <target state="translated">Vytvořit nový účet na Pandanetu (otevře okno prohlížeče)</target>
+        </trans-unit>
+        <trans-unit id="IgsServerCaption" translate="yes" xml:space="preserve">
+          <source>Pandanet - Internet Go Server</source>
+          <target state="translated">Pandanet - Internet Go Server</target>
+        </trans-unit>
+        <trans-unit id="IgsServerInfo" translate="yes" xml:space="preserve">
+          <source>Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online.</source>
+          <target state="translated">Pandanet doporučujeme, pokud nemáte účet na KGS a nechcete stahovat další aplikaci kvůli registrování.</target>
+        </trans-unit>
+        <trans-unit id="IgsUsernameCaption" translate="yes" xml:space="preserve">
+          <source>Pandanet username</source>
+          <target state="translated">Uživatelské jméno na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="KgsHyperlink" translate="yes" xml:space="preserve">
+          <source>Download the official KGS client</source>
+          <target state="translated">Stáhnout oficiální klient KGS</target>
+        </trans-unit>
+        <trans-unit id="KgsServerCaption" translate="yes" xml:space="preserve">
+          <source>KGS Go Server</source>
+          <target state="translated">KGS Go Server</target>
+        </trans-unit>
+        <trans-unit id="KgsServerInfo" translate="yes" xml:space="preserve">
+          <source>You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User-&gt;Register.</source>
+          <target state="translated">Nejprve si musíte vytvořit účet pomocí oficiálního klienta KGS. Stáhněte si ho na počítač, přihlaste se jako Návštěvník a pak klikněte Uživatel-&gt;Zaregistrovat.</target>
+        </trans-unit>
+        <trans-unit id="KgsUsernameCaption" translate="yes" xml:space="preserve">
+          <source>KGS Username</source>
+          <target state="translated">Uživatelské jméno na KGS</target>
+        </trans-unit>
+        <trans-unit id="LoginAtStartupCaption" translate="yes" xml:space="preserve">
+          <source>Log in whenever you start omegaGo</source>
+          <target state="translated">Přihlásit se při každém spuštění omegaGo</target>
+        </trans-unit>
+        <trans-unit id="LoginButtonCaption" translate="yes" xml:space="preserve">
+          <source>Log In</source>
+          <target state="translated">Přihlásit se</target>
+        </trans-unit>
+        <trans-unit id="LoginFormCaption" translate="yes" xml:space="preserve">
+          <source>Login</source>
+          <target state="translated">Přihlášení</target>
+        </trans-unit>
+        <trans-unit id="PasswordCaption" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="translated">Heslo</target>
+        </trans-unit>
+        <trans-unit id="RememberPasswordCaption" translate="yes" xml:space="preserve">
+          <source>Remember password</source>
+          <target state="translated">Zapamatovat heslo</target>
         </trans-unit>
       </group>
     </body>
