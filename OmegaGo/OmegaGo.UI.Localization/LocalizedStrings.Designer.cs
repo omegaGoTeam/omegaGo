@@ -357,7 +357,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Board Size.
+        ///   Looks up a localized string similar to Board size.
         /// </summary>
         public static string BoardSize {
             get {
@@ -870,6 +870,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to omegaGo rank:.
+        /// </summary>
+        public static string OmegaGoRankColon {
+            get {
+                return ResourceManager.GetString("OmegaGoRankColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to On-line game.
         /// </summary>
         public static string OnlineGame {
@@ -947,6 +956,15 @@ namespace OmegaGo.UI.Localization {
         public static string Points {
             get {
                 return ResourceManager.GetString("Points", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points:.
+        /// </summary>
+        public static string PointsColon {
+            get {
+                return ResourceManager.GetString("PointsColon", resourceCulture);
             }
         }
         

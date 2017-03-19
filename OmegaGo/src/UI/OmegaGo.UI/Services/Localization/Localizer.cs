@@ -196,6 +196,8 @@ namespace OmegaGo.UI.Services.Localization
         public string TsumegoProblemsSolved => LocalizeCaller();
         public string Points => LocalizeCaller();
         public string OmegaGoRank => LocalizeCaller();
+        public string PointsColon => LocalizeCaller();
+        public string OmegaGoRankColon => LocalizeCaller();
 
         // Board settings control strings
         public string BoardSettings => LocalizeCaller();
