@@ -7,44 +7,30 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
-    class GroupState
+    public class GroupState
     {
-        private static Group[] _groups;
-        private static int[,] _groupMap;
-        private static GameBoardSize _gbSize;
-        private static GameBoard _boardState;
-
-        public static Group[] Groups
+        private Group[] _groups;
+        private int[,] _groupMap;
+        
+        internal Group[] Groups
         {
             get { return _groups; }
         }
 
-        public static int[,] GroupMap
+        internal int[,] GroupMap
         {
             get { return _groupMap; }
-        }
-
-        public static GameBoardSize BoardSize
-        {
-            get { return _gbSize; }
-        }
-
-        public static GameBoard BoardState
-        {
-            get { return _boardState; }
         }
 
         public GroupState(GameBoardSize gbSize)
         {
             _groups = new Group[gbSize.Height * gbSize.Width];
-            _gbSize = gbSize;
+            _groupMap = new int[gbSize.Width, gbSize.Height];
         }
-
-        internal void SetState(Group[] groups, int[,] groupMap, GameBoard boardState)
+        internal void SetState(Group[] groups, int[,] groupMap)
         {
             _groups = groups;
             _groupMap = groupMap;
-            _boardState = boardState;
         }
 
         internal void CreateNewGroup(StoneColor color, Position position)
@@ -68,11 +54,11 @@ namespace OmegaGo.Core.Rules
 
         private void FillGroupMap()
         {
-            for (int i = 0; i < _gbSize.Width; i++)
-                for (int j = 0; j < _gbSize.Height; j++)
+            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
+                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
                 {
-                    if (_boardState[i, j] != StoneColor.None && _groupMap[i, j] == 0)
-                        CreateNewGroup(_boardState[i, j], new Position(i, j));
+                    if (RulesetInfo.BoardState[i, j] != StoneColor.None && _groupMap[i, j] == 0)
+                        CreateNewGroup(RulesetInfo.BoardState[i, j], new Position(i, j));
                 }
         }
 
@@ -84,11 +70,11 @@ namespace OmegaGo.Core.Rules
             foreach (Group g in _groups)
                 g.DecreaseLibertyCount(g.LibertyCount);
 
-            for (int i = 0; i < _gbSize.Width; i++)
+            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
             {
-                for (int j = 0; j < _gbSize.Height; j++)
+                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
                 {
-                    if (_boardState[i, j] == StoneColor.None)
+                    if (RulesetInfo.BoardState[i, j] == StoneColor.None)
                     {
                         int groupID = 0;
                         //left group
@@ -97,7 +83,7 @@ namespace OmegaGo.Core.Rules
                             groupID = _groupMap[i - 1, j];
                             _groups[groupID].IncreaseLibertyCount(1);
                         }
-                        else if (i < _gbSize.Width - 1 && _groupMap[i + 1, j] != 0) //right group
+                        else if (i < RulesetInfo.BoardSize.Width - 1 && _groupMap[i + 1, j] != 0) //right group
                         {
                             groupID = _groupMap[i + 1, j];
                             _groups[groupID].IncreaseLibertyCount(1);
@@ -107,7 +93,7 @@ namespace OmegaGo.Core.Rules
                             groupID = _groupMap[i, j - 1];
                             _groups[groupID].IncreaseLibertyCount(1);
                         }
-                        else if (j < _gbSize.Height - 1 && _groupMap[i, j + 1] != 0) //upper group
+                        else if (j < RulesetInfo.BoardSize.Height - 1 && _groupMap[i, j + 1] != 0) //upper group
                         {
                             groupID = _groupMap[i, j + 1];
                             _groups[groupID].IncreaseLibertyCount(1);

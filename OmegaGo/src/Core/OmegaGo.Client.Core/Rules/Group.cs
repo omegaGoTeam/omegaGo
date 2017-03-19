@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Rules
             _groupColor = color;
             _libertyCount = 0;
             _members = new List<Position>();
-            _checkedInters = new bool[GroupState.BoardSize.Width, GroupState.BoardSize.Height];
+            _checkedInters = new bool[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
         }
 
         public int ID
@@ -57,7 +57,7 @@ namespace OmegaGo.Core.Rules
                 List<int> neighbours= GetNeighbourGroups(position);
                 foreach (int group in neighbours)
                 {
-                    GroupState.Groups[group].DecreaseLibertyCount(1);
+                    RulesetInfo.GroupState.Groups[group].DecreaseLibertyCount(1);
                 }
             }
         }
@@ -75,14 +75,14 @@ namespace OmegaGo.Core.Rules
             otherGroup.ChangeGroupMembersID(otherGroup.ID, _members);
             otherGroup.AddMembersToGroupList(_members);
 
-            GroupState.Groups[ID] = null;
+            RulesetInfo.GroupState.Groups[ID] = null;
         }
 
         internal void ChangeGroupMembersID(int id,List<Position> memberList)
         {
             foreach (Position member in memberList)
             {
-                GroupState.GroupMap[member.X, member.Y] = id;
+                RulesetInfo.GroupState.GroupMap[member.X, member.Y] = id;
             }
         }
 
@@ -97,6 +97,17 @@ namespace OmegaGo.Core.Rules
 
         internal void DeleteGroup()
         {
+            GameBoard prevBoard = new GameBoard(RulesetInfo.BoardState);
+            int[,] prevGroupMap = RulesetInfo.GroupState.GroupMap; //!!!TODO Aniko: clone
+            Group[] prevGroups = RulesetInfo.GroupState.Groups;
+            foreach (Position member in _members)
+            {
+                prevBoard[member.X, member.Y] = StoneColor.None;
+                prevGroupMap[member.X, member.Y] = 0;
+            }
+
+            prevGroups[_id] = null;
+
 
         }
 
@@ -123,28 +134,28 @@ namespace OmegaGo.Core.Rules
             Position newp = new Position();
 
             //has same unchecked right neighbour
-            if (position.X < GroupState.BoardSize.Width - 1 && GroupState.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
+            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
             {
                 newp.X = position.X + 1;
                 newp.Y = position.Y;
                 DiscoverGroup(newp);
             }
             //has same unchecked upper neighbour
-            if (position.Y < GroupState.BoardSize.Height - 1 && GroupState.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
+            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
             {
                 newp.X = position.X;
                 newp.Y = position.Y + 1;
                 DiscoverGroup( newp);
             }
             //has same unchecked left neighbour
-            if (position.X > 0 && GroupState.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
+            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
             {
                 newp.X = position.X - 1;
                 newp.Y = position.Y;
                 DiscoverGroup( newp);
             }
             //has same unchecked bottom neighbour
-            if (position.Y > 0 && GroupState.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
+            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
             {
                 newp.X = position.X;
                 newp.Y = position.Y - 1;
@@ -156,10 +167,10 @@ namespace OmegaGo.Core.Rules
         {
             List<int> neighbours = new List<int>();
             StoneColor opponent = StoneColorExtensions.GetOpponentColor(_groupColor);
-            int left = (position.X == 0) ? 0 : GroupState.GroupMap[position.X - 1, position.Y];
-            int right = (position.X == GroupState.BoardSize.Width - 1) ? 0 : GroupState.GroupMap[position.X + 1, position.Y];
-            int bottom = (position.Y == 0) ? 0 : GroupState.GroupMap[position.X, position.Y - 1];
-            int upper = (position.Y == GroupState.BoardSize.Height - 1) ? 0 : GroupState.GroupMap[position.X, position.Y + 1];
+            int left = (position.X == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X - 1, position.Y];
+            int right = (position.X == RulesetInfo.BoardSize.Width - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X + 1, position.Y];
+            int bottom = (position.Y == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y - 1];
+            int upper = (position.Y == RulesetInfo.BoardSize.Height - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y + 1];
             if (left > 0)
                 neighbours.Add(left);
             if (right > 0)

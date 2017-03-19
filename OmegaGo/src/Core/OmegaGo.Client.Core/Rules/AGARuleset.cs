@@ -28,9 +28,9 @@ namespace OmegaGo.Core.Rules
         {
             Scores scores;
             if (_countingType == CountingType.Area)
-                scores = CountArea(currentBoard);
+                scores = CountArea();
             else
-                scores = CountTerritory(currentBoard);
+                scores = CountTerritory();
 
             scores.WhiteScore += _komi+_whiteScore;
             scores.BlackScore += _blackScore;
@@ -75,19 +75,19 @@ namespace OmegaGo.Core.Rules
             return MoveResult.Legal;
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history)
         {
             _isPreviousMovePass = false;
 
-            if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            if (IsSelfCapture(moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;
             }
-            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsKo(moveToMake, history) == MoveResult.Ko)
             {
                 return MoveResult.Ko;
             }
-            else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsSuperKo(moveToMake, history) == MoveResult.Ko)
             {
                 return MoveResult.SuperKo;
             }

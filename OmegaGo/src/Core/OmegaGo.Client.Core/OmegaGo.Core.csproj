@@ -228,6 +228,7 @@
     <Compile Include="Rules\GroupState.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Rules\RulesetInfo.cs" />
     <Compile Include="Rules\RulesetType.cs" />
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Rules\Scores.cs" />

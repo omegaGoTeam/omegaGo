@@ -38,6 +38,11 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public GameBoard BoardState { get; set; }
 
+        /// <summary>
+        /// Describes the state of stone groups on the game board.
+        /// </summary>
+        public GroupState GroupState { get; set; }
+
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 
         public List<KeyValuePair<Position, string>> Labels { get; set; }

@@ -33,8 +33,8 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="player">The player who wants to make a move.</param>
         /// <param name="history">All previous full board positions.</param>
-        /// <returns>List of legal moves.</returns>
-        List<Position> GetAllLegalMoves(StoneColor player, GameBoard[] history);
+        /// <returns>Map of move result.</returns>
+        MoveResult[,] GetAllLegalMoves(StoneColor player, GameBoard[] history);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.

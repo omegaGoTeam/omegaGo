@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Rules
 
         public override Scores CountScore(GameBoard currentBoard)
         {
-            var scores = CountArea(currentBoard);
+            var scores = CountArea();
 
             scores.WhiteScore += _komi + _whiteScore;
             scores.BlackScore += _blackScore;
@@ -59,19 +59,19 @@ namespace OmegaGo.Core.Rules
 
         }
 
-        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
+        protected override MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history)
         {
             _isPreviousMovePass = false;
 
-            if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            if (IsSelfCapture(moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;
             }
-            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsKo(moveToMake, history) == MoveResult.Ko)
             {
                 return MoveResult.Ko;
             }
-            else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsSuperKo(moveToMake, history) == MoveResult.Ko)
             {
                 return MoveResult.SuperKo;
             }
