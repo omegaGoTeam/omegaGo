@@ -63,7 +63,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
+    <ProjectReference Include="..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
       <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
       <Name>OmegaGo.Core</Name>
     </ProjectReference>
