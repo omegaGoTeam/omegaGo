@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 
         public IgsGameBuilder(IgsGameInfo info)
         {
-            this._info = info;
+            _info = info;
             this.BoardSize(info.BoardSize);
             this.CountingType(Rules.CountingType.Territory);
             this.HandicapPlacementType(Phases.HandicapPlacement.HandicapPlacementType.Fixed);
@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 
         public IgsGameBuilder Name(string gameName)
         {
-            this._info.GameName = gameName;
+            _info.GameName = gameName;
             return this;
         }
     }
