@@ -65,6 +65,5 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public CountingType CountingType { get; set; }
 
-        public int PreplayedMoveCount { get; set; } = 0;
     }
 }

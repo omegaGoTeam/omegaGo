@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -175,7 +176,7 @@ namespace OmegaGo.UI.ViewModels
                         (humanPlayed
                             ? _gameSettings.Audio.PlayWhenYouPlaceStone
                             : _gameSettings.Audio.PlayWhenOthersPlaceStone) &&
-                        (state.MoveNumber > Game.Controller.MuteSoundsUntilMove);
+                        (!(Game.Info is RemoteGameInfo) || state.MoveNumber > ((RemoteGameInfo) Game.Info).PreplayedMoveCount);
                     if (notificationDemanded)
                     {
                         if (state.Move.Kind == MoveKind.PlaceStone)

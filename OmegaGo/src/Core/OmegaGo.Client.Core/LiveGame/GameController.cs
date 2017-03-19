@@ -52,8 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// The player on turn.
         /// </summary>
         private GamePlayer _turnPlayer;
-
-        public int MuteSoundsUntilMove { get; }
         /// <summary>
         /// Creates the game controller.
         /// </summary>
@@ -71,7 +69,6 @@ namespace OmegaGo.Core.Modes.LiveGame
             AssignPlayers();
             GameTree = new GameTree(ruleset);
             InitGameTree();
-            MuteSoundsUntilMove = gameInfo.PreplayedMoveCount;
         }
 
         /// <summary>
