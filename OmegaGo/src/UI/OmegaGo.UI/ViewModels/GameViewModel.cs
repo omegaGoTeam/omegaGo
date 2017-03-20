@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -180,7 +181,8 @@ namespace OmegaGo.UI.ViewModels
                     bool notificationDemanded =
                         (humanPlayed
                             ? _gameSettings.Audio.PlayWhenYouPlaceStone
-                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone) &&
+                        (!(Game.Info is RemoteGameInfo) || state.MoveNumber > ((RemoteGameInfo) Game.Info).PreplayedMoveCount);
                     if (notificationDemanded)
                     {
                         if (state.Move.Kind == MoveKind.PlaceStone)

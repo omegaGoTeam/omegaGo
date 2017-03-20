@@ -14,16 +14,15 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public IgsLoginForm(Localizer localizer, IGameSettings settings) : base(settings, localizer)
         {
         }
-        
-        public override string HyperlinkCaption => "Create a new Pandanet account(opens a browser window)";
+
+        public override string HyperlinkCaption => Localizer.IgsHyperlink;
         public override Uri RegistrationUri => new Uri(@"http://pandanet-igs.com/igs_users/register");
 
         public override string ServerInformation
-            =>
-                "Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online."
-            ;
-        public override string ServerName => "Pandanet - Internet Go Server";
-        public override string UsernameCaption => "Pandanet username";
+            => Localizer.IgsServerInfo;
+
+        public override string ServerName => Localizer.IgsServerCaption;
+        public override string UsernameCaption => Localizer.IgsUsernameCaption;
 
         protected override string RetrievePassword()
         {

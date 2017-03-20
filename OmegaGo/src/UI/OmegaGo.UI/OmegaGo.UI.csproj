@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
+    <ProjectReference Include="..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
       <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
       <Name>OmegaGo.UI.Localization</Name>
     </ProjectReference>
@@ -69,6 +69,8 @@
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
+    <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
+    <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -100,6 +102,7 @@
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
+    <Compile Include="Services\PasswordVault\IPasswordVaultService.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />

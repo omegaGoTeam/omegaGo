@@ -17,5 +17,12 @@ namespace OmegaGo.Core.Online.Common
         protected RemoteGameInfo(PlayerInfo whitePlayerInfo, PlayerInfo blackPlayerInfo, GameBoardSize boardSize, RulesetType rulesetType, int numberOfHandicapStones, HandicapPlacementType handicapPlacementType, float komi, CountingType countingType) : base(whitePlayerInfo, blackPlayerInfo, boardSize, rulesetType, numberOfHandicapStones, handicapPlacementType, komi, countingType)
         {
         }
+
+        /// <summary>
+        /// Gets or sets the number of moves that have been made prior to the opening of this game by this client.
+        /// Sound effects will be suppressed for moves up to this number, otherwise we would have a cacophony of sounds
+        /// as the game is opened. 
+        /// </summary>
+        public int PreplayedMoveCount { get; set; } = 0;
     }
 }

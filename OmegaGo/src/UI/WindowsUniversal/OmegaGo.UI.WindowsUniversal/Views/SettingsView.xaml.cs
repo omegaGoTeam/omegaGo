@@ -30,7 +30,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SettingsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            this.FullscreenMode.IsChecked = ApplicationView.GetForCurrentView().IsFullScreenMode;
+            FullscreenMode.IsChecked = ApplicationView.GetForCurrentView().IsFullScreenMode;
         }
 
         private void FullscreenMode_Unchecked(object sender, Windows.UI.Xaml.RoutedEventArgs e)

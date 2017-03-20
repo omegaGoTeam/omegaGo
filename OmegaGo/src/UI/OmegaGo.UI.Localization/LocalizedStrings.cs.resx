@@ -142,7 +142,7 @@
     <value>Pravidla</value>
   </data>
   <data name="WhiteHandicap" xml:space="preserve">
-    <value>Handicap bílého</value>
+    <value>Handicap</value>
   </data>
   <data name="Play" xml:space="preserve">
     <value>Hrát</value>
@@ -542,5 +542,44 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Odlehčené</value>
+  </data>
+  <data name="IgsHyperlink" xml:space="preserve">
+    <value>Vytvořit nový účet na Pandanetu (otevře okno prohlížeče)</value>
+  </data>
+  <data name="IgsServerCaption" xml:space="preserve">
+    <value>Pandanet - Internet Go Server</value>
+  </data>
+  <data name="IgsServerInfo" xml:space="preserve">
+    <value>Pandanet doporučujeme, pokud nemáte účet na KGS a nechcete stahovat další aplikaci kvůli registrování.</value>
+  </data>
+  <data name="IgsUsernameCaption" xml:space="preserve">
+    <value>Uživatelské jméno na Pandanetu</value>
+  </data>
+  <data name="KgsHyperlink" xml:space="preserve">
+    <value>Stáhnout oficiální klient KGS</value>
+  </data>
+  <data name="KgsServerCaption" xml:space="preserve">
+    <value>KGS Go Server</value>
+  </data>
+  <data name="KgsServerInfo" xml:space="preserve">
+    <value>Nejprve si musíte vytvořit účet pomocí oficiálního klienta KGS. Stáhněte si ho na počítač, přihlaste se jako Návštěvník a pak klikněte Uživatel-&gt;Zaregistrovat.</value>
+  </data>
+  <data name="KgsUsernameCaption" xml:space="preserve">
+    <value>Uživatelské jméno na KGS</value>
+  </data>
+  <data name="LoginAtStartupCaption" xml:space="preserve">
+    <value>Přihlásit se při každém spuštění omegaGo</value>
+  </data>
+  <data name="LoginButtonCaption" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="LoginFormCaption" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="PasswordCaption" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="RememberPasswordCaption" xml:space="preserve">
+    <value>Zapamatovat heslo</value>
   </data>
 </root>

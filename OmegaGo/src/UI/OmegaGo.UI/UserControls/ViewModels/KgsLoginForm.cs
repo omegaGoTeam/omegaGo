@@ -14,18 +14,14 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
         }
 
-        public override string HyperlinkCaption => "Download the official KGS client";
+        public override string HyperlinkCaption => Localizer.KgsHyperlink;
 
         public override Uri RegistrationUri => new Uri("http://files.gokgs.com/javaBin/cgoban.exe");
 
-        public override string ServerInformation
-            =>
-                "You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User->Register."
-            ;
+        public override string ServerInformation => Localizer.KgsServerInfo;
+        public override string ServerName => Localizer.KgsServerCaption;
 
-        public override string ServerName => "KGS Go Server";
-
-        public override string UsernameCaption => "KGS Username";
+        public override string UsernameCaption => Localizer.KgsUsernameCaption;
         protected override string RetrievePassword()
         {
             return Settings.Interface.KgsPassword;

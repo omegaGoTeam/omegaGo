@@ -45,6 +45,7 @@ namespace OmegaGo.Core.Online.Igs
         public int IgsIndex { get; private set; }
 
         public int NumberOfObservers { get; set; }
+        public string GameName { get; set; }
 
         public override string ToString()
         {
