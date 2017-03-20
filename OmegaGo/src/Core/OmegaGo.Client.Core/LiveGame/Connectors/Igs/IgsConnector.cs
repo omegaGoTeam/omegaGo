@@ -65,8 +65,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             }
             var targetPlayer = _gameController.Players[move.WhoMoves];
             var igsAgent = targetPlayer.Agent as IgsAgent;
-            if (igsAgent == null) throw new InvalidOperationException("Server sent a move for non-IGS agent");
-            igsAgent.MoveFromServer(moveIndex, move);
+            igsAgent?.MoveFromServer(moveIndex, move);
         }
 
         /// <summary>

@@ -45,7 +45,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Checks if the player is a local human player
         /// </summary>
-        public bool IsHuman => Agent.Type == AgentType.Human;       
+        public bool IsHuman => Agent.Type == AgentType.Human;
+
+        public bool IsLocal => Agent.Type != AgentType.Remote;     
 
         /// <summary>
         /// Assigns the player to a game
