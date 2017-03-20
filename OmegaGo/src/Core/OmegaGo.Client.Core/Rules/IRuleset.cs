@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">The move of a player.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
-        MoveResult IsLegalMove(Move moveToMake, GameBoard[] history);
+        MoveResult IsLegalMove(GameTreeNode currentNode, Move moveToMake);
 
         /// <summary>
         /// Gets all moves that can be legally made by the PLAYER on the board in a game with the specified HISTORY.
@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="player">The player who wants to make a move.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>Map of move result.</returns>
-        MoveResult[,] GetAllLegalMoves(StoneColor player, GameBoard[] history);
+        MoveResult[,] GetAllLegalMoves(GameTreeNode currentNode);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        MoveProcessingResult ProcessMove(Move moveToMake, GameBoard[] history);
+        MoveProcessingResult ProcessMove(GameTreeNode currentNode, Move moveToMake);
         
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.

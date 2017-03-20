@@ -105,9 +105,9 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">The move of a player.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>The result of legality check.</returns>
-        public MoveResult IsLegalMove(Move moveToMake, GameBoard[] history)
+        public MoveResult IsLegalMove(GameTreeNode currentNode, Move moveToMake)
         {
-            MoveProcessingResult result = ProcessMove(moveToMake, history);
+            MoveProcessingResult result = ProcessMove(currentNode, moveToMake);
             return result.Result;
         }
 
@@ -117,13 +117,21 @@ namespace OmegaGo.Core.Rules
         /// <param name="player">The player who wants to make a move.</param>
         /// <param name="history">All previous full board positions.</param>
         /// <returns>List of legal moves.</returns>
-        public MoveResult[,] GetAllLegalMoves(StoneColor player, GameBoard[] history)
+        public MoveResult[,] GetAllLegalMoves(GameTreeNode currentNode)
         {
+            GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
+            StoneColor player = currentNode.Move.WhoMoves.GetOpponentColor();
             MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
-            //TODO Aniko: set RulesetInfo.BoardState
+            
             for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
                 for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
                 {
+                    //set Ruleset state
+                    GroupState groupState = new GroupState(currentNode.GroupState); //clone
+                    GameBoard boardState = new GameBoard(currentNode.BoardState); //clone
+                    RulesetInfo.GroupState = groupState;
+                    RulesetInfo.BoardState = boardState;
+
                     Move move = Move.PlaceStone(player, new Position(x, y));
                     if (IsPositionOccupied(new Position(x,y)) == MoveResult.OccupiedPosition)
                     {
@@ -146,6 +154,9 @@ namespace OmegaGo.Core.Rules
                     }
                 }
 
+            RulesetInfo.GroupState = currentNode.GroupState;
+            RulesetInfo.BoardState = currentNode.BoardState;
+            
             return moveResults;
         }
 
@@ -171,17 +182,24 @@ namespace OmegaGo.Core.Rules
         /// <param name="moveToMake">Move to check.</param>
         /// <param name="history">List of previous game boards.</param>
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        public MoveProcessingResult ProcessMove(Move moveToMake, GameBoard[] history)
+        public MoveProcessingResult ProcessMove(GameTreeNode currentNode, Move moveToMake)
         {
-            GameBoard previousBoard = new GameBoard(history.Last());
-            GameBoard currentBoard = new GameBoard(previousBoard);
-            Position position = moveToMake.Coordinates;
+            GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
             StoneColor player = moveToMake.WhoMoves;
+            Position position = moveToMake.Coordinates;
+            
+            //set Ruleset state
+            GroupState groupState = new GroupState(currentNode.GroupState); //clone
+            GameBoard previousBoard = new GameBoard(currentNode.BoardState); //clone
+            GameBoard currentBoard = new GameBoard(currentNode.BoardState);
+            RulesetInfo.GroupState = groupState;
+            RulesetInfo.BoardState = currentBoard;
 
             MoveProcessingResult processingResult = new MoveProcessingResult
             {
                 Captures = new List<Position>(),
-                NewBoard = previousBoard
+                NewBoard = previousBoard,
+                NewGroupState = currentNode.GroupState
             };
 
             //1. step: check intersection
@@ -217,10 +235,16 @@ namespace OmegaGo.Core.Rules
                 MoveResult r = CheckSelfCaptureKoSuperko(moveToMake, history);
 
                 if (r == MoveResult.Legal)
-                    processingResult.NewBoard = currentBoard;
+                {
+                    processingResult.NewBoard = RulesetInfo.BoardState;
+                    processingResult.NewGroupState = RulesetInfo.GroupState;
+                }
                 else
-                    processingResult.NewBoard = previousBoard;
-
+                {
+                    RulesetInfo.BoardState = previousBoard;
+                    RulesetInfo.GroupState = currentNode.GroupState;
+                }
+                
                 processingResult.Result = r;
                 return processingResult;
             }
@@ -233,6 +257,8 @@ namespace OmegaGo.Core.Rules
         /// <param name="board">The current game board.</param>
         public Territory[,] DetermineTerritory(GameBoard board)
         {
+            RulesetInfo.BoardState = new GameBoard(board);
+
             Territory[,] regions = new Territory[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
             {

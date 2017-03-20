@@ -20,6 +20,25 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
+        /// Initializes a new <see cref="GameBoard"/> as a copy of the given game board.
+        /// </summary>
+        /// <param name="gameBoard">The game board to copy.</param>
+        public GroupState(GroupState groupState)
+            : this(RulesetInfo.BoardSize)
+        {
+            for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
+            {
+                for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
+                {
+                    GroupMap[x, y] = groupState.GroupMap[x, y];
+                }
+            }
+
+            for (int i = 0; i < groupState.Groups.Length; i++)
+                Groups[i] = groupState.Groups[i];
+        }
+
+        /// <summary>
         /// Creates new group intance.
         /// </summary>
         /// <param name="color">Color of stones in group.</param>
