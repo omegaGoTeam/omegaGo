@@ -54,7 +54,6 @@ namespace OmegaGo.Core.Rules
             if (otherGroup.GroupColor != _groupColor)
                 throw new Exception("The colors of groups do not equal");
 
-            //choose group with smaller ID
             otherGroup.IncreaseLibertyCount(_libertyCount);
             otherGroup.ChangeGroupMembersID(otherGroup.ID, _members);
             otherGroup.AddMembersToGroupList(_members);
@@ -87,7 +86,7 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Adds a position to group's member list. Sets the liberty.
+        /// Adds a position to group's member list and group map. Sets the liberty.
         /// </summary>
         /// <param name="position">Position for adding to member list.</param>
         internal void AddStoneToEmptyGroup(Position position)
@@ -96,6 +95,7 @@ namespace OmegaGo.Core.Rules
                 throw new Exception("Cannot add stone to non empty group. Use join.");
 
             _members.Add(position);
+            RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
             _libertyCount = GetLiberty(position);
             _checkedInters[position.X, position.Y] = true;
         }
@@ -121,6 +121,7 @@ namespace OmegaGo.Core.Rules
         
         /// <summary>
         /// Delete the group from group map, group list and board.
+        /// Updates the liberties.
         /// </summary>
         internal void DeleteGroup()
         {
@@ -192,6 +193,7 @@ namespace OmegaGo.Core.Rules
             if (!_checkedInters[position.X, position.Y])
             {
                 _members.Add(position);
+                RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
                 _checkedInters[position.X, position.Y] = true;
             }
             Position newp = new Position();
@@ -231,7 +233,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="position">Coordinates of intersection</param>
         /// <returns>IDs of groups around the intersection</returns>
-        private List<int> GetNeighbourGroups(Position position)
+        internal List<int> GetNeighbourGroups(Position position)
         {
             List<int> neighbours = new List<int>();
             int left = (position.X == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X - 1, position.Y];

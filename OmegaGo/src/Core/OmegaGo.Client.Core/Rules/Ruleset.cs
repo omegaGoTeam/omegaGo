@@ -132,14 +132,15 @@ namespace OmegaGo.Core.Rules
                     else
                     {
                         //2. step: add stone
-                        RulesetInfo.BoardState[x, y] = player;
+                        RulesetInfo.GroupState.AddStoneToBoard(move.Coordinates,move.WhoMoves);
+                        
                         //3. step: find captures and remove prisoners
-                        //TODO Aniko: set RulesetInfo
-                        List<Position> captures = CheckCapture(move);
-                        foreach(Position p in captures)
+                        List<int> capturedGroups = CheckCapturedGroups(move);
+                        foreach (int groupID in capturedGroups)
                         {
-                            RulesetInfo.BoardState[p.X, p.Y] = StoneColor.None;
+                            RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
                         }
+
                         //4. step: check selfcapture, ko
                         moveResults[x, y] = CheckSelfCaptureKo(move, history);
                     }
@@ -202,16 +203,19 @@ namespace OmegaGo.Core.Rules
             else
             {
                 //2. step: add stone
-                currentBoard[moveToMake.Coordinates.X, moveToMake.Coordinates.Y] = player;
+                RulesetInfo.GroupState.AddStoneToBoard(moveToMake.Coordinates, moveToMake.WhoMoves);
+
                 //3. step: find captures and remove prisoners
-                //TODO Aniko: set RulesetInfo
-                processingResult.Captures = CheckCapture(moveToMake);
-                foreach (Position p in processingResult.Captures)
+                List<int> capturedGroups = CheckCapturedGroups(moveToMake);
+                foreach (int groupID in capturedGroups)
                 {
-                    currentBoard[p.X, p.Y] = StoneColor.None;
+                    processingResult.Captures.AddRange(RulesetInfo.GroupState.Groups[groupID].Members);
+                    RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
                 }
-                //4. step: check selfcapture, ko, superko
+                
+                //4. step: check selfcapture, ko
                 MoveResult r = CheckSelfCaptureKoSuperko(moveToMake, history);
+
                 if (r == MoveResult.Legal)
                     processingResult.NewBoard = currentBoard;
                 else
@@ -332,15 +336,7 @@ namespace OmegaGo.Core.Rules
         protected MoveResult IsSelfCapture(Move moveToMake)
         {
             Position p = moveToMake.Coordinates;
-            List<Position> group = new List<Position>();
-            bool groupHasLiberty = false;
-            //TODO Aniko: implement
-            /*_checkedInters = new bool[_boardWidth, _boardHeight];
-
-            currentBoard[p.X, p.Y] = moveToMake.WhoMoves;
-            _liberty = FillLibertyTable(currentBoard);
-            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);*/
-            if (groupHasLiberty)
+            if (CheckGroupLiberty(GetGroupID(p)))
             {
                 return MoveResult.Legal;
             }
@@ -369,67 +365,66 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentBoard">The state of game board after the player's move.</param>
         /// <param name="moveToMake">The player's move</param>
         /// <returns>List of prisoners/captured stones.</returns>
-        protected List<Position> CheckCapture(Move moveToMake)
+        protected List<int> CheckCapturedGroups(Move moveToMake)
         {
-            //TODO Aniko: implement
-           
-            /*_liberty = FillLibertyTable(currentBoard);
-            _checkedInters = new bool[_boardWidth, _boardHeight];
             int currentX = moveToMake.Coordinates.X;
             int currentY = moveToMake.Coordinates.Y;
             StoneColor opponentColor = moveToMake.WhoMoves.GetOpponentColor();
+            List<int> capturedGroups = new List<int>();
+            int groupID;
 
             //check whether neighbour groups have liberty
             //right neighbour
-            if (currentX < _boardWidth - 1 && currentBoard[currentX + 1, currentY] == opponentColor && !_liberty[currentX + 1, currentY])
-                CheckNeighbourGroup(currentX + 1, currentY, currentBoard);
+            if (currentX < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[currentX + 1, currentY] == opponentColor)
+            {
+                groupID = GetGroupID(new Position(currentX + 1, currentY));
+                if (!CheckGroupLiberty(groupID))
+                    capturedGroups.Add(groupID);
+            }
 
             //left neighbour
-            if (currentX > 0 && currentBoard[currentX - 1, currentY] == opponentColor && !_liberty[currentX - 1, currentY])
-                CheckNeighbourGroup(currentX - 1, currentY, currentBoard);
+            if (currentX > 0 && RulesetInfo.BoardState[currentX - 1, currentY] == opponentColor)
+            {
+                groupID = GetGroupID(new Position(currentX - 1, currentY));
+                if (!CheckGroupLiberty(groupID))
+                    capturedGroups.Add(groupID);
+            }
 
             //upper neighbour
-            if (currentY < _boardHeight - 1 && currentBoard[currentX, currentY + 1] == opponentColor && !_liberty[currentX, currentY + 1])
-                CheckNeighbourGroup(currentX, currentY + 1, currentBoard);
-
+            if (currentY < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[currentX, currentY + 1] == opponentColor)
+            {
+                groupID = GetGroupID(new Position(currentX, currentY + 1));
+                if (!CheckGroupLiberty(groupID))
+                    capturedGroups.Add(groupID);
+            }
             //bottom neighbour
-            if (currentY > 0 && currentBoard[currentX, currentY - 1] == opponentColor && !_liberty[currentX, currentY - 1])
-                CheckNeighbourGroup(currentX, currentY - 1, currentBoard);
-                */
-            return new List<Position>();
+            if (currentY > 0 && RulesetInfo.BoardState[currentX, currentY - 1] == opponentColor)
+            {
+                groupID = GetGroupID(new Position(currentX, currentY - 1));
+                if(!CheckGroupLiberty(groupID))
+                    capturedGroups.Add(groupID);
+            }
+
+            return capturedGroups;
         }
-        
+
+        protected int GetGroupID(Position position)
+        {
+            return RulesetInfo.GroupState.GroupMap[position.X, position.Y];
+        }
+
         /// <summary>
         /// Checks the liberty of surrounding groups.
         /// </summary>
         /// <param name="x">Letter-based coordinate of position.</param>
         /// <param name="y">Number-based coordinate of position.</param>
         /// <param name="currentBoard">The state of game board after the player's move.</param>
-        protected void CheckNeighbourGroup(int x, int y)
+        protected bool CheckGroupLiberty(int groupID)
         {
-            List<Position> group = new List<Position>();
-            bool groupHasLiberty = false;
-            Position p = new Position();
-
-            //TODO Aniko: implement
-            /*p.X = x;
-            p.Y = y;
-            GetGroup(ref group, ref groupHasLiberty, p, currentBoard);
-
-            //if group has liberty, setup true liberty for all; else remove the group from the board
-            for (int k = 0; k < group.Count; k++)
-            {
-                Position groupMember = group.ElementAt(k);
-                if (groupHasLiberty)
-                {
-                    _liberty[groupMember.X, groupMember.Y] = true;
-                }
-                else
-                {
-                    _captures.Add(groupMember);
-                }
-            }*/
-
+            if (RulesetInfo.GroupState.Groups[groupID].LibertyCount != 0)
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
