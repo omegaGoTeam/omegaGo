@@ -52,6 +52,10 @@ namespace OmegaGo.UI.Services.Online
                 {
                     _kgsConnection = new KgsConnection();
                     _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
+                    Mvx.Resolve<ITimerService>().StartTimer(TimeSpan.FromSeconds(10), async () =>
+                    {
+                        await _kgsConnection.Commands.WakeUpAsync();
+                    });
                 }
                 return _kgsConnection;
             }
