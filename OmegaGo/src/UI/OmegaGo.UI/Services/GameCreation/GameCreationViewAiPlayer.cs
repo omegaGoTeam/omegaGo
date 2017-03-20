@@ -35,7 +35,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings, PlayerSettingsViewModel settings)
         {
-            IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(this._ai.GetType());
+            IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(_ai.GetType());
             if (settings.IsFuego)
             {
                 FuegoAI fuego = (FuegoAI) newInstance;
