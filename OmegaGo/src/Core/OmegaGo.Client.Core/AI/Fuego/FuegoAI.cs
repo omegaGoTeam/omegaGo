@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 
@@ -13,7 +11,7 @@ namespace OmegaGo.Core.AI.Fuego
     /// The Fuego AI is a Monte Carlo advanced Go intelligence.
     /// </summary>
     /// <seealso cref="AIProgramBase" />
-    internal class FuegoAI : AIProgramBase
+    public class FuegoAI : AIProgramBase
     {
         private bool SendAllAiOutputToLog = true;
         private bool SendDebuggingInformationToLogToo = true;
@@ -21,6 +19,7 @@ namespace OmegaGo.Core.AI.Fuego
         private const float ComparisonTolerance = 0.00001f;
 
         private readonly List<Move> _history = new List<Move>();
+        private readonly List<string> _storedNotes = new List<string>();
 
         private bool _initialized;
         private IGtpEngine _engine;
@@ -30,6 +29,21 @@ namespace OmegaGo.Core.AI.Fuego
         /// Capabilities of the AI
         /// </summary>
         public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
+
+        /// <summary>
+        /// Allows resigning
+        /// </summary>
+        public bool AllowResign { get; set; }
+
+        /// <summary>
+        /// Maximum number of games
+        /// </summary>
+        public int MaxGames { get; set; }
+
+        /// <summary>
+        /// Pondering
+        /// </summary>
+        public bool Ponder { get; set; }
 
         /// <summary>
         /// Requests a move from Fuego AI
@@ -72,7 +86,7 @@ namespace OmegaGo.Core.AI.Fuego
             {
                 AIDecision resignDecision = AIDecision.Resign("Resigned because of low win chance.");
                 resignDecision.AiNotes = _storedNotes;
-                _storedNotes = new List<string>();
+                _storedNotes.Clear();
                 return resignDecision;
             }
             var move = result == "PASS"
@@ -80,7 +94,7 @@ namespace OmegaGo.Core.AI.Fuego
                 : Move.PlaceStone(preMoveInformation.AIColor, Position.FromIgsCoordinates(result));
             _history.Add(move);
             string commandResult = SendCommand("uct_value_black").Text;
-            float value = float.Parse(commandResult, System.Globalization.CultureInfo.InvariantCulture);            
+            float value = float.Parse(commandResult, CultureInfo.InvariantCulture);            
             if (preMoveInformation.AIColor == StoneColor.White)
             {
                 value = 1 - value;
@@ -93,16 +107,19 @@ namespace OmegaGo.Core.AI.Fuego
             var moveDecision = AIDecision.MakeMove(
                 move, winChanceNote);
             moveDecision.AiNotes = _storedNotes;
-            _storedNotes = new List<string>();
+            _storedNotes.Clear();
             return moveDecision;
         }
 
         private void Initialize(AIPreMoveInformation preMoveInformation)
         {
-            this._engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
+            _engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
+
+            // Board size
+            SendCommand("boardsize " + preMoveInformation.GameInfo.BoardSize.Width);
 
             // Strength
-            SendCommand("uct_param_player ponder 1");
+            SendCommand("uct_param_player ponder " + (Ponder ? "1": "0"));
 
             // Rules
             switch (preMoveInformation.GameInfo.RulesetType)
@@ -118,7 +135,18 @@ namespace OmegaGo.Core.AI.Fuego
                     break;
             }
             SendCommand("komi " + preMoveInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
-            // TODO on IGS, make it so two passes don't end a game
+            if (MaxGames > 0)
+            {
+                SendCommand("uct_param_player max_games " + MaxGames);
+            }
+            
+            if (!AllowResign)
+            {
+                SendCommand("uct_param_player resign_threshold 0");
+            }
+            
+            // TODO Petr: send commands for allowResign, maxgames
+            // TODO Petr: on IGS, make it so two passes don't end a game
 
             // Time settings
             string timeSettings = preMoveInformation.AiPlayer.Clock.GetGtpInitializationCommand();
@@ -133,7 +161,7 @@ namespace OmegaGo.Core.AI.Fuego
             SendCommand("go_param_rules");
         }
 
-        private GtpResponse SendCommand(string command)
+        public GtpResponse SendCommand(string command)
         {
             GtpResponse output = _engine.SendCommand(command);
             if (SendAllAiOutputToLog)
@@ -143,17 +171,17 @@ namespace OmegaGo.Core.AI.Fuego
             }
             return output;
         }
-
-        private List<string> _storedNotes = new List<string>();
+        
         private void Note(string note)
         {
-            this._storedNotes.Add(note);
+            _storedNotes.Add(note);
         }
+
         private void DebuggingNote(string note)
         {
             if (SendDebuggingInformationToLogToo)
             {
-                this._storedNotes.Add(note);
+                _storedNotes.Add(note);
             }
         }
     }

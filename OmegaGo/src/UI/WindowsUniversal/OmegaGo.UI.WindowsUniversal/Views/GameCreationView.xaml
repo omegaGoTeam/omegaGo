@@ -127,7 +127,9 @@
                     HorizontalAlignment="Stretch">
                 <Button.Flyout>
                     <Flyout Placement="Right">
-                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                        <StackPanel>
+                            <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                        </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
