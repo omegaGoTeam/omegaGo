@@ -9,7 +9,6 @@
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
-    Loaded="SettingsView_Loaded"
     d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <views:TransparencyViewBase.Resources>
@@ -340,8 +339,7 @@
                     <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
                         <StackPanel Padding="15" HorizontalAlignment="Center">
                             <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
-                              Checked="Fullscreen_Checked"
-                              Unchecked="FullscreenMode_Unchecked"/>
+                                      IsChecked="{x:Bind IsFullScreen, Mode=TwoWay}"/>
 
                             <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
                             <StackPanel Orientation="Horizontal">

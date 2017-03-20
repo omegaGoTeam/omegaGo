@@ -7,13 +7,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// <summary>
     /// Manages the full screen mode of the app
     /// </summary>
-    internal static class FullscreenModeManager
+    internal static class FullScreenModeManager
     {
         /// <summary>
         /// Registers the keyboard shortcuts for full screen mode
         /// </summary>
         /// <param name="window">Window</param>
-        public static void RegisterForWindow( Window window )
+        public static void RegisterForWindow(Window window)
         {
             window.CoreWindow.Dispatcher.AcceleratorKeyActivated += HandleToggleKeyboardShortcut;
         }
@@ -29,23 +29,28 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             // "menu key" is Alt, in Microsoft-speak.
             if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
             {
-                Toggle();
+                SetFullScreenMode(!ApplicationView.GetForCurrentView().IsFullScreenMode);
             }
         }
 
         /// <summary>
-        /// Toggles the full screen mode
+        /// Sets the full screen mode
         /// </summary>
-        public static void Toggle()
+        public static void SetFullScreenMode(bool useFullScreen)
         {
-            if (ApplicationView.GetForCurrentView().IsFullScreenMode)
-            {
-                ApplicationView.GetForCurrentView().ExitFullScreenMode();
-            }
-            else
+            if (useFullScreen && !ApplicationView.GetForCurrentView().IsFullScreenMode)
             {
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             }
+            else
+            {
+                ApplicationView.GetForCurrentView().ExitFullScreenMode();
+            }
         }
+
+        /// <summary>
+        /// Checks if the window is full screen
+        /// </summary>
+        public static bool IsFullScreen => ApplicationView.GetForCurrentView().IsFullScreenMode;
     }
 }

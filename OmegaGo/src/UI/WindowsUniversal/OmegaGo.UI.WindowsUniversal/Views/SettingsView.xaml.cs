@@ -23,19 +23,22 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");
 
-        private void Fullscreen_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        /// <summary>
+        /// Gets and sets the full screen mode
+        /// </summary>
+        public bool IsFullScreen
         {
-            FullscreenModeManager.Toggle();
+            get
+            {
+                return FullScreenModeManager.IsFullScreen;                
+            }
+            set
+            {
+                if (value != FullScreenModeManager.IsFullScreen)
+                {
+                    FullScreenModeManager.SetFullScreenMode(value);
+                }
+            }
         }
-
-        private void SettingsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            FullscreenMode.IsChecked = ApplicationView.GetForCurrentView().IsFullScreenMode;
-        }
-
-        private void FullscreenMode_Unchecked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            FullscreenModeManager.Toggle();
-        }        
     }
 }
