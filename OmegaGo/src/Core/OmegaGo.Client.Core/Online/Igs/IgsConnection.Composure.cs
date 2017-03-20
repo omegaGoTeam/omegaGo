@@ -11,7 +11,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// IGS composure
         /// </summary>
-        enum IgsComposure
+        public enum IgsComposure
         {
             /// <summary>
             /// Connection was not yet established, or was broken, or we logged out.

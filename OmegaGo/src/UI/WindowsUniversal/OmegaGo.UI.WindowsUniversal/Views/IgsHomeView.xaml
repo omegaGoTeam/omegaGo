@@ -118,13 +118,13 @@
                         <Button Click="RefreshConsole" Grid.Row="0">Refresh</Button>
 
                         <TextBox Grid.Row="1"
-                                 Padding="20"
+                                 Padding="10"
                                  Name="IgsConsole" 
                                  TextWrapping="Wrap"
                                  AcceptsReturn="True"
                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                  FontFamily="Consolas"
-                                 FontSize="10">
+                                 FontSize="14">
                         </TextBox>
                     </Grid>
                 </PivotItem>

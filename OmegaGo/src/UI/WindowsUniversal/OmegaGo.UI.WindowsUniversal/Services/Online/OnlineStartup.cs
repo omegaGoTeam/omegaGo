@@ -25,9 +25,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
                     if (success)
                     {
                         notifications.TriggerNotification(new BubbleNotification("IGS connection ok."));
-                        await Connections.Igs.ListGamesInProgressAsync();
-                        await Connections.Igs.ListOnlinePlayersAsync();
-                        notifications.TriggerNotification(new BubbleNotification("IGS connection complete."));
                     }
                 }
             }

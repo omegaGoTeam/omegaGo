@@ -133,6 +133,7 @@
     <Compile Include="Online\Igs\IgsCommands.cs" />
     <Compile Include="Online\Igs\IgsConnection.Composure.cs" />
     <Compile Include="Online\Igs\IgsData.cs" />
+    <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameInfo.cs" />
     <Compile Include="LiveGame\Phases\Finished\FinishedPhase.cs" />
     <Compile Include="LiveGame\Phases\Initialization\InitializationPhase.cs" />

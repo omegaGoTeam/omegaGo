@@ -186,9 +186,6 @@
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiplayerDashboard.xaml.cs">
-      <DependentUpon>MultiplayerDashboard.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\OGSLobbyView.xaml.cs">
       <DependentUpon>OGSLobbyView.xaml</DependentUpon>
     </Compile>
@@ -433,10 +430,6 @@
     <Page Include="Views\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MultiplayerDashboard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OGSLobbyView.xaml">
       <SubType>Designer</SubType>
