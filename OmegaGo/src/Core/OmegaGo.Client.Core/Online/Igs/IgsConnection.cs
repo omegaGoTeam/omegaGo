@@ -322,6 +322,7 @@ namespace OmegaGo.Core.Online.Igs
             _shouldBeConnected = false;
             await _client.DisconnectAsync();
             _client = null;
+            Composure = IgsComposure.Disconnected;
         }
 
         /// <summary>

@@ -231,7 +231,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
             }
             else
             {

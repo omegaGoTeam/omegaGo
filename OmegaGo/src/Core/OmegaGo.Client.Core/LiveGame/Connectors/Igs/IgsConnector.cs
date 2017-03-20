@@ -20,13 +20,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
 
-        private bool _handicapSet = false;
+        private bool _handicapSet;
 
         public IgsConnector(IgsGameController igsGameController, IgsConnection connnection)
         {
             _connnection = connnection;
             _gameController = igsGameController;
         }
+
+#pragma warning disable CS0067
 
         /// <summary>
         /// Indicates the handicap for the game
@@ -43,7 +45,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         public event EventHandler MainUndoForced;
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-
+#pragma warning restore CS0067
         /// <summary>
         /// Unique identification of the game
         /// </summary>
