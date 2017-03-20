@@ -347,38 +347,45 @@
                               Checked="Fullscreen_Checked"
                               Unchecked="FullscreenMode_Unchecked"/>
 
-                            <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="{x:Bind Localizer.HighlightRecentCaptures}" IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
-                                <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightRecentCapturesTooltip}"  />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Content="{x:Bind Localizer.HighlightIllegalKoMoves}" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
-                                <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
-                            </StackPanel>
-                            <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
-                            <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
+                        <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
+                    <!--    
+                    <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{x:Bind Localizer.HighlightRecentCaptures}" IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightRecentCapturesTooltip}"  />
                         </StackPanel>
-                    </ScrollViewer>
-                </PivotItem>
-                <PivotItem Header="{x:Bind Localizer.InputPanel}">
-                    <StackPanel Padding="15" HorizontalAlignment="Center">
-                        <CheckBox Content="{x:Bind Localizer.MakingAMoveRequiresAConfirmationClick}"
-                              IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="{x:Bind Localizer.HighlightIllegalKoMoves}" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
+                        </StackPanel>
+                    -->
+                        <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                    <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
                     </StackPanel>
-                </PivotItem>
-                <PivotItem Header="{x:Bind Localizer.AudioPanel}">
-                    <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
-                        <StackPanel HorizontalAlignment="Center" Padding="15">
-                            <TextBlock Text="{x:Bind Localizer.MasterVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <Slider Width="250" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
-                            <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}" Content="{x:Bind Localizer.MuteAll}"></CheckBox>
-
-                            <!--<TextBlock Text="{x:Bind Localizer.MusicVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <Slider Width="250" Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />-->
-
-                            <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <Slider Width="250" Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                </ScrollViewer>
+            </PivotItem>
+            <!--
+            <PivotItem Header="{x:Bind Localizer.InputPanel}">
+                
+                <StackPanel Padding="15">
+                    <CheckBox Content="{x:Bind Localizer.MakingAMoveRequiresAConfirmationClick}"
+                              IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
+                </StackPanel>
+            </PivotItem>
+            -->
+            <PivotItem Header="{x:Bind Localizer.AudioPanel}">
+                <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
+                    <StackPanel HorizontalAlignment="Center" Padding="15">
+                        <!--
+                        <TextBlock Text="{x:Bind Localizer.MasterVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                        -->
+                        <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}" Content="{x:Bind Localizer.MuteAll}"></CheckBox>
+<!--
+                        <TextBlock Text="{x:Bind Localizer.MusicVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+-->
+                        <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <Slider Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
 
 
