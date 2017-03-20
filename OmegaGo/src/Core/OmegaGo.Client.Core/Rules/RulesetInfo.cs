@@ -10,35 +10,21 @@ namespace OmegaGo.Core.Rules
     internal class RulesetInfo
     {
         private static GameBoardSize _gbSize;
-        private static GameBoard _boardState;
-        private static GroupState _groupState;
-
+        
         internal static GameBoardSize BoardSize
         {
             get { return _gbSize; }
         }
 
-        internal static GameBoard BoardState
-        {
-            get { return _boardState; }
-        }
+        internal static GameBoard BoardState { get; set; }
 
-        internal static GroupState GroupState
-        {
-            get { return _groupState; }
-        }
+        internal static GroupState GroupState { get; set; }
 
         internal RulesetInfo(GameBoardSize gbSize, GameBoard currentBoard, GroupState groupState)
         {
             _gbSize = gbSize;
-            _boardState = currentBoard;
-            _groupState = groupState;
-        }
-
-        internal void SetRulesetInfo(GameBoard currentBoard, GroupState groupState)
-        {
-            _boardState = currentBoard;
-            _groupState = groupState;
+            BoardState = currentBoard;
+            GroupState = groupState;
         }
     }
 }

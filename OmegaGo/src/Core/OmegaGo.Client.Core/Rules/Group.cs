@@ -10,9 +10,9 @@ namespace OmegaGo.Core.Rules
     class Group
     {
         private readonly int _id;
-        private List<Position> _members;
-        private int _libertyCount;
         private readonly StoneColor _groupColor;
+        private int _libertyCount;
+        private List<Position> _members;
         private bool[,] _checkedInters;
 
         public Group(int id, StoneColor color)
@@ -46,38 +46,26 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Adds a stone to the group and updates the liberty count of neighbours.
+        /// Joins two groups and updates the liberties.
         /// </summary>
-        /// <param name="position"></param>
-        internal void AddStoneToGroup(Position position)
-        {
-            if (!_members.Contains(position))
-            {
-                _members.Add(position);
-                List<int> neighbours= GetNeighbourGroups(position);
-                foreach (int group in neighbours)
-                {
-                    RulesetInfo.GroupState.Groups[group].DecreaseLibertyCount(1);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Joins two groups.
-        /// </summary>
-        /// <param name="otherGroup"></param>
+        /// <param name="otherGroup">Group, which will be joined with this group.</param>
         internal void JoinGroupWith(Group otherGroup)
         {
             if (otherGroup.GroupColor != _groupColor)
                 throw new Exception("The colors of groups do not equal");
 
+            //choose group with smaller ID
             otherGroup.IncreaseLibertyCount(_libertyCount);
             otherGroup.ChangeGroupMembersID(otherGroup.ID, _members);
             otherGroup.AddMembersToGroupList(_members);
-
             RulesetInfo.GroupState.Groups[ID] = null;
         }
 
+        /// <summary>
+        /// Changes the ID of group.
+        /// </summary>
+        /// <param name="id">New group ID.</param>
+        /// <param name="memberList">The members of group.</param>
         internal void ChangeGroupMembersID(int id,List<Position> memberList)
         {
             foreach (Position member in memberList)
@@ -86,6 +74,10 @@ namespace OmegaGo.Core.Rules
             }
         }
 
+        /// <summary>
+        /// Adds new members to the group's member list.
+        /// </summary>
+        /// <param name="memberList">List of members to add.</param>
         internal void AddMembersToGroupList(List<Position> memberList)
         {
             foreach (Position p in memberList)
@@ -93,29 +85,96 @@ namespace OmegaGo.Core.Rules
                 _members.Add(p);
             }
         }
-        
 
-        internal void DeleteGroup()
+        /// <summary>
+        /// Adds a position to group's member list. Sets the liberty.
+        /// </summary>
+        /// <param name="position">Position for adding to member list.</param>
+        internal void AddStoneToEmptyGroup(Position position)
         {
-            GameBoard prevBoard = new GameBoard(RulesetInfo.BoardState);
-            int[,] prevGroupMap = RulesetInfo.GroupState.GroupMap; //!!!TODO Aniko: clone
-            Group[] prevGroups = RulesetInfo.GroupState.Groups;
-            foreach (Position member in _members)
-            {
-                prevBoard[member.X, member.Y] = StoneColor.None;
-                prevGroupMap[member.X, member.Y] = 0;
-            }
+            if (_members.Count != 0)
+                throw new Exception("Cannot add stone to non empty group. Use join.");
 
-            prevGroups[_id] = null;
-
-
+            _members.Add(position);
+            _libertyCount = GetLiberty(position);
+            _checkedInters[position.X, position.Y] = true;
         }
 
+        /// <summary>
+        /// Calculates the number of empty intersection around the given position.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <returns>Returns the number of empty intersection around the given position.</returns>
+        private int GetLiberty(Position position)
+        {
+            int liberty = 0;
+            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == StoneColor.None)
+                liberty++;
+            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == StoneColor.None)
+                liberty++;
+            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == StoneColor.None)
+                liberty++;
+            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == StoneColor.None)
+                liberty++;
+            return liberty;
+        }
+        
+        /// <summary>
+        /// Delete the group from group map, group list and board.
+        /// </summary>
+        internal void DeleteGroup()
+        {
+            if (_members.Count == 1)
+            {
+                // and update neighbour liberties
+                Position member = _members.First();
+                List<int> neighbours = GetNeighbourGroups(member);
+                foreach (int groupID in neighbours)
+                {
+                    RulesetInfo.GroupState.Groups[groupID].IncreaseLibertyCount(1);
+                }
+
+                //delete from group map
+                RulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
+                //delete from board
+                RulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
+                
+            }
+            else if (_members.Count > 1)
+            {
+                foreach (Position member in _members)
+                {
+                    //delete from group map
+                    RulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
+                    //delete from board
+                    RulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
+                }
+                //update liberties
+                RulesetInfo.GroupState.CountLiberties();
+            }
+            else
+            {
+                throw new Exception("The member list does not contain any member.");
+            }
+
+            //delete from group list
+            RulesetInfo.GroupState.Groups[_id] = null;
+            
+        }
+
+        /// <summary>
+        /// Increases the number of liberties.
+        /// </summary>
+        /// <param name="value">//TODO Aniko</param>
         internal void IncreaseLibertyCount(int value)
         {
             _libertyCount += value;
         }
 
+        /// <summary>
+        /// Decreses the number of liberties.
+        /// </summary>
+        /// <param name="value">//TODO Aniko</param>
         internal void DecreaseLibertyCount(int value)
         {
             if (_libertyCount - value >= 0)
@@ -124,6 +183,10 @@ namespace OmegaGo.Core.Rules
                 throw new Exception("Liberty count cannot be lower than 0");
         }
 
+        /// <summary>
+        /// Finds the members of a group.
+        /// </summary>
+        /// <param name="position">Starting position.</param>
         public void DiscoverGroup(Position position)
         {
             if (!_checkedInters[position.X, position.Y])
@@ -163,10 +226,14 @@ namespace OmegaGo.Core.Rules
             }
         }
 
+        /// <summary>
+        /// Returns the IDs of groups around the intersection.
+        /// </summary>
+        /// <param name="position">Coordinates of intersection</param>
+        /// <returns>IDs of groups around the intersection</returns>
         private List<int> GetNeighbourGroups(Position position)
         {
             List<int> neighbours = new List<int>();
-            StoneColor opponent = StoneColorExtensions.GetOpponentColor(_groupColor);
             int left = (position.X == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X - 1, position.Y];
             int right = (position.X == RulesetInfo.BoardSize.Width - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X + 1, position.Y];
             int bottom = (position.Y == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y - 1];
