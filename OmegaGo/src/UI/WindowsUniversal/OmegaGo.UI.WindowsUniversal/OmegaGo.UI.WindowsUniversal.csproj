@@ -120,6 +120,8 @@
     <Compile Include="Services\BoardControl\RenderService.cs" />
     <Compile Include="Services\Notifications\AppNotificationService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Services\Timer\TimerService.cs" />
+    <Compile Include="Services\Online\OnlineStartup.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>

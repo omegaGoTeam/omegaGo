@@ -7,6 +7,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Timer;
 
 namespace OmegaGo.UI.Services.Online
 {
@@ -30,6 +31,10 @@ namespace OmegaGo.UI.Services.Online
                 {
                     _igsConnection = new IgsConnection();
                     _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
+                    Mvx.Resolve<ITimerService>().StartTimer(TimeSpan.FromSeconds(10), async () =>
+                    {
+                        await _igsConnection.Commands.AreYouThere();
+                    });
                 }
                 return _igsConnection;
             }

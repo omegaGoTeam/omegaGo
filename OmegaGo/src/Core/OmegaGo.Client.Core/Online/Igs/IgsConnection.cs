@@ -30,7 +30,6 @@ namespace OmegaGo.Core.Online.Igs
     /// </summary>
     public partial class IgsConnection : IServerConnection
     {
-        // TODO Petr :  make it reconnect automatically when connection is interrupted
         // TODO Petr : disconnections are not thread-safe
         // TODO Petr : switch prompt mode when necessary
         // TODO Petr : send "ayt" or something regularly to prevent timeouts        
@@ -155,6 +154,7 @@ namespace OmegaGo.Core.Online.Igs
         public IgsConnection()
         {
             Commands = new IgsCommands(this);
+            Data = new IgsData(this);
         }
 
         /// <summary>
@@ -247,6 +247,8 @@ namespace OmegaGo.Core.Online.Igs
         /// IGS commands
         /// </summary>
         public IgsCommands Commands { get; }
+
+        public IgsData Data { get; }
 
         /// <summary>
         /// Gets user's username

@@ -12,9 +12,12 @@ using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.WindowsUniversal.Services.Audio;
 using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
 using OmegaGo.UI.WindowsUniversal.Services.Notifications;
+using OmegaGo.UI.WindowsUniversal.Services.Timer;
+using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -38,12 +41,12 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
+            Mvx.LazyConstructAndRegisterSingleton<ITimerService, TimerService>();
             Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
             Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
-
             base.InitializeFirstChance();
         }
     }
