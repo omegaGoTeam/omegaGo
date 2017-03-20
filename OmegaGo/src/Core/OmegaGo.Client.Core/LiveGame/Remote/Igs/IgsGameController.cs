@@ -81,14 +81,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 
         private void IgsConnector_TimeControlShouldAdjust(object sender, IgsTimeControlAdjustmentEventArgs e)
         {
-            (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
-            (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+            if (this.Players.Black.Clock is CanadianTimeControl)
+            {
+                (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
+                (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
+            }
         }
-
-        // TODO Petr: where should this be?
-        //private void StoneRemoval(object sender, StoneRemovalEventArgs e)
-        //{
-        //    //LifeDeath_MarkGroupDead(e.DeadPosition);
-        //}       
     }
 }

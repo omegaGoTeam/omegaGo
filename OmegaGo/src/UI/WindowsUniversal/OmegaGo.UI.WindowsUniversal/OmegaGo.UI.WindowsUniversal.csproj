@@ -108,6 +108,7 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\OmegaGoViewPresenter.cs" />
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Services\BoardControl\InputService.cs" />
     <Compile Include="Services\BoardControl\RenderService.cs" />
     <Compile Include="Services\Notifications\AppNotificationService.cs" />
+    <Compile Include="Services\PasswordVault\PasswordVaultService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
@@ -458,7 +460,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
+    <ProjectReference Include="..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
       <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
       <Name>OmegaGo.UI.Localization</Name>
     </ProjectReference>

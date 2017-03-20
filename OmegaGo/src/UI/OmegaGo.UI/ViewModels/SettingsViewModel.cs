@@ -206,7 +206,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 _gameSettings.Assistant.ProgramName = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged();                
             }
         }
 

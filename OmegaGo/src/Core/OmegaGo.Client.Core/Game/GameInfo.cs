@@ -64,5 +64,6 @@ namespace OmegaGo.Core.Game
         /// Counting type
         /// </summary>
         public CountingType CountingType { get; set; }
+
     }
 }

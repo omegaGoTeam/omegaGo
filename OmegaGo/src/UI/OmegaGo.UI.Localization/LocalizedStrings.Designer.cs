@@ -690,11 +690,47 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a new Pandanet account (opens a browser window).
+        /// </summary>
+        public static string IgsHyperlink {
+            get {
+                return ResourceManager.GetString("IgsHyperlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IGS rank.
         /// </summary>
         public static string IgsRank {
             get {
                 return ResourceManager.GetString("IgsRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet - Internet Go Server.
+        /// </summary>
+        public static string IgsServerCaption {
+            get {
+                return ResourceManager.GetString("IgsServerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet is recommended if you don&apos;t have a KGS account and don&apos;t want to download an additional application to play Go online..
+        /// </summary>
+        public static string IgsServerInfo {
+            get {
+                return ResourceManager.GetString("IgsServerInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet username.
+        /// </summary>
+        public static string IgsUsernameCaption {
+            get {
+                return ResourceManager.GetString("IgsUsernameCaption", resourceCulture);
             }
         }
         
@@ -708,11 +744,47 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download the official KGS client.
+        /// </summary>
+        public static string KgsHyperlink {
+            get {
+                return ResourceManager.GetString("KgsHyperlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KGS rank.
         /// </summary>
         public static string KgsRank {
             get {
                 return ResourceManager.GetString("KgsRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS Go Server.
+        /// </summary>
+        public static string KgsServerCaption {
+            get {
+                return ResourceManager.GetString("KgsServerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User-&gt;Register..
+        /// </summary>
+        public static string KgsServerInfo {
+            get {
+                return ResourceManager.GetString("KgsServerInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS Username.
+        /// </summary>
+        public static string KgsUsernameCaption {
+            get {
+                return ResourceManager.GetString("KgsUsernameCaption", resourceCulture);
             }
         }
         
@@ -785,6 +857,33 @@ namespace OmegaGo.UI.Localization {
         public static string LocalGameToolTip {
             get {
                 return ResourceManager.GetString("LocalGameToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in whenever you start omegaGo.
+        /// </summary>
+        public static string LoginAtStartupCaption {
+            get {
+                return ResourceManager.GetString("LoginAtStartupCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log In.
+        /// </summary>
+        public static string LoginButtonCaption {
+            get {
+                return ResourceManager.GetString("LoginButtonCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string LoginFormCaption {
+            get {
+                return ResourceManager.GetString("LoginFormCaption", resourceCulture);
             }
         }
         
@@ -911,6 +1010,15 @@ namespace OmegaGo.UI.Localization {
         public static string Open {
             get {
                 return ResourceManager.GetString("Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string PasswordCaption {
+            get {
+                return ResourceManager.GetString("PasswordCaption", resourceCulture);
             }
         }
         
@@ -1091,6 +1199,15 @@ namespace OmegaGo.UI.Localization {
         public static string Rank5 {
             get {
                 return ResourceManager.GetString("Rank5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember password.
+        /// </summary>
+        public static string RememberPasswordCaption {
+            get {
+                return ResourceManager.GetString("RememberPasswordCaption", resourceCulture);
             }
         }
         
@@ -1734,7 +1851,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to White Handicap.
+        ///   Looks up a localized string similar to Handicap.
         /// </summary>
         public static string WhiteHandicap {
             get {

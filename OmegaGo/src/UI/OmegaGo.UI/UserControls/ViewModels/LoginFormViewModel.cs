@@ -33,10 +33,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public abstract string ServerInformation { get; }
         
         public abstract string ServerName { get; }
-        
-        public string FormCaption => "Login";
+
+        public string FormCaption => Localizer.LoginFormCaption;
         public abstract string UsernameCaption { get; }
-        public string PasswordCaption => "Password";
+        public string PasswordCaption => Localizer.PasswordCaption;
 
         private double _loginErrorMessageOpacity = 0;
         public double LoginErrorMessageOpacity
@@ -44,9 +44,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _loginErrorMessageOpacity; }
             set { SetProperty(ref _loginErrorMessageOpacity, value); }
         }
-        public string LogInButtonCaption => "Log In";
-        public string LoginAtStartupCaption => "Log in whenever you start omegaGo";
-        public string RememberPasswordCaption => "Remember password";
+
+        public string LogInButtonCaption => Localizer.LoginButtonCaption;
+        public string LoginAtStartupCaption => Localizer.LoginAtStartupCaption;
+        public string RememberPasswordCaption => Localizer.RememberPasswordCaption;
 
         private string _password;
         private string _loginErrorMessage;
