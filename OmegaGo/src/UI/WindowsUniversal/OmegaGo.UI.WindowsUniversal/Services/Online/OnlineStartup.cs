@@ -22,9 +22,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
                 {
                     var success =
                         await Connections.Igs.LoginAsync(settings.Interface.IgsName, settings.Interface.IgsPassword);
-                    if (success)
+                    if (!success)
                     {
-                        notifications.TriggerNotification(new BubbleNotification("IGS connection ok."));
+                        notifications.TriggerNotification(new BubbleNotification("IGS auto-login failed."));
                     }
                 }
             }
@@ -34,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
                     await Connections.Kgs.LoginAsync(settings.Interface.KgsName, settings.Interface.KgsPassword);
                 if (!success)
                 {
-
+                    notifications.TriggerNotification(new BubbleNotification("KGS auto-login failed."));
                 }
             }
         }
