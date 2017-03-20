@@ -79,5 +79,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             AiNote?.Invoke(this, note);
         }
+        public override string ToString()
+        {
+            return "Agent for " + this._aiProgram;
+        }
     }
 }

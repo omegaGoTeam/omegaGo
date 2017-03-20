@@ -19,10 +19,10 @@ namespace OmegaGo.Core.Tests
         [TestMethod]
         public void NumberToIgsChar()
         {
-            Assert.AreEqual('A', Position.IntToIgsChar(0));
-            Assert.AreEqual('J', Position.IntToIgsChar(8));
-            Assert.AreEqual('C', Position.IntToIgsChar(2));
-            Assert.AreEqual('Y', Position.IntToIgsChar(23));
+            Assert.AreEqual("A", Position.IntToIgsChar(0));
+            Assert.AreEqual("J", Position.IntToIgsChar(8));
+            Assert.AreEqual("C", Position.IntToIgsChar(2));
+            Assert.AreEqual("Y", Position.IntToIgsChar(23));
         }
     }
 }

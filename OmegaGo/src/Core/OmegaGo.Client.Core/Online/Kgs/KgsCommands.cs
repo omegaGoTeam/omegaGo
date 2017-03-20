@@ -97,5 +97,10 @@ namespace OmegaGo.Core.Online.Kgs
         {
             throw new NotImplementedException();
         }
+
+        public Task AcceptChallengeAsync(KgsChallenge selectedItem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

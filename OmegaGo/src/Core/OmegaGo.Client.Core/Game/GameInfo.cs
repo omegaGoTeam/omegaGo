@@ -65,5 +65,10 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public CountingType CountingType { get; set; }
 
+        public override string ToString()
+        {
+            return "GameInfo: " + White + " v." + Black;
+        }
+
     }
 }
