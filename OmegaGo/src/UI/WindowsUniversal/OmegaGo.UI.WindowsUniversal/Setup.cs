@@ -12,9 +12,11 @@ using OmegaGo.UI.WindowsUniversal.Services.Files;
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Notifications;
+using OmegaGo.UI.Services.PasswordVault;
 using OmegaGo.UI.WindowsUniversal.Services.Audio;
 using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
 using OmegaGo.UI.WindowsUniversal.Services.Notifications;
+using OmegaGo.UI.WindowsUniversal.Services.PasswordVault;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -39,6 +41,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
+            Mvx.LazyConstructAndRegisterSingleton<IPasswordVaultService, PasswordVaultService>();
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
