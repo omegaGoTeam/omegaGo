@@ -67,13 +67,13 @@ namespace OmegaGo.UI.ViewModels
         /// Gets the black player settings
         /// </summary>
         public PlayerSettingsViewModel BlackPlayerSettings { get; } =
-            new PlayerSettingsViewModel(PlayerList.First());
+            new PlayerSettingsViewModel(PlayerList.First(), false);
 
         /// <summary>
         /// Gets the white player settings
         /// </summary>
         public PlayerSettingsViewModel WhitePlayerSettings { get; } =
-            new PlayerSettingsViewModel(PlayerList.First());
+            new PlayerSettingsViewModel(PlayerList.First(), false);
 
         public bool IgsLimitation { get; set; }
 
@@ -279,10 +279,11 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void CreateAndRegisterGame()
         {
-            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl);
-            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl);
+            GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl, BlackPlayerSettings);
+            GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl, WhitePlayerSettings);
+            BlackPlayerSettings.SaveAsInterfaceMementos();
+            WhitePlayerSettings.SaveAsInterfaceMementos();
 
-            //TODO Petr: set counting type
             LocalGame game = GameBuilder.CreateLocalGame().
                 BoardSize(SelectedGameBoardSize).
                 Ruleset(SelectedRuleset).

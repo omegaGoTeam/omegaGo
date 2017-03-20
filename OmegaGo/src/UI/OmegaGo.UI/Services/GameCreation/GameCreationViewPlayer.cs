@@ -10,7 +10,7 @@ namespace OmegaGo.UI.ViewModels
         public abstract string Description { get; }
         public abstract bool IsAi { get; }
 
-        public abstract GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings);
+        public abstract GamePlayer Build(StoneColor color, TimeControlSettingsViewModel timeSettings, PlayerSettingsViewModel settings);
 
         public override string ToString()
         {

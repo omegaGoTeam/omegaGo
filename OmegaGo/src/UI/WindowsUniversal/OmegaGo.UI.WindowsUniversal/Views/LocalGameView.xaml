@@ -67,7 +67,10 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Hint" FontSize="20"/>
-                <Button Content="Get Hint from Assistant" HorizontalAlignment="Stretch"/> 
+                <Button Content="Get Hint from Assistant"/>
+                <TextBlock Text="Fuego" FontSize="20"/>
+                <TextBox Name="FuegoCommand"></TextBox>
+                <Button Click="SendFuegoCommand">Send GTP command</Button>
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
