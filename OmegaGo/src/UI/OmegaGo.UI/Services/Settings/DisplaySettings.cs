@@ -6,6 +6,8 @@ namespace OmegaGo.UI.Services.Settings
 {
     public class DisplaySettings : SettingsGroup
     {
+        private const string BackgroundColorOpacityKey = "BackgroundColorOpacity";
+
         public DisplaySettings(ISettingsService service) : base("Display", service)
         {
         }
@@ -19,12 +21,13 @@ namespace OmegaGo.UI.Services.Settings
             }
             set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }
         }
-        
+
         public BoardTheme BoardTheme
         {
-            get {
+            get
+            {
                 int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.OakWood, SettingLocality.Roamed);
-                return (BoardTheme) theSetting;
+                return (BoardTheme)theSetting;
             }
             set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
         }
@@ -37,6 +40,18 @@ namespace OmegaGo.UI.Services.Settings
                 return (BackgroundImage)theSetting;
             }
             set { SetSetting(nameof(BackgroundImage), (int)value, SettingLocality.Roamed); }
+        }
+
+        public double BackgroundColorOpacity
+        {
+            get { return GetSetting(BackgroundColorOpacityKey, () => 0.5, SettingLocality.Roamed); }
+            set
+            {
+                if (value >= 0 && value <= 1)
+                {
+                    SetSetting(BackgroundColorOpacityKey, value, SettingLocality.Roamed);
+                }
+            }
         }
 
         public BackgroundColor BackgroundColor
@@ -87,5 +102,5 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(ShowTutorialInMainMenu), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
         }
-    }   
+    }
 }
