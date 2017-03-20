@@ -100,6 +100,7 @@
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
+    <Compile Include="Services\PasswordVault\IPasswordVaultService.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
