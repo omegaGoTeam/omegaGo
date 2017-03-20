@@ -12,6 +12,7 @@ using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Controls.Styles;
+using OmegaGo.UI.Infrastructure.PresentationHints;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -21,25 +22,35 @@ namespace OmegaGo.UI.ViewModels
     public class SettingsViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
+        
+        private bool _languageChanged = false;       
 
-        public SettingsViewModel( IGameSettings gameSettings )
+        public SettingsViewModel(IGameSettings gameSettings)
         {
             _gameSettings = gameSettings;
         }
-        
+
         public ObservableCollection<ControlStyle> ControlStyles { get; } =
           new ObservableCollection<ControlStyle>((ControlStyle[])Enum.GetValues(typeof(ControlStyle)));
-        public int SelectedControlStyle
+
+        public ControlStyle SelectedControlStyle
         {
-            get { return (int)_gameSettings.Display.ControlStyle; }
-            set { _gameSettings.Display.ControlStyle = (ControlStyle)value; RaisePropertyChanged(); }
+            get
+            {
+                return _gameSettings.Display.ControlStyle;
+            }
+            set
+            {
+                _gameSettings.Display.ControlStyle = value;
+                RaisePropertyChanged();
+            }
         }
 
         /// <summary>
         /// Game languages list
         /// </summary>
         public ObservableCollection<GameLanguage> Languages { get; } =
-            new ObservableCollection<GameLanguage>( GameLanguages.SupportedLanguages.Values );
+            new ObservableCollection<GameLanguage>(GameLanguages.SupportedLanguages.Values);
 
         /// <summary>
         /// Selected language
@@ -48,9 +59,9 @@ namespace OmegaGo.UI.ViewModels
         {
             get
             {
-                if ( GameLanguages.SupportedLanguages.ContainsKey( _gameSettings.Language ) )
+                if (GameLanguages.SupportedLanguages.ContainsKey(_gameSettings.Language))
                 {
-                    return GameLanguages.SupportedLanguages[ _gameSettings.Language ];
+                    return GameLanguages.SupportedLanguages[_gameSettings.Language];
                 }
                 else
                 {
@@ -59,9 +70,9 @@ namespace OmegaGo.UI.ViewModels
             }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
-                    if ( _gameSettings.Language != value.CultureTag )
+                    if (_gameSettings.Language != value.CultureTag)
                     {
                         _gameSettings.Language = value.CultureTag;
                         RaisePropertyChanged();
@@ -71,7 +82,6 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        private bool _languageChanged = false;
 
         /// <summary>
         /// Indicated whether the user has changed the language selection at least once
@@ -82,12 +92,12 @@ namespace OmegaGo.UI.ViewModels
             {
                 return _languageChanged;
             }
-            set { SetProperty( ref _languageChanged, value ); }
+            set { SetProperty(ref _languageChanged, value); }
         }
 
         // Display 
         public ObservableCollection<BoardTheme> BoardThemes { get; } =
-            new ObservableCollection<BoardTheme>( (BoardTheme[])Enum.GetValues(typeof(BoardTheme)) );
+            new ObservableCollection<BoardTheme>((BoardTheme[])Enum.GetValues(typeof(BoardTheme)));
         public int SelectedBoardTheme
         {
             get { return (int)_gameSettings.Display.BoardTheme; }
@@ -107,17 +117,36 @@ namespace OmegaGo.UI.ViewModels
         }
         public ObservableCollection<BackgroundImage> BackgroundImages { get; } =
           new ObservableCollection<BackgroundImage>((BackgroundImage[])Enum.GetValues(typeof(BackgroundImage)));
-        public int SelectedBackgroundImage
+
+        public BackgroundImage SelectedBackgroundImage
         {
-            get { return (int)_gameSettings.Display.BackgroundImage; }
-            set { _gameSettings.Display.BackgroundImage = (BackgroundImage)value; RaisePropertyChanged(); }
+            get { return _gameSettings.Display.BackgroundImage; }
+            set
+            {
+                if (_gameSettings.Display.BackgroundImage != value)
+                {
+                    _gameSettings.Display.BackgroundImage = value;
+                    RaisePropertyChanged();
+                    ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
         }
+
         public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
          new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
-        public int SelectedBackgroundColor
+
+        public BackgroundColor SelectedBackgroundColor
         {
-            get { return (int)_gameSettings.Display.BackgroundColor; }
-            set { _gameSettings.Display.BackgroundColor = (BackgroundColor)value; RaisePropertyChanged(); }
+            get { return _gameSettings.Display.BackgroundColor; }
+            set
+            {
+                if (value != _gameSettings.Display.BackgroundColor)
+                {
+                    _gameSettings.Display.BackgroundColor = value;
+                    RaisePropertyChanged();
+                    ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
         }
 
         public bool HighlightLastMove
@@ -154,7 +183,9 @@ namespace OmegaGo.UI.ViewModels
         public int MasterVolume
         {
             get { return _gameSettings.Audio.MasterVolume; }
-            set { _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged();
+            set
+            {
+                _gameSettings.Audio.MasterVolume = value; RaisePropertyChanged();
             }
         }
         public bool MuteAll
@@ -170,7 +201,8 @@ namespace OmegaGo.UI.ViewModels
         public int SfxVolume
         {
             get { return _gameSettings.Audio.SfxVolume; }
-            set {
+            set
+            {
                 if (_gameSettings.Audio.SfxVolume != value)
                 {
                     _gameSettings.Audio.SfxVolume = value;
@@ -206,7 +238,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 _gameSettings.Assistant.ProgramName = value;
-                RaisePropertyChanged();                
+                RaisePropertyChanged();
             }
         }
 
@@ -220,7 +252,7 @@ namespace OmegaGo.UI.ViewModels
             get { return _gameSettings.Assistant.EnableInOnlineGames; }
             set { _gameSettings.Assistant.EnableInOnlineGames = value; RaisePropertyChanged(); }
         }
-        
+
         /// <summary>
         /// Plays a sample sound
         /// </summary>

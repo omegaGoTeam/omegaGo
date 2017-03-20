@@ -303,8 +303,7 @@
                             <TextBlock Text="{x:Bind Localizer.BackgroundImage}" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
                             <ComboBox ItemsSource="{Binding BackgroundImages}" 
-                              SelectedIndex="{Binding SelectedBackgroundImage, Mode=TwoWay}"
-                              SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedBackgroundImage, Mode=TwoWay}"                              
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -315,8 +314,7 @@
 
                             <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding BackgroundColors}" 
-                              SelectedIndex="{Binding SelectedBackgroundColor, Mode=TwoWay}"
-                                 SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedBackgroundColor, Mode=TwoWay}"                                 
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -327,8 +325,7 @@
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding ControlStyles}" 
-                              SelectedIndex="{Binding SelectedControlStyle, Mode=TwoWay}"
-                              SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedControlStyle, Mode=TwoWay}"                             
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
