@@ -390,20 +390,20 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.Language}">
-                <StackPanel Padding="15">
+                    <StackPanel Padding="15" HorizontalAlignment="Center">
                     <TextBlock Text="{x:Bind Localizer.Language}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+                    <ComboBox Width="250" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="localization:GameLanguage">
                                 <TextBlock Text="{x:Bind Name, Converter={StaticResource LocalizingConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
+                    <TextBlock TextWrapping="Wrap" Width="250" Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.AssistPanel}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Center">
                     <StackPanel Padding="15">
                         <TextBlock Text="{x:Bind Localizer.AssistantAIProgram}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <StackPanel Orientation="Horizontal">
