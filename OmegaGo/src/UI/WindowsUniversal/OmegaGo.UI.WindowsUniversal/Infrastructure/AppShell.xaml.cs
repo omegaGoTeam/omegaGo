@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
@@ -16,6 +17,7 @@ using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
@@ -46,6 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
             //debug-only cheats
             InitCheats();
+            InitNotifications();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -247,6 +250,31 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         public void TriggerBubbleNotification(BubbleNotification notification)
         {
             BubbleNotifications.Add(notification);
+            notification.FirstAppeared = DateTime.Now;
+        }
+
+
+        private DispatcherTimer notificationTimer;
+        private void InitNotifications()
+        {
+            notificationTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            notificationTimer.Tick += (sender, e) => ExpireNotifications();
+            notificationTimer.Start();
+        }
+
+        private void ExpireNotifications()
+        {
+            for (int ni = BubbleNotifications.Count -1;ni>=0;ni--)
+            {
+                var notification = BubbleNotifications[ni];
+                if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)
+                {
+                    BubbleNotifications.RemoveAt(ni);
+                }
+            }
         }
 
         /// <summary>

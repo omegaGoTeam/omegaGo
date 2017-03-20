@@ -25,5 +25,7 @@ namespace OmegaGo.UI.Services.Notifications
         /// Text of the notification
         /// </summary>
         public string Text { get; }
+
+        public DateTime FirstAppeared { get; set; }
     }
 }

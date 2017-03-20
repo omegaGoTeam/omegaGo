@@ -23,14 +23,14 @@
                         <DataTemplate>
                             <Border BorderThickness="1"
                 BorderBrush="Black"
-                CornerRadius="8"
-                                    MaxWidth="300"
+                CornerRadius="4"
+                                    MaxWidth="600"
                                     Margin="0,0,0,10">
                                 <Grid>
                                     <Border
                 Name="Mask"
                 Background="LightBlue"
-                CornerRadius="8"/>
+                CornerRadius="4"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition></ColumnDefinition>
