@@ -177,8 +177,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);
             
-            //ignored?
-            if (processingResult.Result == MoveResult.Ignore) return;
 
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
@@ -188,7 +186,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
 
             //is the move illegal?
-            if (processingResult.Result != MoveResult.Legal)
+            if (processingResult.Result != MoveResult.Legal &&
+                processingResult.Result != MoveResult.IgsIgnoredPass)
             {
                 Controller.OnDebuggingMessage("That move was illegal: " + processingResult.Result);
 
@@ -196,7 +195,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 HandlePlayersIllegalMove(move, processingResult);
             }
             // These MUST NOT be an "else" here because HandlePlayersIllegalMove may change processingResult.
-            if (processingResult.Result == MoveResult.Legal)
+            if (processingResult.Result == MoveResult.Legal || processingResult.Result == MoveResult.IgsIgnoredPass)
             {
                 //we have a legal move
                 if (move.Kind == MoveKind.PlaceStone)

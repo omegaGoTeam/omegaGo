@@ -61,7 +61,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathDoneRequested += Connector_LifeDeathDoneRequested;
                 connector.LifeDeathUndoDeathMarksRequested += Connector_LifeDeathUndoDeathMarksRequested;
                 connector.LifeDeathKillGroupRequested += Connector_LifeDeathKillGroupRequested;
+                connector.LifeDeathKillGroupForced += Connector_LifeDeathKillGroupForced;
+                connector.LifeDeathUndoDeathMarksForced += Connector_LifeDeathUndoDeathMarksForced;
             }
+        }
+
+        private void Connector_LifeDeathUndoDeathMarksForced(object sender, EventArgs e)
+        {
+            UndoPhase();
+        }
+
+        private void Connector_LifeDeathKillGroupForced(object sender, Position e)
+        {
+            MarkGroupDead(e);
         }
 
         /// <summary>
@@ -75,6 +87,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathDoneRequested -= Connector_LifeDeathDoneRequested;
                 connector.LifeDeathUndoDeathMarksRequested -= Connector_LifeDeathUndoDeathMarksRequested;
                 connector.LifeDeathKillGroupRequested -= Connector_LifeDeathKillGroupRequested;
+                connector.LifeDeathKillGroupForced -= Connector_LifeDeathKillGroupForced;
+                connector.LifeDeathUndoDeathMarksForced -= Connector_LifeDeathUndoDeathMarksForced;
             }
         }
 

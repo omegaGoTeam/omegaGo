@@ -40,8 +40,9 @@
         /// </summary>
         StartLifeAndDeath,
         /// <summary>
-        /// The move is ignored. This makes it possible for specific game types to alter ruleset decision logic
+        /// Igs sends a pass that would normally end the game, but on IGS, three passes are required, and we leave this
+        /// decision up to the server.
         /// </summary>
-        Ignore
+        IgsIgnoredPass
     }
 }
