@@ -141,7 +141,7 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public double BackgroundColorOpacity
+        public float BackgroundColorOpacity
         {
             get { return _gameSettings.Display.BackgroundColorOpacity; }
             set

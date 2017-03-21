@@ -125,17 +125,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             get
             {
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundImage)
+                if (_settings.Display.BackgroundImage == BackgroundImage.None)
                 {
-                    case BackgroundImage.Go:
-                    case BackgroundImage.None:
-                        return 1;
-                    case BackgroundImage.Shrine:
-                    case BackgroundImage.Temple:
-                    case BackgroundImage.Forest:
-                        return 0.5f;
-                    default:
-                        return 1;
+                    //force full opacity for background color
+                    return 1;
+                }
+                else
+                {
+                    return _settings.Display.BackgroundColorOpacity;
                 }
             }
         }

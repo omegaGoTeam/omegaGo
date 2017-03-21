@@ -42,9 +42,9 @@ namespace OmegaGo.UI.Services.Settings
             set { SetSetting(nameof(BackgroundImage), (int)value, SettingLocality.Roamed); }
         }
 
-        public double BackgroundColorOpacity
+        public float BackgroundColorOpacity
         {
-            get { return GetSetting(BackgroundColorOpacityKey, () => 0.5, SettingLocality.Roamed); }
+            get { return GetSetting(BackgroundColorOpacityKey, () => 0.5f, SettingLocality.Roamed); }
             set
             {
                 if (value >= 0 && value <= 1)
