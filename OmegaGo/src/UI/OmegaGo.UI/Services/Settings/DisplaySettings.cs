@@ -1,4 +1,5 @@
 ﻿using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.Game.Styles;
 
 namespace OmegaGo.UI.Services.Settings
@@ -9,10 +10,20 @@ namespace OmegaGo.UI.Services.Settings
         {
         }
 
+        public ControlStyle ControlStyle
+        {
+            get
+            {
+                int theSetting = GetSetting(nameof(ControlStyle), () => (int)ControlStyle.Wood, SettingLocality.Roamed);
+                return (ControlStyle)theSetting;
+            }
+            set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }
+        }
+        
         public BoardTheme BoardTheme
         {
             get {
-                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.SolidColor, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.OakWood, SettingLocality.Roamed);
                 return (BoardTheme) theSetting;
             }
             set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
@@ -42,7 +53,7 @@ namespace OmegaGo.UI.Services.Settings
         {
             get
             {
-                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.SolidColor, SettingLocality.Roamed);
+                int theSetting = GetSetting(nameof(StonesTheme), () => (int)StoneTheme.PolishedBitmap, SettingLocality.Roamed);
                 return (StoneTheme)theSetting;
             }
             set { SetSetting(nameof(StonesTheme), (int)value, SettingLocality.Roamed); }

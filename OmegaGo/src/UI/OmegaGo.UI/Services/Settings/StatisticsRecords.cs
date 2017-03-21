@@ -4,7 +4,6 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.Services.Settings
 {
@@ -13,39 +12,62 @@ namespace OmegaGo.UI.Services.Settings
         public StatisticsRecords(ISettingsService service) : base("Statistics", service)
         {
         }
+
         public int QuestsCompleted
         {
-            get { return GetSetting(nameof(QuestsCompleted), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(QuestsCompleted), value, SettingLocality.Roamed); }
-        }
-        public int HotseatGamesPlayed {
-            get { return GetSetting(nameof(HotseatGamesPlayed), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(HotseatGamesPlayed), value, SettingLocality.Roamed); }
-        }
-        public int OnlineGamesPlayed
-        {
-            get { return GetSetting(nameof(OnlineGamesPlayed), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(OnlineGamesPlayed), value, SettingLocality.Roamed); }
-        }
-        public int LocalGamesPlayed
-        {
-            get { return GetSetting(nameof(LocalGamesPlayed), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(LocalGamesPlayed), value, SettingLocality.Roamed); }
-        }
-        public int OnlineGamesWon
-        {
-            get { return GetSetting(nameof(OnlineGamesWon), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(OnlineGamesWon), value, SettingLocality.Roamed); }
-        }
-        public int LocalGamesWon
-        {
-            get { return GetSetting(nameof(LocalGamesWon), () => 0, SettingLocality.Roamed); }
-            set { SetSetting(nameof(LocalGamesWon), value, SettingLocality.Roamed); }
+            get { return GetSetting(nameof(QuestsCompleted), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(QuestsCompleted), value, SettingLocality.Local); }
         }
 
+        public int HotseatGamesPlayed {
+            get { return GetSetting(nameof(HotseatGamesPlayed), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(HotseatGamesPlayed), value, SettingLocality.Local); }
+        }
+
+        public int OnlineGamesPlayed
+        {
+            get { return GetSetting(nameof(OnlineGamesPlayed), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(OnlineGamesPlayed), value, SettingLocality.Local); }
+        }
+
+        public int LocalGamesPlayed
+        {
+            get { return GetSetting(nameof(LocalGamesPlayed), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(LocalGamesPlayed), value, SettingLocality.Local); }
+        }
+
+        public int OnlineGamesWon
+        {
+            get { return GetSetting(nameof(OnlineGamesWon), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(OnlineGamesWon), value, SettingLocality.Local); }
+        }
+
+        public int LocalGamesWon
+        {
+            get { return GetSetting(nameof(LocalGamesWon), () => 0, SettingLocality.Local); }
+            set { SetSetting(nameof(LocalGamesWon), value, SettingLocality.Local); }
+        }
+
+        public string IgsRank
+        {
+            get { return GetSetting(nameof(IgsRank), () => "N/A", SettingLocality.Roamed); }
+            set { SetSetting(nameof(IgsRank), value, SettingLocality.Roamed); }
+        }
+
+        public string KgsRank
+        {
+            get { return GetSetting(nameof(KgsRank), () => "N/A", SettingLocality.Roamed); }
+            set { SetSetting(nameof(KgsRank), value, SettingLocality.Roamed); }
+        }
+
+        /// <summary>
+        /// Applies the completed game statistics
+        /// </summary>
+        /// <param name="game">Game</param>
+        /// <param name="gameEndInformation">Information about end of game</param>
         public void GameHasBeenCompleted(IGame game, GameEndInformation gameEndInformation)
         {
-            
+
             bool isOnlineGame = game is IRemoteGame;
             bool isHotseatGame = game.Controller.Players.All(pl => pl.Agent.Type == AgentType.Human);
             GamePlayer human = game.Controller.Players.FirstOrDefault(pl => pl.Agent.Type == AgentType.Human);
@@ -85,14 +107,17 @@ namespace OmegaGo.UI.Services.Settings
             }
         }
 
+        /// <summary>
+        /// Resets the statistics
+        /// </summary>
         public void Reset()
         {
-            this.HotseatGamesPlayed = 0;
-            this.LocalGamesPlayed = 0;
-            this.LocalGamesWon = 0;
-            this.OnlineGamesPlayed = 0;
-            this.OnlineGamesWon = 0;
-            this.QuestsCompleted = 0;
+            HotseatGamesPlayed = 0;
+            LocalGamesPlayed = 0;
+            LocalGamesWon = 0;
+            OnlineGamesPlayed = 0;
+            OnlineGamesWon = 0;
+            QuestsCompleted = 0;
         }
     }
 }

@@ -1,11 +1,18 @@
+using System;
+using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Helpers.Device;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
+using OmegaGo.UI.WindowsUniversal.UserControls.MainMenu;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -16,12 +23,27 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public MainMenuView()
         {
             this.InitializeComponent();
+            Loaded += MainMenuView_Loaded;
+        }
+
+        private void MainMenuView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox || DeviceFamilyHelper.DeviceFamily == DeviceFamily.Desktop)
+            {
+                FocusOptimization();
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             LoadLanguageMenu();
+            ///TODO: Martin - make this simpler by using itemssource and data binding
+            if (!VM.ShowTutorialButton)
+            {
+                MenuItemsControl.Items.RemoveAt(0);
+            }
+
         }
 
         /// <summary>
@@ -40,8 +62,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 {
                     //store the related language as tag
                     Tag = language,
-                    Text = Localizer.GetString(language.Name),                   
-                };                
+                    Text = Localizer.GetString(language.Name),
+                };
                 menuItem.Click += MenuItem_Click;
                 LanguagesMenu.Items?.Add(menuItem);
             }
@@ -73,6 +95,23 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void GoFullScreen_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             FullscreenModeManager.Toggle();
+        }
+
+        private async void FocusOptimization()
+        {
+            await Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    if (!VM.ShowTutorialButton)
+                    {
+                        SinglePlayerButton.Focus(FocusState.Programmatic);
+                    }
+                    else
+                    {
+                        TutorialButton.Focus(FocusState.Programmatic);
+                    }
+                });
         }
     }
 }

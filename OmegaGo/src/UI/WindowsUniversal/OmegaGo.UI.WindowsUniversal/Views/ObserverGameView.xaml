@@ -1,0 +1,96 @@
+﻿<views:TransparencyViewBase
+    x:Class="OmegaGo.UI.WindowsUniversal.Views.ObserverGameView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    mc:Ignorable="d"
+    Unloaded="TransparencyViewBase_Unloaded"
+    Loaded="TransparencyViewBase_Loaded">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <ContinuumNavigationTransitionInfo />
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                />
+
+
+        <CommandBar Grid.ColumnSpan="3" Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top"
+                    Grid.Column="0"
+                    Grid.Row="0" Content="">
+            <AppBar.Background>
+                <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
+            </AppBar.Background>
+
+            <AppBarButton Icon="Message" Label="Chat"
+                          AllowFocusOnInteraction="True">
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Bottom">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+
+        </CommandBar>
+        <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Text="DEBUG BAR" FontSize="24"></TextBlock>
+                <Button Grid.Row="1" 
+                        Click="UpdateSystemLog" 
+                        Content="Update system log"
+                        HorizontalAlignment="Stretch"/>
+                <TextBox    Grid.Row="2"
+                            x:Name="SystemLog"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            VerticalAlignment="Stretch"
+                            IsReadOnly="True" 
+                            AcceptsReturn="True" 
+                            TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+        <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
+            <StackPanel Grid.Row="0">
+                <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}"/>
+                <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}"/>
+            </StackPanel>
+        </Border>
+        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
+            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
+        </Border>
+    </Grid>
+</views:TransparencyViewBase>

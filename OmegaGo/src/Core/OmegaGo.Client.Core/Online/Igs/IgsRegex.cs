@@ -146,6 +146,22 @@ empty string*/
                 match.Groups[2].Value.AsFloat());
         }
 
+        private static readonly Regex regexGameTitleLine = new Regex(@"9 Game is titled: (.*)");
+        internal static string ParseTitleInformation(IgsLine titleLine)
+        {
+            Match match = regexGameTitleLine.Match(titleLine.EntireLine);
+            if (match.Success)
+            {
+                string fullName = match.Groups[1].Value;
+                return fullName;
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         private static readonly Regex regexHandicapMove = new Regex(@".*Handicap ([0-9])");
         /// <summary>
         /// Gets the number of handicap stones to place down, under Japanese rules, from a line such as '15   0(B): Handicap 3'.

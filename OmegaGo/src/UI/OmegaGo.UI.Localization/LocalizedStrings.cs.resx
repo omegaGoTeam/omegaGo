@@ -1,0 +1,585 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BoardSize" xml:space="preserve">
+    <value>Velikost herní plochy</value>
+    <comment>:-)</comment>
+  </data>
+  <data name="Assistant" xml:space="preserve">
+    <value>Asistent</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Zpět</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Smazat
+</value>
+  </data>
+  <data name="DeleteSelection" xml:space="preserve">
+    <value>Smazat výběr
+</value>
+  </data>
+  <data name="FilterBySource" xml:space="preserve">
+    <value>Filtrovat dle zdroje</value>
+  </data>
+  <data name="Gameplay" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Knihovna</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Načíst</value>
+  </data>
+  <data name="LoadFolder" xml:space="preserve">
+    <value>Načíst složku</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Načítám...</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Otevřít</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Vybrat</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Nastavení</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Zvuky</value>
+  </data>
+  <data name="UserInterface" xml:space="preserve">
+    <value>Zobrazení</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Kredity</value>
+  </data>
+  <data name="CreditsToolTip" xml:space="preserve">
+    <value>Zobrazit informace o autorech a licenční ujednání</value>
+  </data>
+  <data name="GameLibrary" xml:space="preserve">
+    <value>Herní knihovna</value>
+  </data>
+  <data name="GameLibraryToolTip" xml:space="preserve">
+    <value>Knihovna vašich předchozích her a souborů SGF</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Nápověda</value>
+  </data>
+  <data name="HelpToolTip" xml:space="preserve">
+    <value>Přečtěte si pravidla, dokumentaci a další zajímavé informace</value>
+  </data>
+  <data name="LocalGame" xml:space="preserve">
+    <value>Lokální hra</value>
+  </data>
+  <data name="LocalGameToolTip" xml:space="preserve">
+    <value>Hrajte Go proti jinému hráči na tomto zařízení nebo proti umělé inteligenci</value>
+  </data>
+  <data name="OnlineGame" xml:space="preserve">
+    <value>On-line hra</value>
+  </data>
+  <data name="OnlineGameToolTip" xml:space="preserve">
+    <value>Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</value>
+  </data>
+  <data name="SettingsToolTip" xml:space="preserve">
+    <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
+  </data>
+  <data name="Singleplayer" xml:space="preserve">
+    <value>Hra jednoho hráče</value>
+  </data>
+  <data name="SingleplayerToolTip" xml:space="preserve">
+    <value>Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistiky</value>
+  </data>
+  <data name="StatisticsToolTip" xml:space="preserve">
+    <value>Zobrazte své herní výsledky a statistiky</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tipy</value>
+  </data>
+  <data name="TipsToolTip" xml:space="preserve">
+    <value>Zobrazit nebo skrýt tipy</value>
+  </data>
+  <data name="Tutorial" xml:space="preserve">
+    <value>Tutoriál</value>
+  </data>
+  <data name="TutorialToolTip" xml:space="preserve">
+    <value>Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</value>
+  </data>
+  <data name="AutoLanguage" xml:space="preserve">
+    <value>Dle systému</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Změnit jazyk</value>
+  </data>
+  <data name="LanguageChangeInfo" xml:space="preserve">
+    <value>Restartujte prosím hru, aby se změna jazyka projevila.</value>
+  </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Obtížnost</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Pravidla</value>
+  </data>
+  <data name="WhiteHandicap" xml:space="preserve">
+    <value>Handicap</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Hrát</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Hráč</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Černý</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Snadná</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Těžká</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Střední</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>Bílý</value>
+  </data>
+  <data name="ToggleFullscreenTooltip" xml:space="preserve">
+    <value>Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</value>
+  </data>
+  <data name="OmegaGo" xml:space="preserve">
+    <value>omegaGo</value>
+  </data>
+  <data name="Game" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="BoardBorderThickness" xml:space="preserve">
+    <value>Tloušťka okraje</value>
+  </data>
+  <data name="BoardSettings" xml:space="preserve">
+    <value>Nastavení hrací plochy</value>
+  </data>
+  <data name="CellSize" xml:space="preserve">
+    <value>Velikost pole</value>
+  </data>
+  <data name="RulesetType_AGA" xml:space="preserve">
+    <value>AGA</value>
+  </data>
+  <data name="RulesetType_Chinese" xml:space="preserve">
+    <value>Čínská</value>
+  </data>
+  <data name="RulesetType_Japanese" xml:space="preserve">
+    <value>Japonská</value>
+  </data>
+  <data name="TotalGamesPlayed" xml:space="preserve">
+    <value>Celkem her odehráno</value>
+  </data>
+  <data name="BoardTheme_OakWood" xml:space="preserve">
+    <value>Dub</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Barva pozadí</value>
+  </data>
+  <data name="BackgroundColor_Basic" xml:space="preserve">
+    <value>Základní oranžová</value>
+  </data>
+  <data name="BackgroundColor_Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="BackgroundColor_None" xml:space="preserve">
+    <value>Žádná</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Obrázek na pozadí</value>
+  </data>
+  <data name="BackgroundImage_Forest" xml:space="preserve">
+    <value>Bambusový les</value>
+  </data>
+  <data name="BackgroundImage_Go" xml:space="preserve">
+    <value>Herní deska</value>
+  </data>
+  <data name="BackgroundImage_None" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="BackgroundImage_Shrine" xml:space="preserve">
+    <value>Šintoistická svatyně</value>
+  </data>
+  <data name="BackgroundImage_Temple" xml:space="preserve">
+    <value>Zenový chrám</value>
+  </data>
+  <data name="BoardTheme" xml:space="preserve">
+    <value>Motiv desky</value>
+  </data>
+  <data name="BoardTheme_KayaWood" xml:space="preserve">
+    <value>Dřevo kaya</value>
+  </data>
+  <data name="BoardTheme_SabakiBoard" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="BoardTheme_SolidColor" xml:space="preserve">
+    <value>Jednoduchá barva</value>
+  </data>
+  <data name="BoardTheme_VirtualBoard" xml:space="preserve">
+    <value>Virtuální deska</value>
+  </data>
+  <data name="StonesTheme" xml:space="preserve">
+    <value>Motiv kamenů</value>
+  </data>
+  <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
+    <value>Leštěné kameny</value>
+  </data>
+  <data name="StoneTheme_Sabaki" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="StoneTheme_SolidColor" xml:space="preserve">
+    <value>Plná barva</value>
+  </data>
+  <data name="ThemesPanel" xml:space="preserve">
+    <value>Motivy</value>
+  </data>
+  <data name="AssistPanel" xml:space="preserve">
+    <value>Umělá inteligence</value>
+  </data>
+  <data name="AudioPanel" xml:space="preserve">
+    <value>Zvuk</value>
+  </data>
+  <data name="HighlightIllegalKoMoves" xml:space="preserve">
+    <value>Zvýraznit neplatné tahy Ko</value>
+  </data>
+  <data name="HighlightIllegalKoMovesTooltip" xml:space="preserve">
+    <value>Pokud není možné položit kámen na bod, protože by bylo porušeno pravidlo Ko, tak daný bod bude zvýrazněn.</value>
+  </data>
+  <data name="HighlightLastMove" xml:space="preserve">
+    <value>Zvýraznit poslední tah</value>
+  </data>
+  <data name="HighlightRecentCaptures" xml:space="preserve">
+    <value>Zvýraznit zajmuté kameny</value>
+  </data>
+  <data name="HighlightRecentCapturesTooltip" xml:space="preserve">
+    <value>Pokud byl kámen zajat během předcházejícího tahu, bod, kde se nacházel, bude zvýrazněn.</value>
+  </data>
+  <data name="InputPanel" xml:space="preserve">
+    <value>Vstup</value>
+  </data>
+  <data name="ShowCoordinates" xml:space="preserve">
+    <value>Zobrazovat souřanice</value>
+  </data>
+  <data name="ShowTutorialButton" xml:space="preserve">
+    <value>Zobrazit tlačítko tutoriálu v hlavní nabídce</value>
+  </data>
+  <data name="ASoundEffectShouldPlay" xml:space="preserve">
+    <value>Zvuk by měl být přehrán:</value>
+  </data>
+  <data name="AssistantAIProgram" xml:space="preserve">
+    <value>Poskytovatel nápovědy</value>
+  </data>
+  <data name="EnableEvenInOnlineGames" xml:space="preserve">
+    <value>Povolit i v online hrách</value>
+  </data>
+  <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
+    <value>Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
+  </data>
+  <data name="EnableHints" xml:space="preserve">
+    <value>Povolit nápovědu</value>
+  </data>
+  <data name="MakingAMoveRequiresAConfirmationClick" xml:space="preserve">
+    <value>Položení kamene vyžaduje potvrzující kliknutí</value>
+  </data>
+  <data name="MasterVolume" xml:space="preserve">
+    <value>Celková hlasitost</value>
+  </data>
+  <data name="MusicVolume" xml:space="preserve">
+    <value>Hlasitost hudby</value>
+  </data>
+  <data name="MuteAll" xml:space="preserve">
+    <value>Ztlumit vše</value>
+  </data>
+  <data name="SfxVolume" xml:space="preserve">
+    <value>Hlasitost zvukových efektů</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>Síla</value>
+  </data>
+  <data name="WhenAnotherPlayerPlacesAStone" xml:space="preserve">
+    <value>Když jiný hráč umístí kámen</value>
+  </data>
+  <data name="WhenIPlaceAStone" xml:space="preserve">
+    <value>Když já umístím kámen</value>
+  </data>
+  <data name="WhenIReceiveANotification" xml:space="preserve">
+    <value>Kdy obdržím upozornění</value>
+  </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
+  <data name="AI_DefeatistAI_Description" xml:space="preserve">
+    <value>Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</value>
+  </data>
+  <data name="AI_DefeatistAI_Name" xml:space="preserve">
+    <value>Defeatist</value>
+  </data>
+  <data name="AI_FuegoAI_Description" xml:space="preserve">
+    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</value>
+  </data>
+  <data name="AI_FuegoAI_Name" xml:space="preserve">
+    <value>Fuego</value>
+  </data>
+  <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
+    <value>Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
+Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</value>
+  </data>
+  <data name="AI_HeuristicPlayerWrapper_Name" xml:space="preserve">
+    <value>Štěně (heuristika</value>
+  </data>
+  <data name="AI_RandomAI_Description" xml:space="preserve">
+    <value>Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</value>
+  </data>
+  <data name="AI_RandomAI_Name" xml:space="preserve">
+    <value>Náhodné tahy</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Description" xml:space="preserve">
+    <value>Tato umělá inteligence hraje náhodně, dokud je nějaké místo volné.
+Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud nebudete mít zvláštní štěstí).</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Name" xml:space="preserve">
+    <value>Rybka</value>
+  </data>
+  <data name="HotseatGamesPlayed" xml:space="preserve">
+    <value>Her v horkém křesle</value>
+  </data>
+  <data name="OnlineGamesPlayed" xml:space="preserve">
+    <value>Online her odehráno</value>
+  </data>
+  <data name="OnlineGamesWon" xml:space="preserve">
+    <value>Vítězství v online hrách</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="QuestsCompleted" xml:space="preserve">
+    <value>Dokončených questů</value>
+  </data>
+  <data name="SoloGamesPlayed" xml:space="preserve">
+    <value>Odehraných sólových her</value>
+  </data>
+  <data name="SoloGamesWon" xml:space="preserve">
+    <value>Vítězství v sólových hrách</value>
+  </data>
+  <data name="TotalGamesWon" xml:space="preserve">
+    <value>Celkem vítězství</value>
+  </data>
+  <data name="TsumegoProblemsSolved" xml:space="preserve">
+    <value>Vyřešených problémů tsumego</value>
+  </data>
+  <data name="FullscreenModeCheckbox" xml:space="preserve">
+    <value>Celoobrazovkový režim</value>
+  </data>
+  <data name="Rank1" xml:space="preserve">
+    <value>Novic omegaGo</value>
+  </data>
+  <data name="Rank2" xml:space="preserve">
+    <value>Učeň omegaGo</value>
+  </data>
+  <data name="Rank3" xml:space="preserve">
+    <value>Expert omegaGo</value>
+  </data>
+  <data name="Rank4" xml:space="preserve">
+    <value>Mistr omegaGo</value>
+  </data>
+  <data name="Rank5" xml:space="preserve">
+    <value>Absolvent omegaGo</value>
+  </data>
+  <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
+    <value>Dosáhli jste nové hodnosti omegaGo: {0}. Gratulujeme!</value>
+  </data>
+  <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
+    <value>+{0} bodů (nyní máte {1})</value>
+  </data>
+  <data name="ResetAllProgress_Caption" xml:space="preserve">
+    <value>Zahodit všechny statistiky?</value>
+  </data>
+  <data name="ResetAllProgress_Content" xml:space="preserve">
+    <value>Všechny herní čítače budou sníženy na nulu. Všechny body budou ztraceny. Budete mít znovu nejnižší omega hodnost. Informace o tom, které problémy tsumego byly vyřešeny, budou ztraceny. Zůstanou vám vaše současné questy.</value>
+  </data>
+  <data name="ResetAllProgress_No" xml:space="preserve">
+    <value>Storno</value>
+  </data>
+  <data name="ResetAllProgress_Yes" xml:space="preserve">
+    <value>Zahodit všechny statistiky!</value>
+  </data>
+  <data name="Tutorial_Next" xml:space="preserve">
+    <value>Další</value>
+  </data>
+  <data name="MuteTooltip" xml:space="preserve">
+    <value>Povolí nebo vypne všechny zvuky (ikonka zobrazuje současný stav)</value>
+    <comment>Default option to continue to next line in tutorial</comment>
+  </data>
+  <data name="NextRankAtColon" xml:space="preserve">
+    <value>Body na další hodnost:</value>
+  </data>
+  <data name="PlayAgainstAI" xml:space="preserve">
+    <value>Hrát proti počítači</value>
+    <comment>Goes to solo menu</comment>
+  </data>
+  <data name="Quests" xml:space="preserve">
+    <value>Questy</value>
+  </data>
+  <data name="Quest_Replace" xml:space="preserve">
+    <value>Vyměnit</value>
+  </data>
+  <data name="Quest_ReplaceTooltip" xml:space="preserve">
+    <value>Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
+  </data>
+  <data name="Quest_TryThisNow" xml:space="preserve">
+    <value>Zkusit nyní</value>
+  </data>
+  <data name="Quest_TryThisNowTooltip" xml:space="preserve">
+    <value>Toto tlačítko vás přesune na obrazovku, kde můžete pracovat na tomto questu.</value>
+  </data>
+  <data name="QuitCancel" xml:space="preserve">
+    <value>Storno</value>
+  </data>
+  <data name="QuitCaption" xml:space="preserve">
+    <value>Ukončit hru?</value>
+  </data>
+  <data name="QuitConfirm" xml:space="preserve">
+    <value>Ukončit</value>
+  </data>
+  <data name="QuitText" xml:space="preserve">
+    <value>Opravdu chcete ukončit hru?</value>
+  </data>
+  <data name="SingleplayerMenu" xml:space="preserve">
+    <value>Menu pro hru jednoho hráče</value>
+  </data>
+  <data name="SolvePuzzles" xml:space="preserve">
+    <value>Řešit problémy tsumego</value>
+    <comment>Goes to tsumego menu</comment>
+  </data>
+  <data name="QuestsFooter" xml:space="preserve">
+    <value>Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</value>
+  </data>
+  <data name="TsumegoMenuCaption" xml:space="preserve">
+    <value>Řešit problémy tsumego</value>
+  </data>
+  <data name="SolvedExclamationPoint" xml:space="preserve">
+    <value>Vyřešeno!</value>
+  </data>
+  <data name="Tsumego_BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu.</value>
+  </data>
+  <data name="Tsumego_CorrectPanel" xml:space="preserve">
+    <value>Vyřešeno</value>
+  </data>
+  <data name="Tsumego_CurrentProblemStatus" xml:space="preserve">
+    <value>Stav tohoto problému:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoCaption" xml:space="preserve">
+    <value>Jak řešit tsumego:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
+    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+  </data>
+  <data name="Tsumego_Instructions" xml:space="preserve">
+    <value>Pokyny:</value>
+  </data>
+  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
+    <value>(je možné dále táhnout)</value>
+  </data>
+  <data name="Tsumego_NextProblem" xml:space="preserve">
+    <value>Další problém</value>
+  </data>
+  <data name="Tsumego_NotYetSolved" xml:space="preserve">
+    <value>Zatím nevyřešen</value>
+  </data>
+  <data name="ResetAllProgress" xml:space="preserve">
+    <value>Zahodit statistiky</value>
+  </data>
+  <data name="OmegaGoRank" xml:space="preserve">
+    <value>Hodnost omegaGo</value>
+  </data>
+  <data name="IgsRank" xml:space="preserve">
+    <value>Třída IGS</value>
+  </data>
+  <data name="KgsRank" xml:space="preserve">
+    <value>Třída KGS</value>
+  </data>
+  <data name="ControlStyle_OperatingSystem" xml:space="preserve">
+    <value>Operační systém</value>
+  </data>
+  <data name="ControlStyle_Wood" xml:space="preserve">
+    <value>Dřevo</value>
+  </data>
+  <data name="ControlStyle" xml:space="preserve">
+    <value>Styl ovládacích prvků</value>
+  </data>
+  <data name="ControlStyle_Lite" xml:space="preserve">
+    <value>Odlehčené</value>
+  </data>
+  <data name="IgsHyperlink" xml:space="preserve">
+    <value>Vytvořit nový účet na Pandanetu (otevře okno prohlížeče)</value>
+  </data>
+  <data name="IgsServerCaption" xml:space="preserve">
+    <value>Pandanet - Internet Go Server</value>
+  </data>
+  <data name="IgsServerInfo" xml:space="preserve">
+    <value>Pandanet doporučujeme, pokud nemáte účet na KGS a nechcete stahovat další aplikaci kvůli registrování.</value>
+  </data>
+  <data name="IgsUsernameCaption" xml:space="preserve">
+    <value>Uživatelské jméno na Pandanetu</value>
+  </data>
+  <data name="KgsHyperlink" xml:space="preserve">
+    <value>Stáhnout oficiální klient KGS</value>
+  </data>
+  <data name="KgsServerCaption" xml:space="preserve">
+    <value>KGS Go Server</value>
+  </data>
+  <data name="KgsServerInfo" xml:space="preserve">
+    <value>Nejprve si musíte vytvořit účet pomocí oficiálního klienta KGS. Stáhněte si ho na počítač, přihlaste se jako Návštěvník a pak klikněte Uživatel-&gt;Zaregistrovat.</value>
+  </data>
+  <data name="KgsUsernameCaption" xml:space="preserve">
+    <value>Uživatelské jméno na KGS</value>
+  </data>
+  <data name="LoginAtStartupCaption" xml:space="preserve">
+    <value>Přihlásit se při každém spuštění omegaGo</value>
+  </data>
+  <data name="LoginButtonCaption" xml:space="preserve">
+    <value>Přihlásit se</value>
+  </data>
+  <data name="LoginFormCaption" xml:space="preserve">
+    <value>Přihlášení</value>
+  </data>
+  <data name="PasswordCaption" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="RememberPasswordCaption" xml:space="preserve">
+    <value>Zapamatovat heslo</value>
+  </data>
+</root>

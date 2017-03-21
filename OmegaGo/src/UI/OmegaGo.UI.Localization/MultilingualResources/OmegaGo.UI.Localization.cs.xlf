@@ -1,0 +1,838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="cs" original="OMEGAGO.UI.LOCALIZATION/LOCALIZEDSTRINGS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1795.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="OMEGAGO.UI.LOCALIZATION/LOCALIZEDSTRINGS.RESX" datatype="resx">
+        <trans-unit id="BoardSize" translate="yes" xml:space="preserve">
+          <source>Board Size</source>
+          <target state="final">Velikost herní plochy</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">:-)</note>
+        </trans-unit>
+        <trans-unit id="Assistant" translate="yes" xml:space="preserve">
+          <source>Assistant</source>
+          <target state="final">Asistent</target>
+        </trans-unit>
+        <trans-unit id="Back" translate="yes" xml:space="preserve">
+          <source>Back</source>
+          <target state="final">Zpět</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="final">Smazat
+</target>
+        </trans-unit>
+        <trans-unit id="DeleteSelection" translate="yes" xml:space="preserve">
+          <source>Delete selection</source>
+          <target state="final">Smazat výběr
+</target>
+        </trans-unit>
+        <trans-unit id="FilterBySource" translate="yes" xml:space="preserve">
+          <source>Filter by source</source>
+          <target state="final">Filtrovat dle zdroje</target>
+        </trans-unit>
+        <trans-unit id="Gameplay" translate="yes" xml:space="preserve">
+          <source>Gameplay</source>
+          <target state="final">Hra</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>Language</source>
+          <target state="final">Jazyk</target>
+        </trans-unit>
+        <trans-unit id="Library" translate="yes" xml:space="preserve">
+          <source>Library</source>
+          <target state="final">Knihovna</target>
+        </trans-unit>
+        <trans-unit id="Load" translate="yes" xml:space="preserve">
+          <source>Load</source>
+          <target state="final">Načíst</target>
+        </trans-unit>
+        <trans-unit id="LoadFolder" translate="yes" xml:space="preserve">
+          <source>Load folder</source>
+          <target state="final">Načíst složku</target>
+        </trans-unit>
+        <trans-unit id="Loading" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="final">Načítám...</target>
+        </trans-unit>
+        <trans-unit id="Open" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="final">Otevřít</target>
+        </trans-unit>
+        <trans-unit id="Rename" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="final">Přejmenovat</target>
+        </trans-unit>
+        <trans-unit id="Select" translate="yes" xml:space="preserve">
+          <source>Select</source>
+          <target state="final">Vybrat</target>
+        </trans-unit>
+        <trans-unit id="Settings" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="final">Nastavení</target>
+        </trans-unit>
+        <trans-unit id="Sounds" translate="yes" xml:space="preserve">
+          <source>Sounds</source>
+          <target state="final">Zvuky</target>
+        </trans-unit>
+        <trans-unit id="UserInterface" translate="yes" xml:space="preserve">
+          <source>Display</source>
+          <target state="final">Zobrazení</target>
+        </trans-unit>
+        <trans-unit id="Credits" translate="yes" xml:space="preserve">
+          <source>Credits</source>
+          <target state="final">Kredity</target>
+        </trans-unit>
+        <trans-unit id="CreditsToolTip" translate="yes" xml:space="preserve">
+          <source>View information about the game authors and license information.</source>
+          <target state="final">Zobrazit informace o autorech a licenční ujednání</target>
+        </trans-unit>
+        <trans-unit id="GameLibrary" translate="yes" xml:space="preserve">
+          <source>Game library</source>
+          <target state="final">Herní knihovna</target>
+        </trans-unit>
+        <trans-unit id="GameLibraryToolTip" translate="yes" xml:space="preserve">
+          <source>Library of your past games and all your SGF files</source>
+          <target state="final">Knihovna vašich předchozích her a souborů SGF</target>
+        </trans-unit>
+        <trans-unit id="Help" translate="yes" xml:space="preserve">
+          <source>Help</source>
+          <target state="final">Nápověda</target>
+        </trans-unit>
+        <trans-unit id="HelpToolTip" translate="yes" xml:space="preserve">
+          <source>Read the rules, documentation and other interesting information.</source>
+          <target state="final">Přečtěte si pravidla, dokumentaci a další zajímavé informace</target>
+        </trans-unit>
+        <trans-unit id="LocalGame" translate="yes" xml:space="preserve">
+          <source>Local game</source>
+          <target state="final">Lokální hra</target>
+        </trans-unit>
+        <trans-unit id="LocalGameToolTip" translate="yes" xml:space="preserve">
+          <source>Play Go against another player on the same device or against an AI.</source>
+          <target state="final">Hrajte Go proti jinému hráči na tomto zařízení nebo proti umělé inteligenci</target>
+        </trans-unit>
+        <trans-unit id="OnlineGame" translate="yes" xml:space="preserve">
+          <source>On-line game</source>
+          <target state="final">On-line hra</target>
+        </trans-unit>
+        <trans-unit id="OnlineGameToolTip" translate="yes" xml:space="preserve">
+          <source>Play Go against players on the IGS or OGS online servers.</source>
+          <target state="final">Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</target>
+        </trans-unit>
+        <trans-unit id="SettingsToolTip" translate="yes" xml:space="preserve">
+          <source>Change language, audio, visual style and many other things.</source>
+          <target state="final">Změňte jazyk, audio, grafiku a mnoho dalších nastavení</target>
+        </trans-unit>
+        <trans-unit id="Singleplayer" translate="yes" xml:space="preserve">
+          <source>Singleplayer</source>
+          <target state="final">Hra jednoho hráče</target>
+        </trans-unit>
+        <trans-unit id="SingleplayerToolTip" translate="yes" xml:space="preserve">
+          <source>Learn Go, play against an AI, solve problems or gain experience completing quests.</source>
+          <target state="final">Učte se Go, hrajte proti umělé inteligenci, řešte problémy nebo získávejte zkušenosti plněním výzev</target>
+        </trans-unit>
+        <trans-unit id="Statistics" translate="yes" xml:space="preserve">
+          <source>Statistics</source>
+          <target state="final">Statistiky</target>
+        </trans-unit>
+        <trans-unit id="StatisticsToolTip" translate="yes" xml:space="preserve">
+          <source>View your winrate and other statistics.</source>
+          <target state="final">Zobrazte své herní výsledky a statistiky</target>
+        </trans-unit>
+        <trans-unit id="Tips" translate="yes" xml:space="preserve">
+          <source>Tips</source>
+          <target state="final">Tipy</target>
+        </trans-unit>
+        <trans-unit id="TipsToolTip" translate="yes" xml:space="preserve">
+          <source>Show or hide tips.</source>
+          <target state="final">Zobrazit nebo skrýt tipy</target>
+        </trans-unit>
+        <trans-unit id="Tutorial" translate="yes" xml:space="preserve">
+          <source>Tutorial</source>
+          <target state="final">Tutoriál</target>
+        </trans-unit>
+        <trans-unit id="TutorialToolTip" translate="yes" xml:space="preserve">
+          <source>This is the best place to learn Go if you don't know anything at all about the game.</source>
+          <target state="final">Nejlepší způsob jak se naučit základy Go, pokud jste ještě hru nehráli</target>
+        </trans-unit>
+        <trans-unit id="AutoLanguage" translate="yes" xml:space="preserve">
+          <source>Auto</source>
+          <target state="final">Dle systému</target>
+        </trans-unit>
+        <trans-unit id="ChangeLanguage" translate="yes" xml:space="preserve">
+          <source>Change language</source>
+          <target state="final">Změnit jazyk</target>
+        </trans-unit>
+        <trans-unit id="LanguageChangeInfo" translate="yes" xml:space="preserve">
+          <source>Please, restart the game to see the language you have chosen.</source>
+          <target state="final">Restartujte prosím hru, aby se změna jazyka projevila.</target>
+        </trans-unit>
+        <trans-unit id="Difficulty" translate="yes" xml:space="preserve">
+          <source>Difficulty</source>
+          <target state="final">Obtížnost</target>
+        </trans-unit>
+        <trans-unit id="Rules" translate="yes" xml:space="preserve">
+          <source>Rules</source>
+          <target state="final">Pravidla</target>
+        </trans-unit>
+        <trans-unit id="WhiteHandicap" translate="yes" xml:space="preserve">
+          <source>Handicap</source>
+          <target state="translated">Handicap</target>
+        </trans-unit>
+        <trans-unit id="Play" translate="yes" xml:space="preserve">
+          <source>Play</source>
+          <target state="final">Hrát</target>
+        </trans-unit>
+        <trans-unit id="Player" translate="yes" xml:space="preserve">
+          <source>Player</source>
+          <target state="final">Hráč</target>
+        </trans-unit>
+        <trans-unit id="Black" translate="yes" xml:space="preserve">
+          <source>Black</source>
+          <target state="final">Černý</target>
+        </trans-unit>
+        <trans-unit id="Easy" translate="yes" xml:space="preserve">
+          <source>Easy</source>
+          <target state="final">Snadná</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Snadná obtížnost</note>
+        </trans-unit>
+        <trans-unit id="Hard" translate="yes" xml:space="preserve">
+          <source>Hard</source>
+          <target state="final">Těžká</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Těžká obtížnost</note>
+        </trans-unit>
+        <trans-unit id="Medium" translate="yes" xml:space="preserve">
+          <source>Medium</source>
+          <target state="final">Střední</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">Střední obtížnost</note>
+        </trans-unit>
+        <trans-unit id="White" translate="yes" xml:space="preserve">
+          <source>White</source>
+          <target state="final">Bílý</target>
+        </trans-unit>
+        <trans-unit id="ToggleFullscreenTooltip" translate="yes" xml:space="preserve">
+          <source>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</source>
+          <target state="final">Přepnout zobrazení na celou obrazovku (Můžete také použít Alt+Enter na PC)</target>
+        </trans-unit>
+        <trans-unit id="OmegaGo" translate="yes" xml:space="preserve">
+          <source>omegaGo</source>
+          <target state="final">omegaGo</target>
+        </trans-unit>
+        <trans-unit id="Game" translate="yes" xml:space="preserve">
+          <source>Game</source>
+          <target state="final">Hra</target>
+        </trans-unit>
+        <trans-unit id="BoardBorderThickness" translate="yes" xml:space="preserve">
+          <source>Board border thickness</source>
+          <target state="final">Tloušťka okraje</target>
+        </trans-unit>
+        <trans-unit id="BoardSettings" translate="yes" xml:space="preserve">
+          <source>Board settings</source>
+          <target state="final">Nastavení hrací plochy</target>
+        </trans-unit>
+        <trans-unit id="CellSize" translate="yes" xml:space="preserve">
+          <source>Cell size</source>
+          <target state="final">Velikost pole</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_AGA" translate="yes" xml:space="preserve">
+          <source>AGA</source>
+          <target state="final">AGA</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_Chinese" translate="yes" xml:space="preserve">
+          <source>Chinese</source>
+          <target state="final">Čínská</target>
+        </trans-unit>
+        <trans-unit id="RulesetType_Japanese" translate="yes" xml:space="preserve">
+          <source>Japanese</source>
+          <target state="final">Japonská</target>
+        </trans-unit>
+        <trans-unit id="TotalGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Total games played</source>
+          <target state="final">Celkem her odehráno</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_OakWood" translate="yes" xml:space="preserve">
+          <source>Oak wood</source>
+          <target state="translated">Dub</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor" translate="yes" xml:space="preserve">
+          <source>Background Color</source>
+          <target state="translated">Barva pozadí</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_Basic" translate="yes" xml:space="preserve">
+          <source>Basic orange</source>
+          <target state="translated">Základní oranžová</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_Green" translate="yes" xml:space="preserve">
+          <source>Green</source>
+          <target state="translated">Zelená</target>
+        </trans-unit>
+        <trans-unit id="BackgroundColor_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated" state-qualifier="tm-suggestion">Žádná</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage" translate="yes" xml:space="preserve">
+          <source>Background Image</source>
+          <target state="translated">Obrázek na pozadí</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Forest" translate="yes" xml:space="preserve">
+          <source>Bamboo forest</source>
+          <target state="translated">Bambusový les</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Go" translate="yes" xml:space="preserve">
+          <source>Go board</source>
+          <target state="translated">Herní deska</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Žádný</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Shrine" translate="yes" xml:space="preserve">
+          <source>Shinto shrine</source>
+          <target state="translated">Šintoistická svatyně</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImage_Temple" translate="yes" xml:space="preserve">
+          <source>Zen temple</source>
+          <target state="translated">Zenový chrám</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme" translate="yes" xml:space="preserve">
+          <source>Board Theme</source>
+          <target state="translated">Motiv desky</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_KayaWood" translate="yes" xml:space="preserve">
+          <source>Kaya wood</source>
+          <target state="translated">Dřevo kaya</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SabakiBoard" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="translated">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="translated">Jednoduchá barva</target>
+        </trans-unit>
+        <trans-unit id="BoardTheme_VirtualBoard" translate="yes" xml:space="preserve">
+          <source>Virtual board</source>
+          <target state="translated">Virtuální deska</target>
+        </trans-unit>
+        <trans-unit id="StonesTheme" translate="yes" xml:space="preserve">
+          <source>Stones Theme</source>
+          <target state="translated">Motiv kamenů</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_PolishedBitmap" translate="yes" xml:space="preserve">
+          <source>Polished stones</source>
+          <target state="translated">Leštěné kameny</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_Sabaki" translate="yes" xml:space="preserve">
+          <source>Sabaki</source>
+          <target state="translated">Sabaki</target>
+        </trans-unit>
+        <trans-unit id="StoneTheme_SolidColor" translate="yes" xml:space="preserve">
+          <source>Solid color</source>
+          <target state="translated">Plná barva</target>
+        </trans-unit>
+        <trans-unit id="ThemesPanel" translate="yes" xml:space="preserve">
+          <source>Themes</source>
+          <target state="translated">Motivy</target>
+        </trans-unit>
+        <trans-unit id="AssistPanel" translate="yes" xml:space="preserve">
+          <source>Artificial intelligence</source>
+          <target state="final">Umělá inteligence</target>
+        </trans-unit>
+        <trans-unit id="AudioPanel" translate="yes" xml:space="preserve">
+          <source>Audio</source>
+          <target state="translated">Zvuk</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMoves" translate="yes" xml:space="preserve">
+          <source>Highlight illegal Ko moves</source>
+          <target state="translated">Zvýraznit neplatné tahy Ko</target>
+        </trans-unit>
+        <trans-unit id="HighlightIllegalKoMovesTooltip" translate="yes" xml:space="preserve">
+          <source>If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</source>
+          <target state="translated">Pokud není možné položit kámen na bod, protože by bylo porušeno pravidlo Ko, tak daný bod bude zvýrazněn.</target>
+        </trans-unit>
+        <trans-unit id="HighlightLastMove" translate="yes" xml:space="preserve">
+          <source>Highlight last move</source>
+          <target state="translated">Zvýraznit poslední tah</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCaptures" translate="yes" xml:space="preserve">
+          <source>Highlight recent captures</source>
+          <target state="translated">Zvýraznit zajmuté kameny</target>
+        </trans-unit>
+        <trans-unit id="HighlightRecentCapturesTooltip" translate="yes" xml:space="preserve">
+          <source>If a stone was captured during the previous move, its intersection will be highlighted.</source>
+          <target state="translated">Pokud byl kámen zajat během předcházejícího tahu, bod, kde se nacházel, bude zvýrazněn.</target>
+        </trans-unit>
+        <trans-unit id="InputPanel" translate="yes" xml:space="preserve">
+          <source>Input</source>
+          <target state="translated">Vstup</target>
+        </trans-unit>
+        <trans-unit id="ShowCoordinates" translate="yes" xml:space="preserve">
+          <source>Show coordinates</source>
+          <target state="translated">Zobrazovat souřanice</target>
+        </trans-unit>
+        <trans-unit id="ShowTutorialButton" translate="yes" xml:space="preserve">
+          <source>Show the tutorial button in main menu</source>
+          <target state="translated">Zobrazit tlačítko tutoriálu v hlavní nabídce</target>
+        </trans-unit>
+        <trans-unit id="ASoundEffectShouldPlay" translate="yes" xml:space="preserve">
+          <source>A sound effect should play:</source>
+          <target state="translated">Zvuk by měl být přehrán:</target>
+        </trans-unit>
+        <trans-unit id="AssistantAIProgram" translate="yes" xml:space="preserve">
+          <source>Assistant AI program</source>
+          <target state="translated">Poskytovatel nápovědy</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGames" translate="yes" xml:space="preserve">
+          <source>Enable even in online games</source>
+          <target state="translated">Povolit i v online hrách</target>
+        </trans-unit>
+        <trans-unit id="EnableEvenInOnlineGamesTooltip" translate="yes" xml:space="preserve">
+          <source>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</source>
+          <target state="translated">Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</target>
+        </trans-unit>
+        <trans-unit id="EnableHints" translate="yes" xml:space="preserve">
+          <source>Enable hints</source>
+          <target state="translated">Povolit nápovědu</target>
+        </trans-unit>
+        <trans-unit id="MakingAMoveRequiresAConfirmationClick" translate="yes" xml:space="preserve">
+          <source>Making a move requires a confirmation click</source>
+          <target state="translated">Položení kamene vyžaduje potvrzující kliknutí</target>
+        </trans-unit>
+        <trans-unit id="MasterVolume" translate="yes" xml:space="preserve">
+          <source>Master volume</source>
+          <target state="translated">Celková hlasitost</target>
+        </trans-unit>
+        <trans-unit id="MusicVolume" translate="yes" xml:space="preserve">
+          <source>Music volume</source>
+          <target state="translated">Hlasitost hudby</target>
+        </trans-unit>
+        <trans-unit id="MuteAll" translate="yes" xml:space="preserve">
+          <source>Mute all</source>
+          <target state="translated">Ztlumit vše</target>
+        </trans-unit>
+        <trans-unit id="SfxVolume" translate="yes" xml:space="preserve">
+          <source>Sound effects volume</source>
+          <target state="translated">Hlasitost zvukových efektů</target>
+        </trans-unit>
+        <trans-unit id="Strength" translate="yes" xml:space="preserve">
+          <source>Strength</source>
+          <target state="translated">Síla</target>
+        </trans-unit>
+        <trans-unit id="WhenAnotherPlayerPlacesAStone" translate="yes" xml:space="preserve">
+          <source>When another player places a stone</source>
+          <target state="translated">Když jiný hráč umístí kámen</target>
+        </trans-unit>
+        <trans-unit id="WhenIPlaceAStone" translate="yes" xml:space="preserve">
+          <source>When I place a stone</source>
+          <target state="translated">Když já umístím kámen</target>
+        </trans-unit>
+        <trans-unit id="WhenIReceiveANotification" translate="yes" xml:space="preserve">
+          <source>When I receive a notification</source>
+          <target state="translated">Kdy obdržím upozornění</target>
+        </trans-unit>
+        <trans-unit id="AI_AlphaBetaPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+Fluffy will always and only pass in response to its opponent passing.
+You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
+          <target state="translated">Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</target>
+        </trans-unit>
+        <trans-unit id="AI_AlphaBetaPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>Fluffy (minimax)</source>
+          <target state="translated">Fluffy (minimax)</target>
+        </trans-unit>
+        <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
+          <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
+          <target state="translated">Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</target>
+        </trans-unit>
+        <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
+          <source>Defeatist</source>
+          <target state="final">Defeatist</target>
+        </trans-unit>
+        <trans-unit id="AI_FuegoAI_Description" translate="yes" xml:space="preserve">
+          <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
+We recommend you use this AI program for all of your games.</source>
+          <target state="translated">Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</target>
+        </trans-unit>
+        <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
+          <source>Fuego</source>
+          <target state="final">Fuego</target>
+        </trans-unit>
+        <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+This AI will pass only in response to its opponent passing, in which case it will always pass.</source>
+          <target state="translated">Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
+Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</target>
+        </trans-unit>
+        <trans-unit id="AI_HeuristicPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>The Puppy (heuristic)</source>
+          <target state="translated">Štěně (heuristika</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomAI_Description" translate="yes" xml:space="preserve">
+          <source>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</source>
+          <target state="translated">Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomAI_Name" translate="yes" xml:space="preserve">
+          <source>Random</source>
+          <target state="translated">Náhodné tahy</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomPlayerWrapper_Description" translate="yes" xml:space="preserve">
+          <source>This AI plays random moves while the board is not empty.
+I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</source>
+          <target state="translated">Tato umělá inteligence hraje náhodně, dokud je nějaké místo volné.
+Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud nebudete mít zvláštní štěstí).</target>
+        </trans-unit>
+        <trans-unit id="AI_RandomPlayerWrapper_Name" translate="yes" xml:space="preserve">
+          <source>The Fish</source>
+          <target state="translated">Rybka</target>
+        </trans-unit>
+        <trans-unit id="HotseatGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Hotseat games played</source>
+          <target state="final">Her v horkém křesle</target>
+        </trans-unit>
+        <trans-unit id="OnlineGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Online games played</source>
+          <target state="final">Online her odehráno</target>
+        </trans-unit>
+        <trans-unit id="OnlineGamesWon" translate="yes" xml:space="preserve">
+          <source>Online games won</source>
+          <target state="final">Vítězství v online hrách</target>
+        </trans-unit>
+        <trans-unit id="Points" translate="yes" xml:space="preserve">
+          <source>Points</source>
+          <target state="translated">Body</target>
+        </trans-unit>
+        <trans-unit id="QuestsCompleted" translate="yes" xml:space="preserve">
+          <source>Quests completed</source>
+          <target state="final">Dokončených questů</target>
+        </trans-unit>
+        <trans-unit id="SoloGamesPlayed" translate="yes" xml:space="preserve">
+          <source>Solo games played</source>
+          <target state="final">Odehraných sólových her</target>
+        </trans-unit>
+        <trans-unit id="SoloGamesWon" translate="yes" xml:space="preserve">
+          <source>Solo games won</source>
+          <target state="final">Vítězství v sólových hrách</target>
+        </trans-unit>
+        <trans-unit id="TotalGamesWon" translate="yes" xml:space="preserve">
+          <source>Total games won</source>
+          <target state="final">Celkem vítězství</target>
+        </trans-unit>
+        <trans-unit id="TsumegoProblemsSolved" translate="yes" xml:space="preserve">
+          <source>Tsumego problems solved</source>
+          <target state="final">Vyřešených problémů tsumego</target>
+        </trans-unit>
+        <trans-unit id="FullscreenModeCheckbox" translate="yes" xml:space="preserve">
+          <source>Fullscreen Mode</source>
+          <target state="translated">Celoobrazovkový režim</target>
+        </trans-unit>
+        <trans-unit id="Rank1" translate="yes" xml:space="preserve">
+          <source>Omega Novice</source>
+          <target state="final">Novic omegaGo</target>
+        </trans-unit>
+        <trans-unit id="Rank2" translate="yes" xml:space="preserve">
+          <source>Omega Apprentice</source>
+          <target state="final">Učeň omegaGo</target>
+        </trans-unit>
+        <trans-unit id="Rank3" translate="yes" xml:space="preserve">
+          <source>Omega Expert</source>
+          <target state="final">Expert omegaGo</target>
+        </trans-unit>
+        <trans-unit id="Rank4" translate="yes" xml:space="preserve">
+          <source>Omega Master</source>
+          <target state="final">Mistr omegaGo</target>
+        </trans-unit>
+        <trans-unit id="Rank5" translate="yes" xml:space="preserve">
+          <source>Omega Graduate</source>
+          <target state="final">Absolvent omegaGo</target>
+        </trans-unit>
+        <trans-unit id="YouHaveAdvancedToNewRankX" translate="yes" xml:space="preserve">
+          <source>You have advanced to a new omegaGo rank: {0}. Congratulations!</source>
+          <target state="translated">Dosáhli jste nové hodnosti omegaGo: {0}. Gratulujeme!</target>
+        </trans-unit>
+        <trans-unit id="YouHaveGainedXPointsNowYouHaveY" translate="yes" xml:space="preserve">
+          <source>+{0} points (now you have {1})</source>
+          <target state="translated">+{0} bodů (nyní máte {1})</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_Caption" translate="yes" xml:space="preserve">
+          <source>Reset all progress?</source>
+          <target state="final">Zahodit všechny statistiky?</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_Content" translate="yes" xml:space="preserve">
+          <source>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</source>
+          <target state="translated">Všechny herní čítače budou sníženy na nulu. Všechny body budou ztraceny. Budete mít znovu nejnižší omega hodnost. Informace o tom, které problémy tsumego byly vyřešeny, budou ztraceny. Zůstanou vám vaše současné questy.</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_No" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="final">Storno</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress_Yes" translate="yes" xml:space="preserve">
+          <source>Reset all progress!</source>
+          <target state="final">Zahodit všechny statistiky!</target>
+        </trans-unit>
+        <trans-unit id="Tutorial_Next" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="translated">Další</target>
+        </trans-unit>
+        <trans-unit id="MuteTooltip" translate="yes" xml:space="preserve">
+          <source>Toggle muting all sounds (icon shows current state)</source>
+          <target state="translated">Povolí nebo vypne všechny zvuky (ikonka zobrazuje současný stav)</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Default option to continue to next line in tutorial</note>
+        </trans-unit>
+        <trans-unit id="NextRankAtColon" translate="yes" xml:space="preserve">
+          <source>Next rank at:</source>
+          <target state="translated">Body na další hodnost:</target>
+        </trans-unit>
+        <trans-unit id="PlayAgainstAI" translate="yes" xml:space="preserve">
+          <source>Play against AI</source>
+          <target state="translated">Hrát proti počítači</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to solo menu</note>
+        </trans-unit>
+        <trans-unit id="Quests" translate="yes" xml:space="preserve">
+          <source>Quests</source>
+          <target state="translated">Questy</target>
+        </trans-unit>
+        <trans-unit id="Quest_Replace" translate="yes" xml:space="preserve">
+          <source>Replace</source>
+          <target state="translated">Vyměnit</target>
+        </trans-unit>
+        <trans-unit id="Quest_ReplaceTooltip" translate="yes" xml:space="preserve">
+          <source>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</source>
+          <target state="translated">Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNow" translate="yes" xml:space="preserve">
+          <source>Try this now</source>
+          <target state="translated">Zkusit nyní</target>
+        </trans-unit>
+        <trans-unit id="Quest_TryThisNowTooltip" translate="yes" xml:space="preserve">
+          <source>This will take you to a screen where you can work on this quest.</source>
+          <target state="translated">Toto tlačítko vás přesune na obrazovku, kde můžete pracovat na tomto questu.</target>
+        </trans-unit>
+        <trans-unit id="QuitCancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Storno</target>
+        </trans-unit>
+        <trans-unit id="QuitCaption" translate="yes" xml:space="preserve">
+          <source>Quit game?</source>
+          <target state="translated">Ukončit hru?</target>
+        </trans-unit>
+        <trans-unit id="QuitConfirm" translate="yes" xml:space="preserve">
+          <source>Quit</source>
+          <target state="translated">Ukončit</target>
+        </trans-unit>
+        <trans-unit id="QuitText" translate="yes" xml:space="preserve">
+          <source>Do you really want to quit the game?</source>
+          <target state="translated">Opravdu chcete ukončit hru?</target>
+        </trans-unit>
+        <trans-unit id="SingleplayerMenu" translate="yes" xml:space="preserve">
+          <source>Singleplayer Menu</source>
+          <target state="translated">Menu pro hru jednoho hráče</target>
+        </trans-unit>
+        <trans-unit id="SolvePuzzles" translate="yes" xml:space="preserve">
+          <source>Solve puzzles</source>
+          <target state="translated">Řešit problémy tsumego</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">Goes to tsumego menu</note>
+        </trans-unit>
+        <trans-unit id="QuestsFooter" translate="yes" xml:space="preserve">
+          <source>You receive a new quest every midnight, local time, unless you already have 3 quests.</source>
+          <target state="translated">Každou půlnoc místního času získáte nový quest, pokud totiž už nemáte 3 questy.</target>
+        </trans-unit>
+        <trans-unit id="TsumegoMenuCaption" translate="yes" xml:space="preserve">
+          <source>Solve tsumego problems</source>
+          <target state="translated">Řešit problémy tsumego</target>
+        </trans-unit>
+        <trans-unit id="SolvedExclamationPoint" translate="yes" xml:space="preserve">
+          <source>Solved!</source>
+          <target state="translated">Vyřešeno!</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_BlackToPlay" translate="yes" xml:space="preserve">
+          <source>Black to play.</source>
+          <target state="translated">Černý je na tahu.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CorrectPanel" translate="yes" xml:space="preserve">
+          <source>Solved</source>
+          <target state="translated">Vyřešeno</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CurrentProblemStatus" translate="yes" xml:space="preserve">
+          <source>Current problem status:</source>
+          <target state="translated">Stav tohoto problému:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_HowToSolveTsumegoCaption" translate="yes" xml:space="preserve">
+          <source>How to solve tsumego:</source>
+          <target state="translated">Jak řešit tsumego:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_HowToSolveTsumegoText" translate="yes" xml:space="preserve">
+          <source>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</source>
+          <target state="translated">Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_Instructions" translate="yes" xml:space="preserve">
+          <source>Instructions:</source>
+          <target state="translated">Pokyny:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_MoreMovesAvailable" translate="yes" xml:space="preserve">
+          <source>(more moves available)</source>
+          <target state="translated">(je možné dále táhnout)</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_NextProblem" translate="yes" xml:space="preserve">
+          <source>Next problem</source>
+          <target state="translated">Další problém</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_NotYetSolved" translate="yes" xml:space="preserve">
+          <source>Not yet solved</source>
+          <target state="translated">Zatím nevyřešen</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_CurrentNodeStatus" translate="yes" xml:space="preserve">
+          <source>Current node status:</source>
+          <target state="new">Current node status:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_PreviousProblem" translate="yes" xml:space="preserve">
+          <source>Previous problem</source>
+          <target state="new">Previous problem</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ProblemName" translate="yes" xml:space="preserve">
+          <source>Problem name:</source>
+          <target state="new">Problem name:</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ShowPossibleMoves" translate="yes" xml:space="preserve">
+          <source>Show possible moves</source>
+          <target state="new">Show possible moves</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ShowPossibleMoves_Tooltip" translate="yes" xml:space="preserve">
+          <source>If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays.</source>
+          <target state="new">If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusContinue" translate="yes" xml:space="preserve">
+          <source>Continue...</source>
+          <target state="new">Continue...</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusCorrect" translate="yes" xml:space="preserve">
+          <source>Correct!</source>
+          <target state="new">Correct!</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_StatusWrong" translate="yes" xml:space="preserve">
+          <source>Wrong.</source>
+          <target state="new">Wrong.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_UndoOneMove" translate="yes" xml:space="preserve">
+          <source>Undo last move</source>
+          <target state="new">Undo last move</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_Unexpected" translate="yes" xml:space="preserve">
+          <source>(unexpected)</source>
+          <target state="new">(unexpected)</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_ViewCaption" translate="yes" xml:space="preserve">
+          <source>Tsumego</source>
+          <target state="new">Tsumego</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_WhiteToPlay" translate="yes" xml:space="preserve">
+          <source>White to play.</source>
+          <target state="new">White to play.</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_WrongPanel" translate="yes" xml:space="preserve">
+          <source>Wrong</source>
+          <target state="new">Wrong</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_YouHavePreviouslySolvedThisProblem" translate="yes" xml:space="preserve">
+          <source>Solved (you have previously solved this problem).</source>
+          <target state="new">Solved (you have previously solved this problem).</target>
+        </trans-unit>
+        <trans-unit id="Tsumego_YouHaveSolvedThisProblem" translate="yes" xml:space="preserve">
+          <source>You have solved this problem!</source>
+          <target state="new">You have solved this problem!</target>
+        </trans-unit>
+        <trans-unit id="ResetAllProgress" translate="yes" xml:space="preserve">
+          <source>Reset all progress</source>
+          <target state="final">Zahodit statistiky</target>
+        </trans-unit>
+        <trans-unit id="OmegaGoRank" translate="yes" xml:space="preserve">
+          <source>omegaGo rank</source>
+          <target state="translated">Hodnost omegaGo</target>
+        </trans-unit>
+        <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
+          <source>IGS rank</source>
+          <target state="final">Třída IGS</target>
+        </trans-unit>
+        <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
+          <source>KGS rank</source>
+          <target state="final">Třída KGS</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle_OperatingSystem" translate="yes" xml:space="preserve">
+          <source>Operating System</source>
+          <target state="needs-review-translation">Operační systém</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle_Wood" translate="yes" xml:space="preserve">
+          <source>Wood</source>
+          <target state="needs-review-translation">Dřevo</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle" translate="yes" xml:space="preserve">
+          <source>Control Style</source>
+          <target state="needs-review-translation">Styl ovládacích prvků</target>
+        </trans-unit>
+        <trans-unit id="ControlStyle_Lite" translate="yes" xml:space="preserve">
+          <source>Lite</source>
+          <target state="needs-review-translation">Odlehčené</target>
+        </trans-unit>
+        <trans-unit id="IgsHyperlink" translate="yes" xml:space="preserve">
+          <source>Create a new Pandanet account (opens a browser window)</source>
+          <target state="translated">Vytvořit nový účet na Pandanetu (otevře okno prohlížeče)</target>
+        </trans-unit>
+        <trans-unit id="IgsServerCaption" translate="yes" xml:space="preserve">
+          <source>Pandanet - Internet Go Server</source>
+          <target state="translated">Pandanet - Internet Go Server</target>
+        </trans-unit>
+        <trans-unit id="IgsServerInfo" translate="yes" xml:space="preserve">
+          <source>Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online.</source>
+          <target state="translated">Pandanet doporučujeme, pokud nemáte účet na KGS a nechcete stahovat další aplikaci kvůli registrování.</target>
+        </trans-unit>
+        <trans-unit id="IgsUsernameCaption" translate="yes" xml:space="preserve">
+          <source>Pandanet username</source>
+          <target state="translated">Uživatelské jméno na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="KgsHyperlink" translate="yes" xml:space="preserve">
+          <source>Download the official KGS client</source>
+          <target state="translated">Stáhnout oficiální klient KGS</target>
+        </trans-unit>
+        <trans-unit id="KgsServerCaption" translate="yes" xml:space="preserve">
+          <source>KGS Go Server</source>
+          <target state="translated">KGS Go Server</target>
+        </trans-unit>
+        <trans-unit id="KgsServerInfo" translate="yes" xml:space="preserve">
+          <source>You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User-&gt;Register.</source>
+          <target state="translated">Nejprve si musíte vytvořit účet pomocí oficiálního klienta KGS. Stáhněte si ho na počítač, přihlaste se jako Návštěvník a pak klikněte Uživatel-&gt;Zaregistrovat.</target>
+        </trans-unit>
+        <trans-unit id="KgsUsernameCaption" translate="yes" xml:space="preserve">
+          <source>KGS Username</source>
+          <target state="translated">Uživatelské jméno na KGS</target>
+        </trans-unit>
+        <trans-unit id="LoginAtStartupCaption" translate="yes" xml:space="preserve">
+          <source>Log in whenever you start omegaGo</source>
+          <target state="translated">Přihlásit se při každém spuštění omegaGo</target>
+        </trans-unit>
+        <trans-unit id="LoginButtonCaption" translate="yes" xml:space="preserve">
+          <source>Log In</source>
+          <target state="translated">Přihlásit se</target>
+        </trans-unit>
+        <trans-unit id="LoginFormCaption" translate="yes" xml:space="preserve">
+          <source>Login</source>
+          <target state="translated">Přihlášení</target>
+        </trans-unit>
+        <trans-unit id="PasswordCaption" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="translated">Heslo</target>
+        </trans-unit>
+        <trans-unit id="RememberPasswordCaption" translate="yes" xml:space="preserve">
+          <source>Remember password</source>
+          <target state="translated">Zapamatovat heslo</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

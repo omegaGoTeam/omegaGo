@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,6 +23,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         public TitleControl()
         {
             this.InitializeComponent();
+            if (DesignMode.DesignModeEnabled)
+            {
+                Back.FullScreenOnly = true;
+            }
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
@@ -29,7 +34,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
 
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
     }

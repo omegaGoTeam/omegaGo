@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
+    <ProjectReference Include="..\OmegaGo.UI.Localization\OmegaGo.UI.Localization.csproj">
       <Project>{e81a29f8-6942-4e1e-a27c-524fa68cebae}</Project>
       <Name>OmegaGo.UI.Localization</Name>
     </ProjectReference>
@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board\Styles\StoneTheme.cs" />
+    <Compile Include="Controls\Styles\ControlStyle.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
@@ -68,7 +69,10 @@
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
+    <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
+    <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
+    <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -98,11 +102,11 @@
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
+    <Compile Include="Services\PasswordVault\IPasswordVaultService.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
     <Compile Include="Services\Quests\GameCompletedQuestInformation.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\BlitzRocketQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\EpicPlayQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\GettingStrongerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\GreatLearnerQuest.cs" />
@@ -110,14 +114,12 @@
     <Compile Include="Services\Quests\IndividualQuests\IgsChallengeQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\KgsChallengeQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\LearnerQuest.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\MasterLearnerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\OnlineTraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\PureSkillQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\SoloVictoriesQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\TotalMasteryQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
     <Compile Include="Services\Quests\IQuestsManager.cs" />
     <Compile Include="Services\Quests\QuestsManager.cs" />
     <Compile Include="Services\Quests\Ranks.cs" />
@@ -143,6 +145,9 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\IgsLoginForm.cs" />
+    <Compile Include="UserControls\ViewModels\KgsLoginForm.cs" />
+    <Compile Include="UserControls\ViewModels\LoginFormViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
@@ -151,13 +156,17 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
-    <Compile Include="ViewModels\Modes\ModeViewModelBase.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\ObserverGameViewModel.cs" />
+    <Compile Include="ViewModels\OnlineGameViewModel.cs" />
+    <Compile Include="ViewModels\LocalGameViewModel.cs" />
+    <Compile Include="ViewModels\KgsHomeViewModel.cs" />
     <Compile Include="ViewModels\IgsHomeViewModel.cs" />
     <Compile Include="ViewModels\TsumegoMenuViewModel.cs" />
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
@@ -436,6 +445,7 @@
     <EmbeddedResource Include="Services\Help\Data\footer.html" />
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Services\Quests\ABOUT.txt" />
     <Content Include="Services\Quests\QuestCooldownSpecification.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />

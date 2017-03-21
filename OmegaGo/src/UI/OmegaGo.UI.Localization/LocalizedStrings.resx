@@ -1,0 +1,734 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+    <value>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+Fluffy will always and only pass in response to its opponent passing.
+You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</value>
+  </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
+  <data name="AI_DefeatistAI_Description" xml:space="preserve">
+    <value>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
+After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</value>
+  </data>
+  <data name="AI_DefeatistAI_Name" xml:space="preserve">
+    <value>Defeatist</value>
+  </data>
+  <data name="AI_FuegoAI_Description" xml:space="preserve">
+    <value>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
+We recommend you use this AI program for all of your games.</value>
+  </data>
+  <data name="AI_FuegoAI_Name" xml:space="preserve">
+    <value>Fuego</value>
+  </data>
+  <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
+    <value>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
+This AI will pass only in response to its opponent passing, in which case it will always pass.</value>
+  </data>
+  <data name="AI_HeuristicPlayerWrapper_Name" xml:space="preserve">
+    <value>The Puppy (heuristic)</value>
+  </data>
+  <data name="AI_RandomAI_Description" xml:space="preserve">
+    <value>This AI will select a random position at which it can play and it will play there. It will pass as soon its opponent passes.</value>
+  </data>
+  <data name="AI_RandomAI_Name" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Description" xml:space="preserve">
+    <value>This AI plays random moves while the board is not empty.
+I dare you to let two Fish play against each other. The game will never end (unless you're very lucky).</value>
+  </data>
+  <data name="AI_RandomPlayerWrapper_Name" xml:space="preserve">
+    <value>The Fish</value>
+  </data>
+  <data name="ASoundEffectShouldPlay" xml:space="preserve">
+    <value>A sound effect should play:</value>
+  </data>
+  <data name="Assistant" xml:space="preserve">
+    <value>Assistant</value>
+  </data>
+  <data name="AssistantAIProgram" xml:space="preserve">
+    <value>Assistant AI program</value>
+  </data>
+  <data name="AssistPanel" xml:space="preserve">
+    <value>Artificial intelligence</value>
+  </data>
+  <data name="AudioPanel" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="AutoLanguage" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Background Color</value>
+  </data>
+  <data name="BackgroundColor_Basic" xml:space="preserve">
+    <value>Basic orange</value>
+  </data>
+  <data name="BackgroundColor_Green" xml:space="preserve">
+    <value>Green</value>
+  </data>
+  <data name="BackgroundColor_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Background Image</value>
+  </data>
+  <data name="BackgroundImage_Forest" xml:space="preserve">
+    <value>Bamboo forest</value>
+  </data>
+  <data name="BackgroundImage_Go" xml:space="preserve">
+    <value>Go board</value>
+  </data>
+  <data name="BackgroundImage_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="BackgroundImage_Shrine" xml:space="preserve">
+    <value>Shinto shrine</value>
+  </data>
+  <data name="BackgroundImage_Temple" xml:space="preserve">
+    <value>Zen temple</value>
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value>Black</value>
+  </data>
+  <data name="BoardBorderThickness" xml:space="preserve">
+    <value>Board border thickness</value>
+  </data>
+  <data name="BoardSettings" xml:space="preserve">
+    <value>Board settings</value>
+  </data>
+  <data name="BoardSize" xml:space="preserve">
+    <value>Board Size</value>
+    <comment>:-)</comment>
+  </data>
+  <data name="BoardTheme" xml:space="preserve">
+    <value>Board Theme</value>
+  </data>
+  <data name="BoardTheme_KayaWood" xml:space="preserve">
+    <value>Kaya wood</value>
+  </data>
+  <data name="BoardTheme_OakWood" xml:space="preserve">
+    <value>Oak wood</value>
+  </data>
+  <data name="BoardTheme_SabakiBoard" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="BoardTheme_SolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="BoardTheme_VirtualBoard" xml:space="preserve">
+    <value>Virtual board</value>
+  </data>
+  <data name="CellSize" xml:space="preserve">
+    <value>Cell size</value>
+  </data>
+  <data name="ChangeLanguage" xml:space="preserve">
+    <value>Change language</value>
+  </data>
+  <data name="Credits" xml:space="preserve">
+    <value>Credits</value>
+  </data>
+  <data name="CreditsToolTip" xml:space="preserve">
+    <value>View information about the game authors and license information.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteSelection" xml:space="preserve">
+    <value>Delete selection</value>
+  </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Difficulty</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="EnableEvenInOnlineGames" xml:space="preserve">
+    <value>Enable even in online games</value>
+  </data>
+  <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
+    <value>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</value>
+  </data>
+  <data name="EnableHints" xml:space="preserve">
+    <value>Enable hints</value>
+  </data>
+  <data name="FilterBySource" xml:space="preserve">
+    <value>Filter by source</value>
+  </data>
+  <data name="Game" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="GameLibrary" xml:space="preserve">
+    <value>Game library</value>
+  </data>
+  <data name="GameLibraryToolTip" xml:space="preserve">
+    <value>Library of your past games and all your SGF files</value>
+  </data>
+  <data name="Gameplay" xml:space="preserve">
+    <value>Gameplay</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="HelpToolTip" xml:space="preserve">
+    <value>Read the rules, documentation and other interesting information.</value>
+  </data>
+  <data name="HighlightIllegalKoMoves" xml:space="preserve">
+    <value>Highlight illegal Ko moves</value>
+  </data>
+  <data name="HighlightIllegalKoMovesTooltip" xml:space="preserve">
+    <value>If you can't place a stone on a point because it would violate the Ko rule, the point will be highlighted.</value>
+  </data>
+  <data name="HighlightLastMove" xml:space="preserve">
+    <value>Highlight last move</value>
+  </data>
+  <data name="HighlightRecentCaptures" xml:space="preserve">
+    <value>Highlight recent captures</value>
+  </data>
+  <data name="HighlightRecentCapturesTooltip" xml:space="preserve">
+    <value>If a stone was captured during the previous move, its intersection will be highlighted.</value>
+  </data>
+  <data name="InputPanel" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageChangeInfo" xml:space="preserve">
+    <value>Please, restart the game to see the language you have chosen.</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="LoadFolder" xml:space="preserve">
+    <value>Load folder</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LocalGame" xml:space="preserve">
+    <value>Local game</value>
+  </data>
+  <data name="LocalGameToolTip" xml:space="preserve">
+    <value>Play Go against another player on the same device or against an AI.</value>
+  </data>
+  <data name="MakingAMoveRequiresAConfirmationClick" xml:space="preserve">
+    <value>Making a move requires a confirmation click</value>
+  </data>
+  <data name="MasterVolume" xml:space="preserve">
+    <value>Master volume</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="MusicVolume" xml:space="preserve">
+    <value>Music volume</value>
+  </data>
+  <data name="MuteAll" xml:space="preserve">
+    <value>Mute all</value>
+  </data>
+  <data name="OmegaGo" xml:space="preserve">
+    <value>omegaGo</value>
+  </data>
+  <data name="OnlineGame" xml:space="preserve">
+    <value>On-line game</value>
+  </data>
+  <data name="OnlineGameToolTip" xml:space="preserve">
+    <value>Play Go against players on the IGS or OGS online servers.</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Player" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Rules" xml:space="preserve">
+    <value>Rules</value>
+  </data>
+  <data name="RulesetType_AGA" xml:space="preserve">
+    <value>AGA</value>
+  </data>
+  <data name="RulesetType_Chinese" xml:space="preserve">
+    <value>Chinese</value>
+  </data>
+  <data name="RulesetType_Japanese" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsToolTip" xml:space="preserve">
+    <value>Change language, audio, visual style and many other things.</value>
+  </data>
+  <data name="SfxVolume" xml:space="preserve">
+    <value>Sound effects volume</value>
+  </data>
+  <data name="ShowCoordinates" xml:space="preserve">
+    <value>Show coordinates</value>
+  </data>
+  <data name="ShowTutorialButton" xml:space="preserve">
+    <value>Show the tutorial button in main menu</value>
+  </data>
+  <data name="Singleplayer" xml:space="preserve">
+    <value>Singleplayer</value>
+  </data>
+  <data name="SingleplayerToolTip" xml:space="preserve">
+    <value>Learn Go, play against an AI, solve problems or gain experience completing quests.</value>
+  </data>
+  <data name="Sounds" xml:space="preserve">
+    <value>Sounds</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="StatisticsToolTip" xml:space="preserve">
+    <value>View your winrate and other statistics.</value>
+  </data>
+  <data name="StonesTheme" xml:space="preserve">
+    <value>Stones Theme</value>
+  </data>
+  <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
+    <value>Polished stones</value>
+  </data>
+  <data name="StoneTheme_Sabaki" xml:space="preserve">
+    <value>Sabaki</value>
+  </data>
+  <data name="StoneTheme_SolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="Strength" xml:space="preserve">
+    <value>Strength</value>
+  </data>
+  <data name="ThemesPanel" xml:space="preserve">
+    <value>Themes</value>
+  </data>
+  <data name="Tips" xml:space="preserve">
+    <value>Tips</value>
+  </data>
+  <data name="TipsToolTip" xml:space="preserve">
+    <value>Show or hide tips.</value>
+  </data>
+  <data name="ToggleFullscreenTooltip" xml:space="preserve">
+    <value>Toggle fullscreen mode. (You may also use Alt+Enter on a PC.)</value>
+  </data>
+  <data name="TotalGamesPlayed" xml:space="preserve">
+    <value>Total games played</value>
+  </data>
+  <data name="Tutorial" xml:space="preserve">
+    <value>Tutorial</value>
+  </data>
+  <data name="TutorialToolTip" xml:space="preserve">
+    <value>This is the best place to learn Go if you don't know anything at all about the game.</value>
+  </data>
+  <data name="UserInterface" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="WhenAnotherPlayerPlacesAStone" xml:space="preserve">
+    <value>When another player places a stone</value>
+  </data>
+  <data name="WhenIPlaceAStone" xml:space="preserve">
+    <value>When I place a stone</value>
+  </data>
+  <data name="WhenIReceiveANotification" xml:space="preserve">
+    <value>When I receive a notification</value>
+  </data>
+  <data name="White" xml:space="preserve">
+    <value>White</value>
+  </data>
+  <data name="WhiteHandicap" xml:space="preserve">
+    <value>Handicap</value>
+  </data>
+  <data name="FullscreenModeCheckbox" xml:space="preserve">
+    <value>Fullscreen Mode</value>
+  </data>
+  <data name="HotseatGamesPlayed" xml:space="preserve">
+    <value>Hotseat games played</value>
+  </data>
+  <data name="OmegaGoRank" xml:space="preserve">
+    <value>omegaGo rank</value>
+  </data>
+  <data name="OnlineGamesPlayed" xml:space="preserve">
+    <value>Online games played</value>
+  </data>
+  <data name="OnlineGamesWon" xml:space="preserve">
+    <value>Online games won</value>
+  </data>
+  <data name="Points" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="QuestsCompleted" xml:space="preserve">
+    <value>Quests completed</value>
+  </data>
+  <data name="SoloGamesPlayed" xml:space="preserve">
+    <value>Solo games played</value>
+  </data>
+  <data name="SoloGamesWon" xml:space="preserve">
+    <value>Solo games won</value>
+  </data>
+  <data name="TotalGamesWon" xml:space="preserve">
+    <value>Total games won</value>
+  </data>
+  <data name="TsumegoProblemsSolved" xml:space="preserve">
+    <value>Tsumego problems solved</value>
+  </data>
+  <data name="Rank1" xml:space="preserve">
+    <value>Omega Novice</value>
+  </data>
+  <data name="Rank2" xml:space="preserve">
+    <value>Omega Apprentice</value>
+  </data>
+  <data name="Rank3" xml:space="preserve">
+    <value>Omega Expert</value>
+  </data>
+  <data name="Rank4" xml:space="preserve">
+    <value>Omega Master</value>
+  </data>
+  <data name="Rank5" xml:space="preserve">
+    <value>Omega Graduate</value>
+  </data>
+  <data name="YouHaveAdvancedToNewRankX" xml:space="preserve">
+    <value>You have advanced to a new omegaGo rank: {0}. Congratulations!</value>
+  </data>
+  <data name="YouHaveGainedXPointsNowYouHaveY" xml:space="preserve">
+    <value>+{0} points (now you have {1})</value>
+  </data>
+  <data name="ResetAllProgress_Caption" xml:space="preserve">
+    <value>Reset all progress?</value>
+  </data>
+  <data name="ResetAllProgress_Content" xml:space="preserve">
+    <value>All game counters will be reduced to zero. All points will be lost. You will have the lowest rank. Information about what tsumego problems you solved will be lost. You will keep your current in-progress quests.</value>
+  </data>
+  <data name="ResetAllProgress_No" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ResetAllProgress_Yes" xml:space="preserve">
+    <value>Reset all progress!</value>
+  </data>
+  <data name="Tsumego_BlackToPlay" xml:space="preserve">
+    <value>Black to play.</value>
+  </data>
+  <data name="Tsumego_CorrectPanel" xml:space="preserve">
+    <value>Solved</value>
+  </data>
+  <data name="Tsumego_CurrentNodeStatus" xml:space="preserve">
+    <value>Current node status:</value>
+  </data>
+  <data name="Tsumego_CurrentProblemStatus" xml:space="preserve">
+    <value>Current problem status:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoCaption" xml:space="preserve">
+    <value>How to solve tsumego:</value>
+  </data>
+  <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
+    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+  </data>
+  <data name="Tsumego_Instructions" xml:space="preserve">
+    <value>Instructions:</value>
+  </data>
+  <data name="Tsumego_MoreMovesAvailable" xml:space="preserve">
+    <value>(more moves available)</value>
+  </data>
+  <data name="Tsumego_NextProblem" xml:space="preserve">
+    <value>Next problem</value>
+  </data>
+  <data name="Tsumego_NotYetSolved" xml:space="preserve">
+    <value>Not yet solved</value>
+  </data>
+  <data name="Tsumego_PreviousProblem" xml:space="preserve">
+    <value>Previous problem</value>
+  </data>
+  <data name="Tsumego_ProblemName" xml:space="preserve">
+    <value>Problem name:</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves" xml:space="preserve">
+    <value>Show possible moves</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves_Tooltip" xml:space="preserve">
+    <value>If checked, the app will highlight positions where it might make sense to play. They might not be all correct plays, but all non-highlighted positions are certainly incorrect plays.</value>
+  </data>
+  <data name="Tsumego_StatusContinue" xml:space="preserve">
+    <value>Continue...</value>
+  </data>
+  <data name="Tsumego_StatusCorrect" xml:space="preserve">
+    <value>Correct!</value>
+  </data>
+  <data name="Tsumego_StatusWrong" xml:space="preserve">
+    <value>Wrong.</value>
+  </data>
+  <data name="Tsumego_UndoOneMove" xml:space="preserve">
+    <value>Undo last move</value>
+  </data>
+  <data name="Tsumego_Unexpected" xml:space="preserve">
+    <value>(unexpected)</value>
+  </data>
+  <data name="Tsumego_ViewCaption" xml:space="preserve">
+    <value>Tsumego</value>
+  </data>
+  <data name="Tsumego_WhiteToPlay" xml:space="preserve">
+    <value>White to play.</value>
+  </data>
+  <data name="Tsumego_WrongPanel" xml:space="preserve">
+    <value>Wrong</value>
+  </data>
+  <data name="Tsumego_YouHavePreviouslySolvedThisProblem" xml:space="preserve">
+    <value>Solved (you have previously solved this problem).</value>
+  </data>
+  <data name="Tsumego_YouHaveSolvedThisProblem" xml:space="preserve">
+    <value>You have solved this problem!</value>
+  </data>
+  <data name="IgsRank" xml:space="preserve">
+    <value>IGS rank</value>
+  </data>
+  <data name="KgsRank" xml:space="preserve">
+    <value>KGS rank</value>
+  </data>
+  <data name="MuteTooltip" xml:space="preserve">
+    <value>Toggle muting all sounds (icon shows current state)</value>
+    <comment>Default option to continue to next line in tutorial</comment>
+  </data>
+  <data name="NextRankAtColon" xml:space="preserve">
+    <value>Next rank at:</value>
+  </data>
+  <data name="PlayAgainstAI" xml:space="preserve">
+    <value>Play against AI</value>
+    <comment>Goes to solo menu</comment>
+  </data>
+  <data name="Quests" xml:space="preserve">
+    <value>Quests</value>
+  </data>
+  <data name="QuestsFooter" xml:space="preserve">
+    <value>You receive a new quest every midnight, local time, unless you already have 3 quests.</value>
+  </data>
+  <data name="Quest_Replace" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Quest_ReplaceTooltip" xml:space="preserve">
+    <value>You will lose this quest and any progress towards it, but you will immediately gain a different random quest.</value>
+  </data>
+  <data name="Quest_TryThisNow" xml:space="preserve">
+    <value>Try this now</value>
+  </data>
+  <data name="Quest_TryThisNowTooltip" xml:space="preserve">
+    <value>This will take you to a screen where you can work on this quest.</value>
+  </data>
+  <data name="QuitCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="QuitCaption" xml:space="preserve">
+    <value>Quit game?</value>
+  </data>
+  <data name="QuitConfirm" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="QuitText" xml:space="preserve">
+    <value>Do you really want to quit the game?</value>
+  </data>
+  <data name="SingleplayerMenu" xml:space="preserve">
+    <value>Singleplayer Menu</value>
+  </data>
+  <data name="SolvedExclamationPoint" xml:space="preserve">
+    <value>Solved!</value>
+  </data>
+  <data name="SolvePuzzles" xml:space="preserve">
+    <value>Solve puzzles</value>
+    <comment>Goes to tsumego menu</comment>
+  </data>
+  <data name="TsumegoMenuCaption" xml:space="preserve">
+    <value>Solve tsumego problems</value>
+  </data>
+  <data name="Tutorial_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ResetAllProgress" xml:space="preserve">
+    <value>Reset all progress</value>
+  </data>
+  <data name="ControlStyle_OperatingSystem" xml:space="preserve">
+    <value>Operating System</value>
+  </data>
+  <data name="ControlStyle_Wood" xml:space="preserve">
+    <value>Wood</value>
+  </data>
+  <data name="ControlStyle" xml:space="preserve">
+    <value>Control Style</value>
+  </data>
+  <data name="ControlStyle_Lite" xml:space="preserve">
+    <value>Lite</value>
+  </data>
+  <data name="IgsHyperlink" xml:space="preserve">
+    <value>Create a new Pandanet account (opens a browser window)</value>
+  </data>
+  <data name="IgsServerCaption" xml:space="preserve">
+    <value>Pandanet - Internet Go Server</value>
+  </data>
+  <data name="IgsServerInfo" xml:space="preserve">
+    <value>Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online.</value>
+  </data>
+  <data name="IgsUsernameCaption" xml:space="preserve">
+    <value>Pandanet username</value>
+  </data>
+  <data name="KgsHyperlink" xml:space="preserve">
+    <value>Download the official KGS client</value>
+  </data>
+  <data name="KgsServerCaption" xml:space="preserve">
+    <value>KGS Go Server</value>
+  </data>
+  <data name="KgsServerInfo" xml:space="preserve">
+    <value>You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User-&gt;Register.</value>
+  </data>
+  <data name="KgsUsernameCaption" xml:space="preserve">
+    <value>KGS Username</value>
+  </data>
+  <data name="LoginAtStartupCaption" xml:space="preserve">
+    <value>Log in whenever you start omegaGo</value>
+  </data>
+  <data name="LoginButtonCaption" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="LoginFormCaption" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="PasswordCaption" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RememberPasswordCaption" xml:space="preserve">
+    <value>Remember password</value>
+  </data>
+</root>

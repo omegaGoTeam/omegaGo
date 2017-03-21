@@ -31,6 +31,8 @@ namespace OmegaGo.UI.Services.Localization
 
         public string BackgroundColor => LocalizeCaller();
 
+        public string ControlStyle => LocalizeCaller();
+
         public string FullscreenModeCheckbox => LocalizeCaller();
 
         public string HighlightLastMove => LocalizeCaller();
@@ -192,8 +194,8 @@ namespace OmegaGo.UI.Services.Localization
         public string OnlineGamesWon => LocalizeCaller();
         public string QuestsCompleted => LocalizeCaller();
         public string TsumegoProblemsSolved => LocalizeCaller();
-        public string PointsColon => LocalizeCaller();
-        public string OmegaGoRankColon => LocalizeCaller();
+        public string Points => LocalizeCaller();
+        public string OmegaGoRank => LocalizeCaller();
 
         // Board settings control strings
         public string BoardSettings => LocalizeCaller();
@@ -208,9 +210,74 @@ namespace OmegaGo.UI.Services.Localization
         public string Rank5 => LocalizeCaller();
         public string YouHaveAdvancedToNewRankX => LocalizeCaller();
         public string YouHaveGainedXPointsNowYouHaveY => LocalizeCaller();
+
+        public string ResetAllProgress => LocalizeCaller();
         public string ResetAllProgress_Content => LocalizeCaller();
         public string ResetAllProgress_Caption => LocalizeCaller();
         public string ResetAllProgress_Yes => LocalizeCaller();
         public string ResetAllProgress_No => LocalizeCaller();
+
+
+        public string Tsumego_YouHaveSolvedThisProblem => LocalizeCaller();
+        public string Tsumego_YouHavePreviouslySolvedThisProblem => LocalizeCaller();
+        public string Tsumego_NotYetSolved => LocalizeCaller();
+        public string Tsumego_StatusCorrect => LocalizeCaller();
+        public string Tsumego_StatusWrong => LocalizeCaller();
+        public string Tsumego_StatusContinue => LocalizeCaller();
+        public string Tsumego_BlackToPlay => LocalizeCaller();
+        public string Tsumego_WhiteToPlay => LocalizeCaller();
+        public string Tsumego_MoreMovesAvailable => LocalizeCaller();
+        public string Tsumego_Unexpected => LocalizeCaller();
+
+        public string Tsumego_ShowPossibleMoves => LocalizeCaller();
+        public string Tsumego_ShowPossibleMoves_Tooltip => LocalizeCaller();
+        public string Tsumego_ProblemName => LocalizeCaller();
+        public string Tsumego_Instructions => LocalizeCaller();
+        public string Tsumego_CurrentNodeStatus => LocalizeCaller();
+        public string Tsumego_HowToSolveTsumegoCaption => LocalizeCaller();
+        public string Tsumego_HowToSolveTsumegoText => LocalizeCaller();
+        public string Tsumego_PreviousProblem => LocalizeCaller();
+        public string Tsumego_NextProblem => LocalizeCaller();
+        public string Tsumego_UndoOneMove => LocalizeCaller();
+        public string Tsumego_CorrectPanel => LocalizeCaller();
+        public string Tsumego_WrongPanel => LocalizeCaller();
+        public string Tsumego_CurrentProblemStatus => LocalizeCaller();
+        public string Tsumego_ViewCaption => LocalizeCaller();        
+        public string IgsRank => LocalizeCaller();
+        public string KgsRank => LocalizeCaller();
+        public string Tutorial_Next => LocalizeCaller();
+        public string MuteTooltip => LocalizeCaller();
+        public string SingleplayerMenu => LocalizeCaller();
+        public string SolvePuzzles => LocalizeCaller();
+        public string PlayAgainstAI => LocalizeCaller();
+        public string NextRankAtColon => LocalizeCaller();
+        public string Quests => LocalizeCaller();
+        public string Quest_TryThisNow => LocalizeCaller();
+        public string Quest_Replace => LocalizeCaller();
+        public string Quest_TryThisNowTooltip => LocalizeCaller();
+        public string Quest_ReplaceTooltip => LocalizeCaller();
+        public string QuitText => LocalizeCaller();
+        public string QuitCaption => LocalizeCaller();
+        public string QuitConfirm => LocalizeCaller();
+        public string QuitCancel => LocalizeCaller();
+        public string QuestsFooter => LocalizeCaller();
+        public string TsumegoMenuCaption => LocalizeCaller();
+        public string SolvedExclamationPoint => LocalizeCaller();
+
+        public string LoginFormCaption => LocalizeCaller();
+        public string PasswordCaption => LocalizeCaller();
+        public string LoginButtonCaption => LocalizeCaller();
+        public string LoginAtStartupCaption => LocalizeCaller();
+        public string RememberPasswordCaption => LocalizeCaller();
+        public string KgsHyperlink => LocalizeCaller();
+        public string KgsServerInfo => LocalizeCaller();
+        public string KgsServerCaption => LocalizeCaller();
+        public string KgsUsernameCaption => LocalizeCaller();
+        public string IgsHyperlink => LocalizeCaller();
+        public string IgsServerInfo => LocalizeCaller();
+        public string IgsServerCaption => LocalizeCaller();
+        public string IgsUsernameCaption => LocalizeCaller();
+        public string XXX => LocalizeCaller();
+        // Copy and paste XXX for fast creationg of new lines
     }
 }

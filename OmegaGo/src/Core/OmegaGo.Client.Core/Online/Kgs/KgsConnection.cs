@@ -58,7 +58,7 @@ namespace OmegaGo.Core.Online.Kgs
         public KgsConnection()
         {
             this.Commands = new Kgs.KgsCommands(this);
-            this.Events = new KgsEvents(this);
+            this.Events = new KgsEvents();
             this.Interrupts = new KgsInterrupts(this);
             this.Data = new Kgs.KgsData(this);
             var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
@@ -159,6 +159,7 @@ namespace OmegaGo.Core.Online.Kgs
                 {
                     roomsArray[i] = response.Rooms[i].ChannelId;
                 }
+                Events.RaisePersonalInformationUpdate(response.You);
                 Events.RaiseSystemMessage("Requesting room names...");
                 await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
                         Rooms = roomsArray

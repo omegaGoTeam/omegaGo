@@ -1,7 +1,6 @@
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
-using OmegaGo.UI.Infrastructure;
 using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Quests;

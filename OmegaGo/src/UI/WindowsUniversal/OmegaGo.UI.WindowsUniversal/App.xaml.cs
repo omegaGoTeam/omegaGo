@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,6 +15,8 @@ using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using Windows.UI.ViewManagement;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Helpers.Device;
+using OmegaGo.UI.Controls.Styles;
 #if WITHOUT_FUEGO
 #else
 using OmegaGo.UI.WindowsUniversal.Fuego;
@@ -26,7 +29,7 @@ namespace OmegaGo.UI.WindowsUniversal
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
-    {      
+    {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -54,6 +57,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
         private async void Init(LaunchActivatedEventArgs e)
         {
+            OptimizeDisplay();
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -76,13 +80,11 @@ namespace OmegaGo.UI.WindowsUniversal
 
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                InitializeStyle();
             }
-
-            if (e.PrelaunchActivated == false)
-            {
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            CoreApplication.EnablePrelaunch(true);
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
@@ -166,6 +168,26 @@ namespace OmegaGo.UI.WindowsUniversal
             await start.StartAsync();
         }
 
+        private void InitializeStyle()
+        {
+            // TODO Martin Do we keep it like this, or we move it somewhere? Possibly define and implement IControlStyleService/IStylingService?
+            IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
+
+            ControlStyle controlStyle = settingsService.Display.ControlStyle;
+
+            switch (controlStyle)
+            {
+                case ControlStyle.Wood:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
+                    break;
+                case ControlStyle.Lite:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
+                    break;
+                case ControlStyle.OperatingSystem:
+                    break;
+            }
+        }
+
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
@@ -174,6 +196,20 @@ namespace OmegaGo.UI.WindowsUniversal
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void OptimizeDisplay()
+        {
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox)
+            {
+                this.RequiresPointerMode = ApplicationRequiresPointerMode.WhenRequested;
+                XboxDisplayOptimization();
+            }
+        }
+
+        private void XboxDisplayOptimization()
+        {
+            ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
         }
 
         /// <summary>
@@ -186,7 +222,7 @@ namespace OmegaGo.UI.WindowsUniversal
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            
+
             deferral.Complete();
         }
     }

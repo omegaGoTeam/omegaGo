@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.Fuego;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
@@ -98,7 +99,11 @@ namespace FormsPrototype
             _controller.TurnPlayerChanged += _controller_TurnPlayerChanged1;
             _controller.CurrentNodeChanged += _controller_CurrentGameTreeNodeChanged;
             _controller.GamePhaseChanged += _controller_GamePhaseChanged1;
-            if(game is KgsGame)
+            foreach (var aiAgent in _controller.Players.Select(p => p.Agent).OfType<AiAgent>())
+            {
+                aiAgent.AiNote += AiAgent_AiNote;
+            }
+            if (game is KgsGame)
             {
                 KgsGameController kgsController = ((KgsGame) game).Controller;
                 kgsController.ChatMessageReceived += _controller_ChatMessageReceived;
@@ -108,16 +113,27 @@ namespace FormsPrototype
                 }
             }
            // _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
-
+           /*
             foreach (GamePlayer player in _game.Controller.Players)
             {
                 if (player.Agent is AiAgent)
                 {
                     ((AiAgent)player.Agent).LogMessage += InGameForm_LogMessage;
                 }
-            }
+            }*/
 
             _controller.BeginGame();
+        }
+
+        /// <summary>
+        /// AI agent log
+        /// </summary>
+        /// <param name="agent">Agent</param>
+        /// <param name="note">Note to add</param>
+        private void AiAgent_AiNote(IAgent agent, string note)
+        {
+            string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + note;
+            this.tbAiLog.AppendText(aiLogLine + Environment.NewLine);
         }
 
         private void _controller_ChatMessageReceived(object sender, OmegaGo.Core.Online.Chat.ChatMessage e)
@@ -635,7 +651,18 @@ namespace FormsPrototype
 
         private void InGameForm_Load(object sender, EventArgs e)
         {
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            foreach(var pl in _game.Controller.Players)
+            {
+                if (pl.Agent is AiAgent)
+                {
+                    var fuego = (FuegoAI) ((AiAgent) pl.Agent).AI;
+                    MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
+                }
+            }
         }
     }
 }

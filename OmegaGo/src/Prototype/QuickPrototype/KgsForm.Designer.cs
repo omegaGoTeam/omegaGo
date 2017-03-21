@@ -53,18 +53,19 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.bAccept = new System.Windows.Forms.Button();
+            this.lbContainerChallenges = new System.Windows.Forms.ListBox();
             this.bObserveGame = new System.Windows.Forms.Button();
             this.lbContainerGames = new System.Windows.Forms.ListBox();
             this.bRefreshLocalContainers = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lbContainers = new System.Windows.Forms.ListBox();
-            this.timerIdle = new System.Windows.Forms.Timer(this.components);
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.bRefreshJoinedChannels = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.lbJoinedChannels = new System.Windows.Forms.ListBox();
-            this.lbContainerChallenges = new System.Windows.Forms.ListBox();
-            this.bAccept = new System.Windows.Forms.Button();
+            this.timerIdle = new System.Windows.Forms.Timer(this.components);
+            this.lblYourRank = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -128,6 +129,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.lblYourRank);
             this.tabPage1.Controls.Add(this.bLogout);
             this.tabPage1.Controls.Add(this.bLogin);
             this.tabPage1.Controls.Add(this.tbLog);
@@ -347,6 +349,23 @@
             this.tabPage8.Text = "Containers";
             this.tabPage8.UseVisualStyleBackColor = true;
             // 
+            // bAccept
+            // 
+            this.bAccept.Location = new System.Drawing.Point(987, 481);
+            this.bAccept.Name = "bAccept";
+            this.bAccept.Size = new System.Drawing.Size(161, 23);
+            this.bAccept.TabIndex = 9;
+            this.bAccept.Text = "Accept";
+            this.bAccept.UseVisualStyleBackColor = true;
+            // 
+            // lbContainerChallenges
+            // 
+            this.lbContainerChallenges.FormattingEnabled = true;
+            this.lbContainerChallenges.Location = new System.Drawing.Point(817, 55);
+            this.lbContainerChallenges.Name = "lbContainerChallenges";
+            this.lbContainerChallenges.Size = new System.Drawing.Size(331, 420);
+            this.lbContainerChallenges.TabIndex = 8;
+            // 
             // bObserveGame
             // 
             this.bObserveGame.Location = new System.Drawing.Point(650, 481);
@@ -393,12 +412,6 @@
             this.lbContainers.TabIndex = 3;
             this.lbContainers.SelectedIndexChanged += new System.EventHandler(this.lbContainers_SelectedIndexChanged);
             // 
-            // timerIdle
-            // 
-            this.timerIdle.Enabled = true;
-            this.timerIdle.Interval = 10000;
-            this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
-            // 
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.bRefreshJoinedChannels);
@@ -439,22 +452,20 @@
             this.lbJoinedChannels.Size = new System.Drawing.Size(393, 420);
             this.lbJoinedChannels.TabIndex = 6;
             // 
-            // lbContainerChallenges
+            // timerIdle
             // 
-            this.lbContainerChallenges.FormattingEnabled = true;
-            this.lbContainerChallenges.Location = new System.Drawing.Point(817, 55);
-            this.lbContainerChallenges.Name = "lbContainerChallenges";
-            this.lbContainerChallenges.Size = new System.Drawing.Size(331, 420);
-            this.lbContainerChallenges.TabIndex = 8;
+            this.timerIdle.Enabled = true;
+            this.timerIdle.Interval = 10000;
+            this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
-            // bAccept
+            // lblYourRank
             // 
-            this.bAccept.Location = new System.Drawing.Point(987, 481);
-            this.bAccept.Name = "bAccept";
-            this.bAccept.Size = new System.Drawing.Size(161, 23);
-            this.bAccept.TabIndex = 9;
-            this.bAccept.Text = "Accept";
-            this.bAccept.UseVisualStyleBackColor = true;
+            this.lblYourRank.AutoSize = true;
+            this.lblYourRank.Location = new System.Drawing.Point(715, 42);
+            this.lblYourRank.Name = "lblYourRank";
+            this.lblYourRank.Size = new System.Drawing.Size(137, 13);
+            this.lblYourRank.TabIndex = 11;
+            this.lblYourRank.Text = "You have not logged in yet.";
             // 
             // KgsForm
             // 
@@ -526,5 +537,6 @@
         private System.Windows.Forms.ListBox lbJoinedChannels;
         private System.Windows.Forms.Button bAccept;
         private System.Windows.Forms.ListBox lbContainerChallenges;
+        private System.Windows.Forms.Label lblYourRank;
     }
 }
