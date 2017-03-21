@@ -19,6 +19,7 @@ using Microsoft.Graphics.Canvas.Text;
 using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Extensions;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236

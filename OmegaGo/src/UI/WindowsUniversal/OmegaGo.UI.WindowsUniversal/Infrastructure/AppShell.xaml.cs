@@ -17,6 +17,7 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
 
@@ -125,41 +126,19 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             get
             {
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                if (_settings.Display.BackgroundImage == BackgroundImage.None)
-                {
-                    //force full opacity for background color
-                    return 1;
-                }
-                else
-                {
-                    return _settings.Display.BackgroundColorOpacity;
-                }
+                return _settings.Display.BackgroundColorOpacity;
             }
         }
 
         /// <summary>
         /// Background color
         /// </summary>
-        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        public Color BackgroundColor
         {
             get
-            {
-                Color color;
+            {               
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundColor)
-                {
-                    case Game.Styles.BackgroundColor.Basic:
-                        color = Color.FromArgb(170, 253, 210, 112);
-                        break;
-                    case Game.Styles.BackgroundColor.Green:
-                        color = Color.FromArgb(220, 164, 242, 167);
-                        break;
-                    case Game.Styles.BackgroundColor.None:
-                    default:
-                        color = Colors.Transparent;
-                        break;
-                }
-                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+                return _settings.Display.BackgroundColor.ToWindowsColor();
             }
         }
 

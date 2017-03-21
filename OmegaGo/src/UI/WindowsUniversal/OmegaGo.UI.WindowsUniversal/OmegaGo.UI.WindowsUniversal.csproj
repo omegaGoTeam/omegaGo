@@ -97,7 +97,9 @@
     <Compile Include="Converters\NativeConverters.cs" />
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
-    <Compile Include="Extensions\MvxColorExtensions.cs" />
+    <Compile Include="Extensions\Colors\BackgroundColorExtensions.cs" />
+    <Compile Include="Extensions\Colors\MvxColorExtensions.cs" />
+    <Compile Include="Extensions\Colors\WindowsColorExtensions.cs" />
     <Compile Include="Extensions\Xaml\WebViewHtmlBinding.cs" />
     <Compile Include="Helpers\Device\DeviceFamily.cs" />
     <Compile Include="Helpers\Device\DeviceFamilyHelper.cs" />

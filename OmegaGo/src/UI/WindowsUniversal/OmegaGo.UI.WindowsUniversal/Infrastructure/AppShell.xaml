@@ -9,9 +9,12 @@
 
     <Border>
         <Border.Background>
-            <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
+            <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" />
         </Border.Background>
-        <Grid Background="{x:Bind BackgroundColor, Mode=OneWay}">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />

@@ -1,4 +1,5 @@
-﻿using OmegaGo.UI.Board.Styles;
+﻿using MvvmCross.Platform.UI;
+using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.Game.Styles;
 
@@ -57,11 +58,10 @@ namespace OmegaGo.UI.Services.Settings
         public BackgroundColor BackgroundColor
         {
             get
-            {
-                int theSetting = GetSetting(nameof(BackgroundColor), () => (int)BackgroundColor.Basic, SettingLocality.Roamed);
-                return (BackgroundColor)theSetting;
+            {                
+                 return GetComplexSetting(nameof(BackgroundColor), () => BackgroundColor.Default, SettingLocality.Roamed);                
             }
-            set { SetSetting(nameof(BackgroundColor), (int)value, SettingLocality.Roamed); }
+            set { SetComplexSetting(nameof(BackgroundColor), value, SettingLocality.Roamed); }
         }
 
         public StoneTheme StonesTheme

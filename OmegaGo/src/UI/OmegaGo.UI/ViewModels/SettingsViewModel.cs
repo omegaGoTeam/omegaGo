@@ -141,22 +141,19 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public float BackgroundColorOpacity
+        public float BackgroundImageOpacity
         {
-            get { return _gameSettings.Display.BackgroundColorOpacity; }
+            get { return _gameSettings.Display.BackgroundColorOpacity * 100.0f; }
             set
             {
-                if (Math.Abs(value - _gameSettings.Display.BackgroundColorOpacity) > 0.01)
+                if (Math.Abs(value - _gameSettings.Display.BackgroundColorOpacity) > 0.1)
                 {
-                    _gameSettings.Display.BackgroundColorOpacity = value;
+                    _gameSettings.Display.BackgroundColorOpacity = value / 100.0f;
                     RaisePropertyChanged();
                     ChangePresentation(new RefreshDisplayPresentationHint());
                 }
             }
         }
-
-        public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
-         new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
 
         public BackgroundColor SelectedBackgroundColor
         {
