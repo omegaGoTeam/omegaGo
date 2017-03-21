@@ -38,11 +38,6 @@
         /// This move is the second of the two consecutive passes that signal the end of the game.
         /// After two passes, the players mark stones as alive or dead.
         /// </summary>
-        StartLifeAndDeath,
-        /// <summary>
-        /// Igs sends a pass that would normally end the game, but on IGS, three passes are required, and we leave this
-        /// decision up to the server.
-        /// </summary>
-        IgsIgnoredPass
+        StartLifeAndDeath
     }
 }

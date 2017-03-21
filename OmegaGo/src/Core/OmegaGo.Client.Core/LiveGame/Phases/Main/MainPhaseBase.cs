@@ -186,8 +186,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             }
 
             //is the move illegal?
-            if (processingResult.Result != MoveResult.Legal &&
-                processingResult.Result != MoveResult.IgsIgnoredPass)
+            if (processingResult.Result != MoveResult.Legal)
             {
                 Controller.OnDebuggingMessage("That move was illegal: " + processingResult.Result);
 
@@ -195,7 +194,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 HandlePlayersIllegalMove(move, processingResult);
             }
             // These MUST NOT be an "else" here because HandlePlayersIllegalMove may change processingResult.
-            if (processingResult.Result == MoveResult.Legal || processingResult.Result == MoveResult.IgsIgnoredPass)
+            if (processingResult.Result == MoveResult.Legal)
             {
                 //we have a legal move
                 if (move.Kind == MoveKind.PlaceStone)

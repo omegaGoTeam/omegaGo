@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
             //enter will decide when to enter life and death phase
             if (result.Result == MoveResult.StartLifeAndDeath)
             {
-                result.Result = MoveResult.IgsIgnoredPass;
+                result.Result = MoveResult.Legal;
             }
             else
             {
