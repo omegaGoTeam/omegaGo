@@ -330,6 +330,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Background image opacity.
+        /// </summary>
+        public static string BackgroundImageOpacity {
+            get {
+                return ResourceManager.GetString("BackgroundImageOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         public static string Black {
