@@ -67,8 +67,8 @@
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
         </TextBlock>
-        <Button x:Name="FullScreenButton" Visibility="Collapsed" VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
-            <FontIcon Glyph="&#xE1D9;" />
+        <Button x:Name="FullScreenButton" Visibility="Collapsed" VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="FullScreenButtonClick" Margin="12">
+            <FontIcon x:Name="FullScreenButtonIcon" Glyph="&#xE1D9;" />
         </Button>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
