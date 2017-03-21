@@ -23,6 +23,8 @@ namespace OmegaGo.UI.Services.Localization
 
         public string ThemesPanel => LocalizeCaller();
 
+        public string BackgroundColorOpacity => LocalizeCaller();
+
         public string BoardTheme => LocalizeCaller();
 
         public string StonesTheme => LocalizeCaller();

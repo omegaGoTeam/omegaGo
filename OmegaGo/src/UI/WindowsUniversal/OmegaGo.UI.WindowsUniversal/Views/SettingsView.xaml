@@ -325,6 +325,9 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+                            
+                            <TextBlock Text="{x:Bind Localizer.BackgroundColorOpacity}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <Slider Minimum="0" Maximum="1" SmallChange="0.1" Value="{x:Bind VM.BackgroundColorOpacity, Mode=TwoWay}" />
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding ControlStyles}" 

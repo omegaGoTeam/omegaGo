@@ -121,6 +121,21 @@ namespace OmegaGo.UI.ViewModels
             get { return (int)_gameSettings.Display.BackgroundImage; }
             set { _gameSettings.Display.BackgroundImage = (BackgroundImage)value; RaisePropertyChanged(); }
         }
+
+        public double BackgroundColorOpacity
+        {
+            get { return _gameSettings.Display.BackgroundColorOpacity; }
+            set
+            {
+                if (Math.Abs(value - _gameSettings.Display.BackgroundColorOpacity) > 0.01)
+                {
+                    _gameSettings.Display.BackgroundColorOpacity = value;
+                    RaisePropertyChanged();
+                    //TODO Martin: Handle this the same way other user interface changes are made
+                }
+            }
+        }
+
         public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
          new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
         public int SelectedBackgroundColor
