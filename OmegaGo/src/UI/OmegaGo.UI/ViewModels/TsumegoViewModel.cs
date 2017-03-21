@@ -142,8 +142,7 @@ A tsumego problem will also display a problem statement (such as "Black to kill.
                 GameTreeNode newNode = new GameTreeNode(move);
                 GameBoard[] history = new GameBoard[1];
                 history[0] = CurrentNode.BoardState;
-                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(
-                    move, history); // TODO Petr: ko???
+                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
                 if (mpr.Result == MoveResult.Legal)
                 {
                     newNode.BoardState = mpr.NewBoard;

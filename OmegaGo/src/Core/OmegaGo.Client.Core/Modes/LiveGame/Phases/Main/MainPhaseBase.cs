@@ -169,9 +169,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
             //ask the ruleset to validate the move
             MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(
-                       move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
+                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);

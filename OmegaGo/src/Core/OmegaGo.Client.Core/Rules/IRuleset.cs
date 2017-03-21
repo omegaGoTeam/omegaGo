@@ -20,6 +20,8 @@ namespace OmegaGo.Core.Rules
         /// <returns>The result of legality check.</returns>
         MoveResult PlaceFreeHandicapStone(ref GameBoard currentBoard, Position position);
 
+        void SetRulesetInfo(GameBoard boardState, GroupState groupState);
+
         /// <summary>
         /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>

@@ -53,6 +53,12 @@ namespace OmegaGo.Core.Rules
             }
         }
 
+        public void SetRulesetInfo(GameBoard boardState, GroupState groupState)
+        {
+            RulesetInfo.GroupState = groupState;
+            RulesetInfo.BoardState = boardState;
+        }
+
         /// <summary>
         /// Calculates the default compensation (komi)
         /// </summary>

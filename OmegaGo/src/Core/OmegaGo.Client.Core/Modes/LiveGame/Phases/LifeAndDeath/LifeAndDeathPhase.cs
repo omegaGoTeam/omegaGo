@@ -91,9 +91,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 return;
             }
 
+            Controller.Ruleset.SetRulesetInfo(new GameBoard(Controller.CurrentNode.BoardState), new GroupState(Controller.CurrentNode.GroupState));
+
             //discover group at position
-            var group = Controller.Ruleset.DiscoverGroup(position, board);
-            foreach (var deadStone in group)
+            int groupID = RulesetInfo.GroupState.GroupMap[position.X, position.Y];
+            var groupMembers = RulesetInfo.GroupState.Groups[groupID].Members;
+
+            foreach (var deadStone in groupMembers)
             {
                 if (!_deadPositions.Contains(deadStone))
                 {
