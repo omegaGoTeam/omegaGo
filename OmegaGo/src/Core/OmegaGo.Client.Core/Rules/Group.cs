@@ -22,7 +22,26 @@ namespace OmegaGo.Core.Rules
             _libertyCount = 0;
             _members = new List<Position>();
             _checkedInters = new bool[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
+            RulesetInfo.GroupState.Groups[id] = this;
         }
+
+        /// <summary>
+        /// Initializes a new <see cref="Group"/> as a copy of the given group.
+        /// </summary>
+        /// <param name="group">The group to copy.</param>
+        public Group(Group group)
+        {
+            _id = group.ID;
+            _groupColor = group.GroupColor;
+            _libertyCount = group.LibertyCount;
+            _members = new List<Position>();
+            _members.AddRange(group.Members);
+            _checkedInters = new bool[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
+            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
+                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
+                    _checkedInters[i, j] = group._checkedInters[i, j];
+        }
+
 
         public int ID
         {

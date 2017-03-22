@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
 {
@@ -31,13 +32,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
                 foreach (var position in positions)
                 {
                     gameBoard[position.X, position.Y] = StoneColor.Black;
+                    RulesetInfo.GroupState.AddStoneToBoard(position,StoneColor.Black);
                 }
 
                 //reflect the number of placed stones to listeners
                 StonesPlaced = gameInfo.NumberOfHandicapStones;
 
                 //add the board to game
-                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard);                              
+                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard, new GroupState(RulesetInfo.GroupState));                              
             }            
         }
     }

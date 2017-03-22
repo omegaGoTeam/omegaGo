@@ -102,6 +102,7 @@ namespace OmegaGo.Core.Rules
                 return MoveResult.OccupiedPosition;
 
             currentBoard[position.X, position.Y] = StoneColor.Black;
+            RulesetInfo.GroupState.AddStoneToBoard(position,StoneColor.Black);
             return MoveResult.Legal;
         }
 
@@ -190,22 +191,39 @@ namespace OmegaGo.Core.Rules
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
         public MoveProcessingResult ProcessMove(GameTreeNode currentNode, Move moveToMake)
         {
-            GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
             StoneColor player = moveToMake.WhoMoves;
             Position position = moveToMake.Coordinates;
+            GameBoard[] history = new GameBoard[0];
+            GroupState previousGroupState, currentGroupState;
+            GameBoard previousBoard, currentBoard;
+            MoveResult[,] results;
+            if (currentNode == null)
+            {
+                previousGroupState = new GroupState(RulesetInfo.BoardSize);
+                currentGroupState = new GroupState(RulesetInfo.BoardSize);
+                previousBoard = new GameBoard(RulesetInfo.BoardSize);
+                currentBoard = new GameBoard(RulesetInfo.BoardSize);
+            }
+            else
+            {
+                history = currentNode.GetGameBoardHistory().ToArray();
+                //set Ruleset state
+                previousGroupState = new GroupState(currentNode.GroupState);
+                currentGroupState = new GroupState(currentNode.GroupState);
+                previousBoard = new GameBoard(currentNode.BoardState); 
+                currentBoard = new GameBoard(currentNode.BoardState);
+                results = GetAllLegalMoves(currentNode);
+            }
             
-            //set Ruleset state
-            GroupState groupState = new GroupState(currentNode.GroupState); //clone
-            GameBoard previousBoard = new GameBoard(currentNode.BoardState); //clone
-            GameBoard currentBoard = new GameBoard(currentNode.BoardState);
-            RulesetInfo.GroupState = groupState;
-            RulesetInfo.BoardState = currentBoard;
+            SetRulesetInfo(currentBoard, currentGroupState);
+
+            
 
             MoveProcessingResult processingResult = new MoveProcessingResult
             {
                 Captures = new List<Position>(),
                 NewBoard = previousBoard,
-                NewGroupState = currentNode.GroupState
+                NewGroupState = previousGroupState
             };
 
             //1. step: check intersection
@@ -248,7 +266,7 @@ namespace OmegaGo.Core.Rules
                 else
                 {
                     RulesetInfo.BoardState = previousBoard;
-                    RulesetInfo.GroupState = currentNode.GroupState;
+                    RulesetInfo.GroupState = previousGroupState;
                 }
                 
                 processingResult.Result = r;

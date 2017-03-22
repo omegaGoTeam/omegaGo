@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
             if (Controller.Info.NumberOfHandicapStones > 0)
             {
                 _gameBoard = new GameBoard(Controller.Info.BoardSize);
-                Controller.GameTree.AddBoardToEnd(_gameBoard);
+                //Controller.GameTree.AddBoardToEnd(_gameBoard);
                 //let the black player play
                 Controller.TurnPlayer = Controller.Players.Black;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
@@ -69,6 +69,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
                 Controller.OnCurrentNodeStateChanged();
                 if (StonesPlaced == Controller.Info.NumberOfHandicapStones)
                 {
+                    Controller.GameTree.AddBoardToEnd(_gameBoard, new GroupState(RulesetInfo.GroupState));
                     //start main phase                    
                     GoToPhase(GamePhaseType.Main);
                 }

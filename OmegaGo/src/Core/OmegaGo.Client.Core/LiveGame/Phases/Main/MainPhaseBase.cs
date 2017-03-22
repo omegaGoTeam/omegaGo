@@ -211,7 +211,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
                 //applies the legal move
                 Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
-                ApplyMove(move, processingResult.NewBoard);
+                ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
 
                 //switches players
                 Controller.SwitchTurnPlayer();
@@ -225,10 +225,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         /// <param name="move">Move</param>
         /// <param name="newBoard">Game board state after the move</param>
-        private void ApplyMove(Move move, GameBoard newBoard)
+        private void ApplyMove(Move move, GameBoard newBoard, GroupState newGroupState)
         {
             //add new move to game tree
-            Controller.GameTree.AddMoveToEnd(move, newBoard);
+            Controller.GameTree.AddMoveToEnd(move, newBoard, newGroupState);
 
             //inform the players that a move occured
             foreach (var connector in Controller.Connectors)

@@ -71,7 +71,7 @@ namespace OmegaGo.Core.Rules
             {
                 return MoveResult.Ko;
             }
-            else if (IsSuperKo(moveToMake, history) == MoveResult.Ko)
+            else if (IsSuperKo(moveToMake, history) == MoveResult.SuperKo)
             {
                 return MoveResult.SuperKo;
             }

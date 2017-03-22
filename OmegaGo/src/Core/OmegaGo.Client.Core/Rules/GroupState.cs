@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Initializes a new <see cref="GameBoard"/> as a copy of the given game board.
+        /// Initializes a new <see cref="GroupState"/> as a copy of the given game board.
         /// </summary>
         /// <param name="gameBoard">The game board to copy.</param>
         public GroupState(GroupState groupState)
@@ -35,7 +35,8 @@ namespace OmegaGo.Core.Rules
             }
 
             for (int i = 0; i < groupState.Groups.Length; i++)
-                Groups[i] = groupState.Groups[i];
+                if (groupState.Groups[i] != null)
+                    Groups[i] = new Group(groupState.Groups[i]);
         }
 
         /// <summary>
