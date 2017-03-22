@@ -74,6 +74,11 @@
 
 
             <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListPanel}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </ItemsControl.ItemContainerTransitions>
                 <ItemsControl.Items>
                     <mainMenu:MainMenuButton Margin="10" x:Name="TutorialButton" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
                         <mainMenu:MainMenuButton.Icon>
