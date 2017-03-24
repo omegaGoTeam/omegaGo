@@ -1,4 +1,6 @@
-﻿using Windows.UI.ViewManagement;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 
@@ -30,21 +32,24 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
             {
                 SetFullScreenMode(!ApplicationView.GetForCurrentView().IsFullScreenMode);
+                args.Handled = true;
             }
         }
 
         /// <summary>
         /// Sets the full screen mode
         /// </summary>
-        public static void SetFullScreenMode(bool useFullScreen)
+        public static void SetFullScreenMode(bool useFullScreen, [CallerMemberName] string caller = null )
         {
             if (useFullScreen && !ApplicationView.GetForCurrentView().IsFullScreenMode)
             {
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                Debug.WriteLine($"Full screen entered {caller}");
             }
             else
             {
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                Debug.WriteLine($"Full screen exited {caller}");
             }
         }
 
