@@ -10,7 +10,6 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
-    Loaded="SettingsView_Loaded"
     d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <views:TransparencyViewBase.Resources>
@@ -304,8 +303,7 @@
                             <TextBlock Text="{x:Bind Localizer.BackgroundImage}" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
                             <ComboBox ItemsSource="{Binding BackgroundImages}" 
-                              SelectedIndex="{Binding SelectedBackgroundImage, Mode=TwoWay}"
-                              SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedBackgroundImage, Mode=TwoWay}"                              
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -316,8 +314,7 @@
 
                             <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding BackgroundColors}" 
-                              SelectedIndex="{Binding SelectedBackgroundColor, Mode=TwoWay}"
-                                 SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedBackgroundColor, Mode=TwoWay}"                                 
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -328,8 +325,7 @@
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding ControlStyles}" 
-                              SelectedIndex="{Binding SelectedControlStyle, Mode=TwoWay}"
-                              SelectionChanged="AppShellComboBox_SelectionChanged"
+                              SelectedItem="{Binding SelectedControlStyle, Mode=TwoWay}"                             
                               Width="240">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -344,8 +340,7 @@
                     <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
                         <StackPanel Padding="15" HorizontalAlignment="Center">
                             <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
-                              Checked="Fullscreen_Checked"
-                              Unchecked="FullscreenMode_Unchecked"/>
+                                      IsChecked="{x:Bind IsFullScreen, Mode=TwoWay}"/>
 
                         <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
                     <!--    
