@@ -35,6 +35,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
 
+        private DispatcherTimer _notificationTimer;
+
         private IGameSettings _settings;
 
         private AppShell(Window window)
@@ -242,7 +244,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             return false;
         }
 
-
+        //TODO Martin: Move to a separate control along with the UI
         /// <summary>
         /// Add this to a server when SFX is merged in.
         /// </summary>
@@ -253,18 +255,22 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             notification.FirstAppeared = DateTime.Now;
         }
 
-
-        private DispatcherTimer notificationTimer;
+        /// <summary>
+        /// Initializes bubble notifications
+        /// </summary>
         private void InitNotifications()
         {
-            notificationTimer = new DispatcherTimer()
+            _notificationTimer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
-            notificationTimer.Tick += (sender, e) => ExpireNotifications();
-            notificationTimer.Start();
+            _notificationTimer.Tick += (sender, e) => ExpireNotifications();
+            _notificationTimer.Start();
         }
 
+        /// <summary>
+        /// Expires the notifications periodically
+        /// </summary>
         private void ExpireNotifications()
         {
             for (int ni = BubbleNotifications.Count -1;ni>=0;ni--)

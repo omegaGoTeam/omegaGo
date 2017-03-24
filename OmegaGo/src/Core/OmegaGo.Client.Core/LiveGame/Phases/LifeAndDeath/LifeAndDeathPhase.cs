@@ -65,17 +65,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathUndoDeathMarksForced += Connector_LifeDeathUndoDeathMarksForced;
             }
         }
-
-        private void Connector_LifeDeathUndoDeathMarksForced(object sender, EventArgs e)
-        {
-            UndoPhase();
-        }
-
-        private void Connector_LifeDeathKillGroupForced(object sender, Position e)
-        {
-            MarkGroupDead(e);
-        }
-
+      
         /// <summary>
         /// Ends life and death phase
         /// </summary>
@@ -227,6 +217,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
             ScoreIt();
             return Task.FromResult(0);
+        }
+
+        private void Connector_LifeDeathUndoDeathMarksForced(object sender, EventArgs e)
+        {
+            UndoPhase();
+        }
+
+        private void Connector_LifeDeathKillGroupForced(object sender, Position e)
+        {
+            MarkGroupDead(e);
         }
 
         private void Connector_LifeDeathDoneRequested(object sender, EventArgs e)

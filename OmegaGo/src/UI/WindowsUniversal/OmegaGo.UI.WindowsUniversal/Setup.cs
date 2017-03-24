@@ -2,8 +2,6 @@ using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsUWP.Platform;
-using OmegaGo.UI.Services;
-using OmegaGo.UI.WindowsUniversal.Services;
 using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
@@ -19,7 +17,6 @@ using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
 using OmegaGo.UI.WindowsUniversal.Services.Notifications;
 using OmegaGo.UI.WindowsUniversal.Services.PasswordVault;
 using OmegaGo.UI.WindowsUniversal.Services.Timer;
-using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 
 namespace OmegaGo.UI.WindowsUniversal
 {

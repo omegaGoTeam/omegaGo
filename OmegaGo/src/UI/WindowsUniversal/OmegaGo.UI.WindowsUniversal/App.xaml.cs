@@ -170,7 +170,6 @@ namespace OmegaGo.UI.WindowsUniversal
 
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
-
             OnlineStartup.Startup();
         }
 

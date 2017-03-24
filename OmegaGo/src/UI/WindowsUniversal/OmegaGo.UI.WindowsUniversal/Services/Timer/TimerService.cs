@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using OmegaGo.UI.Services.Timer;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Timer
-{
+{    
     class TimerService : ITimerService
     {
         private static List<DispatcherTimer> timers = new List<DispatcherTimer>();
