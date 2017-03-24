@@ -61,6 +61,21 @@ namespace OmegaGo.Core.Online.Igs
                 igsConnection.HandleIncomingResignation(igsGameInfo, igsConnection.Username);
             }
         }
+        public async Task AreYouThere()
+        {
+            if (igsConnection.LoggedIn)
+            {
+                var response = await igsConnection.MakeRequestAsync("ayt");
+                if (response.Any(line => line.PureLine.Contains("yes")))
+                {
+
+                }
+                else
+                {
+                    throw new Exception("We did not receive the correct response.");
+                }
+            }
+        }
 
         private static Task emptyTask = Task.FromResult(0);
 

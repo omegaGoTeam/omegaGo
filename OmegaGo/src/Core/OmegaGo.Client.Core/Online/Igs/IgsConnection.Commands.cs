@@ -58,7 +58,8 @@ namespace OmegaGo.Core.Online.Igs
                     games.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return games; // this._gamesInProgressOnIgs;
+            this.Data.GamesInProgress = games;
+            return games; 
         }
         private IgsGameInfo CreateGameFromTelnetLine(string line)
         {
@@ -198,7 +199,23 @@ namespace OmegaGo.Core.Online.Igs
             List<IgsLine> result = await MakeRequestAsync("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
-        public async Task<List<IgsUser>> ListOnlinePlayersAsync()
+
+        public async Task RequestPersonalInformationUpdate(string username)
+        {
+            List<IgsLine> users = await MakeRequestAsync("user " + username);
+            foreach (var line in users)
+            {
+                if (line.Code != IgsCode.User) continue; // Comment
+                if (line.EntireLine.EndsWith("Language")) continue; // Example
+                IgsUser createdUser = CreateUserFromTelnetLine(line.EntireLine);
+                if (createdUser.Name == this._username)
+                {
+                    OnPersonalInformationUpdate(createdUser);
+                }
+            }
+        }
+
+        public async Task<List<IgsUser>> ListOnlinePlayersAsync(string specificUser = null)
         {
             await EnsureConnectedAsync();
             List<IgsLine> users = await MakeRequestAsync("user");
@@ -214,6 +231,7 @@ namespace OmegaGo.Core.Online.Igs
                     OnPersonalInformationUpdate(createdUser);
                 }
             }
+            this.Data.OnlineUsers = returnedUsers;
             return returnedUsers;
         }
 

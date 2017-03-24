@@ -60,7 +60,10 @@ namespace OmegaGo.Core.Online.Kgs
 
         public async Task WakeUpAsync()
         {
-            await kgsConnection.MakeUnattendedRequestAsync("WAKE_UP", new object());
+            if (kgsConnection.LoggedIn)
+            {
+                await kgsConnection.MakeUnattendedRequestAsync("WAKE_UP", new object());
+            }
         }
 
         public async Task LogoutAsync()

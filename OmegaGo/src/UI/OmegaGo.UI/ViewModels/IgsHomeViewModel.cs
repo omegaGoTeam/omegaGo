@@ -41,15 +41,54 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task Initialize()
         {
-            LoginForm.FormVisible = !(Connections.Igs.LoggedIn);
+            LoginForm.FormVisible = Connections.Igs.Composure != IgsConnection.IgsComposure.Ok; 
             Connections.Igs.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
-            if (Connections.Igs.LoggedIn)
+            if (LoginForm.FormVisible && Connections.Igs.Composure != IgsConnection.IgsComposure.Disconnected)
             {
-                await RefreshGames();
-                await RefreshUsers();
+                LoginForm.FormEnabled = false;
+                LoginForm.LoginErrorMessage = "Login already in progress...";
+                LoginForm.LoginErrorMessageOpacity = 1;
+                Connections.Igs.Events.LoginComplete += OnLoginComplete;
             }
+            else if (Connections.Igs.LoggedIn)
+            {
+                await EnterIgsLobbyLoggedIn();
+            }
+        }
+
+        private async void OnLoginComplete(object sender, bool success)
+        {
+            if (success)
+            {
+                await EnterIgsLobbyLoggedIn();
+            }
+            else
+            {
+                this.LoginForm.FormEnabled = true;
+                this.LoginForm.LoginErrorMessage = "Login failed.";
+                this.LoginForm.LoginErrorMessageOpacity = 1;
+            }
+        }
+
+        private async Task EnterIgsLobbyLoggedIn()
+        {
+            allUsers = Connections.Igs.Data.OnlineUsers;
+            ObservableGames = new ObservableCollection<IgsGameInfo>(Connections.Igs.Data.GamesInProgress);
+            RefillChallengeableUsersFromAllUsers();
+            LoginForm.FormVisible = false;
+            LoginForm.FormEnabled = true;
+            LoginForm.LoginErrorMessageOpacity = 0;
+            await Connections.Igs.RequestPersonalInformationUpdate(Connections.Igs.Username);
+        }
+
+        public void Deinitialize()
+        {
+            Connections.Igs.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
+            Connections.Igs.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
+            Connections.Igs.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
+            Connections.Igs.Events.LoginComplete -= OnLoginComplete;
         }
 
         public LoginFormViewModel LoginForm { get; }
@@ -65,12 +104,7 @@ namespace OmegaGo.UI.ViewModels
             this.IncomingMatchRequests.Add(obj);
         }
 
-        public void Deinitialize()
-        {
-            Connections.Igs.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Igs.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
-            Connections.Igs.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
-        }
+     
 
         //***************************************************************
         // STATUS BAR
@@ -188,8 +222,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (!Connections.Igs.LoggedIn)
             {
-                Debug.WriteLine("You are not yet logged in.");
-                return;
+                Debug.WriteLine("You are not logged in.");
             }
             ProgressPanelVisible = true;
             ProgressPanelText = "Disconnecting...";
@@ -231,7 +264,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
             }
             else
             {
@@ -256,7 +289,7 @@ namespace OmegaGo.UI.ViewModels
         public void SortUsers(Comparison<IgsUser> comparison)
         {
             allUsers.Sort(comparison);
-            ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+            RefillChallengeableUsersFromAllUsers();
         }
         //** GAMES *************************************************************
 

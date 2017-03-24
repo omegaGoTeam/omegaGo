@@ -22,6 +22,7 @@ using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.WindowsUniversal.Fuego;
 #endif
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -166,6 +167,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
+            OnlineStartup.Startup();
         }
 
         private void InitializeStyle()

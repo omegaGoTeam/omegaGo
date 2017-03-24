@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
@@ -7,6 +8,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Timer;
 
 namespace OmegaGo.UI.Services.Online
 {
@@ -28,8 +30,7 @@ namespace OmegaGo.UI.Services.Online
             {
                 if (_igsConnection == null)
                 {
-                    _igsConnection = new IgsConnection();
-                    _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
+                    InitIgsConnection();
                 }
                 return _igsConnection;
             }
@@ -45,8 +46,7 @@ namespace OmegaGo.UI.Services.Online
             {
                 if (_kgsConnection == null)
                 {
-                    _kgsConnection = new KgsConnection();
-                    _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
+                    InitKgsConnection();
                 }
                 return _kgsConnection;
             }
@@ -65,6 +65,30 @@ namespace OmegaGo.UI.Services.Online
                 return Kgs;
             throw new Exception("That server does not exist.");
         }
+
+        /// <summary>
+        /// Initializes the IGS connection
+        /// </summary>
+        private static void InitIgsConnection()
+        {
+            _igsConnection = new IgsConnection();
+            _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
+            Mvx.Resolve<ITimerService>()
+                .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
+        }
+
+        /// <summary>
+        /// Initializes the KGS connection
+        /// </summary>
+        /// <returns></returns>
+        private static void InitKgsConnection()
+        {
+            _kgsConnection = new KgsConnection();
+            _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
+            Mvx.Resolve<ITimerService>()
+                .StartTimer(TimeSpan.FromSeconds(10), async () => { await _kgsConnection.Commands.WakeUpAsync(); });
+        }
+
 
         /// <summary>
         /// Handles IGS user update
