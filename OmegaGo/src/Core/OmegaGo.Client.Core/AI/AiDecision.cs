@@ -38,7 +38,7 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Log of AI's decisions
         /// </summary>
-        public List<string> AiNotes { get; set; }
+        public List<string> AiNotes { get; set; } = new List<string>();
 
         /// <summary>
         /// Creates a move decision

@@ -69,6 +69,8 @@
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
+    <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
+    <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
     <Compile Include="Messages\Game\RedrawBoardMessage.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -105,7 +107,6 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Services\Quests\ExampleActiveQuest.cs" />
     <Compile Include="Services\Quests\GameCompletedQuestInformation.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\BlitzRocketQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\EpicPlayQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\GettingStrongerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\GreatLearnerQuest.cs" />
@@ -113,14 +114,12 @@
     <Compile Include="Services\Quests\IndividualQuests\IgsChallengeQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\KgsChallengeQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\LearnerQuest.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\MasterLearnerQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\OnlineTraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\PureSkillQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\SoloVictoriesQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\TotalMasteryQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\TraditionalQuest.cs" />
     <Compile Include="Services\Quests\IndividualQuests\UnevenStrengthQuest.cs" />
-    <Compile Include="Services\Quests\IndividualQuests\WisdomQuest.cs" />
     <Compile Include="Services\Quests\IQuestsManager.cs" />
     <Compile Include="Services\Quests\QuestsManager.cs" />
     <Compile Include="Services\Quests\Ranks.cs" />

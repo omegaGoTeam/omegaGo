@@ -37,7 +37,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         public App()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
             this.Suspending += OnSuspending;
 #if WITHOUT_FUEGO
 #else
@@ -83,12 +83,9 @@ namespace OmegaGo.UI.WindowsUniversal
                 await InitializeMvvmCrossAsync();
                 InitializeStyle();
             }
-
-            if (e.PrelaunchActivated == false)
-            {
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            CoreApplication.EnablePrelaunch(true);
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
