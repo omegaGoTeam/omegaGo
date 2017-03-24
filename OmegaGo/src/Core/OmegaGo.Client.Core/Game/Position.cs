@@ -113,22 +113,27 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="xCoordinate">The coordinate, usually the X (horizontal) coordinate.</param>
         /// <exception cref="System.ArgumentException">We only support boards of sizes up to 25x25.</exception>
-        public static char IntToIgsChar(int xCoordinate)
+        public static string IntToIgsChar(int xCoordinate)
         {
-            if (xCoordinate < 0 || xCoordinate >= 25) throw new ArgumentException("We only support boards of sizes up to 25x25.", nameof(xCoordinate));
-
+            if (xCoordinate < 0 || xCoordinate >= 25)
+            {
+                return "[" + xCoordinate +  "]";
+            }
             char result = (char)('A' + xCoordinate);
             if (result >= 'I')
             {
                 result = (char)(result + 1);
             }
-            return result;
+            return result.ToString();
         }
 
         /// <summary>
-        /// Returns the position in the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
+        /// Returns the position in the format "J4". Use for debugging.
         /// </summary>
-        public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
+        public override string ToString() => IntToIgsChar(X).ToString() + (Y + 1);
+        // In case we need to debug numerics again: 
+        // Returns the position in the format X:Y(IGSCOOR), e.g. "8:3(J4)". Use for debugging.
+        //public override string ToString() => X + ":" + Y + "(" + IntToIgsChar(X).ToString() + (Y + 1) + ")";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Position"/> struct.

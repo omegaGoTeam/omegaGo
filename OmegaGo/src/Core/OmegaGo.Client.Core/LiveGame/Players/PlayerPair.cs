@@ -98,5 +98,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         {
             return GetEnumerator();
         }
+        public override string ToString()
+        {
+            return White + " v. " + Black;
+        }
     }
 }

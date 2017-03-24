@@ -67,6 +67,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// Returns player's name
         /// </summary>
         /// <returns>Player's name</returns>
-        public override string ToString() => Info.Name;
+        public override string ToString() => Info.ToString();
     }
 }   

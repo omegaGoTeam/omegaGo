@@ -33,5 +33,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         public const char FlagKgsMeijin = '!';
         public const char FlagCanPlayRankedGames = '=';
         public const char FlagPlaysStrongerPlayersFarMoreOftenThanWeakerOnes = '~';
+
+        public override string ToString()
+        {
+            return Name + "(" + Rank + "," + AuthLevel + ")";
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OmegaGo.Core.Game
 {
@@ -147,6 +148,25 @@ namespace OmegaGo.Core.Game
 
         public override int GetHashCode() => Size.GetHashCode();
 
-        public override bool Equals(object obj) => Equals(obj as GameBoard);        
+        public override bool Equals(object obj) => Equals(obj as GameBoard);
+
+        public override string ToString()
+        {
+            return Size.ToString() + " (" + this.AllPositions.Count() + " filled)";
+        }
+
+        private IEnumerable<StoneColor> AllPositions
+        {
+            get
+            {
+                for (int x = 0; x < Size.Width; x++)
+                {
+                    for (int y =0; y < Size.Height; y++)
+                    {
+                        yield return this[x, y];
+                    }
+                }
+            }
+        }
     }
 }
