@@ -26,8 +26,9 @@ namespace OmegaGo.UI.ViewModels
     public class SettingsViewModel : ViewModelBase
     {
         private readonly IGameSettings _gameSettings;
-        
-        private bool _languageChanged = false;       
+
+        private bool _languageChanged = false;
+        private bool _controlStyleChanged = false;
 
         public SettingsViewModel(IGameSettings gameSettings)
         {
@@ -36,7 +37,7 @@ namespace OmegaGo.UI.ViewModels
             this.AssistantSettingsViewModel =
                 new PlayerSettingsViewModel(
                     new GameCreationViewAiPlayer(program), true);
-                    
+
         }
 
         public ObservableCollection<ControlStyle> ControlStyles { get; } =
@@ -50,9 +51,19 @@ namespace OmegaGo.UI.ViewModels
             }
             set
             {
-                _gameSettings.Display.ControlStyle = value;
-                RaisePropertyChanged();
+                if (_gameSettings.Display.ControlStyle != value)
+                {
+                    _gameSettings.Display.ControlStyle = value;
+                    RaisePropertyChanged();
+                    ControlStyleChanged = true;
+                }
             }
+        }
+
+        public bool ControlStyleChanged
+        {
+            get { return _controlStyleChanged; }
+            set { SetProperty(ref _controlStyleChanged, value); }
         }
 
         /// <summary>
@@ -241,7 +252,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerSettingsViewModel AssistantSettingsViewModel { get; }
         private IAIProgram ProgramFromClassName(string name)
         {
-            foreach(var program in AiPrograms)
+            foreach (var program in AiPrograms)
             {
                 if (program.GetType().Name == name)
                 {
@@ -262,7 +273,8 @@ namespace OmegaGo.UI.ViewModels
         public IAIProgram SelectedAiProgram
         {
 
-            get {
+            get
+            {
                 var program = ProgramFromClassName(_gameSettings.Assistant.ProgramName);
                 if (program == null)
                 {

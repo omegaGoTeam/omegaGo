@@ -474,6 +474,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To apply control style change, please restart the application..
+        /// </summary>
+        public static string ControlStyleChangeInfo {
+            get {
+                return ResourceManager.GetString("ControlStyleChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Credits.
         /// </summary>
         public static string Credits {

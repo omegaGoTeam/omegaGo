@@ -832,6 +832,10 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>Remember password</source>
           <target state="translated">Zapamatovat heslo</target>
         </trans-unit>
+        <trans-unit id="ControlStyleChangeInfo" translate="yes" xml:space="preserve">
+          <source>To apply control style change, please restart the application.</source>
+          <target state="translated">Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

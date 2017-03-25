@@ -333,6 +333,7 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+                            <TextBlock TextWrapping="Wrap" Width="250" Text="{x:Bind Localizer.ControlStyleChangeInfo}" Visibility="{x:Bind VM.ControlStyleChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
