@@ -207,6 +207,7 @@
       <DependentUpon>TutorialView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
+    <None Include="OmegaGo.UI.WindowsUniversal_StoreKey.pfx" />
     <None Include="OmegaGo.UI.WindowsUniversal_TemporaryKey.pfx" />
     <None Include="project.json" />
     <Compile Include="Setup.cs" />
