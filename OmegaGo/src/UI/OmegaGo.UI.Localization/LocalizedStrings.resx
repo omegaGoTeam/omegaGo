@@ -221,7 +221,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Board settings</value>
   </data>
   <data name="BoardSize" xml:space="preserve">
-    <value>Board Size</value>
+    <value>Board size</value>
     <comment>:-)</comment>
   </data>
   <data name="BoardTheme" xml:space="preserve">
@@ -691,6 +691,12 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Lite</value>
+  </data>
+  <data name="OmegaGoRankColon" xml:space="preserve">
+    <value>omegaGo rank:</value>
+  </data>
+  <data name="PointsColon" xml:space="preserve">
+    <value>Points:</value>
   </data>
   <data name="IgsHyperlink" xml:space="preserve">
     <value>Create a new Pandanet account (opens a browser window)</value>

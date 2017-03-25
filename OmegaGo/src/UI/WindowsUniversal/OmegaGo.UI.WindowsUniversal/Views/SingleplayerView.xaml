@@ -35,12 +35,12 @@
                         Margin="0,20,0,0" MaxWidth="300" HorizontalAlignment="Stretch" />
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind Localizer.Points}" FontSize="26" Margin="0,0,10,0"></TextBlock>
+                    <TextBlock Text="{x:Bind Localizer.PointsColon}" FontSize="26" Margin="0,0,10,0"></TextBlock>
                     <TextBlock Text="{Binding Points}" FontSize="26" FontWeight="Bold"></TextBlock>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{x:Bind Localizer.OmegaGoRank}" FontSize="26" Margin="0,0,10,0"></TextBlock>
+                    <TextBlock Text="{x:Bind Localizer.OmegaGoRankColon}" FontSize="26" Margin="0,0,10,0"></TextBlock>
                     <TextBlock Text="{Binding Rank}" FontSize="26" FontWeight="Bold"></TextBlock>
                 </StackPanel>
 
