@@ -588,4 +588,13 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="BackgroundImageOpacity" xml:space="preserve">
     <value>Viditelnost obrázku na pozadí</value>
   </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Tmavý</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Světlý</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Motiv</value>
+  </data>
 </root>
