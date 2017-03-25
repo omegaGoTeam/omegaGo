@@ -359,6 +359,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Height = sender.Height;
+            RightTitleBarMask.Width = sender.SystemOverlayRightInset;
         }
 
         /// <summary>
@@ -408,6 +409,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
+        }
+
+        private void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

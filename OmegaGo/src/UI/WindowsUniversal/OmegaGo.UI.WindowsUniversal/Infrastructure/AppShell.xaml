@@ -71,7 +71,7 @@
                 <Grid x:Name="BackButtonGrid">
                     <Button Width="48" x:Name="BackButton" Click="TitleBackButton_Click" Margin="0" VerticalAlignment="Stretch" Background="#0000" FontFamily="Segoe MDL2 Assets" Content="&#59179;" Style="{StaticResource TitleBarBackButtonStyle}" />
                 </Grid>
-
+                <Button x:Name="FeedbackButton" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" />
                 <Grid Grid.Column="3" x:Name="RightTitleBarMask"/>
             </Grid>
         </Grid>
