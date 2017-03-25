@@ -10,6 +10,7 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
+    xmlns:controls="using:Coding4Fun.Toolkit.Controls"
     d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
     <views:TransparencyViewBase.Resources>
@@ -312,16 +313,13 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
 
+
+                            <TextBlock Text="{x:Bind Localizer.BackgroundImageOpacity}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <Slider Minimum="0" Maximum="100" SmallChange="1" Value="{x:Bind VM.BackgroundImageOpacity, Mode=TwoWay}" />
+
                             <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                            <ComboBox ItemsSource="{Binding BackgroundColors}" 
-                              SelectedItem="{Binding SelectedBackgroundColor, Mode=TwoWay}"                                 
-                              Width="240">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <controls:ColorPicker Height="200" Color="{x:Bind SelectedBackgroundColor, Mode=TwoWay}" />
+                            <Button Click="SetDefaultBackgroundColor" Content="Set default color" />
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding ControlStyles}" 
@@ -334,6 +332,10 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                             <TextBlock TextWrapping="Wrap" Width="250" Text="{x:Bind Localizer.ControlStyleChangeInfo}" Visibility="{x:Bind VM.ControlStyleChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
+
+                            <TextBlock Text="{x:Bind Localizer.AppTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Dark}" IsChecked="{x:Bind VM.AppThemeDarkSelected, Mode=TwoWay}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Light}" IsChecked="{x:Bind VM.AppThemeLightSelected, Mode=TwoWay}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>

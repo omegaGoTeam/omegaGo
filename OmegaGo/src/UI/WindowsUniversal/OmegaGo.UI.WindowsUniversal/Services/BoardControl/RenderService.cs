@@ -17,6 +17,7 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Board.Styles;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game

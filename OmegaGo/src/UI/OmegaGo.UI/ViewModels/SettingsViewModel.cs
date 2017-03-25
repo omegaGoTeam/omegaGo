@@ -16,6 +16,7 @@ using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using OmegaGo.UI.Controls.Styles;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Infrastructure.PresentationHints;
 
 namespace OmegaGo.UI.ViewModels
@@ -152,8 +153,62 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public ObservableCollection<BackgroundColor> BackgroundColors { get; } =
-         new ObservableCollection<BackgroundColor>((BackgroundColor[])Enum.GetValues(typeof(BackgroundColor)));
+        public ObservableCollection<AppTheme> AppThemes { get; } =
+            new ObservableCollection<AppTheme>((AppTheme[])Enum.GetValues(typeof(AppTheme)));
+
+        public AppTheme SelectedAppTheme
+        {
+            get { return _gameSettings.Display.AppTheme; }
+            set
+            {
+                if (_gameSettings.Display.AppTheme != value)
+                {
+                    _gameSettings.Display.AppTheme = value;
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(() => AppThemeLightSelected);
+                    RaisePropertyChanged(() => AppThemeDarkSelected);
+                    ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
+        }
+
+        public bool AppThemeLightSelected
+        {
+            get { return SelectedAppTheme == AppTheme.Light; }
+            set
+            {
+                if (value)
+                {
+                    SelectedAppTheme = AppTheme.Light;
+                }
+            }
+        }
+
+        public bool AppThemeDarkSelected
+        {
+            get { return SelectedAppTheme == AppTheme.Dark; }
+            set
+            {
+                if (value)
+                {
+                    SelectedAppTheme = AppTheme.Dark;
+                }
+            }
+        }
+
+        public float BackgroundImageOpacity
+        {
+            get { return _gameSettings.Display.BackgroundColorOpacity * 100.0f; }
+            set
+            {
+                if (Math.Abs(value - _gameSettings.Display.BackgroundColorOpacity) > 0.1)
+                {
+                    _gameSettings.Display.BackgroundColorOpacity = value / 100.0f;
+                    RaisePropertyChanged();
+                    ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
+        }
 
         public BackgroundColor SelectedBackgroundColor
         {

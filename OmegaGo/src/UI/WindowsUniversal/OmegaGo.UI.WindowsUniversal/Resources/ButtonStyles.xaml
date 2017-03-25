@@ -33,7 +33,7 @@
 
     <Style x:Key="liteButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
         <Setter Property="Padding" Value="8,4,8,4"/>
@@ -58,7 +58,7 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#050505"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
                                     </Storyboard>
@@ -69,7 +69,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#030303" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="roundedBorder">

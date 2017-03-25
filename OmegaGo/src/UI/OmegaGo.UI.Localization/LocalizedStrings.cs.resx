@@ -519,6 +519,9 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="Tsumego_NotYetSolved" xml:space="preserve">
     <value>Zatím nevyřešen</value>
   </data>
+  <data name="Tsumego_PreviousProblem" xml:space="preserve">
+    <value>Předchozí problém</value>
+  </data>
   <data name="ResetAllProgress" xml:space="preserve">
     <value>Zahodit statistiky</value>
   </data>
@@ -584,5 +587,17 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="ControlStyleChangeInfo" xml:space="preserve">
     <value>Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Viditelnost obrázku na pozadí</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Tmavý</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Světlý</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Motiv</value>
   </data>
 </root>

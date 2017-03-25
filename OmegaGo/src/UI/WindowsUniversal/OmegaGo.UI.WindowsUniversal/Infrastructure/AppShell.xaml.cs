@@ -13,12 +13,14 @@ using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
 
@@ -130,44 +132,28 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             get
             {
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundImage)
-                {
-                    case BackgroundImage.Go:
-                    case BackgroundImage.None:
-                        return 1;
-                    case BackgroundImage.Shrine:
-                    case BackgroundImage.Temple:
-                    case BackgroundImage.Forest:
-                        return 0.5f;
-                    default:
-                        return 1;
-                }
+                return _settings.Display.BackgroundColorOpacity;
+            }
+        }
+
+        public ElementTheme AppTheme
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                return _settings.Display.AppTheme == Controls.Themes.AppTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
             }
         }
 
         /// <summary>
         /// Background color
         /// </summary>
-        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        public Color BackgroundColor
         {
             get
             {
-                Color color;
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundColor)
-                {
-                    case Game.Styles.BackgroundColor.Basic:
-                        color = Color.FromArgb(170, 253, 210, 112);
-                        break;
-                    case Game.Styles.BackgroundColor.Green:
-                        color = Color.FromArgb(220, 164, 242, 167);
-                        break;
-                    case Game.Styles.BackgroundColor.None:
-                    default:
-                        color = Colors.Transparent;
-                        break;
-                }
-                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+                return _settings.Display.BackgroundColor.ToWindowsColor();
             }
         }
 
@@ -210,6 +196,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundOpacity));
             OnPropertyChanged(nameof(BackgroundColor));
             OnPropertyChanged(nameof(BackgroundImageUrl));
+            OnPropertyChanged(nameof(AppTheme));
         }
 
         /// <summary>
@@ -273,7 +260,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void ExpireNotifications()
         {
-            for (int ni = BubbleNotifications.Count -1;ni>=0;ni--)
+            for (int ni = BubbleNotifications.Count - 1; ni >= 0; ni--)
             {
                 var notification = BubbleNotifications[ni];
                 if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)
