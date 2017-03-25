@@ -289,6 +289,21 @@ namespace OmegaGo.UI.Services.Localization
         public string IgsServerInfo => LocalizeCaller();
         public string IgsServerCaption => LocalizeCaller();
         public string IgsUsernameCaption => LocalizeCaller();
+        public string MaxPlayoutsColon => LocalizeCaller();
+        public string MaxPlayoutsTooltip => LocalizeCaller();
+        public string TreeDepthColon => LocalizeCaller();
+        public string TreeDepthTooltip => LocalizeCaller();
+        public string CanResign => LocalizeCaller();
+        public string CanResignTooltip => LocalizeCaller();
+        public string Ponder => LocalizeCaller();
+        public string PonderTooltip => LocalizeCaller();
+        public string MinimumBoardSize => LocalizeCaller();
+        public string MaximumBoardSize => LocalizeCaller();
+        public string NonSquareBoardsPermitted => LocalizeCaller();
+        public string Yes => LocalizeCaller();
+        public string No => LocalizeCaller();
+        public string MoreEllipsis => LocalizeCaller();
+        public string ConfigureEllipsis => LocalizeCaller();
         public string XXX => LocalizeCaller();
         // Copy and paste XXX for fast creationg of new lines
     }

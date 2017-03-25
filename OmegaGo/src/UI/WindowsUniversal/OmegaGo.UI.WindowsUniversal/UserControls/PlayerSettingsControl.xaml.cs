@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.UserControls.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -20,6 +22,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
     public sealed partial class PlayerSettingsControl : UserControlBase
     {
+        public Localizer Localizer { get; } = (Localizer) Mvx.Resolve<ILocalizationService>();
+
         public PlayerSettingsControl()
         {
             this.InitializeComponent();

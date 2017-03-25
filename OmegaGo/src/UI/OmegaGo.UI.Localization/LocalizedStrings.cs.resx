@@ -648,4 +648,52 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="ControlStyleChangeInfo" xml:space="preserve">
     <value>Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</value>
   </data>
+  <data name="CanResign" xml:space="preserve">
+    <value>Smí se vzdát</value>
+  </data>
+  <data name="CanResignTooltip" xml:space="preserve">
+    <value>Je-li zaškrtnuto, tak se Fuego vzdá, pokud bude mít jen malou šanci na výhru. Fuego se nikdy nevzdává ve hrách s handicapem.</value>
+  </data>
+  <data name="MaximumBoardSize" xml:space="preserve">
+    <value>Maximální velikost plochy:</value>
+  </data>
+  <data name="MaxPlayoutsColon" xml:space="preserve">
+    <value>Maximum simulací:</value>
+  </data>
+  <data name="MaxPlayoutsTooltip" xml:space="preserve">
+    <value>Více simulací znamená inteligentnější tahy, ale zase to zabere více času.</value>
+  </data>
+  <data name="MinimumBoardSize" xml:space="preserve">
+    <value>Nejmenší velikost plochy:</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NonSquareBoardsPermitted" xml:space="preserve">
+    <value>Obdélníkové desky povoleny:</value>
+  </data>
+  <data name="Ponder" xml:space="preserve">
+    <value>Přemýšlet během soupeřova tahu</value>
+  </data>
+  <data name="PonderTooltip" xml:space="preserve">
+    <value>Je-li zaškrtnuto, Fuego bude přemýšlet, i když není na tahu. To zvýší sílu Fuego v časovaných hrách.</value>
+  </data>
+  <data name="TreeDepthColon" xml:space="preserve">
+    <value>Hloubka stromu:</value>
+  </data>
+  <data name="TreeDepthTooltip" xml:space="preserve">
+    <value>Větší hloubka stromu znamená inteligentnější tahy, ale zase to zabere více času.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="ConfigureEllipsis" xml:space="preserve">
+    <value>Nastavit...</value>
+  </data>
+  <data name="MoreEllipsis" xml:space="preserve">
+    <value>Více...</value>
+  </data>
+  <data name="ControlStyleChangeInfo" xml:space="preserve">
+    <value>Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</value>
+  </data>
 </root>

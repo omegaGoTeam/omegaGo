@@ -456,6 +456,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can resign.
+        /// </summary>
+        public static string CanResign {
+            get {
+                return ResourceManager.GetString("CanResign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If checked, Fuego will resign when it has little chance to win. Fuego will never resign in handicap games..
+        /// </summary>
+        public static string CanResignTooltip {
+            get {
+                return ResourceManager.GetString("CanResignTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell size.
         /// </summary>
         public static string CellSize {
@@ -470,6 +488,15 @@ namespace OmegaGo.UI.Localization {
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure....
+        /// </summary>
+        public static string ConfigureEllipsis {
+            get {
+                return ResourceManager.GetString("ConfigureEllipsis", resourceCulture);
             }
         }
         
@@ -951,11 +978,56 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maximum board size:.
+        /// </summary>
+        public static string MaximumBoardSize {
+            get {
+                return ResourceManager.GetString("MaximumBoardSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max playouts:.
+        /// </summary>
+        public static string MaxPlayoutsColon {
+            get {
+                return ResourceManager.GetString("MaxPlayoutsColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More playouts means more intelligent moves, but also more time taken to make a move..
+        /// </summary>
+        public static string MaxPlayoutsTooltip {
+            get {
+                return ResourceManager.GetString("MaxPlayoutsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
         public static string Medium {
             get {
                 return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum board size:.
+        /// </summary>
+        public static string MinimumBoardSize {
+            get {
+                return ResourceManager.GetString("MinimumBoardSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to More....
+        /// </summary>
+        public static string MoreEllipsis {
+            get {
+                return ResourceManager.GetString("MoreEllipsis", resourceCulture);
             }
         }
         
@@ -992,6 +1064,24 @@ namespace OmegaGo.UI.Localization {
         public static string NextRankAtColon {
             get {
                 return ResourceManager.GetString("NextRankAtColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Non-square boards permitted:.
+        /// </summary>
+        public static string NonSquareBoardsPermitted {
+            get {
+                return ResourceManager.GetString("NonSquareBoardsPermitted", resourceCulture);
             }
         }
         
@@ -1118,6 +1208,24 @@ namespace OmegaGo.UI.Localization {
         public static string PointsColon {
             get {
                 return ResourceManager.GetString("PointsColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Think during opponent&apos;s turn.
+        /// </summary>
+        public static string Ponder {
+            get {
+                return ResourceManager.GetString("Ponder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If checked, Fuego will use continue thinking even when it&apos;s not its turn. This will increase Fuego&apos;s strength in timed games..
+        /// </summary>
+        public static string PonderTooltip {
+            get {
+                return ResourceManager.GetString("PonderTooltip", resourceCulture);
             }
         }
         
@@ -1608,6 +1716,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tree depth:.
+        /// </summary>
+        public static string TreeDepthColon {
+            get {
+                return ResourceManager.GetString("TreeDepthColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A greater tree depth means more intelligent moves, but also more time taken to make a move..
+        /// </summary>
+        public static string TreeDepthTooltip {
+            get {
+                return ResourceManager.GetString("TreeDepthTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black to play..
         /// </summary>
         public static string Tsumego_BlackToPlay {
@@ -1919,6 +2045,15 @@ namespace OmegaGo.UI.Localization {
         public static string WhiteHandicap {
             get {
                 return ResourceManager.GetString("WhiteHandicap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         
