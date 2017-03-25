@@ -18,7 +18,7 @@ namespace OmegaGo.UI.Services.Tutorial
         /// <summary>
         /// Format string for all tutorial resources
         /// </summary>
-        private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial.{0}.txt";
+        private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial-{0}.txt";
 
         /// <summary>
         /// Creates the beginner tutorial scenario
