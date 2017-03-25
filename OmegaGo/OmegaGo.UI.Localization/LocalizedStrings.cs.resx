@@ -70,7 +70,7 @@
     <value>Zobrazení</value>
   </data>
   <data name="Credits" xml:space="preserve">
-    <value>Kredity</value>
+    <value>O autorech</value>
   </data>
   <data name="CreditsToolTip" xml:space="preserve">
     <value>Zobrazit informace o autorech a licenční ujednání</value>
@@ -97,7 +97,7 @@
     <value>On-line hra</value>
   </data>
   <data name="OnlineGameToolTip" xml:space="preserve">
-    <value>Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</value>
+    <value>Hrajte Go proti jiným hráčům na on-line serveru.</value>
   </data>
   <data name="SettingsToolTip" xml:space="preserve">
     <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
@@ -142,7 +142,7 @@
     <value>Pravidla</value>
   </data>
   <data name="WhiteHandicap" xml:space="preserve">
-    <value>Handicap bílého</value>
+    <value>Handicap</value>
   </data>
   <data name="Play" xml:space="preserve">
     <value>Hrát</value>
@@ -357,7 +357,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
 Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Name" xml:space="preserve">
-    <value>Štěně (heuristika</value>
+    <value>Štěně (heuristika)</value>
   </data>
   <data name="AI_RandomAI_Description" xml:space="preserve">
     <value>Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</value>
@@ -456,7 +456,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Vyměnit</value>
   </data>
   <data name="Quest_ReplaceTooltip" xml:space="preserve">
-    <value>Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
+    <value>Ztratíte tento quest, ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
   </data>
   <data name="Quest_TryThisNow" xml:space="preserve">
     <value>Zkusit nyní</value>
@@ -505,7 +505,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Jak řešit tsumego:</value>
   </data>
   <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
-    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+    <value>Hrajte co nejlépe proti virtuálnímu soupeři, který také hraje co nejlépe. Jakmile situaci vyřešíte, program vám řekne, že je problém vyřešen. Více informací najdete ve stránkách nápovědy z hlavního menu.</value>
   </data>
   <data name="Tsumego_Instructions" xml:space="preserve">
     <value>Pokyny:</value>
