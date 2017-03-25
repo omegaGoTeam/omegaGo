@@ -694,7 +694,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="Tsumego_PreviousProblem" translate="yes" xml:space="preserve">
           <source>Previous problem</source>
-          <target state="new">Previous problem</target>
+          <target state="translated">Předchozí problém</target>
         </trans-unit>
         <trans-unit id="Tsumego_ProblemName" translate="yes" xml:space="preserve">
           <source>Problem name:</source>
@@ -831,6 +831,22 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         <trans-unit id="RememberPasswordCaption" translate="yes" xml:space="preserve">
           <source>Remember password</source>
           <target state="translated">Zapamatovat heslo</target>
+        </trans-unit>
+        <trans-unit id="BackgroundImageOpacity" translate="yes" xml:space="preserve">
+          <source>Background image opacity</source>
+          <target state="translated">Viditelnost obrázku na pozadí</target>
+        </trans-unit>
+        <trans-unit id="AppTheme_Dark" translate="yes" xml:space="preserve">
+          <source>Dark</source>
+          <target state="translated">Tmavý</target>
+        </trans-unit>
+        <trans-unit id="AppTheme_Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="translated">Světlý</target>
+        </trans-unit>
+        <trans-unit id="AppTheme" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="translated">Motiv</target>
         </trans-unit>
       </group>
     </body>

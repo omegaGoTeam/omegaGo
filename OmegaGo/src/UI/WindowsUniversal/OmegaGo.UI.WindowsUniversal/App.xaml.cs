@@ -70,7 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal
             if (appShell == null)
             {
                 //create app shell to hold app content
-                var shell = AppShell.CreateForWindow(Window.Current);
+                var shell = AppShell.CreateForWindow(Window.Current);                
                 //create extended splash screen
                 ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                 //temporarily place splash into the root frame
