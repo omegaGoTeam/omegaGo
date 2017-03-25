@@ -430,10 +430,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.cs.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.auto.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial-cs.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial-auto.txt" />
     <EmbeddedResource Include="Services\Help\Data\intro.html" />
     <EmbeddedResource Include="Services\Help\Data\japanese.html" />
     <EmbeddedResource Include="Services\Help\Data\resources.html" />
