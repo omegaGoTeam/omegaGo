@@ -860,6 +860,66 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>To apply control style change, please restart the application.</source>
           <target state="translated">Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</target>
         </trans-unit>
+        <trans-unit id="CanResign" translate="yes" xml:space="preserve">
+          <source>Can resign</source>
+          <target state="translated">Smí se vzdát</target>
+        </trans-unit>
+        <trans-unit id="CanResignTooltip" translate="yes" xml:space="preserve">
+          <source>If checked, Fuego will resign when it has little chance to win. Fuego will never resign in handicap games.</source>
+          <target state="translated">Je-li zaškrtnuto, tak se Fuego vzdá, pokud bude mít jen malou šanci na výhru. Fuego se nikdy nevzdává ve hrách s handicapem.</target>
+        </trans-unit>
+        <trans-unit id="MaximumBoardSize" translate="yes" xml:space="preserve">
+          <source>Maximum board size:</source>
+          <target state="translated">Maximální velikost plochy:</target>
+        </trans-unit>
+        <trans-unit id="MaxPlayoutsColon" translate="yes" xml:space="preserve">
+          <source>Max playouts:</source>
+          <target state="translated">Maximum simulací:</target>
+        </trans-unit>
+        <trans-unit id="MaxPlayoutsTooltip" translate="yes" xml:space="preserve">
+          <source>More playouts means more intelligent moves, but also more time taken to make a move.</source>
+          <target state="translated">Více simulací znamená inteligentnější tahy, ale zase to zabere více času.</target>
+        </trans-unit>
+        <trans-unit id="MinimumBoardSize" translate="yes" xml:space="preserve">
+          <source>Minimum board size:</source>
+          <target state="translated">Nejmenší velikost plochy:</target>
+        </trans-unit>
+        <trans-unit id="No" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="translated">Ne</target>
+        </trans-unit>
+        <trans-unit id="NonSquareBoardsPermitted" translate="yes" xml:space="preserve">
+          <source>Non-square boards permitted:</source>
+          <target state="translated">Obdélníkové desky povoleny:</target>
+        </trans-unit>
+        <trans-unit id="Ponder" translate="yes" xml:space="preserve">
+          <source>Think during opponent's turn</source>
+          <target state="translated">Přemýšlet během soupeřova tahu</target>
+        </trans-unit>
+        <trans-unit id="PonderTooltip" translate="yes" xml:space="preserve">
+          <source>If checked, Fuego will use continue thinking even when it's not its turn. This will increase Fuego's strength in timed games.</source>
+          <target state="translated">Je-li zaškrtnuto, Fuego bude přemýšlet, i když není na tahu. To zvýší sílu Fuego v časovaných hrách.</target>
+        </trans-unit>
+        <trans-unit id="TreeDepthColon" translate="yes" xml:space="preserve">
+          <source>Tree depth:</source>
+          <target state="translated">Hloubka stromu:</target>
+        </trans-unit>
+        <trans-unit id="TreeDepthTooltip" translate="yes" xml:space="preserve">
+          <source>A greater tree depth means more intelligent moves, but also more time taken to make a move.</source>
+          <target state="translated">Větší hloubka stromu znamená inteligentnější tahy, ale zase to zabere více času.</target>
+        </trans-unit>
+        <trans-unit id="Yes" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="translated">Ano</target>
+        </trans-unit>
+        <trans-unit id="ConfigureEllipsis" translate="yes" xml:space="preserve">
+          <source>Configure...</source>
+          <target state="translated">Nastavit...</target>
+        </trans-unit>
+        <trans-unit id="MoreEllipsis" translate="yes" xml:space="preserve">
+          <source>More...</source>
+          <target state="translated">Více...</target>
+        </trans-unit>
       </group>
     </body>
   </file>

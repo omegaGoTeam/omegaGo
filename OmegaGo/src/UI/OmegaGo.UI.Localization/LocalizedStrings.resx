@@ -752,4 +752,49 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ControlStyleChangeInfo" xml:space="preserve">
     <value>To apply control style change, please restart the application.</value>
   </data>
+  <data name="CanResign" xml:space="preserve">
+    <value>Can resign</value>
+  </data>
+  <data name="CanResignTooltip" xml:space="preserve">
+    <value>If checked, Fuego will resign when it has little chance to win. Fuego will never resign in handicap games.</value>
+  </data>
+  <data name="ConfigureEllipsis" xml:space="preserve">
+    <value>Configure...</value>
+  </data>
+  <data name="MaximumBoardSize" xml:space="preserve">
+    <value>Maximum board size:</value>
+  </data>
+  <data name="MaxPlayoutsColon" xml:space="preserve">
+    <value>Max playouts:</value>
+  </data>
+  <data name="MaxPlayoutsTooltip" xml:space="preserve">
+    <value>More playouts means more intelligent moves, but also more time taken to make a move.</value>
+  </data>
+  <data name="MinimumBoardSize" xml:space="preserve">
+    <value>Minimum board size:</value>
+  </data>
+  <data name="MoreEllipsis" xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NonSquareBoardsPermitted" xml:space="preserve">
+    <value>Non-square boards permitted:</value>
+  </data>
+  <data name="Ponder" xml:space="preserve">
+    <value>Think during opponent's turn</value>
+  </data>
+  <data name="PonderTooltip" xml:space="preserve">
+    <value>If checked, Fuego will use continue thinking even when it's not its turn. This will increase Fuego's strength in timed games.</value>
+  </data>
+  <data name="TreeDepthColon" xml:space="preserve">
+    <value>Tree depth:</value>
+  </data>
+  <data name="TreeDepthTooltip" xml:space="preserve">
+    <value>A greater tree depth means more intelligent moves, but also more time taken to make a move.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
 </root>

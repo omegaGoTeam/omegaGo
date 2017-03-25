@@ -412,7 +412,7 @@
                     <StackPanel Padding="15">
                         <TextBlock Text="{x:Bind Localizer.AssistantAIProgram}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <StackPanel Orientation="Horizontal">
-                        <ComboBox Width="140"
+                        <ComboBox Width="200"
                               ItemsSource="{x:Bind VM.AiPrograms, Mode=OneWay}"
                                   SelectedItem="{x:Bind VM.SelectedAiProgram, Mode=TwoWay}">
 
@@ -424,7 +424,7 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
 
-                            <Button Content="Configure...">
+                            <Button Content="{x:Bind Localizer.ConfigureEllipsis}">
                                 <Button.Flyout>
                                     <Flyout>
                                         <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>

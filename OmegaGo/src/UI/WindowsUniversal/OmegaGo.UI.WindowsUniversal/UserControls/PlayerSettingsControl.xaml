@@ -14,43 +14,43 @@
         <TextBlock HorizontalAlignment="Left" Width="300" Text="{x:Bind ViewModel.Description, Mode=OneWay}" TextWrapping="Wrap" />
         <StackPanel Margin="0,20,0,20" Visibility="{x:Bind ViewModel.AiPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Non-square boards permitted: "></TextBlock>
+                <TextBlock Text="{x:Bind Localizer.NonSquareBoardsPermitted}"></TextBlock>
                 <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.HandlesNonSquareBoards, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Minimum board size: "></TextBlock>
+                <TextBlock Text="{x:Bind Localizer.MinimumBoardSize}"></TextBlock>
                 <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.MinimumBoardSize, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Maximum board size: "></TextBlock>
+                <TextBlock Text="{x:Bind Localizer.MaximumBoardSize}"></TextBlock>
                 <TextBlock FontWeight="Bold" Text="{x:Bind ViewModel.MaximumBoardSize, Mode=OneWay}" Margin="10,0,0,0"></TextBlock>
             </StackPanel>
         </StackPanel>
         <CheckBox Visibility="{x:Bind ViewModel.IsFuego,Mode=OneWay}" IsChecked="{x:Bind ViewModel.FuegoPonder, Mode=TwoWay}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock>Think during opponent's turn</TextBlock>
+                <TextBlock Text="{x:Bind Localizer.Ponder}"></TextBlock>
                 <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
-                          ToolTipService.ToolTip="If checked, Fuego will use continue thinking even when it's not its turn. This will increase Fuego's strength in timed games." />
+                          ToolTipService.ToolTip="{x:Bind Localizer.PonderTooltip}" />
             </StackPanel>
         </CheckBox>
         <CheckBox Visibility="{x:Bind ViewModel.IsFuego,Mode=OneWay}" IsChecked="{x:Bind ViewModel.FuegoResign, Mode=TwoWay}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock>Can resign</TextBlock>
+                <TextBlock Text="{x:Bind Localizer.CanResign}"></TextBlock>
                 <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
-                          ToolTipService.ToolTip="If checked, Fuego will resign when it has little chance to win. Fuego will never resign in handicap games." />
+                          ToolTipService.ToolTip="{x:Bind Localizer.CanResignTooltip}" />
             </StackPanel>
         </CheckBox>
         <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.IsFluffy,Mode=OneWay}">
-            <TextBlock VerticalAlignment="Center">Tree depth: </TextBlock>
+            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.TreeDepthColon}"></TextBlock>
             <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FluffyTreeDepth, Mode=TwoWay}"></TextBox>
             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
-                          ToolTipService.ToolTip="A greater tree depth means more intelligent moves, but also more time taken to make a move." />
+                          ToolTipService.ToolTip="{x:Bind Localizer.TreeDepthTooltip}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal"  Visibility="{x:Bind ViewModel.IsFuego,Mode=OneWay}">
-            <TextBlock VerticalAlignment="Center">Max playouts:</TextBlock>
+            <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.MaxPlayoutsColon}"></TextBlock>
             <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FuegoMaxGames, Mode=TwoWay}"></TextBox>
             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
-                          ToolTipService.ToolTip="More playouts means more intelligent moves, but also more time taken to make a move." />
+                          ToolTipService.ToolTip="{x:Bind Localizer.MaxPlayoutsTooltip}" />
         </StackPanel>
     </StackPanel>
 </local:UserControlBase>
