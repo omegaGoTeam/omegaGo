@@ -1,4 +1,7 @@
-﻿using Windows.UI.ViewManagement;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 
@@ -26,25 +29,31 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private static void HandleToggleKeyboardShortcut(Windows.UI.Core.CoreDispatcher sender, Windows.UI.Core.AcceleratorKeyEventArgs args)
         {
-            // "menu key" is Alt, in Microsoft-speak.
-            if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
+            if (args.EventType == CoreAcceleratorKeyEventType.SystemKeyDown )
             {
-                SetFullScreenMode(!ApplicationView.GetForCurrentView().IsFullScreenMode);
+                // "menu key" is Alt, in Microsoft-speak.
+                if (args.VirtualKey == Windows.System.VirtualKey.Enter && args.KeyStatus.IsMenuKeyDown)
+                {
+                    SetFullScreenMode(!ApplicationView.GetForCurrentView().IsFullScreenMode);
+                    args.Handled = true;
+                }
             }
         }
 
         /// <summary>
         /// Sets the full screen mode
         /// </summary>
-        public static void SetFullScreenMode(bool useFullScreen)
+        public static void SetFullScreenMode(bool useFullScreen, [CallerMemberName] string caller = null )
         {
             if (useFullScreen && !ApplicationView.GetForCurrentView().IsFullScreenMode)
             {
                 ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+                Debug.WriteLine($"Full screen entered {caller}");
             }
             else
             {
                 ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                Debug.WriteLine($"Full screen exited {caller}");
             }
         }
 

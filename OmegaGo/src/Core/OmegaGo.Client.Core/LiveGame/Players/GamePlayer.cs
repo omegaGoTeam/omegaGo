@@ -45,7 +45,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// <summary>
         /// Checks if the player is a local human player
         /// </summary>
-        public bool IsHuman => Agent.Type == AgentType.Human;       
+        public bool IsHuman => Agent.Type == AgentType.Human;
+
+        /// <summary>
+        /// Checks if the player is a local player (either AI or Human)
+        /// </summary>
+        public bool IsLocal => Agent.Type != AgentType.Remote;     
 
         /// <summary>
         /// Assigns the player to a game
@@ -62,6 +67,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// Returns player's name
         /// </summary>
         /// <returns>Player's name</returns>
-        public override string ToString() => Info.Name;
+        public override string ToString() => Info.ToString();
     }
 }   

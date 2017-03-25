@@ -469,6 +469,19 @@ If you agree to an `undoplease` by `undo [gamenumber]`, then you will either rec
 ```
 Up to 2 moves might be undone with this, because `undo` will always undo all most recent moves up to the latest move made by the player who requested the `undo`.
 
+Spectators to the match will see something like this:
+```
+28 Undo in game 233: OmegaGo1 vs OmegaGo2:   A5
+1 8
+
+28 Undo in game 233: OmegaGo1 vs OmegaGo2:   A4
+1 8
+15 Game 233 I: OmegaGo1 (0 4491 -1) vs OmegaGo2 (0 4480 -1)
+15   1(W): A3
+
+1 8
+```
+
 ### `noundo`
 If you respond to an undo request with `noundo [gamenumber]`, the undo request will be denied. The undo request will not receive any response, but the message
 ```

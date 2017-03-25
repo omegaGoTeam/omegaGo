@@ -175,7 +175,7 @@ namespace OmegaGo.UI.ViewModels
             if (state.Branches.Count == 0)
             {
                 // This is the final node.
-                if (state.Move != null)
+                if (state.Move != null && state.Move.Kind != MoveKind.None)
                 {
                     bool humanPlayed = (Game.Controller.Players[state.Move.WhoMoves].IsHuman);
                     bool notificationDemanded =

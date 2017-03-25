@@ -48,10 +48,15 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     ongame.Controller.Nodes[NodeId].AddProperty(Prop, ongame);
                     break;
                 default:
-                    break;
                     // TODO Petr 
-                   // throw new System.Exception("Unexpected SGF event.");
+                    throw new System.Exception("Unexpected SGF event.");
+                    // break;
             }
+        }
+
+        public override string ToString()
+        {
+            return Type + " (" + (Props?.Length) + ")";
         }
     }
 }

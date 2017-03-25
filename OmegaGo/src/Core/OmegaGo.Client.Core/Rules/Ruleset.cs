@@ -676,6 +676,10 @@ namespace OmegaGo.Core.Rules
             }
 
         }
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
 
     }
 }

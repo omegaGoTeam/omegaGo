@@ -30,7 +30,6 @@ namespace OmegaGo.Core.Online.Igs
     /// </summary>
     public partial class IgsConnection : IServerConnection
     {
-        // TODO Petr :  make it reconnect automatically when connection is interrupted
         // TODO Petr : disconnections are not thread-safe
         // TODO Petr : switch prompt mode when necessary
         // TODO Petr : send "ayt" or something regularly to prevent timeouts        
@@ -155,6 +154,8 @@ namespace OmegaGo.Core.Online.Igs
         public IgsConnection()
         {
             Commands = new IgsCommands(this);
+            Data = new IgsData(this);
+            Events = new IgsEvents(this);
         }
 
         /// <summary>
@@ -247,6 +248,9 @@ namespace OmegaGo.Core.Online.Igs
         /// IGS commands
         /// </summary>
         public IgsCommands Commands { get; }
+        public IgsEvents Events { get; }
+
+        public IgsData Data { get; }
 
         /// <summary>
         /// Gets user's username
@@ -267,10 +271,10 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
         /// </summary>
-        private IgsComposure Composure
+        public IgsComposure Composure
         {
             get { return _composureBackingField; }
-            set
+            private set
             {
                 _composureBackingField = value;
                 lock (_mutexComposureRegained)
@@ -318,8 +322,15 @@ namespace OmegaGo.Core.Online.Igs
         public async Task DisconnectAsync()
         {
             _shouldBeConnected = false;
-            await _client.DisconnectAsync();
+            try
+            {
+                await _client.DisconnectAsync();
+            } catch
+            {
+                // Ignore all TCP errors.
+            }
             _client = null;
+            Composure = IgsComposure.Disconnected;
         }
 
         /// <summary>
@@ -345,16 +356,21 @@ namespace OmegaGo.Core.Online.Igs
             {
                 await _client.DisconnectAsync();
                 _client = null;
+                Events.RaiseLoginComplete(false);
                 return false;
             }
             if (_loginError != null)
             {
                 OnIncomingLine("LOGIN ERROR: " + _loginError);
+                Events.RaiseLoginComplete(false);
                 return false;
             }
             await MakeRequestAsync("toggle quiet true");
             await MakeRequestAsync("toggle newundo true");
             await MakeRequestAsync("toggle verbose false");
+            await ListGamesInProgressAsync();
+            await ListOnlinePlayersAsync();
+            Events.RaiseLoginComplete(true);
             return true;
         }
 
@@ -495,6 +511,7 @@ namespace OmegaGo.Core.Online.Igs
             _client = new TcpSocketClient();
             try
             {
+                Composure = IgsComposure.InitialHandshake;
                 await _client.ConnectAsync(_hostname, _port);
 
                 _streamWriter = new StreamWriter(_client.WriteStream);
@@ -506,7 +523,6 @@ namespace OmegaGo.Core.Online.Igs
                     // Fail silently.
                 }, TaskContinuationOptions.OnlyOnFaulted);
 #pragma warning restore 4014
-                Composure = IgsComposure.InitialHandshake;
                 _streamWriter.WriteLine("guest");
                 _streamWriter.WriteLine("toggle client on");
                 await WaitUntilComposureChangesAsync();

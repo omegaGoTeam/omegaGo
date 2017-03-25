@@ -124,6 +124,8 @@
     <Compile Include="Services\Notifications\AppNotificationService.cs" />
     <Compile Include="Services\PasswordVault\PasswordVaultService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Services\Timer\TimerService.cs" />
+    <Compile Include="Services\Online\OnlineStartup.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
@@ -188,9 +190,6 @@
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MultiplayerDashboard.xaml.cs">
-      <DependentUpon>MultiplayerDashboard.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\OGSLobbyView.xaml.cs">
       <DependentUpon>OGSLobbyView.xaml</DependentUpon>
     </Compile>
@@ -208,7 +207,6 @@
       <DependentUpon>TutorialView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewBase.cs" />
-    <None Include="OmegaGo.UI.WindowsUniversal_StoreKey.pfx" />
     <None Include="OmegaGo.UI.WindowsUniversal_TemporaryKey.pfx" />
     <None Include="project.json" />
     <Compile Include="Setup.cs" />
@@ -435,10 +433,6 @@
     <Page Include="Views\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MultiplayerDashboard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OGSLobbyView.xaml">
       <SubType>Designer</SubType>

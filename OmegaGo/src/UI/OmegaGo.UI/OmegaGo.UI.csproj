@@ -140,6 +140,7 @@
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
     <Compile Include="Services\Settings\QuestsSettings.cs" />
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
+    <Compile Include="Services\Timer\ITimerService.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
@@ -169,7 +170,6 @@
     <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
-    <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
