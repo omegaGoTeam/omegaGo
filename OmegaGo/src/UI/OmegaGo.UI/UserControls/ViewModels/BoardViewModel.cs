@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
@@ -45,6 +46,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public BoardViewModel(GameBoardSize boardSize)
         {
             BoardControlState = new BoardControlState( boardSize ); ;
+        }
+        public BoardViewModel(Rectangle rectangle)
+        {
+            BoardControlState = new BoardControlState(rectangle); ;
         }
 
         public void BoardTap(Position position)

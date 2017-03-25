@@ -159,6 +159,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MvvmCross.Platform;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
@@ -8,6 +9,7 @@ using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
@@ -16,7 +18,7 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblem
     {
-        // TODO Petr: does not work at design time
+        // This field causes TsumegoProblem to not work at design time, but who cares.
         protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
 
         /// <summary>
@@ -127,5 +129,13 @@ namespace OmegaGo.UI.Services.Tsumego
             }
             return new TsumegoProblem(problemName, sgfTree, playerToPlay);
         }
+
+        public Rectangle GetBoundingBoard()
+        {
+            var board = InitialBoard;
+            return Rectangle.GetBoundingRectangle(board);
+        }
+
+        
     }
 }

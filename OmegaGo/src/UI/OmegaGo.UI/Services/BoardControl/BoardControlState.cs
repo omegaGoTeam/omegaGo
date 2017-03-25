@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.Services.Game
 {
@@ -49,7 +50,16 @@ namespace OmegaGo.UI.Services.Game
             _boardWidth = boardSize.Width;
             _boardHeight = boardSize.Height;
         }
-        
+        public BoardControlState(Rectangle rectangle) :
+            this()
+        {
+            this.OriginX = rectangle.X;
+            this.OriginY = rectangle.Y;
+            _boardWidth = rectangle.Width;
+            _boardHeight = rectangle.Height;
+            TsumegoMode = true;
+        }
+
 
         public int BoardLineThickness
         {
@@ -58,9 +68,12 @@ namespace OmegaGo.UI.Services.Game
         }
 
         private StoneColor _mouseOverShadowColor;
+        public bool TsumegoMode { get; }
         public int LeftPadding;
         public int TopPadding;
         public int NewCellSize;
+        public int OriginX;
+        public int OriginY;
 
         /// <summary>
         /// Gets or sets the color of the shadow stone displayed under the cursor when the user 

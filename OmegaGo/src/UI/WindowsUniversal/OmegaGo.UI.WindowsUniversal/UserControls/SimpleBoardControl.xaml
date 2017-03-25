@@ -13,6 +13,7 @@
     <Grid>
         <xaml:CanvasControl 
                 x:Name="canvas" 
+                CreateResources="canvas_CreateResources"
                 Draw="canvas_Draw" />
     </Grid>
 </UserControl>

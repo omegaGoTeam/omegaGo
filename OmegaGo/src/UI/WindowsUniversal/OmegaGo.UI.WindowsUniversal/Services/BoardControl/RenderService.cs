@@ -32,7 +32,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public BoardControlState SharedBoardControlState
         {
             get { return this._sharedBoardControlState; }
-            private set { this._sharedBoardControlState = value; }
+            set { this._sharedBoardControlState = value; }
         }
         public RenderService(BoardControlState sharedBoardControlState)
         {
@@ -52,7 +52,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
-        private bool _showCoordinates;
+        public bool ShowCoordinates { get; set; }
+
+        public bool SimpleRenderService { get; set; }
+
         private int _boardBorderThickness;
         private int _boardLineThickness;
         private int _cellSize;
@@ -61,20 +64,19 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private bool _highlightLastMove;
         private void ReloadSettings()
         {
-            // TODO Petr: call this when tsumego checkbox changes, but in a clean fashion please :-D !
             this.stoneDisplayTheme = this._settings.Display.StonesTheme;
             this._boardTheme = this._settings.Display.BoardTheme;
-            this._showCoordinates = this._settings.Display.ShowCoordinates;
-            this._boardLineThickness = this.SharedBoardControlState.BoardLineThickness;
+            this.ShowCoordinates = this._settings.Display.ShowCoordinates;
+            this._boardLineThickness = this.SharedBoardControlState?.BoardLineThickness ?? 1;
             this._highlightLastMove = this._settings.Display.HighlightLastMove;
         }
 
-        public void CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
+        public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
         {
             ReloadSettings();
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
-        async Task CreateResourcesAsync(CanvasAnimatedControl sender)
+        async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
             this.blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             this.whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
@@ -92,17 +94,20 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawBoard(CanvasDrawingSession session, double clientWidth, double clientHeight, Rect boardRectangle)
         {
             // Draw tatami mats
-            int columns = (int)Math.Ceiling(clientWidth/sabakiTatamiBitmap.Bounds.Width);
-            int rows = (int) Math.Ceiling(clientHeight/sabakiTatamiBitmap.Bounds.Height);
-            for (int x =0; x< columns; x++)
+            if (!SimpleRenderService)
             {
-                for (int y= 0; y < rows; y++)
+                int columns = (int) Math.Ceiling(clientWidth/sabakiTatamiBitmap.Bounds.Width);
+                int rows = (int) Math.Ceiling(clientHeight/sabakiTatamiBitmap.Bounds.Height);
+                for (int x = 0; x < columns; x++)
                 {
-                    session.DrawImage(sabakiTatamiBitmap,
-                        new Vector2(x*(float)sabakiTatamiBitmap.Bounds.Width, y*(float)sabakiTatamiBitmap.Bounds.Height));
+                    for (int y = 0; y < rows; y++)
+                    {
+                        session.DrawImage(sabakiTatamiBitmap,
+                            new Vector2(x*(float) sabakiTatamiBitmap.Bounds.Width,
+                                y*(float) sabakiTatamiBitmap.Bounds.Height));
+                    }
                 }
             }
-
             // Draw board
             DrawBackground(boardRectangle, session);
         }
@@ -110,21 +115,21 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// Draws the entire game board for the provided state.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="args"></param>
+        /// <param name="session"></param>
         /// <param name="gameState"></param>
-        public void Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args, GameTreeNode gameState)
+        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState)
         {
             // Calculations
-            double clientWidth = sender.Size.Width;
-            double clientHeight = sender.Size.Height;
+            double clientWidth = width;
+            double clientHeight = height;
             int boardWidth = this.SharedBoardControlState.BoardWidth;
-            int widthWithBorder = boardWidth + (this._showCoordinates ? 2 : 0);
+            int widthWithBorder = boardWidth + (this.ShowCoordinates ? 2 : 0);
             int boardHeight = this.SharedBoardControlState.BoardHeight;
             Rect boardRectangle = RenderUtilities.Scale(new Rect(0, 0, clientWidth, clientHeight), 
-                boardWidth + (this._showCoordinates ? 2 : 0), boardHeight + (this._showCoordinates ? 2 : 0));
+                boardWidth + (this.ShowCoordinates ? 2 : 0), boardHeight + (this.ShowCoordinates ? 2 : 0));
             this._cellSize = (int)(boardRectangle.Width/widthWithBorder);
             this._halfSize = this._cellSize/2;
-            if (this._showCoordinates)
+            if (this.ShowCoordinates)
             {
                 this._boardBorderThickness = this._cellSize;
             }
@@ -138,16 +143,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // The above should only be probably called on demand, not always
 
             // Draw parts
-            DrawBoard(args.DrawingSession, clientWidth, clientHeight, boardRectangle);
+            DrawBoard(session, clientWidth, clientHeight, boardRectangle);
 
             // Draw coordinates   
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(
+            session.Transform = Matrix3x2.CreateTranslation(
             (float)boardRectangle.X , (float)boardRectangle.Y);
-            DrawBoardCoordinates(sender, args.DrawingSession, boardWidth, boardHeight);
+            DrawBoardCoordinates(sender, session, boardWidth, boardHeight);
 
 
             // Draw grid
-            args.DrawingSession.Transform = Matrix3x2.CreateTranslation(
+            session.Transform = Matrix3x2.CreateTranslation(
                 (float)boardRectangle.X + this._boardBorderThickness, (float)boardRectangle.Y + this._boardBorderThickness);
 
             CanvasCommandList lines = new CanvasCommandList(sender);
@@ -156,8 +161,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 linesSession.Antialiasing = CanvasAntialiasing.Aliased;
                 DrawBoardLines(linesSession, boardWidth, boardHeight);
             }
-            args.DrawingSession.DrawImage(lines);
-            DrawBoardStarPoints(args.DrawingSession, boardWidth, boardHeight);
+            session.DrawImage(lines);
+            DrawBoardStarPoints(session, boardWidth, boardHeight);
 
             // Shining position special case
             if (this._sharedBoardControlState.ShiningPosition.IsDefined)
@@ -165,37 +170,33 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 int x = this.SharedBoardControlState.ShiningPosition.X;
                 int y = ((this.SharedBoardControlState.BoardHeight - 1) - this.SharedBoardControlState.ShiningPosition.Y);
                 float minusWhat = (float)_flickerPercentage*_cellSize*0.07f;
-                args.DrawingSession.FillRoundedRectangle(
+                session.FillRoundedRectangle(
                     this._cellSize * x + minusWhat,
                     this._cellSize * y + minusWhat, this._cellSize - 2 * minusWhat, this._cellSize - 2 * minusWhat,
                4, 4,
                     Color.FromArgb(140, 100, 200, 100));
             }
 
-            DrawStones(gameState, args.DrawingSession);
+            DrawStones(gameState, session);
 
 
             // Mouse over position special case
             if (this._sharedBoardControlState.MouseOverPosition.IsDefined)
             {
-                // TODO Petr : only if legal - use Ruleset IsLegalMove? But it would be slow, you can implement caching to check for each intersection only once
+                // TODO Petr : only if legal - use Ruleset IsLegalMove?
+                // But it would be slow, you can implement caching to check for each intersection only once
                 if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
                 {
-                    DrawStone(args.DrawingSession, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
+                    DrawStone(session, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
                 }
-                else
-                {
-                    // legacy
-                    DrawStoneCellBackground(
-                        args.DrawingSession, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this.SharedBoardControlState.HighlightColor.ToUWPColor());
-                }
-
             }
 
-            args.DrawingSession.Transform = Matrix3x2.Identity;
-            this._fpsCounter.Draw(args, new Rect(clientWidth - 100, 10, 80, 30));
+            session.Transform = Matrix3x2.Identity;
 
-
+            if (!SimpleRenderService)
+            {
+                this._fpsCounter.Draw(session, new Rect(clientWidth - 100, 10, 80, 30));
+            }
         }
 
         private void DrawStones(GameTreeNode gameState, CanvasDrawingSession session)
@@ -209,22 +210,22 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     foreach (var position in gameState.Tsumego.MarkedPositions)
                     {
                         DrawStoneCellBackground(session,
-                            position.X,
-                            position.Y,
+                            position.X ,
+                            position.Y , 
                             Color.FromArgb(100, 255, 50, 0));
                     }
                 }
                 GameBoard boardState = gameState.BoardState;
 
-                for (int x = 0; x < this.SharedBoardControlState.BoardWidth; x++)
+                for (int x = SharedBoardControlState.OriginX; x < this.SharedBoardControlState.BoardWidth + SharedBoardControlState.OriginX; x++)
                 {
-                    for (int y = 0; y < this.SharedBoardControlState.BoardHeight; y++)
+                    for (int y = SharedBoardControlState.OriginY; y < this.SharedBoardControlState.BoardHeight + SharedBoardControlState.OriginY; y++)
                     {
                         int translatedYCoordinate = (this.SharedBoardControlState.BoardHeight - y - 1);
                         
                         if (boardState[x, y] != StoneColor.None)
                         {
-                            DrawStone(session, x, y, boardState[x, y], 1);
+                            DrawStone(session, x , y , boardState[x, y], 1);
 
                             if (_highlightLastMove)
                             {
@@ -232,8 +233,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                                     gameState.Move.Coordinates.X == x &&
                                     gameState.Move.Coordinates.Y == y)
                                 {
-                                    session.DrawEllipse(new Vector2(x *this._cellSize + this._halfSize,
-                                        translatedYCoordinate *this._cellSize + this._halfSize), this._cellSize * 0.2f, this._cellSize * 0.2f,
+                                    session.DrawEllipse(new Vector2(
+                                        (x-SharedBoardControlState.OriginX) *this._cellSize + this._halfSize,
+                                        (translatedYCoordinate+SharedBoardControlState.OriginY) *this._cellSize + this._halfSize), this._cellSize * 0.2f, this._cellSize * 0.2f,
                                         boardState[x, y] == StoneColor.White ? Colors.Black : Colors.White, 3);
                                 }
                             }
@@ -310,7 +312,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="opacity"></param>
         private void DrawStone(CanvasDrawingSession drawingSession, int x, int y, StoneColor color, double opacity)
         {
-            y= (this.SharedBoardControlState.BoardHeight - 1) -y;
+            x -= SharedBoardControlState.OriginX;
+            y = (this.SharedBoardControlState.BoardHeight - 1) - (y - SharedBoardControlState.OriginY);
 
             
             if (this.stoneDisplayTheme == StoneTheme.PolishedBitmap || this.stoneDisplayTheme == StoneTheme.Sabaki)
@@ -374,7 +377,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private void DrawStoneCellBackground(CanvasDrawingSession drawingSession, int x, int y, Color backgroundColor)
         {
             // No need to find center as we are drawing a rectangle from top left position - which we have
-            drawingSession.FillRoundedRectangle(this._cellSize * x, this._cellSize * ((this.SharedBoardControlState.BoardHeight - 1) - y), this._cellSize, this._cellSize, 
+            drawingSession.FillRoundedRectangle(
+                this._cellSize * (x - SharedBoardControlState.OriginX), 
+                this._cellSize * ((this.SharedBoardControlState.BoardHeight - 1) - (y - SharedBoardControlState.OriginY)), this._cellSize, this._cellSize, 
                 4, 4,
                 backgroundColor);
         }
@@ -388,8 +393,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="boardHeight">height of the game board</param>
         private void DrawBoardCoordinates(ICanvasResourceCreator resourceCreator, CanvasDrawingSession drawingSession, int boardWidth, int boardHeight)
         {
-            if (!this._showCoordinates) return;
-            int charCode = 65;
+            if (!this.ShowCoordinates) return;
+            int charCode = 65 + _sharedBoardControlState.OriginX;
+            if ((char)charCode >= 'I')
+            {
+                charCode++;
+            }
             
             // Draw horizontal char coordinates
             for (int i = 0; i < boardWidth; i++)
@@ -417,7 +426,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw vertical numerical coordinates
             for (int i = 0; i < boardHeight; i++)
             {
-                CanvasTextLayout textLayout = RenderUtilities.GetCachedCanvasTextLayout(resourceCreator, (boardHeight - i).ToString(), this._textFormat, this._cellSize);
+                int y = (boardHeight - i) + _sharedBoardControlState.OriginY;
+                CanvasTextLayout textLayout = RenderUtilities.GetCachedCanvasTextLayout(resourceCreator, y.ToString(), this._textFormat, this._cellSize);
                 textLayout.VerticalAlignment = CanvasVerticalAlignment.Center;
                 textLayout.HorizontalAlignment = CanvasHorizontalAlignment.Center;
                 
