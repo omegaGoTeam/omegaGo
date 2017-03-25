@@ -331,6 +331,7 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+                            <TextBlock TextWrapping="Wrap" Width="250" Text="{x:Bind Localizer.ControlStyleChangeInfo}" Visibility="{x:Bind VM.ControlStyleChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
 
                             <TextBlock Text="{x:Bind Localizer.AppTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Dark}" IsChecked="{x:Bind VM.AppThemeDarkSelected, Mode=TwoWay}" />

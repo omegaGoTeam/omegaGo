@@ -29,6 +29,7 @@ namespace OmegaGo.UI.ViewModels
         private readonly IGameSettings _gameSettings;
 
         private bool _languageChanged = false;
+        private bool _controlStyleChanged = false;
 
         public SettingsViewModel(IGameSettings gameSettings)
         {
@@ -51,9 +52,19 @@ namespace OmegaGo.UI.ViewModels
             }
             set
             {
-                _gameSettings.Display.ControlStyle = value;
-                RaisePropertyChanged();
+                if (_gameSettings.Display.ControlStyle != value)
+                {
+                    _gameSettings.Display.ControlStyle = value;
+                    RaisePropertyChanged();
+                    ControlStyleChanged = true;
+                }
             }
+        }
+
+        public bool ControlStyleChanged
+        {
+            get { return _controlStyleChanged; }
+            set { SetProperty(ref _controlStyleChanged, value); }
         }
 
         /// <summary>

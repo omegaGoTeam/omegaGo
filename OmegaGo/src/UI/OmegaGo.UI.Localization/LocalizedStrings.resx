@@ -749,4 +749,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="AppTheme_Light" xml:space="preserve">
     <value>Light</value>
   </data>
+  <data name="ControlStyleChangeInfo" xml:space="preserve">
+    <value>To apply control style change, please restart the application.</value>
+  </data>
 </root>

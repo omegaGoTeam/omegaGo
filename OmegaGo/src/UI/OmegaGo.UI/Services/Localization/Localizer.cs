@@ -41,6 +41,8 @@ namespace OmegaGo.UI.Services.Localization
 
         public string ControlStyle => LocalizeCaller();
 
+        public string ControlStyleChangeInfo => LocalizeCaller();
+
         public string FullscreenModeCheckbox => LocalizeCaller();
 
         public string HighlightLastMove => LocalizeCaller();

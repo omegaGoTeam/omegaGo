@@ -624,6 +624,9 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="RememberPasswordCaption" xml:space="preserve">
     <value>Zapamatovat heslo</value>
   </data>
+  <data name="ControlStyleChangeInfo" xml:space="preserve">
+    <value>Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</value>
+  </data>
   <data name="BackgroundImageOpacity" xml:space="preserve">
     <value>Viditelnost obrázku na pozadí</value>
   </data>
