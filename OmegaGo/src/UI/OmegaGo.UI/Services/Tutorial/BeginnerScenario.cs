@@ -18,7 +18,8 @@ namespace OmegaGo.UI.Services.Tutorial
         /// <summary>
         /// Format string for all tutorial resources
         /// </summary>
-        private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial-{0}.txt";
+        private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial-{0}.txt"; 
+           // Resources behave strangely when ".cs" is appended to them. When ".ces" or ".auto" is appended, everything works fine.
 
         /// <summary>
         /// Creates the beginner tutorial scenario
@@ -26,6 +27,10 @@ namespace OmegaGo.UI.Services.Tutorial
         public BeginnerScenario()
         {
             var currentLanguageResourceName = FormatTutorialResourceName(GameLanguages.CurrentLanguage.CultureTag);
+            if (GameLanguages.CurrentLanguage.CultureTag == GameLanguages.DefaultLanguage.CultureTag)
+            {
+                currentLanguageResourceName = FormatTutorialResourceName(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+            }
             Stream sourceStream = null;
             if ((sourceStream = GetTutorialResourceStream(currentLanguageResourceName)) == null)
             {
