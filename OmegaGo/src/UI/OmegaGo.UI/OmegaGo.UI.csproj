@@ -59,6 +59,7 @@
     <Compile Include="Controls\Themes\AppTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
+    <Compile Include="Converters\EnumSelectionConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
     <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />

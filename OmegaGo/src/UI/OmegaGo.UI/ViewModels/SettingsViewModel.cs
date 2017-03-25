@@ -154,7 +154,33 @@ namespace OmegaGo.UI.ViewModels
                 {
                     _gameSettings.Display.AppTheme = value;
                     RaisePropertyChanged();
+                    RaisePropertyChanged(() => AppThemeLightSelected);
+                    RaisePropertyChanged(() => AppThemeDarkSelected);
                     ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
+        }
+
+        public bool AppThemeLightSelected
+        {
+            get { return SelectedAppTheme == AppTheme.Light; }
+            set
+            {
+                if (value)
+                {
+                    SelectedAppTheme = AppTheme.Light;
+                }
+            }
+        }
+
+        public bool AppThemeDarkSelected
+        {
+            get { return SelectedAppTheme == AppTheme.Dark; }
+            set
+            {
+                if (value)
+                {
+                    SelectedAppTheme = AppTheme.Dark;
                 }
             }
         }

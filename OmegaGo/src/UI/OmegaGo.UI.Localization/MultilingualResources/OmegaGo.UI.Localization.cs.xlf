@@ -836,6 +836,18 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <source>Background image opacity</source>
           <target state="translated">Viditelnost obrázku na pozadí</target>
         </trans-unit>
+        <trans-unit id="AppTheme_Dark" translate="yes" xml:space="preserve">
+          <source>Dark</source>
+          <target state="new">Dark</target>
+        </trans-unit>
+        <trans-unit id="AppTheme_Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="new">Light</target>
+        </trans-unit>
+        <trans-unit id="AppTheme" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="new">Theme</target>
+        </trans-unit>
       </group>
     </body>
   </file>

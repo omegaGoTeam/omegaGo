@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
@@ -135,13 +136,22 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             }
         }
 
+        public ElementTheme AppTheme
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                return _settings.Display.AppTheme == Controls.Themes.AppTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            }
+        }
+
         /// <summary>
         /// Background color
         /// </summary>
         public Color BackgroundColor
         {
             get
-            {               
+            {
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
                 return _settings.Display.BackgroundColor.ToWindowsColor();
             }
@@ -186,6 +196,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundOpacity));
             OnPropertyChanged(nameof(BackgroundColor));
             OnPropertyChanged(nameof(BackgroundImageUrl));
+            OnPropertyChanged(nameof(AppTheme));
         }
 
         /// <summary>
@@ -249,7 +260,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void ExpireNotifications()
         {
-            for (int ni = BubbleNotifications.Count -1;ni>=0;ni--)
+            for (int ni = BubbleNotifications.Count - 1; ni >= 0; ni--)
             {
                 var notification = BubbleNotifications[ni];
                 if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)

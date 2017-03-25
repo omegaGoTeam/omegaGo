@@ -734,4 +734,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="BackgroundImageOpacity" xml:space="preserve">
     <value>Background image opacity</value>
   </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
 </root>

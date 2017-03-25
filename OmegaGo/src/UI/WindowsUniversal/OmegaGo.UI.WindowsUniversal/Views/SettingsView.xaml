@@ -331,6 +331,10 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
+
+                            <TextBlock Text="{x:Bind Localizer.AppTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Dark}" IsChecked="{x:Bind VM.AppThemeDarkSelected, Mode=TwoWay}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Light}" IsChecked="{x:Bind VM.AppThemeLightSelected, Mode=TwoWay}" />
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
