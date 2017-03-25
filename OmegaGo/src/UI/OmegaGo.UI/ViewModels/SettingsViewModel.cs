@@ -16,6 +16,7 @@ using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using OmegaGo.UI.Controls.Styles;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Infrastructure.PresentationHints;
 
 namespace OmegaGo.UI.ViewModels
@@ -135,6 +136,23 @@ namespace OmegaGo.UI.ViewModels
                 if (_gameSettings.Display.BackgroundImage != value)
                 {
                     _gameSettings.Display.BackgroundImage = value;
+                    RaisePropertyChanged();
+                    ChangePresentation(new RefreshDisplayPresentationHint());
+                }
+            }
+        }
+
+        public ObservableCollection<AppTheme> AppThemes { get; } =
+            new ObservableCollection<AppTheme>((AppTheme[])Enum.GetValues(typeof(AppTheme)));
+
+        public AppTheme SelectedAppTheme
+        {
+            get { return _gameSettings.Display.AppTheme; }
+            set
+            {
+                if (_gameSettings.Display.AppTheme != value)
+                {
+                    _gameSettings.Display.AppTheme = value;
                     RaisePropertyChanged();
                     ChangePresentation(new RefreshDisplayPresentationHint());
                 }

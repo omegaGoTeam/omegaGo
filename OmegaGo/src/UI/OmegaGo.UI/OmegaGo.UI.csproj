@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Board\Styles\StoneTheme.cs" />
     <Compile Include="Controls\Styles\ControlStyle.cs" />
+    <Compile Include="Controls\Themes\AppTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />

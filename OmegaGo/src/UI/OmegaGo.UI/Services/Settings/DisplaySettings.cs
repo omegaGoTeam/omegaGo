@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Platform.UI;
 using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Controls.Styles;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 
 namespace OmegaGo.UI.Services.Settings
@@ -58,8 +59,8 @@ namespace OmegaGo.UI.Services.Settings
         public BackgroundColor BackgroundColor
         {
             get
-            {                
-                 return GetComplexSetting(nameof(BackgroundColor), () => BackgroundColor.Default, SettingLocality.Roamed);                
+            {
+                return GetComplexSetting(nameof(BackgroundColor), () => BackgroundColor.Default, SettingLocality.Roamed);
             }
             set { SetComplexSetting(nameof(BackgroundColor), value, SettingLocality.Roamed); }
         }
@@ -72,6 +73,19 @@ namespace OmegaGo.UI.Services.Settings
                 return (StoneTheme)theSetting;
             }
             set { SetSetting(nameof(StonesTheme), (int)value, SettingLocality.Roamed); }
+        }
+
+        public AppTheme AppTheme
+        {
+            get
+            {
+                int setting = GetSetting(nameof(AppTheme), () => (int)AppTheme.Light, SettingLocality.Roamed);
+                return (AppTheme)setting;
+            }
+            set
+            {
+                SetSetting(nameof(AppTheme), (int)value, SettingLocality.Roamed);
+            }
         }
 
         public bool HighlightLastMove
