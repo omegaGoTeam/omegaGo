@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
@@ -112,6 +113,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 default:
                     break;
             }
+        }
+        public override string ToString()
+        {
+            return "Node [" + Properties.Count + " props, first: " + Properties.FirstOrDefault()?.Name + "]";
         }
     }
 }

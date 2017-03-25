@@ -31,6 +31,11 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         public string Text { get; set; }
         public float Float { get; set; }
         public int Int { get; set; }
+
+        public override string ToString()
+        {
+            return Name + "(" + Loc + "/" + Color + "/" + Text + ")";
+        }
     }
 
     /// <summary>

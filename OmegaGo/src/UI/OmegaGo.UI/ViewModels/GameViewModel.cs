@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -53,6 +54,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
 
             _uiConnector = new UiConnector(Game.Controller);
+            _uiConnector.AiLog += _uiConnector_AiLog;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -65,6 +67,11 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             
             ObserveDebuggingMessages();
+        }
+
+        private void _uiConnector_AiLog(object sender, string e)
+        {
+            _systemLog.AppendLine("AI: " + e);
         }
 
         ////////////////
@@ -168,13 +175,14 @@ namespace OmegaGo.UI.ViewModels
             if (state.Branches.Count == 0)
             {
                 // This is the final node.
-                if (state.Move != null)
+                if (state.Move != null && state.Move.Kind != MoveKind.None)
                 {
                     bool humanPlayed = (Game.Controller.Players[state.Move.WhoMoves].IsHuman);
                     bool notificationDemanded =
                         (humanPlayed
                             ? _gameSettings.Audio.PlayWhenYouPlaceStone
-                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone) &&
+                        (!(Game.Info is RemoteGameInfo) || state.MoveNumber > ((RemoteGameInfo) Game.Info).PreplayedMoveCount);
                     if (notificationDemanded)
                     {
                         if (state.Move.Kind == MoveKind.PlaceStone)

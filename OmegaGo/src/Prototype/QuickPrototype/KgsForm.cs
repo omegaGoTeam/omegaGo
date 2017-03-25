@@ -213,5 +213,13 @@ namespace FormsPrototype
                 }
             }
         }
+
+        private async void bAccept_Click(object sender, EventArgs e)
+        {
+            if (this.lbContainerChallenges.SelectedItem != null)
+            {
+                await this.kgs.Commands.AcceptChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+            }
+        }
     }
 }

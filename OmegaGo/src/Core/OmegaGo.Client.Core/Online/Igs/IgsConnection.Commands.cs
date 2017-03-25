@@ -15,7 +15,9 @@ using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.Core.Rules;
+using OmegaGo.Core.Time;
 using OmegaGo.Core.Time.Canadian;
+using OmegaGo.Core.Time.None;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -56,7 +58,8 @@ namespace OmegaGo.Core.Online.Igs
                     games.Add(CreateGameFromTelnetLine(line.EntireLine));
                 }
             }
-            return games; // this._gamesInProgressOnIgs;
+            this.Data.GamesInProgress = games;
+            return games; 
         }
         private IgsGameInfo CreateGameFromTelnetLine(string line)
         {
@@ -90,10 +93,7 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[12].Value.AsInteger(),
                 this);
             game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
-            // DO *NOT* DO this: the displayed number might be something different from what our client wants
-            // NumberOfMovesPlayed = match.Groups[6].Value.AsInteger(),
-            // Do not uncomment the preceding line. I will fix it in time. I hope.
-
+            game.PreplayedMoveCount = match.Groups[6].Value.AsInteger();
             return game;
 
         }
@@ -121,25 +121,46 @@ namespace OmegaGo.Core.Online.Igs
                 // It's a different game now.
                 return null;
             }
+            TimeControl blackClock =
+                new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(gameInfo.ByoyomiPeriod)).UpdateFrom(
+                    heading.BlackTimeRemaining);
+            TimeControl whiteClock =
+                new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(gameInfo.ByoyomiPeriod)).UpdateFrom(
+                    heading.WhiteTimeRemaining);
+            if (heading.BlackTimeRemaining.PeriodStonesLeft == 0 &&
+                heading.BlackTimeRemaining.PeriodTimeLeft == TimeSpan.Zero &&
+                heading.BlackTimeRemaining.MainTimeLeft == TimeSpan.Zero)
+            {
+                blackClock = new NoTimeControl();
+                whiteClock = new NoTimeControl();
+            }
+
+            IgsLine titleLine = response.LastOrDefault(line => line.Code == IgsCode.Info);
+            string gameName = null;
+            if (titleLine != null)
+            {
+                gameName = IgsRegex.ParseTitleInformation(titleLine);
+            }
             GamePlayer blackPlayer =
                   new IgsPlayerBuilder(StoneColor.Black, this)
                       .Name(gameInfo.Black.Name)
                       .Rank(gameInfo.Black.Rank)
-                      .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes( gameInfo.ByoyomiPeriod)).UpdateFrom(heading.BlackTimeRemaining))
+                      .Clock(blackClock)
                       .Build();
             GamePlayer whitePlayer =
                 new IgsPlayerBuilder(StoneColor.White, this)
                     .Name(gameInfo.White.Name)
                     .Rank(gameInfo.White.Rank)
-                      .Clock(new CanadianTimeControl(TimeSpan.Zero, 25, TimeSpan.FromMinutes(gameInfo.ByoyomiPeriod)).UpdateFrom(heading.WhiteTimeRemaining))
+                    .Clock(whiteClock)
                     .Build();
-            IgsGame onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
+            var onlineGame = GameBuilder.CreateOnlineGame(gameInfo)
                 .Connection(this)
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Ruleset(RulesetType.Japanese)
                 .Komi(gameInfo.Komi)
                 .BoardSize(gameInfo.BoardSize)
+                .Name(gameName)
                 .Build();
             _gamesBeingObserved.Add(onlineGame);
             _gamesYouHaveOpened.Add(onlineGame);
@@ -178,7 +199,23 @@ namespace OmegaGo.Core.Online.Igs
             List<IgsLine> result = await MakeRequestAsync("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
-        public async Task<List<IgsUser>> ListOnlinePlayersAsync()
+
+        public async Task RequestPersonalInformationUpdate(string username)
+        {
+            List<IgsLine> users = await MakeRequestAsync("user " + username);
+            foreach (var line in users)
+            {
+                if (line.Code != IgsCode.User) continue; // Comment
+                if (line.EntireLine.EndsWith("Language")) continue; // Example
+                IgsUser createdUser = CreateUserFromTelnetLine(line.EntireLine);
+                if (createdUser.Name == this._username)
+                {
+                    OnPersonalInformationUpdate(createdUser);
+                }
+            }
+        }
+
+        public async Task<List<IgsUser>> ListOnlinePlayersAsync(string specificUser = null)
         {
             await EnsureConnectedAsync();
             List<IgsLine> users = await MakeRequestAsync("user");
@@ -194,6 +231,7 @@ namespace OmegaGo.Core.Online.Igs
                     OnPersonalInformationUpdate(createdUser);
                 }
             }
+            this.Data.OnlineUsers = returnedUsers;
             return returnedUsers;
         }
 

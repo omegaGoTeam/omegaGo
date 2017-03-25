@@ -3,6 +3,10 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
 using OmegaGo.UI.ViewModels;
 using System;
 using Windows.UI.Xaml;
+using MvvmCross.Platform;
+using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
+using OmegaGo.UI.Services.Dialogs;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -65,6 +69,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void UpdateSystemLog(object sender, RoutedEventArgs e)
         {
             SystemLog.Text = VM.SystemLog;
+        }
+
+        private async void SendFuegoCommand(object sender, RoutedEventArgs e)
+        {
+            foreach(var player in VM.Game.Controller.Players)
+            {
+                if (player.Agent is AiAgent)
+                {
+                    var fuego = (FuegoAI) ((AiAgent) player.Agent).AI;
+                    var response = fuego.SendCommand(this.FuegoCommand.Text);
+                    await Mvx.Resolve<IDialogService>().ShowAsync(response.Text, "Fuego response");
+                }
+            }
         }
     }
 }

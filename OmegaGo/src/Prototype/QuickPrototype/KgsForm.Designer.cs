@@ -34,6 +34,7 @@
             this.tbUnhandledMessageTypes = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.lblYourRank = new System.Windows.Forms.Label();
             this.bLogout = new System.Windows.Forms.Button();
             this.bLogin = new System.Windows.Forms.Button();
             this.tbLog = new System.Windows.Forms.TextBox();
@@ -65,7 +66,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbJoinedChannels = new System.Windows.Forms.ListBox();
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
-            this.lblYourRank = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -140,6 +140,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "System log";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // lblYourRank
+            // 
+            this.lblYourRank.AutoSize = true;
+            this.lblYourRank.Location = new System.Drawing.Point(715, 42);
+            this.lblYourRank.Name = "lblYourRank";
+            this.lblYourRank.Size = new System.Drawing.Size(137, 13);
+            this.lblYourRank.TabIndex = 11;
+            this.lblYourRank.Text = "You have not logged in yet.";
             // 
             // bLogout
             // 
@@ -357,6 +366,7 @@
             this.bAccept.TabIndex = 9;
             this.bAccept.Text = "Accept";
             this.bAccept.UseVisualStyleBackColor = true;
+            this.bAccept.Click += new System.EventHandler(this.bAccept_Click);
             // 
             // lbContainerChallenges
             // 
@@ -457,15 +467,6 @@
             this.timerIdle.Enabled = true;
             this.timerIdle.Interval = 10000;
             this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
-            // 
-            // lblYourRank
-            // 
-            this.lblYourRank.AutoSize = true;
-            this.lblYourRank.Location = new System.Drawing.Point(715, 42);
-            this.lblYourRank.Name = "lblYourRank";
-            this.lblYourRank.Size = new System.Drawing.Size(137, 13);
-            this.lblYourRank.TabIndex = 11;
-            this.lblYourRank.Text = "You have not logged in yet.";
             // 
             // KgsForm
             // 

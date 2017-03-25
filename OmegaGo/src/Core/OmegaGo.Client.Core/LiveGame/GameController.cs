@@ -52,7 +52,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// The player on turn.
         /// </summary>
         private GamePlayer _turnPlayer;
-
         /// <summary>
         /// Creates the game controller.
         /// </summary>

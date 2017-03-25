@@ -22,6 +22,7 @@ using OmegaGo.UI.Controls.Styles;
 using OmegaGo.UI.WindowsUniversal.Fuego;
 #endif
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
+using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -36,7 +37,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         public App()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
             this.Suspending += OnSuspending;
 #if WITHOUT_FUEGO
 #else
@@ -69,7 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal
             if (appShell == null)
             {
                 //create app shell to hold app content
-                var shell = AppShell.CreateForWindow(Window.Current);
+                var shell = AppShell.CreateForWindow(Window.Current);                
                 //create extended splash screen
                 ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                 //temporarily place splash into the root frame
@@ -82,12 +83,9 @@ namespace OmegaGo.UI.WindowsUniversal
                 await InitializeMvvmCrossAsync();
                 InitializeStyle();
             }
-
-            if (e.PrelaunchActivated == false)
-            {
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            CoreApplication.EnablePrelaunch(true);
+            // Ensure the current window is active
+            Window.Current.Activate();
         }
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <param name="window">App window</param>
         private void SetupWindowServices(Window window)
         {
-            FullscreenModeManager.RegisterForWindow(window);
+            FullScreenModeManager.RegisterForWindow(window);
         }
 
         /// <summary>
@@ -169,6 +167,7 @@ namespace OmegaGo.UI.WindowsUniversal
 
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
+            OnlineStartup.Startup();
         }
 
         private void InitializeStyle()

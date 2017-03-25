@@ -32,5 +32,10 @@ namespace OmegaGo.Core.Game
         /// Dead positions
         /// </summary>
         public IEnumerable<Position> DeadPositions { get; }
+
+        public override string ToString()
+        {
+            return DeadPositions.Count() + " dead positions";
+        }
     }
 }

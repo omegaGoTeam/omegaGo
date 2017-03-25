@@ -18,6 +18,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public sealed partial class MainMenuView : TransparencyViewBase
     {
+        private const string GoFullScreenGlyph = "\uE1D9";
+        private const string ExitFullScreenGlyph = "\uE1D8";
+
         public MainMenuViewModel VM => (MainMenuViewModel)this.ViewModel;
 
         public MainMenuView()
@@ -32,6 +35,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 FocusOptimization();
             }
+            FullScreenButtonIcon.Glyph = FullScreenModeManager.IsFullScreen ? 
+                ExitFullScreenGlyph : GoFullScreenGlyph;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -90,11 +95,13 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 menuItem.IsChecked = menuItem.Tag == VM.SelectedLanguage;
             }
         }
-
-
-        private void GoFullScreen_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        
+        private void FullScreenButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            FullscreenModeManager.Toggle();
+            var useFullScreen = !FullScreenModeManager.IsFullScreen;
+            FullScreenModeManager.SetFullScreenMode( useFullScreen );
+            FullScreenButtonIcon.Glyph = useFullScreen ?
+                ExitFullScreenGlyph : GoFullScreenGlyph;
         }
 
         private async void FocusOptimization()

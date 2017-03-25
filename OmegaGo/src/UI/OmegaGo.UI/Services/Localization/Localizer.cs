@@ -23,6 +23,14 @@ namespace OmegaGo.UI.Services.Localization
 
         public string ThemesPanel => LocalizeCaller();
 
+        public string BackgroundImageOpacity => LocalizeCaller();
+
+        public string AppTheme => LocalizeCaller();
+
+        public string AppTheme_Dark => LocalizeCaller();
+
+        public string AppTheme_Light => LocalizeCaller();
+
         public string BoardTheme => LocalizeCaller();
 
         public string StonesTheme => LocalizeCaller();
@@ -264,6 +272,22 @@ namespace OmegaGo.UI.Services.Localization
         public string QuitCancel => LocalizeCaller();
         public string QuestsFooter => LocalizeCaller();
         public string TsumegoMenuCaption => LocalizeCaller();
-        public string SolvedExclamationPoint => LocalizeCaller(); 
+        public string SolvedExclamationPoint => LocalizeCaller();
+
+        public string LoginFormCaption => LocalizeCaller();
+        public string PasswordCaption => LocalizeCaller();
+        public string LoginButtonCaption => LocalizeCaller();
+        public string LoginAtStartupCaption => LocalizeCaller();
+        public string RememberPasswordCaption => LocalizeCaller();
+        public string KgsHyperlink => LocalizeCaller();
+        public string KgsServerInfo => LocalizeCaller();
+        public string KgsServerCaption => LocalizeCaller();
+        public string KgsUsernameCaption => LocalizeCaller();
+        public string IgsHyperlink => LocalizeCaller();
+        public string IgsServerInfo => LocalizeCaller();
+        public string IgsServerCaption => LocalizeCaller();
+        public string IgsUsernameCaption => LocalizeCaller();
+        public string XXX => LocalizeCaller();
+        // Copy and paste XXX for fast creationg of new lines
     }
 }

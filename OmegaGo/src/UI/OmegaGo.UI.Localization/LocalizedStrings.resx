@@ -474,7 +474,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>White</value>
   </data>
   <data name="WhiteHandicap" xml:space="preserve">
-    <value>White Handicap</value>
+    <value>Handicap</value>
   </data>
   <data name="FullscreenModeCheckbox" xml:space="preserve">
     <value>Fullscreen Mode</value>
@@ -697,5 +697,56 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="PointsColon" xml:space="preserve">
     <value>Points:</value>
+  </data>
+  <data name="IgsHyperlink" xml:space="preserve">
+    <value>Create a new Pandanet account (opens a browser window)</value>
+  </data>
+  <data name="IgsServerCaption" xml:space="preserve">
+    <value>Pandanet - Internet Go Server</value>
+  </data>
+  <data name="IgsServerInfo" xml:space="preserve">
+    <value>Pandanet is recommended if you don't have a KGS account and don't want to download an additional application to play Go online.</value>
+  </data>
+  <data name="IgsUsernameCaption" xml:space="preserve">
+    <value>Pandanet username</value>
+  </data>
+  <data name="KgsHyperlink" xml:space="preserve">
+    <value>Download the official KGS client</value>
+  </data>
+  <data name="KgsServerCaption" xml:space="preserve">
+    <value>KGS Go Server</value>
+  </data>
+  <data name="KgsServerInfo" xml:space="preserve">
+    <value>You first need to create an account using the official KGS client. Download it on a desktop computer, login as a guest and then click User-&gt;Register.</value>
+  </data>
+  <data name="KgsUsernameCaption" xml:space="preserve">
+    <value>KGS Username</value>
+  </data>
+  <data name="LoginAtStartupCaption" xml:space="preserve">
+    <value>Log in whenever you start omegaGo</value>
+  </data>
+  <data name="LoginButtonCaption" xml:space="preserve">
+    <value>Log In</value>
+  </data>
+  <data name="LoginFormCaption" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="PasswordCaption" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="RememberPasswordCaption" xml:space="preserve">
+    <value>Remember password</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Background image opacity</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Light</value>
   </data>
 </root>

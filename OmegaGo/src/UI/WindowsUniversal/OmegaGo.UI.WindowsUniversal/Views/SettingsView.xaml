@@ -8,11 +8,258 @@
     xmlns:system="using:System"
     xmlns:localization="using:OmegaGo.UI.Services.Localization"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
-    Loaded="SettingsView_Loaded"
+    xmlns:controls="using:Coding4Fun.Toolkit.Controls"
     d:DataContext="{d:DesignInstance viewModels:SettingsViewModel, IsDesignTimeCreatable=False}"
     mc:Ignorable="d">
-    
+    <views:TransparencyViewBase.Resources>
+        <DataTemplate x:Key="HeaderTemplate">
+            <TextBlock Text="{Binding}" />
+        </DataTemplate>
+        <Style x:Key="SettingsPivotStyle" TargetType="Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="{ThemeResource PivotBackground}"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Pivot">
+                        <Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.Resources>
+                                <Style x:Key="BaseContentControlStyle" TargetType="ContentControl">
+                                    <Setter Property="FontFamily" Value="XamlAutoFontFamily"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="FontSize" Value="15"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ContentControl">
+                                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" OpticalMarginAlignment="TrimSideBearings" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                                <Style x:Key="TitleContentControlStyle" BasedOn="{StaticResource BaseContentControlStyle}" TargetType="ContentControl">
+                                    <Setter Property="FontFamily" Value="{ThemeResource PivotTitleFontFamily}"/>
+                                    <Setter Property="FontWeight" Value="{ThemeResource PivotTitleThemeFontWeight}"/>
+                                    <Setter Property="FontSize" Value="{ThemeResource PivotTitleFontSize}"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Orientation">
+                                    <VisualState x:Name="Portrait">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TitleContentControl">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPortraitThemePadding}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Landscape">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TitleContentControl">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotLandscapeThemePadding}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="NavigationButtonsVisibility">
+                                    <VisualState x:Name="NavigationButtonsHidden"/>
+                                    <VisualState x:Name="NavigationButtonsVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NextButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="NextButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PreviousButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="PreviousButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PreviousButtonVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PreviousButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="PreviousButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="NextButtonVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NextButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="IsEnabled" Storyboard.TargetName="NextButton">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="HeaderStates">
+                                    <VisualState x:Name="HeaderDynamic"/>
+                                    <VisualState x:Name="HeaderStatic">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="Header">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="StaticHeader">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="TitleContentControl" HorizontalContentAlignment="Center" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" IsTabStop="False" Margin="{StaticResource PivotPortraitThemePadding}" Style="{StaticResource TitleContentControlStyle}" Visibility="Collapsed"/>
+                            <Grid Grid.Row="1">
+                                <Grid.Resources>
+                                    <ControlTemplate x:Key="NextTemplate" TargetType="Button">
+                                        <Border x:Name="Root" BorderBrush="{ThemeResource PivotNextButtonBorderBrush}" BorderThickness="{ThemeResource PivotNavButtonBorderThemeThickness}" Background="{ThemeResource PivotNextButtonBackground}">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="Arrow">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Pressed">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBackgroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonBorderBrushPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="Arrow">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotNextButtonForegroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <FontIcon x:Name="Arrow" Foreground="{ThemeResource PivotNextButtonForeground}" FontSize="12" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE0E3;" HorizontalAlignment="Center" MirroredWhenRightToLeft="True" UseLayoutRounding="False" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                    <ControlTemplate x:Key="PreviousTemplate" TargetType="Button">
+                                        <Border x:Name="Root" BorderBrush="{ThemeResource PivotPreviousButtonBorderBrush}" BorderThickness="{ThemeResource PivotNavButtonBorderThemeThickness}" Background="{ThemeResource PivotPreviousButtonBackground}">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal"/>
+                                                    <VisualState x:Name="PointerOver">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="Arrow">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPointerOver}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Pressed">
+                                                        <Storyboard>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBackgroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Root">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonBorderBrushPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="Arrow">
+                                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource PivotPreviousButtonForegroundPressed}"/>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <FontIcon x:Name="Arrow" Foreground="{ThemeResource PivotPreviousButtonForeground}" FontSize="12" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE0E2;" HorizontalAlignment="Center" MirroredWhenRightToLeft="True" UseLayoutRounding="False" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Grid.Resources>
+                                <ScrollViewer x:Name="ScrollViewer" BringIntoViewOnFocusChange="False" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" HorizontalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" ZoomMode="Disabled">
+                                    <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                        <Grid x:Name="PivotLayoutElement">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.RenderTransform>
+                                                <CompositeTransform x:Name="PivotLayoutElementTranslateTransform"/>
+                                            </Grid.RenderTransform>
+                                            <ContentPresenter x:Name="LeftHeaderPresenter" ContentTemplate="{TemplateBinding LeftHeaderTemplate}" Content="{TemplateBinding LeftHeader}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                            <ContentControl x:Name="HeaderClipper" Grid.Column="1" HorizontalContentAlignment="Stretch" UseSystemFocusVisuals="True" HorizontalAlignment="Center">
+                                                <ContentControl.Clip>
+                                                    <RectangleGeometry x:Name="HeaderClipperGeometry"/>
+                                                </ContentControl.Clip>
+                                                <Grid Background="{ThemeResource PivotHeaderBackground}">
+                                                    <Grid.RenderTransform>
+                                                        <CompositeTransform x:Name="HeaderOffsetTranslateTransform"/>
+                                                    </Grid.RenderTransform>
+                                                    <PivotHeaderPanel x:Name="StaticHeader" Visibility="Collapsed">
+                                                        <PivotHeaderPanel.RenderTransform>
+                                                            <CompositeTransform x:Name="StaticHeaderTranslateTransform"/>
+                                                        </PivotHeaderPanel.RenderTransform>
+                                                    </PivotHeaderPanel>
+                                                    <PivotHeaderPanel x:Name="Header">
+                                                        <PivotHeaderPanel.RenderTransform>
+                                                            <CompositeTransform x:Name="HeaderTranslateTransform"/>
+                                                        </PivotHeaderPanel.RenderTransform>
+                                                    </PivotHeaderPanel>
+                                                </Grid>
+                                            </ContentControl>
+                                            <Button x:Name="PreviousButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Left" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource PreviousTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
+                                            <Button x:Name="NextButton" Background="Transparent" Grid.Column="1" HorizontalAlignment="Right" Height="36" IsTabStop="False" IsEnabled="False" Margin="{ThemeResource PivotNavButtonMargin}" Opacity="0" Template="{StaticResource NextTemplate}" UseSystemFocusVisuals="False" VerticalAlignment="Top" Width="20"/>
+                                            <ContentPresenter x:Name="RightHeaderPresenter" ContentTemplate="{TemplateBinding RightHeaderTemplate}" Content="{TemplateBinding RightHeader}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                            <ItemsPresenter x:Name="PivotItemPresenter" Grid.ColumnSpan="3" Grid.Row="1" MaxWidth="850">
+                                                <ItemsPresenter.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TranslateTransform x:Name="ItemsPresenterTranslateTransform"/>
+                                                        <CompositeTransform x:Name="ItemsPresenterCompositeTransform"/>
+                                                    </TransformGroup>
+                                                </ItemsPresenter.RenderTransform>
+                                            </ItemsPresenter>
+                                        </Grid>
+                                    </PivotPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </views:TransparencyViewBase.Resources>
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -21,98 +268,99 @@
         </TransitionCollection>
     </Page.Transitions>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot HorizontalContentAlignment="Center" Title="{x:Bind Localizer.Settings}" HorizontalAlignment="Center">
-            <Pivot.TitleTemplate>
-                <DataTemplate>
-                    <navigation:TitleControl ContinuumNavigationTransitionInfo.IsEntranceElement="True"  Text="{Binding}" />
-                </DataTemplate>
-            </Pivot.TitleTemplate>
-            <PivotItem Header="{x:Bind Localizer.ThemesPanel}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Padding="15">
-                        <TextBlock Text="{x:Bind Localizer.BoardTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox Width="240" 
+        <Border HorizontalAlignment="Center" x:Name="OuterBorder">
+            <Pivot HorizontalContentAlignment="Center" Title="{x:Bind Localizer.Settings}" HorizontalAlignment="Center" HeaderTemplate="{StaticResource HeaderTemplate}" Style="{StaticResource SettingsPivotStyle}">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                        <navigation:TitleControl HorizontalAlignment="Center" ContinuumNavigationTransitionInfo.IsEntranceElement="True"  Text="{Binding}" />
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
+                <PivotItem Header="{x:Bind Localizer.ThemesPanel}">
+                    <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Padding="15" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Bind Localizer.BoardTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <ComboBox Width="240" 
                               ItemsSource="{Binding BoardThemes}"
                               SelectedIndex="{Binding SelectedBoardTheme, Mode=TwoWay}">
 
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                        <TextBlock Text="{x:Bind Localizer.StonesTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox ItemsSource="{Binding StoneThemes}" 
+                            <TextBlock Text="{x:Bind Localizer.StonesTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <ComboBox ItemsSource="{Binding StoneThemes}" 
                               SelectedIndex="{Binding SelectedStonesTheme, Mode=TwoWay}"
                               Width="240">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                        <TextBlock Text="{x:Bind Localizer.BackgroundImage}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        
-                        <ComboBox ItemsSource="{Binding BackgroundImages}" 
-                              SelectedIndex="{Binding SelectedBackgroundImage, Mode=TwoWay}"
-                                 SelectionChanged="AppShellComboBox_SelectionChanged"
-                              Width="240">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                            <TextBlock Text="{x:Bind Localizer.BackgroundImage}" Style="{ThemeResource SubtitleTextBlockStyle}" />
 
-                        <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox ItemsSource="{Binding BackgroundColors}" 
-                              SelectedIndex="{Binding SelectedBackgroundColor, Mode=TwoWay}"
-                                 SelectionChanged="AppShellComboBox_SelectionChanged"
+                            <ComboBox ItemsSource="{Binding BackgroundImages}" 
+                              SelectedItem="{Binding SelectedBackgroundImage, Mode=TwoWay}"                              
                               Width="240">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
 
-                        <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox ItemsSource="{Binding ControlStyles}" 
-                              SelectedIndex="{Binding SelectedControlStyle, Mode=TwoWay}"
-                              SelectionChanged="AppShellComboBox_SelectionChanged"
+
+                            <TextBlock Text="{x:Bind Localizer.BackgroundImageOpacity}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <Slider Minimum="0" Maximum="100" SmallChange="1" Value="{x:Bind VM.BackgroundImageOpacity, Mode=TwoWay}" />
+
+                            <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <controls:ColorPicker Height="200" Color="{x:Bind SelectedBackgroundColor, Mode=TwoWay}" />
+                            <Button Click="SetDefaultBackgroundColor" Content="Set default color" />
+
+                            <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <ComboBox ItemsSource="{Binding ControlStyles}" 
+                              SelectedItem="{Binding SelectedControlStyle, Mode=TwoWay}"                             
                               Width="240">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-            <PivotItem Header="{x:Bind Localizer.UserInterface}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Padding="15">
-                    <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
-                              Checked="Fullscreen_Checked"
-                              Unchecked="FullscreenMode_Unchecked"/>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <TextBlock Text="{x:Bind Localizer.AppTheme}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Dark}" IsChecked="{x:Bind VM.AppThemeDarkSelected, Mode=TwoWay}" />
+                            <RadioButton GroupName="AppTheme" Content="{x:Bind Localizer.AppTheme_Light}" IsChecked="{x:Bind VM.AppThemeLightSelected, Mode=TwoWay}" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+                <PivotItem Header="{x:Bind Localizer.UserInterface}">
+                    <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Padding="15" HorizontalAlignment="Center">
+                            <CheckBox Name="FullscreenMode" Content="{x:Bind Localizer.FullscreenModeCheckbox}" 
+                                      IsChecked="{x:Bind IsFullScreen, Mode=TwoWay}"/>
 
                         <CheckBox Content="{x:Bind Localizer.HighlightLastMove}" IsChecked="{Binding HighlightLastMove, Mode=TwoWay}" />
-                        <StackPanel Orientation="Horizontal">
+                    <!--    
+                    <StackPanel Orientation="Horizontal">
                             <CheckBox Content="{x:Bind Localizer.HighlightRecentCaptures}" IsChecked="{Binding HighlightRecentCaptures, Mode=TwoWay}" />
                             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightRecentCapturesTooltip}"  />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <CheckBox Content="{x:Bind Localizer.HighlightIllegalKoMoves}" IsChecked="{Binding HighlightIllegalKoMoves, Mode=TwoWay}" />
-                        <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
-                    </StackPanel>
-                    <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
+                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.HighlightIllegalKoMovesTooltip}" />
+                        </StackPanel>
+                    -->
+                        <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                     <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+            <!--
             <PivotItem Header="{x:Bind Localizer.InputPanel}">
                 
                 <StackPanel Padding="15">
@@ -120,16 +368,19 @@
                               IsChecked="{Binding InputConfirmation, Mode=TwoWay}"></CheckBox>
                 </StackPanel>
             </PivotItem>
+            -->
             <PivotItem Header="{x:Bind Localizer.AudioPanel}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Padding="15">
+                <ScrollViewer HorizontalContentAlignment="Center" VerticalScrollBarVisibility="Auto">
+                    <StackPanel HorizontalAlignment="Center" Padding="15">
+                        <!--
                         <TextBlock Text="{x:Bind Localizer.MasterVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider Width="100" Minimum="0" Maximum="100" Value="{Binding MasterVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
+                        -->
                         <CheckBox IsChecked="{Binding MuteAll, Mode=TwoWay}" Content="{x:Bind Localizer.MuteAll}"></CheckBox>
-
+<!--
                         <TextBlock Text="{x:Bind Localizer.MusicVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider Width="100"  Minimum="0" Maximum="100" Value="{Binding MusicVolume, Mode=TwoWay}" HorizontalAlignment="Left" />
-
+-->
                         <TextBlock Text="{x:Bind Localizer.SfxVolume}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                         <Slider Minimum="0" Maximum="100" Value="{Binding SfxVolume, Mode=TwoWay}" Width="100" HorizontalAlignment="Left" />
 
@@ -143,56 +394,53 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.Language}">
-                <StackPanel Padding="15">
+                    <StackPanel Padding="15" HorizontalAlignment="Center">
                     <TextBlock Text="{x:Bind Localizer.Language}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ComboBox Width="140" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
+                    <ComboBox Width="250" ItemsSource="{x:Bind VM.Languages}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="localization:GameLanguage">
                                 <TextBlock Text="{x:Bind Name, Converter={StaticResource LocalizingConverter}}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <TextBlock Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
+                    <TextBlock TextWrapping="Wrap" Width="250" Text="{x:Bind Localizer.LanguageChangeInfo}" Visibility="{x:Bind VM.LanguageChanged, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Margin="0,4,0,0" Style="{ThemeResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="{x:Bind Localizer.AssistPanel}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalAlignment="Center">
                     <StackPanel Padding="15">
                         <TextBlock Text="{x:Bind Localizer.AssistantAIProgram}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox Width="140"
-                              ItemsSource="{Binding AiPrograms}"
-                              SelectedItem="{Binding SelectedAiProgram, Mode=TwoWay}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
-                                           ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-
-                        <TextBlock Text="{x:Bind Localizer.Strength}" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                        <ComboBox SelectedIndex="4" Width="140" IsEnabled="False">
-                            <x:String>1</x:String>
-                            <x:String>2</x:String>
-                            <x:String>3</x:String>
-                            <x:String>4</x:String>
-                            <x:String>5</x:String>
-                            <x:String>6</x:String>
-                            <x:String>7</x:String>
-                            <x:String>8</x:String>
-                            <x:String>9</x:String>
-                            <x:String>10</x:String>
-                        </ComboBox>
-
-                        <CheckBox Content="{x:Bind Localizer.EnableHints}" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="{x:Bind Localizer.EnableEvenInOnlineGames}" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
-                            <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.EnableEvenInOnlineGamesTooltip}" />
+                        <ComboBox Width="140"
+                              ItemsSource="{x:Bind VM.AiPrograms, Mode=OneWay}"
+                                  SelectedItem="{x:Bind VM.SelectedAiProgram, Mode=TwoWay}">
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Name}" 
+                                                   ToolTipService.ToolTip="{Binding Converter={StaticResource TypeNameLocalizingConverter}, ConverterParameter=AI_\{0\}_Description}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <Button Content="Configure...">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
+                                    </Flyout>
+                                </Button.Flyout>
+                            </Button>
                         </StackPanel>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-        </Pivot>
-    
+
+                            <CheckBox Content="{x:Bind Localizer.EnableHints}" IsChecked="{Binding EnableHints, Mode=TwoWay}" />
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="{x:Bind Localizer.EnableEvenInOnlineGames}" IsChecked="{Binding EnableInOnlineGames, Mode=TwoWay}" />
+                                <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;" ToolTipService.ToolTip="{x:Bind Localizer.EnableEvenInOnlineGamesTooltip}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+            </Pivot>
+        </Border>
     </Grid>
 </views:TransparencyViewBase>

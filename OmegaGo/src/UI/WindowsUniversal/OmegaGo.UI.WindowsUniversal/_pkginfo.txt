@@ -1,1 +1,1 @@
-C:\Users\Martin\Source\Repos\OmegaGo\OmegaGo\src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal\AppPackages\OmegaGo.UI.WindowsUniversal_1.1.0.0\OmegaGo.UI.WindowsUniversal_1.1.0.0_x86_x64_arm.appxbundle
+C:\Users\Martin\Source\Repos\OmegaGo\OmegaGo\src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal\AppPackages\OmegaGo.UI.WindowsUniversal_0.6.6.0\OmegaGo.UI.WindowsUniversal_0.6.6.0_x86_x64_arm.appxbundle

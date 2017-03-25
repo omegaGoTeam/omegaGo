@@ -126,5 +126,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// </summary>
         public Dictionary<string, User> Players { get; set; }
 
+        public override string ToString()
+        {
+            return ChannelId + " (" + GameType + ", in " + RoomId + ")";
+        }
+
     }
 }

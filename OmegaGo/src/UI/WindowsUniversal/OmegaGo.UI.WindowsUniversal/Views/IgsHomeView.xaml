@@ -110,22 +110,28 @@
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console">
-                    <StackPanel>
-                        <Button Click="RefreshConsole">Refresh</Button>
-                        <ScrollViewer VerticalScrollBarVisibility="Visible" Background="White">
-                            <TextBlock
-                        Padding="20"
-                               Name="IgsConsole" 
-                               TextWrapping="Wrap"
-                               FontFamily="Consolas" FontSize="14"></TextBlock>
-                        </ScrollViewer>
-                    </StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Click="RefreshConsole" Grid.Row="0">Refresh</Button>
+
+                        <TextBox Grid.Row="1"
+                                 Padding="10"
+                                 Name="IgsConsole" 
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                 FontFamily="Consolas"
+                                 FontSize="14">
+                        </TextBox>
+                    </Grid>
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as:</TextBlock>
                 <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                <Button Click="ChangeUser_Click">Change user...</Button>
                 <Button Click="Logout_Click">Logout</Button>
                 <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>

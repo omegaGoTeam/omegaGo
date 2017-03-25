@@ -1,3 +1,5 @@
+using OmegaGo.Core.Game;
+
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
     /// <summary>
@@ -11,5 +13,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// If this is true, then the values of <see cref="X"/> and <see cref="Y"/> are meaningless.  
         /// </summary>
         public bool IsPass { get; set; }
+
+        public override string ToString()
+        {
+            return new Position(X, Y).ToIgsCoordinates();
+        }
     }
 }

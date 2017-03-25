@@ -2,6 +2,7 @@
 using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
@@ -50,10 +51,18 @@ namespace OmegaGo.UI.ViewModels
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
 
-        public override void Init()
+        public override async void Init()
         {
             Game.Controller.BeginGame();
             UpdateTimeline();
+            string gameName = (this.Game.Info as IgsGameInfo)?.GameName;
+            if (gameName != null)
+            {
+                string contents =
+                    string.Format("You are watching a named professional game. This is the game title:\n\n{0}",
+                        gameName);
+                await this.DialogService.ShowAsync(contents, "You are observing a professional game.");
+            }
         }
 
         protected override void OnCurrentNodeStateChanged()
