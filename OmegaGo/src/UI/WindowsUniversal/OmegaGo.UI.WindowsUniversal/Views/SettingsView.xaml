@@ -426,9 +426,12 @@
 
                             <Button Content="{x:Bind Localizer.ConfigureEllipsis}">
                                 <Button.Flyout>
-                                    <Flyout>
-                                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
-                                    </Flyout>
+                                    <Flyout x:Name="AssistantFlyout">
+                                            <StackPanel>
+                                                <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
+                                                <Button Click="AssistantFlyout_Close" Content="{x:Bind Localizer.CloseFlyout}"></Button>
+                                            </StackPanel>
+                                        </Flyout>
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>

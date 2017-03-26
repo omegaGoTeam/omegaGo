@@ -89,12 +89,13 @@
                     HorizontalAlignment="Stretch"
                     Content="Custom...">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
+                    <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
                         <StackPanel>
                             <TextBlock Text="Width: "/>
                             <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
                             <TextBlock Text="Height: "/>
                             <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
+                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseCustomBoardSizeFlyout"></Button>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -123,12 +124,13 @@
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
             <Button Grid.Column="2" Grid.Row="3" 
-                    Content="More..."
+                    Content="{x:Bind Localizer.MoreEllipsis}"
                     HorizontalAlignment="Stretch">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
+                    <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
                         <StackPanel>
                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseBlackPlayerFlyout"></Button>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -144,11 +146,14 @@
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
             <Button Visibility="{x:Bind VM.RulesetCanBeSelected}" 
                     Grid.Column="2" Grid.Row="4" 
-                    Content="More..."
+                    Content="{x:Bind Localizer.MoreEllipsis}"
                     HorizontalAlignment="Stretch">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
-                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                    <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
+                        <StackPanel>
+                            <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseWhitePlayerFlyout"></Button>
+                        </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -171,7 +176,7 @@
                     HorizontalAlignment="Stretch"
                     Content="Change...">
                 <Button.Flyout>
-                    <Flyout  Placement="Right" >
+                    <Flyout  Placement="Right" x:Name="TimeControlFlyout">
                         <StackPanel Width="300">
                             <ComboBox  ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControl.Style, Mode=TwoWay}">
                             </ComboBox>
@@ -206,6 +211,7 @@
                                     <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                 </StackPanel>
                             </StackPanel>
+                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseTimeControlFlyout"></Button>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

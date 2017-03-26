@@ -1,6 +1,7 @@
 ﻿using OmegaGo.UI.ViewModels;
 using System.Linq;
 using Windows.System;
+using Windows.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -28,6 +29,26 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 e.Handled = true;
             }
+        }
+
+        private void CloseCustomBoardSizeFlyout(object sender, RoutedEventArgs e)
+        {
+            this.CustomBoardSizeFlyout.Hide();
+        }
+
+        private void CloseTimeControlFlyout(object sender, RoutedEventArgs e)
+        {
+            this.TimeControlFlyout.Hide();
+        }
+
+        private void CloseWhitePlayerFlyout(object sender, RoutedEventArgs e)
+        {
+            this.WhitePlayerFlyout.Hide();
+        }
+
+        private void CloseBlackPlayerFlyout(object sender, RoutedEventArgs e)
+        {
+            this.BlackPlayerFlyout.Hide();
         }
     }
 }
