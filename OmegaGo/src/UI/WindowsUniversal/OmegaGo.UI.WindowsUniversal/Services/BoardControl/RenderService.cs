@@ -9,6 +9,7 @@ using OmegaGo.Core;
 using OmegaGo.UI.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Extensions;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
@@ -40,15 +41,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
         }
 
-        private CanvasBitmap blackStoneBitmap;
-        private CanvasBitmap whiteStoneBitmap;
-        private CanvasBitmap oakBitmap;
-        private CanvasBitmap kayaBitmap;
-        private CanvasBitmap spaceBitmap;
-        private CanvasBitmap sabakiBoardBitmap;
-        private CanvasBitmap sabakiTatamiBitmap;
-        private CanvasBitmap sabakiBlackBitmap;
-        private CanvasBitmap sabakiWhiteBitmap;
+        private static CanvasBitmap blackStoneBitmap;
+        private static CanvasBitmap whiteStoneBitmap;
+        private static CanvasBitmap oakBitmap;
+        private static CanvasBitmap kayaBitmap;
+        private static CanvasBitmap spaceBitmap;
+        private static CanvasBitmap sabakiBoardBitmap;
+        private static CanvasBitmap sabakiTatamiBitmap;
+        private static CanvasBitmap sabakiBlackBitmap;
+        private static CanvasBitmap sabakiWhiteBitmap;
 
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
@@ -74,19 +75,46 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
         {
             ReloadSettings();
-            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
+            args.TrackAsyncAction(EnsureResourcesExistAsync(sender).AsAsyncAction());
         }
+
+
+        public static async void ResetResources()
+        {
+            if (resourceCreationAssigned == 1)
+            {
+                await resourcesCreation.Task;
+            }
+            resourcesCreation = new TaskCompletionSource<bool>();
+            resourceCreationAssigned = 0;
+        }
+        private static int resourceCreationAssigned = 0;
+        private static TaskCompletionSource<bool> resourcesCreation = new TaskCompletionSource<bool>();
+        async Task EnsureResourcesExistAsync(ICanvasResourceCreator sender)
+        {
+            if (Interlocked.CompareExchange(ref resourceCreationAssigned, 1, 0) == 1)
+            {
+                // wait
+                await resourcesCreation.Task;
+            }
+            else
+            {
+                await CreateResourcesAsync(sender);
+                resourcesCreation.SetResult(true);
+            }
+        }
+
         async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
-            this.blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
-            this.whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
-            this.oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
-            this.kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
-            this.spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
-            this.sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
-            this.sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
-            this.sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
-            this.sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
+            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
+            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
+            oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
+            kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
+            spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
+            sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
+            sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
+            sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
+            sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
 
         }
        
@@ -268,16 +296,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     session.FillRectangle(rect, this._sharedBoardControlState.BoardColor.ToUWPColor());
                     break;
                 case BoardTheme.OakWood:
-                    bitmapToDraw = this.oakBitmap;
+                    bitmapToDraw = oakBitmap;
                     break;
                 case BoardTheme.KayaWood:
-                    bitmapToDraw = this.kayaBitmap;
+                    bitmapToDraw = kayaBitmap;
                     break;
                 case BoardTheme.VirtualBoard:
-                    bitmapToDraw = this.spaceBitmap;
+                    bitmapToDraw = spaceBitmap;
                     break;
                 case BoardTheme.SabakiBoard:
-                    bitmapToDraw = this.sabakiBoardBitmap;
+                    bitmapToDraw = sabakiBoardBitmap;
                     break;
             }
             if (bitmapToDraw != null)
@@ -318,15 +346,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             
             if (this.stoneDisplayTheme == StoneTheme.PolishedBitmap || this.stoneDisplayTheme == StoneTheme.Sabaki)
             {
-                CanvasBitmap bitmap = color == StoneColor.Black ? this.blackStoneBitmap : this.whiteStoneBitmap;
+                CanvasBitmap bitmap = color == StoneColor.Black ? blackStoneBitmap : whiteStoneBitmap;
                 if (this.stoneDisplayTheme == StoneTheme.Sabaki)
                 {
-                    bitmap = color == StoneColor.Black ? this.sabakiBlackBitmap : this.sabakiWhiteBitmap;
+                    bitmap = color == StoneColor.Black ? sabakiBlackBitmap : sabakiWhiteBitmap;
                 }
                 double xPos = this._cellSize * (x + 0.025);
                 double yPos = this._cellSize * (y + 0.025);
                 drawingSession.DrawImage(bitmap,
-                    new Rect(xPos, yPos, this._cellSize*0.95, this._cellSize * 0.95), this.blackStoneBitmap.Bounds, (float) opacity);
+                    new Rect(xPos, yPos, this._cellSize*0.95, this._cellSize * 0.95), blackStoneBitmap.Bounds, (float) opacity);
             }
             else
             {
