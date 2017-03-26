@@ -28,7 +28,7 @@ namespace OmegaGo.Core.AI.Fuego
         /// <summary>
         /// Capabilities of the AI
         /// </summary>
-        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19, true);
+        public override AICapabilities Capabilities => new AICapabilities(false, true, 2, 19, true);
 
         /// <summary>
         /// Allows resigning
@@ -182,6 +182,23 @@ namespace OmegaGo.Core.AI.Fuego
             {
                 _storedNotes.Add(note);
             }
+        }
+
+        public override AIDecision GetHint(AIPreMoveInformation preMoveInformation)
+        {
+            var result = RequestMove(preMoveInformation);
+            UndoOneMove();
+            return result;
+        }
+        public override void MoveUndone()
+        {
+            UndoOneMove();
+        }
+
+        private void UndoOneMove()
+        {
+            SendCommand("undo");
+            _history.RemoveAt(_history.Count - 1);
         }
     }
 }

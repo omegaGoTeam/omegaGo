@@ -91,5 +91,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// Requests the player to make a move
         /// </summary>
         void PleaseMakeAMove();
+
+        void MoveUndone();
     }
 }

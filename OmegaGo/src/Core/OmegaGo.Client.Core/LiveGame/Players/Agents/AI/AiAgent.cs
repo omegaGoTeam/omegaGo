@@ -86,5 +86,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             return "Agent for " + this._aiProgram;
         }
+        public override void MovePerformed(Move move)
+        {
+           
+        }
+        public override void MoveUndone()
+        {
+            _aiProgram.MoveUndone();
+        }
     }
 }

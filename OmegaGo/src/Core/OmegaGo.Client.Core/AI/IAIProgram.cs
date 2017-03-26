@@ -34,5 +34,7 @@ namespace OmegaGo.Core.AI
         /// </summary>
         /// <param name="preMoveInformation">Information the AI might need.</param>
         AIDecision GetHint(AIPreMoveInformation preMoveInformation);
+
+        void MoveUndone();
     }
 }

@@ -65,12 +65,18 @@ namespace OmegaGo.UI.ViewModels
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
 
             Game.Controller.RegisterConnector(_uiConnector);
+            Game.Controller.MoveUndone += Controller_MoveUndone;
             Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             
             ObserveDebuggingMessages();
+        }
+
+        private void Controller_MoveUndone(object sender, EventArgs e)
+        {
+            this.Assistant.MoveUndone();
         }
 
         private void _uiConnector_AiLog(object sender, string e)

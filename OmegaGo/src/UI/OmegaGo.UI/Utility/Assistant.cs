@@ -58,6 +58,9 @@ namespace OmegaGo.UI.ViewModels
             return decision;
         }
 
-
+        public void MoveUndone()
+        {
+            Program.MoveUndone();
+        }
     }
 }

@@ -62,7 +62,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //is there a move to undo?
             if (Controller.GameTree.LastNode != null)
             {
+                //var oldLastNode = Controller.GameTree.LastNode;
                 Controller.GameTree.RemoveLastNode();
+                //var newLastNode = Controller.GameTree.LastNode;
+                foreach(var player in this.Controller.Players)
+                {
+                    player.Agent.MoveUndone();
+                }
+                Controller.OnMoveUndone();
                 Controller.SwitchTurnPlayer();
                 // TODO Petr What is this?
                 // Order here matters:
@@ -231,11 +238,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //add new move to game tree
             Controller.GameTree.AddMoveToEnd(move, newBoard);
 
-            //inform the players that a move occured
+            //inform the ui and the internet that a move occured
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }            
+            }
+            //inform the players that a move occured
+            foreach (var informedPlayer in Controller.Players)
+            {
+                informedPlayer.Agent.MovePerformed(move);
+            }
         }
 
         /// <summary>

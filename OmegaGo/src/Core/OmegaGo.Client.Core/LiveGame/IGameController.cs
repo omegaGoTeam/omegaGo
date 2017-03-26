@@ -63,5 +63,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         /// <param name="connector">Connector to register</param>
         void RegisterConnector(IGameConnector connector);
+        event EventHandler MoveUndone;
     }
 }

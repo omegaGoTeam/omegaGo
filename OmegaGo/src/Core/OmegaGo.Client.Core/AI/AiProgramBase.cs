@@ -43,6 +43,11 @@ namespace OmegaGo.Core.AI
             return RequestMove(preMoveInformation);
         }
 
+        public virtual void MoveUndone()
+        {
+            // Stateless AI's don't need to do anything.
+        }
+
         public override string ToString()
         {
             return this.GetType().Name;

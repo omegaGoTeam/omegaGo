@@ -404,5 +404,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             }
         }
 
+        public event EventHandler MoveUndone;
+
+        public void OnMoveUndone()
+        {
+            MoveUndone?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
