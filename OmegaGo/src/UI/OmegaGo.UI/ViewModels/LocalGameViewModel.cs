@@ -241,14 +241,6 @@ namespace OmegaGo.UI.ViewModels
         {
             ILifeAndDeathPhase lifeAndDeath = (ILifeAndDeathPhase)phase;
             lifeAndDeath.LifeDeathTerritoryChanged += LifeDeath_TerritoryChanged;
-            if (Assistant.ProvidesFinalEvaluation)
-            {
-                IEnumerable<Position> positions = await Assistant.GetDeadPositions();
-                foreach(var pos in positions)
-                {
-                    UiConnector.RequestLifeDeathKillGroup(pos);
-                }
-            }
         }
 
         private void EndLifeAndDeathPhase(IGamePhase phase)

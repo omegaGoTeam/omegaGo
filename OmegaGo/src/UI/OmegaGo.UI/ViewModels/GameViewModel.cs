@@ -71,8 +71,24 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
+            Game.Controller.GamePhaseStarted += Controller_GamePhaseStarted;
             
             ObserveDebuggingMessages();
+        }
+
+        private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
+        {
+            if (e.Type == GamePhaseType.LifeDeathDetermination)
+            {
+                if (Assistant.ProvidesFinalEvaluation)
+                {
+                   var deads = await Assistant.GetDeadPositions();
+                   foreach(var dead in deads)
+                   {
+                       UiConnector.RequestLifeDeathKillGroup(dead);
+                   }
+                }
+            }
         }
 
         private void _uiConnector_MoveWasPerformed(object sender, Tuple<Move,AiGameInformation> e)

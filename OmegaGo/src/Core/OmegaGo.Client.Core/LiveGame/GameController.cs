@@ -102,7 +102,12 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// Indicates that the game phase has changed.
         /// </summary>
         public event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
-        
+        /// <summary>
+        /// Indicates that the game phase has changed a the new phase has finished initializing. It is possible we're not in that phase anymore,
+        /// if the phase ended before its StartPhase method ended (this happens, for example, with InitializationPhase).
+        /// </summary>
+        public event EventHandler<IGamePhase> GamePhaseStarted;
+
         /// <summary>
         /// Gets the player currently on turn
         /// </summary>
@@ -269,6 +274,8 @@ namespace OmegaGo.Core.Modes.LiveGame
 
             //start the new phase
             _currentGamePhase.StartPhase();
+
+            GamePhaseStarted?.Invoke(this, _currentGamePhase);
         }
 
         /// <summary>
