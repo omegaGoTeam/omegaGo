@@ -330,11 +330,27 @@
   <data name="WhenIReceiveANotification" xml:space="preserve">
     <value>Kdy obdržím upozornění</value>
   </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  </data>
+  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
   <data name="AI_DefeatistAI_Description" xml:space="preserve">
     <value>Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</value>
   </data>
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
+  </data>
+  <data name="AI_FuegoAI_Description" xml:space="preserve">
+    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</value>
+  </data>
+  <data name="AI_FuegoAI_Name" xml:space="preserve">
+    <value>Fuego</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
     <value>Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
@@ -677,20 +693,82 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="MoreEllipsis" xml:space="preserve">
     <value>Více...</value>
   </data>
-  <data name="AI_Fluffy_Description" xml:space="preserve">
-    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
-Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
-Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  <data name="EpicPlayQuest_Description" xml:space="preserve">
+    <value>Dohraj jednu hru na desce o velikosti 25x25 nebo větší.</value>
   </data>
-  <data name="AI_Fluffy_Name" xml:space="preserve">
-    <value>Fluffy (minimax)</value>
+  <data name="EpicPlayQuest_Name" xml:space="preserve">
+    <value>Epické</value>
   </data>
-  <data name="AI_Fuego_Description" xml:space="preserve">
-    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
-Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
-Doporučejeme používat pouze tuto umělou inteligenci.</value>
+  <data name="GettingStrongerQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu.</value>
   </data>
-  <data name="AI_Fuego_Name" xml:space="preserve">
-    <value>Fuego</value>
+  <data name="GettingStrongerQuest_Name" xml:space="preserve">
+    <value>Stále silnější</value>
+  </data>
+  <data name="GreatLearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 20 problémů tsumego.</value>
+  </data>
+  <data name="GreatLearnerQuest_Name" xml:space="preserve">
+    <value>Schopný žák</value>
+  </data>
+  <data name="HiddenQuest_Description" xml:space="preserve">
+    <value>Tvůj quest se proměnil! Vyřeš libovolný problém tsumego.</value>
+  </data>
+  <data name="HiddenQuest_Name" xml:space="preserve">
+    <value>Skrytý Quest!</value>
+  </data>
+  <data name="IgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru Pandanet.</value>
+  </data>
+  <data name="IgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva Pandanet</value>
+  </data>
+  <data name="KgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru KGS.</value>
+  </data>
+  <data name="KgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva KGS</value>
+  </data>
+  <data name="LearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 5 problémů tsumego.</value>
+  </data>
+  <data name="LearnerQuest_Name" xml:space="preserve">
+    <value>Žák</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj online hru na desce o velikosti 19x19.</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční síťová</value>
+  </data>
+  <data name="PureSkillQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu bez handicapu.</value>
+  </data>
+  <data name="PureSkillQuest_Name" xml:space="preserve">
+    <value>Ryzí dovednost</value>
+  </data>
+  <data name="SoloVictoriesQuest_Description" xml:space="preserve">
+    <value>Vyhraj 3 hry proti umělé inteligenci.</value>
+  </data>
+  <data name="SoloVictoriesQuest_Name" xml:space="preserve">
+    <value>Člověk &gt; počítač</value>
+  </data>
+  <data name="TotalMasteryQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu, kde Fuego je černý a má handicap 3 kamenů nebo větší.</value>
+  </data>
+  <data name="TotalMasteryQuest_Name" xml:space="preserve">
+    <value>Úplné mistrovství</value>
+  </data>
+  <data name="TraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj hru na desce 19x19.</value>
+  </data>
+  <data name="TraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční</value>
+  </data>
+  <data name="UnevenStrengthQuest_Description" xml:space="preserve">
+    <value>Dohraj dvě sólo nebo online hry, kde jeden hráč má handicap dvou nebo více kamenů.</value>
+  </data>
+  <data name="UnevenStrengthQuest_Name" xml:space="preserve">
+    <value>Nerovnoměrné síly</value>
   </data>
 </root>

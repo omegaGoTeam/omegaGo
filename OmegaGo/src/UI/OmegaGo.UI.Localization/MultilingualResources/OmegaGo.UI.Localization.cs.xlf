@@ -920,6 +920,110 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Fuego</source>
           <target state="translated">Fuego</target>
         </trans-unit>
+        <trans-unit id="EpicPlayQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish any game on a 25x25 or larger board.</source>
+          <target state="translated">Dohraj jednu hru na desce o velikosti 25x25 nebo větší.</target>
+        </trans-unit>
+        <trans-unit id="EpicPlayQuest_Name" translate="yes" xml:space="preserve">
+          <source>Epic</source>
+          <target state="translated">Epické</target>
+        </trans-unit>
+        <trans-unit id="GettingStrongerQuest_Description" translate="yes" xml:space="preserve">
+          <source>Win a solo game against Fuego.</source>
+          <target state="translated">Vyhraj hru proti Fuegu.</target>
+        </trans-unit>
+        <trans-unit id="GettingStrongerQuest_Name" translate="yes" xml:space="preserve">
+          <source>Getting Stronger</source>
+          <target state="translated">Stále silnější</target>
+        </trans-unit>
+        <trans-unit id="GreatLearnerQuest_Description" translate="yes" xml:space="preserve">
+          <source>Solve 20 tsumego problems.</source>
+          <target state="translated">Vyřeš 20 problémů tsumego.</target>
+        </trans-unit>
+        <trans-unit id="GreatLearnerQuest_Name" translate="yes" xml:space="preserve">
+          <source>Great Learner</source>
+          <target state="translated">Schopný žák</target>
+        </trans-unit>
+        <trans-unit id="HiddenQuest_Description" translate="yes" xml:space="preserve">
+          <source>Your quest transformed! Solve any one tsumego problem.</source>
+          <target state="translated">Tvůj quest se proměnil! Vyřeš libovolný problém tsumego.</target>
+        </trans-unit>
+        <trans-unit id="HiddenQuest_Name" translate="yes" xml:space="preserve">
+          <source>Hidden Quest!</source>
+          <target state="translated">Skrytý Quest!</target>
+        </trans-unit>
+        <trans-unit id="IgsChallengeQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish 3 games on the Pandanet server.</source>
+          <target state="translated">Dohraj 3 hry na serveru Pandanet.</target>
+        </trans-unit>
+        <trans-unit id="IgsChallengeQuest_Name" translate="yes" xml:space="preserve">
+          <source>Pandanet Challenge</source>
+          <target state="translated">Výzva Pandanet</target>
+        </trans-unit>
+        <trans-unit id="KgsChallengeQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish 3 games on the KGS server.</source>
+          <target state="translated">Dohraj 3 hry na serveru KGS.</target>
+        </trans-unit>
+        <trans-unit id="KgsChallengeQuest_Name" translate="yes" xml:space="preserve">
+          <source>KGS Challenge</source>
+          <target state="translated">Výzva KGS</target>
+        </trans-unit>
+        <trans-unit id="LearnerQuest_Description" translate="yes" xml:space="preserve">
+          <source>Solve 5 tsumego problems.</source>
+          <target state="translated">Vyřeš 5 problémů tsumego.</target>
+        </trans-unit>
+        <trans-unit id="LearnerQuest_Name" translate="yes" xml:space="preserve">
+          <source>Learner</source>
+          <target state="translated">Žák</target>
+        </trans-unit>
+        <trans-unit id="OnlineTraditionalQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish an online game on a 19x19 board.</source>
+          <target state="translated">Dohraj online hru na desce o velikosti 19x19.</target>
+        </trans-unit>
+        <trans-unit id="OnlineTraditionalQuest_Name" translate="yes" xml:space="preserve">
+          <source>Net Traditional</source>
+          <target state="translated">Tradiční síťová</target>
+        </trans-unit>
+        <trans-unit id="PureSkillQuest_Description" translate="yes" xml:space="preserve">
+          <source>"Win a solo game against Fuego without handicap.</source>
+          <target state="translated">Vyhraj hru proti Fuegu bez handicapu.</target>
+        </trans-unit>
+        <trans-unit id="PureSkillQuest_Name" translate="yes" xml:space="preserve">
+          <source>Pure Skill</source>
+          <target state="translated">Ryzí dovednost</target>
+        </trans-unit>
+        <trans-unit id="SoloVictoriesQuest_Description" translate="yes" xml:space="preserve">
+          <source>Win 3 solo games against an AI program.</source>
+          <target state="translated">Vyhraj 3 hry proti umělé inteligenci.</target>
+        </trans-unit>
+        <trans-unit id="SoloVictoriesQuest_Name" translate="yes" xml:space="preserve">
+          <source>Human &gt; Computer</source>
+          <target state="translated">Člověk &gt; počítač</target>
+        </trans-unit>
+        <trans-unit id="TotalMasteryQuest_Description" translate="yes" xml:space="preserve">
+          <source>Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more.</source>
+          <target state="translated">Vyhraj hru proti Fuegu, kde Fuego je černý a má handicap 3 kamenů nebo větší.</target>
+        </trans-unit>
+        <trans-unit id="TotalMasteryQuest_Name" translate="yes" xml:space="preserve">
+          <source>Total Mastery</source>
+          <target state="translated">Úplné mistrovství</target>
+        </trans-unit>
+        <trans-unit id="TraditionalQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish any game on a 19x19 board.</source>
+          <target state="translated">Dohraj hru na desce 19x19.</target>
+        </trans-unit>
+        <trans-unit id="TraditionalQuest_Name" translate="yes" xml:space="preserve">
+          <source>Traditional</source>
+          <target state="translated">Tradiční</target>
+        </trans-unit>
+        <trans-unit id="UnevenStrengthQuest_Description" translate="yes" xml:space="preserve">
+          <source>Finish two solo or online games where one player has a handicap of two stones or more.</source>
+          <target state="translated">Dohraj dvě sólo nebo online hry, kde jeden hráč má handicap dvou nebo více kamenů.</target>
+        </trans-unit>
+        <trans-unit id="UnevenStrengthQuest_Name" translate="yes" xml:space="preserve">
+          <source>Uneven Strength</source>
+          <target state="translated">Nerovnoměrné síly</target>
+        </trans-unit>
       </group>
     </body>
   </file>
