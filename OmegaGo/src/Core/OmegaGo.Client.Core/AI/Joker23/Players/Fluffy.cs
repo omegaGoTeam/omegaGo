@@ -3,10 +3,9 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23.Players
 {
-    public class AlphaBetaPlayerWrapper : AIProgramBase
+    public class Fluffy : AIProgramBase
     {
         // TODO Petr make it pass in other scenarios, too
-        private AlphaBetaPlayer _internalPlayer;
 
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);
 
@@ -14,8 +13,6 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
-            this._internalPlayer = new AlphaBetaPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
-
             JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
                 preMoveInformation.GameInfo.BoardSize.Width,
                 null,
@@ -29,7 +26,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
             currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize);
 
-            JokerPoint point = this._internalPlayer.betterPlanMove(currentGame, TreeDepth);
+            JokerPoint point = new AlphaBetaPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame, this.TreeDepth);
             
 
             return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),

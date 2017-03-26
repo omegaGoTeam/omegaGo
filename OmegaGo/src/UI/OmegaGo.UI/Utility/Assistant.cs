@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.Fuego;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -34,6 +35,18 @@ namespace OmegaGo.UI.ViewModels
             if (Program == null)
             {
                 Program = new RandomPlayerWrapper();
+            }
+            if (Program is Fluffy)
+            {
+                Fluffy fluffy = Program as Fluffy;
+                fluffy.TreeDepth = gameSettings.Assistant.FluffyDepth;
+            }
+            if (Program is Fuego)
+            {
+                Fuego fuego = Program as Fuego;
+                fuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
+                fuego.Ponder = gameSettings.Assistant.FuegoPonder;
+                fuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
             }
         }
 

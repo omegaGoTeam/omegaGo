@@ -330,27 +330,11 @@
   <data name="WhenIReceiveANotification" xml:space="preserve">
     <value>Kdy obdržím upozornění</value>
   </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
-    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
-Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
-Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
-  </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
-    <value>Fluffy (minimax)</value>
-  </data>
   <data name="AI_DefeatistAI_Description" xml:space="preserve">
     <value>Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</value>
   </data>
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
-  </data>
-  <data name="AI_FuegoAI_Description" xml:space="preserve">
-    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
-Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
-Doporučejeme používat pouze tuto umělou inteligenci.</value>
-  </data>
-  <data name="AI_FuegoAI_Name" xml:space="preserve">
-    <value>Fuego</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
     <value>Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
@@ -692,5 +676,21 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="MoreEllipsis" xml:space="preserve">
     <value>Více...</value>
+  </data>
+  <data name="AI_Fluffy_Description" xml:space="preserve">
+    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  </data>
+  <data name="AI_Fluffy_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
+  <data name="AI_Fuego_Description" xml:space="preserve">
+    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</value>
+  </data>
+  <data name="AI_Fuego_Name" xml:space="preserve">
+    <value>Fuego</value>
   </data>
 </root>

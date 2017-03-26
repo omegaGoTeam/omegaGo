@@ -6,8 +6,6 @@ namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class HeuristicPlayerWrapper : AIProgramBase
     {
-        private HeuristicPlayer _internalPlayer;
-
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);        
 
         public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
@@ -18,7 +16,6 @@ namespace OmegaGo.Core.AI.Joker23.Players
             {
                 return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
-            _internalPlayer = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W');
 
             JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
                 preMoveInformation.GameInfo.BoardSize.Width,
@@ -33,7 +30,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
             currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize );
 
-            JokerPoint point = _internalPlayer.betterPlanMove(currentGame);
+            JokerPoint point = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame);
             
 
             return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),

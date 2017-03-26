@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 if (player.Agent is AiAgent)
                 {
-                    var fuego = (FuegoAI) ((AiAgent) player.Agent).AI;
+                    var fuego = (Fuego) ((AiAgent) player.Agent).AI;
                     var response = fuego.SendCommand(this.FuegoCommand.Text);
                     await Mvx.Resolve<IDialogService>().ShowAsync(response.Text, "Fuego response");
                 }

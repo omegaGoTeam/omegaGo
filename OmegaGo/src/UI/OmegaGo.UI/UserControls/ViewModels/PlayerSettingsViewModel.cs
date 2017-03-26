@@ -45,8 +45,8 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public string Name => player.Name;
         public string Description => player.Description.Replace("\n", "\n\n");
         public bool AiPanelVisible => player.IsAi;
-        public bool IsFuego => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(FuegoAI);
-        public bool IsFluffy => player.IsAi && ((GameCreationViewAiPlayer)player).AI.GetType() == typeof(AlphaBetaPlayerWrapper);
+        public bool IsFuego => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fuego);
+        public bool IsFluffy => player.IsAi && ((GameCreationViewAiPlayer)player).AI.GetType() == typeof(Fluffy);
 
         private OmegaGo.Core.AI.AICapabilities Capabitilies => player.IsAi ? ((GameCreationViewAiPlayer)player).Capabilities : null;
 

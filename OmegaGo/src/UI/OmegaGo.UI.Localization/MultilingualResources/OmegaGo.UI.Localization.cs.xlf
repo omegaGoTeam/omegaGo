@@ -432,18 +432,6 @@
           <source>When I receive a notification</source>
           <target state="translated">Kdy obdržím upozornění</target>
         </trans-unit>
-        <trans-unit id="AI_AlphaBetaPlayerWrapper_Description" translate="yes" xml:space="preserve">
-          <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-Fluffy will always and only pass in response to its opponent passing.
-You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
-          <target state="translated">Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
-Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
-Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</target>
-        </trans-unit>
-        <trans-unit id="AI_AlphaBetaPlayerWrapper_Name" translate="yes" xml:space="preserve">
-          <source>Fluffy (minimax)</source>
-          <target state="translated">Fluffy (minimax)</target>
-        </trans-unit>
         <trans-unit id="AI_DefeatistAI_Description" translate="yes" xml:space="preserve">
           <source>The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
 After you make your first move, or even before that, the AI will conclude that it's much stronger than you and just resign in order to not play a game with a foregone conclusion.</source>
@@ -452,18 +440,6 @@ After you make your first move, or even before that, the AI will conclude that i
         <trans-unit id="AI_DefeatistAI_Name" translate="yes" xml:space="preserve">
           <source>Defeatist</source>
           <target state="final">Defeatist</target>
-        </trans-unit>
-        <trans-unit id="AI_FuegoAI_Description" translate="yes" xml:space="preserve">
-          <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
-It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
-We recommend you use this AI program for all of your games.</source>
-          <target state="translated">Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
-Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
-Doporučejeme používat pouze tuto umělou inteligenci.</target>
-        </trans-unit>
-        <trans-unit id="AI_FuegoAI_Name" translate="yes" xml:space="preserve">
-          <source>Fuego</source>
-          <target state="final">Fuego</target>
         </trans-unit>
         <trans-unit id="AI_HeuristicPlayerWrapper_Description" translate="yes" xml:space="preserve">
           <source>This AI uses a simple heuristic to determine where to play the next move. The heuristic is based on influence and on all previous stone placements in the game history.
@@ -919,6 +895,30 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         <trans-unit id="MoreEllipsis" translate="yes" xml:space="preserve">
           <source>More...</source>
           <target state="translated">Více...</target>
+        </trans-unit>
+        <trans-unit id="AI_Fluffy_Description" translate="yes" xml:space="preserve">
+          <source>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+Fluffy will always and only pass in response to its opponent passing.
+You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</source>
+          <target state="translated">Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</target>
+        </trans-unit>
+        <trans-unit id="AI_Fluffy_Name" translate="yes" xml:space="preserve">
+          <source>Fluffy (minimax)</source>
+          <target state="translated">Fluffy (minimax)</target>
+        </trans-unit>
+        <trans-unit id="AI_Fuego_Description" translate="yes" xml:space="preserve">
+          <source>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
+It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
+We recommend you use this AI program for all of your games.</source>
+          <target state="translated">Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</target>
+        </trans-unit>
+        <trans-unit id="AI_Fuego_Name" translate="yes" xml:space="preserve">
+          <source>Fuego</source>
+          <target state="translated">Fuego</target>
         </trans-unit>
       </group>
     </body>

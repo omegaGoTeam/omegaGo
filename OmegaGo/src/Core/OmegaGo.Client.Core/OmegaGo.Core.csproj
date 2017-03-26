@@ -98,13 +98,13 @@
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\DefeatistAI.cs" />
-    <Compile Include="AI\Fuego\FuegoAI.cs" />
+    <Compile Include="AI\Fuego\Fuego.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
     <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />
     <Compile Include="AI\Joker23\JokerExtensionMethods.cs" />
     <Compile Include="AI\Joker23\JokerPoint.cs" />
-    <Compile Include="AI\Joker23\Players\AlphaBetaPlayerWrapper.cs" />
+    <Compile Include="AI\Joker23\Players\Fluffy.cs" />
     <Compile Include="AI\Joker23\Players\HeuristicPlayerWrapper.cs" />
     <Compile Include="AI\Joker23\Players\RandomPlayerWrapper.cs" />
     <Compile Include="AI\Random\RandomAI.cs" />

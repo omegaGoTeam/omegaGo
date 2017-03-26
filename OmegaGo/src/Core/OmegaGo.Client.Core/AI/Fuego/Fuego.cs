@@ -11,7 +11,7 @@ namespace OmegaGo.Core.AI.Fuego
     /// The Fuego AI is a Monte Carlo advanced Go intelligence.
     /// </summary>
     /// <seealso cref="AIProgramBase" />
-    public class FuegoAI : AIProgramBase
+    public class Fuego : AIProgramBase
     {
         private bool SendAllAiOutputToLog = true;
         private bool SendDebuggingInformationToLogToo = true;
@@ -145,7 +145,6 @@ namespace OmegaGo.Core.AI.Fuego
                 SendCommand("uct_param_player resign_threshold 0");
             }
             
-            // TODO Petr: send commands for allowResign, maxgames
             // TODO Petr: on IGS, make it so two passes don't end a game
 
             // Time settings

@@ -659,7 +659,7 @@ namespace FormsPrototype
             {
                 if (pl.Agent is AiAgent)
                 {
-                    var fuego = (FuegoAI) ((AiAgent) pl.Agent).AI;
+                    var fuego = (Fuego) ((AiAgent) pl.Agent).AI;
                     MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
                 }
             }

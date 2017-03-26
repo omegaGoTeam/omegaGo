@@ -44,7 +44,7 @@ namespace OmegaGo.Core.AI
                             new RandomAI(),
                             new RandomPlayerWrapper(),
                             new HeuristicPlayerWrapper(),
-                            new AlphaBetaPlayerWrapper()
+                            new Fluffy()
                         };
                 }
                 return
@@ -54,8 +54,8 @@ namespace OmegaGo.Core.AI
                         new RandomAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
-                        new AlphaBetaPlayerWrapper(),
-                        new FuegoAI()
+                        new Fluffy(),
+                        new Fuego.Fuego()
                     };
             }
         }

@@ -62,26 +62,6 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-        ///Fluffy will always and only pass in response to its opponent passing.
-        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
-        /// </summary>
-        public static string AI_AlphaBetaPlayerWrapper_Description {
-            get {
-                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fluffy (minimax).
-        /// </summary>
-        public static string AI_AlphaBetaPlayerWrapper_Name {
-            get {
-                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
         ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
         /// </summary>
@@ -101,22 +81,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+        ///Fluffy will always and only pass in response to its opponent passing.
+        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
+        /// </summary>
+        public static string AI_Fluffy_Description {
+            get {
+                return ResourceManager.GetString("AI_Fluffy_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluffy (minimax).
+        /// </summary>
+        public static string AI_Fluffy_Name {
+            get {
+                return ResourceManager.GetString("AI_Fluffy_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
         ///It uses Monte Carlo tree search to make moves. It&apos;s capable of placing stones, passing and resigning, as the situation calls for.
         ///We recommend you use this AI program for all of your games..
         /// </summary>
-        public static string AI_FuegoAI_Description {
+        public static string AI_Fuego_Description {
             get {
-                return ResourceManager.GetString("AI_FuegoAI_Description", resourceCulture);
+                return ResourceManager.GetString("AI_Fuego_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Fuego.
         /// </summary>
-        public static string AI_FuegoAI_Name {
+        public static string AI_Fuego_Name {
             get {
-                return ResourceManager.GetString("AI_FuegoAI_Name", resourceCulture);
+                return ResourceManager.GetString("AI_Fuego_Name", resourceCulture);
             }
         }
         
