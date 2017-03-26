@@ -427,7 +427,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>The score of players.</returns>
         protected Scores CountArea(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            Scores scores = CountTerritory(currentNode, deadPositions);
+            Scores scores = GetRegionScores(currentNode, deadPositions);
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
             {
                 for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
@@ -442,13 +442,14 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
+        
         /// <summary>
         /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
         /// This method adds up total territory of players. The scores include prisoners and dead stones. 
         /// </summary>
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">Positions marked as dead.</param>
-        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
+        /// <returns>The score of players, which does not include number of prisoners and dead stones.</returns>
         protected Scores CountTerritory(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
             Scores scores = new Scores(0, 0);
@@ -476,19 +477,9 @@ namespace OmegaGo.Core.Rules
             }
 
             //regions
-            RulesetInfo.BoardState = RulesetInfo.BoardState.BoardWithoutTheseStones(deadPositions);
-
-            Territory[,] regions = DetermineTerritory(RulesetInfo.BoardState);
-            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
-            {
-                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
-                {
-                    if (regions[i, j] == Territory.Black)
-                        scores.BlackScore++;
-                    else if (regions[i, j] == Territory.White)
-                        scores.WhiteScore++;
-                }
-            }
+            Scores regionScores= GetRegionScores(currentNode, deadPositions);
+            scores.WhiteScore += regionScores.WhiteScore;
+            scores.BlackScore += regionScores.BlackScore;
 
             return scores;
         }
@@ -685,5 +676,30 @@ namespace OmegaGo.Core.Rules
 
         }
 
+        /// <summary>
+        /// Returns the scores after adding up total territory of players.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">Positions marked as dead.</param>
+        /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
+        private Scores GetRegionScores(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
+        {
+            RulesetInfo.BoardState = currentNode.BoardState.BoardWithoutTheseStones(deadPositions);
+
+            Scores scores = new Scores(0, 0);
+            Territory[,] regions = DetermineTerritory(RulesetInfo.BoardState);
+            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
+            {
+                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
+                {
+                    if (regions[i, j] == Territory.Black)
+                        scores.BlackScore++;
+                    else if (regions[i, j] == Territory.White)
+                        scores.WhiteScore++;
+                }
+            }
+
+            return scores;
+        }
     }
 }
