@@ -26,6 +26,11 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
+        /// Komi compensation.
+        /// </summary>
+        internal static float Komi { get; set; }
+
+        /// <summary>
         /// The current state of game board.
         /// </summary>
         internal static GameBoard BoardState { get; set; }

@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Rules
                 compensation = 6.5f;
             else
                 compensation = 0.5f;
-
+            RulesetInfo.Komi = compensation;
             return compensation;
         }
 

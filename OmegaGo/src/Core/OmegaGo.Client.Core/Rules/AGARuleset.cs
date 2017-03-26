@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Rules
                 compensation = 0.5f + handicapStoneCount - 1;
             else if (handicapStoneCount > 0 && cType == CountingType.Territory)
                 compensation = 0.5f;
-
+            RulesetInfo.Komi = compensation;
             return compensation;
         }
 

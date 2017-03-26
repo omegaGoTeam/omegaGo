@@ -38,7 +38,7 @@ namespace OmegaGo.Core.Rules
                 compensation = 7.5f;
             else
                 compensation = 0.5f + handicapStoneCount - 1;
-
+            RulesetInfo.Komi = compensation;
             return compensation;
         }
 
