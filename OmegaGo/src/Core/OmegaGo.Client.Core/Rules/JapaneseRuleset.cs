@@ -12,15 +12,12 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class JapaneseRuleset : Ruleset
     {
-        private float _komi;
-        
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
         /// <param name="gbSize">Size of the game board.</param>
         public JapaneseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
-            _komi = 0.0f;
         }
 
         /// <summary>
@@ -53,7 +50,7 @@ namespace OmegaGo.Core.Rules
         {
             Scores scores;
             scores = CountTerritory(currentNode, deadPositions);
-            scores.WhiteScore += _komi;
+            scores.WhiteScore += RulesetInfo.Komi;
             
             return scores;
         }

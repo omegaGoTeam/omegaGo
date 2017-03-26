@@ -12,15 +12,12 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class ChineseRuleset : Ruleset
     {
-        private float _komi;
-
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
         /// </summary>
         /// <param name="gbSize">Size of the game board.</param>
         public ChineseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
-            _komi = 0.0f;
         }
 
         /// <summary>
@@ -52,7 +49,7 @@ namespace OmegaGo.Core.Rules
         public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
             var scores = CountArea(currentNode, deadPositions);
-            scores.WhiteScore += _komi;
+            scores.WhiteScore += RulesetInfo.Komi;
 
             return scores;
         }

@@ -12,7 +12,6 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class AGARuleset : Ruleset
     {
-        private float _komi;
         private CountingType _countingType;
 
         /// <summary>
@@ -21,7 +20,6 @@ namespace OmegaGo.Core.Rules
         /// <param name="gbSize">Size of the game board.</param>
         public AGARuleset(GameBoardSize gbSize, CountingType countingType) : base(gbSize)
         {
-            _komi = 0.0f;
             _countingType = countingType;
         }
 
@@ -61,7 +59,7 @@ namespace OmegaGo.Core.Rules
             else
                 scores = CountTerritory(currentNode, deadPositions);
 
-            scores.WhiteScore += _komi;
+            scores.WhiteScore += RulesetInfo.Komi;
             return scores;
         }
         
