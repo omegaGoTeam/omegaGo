@@ -54,6 +54,11 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+        public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
+        {
+            
+        }
+
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067

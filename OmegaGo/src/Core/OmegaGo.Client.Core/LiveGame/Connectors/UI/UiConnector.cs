@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
@@ -66,9 +67,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         }
 
         public event EventHandler<string> AiLog;
-
-        public void MovePerformed(Move move)
+        public event EventHandler<Tuple<Move,AIPreMoveInformation>> MoveWasPerformed;
+        
+        public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
         {
+            MoveWasPerformed?.Invoke(this, new Tuple<Game.Move, AI.AIPreMoveInformation>(move,
+                new AI.AIPreMoveInformation(info, move.WhoMoves, gamePlayer, gameTree, TimeSpan.FromSeconds(5), 5)));
         }
 
         public void RequestLifeDeathDone()

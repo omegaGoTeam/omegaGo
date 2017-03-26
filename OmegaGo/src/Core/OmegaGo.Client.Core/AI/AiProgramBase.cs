@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.Core.AI
@@ -44,6 +46,11 @@ namespace OmegaGo.Core.AI
         }
 
         public virtual void MoveUndone()
+        {
+            // Stateless AI's don't need to do anything.
+        }
+
+        public virtual void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
             // Stateless AI's don't need to do anything.
         }

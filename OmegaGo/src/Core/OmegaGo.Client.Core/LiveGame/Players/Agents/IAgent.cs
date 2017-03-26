@@ -93,5 +93,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         void PleaseMakeAMove();
 
         void MoveUndone();
+        void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
     }
 }

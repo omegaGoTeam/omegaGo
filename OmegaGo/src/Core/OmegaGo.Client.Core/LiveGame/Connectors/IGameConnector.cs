@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
@@ -61,7 +62,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// <summary>
         /// Informs the connector about a performed move
         /// </summary>
-        /// <param name="move">Move</param>
-        void MovePerformed(Move move);
+        void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info);
     }
 }

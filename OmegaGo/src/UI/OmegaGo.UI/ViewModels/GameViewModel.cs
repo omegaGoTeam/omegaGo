@@ -59,6 +59,7 @@ namespace OmegaGo.UI.ViewModels
 
             _uiConnector = new UiConnector(Game.Controller);
             _uiConnector.AiLog += _uiConnector_AiLog;
+            _uiConnector.MoveWasPerformed += _uiConnector_MoveWasPerformed;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -72,6 +73,11 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             
             ObserveDebuggingMessages();
+        }
+
+        private void _uiConnector_MoveWasPerformed(object sender, Tuple<Move,AIPreMoveInformation> e)
+        {
+            this.Assistant.MovePerformed(e.Item1, e.Item2);
         }
 
         private void Controller_MoveUndone(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.Fuego
@@ -52,28 +53,19 @@ namespace OmegaGo.Core.AI.Fuego
         /// <returns>Decision</returns>
         public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
         {
-            if (!_initialized)
-            {
-                Initialize(preMoveInformation);
-                _initialized = true;
-            }
+            FixHistory(preMoveInformation);
+
+            // Deprecated difficulty setting.
             if (preMoveInformation.Difficulty != _timelimit)
             {
                 SendCommand("go_param timelimit " + preMoveInformation.Difficulty);
                 _timelimit = preMoveInformation.Difficulty;
             }
-            var trueHistory = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
-            for (int i = 0; i < trueHistory.Count; i++)
-            {
-                if (_history.Count == i)
-                {
-                    Move trueMove = trueHistory[i];
-                    _history.Add(trueMove);
-                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
-                                           trueMove.Coordinates.ToIgsCoordinates());
-                }
-            }
+
+            // Move for what color?
             string movecolor = preMoveInformation.AIColor == StoneColor.Black ? "B" : "W";
+
+            // Update remaining time
             var timeLeftArguments = preMoveInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
             if (timeLeftArguments != null)
             {
@@ -81,6 +73,8 @@ namespace OmegaGo.Core.AI.Fuego
                 secondsRemaining = Math.Max(secondsRemaining - 2, 0); // let's give the AI less time to ensure it does its move on time
                 SendCommand("time_left " + movecolor + " " + secondsRemaining + " " + timeLeftArguments.NumberOfStonesRemaining);
             }
+
+            // Generate the next move
             string result = SendCommand("genmove " + movecolor).Text;
             if (result == "resign")
             {
@@ -92,7 +86,11 @@ namespace OmegaGo.Core.AI.Fuego
             var move = result == "PASS"
                 ? Move.Pass(preMoveInformation.AIColor)
                 : Move.PlaceStone(preMoveInformation.AIColor, Position.FromIgsCoordinates(result));
+
+            // Change history
             _history.Add(move);
+
+            // Get win percentage
             string commandResult = SendCommand("uct_value_black").Text;
             float value = float.Parse(commandResult, CultureInfo.InvariantCulture);            
             if (preMoveInformation.AIColor == StoneColor.White)
@@ -106,9 +104,36 @@ namespace OmegaGo.Core.AI.Fuego
             Note(winChanceNote);
             var moveDecision = AIDecision.MakeMove(
                 move, winChanceNote);
-            moveDecision.AiNotes = _storedNotes;
+            moveDecision.AiNotes = _storedNotes.ToList(); // copy
+
+            // Prepare the way
             _storedNotes.Clear();
+
+            // Return result
             return moveDecision;
+        }
+
+        private void FixHistory(AIPreMoveInformation aiPreMoveInformation)
+        {
+            // Initialize if not yet.
+            if (!_initialized)
+            {
+                Initialize(aiPreMoveInformation);
+                _initialized = true;
+            }
+
+            // Fix history.
+            var trueHistory = aiPreMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            for (int i = 0; i < trueHistory.Count; i++)
+            {
+                if (this._history.Count == i)
+                {
+                    Move trueMove = trueHistory[i];
+                    this._history.Add(trueMove);
+                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
+                                trueMove.Coordinates.ToIgsCoordinates());
+                }
+            }
         }
 
         private void Initialize(AIPreMoveInformation preMoveInformation)
@@ -193,6 +218,11 @@ namespace OmegaGo.Core.AI.Fuego
         public override void MoveUndone()
         {
             UndoOneMove();
+        }
+        public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
+        {
+            FixHistory(new AI.AIPreMoveInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree,
+                TimeSpan.FromSeconds(5), 5));
         }
 
         private void UndoOneMove()

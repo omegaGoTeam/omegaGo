@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.Core.AI
@@ -36,5 +38,6 @@ namespace OmegaGo.Core.AI
         AIDecision GetHint(AIPreMoveInformation preMoveInformation);
 
         void MoveUndone();
+        void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
     }
 }

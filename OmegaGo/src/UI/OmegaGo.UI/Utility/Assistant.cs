@@ -62,5 +62,11 @@ namespace OmegaGo.UI.ViewModels
         {
             Program.MoveUndone();
         }
+
+        public void MovePerformed(Move move, AIPreMoveInformation aiPreMoveInformation)
+        {
+            Program.MovePerformed(move, aiPreMoveInformation.GameTree, aiPreMoveInformation.AiPlayer,
+                aiPreMoveInformation.GameInfo);
+        }
     }
 }
