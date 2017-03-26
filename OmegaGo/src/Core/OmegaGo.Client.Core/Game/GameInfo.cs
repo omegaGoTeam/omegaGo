@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
+using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Game
 {
@@ -64,6 +65,8 @@ namespace OmegaGo.Core.Game
         /// Counting type
         /// </summary>
         public CountingType CountingType { get; set; }
+
+        public bool IsOnline => this is RemoteGameInfo;
 
         public override string ToString()
         {

@@ -28,7 +28,7 @@ namespace OmegaGo.Core.AI.Fuego
         /// <summary>
         /// Capabilities of the AI
         /// </summary>
-        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19);
+        public override AICapabilities Capabilities => new AICapabilities(false, false, 2, 19, true);
 
         /// <summary>
         /// Allows resigning

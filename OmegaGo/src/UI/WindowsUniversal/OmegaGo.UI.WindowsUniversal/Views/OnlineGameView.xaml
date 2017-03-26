@@ -85,8 +85,8 @@
                         <TextBlock Text="AI is thinking..."/>
                     </StackPanel>
                 </Border>
-                <TextBlock Text="Hint" FontSize="20"/>
-                <Button Content="Get Hint from Assistant" HorizontalAlignment="Stretch"/>
+                <TextBlock Text="Hint" FontSize="20" />
+                <Button Content="Get Hint from Assistant"  Command="{x:Bind VM.GetHint}"  HorizontalAlignment="Stretch"/>
             </StackPanel>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">

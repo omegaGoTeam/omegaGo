@@ -4,7 +4,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
 {
     public class RandomPlayerWrapper : AIProgramBase
     {
-        public override AICapabilities Capabilities => new AICapabilities(false, true, 1, int.MaxValue);
+        public override AICapabilities Capabilities => new AICapabilities(false, false, 1, int.MaxValue);
 
         private RandomPlayer _internalPlayer;
 

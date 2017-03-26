@@ -14,6 +14,7 @@ namespace OmegaGo.Core.AI
     /// </summary>
     public class AIPreMoveInformation
     {
+        // TODO: to be refactored
         /// <summary>
         /// Creates a new structure that gives the AI information it needs to make a move.
         /// </summary>
