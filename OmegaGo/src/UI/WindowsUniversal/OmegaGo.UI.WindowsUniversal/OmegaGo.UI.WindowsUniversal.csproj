@@ -117,6 +117,7 @@
     <Compile Include="Infrastructure\Triggers\BoolTrigger.cs" />
     <Compile Include="Services\Cheats\Cheats.cs" />
     <Compile Include="Services\Dialogs\DialogService.cs" />
+    <Compile Include="Services\Feedback\FeedbackService.cs" />
     <Compile Include="Services\Files\FilePickerService.cs" />
     <Compile Include="Services\Files\FileService.cs" />
     <Compile Include="Services\BoardControl\InputService.cs" />

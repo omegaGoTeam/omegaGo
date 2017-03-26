@@ -10,12 +10,14 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Services.Store.Engagement;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
@@ -40,6 +42,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private DispatcherTimer _notificationTimer;
 
         private IGameSettings _settings;
+        private IFeedbackService _feedback;
 
         private AppShell(Window window)
         {
@@ -53,6 +56,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             //debug-only cheats
             InitCheats();
             InitNotifications();
+
+            InitFeedback();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -255,6 +260,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             _notificationTimer.Start();
         }
 
+        private void InitFeedback()
+        {
+            if (StoreServicesFeedbackLauncher.IsSupported()) FeedbackButton.Visibility = Visibility.Visible;
+        }
+
         /// <summary>
         /// Expires the notifications periodically
         /// </summary>
@@ -411,9 +421,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             Cheats.Initialize();
         }
 
-        private void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
+            await _feedback.LaunchAsync();
         }
     }
 }

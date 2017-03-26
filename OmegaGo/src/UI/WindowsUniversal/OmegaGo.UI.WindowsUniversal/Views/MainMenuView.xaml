@@ -173,11 +173,17 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Margin="12"
+                    VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="FeedbackButton" Margin="0,0,12,0" FontFamily="Segoe MDL2 Assets" Command="{x:Bind VM.LaunchFeedbackCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{x:Bind VM.ShowFeedbackButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+                <TextBlock VerticalAlignment="Top">
+                    <Run Text="&#xE939;" FontFamily="Segoe MDL2 Assets" />
+                    <Run Text=" Feedback" />
+                </TextBlock>
+            </Button>
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
-                  FontSize="26"/>
+                  FontSize="20" />
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>
