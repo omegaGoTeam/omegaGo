@@ -51,7 +51,7 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
-            Assistant = new Assistant(gameSettings, _game.Info.IsOnline);
+            Assistant = new Assistant(gameSettings, _game.Info is RemoteGameInfo);
             _game.Controller.GameEnded += (s, e) => OnGameEnded(e);
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);

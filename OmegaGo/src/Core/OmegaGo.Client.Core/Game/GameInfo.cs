@@ -66,8 +66,6 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public CountingType CountingType { get; set; }
 
-        public bool IsOnline => this is RemoteGameInfo;
-
         public override string ToString()
         {
             return "GameInfo: " + White + " v." + Black;

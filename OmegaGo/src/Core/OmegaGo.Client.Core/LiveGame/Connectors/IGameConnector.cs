@@ -59,6 +59,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// </summary>
         event EventHandler MainUndoForced;
 
+        // TODO decrease number of arguments
         /// <summary>
         /// Informs the connector about a performed move
         /// </summary>
