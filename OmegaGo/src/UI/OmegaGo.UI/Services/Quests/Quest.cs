@@ -4,10 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using Newtonsoft.Json;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.UI.Extensions;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Quests.IndividualQuests;
 using OmegaGo.UI.ViewModels;
 
@@ -49,6 +51,9 @@ namespace OmegaGo.UI.Services.Quests
             [HiddenQuestKey] = new HiddenQuest()
         };
 
+        private string _fallbackName;
+        private string _fallbackDescription;
+
         /// <summary>
         /// Creates a quest
         /// </summary>
@@ -58,8 +63,8 @@ namespace OmegaGo.UI.Services.Quests
         /// <param name="maximumProgress">Maximum reachable progress</param>
         protected Quest(string name, string description, int pointReward, int maximumProgress)
         {
-            Name = name;
-            Description = description;
+            _fallbackName = name;
+            _fallbackDescription = description;
             PointReward = pointReward;
             MaximumProgress = maximumProgress;
         }
@@ -67,13 +72,38 @@ namespace OmegaGo.UI.Services.Quests
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; }
+        public string Name
+        {
+            get
+            {
+                string id = this.GetType().Name + "_Name";
+                string trans = ((Localizer) Mvx.Resolve<ILocalizationService>()).GetString(id);
+                if (trans == id)
+                {
+                    return "[" + _fallbackName + "]";
+                }
+                return trans;
+            }
+
+        }
 
         /// <summary>
         /// Description
         /// </summary>
-        public string Description { get; }
+        public string Description
+        {
+            get
+            {
+                string id = this.GetType().Name + "_Description";
+                string trans = ((Localizer)Mvx.Resolve<ILocalizationService>()).GetString(id);
+                if (trans == id)
+                {
+                    return "[" + _fallbackDescription + "]";
+                }
+                return trans;
+            }
 
+        }
         /// <summary>
         /// Number of points rewarded for this quest
         /// </summary>
