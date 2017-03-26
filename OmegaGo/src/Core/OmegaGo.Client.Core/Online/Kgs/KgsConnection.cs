@@ -39,6 +39,7 @@ namespace OmegaGo.Core.Online.Kgs
     {
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
+        public string Username => _username;
         private string _password;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
@@ -216,6 +217,22 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 return default(T);
             }
+        }
+
+        public Task WaitUntilJoined(int channelId)
+        {
+            return Task.Run(async () =>
+            {
+                while (true)
+                {
+                    if (this.Data.IsJoined(channelId))
+                    {
+                        return;
+                    }
+                    // TODO use TaskCompletionSource later on
+                    await Task.Delay(500);
+                }
+            });
         }
     }
 

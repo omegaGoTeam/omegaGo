@@ -2,11 +2,11 @@
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
-    public class KgsChallenge
+    public class KgsChallenge : KgsGameChannel
     {
 
         public Proposal Proposal { get; set; }
-        private KgsChallenge(Proposal proposal)
+        private KgsChallenge(Proposal proposal, int channelId) : base(channelId)
         {
             Proposal = proposal;
         }
@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             {
                 return null;
             }
-            KgsChallenge challenge = new Structures.KgsChallenge(channel.InitialProposal);
+            KgsChallenge challenge = new Structures.KgsChallenge(channel.InitialProposal, channel.ChannelId);
             if (channel.InitialProposal.GameType != GameType.Free &&
                 channel.InitialProposal.GameType != GameType.Ranked) return null;
 

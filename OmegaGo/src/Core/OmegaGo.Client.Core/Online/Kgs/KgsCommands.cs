@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs
@@ -71,9 +72,28 @@ namespace OmegaGo.Core.Online.Kgs
             await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
         }
 
-        public void MakeMove(RemoteGameInfo remoteInfo, Move move)
+        public async Task MakeMove(RemoteGameInfo remoteInfo, Move move)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo) remoteInfo;
+            if (move.Kind == MoveKind.Pass)
+            {
+                await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
+                {
+                    ChannelId = kgsInfo.ChannelId
+                });
+            }
+            else
+            {
+                await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
+                {
+                    ChannelId = kgsInfo.ChannelId,
+                    Loc = new XY()
+                    {
+                        X = move.Coordinates.X,
+                        Y = move.Coordinates.Y
+                    }
+                });
+            }
         }
 
         public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
@@ -101,9 +121,41 @@ namespace OmegaGo.Core.Online.Kgs
             throw new NotImplementedException();
         }
 
-        public Task AcceptChallengeAsync(KgsChallenge selectedItem)
+        public async Task AcceptChallengeAsync(KgsChallenge selectedItem)
         {
-            throw new NotImplementedException();
+            var originalProposal = selectedItem.Proposal;
+            var ourName = kgsConnection.Username;
+            var upstreamProposal = originalProposal.ToUpstream();
+            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
+            emptySeat.Name = ourName;
+            await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
+            {
+                ChannelId = selectedItem.ChannelId
+            });
+            await kgsConnection.WaitUntilJoined(selectedItem.ChannelId);
+            var simpleProposal = new
+            {
+                ChannelId = selectedItem.ChannelId,
+                GameType = upstreamProposal.GameType,
+                Rules = upstreamProposal.Rules,
+                Nigiri = upstreamProposal.Nigiri,
+                Players = new[]
+                {
+                    new
+                    {
+                        Role = upstreamProposal.Players[0].Role,
+                        Name = upstreamProposal.Players[0].Name
+                    },
+                    new
+                    {
+                        Role = upstreamProposal.Players[1].Role,
+                        Name = upstreamProposal.Players[1].Name
+                    }
+                }
+
+            };
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_ACCEPT", simpleProposal);
         }
     }
 }

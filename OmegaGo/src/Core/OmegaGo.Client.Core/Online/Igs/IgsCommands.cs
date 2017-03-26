@@ -17,9 +17,10 @@ namespace OmegaGo.Core.Online.Igs
             this.igsConnection = igsConnection;
         }
 
-        public void MakeMove(RemoteGameInfo remoteInfo, Move move)
+        public Task MakeMove(RemoteGameInfo remoteInfo, Move move)
         {
             this.igsConnection.MadeMove((IgsGameInfo) remoteInfo, move);
+            return emptyTask;
         }
 
         public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)

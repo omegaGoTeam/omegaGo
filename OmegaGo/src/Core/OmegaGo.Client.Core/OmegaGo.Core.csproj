@@ -57,10 +57,11 @@
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
     <Compile Include="LiveGame\Connectors\IRemoteConnector.cs" />
+    <Compile Include="LiveGame\Connectors\Kgs\KgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\UI\IUiConnector.cs" />
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
-    <Compile Include="LiveGame\Phases\Main\Igs\IgsMainPhase.cs" />
+    <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameController.cs" />
@@ -168,6 +169,8 @@
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
@@ -361,7 +364,6 @@
     <Content Include="Online\Kgs\Docs\kgsApiTry.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LiveGame\Connectors\Kgs\" />
     <Folder Include="Sgf\Serializing\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
