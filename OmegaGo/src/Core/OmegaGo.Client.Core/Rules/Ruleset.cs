@@ -156,7 +156,7 @@ namespace OmegaGo.Core.Rules
             //1. step: check intersection
             if (moveToMake.Kind == MoveKind.Pass)
             {
-                processingResult.Result = Pass(player);
+                processingResult.Result = Pass(currentNode);
                 return processingResult;
             }
             else if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
@@ -309,11 +309,11 @@ namespace OmegaGo.Core.Rules
         protected abstract MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history);
 
         /// <summary>
-        /// Handles the pass of a player. Two consecutive passes signal the end of game.
+        /// Handles the pass of a player. Two consecutive passes signal the end of game. (In AGA, black player starts the passing)
         /// </summary>
-        /// <param name="playerColor">Color of player, who passes.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <returns>The legality of move or new game phase notification.</returns>
-        protected abstract MoveResult Pass(StoneColor playerColor);
+        protected abstract MoveResult Pass(GameTreeNode currentNode);
 
         /// <summary>
         /// Checks 2 illegal move types: self capture, ko.

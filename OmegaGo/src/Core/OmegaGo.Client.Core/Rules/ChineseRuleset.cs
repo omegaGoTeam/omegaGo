@@ -12,7 +12,6 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class ChineseRuleset : Ruleset
     {
-        private bool _isPreviousMovePass;
         private float _komi;
         private float _whiteScore;
         private float _blackScore;
@@ -23,7 +22,6 @@ namespace OmegaGo.Core.Rules
         /// <param name="gbSize">Size of the game board.</param>
         public ChineseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
-            _isPreviousMovePass = false;
             _komi = 0.0f;
             _whiteScore = 0.0f;
             _blackScore = 0.0f;
@@ -72,8 +70,6 @@ namespace OmegaGo.Core.Rules
         /// <returns>The result of legality check.</returns>
         protected override MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history)
         {
-            _isPreviousMovePass = false;
-
             if (IsSelfCapture(moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;
@@ -96,24 +92,15 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Handles the pass of a player. Two consecutive passes signal the end of game.
         /// </summary>
-        /// <param name="playerColor">Color of player, who passes.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <returns>The legality of move or new game phase notification.</returns>
-        protected override MoveResult Pass(StoneColor playerColor)
+        protected override MoveResult Pass(GameTreeNode currentNode)
         {
-            if (_isPreviousMovePass)
-            {
-                //TODO Aniko : check whether opponents score increases according to Chinese rules
+            //TODO Aniko : check whether opponents score increases according to Chinese rules
+            if (currentNode != null && currentNode.Move.Kind == MoveKind.Pass)
                 return MoveResult.StartLifeAndDeath;
-            }
             else
-            {
-                //TODO Aniko : check whether opponents score increases according to Chinese rules
-                _isPreviousMovePass = true;
                 return MoveResult.Legal;
-            }
-
         }
-
-
     }
 }

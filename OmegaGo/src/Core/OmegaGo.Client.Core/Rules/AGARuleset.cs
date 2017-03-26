@@ -12,7 +12,6 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public class AGARuleset : Ruleset
     {
-        private bool _isPreviousMovePass;
         private float _komi;
         private float _whiteScore;
         private float _blackScore;
@@ -24,7 +23,6 @@ namespace OmegaGo.Core.Rules
         /// <param name="gbSize">Size of the game board.</param>
         public AGARuleset(GameBoardSize gbSize, CountingType countingType) : base(gbSize)
         {
-            _isPreviousMovePass = false;
             _komi = 0.0f;
             _whiteScore = 0.0f;
             _blackScore = 0.0f;
@@ -79,8 +77,6 @@ namespace OmegaGo.Core.Rules
         /// <returns>The result of legality check.</returns>
         protected override MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history)
         {
-            _isPreviousMovePass = false;
-
             if (IsSelfCapture(moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;
@@ -103,31 +99,24 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Handles the pass of a player. Two consecutive passes signal the end of game.
         /// </summary>
-        /// <param name="playerColor">Color of player, who passes.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <returns>The legality of move or new game phase notification.</returns>
-        protected override MoveResult Pass(StoneColor playerColor)
+        protected override MoveResult Pass(GameTreeNode currentNode)
         {
-            StoneColor opponentColor = (playerColor == StoneColor.Black) ? StoneColor.White : StoneColor.Black;
+            // the black player starts the passing
+            if (currentNode != null && currentNode.Move.Kind == MoveKind.Pass && currentNode.Move.WhoMoves == StoneColor.Black)
+                return MoveResult.StartLifeAndDeath;
+            else
+                return MoveResult.Legal;
 
             //increase opponent's score
+            //TODO Aniko:
+            /*
             if (opponentColor == StoneColor.Black)
                 _blackScore++;
             else
-                _whiteScore++;
+                _whiteScore++;*/
 
-            //check previous move
-            if (_isPreviousMovePass)
-            {
-                return MoveResult.StartLifeAndDeath;
-            }
-
-            // Black player starts the passing
-            if (playerColor == StoneColor.Black)
-            {
-                _isPreviousMovePass = true;
-            }
-
-            return MoveResult.Legal;
         }
 
     }
