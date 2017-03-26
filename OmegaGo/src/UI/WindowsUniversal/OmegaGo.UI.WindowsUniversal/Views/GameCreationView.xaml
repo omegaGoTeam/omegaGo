@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=False}">
     <Page.Transitions>
@@ -17,7 +18,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
@@ -25,14 +26,12 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <TextBlock Text="New Game" 
+        <navigation:TitleControl Text="New Game" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
-                   Grid.Row="0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+                   Grid.Row="0" />
 
 
         <Grid x:Name="GameSettingsGrid"
