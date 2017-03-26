@@ -797,4 +797,82 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="EpicPlayQuest_Description" xml:space="preserve">
+    <value>Finish any game on a 25x25 or larger board.</value>
+  </data>
+  <data name="EpicPlayQuest_Name" xml:space="preserve">
+    <value>Epic</value>
+  </data>
+  <data name="GettingStrongerQuest_Description" xml:space="preserve">
+    <value>Win a solo game against Fuego.</value>
+  </data>
+  <data name="GettingStrongerQuest_Name" xml:space="preserve">
+    <value>Getting Stronger</value>
+  </data>
+  <data name="GreatLearnerQuest_Description" xml:space="preserve">
+    <value>Solve 20 tsumego problems.</value>
+  </data>
+  <data name="GreatLearnerQuest_Name" xml:space="preserve">
+    <value>Great Learner</value>
+  </data>
+  <data name="HiddenQuest_Description" xml:space="preserve">
+    <value>Your quest transformed! Solve any one tsumego problem.</value>
+  </data>
+  <data name="HiddenQuest_Name" xml:space="preserve">
+    <value>Hidden Quest!</value>
+  </data>
+  <data name="IgsChallengeQuest_Description" xml:space="preserve">
+    <value>Finish 3 games on the Pandanet server.</value>
+  </data>
+  <data name="IgsChallengeQuest_Name" xml:space="preserve">
+    <value>Pandanet Challenge</value>
+  </data>
+  <data name="KgsChallengeQuest_Description" xml:space="preserve">
+    <value>Finish 3 games on the KGS server.</value>
+  </data>
+  <data name="KgsChallengeQuest_Name" xml:space="preserve">
+    <value>KGS Challenge</value>
+  </data>
+  <data name="LearnerQuest_Description" xml:space="preserve">
+    <value>Solve 5 tsumego problems.</value>
+  </data>
+  <data name="LearnerQuest_Name" xml:space="preserve">
+    <value>Learner</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Description" xml:space="preserve">
+    <value>Finish an online game on a 19x19 board.</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Name" xml:space="preserve">
+    <value>Net Traditional</value>
+  </data>
+  <data name="PureSkillQuest_Description" xml:space="preserve">
+    <value>"Win a solo game against Fuego without handicap.</value>
+  </data>
+  <data name="PureSkillQuest_Name" xml:space="preserve">
+    <value>Pure Skill</value>
+  </data>
+  <data name="SoloVictoriesQuest_Description" xml:space="preserve">
+    <value>Win 3 solo games against an AI program.</value>
+  </data>
+  <data name="SoloVictoriesQuest_Name" xml:space="preserve">
+    <value>Human &gt; Computer</value>
+  </data>
+  <data name="TotalMasteryQuest_Description" xml:space="preserve">
+    <value>Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more.</value>
+  </data>
+  <data name="TotalMasteryQuest_Name" xml:space="preserve">
+    <value>Total Mastery</value>
+  </data>
+  <data name="TraditionalQuest_Description" xml:space="preserve">
+    <value>Finish any game on a 19x19 board.</value>
+  </data>
+  <data name="TraditionalQuest_Name" xml:space="preserve">
+    <value>Traditional</value>
+  </data>
+  <data name="UnevenStrengthQuest_Description" xml:space="preserve">
+    <value>Finish two solo or online games where one player has a handicap of two stones or more.</value>
+  </data>
+  <data name="UnevenStrengthQuest_Name" xml:space="preserve">
+    <value>Uneven Strength</value>
+  </data>
 </root>
