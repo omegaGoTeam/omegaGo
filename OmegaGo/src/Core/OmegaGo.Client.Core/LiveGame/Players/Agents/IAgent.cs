@@ -59,12 +59,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         IllegalMoveHandling IllegalMoveHandling { get; }
 
         /// <summary>
-        /// Informs the agent, that a move was confirmed
-        /// </summary>
-        /// <param name="move">Move</param>
-        void MovePerformed(Move move);
-
-        /// <summary>
         /// Informs the agent that his last move was illegal
         /// </summary>
         /// <param name="moveResult">Reason</param>

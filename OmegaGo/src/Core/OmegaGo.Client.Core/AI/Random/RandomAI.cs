@@ -13,25 +13,25 @@ namespace OmegaGo.Core.AI.Random
     {
         public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
 
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            var moves = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            var moves = gameInformation.GameTree.PrimaryMoveTimeline.ToList();
             if (moves.Any() &&
                moves.Last().Kind == MoveKind.Pass)
             {
-                return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
+                return AIDecision.MakeMove(Move.Pass(gameInformation.AIColor), "You passed, too!");
             }
-            GameBoard createdBoard = GameBoard.CreateBoardFromGameTree(preMoveInformation.GameInfo, preMoveInformation.GameTree);
+            GameBoard createdBoard = GameBoard.CreateBoardFromGameTree(gameInformation.GameInfo, gameInformation.GameTree);
             List<Position> possibleIntersections = 
                 Ruleset.Create(
-                    preMoveInformation.GameInfo.RulesetType, 
-                    preMoveInformation.GameInfo.BoardSize).GetAllLegalMoves(preMoveInformation.AIColor, createdBoard, preMoveInformation.GameTree.LastNode.GetGameBoardHistory().ToArray());
+                    gameInformation.GameInfo.RulesetType, 
+                    gameInformation.GameInfo.BoardSize).GetAllLegalMoves(gameInformation.AIColor, createdBoard, gameInformation.GameTree.LastNode.GetGameBoardHistory().ToArray());
             if (possibleIntersections.Count == 0)
             {
                 return AIDecision.Resign("There are no more moves left to do.");
             }
             Position chosen = possibleIntersections[Randomizer.Next(possibleIntersections.Count)];
-            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, chosen), "I chose at random.");
+            return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, chosen), "I chose at random.");
         }
     }
 }

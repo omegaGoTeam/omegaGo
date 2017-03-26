@@ -1,4 +1,4 @@
-﻿namespace OmegaGo.Core.AI.Fuego
+﻿namespace OmegaGo.Core.AI.FuegoSpace
 {
     public class GtpResponse
     {

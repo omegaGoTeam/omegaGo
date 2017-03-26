@@ -1,6 +1,6 @@
 using System;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;

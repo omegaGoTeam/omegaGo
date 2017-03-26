@@ -6,7 +6,7 @@ using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
 
-namespace OmegaGo.Core.AI.Fuego
+namespace OmegaGo.Core.AI.FuegoSpace
 {
     /// <summary>
     /// The Fuego AI is a Monte Carlo advanced Go intelligence.
@@ -49,24 +49,17 @@ namespace OmegaGo.Core.AI.Fuego
         /// <summary>
         /// Requests a move from Fuego AI
         /// </summary>
-        /// <param name="preMoveInformation">Information about the requested move</param>
+        /// <param name="gameInformation">Information about the requested move</param>
         /// <returns>Decision</returns>
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            FixHistory(preMoveInformation);
-
-            // Deprecated difficulty setting.
-            if (preMoveInformation.Difficulty != _timelimit)
-            {
-                SendCommand("go_param timelimit " + preMoveInformation.Difficulty);
-                _timelimit = preMoveInformation.Difficulty;
-            }
-
+            FixHistory(gameInformation);
+            
             // Move for what color?
-            string movecolor = preMoveInformation.AIColor == StoneColor.Black ? "B" : "W";
+            string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
 
             // Update remaining time
-            var timeLeftArguments = preMoveInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+            var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
             if (timeLeftArguments != null)
             {
                 int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
@@ -84,8 +77,8 @@ namespace OmegaGo.Core.AI.Fuego
                 return resignDecision;
             }
             var move = result == "PASS"
-                ? Move.Pass(preMoveInformation.AIColor)
-                : Move.PlaceStone(preMoveInformation.AIColor, Position.FromIgsCoordinates(result));
+                ? Move.Pass(gameInformation.AIColor)
+                : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
 
             // Change history
             _history.Add(move);
@@ -93,14 +86,14 @@ namespace OmegaGo.Core.AI.Fuego
             // Get win percentage
             string commandResult = SendCommand("uct_value_black").Text;
             float value = float.Parse(commandResult, CultureInfo.InvariantCulture);            
-            if (preMoveInformation.AIColor == StoneColor.White)
+            if (gameInformation.AIColor == StoneColor.White)
             {
                 value = 1 - value;
             }
             string winChanceNote = (Math.Abs(value) < ComparisonTolerance) ||
                                    (Math.Abs(value - 1) < ComparisonTolerance)
                 ? "Reading from opening book."
-                : "Win chance (" + preMoveInformation.AIColor + "): " + (100*value) + "%";
+                : "Win chance (" + gameInformation.AIColor + "): " + (100*value) + "%";
             Note(winChanceNote);
             var moveDecision = AIDecision.MakeMove(
                 move, winChanceNote);
@@ -113,17 +106,17 @@ namespace OmegaGo.Core.AI.Fuego
             return moveDecision;
         }
 
-        private void FixHistory(AIPreMoveInformation aiPreMoveInformation)
+        private void FixHistory(AiGameInformation aiGameInformation)
         {
             // Initialize if not yet.
             if (!_initialized)
             {
-                Initialize(aiPreMoveInformation);
+                Initialize(aiGameInformation);
                 _initialized = true;
             }
 
             // Fix history.
-            var trueHistory = aiPreMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            var trueHistory = aiGameInformation.GameTree.PrimaryMoveTimeline.ToList();
             for (int i = 0; i < trueHistory.Count; i++)
             {
                 if (this._history.Count == i)
@@ -136,18 +129,18 @@ namespace OmegaGo.Core.AI.Fuego
             }
         }
 
-        private void Initialize(AIPreMoveInformation preMoveInformation)
+        private void Initialize(AiGameInformation gameInformation)
         {
-            _engine = AISystems.FuegoBuilder.CreateEngine(preMoveInformation.GameInfo.BoardSize.Width);
+            _engine = AISystems.FuegoBuilder.CreateEngine(gameInformation.GameInfo.BoardSize.Width);
 
             // Board size
-            SendCommand("boardsize " + preMoveInformation.GameInfo.BoardSize.Width);
+            SendCommand("boardsize " + gameInformation.GameInfo.BoardSize.Width);
 
             // Strength
             SendCommand("uct_param_player ponder " + (Ponder ? "1": "0"));
 
             // Rules
-            switch (preMoveInformation.GameInfo.RulesetType)
+            switch (gameInformation.GameInfo.RulesetType)
             {
                 case RulesetType.AGA:
                 case RulesetType.Chinese:
@@ -159,7 +152,7 @@ namespace OmegaGo.Core.AI.Fuego
                     SendCommand("go_param_rules japanese_scoring 1");
                     break;
             }
-            SendCommand("komi " + preMoveInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
+            SendCommand("komi " + gameInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
             if (MaxGames > 0)
             {
                 SendCommand("uct_param_player max_games " + MaxGames);
@@ -173,11 +166,14 @@ namespace OmegaGo.Core.AI.Fuego
             // TODO Petr: on IGS, make it so two passes don't end a game
 
             // Time settings
-            string timeSettings = preMoveInformation.AiPlayer.Clock.GetGtpInitializationCommand();
+            string timeSettings = gameInformation.AiPlayer.Clock.GetGtpInitializationCommand();
             if (timeSettings != null)
             {
                 SendCommand(timeSettings);
             }
+
+            // Regardless of time controls, we are never willing to wait more than 15 seconds.
+            SendCommand("go_param timelimit 15");
 
             // Print beginning info
             Note("Komi set to " + SendCommand("get_komi").Text);
@@ -209,9 +205,9 @@ namespace OmegaGo.Core.AI.Fuego
             }
         }
 
-        public override AIDecision GetHint(AIPreMoveInformation preMoveInformation)
+        public override AIDecision GetHint(AiGameInformation gameInformation)
         {
-            var result = RequestMove(preMoveInformation);
+            var result = RequestMove(gameInformation);
             UndoOneMove();
             return result;
         }
@@ -221,8 +217,7 @@ namespace OmegaGo.Core.AI.Fuego
         }
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
-            FixHistory(new AI.AIPreMoveInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree,
-                TimeSpan.FromSeconds(5), 5));
+            FixHistory(new AI.AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
         }
 
         private void UndoOneMove()

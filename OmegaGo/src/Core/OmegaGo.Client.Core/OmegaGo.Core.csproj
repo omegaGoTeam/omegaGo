@@ -93,7 +93,7 @@
     <Compile Include="LiveGame\Players\Agents\Local\IHumanAgentActions.cs" />
     <Compile Include="AI\AICapabilities.cs" />
     <Compile Include="AI\AiDecision.cs" />
-    <Compile Include="AI\AIPreMoveInformation.cs" />
+    <Compile Include="AI\AiGameInformation.cs" />
     <Compile Include="AI\AiProgramBase.cs" />
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />

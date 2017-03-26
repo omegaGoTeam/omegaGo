@@ -4,7 +4,7 @@ using OmegaGo.UI.ViewModels;
 using System;
 using Windows.UI.Xaml;
 using MvvmCross.Platform;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.UI.Services.Dialogs;
 
@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 if (player.Agent is AiAgent)
                 {
-                    var fuego = (OmegaGo.Core.AI.Fuego.Fuego) ((AiAgent) player.Agent).AI;
+                    var fuego = (OmegaGo.Core.AI.FuegoSpace.Fuego) ((AiAgent) player.Agent).AI;
                     var response = fuego.SendCommand(this.FuegoCommand.Text);
                     await Mvx.Resolve<IDialogService>().ShowAsync(response.Text, "Fuego response");
                 }

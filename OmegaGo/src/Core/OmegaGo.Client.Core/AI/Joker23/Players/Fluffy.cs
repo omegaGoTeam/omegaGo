@@ -11,25 +11,25 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public int TreeDepth { get; set; }
 
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
-                preMoveInformation.GameInfo.BoardSize.Width,
+            JokerGame currentGame = new JokerGame(gameInformation.GameInfo.BoardSize.Height,
+                gameInformation.GameInfo.BoardSize.Width,
                 null,
                 null);
 
-            foreach(Move move in preMoveInformation.GameTree.PrimaryMoveTimeline)
+            foreach(Move move in gameInformation.GameTree.PrimaryMoveTimeline)
             {
                 currentGame.moves.AddLast(new JokerMove(move.WhoMoves == StoneColor.Black ? 'B' : 'W',
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 
-            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize);
+            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(gameInformation.GameTree.LastNode.BoardState, gameInformation.GameInfo.BoardSize);
 
-            JokerPoint point = new AlphaBetaPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame, this.TreeDepth);
+            JokerPoint point = new AlphaBetaPlayer(gameInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame, this.TreeDepth);
             
 
-            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
+            return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, new Position(point.x, point.y)),
                 "I chose using the minimax algorithm and heuristics.");
         }
     }

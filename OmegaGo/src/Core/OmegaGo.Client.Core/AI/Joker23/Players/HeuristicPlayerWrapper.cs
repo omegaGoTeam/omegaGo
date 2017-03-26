@@ -8,17 +8,17 @@ namespace OmegaGo.Core.AI.Joker23.Players
     {
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);        
 
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            var history = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+            var history = gameInformation.GameTree.PrimaryMoveTimeline.ToList();
             if (history.Any() &&
                   history.Last().Kind == MoveKind.Pass)
             {
-                return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
+                return AIDecision.MakeMove(Move.Pass(gameInformation.AIColor), "You passed, too!");
             }
 
-            JokerGame currentGame = new JokerGame(preMoveInformation.GameInfo.BoardSize.Height,
-                preMoveInformation.GameInfo.BoardSize.Width,
+            JokerGame currentGame = new JokerGame(gameInformation.GameInfo.BoardSize.Height,
+                gameInformation.GameInfo.BoardSize.Width,
                 null,
                 null);
 
@@ -28,12 +28,12 @@ namespace OmegaGo.Core.AI.Joker23.Players
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 
-            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(preMoveInformation.GameTree.LastNode.BoardState, preMoveInformation.GameInfo.BoardSize );
+            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(gameInformation.GameTree.LastNode.BoardState, gameInformation.GameInfo.BoardSize );
 
-            JokerPoint point = new HeuristicPlayer(preMoveInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame);
+            JokerPoint point = new HeuristicPlayer(gameInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame);
             
 
-            return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, new Position(point.x, point.y)),
+            return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, new Position(point.x, point.y)),
                 "I chose using heuristics.");
         }
     }

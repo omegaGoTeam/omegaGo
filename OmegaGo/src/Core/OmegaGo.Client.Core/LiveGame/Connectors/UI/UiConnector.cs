@@ -67,12 +67,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         }
 
         public event EventHandler<string> AiLog;
-        public event EventHandler<Tuple<Move,AIPreMoveInformation>> MoveWasPerformed;
+        public event EventHandler<Tuple<Move,AiGameInformation>> MoveWasPerformed;
         
         public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
         {
-            MoveWasPerformed?.Invoke(this, new Tuple<Game.Move, AI.AIPreMoveInformation>(move,
-                new AI.AIPreMoveInformation(info, move.WhoMoves, gamePlayer, gameTree, TimeSpan.FromSeconds(5), 5)));
+            MoveWasPerformed?.Invoke(this, new Tuple<Game.Move, AI.AiGameInformation>(move,
+                new AI.AiGameInformation(info, move.WhoMoves, gamePlayer, gameTree)));
         }
 
         public void RequestLifeDeathDone()

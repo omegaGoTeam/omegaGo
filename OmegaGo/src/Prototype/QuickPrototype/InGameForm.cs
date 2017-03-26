@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
@@ -455,7 +455,7 @@ namespace FormsPrototype
             }
         }
 
-        private async void bMakeMove_Click(object sender, EventArgs e)
+        private void bMakeMove_Click(object sender, EventArgs e)
         {
             string coordinates = tbInputMove.Text;
             Position position;
@@ -487,7 +487,7 @@ namespace FormsPrototype
             pictureBox1.Refresh();
         }
 
-        private async void bSay_Click(object sender, EventArgs e)
+        private void bSay_Click(object sender, EventArgs e)
         {
             if (_server is IgsConnection)
             {
@@ -532,7 +532,7 @@ namespace FormsPrototype
            }
         }
 
-        private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
             _uiConnector.RequestLifeDeathDone();
         }
@@ -542,7 +542,7 @@ namespace FormsPrototype
             groupboxMoveMaker.Visible = true;
         }
 
-        private async void bUndoLifeDeath_Click(object sender, EventArgs e)
+        private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
             _uiConnector.RequestLifeDeathUndoDeathMarks();
         }

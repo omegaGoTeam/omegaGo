@@ -75,7 +75,7 @@ namespace OmegaGo.UI.ViewModels
             ObserveDebuggingMessages();
         }
 
-        private void _uiConnector_MoveWasPerformed(object sender, Tuple<Move,AIPreMoveInformation> e)
+        private void _uiConnector_MoveWasPerformed(object sender, Tuple<Move,AiGameInformation> e)
         {
             this.Assistant.MovePerformed(e.Item1, e.Item2);
         }

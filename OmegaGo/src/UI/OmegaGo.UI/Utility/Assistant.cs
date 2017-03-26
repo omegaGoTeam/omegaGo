@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -52,7 +52,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task<AIDecision> Hint(GameInfo gameInfo, GamePlayer player, GameTree tree, StoneColor color)
         {
-            var aiTask = Task.Run(() => Program.GetHint(new AIPreMoveInformation(gameInfo, color, player, tree, TimeSpan.FromSeconds(400), 1)));
+            var aiTask = Task.Run(() => Program.GetHint(new AiGameInformation(gameInfo, color, player, tree)));
 
             AIDecision decision = await aiTask;
             return decision;
@@ -63,10 +63,10 @@ namespace OmegaGo.UI.ViewModels
             Program.MoveUndone();
         }
 
-        public void MovePerformed(Move move, AIPreMoveInformation aiPreMoveInformation)
+        public void MovePerformed(Move move, AiGameInformation aiGameInformation)
         {
-            Program.MovePerformed(move, aiPreMoveInformation.GameTree, aiPreMoveInformation.AiPlayer,
-                aiPreMoveInformation.GameInfo);
+            Program.MovePerformed(move, aiGameInformation.GameTree, aiGameInformation.AiPlayer,
+                aiGameInformation.GameInfo);
         }
     }
 }

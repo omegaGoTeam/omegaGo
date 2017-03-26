@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 
 namespace FormsFuego
 {
     /// <summary>
     /// This builder creates Fuego instances for the Win32 WinForms prototype.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngineBuilder" />
+    /// <seealso cref="OmegaGo.Core.AI.FuegoSpace.IGtpEngineBuilder" />
     public class Win32FuegoBuilder : IGtpEngineBuilder
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace FormsFuego
     /// <summary>
     /// A Fuego instance that is run as a Windows process. It expects the file 'fuego.exe' and 'book.dat' to be present in the current directory. This code is mostly copied from GameOfGo and we DO NOT have licence to use it. That means that this should not be released publicly.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngine" />
+    /// <seealso cref="OmegaGo.Core.AI.FuegoSpace.IGtpEngine" />
     public class Win32Fuego : IGtpEngine
     {
         private StreamWriter _writer;

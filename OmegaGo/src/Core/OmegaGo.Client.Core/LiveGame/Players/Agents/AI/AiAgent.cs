@@ -42,13 +42,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         
         public override async void PleaseMakeAMove()
         {
-            var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
+            var aiTask = Task.Run(() => _aiProgram.RequestMove(new AiGameInformation(
                GameInfo,
                Color,
                GameState.Players[Color],
-               GameState.GameTree,
-               _timeLimit,
-               _strength
+               GameState.GameTree
                )));
 
             AIDecision decision = await aiTask;
@@ -86,10 +84,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             return "Agent for " + this._aiProgram;
         }
-        public override void MovePerformed(Move move)
-        {
-           
-        }
+
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
             _aiProgram.MovePerformed(move, gameTree, informedPlayer, info);
