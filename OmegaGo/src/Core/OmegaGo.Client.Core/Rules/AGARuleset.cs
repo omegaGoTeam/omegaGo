@@ -59,6 +59,17 @@ namespace OmegaGo.Core.Rules
             else
                 scores = CountTerritory(currentNode, deadPositions);
 
+            //passing = 1 bonus point to opponent
+            IEnumerable<GameTreeNode> history = currentNode.GetNodeHistory();
+            foreach (GameTreeNode node in history)
+                if (node.Move.Kind == MoveKind.Pass)
+                {
+                    if (node.Move.WhoMoves == StoneColor.Black)
+                        scores.WhiteScore++;
+                    else if (node.Move.WhoMoves == StoneColor.White)
+                        scores.BlackScore++;
+                }
+
             scores.WhiteScore += RulesetInfo.Komi;
             return scores;
         }
@@ -102,15 +113,6 @@ namespace OmegaGo.Core.Rules
                 return MoveResult.StartLifeAndDeath;
             else
                 return MoveResult.Legal;
-
-            //increase opponent's score
-            //TODO Aniko:
-            /*
-            if (opponentColor == StoneColor.Black)
-                _blackScore++;
-            else
-                _whiteScore++;*/
-
         }
 
     }
