@@ -17,24 +17,24 @@
     </Page.Transitions>
     <Page.Resources>
         <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="LargeScreenStatisticsItemTemplate">
-            <Grid Margin="10">
+            <Grid Margin="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
-                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="130" Height="130" />
-                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="28" FontWeight="SemiLight" />
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="140" Height="140" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="26" FontWeight="SemiLight" />
                 <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontSize="18" FontWeight="Normal" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:DataType="statistics:StatisticsItem" x:Key="SmallScreenStatisticsItemTemplate">
-            <Grid Margin="10">
+            <Grid Margin="6">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
-                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="100" Height="100" />
-                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="24" FontWeight="SemiLight" />
+                <Ellipse Fill="{ThemeResource GameColorBrush}" Opacity="0.5" Width="110" Height="110" />
+                <TextBlock TextAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind Value}" FontSize="22" FontWeight="SemiLight" />
                 <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Description}" Margin="0,10,0,0" TextWrapping="Wrap" Grid.Row="1" FontWeight="Normal" />
             </Grid>
         </DataTemplate>
