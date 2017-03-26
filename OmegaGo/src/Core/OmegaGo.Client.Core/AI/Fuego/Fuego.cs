@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
@@ -224,6 +225,18 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             SendCommand("undo");
             _history.RemoveAt(_history.Count - 1);
+        }
+        public override async Task<IEnumerable<Position>> GetDeadPositions()
+        {
+            var result = SendCommand("final_status_list dead");
+            
+            string[] positions = result.Text.Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            List<Position> mark = new List<Game.Position>();
+            foreach(var position in positions)
+            {
+                mark.Add(Position.FromIgsCoordinates(position));
+            }
+            return mark;
         }
     }
 }

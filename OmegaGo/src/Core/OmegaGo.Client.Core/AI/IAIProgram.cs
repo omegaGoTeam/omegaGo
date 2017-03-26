@@ -39,5 +39,6 @@ namespace OmegaGo.Core.AI
 
         void MoveUndone();
         void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
+        Task<IEnumerable<Position>> GetDeadPositions();
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.AI.FuegoSpace;
@@ -9,7 +10,7 @@ using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.ViewModels
 {
-    internal class Assistant
+    public class Assistant
     {
         private IGameSettings gameSettings;
         private readonly bool _isOnlineGame;
@@ -67,6 +68,11 @@ namespace OmegaGo.UI.ViewModels
         {
             Program.MovePerformed(move, aiGameInformation.GameTree, aiGameInformation.AiPlayer,
                 aiGameInformation.GameInfo);
+        }
+
+        public async Task<IEnumerable<Position>> GetDeadPositions()
+        {
+            return await Program.GetDeadPositions();
         }
     }
 }

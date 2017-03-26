@@ -55,6 +55,11 @@ namespace OmegaGo.Core.AI
             // Stateless AI's don't need to do anything.
         }
 
+        public virtual Task<IEnumerable<Position>> GetDeadPositions()
+        {
+            throw new Exception("Nobody except Fuego supports this.");
+        }
+
         public override string ToString()
         {
             return this.GetType().Name;
