@@ -79,7 +79,8 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
                 {
-                    ChannelId = kgsInfo.ChannelId
+                    ChannelId = kgsInfo.ChannelId,
+                    Loc = "PASS"
                 });
             }
             else
@@ -96,9 +97,20 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
 
-        public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
+        public async Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            string opponentsRole = "black";
+            if (kgsInfo.Black.Name == kgsConnection.Username)
+            {
+                opponentsRole = "white";
+            }
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_ADD_TIME", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                Role = opponentsRole,
+                Time = (float) additionalTime.TotalSeconds
+            });
         }
 
         public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
@@ -116,9 +128,13 @@ namespace OmegaGo.Core.Online.Kgs
             throw new NotImplementedException();
         }
 
-        public Task Resign(RemoteGameInfo remoteInfo)
+        public async Task Resign(RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            var kgsInfo = (KgsGameInfo) remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_RESIGN", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+            });
         }
 
         public async Task AcceptChallengeAsync(KgsChallenge selectedItem)
