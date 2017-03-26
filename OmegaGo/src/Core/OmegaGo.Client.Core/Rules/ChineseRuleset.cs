@@ -13,8 +13,6 @@ namespace OmegaGo.Core.Rules
     public class ChineseRuleset : Ruleset
     {
         private float _komi;
-        private float _whiteScore;
-        private float _blackScore;
 
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
@@ -23,8 +21,6 @@ namespace OmegaGo.Core.Rules
         public ChineseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
             _komi = 0.0f;
-            _whiteScore = 0.0f;
-            _blackScore = 0.0f;
         }
 
         /// <summary>
@@ -50,14 +46,13 @@ namespace OmegaGo.Core.Rules
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
         /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        public override Scores CountScore(GameBoard currentBoard)
+        public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            var scores = CountArea();
-
-            scores.WhiteScore += _komi + _whiteScore;
-            scores.BlackScore += _blackScore;
+            var scores = CountArea(currentNode, deadPositions);
+            scores.WhiteScore += _komi;
 
             return scores;
         }

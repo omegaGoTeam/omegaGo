@@ -43,8 +43,6 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public GroupState GroupState { get; set; }
 
-        public List<Position> Captures { get; set; }
-
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 
         public List<KeyValuePair<Position, string>> Labels { get; set; }
@@ -253,10 +251,9 @@ namespace OmegaGo.Core.Game
             if (Move.Kind != MoveKind.None)
             {
                 var processMove = ruleset.ProcessMove(Parent,Move);
-                //TODO Martin, Aniko Store captures?
                 BoardState = processMove.NewBoard;
                 GroupState = processMove.NewGroupState;
-                Captures = processMove.Captures;
+                Move.Captures.AddRange(processMove.Captures);
             }
             else
             {

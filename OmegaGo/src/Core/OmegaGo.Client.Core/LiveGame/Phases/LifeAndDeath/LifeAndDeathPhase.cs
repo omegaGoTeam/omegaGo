@@ -161,10 +161,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Scores scores = e;
             if (scores == null)
             {
-                var deadPositions = DeadPositions;
-                GameBoard boardAfterRemovalOfDeadStones =
-                    Controller.GameTree.LastNode.BoardState.BoardWithoutTheseStones(deadPositions);
-                scores = Controller.Ruleset.CountScore(boardAfterRemovalOfDeadStones);
+                scores = Controller.Ruleset.CountScore(Controller.GameTree.LastNode, DeadPositions);
             }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
             GamePlayer winner;

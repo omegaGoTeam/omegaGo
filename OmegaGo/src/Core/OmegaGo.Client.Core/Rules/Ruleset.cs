@@ -66,9 +66,10 @@ namespace OmegaGo.Core.Rules
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
         /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        public abstract Scores CountScore(GameBoard currentBoard);
+        public abstract Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
@@ -421,10 +422,12 @@ namespace OmegaGo.Core.Rules
         /// The area of a player are all live stones of player left on the board together with any points of his territory. In this case, prisoners are ignored.
         /// This method adds up total area of players.
         /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">Positions marked as dead.</param>
         /// <returns>The score of players.</returns>
-        protected Scores CountArea()
+        protected Scores CountArea(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            Scores scores = CountTerritory();
+            Scores scores = CountTerritory(currentNode, deadPositions);
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
             {
                 for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
@@ -437,22 +440,45 @@ namespace OmegaGo.Core.Rules
             }
 
             return scores;
-
         }
 
         /// <summary>
         /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
         /// This method adds up total territory of players. The scores include prisoners and dead stones. 
         /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">Positions marked as dead.</param>
         /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
-        protected Scores CountTerritory()
+        protected Scores CountTerritory(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            Scores scores = new Scores();
-            scores.WhiteScore = 0;
-            scores.BlackScore = 0;
+            Scores scores = new Scores(0, 0);
+
+            //prisoners
+            IEnumerable<GameTreeNode> history = currentNode.GetNodeHistory();
+            foreach (GameTreeNode node in history)
+            {
+                if (node.Move.Captures.Count != 0)
+                {
+                    if (node.Move.WhoMoves == StoneColor.Black)
+                        scores.WhiteScore -= node.Move.Captures.Count;
+                    else if (node.Move.WhoMoves == StoneColor.White)
+                        scores.BlackScore -= node.Move.Captures.Count;
+                }
+            }
+
+            //dead stones
+            foreach (Position position in deadPositions)
+            {
+                if (RulesetInfo.BoardState[position.X, position.Y] == StoneColor.Black)
+                    scores.BlackScore--;
+                else if (RulesetInfo.BoardState[position.X, position.Y] == StoneColor.White)
+                    scores.WhiteScore--;
+            }
+
+            //regions
+            RulesetInfo.BoardState = RulesetInfo.BoardState.BoardWithoutTheseStones(deadPositions);
 
             Territory[,] regions = DetermineTerritory(RulesetInfo.BoardState);
-
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
             {
                 for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)

@@ -13,8 +13,6 @@ namespace OmegaGo.Core.Rules
     public class AGARuleset : Ruleset
     {
         private float _komi;
-        private float _whiteScore;
-        private float _blackScore;
         private CountingType _countingType;
 
         /// <summary>
@@ -24,8 +22,6 @@ namespace OmegaGo.Core.Rules
         public AGARuleset(GameBoardSize gbSize, CountingType countingType) : base(gbSize)
         {
             _komi = 0.0f;
-            _whiteScore = 0.0f;
-            _blackScore = 0.0f;
             _countingType = countingType;
         }
 
@@ -54,18 +50,18 @@ namespace OmegaGo.Core.Rules
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
         /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        public override Scores CountScore(GameBoard currentBoard)
+        public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
             Scores scores;
             if (_countingType == CountingType.Area)
-                scores = CountArea();
+                scores = CountArea(currentNode, deadPositions);
             else
-                scores = CountTerritory();
+                scores = CountTerritory(currentNode, deadPositions);
 
-            scores.WhiteScore += _komi+_whiteScore;
-            scores.BlackScore += _blackScore;
+            scores.WhiteScore += _komi;
             return scores;
         }
         
