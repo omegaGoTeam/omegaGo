@@ -27,8 +27,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             Info = kgsGameInfo;
             KgsConnector = new KgsConnector(this, serverConnection);
             RegisterConnector(KgsConnector);
+            KgsConnector.GameEndedByServer += KgsConnector_GameEndedByServer;
         }
-        
+
+        private void KgsConnector_GameEndedByServer(object sender, State.GameEndInformation e)
+        {
+            EndGame(e);
+        }
 
         internal KgsConnector KgsConnector { get; }
         /// <summary>

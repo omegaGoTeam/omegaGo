@@ -89,6 +89,9 @@ namespace OmegaGo.Core.Online.Kgs
                 case "CHALLENGE_JOIN":
                     HandleInterruptMessage<ChallengeJoin>(message);
                     return true;
+                case "GAME_OVER":
+                    HandleInterruptMessage<GameOver>(message);
+                    return true;
                 case "CHALLENGE_PROPOSAL":
                 case "CHALLENGE_FINAL":
                 case "GAME_NOTIFY":
