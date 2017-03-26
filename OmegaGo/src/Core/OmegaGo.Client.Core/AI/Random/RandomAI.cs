@@ -25,7 +25,7 @@ namespace OmegaGo.Core.AI.Random
             MoveResult[,] moveResults = 
                 Ruleset.Create(
                     preMoveInformation.GameInfo.RulesetType, 
-                    preMoveInformation.GameInfo.BoardSize,CountingType.Area).GetAllLegalMoves(preMoveInformation.GameTree.LastNode);
+                    preMoveInformation.GameInfo.BoardSize,CountingType.Area).GetMoveResult(preMoveInformation.GameTree.LastNode);
             List<Position> possibleIntersections = new List<Position>();
             for (int x = 0; x < preMoveInformation.GameInfo.BoardSize.Width; x++)
                 for (int y = 0; y < preMoveInformation.GameInfo.BoardSize.Height; y++)

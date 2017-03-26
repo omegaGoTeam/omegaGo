@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
+    /// <summary>
+    /// Two intersections are said to be adjacent if they are connected by a horizontal or vertical line with no other intersections between them.
+    /// Two placed stones of the same color are said to be connected if it is possible to draw a path from one intersection to the other by passing through adjacent intersections of the same color.
+    /// This class represents a group of stones which are connected.
+    /// </summary>
     class Group
     {
         private readonly int _id;
@@ -15,6 +20,11 @@ namespace OmegaGo.Core.Rules
         private List<Position> _members;
         private bool[,] _checkedInters;
 
+        /// <summary>
+        /// Initializes a new <see cref="Group"/>.
+        /// </summary>
+        /// <param name="id">Unique ID of new group.</param>
+        /// <param name="color">The color of player who controlles the group.</param>
         public Group(int id, StoneColor color)
         {
             _id = id;
@@ -41,27 +51,82 @@ namespace OmegaGo.Core.Rules
                 for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
                     _checkedInters[i, j] = group._checkedInters[i, j];
         }
-
-
+        
+        /// <summary>
+        /// Unique ID of group.
+        /// </summary>
         public int ID
         {
             get { return _id; }
         }
 
+        /// <summary>
+        /// List of group members.
+        /// </summary>
         public List<Position> Members
         {
             get { return _members;}
 
         }
 
+        /// <summary>
+        /// Count of empty intersections (liberties) around the group.
+        /// </summary>
         public int LibertyCount
         {
             get { return _libertyCount; }
         }
 
+        /// <summary>
+        /// The color of player who controlles the group.
+        /// </summary>
         public StoneColor GroupColor
         {
             get { return _groupColor; }
+        }
+
+        /// <summary>
+        /// Finds the members of a group.
+        /// </summary>
+        /// <param name="position">Starting position.</param>
+        public void DiscoverGroup(Position position)
+        {
+            if (!_checkedInters[position.X, position.Y])
+            {
+                _members.Add(position);
+                RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
+                _checkedInters[position.X, position.Y] = true;
+            }
+            Position newp = new Position();
+
+            //has same unchecked right neighbour
+            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
+            {
+                newp.X = position.X + 1;
+                newp.Y = position.Y;
+                DiscoverGroup(newp);
+            }
+            //has same unchecked upper neighbour
+            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
+            {
+                newp.X = position.X;
+                newp.Y = position.Y + 1;
+                DiscoverGroup(newp);
+            }
+            //has same unchecked left neighbour
+            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
+            {
+                newp.X = position.X - 1;
+                newp.Y = position.Y;
+                DiscoverGroup(newp);
+            }
+            //has same unchecked bottom neighbour
+            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
+            {
+                newp.X = position.X;
+                newp.Y = position.Y - 1;
+                DiscoverGroup(newp);
+            }
         }
 
         /// <summary>
@@ -80,7 +145,7 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Changes the ID of group.
+        /// Changes the ID of group in group map.
         /// </summary>
         /// <param name="id">New group ID.</param>
         /// <param name="memberList">The members of group.</param>
@@ -119,25 +184,6 @@ namespace OmegaGo.Core.Rules
             _checkedInters[position.X, position.Y] = true;
         }
 
-        /// <summary>
-        /// Calculates the number of empty intersection around the given position.
-        /// </summary>
-        /// <param name="position">Position on the board.</param>
-        /// <returns>Returns the number of empty intersection around the given position.</returns>
-        private int GetLiberty(Position position)
-        {
-            int liberty = 0;
-            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == StoneColor.None)
-                liberty++;
-            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == StoneColor.None)
-                liberty++;
-            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == StoneColor.None)
-                liberty++;
-            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == StoneColor.None)
-                liberty++;
-            return liberty;
-        }
-        
         /// <summary>
         /// Delete the group from group map, group list and board.
         /// Updates the liberties.
@@ -204,50 +250,6 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Finds the members of a group.
-        /// </summary>
-        /// <param name="position">Starting position.</param>
-        public void DiscoverGroup(Position position)
-        {
-            if (!_checkedInters[position.X, position.Y])
-            {
-                _members.Add(position);
-                RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
-                _checkedInters[position.X, position.Y] = true;
-            }
-            Position newp = new Position();
-
-            //has same unchecked right neighbour
-            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
-            {
-                newp.X = position.X + 1;
-                newp.Y = position.Y;
-                DiscoverGroup(newp);
-            }
-            //has same unchecked upper neighbour
-            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
-            {
-                newp.X = position.X;
-                newp.Y = position.Y + 1;
-                DiscoverGroup( newp);
-            }
-            //has same unchecked left neighbour
-            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
-            {
-                newp.X = position.X - 1;
-                newp.Y = position.Y;
-                DiscoverGroup( newp);
-            }
-            //has same unchecked bottom neighbour
-            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
-            {
-                newp.X = position.X;
-                newp.Y = position.Y - 1;
-                DiscoverGroup( newp);
-            }
-        }
-
-        /// <summary>
         /// Returns the IDs of groups around the intersection.
         /// </summary>
         /// <param name="position">Coordinates of intersection</param>
@@ -270,5 +272,25 @@ namespace OmegaGo.Core.Rules
 
             return neighbours.Distinct().ToList();
         }
+
+        /// <summary>
+        /// Calculates the number of empty intersection around the given position.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <returns>Returns the number of empty intersection around the given position.</returns>
+        private int GetLiberty(Position position)
+        {
+            int liberty = 0;
+            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == StoneColor.None)
+                liberty++;
+            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == StoneColor.None)
+                liberty++;
+            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == StoneColor.None)
+                liberty++;
+            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == StoneColor.None)
+                liberty++;
+            return liberty;
+        }
+
     }
 }

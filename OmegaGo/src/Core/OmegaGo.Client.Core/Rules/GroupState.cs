@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
+    /// <summary>
+    /// Represents the current state of groups on the board: list of groups and group map.
+    /// </summary>
     public class GroupState
     {
-        internal Group[] Groups { get; set; }
-
-        internal int[,] GroupMap { get; set; }
-
+        /// <summary>
+        /// Initializes a new <see cref="GroupState"/>.
+        /// </summary>
+        /// <param name="gbSize">The size of game board.</param>
         public GroupState(GameBoardSize gbSize)
         {
             Groups = new Group[gbSize.Height * gbSize.Width];
@@ -20,9 +23,9 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Initializes a new <see cref="GroupState"/> as a copy of the given game board.
+        /// Initializes a new <see cref="GroupState"/> as a copy of the given group state.
         /// </summary>
-        /// <param name="gameBoard">The game board to copy.</param>
+        /// <param name="gameState">The group state to copy.</param>
         public GroupState(GroupState groupState)
             : this(RulesetInfo.BoardSize)
         {
@@ -40,18 +43,14 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Creates new group intance.
+        /// List of groups on the table.
         /// </summary>
-        /// <param name="color">Color of stones in group.</param>
-        /// <param name="position"></param>
-        /// <returns></returns>
-        internal Group CreateNewGroup(StoneColor color, Position position)
-        {
-            int ID = GetUniqueID();
-            Group newGroup = new Group(ID, color);
-            newGroup.AddStoneToEmptyGroup(position);
-            return newGroup;
-        }
+        internal Group[] Groups { get; set; }
+
+        /// <summary>
+        /// Table (map) of intersections containing the ID of group to which the intersection belongs.
+        /// </summary>
+        internal int[,] GroupMap { get; set; }
 
         /// <summary>
         /// Finds the smallest unused group ID.
@@ -70,8 +69,51 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
+        /// Creates new group intance with one member.
+        /// </summary>
+        /// <param name="color">Color of stones in group.</param>
+        /// <param name="position">The position of group member.</param>
+        /// <returns>Created group with one member.</returns>
+        internal Group CreateNewGroup(StoneColor color, Position position)
+        {
+            int ID = GetUniqueID();
+            Group newGroup = new Group(ID, color);
+            newGroup.AddStoneToEmptyGroup(position);
+            return newGroup;
+        }
+        
+        /// <summary>
+        /// Adds stone to the group map, group list and board.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <param name="color">Color of stone.</param>
+        internal void AddStoneToBoard(Position position, StoneColor color)
+        {
+            Group newGroup= CreateNewGroup(color,position);
+            List<int> neighbourGroups = newGroup.GetNeighbourGroups(position);
+            foreach (int groupID in neighbourGroups)
+            {
+                Group group = RulesetInfo.GroupState.Groups[groupID];
+                group.DecreaseLibertyCount(1);
+                //join
+                if (group.GroupColor == newGroup.GroupColor)
+                {
+                    //choose group with smaller ID
+                    if (group.ID < newGroup.ID)
+                    {
+                        newGroup.JoinGroupWith(group);
+                        newGroup = group;
+                    }
+                    else
+                        group.JoinGroupWith(group);
+                }
+            }
+            RulesetInfo.BoardState[position.X, position.Y] = color;
+        }
+
+        /// <summary>
         /// Counts the liberties of groups: For each empty intersection increases the liberty of neighbour groups.
-        /// Call after discovering all groups.
+        /// Call after discovering all groups (method FillGroupMap()).
         /// </summary>
         internal void CountLiberties()
         {
@@ -111,35 +153,6 @@ namespace OmegaGo.Core.Rules
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Adds stone to the group map, group list and board.
-        /// </summary>
-        /// <param name="position">Position on the board.</param>
-        /// <param name="color">Color of stone.</param>
-        internal void AddStoneToBoard(Position position, StoneColor color)
-        {
-            Group newGroup= CreateNewGroup(color,position);
-            List<int> neighbourGroups = newGroup.GetNeighbourGroups(position);
-            foreach (int groupID in neighbourGroups)
-            {
-                Group group = RulesetInfo.GroupState.Groups[groupID];
-                group.DecreaseLibertyCount(1);
-                //join
-                if (group.GroupColor == newGroup.GroupColor)
-                {
-                    //choose group with smaller ID
-                    if (group.ID < newGroup.ID)
-                    {
-                        newGroup.JoinGroupWith(group);
-                        newGroup = group;
-                    }
-                    else
-                        group.JoinGroupWith(group);
-                }
-            }
-            RulesetInfo.BoardState[position.X, position.Y] = color;
         }
 
         /// <summary>

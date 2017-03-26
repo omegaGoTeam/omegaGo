@@ -40,7 +40,7 @@
         /// </summary>
         StartLifeAndDeath,
         /// <summary>
-        /// The move is ignored. This makes it possible for specific game types to alter ruleset decision logic
+        /// The move is ignored. This makes it possible for specific game types to alter ruleset decision logic.
         /// </summary>
         Ignore
     }
