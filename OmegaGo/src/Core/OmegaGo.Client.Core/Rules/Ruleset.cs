@@ -209,7 +209,15 @@ namespace OmegaGo.Core.Rules
         public MoveResult[,] GetMoveResult(GameTreeNode currentNode)
         {
             GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
-            StoneColor player = currentNode.Move.WhoMoves.GetOpponentColor();
+            StoneColor player;
+            if (currentNode.Move.WhoMoves == StoneColor.None)
+            {
+                player = StoneColor.White; // TODO Petr: ensure this is actually appropriate in all such situations (probably isn't)
+            }
+            else
+            {
+                player = currentNode.Move.WhoMoves.GetOpponentColor();
+            }
             MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
             
             for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
