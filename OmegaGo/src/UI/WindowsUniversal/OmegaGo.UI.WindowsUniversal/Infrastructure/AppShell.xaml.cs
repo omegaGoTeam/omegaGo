@@ -4,19 +4,25 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.Services.Store.Engagement;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
 
@@ -33,7 +39,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private static readonly Dictionary<Window, AppShell> AppShells = new Dictionary<Window, AppShell>();
 
+        private DispatcherTimer _notificationTimer;
+
         private IGameSettings _settings;
+        private IFeedbackService _feedback;
 
         private AppShell(Window window)
         {
@@ -46,6 +55,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
             //debug-only cheats
             InitCheats();
+            InitNotifications();
+
+            InitFeedback();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -125,44 +137,28 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             get
             {
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundImage)
-                {
-                    case BackgroundImage.Go:
-                    case BackgroundImage.None:
-                        return 1;
-                    case BackgroundImage.Shrine:
-                    case BackgroundImage.Temple:
-                    case BackgroundImage.Forest:
-                        return 0.5f;
-                    default:
-                        return 1;
-                }
+                return _settings.Display.BackgroundColorOpacity;
+            }
+        }
+
+        public ElementTheme AppTheme
+        {
+            get
+            {
+                _settings = _settings ?? Mvx.Resolve<IGameSettings>();
+                return _settings.Display.AppTheme == Controls.Themes.AppTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
             }
         }
 
         /// <summary>
         /// Background color
         /// </summary>
-        public Windows.UI.Xaml.Media.Brush BackgroundColor
+        public Color BackgroundColor
         {
             get
             {
-                Color color;
                 _settings = _settings ?? Mvx.Resolve<IGameSettings>();
-                switch (_settings.Display.BackgroundColor)
-                {
-                    case Game.Styles.BackgroundColor.Basic:
-                        color = Color.FromArgb(170, 253, 210, 112);
-                        break;
-                    case Game.Styles.BackgroundColor.Green:
-                        color = Color.FromArgb(220, 164, 242, 167);
-                        break;
-                    case Game.Styles.BackgroundColor.None:
-                    default:
-                        color = Colors.Transparent;
-                        break;
-                }
-                return new Windows.UI.Xaml.Media.SolidColorBrush(color);
+                return _settings.Display.BackgroundColor.ToWindowsColor();
             }
         }
 
@@ -205,6 +201,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundOpacity));
             OnPropertyChanged(nameof(BackgroundColor));
             OnPropertyChanged(nameof(BackgroundImageUrl));
+            OnPropertyChanged(nameof(AppTheme));
         }
 
         /// <summary>
@@ -239,7 +236,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             return false;
         }
 
-
+        //TODO Martin: Move to a separate control along with the UI
         /// <summary>
         /// Add this to a server when SFX is merged in.
         /// </summary>
@@ -247,6 +244,40 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         public void TriggerBubbleNotification(BubbleNotification notification)
         {
             BubbleNotifications.Add(notification);
+            notification.FirstAppeared = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Initializes bubble notifications
+        /// </summary>
+        private void InitNotifications()
+        {
+            _notificationTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _notificationTimer.Tick += (sender, e) => ExpireNotifications();
+            _notificationTimer.Start();
+        }
+
+        private void InitFeedback()
+        {
+            if (StoreServicesFeedbackLauncher.IsSupported()) FeedbackButton.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Expires the notifications periodically
+        /// </summary>
+        private void ExpireNotifications()
+        {
+            for (int ni = BubbleNotifications.Count - 1; ni >= 0; ni--)
+            {
+                var notification = BubbleNotifications[ni];
+                if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)
+                {
+                    BubbleNotifications.RemoveAt(ni);
+                }
+            }
         }
 
         /// <summary>
@@ -338,6 +369,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Height = sender.Height;
+            RightTitleBarMask.Width = sender.SystemOverlayRightInset;
         }
 
         /// <summary>
@@ -387,6 +419,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
+        }
+
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
+            await _feedback.LaunchAsync();
         }
     }
 }

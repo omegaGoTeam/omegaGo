@@ -67,13 +67,18 @@
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
         </TextBlock>
-        <Button x:Name="FullScreenButton" Visibility="Collapsed" VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="GoFullScreen_Click" Margin="12">
-            <FontIcon Glyph="&#xE1D9;" />
+        <Button x:Name="FullScreenButton" Visibility="Collapsed" VerticalAlignment="Top" ToolTipService.ToolTip="{x:Bind Localizer.ToggleFullscreenTooltip}" HorizontalAlignment="Right" Click="FullScreenButtonClick" Margin="12">
+            <FontIcon x:Name="FullScreenButtonIcon" Glyph="&#xE1D9;" />
         </Button>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
 
             <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListPanel}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ItemsControl.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </ItemsControl.ItemContainerTransitions>
                 <ItemsControl.Items>
                     <mainMenu:MainMenuButton Margin="10" x:Name="TutorialButton" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
                         <mainMenu:MainMenuButton.Icon>
@@ -168,11 +173,17 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Margin="12"
+                    VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="FeedbackButton" Margin="0,0,12,0" FontFamily="Segoe MDL2 Assets" Command="{x:Bind VM.LaunchFeedbackCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{x:Bind VM.ShowFeedbackButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+                <TextBlock VerticalAlignment="Top">
+                    <Run Text="&#xE939;" FontFamily="Segoe MDL2 Assets" />
+                    <Run Text=" Feedback" />
+                </TextBlock>
+            </Button>
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
-                  FontSize="26"/>
+                  FontSize="20" />
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

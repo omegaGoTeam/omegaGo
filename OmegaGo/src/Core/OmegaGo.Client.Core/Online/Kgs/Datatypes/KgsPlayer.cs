@@ -18,5 +18,10 @@
         /// </summary>
         public User User { get; set; }
         // simul games: handicap, komi not supported
+
+        public override string ToString()
+        {
+            return Name + "/" + User + "/" + Role;
+        }
     }
 }

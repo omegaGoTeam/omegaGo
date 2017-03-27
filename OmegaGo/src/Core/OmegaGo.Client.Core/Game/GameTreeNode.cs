@@ -261,5 +261,10 @@ namespace OmegaGo.Core.Game
                 BoardState = copyOfPreviousBoard;
             }
         }
+
+        public override string ToString()
+        {
+            return Move + "/" + BoardState;
+        }
     }
 }

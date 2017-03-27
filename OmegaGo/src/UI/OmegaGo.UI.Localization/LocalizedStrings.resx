@@ -221,7 +221,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Board settings</value>
   </data>
   <data name="BoardSize" xml:space="preserve">
-    <value>Board Size</value>
+    <value>Board size</value>
     <comment>:-)</comment>
   </data>
   <data name="BoardTheme" xml:space="preserve">
@@ -692,6 +692,12 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Lite</value>
   </data>
+  <data name="OmegaGoRankColon" xml:space="preserve">
+    <value>omegaGo rank:</value>
+  </data>
+  <data name="PointsColon" xml:space="preserve">
+    <value>Points:</value>
+  </data>
   <data name="IgsHyperlink" xml:space="preserve">
     <value>Create a new Pandanet account (opens a browser window)</value>
   </data>
@@ -730,5 +736,143 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="RememberPasswordCaption" xml:space="preserve">
     <value>Remember password</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Background image opacity</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="ControlStyleChangeInfo" xml:space="preserve">
+    <value>To apply control style change, please restart the application.</value>
+  </data>
+  <data name="CanResign" xml:space="preserve">
+    <value>Can resign</value>
+  </data>
+  <data name="CanResignTooltip" xml:space="preserve">
+    <value>If checked, Fuego will resign when it has little chance to win. Fuego will never resign in handicap games.</value>
+  </data>
+  <data name="ConfigureEllipsis" xml:space="preserve">
+    <value>Configure...</value>
+  </data>
+  <data name="MaximumBoardSize" xml:space="preserve">
+    <value>Maximum board size:</value>
+  </data>
+  <data name="MaxPlayoutsColon" xml:space="preserve">
+    <value>Max playouts:</value>
+  </data>
+  <data name="MaxPlayoutsTooltip" xml:space="preserve">
+    <value>More playouts means more intelligent moves, but also more time taken to make a move.</value>
+  </data>
+  <data name="MinimumBoardSize" xml:space="preserve">
+    <value>Minimum board size:</value>
+  </data>
+  <data name="MoreEllipsis" xml:space="preserve">
+    <value>More...</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NonSquareBoardsPermitted" xml:space="preserve">
+    <value>Non-square boards permitted:</value>
+  </data>
+  <data name="Ponder" xml:space="preserve">
+    <value>Think during opponent's turn</value>
+  </data>
+  <data name="PonderTooltip" xml:space="preserve">
+    <value>If checked, Fuego will use continue thinking even when it's not its turn. This will increase Fuego's strength in timed games.</value>
+  </data>
+  <data name="TreeDepthColon" xml:space="preserve">
+    <value>Tree depth:</value>
+  </data>
+  <data name="TreeDepthTooltip" xml:space="preserve">
+    <value>A greater tree depth means more intelligent moves, but also more time taken to make a move.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="EpicPlayQuest_Description" xml:space="preserve">
+    <value>Finish any game on a 25x25 or larger board.</value>
+  </data>
+  <data name="EpicPlayQuest_Name" xml:space="preserve">
+    <value>Epic</value>
+  </data>
+  <data name="GettingStrongerQuest_Description" xml:space="preserve">
+    <value>Win a solo game against Fuego.</value>
+  </data>
+  <data name="GettingStrongerQuest_Name" xml:space="preserve">
+    <value>Getting Stronger</value>
+  </data>
+  <data name="GreatLearnerQuest_Description" xml:space="preserve">
+    <value>Solve 20 tsumego problems.</value>
+  </data>
+  <data name="GreatLearnerQuest_Name" xml:space="preserve">
+    <value>Great Learner</value>
+  </data>
+  <data name="HiddenQuest_Description" xml:space="preserve">
+    <value>Your quest transformed! Solve any one tsumego problem.</value>
+  </data>
+  <data name="HiddenQuest_Name" xml:space="preserve">
+    <value>Hidden Quest!</value>
+  </data>
+  <data name="IgsChallengeQuest_Description" xml:space="preserve">
+    <value>Finish 3 games on the Pandanet server.</value>
+  </data>
+  <data name="IgsChallengeQuest_Name" xml:space="preserve">
+    <value>Pandanet Challenge</value>
+  </data>
+  <data name="KgsChallengeQuest_Description" xml:space="preserve">
+    <value>Finish 3 games on the KGS server.</value>
+  </data>
+  <data name="KgsChallengeQuest_Name" xml:space="preserve">
+    <value>KGS Challenge</value>
+  </data>
+  <data name="LearnerQuest_Description" xml:space="preserve">
+    <value>Solve 5 tsumego problems.</value>
+  </data>
+  <data name="LearnerQuest_Name" xml:space="preserve">
+    <value>Learner</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Description" xml:space="preserve">
+    <value>Finish an online game on a 19x19 board.</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Name" xml:space="preserve">
+    <value>Net Traditional</value>
+  </data>
+  <data name="PureSkillQuest_Description" xml:space="preserve">
+    <value>"Win a solo game against Fuego without handicap.</value>
+  </data>
+  <data name="PureSkillQuest_Name" xml:space="preserve">
+    <value>Pure Skill</value>
+  </data>
+  <data name="SoloVictoriesQuest_Description" xml:space="preserve">
+    <value>Win 3 solo games against an AI program.</value>
+  </data>
+  <data name="SoloVictoriesQuest_Name" xml:space="preserve">
+    <value>Human &gt; Computer</value>
+  </data>
+  <data name="TotalMasteryQuest_Description" xml:space="preserve">
+    <value>Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more.</value>
+  </data>
+  <data name="TotalMasteryQuest_Name" xml:space="preserve">
+    <value>Total Mastery</value>
+  </data>
+  <data name="TraditionalQuest_Description" xml:space="preserve">
+    <value>Finish any game on a 19x19 board.</value>
+  </data>
+  <data name="TraditionalQuest_Name" xml:space="preserve">
+    <value>Traditional</value>
+  </data>
+  <data name="UnevenStrengthQuest_Description" xml:space="preserve">
+    <value>Finish two solo or online games where one player has a handicap of two stones or more.</value>
+  </data>
+  <data name="UnevenStrengthQuest_Name" xml:space="preserve">
+    <value>Uneven Strength</value>
   </data>
 </root>

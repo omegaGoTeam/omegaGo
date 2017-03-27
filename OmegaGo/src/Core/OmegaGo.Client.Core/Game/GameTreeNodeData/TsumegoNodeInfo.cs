@@ -33,5 +33,11 @@ namespace OmegaGo.Core.Game.GameTreeNodeData
         /// of the tsumego problem that contains this node.
         /// </summary>
         public List<Position> MarkedPositions { get; } = new List<Position>();
+
+        public override string ToString()
+        {
+            return (Correct ? "[correct]" : "") + (Wrong ? "[wrong]" : "") + (Expected ? "[Expected]" : "") +
+                   (MarkedPositions.Any() ? "[" + MarkedPositions.Count + " marked]" : "");
+        }
     }
 }

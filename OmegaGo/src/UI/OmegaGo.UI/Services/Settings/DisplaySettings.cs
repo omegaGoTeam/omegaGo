@@ -1,11 +1,15 @@
-﻿using OmegaGo.UI.Board.Styles;
+﻿using MvvmCross.Platform.UI;
+using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Controls.Styles;
+using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
 
 namespace OmegaGo.UI.Services.Settings
 {
     public class DisplaySettings : SettingsGroup
     {
+        private const string BackgroundColorOpacityKey = "BackgroundColorOpacity";
+
         public DisplaySettings(ISettingsService service) : base("Display", service)
         {
         }
@@ -19,12 +23,13 @@ namespace OmegaGo.UI.Services.Settings
             }
             set { SetSetting(nameof(ControlStyle), (int)value, SettingLocality.Roamed); }
         }
-        
+
         public BoardTheme BoardTheme
         {
-            get {
+            get
+            {
                 int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.OakWood, SettingLocality.Roamed);
-                return (BoardTheme) theSetting;
+                return (BoardTheme)theSetting;
             }
             set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
         }
@@ -39,14 +44,25 @@ namespace OmegaGo.UI.Services.Settings
             set { SetSetting(nameof(BackgroundImage), (int)value, SettingLocality.Roamed); }
         }
 
+        public float BackgroundColorOpacity
+        {
+            get { return GetSetting(BackgroundColorOpacityKey, () => 0.5f, SettingLocality.Roamed); }
+            set
+            {
+                if (value >= 0 && value <= 1)
+                {
+                    SetSetting(BackgroundColorOpacityKey, value, SettingLocality.Roamed);
+                }
+            }
+        }
+
         public BackgroundColor BackgroundColor
         {
             get
             {
-                int theSetting = GetSetting(nameof(BackgroundColor), () => (int)BackgroundColor.Basic, SettingLocality.Roamed);
-                return (BackgroundColor)theSetting;
+                return GetComplexSetting(nameof(BackgroundColor), () => BackgroundColor.Default, SettingLocality.Roamed);
             }
-            set { SetSetting(nameof(BackgroundColor), (int)value, SettingLocality.Roamed); }
+            set { SetComplexSetting(nameof(BackgroundColor), value, SettingLocality.Roamed); }
         }
 
         public StoneTheme StonesTheme
@@ -57,6 +73,19 @@ namespace OmegaGo.UI.Services.Settings
                 return (StoneTheme)theSetting;
             }
             set { SetSetting(nameof(StonesTheme), (int)value, SettingLocality.Roamed); }
+        }
+
+        public AppTheme AppTheme
+        {
+            get
+            {
+                int setting = GetSetting(nameof(AppTheme), () => (int)AppTheme.Light, SettingLocality.Roamed);
+                return (AppTheme)setting;
+            }
+            set
+            {
+                SetSetting(nameof(AppTheme), (int)value, SettingLocality.Roamed);
+            }
         }
 
         public bool HighlightLastMove
@@ -87,5 +116,5 @@ namespace OmegaGo.UI.Services.Settings
             get { return GetSetting(nameof(ShowTutorialInMainMenu), () => true, SettingLocality.Roamed); }
             set { SetSetting(nameof(ShowTutorialInMainMenu), value, SettingLocality.Roamed); }
         }
-    }   
+    }
 }

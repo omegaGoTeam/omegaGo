@@ -8,4 +8,5 @@
     <converters:NativeVisibilityConverter x:Key="VisibilityConverter" />
     <converters:NativeConcreteEnumLocalizingConverter x:Key="ConcreteEnumLocalizingConverter" />
     <converters:NativeTypeNameLocalizingConverter x:Key="TypeNameLocalizingConverter" />
+    <converters:NativeEnumSelectionConverter x:Key="EnumSelectionConverter" />
 </ResourceDictionary>

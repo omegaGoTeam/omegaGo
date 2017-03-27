@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BoardSize" xml:space="preserve">
-    <value>Velikost herní plochy</value>
+    <value>Velikost</value>
     <comment>:-)</comment>
   </data>
   <data name="Assistant" xml:space="preserve">
@@ -70,7 +70,7 @@
     <value>Zobrazení</value>
   </data>
   <data name="Credits" xml:space="preserve">
-    <value>Kredity</value>
+    <value>O autorech</value>
   </data>
   <data name="CreditsToolTip" xml:space="preserve">
     <value>Zobrazit informace o autorech a licenční ujednání</value>
@@ -97,7 +97,7 @@
     <value>On-line hra</value>
   </data>
   <data name="OnlineGameToolTip" xml:space="preserve">
-    <value>Hrajte Go proti jiným hráčům on-line na IGS nebo OGS serverech</value>
+    <value>Hrajte Go proti jiným hráčům na on-line serveru.</value>
   </data>
   <data name="SettingsToolTip" xml:space="preserve">
     <value>Změňte jazyk, audio, grafiku a mnoho dalších nastavení</value>
@@ -357,7 +357,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
 Tato umělá inteligence bude pasovat jen v reakci na pass soupeře, v jakémžto případě bude pasovat vždycky.</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Name" xml:space="preserve">
-    <value>Štěně (heuristika</value>
+    <value>Štěně (heuristika)</value>
   </data>
   <data name="AI_RandomAI_Description" xml:space="preserve">
     <value>Tato umělá inteligence vybere náhodný bod, na který může položit kámen, a položí ho tam. Pasuje okamžitě, jakmile pasuje soupeř.</value>
@@ -456,7 +456,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Vyměnit</value>
   </data>
   <data name="Quest_ReplaceTooltip" xml:space="preserve">
-    <value>Ztratíte tento quest , ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
+    <value>Ztratíte tento quest, ale okamžitě získáte jiný, náhodně vybraný, quest.</value>
   </data>
   <data name="Quest_TryThisNow" xml:space="preserve">
     <value>Zkusit nyní</value>
@@ -505,7 +505,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Jak řešit tsumego:</value>
   </data>
   <data name="Tsumego_HowToSolveTsumegoText" xml:space="preserve">
-    <value>Make the best moves possible against a virtual opponent who also makes the best moves. When you resolve the situation, you will be told it's solved. For more information, access help pages from the main menu.</value>
+    <value>Hrajte co nejlépe proti virtuálnímu soupeři, který také hraje co nejlépe. Jakmile situaci vyřešíte, program vám řekne, že je problém vyřešen. Více informací najdete ve stránkách nápovědy z hlavního menu.</value>
   </data>
   <data name="Tsumego_Instructions" xml:space="preserve">
     <value>Pokyny:</value>
@@ -519,6 +519,48 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="Tsumego_NotYetSolved" xml:space="preserve">
     <value>Zatím nevyřešen</value>
   </data>
+  <data name="Tsumego_PreviousProblem" xml:space="preserve">
+    <value>Předchozí problém</value>
+  </data>
+  <data name="Tsumego_ProblemName" xml:space="preserve">
+    <value>Název problému:</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves" xml:space="preserve">
+    <value>Zobrazit možné tahy</value>
+  </data>
+  <data name="Tsumego_ShowPossibleMoves_Tooltip" xml:space="preserve">
+    <value>Je-li políčko zaškrtnuto, aplikace zvýrazní pozice, kde by mohlo dávat smysl hrát. Nemusí to být nutně správné tahy, ale na nezvýrazněných pozicích je rozhodně nesprávné hrát.</value>
+  </data>
+  <data name="Tsumego_StatusContinue" xml:space="preserve">
+    <value>Pokračujte...</value>
+  </data>
+  <data name="Tsumego_StatusCorrect" xml:space="preserve">
+    <value>Správně!</value>
+  </data>
+  <data name="Tsumego_StatusWrong" xml:space="preserve">
+    <value>Špatně.</value>
+  </data>
+  <data name="Tsumego_UndoOneMove" xml:space="preserve">
+    <value>Vrátit zpět poslední tah</value>
+  </data>
+  <data name="Tsumego_Unexpected" xml:space="preserve">
+    <value>(neočekávané)</value>
+  </data>
+  <data name="Tsumego_ViewCaption" xml:space="preserve">
+    <value>Tsumego</value>
+  </data>
+  <data name="Tsumego_WhiteToPlay" xml:space="preserve">
+    <value>Bílý je na tahu.</value>
+  </data>
+  <data name="Tsumego_WrongPanel" xml:space="preserve">
+    <value>Špatně</value>
+  </data>
+  <data name="Tsumego_YouHavePreviouslySolvedThisProblem" xml:space="preserve">
+    <value>Vyřešeno (tento problém jste již dříve vyřešili).</value>
+  </data>
+  <data name="Tsumego_YouHaveSolvedThisProblem" xml:space="preserve">
+    <value>Tento problém jste vyřešili!</value>
+  </data>
   <data name="ResetAllProgress" xml:space="preserve">
     <value>Zahodit statistiky</value>
   </data>
@@ -526,10 +568,10 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Hodnost omegaGo</value>
   </data>
   <data name="IgsRank" xml:space="preserve">
-    <value>Třída IGS</value>
+    <value>Třída na IGS</value>
   </data>
   <data name="KgsRank" xml:space="preserve">
-    <value>Třída KGS</value>
+    <value>Třída na KGS</value>
   </data>
   <data name="ControlStyle_OperatingSystem" xml:space="preserve">
     <value>Operační systém</value>
@@ -542,6 +584,15 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Odlehčené</value>
+  </data>
+  <data name="Tsumego_CurrentNodeStatus" xml:space="preserve">
+    <value>Stav aktuálního uzlu:</value>
+  </data>
+  <data name="OmegaGoRankColon" xml:space="preserve">
+    <value>Hodnost omegaGo:</value>
+  </data>
+  <data name="PointsColon" xml:space="preserve">
+    <value>Bodů:</value>
   </data>
   <data name="IgsHyperlink" xml:space="preserve">
     <value>Vytvořit nový účet na Pandanetu (otevře okno prohlížeče)</value>
@@ -581,5 +632,143 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="RememberPasswordCaption" xml:space="preserve">
     <value>Zapamatovat heslo</value>
+  </data>
+  <data name="BackgroundImageOpacity" xml:space="preserve">
+    <value>Viditelnost obrázku na pozadí</value>
+  </data>
+  <data name="AppTheme_Dark" xml:space="preserve">
+    <value>Tmavý</value>
+  </data>
+  <data name="AppTheme_Light" xml:space="preserve">
+    <value>Světlý</value>
+  </data>
+  <data name="AppTheme" xml:space="preserve">
+    <value>Motiv</value>
+  </data>
+  <data name="ControlStyleChangeInfo" xml:space="preserve">
+    <value>Chcete-li aplikovat změnu stylu, restartujte aplikaci, prosím.</value>
+  </data>
+  <data name="CanResign" xml:space="preserve">
+    <value>Smí se vzdát</value>
+  </data>
+  <data name="CanResignTooltip" xml:space="preserve">
+    <value>Je-li zaškrtnuto, tak se Fuego vzdá, pokud bude mít jen malou šanci na výhru. Fuego se nikdy nevzdává ve hrách s handicapem.</value>
+  </data>
+  <data name="MaximumBoardSize" xml:space="preserve">
+    <value>Maximální velikost plochy:</value>
+  </data>
+  <data name="MaxPlayoutsColon" xml:space="preserve">
+    <value>Maximum simulací:</value>
+  </data>
+  <data name="MaxPlayoutsTooltip" xml:space="preserve">
+    <value>Více simulací znamená inteligentnější tahy, ale zase to zabere více času.</value>
+  </data>
+  <data name="MinimumBoardSize" xml:space="preserve">
+    <value>Nejmenší velikost plochy:</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="NonSquareBoardsPermitted" xml:space="preserve">
+    <value>Obdélníkové desky povoleny:</value>
+  </data>
+  <data name="Ponder" xml:space="preserve">
+    <value>Přemýšlet během soupeřova tahu</value>
+  </data>
+  <data name="PonderTooltip" xml:space="preserve">
+    <value>Je-li zaškrtnuto, Fuego bude přemýšlet, i když není na tahu. To zvýší sílu Fuego v časovaných hrách.</value>
+  </data>
+  <data name="TreeDepthColon" xml:space="preserve">
+    <value>Hloubka stromu:</value>
+  </data>
+  <data name="TreeDepthTooltip" xml:space="preserve">
+    <value>Větší hloubka stromu znamená inteligentnější tahy, ale zase to zabere více času.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="ConfigureEllipsis" xml:space="preserve">
+    <value>Nastavit...</value>
+  </data>
+  <data name="MoreEllipsis" xml:space="preserve">
+    <value>Více...</value>
+  </data>
+  <data name="EpicPlayQuest_Description" xml:space="preserve">
+    <value>Dohraj jednu hru na desce o velikosti 25x25 nebo větší.</value>
+  </data>
+  <data name="EpicPlayQuest_Name" xml:space="preserve">
+    <value>Epické</value>
+  </data>
+  <data name="GettingStrongerQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu.</value>
+  </data>
+  <data name="GettingStrongerQuest_Name" xml:space="preserve">
+    <value>Stále silnější</value>
+  </data>
+  <data name="GreatLearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 20 problémů tsumego.</value>
+  </data>
+  <data name="GreatLearnerQuest_Name" xml:space="preserve">
+    <value>Schopný žák</value>
+  </data>
+  <data name="HiddenQuest_Description" xml:space="preserve">
+    <value>Tvůj quest se proměnil! Vyřeš libovolný problém tsumego.</value>
+  </data>
+  <data name="HiddenQuest_Name" xml:space="preserve">
+    <value>Skrytý Quest!</value>
+  </data>
+  <data name="IgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru Pandanet.</value>
+  </data>
+  <data name="IgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva Pandanet</value>
+  </data>
+  <data name="KgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru KGS.</value>
+  </data>
+  <data name="KgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva KGS</value>
+  </data>
+  <data name="LearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 5 problémů tsumego.</value>
+  </data>
+  <data name="LearnerQuest_Name" xml:space="preserve">
+    <value>Žák</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj online hru na desce o velikosti 19x19.</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční síťová</value>
+  </data>
+  <data name="PureSkillQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu bez handicapu.</value>
+  </data>
+  <data name="PureSkillQuest_Name" xml:space="preserve">
+    <value>Ryzí dovednost</value>
+  </data>
+  <data name="SoloVictoriesQuest_Description" xml:space="preserve">
+    <value>Vyhraj 3 hry proti umělé inteligenci.</value>
+  </data>
+  <data name="SoloVictoriesQuest_Name" xml:space="preserve">
+    <value>Člověk &gt; počítač</value>
+  </data>
+  <data name="TotalMasteryQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu, kde Fuego je černý a má handicap 3 kamenů nebo větší.</value>
+  </data>
+  <data name="TotalMasteryQuest_Name" xml:space="preserve">
+    <value>Úplné mistrovství</value>
+  </data>
+  <data name="TraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj hru na desce 19x19.</value>
+  </data>
+  <data name="TraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční</value>
+  </data>
+  <data name="UnevenStrengthQuest_Description" xml:space="preserve">
+    <value>Dohraj dvě sólo nebo online hry, kde jeden hráč má handicap dvou nebo více kamenů.</value>
+  </data>
+  <data name="UnevenStrengthQuest_Name" xml:space="preserve">
+    <value>Nerovnoměrné síly</value>
   </data>
 </root>

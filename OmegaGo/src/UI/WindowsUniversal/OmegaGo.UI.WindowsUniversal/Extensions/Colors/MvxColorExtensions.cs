@@ -1,13 +1,7 @@
-﻿using MvvmCross.Platform;
+﻿using Windows.UI;
 using MvvmCross.Platform.UI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI;
 
-namespace OmegaGo.UI.WindowsUniversal.Extensions
+namespace OmegaGo.UI.WindowsUniversal.Extensions.Colors
 {
     public static class MvxColorExtensions
     {

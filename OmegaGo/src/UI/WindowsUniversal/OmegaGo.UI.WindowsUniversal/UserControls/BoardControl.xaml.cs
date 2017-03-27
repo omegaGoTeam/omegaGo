@@ -99,7 +99,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
         {
-            RenderService.Draw(sender, args, currentGameTreeNode);
+            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, currentGameTreeNode);
         }
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)

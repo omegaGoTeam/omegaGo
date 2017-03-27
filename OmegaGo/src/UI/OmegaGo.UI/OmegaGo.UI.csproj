@@ -56,8 +56,10 @@
   <ItemGroup>
     <Compile Include="Board\Styles\StoneTheme.cs" />
     <Compile Include="Controls\Styles\ControlStyle.cs" />
+    <Compile Include="Controls\Themes\AppTheme.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
+    <Compile Include="Converters\EnumSelectionConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
     <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Services\Audio\Sounds.cs" />
     <Compile Include="Services\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
+    <Compile Include="Services\Feedback\IFeedbackService.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
     <Compile Include="Services\BoardControl\BoardControlState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Services\Settings\SettingsServiceBase.cs" />
     <Compile Include="Services\Settings\QuestsSettings.cs" />
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
+    <Compile Include="Services\Timer\ITimerService.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
+    <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
@@ -169,7 +174,6 @@
     <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
-    <Compile Include="ViewModels\MultiplayerDashboardViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SingleplayerViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
@@ -428,10 +432,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.cs.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Services\Tutorial\Tutorial.auto.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial-cs.txt" />
+    <EmbeddedResource Include="Services\Tutorial\Tutorial-auto.txt" />
     <EmbeddedResource Include="Services\Help\Data\intro.html" />
     <EmbeddedResource Include="Services\Help\Data\japanese.html" />
     <EmbeddedResource Include="Services\Help\Data\resources.html" />

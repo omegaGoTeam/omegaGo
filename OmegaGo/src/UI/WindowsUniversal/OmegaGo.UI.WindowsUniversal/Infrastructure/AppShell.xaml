@@ -5,13 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
-    mc:Ignorable="d">
+    mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}">
 
     <Border>
         <Border.Background>
-            <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
+            <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" />
         </Border.Background>
-        <Grid Background="{x:Bind BackgroundColor, Mode=OneWay}">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -23,14 +26,14 @@
                         <DataTemplate>
                             <Border BorderThickness="1"
                 BorderBrush="Black"
-                CornerRadius="8"
-                                    MaxWidth="300"
+                CornerRadius="4"
+                                    MaxWidth="600"
                                     Margin="0,0,0,10">
                                 <Grid>
                                     <Border
                 Name="Mask"
                 Background="LightBlue"
-                CornerRadius="8"/>
+                CornerRadius="4"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition></ColumnDefinition>
@@ -68,7 +71,7 @@
                 <Grid x:Name="BackButtonGrid">
                     <Button Width="48" x:Name="BackButton" Click="TitleBackButton_Click" Margin="0" VerticalAlignment="Stretch" Background="#0000" FontFamily="Segoe MDL2 Assets" Content="&#59179;" Style="{StaticResource TitleBarBackButtonStyle}" />
                 </Grid>
-
+                <Button x:Name="FeedbackButton" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed" />
                 <Grid Grid.Column="3" x:Name="RightTitleBarMask"/>
             </Grid>
         </Grid>

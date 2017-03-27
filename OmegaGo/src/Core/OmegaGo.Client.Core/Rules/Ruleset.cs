@@ -674,6 +674,10 @@ namespace OmegaGo.Core.Rules
             }
 
         }
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
 
         /// <summary>
         /// Returns the scores after adding up total territory of players.

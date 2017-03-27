@@ -14,7 +14,7 @@
             <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName}"></TextBlock>
 
             <Button Click="Close_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
-                [x]
+                Close (DEBUG ONLY)
             </Button>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock FontSize="26" TextAlignment="Center" Text="{x:Bind ViewModel.FormCaption}"></TextBlock>

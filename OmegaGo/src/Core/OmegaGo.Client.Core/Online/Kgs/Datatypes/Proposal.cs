@@ -70,5 +70,10 @@
         /// </summary>
         public bool Global { get; set; }
         #endregion
+
+        public override string ToString()
+        {
+            return "Proposal (" + GameType + ")";
+        }
     }
 }

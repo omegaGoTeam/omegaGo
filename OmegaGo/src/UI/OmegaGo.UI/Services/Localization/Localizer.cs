@@ -23,6 +23,14 @@ namespace OmegaGo.UI.Services.Localization
 
         public string ThemesPanel => LocalizeCaller();
 
+        public string BackgroundImageOpacity => LocalizeCaller();
+
+        public string AppTheme => LocalizeCaller();
+
+        public string AppTheme_Dark => LocalizeCaller();
+
+        public string AppTheme_Light => LocalizeCaller();
+
         public string BoardTheme => LocalizeCaller();
 
         public string StonesTheme => LocalizeCaller();
@@ -32,6 +40,8 @@ namespace OmegaGo.UI.Services.Localization
         public string BackgroundColor => LocalizeCaller();
 
         public string ControlStyle => LocalizeCaller();
+
+        public string ControlStyleChangeInfo => LocalizeCaller();
 
         public string FullscreenModeCheckbox => LocalizeCaller();
 
@@ -196,6 +206,8 @@ namespace OmegaGo.UI.Services.Localization
         public string TsumegoProblemsSolved => LocalizeCaller();
         public string Points => LocalizeCaller();
         public string OmegaGoRank => LocalizeCaller();
+        public string PointsColon => LocalizeCaller();
+        public string OmegaGoRankColon => LocalizeCaller();
 
         // Board settings control strings
         public string BoardSettings => LocalizeCaller();
@@ -277,6 +289,21 @@ namespace OmegaGo.UI.Services.Localization
         public string IgsServerInfo => LocalizeCaller();
         public string IgsServerCaption => LocalizeCaller();
         public string IgsUsernameCaption => LocalizeCaller();
+        public string MaxPlayoutsColon => LocalizeCaller();
+        public string MaxPlayoutsTooltip => LocalizeCaller();
+        public string TreeDepthColon => LocalizeCaller();
+        public string TreeDepthTooltip => LocalizeCaller();
+        public string CanResign => LocalizeCaller();
+        public string CanResignTooltip => LocalizeCaller();
+        public string Ponder => LocalizeCaller();
+        public string PonderTooltip => LocalizeCaller();
+        public string MinimumBoardSize => LocalizeCaller();
+        public string MaximumBoardSize => LocalizeCaller();
+        public string NonSquareBoardsPermitted => LocalizeCaller();
+        public string Yes => LocalizeCaller();
+        public string No => LocalizeCaller();
+        public string MoreEllipsis => LocalizeCaller();
+        public string ConfigureEllipsis => LocalizeCaller();
         public string XXX => LocalizeCaller();
         // Copy and paste XXX for fast creationg of new lines
     }

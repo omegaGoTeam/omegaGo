@@ -7,6 +7,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using OmegaGo.UI.WindowsUniversal.Services.Game;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -30,6 +31,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// </summary>
         private void TransparencyViewBase_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
         {
+            RenderService.ResetResources();
             var transparentBackground = new SolidColorBrush(Colors.Transparent);
             if (Content is Grid)
             {

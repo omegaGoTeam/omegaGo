@@ -8,6 +8,7 @@ using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
 using OmegaGo.UI.UserControls.ViewModels;
+using OmegaGo.UI.Utility;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ClassNeverInstantiated.Global
@@ -66,8 +67,8 @@ A tsumego problem will also display a problem statement
             _gameSettings = gameSettings;
 
             var problem = Mvx.GetSingleton<TsumegoProblem>();
-
-            BoardViewModel = new BoardViewModel(new GameBoardSize(19));
+            Rectangle rectangle = problem.GetBoundingBoard();
+            BoardViewModel = new BoardViewModel(rectangle);
             BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
 
             LoadProblem(problem);
@@ -273,6 +274,11 @@ A tsumego problem will also display a problem statement
 
         private void LoadProblem(TsumegoProblem problem)
         {
+            Rectangle rect = problem.GetBoundingBoard();
+            BoardViewModel.BoardControlState.OriginX = rect.X;
+            BoardViewModel.BoardControlState.OriginY = rect.Y;
+            BoardViewModel.BoardControlState.BoardWidth = rect.Width;
+            BoardViewModel.BoardControlState.BoardHeight = rect.Height;
             _currentProblem = problem;
             _currentProblemTree = _currentProblem.SpawnThisProblem();
             CurrentProblemName = _currentProblem.Name;

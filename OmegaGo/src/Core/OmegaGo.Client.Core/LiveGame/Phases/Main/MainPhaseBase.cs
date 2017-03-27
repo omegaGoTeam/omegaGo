@@ -174,8 +174,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);
             
-            //ignored?
-            if (processingResult.Result == MoveResult.Ignore) return;
 
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)

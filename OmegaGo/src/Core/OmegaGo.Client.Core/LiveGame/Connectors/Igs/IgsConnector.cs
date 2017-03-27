@@ -20,13 +20,26 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
 
-        private bool _handicapSet = false;
+        private bool _handicapSet;
 
         public IgsConnector(IgsGameController igsGameController, IgsConnection connnection)
         {
             _connnection = connnection;
             _gameController = igsGameController;
         }
+
+       // TODO (Martin): This can be changed.
+       // Here's some comments from Petr:
+       /*They are inherited from IGameConnector. Those events are used by UiConnector.
+
+A cleaner alternative would be to get rid of IGameConnector and of GameController.Connectors
+and instead have the UiConnector and RemoteConnector instance variables inside GameController, 
+since only few events can be triggered by both the server and the client, and subscribe to them separately.
+
+But that’s not a one-minute refactoring, there’s a possibility of making mistakes during it, 
+and it changes code introduced during the second core refactoring,
+so I thought suppressing warnings would have the same result.*/
+#pragma warning disable CS0067
 
         /// <summary>
         /// Indicates the handicap for the game
@@ -43,7 +56,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         public event EventHandler MainUndoForced;
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
-
+#pragma warning restore CS0067
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -63,8 +76,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
             }
             var targetPlayer = _gameController.Players[move.WhoMoves];
             var igsAgent = targetPlayer.Agent as IgsAgent;
-            if (igsAgent == null) throw new InvalidOperationException("Server sent a move for non-IGS agent");
-            igsAgent.MoveFromServer(moveIndex, move);
+            igsAgent?.MoveFromServer(moveIndex, move);
         }
 
         /// <summary>

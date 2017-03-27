@@ -7,6 +7,7 @@ using MvvmCross.Platform;
 using OmegaGo.Core.AI.Fuego;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.ViewModels;
 
@@ -17,6 +18,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private GameCreationViewPlayer player;
         private readonly bool _assistantMode;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private Localizer _localizer = (Localizer) Mvx.Resolve<ILocalizationService>();
 
         public PlayerSettingsViewModel(GameCreationViewPlayer gameCreationViewPlayer, bool assistantMode)
         {
@@ -38,18 +40,18 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 this._fluffyTreeDepth = _settings.Interface.FluffyDepth;
             }
         }
-
-        public string Test { get; } = "Test binding";
+        
 
         public string Name => player.Name;
-        public string Description => player.Description;
+        public string Description => player.Description.Replace("\n", "\n\n");
         public bool AiPanelVisible => player.IsAi;
         public bool IsFuego => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(FuegoAI);
         public bool IsFluffy => player.IsAi && ((GameCreationViewAiPlayer)player).AI.GetType() == typeof(AlphaBetaPlayerWrapper);
 
         private OmegaGo.Core.AI.AICapabilities Capabitilies => player.IsAi ? ((GameCreationViewAiPlayer)player).Capabilities : null;
 
-        public string HandlesNonSquareBoards => Capabitilies?.HandlesNonSquareBoards ?? false ? "yes" : "no";
+        public string HandlesNonSquareBoards
+            => Capabitilies?.HandlesNonSquareBoards ?? false ? _localizer.Yes : _localizer.No;
         public string MinimumBoardSize => Capabitilies?.MinimumBoardSize.ToString() ?? "n/a";
         public string MaximumBoardSize => Capabitilies?.MaximumBoardSize.ToString() ?? "n/a";
 

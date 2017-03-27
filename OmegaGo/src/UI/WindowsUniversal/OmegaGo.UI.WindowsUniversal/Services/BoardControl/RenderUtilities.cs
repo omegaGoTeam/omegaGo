@@ -81,5 +81,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
             }
             return cache[text];
         }
+
     }
 }

@@ -5,12 +5,18 @@ using Windows.UI.ViewManagement;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Windows.UI;
 using Windows.UI.Xaml.Input;
+using OmegaGo.Core.Annotations;
+using OmegaGo.UI.Game.Styles;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class SettingsView : TransparencyViewBase
+    public sealed partial class SettingsView : TransparencyViewBase, INotifyPropertyChanged
     {
         public SettingsView()
         {
@@ -18,29 +24,50 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         }
 
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
-        
+
         public override string WindowTitle => Localizer.Settings;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");
 
-        private void Fullscreen_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        /// <summary>
+        /// Gets and sets the full screen mode
+        /// </summary>
+        public bool IsFullScreen
         {
-            FullscreenModeManager.Toggle();
+            get
+            {
+                return FullScreenModeManager.IsFullScreen;
+            }
+            set
+            {
+                if (value != FullScreenModeManager.IsFullScreen)
+                {
+                    FullScreenModeManager.SetFullScreenMode(value);
+                }
+            }
+        }
+        
+        public Color SelectedBackgroundColor
+        {
+            get { return VM.SelectedBackgroundColor.ToWindowsColor(); }
+            set
+            {
+                VM.SelectedBackgroundColor = value.ToBackgroundColor();                
+            }
         }
 
-        private void SettingsView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void SetDefaultBackgroundColor(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            FullscreenMode.IsChecked = ApplicationView.GetForCurrentView().IsFullScreenMode;
+            SelectedBackgroundColor = BackgroundColor.Default.ToWindowsColor();
+            OnPropertyChanged(nameof(SelectedBackgroundColor));
         }
 
-        private void FullscreenMode_Unchecked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            FullscreenModeManager.Toggle();
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void AppShellComboBox_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        [NotifyPropertyChangedInvocator]
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            AppShell.GetForCurrentView().RefreshVisualSettings();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
