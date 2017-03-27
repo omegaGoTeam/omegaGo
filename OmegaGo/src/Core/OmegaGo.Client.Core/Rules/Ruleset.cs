@@ -255,6 +255,26 @@ namespace OmegaGo.Core.Rules
             return moveResults;
         }
 
+        public MoveResult[,] GetMoveResultLite(GameTreeNode currentNode)
+        {
+            int width = currentNode.BoardState.Size.Width;
+            int height = currentNode.BoardState.Size.Height;
+            MoveResult[,] moveResults = new MoveResult[width, height];
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
+                {
+                    if (currentNode.BoardState[x,y] == StoneColor.None)
+                    {
+                        moveResults[x,y]= MoveResult.Legal;
+                    }
+                    else
+                    {
+                        moveResults[x, y] = MoveResult.OccupiedPosition;
+                    }
+                }
+            return moveResults;
+        }
+
         /// <summary>
         /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
         /// All stones on the board are considered alive for the purposes of determining territory using this method.

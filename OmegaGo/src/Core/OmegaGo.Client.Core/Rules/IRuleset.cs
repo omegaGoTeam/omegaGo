@@ -64,5 +64,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="board">The current game board.</param>
         Territory[,] DetermineTerritory(GameBoard board);
+
+        MoveResult[,] GetMoveResultLite(GameTreeNode boardState);
     }
 }
