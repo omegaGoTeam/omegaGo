@@ -50,7 +50,9 @@ namespace OmegaGo.Core.Game
         public GameTreeNode GameTreeRoot { get; set; }
         
         /// <summary>
-        /// Reference to the last added node
+        /// Gets or set the "LastNode". The LastNode is last node of the game's primary timeline and is the node where
+        /// the game currently "is". Whenever a player makes a move, the newly created node by that move becomes the LastNode.
+        /// Undoing moves will also changes the LastNode. However, working with the Analyze Mode will not change LastNode.
         /// </summary>
         public GameTreeNode LastNode
         {
@@ -74,7 +76,7 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets the primary timeline
+        /// Gets the primary timeline. The primary timeline is the list of nodes from the root up until the LastNode.
         /// </summary>
         public IEnumerable<GameTreeNode> PrimaryTimeline
         {
