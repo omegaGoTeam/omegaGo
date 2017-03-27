@@ -296,6 +296,10 @@ namespace OmegaGo.Core.Rules
             }
             return regions;
         }
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
 
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
@@ -681,10 +685,6 @@ namespace OmegaGo.Core.Rules
                 }
             }
 
-        }
-        public override string ToString()
-        {
-            return GetType().Name;
         }
 
         /// <summary>
