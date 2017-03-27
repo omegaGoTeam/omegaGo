@@ -9,6 +9,10 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.Random
 {
+    /// <summary>
+    /// This example basic AI will make random legal moves.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.AI.AIProgramBase" />
     public class RandomAI : AIProgramBase
     {
         public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
