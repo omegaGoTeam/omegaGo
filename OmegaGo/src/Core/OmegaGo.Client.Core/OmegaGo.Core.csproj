@@ -350,7 +350,6 @@
     <Compile Include="AI\Joker23\Players\AlphaBetaPlayer.cs" />
     <Content Include="LICENSE.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
-    <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Kgs\Docs\ABOUT.txt" />
     <Content Include="Online\Kgs\Docs\dataTypes.html" />
     <Content Include="Online\Kgs\Docs\downstream.html" />
