@@ -126,7 +126,6 @@ namespace OmegaGo.Core.Rules
             GameBoard[] history = new GameBoard[0];
             GroupState previousGroupState, currentGroupState;
             GameBoard previousBoard, currentBoard;
-            MoveResult[,] results;
             if (currentNode == null)
             {
                 previousGroupState = new GroupState(RulesetInfo.BoardSize);
@@ -142,7 +141,6 @@ namespace OmegaGo.Core.Rules
                 currentGroupState = new GroupState(currentNode.GroupState);
                 previousBoard = new GameBoard(currentNode.BoardState);
                 currentBoard = new GameBoard(currentNode.BoardState);
-                results = GetMoveResult(currentNode);
             }
 
             SetRulesetInfo(currentBoard, currentGroupState);
