@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
@@ -17,6 +18,7 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _gameSettings;
         private readonly IDialogService _dialogService;
+        private readonly IFeedbackService _feedbackService;
 
         private IMvxCommand _navigateToTutorial;
         private IMvxCommand _navigateToSingleplayer;
@@ -28,15 +30,18 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToSettings;
         private IMvxCommand _navigateToHelp;
 
-        public bool ShowTutorialButton => _gameSettings.Display.ShowTutorialInMainMenu;
-
-        public MainMenuViewModel(IGameSettings gameSettings, IDialogService dialogService)
+        private IMvxCommand _launchFeedbackCommand;
+        
+        public MainMenuViewModel(IGameSettings gameSettings, IDialogService dialogService, IFeedbackService feedbackService )
         {
             _gameSettings = gameSettings;
             _dialogService = dialogService;
+            _feedbackService = feedbackService;
         }
 
+        public bool ShowTutorialButton => _gameSettings.Display.ShowTutorialInMainMenu;
 
+        public bool ShowFeedbackButton => _feedbackService.IsAvailable;
 
         /// <summary>
         /// Game languages list
@@ -152,5 +157,12 @@ namespace OmegaGo.UI.ViewModels
 
         public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
 
+        public IMvxCommand LaunchFeedbackCommand => _launchFeedbackCommand ??
+                                                    (_launchFeedbackCommand = new MvxAsyncCommand(LaunchFeedbackAsync));
+
+        private async Task LaunchFeedbackAsync()
+        {
+            await _feedbackService.LaunchAsync();
+        }
     }
 }

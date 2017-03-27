@@ -693,4 +693,82 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="MoreEllipsis" xml:space="preserve">
     <value>Více...</value>
   </data>
+  <data name="EpicPlayQuest_Description" xml:space="preserve">
+    <value>Dohraj jednu hru na desce o velikosti 25x25 nebo větší.</value>
+  </data>
+  <data name="EpicPlayQuest_Name" xml:space="preserve">
+    <value>Epické</value>
+  </data>
+  <data name="GettingStrongerQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu.</value>
+  </data>
+  <data name="GettingStrongerQuest_Name" xml:space="preserve">
+    <value>Stále silnější</value>
+  </data>
+  <data name="GreatLearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 20 problémů tsumego.</value>
+  </data>
+  <data name="GreatLearnerQuest_Name" xml:space="preserve">
+    <value>Schopný žák</value>
+  </data>
+  <data name="HiddenQuest_Description" xml:space="preserve">
+    <value>Tvůj quest se proměnil! Vyřeš libovolný problém tsumego.</value>
+  </data>
+  <data name="HiddenQuest_Name" xml:space="preserve">
+    <value>Skrytý Quest!</value>
+  </data>
+  <data name="IgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru Pandanet.</value>
+  </data>
+  <data name="IgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva Pandanet</value>
+  </data>
+  <data name="KgsChallengeQuest_Description" xml:space="preserve">
+    <value>Dohraj 3 hry na serveru KGS.</value>
+  </data>
+  <data name="KgsChallengeQuest_Name" xml:space="preserve">
+    <value>Výzva KGS</value>
+  </data>
+  <data name="LearnerQuest_Description" xml:space="preserve">
+    <value>Vyřeš 5 problémů tsumego.</value>
+  </data>
+  <data name="LearnerQuest_Name" xml:space="preserve">
+    <value>Žák</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj online hru na desce o velikosti 19x19.</value>
+  </data>
+  <data name="OnlineTraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční síťová</value>
+  </data>
+  <data name="PureSkillQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu bez handicapu.</value>
+  </data>
+  <data name="PureSkillQuest_Name" xml:space="preserve">
+    <value>Ryzí dovednost</value>
+  </data>
+  <data name="SoloVictoriesQuest_Description" xml:space="preserve">
+    <value>Vyhraj 3 hry proti umělé inteligenci.</value>
+  </data>
+  <data name="SoloVictoriesQuest_Name" xml:space="preserve">
+    <value>Člověk &gt; počítač</value>
+  </data>
+  <data name="TotalMasteryQuest_Description" xml:space="preserve">
+    <value>Vyhraj hru proti Fuegu, kde Fuego je černý a má handicap 3 kamenů nebo větší.</value>
+  </data>
+  <data name="TotalMasteryQuest_Name" xml:space="preserve">
+    <value>Úplné mistrovství</value>
+  </data>
+  <data name="TraditionalQuest_Description" xml:space="preserve">
+    <value>Dohraj hru na desce 19x19.</value>
+  </data>
+  <data name="TraditionalQuest_Name" xml:space="preserve">
+    <value>Tradiční</value>
+  </data>
+  <data name="UnevenStrengthQuest_Description" xml:space="preserve">
+    <value>Dohraj dvě sólo nebo online hry, kde jeden hráč má handicap dvou nebo více kamenů.</value>
+  </data>
+  <data name="UnevenStrengthQuest_Name" xml:space="preserve">
+    <value>Nerovnoměrné síly</value>
+  </data>
 </root>

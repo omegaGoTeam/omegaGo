@@ -86,6 +86,7 @@
     <Compile Include="Services\Audio\Sounds.cs" />
     <Compile Include="Services\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
+    <Compile Include="Services\Feedback\IFeedbackService.cs" />
     <Compile Include="Services\Files\IFilePickerService.cs" />
     <Compile Include="Services\BoardControl\BoardControlState.cs" />
     <Compile Include="Services\Files\IFileService.cs" />
