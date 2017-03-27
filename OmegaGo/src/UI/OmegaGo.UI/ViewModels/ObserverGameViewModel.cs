@@ -12,7 +12,7 @@ using OmegaGo.UI.Services.Quests;
 namespace OmegaGo.UI.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class ObserverGameViewModel : GameViewModel
+    public sealed class ObserverGameViewModel : AnalysisGameViewModel
     {
         private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
