@@ -12,7 +12,7 @@ using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
-    public class UiConnector : BaseConnector, IGameConnector, IUiConnectorActions
+    public class UiConnector : IGameConnector, IUiConnectorActions
     {
         private readonly IGameController _gameController;
 
