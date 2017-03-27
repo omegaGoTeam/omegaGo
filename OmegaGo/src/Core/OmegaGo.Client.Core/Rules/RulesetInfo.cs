@@ -42,6 +42,19 @@ namespace OmegaGo.Core.Rules
         internal static GroupState GroupState { get; set; }
 
         /// <summary>
+        /// Updates Ruleset state according to given game board state.
+        /// </summary>
+        /// <param name="currentBoard">State of board.</param>
+        public static void UpdateRulesetInfo(GameBoard currentBoard)
+        {
+            _gbSize = currentBoard.Size;
+            BoardState = new GameBoard(currentBoard);
+            GroupState = new GroupState(_gbSize);
+            GroupState.FillGroupMap(currentBoard);
+            GroupState.CountLiberties();
+        }
+
+        /// <summary>
         /// Initializes the state of ruleset.
         /// </summary>
         /// <param name="gbSize">Size of game board.</param>

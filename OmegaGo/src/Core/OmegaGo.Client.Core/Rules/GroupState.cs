@@ -166,7 +166,8 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Finds the groups on the board.
         /// </summary>
-        private void FillGroupMap()
+        /// <param name="currentBoard">State of game board.</param>
+        internal void FillGroupMap(GameBoard currentBoard)
         {
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
                 for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
