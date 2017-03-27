@@ -145,7 +145,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="sender"></param>
         /// <param name="session"></param>
         /// <param name="gameState"></param>
-        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState)
+        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState, bool isMarkupRenderingEnabled = false)
         {
             // Calculations
             double clientWidth = width;

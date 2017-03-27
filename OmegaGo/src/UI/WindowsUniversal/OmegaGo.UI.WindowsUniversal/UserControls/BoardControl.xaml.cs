@@ -18,6 +18,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private InputService _inputService;
         private RenderService _renderService;
 
+        private bool _drawMarkups;
+
         /// <summary>
         /// Gets information stored with this board control, for example, styling or highlighted positions. This is the same object
         /// as in the view model.
@@ -42,13 +44,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         public BoardViewModel ViewModel
         {
             get { return (BoardViewModel)GetValue(ViewModelProperty); }
-            set {
-                SetValue(ViewModelProperty, value);
-            }
+            set { SetValue(ViewModelProperty, value); }
         }
 
         public BoardControl()
         {
+            _drawMarkups = false;
+
             this.InitializeComponent();
             this.canvas.TargetElapsedTime = System.TimeSpan.FromMilliseconds(32);
         }
@@ -56,20 +58,24 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
+            ViewModel.MarkupSettingsChanged += ViewModel_MarkupSettingsChanged;
             currentGameTreeNode = ViewModel.GameTreeNode;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
             
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-            ;            
         }
-
+        
         private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
         {
             currentGameTreeNode = e;
         }
-        
+
+        private void ViewModel_MarkupSettingsChanged(object sender, System.EventArgs e)
+        {
+            _drawMarkups = ViewModel.IsMarkupDrawingEnabled;
+        }
 
         private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
@@ -92,14 +98,20 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
-        private void canvas_CreateResources_1(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        private void canvas_CreateResources_1(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
             RenderService.CreateResources(sender, args);
         }
 
-        private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
+        private void canvas_Draw_1(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, currentGameTreeNode);
+            RenderService.Draw(
+                sender, 
+                sender.Size.Width, 
+                sender.Size.Height, 
+                args.DrawingSession, 
+                currentGameTreeNode,
+                _drawMarkups);
         }
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)

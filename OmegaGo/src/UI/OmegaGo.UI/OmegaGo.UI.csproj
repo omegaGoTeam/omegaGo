@@ -146,6 +146,7 @@
     <Compile Include="Services\Timer\ITimerService.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\Problems.cs" />
+    <Compile Include="UserControls\ViewModels\AnalysisViewModel.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="Utility\Rectangle.cs" />
+    <Compile Include="ViewModels\AnalysisGameViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
@@ -171,7 +173,6 @@
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

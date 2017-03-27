@@ -7,7 +7,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:ObserverGameViewModel}"
     Unloaded="TransparencyViewBase_Unloaded"
     Loaded="TransparencyViewBase_Loaded">
 
@@ -83,10 +85,40 @@
             </Grid>
         </Border>
         <Border Grid.RowSpan="2" BorderBrush="Black" BorderThickness="1" Width="200" Grid.Row="1" Grid.Column="2">
-            <StackPanel Grid.Row="0">
-                <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}"/>
-                <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}"/>
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0">
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.WhitePortrait}"/>
+                    <controls:PlayerPortraitControl ViewModel="{x:Bind VM.BlackPortrait}"/>
+                </StackPanel>
+
+                <Grid x:Name="standardControls" 
+                      Grid.Row="1"
+                      Visibility="{x:Bind VM.IsInAnalysisMode, Mode=OneWay, Converter={StaticResource InvertedVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Button Content="Switch to analysis" Command="{x:Bind VM.EnableAnalysisModeCommand}" />
+                </Grid>
+
+                <Grid x:Name="analysisControls" 
+                      Grid.Row="1"
+                      Visibility="{x:Bind VM.IsInAnalysisMode, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <controls:TimelineControl Grid.Row="0" />
+                    <controls:AnalysisControl Grid.Row="1" />
+                </Grid>
+            </Grid>            
         </Border>
         <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="1">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
