@@ -105,7 +105,7 @@ namespace OmegaGo.Core.Rules
                         newGroup = group;
                     }
                     else
-                        group.JoinGroupWith(group);
+                        group.JoinGroupWith(newGroup);
                 }
             }
             RulesetInfo.BoardState[position.X, position.Y] = color;

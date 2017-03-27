@@ -139,7 +139,7 @@ namespace OmegaGo.Core.Rules
                 throw new Exception("The colors of groups do not equal");
 
             otherGroup.IncreaseLibertyCount(_libertyCount);
-            otherGroup.ChangeGroupMembersID(otherGroup.ID, _members);
+            ChangeGroupMembersID(otherGroup.ID);
             otherGroup.AddMembersToGroupList(_members);
             RulesetInfo.GroupState.Groups[ID] = null;
         }
@@ -148,10 +148,9 @@ namespace OmegaGo.Core.Rules
         /// Changes the ID of group in group map.
         /// </summary>
         /// <param name="id">New group ID.</param>
-        /// <param name="memberList">The members of group.</param>
-        internal void ChangeGroupMembersID(int id,List<Position> memberList)
+        internal void ChangeGroupMembersID(int id)
         {
-            foreach (Position member in memberList)
+            foreach (Position member in _members)
             {
                 RulesetInfo.GroupState.GroupMap[member.X, member.Y] = id;
             }
