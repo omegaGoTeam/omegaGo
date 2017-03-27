@@ -41,15 +41,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
         }
 
-        private static CanvasBitmap blackStoneBitmap;
-        private static CanvasBitmap whiteStoneBitmap;
-        private static CanvasBitmap oakBitmap;
-        private static CanvasBitmap kayaBitmap;
-        private static CanvasBitmap spaceBitmap;
-        private static CanvasBitmap sabakiBoardBitmap;
-        private static CanvasBitmap sabakiTatamiBitmap;
-        private static CanvasBitmap sabakiBlackBitmap;
-        private static CanvasBitmap sabakiWhiteBitmap;
+        private CanvasBitmap blackStoneBitmap;
+        private CanvasBitmap whiteStoneBitmap;
+        private CanvasBitmap oakBitmap;
+        private CanvasBitmap kayaBitmap;
+        private CanvasBitmap spaceBitmap;
+        private CanvasBitmap sabakiBoardBitmap;
+        private CanvasBitmap sabakiTatamiBitmap;
+        private CanvasBitmap sabakiBlackBitmap;
+        private CanvasBitmap sabakiWhiteBitmap;
 
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
@@ -75,34 +75,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
         {
             ReloadSettings();
-            args.TrackAsyncAction(EnsureResourcesExistAsync(sender).AsAsyncAction());
+            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
-
-
-        public static async void ResetResources()
-        {
-            if (resourceCreationAssigned == 1)
-            {
-                await resourcesCreation.Task;
-            }
-            resourcesCreation = new TaskCompletionSource<bool>();
-            resourceCreationAssigned = 0;
-        }
-        private static int resourceCreationAssigned = 0;
-        private static TaskCompletionSource<bool> resourcesCreation = new TaskCompletionSource<bool>();
-        async Task EnsureResourcesExistAsync(ICanvasResourceCreator sender)
-        {
-            if (Interlocked.CompareExchange(ref resourceCreationAssigned, 1, 0) == 1)
-            {
-                // wait
-                await resourcesCreation.Task;
-            }
-            else
-            {
-                await CreateResourcesAsync(sender);
-                resourcesCreation.SetResult(true);
-            }
-        }
+      
 
         async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
