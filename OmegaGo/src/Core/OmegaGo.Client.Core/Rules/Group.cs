@@ -193,7 +193,7 @@ namespace OmegaGo.Core.Rules
             {
                 // and update neighbour liberties
                 Position member = _members.First();
-                List<int> neighbours = GetNeighbourGroups(member);
+                List<int> neighbours = RulesetInfo.GroupState.GetNeighbourGroups(member);
                 foreach (int groupID in neighbours)
                 {
                     RulesetInfo.GroupState.Groups[groupID].IncreaseLibertyCount(1);
@@ -246,30 +246,6 @@ namespace OmegaGo.Core.Rules
                 _libertyCount -= value;
             else
                 throw new Exception("Liberty count cannot be lower than 0");
-        }
-
-        /// <summary>
-        /// Returns the IDs of groups around the intersection.
-        /// </summary>
-        /// <param name="position">Coordinates of intersection</param>
-        /// <returns>IDs of groups around the intersection</returns>
-        internal List<int> GetNeighbourGroups(Position position)
-        {
-            List<int> neighbours = new List<int>();
-            int left = (position.X == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X - 1, position.Y];
-            int right = (position.X == RulesetInfo.BoardSize.Width - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X + 1, position.Y];
-            int bottom = (position.Y == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y - 1];
-            int upper = (position.Y == RulesetInfo.BoardSize.Height - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y + 1];
-            if (left > 0)
-                neighbours.Add(left);
-            if (right > 0)
-                neighbours.Add(right);
-            if (upper > 0)
-                neighbours.Add(upper);
-            if (bottom > 0)
-                neighbours.Add(bottom);
-
-            return neighbours.Distinct().ToList();
         }
 
         /// <summary>

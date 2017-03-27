@@ -142,7 +142,7 @@ namespace OmegaGo.Core.Rules
                 currentGroupState = new GroupState(currentNode.GroupState);
                 previousBoard = new GameBoard(currentNode.BoardState);
                 currentBoard = new GameBoard(currentNode.BoardState);
-                //results = GetMoveResult(currentNode);
+                results = GetMoveResult(currentNode);
             }
 
             SetRulesetInfo(currentBoard, currentGroupState);
@@ -188,6 +188,7 @@ namespace OmegaGo.Core.Rules
 
                 if (r == MoveResult.Legal)
                 {
+                    RulesetInfo.GroupState.CountLiberties();
                     processingResult.NewBoard = currentBoard;
                     processingResult.NewGroupState = currentGroupState;
                 }

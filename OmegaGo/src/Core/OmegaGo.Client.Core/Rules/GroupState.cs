@@ -90,7 +90,7 @@ namespace OmegaGo.Core.Rules
         internal void AddStoneToBoard(Position position, StoneColor color)
         {
             Group newGroup= CreateNewGroup(color,position);
-            List<int> neighbourGroups = newGroup.GetNeighbourGroups(position);
+            List<int> neighbourGroups = RulesetInfo.GroupState.GetNeighbourGroups(position);
             foreach (int groupID in neighbourGroups)
             {
                 Group group = RulesetInfo.GroupState.Groups[groupID];
@@ -119,7 +119,8 @@ namespace OmegaGo.Core.Rules
         {
             //init liberties to 0
             foreach (Group g in Groups)
-                g.DecreaseLibertyCount(g.LibertyCount);
+                if (g != null)
+                    g.DecreaseLibertyCount(g.LibertyCount);
 
             //count liberties
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
@@ -128,31 +129,38 @@ namespace OmegaGo.Core.Rules
                 {
                     if (RulesetInfo.BoardState[i, j] == StoneColor.None)
                     {
-                        int groupID = 0;
-                        //left group
-                        if (i > 0 && GroupMap[i - 1, j] != 0)
+                        List<int> neighbourGroups = GetNeighbourGroups(new Position(i, j));
+                        foreach (int groupID in neighbourGroups)
                         {
-                            groupID = GroupMap[i - 1, j];
-                            Groups[groupID].IncreaseLibertyCount(1);
-                        }
-                        else if (i < RulesetInfo.BoardSize.Width - 1 && GroupMap[i + 1, j] != 0) //right group
-                        {
-                            groupID = GroupMap[i + 1, j];
-                            Groups[groupID].IncreaseLibertyCount(1);
-                        }
-                        else if (j > 0 && GroupMap[i, j - 1] != 0) //bottom group
-                        {
-                            groupID = GroupMap[i, j - 1];
-                            Groups[groupID].IncreaseLibertyCount(1);
-                        }
-                        else if (j < RulesetInfo.BoardSize.Height - 1 && GroupMap[i, j + 1] != 0) //upper group
-                        {
-                            groupID = GroupMap[i, j + 1];
                             Groups[groupID].IncreaseLibertyCount(1);
                         }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns the IDs of groups around the intersection.
+        /// </summary>
+        /// <param name="position">Coordinates of intersection</param>
+        /// <returns>IDs of groups around the intersection</returns>
+        internal List<int> GetNeighbourGroups(Position position)
+        {
+            List<int> neighbours = new List<int>();
+            int left = (position.X == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X - 1, position.Y];
+            int right = (position.X == RulesetInfo.BoardSize.Width - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X + 1, position.Y];
+            int bottom = (position.Y == 0) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y - 1];
+            int upper = (position.Y == RulesetInfo.BoardSize.Height - 1) ? 0 : RulesetInfo.GroupState.GroupMap[position.X, position.Y + 1];
+            if (left > 0)
+                neighbours.Add(left);
+            if (right > 0)
+                neighbours.Add(right);
+            if (upper > 0)
+                neighbours.Add(upper);
+            if (bottom > 0)
+                neighbours.Add(bottom);
+
+            return neighbours.Distinct().ToList();
         }
 
         /// <summary>
