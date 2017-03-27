@@ -54,10 +54,6 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
-        public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
-        {
-            
-        }
 
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
@@ -107,7 +103,7 @@ so I thought suppressing warnings would have the same result.*/
         /// Informs the connection about a performed move
         /// </summary>
         /// <param name="move">Move that was performed</param>
-        public void MovePerformed(Move move)
+        public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
         {
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
