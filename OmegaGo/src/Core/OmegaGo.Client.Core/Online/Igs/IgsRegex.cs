@@ -70,10 +70,10 @@ namespace OmegaGo.Core.Online.Igs
 8. 900
 9. 25
 empty string*/
-                CanadianTimeInformation black = CanadianTimeInformation.FromIgs(
+                CanadianTimeInformation black = IgsRegex.TimeInformationFromGameHeading(
                     match.Groups[8].Value.AsInteger(),
                     match.Groups[9].Value.AsInteger());
-                CanadianTimeInformation white = CanadianTimeInformation.FromIgs(
+                CanadianTimeInformation white = IgsRegex.TimeInformationFromGameHeading(
                    match.Groups[4].Value.AsInteger(),
                    match.Groups[5].Value.AsInteger());
                 return new GameHeading(
@@ -85,7 +85,15 @@ empty string*/
             }
             return null;
         }
-
+        private static CanadianTimeInformation TimeInformationFromGameHeading(int firstValueTime, int secondValueStones)
+        {
+            if (secondValueStones == -1)
+            {
+                return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
+            }
+            return new CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
+                secondValueStones);
+        }
         private static readonly Regex regexSayInformation = new Regex(@"51 Say in game ([0-9]+)");
         public static int ParseGameNumberFromSayInformation(IgsLine igsLine)
         {

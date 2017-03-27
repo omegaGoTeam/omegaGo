@@ -25,10 +25,10 @@ namespace OmegaGo.Core.Time.Absolute
             return (_mainTime - addThisTime).Ticks <= 0;
         }
 
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
             LastTimeClockStarted = DateTime.Now;
-            _mainTime = TimeSpan.FromSeconds(secondsLeftIThink);
+            _mainTime = TimeSpan.FromSeconds(secondsLeft);
         }
 
         public override string GetGtpInitializationCommand()

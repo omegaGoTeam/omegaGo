@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core.Time.Japanese
 {
     /// <summary>
-    /// The Japanese time control is standard Japanese byo-yomi, i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// The Japanese time control is standard Japanese byo-yomi,
+    /// i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// See http://senseis.xmp.net/?ByoYomi
     /// </summary>
     public class JapaneseTimeControl : TimeControl
     {
@@ -26,10 +28,10 @@ namespace OmegaGo.Core.Time.Japanese
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
             LastTimeClockStarted = DateTime.Now;
-            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
+            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeft),
                 _snapshot.PeriodsLeft, _snapshot.InByoYomi);
         }
 
@@ -65,7 +67,12 @@ namespace OmegaGo.Core.Time.Japanese
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
 
-     
+        /// <summary>
+        /// Reduces the time remaining on the clock in the <paramref name="minued"/> by <paramref name="subtrahend"/>
+        /// and returns the result. This cannot be static because it uses the <see cref="_byoyomiLengthInSeconds"/> field. 
+        /// </summary>
+        /// <param name="minued">The minued.</param>
+        /// <param name="subtrahend">The subtrahend.</param>
         private JapaneseTimeInformation ReduceBy(JapaneseTimeInformation minued, TimeSpan subtrahend)
         {
             TimeSpan subtractStill = subtrahend;

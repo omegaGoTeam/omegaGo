@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Time.None
 {
-    class NoTimeInformation : TimeInformation
+    /// <summary>
+    /// I like this class. It's simple.
+    /// </summary>
+    internal class NoTimeInformation : TimeInformation
     {
         public override string MainText => "";
         public override string SubText => "No time limit";

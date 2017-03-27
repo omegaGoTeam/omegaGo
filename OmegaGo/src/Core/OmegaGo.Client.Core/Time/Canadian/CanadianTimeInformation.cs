@@ -47,14 +47,6 @@ namespace OmegaGo.Core.Time.Canadian
         }
         public override TimeControlStyle Style => TimeControlStyle.Canadian;
 
-        public static CanadianTimeInformation FromIgs(int firstValueTime, int secondValueStones)
-        {
-            if (secondValueStones == -1)
-            {
-                return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
-            }
-            return new CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
-                secondValueStones);
-        }
+      
     }
 }

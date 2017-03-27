@@ -24,9 +24,13 @@ namespace FormsFuego
         /// <returns></returns>
         public IGtpEngine CreateEngine(int boardSize)
         {
-            Win32Fuego wf = new FormsFuego.Win32Fuego();
+            Win32Fuego wf = new Win32Fuego();
             wf.RestartProcess();
-            wf.SendCommand("boardsize " + boardSize);
+            if (boardSize != 0)
+            {
+                // FuegoEngine interprets boardsize 0 to mean "you may change boardsize at any time" so we'll do that here, too.
+                wf.SendCommand("boardsize " + boardSize);
+            }
             return wf;
         }
     }
@@ -42,7 +46,7 @@ namespace FormsFuego
 
         public GtpResponse SendCommand(string command)
         {
-            WriteCommand(command, null);
+            WriteCommand(command);
             string code;
             string msg;
             bool success;
@@ -50,7 +54,8 @@ namespace FormsFuego
             return new GtpResponse(success, msg);
         }
         private readonly ConcurrentQueue<string> _inputs = new ConcurrentQueue<string>();
-        readonly List<string> _debugLines = new List<string>();
+        // ReSharper disable once CollectionNeverQueried.Local --this may become useful if it becomes the onyl way to get some information about Fuego thinking
+        private readonly List<string> _debugLines = new List<string>();
         private void ReadResponse(out string code, out Boolean success, out string msg)
         {
             success = false;
@@ -132,8 +137,8 @@ namespace FormsFuego
             {
                 Debug.Write(' ');
                 _writer.Write(' ');
-                Debug.Write(value.ToString());
-                _writer.Write(value.ToString());
+                Debug.Write(value);
+                _writer.Write(value);
             }
             _writer.Write("\n\n");
             _writer.Flush();
@@ -184,7 +189,7 @@ namespace FormsFuego
                     Thread.Sleep(wait); // give exe a chance to start up
 
                     // This method is much more reliable than trying to read standard output.
-                    Process.OutputDataReceived += Process_OutputDataReceived; ;
+                    Process.OutputDataReceived += Process_OutputDataReceived;
                     Process.BeginOutputReadLine();
                     Process.ErrorDataReceived += Process_ErrorDataReceived;
                     Process.BeginErrorReadLine();

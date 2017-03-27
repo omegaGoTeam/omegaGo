@@ -73,17 +73,17 @@ namespace OmegaGo.Core.Time.Canadian
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
 
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
             LastTimeClockStarted = DateTime.Now;
             if (_snapshot.MainTimeLeft > TimeSpan.Zero)
             {
-                _snapshot = new Canadian.CanadianTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink), _snapshot.PeriodTimeLeft,
+                _snapshot = new Canadian.CanadianTimeInformation(TimeSpan.FromSeconds(secondsLeft), _snapshot.PeriodTimeLeft,
                     _snapshot.PeriodStonesLeft);
             }
             else
             {
-                _snapshot = new Canadian.CanadianTimeInformation(_snapshot.MainTimeLeft, TimeSpan.FromSeconds(secondsLeftIThink),
+                _snapshot = new Canadian.CanadianTimeInformation(_snapshot.MainTimeLeft, TimeSpan.FromSeconds(secondsLeft),
                     _snapshot.PeriodStonesLeft);
             }
         }
@@ -113,7 +113,7 @@ namespace OmegaGo.Core.Time.Canadian
                     timeRemaining.PeriodTimeLeft,
                     timeRemaining.PeriodStonesLeft + 1);
             }
-            _snapshot = timeRemaining; // TODO Petr:  minus current time, I guess?
+            _snapshot = timeRemaining; 
             return this;
         }
     }
