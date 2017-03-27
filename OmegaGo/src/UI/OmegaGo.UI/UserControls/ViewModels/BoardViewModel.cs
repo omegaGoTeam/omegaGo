@@ -11,7 +11,6 @@ using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    // TODO Vita : It would be nice to have a way how to choose selected-highlighted tile
     public sealed class BoardViewModel : ControlViewModelBase
     {
         private BoardControlState _boardControlState;

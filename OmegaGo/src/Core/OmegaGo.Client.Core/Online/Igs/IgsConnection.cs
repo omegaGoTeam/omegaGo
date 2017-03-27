@@ -257,7 +257,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
-        // TODO Petr: The log might or might not be present in the final version, we'll see
+        // TODO Petr (low importance): The log might or might not be present in the final version, we'll see
         /// <summary>
         /// Log of Igs
         /// </summary>
@@ -374,7 +374,7 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
-        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
+        // TODO Petr (low importance): It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
