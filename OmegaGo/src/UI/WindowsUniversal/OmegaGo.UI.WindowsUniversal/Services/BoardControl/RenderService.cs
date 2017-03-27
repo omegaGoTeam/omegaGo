@@ -77,35 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             ReloadSettings();
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
-
-
-        public static async void ResetResources()
-        {/*
-            if (resourceCreationAssigned == 1)
-            {
-                await resourcesCreation.Task;
-            }
-            */
-            resourcesCreation = new TaskCompletionSource<bool>();
-            resourceCreationAssigned = 0;
-        }
-        private static int resourceCreationAssigned = 0;
-        private static TaskCompletionSource<bool> resourcesCreation = new TaskCompletionSource<bool>();
-        async Task EnsureResourcesExistAsync(ICanvasResourceCreator sender)
-        {
-            await CreateResourcesAsync(sender);
-            /*
-            if (Interlocked.CompareExchange(ref resourceCreationAssigned, 1, 0) == 1)
-            {
-                // wait
-                await resourcesCreation.Task;
-            }
-            else
-            {
-                await CreateResourcesAsync(sender);
-                resourcesCreation.SetResult(true);
-            }*/
-        }
+      
 
         async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {

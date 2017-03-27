@@ -72,7 +72,7 @@ namespace OmegaGo.UI.Services.Tsumego
                 {
                     if (node.Parent.Tsumego.Correct) node.Tsumego.Correct = true;
                     if (node.Parent.Tsumego.Wrong) node.Tsumego.Wrong = true;
-                    //node.FillBoardState(TsumegoProblem.TsumegoRuleset);
+                    node.FillBoardState(TsumegoProblem.TsumegoRuleset);
                 }
                 foreach(GameTreeNode continuation in node.Branches)
                 {

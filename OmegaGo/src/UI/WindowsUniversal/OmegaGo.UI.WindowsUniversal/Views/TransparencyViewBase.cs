@@ -31,7 +31,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// </summary>
         private void TransparencyViewBase_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
         {
-            RenderService.ResetResources();
             var transparentBackground = new SolidColorBrush(Colors.Transparent);
             if (Content is Grid)
             {
