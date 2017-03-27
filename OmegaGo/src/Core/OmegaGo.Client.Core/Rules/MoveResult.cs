@@ -38,10 +38,6 @@
         /// This move is the second of the two consecutive passes that signal the end of the game.
         /// After two passes, the players mark stones as alive or dead.
         /// </summary>
-        StartLifeAndDeath,
-        /// <summary>
-        /// The move is ignored. This makes it possible for specific game types to alter ruleset decision logic.
-        /// </summary>
-        Ignore
+        StartLifeAndDeath
     }
 }
