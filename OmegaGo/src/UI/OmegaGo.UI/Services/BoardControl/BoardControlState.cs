@@ -15,8 +15,7 @@ namespace OmegaGo.UI.Services.Game
     /// Contains information associated with the user control that displays a Go board,
     /// such as styles or highlighted positions.
     /// </summary>
-    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-    public sealed class BoardControlState : INotifyPropertyChanged
+    public sealed class BoardControlState
     {
         private int _boardWidth;
         private int _boardHeight;
@@ -27,14 +26,16 @@ namespace OmegaGo.UI.Services.Game
         private MvxColor _highlightColor;
         private MvxColor _selectionColor;
         
-        private Position _mouseOverPosition;
+        private Position _pointerOverPosition;
         private Position _shiningPosition;
+
+        private StoneColor _pointerOverShadowColor;
 
         public BoardControlState()
         {
-            this._mouseOverPosition = Position.Undefined;
+            _pointerOverPosition = Position.Undefined;
             _shiningPosition = Position.Undefined;
-            
+
             _boardLineThickness = 1;
 
             _boardWidth = 1;
@@ -44,14 +45,15 @@ namespace OmegaGo.UI.Services.Game
             _highlightColor = new MvxColor(0xFF, 0xFF, 0xFF, 0x60);
         }
 
-        public BoardControlState(GameBoardSize boardSize) :
-            this()
+        public BoardControlState(GameBoardSize boardSize)
+            : this()
         {
             _boardWidth = boardSize.Width;
             _boardHeight = boardSize.Height;
         }
-        public BoardControlState(Rectangle rectangle) :
-            this()
+
+        public BoardControlState(Rectangle rectangle)
+            : this()
         {
             this.OriginX = rectangle.X;
             this.OriginY = rectangle.Y;
@@ -60,63 +62,49 @@ namespace OmegaGo.UI.Services.Game
             TsumegoMode = true;
         }
 
+        public event EventHandler RedrawRequested;
 
         public int BoardLineThickness
         {
             get { return _boardLineThickness; }
-            set { _boardLineThickness = value; OnPropertyChanged(nameof(BoardLineThickness), true); }
+            set { _boardLineThickness = value; }
         }
-
-        private StoneColor _mouseOverShadowColor;
-        public bool TsumegoMode { get; }
-        public int LeftPadding;
-        public int TopPadding;
-        public int NewCellSize;
-        public int OriginX;
-        public int OriginY;
-
+        
         /// <summary>
         /// Gets or sets the color of the shadow stone displayed under the cursor when the user 
         /// mouses over the board
         /// </summary>
         public StoneColor MouseOverShadowColor
         {
-            get { return _mouseOverShadowColor; }
-            set { _mouseOverShadowColor = value; OnPropertyChanged(nameof(MouseOverShadowColor), true); }
+            get { return _pointerOverShadowColor; }
+            set { _pointerOverShadowColor = value; }
         }
 
         public MvxColor BoardColor
         {
             get { return _boardColor; }
-            set { _boardColor = value; OnPropertyChanged(nameof(BoardColor), true); }
+            set { _boardColor = value; }
         }
 
         public MvxColor HighlightColor
         {
             get { return _highlightColor; }
-            set { _highlightColor = value; OnPropertyChanged(nameof(HighlightColor), true); }
+            set { _highlightColor = value; }
         }
 
         public MvxColor SelectionColor
         {
             get { return _selectionColor; }
-            set { _selectionColor = value; OnPropertyChanged(nameof(SelectionColor), true); }
+            set { _selectionColor = value; }
         }
 
         /// <summary>
         /// Gets or sets the position the mouse is hovering over.
         /// </summary>
-        public Position MouseOverPosition
+        public Position PointerOverPosition
         {
-            get { return this._mouseOverPosition; }
-            set
-            {
-                if (value.Equals(this._mouseOverPosition))
-                    return;
-
-                this._mouseOverPosition = value;
-                OnPropertyChanged(nameof(this.MouseOverPosition), true);
-            }
+            get { return _pointerOverPosition; }
+            set { _pointerOverPosition = value; }
         }
         /// <summary>
         /// Gets or sets the position on a tutorial board that invites the player to tap on it.
@@ -124,14 +112,7 @@ namespace OmegaGo.UI.Services.Game
         public Position ShiningPosition
         {
             get { return _shiningPosition; }
-            set
-            {
-                if (value.Equals(_shiningPosition))
-                    return;
-
-                _shiningPosition = value;
-                OnPropertyChanged(nameof(ShiningPosition), true);
-            }
+            set { _shiningPosition = value; }
         }
 
         /// <summary>
@@ -140,11 +121,7 @@ namespace OmegaGo.UI.Services.Game
         public int BoardWidth
         {
             get { return _boardWidth; }
-            set
-            {
-                _boardWidth = value;
-                OnPropertyChanged(nameof(BoardWidth), true);
-            }
+            set { _boardWidth = value; }
         }
 
         /// <summary>
@@ -153,26 +130,16 @@ namespace OmegaGo.UI.Services.Game
         public int BoardHeight
         {
             get { return _boardHeight; }
-            set
-            {
-                _boardHeight = value;
-                OnPropertyChanged(nameof(BoardHeight), true);
-            }
+            set { _boardHeight = value; }
         }
 
         public bool ShowTerritory { get; set; }
         public TerritoryMap TerritoryMap { get; set; }
-
-
-        public event EventHandler RedrawRequested;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName, bool shouldRedraw = false)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-            if (shouldRedraw)
-                RedrawRequested?.Invoke(this, EventArgs.Empty);
-        }
+        public bool TsumegoMode { get; }
+        public int LeftPadding { get; set; }
+        public int TopPadding { get; set; }
+        public int NewCellSize { get; set; }
+        public int OriginX { get; set; }
+        public int OriginY { get; set; }
     }
 }
