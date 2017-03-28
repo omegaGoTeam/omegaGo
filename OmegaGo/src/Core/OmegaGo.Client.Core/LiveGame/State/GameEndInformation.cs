@@ -94,11 +94,11 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// <summary>
         /// Creates disconnection
         /// </summary>
-        /// <param name="whoDisconnected">Who has disconnected</param>
+        /// <param name="whoDisconnected">Who has disconnected. In observed games, this may be null.</param>
         /// <param name="players">Both players</param>
         /// <returns>Game end info</returns>
         public static GameEndInformation CreateDisconnection(GamePlayer whoDisconnected, PlayerPair players) =>
-            new GameEndInformation(GameEndReason.Disconnection, players, whoDisconnected.Info.Color.GetOpponentColor());
+            new GameEndInformation(GameEndReason.Disconnection, players, whoDisconnected?.Info.Color.GetOpponentColor() ?? StoneColor.None);
 
         /// <summary>
         /// Creates scored game end

@@ -7,7 +7,7 @@
     /// option [option 2 button caption]
     /// s [option 2 outcome text]
     /// 
-    /// If this is not followed, strange things may happen.
+    /// If this is not followed, an exception occurs.
     /// 
     /// This command, when executed, will display the choice dialogue to the user and then stop. When the user picks a choice,
     /// this command will change the teacher's line and then continue executing the next command (which should usually be
@@ -36,6 +36,11 @@
 
         public MenuCommand(ScenarioLoader.ParsedLine option1, ScenarioLoader.ParsedLine option1Then, ScenarioLoader.ParsedLine option2, ScenarioLoader.ParsedLine option2Then)
         {
+            if (option1.Command != "option" || option2.Command != "option" ||
+                option1Then.Command != "s" || option2Then.Command != "s")
+            {
+                throw new System.Exception("Bad use of the menu command.");
+            }
             _firstOptionText = option1.FullArgument;
             _secondOptionText = option2.FullArgument;
             _firstOptionOutcome = option1Then.FullArgument;
