@@ -160,8 +160,6 @@ A tsumego problem will also display a problem statement
             {
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
-                GameBoard[] history = new GameBoard[1];
-                history[0] = CurrentNode.BoardState;
                 MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
                 
                 // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
