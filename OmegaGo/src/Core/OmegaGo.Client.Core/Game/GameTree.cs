@@ -166,6 +166,16 @@ namespace OmegaGo.Core.Game
             {
                 LastNode.Branches.AddNode(node);
                 node.Parent = LastNode;
+                node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
+                node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
+            }
+            if (move.WhoMoves == StoneColor.Black)
+            {
+                node.Prisoners.BlackPrisoners += move.Captures.Count();
+            }
+            else
+            {
+                node.Prisoners.WhitePrisoners += move.Captures.Count();
             }
             PrimaryTimelineLength++;
             LastNode = node;

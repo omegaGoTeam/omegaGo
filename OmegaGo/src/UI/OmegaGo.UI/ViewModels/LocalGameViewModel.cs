@@ -85,8 +85,8 @@ namespace OmegaGo.UI.ViewModels
         public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base (gameSettings, questsManager, dialogService)
         {
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
+            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game.Controller);
+            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game.Controller);
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
