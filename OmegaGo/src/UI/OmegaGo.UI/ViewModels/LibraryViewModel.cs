@@ -126,6 +126,7 @@ namespace OmegaGo.UI.ViewModels
 
                 var result = ruleset.ProcessMove(node,move);
                 node.BoardState = result.NewBoard;
+                node.GroupState = result.NewGroupState;
             }
             
             foreach (GameTreeNode childNode in node.Branches)
