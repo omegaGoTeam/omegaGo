@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core.Time.None
 {
     /// <summary>
-    /// I like this class. It's simple.
+    /// This is the <see cref="TimeInformation"/> subclass for <see cref="NoTimeControl"/>. It doesn't really do anything, or store any information.  
     /// </summary>
     internal class NoTimeInformation : TimeInformation
     {

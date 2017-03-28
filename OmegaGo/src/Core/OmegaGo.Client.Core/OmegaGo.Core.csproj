@@ -301,6 +301,7 @@
     <Compile Include="Time\TimeControl.cs" />
     <Compile Include="Time\TimeControlStyle.cs" />
     <Compile Include="Time\TimeInformation.cs" />
+    <Compile Include="Time\TimeLeftArguments.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
