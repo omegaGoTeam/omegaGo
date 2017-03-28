@@ -69,5 +69,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void AssistantFlyout_Close(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            this.AssistantFlyout.Hide();
+        }
     }
 }
