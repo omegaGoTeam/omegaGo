@@ -560,7 +560,7 @@ namespace OmegaGo.Core.Rules
                     capturedGroups.Add(groupID);
             }
 
-            return capturedGroups;
+            return capturedGroups.Distinct().ToList();
         }
 
         /// <summary>
