@@ -88,8 +88,8 @@ namespace OmegaGo.UI.ViewModels
             get
             {
                 return _gameSettings.Audio.Mute
-                    ? "\uE74F" //"&#xE74F"
-                    : "\uE995"; //"&#xE995";
+                    ? "\uE74F" 
+                    : "\uE995"; 
 
             }
             set

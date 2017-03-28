@@ -20,7 +20,6 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public User[] Users { get; set; }
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr:
             connection.Data.JoinRoom(this.ChannelId);
             foreach (var user in Users)
             {

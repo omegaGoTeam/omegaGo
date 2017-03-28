@@ -93,7 +93,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                     yield return new ButtonNextTextCommand(parsedLine.FullArgument);
                     break;
                 case "suicidal_move_message":
-                    // TODO Petr:
+                    // This should show a failure message in a pretty bubble, but we scrapped that functionality because of time constraints.
                     break;
                 case "black":
                     yield return new PlaceCommand(StoneColor.Black, parsedLine.Arguments);

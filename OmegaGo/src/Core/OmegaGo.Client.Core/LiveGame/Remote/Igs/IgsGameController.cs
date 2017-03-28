@@ -66,7 +66,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
-            // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
             IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
             IgsConnector.Disconnected += IgsConnector_Disconnected;

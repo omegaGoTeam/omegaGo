@@ -145,7 +145,6 @@ namespace OmegaGo.Core.AI.Fuego
                 SendCommand("uct_param_player resign_threshold 0");
             }
             
-            // TODO Petr: send commands for allowResign, maxgames
             // TODO Petr: on IGS, make it so two passes don't end a game
 
             // Time settings

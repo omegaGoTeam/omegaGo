@@ -95,6 +95,7 @@ so I thought suppressing warnings would have the same result.*/
         public void HandicapFromServer(int stoneCount)
         {
             // TODO Petr: Can Handicap info arrive before HandicapPlacement starts?
+            // Quite possibly. Sigh. I'll try to do something about it.
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
         }
