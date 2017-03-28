@@ -146,6 +146,7 @@ namespace OmegaGo.Core.Game
         /// Gets or creates Tsumego info for the game tree node
         /// </summary>
         public TsumegoNodeInfo Tsumego => GetOrCreateNodeInfo<TsumegoNodeInfo>();
+        public PrisonersNodeInfo Prisoners => GetOrCreateNodeInfo<PrisonersNodeInfo>();
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.

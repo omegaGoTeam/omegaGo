@@ -44,8 +44,8 @@ namespace OmegaGo.UI.ViewModels
         {
             ChatViewModel = new ChatViewModel();
 
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White);
+            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game.Controller);
+            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game.Controller);
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
