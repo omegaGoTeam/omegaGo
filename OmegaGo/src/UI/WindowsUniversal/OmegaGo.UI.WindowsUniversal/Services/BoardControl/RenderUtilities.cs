@@ -32,6 +32,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
             double maxHeight = target.Height;
             double xOverflowRatio = orWidth/maxWidth;
             double yOverflowRatio = orHeight/maxHeight;
+
             if (xOverflowRatio >= yOverflowRatio)
             {
                 double xMagnification = 1.0/xOverflowRatio;
@@ -44,12 +45,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
                 orHeight = maxHeight;
                 orWidth = orWidth*yMagnification;
             }
+
             return new Rect(
                     target.X + target.Width / 2 - orWidth / 2,
                     target.Y + target.Height / 2 - orHeight / 2,
                     orWidth,
-                    orHeight
-                );
+                    orHeight);
         }
 
         private static int cachedCellSize = -1;
