@@ -60,6 +60,8 @@
     <Compile Include="LiveGame\Connectors\UI\IUiConnector.cs" />
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="LiveGame\Phases\Main\Igs\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
@@ -220,10 +222,11 @@
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Rules\CountingType.cs" />
-    <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
-    <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="Rules\Group.cs" />
+    <Compile Include="Rules\GroupState.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Rules\RulesetInfo.cs" />
     <Compile Include="Rules\RulesetType.cs" />
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Rules\Scores.cs" />

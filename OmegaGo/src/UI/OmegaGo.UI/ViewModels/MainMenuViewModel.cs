@@ -11,6 +11,7 @@ using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI.ViewModels
 {

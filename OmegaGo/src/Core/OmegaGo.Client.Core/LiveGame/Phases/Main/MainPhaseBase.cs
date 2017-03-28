@@ -169,10 +169,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
             //ask the ruleset to validate the move
             MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(
-                       Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
-                       move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
+                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);
@@ -212,7 +209,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
                 //applies the legal move
                 Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
-                ApplyMove(move, processingResult.NewBoard);
+                ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
 
                 //switches players
                 Controller.SwitchTurnPlayer();
@@ -226,10 +223,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         /// <param name="move">Move</param>
         /// <param name="newBoard">Game board state after the move</param>
-        private void ApplyMove(Move move, GameBoard newBoard)
+        private void ApplyMove(Move move, GameBoard newBoard, GroupState newGroupState)
         {
             //add new move to game tree
-            Controller.GameTree.AddMoveToEnd(move, newBoard);
+            Controller.GameTree.AddMoveToEnd(move, newBoard, newGroupState);
 
             //inform the players that a move occured
             foreach (var connector in Controller.Connectors)
