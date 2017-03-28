@@ -1,7 +1,7 @@
-﻿using OmegaGo.UI.ViewModels;
-using System.Linq;
-using Windows.System;
+﻿using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -10,15 +10,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private const int DotKeyValue = 190;
         private const int CommaKeyValue = 188;
 
-        public GameCreationViewModel VM => (GameCreationViewModel)this.ViewModel;
+        public GameCreationViewModel VM => (GameCreationViewModel)ViewModel;
 
         public GameCreationView()
 
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
-        private void CompensationInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void CompensationInput_KeyDown(object sender, KeyRoutedEventArgs e)
         {             
             var isNumericInput = e.Key.ToString().StartsWith("Number") ||
                 e.Key == VirtualKey.Stop ||
@@ -33,22 +33,22 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void CloseCustomBoardSizeFlyout(object sender, RoutedEventArgs e)
         {
-            this.CustomBoardSizeFlyout.Hide();
+            CustomBoardSizeFlyout.Hide();
         }
 
         private void CloseTimeControlFlyout(object sender, RoutedEventArgs e)
         {
-            this.TimeControlFlyout.Hide();
+            TimeControlFlyout.Hide();
         }
 
         private void CloseWhitePlayerFlyout(object sender, RoutedEventArgs e)
         {
-            this.WhitePlayerFlyout.Hide();
+            WhitePlayerFlyout.Hide();
         }
 
         private void CloseBlackPlayerFlyout(object sender, RoutedEventArgs e)
         {
-            this.BlackPlayerFlyout.Hide();
+            BlackPlayerFlyout.Hide();
         }
     }
 }

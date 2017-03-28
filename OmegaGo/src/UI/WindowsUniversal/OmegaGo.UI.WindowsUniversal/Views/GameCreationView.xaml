@@ -95,7 +95,7 @@
                             <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
                             <TextBlock Text="Height: "/>
                             <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
-                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseCustomBoardSizeFlyout"></Button>
+                            <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -130,7 +130,7 @@
                     <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
                         <StackPanel>
                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
-                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseBlackPlayerFlyout"></Button>
+                            <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -152,7 +152,7 @@
                     <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
                         <StackPanel>
                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
-                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseWhitePlayerFlyout"></Button>
+                            <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -211,7 +211,7 @@
                                     <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                 </StackPanel>
                             </StackPanel>
-                            <Button Content="{x:Bind Localizer.CloseFlyout}" Click="CloseTimeControlFlyout"></Button>
+                            <Button Click="CloseTimeControlFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

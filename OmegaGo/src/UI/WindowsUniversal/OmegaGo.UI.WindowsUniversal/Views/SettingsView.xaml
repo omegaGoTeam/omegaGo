@@ -429,7 +429,7 @@
                                     <Flyout x:Name="AssistantFlyout">
                                             <StackPanel>
                                                 <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
-                                                <Button Click="AssistantFlyout_Close" Content="{x:Bind Localizer.CloseFlyout}"></Button>
+                                                <Button Click="AssistantFlyout_Close" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                             </StackPanel>
                                         </Flyout>
                                 </Button.Flyout>
