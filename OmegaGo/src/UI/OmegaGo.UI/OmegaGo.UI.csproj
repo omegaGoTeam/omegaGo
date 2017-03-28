@@ -65,7 +65,6 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SortObservableCollections.cs" />
-    <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\Styles\BackgroundColor.cs" />
     <Compile Include="Game\Styles\BackgroundImage.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
@@ -226,8 +225,14 @@
       <HintPath>..\..\..\packages\Newtonsoft.Json.9.0.1\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\Windows.Foundation.UniversalApiContract\3.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ExampleFiles\AlphaGo1.sgf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <EmbeddedResource Include="Services\Tsumego\Data\For a friend\1.sgf" />
     <EmbeddedResource Include="Services\Tsumego\Data\For a friend\2.sgf" />

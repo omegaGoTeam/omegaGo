@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.System;
 using OmegaGo.UI.Services.Files;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Files
@@ -12,6 +15,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         {
             
         }
+        
 
         public string ReadFile(string filePath)
         {
@@ -45,6 +49,45 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         {
             // TODO Martin : Finish
             return String.Empty;
+        }
+
+        public void EnsureFolderExists(string folderPath)
+        {
+            string combinedPath = $"{_rootFolderPath}\\{folderPath}";
+            if (!System.IO.Directory.Exists(combinedPath))
+            {
+                System.IO.Directory.CreateDirectory(combinedPath);
+            }
+        }
+
+        public IEnumerable<string> EnumerateFilesInFolder(string folderPath)
+        {
+            string combinedPath = $"{_rootFolderPath}\\{folderPath}";
+            foreach(var path in System.IO.Directory.EnumerateFiles(combinedPath))
+            {
+                yield return System.IO.Path.GetFileName(path);
+            }
+        }
+
+        public async Task LaunchFolderAsync(string folderPath)
+        {
+            await Launcher.LaunchFolderAsync((await ApplicationData.Current.LocalFolder.GetFolderAsync(folderPath)));
+        }
+
+        public void DeleteFile(string filename)
+        {
+            string full = Combine(filename);
+            System.IO.File.Delete(full);
+        }
+        /// <summary>
+        /// Changes a local path into a path that is appended to the full absolute path of ApplicationData.LocalFolder.
+        /// </summary>
+        /// <param name="path">The path to append to LocalFolder.</param>
+        /// <returns></returns>
+        private string Combine(string path)
+        {
+            string combinedPath = $"{_rootFolderPath}\\{path}";
+            return combinedPath;
         }
     }
 }
