@@ -22,7 +22,6 @@ namespace OmegaGo.UI.ViewModels.Tutorial
         public static List<ScenarioCommand> LoadFromText(string data)
         {
             List<ScenarioCommand> commands = new List<ScenarioCommand>();
-            // TODO Petr: HACK the menu parsing system is a little.... fragiles
             string[] lines = data.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < lines.Length; i++)
             {
@@ -115,11 +114,22 @@ namespace OmegaGo.UI.ViewModels.Tutorial
                     throw new Exception("This command is not implemented: " + parsedLine.Command);
             }
         }
-
+        /// <summary>
+        /// Represents a line in a tutorial text file.
+        /// </summary>
         public class ParsedLine
         {
+            /// <summary>
+            /// The first word of the line.
+            /// </summary>
             public readonly string Command;
+            /// <summary>
+            /// The rest of the line, i.e. all words after the first space. This is used in <see cref="SayCommand"/>, for example. 
+            /// </summary>
             public readonly string FullArgument;
+            /// <summary>
+            /// The rest of the line, split by spaces. This is used for commands that take structured arguments.
+            /// </summary>
             public readonly string[] Arguments;
 
             public static ParsedLine Parse(string line)
