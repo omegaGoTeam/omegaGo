@@ -189,7 +189,7 @@ namespace OmegaGo.UI.ViewModels
                     SetProperty(ref _customWidth, parsed);
                     SetCustomBoardSize();
                 }
-            } // TODO Petr: check for exceptions
+            } // TODO Martin: do verification in game creation view
         }
 
         public string CustomHeight
@@ -199,7 +199,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
-            } // TODO Petr: check for exceptions
+            } // TODO Martin: do verification in game creation view
         }
         /// <summary>
         /// Handicap of white player

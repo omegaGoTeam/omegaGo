@@ -43,7 +43,6 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task<List<IgsGameInfo>> ListGamesInProgressAsync()
         {
-            await EnsureConnectedAsync();
             var games = new List<IgsGameInfo>();
             List<IgsLine> lines = await MakeRequestAsync("games");
             foreach (IgsLine line in lines)
@@ -195,7 +194,6 @@ namespace OmegaGo.Core.Online.Igs
         /// <returns>True if the message was delivered.</returns>
         public async Task<bool> TellAsync(string recipient, string message)
         {
-            await EnsureConnectedAsync();
             List<IgsLine> result = await MakeRequestAsync("tell " + recipient + " " + message);
             return result.All(line => line.Code != IgsCode.Error);
         }
@@ -217,7 +215,6 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task<List<IgsUser>> ListOnlinePlayersAsync(string specificUser = null)
         {
-            await EnsureConnectedAsync();
             List<IgsLine> users = await MakeRequestAsync("user");
             var returnedUsers = new List<IgsUser>();
             foreach (var line in users)

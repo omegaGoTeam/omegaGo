@@ -94,9 +94,9 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>
-        public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState)
+        public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState, GroupState groupState)
         {
-            return AddMoveToEndInternal(move, boardState);
+            return AddMoveToEndInternal(move, boardState, groupState);
         }
 
         /// <summary>
@@ -106,9 +106,9 @@ namespace OmegaGo.Core.Game
         /// <param name="newWhiteStones">Newly added white stones</param>
         /// <param name="gameBoard">Game board</param>
         /// <returns>Newly added node</returns>
-        public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard)
+        public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard, GroupState groupState)
         {
-            var newNode = AddMoveToEnd(Move.NoneMove, gameBoard);
+            var newNode = AddMoveToEnd(Move.NoneMove, gameBoard, groupState);
             newNode.AddBlack.AddRange(newBlackStones);
             newNode.AddWhite.AddRange(newWhiteStones);
             return newNode;
@@ -119,9 +119,9 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="gameBoard">Game board instance</param>
         /// <returns>Newly added node</returns>
-        public GameTreeNode AddBoardToEnd(GameBoard gameBoard)
+        public GameTreeNode AddBoardToEnd(GameBoard gameBoard, GroupState groupState)
         {
-            return AddMoveToEnd(Move.NoneMove, gameBoard);
+            return AddMoveToEnd(Move.NoneMove, gameBoard, groupState);
         }
 
         /// <summary>
@@ -154,9 +154,9 @@ namespace OmegaGo.Core.Game
         /// <param name="move">Added move</param>
         /// <param name="boardState">State of the board</param>
         /// <returns></returns>
-        private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState)
+        private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState, GroupState groupState)
         {
-            GameTreeNode node = new GameTreeNode(move) { BoardState = boardState };
+            GameTreeNode node = new GameTreeNode(move) { BoardState = boardState, GroupState = groupState };
 
             if (GameTreeRoot == null)
             {

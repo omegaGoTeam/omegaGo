@@ -81,7 +81,6 @@ namespace FormsPrototype
             igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
             igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
             igs.OutgoingLine += Igs_OutgoingLine;
-         // TODO
             igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
             igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.ConnectAsync())

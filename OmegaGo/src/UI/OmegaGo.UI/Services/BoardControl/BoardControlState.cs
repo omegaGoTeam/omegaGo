@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Rules;
 using OmegaGo.UI.Utility;
 
 namespace OmegaGo.UI.Services.Game
@@ -162,6 +163,12 @@ namespace OmegaGo.UI.Services.Game
 
         public bool ShowTerritory { get; set; }
         public TerritoryMap TerritoryMap { get; set; }
+
+        /// <summary>
+        /// Gets or sets an array determining whether it is legal to make a move on a given coordinates.
+        /// This is a temporary property, to be replaced when tools are implemented.
+        /// </summary>
+        public MoveResult[,] TEMP_MoveLegality { get; set; }
 
 
         public event EventHandler RedrawRequested;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace OmegaGo.Core.Rules
 {
     /// <summary>
-    /// Determines which player controls a specific empty point or region.
+    /// Determines which player controlles a specific empty point or region.
     /// </summary>
     public enum Territory
     {

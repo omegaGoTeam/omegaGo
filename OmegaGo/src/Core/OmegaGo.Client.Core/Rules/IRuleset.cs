@@ -10,6 +10,14 @@ namespace OmegaGo.Core.Rules
 {
     public interface IRuleset
     {
+        /// <summary>
+        /// There are two ways to score. One is based on territory, the other on area.
+        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">List of dead stones.</param>
+        /// <returns>The score of players.</returns>
+        Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
@@ -21,49 +29,34 @@ namespace OmegaGo.Core.Rules
         MoveResult PlaceFreeHandicapStone(ref GameBoard currentBoard, Position position);
 
         /// <summary>
-        /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
+        /// Sets the state of ruleset.
         /// </summary>
-        /// <param name="currentBoard">The current full board position.</param>
-        /// <param name="moveToMake">The move of a player.</param>
-        /// <param name="history">All previous full board positions.</param>
-        /// <returns>The result of legality check.</returns>
-        MoveResult IsLegalMove(GameBoard currentBoard, Move moveToMake, GameBoard[] history);
+        /// <param name="boardState">State of board to use.</param>
+        /// <param name="groupState">State of groups to use.</param>
+        void SetRulesetInfo(GameBoard boardState, GroupState groupState);
 
         /// <summary>
-        /// Gets all moves that can be legally made by the PLAYER on the CURRENT BOARD in a game with the specified HISTORY.
+        /// Determines whether a move is legal. Information about any captures and the new board state are discarded.
         /// </summary>
-        /// <param name="player">The player who wants to make a move.</param>
-        /// <param name="currentBoard">The current full board position.</param>
-        /// <param name="history">All previous full board positions.</param>
-        /// <returns>List of legal moves.</returns>
-        List<Position> GetAllLegalMoves(StoneColor player, GameBoard currentBoard, GameBoard[] history);
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="moveToMake">The move of a player.</param>
+        /// <returns>The result of legality check.</returns>
+        MoveResult IsLegalMove(GameTreeNode currentNode, Move moveToMake);
 
         /// <summary>
         /// Verifies the legality of a move. Places the stone on the board. Finds prisoners and remove them.
         /// </summary>
-        /// <param name="previousBoard">The state of board before the move.</param>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="moveToMake">Move to check.</param>
-        /// <param name="history">List of previous game boards.</param>
-        /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board.</returns>
-        MoveProcessingResult ProcessMove(GameBoard previousBoard, Move moveToMake, GameBoard[] history);
-        
-        void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount);
+        /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board, the new state of groups.</returns>
+        MoveProcessingResult ProcessMove(GameTreeNode currentNode, Move moveToMake);
 
         /// <summary>
-        /// There are two ways to score. One is based on territory, the other on area.
-        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
+        /// Gets the results of moves.
         /// </summary>
-        /// <param name="currentBoard">The state of board after removing dead stones.</param>
-        /// <returns>The score of players.</returns>
-        Scores CountScore(GameBoard currentBoard);
-        
-        /// <summary>
-        /// Determines all positions that share the color of the specified position. "None" is also a color for the purposes of this method. This method is not thread-safe.
-        /// </summary>
-        /// <param name="pos">The position whose group we want to identify.</param>
-        /// <param name="board">The current full board position.</param>
-        /// <returns></returns>
-        IEnumerable<Position> DiscoverGroup(Position pos, GameBoard board);
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <returns>Map of move results.</returns>
+        MoveResult[,] GetMoveResult(GameTreeNode currentNode);
 
         /// <summary>
         /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
@@ -71,5 +64,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="board">The current game board.</param>
         Territory[,] DetermineTerritory(GameBoard board);
+
+        MoveResult[,] GetMoveResultLite(GameTreeNode boardState);
     }
 }

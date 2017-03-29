@@ -39,6 +39,10 @@ namespace OmegaGo.Core.Online.Igs
             while (true)
             {
                 IgsLine line = await IncomingLines.ReceiveAsync();
+                if (ForgottenForever)
+                {
+                    throw new System.Exception("If this happens, we should examine this in detail.");
+                }
                 if (line.Code == IgsCode.Prompt)
                 {
                     break;
@@ -46,6 +50,12 @@ namespace OmegaGo.Core.Online.Igs
                 lines.Add(line);
             }
             return lines;
+        }
+
+        private bool ForgottenForever;
+        public void Disconnect()
+        {
+            ForgottenForever = true;
         }
     }
 }

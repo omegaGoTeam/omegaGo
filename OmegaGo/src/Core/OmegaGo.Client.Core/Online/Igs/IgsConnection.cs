@@ -31,8 +31,7 @@ namespace OmegaGo.Core.Online.Igs
     public partial class IgsConnection : IServerConnection
     {
         // TODO Petr : disconnections are not thread-safe
-        // TODO Petr : switch prompt mode when necessary
-        // TODO Petr : send "ayt" or something regularly to prevent timeouts        
+        // TODO Petr : switch prompt mode when necessary    
 
         /*
          * Synchronization
@@ -117,13 +116,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Password
         /// </summary>
         private string _password;
-
-        /// <summary>
-        /// Indicates whether the user wants a Telnet connection to the server to be established. 
-        /// If this is true but the connection is lost, it should be restarted.
-        /// </summary>
-        private bool _shouldBeConnected;
-
+        
         /// <summary>
         /// Contains the login error info
         /// </summary>
@@ -235,7 +228,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Checks if  the connection has been established
         /// </summary>
-        public bool ConnectionEstablished => _shouldBeConnected;
+        public bool ConnectionEstablished { get; private set; }
 
         /// <summary>
         /// Checks if the user has been logged in
@@ -257,7 +250,7 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
-        // TODO Petr: The log might or might not be present in the final version, we'll see
+        // TODO Petr (low importance): The log might or might not be present in the final version, we'll see
         /// <summary>
         /// Log of Igs
         /// </summary>
@@ -307,10 +300,38 @@ namespace OmegaGo.Core.Online.Igs
         {
             _hostname = hostname;
             _port = port;
-            _shouldBeConnected = true;
             try
             {
-                await EnsureConnectedAsync();
+                if (_client != null && ConnectionEstablished)
+                {
+                    // We are likely to still be connected.
+                    return true;
+                }
+                _client = new TcpSocketClient();
+                try
+                {
+                    Composure = IgsComposure.InitialHandshake;
+                    await _client.ConnectAsync(_hostname, _port);
+
+                    _streamWriter = new StreamWriter(_client.WriteStream);
+                    _streamReader = new StreamReader(_client.ReadStream);
+                    _streamWriter.AutoFlush = true;
+#pragma warning disable 4014
+                    HandleIncomingData(_streamReader).ContinueWith(t =>
+                    {
+                        // Cancel everything.
+                        ConnectionLost();
+                    }, TaskContinuationOptions.OnlyOnFaulted);
+#pragma warning restore 4014
+                    _streamWriter.WriteLine("guest");
+                    _streamWriter.WriteLine("toggle client on");
+                    await WaitUntilComposureChangesAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+                ConnectionEstablished = true;
             }
             catch
             {
@@ -319,18 +340,51 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
+        private void ConnectionLost()
+        {
+            _client = null;
+            Composure = IgsComposure.Disconnected;
+            ConnectionEstablished = false;
+            foreach (var game in _availableConnectors)
+            {
+                game.Value.Disconnect();
+            }
+            Data.GamesInProgress.Clear();
+            Data.OnlineUsers.Clear();
+            _gamesYouHaveOpened.Clear();
+            _gamesBeingObserved.Clear();
+            _availableConnectors.Clear();
+            IgsRequest notYetHandledRequest;
+            while (_outgoingRequests.TryDequeue(out notYetHandledRequest))
+            {
+                notYetHandledRequest.Disconnect();
+            }
+            lock (_mutex)
+            {
+                if (_requestInProgress != null)
+                {
+                    _requestInProgress.Disconnect();
+                }
+                _requestInProgress = null;
+            }
+
+            Events.RaiseDisconnected();
+        }
+
         public async Task DisconnectAsync()
         {
-            _shouldBeConnected = false;
             try
             {
                 await _client.DisconnectAsync();
-            } catch
+            }
+            catch
             {
                 // Ignore all TCP errors.
             }
-            _client = null;
-            Composure = IgsComposure.Disconnected;
+            finally
+            {
+                ConnectionLost();
+            }
         }
 
         /// <summary>
@@ -342,39 +396,53 @@ namespace OmegaGo.Core.Online.Igs
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
-            await EnsureConnectedAsync();
-            Composure = IgsComposure.LoggingIn;
-            _username = username;
-            _password = password;
-            _loginError = null;
-            ClearConnectionInformation();
-            _streamWriter.WriteLine("login");
-            _streamWriter.WriteLine(_username);
-            _streamWriter.WriteLine(_password);
-            await WaitUntilComposureChangesAsync();
-            if (Composure == IgsComposure.Confused)
+            try
             {
-                await _client.DisconnectAsync();
-                _client = null;
-                Events.RaiseLoginComplete(false);
+                if (!ConnectionEstablished)
+                {
+                    if (!await ConnectAsync())
+                    {
+                        return false;
+                    }
+                }
+                Composure = IgsComposure.LoggingIn;
+                _username = username;
+                _password = password;
+                _loginError = null;
+                ClearConnectionInformation();
+                _streamWriter.WriteLine("login");
+                _streamWriter.WriteLine(_username);
+                _streamWriter.WriteLine(_password);
+                await WaitUntilComposureChangesAsync();
+                if (Composure == IgsComposure.Confused)
+                {
+                    await _client.DisconnectAsync();
+                    _client = null;
+                    Events.RaiseLoginComplete(false);
+                    return false;
+                }
+                if (_loginError != null)
+                {
+                    OnIncomingLine("LOGIN ERROR: " + _loginError);
+                    Events.RaiseLoginComplete(false);
+                    return false;
+                }
+                await MakeRequestAsync("toggle quiet true");
+                await MakeRequestAsync("toggle newundo true");
+                await MakeRequestAsync("toggle verbose false");
+                await ListGamesInProgressAsync();
+                await ListOnlinePlayersAsync();
+                Events.RaiseLoginComplete(true);
+                return true;
+            }
+            catch
+            {
+                await DisconnectAsync();
                 return false;
             }
-            if (_loginError != null)
-            {
-                OnIncomingLine("LOGIN ERROR: " + _loginError);
-                Events.RaiseLoginComplete(false);
-                return false;
-            }
-            await MakeRequestAsync("toggle quiet true");
-            await MakeRequestAsync("toggle newundo true");
-            await MakeRequestAsync("toggle verbose false");
-            await ListGamesInProgressAsync();
-            await ListOnlinePlayersAsync();
-            Events.RaiseLoginComplete(true);
-            return true;
         }
 
-        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
+        // TODO Petr (low importance): It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
@@ -435,7 +503,6 @@ namespace OmegaGo.Core.Online.Igs
             IgsResponse lines = await request.GetAllLines();
             lock (_mutex)
             {
-                Debug.Assert(_requestInProgress == request);
                 _requestInProgress = null;
             }
             ExecuteRequestFromQueue();
@@ -493,47 +560,7 @@ namespace OmegaGo.Core.Online.Igs
             // _gamesInProgressOnIgs.Clear();
         }
 
-        /// <summary>
-        /// Verifies that we are currectly connected to the server. If not but we *wish* to be connected,
-        /// it attempts to establish the connection. If not and we don't wish to be connected, it fails.
-        /// </summary>
-        private async Task EnsureConnectedAsync()
-        {
-            if (_client != null)
-            {
-                // We are likely to still be connected.
-                return;
-            }
-            if (!_shouldBeConnected)
-            {
-                throw new Exception("A method was called that requires an IGS connection but the 'Connect()' method was not called; or maybe 'Disconnect()' was called.");
-            }
-            _client = new TcpSocketClient();
-            try
-            {
-                Composure = IgsComposure.InitialHandshake;
-                await _client.ConnectAsync(_hostname, _port);
-
-                _streamWriter = new StreamWriter(_client.WriteStream);
-                _streamReader = new StreamReader(_client.ReadStream);
-                _streamWriter.AutoFlush = true;
-#pragma warning disable 4014
-                HandleIncomingData(_streamReader).ContinueWith(t =>
-                {
-                    // Fail silently.
-                }, TaskContinuationOptions.OnlyOnFaulted);
-#pragma warning restore 4014
-                _streamWriter.WriteLine("guest");
-                _streamWriter.WriteLine("toggle client on");
-                await WaitUntilComposureChangesAsync();
-            }
-            catch
-            {
-                throw new Exception("We failed to establish a connection with the server.");
-            }
-        }
-
-        private Task WaitUntilComposureChangesAsync()
+    private Task WaitUntilComposureChangesAsync()
         {
             IgsComposure originalComposure = Composure;
             return Task.Run(() =>

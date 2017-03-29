@@ -7,31 +7,27 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
 {
+    /// <summary>
+    /// The ruleset contains the basics of Chinese Go rules. 
+    /// </summary>
     public class ChineseRuleset : Ruleset
     {
-        private bool _isPreviousMovePass;
-        private float _komi;
-        private float _whiteScore;
-        private float _blackScore;
-        
+        /// <summary>
+        /// Initializes the ruleset. For each game, a new ruleset must be created.
+        /// </summary>
+        /// <param name="gbSize">Size of the game board.</param>
         public ChineseRuleset(GameBoardSize gbSize) : base(gbSize)
         {
-            _isPreviousMovePass = false;
-            _komi = 0.0f;
-            _whiteScore = 0.0f;
-            _blackScore = 0.0f;
         }
 
-        public override Scores CountScore(GameBoard currentBoard)
-        {
-            var scores = CountArea(currentBoard);
-
-            scores.WhiteScore += _komi + _whiteScore;
-            scores.BlackScore += _blackScore;
-
-            return scores;
-        }
-
+        /// <summary>
+        /// Calculates the default compensation (komi).
+        /// </summary>
+        /// <param name="rsType">Type of the ruleset</param>
+        /// <param name="gbSize">Game board size</param>
+        /// <param name="handicapStoneCount">Handicap stone count</param>
+        /// <param name="cType">Counting type</param>
+        /// <returns></returns>
         public static float GetChineseCompensation(GameBoardSize gbSize, int handicapStoneCount)
         {
             float compensation = 0;
@@ -39,49 +35,42 @@ namespace OmegaGo.Core.Rules
                 compensation = 7.5f;
             else
                 compensation = 0.5f + handicapStoneCount - 1;
-            
+            RulesetInfo.Komi = compensation;
             return compensation;
         }
 
-        public override void ModifyScoresAfterLDDeterminationPhase(int deadWhiteStoneCount, int deadBlackStoneCount)
+        /// <summary>
+        /// There are two ways to score. One is based on territory, the other on area.
+        /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <param name="deadPositions">List of dead stones.</param>
+        /// <returns>The score of players.</returns>
+        public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            return; //Chinese ruleset uses area counting, we do not need number of dead stones
+            var scores = CountArea(currentNode, deadPositions);
+            scores.WhiteScore += RulesetInfo.Komi;
+
+            return scores;
         }
 
-        protected override void ModifyScoresAfterCapture(int capturedStoneCount, StoneColor removedStonesColor)
+        /// <summary>
+        /// Checks 3 illegal move types: self capture, ko, superko (Japanese ruleset permits superko).
+        /// </summary>
+        /// <param name="moveToMake">Move to check.</param>
+        /// <param name="history">All previous full board positions.</param>
+        /// <returns>The result of legality check.</returns>
+        protected override MoveResult CheckSelfCaptureKoSuperko(Move moveToMake, GameBoard[] history)
         {
-            return; //Chinese ruleset uses area counting, we do not need number of captured stones
-        }
-
-        protected override MoveResult Pass(StoneColor playerColor)
-        {
-            if (_isPreviousMovePass)
-            {
-                //TODO Aniko : check whether opponents score increases according to Chinese rules
-                return MoveResult.StartLifeAndDeath;
-            }
-            else 
-            {
-                //TODO Aniko : check whether opponents score increases according to Chinese rules
-                _isPreviousMovePass = true;
-                return MoveResult.Legal;
-            }
-
-        }
-
-        protected override MoveResult CheckSelfCaptureKoSuperko(GameBoard currentBoard, Move moveToMake, GameBoard[] history)
-        {
-            _isPreviousMovePass = false;
-
-            if (IsSelfCapture(currentBoard, moveToMake) == MoveResult.SelfCapture)
+            if (IsSelfCapture(moveToMake) == MoveResult.SelfCapture)
             {
                 return MoveResult.SelfCapture;
             }
-            else if (IsKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsKo(moveToMake, history) == MoveResult.Ko)
             {
                 return MoveResult.Ko;
             }
-            else if (IsSuperKo(currentBoard, moveToMake, history) == MoveResult.Ko)
+            else if (IsSuperKo(moveToMake, history) == MoveResult.SuperKo)
             {
                 return MoveResult.SuperKo;
             }
@@ -92,6 +81,18 @@ namespace OmegaGo.Core.Rules
             
         }
 
-
+        /// <summary>
+        /// Handles the pass of a player. Two consecutive passes signal the end of game.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <returns>The legality of move or new game phase notification.</returns>
+        protected override MoveResult Pass(GameTreeNode currentNode)
+        {
+            //TODO Aniko : check whether opponents score increases according to Chinese rules
+            if (currentNode != null && currentNode.Move.Kind == MoveKind.Pass)
+                return MoveResult.StartLifeAndDeath;
+            else
+                return MoveResult.Legal;
+        }
     }
 }
