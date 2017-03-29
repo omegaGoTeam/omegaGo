@@ -40,7 +40,10 @@ namespace OmegaGo.UI.ViewModels
             this._fileService = fileService;
             this._dialogService = dialogService;
 
-            RefreshList();
+        }
+        public async void Init()
+        {
+            await RefreshList();
         }
 
         public ObservableCollection<LibraryItem> GameList
@@ -64,7 +67,7 @@ namespace OmegaGo.UI.ViewModels
             => this._exportCommand ?? (this._exportCommand = new MvxCommand(async () => await Export()));
 
         public IMvxCommand RefreshCommand
-            => this._refreshCommand ?? (this._refreshCommand = new MvxCommand(RefreshList));
+            => this._refreshCommand ?? (this._refreshCommand = new MvxCommand(async ()=> await RefreshList()));
 
         public IMvxCommand OpenLibraryInExplorerCommand
             =>
@@ -73,17 +76,20 @@ namespace OmegaGo.UI.ViewModels
                     new MvxCommand(
                         async () => { await this._fileService.LaunchFolderAsync(LibraryViewModel.SgfFolderName); }));
 
-        public ICommand OpenFileCommand => this._openFileCommand ?? (this._openFileCommand = new MvxCommand(OpenFile));
+        public ICommand OpenFileCommand => this._openFileCommand ?? (this._openFileCommand = new MvxCommand(async()=> await OpenFile()));
 
-        private string GetPath(string filename)
+        private bool _loadingPanelVisible = false;
+        public bool LoadingPanelVisible
         {
-            return Path.Combine(LibraryViewModel.SgfFolderName, filename);
+            get { return _loadingPanelVisible; }
+            set { SetProperty(ref _loadingPanelVisible, value); }
         }
 
-        private void RefreshList()
+        private async Task RefreshList()
         {
-            this._fileService.EnsureFolderExists(LibraryViewModel.SgfFolderName);
-            var files = this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
+            LoadingPanelVisible = true;
+            await this._fileService.EnsureFolderExists(LibraryViewModel.SgfFolderName);
+            var files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
             if (!files.Any())
             {
                 // Add example file
@@ -92,14 +98,14 @@ namespace OmegaGo.UI.ViewModels
                         .Assembly.GetManifestResourceStream("OmegaGo.UI.ExampleFiles.AlphaGo1.sgf");
                 var sr = new StreamReader(stream);
                 string alphaGoContent = sr.ReadToEnd();
-                this._fileService.WriteFile(GetPath("AlphaGo1.sgf"), alphaGoContent);
-                files = this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
+                await this._fileService.WriteFile(SgfFolderName, "AlphaGo1.sgf", alphaGoContent);
+                files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
             }
             var list = new List<LibraryItem>();
             var p = new SgfParser();
             foreach (string file in files)
             {
-                string content = this._fileService.ReadFile(GetPath(file));
+                string content = await this._fileService.ReadFile(SgfFolderName, file);
                 try
                 {
                     var parsed = p.Parse(content);
@@ -130,6 +136,7 @@ namespace OmegaGo.UI.ViewModels
             }
             // TODO Petr: Sort by date.
             this.GameList = new ObservableCollection<LibraryItem>(list);
+            LoadingPanelVisible = false;
         }
 
 
@@ -148,8 +155,8 @@ namespace OmegaGo.UI.ViewModels
                             "This will erase the file from the library permanently.",
                             "Delete " + this.SelectedItem.Filename + "?", "Delete", "No"))
                 {
-                    this._fileService.DeleteFile(GetPath(this.SelectedItem.Filename));
-                    RefreshList();
+                    await this._fileService.DeleteFile(SgfFolderName, this.SelectedItem.Filename);
+                    await RefreshList();
                 }
             }
         }
@@ -162,50 +169,24 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        private async void OpenFile()
+        private async Task OpenFile()
         {
             var fileContents = await this._filePicker.PickAndReadFileAsync(".sgf");
+            if (fileContents == null)
+            {
+                return;
+            }
             var p = new SgfParser();
             try
             {
                 p.Parse(fileContents.Contents);
-                this._fileService.WriteFile(GetPath(fileContents.Name), fileContents.Contents);
-                RefreshList();
+                await this._fileService.WriteFile(SgfFolderName, fileContents.Name, fileContents.Contents);
+                await RefreshList();
             }
             catch (Exception e)
             {
                 await this._dialogService.ShowAsync(e.ToString(), "Error parsing SGF file");
             }
-        }
-    }
-
-    public class LibraryItem
-    {
-        public LibraryItem(GameTree gameTree, string filename, int moveCount, string date, string black, string white,
-            string comment, string content)
-        {
-            this.Content = content;
-            this.GameTree = gameTree;
-            this.Filename = filename;
-            this.MoveCount = moveCount;
-            this.Date = date;
-            this.Black = black;
-            this.White = white;
-            this.Comment = comment;
-        }
-
-        public string Content { get; }
-        public GameTree GameTree { get; }
-        public string Filename { get; }
-        public int MoveCount { get; }
-        public string Date { get; }
-        public string Black { get; }
-        public string White { get; }
-        public string Comment { get; }
-
-        public override string ToString()
-        {
-            return this.Filename + Environment.NewLine + this.Comment;
         }
     }
 }

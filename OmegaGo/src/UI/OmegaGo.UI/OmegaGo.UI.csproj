@@ -161,6 +161,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
+    <Compile Include="Models\LibraryItem.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
     <Compile Include="ViewModels\LocalGameViewModel.cs" />

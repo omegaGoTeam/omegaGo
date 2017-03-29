@@ -10,63 +10,44 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
     sealed class FileService : IFileService
     {
         private readonly string _rootFolderPath = ApplicationData.Current.LocalFolder.Path;
+        private readonly StorageFolder _rootFolder = ApplicationData.Current.LocalFolder;
 
-        public FileService()
+        public async Task<string> ReadFile(string folder, string filePath)
         {
+            var storageFolder = await _rootFolder.GetFolderAsync(folder);
+            var storageFile = await storageFolder.GetFileAsync(filePath);
+            return await FileIO.ReadTextAsync(storageFile);
+        }
+
+        public async Task WriteFile(string folder, string filePath, string fileContent)
+        {
+            var storageFolder = await _rootFolder.GetFolderAsync(folder);
+            var storageFile = await storageFolder.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(storageFile, fileContent);
+        }
+
+        public async Task EnsureFolderExists(string folderPath)
+        {
+                try
+                {
+                    await _rootFolder.GetFolderAsync(folderPath);
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    await _rootFolder.CreateFolderAsync(folderPath);
+                }
             
         }
-        
 
-        public string ReadFile(string filePath)
+        public async Task<IEnumerable<string>> EnumerateFilesInFolder(string folderPath)
         {
-            string combinedPath = $"{_rootFolderPath}\\{filePath}";
-
-            if (!System.IO.File.Exists(combinedPath))
+            var storageFolder = await _rootFolder.GetFolderAsync(folderPath);
+            List<string> filenames = new List<string>();
+            foreach(var storageFile in await storageFolder.GetFilesAsync())
             {
-                throw new ArgumentException("File does not exist ");
+                filenames.Add(storageFile.Name);
             }
-
-            string fileText = System.IO.File.ReadAllText(combinedPath);
-
-            return fileText;
-        }
-
-        public void WriteFile(string filePath, string fileContent)
-        {
-            string combinedPath = $"{_rootFolderPath}\\{filePath}";
-
-            try
-            {
-                System.IO.File.WriteAllText(combinedPath, fileContent);
-            }
-            catch(Exception)
-            {
-                // TODO Martin : Fill
-            }
-        }
-
-        public string ReadSettingsFile()
-        {
-            // TODO Martin : Finish
-            return String.Empty;
-        }
-
-        public void EnsureFolderExists(string folderPath)
-        {
-            string combinedPath = $"{_rootFolderPath}\\{folderPath}";
-            if (!System.IO.Directory.Exists(combinedPath))
-            {
-                System.IO.Directory.CreateDirectory(combinedPath);
-            }
-        }
-
-        public IEnumerable<string> EnumerateFilesInFolder(string folderPath)
-        {
-            string combinedPath = $"{_rootFolderPath}\\{folderPath}";
-            foreach(var path in System.IO.Directory.EnumerateFiles(combinedPath))
-            {
-                yield return System.IO.Path.GetFileName(path);
-            }
+            return filenames;
         }
 
         public async Task LaunchFolderAsync(string folderPath)
@@ -74,20 +55,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             await Launcher.LaunchFolderAsync((await ApplicationData.Current.LocalFolder.GetFolderAsync(folderPath)));
         }
 
-        public void DeleteFile(string filename)
+        public async Task DeleteFile(string folder, string filename)
         {
-            string full = Combine(filename);
-            System.IO.File.Delete(full);
-        }
-        /// <summary>
-        /// Changes a local path into a path that is appended to the full absolute path of ApplicationData.LocalFolder.
-        /// </summary>
-        /// <param name="path">The path to append to LocalFolder.</param>
-        /// <returns></returns>
-        private string Combine(string path)
-        {
-            string combinedPath = $"{_rootFolderPath}\\{path}";
-            return combinedPath;
+            var storageFolder = await _rootFolder.GetFolderAsync(folder);
+            var storageFile = await storageFolder.GetFileAsync(filename);
+            await storageFile.DeleteAsync();
+
         }
     }
 }

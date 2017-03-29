@@ -14,28 +14,18 @@ namespace OmegaGo.UI.Services.Files
         /// <summary>
         /// Reads the content of the specified file
         /// </summary>
-        /// <param name="filePath">file path</param>
-        /// <returns>text content of the file</returns>
-        string ReadFile(string filePath);
+        Task<string> ReadFile(string subfolder, string filename);
 
         /// <summary>
         /// Writes text to the target file
         /// </summary>
-        /// <param name="filePath">path to the file</param>
-        /// <param name="fileContent">text content</param>
-        void WriteFile(string filePath, string fileContent);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        string ReadSettingsFile();
+        Task WriteFile(string subfolder, string filename, string fileContent);
 
 
         /// <summary>
         /// If the specified path does not exist within the app's local folder, it is created.
         /// </summary>
-        void EnsureFolderExists(string folderPath);
+        Task EnsureFolderExists(string folderPath);
 
 
         /// <summary>
@@ -44,15 +34,15 @@ namespace OmegaGo.UI.Services.Files
         /// </summary>
         /// <param name="folderPath">The folder that should have its files enumerated.</param>
         /// <returns></returns>
-        IEnumerable<string> EnumerateFilesInFolder(string folderPath);
+        Task<IEnumerable<string>> EnumerateFilesInFolder(string folderPath);
         /// <summary>
         /// Launches File Explorer opened to the specified folder.
         /// </summary>
         Task LaunchFolderAsync(string folderPath);
 
         /// <summary>
-        /// Attempts to delete a file (given as filename relative to the app's local folder).
+        /// Attempts to delete a file.
         /// </summary
-        void DeleteFile(string filename);
+        Task DeleteFile(string subfolder, string filename);
     }
 }
