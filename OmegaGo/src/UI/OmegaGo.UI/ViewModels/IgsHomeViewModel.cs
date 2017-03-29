@@ -45,6 +45,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Igs.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
+            Connections.Igs.Events.Disconnected += Events_Disconnected;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
             {
                 LoginForm.FormEnabled = false;
@@ -56,6 +57,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 await EnterIgsLobbyLoggedIn();
             }
+        }
+
+        private void Events_Disconnected(object sender, EventArgs e)
+        {
+            this.LoginForm.FormEnabled = true;
+            this.LoginForm.FormVisible = true;
+            this.LoginForm.LoginErrorMessage = "You have been disconnected.";
+            this.LoginForm.LoginErrorMessageOpacity = 1;
+
         }
 
         private async void OnLoginComplete(object sender, bool success)
@@ -89,6 +99,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Igs.Events.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
+            Connections.Igs.Events.Disconnected -= Events_Disconnected;
         }
 
         public LoginFormViewModel LoginForm { get; }
