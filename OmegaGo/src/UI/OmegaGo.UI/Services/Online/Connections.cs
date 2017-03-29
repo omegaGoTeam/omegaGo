@@ -72,7 +72,7 @@ namespace OmegaGo.UI.Services.Online
         private static void InitIgsConnection()
         {
             _igsConnection = new IgsConnection();
-            _igsConnection.PersonalInformationUpdate += IgsUserUpdate;
+            _igsConnection.Events.PersonalInformationUpdate += IgsUserUpdate;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
         }
