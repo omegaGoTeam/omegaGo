@@ -57,6 +57,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067
+        public event EventHandler Disconnected;
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -94,6 +95,7 @@ so I thought suppressing warnings would have the same result.*/
         public void HandicapFromServer(int stoneCount)
         {
             // TODO Petr: Can Handicap info arrive before HandicapPlacement starts?
+            // Quite possibly. Sigh. I'll try to do something about it.
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
         }
@@ -107,7 +109,7 @@ so I thought suppressing warnings would have the same result.*/
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
             //inform the connection
-            _connnection.MadeMove(_gameController.Info, move);
+            _connnection.Commands.MakeMove(_gameController.Info, move);
         }
 
         /// <summary>
@@ -154,6 +156,11 @@ so I thought suppressing warnings would have the same result.*/
         public void ForceMainUndo()
         {
             MainUndoForced?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Disconnect()
+        {
+            Disconnected?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -83,11 +83,6 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     StoneColor colorTimeLeft = (prop.Color == "black" ? StoneColor.Black : StoneColor.White);
                     ongame.Controller.Players[colorTimeLeft].Clock.UpdateFromKgsFloat(prop.Float);
                     break;
-                /*
-            case "TIMELEFT":
-                // TODO Petr : ignore for lesser now
-                break;
-                */
                 case "MOVE":
                     Move move;
                     string propColor = prop.Color;

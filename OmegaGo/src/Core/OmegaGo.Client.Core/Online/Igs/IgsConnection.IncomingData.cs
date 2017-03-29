@@ -49,9 +49,7 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 if (line == null)
                 {
-                    OnIncomingLine("The connection has been terminated.");
-                    // TODO Petr : add thread safety
-                    this._client = null;
+                    ConnectionLost();
                     return;
                 }
                 line = line.Trim();

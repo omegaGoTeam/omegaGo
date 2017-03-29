@@ -8,7 +8,7 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class KgsRoomJoin : KgsInterruptChannelMessage
+    class ChallengeJoin : KgsInterruptChannelMessage
     {
         /// <summary>
         /// A list of game channels that are in the room.
@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public User[] Users { get; set; }
         public override void Process(KgsConnection connection)
         {
-            connection.Data.JoinRoom(this.ChannelId);
+            connection.Data.JoinChallenge(this.ChannelId);
             foreach (var user in Users)
             {
                 connection.Data.AddUserToChannel(this.ChannelId, user);

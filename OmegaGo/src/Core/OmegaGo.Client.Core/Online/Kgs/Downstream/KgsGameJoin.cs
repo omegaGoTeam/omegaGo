@@ -40,15 +40,27 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             // TODO Petr : handle bad types
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
             if (info == null) return; // TODO Petr : warn the user that joining failed
+
+
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)
                 .Name(info.Black.Name)
                 .Rank(info.Black.Rank)
                 .Build();
+            if (info.Black.Name == connection.Username)
+            {
+                blackPlayer =
+                    new HumanPlayerBuilder(Game.StoneColor.Black).Name(info.Black.Name).Rank(info.Black.Rank).Build();
+            }
             var whitePlayer = new KgsPlayerBuilder(Game.StoneColor.White, connection)
                 .Name(info.White.Name)
                 .Rank(info.White.Rank)
                 .Build();
-            var ongame = new KgsGameBuilder(info)
+            if (info.White.Name == connection.Username)
+            {
+                whitePlayer =
+                    new HumanPlayerBuilder(Game.StoneColor.White).Name(info.White.Name).Rank(info.White.Rank).Build();
+            }
+            var ongame = new KgsGameBuilder(info, connection)
                 .BlackPlayer(blackPlayer)
                 .WhitePlayer(whitePlayer)
                 .Build();

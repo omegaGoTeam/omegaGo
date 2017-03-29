@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr
+            // Thus far, we ignore this, because we don't need any information in this.
         }
         #region Flags
         // This region may be copied to other messages that make use of flags.

@@ -421,7 +421,6 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            // TODO
             
             if (_inLifeDeathDeterminationPhase || PlayerToMove?.Agent is HumanAgent)
             {

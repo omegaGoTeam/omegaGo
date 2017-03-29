@@ -17,5 +17,12 @@ namespace OmegaGo.Core.Online.Igs
         {
             LoginComplete?.Invoke(this, success);
         }
+
+        public event EventHandler Disconnected;
+
+        internal void RaiseDisconnected()
+        {
+            Disconnected?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

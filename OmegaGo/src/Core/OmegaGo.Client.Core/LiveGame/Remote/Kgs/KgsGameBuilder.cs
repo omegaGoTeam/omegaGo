@@ -16,22 +16,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         /// </summary>
         private KgsConnection _connection = null;
 
-        public KgsGameBuilder(KgsGameInfo info)
+        public KgsGameBuilder(KgsGameInfo info, KgsConnection connection)
         {
             this._info = info;
             this.BoardSize(info.BoardSize);
             this.CountingType(Rules.CountingType.Territory);
             this.HandicapPlacementType(Phases.HandicapPlacement.HandicapPlacementType.Fixed);
             this.Komi(info.Komi);
+            this._connection = connection;
             this.Handicap(info.NumberOfHandicapStones);
         }
-
-        public KgsGameBuilder Connection(KgsConnection connection)
-        {
-            if (connection == null) throw new ArgumentNullException(nameof(connection));
-            _connection = connection;
-            return this;
-        }
+        
 
         /// <summary>
         /// Builds a KGS game
