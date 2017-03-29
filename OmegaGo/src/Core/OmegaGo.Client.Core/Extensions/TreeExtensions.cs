@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.UI.Extensions
+namespace OmegaGo.Core.Extensions
 {
-    internal static class TreeExtensions
+    public static class TreeExtensions
     {
         /// <summary>
         /// Performs a specified action for each descendant of this tree node, using a given function
