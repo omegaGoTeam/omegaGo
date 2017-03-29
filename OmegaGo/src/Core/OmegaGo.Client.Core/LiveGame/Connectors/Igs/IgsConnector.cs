@@ -109,7 +109,7 @@ so I thought suppressing warnings would have the same result.*/
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
             //inform the connection
-            _connnection.MadeMove(_gameController.Info, move);
+            _connnection.Commands.MakeMove(_gameController.Info, move);
         }
 
         /// <summary>
