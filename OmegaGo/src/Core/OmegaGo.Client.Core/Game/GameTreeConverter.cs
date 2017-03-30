@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.Core.Game.Markup;
+using OmegaGo.Core.Sgf.Properties.Values;
 
 namespace OmegaGo.Core.Game
 {
@@ -121,7 +122,13 @@ namespace OmegaGo.Core.Game
             {
                 // Add arrow
                 var property = sourceNode[arrow];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.Values<SgfComposePropertyValue<SgfPoint, SgfPoint>>();
+                
+                foreach (var rect in pointRectangles)
+                {
+
+                }
+
                 targetNode.Markups.AddMarkup(new Arrow(Position.Undefined, Position.Undefined));
             }
             if (sourceNode[circle] != null)
@@ -129,7 +136,14 @@ namespace OmegaGo.Core.Game
                 // Add circle
                 var property = sourceNode[circle];
                 var pointRectangles = property.Values<SgfPointRectangle>();
-                targetNode.Markups.AddMarkup(new Circle(Position.Undefined));
+                
+                foreach (var rect in pointRectangles)
+                {
+                    targetNode.Markups.AddMarkup(
+                        new Circle(
+                            Position.FromSgfPoint(
+                                rect.LowerRight)));
+                }
             }
             if (sourceNode[dimPoint] != null)
             {
@@ -150,6 +164,12 @@ namespace OmegaGo.Core.Game
                 // Add line
                 var property = sourceNode[line];
                 var pointRectangles = property.Values<SgfPointRectangle>();
+
+                foreach (var rect in pointRectangles)
+                {
+
+                }
+
                 targetNode.Markups.AddMarkup(new Line(Position.Undefined, Position.Undefined));
             }
             if (sourceNode[cross] != null)
@@ -157,28 +177,46 @@ namespace OmegaGo.Core.Game
                 // Add cross
                 var property = sourceNode[cross];
                 var pointRectangles = property.Values<SgfPointRectangle>();
-                targetNode.Markups.AddMarkup(new Cross(Position.Undefined));
+
+                foreach (var rect in pointRectangles)
+                {
+                    targetNode.Markups.AddMarkup(
+                        new Cross(
+                            Position.FromSgfPoint(
+                                rect.LowerRight)));
+                }
             }
             if (sourceNode[selected] != null)
             {
                 // Add selected
-                var property = sourceNode[selected];
-                var pointRectangles = property.Values<SgfPointRectangle>();
-
             }
             if (sourceNode[square] != null)
             {
                 // Add square
                 var property = sourceNode[square];
                 var pointRectangles = property.Values<SgfPointRectangle>();
-                targetNode.Markups.AddMarkup(new Square(Position.Undefined));
+
+                foreach (var rect in pointRectangles)
+                {
+                    targetNode.Markups.AddMarkup(
+                        new Square(
+                            Position.FromSgfPoint(
+                                rect.LowerRight)));
+                }
             }
             if (sourceNode[triangle] != null)
             {
                 // Add triangle
                 var property = sourceNode[triangle];
                 var pointRectangles = property.Values<SgfPointRectangle>();
-                targetNode.Markups.AddMarkup(new Triangle(Position.Undefined));
+
+                foreach (var rect in pointRectangles)
+                {
+                    targetNode.Markups.AddMarkup(
+                        new Triangle(
+                            Position.FromSgfPoint(
+                                rect.LowerRight)));
+                }
             }
         }
 
