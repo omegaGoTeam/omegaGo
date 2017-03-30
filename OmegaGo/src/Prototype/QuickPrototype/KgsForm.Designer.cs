@@ -344,6 +344,7 @@
             this.lbAllIncomingMessages.Name = "lbAllIncomingMessages";
             this.lbAllIncomingMessages.Size = new System.Drawing.Size(465, 547);
             this.lbAllIncomingMessages.TabIndex = 0;
+            this.lbAllIncomingMessages.SelectedIndexChanged += new System.EventHandler(this.lbAllIncomingMessages_SelectedIndexChanged);
             // 
             // tabPage8
             // 

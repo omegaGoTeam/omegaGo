@@ -1,4 +1,5 @@
 ﻿using System;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time.Canadian
 {
@@ -102,6 +103,20 @@ namespace OmegaGo.Core.Time.Canadian
                 (int) (stillInMainTime ? _snapshot.MainTimeLeft : _snapshot.PeriodTimeLeft).TotalSeconds,
                 (stillInMainTime ? 0 : _snapshot.PeriodStonesLeft)
                 );
+        }
+
+        public override void UpdateFromClock(Clock clock)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            if (clock.StonesLeft == 0)
+            {
+                _snapshot = new Canadian.CanadianTimeInformation(TimeSpan.FromSeconds(clock.Time), _snapshot.PeriodTimeLeft,
+                    0);
+            }
+            else
+            {
+                _snapshot = new Canadian.CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(clock.Time), clock.StonesLeft);
+            }
         }
 
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)

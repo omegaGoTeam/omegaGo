@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time.Japanese
 {
@@ -43,6 +44,13 @@ namespace OmegaGo.Core.Time.Japanese
         public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
         {
             return new Time.TimeLeftArguments((int) _snapshot.TimeLeft.TotalSeconds, _snapshot.InByoYomi ? 1 : 0);
+        }
+
+        public override void UpdateFromClock(Clock clock)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), clock.PeriodsLeft, true); // maybe "true" is not appropriate here?
+
         }
 
         protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)

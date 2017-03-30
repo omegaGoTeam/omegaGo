@@ -249,5 +249,18 @@ namespace FormsPrototype
             }
             return false;
         }
+
+        private void lbAllIncomingMessages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = this.lbAllIncomingMessages.SelectedItem as JsonResponse;
+            if (selectedItem != null)
+            {
+                this.tbIncomingMessageDetail.Text = selectedItem.Fulltext;
+            }
+            else
+            {
+                this.tbIncomingMessageDetail.Text = "n/a";
+            }
+        }
     }
 }
