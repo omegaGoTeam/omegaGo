@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Game
     public sealed class GameTreeNode
     {
         private readonly Dictionary<Type, object> _additionalNodeInfo = new Dictionary<Type, object>();
+        private readonly MarkupInfo _markups = new MarkupInfo();
 
         public GameTreeNode(Move move = null)
         {
@@ -21,12 +22,13 @@ namespace OmegaGo.Core.Game
             Branches = new GameTreeNodeCollection(this);
             Move = move;
         }
-        
+
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
         // http://www.red-bean.com/sgf/examples/
 
+        public MarkupInfo Markups => _markups;
         public string Comment { get; set; }
         public string Name { get; set; }
 
