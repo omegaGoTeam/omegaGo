@@ -8,12 +8,12 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class ChallengeJoin : KgsInterruptChannelMessage
+    class ChallengeJoin : KgsGameState
     {
         /// <summary>
-        /// A list of game channels that are in the room.
+        ///	The game summary for this game.
         /// </summary>
-        public GameChannel[] Games { get; set; }
+        public GameSummary GameSummary;
         /// <summary>
         /// A list of users in this room.
         /// </summary>

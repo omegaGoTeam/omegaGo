@@ -88,7 +88,7 @@ namespace OmegaGo.Core.Online.Kgs
                 await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
                 {
                     ChannelId = kgsInfo.ChannelId,
-                    Loc = new XY()
+                    Loc = new 
                     {
                         X = move.Coordinates.X,
                         Y = move.Coordinates.Y
@@ -137,18 +137,29 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
-        public async Task AcceptChallengeAsync(KgsChallenge selectedItem)
+        public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
         {
-            var originalProposal = selectedItem.Proposal;
-            var ourName = kgsConnection.Username;
-            var upstreamProposal = originalProposal.ToUpstream();
-            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
-            emptySeat.Name = ourName;
+            // Join
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
             {
                 ChannelId = selectedItem.ChannelId
             });
             await kgsConnection.WaitUntilJoined(selectedItem.ChannelId);
+
+
+            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
+
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
+            return selectedItem;
+        }
+
+        private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)
+        {
+            var originalProposal = selectedItem.Proposal;
+            var ourName = this.kgsConnection.Username;
+            var upstreamProposal = originalProposal.ToUpstream();
+            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
+            emptySeat.Name = ourName;
             var simpleProposal = new
             {
                 ChannelId = selectedItem.ChannelId,
@@ -168,10 +179,30 @@ namespace OmegaGo.Core.Online.Kgs
                         Name = upstreamProposal.Players[1].Name
                     }
                 }
-
             };
-            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
-            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_ACCEPT", simpleProposal);
+            return simpleProposal;
+        }
+
+        public async Task GenericUnjoinAsync(KgsChannel channel)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = channel.ChannelId
+            });
+        }
+
+        public async Task AcceptChallenge(KgsChallenge challenge)
+        {
+           var newProposal = SubmitOurselvesIntoProposal(challenge);
+           await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_ACCEPT", newProposal);
+        }
+
+        public async Task GameTimeExpiredAsync(int channelId)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_TIME_EXPIRED", new
+            {
+                ChannelId = channelId
+            });
         }
     }
 }

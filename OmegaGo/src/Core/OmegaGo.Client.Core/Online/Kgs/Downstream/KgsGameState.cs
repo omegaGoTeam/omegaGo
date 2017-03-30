@@ -18,16 +18,16 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         {
 
             // Thus far, we ignore this, because we don't need any information in this.
-            var game = connection.Data.GetGame(this.ChannelId);
-            if (this.Clocks != null)
+            if (this.Clocks != null && connection.Data.IsJoined(this.ChannelId))
             {
+                var game = connection.Data.GetGame(this.ChannelId);
                 if (this.Clocks[Role.White] != null)
                 {
                     game.Controller.Players.White.Clock.UpdateFromClock(this.Clocks[Role.White]);
                 }
                 if (this.Clocks[Role.Black] != null)
                 {
-                    game.Controller.Players.Black.Clock.UpdateFromClock(this.Clocks[Role.White]);
+                    game.Controller.Players.Black.Clock.UpdateFromClock(this.Clocks[Role.Black]);
                 }
             }
         }

@@ -27,6 +27,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public void RemoveGame(int gameId)
         {
             Games.RemoveAll(kgi => kgi.ChannelId == gameId);
+            Challenges.RemoveAll(kgi => kgi.ChannelId == gameId);
         }
         public override string ToString()
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Datatypes;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -17,9 +18,11 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<string> SystemMessage;
         public event EventHandler<string> OutgoingRequest;
         public event EventHandler<KgsGame> GameJoined;
+        public event EventHandler<KgsChannel> Unjoin;
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
         public event EventHandler<string> Disconnection;
+        public event EventHandler<string> NotificationMessage;
         public event EventHandler<User> PersonalInformationUpdate;
 
         internal void RaisePersonalInformationUpdate(User you)
@@ -55,6 +58,15 @@ namespace OmegaGo.Core.Online.Kgs
         internal void RaiseDisconnection(string reason)
         {
             Disconnection?.Invoke(this, reason);
+        }
+        internal void RaiseUnjoin(KgsChannel channel)
+        {
+            Unjoin?.Invoke(this, channel);
+        }
+
+        public void RaiseNotification(string type)
+        {
+            NotificationMessage?.Invoke(this, type);
         }
     }
 }

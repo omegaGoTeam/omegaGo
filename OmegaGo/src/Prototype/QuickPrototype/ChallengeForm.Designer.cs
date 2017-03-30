@@ -31,9 +31,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
             this.bAccept = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bUnjoin = new System.Windows.Forms.Button();
+            this.bCancelOffer = new System.Windows.Forms.Button();
             this.lbEvents = new System.Windows.Forms.ListBox();
+            this.bRefreshEvents = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -63,24 +64,27 @@
             this.bAccept.TabIndex = 2;
             this.bAccept.Text = "Accept";
             this.bAccept.UseVisualStyleBackColor = true;
+            this.bAccept.Click += new System.EventHandler(this.bAccept_Click);
             // 
-            // button1
+            // bUnjoin
             // 
-            this.button1.Location = new System.Drawing.Point(203, 239);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(171, 47);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Unjoin";
-            this.button1.UseVisualStyleBackColor = true;
+            this.bUnjoin.Location = new System.Drawing.Point(203, 239);
+            this.bUnjoin.Name = "bUnjoin";
+            this.bUnjoin.Size = new System.Drawing.Size(171, 47);
+            this.bUnjoin.TabIndex = 3;
+            this.bUnjoin.Text = "Unjoin";
+            this.bUnjoin.UseVisualStyleBackColor = true;
+            this.bUnjoin.Click += new System.EventHandler(this.bUnjoin_Click);
             // 
-            // button2
+            // bCancelOffer
             // 
-            this.button2.Location = new System.Drawing.Point(380, 239);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(171, 47);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Cancel offer";
-            this.button2.UseVisualStyleBackColor = true;
+            this.bCancelOffer.Enabled = false;
+            this.bCancelOffer.Location = new System.Drawing.Point(380, 239);
+            this.bCancelOffer.Name = "bCancelOffer";
+            this.bCancelOffer.Size = new System.Drawing.Size(171, 47);
+            this.bCancelOffer.TabIndex = 4;
+            this.bCancelOffer.Text = "Cancel offer";
+            this.bCancelOffer.UseVisualStyleBackColor = true;
             // 
             // lbEvents
             // 
@@ -90,14 +94,25 @@
             this.lbEvents.Size = new System.Drawing.Size(525, 95);
             this.lbEvents.TabIndex = 5;
             // 
+            // bRefreshEvents
+            // 
+            this.bRefreshEvents.Location = new System.Drawing.Point(465, 148);
+            this.bRefreshEvents.Name = "bRefreshEvents";
+            this.bRefreshEvents.Size = new System.Drawing.Size(75, 23);
+            this.bRefreshEvents.TabIndex = 6;
+            this.bRefreshEvents.Text = "Refresh";
+            this.bRefreshEvents.UseVisualStyleBackColor = true;
+            this.bRefreshEvents.Click += new System.EventHandler(this.bRefreshEvents_Click);
+            // 
             // ChallengeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 313);
+            this.Controls.Add(this.bRefreshEvents);
             this.Controls.Add(this.lbEvents);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bCancelOffer);
+            this.Controls.Add(this.bUnjoin);
             this.Controls.Add(this.bAccept);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.label1);
@@ -113,8 +128,9 @@
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Button bAccept;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bUnjoin;
+        private System.Windows.Forms.Button bCancelOffer;
         private System.Windows.Forms.ListBox lbEvents;
+        private System.Windows.Forms.Button bRefreshEvents;
     }
 }

@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Time.Japanese
     public class JapaneseTimeControl : TimeControl
     {
         private readonly int _byoyomiLengthInSeconds;
+        private readonly int _byoyomiPeriodCount;
 
         /// <summary>
         /// Time that was remaining when a snapshot was last made (just after a move)
@@ -22,6 +23,7 @@ namespace OmegaGo.Core.Time.Japanese
         public JapaneseTimeControl(int mainTimeSeconds, int byoyomiLengthInSeconds, int byoyomiPeriodCount)
         {
             this._byoyomiLengthInSeconds = byoyomiLengthInSeconds;
+            this._byoyomiPeriodCount = byoyomiPeriodCount;
             this._snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(mainTimeSeconds),
                 byoyomiPeriodCount, false);
         }
@@ -29,9 +31,7 @@ namespace OmegaGo.Core.Time.Japanese
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
         public override void UpdateFromKgsFloat(float secondsLeftIThink)
         {
-            LastTimeClockStarted = DateTime.Now;
-            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
-                _snapshot.PeriodsLeft, _snapshot.InByoYomi);
+            // Don't use this. Use GAME_STATE instead for now. We don't need historical records of time keeping.
         }
 
         public override string GetGtpInitializationCommand()
@@ -49,7 +49,16 @@ namespace OmegaGo.Core.Time.Japanese
         public override void UpdateFromClock(Clock clock)
         {
             LastTimeClockStarted = DateTime.Now;
-            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), clock.PeriodsLeft, true); // maybe "true" is not appropriate here?
+            if (clock.PeriodsLeft == 0)
+            {
+                _snapshot = new JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), _byoyomiPeriodCount, false);
+            }
+            else
+            {
+                _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), clock.PeriodsLeft - 1,
+                    true);
+            }
+            // TODO Petr: Think about whether this is correct.
 
         }
 

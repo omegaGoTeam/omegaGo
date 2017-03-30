@@ -105,6 +105,7 @@ namespace OmegaGo.Core.Online.Kgs
         public void UnjoinChannel(int channelId)
         {
             Channels[channelId].Joined = false;
+            kgsConnection.Events.RaiseUnjoin(Channels[channelId]);
             JoinedChannels.Remove(channelId);
         }
         public void JoinGame(KgsGame ongame)

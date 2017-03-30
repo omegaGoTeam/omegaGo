@@ -76,6 +76,8 @@ namespace OmegaGo.Core.Time.Canadian
 
         public override void UpdateFromKgsFloat(float secondsLeftIThink)
         {
+            // Don't use this. Use GAME_STATE instead for now. We don't need historical records of time keeping.
+            /*
             LastTimeClockStarted = DateTime.Now;
             if (_snapshot.MainTimeLeft > TimeSpan.Zero)
             {
@@ -86,7 +88,8 @@ namespace OmegaGo.Core.Time.Canadian
             {
                 _snapshot = new Canadian.CanadianTimeInformation(_snapshot.MainTimeLeft, TimeSpan.FromSeconds(secondsLeftIThink),
                     _snapshot.PeriodStonesLeft);
-            }
+                   
+            }*/
         }
 
         public override string GetGtpInitializationCommand()

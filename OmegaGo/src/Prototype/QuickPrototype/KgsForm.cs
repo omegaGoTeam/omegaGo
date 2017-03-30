@@ -26,6 +26,12 @@ namespace FormsPrototype
             kgs.Events.OutgoingRequest += Events_OutgoingRequest;
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
+            kgs.Events.NotificationMessage += Events_NotificationMessage;
+        }
+
+        private void Events_NotificationMessage(object sender, string e)
+        {
+            this.lblNotificationMessage.Text = e;
         }
 
         private void Events_PersonalInformationUpdate(object sender, OmegaGo.Core.Online.Kgs.Datatypes.User e)
@@ -51,7 +57,10 @@ namespace FormsPrototype
 
         private void Events_IncomingMessage(object sender, JsonResponse e)
         {
-            this.lbAllIncomingMessages.Items.Add(e);
+            if (!this.chIgnoreTrivial.Checked || !IsTrivial(e))
+            {
+                this.lbAllIncomingMessages.Items.Add(e);
+            }
         }
 
         private void Events_OutgoingRequest(object sender, string e)
@@ -222,21 +231,12 @@ namespace FormsPrototype
         {
             if (this.lbContainerChallenges.SelectedItem != null)
             {
-                await this.kgs.Commands.AcceptChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+                var challenge = await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+                ChallengeForm form = new FormsPrototype.ChallengeForm(challenge, kgs);
+                form.Show();
             }
         }
-
-        private void bClearTrivialMessages_Click(object sender, EventArgs e)
-        {
-            for (int i = this.lbAllIncomingMessages.Items.Count - 1; i >= 0; i--)
-            {
-                var msg = (JsonResponse)this.lbAllIncomingMessages.Items[i];
-                if (IsTrivial(msg))
-                {
-                    this.lbAllIncomingMessages.Items.RemoveAt(i);
-                }
-            }
-        }
+        
 
         private bool IsTrivial(JsonResponse msg)
         {
@@ -245,6 +245,8 @@ namespace FormsPrototype
                 case "USER_UPDATE":
                 case "GAME_LIST":
                 case "GAME_CONTAINER_REMOVE_GAME":
+                case "USER_ADDED":
+                case "USER_REMOVED":
                     return true;
             }
             return false;
@@ -260,6 +262,21 @@ namespace FormsPrototype
             else
             {
                 this.tbIncomingMessageDetail.Text = "n/a";
+            }
+        }
+
+        private void chIgnoreTrivial_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.chIgnoreTrivial.Checked)
+            {
+                for (int i = this.lbAllIncomingMessages.Items.Count - 1; i >= 0; i--)
+                {
+                    var msg = (JsonResponse) this.lbAllIncomingMessages.Items[i];
+                    if (IsTrivial(msg))
+                    {
+                        this.lbAllIncomingMessages.Items.RemoveAt(i);
+                    }
+                }
             }
         }
     }

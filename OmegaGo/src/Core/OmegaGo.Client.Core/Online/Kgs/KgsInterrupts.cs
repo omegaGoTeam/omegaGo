@@ -95,10 +95,18 @@ namespace OmegaGo.Core.Online.Kgs
                 case "CHALLENGE_PROPOSAL":
                 case "CHALLENGE_FINAL":
                 case "GAME_NOTIFY":
-                    //  Ignore for now.
+                    //  TODO Petr: Elaborate in specific messages later.
+                    HandleInterruptMessage<ChallengeDownstreamEvent>(message);
+                    HandleInterruptMessage<NotificationMessageDownstreamEvent>(message);
                     return true;
                 case "CLOSE":
                     HandleInterruptMessage<Close>(message);
+                    return true;
+                case "GAME_TIME_EXPIRED":
+                    HandleInterruptMessage<GameTimeExpired>(message);
+                    return true;
+                case "CHANNEL_ALREADY_JOINED":
+                    HandleInterruptMessage<NotificationMessageDownstreamEvent>(message);
                     return true;
 
             }
