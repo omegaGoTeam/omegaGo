@@ -38,6 +38,13 @@ namespace OmegaGo.UI.ViewModels
             await AttemptLoginCommand(e.Username, e.Password);
         }
 
+
+        public IMvxCommand LogoutCommand => new MvxCommand(async () =>
+        {
+            await Connections.Kgs.Commands.LogoutAsync();
+            this.LoginForm.FormVisible = true;
+            this.LoginForm.FormEnabled = true;
+        });
         public LoginFormViewModel LoginForm { get; }
         public async Task AttemptLoginCommand(string username, string password)
         {
