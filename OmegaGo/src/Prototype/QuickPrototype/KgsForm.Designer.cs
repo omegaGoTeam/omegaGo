@@ -66,6 +66,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbJoinedChannels = new System.Windows.Forms.ListBox();
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
+            this.tbIncomingMessageDetail = new System.Windows.Forms.TextBox();
+            this.bClearTrivialMessages = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -323,6 +325,8 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.bClearTrivialMessages);
+            this.tabPage7.Controls.Add(this.tbIncomingMessageDetail);
             this.tabPage7.Controls.Add(this.lbAllIncomingMessages);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
@@ -334,11 +338,11 @@
             // 
             // lbAllIncomingMessages
             // 
-            this.lbAllIncomingMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbAllIncomingMessages.Dock = System.Windows.Forms.DockStyle.Left;
             this.lbAllIncomingMessages.FormattingEnabled = true;
             this.lbAllIncomingMessages.Location = new System.Drawing.Point(3, 3);
             this.lbAllIncomingMessages.Name = "lbAllIncomingMessages";
-            this.lbAllIncomingMessages.Size = new System.Drawing.Size(1163, 547);
+            this.lbAllIncomingMessages.Size = new System.Drawing.Size(465, 547);
             this.lbAllIncomingMessages.TabIndex = 0;
             // 
             // tabPage8
@@ -468,6 +472,27 @@
             this.timerIdle.Interval = 10000;
             this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
+            // tbIncomingMessageDetail
+            // 
+            this.tbIncomingMessageDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbIncomingMessageDetail.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbIncomingMessageDetail.Location = new System.Drawing.Point(468, 3);
+            this.tbIncomingMessageDetail.Multiline = true;
+            this.tbIncomingMessageDetail.Name = "tbIncomingMessageDetail";
+            this.tbIncomingMessageDetail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbIncomingMessageDetail.Size = new System.Drawing.Size(698, 547);
+            this.tbIncomingMessageDetail.TabIndex = 4;
+            // 
+            // bClearTrivialMessages
+            // 
+            this.bClearTrivialMessages.Location = new System.Drawing.Point(987, 16);
+            this.bClearTrivialMessages.Name = "bClearTrivialMessages";
+            this.bClearTrivialMessages.Size = new System.Drawing.Size(145, 23);
+            this.bClearTrivialMessages.TabIndex = 5;
+            this.bClearTrivialMessages.Text = "Clear trivial messages";
+            this.bClearTrivialMessages.UseVisualStyleBackColor = true;
+            this.bClearTrivialMessages.Click += new System.EventHandler(this.bClearTrivialMessages_Click);
+            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,6 +517,7 @@
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
             this.tabPage9.ResumeLayout(false);
@@ -539,5 +565,7 @@
         private System.Windows.Forms.Button bAccept;
         private System.Windows.Forms.ListBox lbContainerChallenges;
         private System.Windows.Forms.Label lblYourRank;
+        private System.Windows.Forms.Button bClearTrivialMessages;
+        private System.Windows.Forms.TextBox tbIncomingMessageDetail;
     }
 }

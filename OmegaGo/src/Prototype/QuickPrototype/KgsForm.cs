@@ -51,11 +51,15 @@ namespace FormsPrototype
 
         private void Events_IncomingMessage(object sender, JsonResponse e)
         {
-            this.lbAllIncomingMessages.Items.Add(e.Type);
+            this.lbAllIncomingMessages.Items.Add(e);
         }
 
         private void Events_OutgoingRequest(object sender, string e)
         {
+            if (e.Contains("WAKE_UP"))
+            {
+                return;
+            }
             this.tbLastOutgoingMessage.Text = e;
         }
 
@@ -220,6 +224,30 @@ namespace FormsPrototype
             {
                 await this.kgs.Commands.AcceptChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
             }
+        }
+
+        private void bClearTrivialMessages_Click(object sender, EventArgs e)
+        {
+            for (int i = this.lbAllIncomingMessages.Items.Count - 1; i >= 0; i--)
+            {
+                var msg = (JsonResponse)this.lbAllIncomingMessages.Items[i];
+                if (IsTrivial(msg))
+                {
+                    this.lbAllIncomingMessages.Items.RemoveAt(i);
+                }
+            }
+        }
+
+        private bool IsTrivial(JsonResponse msg)
+        {
+            switch (msg.Type)
+            {
+                case "USER_UPDATE":
+                case "GAME_LIST":
+                case "GAME_CONTAINER_REMOVE_GAME":
+                    return true;
+            }
+            return false;
         }
     }
 }

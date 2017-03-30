@@ -64,6 +64,7 @@
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Free\KgsHandicapPhase.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
