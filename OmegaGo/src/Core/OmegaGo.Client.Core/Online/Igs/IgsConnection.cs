@@ -468,6 +468,7 @@ namespace OmegaGo.Core.Online.Igs
                             _requestInProgress = dequeuedItem;
                         }
                         Events.OnOutgoingLine(dequeuedItem.Command);
+                        LogBuilder.AppendLine("> " + dequeuedItem.Command);
                         _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {
