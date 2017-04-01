@@ -36,7 +36,7 @@ namespace OmegaGo.UI.ViewModels
         public bool IsWorking
         {
             get
-            {
+            {                  
                 return _isWorking;
             }
             set

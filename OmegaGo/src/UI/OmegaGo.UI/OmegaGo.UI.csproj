@@ -71,6 +71,9 @@
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
     <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
+    <Compile Include="Infrastructure\Tabs\ITabInfo.cs" />
+    <Compile Include="Infrastructure\Tabs\ITabManager.cs" />
+    <Compile Include="Infrastructure\Tabs\TabManager.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -454,6 +457,7 @@
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\PresentationBundles\" />
     <Folder Include="Services\Tsumego\Data\Not yet correct\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
