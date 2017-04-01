@@ -305,6 +305,24 @@ namespace OmegaGo.UI.Services.Localization
         public string MoreEllipsis => LocalizeCaller();
         public string ConfigureEllipsis => LocalizeCaller();
         public string CloseFlyout => LocalizeCaller();
+        public string Igs_LFG => LocalizeCaller();
+        public string Igs_RefuseAll => LocalizeCaller();
+        public string Logout => LocalizeCaller();
+        public string YouAreLoggedInAs => LocalizeCaller();
+        public string Igs_ChallengeSelectedPlayer => LocalizeCaller();
+        public string Igs_OnlyShowLfgers => LocalizeCaller();
+        public string SortBy => LocalizeCaller();
+        public string SortBy_Name => LocalizeCaller();
+        public string SortBy_RankAscending => LocalizeCaller();
+        public string SortBy_RankDescending => LocalizeCaller();
+        public string Igs_RefreshUsers => LocalizeCaller();
+        public string Igs_SpectateAGame => LocalizeCaller();
+        public string Igs_IssueAChallenge => LocalizeCaller();
+        public string Igs_RefreshGames => LocalizeCaller();
+        public string SortBy_NumberOfObservers => LocalizeCaller();
+        public string SortBy_Black => LocalizeCaller();
+        public string SortBy_White => LocalizeCaller();
+        public string ObserveThisGame => LocalizeCaller();
         public string XXX => LocalizeCaller();
         // Copy and paste XXX for fast creationg of new lines
     }

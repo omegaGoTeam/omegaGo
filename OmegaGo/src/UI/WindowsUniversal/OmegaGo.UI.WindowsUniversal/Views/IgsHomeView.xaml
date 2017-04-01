@@ -25,7 +25,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Pivot Grid.Row="0">
-                <PivotItem Header="Spectate a game">
+                <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -33,13 +33,13 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshGames" Content="Refresh list of games" />
+                            <Button Click="RefreshGames" Content="{x:Bind Localizer.Igs_RefreshGames}" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                                <ToggleButton Click="SortByObservers_Click" Content="Sort by number of observers"/>
-                                <ToggleButton Click="SortByHighestRank_Click" Content="Sort by rank (highest first)"/>
-                                <ToggleButton Click="SortByBlackName_Click" Content="Sort by Black's name"/>
-                                <ToggleButton Click="SortByWhiteName_Click" Content="Sort by White's name"/>
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                                <ToggleButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
+                                <ToggleButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <ToggleButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
+                                <ToggleButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
                             </StackPanel>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
@@ -53,11 +53,11 @@
                             </ListBox>
                         </ScrollViewer>
                         <Button Grid.Row="2"
-                                Content="Observe this game"
+                                Content="{x:Bind Localizer.ObserveThisGame}"
                                 Command="{Binding ObserveSelectedGame}" />
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Issue a challenge">
+                <PivotItem Header="{x:Bind Localizer.Igs_IssueAChallenge}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -65,16 +65,16 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshUsers" Content="Refresh list of users"/>
+                            <Button Click="RefreshUsers" Content="{x:Bind Localizer.Igs_RefreshUsers}"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                                <ToggleButton Click="SortUsersByName" Content="Sort by name"/>
-                                <ToggleButton Click="SortUsersByRankAscending" Content="Sort by rank (lowest first)"/>
-                                <ToggleButton Click="SortUsersByRankDescending" Content="Sort by rank (highest first)"/>
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                                <ToggleButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                <ToggleButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                <ToggleButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
                             </StackPanel>
-                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="Only show players looking for a game"/>
+                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
                             <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
                                 <ListBox.ItemContainerStyle>
                                     <Style TargetType="ListBoxItem">
@@ -85,7 +85,7 @@
                             </ListBox>
                         </ScrollViewer>
                         <Button Grid.Row="2" 
-                                Content="Challenge selected player..."
+                                Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
                                 Command="{Binding ChallengeSelectedPlayer}"/>
                     </Grid>
                 </PivotItem>
@@ -141,13 +141,13 @@
                 </PivotItem>
             </Pivot>
             <StackPanel Grid.Row="1" Orientation="Vertical">
-                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
-                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
+                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_LFG}"></CheckBox>
+                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0">You are logged in as:</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0" Text="{x:Bind Localizer.YouAreLoggedInAs}"></TextBlock>
                     <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                    <Button Click="Logout_Click">Logout</Button>
+                    <Button Click="Logout_Click" Content="{x:Bind Localizer.Logout}"></Button>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                         <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
                         <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
@@ -157,7 +157,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <userControls:LoginFormControl Visibility="Collapsed" ViewModel="{x:Bind VM.LoginForm}" />
+        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
     </Grid>
 </views:TransparencyViewBase>
 

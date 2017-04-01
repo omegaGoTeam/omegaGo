@@ -878,4 +878,58 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="CloseFlyout" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="Igs_ChallengeSelectedPlayer" xml:space="preserve">
+    <value>Challenge selected player...</value>
+  </data>
+  <data name="Igs_IssueAChallenge" xml:space="preserve">
+    <value>Issue a challenge</value>
+  </data>
+  <data name="Igs_LFG" xml:space="preserve">
+    <value>I am looking for a game</value>
+  </data>
+  <data name="Igs_OnlyShowLfgers" xml:space="preserve">
+    <value>Only show players looking for a game</value>
+  </data>
+  <data name="Igs_RefreshGames" xml:space="preserve">
+    <value>Refresh list of games</value>
+  </data>
+  <data name="Igs_RefreshUsers" xml:space="preserve">
+    <value>Refresh list of users</value>
+  </data>
+  <data name="Igs_RefuseAll" xml:space="preserve">
+    <value>Refuse all incoming match requests</value>
+  </data>
+  <data name="Igs_SpectateAGame" xml:space="preserve">
+    <value>Spectate a game</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ObserveThisGame" xml:space="preserve">
+    <value>Observe this game</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="SortBy_Black" xml:space="preserve">
+    <value>Black's name</value>
+  </data>
+  <data name="SortBy_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SortBy_NumberOfObservers" xml:space="preserve">
+    <value>Number of observers (highest first)</value>
+  </data>
+  <data name="SortBy_RankAscending" xml:space="preserve">
+    <value>Rank (lowest first)</value>
+  </data>
+  <data name="SortBy_RankDescending" xml:space="preserve">
+    <value>Rank (highest first)</value>
+  </data>
+  <data name="SortBy_White" xml:space="preserve">
+    <value>White's name</value>
+  </data>
+  <data name="YouAreLoggedInAs" xml:space="preserve">
+    <value>You are logged in as:</value>
+  </data>
 </root>

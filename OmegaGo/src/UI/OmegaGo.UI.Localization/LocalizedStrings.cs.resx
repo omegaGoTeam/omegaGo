@@ -771,4 +771,61 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="UnevenStrengthQuest_Name" xml:space="preserve">
     <value>Nerovnoměrné síly</value>
   </data>
+  <data name="CloseFlyout" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Igs_ChallengeSelectedPlayer" xml:space="preserve">
+    <value>Vyzvat vybraného hráče...</value>
+  </data>
+  <data name="Igs_IssueAChallenge" xml:space="preserve">
+    <value>Vyzvat ke hře</value>
+  </data>
+  <data name="Igs_LFG" xml:space="preserve">
+    <value>Hledám hru</value>
+  </data>
+  <data name="Igs_OnlyShowLfgers" xml:space="preserve">
+    <value>Zobrazit jen hráče hledající hru</value>
+  </data>
+  <data name="Igs_RefreshGames" xml:space="preserve">
+    <value>Obnovit seznam her</value>
+  </data>
+  <data name="Igs_RefreshUsers" xml:space="preserve">
+    <value>Obnovit seznam uživatelů</value>
+  </data>
+  <data name="Igs_RefuseAll" xml:space="preserve">
+    <value>Odmítat všechny příchozí žádosti o hru</value>
+  </data>
+  <data name="Igs_SpectateAGame" xml:space="preserve">
+    <value>Pozorovat hru</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="ObserveThisGame" xml:space="preserve">
+    <value>Pozorovat tuto hru</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Řazení podle:</value>
+  </data>
+  <data name="SortBy_Black" xml:space="preserve">
+    <value>Jméno černého</value>
+  </data>
+  <data name="SortBy_Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="SortBy_NumberOfObservers" xml:space="preserve">
+    <value>Počet diváků (od nejvyššího)</value>
+  </data>
+  <data name="SortBy_RankAscending" xml:space="preserve">
+    <value>Třída (od nejnižší)</value>
+  </data>
+  <data name="SortBy_RankDescending" xml:space="preserve">
+    <value>Třída (od nejvyšší)</value>
+  </data>
+  <data name="SortBy_White" xml:space="preserve">
+    <value>Jméno bílého</value>
+  </data>
+  <data name="YouAreLoggedInAs" xml:space="preserve">
+    <value>Přihlášený uživatel:</value>
+  </data>
 </root>

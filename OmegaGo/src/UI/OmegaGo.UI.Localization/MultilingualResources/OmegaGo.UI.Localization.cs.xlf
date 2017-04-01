@@ -1026,7 +1026,79 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="CloseFlyout" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="Igs_ChallengeSelectedPlayer" translate="yes" xml:space="preserve">
+          <source>Challenge selected player...</source>
+          <target state="translated">Vyzvat vybraného hráče...</target>
+        </trans-unit>
+        <trans-unit id="Igs_IssueAChallenge" translate="yes" xml:space="preserve">
+          <source>Issue a challenge</source>
+          <target state="translated">Vyzvat ke hře</target>
+        </trans-unit>
+        <trans-unit id="Igs_LFG" translate="yes" xml:space="preserve">
+          <source>I am looking for a game</source>
+          <target state="translated">Hledám hru</target>
+        </trans-unit>
+        <trans-unit id="Igs_OnlyShowLfgers" translate="yes" xml:space="preserve">
+          <source>Only show players looking for a game</source>
+          <target state="translated">Zobrazit jen hráče hledající hru</target>
+        </trans-unit>
+        <trans-unit id="Igs_RefreshGames" translate="yes" xml:space="preserve">
+          <source>Refresh list of games</source>
+          <target state="translated">Obnovit seznam her</target>
+        </trans-unit>
+        <trans-unit id="Igs_RefreshUsers" translate="yes" xml:space="preserve">
+          <source>Refresh list of users</source>
+          <target state="translated">Obnovit seznam uživatelů</target>
+        </trans-unit>
+        <trans-unit id="Igs_RefuseAll" translate="yes" xml:space="preserve">
+          <source>Refuse all incoming match requests</source>
+          <target state="translated">Odmítat všechny příchozí žádosti o hru</target>
+        </trans-unit>
+        <trans-unit id="Igs_SpectateAGame" translate="yes" xml:space="preserve">
+          <source>Spectate a game</source>
+          <target state="translated">Pozorovat hru</target>
+        </trans-unit>
+        <trans-unit id="Logout" translate="yes" xml:space="preserve">
+          <source>Logout</source>
+          <target state="translated">Odhlásit se</target>
+        </trans-unit>
+        <trans-unit id="ObserveThisGame" translate="yes" xml:space="preserve">
+          <source>Observe this game</source>
+          <target state="translated">Pozorovat tuto hru</target>
+        </trans-unit>
+        <trans-unit id="SortBy" translate="yes" xml:space="preserve">
+          <source>Sort by:</source>
+          <target state="translated">Řazení podle:</target>
+        </trans-unit>
+        <trans-unit id="SortBy_Black" translate="yes" xml:space="preserve">
+          <source>Black's name</source>
+          <target state="translated">Jméno černého</target>
+        </trans-unit>
+        <trans-unit id="SortBy_Name" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated">Jméno</target>
+        </trans-unit>
+        <trans-unit id="SortBy_NumberOfObservers" translate="yes" xml:space="preserve">
+          <source>Number of observers (highest first)</source>
+          <target state="translated">Počet diváků (od nejvyššího)</target>
+        </trans-unit>
+        <trans-unit id="SortBy_RankAscending" translate="yes" xml:space="preserve">
+          <source>Rank (lowest first)</source>
+          <target state="translated">Třída (od nejnižší)</target>
+        </trans-unit>
+        <trans-unit id="SortBy_RankDescending" translate="yes" xml:space="preserve">
+          <source>Rank (highest first)</source>
+          <target state="translated">Třída (od nejvyšší)</target>
+        </trans-unit>
+        <trans-unit id="SortBy_White" translate="yes" xml:space="preserve">
+          <source>White's name</source>
+          <target state="translated">Jméno bílého</target>
+        </trans-unit>
+        <trans-unit id="YouAreLoggedInAs" translate="yes" xml:space="preserve">
+          <source>You are logged in as:</source>
+          <target state="translated">Přihlášený uživatel:</target>
         </trans-unit>
       </group>
     </body>
