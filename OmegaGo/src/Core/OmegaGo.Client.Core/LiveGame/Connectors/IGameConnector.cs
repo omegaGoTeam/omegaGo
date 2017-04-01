@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors
 {
@@ -58,11 +57,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// Indicates that undo is being forced in main phase
         /// </summary>
         event EventHandler MainUndoForced;
-
-        // TODO decrease number of arguments
+        
         /// <summary>
         /// Informs the connector about a performed move
         /// </summary>
-        void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info);
+        void MovePerformed(Move move);
     }
 }

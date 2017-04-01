@@ -237,7 +237,7 @@ namespace OmegaGo.UI.ViewModels
         // Phase handlers      
         ////////////////
 
-        private async void StartLifeAndDeathPhase(IGamePhase phase)
+        private void StartLifeAndDeathPhase(IGamePhase phase)
         {
             ILifeAndDeathPhase lifeAndDeath = (ILifeAndDeathPhase)phase;
             lifeAndDeath.LifeDeathTerritoryChanged += LifeDeath_TerritoryChanged;

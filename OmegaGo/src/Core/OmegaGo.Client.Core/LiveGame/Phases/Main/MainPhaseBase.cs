@@ -62,9 +62,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //is there a move to undo?
             if (Controller.GameTree.LastNode != null)
             {
-                //var oldLastNode = Controller.GameTree.LastNode;
                 Controller.GameTree.RemoveLastNode();
-                //var newLastNode = Controller.GameTree.LastNode;
                 foreach(var player in this.Controller.Players)
                 {
                     player.Agent.MoveUndone();
@@ -241,12 +239,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //inform the ui and the internet that a move occured
             foreach (var connector in Controller.Connectors)
             {
-                connector.MovePerformed(move, this.Controller.GameTree, Controller.Players[move.WhoMoves], this.Controller.Info);
+                connector.MovePerformed(move);
             }
             //inform the players that a move occured
             foreach (var informedPlayer in Controller.Players)
             {
-                informedPlayer.Agent.MovePerformed(move, this.Controller.GameTree, informedPlayer, this.Controller.Info);
+                informedPlayer.Agent.MovePerformed(move);
             }
         }
 

@@ -109,7 +109,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         }
 
-        public virtual void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
+        public virtual void MovePerformed(Move move)
         {
         }
     }

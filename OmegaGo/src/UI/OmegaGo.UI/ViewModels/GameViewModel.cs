@@ -91,9 +91,11 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        private void _uiConnector_MoveWasPerformed(object sender, Tuple<Move,AiGameInformation> e)
+        private void _uiConnector_MoveWasPerformed(object sender, Move e)
         {
-            this.Assistant.MovePerformed(e.Item1, e.Item2);
+            this.Assistant.MovePerformed(e,
+                new AiGameInformation(Game.Info, e.WhoMoves, Game.Controller.Players[e.WhoMoves],
+                    Game.Controller.GameTree));
         }
 
         private void Controller_MoveUndone(object sender, EventArgs e)

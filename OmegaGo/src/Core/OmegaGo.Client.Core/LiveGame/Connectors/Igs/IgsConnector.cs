@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
-using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
@@ -103,7 +102,7 @@ so I thought suppressing warnings would have the same result.*/
         /// Informs the connection about a performed move
         /// </summary>
         /// <param name="move">Move that was performed</param>
-        public void MovePerformed(Move move, GameTree gameTree, GamePlayer gamePlayer, GameInfo info)
+        public void MovePerformed(Move move)
         {
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;

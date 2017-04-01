@@ -86,7 +86,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// </summary>
         void PleaseMakeAMove();
 
+        /// <summary>
+        /// Informs the agent that the latest move made in the game was just undone.
+        /// </summary>
         void MoveUndone();
-        void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
+        /// <summary>
+        /// Informs the agent that a move was just made in the game. This may be the agent's own move or the move of the other player.
+        /// </summary>
+        void MovePerformed(Move move);
     }
 }
