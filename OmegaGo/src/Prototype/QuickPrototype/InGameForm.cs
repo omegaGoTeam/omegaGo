@@ -65,10 +65,10 @@ namespace FormsPrototype
             {
                 var connection = (_server as IgsConnection);
                 bLocalUndo.Visible = false;
-                connection.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
-                connection.ErrorMessageReceived += _igs_ErrorMessageReceived;
+                connection.Events.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
+                connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
-                connection.UndoDeclined += _igs_UndoDeclined;
+                connection.Events.UndoDeclined += _igs_UndoDeclined;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -175,10 +175,10 @@ namespace FormsPrototype
             if (_server is IgsConnection)
             {
                 var connection = (_server as IgsConnection);
-                connection.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
-                connection.ErrorMessageReceived -= _igs_ErrorMessageReceived;
+                connection.Events.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
+                connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
-                connection.UndoDeclined -= _igs_UndoDeclined;
+                connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
@@ -560,17 +560,17 @@ namespace FormsPrototype
         public IgsGameInfo OnlineInfo => (IgsGameInfo) _game.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).UndoPleaseAsync(OnlineInfo);
+            await (_server as IgsConnection).Commands.UndoPleaseAsync(OnlineInfo);
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).UndoAsync(OnlineInfo);
+            await (_server as IgsConnection).Commands.UndoAsync(OnlineInfo);
         }
 
         private void bUndoNo_Click(object sender, EventArgs e)
         {
-            (_server as IgsConnection).NoUndo(OnlineInfo);
+            (_server as IgsConnection).Commands.NoUndo(OnlineInfo);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)

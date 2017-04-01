@@ -17,6 +17,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
         }
 
+        /// <summary>
+        /// Requests that the latest move (and or moves in case of play against AI or internet) be undone. The returned task is considered
+        /// completed as soon as the request is made, it doesn't need to actually take effect (or indeed, be accepted at all, in case of
+        /// online play). In local play, this always eventually results in an undo. In online play, it results in an undo request.
+        /// </summary>
         protected abstract Task MainRequestUndo();
 
         protected abstract void MainForceUndo();

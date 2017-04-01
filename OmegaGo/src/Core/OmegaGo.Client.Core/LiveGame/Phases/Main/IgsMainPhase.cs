@@ -29,8 +29,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
 
         protected override async Task MainRequestUndo()
         {
-            await _gameController.Server.UndoPleaseAsync(this._gameController.Info);
+            await _gameController.Server.Commands.UndoPleaseAsync(_gameController.Info);
         }
+
         /// <summary>
         /// Ensures moves from IGS are properly handled
         /// </summary>
