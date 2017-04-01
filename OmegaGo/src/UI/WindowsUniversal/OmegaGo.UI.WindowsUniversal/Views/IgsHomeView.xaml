@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:igs="using:OmegaGo.Core.Online.Igs"
     Loaded="IgsHomeLoaded"
     Unloaded="IgsHomeUnloaded"
     mc:Ignorable="d">
@@ -21,10 +23,12 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Pivot Grid.Row="0">
+            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}"></navigation:TitleControl>
+            <Pivot Grid.Row="1">
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -35,11 +39,11 @@
                         <StackPanel Orientation="Vertical" Grid.Row="0">
                             <Button Click="RefreshGames" Content="{x:Bind Localizer.Igs_RefreshGames}" />
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                                <ToggleButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
-                                <ToggleButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <ToggleButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
-                                <ToggleButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
+                                <RadioButton Margin="10,0,0,0" Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
                             </StackPanel>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
@@ -50,6 +54,27 @@
                                         <Setter Property="Margin" Value="0"/>
                                     </Style>
                                 </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="igs:IgsGameInfo">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}"></TextBlock>
+                                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="v." Margin="5,0,5,0"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Black}" FontWeight="Bold"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding BoardSize}"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding PreplayedMoveCount}"></TextBlock>
+                                                <TextBlock VerticalAlignment="Center" Text="moves" Margin="5,0,5,0"></TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
                             </ListBox>
                         </ScrollViewer>
                         <Button Grid.Row="2"
@@ -67,10 +92,10 @@
                         <StackPanel Orientation="Vertical" Grid.Row="0">
                             <Button Click="RefreshUsers" Content="{x:Bind Localizer.Igs_RefreshUsers}"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
-                                <ToggleButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
-                                <ToggleButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
-                                <ToggleButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
                             </StackPanel>
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>
@@ -140,7 +165,7 @@
                     </Grid>
                 </PivotItem>
             </Pivot>
-            <StackPanel Grid.Row="1" Orientation="Vertical">
+            <StackPanel Grid.Row="2" Orientation="Vertical">
                 <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_LFG}"></CheckBox>
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
 

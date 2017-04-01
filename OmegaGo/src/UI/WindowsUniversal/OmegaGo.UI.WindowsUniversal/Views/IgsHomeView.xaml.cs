@@ -3,6 +3,7 @@ using OmegaGo.UI.ViewModels;
 using System;
 using System.Linq;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
@@ -28,11 +29,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)
         {
             VM.Deinitialize();
-        }
-        
-        private void ChangeUser_Click(object sender, RoutedEventArgs e)
-        {
-            VM.LoginForm.FormVisible = true;
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
