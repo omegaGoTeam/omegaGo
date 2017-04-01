@@ -9,7 +9,7 @@
     d:DesignHeight="800"
     d:DesignWidth="320">
 
-    <Border Background="White" Margin="10" BorderBrush="Black" BorderThickness="2" Visibility="{x:Bind ViewModel.FormVisible, Mode=OneWay}">
+    <Border Background="White" Margin="2" BorderBrush="Black" BorderThickness="2" Visibility="{x:Bind ViewModel.FormVisible, Mode=OneWay}">
         <Grid>
             <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName}"></TextBlock>
 

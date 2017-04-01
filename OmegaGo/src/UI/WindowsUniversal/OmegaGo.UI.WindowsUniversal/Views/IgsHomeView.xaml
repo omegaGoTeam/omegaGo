@@ -32,12 +32,15 @@
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
                             <Button Click="RefreshGames" Content="Refresh list of games" />
-                            <Button Click="SortByObservers_Click" Content="Sort by number of observers"/>
-                            <Button Click="SortByHighestRank_Click" Content="Sort by rank (highest first)"/>
-                            <Button Click="SortByBlackName_Click" Content="Sort by Black's name"/>
-                            <Button Click="SortByWhiteName_Click" Content="Sort by White's name"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                                <ToggleButton Click="SortByObservers_Click" Content="Sort by number of observers"/>
+                                <ToggleButton Click="SortByHighestRank_Click" Content="Sort by rank (highest first)"/>
+                                <ToggleButton Click="SortByBlackName_Click" Content="Sort by Black's name"/>
+                                <ToggleButton Click="SortByWhiteName_Click" Content="Sort by White's name"/>
+                            </StackPanel>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
                             <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
@@ -61,11 +64,14 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
                             <Button Click="RefreshUsers" Content="Refresh list of users"/>
-                            <Button Click="SortUsersByName" Content="Sort by name"/>
-                            <Button Click="SortUsersByRankAscending" Content="Sort by rank (lowest first)"/>
-                            <Button Click="SortUsersByRankDescending" Content="Sort by rank (highest first)"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Sort by:" VerticalAlignment="Center" Margin="0,0,10,0"></TextBlock>
+                                <ToggleButton Click="SortUsersByName" Content="Sort by name"/>
+                                <ToggleButton Click="SortUsersByRankAscending" Content="Sort by rank (lowest first)"/>
+                                <ToggleButton Click="SortUsersByRankDescending" Content="Sort by rank (highest first)"/>
+                            </StackPanel>
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="Only show players looking for a game"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
@@ -90,7 +96,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <TextBlock Text="This panel is temporary and will be removed once tabs are implemented."/>
                             <TextBlock Text="You have these match requests:"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
@@ -109,13 +116,17 @@
                         </StackPanel>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Console">
+                <PivotItem Header="Console" Visibility="{x:Bind VM.ConsoleVisible}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Click="RefreshConsole" Grid.Row="0">Refresh</Button>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Button Click="RefreshConsole">Refresh</Button>
+                            <Button Click="RefreshConsoleTail">Refresh tail</Button>
+                            <TextBlock Margin="10,0,0,0" FontStyle="Italic" VerticalAlignment="Center">Refreshing might block the UI for a while.</TextBlock>
+                        </StackPanel>
 
                         <TextBox Grid.Row="1"
                                  Padding="10"
@@ -129,21 +140,24 @@
                     </Grid>
                 </PivotItem>
             </Pivot>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as:</TextBlock>
-                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                <Button Click="Logout_Click">Logout</Button>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
                 <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
-                <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0">You are logged in as:</TextBlock>
+                    <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
+                    <Button Click="Logout_Click">Logout</Button>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                        <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
                         Communicating with Pandanet...
-                    </TextBlock>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>
-        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
+        <userControls:LoginFormControl Visibility="Collapsed" ViewModel="{x:Bind VM.LoginForm}" />
     </Grid>
 </views:TransparencyViewBase>
 

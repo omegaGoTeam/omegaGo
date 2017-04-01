@@ -129,6 +129,16 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.IgsConsole.Text = Connections.Igs.Log;
         }
+
+        private void RefreshConsoleTail(object sender, RoutedEventArgs e)
+        {
+            string log = Connections.Igs.Log;
+            if (log.Length > 80*100)
+            {
+                log = log.Substring(log.Length - 80*100);
+            }
+            this.IgsConsole.Text = log;
+        }
     }
 
     internal static class RankNumerizator
