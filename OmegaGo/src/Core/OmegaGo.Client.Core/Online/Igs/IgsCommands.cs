@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Online.Igs
 {
     public class IgsCommands : ICommonCommands
     {
-        private static Task EmptyTask = Task.FromResult(0);
+        private static Task CompletedTask = Task.FromResult(0);
 
 
         private IgsConnection igsConnection;
@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Online.Igs
                     this.igsConnection.MakeUnattendedRequest("pass " + game.IgsIndex);
                     break;
             }
-            return IgsCommands.EmptyTask;
+            return IgsCommands.CompletedTask;
         }
 
         public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
@@ -53,14 +53,14 @@ namespace OmegaGo.Core.Online.Igs
             }
             var igsGameInfo = (IgsGameInfo) remoteInfo;
             this.igsConnection.MakeUnattendedRequest("addtime " + igsGameInfo.IgsIndex + " " + additionalTime.Minutes);
-            return IgsCommands.EmptyTask;
+            return IgsCommands.CompletedTask;
         }
 
         public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
         {
             var igsGameInfo = (IgsGameInfo) remoteInfo;
             this.igsConnection.MakeUnattendedRequest("undo " + igsGameInfo.IgsIndex);
-            return IgsCommands.EmptyTask;
+            return IgsCommands.CompletedTask;
         }
 
         public async Task LifeDeathDone(RemoteGameInfo remoteInfo)
