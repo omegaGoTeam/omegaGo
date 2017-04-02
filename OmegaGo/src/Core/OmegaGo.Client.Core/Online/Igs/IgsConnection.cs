@@ -359,6 +359,7 @@ namespace OmegaGo.Core.Online.Igs
                     return false;
                 }
                 await MakeRequestAsync("toggle quiet true");
+                await MakeRequestAsync("id omegaGo");
                 await MakeRequestAsync("toggle newundo true");
                 await MakeRequestAsync("toggle verbose false");
                 await Commands.ListGamesInProgressAsync();
