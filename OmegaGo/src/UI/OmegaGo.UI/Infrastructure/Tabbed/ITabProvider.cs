@@ -6,7 +6,7 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
     /// <summary>
     /// Provides read-only access to currently opened tabs in the UI project
     /// </summary>
-    public interface ITabsProvider
+    public interface ITabProvider
     {
         /// <summary>
         /// Currently opened tabs

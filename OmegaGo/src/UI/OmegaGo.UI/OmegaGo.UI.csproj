@@ -72,7 +72,7 @@
     <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
     <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
     <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
-    <Compile Include="Infrastructure\Tabbed\ITabsProvider.cs" />
+    <Compile Include="Infrastructure\Tabbed\ITabProvider.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
