@@ -39,7 +39,6 @@ namespace OmegaGo.Core.Online.Igs
                 string line;
                 try
                 {
-                    Events.OnIncomingLine("..." + (weAreHandlingAnInterrupt ? "(I)" : "") + (interruptIsImpossible ? "(IIMPOSSIBLE)" : ""));
                     line = await sr.ReadLineAsync();
                 }
                 catch (Exception)
@@ -56,7 +55,7 @@ namespace OmegaGo.Core.Online.Igs
 
                 IgsCode code = ExtractCodeFromLine(line);
                 IgsLine igsLine = new IgsLine(code, line);
-                Events.OnIncomingLine(line);
+                Events.OnIncomingLine((weAreHandlingAnInterrupt ? "(INTERRUPT) " : "") + (interruptIsImpossible ? "(INTERRUPT IMPOSSIBLE) " : "") + line);
 
                 // IGS occasionally sends blank lines, I don't know why. They serve no reason.
                 if (line == "") continue;

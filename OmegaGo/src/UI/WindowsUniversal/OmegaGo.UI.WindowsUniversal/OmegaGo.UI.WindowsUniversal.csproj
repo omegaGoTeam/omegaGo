@@ -173,6 +173,7 @@
     <Compile Include="Views\OnlineGameView.xaml.cs">
       <DependentUpon>OnlineGameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RankNumerizator.cs" />
     <Compile Include="Views\TsumegoMenuView.xaml.cs">
       <DependentUpon>TsumegoMenuView.xaml</DependentUpon>
     </Compile>

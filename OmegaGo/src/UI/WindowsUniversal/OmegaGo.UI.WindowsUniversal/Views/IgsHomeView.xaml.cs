@@ -1,14 +1,15 @@
 ﻿
 using OmegaGo.UI.ViewModels;
 using System;
-using System.Linq;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls.Primitives;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.UserControls.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Helpers;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -28,11 +29,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)
         {
             VM.Deinitialize();
-        }
-        
-        private void ChangeUser_Click(object sender, RoutedEventArgs e)
-        {
-            VM.LoginForm.FormVisible = true;
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
@@ -129,58 +125,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.IgsConsole.Text = Connections.Igs.Log;
         }
-    }
 
-    internal static class RankNumerizator
-    {
-        /// <summary>
-        /// Converts an IGS rank description to an integer, where a lesser integer means a weaker player. The ranks are, in order, NR, then 30k up to 1k, then 1d up to 9d, then 1p up to 9p. Signs after the rank (+ and ?) are ignored. Any other rank is considered to be less than NR.
-        /// </summary>
-        /// <param name="rank">The rank, for example NR, 17k, 6d+, 5p?.</param>
-        /// <returns></returns>
-        public static int ConvertRankToInteger(string rank)
+        private void RefreshConsoleTail(object sender, RoutedEventArgs e)
         {
-            int value;
-            rank = rank.Trim();
-            if (rank.Last() == '?') rank = rank.Substring(0, rank.Length - 1);
-            if (rank.Last() == '+') rank = rank.Substring(0, rank.Length - 1);
-            if (rank.Last() == '*') rank = rank.Substring(0, rank.Length - 1);
-            rank = rank.ToUpper();
-            if (rank == "NR") return 1;
-            if (rank.Last() == 'K')
+            string log = Connections.Igs.Log;
+            if (log.Length > 80*100)
             {
-                if (int.TryParse(rank.Substring(0, rank.Length -1), out value))
-                {
-                    return 40 - value;
-                }
-                else
-                {
-                    return 0;
-                }
+                log = log.Substring(log.Length - 80*100);
             }
-            if (rank.Last() == 'D')
-            {
-                if (int.TryParse(rank.Substring(0, rank.Length - 1), out value))
-                {
-                    return 40 + value;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            if (rank.Last() == 'P')
-            {
-                if (int.TryParse(rank.Substring(0, rank.Length - 1), out value))
-                {
-                    return 50 + value;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            return 0;
+            this.IgsConsole.Text = log;
         }
     }
 }
