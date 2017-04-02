@@ -20,6 +20,6 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
         </ListView>
-        <Border Grid.Row="1" Child="{x:Bind }" />
+        <ContentPresenter Grid.Row="1" Content="{x:Bind }" />
     </Grid>
 </UserControl>

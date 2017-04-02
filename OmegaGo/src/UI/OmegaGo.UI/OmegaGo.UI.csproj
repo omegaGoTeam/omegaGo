@@ -71,9 +71,9 @@
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
     <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
-    <Compile Include="Infrastructure\Tabs\ITabInfo.cs" />
-    <Compile Include="Infrastructure\Tabs\ITabManager.cs" />
-    <Compile Include="Infrastructure\Tabs\TabManager.cs" />
+    <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
+    <Compile Include="Infrastructure\Tabbed\ITabManager.cs" />
+    <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

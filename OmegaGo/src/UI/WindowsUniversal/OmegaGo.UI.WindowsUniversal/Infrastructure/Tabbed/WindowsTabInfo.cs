@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.UI.Infrastructure.Tabs;
+using OmegaGo.UI.Infrastructure.Tabbed;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
