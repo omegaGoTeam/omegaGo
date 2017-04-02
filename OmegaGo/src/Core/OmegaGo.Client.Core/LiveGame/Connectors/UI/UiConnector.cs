@@ -31,6 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+        public event EventHandler<string> AiLog;
 
         /// <summary>
         /// Tries to make a move for the turn player only if it is a human player
@@ -64,9 +65,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         {
             GetHumanAgentOnTurn()?.Pass();
         }
-
-        public event EventHandler<string> AiLog;
-
+        
         public void MovePerformed(Move move)
         {
         }

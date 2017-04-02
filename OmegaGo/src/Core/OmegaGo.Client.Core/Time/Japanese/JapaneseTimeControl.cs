@@ -28,6 +28,7 @@ namespace OmegaGo.Core.Time.Japanese
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
+
         public override void UpdateFromKgsFloat(float secondsLeft)
         {
             LastTimeClockStarted = DateTime.Now;
@@ -51,6 +52,7 @@ namespace OmegaGo.Core.Time.Japanese
         {
             return ReduceBy(_snapshot, addThisTime);
         }
+
         protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
             // A move was just made.
@@ -95,7 +97,6 @@ namespace OmegaGo.Core.Time.Japanese
             }
             return result;
         }
-
-
+        
     }
 }

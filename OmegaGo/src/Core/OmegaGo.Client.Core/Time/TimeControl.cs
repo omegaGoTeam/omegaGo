@@ -17,24 +17,36 @@ namespace OmegaGo.Core.Time
         ///     Gets the identifier of the time control system.
         /// </summary>
         public abstract TimeControlStyle Name { get; }
-
+        
         /// <summary>
         ///     The time when the clock was last started. When the clock is next stopped, the diffence between the current time and
         ///     this value will be added to the player's elapsed time.
         /// </summary>
         protected DateTime LastTimeClockStarted { private get; set; } = DateTime.Now;
 
-        /// <summary>
-        ///     Indicates whether the clock is currently counting down.
-        /// </summary>
-        protected bool Running { get; private set; }
 
         /// <summary>
-        ///     Gets the time that would be remaining on the clock if <paramref name="addThisTime" /> would be added to the
-        ///     "snapshot time"
-        ///     (i.e. the time remaining when the clock was last updated).
+        ///     Updates the snapshot time based on the "TIMELEFT" SGF property sent by KGS.
         /// </summary>
-        protected abstract TimeInformation GetDisplayTime(TimeSpan addThisTime);
+        /// <param name="secondsLeft">The seconds left in this period for this player.</param>
+        public abstract void UpdateFromKgsFloat(float secondsLeft);
+
+        /// <summary>
+        ///     Gets the GTP time_settings command that should be used to initialize this time control to the value at the
+        ///     beginning
+        ///     of a game, as per
+        ///     http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html#SECTION00073400000000000000.
+        ///     Returns null if no command should be sent (because we play with no time limit or because the GTP protocol does not
+        ///     understand this time control.
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetGtpInitializationCommand();
+
+        /// <summary>
+        ///     Gets arguments for the GTP time_left command that should be called prior to every move generation request.
+        ///     Returns null if no command should be sent.
+        /// </summary>
+        public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
 
         /// <summary>
         ///     Gets the remaining time for this player. Uses the snapshot time and the difference
@@ -48,24 +60,6 @@ namespace OmegaGo.Core.Time
             }
             return GetDisplayTime(TimeSpan.Zero);
         }
-
-        /// <summary>
-        ///     Adds <paramref name="timeSpent" /> to the "snapshot time" which was the time remaining when the clock was last
-        ///     updated.
-        /// </summary>
-        /// <param name="timeSpent">The time spent since the clock was last updated.</param>
-        protected abstract void UpdateSnapshot(TimeSpan timeSpent);
-
-        /// <summary>
-        ///     Determines whether the player would have exceeded their time if <paramref name="addThisTime" /> were added to the
-        ///     time that elapsed from the player's clock.
-        ///     For example, suppose that when I last made a move, I had 5 seconds left on the clock. This is stored with this
-        ///     TimeControl instance. Now,
-        ///     if it's my turn and my clocks runs again for, say 2 seconds, I would call this method with the argument "2 seconds"
-        ///     and it would
-        ///     return false, because 5 seconds (snapshot) - 2 seconds (the argument) still hasn't reached zero.
-        /// </summary>
-        protected abstract bool IsViolating(TimeSpan addThisTime);
 
         /// <summary>
         ///     Starts the clock.
@@ -106,26 +100,34 @@ namespace OmegaGo.Core.Time
         }
 
         /// <summary>
-        ///     Updates the snapshot time based on the "TIMELEFT" SGF property sent by KGS.
+        ///     Gets the time that would be remaining on the clock if <paramref name="addThisTime" /> would be added to the
+        ///     "snapshot time"
+        ///     (i.e. the time remaining when the clock was last updated).
         /// </summary>
-        /// <param name="secondsLeft">The seconds left in this period for this player.</param>
-        public abstract void UpdateFromKgsFloat(float secondsLeft);
+        protected abstract TimeInformation GetDisplayTime(TimeSpan addThisTime);
 
         /// <summary>
-        ///     Gets the GTP time_settings command that should be used to initialize this time control to the value at the
-        ///     beginning
-        ///     of a game, as per
-        ///     http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html#SECTION00073400000000000000.
-        ///     Returns null if no command should be sent (because we play with no time limit or because the GTP protocol does not
-        ///     understand this time control.
+        ///     Adds <paramref name="timeSpent" /> to the "snapshot time" which was the time remaining when the clock was last
+        ///     updated.
         /// </summary>
-        /// <returns></returns>
-        public abstract string GetGtpInitializationCommand();
+        /// <param name="timeSpent">The time spent since the clock was last updated.</param>
+        protected abstract void UpdateSnapshot(TimeSpan timeSpent);
 
         /// <summary>
-        ///     Gets arguments for the GTP time_left command that should be called prior to every move generation request.
-        ///     Returns null if no command should be sent.
+        ///     Determines whether the player would have exceeded their time if <paramref name="addThisTime" /> were added to the
+        ///     time that elapsed from the player's clock.
+        ///     For example, suppose that when I last made a move, I had 5 seconds left on the clock. This is stored with this
+        ///     TimeControl instance. Now,
+        ///     if it's my turn and my clocks runs again for, say 2 seconds, I would call this method with the argument "2 seconds"
+        ///     and it would
+        ///     return false, because 5 seconds (snapshot) - 2 seconds (the argument) still hasn't reached zero.
         /// </summary>
-        public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
+        protected abstract bool IsViolating(TimeSpan addThisTime);
+
+        /// <summary>
+        ///     Indicates whether the clock is currently counting down.
+        /// </summary>
+        protected bool Running { get; private set; }
+
     }
 }

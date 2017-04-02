@@ -9,19 +9,8 @@ namespace OmegaGo.Core.Time.Canadian
         public TimeSpan PeriodTimeLeft { get;}
         public int PeriodStonesLeft { get; }
 
-        public bool IsViolating()
+        public override string MainText
         {
-            return MainTimeLeft <= TimeSpan.Zero && PeriodTimeLeft <= TimeSpan.Zero;
-        }
-
-        public CanadianTimeInformation(TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
-        {
-            MainTimeLeft = mainTimeLeft;
-            PeriodTimeLeft = periodTimeLeft;
-            PeriodStonesLeft = periodStonesLeft;
-        }
-
-        public override string MainText {
             get
             {
                 if (MainTimeLeft > TimeSpan.Zero)
@@ -36,8 +25,10 @@ namespace OmegaGo.Core.Time.Canadian
             }
         }
 
-        public override string SubText {
-            get {
+        public override string SubText
+        {
+            get
+            {
                 if (MainTimeLeft > TimeSpan.Zero)
                 {
                     return "Main time";
@@ -45,8 +36,20 @@ namespace OmegaGo.Core.Time.Canadian
                 return PeriodStonesLeft + " stones left for this period";
             }
         }
+
         public override TimeControlStyle Style => TimeControlStyle.Canadian;
 
-      
+        public CanadianTimeInformation(TimeSpan mainTimeLeft, TimeSpan periodTimeLeft, int periodStonesLeft)
+        {
+            MainTimeLeft = mainTimeLeft;
+            PeriodTimeLeft = periodTimeLeft;
+            PeriodStonesLeft = periodStonesLeft;
+        }
+
+        public bool IsViolating()
+        {
+            return MainTimeLeft <= TimeSpan.Zero && PeriodTimeLeft <= TimeSpan.Zero;
+        }
+
     }
 }
