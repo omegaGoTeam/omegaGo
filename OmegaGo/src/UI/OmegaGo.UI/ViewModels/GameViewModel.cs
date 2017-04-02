@@ -18,6 +18,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.UI.ViewModels
@@ -29,6 +31,7 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
+        protected Assistant Assistant;
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
@@ -48,6 +51,7 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
+            Assistant = new Assistant(gameSettings, _game.Info is RemoteGameInfo);
             _game.Controller.GameEnded += (s, e) => OnGameEnded(e);
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
@@ -55,24 +59,56 @@ namespace OmegaGo.UI.ViewModels
 
             _uiConnector = new UiConnector(Game.Controller);
             _uiConnector.AiLog += _uiConnector_AiLog;
+            _uiConnector.MoveWasPerformed += _uiConnector_MoveWasPerformed;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
 
             Game.Controller.RegisterConnector(_uiConnector);
+            Game.Controller.MoveUndone += Controller_MoveUndone;
             Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
+            Game.Controller.GamePhaseStarted += Controller_GamePhaseStarted;
             
             ObserveDebuggingMessages();
+        }
+
+        private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
+        {
+            if (e.Type == GamePhaseType.LifeDeathDetermination)
+            {
+                if (Assistant.ProvidesFinalEvaluation)
+                {
+                   var deads = await Assistant.GetDeadPositions();
+                   foreach(var dead in deads)
+                   {
+                       UiConnector.RequestLifeDeathKillGroup(dead);
+                   }
+                }
+            }
+        }
+
+        private void _uiConnector_MoveWasPerformed(object sender, Move e)
+        {
+            this.Assistant.MovePerformed(e,
+                new AiGameInformation(Game.Info, e.WhoMoves, Game.Controller.Players[e.WhoMoves],
+                    Game.Controller.GameTree));
+        }
+
+        private void Controller_MoveUndone(object sender, EventArgs e)
+        {
+            this.Assistant.MoveUndone();
         }
 
         private void _uiConnector_AiLog(object sender, string e)
         {
             _systemLog.AppendLine("AI: " + e);
         }
+
+
 
         ////////////////
         // Initial setup overrides      
@@ -158,7 +194,43 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // Game View Model Services      
         ////////////////
-        
+
+        private IMvxCommand _getHintCommand;
+
+        public IMvxCommand GetHint
+            => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHintMethod));
+
+        private async void GetHintMethod()
+        {
+            if (!Assistant.ProvidesHints) return;
+            AIDecision hint =
+                await
+                    Assistant.Hint(this.Game.Info, this.Game.Controller.TurnPlayer, this.Game.Controller.GameTree,
+                        this.Game.Controller.TurnPlayer.Info.Color);
+            string content = "";
+            string title = "";
+            switch(hint.Kind)
+            {
+                case AgentDecisionKind.Resign:
+                    title = "You should resign.";
+                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                    break;
+                case AgentDecisionKind.Move:
+                    title = hint.Move.ToString();
+                    if (hint.Move.Kind == MoveKind.Pass)
+                    {
+                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                    }
+                    else
+                    {
+                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                                  hint.Explanation;
+                    }
+                    break;
+            }
+            await DialogService.ShowAsync(content, title);
+        }
+
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;

@@ -38,9 +38,20 @@ namespace OmegaGo.Core.Modes.LiveGame
         event EventHandler<GamePhaseChangedEventArgs> GamePhaseChanged;
 
         /// <summary>
+        /// Indicates that the game phase has changed a the new phase has finished initializing. It is possible we're not in that phase anymore,
+        /// if the phase ended before its StartPhase method ended (this happens, for example, with InitializationPhase).
+        /// </summary>
+        event EventHandler<IGamePhase> GamePhaseStarted;
+
+        /// <summary>
         /// Indicates that the game board must be refreshed
         /// </summary>
         event EventHandler CurrentNodeStateChanged;
+
+        /// <summary>
+        /// Occurs when the latest move is undone. This may happen multiple times in sequence.
+        /// </summary>
+        event EventHandler MoveUndone;
 
         /// <summary>
         /// Gets the game's ruleset

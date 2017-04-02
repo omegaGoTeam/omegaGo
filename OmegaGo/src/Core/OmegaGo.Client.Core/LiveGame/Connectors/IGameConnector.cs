@@ -57,11 +57,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// Indicates that undo is being forced in main phase
         /// </summary>
         event EventHandler MainUndoForced;
-
+        
         /// <summary>
         /// Informs the connector about a performed move
         /// </summary>
-        /// <param name="move">Move</param>
         void MovePerformed(Move move);
     }
 }

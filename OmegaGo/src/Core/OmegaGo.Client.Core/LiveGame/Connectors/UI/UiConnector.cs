@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
@@ -18,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 
         public UiConnector(IGameController gameController)
         {
-            _gameController = gameController;
+            this._gameController = gameController;
             InitAgents();
         }
 
@@ -32,8 +28,23 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 
+        public void MovePerformed(Move move)
+        {
+            MoveWasPerformed?.Invoke(this, move);
+        }
+
         /// <summary>
-        /// Tries to make a move for the turn player only if it is a human player
+        ///     Occurs just after a move is made in the game.
+        /// </summary>
+        public event EventHandler<Move> MoveWasPerformed;
+
+        /// <summary>
+        ///     Occurs when any AI involved in the game sends a line of information to the user interface.
+        /// </summary>
+        public event EventHandler<string> AiLog;
+
+        /// <summary>
+        ///     Tries to make a move for the turn player only if it is a human player
         /// </summary>
         /// <param name="position">Position to play</param>
         public void MakeMove(Position position)
@@ -42,33 +53,27 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         }
 
         /// <summary>
-        /// Resigns the turn player
+        ///     Resigns the turn player
         /// </summary>
         public void Resign()
         {
-            if (_gameController.TurnPlayer.IsHuman)
+            if (this._gameController.TurnPlayer.IsHuman)
             {
                 GetHumanAgentOnTurn()?.Resign();
             }
             else
             {
-                GamePlayer human = _gameController.Players.FirstOrDefault(pl => pl.IsHuman);
+                var human = this._gameController.Players.FirstOrDefault(pl => pl.IsHuman);
                 (human?.Agent as IHumanAgentActions)?.Resign();
             }
         }
 
         /// <summary>
-        /// Makes the player pass
+        ///     Makes the player pass
         /// </summary>
         public void Pass()
         {
             GetHumanAgentOnTurn()?.Pass();
-        }
-
-        public event EventHandler<string> AiLog;
-
-        public void MovePerformed(Move move)
-        {
         }
 
         public void RequestLifeDeathDone()
@@ -97,32 +102,31 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         }
 
         /// <summary>
-        /// Initializes agents
+        ///     Initializes agents
         /// </summary>
         private void InitAgents()
         {
-            foreach (var aiAgent in _gameController.Players.Select(p => p.Agent).OfType<AiAgent>())
+            foreach (var aiAgent in this._gameController.Players.Select(p => p.Agent).OfType<AiAgent>())
             {
                 aiAgent.AiNote += AiAgent_AiNote;
             }
         }
 
         /// <summary>
-        /// AI agent log
+        ///     AI agent log
         /// </summary>
         /// <param name="agent">Agent</param>
         /// <param name="note">Note to add</param>
         private void AiAgent_AiNote(IAgent agent, string note)
         {
             string aiLogLine = agent.Color.ToIgsCharacterString() + ": " + note;
-            AiLog?.Invoke(this, aiLogLine);           
+            AiLog?.Invoke(this, aiLogLine);
         }
 
         /// <summary>
-        /// Gets the human player currently on turn
+        ///     Gets the human player currently on turn
         /// </summary>
         /// <returns>Human agent actions</returns>
-        private IHumanAgentActions GetHumanAgentOnTurn() =>
-            _gameController.TurnPlayer.Agent as IHumanAgentActions;
+        private IHumanAgentActions GetHumanAgentOnTurn() => this._gameController.TurnPlayer.Agent as IHumanAgentActions;
     }
 }

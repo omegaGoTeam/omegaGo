@@ -68,6 +68,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             if (Controller.GameTree.LastNode != null)
             {
                 Controller.GameTree.RemoveLastNode();
+                foreach(var player in this.Controller.Players)
+                {
+                    player.Agent.MoveUndone();
+                }
+                Controller.OnMoveUndone();
                 Controller.SwitchTurnPlayer();
                 // TODO Petr What is this?
                 // Order here matters:
@@ -233,11 +238,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //add new move to game tree
             Controller.GameTree.AddMoveToEnd(move, newBoard, newGroupState);
 
-            //inform the players that a move occured
+            //inform the ui and the internet that a move occured
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }            
+            }
+            //inform the players that a move occured
+            foreach (var informedPlayer in Controller.Players)
+            {
+                informedPlayer.Agent.MovePerformed(move);
+            }
         }
 
         /// <summary>

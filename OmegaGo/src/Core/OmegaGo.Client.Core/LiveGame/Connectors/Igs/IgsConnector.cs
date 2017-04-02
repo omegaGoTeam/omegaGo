@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
-using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
@@ -54,6 +53,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067

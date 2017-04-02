@@ -117,12 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+  <data name="AI_Fluffy_Description" xml:space="preserve">
     <value>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
 Fluffy will always and only pass in response to its opponent passing.
 You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</value>
   </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+  <data name="AI_Fluffy_Name" xml:space="preserve">
     <value>Fluffy (minimax)</value>
   </data>
   <data name="AI_DefeatistAI_Description" xml:space="preserve">
@@ -132,12 +132,12 @@ After you make your first move, or even before that, the AI will conclude that i
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
   </data>
-  <data name="AI_FuegoAI_Description" xml:space="preserve">
+  <data name="AI_Fuego_Description" xml:space="preserve">
     <value>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
 It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
 We recommend you use this AI program for all of your games.</value>
   </data>
-  <data name="AI_FuegoAI_Name" xml:space="preserve">
+  <data name="AI_Fuego_Name" xml:space="preserve">
     <value>Fuego</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.Defeatist;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.AI.Random;
 
@@ -44,7 +44,7 @@ namespace OmegaGo.Core.AI
                             new RandomAI(),
                             new RandomPlayerWrapper(),
                             new HeuristicPlayerWrapper(),
-                            new AlphaBetaPlayerWrapper()
+                            new Fluffy()
                         };
                 }
                 return
@@ -54,8 +54,8 @@ namespace OmegaGo.Core.AI
                         new RandomAI(),
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
-                        new AlphaBetaPlayerWrapper(),
-                        new FuegoAI()
+                        new Fluffy(),
+                        new FuegoSpace.Fuego()
                     };
             }
         }

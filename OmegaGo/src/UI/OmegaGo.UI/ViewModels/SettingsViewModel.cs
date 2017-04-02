@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Random;
 using OmegaGo.UI.Board.Styles;
 using OmegaGo.UI.Game.Styles;

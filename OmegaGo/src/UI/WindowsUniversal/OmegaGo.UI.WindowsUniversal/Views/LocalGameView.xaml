@@ -67,7 +67,7 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Hint" FontSize="20"/>
-                <Button Content="Get Hint from Assistant"/>
+                <Button Content="Get Hint from Assistant" Command="{x:Bind VM.GetHint}" />
                 <TextBlock Text="Fuego" FontSize="20"/>
                 <TextBox Name="FuegoCommand"></TextBox>
                 <Button Click="SendFuegoCommand">Send GTP command</Button>
