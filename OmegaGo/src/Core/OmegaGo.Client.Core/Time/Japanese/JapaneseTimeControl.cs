@@ -8,7 +8,9 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 namespace OmegaGo.Core.Time.Japanese
 {
     /// <summary>
-    /// The Japanese time control is standard Japanese byo-yomi, i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// The Japanese time control is standard Japanese byo-yomi,
+    /// i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// See http://senseis.xmp.net/?ByoYomi
     /// </summary>
     public class JapaneseTimeControl : TimeControl
     {
@@ -29,7 +31,8 @@ namespace OmegaGo.Core.Time.Japanese
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
             // Don't use this. Use GAME_STATE instead for now. We don't need historical records of time keeping.
         }
@@ -66,6 +69,7 @@ namespace OmegaGo.Core.Time.Japanese
         {
             return ReduceBy(_snapshot, addThisTime);
         }
+
         protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
             // A move was just made.
@@ -82,7 +86,12 @@ namespace OmegaGo.Core.Time.Japanese
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
 
-     
+        /// <summary>
+        /// Reduces the time remaining on the clock in the <paramref name="minued"/> by <paramref name="subtrahend"/>
+        /// and returns the result. This cannot be static because it uses the <see cref="_byoyomiLengthInSeconds"/> field. 
+        /// </summary>
+        /// <param name="minued">The minued.</param>
+        /// <param name="subtrahend">The subtrahend.</param>
         private JapaneseTimeInformation ReduceBy(JapaneseTimeInformation minued, TimeSpan subtrahend)
         {
             TimeSpan subtractStill = subtrahend;
@@ -105,7 +114,6 @@ namespace OmegaGo.Core.Time.Japanese
             }
             return result;
         }
-
-
+        
     }
 }

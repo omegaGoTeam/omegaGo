@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// <summary>
     /// Connects the IgsConnection to a specific game
     /// </summary>
-    internal class IgsConnector : BaseConnector, IRemoteConnector, IIgsConnectorServerActions
+    internal class IgsConnector : IRemoteConnector, IIgsConnectorServerActions
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;

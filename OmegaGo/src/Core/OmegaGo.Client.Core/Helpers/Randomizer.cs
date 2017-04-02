@@ -3,7 +3,7 @@
 namespace OmegaGo.Core.Helpers
 {
     /// <summary>
-    /// Generator values provider. Warning - not thread-safe
+    /// Generator values provider. Warning - not thread-safe.
     /// </summary>
     internal static class Randomizer
     {

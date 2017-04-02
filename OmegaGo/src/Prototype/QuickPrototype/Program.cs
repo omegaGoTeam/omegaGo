@@ -16,6 +16,9 @@ namespace FormsPrototype
             OmegaGo.Core.AI.AISystems.RegisterFuegoBuilder(new FormsFuego.Win32FuegoBuilder());
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            // The IgsForm connects to IGS and allows playing local games.
+            // The KgsForm connects to KGS only.
+            // There is no hub from where you can access both, so it's in this source file that you pick what you want to prototype now.
             Application.Run(new KgsForm ());
             
         }

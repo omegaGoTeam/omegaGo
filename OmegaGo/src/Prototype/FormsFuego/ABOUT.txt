@@ -1,0 +1,3 @@
+﻿This project - FormsFuego - acts as a bridge between the fuego.exe file and the Windows Forms prototype.
+
+Fuego.exe is downloaded from here https://github.com/cbordeman/gameofgo and comes from cca March 2016. It should be possible to replace it with a newer version, unlike the UWP project. 

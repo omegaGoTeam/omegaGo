@@ -44,7 +44,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
-    <Compile Include="AI\AIStrength.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
@@ -54,7 +53,6 @@
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
-    <Compile Include="LiveGame\Connectors\BaseConnector.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
@@ -315,6 +313,7 @@
     <Compile Include="Time\TimeControl.cs" />
     <Compile Include="Time\TimeControlStyle.cs" />
     <Compile Include="Time\TimeInformation.cs" />
+    <Compile Include="Time\TimeLeftArguments.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

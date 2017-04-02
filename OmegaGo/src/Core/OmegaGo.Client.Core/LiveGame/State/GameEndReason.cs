@@ -18,7 +18,8 @@
         /// </summary>
         Resignation,
         /// <summary>
-        /// A player has disconnected from the server.
+        /// A player has disconnected from the server. Alternatively, if we are spectating a game, this may also mean
+        /// that while the game is still in progress, we have lost connection to the server.
         /// </summary>
         Disconnection,
         /// <summary>

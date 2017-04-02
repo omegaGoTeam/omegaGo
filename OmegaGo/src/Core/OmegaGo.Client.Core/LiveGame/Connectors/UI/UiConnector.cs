@@ -8,13 +8,13 @@ using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
 {
-    public class UiConnector : BaseConnector, IGameConnector, IUiConnectorActions
+    public class UiConnector : IGameConnector, IUiConnectorActions
     {
         private readonly IGameController _gameController;
 
         public UiConnector(IGameController gameController)
         {
-            this._gameController = gameController;
+            _gameController = gameController;
             InitAgents();
         }
 
@@ -27,6 +27,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+        public event EventHandler<string> AiLog;
 
         public void MovePerformed(Move move)
         {
@@ -57,13 +58,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         /// </summary>
         public void Resign()
         {
-            if (this._gameController.TurnPlayer.IsHuman)
+            if (_gameController.TurnPlayer.IsHuman)
             {
                 GetHumanAgentOnTurn()?.Resign();
             }
             else
             {
-                var human = this._gameController.Players.FirstOrDefault(pl => pl.IsHuman);
+                GamePlayer human = _gameController.Players.FirstOrDefault(pl => pl.IsHuman);
                 (human?.Agent as IHumanAgentActions)?.Resign();
             }
         }
