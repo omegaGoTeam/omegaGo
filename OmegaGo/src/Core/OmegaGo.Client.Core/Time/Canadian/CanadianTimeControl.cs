@@ -124,6 +124,7 @@ namespace OmegaGo.Core.Time.Canadian
 
         public CanadianTimeControl UpdateFrom(CanadianTimeInformation timeRemaining)
         {
+            // TODO Petr: something is wrong with the stones here
             LastTimeClockStarted = DateTime.Now;
             if (Running)
             {
