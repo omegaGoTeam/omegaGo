@@ -302,6 +302,7 @@ namespace OmegaGo.UI.ViewModels
             allUsers.Sort(comparison);
             RefillChallengeableUsersFromAllUsers();
         }
+
         public bool ConsoleVisible
         {
             get
@@ -313,6 +314,7 @@ namespace OmegaGo.UI.ViewModels
 #endif
             }
         }
+
         public async Task RefreshGames()
         {
             ShowProgressPanel("Refreshing the list of observable games...");
