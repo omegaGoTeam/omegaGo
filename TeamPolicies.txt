@@ -42,7 +42,8 @@
         non-readonly
 
 09. Code readability - naming conventions for methods, variables, names should be sensible.
-10. Each public member of a class has to have documentation comment, complicated or important non-public members as well.
-11. The documentation should be formal and professional (and optimistic!, if our goal is to succesfully defend the project). 
-12. Each TODO in code should have a User story and should indicate the person who is to resolve.
+10. Code readability - add empty line between 2 methods.
+11. Each public member of a class has to have documentation comment, complicated or important non-public members as well.
+12. The documentation should be formal and professional (and optimistic!, if our goal is to succesfully defend the project). 
+13. Each TODO in code should have a User story and should indicate the person who is to resolve.
 
