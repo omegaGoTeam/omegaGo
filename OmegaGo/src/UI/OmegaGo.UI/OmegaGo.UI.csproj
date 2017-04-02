@@ -66,6 +66,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Controls\Styles\BackgroundColor.cs" />
     <Compile Include="Controls\Styles\BackgroundImage.cs" />
+    <Compile Include="Extensions\MvxNavigatingObjectExtensions.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
     <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
     <Compile Include="Infrastructure\Tabbed\ITabProvider.cs" />
+    <Compile Include="Infrastructure\Tabbed\TabNavigationType.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

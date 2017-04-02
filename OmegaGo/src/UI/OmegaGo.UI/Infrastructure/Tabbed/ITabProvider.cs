@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MvvmCross.Core.ViewModels;
 
 namespace OmegaGo.UI.Infrastructure.Tabbed
 {
@@ -16,6 +17,12 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// <summary>
         /// Active tab
         /// </summary>
-        ITabInfo ActiveTab { get; }        
+        ITabInfo ActiveTab { get; }
+
+        /// <summary>
+        /// Shows view model in tab-based UI
+        /// </summary>
+        /// <returns>Used tab</returns>
+        ITabInfo ShowViewModel(MvxViewModelRequest request, TabNavigationType tabNavigationType);
     }
 }

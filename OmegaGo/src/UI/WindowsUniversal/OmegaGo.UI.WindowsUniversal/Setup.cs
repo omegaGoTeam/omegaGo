@@ -45,6 +45,7 @@ namespace OmegaGo.UI.WindowsUniversal
         protected override void InitializeFirstChance()
         {            
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
+            Mvx.LazyConstructAndRegisterSingleton<ITabProvider, TabProvider>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ITimerService, TimerService>();
             Mvx.LazyConstructAndRegisterSingleton<IFeedbackService, FeedbackService>();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Infrastructure.Tabbed;
 
@@ -13,25 +14,31 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     /// </summary>
     internal class TabProvider : ITabProvider
     {
-        private readonly TabManager _tabManager;
-
-        /// <summary>
-        /// Creates a tab provider using tab manager
-        /// </summary>
-        /// <param name="tabManager">Tab manager</param>
-        public TabProvider( TabManager tabManager )
-        {
-            _tabManager = tabManager;
-        }
-
         /// <summary>
         /// Reads current tabs from the UI
         /// </summary>
-        public IEnumerable<ITabInfo> Tabs => _tabManager.Tabs;
+        public IEnumerable<ITabInfo> Tabs => GetTabManager().Tabs;
 
         /// <summary>
         /// Gets the active tab from the UI
         /// </summary>
-        public ITabInfo ActiveTab => _tabManager.ActiveTab;
+        public ITabInfo ActiveTab => GetTabManager().ActiveTab;
+
+        /// <summary>
+        /// Shows a view model using tab manager
+        /// </summary>
+        /// <param name="request">View model request</param>
+        /// <param name="tabNavigationType">Tab navigation type</param>
+        /// <returns>Used tab</returns>
+        public ITabInfo ShowViewModel(MvxViewModelRequest request, TabNavigationType tabNavigationType)
+        {
+            return GetTabManager().ProcessViewModelRequest(request, tabNavigationType);
+        }
+
+        /// <summary>
+        /// Retrieves the tab manager for current view
+        /// </summary>
+        /// <returns>Tab manager</returns>
+        private TabManager GetTabManager() => AppShell.GetForCurrentView().TabManager;
     }
 }

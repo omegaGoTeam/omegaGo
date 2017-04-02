@@ -54,8 +54,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
             window.Content = this;
 
-            TabManager = new TabManager(this);
-            TabManager.ActiveTab = TabManager.Tabs.First();
+            TabManager = new TabManager(this);            
 
             DataContext = this;
 

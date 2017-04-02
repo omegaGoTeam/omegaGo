@@ -152,11 +152,11 @@ namespace OmegaGo.UI.ViewModels
                                                    (_navigateToStatistics = new MvxCommand(() => ShowViewModel<StatisticsViewModel>()));
 
         public IMvxCommand NavigateToSettings => _navigateToSettings ??
-                                                 (_navigateToSettings = new MvxCommand(() => ShowViewModel<SettingsViewModel>()));
+                                                 (_navigateToSettings = new MvxCommand(() => OpenInNewActiveTab<SettingsViewModel>()));
 
 
 
-        public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => ShowViewModel<HelpViewModel>()));
+        public IMvxCommand NavigateToHelp => _navigateToHelp ?? (_navigateToHelp = new MvxCommand(() => OpenInNewBackgroundTab<HelpViewModel>()));
 
         public IMvxCommand LaunchFeedbackCommand => _launchFeedbackCommand ??
                                                     (_launchFeedbackCommand = new MvxAsyncCommand(LaunchFeedbackAsync));

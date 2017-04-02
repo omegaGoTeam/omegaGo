@@ -10,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Core.Views;
+using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
@@ -35,9 +37,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public TabManager(AppShell appShell)
         {
             _appShell = appShell;
-            CreateEmptyTab();
-            CreateEmptyTab();
-            CreateEmptyTab();
         }
 
         /// <summary>
@@ -55,6 +54,44 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         }
 
         /// <summary>
+        /// Activates a tab
+        /// </summary>
+        /// <param name="tab">Tab to activate</param>
+        public void ActivateTab(Tab tab)
+        {
+            ActiveTab = tab;
+        }
+
+        /// <summary>
+        /// Processes a view model request
+        /// </summary>
+        /// <param name="request">View model request</param>
+        /// <param name="tabNavigationType">Type of tab navigation to perform</param>
+        internal ITabInfo ProcessViewModelRequest(MvxViewModelRequest request, TabNavigationType tabNavigationType)
+        {
+            //process the request
+            var requestTranslator = Mvx.Resolve<IMvxViewsContainer>();
+            var viewType = requestTranslator.GetViewType(request.ViewModelType);
+
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+            var requestText = converter.Serializer.SerializeObject(request);
+        
+            //prepare tab
+            var targetTab = ActiveTab;
+            bool activeAndNeedsNew = tabNavigationType == TabNavigationType.ActiveTab && ActiveTab == null;
+            if (activeAndNeedsNew || tabNavigationType != TabNavigationType.ActiveTab)
+            {
+                targetTab = CreateEmptyTab();
+            }
+            targetTab.Frame.Navigate(viewType, requestText);
+            if (tabNavigationType != TabNavigationType.NewBackgroundTab)
+            {
+                ActivateTab(targetTab);
+            }
+            return targetTab;
+        }
+
+        /// <summary>
         /// Creates and adds a new empty tab
         /// </summary>
         /// <returns>Created tab</returns>
@@ -69,13 +106,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             Tabs.Add(tab);
             return tab;
         }
-        
+
         /// <summary>
         /// Invoked when tab navigation is performed
         /// </summary>
         private void OnTabNavigated(object sender, NavigationEventArgs e)
         {
-            
+
         }
 
         /// <summary>
@@ -83,7 +120,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }

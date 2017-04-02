@@ -11,6 +11,7 @@ using MvvmCross.Platform.Exceptions;
 using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsUWP.Views;
 using OmegaGo.UI.Infrastructure.PresentationHints;
+using OmegaGo.UI.Infrastructure.Tabbed;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 {
@@ -32,15 +33,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             try
             {
-                var requestTranslator = Mvx.Resolve<IMvxViewsContainer>();
-                var viewType = requestTranslator.GetViewType(request.ViewModelType);
-
-                var converter = Mvx.Resolve<IMvxNavigationSerializer>();
-                var requestText = converter.Serializer.SerializeObject(request);
-
-                AppShell.GetForCurrentView().TabManager.ActiveTab.Frame.Navigate(viewType, requestText);
-                //this._rootFrame.Navigate(viewType, requestText); //Frame won't allow serialization of it's nav-state if it gets a non-simple type as a nav param
-                //throw new NotImplementedException();
+                TabNavigationType tabNavigationType = TabNavigationType.ActiveTab;
+                if (request.PresentationValues != null)
+                {
+                    if (request.PresentationValues.ContainsKey(nameof(TabNavigationType)))
+                    {
+                        Enum.TryParse(request.PresentationValues[nameof(TabNavigationType)], true,
+                            out tabNavigationType);
+                    }
+                }
+                _appShell.TabManager.ProcessViewModelRequest(request, tabNavigationType);
             }
             catch (Exception exception)
             {
@@ -53,21 +55,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             if (HandlePresentationChange(hint)) return;
 
-            if (hint is MvxClosePresentationHint)
-            {
-                
-            }
-
             MvxTrace.Warning("Hint ignored {0}", hint.GetType().Name);
         }
-        
+
         /// <summary>
         /// Registers presentation hint handlers
         /// </summary>
         private void RegisterPresentationHintHandlers()
         {
-            AddPresentationHintHandler<MvxClosePresentationHint>( HandleClose );
-            AddPresentationHintHandler<RefreshDisplayPresentationHint>( HandleRefreshDisplay );
+            AddPresentationHintHandler<MvxClosePresentationHint>(HandleClose);
+            AddPresentationHintHandler<RefreshDisplayPresentationHint>(HandleRefreshDisplay);
             AddPresentationHintHandler<PopBackStackPresentationHint>(HandlePopBackStack);
         }
 
@@ -86,5 +83,5 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             throw new NotImplementedException();
         }
-    }   
+    }
 }

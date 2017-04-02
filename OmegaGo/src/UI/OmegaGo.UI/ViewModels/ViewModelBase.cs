@@ -15,7 +15,10 @@ namespace OmegaGo.UI.ViewModels
     /// </summary>
     public class ViewModelBase : MvxViewModel
     {
-        private Localizer _localizer = null;    
+        private readonly ITabProvider _tabProvider = Mvx.Resolve<ITabProvider>();
+
+        private Localizer _localizer = null;
+
         private IMvxCommand _goBackCommand;
         private bool _isWorking = false;
 
@@ -35,7 +38,7 @@ namespace OmegaGo.UI.ViewModels
         public bool IsWorking
         {
             get
-            {                  
+            {
                 return _isWorking;
             }
             set
@@ -48,19 +51,21 @@ namespace OmegaGo.UI.ViewModels
         /// Opens a view model in a new tab and switches to this tab
         /// </summary>
         /// <typeparam name="TViewModel">View model type to open</typeparam>
-        public ITabInfo OpenInNewActiveTab<TViewModel>()
+        public ITabInfo OpenInNewActiveTab<TViewModel>() where TViewModel : IMvxViewModel
         {
-            var newTab = OpenInNewBackgroundTab<TViewModel>();
-            SwitchToTab(newTab);
-            return newTab;
+            return _tabProvider.ShowViewModel(
+                new MvxViewModelRequest<TViewModel>(new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction),
+                TabNavigationType.NewForegroundTab);
         }
 
         /// <summary>
         /// Opens a view model in a tab, but doesn't switch to it
         /// </summary>
-        public ITabInfo OpenInNewBackgroundTab<TViewModel>()
+        public ITabInfo OpenInNewBackgroundTab<TViewModel>() where TViewModel : IMvxViewModel
         {
-            throw new NotImplementedException();
+            return _tabProvider.ShowViewModel(
+                 new MvxViewModelRequest<TViewModel>(new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction), 
+                 TabNavigationType.NewBackgroundTab);
         }
 
         /// <summary>
@@ -88,7 +93,7 @@ namespace OmegaGo.UI.ViewModels
         public bool CloseTab()
         {
             throw new NotImplementedException();
-        }        
+        }
 
         /// <summary>
         /// Override this method to do any "on navigated from" work or to stop the navigation altogether.
