@@ -22,95 +22,95 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public PlayerSettingsViewModel(GameCreationViewPlayer gameCreationViewPlayer, bool assistantMode)
         {
-            this.player = gameCreationViewPlayer;
-            this._assistantMode = assistantMode;
+            player = gameCreationViewPlayer;
+            _assistantMode = assistantMode;
             RaiseAllPropertiesChanged();
-            if (this._assistantMode)
+            if (_assistantMode)
             {
-                this._fuegoResign = this._settings.Assistant.FuegoAllowResign;
-                this._fuegoPonder = this._settings.Assistant.FuegoPonder;
-                this._fuegoMaxGames = this._settings.Assistant.FuegoMaxGames;
-                this._fluffyTreeDepth = this._settings.Assistant.FluffyDepth;
+                _fuegoResign = _settings.Assistant.FuegoAllowResign;
+                _fuegoPonder = _settings.Assistant.FuegoPonder;
+                _fuegoMaxGames = _settings.Assistant.FuegoMaxGames;
+                _fluffyTreeDepth = _settings.Assistant.FluffyDepth;
             }
             else
             {
-                this._fuegoResign = this._settings.Interface.FuegoAllowResign;
-                this._fuegoPonder = this._settings.Interface.FuegoPonder;
-                this._fuegoMaxGames = this._settings.Interface.FuegoMaxGames;
-                this._fluffyTreeDepth = this._settings.Interface.FluffyDepth;
+                _fuegoResign = _settings.Interface.FuegoAllowResign;
+                _fuegoPonder = _settings.Interface.FuegoPonder;
+                _fuegoMaxGames = _settings.Interface.FuegoMaxGames;
+                _fluffyTreeDepth = _settings.Interface.FluffyDepth;
             }
         }
 
 
-        public string Name => this.player.Name;
+        public string Name => player.Name;
 
-        public string Description => this.player.Description.Replace("\n", "\n\n");
+        public string Description => player.Description.Replace("\n", "\n\n");
 
-        public bool AiPanelVisible => this.player.IsAi;
+        public bool AiPanelVisible => player.IsAi;
 
         public bool IsFuego
-            => this.player.IsAi && ((GameCreationViewAiPlayer) this.player).AI.GetType() == typeof(Fuego);
+            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fuego);
 
         public bool IsFluffy
-            => this.player.IsAi && ((GameCreationViewAiPlayer) this.player).AI.GetType() == typeof(Fluffy);
+            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fluffy);
 
         private AICapabilities Capabitilies
-            => this.player.IsAi ? ((GameCreationViewAiPlayer) this.player).Capabilities : null;
+            => player.IsAi ? ((GameCreationViewAiPlayer) player).Capabilities : null;
 
         public string HandlesNonSquareBoards
-            => this.Capabitilies?.HandlesNonSquareBoards ?? false ? this._localizer.Yes : this._localizer.No;
+            => this.Capabitilies?.HandlesNonSquareBoards ?? false ? _localizer.Yes : _localizer.No;
 
         public string MinimumBoardSize => this.Capabitilies?.MinimumBoardSize.ToString() ?? "n/a";
         public string MaximumBoardSize => this.Capabitilies?.MaximumBoardSize.ToString() ?? "n/a";
 
         public bool FuegoResign
         {
-            get { return this._fuegoResign; }
+            get { return _fuegoResign; }
             set
             {
-                SetProperty(ref this._fuegoResign, value);
-                if (this._assistantMode)
+                SetProperty(ref _fuegoResign, value);
+                if (_assistantMode)
                 {
-                    this._settings.Assistant.FuegoAllowResign = value;
+                    _settings.Assistant.FuegoAllowResign = value;
                 }
             }
         }
 
         public bool FuegoPonder
         {
-            get { return this._fuegoPonder; }
+            get { return _fuegoPonder; }
             set
             {
-                SetProperty(ref this._fuegoPonder, value);
-                if (this._assistantMode)
+                SetProperty(ref _fuegoPonder, value);
+                if (_assistantMode)
                 {
-                    this._settings.Assistant.FuegoPonder = value;
+                    _settings.Assistant.FuegoPonder = value;
                 }
             }
         }
 
         public int FuegoMaxGames
         {
-            get { return this._fuegoMaxGames; }
+            get { return _fuegoMaxGames; }
             set
             {
-                SetProperty(ref this._fuegoMaxGames, value);
-                if (this._assistantMode)
+                SetProperty(ref _fuegoMaxGames, value);
+                if (_assistantMode)
                 {
-                    this._settings.Assistant.FuegoMaxGames = value;
+                    _settings.Assistant.FuegoMaxGames = value;
                 }
             }
         }
 
         public int FluffyTreeDepth
         {
-            get { return this._fluffyTreeDepth; }
+            get { return _fluffyTreeDepth; }
             set
             {
-                SetProperty(ref this._fluffyTreeDepth, value);
-                if (this._assistantMode)
+                SetProperty(ref _fluffyTreeDepth, value);
+                if (_assistantMode)
                 {
-                    this._settings.Assistant.FluffyDepth = value;
+                    _settings.Assistant.FluffyDepth = value;
                 }
             }
         }
@@ -118,13 +118,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public void ChangePlayer(GameCreationViewPlayer value)
         {
-            this.player = value;
-            if (this._assistantMode)
+            player = value;
+            if (_assistantMode)
             {
-                this._fuegoResign = this._settings.Assistant.FuegoAllowResign;
-                this._fuegoPonder = this._settings.Assistant.FuegoPonder;
-                this._fuegoMaxGames = this._settings.Assistant.FuegoMaxGames;
-                this._fluffyTreeDepth = this._settings.Assistant.FluffyDepth;
+                _fuegoResign = _settings.Assistant.FuegoAllowResign;
+                _fuegoPonder = _settings.Assistant.FuegoPonder;
+                _fuegoMaxGames = _settings.Assistant.FuegoMaxGames;
+                _fluffyTreeDepth = _settings.Assistant.FluffyDepth;
             }
             RaiseAllPropertiesChanged();
         }
@@ -133,13 +133,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             if (this.IsFuego)
             {
-                this._settings.Interface.FuegoAllowResign = this.FuegoResign;
-                this._settings.Interface.FuegoMaxGames = this.FuegoMaxGames;
-                this._settings.Interface.FuegoPonder = this.FuegoPonder;
+                _settings.Interface.FuegoAllowResign = this.FuegoResign;
+                _settings.Interface.FuegoMaxGames = this.FuegoMaxGames;
+                _settings.Interface.FuegoPonder = this.FuegoPonder;
             }
             if (this.IsFuego)
             {
-                this._settings.Interface.FluffyDepth = this.FluffyTreeDepth;
+                _settings.Interface.FluffyDepth = this.FluffyTreeDepth;
             }
         }
     }
