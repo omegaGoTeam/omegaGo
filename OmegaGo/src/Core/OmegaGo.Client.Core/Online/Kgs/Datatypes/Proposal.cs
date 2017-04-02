@@ -75,5 +75,55 @@
         {
             return "Proposal (" + GameType + ")";
         }
+
+        private Proposal Copy()
+        {
+            Proposal copy = new Proposal();
+
+            // Basic
+            copy.GameType = this.GameType;
+            copy.Rules = this.Rules;
+            copy.Nigiri = this.Nigiri;
+
+            // Flags
+            copy.Over = this.Over;
+            copy.Adjourned = this.Adjourned;
+            copy.Private = this.Private;
+            copy.Subscribers = this.Subscribers;
+            copy.Event = this.Event;
+            copy.Uploaded = this.Uploaded;
+            copy.Audio = this.Audio;
+            copy.Paused = this.Paused;
+            copy.Named = this.Named;
+            copy.Saved = this.Saved;
+            copy.Global = this.Global;
+  
+            // Players
+            copy.Players = new KgsPlayer[this.Players.Length];
+            for (int i =0; i < this.Players.Length; i++)
+            {
+                copy.Players[i] = new KgsPlayer();
+                var newPlayer = copy.Players[i];
+                var oldPlayer = this.Players[i];
+                newPlayer.Role = oldPlayer.Role;
+                newPlayer.Name = oldPlayer.Name;
+                newPlayer.User = oldPlayer.User;
+            }
+            return copy;
+        }
+
+        public Proposal ToUpstream()
+        {
+            var copy = this.Copy();
+            foreach(var pl in copy.Players)
+            {
+                if (pl.User != null)
+                {
+                    pl.Name = pl.User.Name;
+                    pl.User = null;
+                }
+            }
+            return copy;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public User User { get; set; }
         public override void Process(KgsConnection connection)
         {
+            connection.Data.EnsureUserExists(User);
             connection.Data.Users[User.Name].CopyDataFrom(User);
         }
     }

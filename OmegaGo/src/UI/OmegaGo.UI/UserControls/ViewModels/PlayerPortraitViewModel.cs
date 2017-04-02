@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Time;
 
@@ -14,16 +15,21 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// </summary>
         private readonly GamePlayer _player;
 
+        private readonly IGameController _controller;
+
         private string _timeControlMainLine = "f";
         private string _timeControlSubLine = "f";
+        private int _prisonerCount = 0;
 
         /// <summary>
         /// Creates the player portrait view model
         /// </summary>
         /// <param name="player">Player for which this portrait is applicable</param>
-        public PlayerPortraitViewModel(GamePlayer player)
+        /// <param name="controller"></param>
+        public PlayerPortraitViewModel(GamePlayer player, IGameController controller)
         {
             _player = player;
+            _controller = controller;
         }
 
         /// <summary>
@@ -40,6 +46,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// Time control
         /// </summary>
         public TimeControl Clock => _player.Clock;
+
         
         /// <summary>
         /// Main line of the clock control
@@ -58,6 +65,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _timeControlSubLine; }
             set { SetProperty(ref _timeControlSubLine, value); }
         }
+
+        public int PrisonerCount
+        {
+            get { return _prisonerCount; }
+            set { SetProperty(ref _prisonerCount, value); }
+        }
         
         /// <summary>
         /// Updates the time control
@@ -67,6 +80,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
             TimeInformation info = Clock.GetDisplayTime();
             TimeControlMainLine = info.MainText;
             TimeControlSubLine = info.SubText;
+            PrisonerCount =
+                _player.Info.Color == StoneColor.Black
+                    ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
+                    : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
+                ;
+
         }
     }
 }

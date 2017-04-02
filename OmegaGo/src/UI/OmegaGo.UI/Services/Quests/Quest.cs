@@ -20,8 +20,6 @@ namespace OmegaGo.UI.Services.Quests
     /// </summary>
     public abstract class Quest
     {
-        //TODO Martin: Make quest names and descriptions localizable
-
         /// <summary>
         /// Key of the hidden quest
         /// </summary>

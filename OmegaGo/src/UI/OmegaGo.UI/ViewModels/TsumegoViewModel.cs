@@ -160,14 +160,15 @@ A tsumego problem will also display a problem statement
             {
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
-                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(
-                    new GameBoard(CurrentNode.BoardState), move, new GameBoard[0]);
+                MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
+                
                 // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
                 // and which positions are correct or wrong is written in the .sgf file anyway, so this is not a big deal.
 
                 if (mpr.Result == MoveResult.Legal)
                 {
                     newNode.BoardState = mpr.NewBoard;
+                    newNode.GroupState = mpr.NewGroupState;
                     CurrentNode.Branches.AddNode(newNode);
                     if (CurrentNode.Tsumego.Correct)
                     {

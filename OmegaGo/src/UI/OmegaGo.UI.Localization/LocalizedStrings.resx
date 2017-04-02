@@ -875,4 +875,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="UnevenStrengthQuest_Name" xml:space="preserve">
     <value>Uneven Strength</value>
   </data>
+  <data name="CloseFlyout" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

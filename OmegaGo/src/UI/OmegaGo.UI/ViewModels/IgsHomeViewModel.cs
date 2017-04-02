@@ -41,11 +41,12 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task Initialize()
         {
-            LoginForm.FormVisible = Connections.Igs.Composure != IgsConnection.IgsComposure.Ok; 
-            Connections.Igs.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
-            Connections.Igs.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
-            Connections.Igs.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
-            if (LoginForm.FormVisible && Connections.Igs.Composure != IgsConnection.IgsComposure.Disconnected)
+            LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok; 
+            Connections.Igs.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
+            Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
+            Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
+            Connections.Igs.Events.Disconnected += Events_Disconnected;
+            if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
             {
                 LoginForm.FormEnabled = false;
                 LoginForm.LoginErrorMessage = "Login already in progress...";
@@ -56,6 +57,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 await EnterIgsLobbyLoggedIn();
             }
+        }
+
+        private void Events_Disconnected(object sender, EventArgs e)
+        {
+            this.LoginForm.FormEnabled = true;
+            this.LoginForm.FormVisible = true;
+            this.LoginForm.LoginErrorMessage = "You have been disconnected.";
+            this.LoginForm.LoginErrorMessageOpacity = 1;
+
         }
 
         private async void OnLoginComplete(object sender, bool success)
@@ -80,15 +90,16 @@ namespace OmegaGo.UI.ViewModels
             LoginForm.FormVisible = false;
             LoginForm.FormEnabled = true;
             LoginForm.LoginErrorMessageOpacity = 0;
-            await Connections.Igs.RequestPersonalInformationUpdate(Connections.Igs.Username);
+            await Connections.Igs.Commands.RequestPersonalInformationUpdate(Connections.Igs.Username);
         }
 
         public void Deinitialize()
         {
-            Connections.Igs.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Igs.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
-            Connections.Igs.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
+            Connections.Igs.Events.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
+            Connections.Igs.Events.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
+            Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
+            Connections.Igs.Events.Disconnected -= Events_Disconnected;
         }
 
         public LoginFormViewModel LoginForm { get; }
@@ -156,13 +167,13 @@ namespace OmegaGo.UI.ViewModels
         private async void ToggleRefusingAllGamesTo(bool value)
         {
             ShowProgressPanel("Toggling whether we are open...");
-            await Connections.Igs.ToggleAsync("open", !value);
+            await Connections.Igs.Commands.ToggleAsync("open", !value);
             ProgressPanelVisible = false;
         }
         private async void ToggleHumanLookingForGameTo(bool value)
         {
             ShowProgressPanel("Toggling whether we are looking for games...");
-            await Connections.Igs.ToggleAsync("looking", value);
+            await Connections.Igs.Commands.ToggleAsync("looking", value);
             ProgressPanelVisible = false;
         }
 
@@ -256,7 +267,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task RefreshUsers()
         {
             ShowProgressPanel("Refreshing the list of logged-in users...");
-            allUsers = await Connections.Igs.ListOnlinePlayersAsync();
+            allUsers = await Connections.Igs.Commands.ListOnlinePlayersAsync();
             RefillChallengeableUsersFromAllUsers();
             ProgressPanelVisible = false;
         }
@@ -298,7 +309,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task RefreshGames()
         {
             ShowProgressPanel("Refreshing the list of observable games...");
-            var games = await Connections.Igs.ListGamesInProgressAsync();
+            var games = await Connections.Igs.Commands.ListGamesInProgressAsync();
             ObservableGames = new ObservableCollection<IgsGameInfo>(games);
             ProgressPanelVisible = false;
         }
@@ -342,7 +353,7 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand ObserveSelectedGame => new MvxCommand(async () =>
         {
             ShowProgressPanel("Initiating observation of a game...");
-            var onlinegame = await Connections.Igs.StartObserving(SelectedSpectatableGame);
+            var onlinegame = await Connections.Igs.Commands.StartObserving(SelectedSpectatableGame);
             if (onlinegame == null)
             {
                 // TODO Petr: error report

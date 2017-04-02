@@ -1,136 +1,191 @@
-﻿using MvvmCross.Core.ViewModels;
-using OmegaGo.UI.Services.Files;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MvvmCross.Platform;
-using OmegaGo.Core;
+using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Players;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Parsing;
+using OmegaGo.UI.Services.Dialogs;
+using OmegaGo.UI.Services.Files;
 
 namespace OmegaGo.UI.ViewModels
 {
     public class LibraryViewModel : ViewModelBase
     {
-        private readonly IFilePickerService _filePicker = null;
+        private const string SgfFolderName = "Library";
+        private readonly IDialogService _dialogService;
+        private readonly IFilePickerService _filePicker;
+        private readonly IFileService _fileService;
+        private IMvxCommand _deleteCommand;
+        private IMvxCommand _exportCommand;
 
-        private ObservableCollection<string> _gameList;
-        private ObservableCollection<string> _gameSources;
-
-        private int _selectedGameSourceItemIndex;
-
-        private IMvxCommand _loadCommand;
-        private IMvxCommand _loadFolderCommand;
-        private IMvxCommand _deleteSelectionCommand;
+        private ObservableCollection<LibraryItem> _gameList = new ObservableCollection<LibraryItem>();
+        private IMvxCommand _openCommand;
         private ICommand _openFileCommand;
+        private IMvxCommand _openLibraryInExplorer;
 
-        public LibraryViewModel(IFilePickerService filePicker)
+
+        private IMvxCommand _refreshCommand;
+
+        private LibraryItem _selectedItem;
+
+        public LibraryViewModel(IFilePickerService filePicker, IFileService fileService, IDialogService dialogService)
         {
-            _filePicker = filePicker;
+            this._filePicker = filePicker;
+            this._fileService = fileService;
+            this._dialogService = dialogService;
 
-            _gameList = new ObservableCollection<string>()
+        }
+        public async void Init()
+        {
+            await RefreshList();
+        }
+
+        public ObservableCollection<LibraryItem> GameList
+        {
+            get { return this._gameList; }
+            set { SetProperty(ref this._gameList, value); }
+        }
+
+        public LibraryItem SelectedItem
+        {
+            get { return this._selectedItem; }
+            set { SetProperty(ref this._selectedItem, value); }
+        }
+
+        public IMvxCommand OpenCommand => this._openCommand ?? (this._openCommand = new MvxCommand(Open));
+
+        public IMvxCommand DeleteCommand
+            => this._deleteCommand ?? (this._deleteCommand = new MvxCommand(async () => await Delete()));
+
+        public IMvxCommand ExportCommand
+            => this._exportCommand ?? (this._exportCommand = new MvxCommand(async () => await Export()));
+
+        public IMvxCommand RefreshCommand
+            => this._refreshCommand ?? (this._refreshCommand = new MvxCommand(async ()=> await RefreshList()));
+
+        public IMvxCommand OpenLibraryInExplorerCommand
+            =>
+                this._openLibraryInExplorer ??
+                (this._openLibraryInExplorer =
+                    new MvxCommand(
+                        async () => { await this._fileService.LaunchFolderAsync(LibraryViewModel.SgfFolderName); }));
+
+        public ICommand OpenFileCommand => this._openFileCommand ?? (this._openFileCommand = new MvxCommand(async()=> await OpenFile()));
+
+        private bool _loadingPanelVisible = false;
+        public bool LoadingPanelVisible
+        {
+            get { return _loadingPanelVisible; }
+            set { SetProperty(ref _loadingPanelVisible, value); }
+        }
+
+        private async Task RefreshList()
+        {
+            LoadingPanelVisible = true;
+            await this._fileService.EnsureFolderExists(LibraryViewModel.SgfFolderName);
+            var files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
+            if (!files.Any())
             {
-                "Progame", "Teaching game", "IGS Game #23"
-            };
-
-            _gameSources = new ObservableCollection<string>()
-            {
-                "Preinstalled", "Loaded", "IGS", "All", "Saved"
-            };
-
-            _selectedGameSourceItemIndex = 0;
-        }
-
-        public ObservableCollection<string> GameList => _gameList;
-
-        public ObservableCollection<string> GameSource => _gameSources;
-
-        public int SelectedGameSourceItemIndex
-        {
-            get { return _selectedGameSourceItemIndex; }
-            set { SetProperty(ref _selectedGameSourceItemIndex, value); }
-        }
-
-        public IMvxCommand LoadCommand => _loadCommand ?? (_loadCommand = new MvxCommand(() => { }));
-        public IMvxCommand LoadFolderCommand => _loadFolderCommand ?? (_loadFolderCommand = new MvxCommand(() => { }));
-        public IMvxCommand DeleteSelectionCommand => _deleteSelectionCommand ?? (_deleteSelectionCommand = new MvxCommand(() => { }));
-        public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new MvxCommand(OpenFile));
-
-        /// <summary>
-        /// Opening SGF file directly
-        /// </summary>
-        private void OpenFile()
-        {
-            //TODO Martin Temporary implementation only
-            //var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
-            //SgfParser parser = new SgfParser();
-            //var sgfCollection = parser.Parse(fileContents);
-            //var gameTree = GameTreeConverter.FromSgfGameTree(sgfCollection.GameTrees.First());
-            
-            //ObsoleteGameInfo gameInfo = new ObsoleteGameInfo();
-
-            //gameInfo.Players.Add(new GamePlayer("Black Player", "??", gameInfo));
-            //gameInfo.Players.Add(new GamePlayer("White Player", "??", gameInfo));
-            //foreach (var player in gameInfo.Players)
-            //{
-            //    player.Agent = new ObsoleteLocalAgent();
-            //}
-
-            //gameInfo.BoardSize = new GameBoardSize(19);
-            //gameInfo.Ruleset = Ruleset.Create(RulesetType.Chinese, gameInfo.BoardSize, CountingType.Area);
-            //FillBoard(gameInfo.Ruleset, gameTree, gameInfo.BoardSize);
-
-            //ObsoleteGame game = new ObsoleteGame(gameInfo, gameInfo.GameController, null);
-            //gameInfo.GameTree.GameTreeRoot = gameTree;
-            //Mvx.RegisterSingleton<IObsoleteGame>(game);
-            //ShowViewModel<GameViewModel>();
-        }
-
-        private void FillBoard(IRuleset ruleset, GameTreeNode rootNode, GameBoardSize boardSize)
-        {
-            GameBoard board = new GameBoard(boardSize);
-
-            FillNode(ruleset, rootNode, board);
-        }
-
-        List<GameBoard> nodeHistory = new List<GameBoard>();
-        GameTreeNode tmpNode;
-        private void FillNode(IRuleset ruleset, GameTreeNode node, GameBoard previousBoard)
-        {
-            Move move = node.Move;
-            
-            if (move == null || move.Kind == MoveKind.None)
-            {
-                node.BoardState = new GameBoard(previousBoard);
+                // Add example file
+                var stream =
+                    typeof(LibraryViewModel).GetTypeInfo()
+                        .Assembly.GetManifestResourceStream("OmegaGo.UI.ExampleFiles.AlphaGo1.sgf");
+                var sr = new StreamReader(stream);
+                string alphaGoContent = sr.ReadToEnd();
+                await this._fileService.WriteFile(SgfFolderName, "AlphaGo1.sgf", alphaGoContent);
+                files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
             }
-            else
+            var list = new List<LibraryItem>();
+            var p = new SgfParser();
+            foreach (string file in files)
             {
-                nodeHistory.Clear();
-                tmpNode = node.Parent;
-
-                do
+                string content = await this._fileService.ReadFile(SgfFolderName, file);
+                try
                 {
-                    if (node.Move.Kind == MoveKind.Pass || node.Move.Kind == MoveKind.PlaceStone)
-                        nodeHistory.Insert(0, tmpNode.BoardState);
+                    var parsed = p.Parse(content);
+                    var firstTree = parsed.GameTrees.First();
+                    var rootNode = GameTreeConverter.FromSgfGameTree(firstTree);
+                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size));
+                    trueTree.GameTreeRoot = rootNode;
+                    int moveCount = 0;
+                    var node = rootNode;
+                    while (node.Branches.Any())
+                    {
+                        moveCount++;
+                        node = node.Branches[0];
+                    }
 
-                    tmpNode = tmpNode.Parent;
-                } while (tmpNode != null);
-
-                var result = ruleset.ProcessMove(previousBoard, move, nodeHistory.ToArray());
-                node.BoardState = result.NewBoard;
+                    list.Add(new LibraryItem(trueTree, file, moveCount,
+                        firstTree.GetRootProperty<string>("DT"),
+                        firstTree.GetRootProperty<string>("PB"),
+                        firstTree.GetRootProperty<string>("PW"),
+                        rootNode.Comment?.Substring(0, Math.Min(200, rootNode.Comment.Length)) ?? "",
+                        content
+                        ));
+                }
+                catch
+                {
+                    // Do not show.
+                }
             }
-            
-            foreach (GameTreeNode childNode in node.Branches)
+            // TODO Petr: Sort by date.
+            this.GameList = new ObservableCollection<LibraryItem>(list);
+            LoadingPanelVisible = false;
+        }
+
+
+        private void Open()
+        {
+            // TODO Petr: When Analyze Mode is done
+        }
+
+        private async Task Delete()
+        {
+            if (this.SelectedItem != null)
             {
-                FillNode(ruleset, childNode, node.BoardState);
+                if (
+                    await
+                        this._dialogService.ShowConfirmationDialogAsync(
+                            "This will erase the file from the library permanently.",
+                            "Delete " + this.SelectedItem.Filename + "?", "Delete", "No"))
+                {
+                    await this._fileService.DeleteFile(SgfFolderName, this.SelectedItem.Filename);
+                    await RefreshList();
+                }
+            }
+        }
+
+        private async Task Export()
+        {
+            if (this.SelectedItem != null)
+            {
+                await this._filePicker.PickAndWriteSgfFileAsync(this.SelectedItem.Filename, this.SelectedItem.Content);
+            }
+        }
+
+        private async Task OpenFile()
+        {
+            var fileContents = await this._filePicker.PickAndReadFileAsync(".sgf");
+            if (fileContents == null)
+            {
+                return;
+            }
+            var p = new SgfParser();
+            try
+            {
+                p.Parse(fileContents.Contents);
+                await this._fileService.WriteFile(SgfFolderName, fileContents.Name, fileContents.Contents);
+                await RefreshList();
+            }
+            catch (Exception e)
+            {
+                await this._dialogService.ShowAsync(e.ToString(), "Error parsing SGF file");
             }
         }
     }

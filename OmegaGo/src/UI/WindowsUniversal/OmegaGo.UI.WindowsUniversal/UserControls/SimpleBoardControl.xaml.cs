@@ -59,13 +59,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
-            RenderService.SharedBoardControlState = new BoardControlState(Rectangle.GetBoundingRectangle(GameBoard));
-            RenderService.ShowCoordinates = false;
-            RenderService.SimpleRenderService = true;
-            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, new GameTreeNode()
+            if (GameBoard != null)
             {
-                BoardState = GameBoard
-            });
+                RenderService.SharedBoardControlState = new BoardControlState(Rectangle.GetBoundingRectangle(GameBoard));
+                RenderService.ShowCoordinates = false;
+                RenderService.SimpleRenderService = true;
+                RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession,
+                    new GameTreeNode()
+                    {
+                        BoardState = GameBoard
+                    });
+            }
         }
 
 

@@ -47,6 +47,9 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 case "PROP_ADDED":
                     ongame.Controller.Nodes[NodeId].AddProperty(Prop, ongame);
                     break;
+                case "ACTIVATED":
+                    // Ignore for now
+                    break;
                 default:
                     // TODO Petr 
                     throw new System.Exception("Unexpected SGF event.");

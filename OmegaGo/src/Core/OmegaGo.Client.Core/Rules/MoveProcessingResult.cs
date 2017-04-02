@@ -28,5 +28,10 @@ namespace OmegaGo.Core.Rules
         /// The board does not contain prisoners.
         /// </summary>
         public GameBoard NewBoard;
+
+        /// <summary>
+        /// The new state of groups.
+        /// </summary>
+        public GroupState NewGroupState;
     }
 }

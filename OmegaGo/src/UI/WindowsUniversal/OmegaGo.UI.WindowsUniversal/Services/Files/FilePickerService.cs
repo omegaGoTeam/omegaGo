@@ -14,7 +14,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
     /// </summary>
     class FilePickerService : IFilePickerService
     {
-        public async Task<string> PickAndReadFileAsync(params string[] extensions)
+        public async Task<FileInfo> PickAndReadFileAsync(params string[] extensions)
         {
             //prepare file picker
             FileOpenPicker fileOpen = new FileOpenPicker();
@@ -27,7 +27,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             {
                 try
                 {
-                    return await FileIO.ReadTextAsync(file);
+                    string contents = await FileIO.ReadTextAsync(file);
+                    return new FileInfo(file.Name, contents);
                 }
                 catch
                 {
@@ -35,6 +36,26 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 }
             }
             return null;
+        }
+        public async Task PickAndWriteSgfFileAsync(string filename, string contents)
+        {
+            //prepare file picker
+            FileSavePicker fileSave = new FileSavePicker();
+            fileSave.SuggestedFileName = filename;
+            fileSave.SuggestedStartLocation = PickerLocationId.Desktop;
+            fileSave.FileTypeChoices.Add("SGF", new List<string>() {".sgf"});
+            var file = await fileSave.PickSaveFileAsync();
+            if (file != null)
+            {
+                try
+                {
+                    await FileIO.WriteTextAsync(file, contents);
+                }
+                catch
+                {
+                    //ignore write errors
+                }
+            }
         }
     }
 }

@@ -45,5 +45,24 @@ namespace OmegaGo.Core.Sgf
             var searcher = new SgfGameInfoSearcher( this );
             return searcher.GetGameInfo();
         }
+
+        /// <summary>
+        /// Gets the value of the given SGF property if it's in the root node's SGF node sequence. Use this to get information about a game tree
+        /// that is supplied in the root node.
+        /// </summary>
+        /// <typeparam name="T">Type of the property. Make sure this is correct.</typeparam>
+        /// <param name="name">The name of the SGF property.</param>
+        /// <returns></returns>
+        public T GetRootProperty<T>(string name)
+        {
+            foreach (var node in this.Sequence)
+            {
+                if (node[name] != null)
+                {
+                    return node[name].Value<T>();
+                }
+            }
+            return default(T);
+        }
     }
 }

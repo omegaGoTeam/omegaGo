@@ -15,5 +15,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public override string WindowTitle => Localizer.GameLibrary;
 
         public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Library.png");
+        
     }
 }

@@ -492,6 +492,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string CloseFlyout {
+            get {
+                return ResourceManager.GetString("CloseFlyout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure....
         /// </summary>
         public static string ConfigureEllipsis {

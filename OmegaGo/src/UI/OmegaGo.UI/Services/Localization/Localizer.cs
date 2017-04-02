@@ -304,6 +304,7 @@ namespace OmegaGo.UI.Services.Localization
         public string No => LocalizeCaller();
         public string MoreEllipsis => LocalizeCaller();
         public string ConfigureEllipsis => LocalizeCaller();
+        public string CloseFlyout => LocalizeCaller();
         public string XXX => LocalizeCaller();
         // Copy and paste XXX for fast creationg of new lines
     }

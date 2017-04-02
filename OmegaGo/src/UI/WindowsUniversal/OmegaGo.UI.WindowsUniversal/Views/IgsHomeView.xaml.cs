@@ -107,7 +107,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 IgsMatchRequest mr = (IgsMatchRequest) this.TempIncomingMatchRequests.SelectedItem;
                 VM.ShowProgressPanel("Declining request...");
                 VM.IncomingMatchRequests.Remove(mr);
-                await Connections.Igs.DeclineMatchRequestAsync(mr);
+                await Connections.Igs.Commands.DeclineMatchRequestAsync(mr);
                 VM.ProgressPanelVisible = false;
             }
         }
@@ -119,7 +119,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 IgsMatchRequest mr = (IgsMatchRequest)this.TempIncomingMatchRequests.SelectedItem;
                 VM.ShowProgressPanel("Accepting request...");
                 VM.IncomingMatchRequests.Remove(mr);
-                IgsGame game = await Connections.Igs.AcceptMatchRequestAsync(mr);
+                IgsGame game = await Connections.Igs.Commands.AcceptMatchRequestAsync(mr);
                 VM.ProgressPanelVisible = false;
                 VM.StartGame(game);
             }

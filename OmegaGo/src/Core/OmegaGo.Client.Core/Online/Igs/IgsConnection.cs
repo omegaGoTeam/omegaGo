@@ -30,10 +30,6 @@ namespace OmegaGo.Core.Online.Igs
     /// </summary>
     public partial class IgsConnection : IServerConnection
     {
-        // TODO Petr : disconnections are not thread-safe
-        // TODO Petr : switch prompt mode when necessary
-        // TODO Petr : send "ayt" or something regularly to prevent timeouts        
-
         /*
          * Synchronization
          */
@@ -62,16 +58,16 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// List of games that are being observed
         /// </summary>
-        private readonly List<IgsGame> _gamesBeingObserved = new List<IgsGame>();
+        internal readonly List<IgsGame> GamesBeingObserved = new List<IgsGame>();
         /// <summary>
         /// List of games opened
         /// </summary>
-        private readonly List<IgsGame> _gamesYouHaveOpened = new List<IgsGame>();
+        internal readonly List<IgsGame> GamesYouHaveOpened = new List<IgsGame>();
 
         /// <summary>
         /// Logger
         /// </summary>
-        private readonly StringBuilder _log = new StringBuilder();
+        internal readonly StringBuilder LogBuilder = new StringBuilder();
 
         /// <summary>
         /// Outgoing IGS requests
@@ -117,13 +113,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Password
         /// </summary>
         private string _password;
-
-        /// <summary>
-        /// Indicates whether the user wants a Telnet connection to the server to be established. 
-        /// If this is true but the connection is lost, it should be restarted.
-        /// </summary>
-        private bool _shouldBeConnected;
-
+        
         /// <summary>
         /// Contains the login error info
         /// </summary>
@@ -158,84 +148,10 @@ namespace OmegaGo.Core.Online.Igs
             Events = new IgsEvents(this);
         }
 
-        /// <summary>
-        /// Occurs when the IGS SERVER thinks an event occured that demands the user's attention. 
-        /// </summary>
-        public event Action Beep;
-
-        /// <summary>
-        /// Occurs whenever this client sends a line of text to the IGS SERVER.
-        /// </summary>
-        public event EventHandler<string> OutgoingLine;
-
-        /// <summary>
-        /// Occurs when we receive information from the server about the logged-in user. This happens during the enumeration
-        /// of all players (because that list includes us).
-        /// </summary>
-        public event EventHandler<IgsUser> PersonalInformationUpdate;
-
-        /// <summary>
-        /// Occurs when somebody requests to play a game of Go against us on the IGS server.
-        /// </summary>
-        public event Action<IgsMatchRequest> IncomingMatchRequest;
-
-        /// <summary>
-        /// Occurs when another player named ARGUMENT1 declines a match request we sent them.
-        /// </summary>
-        public event EventHandler<string> MatchRequestDeclined;
-
-        /// <summary>
-        /// Occurs when our match request is accepted and creates a GAME.
-        /// </summary>
-        public event EventHandler<IgsGame> MatchRequestAccepted;
-
-        /// <summary>
-        /// Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have opened.
-        /// </summary>
-        public event EventHandler<Tuple<IgsGameInfo, ChatMessage>> IncomingInGameChatMessage;
-
-        /// <summary>
-        /// Occurs when the opponent in a GAME asks us to let them undo a move
-        /// </summary>
-        public event EventHandler<IgsGameInfo> UndoRequestReceived;
-
-        /// <summary>
-        /// Occurs when an error message is produced by the server; it should be displayed
-        /// non-modally as a popup balloon.
-        /// </summary>
-        public event EventHandler<string> ErrorMessageReceived;
-
-        /// <summary>
-        /// Occurs when the opponent in a GAME declines our request to undo a move.
-        /// This will also prevent all further undo's in this game.
-        /// </summary>
-        public event EventHandler<IgsGameInfo> UndoDeclined;
-
-        /// <summary>
-        /// Occurs when the connection class wants to present a log message to the user using the program, such an incoming line. However, some other messages may be passed by this also.
-        /// </summary>
-        public event EventHandler<string> IncomingLine;
-
-        /// <summary>
-        /// Occurs when the IGS SERVER sends a line, but it's not one of the recognized interrupt messages, and there is no
-        /// current request for which we're expecting a reply.
-        /// </summary>
-        public event Action<string> UnhandledLine;
-
-        /// <summary>
-        /// Occurs when a player send a message directly to us.
-        /// </summary>
-        public event Action<string> IncomingChatMessage;
-
-        /// <summary>
-        /// Occurs when any user broadcasts a SHOUT message to all online users that don't have receiving SHOUTs disabled.
-        /// </summary>
-        public event Action<string> IncomingShoutMessage;
-
-        /// <summary>
+    /// <summary>
         /// Checks if  the connection has been established
         /// </summary>
-        public bool ConnectionEstablished => _shouldBeConnected;
+        public bool ConnectionEstablished { get; private set; }
 
         /// <summary>
         /// Checks if the user has been logged in
@@ -257,11 +173,11 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
-        // TODO Petr: The log might or might not be present in the final version, we'll see
+        // TODO Petr (low importance): The log might or might not be present in the final version, we'll see
         /// <summary>
         /// Log of Igs
         /// </summary>
-        public string Log => _log.ToString();
+        public string Log => this.LogBuilder.ToString();
 
         /// <summary>
         /// Implements IServerConnection Commands
@@ -307,10 +223,38 @@ namespace OmegaGo.Core.Online.Igs
         {
             _hostname = hostname;
             _port = port;
-            _shouldBeConnected = true;
             try
             {
-                await EnsureConnectedAsync();
+                if (_client != null && ConnectionEstablished)
+                {
+                    // We are likely to still be connected.
+                    return true;
+                }
+                _client = new TcpSocketClient();
+                try
+                {
+                    Composure = IgsComposure.InitialHandshake;
+                    await _client.ConnectAsync(_hostname, _port);
+
+                    _streamWriter = new StreamWriter(_client.WriteStream);
+                    _streamReader = new StreamReader(_client.ReadStream);
+                    _streamWriter.AutoFlush = true;
+#pragma warning disable 4014
+                    HandleIncomingData(_streamReader).ContinueWith(t =>
+                    {
+                        // Cancel everything.
+                        ConnectionLost();
+                    }, TaskContinuationOptions.OnlyOnFaulted);
+#pragma warning restore 4014
+                    _streamWriter.WriteLine("guest");
+                    _streamWriter.WriteLine("toggle client on");
+                    await WaitUntilComposureChangesAsync();
+                }
+                catch
+                {
+                    return false;
+                }
+                ConnectionEstablished = true;
             }
             catch
             {
@@ -319,18 +263,59 @@ namespace OmegaGo.Core.Online.Igs
             return true;
         }
 
-        public async Task DisconnectAsync()
+        private void ConnectionLost()
         {
-            _shouldBeConnected = false;
-            try
+            if (Composure == IgsComposure.Disconnected)
             {
-                await _client.DisconnectAsync();
-            } catch
-            {
-                // Ignore all TCP errors.
+                return;
+                // Don't do this twice.
+                // Thread safety problems may occur. Oh well, it's networking. Hopefully they won't.
+                // If yes, we should eliminate the possibilities for connection loss elsewehere and maybe ensure that a single 
+                // point of connection failure exists, possibly in OnFaulted. We'll see.
             }
             _client = null;
             Composure = IgsComposure.Disconnected;
+            ConnectionEstablished = false;
+            foreach (var game in _availableConnectors)
+            {
+                game.Value.Disconnect();
+            }
+            Data.GamesInProgress.Clear();
+            Data.OnlineUsers.Clear();
+            this.GamesYouHaveOpened.Clear();
+            this.GamesBeingObserved.Clear();
+            _availableConnectors.Clear();
+            IgsRequest notYetHandledRequest;
+            while (_outgoingRequests.TryDequeue(out notYetHandledRequest))
+            {
+                notYetHandledRequest.Disconnect();
+            }
+            lock (_mutex)
+            {
+                if (_requestInProgress != null)
+                {
+                    _requestInProgress.Disconnect();
+                }
+                _requestInProgress = null;
+            }
+
+            Events.RaiseDisconnected();
+        }
+
+        public async Task DisconnectAsync()
+        {
+            try
+            {
+                await _client.DisconnectAsync();
+            }
+            catch
+            {
+                // Ignore all TCP errors.
+            }
+            finally
+            {
+                ConnectionLost();
+            }
         }
 
         /// <summary>
@@ -342,39 +327,53 @@ namespace OmegaGo.Core.Online.Igs
         {
             if (username == null) throw new ArgumentNullException(nameof(username));
             if (password == null) throw new ArgumentNullException(nameof(password));
-            await EnsureConnectedAsync();
-            Composure = IgsComposure.LoggingIn;
-            _username = username;
-            _password = password;
-            _loginError = null;
-            ClearConnectionInformation();
-            _streamWriter.WriteLine("login");
-            _streamWriter.WriteLine(_username);
-            _streamWriter.WriteLine(_password);
-            await WaitUntilComposureChangesAsync();
-            if (Composure == IgsComposure.Confused)
+            try
             {
-                await _client.DisconnectAsync();
-                _client = null;
-                Events.RaiseLoginComplete(false);
+                if (!ConnectionEstablished)
+                {
+                    if (!await ConnectAsync())
+                    {
+                        return false;
+                    }
+                }
+                Composure = IgsComposure.LoggingIn;
+                _username = username;
+                _password = password;
+                _loginError = null;
+                ClearConnectionInformation();
+                _streamWriter.WriteLine("login");
+                _streamWriter.WriteLine(_username);
+                _streamWriter.WriteLine(_password);
+                await WaitUntilComposureChangesAsync();
+                if (Composure == IgsComposure.Confused)
+                {
+                    await _client.DisconnectAsync();
+                    _client = null;
+                    Events.RaiseLoginComplete(false);
+                    return false;
+                }
+                if (_loginError != null)
+                {
+                    Events.OnIncomingLine("LOGIN ERROR: " + _loginError);
+                    Events.RaiseLoginComplete(false);
+                    return false;
+                }
+                await MakeRequestAsync("toggle quiet true");
+                await MakeRequestAsync("toggle newundo true");
+                await MakeRequestAsync("toggle verbose false");
+                await Commands.ListGamesInProgressAsync();
+                await Commands.ListOnlinePlayersAsync();
+                Events.RaiseLoginComplete(true);
+                return true;
+            }
+            catch
+            {
+                await DisconnectAsync();
                 return false;
             }
-            if (_loginError != null)
-            {
-                OnIncomingLine("LOGIN ERROR: " + _loginError);
-                Events.RaiseLoginComplete(false);
-                return false;
-            }
-            await MakeRequestAsync("toggle quiet true");
-            await MakeRequestAsync("toggle newundo true");
-            await MakeRequestAsync("toggle verbose false");
-            await ListGamesInProgressAsync();
-            await ListOnlinePlayersAsync();
-            Events.RaiseLoginComplete(true);
-            return true;
         }
 
-        // TODO Petr: It's possible we will prevent arbitrary console requests in the final version
+        // TODO Petr (low importance): It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
@@ -396,7 +395,7 @@ namespace OmegaGo.Core.Online.Igs
             var stoneColor = GetStoneColorForPlayerName(gameInfo.IgsIndex, whoResigned);
             if (stoneColor == StoneColor.None) throw new InvalidOperationException("The player resignation is invalid for this game");
             _availableConnectors[gameInfo.IgsIndex].ResignationFromServer(stoneColor);
-            _gamesYouHaveOpened.Remove(_gamesYouHaveOpened.FirstOrDefault(g => g.Info.IgsIndex == gameInfo.IgsIndex));
+            this.GamesYouHaveOpened.Remove(this.GamesYouHaveOpened.FirstOrDefault(g => g.Info.IgsIndex == gameInfo.IgsIndex));
         }
 
         /// <summary>
@@ -435,7 +434,6 @@ namespace OmegaGo.Core.Online.Igs
             IgsResponse lines = await request.GetAllLines();
             lock (_mutex)
             {
-                Debug.Assert(_requestInProgress == request);
                 _requestInProgress = null;
             }
             ExecuteRequestFromQueue();
@@ -469,7 +467,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             _requestInProgress = dequeuedItem;
                         }
-                        OnOutgoingLine(dequeuedItem.Command);
+                        Events.OnOutgoingLine(dequeuedItem.Command);
                         _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {
@@ -488,49 +486,9 @@ namespace OmegaGo.Core.Online.Igs
             {
             }
             _incomingMovesAreForThisGame = null;
-            _gamesBeingObserved.Clear();
-            _gamesYouHaveOpened.Clear();
+            this.GamesBeingObserved.Clear();
+            this.GamesYouHaveOpened.Clear();
             // _gamesInProgressOnIgs.Clear();
-        }
-
-        /// <summary>
-        /// Verifies that we are currectly connected to the server. If not but we *wish* to be connected,
-        /// it attempts to establish the connection. If not and we don't wish to be connected, it fails.
-        /// </summary>
-        private async Task EnsureConnectedAsync()
-        {
-            if (_client != null)
-            {
-                // We are likely to still be connected.
-                return;
-            }
-            if (!_shouldBeConnected)
-            {
-                throw new Exception("A method was called that requires an IGS connection but the 'Connect()' method was not called; or maybe 'Disconnect()' was called.");
-            }
-            _client = new TcpSocketClient();
-            try
-            {
-                Composure = IgsComposure.InitialHandshake;
-                await _client.ConnectAsync(_hostname, _port);
-
-                _streamWriter = new StreamWriter(_client.WriteStream);
-                _streamReader = new StreamReader(_client.ReadStream);
-                _streamWriter.AutoFlush = true;
-#pragma warning disable 4014
-                HandleIncomingData(_streamReader).ContinueWith(t =>
-                {
-                    // Fail silently.
-                }, TaskContinuationOptions.OnlyOnFaulted);
-#pragma warning restore 4014
-                _streamWriter.WriteLine("guest");
-                _streamWriter.WriteLine("toggle client on");
-                await WaitUntilComposureChangesAsync();
-            }
-            catch
-            {
-                throw new Exception("We failed to establish a connection with the server.");
-            }
         }
 
         private Task WaitUntilComposureChangesAsync()
@@ -566,32 +524,24 @@ namespace OmegaGo.Core.Online.Igs
 
         private StoneColor GetStoneColorForPlayerName(int igsGameIndex, string playerName)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == igsGameIndex);
+            var game = this.GamesYouHaveOpened.Find(og => og.Info.IgsIndex == igsGameIndex);
             var player = game.Controller.Players.FirstOrDefault(p => p.Info.Name == playerName);
             return player?.Info.Color ?? StoneColor.None;
         }
 
         private void HandleIncomingShoutMessage(string line)
         {
-            OnIncomingShoutMessage(line);
+            Events.OnIncomingShoutMessage(line);
         }
 
         private void HandleIncomingChatMessage(string line)
         {
-            OnIncomingChatMessage(line);
+            Events.OnIncomingChatMessage(line);
         }
 
 
-        private void OnIncomingChatMessage(string line)
-        {
-            IncomingChatMessage?.Invoke(line);
-        }
 
 
-        private void OnIncomingShoutMessage(string line)
-        {
-            IncomingShoutMessage?.Invoke(line);
-        }
 
         private void HandleIncomingMove(IgsGame game, int moveIndex, Move theMove)
         {
@@ -608,80 +558,16 @@ namespace OmegaGo.Core.Online.Igs
             _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
         }
 
-        private void OnBeep()
-        {
-            Beep?.Invoke();
-        }
-
-        private void OnOutgoingLine(string line)
-        {
-            OutgoingLine?.Invoke(this, line);
-        }
-
-        private void OnUnhandledLine(string unhandledLine)
-        {
-            UnhandledLine?.Invoke(unhandledLine);
-        }
-
-        private void OnIncomingMatchRequest(IgsMatchRequest matchRequest)
-        {
-            IncomingMatchRequest?.Invoke(matchRequest);
-        }
-
-        private void OnMatchRequestDeclined(string playerName)
-        {
-            MatchRequestDeclined?.Invoke(this, playerName);
-        }
-
-        private void OnMatchRequestAccepted(IgsGame acceptedGame)
-        {
-            MatchRequestAccepted?.Invoke(this, acceptedGame);
-        }
-
-        /// <summary>
-        /// Fires incoming in-game chat message
-        /// </summary>
-        private void OnIncomingInGameChatMessage(IgsGameInfo relevantGame, ChatMessage chatLine)
-        {
-            IncomingInGameChatMessage?.Invoke(this, new Tuple<IgsGameInfo, ChatMessage>(relevantGame, chatLine));
-        }
-
-        private void OnUndoRequestReceived(IgsGameInfo game)
-        {
-            UndoRequestReceived?.Invoke(this, game);
-        }
-
-        private void OnErrorMessageReceived(string errorMessage)
-        {
-            ErrorMessageReceived?.Invoke(this, errorMessage);
-        }
-
-        private void OnUndoDeclined(IgsGameInfo game)
-        {
-            UndoDeclined?.Invoke(this, game);
-        }
 
         private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
         {
             GetConnector(gameInfo.Info).ScoreGame(new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
         }
-
-
-        private void OnIncomingLine(string message)
-        {
-            _log.AppendLine(message);
-            IncomingLine?.Invoke(this, message);
-        }
-
-        private void OnPersonalInformationUpdate(IgsUser e)
-        {
-            PersonalInformationUpdate?.Invoke(this, e);
-        }
-
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {
-            var game = _gamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
+            var game = this.GamesYouHaveOpened.Find(og => og.Info.IgsIndex == gameNumber);
             GetConnector(game.Info).ForceLifeDeathKillGroup(deadPosition);
         }
+
     }
 }

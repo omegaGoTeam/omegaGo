@@ -52,12 +52,28 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public void JoinChannel(int channelId)
         {
-            Channels[channelId].Joined = true;
-            JoinedChannels.Add(channelId);
+            if (Channels.ContainsKey(channelId))
+            {
+                Channels[channelId].Joined = true;
+                JoinedChannels.Add(channelId);
+            } else
+            {
+            }
         }
         public void JoinRoom(int channelId)
         {
             EnsureRoomExists(channelId);
+            JoinChannel(channelId);
+        }
+        public void JoinChallenge(int channelId)
+        {
+            if (!Channels.ContainsKey(channelId))
+            {
+                Channels.Add(channelId, new KgsChannel()
+                {
+                    ChannelId = channelId
+                });
+            }
             JoinChannel(channelId);
         }
         public void JoinGlobalChannel(int channelId, string containerType)
@@ -73,7 +89,7 @@ namespace OmegaGo.Core.Online.Kgs
             EnsureUserExists(user);
             Channels[channelId].Users.Add(Users[user.Name]);
         }
-        private void EnsureUserExists(User user)
+        public void EnsureUserExists(User user)
         {
             if (!Users.ContainsKey(user.Name))
             {
@@ -101,6 +117,10 @@ namespace OmegaGo.Core.Online.Kgs
         public KgsGame GetGame(int channelId)
         {
             return joinedGames[channelId];
+        }
+        public bool IsJoined(int channelId)
+        {
+            return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
         }
     }
 }

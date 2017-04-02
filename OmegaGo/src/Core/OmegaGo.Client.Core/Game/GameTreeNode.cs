@@ -38,6 +38,11 @@ namespace OmegaGo.Core.Game
         /// </summary>
         public GameBoard BoardState { get; set; }
 
+        /// <summary>
+        /// Describes the state of stone groups on the game board.
+        /// </summary>
+        public GroupState GroupState { get; set; }
+
         // Contain territory
         // public List<Shape> Figures { get; set; } - Implement Shape 
         public List<KeyValuePair<Position, string>> Labels { get; set; }
@@ -141,6 +146,7 @@ namespace OmegaGo.Core.Game
         /// Gets or creates Tsumego info for the game tree node
         /// </summary>
         public TsumegoNodeInfo Tsumego => GetOrCreateNodeInfo<TsumegoNodeInfo>();
+        public PrisonersNodeInfo Prisoners => GetOrCreateNodeInfo<PrisonersNodeInfo>();
 
         /// <summary>
         /// Gets the list of all moves that lead to the provided node.
@@ -226,33 +232,41 @@ namespace OmegaGo.Core.Game
         public void FillBoardStateOfRoot(GameBoardSize boardSize, IRuleset ruleset)
         {
             if (Parent != null) throw new InvalidOperationException("Only call this on a root.");
-            FillBoardStateInternal(new GameBoard(boardSize), ruleset);
+            FillBoardStateInternal(new GameBoard(boardSize), new GroupState(boardSize), ruleset);
         }
 
         public void FillBoardState(IRuleset ruleset)
         {
             if (Parent == null) throw new InvalidOperationException("Only call this on a child node.");
-            FillBoardStateInternal(new GameBoard(Parent.BoardState), ruleset);
+            FillBoardStateInternal(new GameBoard(Parent.BoardState), new GroupState(Parent.GroupState), ruleset);
         }
 
-        private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, IRuleset ruleset)
+        private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, GroupState copyOfPreviousGroupState, IRuleset ruleset)
         {
             foreach (var position in AddBlack)
                 copyOfPreviousBoard[position] = StoneColor.Black;
             foreach (var position in AddWhite)
                 copyOfPreviousBoard[position] = StoneColor.White;
 
-            //process only if move was performed
-            if (Move.Kind != MoveKind.None)
+            BoardState = copyOfPreviousBoard;
+
+            if (AddBlack.Count == 0 && AddWhite.Count == 0)
             {
-                var processMove = ruleset.ProcessMove(copyOfPreviousBoard, Move, new GameBoard[0]);
-                //TODO Martin, Aniko Store captures?
-                BoardState = processMove.NewBoard;
+                GroupState = copyOfPreviousGroupState;
             }
             else
             {
-                //set the same board with new added colors
-                BoardState = copyOfPreviousBoard;
+                RulesetInfo.UpdateRulesetInfo(copyOfPreviousBoard);
+                GroupState = RulesetInfo.GroupState;
+            }
+
+            //process only if move was performed
+            if (Move.Kind != MoveKind.None)
+            {
+                var processMove = ruleset.ProcessMove(this, Move);
+                BoardState = processMove.NewBoard;
+                GroupState = processMove.NewGroupState;
+                Move.Captures.AddRange(processMove.Captures);
             }
         }
 

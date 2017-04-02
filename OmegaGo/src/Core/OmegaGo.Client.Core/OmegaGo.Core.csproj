@@ -46,7 +46,9 @@
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\AIStrength.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
+    <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
+    <Compile Include="Game\GameTreeNodeData\PrisonersNodeInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
@@ -57,10 +59,13 @@
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
     <Compile Include="LiveGame\Connectors\IRemoteConnector.cs" />
+    <Compile Include="LiveGame\Connectors\Kgs\KgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\UI\IUiConnector.cs" />
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
-    <Compile Include="LiveGame\Phases\Main\Igs\IgsMainPhase.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
+    <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameController.cs" />
@@ -131,7 +136,7 @@
     <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
     <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />
     <Compile Include="Online\Igs\IgsCommands.cs" />
-    <Compile Include="Online\Igs\IgsConnection.Composure.cs" />
+    <Compile Include="Online\Igs\IgsComposure.cs" />
     <Compile Include="Online\Igs\IgsData.cs" />
     <Compile Include="Online\Igs\IgsEvents.cs" />
     <Compile Include="Online\Igs\IgsGameInfo.cs" />
@@ -162,12 +167,14 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
-    <Compile Include="Online\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\Close.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
@@ -220,10 +227,11 @@
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Rules\CountingType.cs" />
-    <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
-    <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="Rules\Group.cs" />
+    <Compile Include="Rules\GroupState.cs" />
     <Compile Include="Rules\IRuleset.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
+    <Compile Include="Rules\RulesetInfo.cs" />
     <Compile Include="Rules\RulesetType.cs" />
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Rules\Scores.cs" />
@@ -272,7 +280,6 @@
     <Compile Include="Online\Igs\Structures\GameHeading.cs" />
     <Compile Include="Online\Igs\IgsCode.cs" />
     <Compile Include="Online\Igs\IgsConnection.cs" />
-    <Compile Include="Online\Igs\IgsConnection.Commands.cs" />
     <Compile Include="Online\Igs\IgsConnection.IncomingData.cs" />
     <Compile Include="Online\Igs\IgsLine.cs" />
     <Compile Include="Online\Igs\Structures\IgsMatchRequest.cs" />
@@ -350,7 +357,6 @@
     <Compile Include="AI\Joker23\Players\AlphaBetaPlayer.cs" />
     <Content Include="LICENSE.txt" />
     <Content Include="Online\Igs\IGS Commands Reverse Engineering.txt" />
-    <Content Include="Online\Igs\IGS Server Response Codes.txt" />
     <Content Include="Online\Kgs\Docs\ABOUT.txt" />
     <Content Include="Online\Kgs\Docs\dataTypes.html" />
     <Content Include="Online\Kgs\Docs\downstream.html" />
@@ -361,7 +367,6 @@
     <Content Include="Online\Kgs\Docs\kgsApiTry.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LiveGame\Connectors\Kgs\" />
     <Folder Include="Sgf\Serializing\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
