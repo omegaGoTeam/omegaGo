@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Annotations;
@@ -18,7 +19,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     /// <summary>
     /// Manages the tabbed UI, acts as a view model for the TabbedUIControl
     /// </summary>
-    public class TabManager : INotifyPropertyChanged
+    public class TabManager : MvxNotifyPropertyChanged
     {
         /// <summary>
         /// Tabbed UI control managed by this tab manager
@@ -50,11 +51,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public Tab ActiveTab
         {
             get { return _activeTab; }
-            set
-            {
-                _activeTab = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _activeTab, value); }
         }
 
         /// <summary>
@@ -65,6 +62,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         {
             Frame frame = new Frame();
             frame.NavigationFailed += OnTabNavigationFailed;
+            frame.ContentTransitions = new TransitionCollection();
+            frame.Transitions = new TransitionCollection();
             frame.Navigated += OnTabNavigated;
             Tab tab = new Tab(frame);
             Tabs.Add(tab);
@@ -87,14 +86,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

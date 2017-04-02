@@ -28,7 +28,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 
         protected override void InitializePlatformServices()
         {
-            var suspensionManager = new MvxSuspensionManager();
+            IMvxSuspensionManager suspensionManager = new MvxSuspensionManager();
             Mvx.RegisterSingleton(suspensionManager);
         }
 

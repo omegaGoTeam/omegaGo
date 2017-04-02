@@ -38,6 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 var converter = Mvx.Resolve<IMvxNavigationSerializer>();
                 var requestText = converter.Serializer.SerializeObject(request);
 
+                AppShell.GetForCurrentView().TabManager.ActiveTab.Frame.Navigate(viewType, requestText);
                 //this._rootFrame.Navigate(viewType, requestText); //Frame won't allow serialization of it's nav-state if it gets a non-simple type as a nav param
                 //throw new NotImplementedException();
             }
