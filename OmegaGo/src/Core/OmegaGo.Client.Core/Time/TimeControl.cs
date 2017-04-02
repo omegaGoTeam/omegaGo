@@ -26,15 +26,15 @@ namespace OmegaGo.Core.Time
         /// Gets the remaining time for this player. Uses the snapshot time and the difference
         /// to <see cref="DateTime.Now"/> to get the remaining time. 
         /// </summary>
-        public TimeInformation GetDisplayTime()
+        public TimeInformation GetDisplayTime(bool withGrace)
         {
             if (Running)
             {
-                return GetDisplayTime(DateTime.Now - this.LastTimeClockStarted);
+                return GetDisplayTime(DateTime.Now - this.LastTimeClockStarted + (withGrace ? TimeSpan.FromSeconds(1) : TimeSpan.Zero));
             }
             else
             {
-                return GetDisplayTime(TimeSpan.Zero);
+                return GetDisplayTime(TimeSpan.Zero + (withGrace ? TimeSpan.FromSeconds(1) : TimeSpan.Zero));
             }
         }
 

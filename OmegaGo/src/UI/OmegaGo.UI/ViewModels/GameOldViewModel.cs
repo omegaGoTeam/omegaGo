@@ -85,8 +85,8 @@ namespace OmegaGo.UI.ViewModels
             //    ChatViewModel.ChatService = new IgsChatService(Game as IgsGame);
             //    ChatViewModel.HumanAuthor = "You";
             //}
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game.Controller);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game.Controller);
+            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
+            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
 
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);

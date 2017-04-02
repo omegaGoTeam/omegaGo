@@ -124,6 +124,11 @@ namespace OmegaGo.UI.ViewModels
             get { return (int)_gameSettings.Display.BoardTheme; }
             set { _gameSettings.Display.BoardTheme = (BoardTheme)value; RaisePropertyChanged(); }
         }
+        public bool AddGraceSecond
+        {
+            get { return _gameSettings.Display.AddGraceSecond; }
+            set { _gameSettings.Display.AddGraceSecond = value; RaisePropertyChanged(); }
+        }
         public bool ShowTutorialInMainMenu
         {
             get { return _gameSettings.Display.ShowTutorialInMainMenu; }
