@@ -113,8 +113,9 @@
     <Compile Include="Infrastructure\OmegaGoViewPresenter.cs" />
     <Compile Include="Infrastructure\Tabbed\TabbedUISetup.cs" />
     <Compile Include="Infrastructure\Tabbed\TabbedUIViewDispatcher.cs" />
-    <Compile Include="Infrastructure\Tabbed\WindowsTabInfo.cs" />
-    <Compile Include="Infrastructure\Tabbed\WindowsTabManager.cs" />
+    <Compile Include="Infrastructure\Tabbed\Tab.cs" />
+    <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
+    <Compile Include="Infrastructure\Tabbed\TabProvider.cs" />
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />

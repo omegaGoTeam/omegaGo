@@ -4,6 +4,7 @@ using MvvmCross.Platform.Platform;
 using MvvmCross.WindowsUWP.Platform;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.WindowsUWP.Views;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Feedback;
@@ -15,6 +16,7 @@ using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.Services.PasswordVault;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
+using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Audio;
 using OmegaGo.UI.WindowsUniversal.Services.Dialogs;
 using OmegaGo.UI.WindowsUniversal.Services.Feedback;
@@ -41,7 +43,7 @@ namespace OmegaGo.UI.WindowsUniversal
         }
 
         protected override void InitializeFirstChance()
-        {
+        {            
             Mvx.LazyConstructAndRegisterSingleton<IFileService, FileService>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ITimerService, TimerService>();
@@ -51,7 +53,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
-            Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
+            Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();           
             base.InitializeFirstChance();
         }
 
