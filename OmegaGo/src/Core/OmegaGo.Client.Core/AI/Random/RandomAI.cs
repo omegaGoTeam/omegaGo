@@ -13,7 +13,7 @@ namespace OmegaGo.Core.AI.Random
     {
         public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
 
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation preMoveInformation)
         {
             var moves = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
             if (moves.Any() &&
