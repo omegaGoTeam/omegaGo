@@ -26,6 +26,12 @@ namespace FormsPrototype
             kgs.Events.OutgoingRequest += Events_OutgoingRequest;
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
+            kgs.Events.NotificationMessage += Events_NotificationMessage;
+        }
+
+        private void Events_NotificationMessage(object sender, string e)
+        {
+            this.lblNotificationMessage.Text = e;
         }
 
         private void Events_PersonalInformationUpdate(object sender, OmegaGo.Core.Online.Kgs.Datatypes.User e)
@@ -51,11 +57,18 @@ namespace FormsPrototype
 
         private void Events_IncomingMessage(object sender, JsonResponse e)
         {
-            this.lbAllIncomingMessages.Items.Add(e.Type);
+            if (!this.chIgnoreTrivial.Checked || !IsTrivial(e))
+            {
+                this.lbAllIncomingMessages.Items.Add(e);
+            }
         }
 
         private void Events_OutgoingRequest(object sender, string e)
         {
+            if (e.Contains("WAKE_UP"))
+            {
+                return;
+            }
             this.tbLastOutgoingMessage.Text = e;
         }
 
@@ -218,7 +231,52 @@ namespace FormsPrototype
         {
             if (this.lbContainerChallenges.SelectedItem != null)
             {
-                await this.kgs.Commands.AcceptChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+                var challenge = await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+                ChallengeForm form = new FormsPrototype.ChallengeForm(challenge, kgs);
+                form.Show();
+            }
+        }
+        
+
+        private bool IsTrivial(JsonResponse msg)
+        {
+            switch (msg.Type)
+            {
+                case "USER_UPDATE":
+                case "GAME_LIST":
+                case "GAME_CONTAINER_REMOVE_GAME":
+                case "USER_ADDED":
+                case "USER_REMOVED":
+                    return true;
+            }
+            return false;
+        }
+
+        private void lbAllIncomingMessages_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = this.lbAllIncomingMessages.SelectedItem as JsonResponse;
+            if (selectedItem != null)
+            {
+                this.tbIncomingMessageDetail.Text = selectedItem.Fulltext;
+            }
+            else
+            {
+                this.tbIncomingMessageDetail.Text = "n/a";
+            }
+        }
+
+        private void chIgnoreTrivial_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.chIgnoreTrivial.Checked)
+            {
+                for (int i = this.lbAllIncomingMessages.Items.Count - 1; i >= 0; i--)
+                {
+                    var msg = (JsonResponse) this.lbAllIncomingMessages.Items[i];
+                    if (IsTrivial(msg))
+                    {
+                        this.lbAllIncomingMessages.Items.RemoveAt(i);
+                    }
+                }
             }
         }
     }

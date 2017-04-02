@@ -87,7 +87,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     Move move;
                     string propColor = prop.Color;
                     StoneColor color = propColor == "white" ? StoneColor.White : StoneColor.Black;
-                    if (prop.Loc is XY)
+                    if (!prop.Loc.IsPass)
                     {
                         XY whereTo = (XY) prop.Loc;
                         Position position = new Game.Position(whereTo.X, whereTo.Y);

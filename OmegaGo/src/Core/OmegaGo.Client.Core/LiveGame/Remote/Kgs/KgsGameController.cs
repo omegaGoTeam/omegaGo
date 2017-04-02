@@ -5,6 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.LiveGame.Connectors.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+using OmegaGo.Core.Modes.LiveGame.Phases;
+using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs;
+using OmegaGo.Core.Modes.LiveGame.Phases.Initialization;
+using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
+using OmegaGo.Core.Modes.LiveGame.Phases.Main;
+using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
@@ -53,6 +61,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         {
             _messageLog.Add(message);
         }
+
+        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
+            new GenericPhaseFactory<InitializationPhase, KgsHandicapPhase, LocalMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
 
     }
 }

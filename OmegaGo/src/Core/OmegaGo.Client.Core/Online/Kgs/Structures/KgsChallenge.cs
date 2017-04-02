@@ -1,4 +1,5 @@
-﻿using OmegaGo.Core.Online.Kgs.Datatypes;
+﻿using System.Collections.Generic;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
@@ -6,6 +7,10 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
 
         public Proposal Proposal { get; set; }
+
+        // TODO used for debugging so far
+        public List<string> Events { get; } = new List<string>();
+
         private KgsChallenge(Proposal proposal, int channelId) : base(channelId)
         {
             Proposal = proposal;

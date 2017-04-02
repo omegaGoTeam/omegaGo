@@ -1,4 +1,5 @@
 ﻿using System;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time.Absolute
 {
@@ -39,6 +40,12 @@ namespace OmegaGo.Core.Time.Absolute
         public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
         {
             return new Time.TimeLeftArguments((int) _mainTime.TotalSeconds, 0);
+        }
+
+        public override void UpdateFromClock(Clock clock)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            _mainTime = TimeSpan.FromSeconds(clock.Time);
         }
 
         private TimeSpan _mainTime;

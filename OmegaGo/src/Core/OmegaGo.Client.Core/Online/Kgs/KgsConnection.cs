@@ -248,6 +248,10 @@ namespace OmegaGo.Core.Online.Kgs
                 Fulltext = response.ToString()
             };
         }
+        public override string ToString()
+        {
+            return Type;
+        }
     }
 
     internal class ConcurrentList<T> : List<T>

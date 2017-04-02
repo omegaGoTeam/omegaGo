@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time
 {
@@ -80,7 +81,8 @@ namespace OmegaGo.Core.Time
                     TimeSpan.Zero);
         }
 
-        // TODO Petr is the parameter indeed "seconds left"?
+        // TODO Petr is the parameter indeed "seconds left"?    
+        /// <param name="secondsLeftIThink">The seconds left i think.</param>
         public abstract void UpdateFromKgsFloat(float secondsLeftIThink);
 
         /// <summary>
@@ -98,6 +100,12 @@ namespace OmegaGo.Core.Time
         /// </summary>
         /// <returns></returns>
         public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
+
+        /// <summary>
+        /// Updates the snapshot based on clock information sent by KGS's GAME_STATE request.
+        /// </summary>
+        /// <param name="clock">The clock.</param>
+        public abstract void UpdateFromClock(Clock clock);
     }
 
     public class TimeLeftArguments

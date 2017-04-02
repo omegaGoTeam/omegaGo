@@ -1,4 +1,5 @@
 ﻿using System;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time.None
 {
@@ -32,6 +33,11 @@ namespace OmegaGo.Core.Time.None
         public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
         {
             return null;
+        }
+
+        public override void UpdateFromClock(Clock clock)
+        {
+            // This will never happen, I think, and even if it does, we don't keep track of anything in this "time control".
         }
     }
 }

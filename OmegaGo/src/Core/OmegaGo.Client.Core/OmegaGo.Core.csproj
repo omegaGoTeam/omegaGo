@@ -64,8 +64,10 @@
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Free\KgsHandicapPhase.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
+    <Compile Include="LiveGame\Phases\Main\KgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameController.cs" />
@@ -172,9 +174,12 @@
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
+    <Compile Include="Online\Kgs\Downstream\NotificationMessageDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
