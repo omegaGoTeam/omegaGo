@@ -12,26 +12,25 @@ using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
-    internal abstract class TabbedUISetup : MvxSetup
+    public abstract class AppShellSetup : MvxSetup
     {
-        private readonly TabbedUIControl _tabbedUiControl;
+        private readonly AppShell _appShell;
 
-        protected TabbedUISetup( TabbedUIControl tabbedUiControl )
+        protected AppShellSetup(AppShell appShell)
         {
-            _tabbedUiControl = tabbedUiControl;
+            _appShell = appShell;
         }
 
         protected override IMvxTrace CreateDebugTrace()
         {
             return new MvxDebugTrace();
-        }        
+        }
 
         protected override void InitializePlatformServices()
         {
             var suspensionManager = new MvxSuspensionManager();
             Mvx.RegisterSingleton(suspensionManager);
         }
-
 
         protected override IMvxViewsContainer CreateViewsContainer()
         {
@@ -40,8 +39,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 
         protected override IMvxViewDispatcher CreateViewDispatcher()
         {
-            var presenter = CreateViewPresenter();
-            return new TabbedUIViewDispatcher(presenter, _tabbedUiControl);
+            var presenter = CreateViewPresenter(_appShell);
+            return new AppShellViewDispatcher(presenter, _appShell);
         }
 
         protected override IMvxPluginManager CreatePluginManager()
@@ -54,6 +53,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             return new MvxPostfixAwareViewToViewModelNameMapping("View", "Page");
         }
 
-        protected abstract IMvxWindowsViewPresenter CreateViewPresenter();
+        protected abstract IMvxWindowsViewPresenter CreateViewPresenter(AppShell appShell);
     }
 }

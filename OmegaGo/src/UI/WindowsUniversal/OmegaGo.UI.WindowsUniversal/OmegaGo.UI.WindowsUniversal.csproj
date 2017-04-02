@@ -110,9 +110,9 @@
     <Compile Include="Infrastructure\ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\OmegaGoViewPresenter.cs" />
-    <Compile Include="Infrastructure\Tabbed\TabbedUISetup.cs" />
-    <Compile Include="Infrastructure\Tabbed\TabbedUIViewDispatcher.cs" />
+    <Compile Include="Infrastructure\AppShellViewPresenter.cs" />
+    <Compile Include="Infrastructure\Tabbed\AppShellSetup.cs" />
+    <Compile Include="Infrastructure\Tabbed\AppShellViewDispatcher.cs" />
     <Compile Include="Infrastructure\Tabbed\Tab.cs" />
     <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
     <Compile Include="Infrastructure\Tabbed\TabProvider.cs" />
@@ -146,9 +146,6 @@
     </Compile>
     <Compile Include="UserControls\Navigation\BackButton.xaml.cs">
       <DependentUpon>BackButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Navigation\TabbedUIControl.xaml.cs">
-      <DependentUpon>TabbedUIControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
       <DependentUpon>TitleControl.xaml</DependentUpon>
@@ -378,13 +375,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Navigation\TabbedUIControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\Navigation\TitleControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\PlayerPortraitControl.xaml">
       <SubType>Designer</SubType>

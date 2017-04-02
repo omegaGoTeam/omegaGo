@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using MvvmCross.Core.ViewModels;
+using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
 
@@ -13,28 +18,31 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     /// <summary>
     /// Manages the tabbed UI, acts as a view model for the TabbedUIControl
     /// </summary>
-    public class TabManager : MvxNotifyPropertyChanged
+    public class TabManager : INotifyPropertyChanged
     {
         /// <summary>
         /// Tabbed UI control managed by this tab manager
         /// </summary>
-        private readonly TabbedUIControl _tabbedUIControl;
+        private readonly AppShell _appShell;
 
         private Tab _activeTab;
 
         /// <summary>
-        /// Creates tab manager for a TabbedUIControl
+        /// Creates tab manager for an app shell
         /// </summary>
-        /// <param name="tabbedUIControl">Tabbed UI control</param>
-        public TabManager( TabbedUIControl tabbedUIControl )
+        /// <param name="appShell">App shell</param>
+        public TabManager(AppShell appShell)
         {
-            _tabbedUIControl = tabbedUIControl;            
+            _appShell = appShell;
+            CreateEmptyTab();
+            CreateEmptyTab();
+            CreateEmptyTab();
         }
 
         /// <summary>
         /// Currently opened tabs
         /// </summary>
-        public ObservableCollection<Tab> Tabs { get; } = new MvxObservableCollection<Tab>();
+        public ObservableCollection<Tab> Tabs { get; } = new ObservableCollection<Tab>();
 
         /// <summary>
         /// Gets or sets the active tab
@@ -42,7 +50,51 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public Tab ActiveTab
         {
             get { return _activeTab; }
-            set { SetProperty(ref _activeTab, value); }
+            set
+            {
+                _activeTab = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Creates and adds a new empty tab
+        /// </summary>
+        /// <returns>Created tab</returns>
+        private Tab CreateEmptyTab()
+        {
+            Frame frame = new Frame();
+            frame.NavigationFailed += OnTabNavigationFailed;
+            frame.Navigated += OnTabNavigated;
+            Tab tab = new Tab(frame);
+            Tabs.Add(tab);
+            return tab;
+        }
+        
+        /// <summary>
+        /// Invoked when tab navigation is performed
+        /// </summary>
+        private void OnTabNavigated(object sender, NavigationEventArgs e)
+        {
+            
+        }
+
+        /// <summary>
+        /// Invoked when Navigation to a certain page fails
+        /// </summary>
+        /// <param name="sender">The Frame which failed navigation</param>
+        /// <param name="e">Details about the navigation failure</param>
+        void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

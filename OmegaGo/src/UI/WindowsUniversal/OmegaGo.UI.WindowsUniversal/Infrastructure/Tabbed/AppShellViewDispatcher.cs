@@ -5,14 +5,14 @@ using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
-    public class TabbedUIViewDispatcher
+    public class AppShellViewDispatcher
         : MvxWindowsMainThreadDispatcher
             , IMvxViewDispatcher
     {
         private readonly IMvxWindowsViewPresenter _presenter;
 
 
-        public TabbedUIViewDispatcher(IMvxWindowsViewPresenter presenter, TabbedUIControl rootFrame)
+        public AppShellViewDispatcher(IMvxWindowsViewPresenter presenter, AppShell rootFrame)
             : base(rootFrame.Dispatcher)
         {
             _presenter = presenter;

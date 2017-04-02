@@ -26,9 +26,9 @@ using OmegaGo.UI.WindowsUniversal.Services.Timer;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
-    public class Setup : MvxWindowsSetup
+    public class Setup : AppShellSetup
     {
-        public Setup(Frame rootFrame) : base(rootFrame)
+        public Setup(AppShell appShell) : base(appShell)
         {
         }
 
@@ -60,11 +60,11 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <summary>
         /// Creates the omegaGo view presenter
         /// </summary>
-        /// <param name="rootFrame">Root frame</param>
+        /// <param name="appShell">App shell</param>
         /// <returns>View presenter</returns>
-        protected override IMvxWindowsViewPresenter CreateViewPresenter(IMvxWindowsFrame rootFrame)
+        protected override IMvxWindowsViewPresenter CreateViewPresenter(AppShell appShell )
         {
-            return new OmegaGoViewPresenter(rootFrame);
+            return new AppShellViewPresenter(appShell);
         }
     }
 }
