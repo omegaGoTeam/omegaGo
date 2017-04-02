@@ -286,7 +286,6 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Observes debugging messages from controller
         /// </summary>
-        [Conditional("DEBUG")]
         private void ObserveDebuggingMessages()
         {
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
