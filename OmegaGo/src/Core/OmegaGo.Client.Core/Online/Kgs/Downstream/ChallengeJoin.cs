@@ -13,11 +13,13 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         /// <summary>
         ///	The game summary for this game.
         /// </summary>
-        public GameSummary GameSummary;
+        public GameSummary GameSummary { get; set; }
+
         /// <summary>
         /// A list of users in this room.
         /// </summary>
         public User[] Users { get; set; }
+
         public override void Process(KgsConnection connection)
         {
             connection.Data.JoinChallenge(this.ChannelId);
