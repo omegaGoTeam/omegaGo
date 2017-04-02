@@ -52,7 +52,11 @@ namespace OmegaGo.Core.Time
         ///     Returns null if no command should be sent.
         /// </summary>
         public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
-
+        /// <summary>
+        /// Updates the snapshot based on clock information sent by KGS's GAME_STATE request.
+        /// </summary>
+        /// <param name="clock">The clock.</param>
+        public abstract void UpdateFromClock(Clock clock);
         /// <summary>
         ///     Gets the remaining time for this player. Uses the snapshot time and the difference
         ///     to <see cref="DateTime.Now" /> to get the remaining time.

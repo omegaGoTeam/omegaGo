@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
@@ -27,6 +28,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+        /// <summary>
+        ///     Occurs when any AI involved in the game sends a line of information to the user interface.
+        /// </summary>
         public event EventHandler<string> AiLog;
 
         public void MovePerformed(Move move)
@@ -38,11 +42,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         ///     Occurs just after a move is made in the game.
         /// </summary>
         public event EventHandler<Move> MoveWasPerformed;
-
-        /// <summary>
-        ///     Occurs when any AI involved in the game sends a line of information to the user interface.
-        /// </summary>
-        public event EventHandler<string> AiLog;
 
         /// <summary>
         ///     Tries to make a move for the turn player only if it is a human player
