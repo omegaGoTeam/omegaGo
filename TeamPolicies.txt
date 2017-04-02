@@ -1,13 +1,48 @@
-- Everything in PRs
-- Each PR = 1 User Story
-- Ensure the PRs are bite-sized and do just one thing
-- Follow-on tips here - http://blog.ploeh.dk/2015/01/15/10-tips-for-better-pull-requests/
-- Each User story has assigned Parent and subtasks
-- Code readability - following C# file ordering conventions (public, private...; fields, constructors, events, properties, methods; related members of similar purpose should be in one place)
-- For code ordering see - http://stackoverflow.com/questions/150479/order-of-items-in-classes-fields-properties-constructors-methods
-- Each TODO in code should have a User story and should indicate the person who is to resolve
-- Each PR has to be approved by some other team member
-- Code readability - naming conventions for methods, variables, names should be sensible
-- If code of a different team member is changed, this team member must approve such PR
-- Maintain the state of features, user stories and tasks
-- Each public member of a class has to have documentation comment, complicated or important non-public members as well
+01. Everything in PRs
+02. Each PR = 1 User Story
+03. Ensure the PRs are bite-sized and do just ONE thing.
+    Follow-on tips here - http://blog.ploeh.dk/2015/01/15/10-tips-for-better-pull-requests/
+04. Each PR has to be approved by some other team member. The reviewer can't be removed by other team member (it's inpolite). 
+05. If code of a different team member is changed, this team memberÂ must approve such PR.
+06. Each User story has assigned Parent and subtasks.
+07. Maintain the state of features, user stories and tasks.
+08. Code readability - followingÂ C# file ordering conventions (public, private...;Â fields, constructors, events, properties, methods; related members of similar purpose should be in one place)
+    For code ordering see - http://stackoverflow.com/questions/150479/order-of-items-in-classes-fields-properties-constructors-methods
+
+    According to the StyleCop Rules Documentation (http://stylecop.soyuz5.com/Ordering%20Rules.html) the ordering is as follows.
+
+    Within a class, struct or interface: (SA1201 and SA1203)
+        Constant Fields
+        Fields
+        Constructors
+        Finalizers (Destructors)
+        Delegates
+        Events
+        Enums
+        Interfaces
+        Properties
+        Indexers
+        Methods
+        Structs
+        Classes
+
+    Within each of these groups order by access: (SA1202)
+        public
+        internal
+        protected internal
+        protected
+        private
+
+    Within each of the access groups, order by static, then non-static: (SA1204)
+        static
+        non-static
+
+    Within each of the static/non-static groups of fields, order by readonly, then non-readonly : (SA1214 and SA1215)
+        readonly
+        non-readonly
+
+09. Code readability - naming conventions for methods, variables, namesÂ should be sensible.
+10. Each public member of a class has to have documentation comment, complicated or important non-public members as well.
+11. The documentation should be formal and professional (and optimistic!, if our goal is to succesfully defend the project). 
+12. Each TODO in code should have a User story andÂ should indicateÂ the person who is to resolve.
+
