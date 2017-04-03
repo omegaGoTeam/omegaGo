@@ -79,96 +79,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             }
         }
 
-        /// <summary>
-        /// Processes a view model request
-        /// </summary>
-        /// <param name="request">View model request</param>
-        /// <param name="tabNavigationType">Type of tab navigation to perform</param>
-        internal ITabInfo ProcessViewModelRequest(MvxViewModelRequest request, TabNavigationType tabNavigationType)
-        {
-            //process the request
-            var requestTranslator = Mvx.Resolve<IMvxViewsContainer>();
-            var viewType = requestTranslator.GetViewType(request.ViewModelType);
-
-            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
-            var requestText = converter.Serializer.SerializeObject(request);
-
-            //prepare tab
-            var targetTab = ActiveTab;
-            bool activeAndNeedsNew = tabNavigationType == TabNavigationType.ActiveTab && ActiveTab == null;
-            if (activeAndNeedsNew || tabNavigationType != TabNavigationType.ActiveTab)
-            {
-                targetTab = CreateEmptyTab();
-            }
-            targetTab.Frame.Navigate(viewType, requestText);
-            if (tabNavigationType != TabNavigationType.NewBackgroundTab)
-            {
-                ActiveTab = targetTab;
-            }
-            return targetTab;
-        }
-
-        /// <summary>
-        /// Invokes active tab changed event
-        /// </summary>
-        /// <param name="tab">New active tab</param>
-        protected virtual void OnActiveTabChanged(Tab tab)
-        {
-            ActiveTabChanged?.Invoke(this, tab);
-        }
-
-        /// <summary>
-        /// Creates and adds a new empty tab
-        /// </summary>
-        /// <returns>Created tab</returns>
-        private Tab CreateEmptyTab()
-        {
-            Frame frame = new Frame();
-            frame.NavigationFailed += OnTabNavigationFailed;
-            frame.Navigated += Frame_Navigated;
-            Tab tab = new Tab(frame);
-            tab.PropertyChanged += Tab_PropertyChanged;
-            Tabs.Add(tab);
-            return tab;
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-            var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
-            if (tab != null)
-            {
-                var view = tab.Frame.Content as ViewBase;
-                if (view != null)
-                {
-                    tab.Title = view.TabTitle;
-                    tab.IconUri = view.TabIconUri;
-                }
-            }
-        }
-
-        private void Tab_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateWindowTitle();
-        }
-
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        private void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        /// <summary>
-        /// Updates the Window title to match the current tab
-        /// </summary>
-        private void UpdateWindowTitle()
-        {
-            var viewTitle = ActiveTab?.Title;
-            ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
-        }
 
         /// <summary>
         /// Handles back navigation
@@ -252,6 +162,103 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             //inform the view that its tab has been closed
             (closedTab.Frame.Content as ViewBase)?.TabClosed();
             return true;
+        }
+
+        /// <summary>
+        /// Processes a view model request
+        /// </summary>
+        /// <param name="request">View model request</param>
+        /// <param name="tabNavigationType">Type of tab navigation to perform</param>
+        internal ITabInfo ProcessViewModelRequest(MvxViewModelRequest request, TabNavigationType tabNavigationType)
+        {
+            //process the request
+            var requestTranslator = Mvx.Resolve<IMvxViewsContainer>();
+            var viewType = requestTranslator.GetViewType(request.ViewModelType);
+
+            var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+            var requestText = converter.Serializer.SerializeObject(request);
+
+            //prepare tab
+            var targetTab = ActiveTab;
+            bool activeAndNeedsNew = tabNavigationType == TabNavigationType.ActiveTab && ActiveTab == null;
+            if (activeAndNeedsNew || tabNavigationType != TabNavigationType.ActiveTab)
+            {
+                targetTab = CreateEmptyTab();
+            }
+            targetTab.Frame.Navigate(viewType, requestText);
+            if (tabNavigationType != TabNavigationType.NewBackgroundTab)
+            {
+                ActiveTab = targetTab;
+            }
+            return targetTab;
+        }
+
+        /// <summary>
+        /// Invokes active tab changed event
+        /// </summary>
+        /// <param name="tab">New active tab</param>
+        protected virtual void OnActiveTabChanged(Tab tab)
+        {
+            ActiveTabChanged?.Invoke(this, tab);
+        }
+
+        /// <summary>
+        /// Creates and adds a new empty tab
+        /// </summary>
+        /// <returns>Created tab</returns>
+        private Tab CreateEmptyTab()
+        {
+            Frame frame = new Frame();
+            frame.NavigationFailed += OnTabNavigationFailed;
+            frame.Navigated += Frame_Navigated;
+            Tab tab = new Tab(frame);
+            tab.PropertyChanged += Tab_PropertyChanged;
+            Tabs.Add(tab);
+            return tab;
+        }
+
+        /// <summary>
+        /// Reacts to tab frame navigation
+        /// </summary>
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
+            if (tab != null)
+            {
+                var view = tab.Frame.Content as ViewBase;
+                if (view != null)
+                {
+                    tab.Title = view.TabTitle;
+                    tab.IconUri = view.TabIconUri;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the window title if necessary
+        /// </summary>
+        private void Tab_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateWindowTitle();
+        }
+
+        /// <summary>
+        /// Invoked when Navigation to a certain page fails
+        /// </summary>
+        /// <param name="sender">The Frame which failed navigation</param>
+        /// <param name="e">Details about the navigation failure</param>
+        private void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        /// <summary>
+        /// Updates the Window title to match the current tab
+        /// </summary>
+        private void UpdateWindowTitle()
+        {
+            var viewTitle = ActiveTab?.Title;
+            ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
         }
     }
 }
