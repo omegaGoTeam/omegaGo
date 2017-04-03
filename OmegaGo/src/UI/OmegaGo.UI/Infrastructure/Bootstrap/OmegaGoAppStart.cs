@@ -21,8 +21,14 @@ namespace OmegaGo.UI.Infrastructure.Bootstrap
             return Task.FromResult(false);
         }
 
+        /// <summary>
+        /// Indicates that the app has started
+        /// </summary>
         public event EventHandler AppStarted;
 
+        /// <summary>
+        /// Invokes app started event
+        /// </summary>
         private void OnAppStarted()
         {
             AppStarted?.Invoke( this, EventArgs.Empty );

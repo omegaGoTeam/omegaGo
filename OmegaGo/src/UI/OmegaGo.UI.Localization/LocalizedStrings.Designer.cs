@@ -1095,6 +1095,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main menu.
+        /// </summary>
+        public static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Making a move requires a confirmation click.
         /// </summary>
         public static string MakingAMoveRequiresAConfirmationClick {
@@ -1190,6 +1199,15 @@ namespace OmegaGo.UI.Localization {
         public static string MuteTooltip {
             get {
                 return ResourceManager.GetString("MuteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New game.
+        /// </summary>
+        public static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
             }
         }
         

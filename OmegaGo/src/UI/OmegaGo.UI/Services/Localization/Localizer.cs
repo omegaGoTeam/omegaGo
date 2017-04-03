@@ -21,6 +21,10 @@ namespace OmegaGo.UI.Services.Localization
 
         }
 
+        public string NewGame => LocalizeCaller();
+
+        public string MainMenu => LocalizeCaller();
+
         public string ThemesPanel => LocalizeCaller();
 
         public string BackgroundImageOpacity => LocalizeCaller();
@@ -213,7 +217,7 @@ namespace OmegaGo.UI.Services.Localization
         public string BoardSettings => LocalizeCaller();
 
         public string CellSize => LocalizeCaller();
-        
+
         public string BoardBorderThickness => LocalizeCaller();
         public string Rank1 => LocalizeCaller();
         public string Rank2 => LocalizeCaller();
@@ -254,7 +258,7 @@ namespace OmegaGo.UI.Services.Localization
         public string Tsumego_CorrectPanel => LocalizeCaller();
         public string Tsumego_WrongPanel => LocalizeCaller();
         public string Tsumego_CurrentProblemStatus => LocalizeCaller();
-        public string Tsumego_ViewCaption => LocalizeCaller();        
+        public string Tsumego_ViewCaption => LocalizeCaller();
         public string IgsRank => LocalizeCaller();
         public string KgsRank => LocalizeCaller();
         public string Tutorial_Next => LocalizeCaller();

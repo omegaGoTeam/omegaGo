@@ -13,7 +13,11 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Coding4Fun.Toolkit.Controls;
+using OmegaGo.UI.ViewModels;
+using OmegaGo.UI.WindowsUniversal.Helpers.UI;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
+using OmegaGo.UI.WindowsUniversal.Views;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -40,8 +44,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         /// </summary>
         public void BackRequested()
         {
-            //handle the back navigation request using app shell
-            AppShell.GetForCurrentView().GoBack();         
+            //handle the back navigation request using view model
+            ( this.FindAncestor<ViewBase>()?.ViewModel as ViewModelBase)?.GoBack();
         }
     }
 }

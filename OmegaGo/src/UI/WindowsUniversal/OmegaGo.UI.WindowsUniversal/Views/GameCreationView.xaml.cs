@@ -1,4 +1,5 @@
-﻿using Windows.System;
+﻿using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using OmegaGo.UI.ViewModels;
@@ -17,6 +18,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             InitializeComponent();
         }
+
+
+        public override string TabTitle => Localizer.NewGame;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/GameCreation.png");
 
         private void CompensationInput_KeyDown(object sender, KeyRoutedEventArgs e)
         {             

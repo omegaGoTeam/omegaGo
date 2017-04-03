@@ -20,6 +20,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
-        
+
+
+        public override string TabTitle => Localizer.KgsServerCaption;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
     }
 }
