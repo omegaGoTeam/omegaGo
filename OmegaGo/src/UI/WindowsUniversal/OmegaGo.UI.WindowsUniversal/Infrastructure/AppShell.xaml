@@ -72,7 +72,7 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="tabbed:Tab">
-                                <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title}" VerticalAlignment="Stretch" Width="150">
+                                <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" VerticalAlignment="Stretch" Width="150">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="32" />
                                         <ColumnDefinition Width="*" />
