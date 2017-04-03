@@ -125,10 +125,25 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         {
             Frame frame = new Frame();
             frame.NavigationFailed += OnTabNavigationFailed;
+            frame.Navigated += Frame_Navigated;
             Tab tab = new Tab(frame);
             tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
             return tab;
+        }
+
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
+            if (tab != null)
+            {
+                var view = tab.Frame.Content as ViewBase;
+                if (view != null)
+                {
+                    tab.Title = view.TabTitle;
+                    tab.IconUri = view.TabIconUri;
+                }
+            }
         }
 
         private void Tab_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -235,7 +250,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             }
             Tabs.Remove(closedTab);
             //inform the view that its tab has been closed
-            ( closedTab.Frame.Content as ViewBase )?.TabClosed();
+            (closedTab.Frame.Content as ViewBase)?.TabClosed();
             return true;
         }
     }

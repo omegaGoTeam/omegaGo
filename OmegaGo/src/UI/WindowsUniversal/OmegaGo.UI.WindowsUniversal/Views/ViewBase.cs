@@ -65,23 +65,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         internal virtual void TabClosed() { }
 
         /// <summary>
-        /// Handles the loading phase of the View
-        /// </summary>
-        private void ViewBase_Loading(FrameworkElement sender, object args)
-        {
-            //Set view model as Data Context by default
-            DataContext = ViewModel;
-
-            //set the tab title and icon uri
-            var tab = GetViewsTab();
-            if (tab != null)
-            {
-                tab.Title = TabTitle;
-                tab.IconUri = TabIconUri;
-            }
-        }
-
-        /// <summary>
         /// Returns the tab where this view is currently displayed or null
         /// </summary>
         /// <returns>Tab or null</returns>
@@ -89,5 +72,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             return AppShell.TabManager.Tabs.SingleOrDefault(t => t.Frame.Content == this);
         }
+
+        /// <summary>
+        /// Handles the loading phase of the View
+        /// </summary>
+        private void ViewBase_Loading(FrameworkElement sender, object args)
+        {
+            //Set view model as Data Context by default
+            DataContext = ViewModel;
+        }
+
     }
 }
