@@ -143,5 +143,21 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             var viewTitle = ActiveTab?.Title;            
             ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
         }
+
+        /// <summary>
+        /// Handles back navigation
+        /// </summary>
+        /// <param name="viewModelToNavigateBack">View model that wants to navigate back</param>
+        /// <returns>Was back navigation successful?</returns>
+        public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
+        {
+            var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
+            if (tab != null && tab.Frame.CanGoBack )
+            {
+                tab.Frame.GoBack();
+                return true;
+            }
+            return false;
+        }
     }
 }
