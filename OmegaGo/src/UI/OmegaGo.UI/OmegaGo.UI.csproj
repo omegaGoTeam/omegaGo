@@ -66,7 +66,6 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Controls\Styles\BackgroundColor.cs" />
     <Compile Include="Controls\Styles\BackgroundImage.cs" />
-    <Compile Include="Extensions\MvxNavigatingObjectExtensions.cs" />
     <Compile Include="Infrastructure\Bootstrap\AppStartArgs.cs" />
     <Compile Include="Infrastructure\Bootstrap\IAsyncAppStart.cs" />
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
