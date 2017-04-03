@@ -127,6 +127,11 @@ namespace OmegaGo.Core.Online.Igs
                         continue;
                     }
                 }
+                if (code == IgsCode.Kibitz)
+                {
+                    weAreHandlingAnInterrupt = true;
+                    continue;
+                }
                 if (code == IgsCode.Beep)
                 {
                     Events.OnBeep();
@@ -395,7 +400,7 @@ namespace OmegaGo.Core.Online.Igs
             {
                
                   if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
-                {
+                 {
                     
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);
@@ -485,6 +490,17 @@ namespace OmegaGo.Core.Online.Igs
                     }
 
                     Events.OnIncomingInGameChatMessage(relevantGame.Info, chatLine);
+                }
+
+                if (currentLineBatch[0].Code == IgsCode.Kibitz &&
+                    currentLineBatch.Count >= 2)
+                {
+                    // 11 Kibitz ([^ ]+).*\[([0-9]+)\]
+                    Tuple<string, int> firstLine = IgsRegex.ParseKibitzHeading(currentLineBatch[0]);
+                    string text = currentLineBatch[1].PureLine.Trim();
+                    IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == firstLine.Item2);
+                    Events.OnIncomingInGameChatMessage(relevantGame.Info, new Chat.ChatMessage(firstLine.Item1,
+                        text, DateTimeOffset.Now, ChatMessageKind.Incoming));
                 }
                 
                 if (currentLineBatch[0].Code == IgsCode.Tell &&

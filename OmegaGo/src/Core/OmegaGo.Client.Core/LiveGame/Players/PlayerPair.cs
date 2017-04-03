@@ -47,6 +47,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         public GamePlayer White { get; }
 
         /// <summary>
+        /// Gets the local player that's playing on this device. This should only be used in multiplayer games.
+        /// If no player is local (i.e. we are observing a game), then return null.
+        /// </summary>
+        public GamePlayer Local => White.IsLocal ? White : (Black.IsLocal ? Black : null);
+
+        /// <summary>
         /// Returns the player by stone color
         /// </summary>
         /// <param name="color">Stone color</param>

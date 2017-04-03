@@ -204,5 +204,14 @@ namespace OmegaGo.Core.Online.Kgs
                 ChannelId = channelId
             });
         }
+
+        public async Task ChatAsync(KgsGameInfo info, string text)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("CHAT", new
+            {
+                ChannelId = info.ChannelId,
+                Text = text
+            });
+        }
     }
 }

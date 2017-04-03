@@ -9,6 +9,9 @@ SENT TO BOTH PLAYERS IN CASE OF DISPUTE
 5   Soothie wants Black on a 19x19 in 10 mins (20 byoyomi).
 1 5
 ------------------------------
+11 Kibitz OmegaGo3 [17k ]: Game OmegaGo1 vs OmegaGo2 [183]
+11    C
+----------------------------
 15   2(B): Pass
 1 6
 ---------------
@@ -79,6 +82,7 @@ REMOVEE:
 15   2(B): A3
 1 6
 ------------
+
 
 
 ------------

@@ -5,6 +5,7 @@ using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
+using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -76,6 +77,8 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         public IReadOnlyList<IGameConnector> Connectors =>
             new ReadOnlyCollection<IGameConnector>(this._registeredConnectors);
+
+        public UiConnector UiConnector { get; set; }
 
         /// <summary>
         ///     Get the associated metadata.
@@ -199,6 +202,17 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void RegisterConnector(IGameConnector connector)
         {
             this._registeredConnectors.Add(connector);
+        }
+
+        public void RegisterUiConnector(UiConnector uiConnector)
+        {
+            this.UiConnector = uiConnector;
+            RegisterConnector(uiConnector);
+            SubscribeUiConnectorEvents();
+        }
+
+        protected virtual void SubscribeUiConnectorEvents()
+        {
         }
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace OmegaGo.UI.ViewModels
 
             SetupPhaseChangeHandlers();
 
-            Game.Controller.RegisterConnector(_uiConnector);
+            Game.Controller.RegisterUiConnector(_uiConnector);
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.CurrentNodeStateChanged += Game_CurrentNodeStateChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;

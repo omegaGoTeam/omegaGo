@@ -5,6 +5,7 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
@@ -28,6 +29,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+        public event EventHandler<string> OutgoingChatMessage;
         /// <summary>
         ///     Occurs when any AI involved in the game sends a line of information to the user interface.
         /// </summary>
@@ -99,6 +101,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public void RequestMainUndo()
         {
             MainUndoRequested?.Invoke(this, EventArgs.Empty);
+        }
+        public void SendChat(string message)
+        {
+            OutgoingChatMessage?.Invoke(this, message);
         }
 
         /// <summary>

@@ -30,6 +30,7 @@ namespace OmegaGo.Core.Online.Igs
         private static readonly Regex regexGameTitleLine = new Regex(@"9 Game is titled: (.*)");
         private static readonly Regex regexHandicapMove = new Regex(@".*Handicap ([0-9])");
         private static readonly Regex regexIncreaseTime = new Regex(@"9 Increase ([^']+)'s time by ([0-9]+) minutes");
+        private static readonly Regex regexKibitzHeading = new Regex(@"11 Kibitz ([^ ]+).*\[([0-9]+)\]");
 
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -137,6 +138,15 @@ empty string*/
             return igsLine.PureLine.Substring(0, igsLine.PureLine.IndexOf(' '));
         }
 
+        public static Tuple<string, int> ParseKibitzHeading(IgsLine igsLine)
+        {
+            Match match = regexKibitzHeading.Match(igsLine.EntireLine);
+            return new Tuple<string, int>(
+                match.Groups[1].Value,
+                match.Groups[2].Value.AsInteger()
+                );
+        }
+
         public static Tuple<int, Position> ParseStoneRemoval(IgsLine igsLine)
         {
             Match match = regexStoneRemoval.Match(igsLine.EntireLine);
@@ -192,5 +202,6 @@ empty string*/
                 secondValueStones);
         }
 
+     
     }
 }

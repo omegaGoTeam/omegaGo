@@ -65,7 +65,6 @@ namespace FormsPrototype
             {
                 var connection = (_server as IgsConnection);
                 bLocalUndo.Visible = false;
-                connection.Events.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
                 connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
                 connection.Events.UndoDeclined += _igs_UndoDeclined;
@@ -89,7 +88,7 @@ namespace FormsPrototype
         {
             _game = game;
             _uiConnector = new UiConnector(game.Controller);
-            game.Controller.RegisterConnector(_uiConnector);
+            game.Controller.RegisterUiConnector(_uiConnector);
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
@@ -106,11 +105,16 @@ namespace FormsPrototype
             if (game is KgsGame)
             {
                 KgsGameController kgsController = ((KgsGame) game).Controller;
-                kgsController.ChatMessageReceived += _controller_ChatMessageReceived;
                 foreach (var msg in kgsController.MessageLog)
                 {
                     _controller_ChatMessageReceived(this, msg);
                 }
+            }
+
+            if (game.Controller is RemoteGameController)
+            {
+                var remote = game.Controller as RemoteGameController;
+                remote.ChatMessageReceived += _controller_ChatMessageReceived;
             }
            // _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            /*
@@ -175,7 +179,6 @@ namespace FormsPrototype
             if (_server is IgsConnection)
             {
                 var connection = (_server as IgsConnection);
-                connection.Events.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 connection.Events.UndoDeclined -= _igs_UndoDeclined;
@@ -231,15 +234,7 @@ namespace FormsPrototype
         }
 
      
-
-        private void _igs_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, OmegaGo.Core.Online.Chat.ChatMessage> e)
-        {
-            if (e.Item1 == _gameInfo)
-            {
-                lbPlayerChat.Items.Add("[" + e.Item2.Time.ToString("H:m") + "] " + e.Item2.UserName + ": " +
-                                            e.Item2.Text);
-            }
-        }
+        
         private void SystemLog(string logline)
         {
             tbLog.AppendText(logline + Environment.NewLine);
@@ -488,20 +483,10 @@ namespace FormsPrototype
 
         private void bSay_Click(object sender, EventArgs e)
         {
-            if (_server is IgsConnection)
+            if (this._isOnline)
             {
-                var connection = ((IgsConnection) _server);
-                /*
-                if (!await connection.SayAsync(this._onlineGameController as IgsGame, tbSayWhat.Text))
-                {
-                    MessageBox.Show("Say failed.");
-                }
-                else
-                {
-                    lbPlayerChat.Items.Add("[" + DateTimeOffset.Now.ToString("H:m") + "] You: " +
-                                                tbSayWhat.Text);
-                    tbSayWhat.Clear();
-                }*/
+                _uiConnector.SendChat(this.tbSayWhat.Text);
+                this.tbSayWhat.Clear();
             }
         }
 

@@ -316,9 +316,9 @@ namespace OmegaGo.Core.Online.Igs
         }
 
 
-        public async Task<bool> SayAsync(IgsGame game, string chat)
+        public async Task<bool> SayAsync(IgsGameInfo game, string chat)
         {
-            if (!this.igsConnection.GamesYouHaveOpened.Contains(game))
+            if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
                 throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
@@ -328,7 +328,7 @@ namespace OmegaGo.Core.Online.Igs
             if (this.igsConnection.GamesYouHaveOpened.Count > 1)
             {
                 // More than one game is opened: we must give the game id.
-                response = await MakeRequestAsync("say " + game.Info.IgsIndex + " " + chat);
+                response = await MakeRequestAsync("say " + game.IgsIndex + " " + chat);
             }
             else
             {
@@ -338,6 +338,27 @@ namespace OmegaGo.Core.Online.Igs
             return !response.IsError;
         }
 
+        public async Task<bool> KibitzAsync(IgsGameInfo game, string chat)
+        {
+            if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
+                throw new ArgumentException("You don't have this game opened on IGS.");
+            if (chat == null) throw new ArgumentNullException(nameof(chat));
+            if (chat == "") throw new ArgumentException("Chat line must not be empty.");
+            if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
+
+            IgsResponse response;
+            if (this.igsConnection.GamesYouHaveOpened.Count > 1)
+            {
+                // More than one game is opened: we must give the game id.
+                response = await MakeRequestAsync("kibitz " + game.IgsIndex + " " + chat);
+            }
+            else
+            {
+                // We have only one game opened: game id MUST NOT be given
+                response = await MakeRequestAsync("kibitz " + chat);
+            }
+            return !response.IsError;
+        }
 
         public async Task UndoPleaseAsync(IgsGameInfo game)
         {
