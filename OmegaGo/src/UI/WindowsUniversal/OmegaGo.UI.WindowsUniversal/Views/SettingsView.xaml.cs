@@ -25,9 +25,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public SettingsViewModel VM => (SettingsViewModel)this.ViewModel;
 
-        public override string WindowTitle => Localizer.Settings;
+        public override string TabTitle => Localizer.Settings;
 
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Settings.png");
 
         /// <summary>
         /// Gets and sets the full screen mode

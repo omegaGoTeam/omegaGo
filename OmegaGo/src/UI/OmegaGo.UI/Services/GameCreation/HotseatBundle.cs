@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using OmegaGo.UI.ViewModels;
 
-namespace OmegaGo.UI.Services.GameCreationBundle
+namespace OmegaGo.UI.Services.GameCreation
 {
-    class HotseatBundle : GameCreationBundle
+    /// <summary>
+    /// TODO: Replace this logic with MvvmCross bundles
+    /// </summary>
+    class HotseatBundle : GameCreationBundle.GameCreationBundle
     {
         public override void OnLoad(GameCreationViewModel gameCreationViewModel)
         {

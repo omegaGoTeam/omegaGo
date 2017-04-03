@@ -17,9 +17,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public GameOldViewModel VM => (GameOldViewModel)ViewModel;
 
-        public override string WindowTitle => Localizer.Game;
+        public override string TabTitle => Localizer.Game;
 
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
 
         private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
         {

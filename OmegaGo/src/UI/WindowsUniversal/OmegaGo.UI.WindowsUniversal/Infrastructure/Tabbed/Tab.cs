@@ -18,9 +18,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     /// <summary>
     /// Represents a UI tab
     /// </summary>
-    public class Tab : INotifyPropertyChanged, ITabInfo
+    public class Tab : MvxNotifyPropertyChanged, ITabInfo
     {
         private string _title;
+        private Uri _iconUri;
 
         /// <summary>
         /// Creates a tab with a given frame
@@ -47,17 +48,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public string Title
         {
             get { return _title; }
-            set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _title, value); }
         }
 
         /// <summary>
         /// Gets the tab's icon
         /// </summary>
-        public Uri IconUri => (Frame.Content as ViewBase)?.WindowTitleIconUri;
+        public Uri IconUri
+        {
+            get { return _iconUri; }
+            set { SetProperty(ref _iconUri, value); }
+        }
 
         /// <summary>
         /// Gets the currently displayed view model
@@ -68,13 +69,5 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// Gets or sets a helper tag object
         /// </summary>
         public object Tag { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

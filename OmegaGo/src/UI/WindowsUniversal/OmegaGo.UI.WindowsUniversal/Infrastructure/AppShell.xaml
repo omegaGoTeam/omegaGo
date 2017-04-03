@@ -79,8 +79,10 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" MaxWidth="32"/>
-                                    <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{x:Bind Id, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                                    <Viewbox Width="24" Height="24">
+                                        <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" />
+                                    </Viewbox>
+                                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                     <Button Grid.Column="2" Padding="5,0,5,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource TabCloseButtonStyle}">
                                         <FontIcon FontSize="10" Glyph="&#xE106;" />
                                     </Button>
@@ -91,13 +93,13 @@
                     </ListView>
                     <Border Grid.Column="1" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Border.Background>
-                            <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.5" />
+                            <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
                         </Border.Background>
                     </Border>
                 </Grid>
                 <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"  IsHitTestVisible="False" VerticalAlignment="Stretch">
                     <Border.Background>
-                        <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.5" />
+                        <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
                     </Border.Background>
                 </Border>
                 <Button x:Name="FeedbackButton" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed" />

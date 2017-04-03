@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -14,6 +15,7 @@ using MvvmCross.Core.Views;
 using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
@@ -40,6 +42,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         }
 
         /// <summary>
+        /// Indicates that the active tab has been changed
+        /// </summary>
+        public event EventHandler<Tab> ActiveTabChanged;
+
+        /// <summary>
         /// Currently opened tabs
         /// </summary>
         public ObservableCollection<Tab> Tabs { get; } = new ObservableCollection<Tab>();
@@ -50,16 +57,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public Tab ActiveTab
         {
             get { return _activeTab; }
-            set { SetProperty(ref _activeTab, value); }
-        }
-
-        /// <summary>
-        /// Activates a tab
-        /// </summary>
-        /// <param name="tab">Tab to activate</param>
-        public void ActivateTab(Tab tab)
-        {
-            ActiveTab = tab;
+            set
+            {
+                if (_activeTab != value)
+                {
+                    SetProperty(ref _activeTab, value);
+                    ActiveTabChanged?.Invoke(this, value);
+                    UpdateWindowTitle();
+                }
+            }
         }
 
         /// <summary>
@@ -75,7 +81,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 
             var converter = Mvx.Resolve<IMvxNavigationSerializer>();
             var requestText = converter.Serializer.SerializeObject(request);
-        
+
             //prepare tab
             var targetTab = ActiveTab;
             bool activeAndNeedsNew = tabNavigationType == TabNavigationType.ActiveTab && ActiveTab == null;
@@ -86,9 +92,18 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             targetTab.Frame.Navigate(viewType, requestText);
             if (tabNavigationType != TabNavigationType.NewBackgroundTab)
             {
-                ActivateTab(targetTab);
+                ActiveTab = targetTab;
             }
             return targetTab;
+        }
+
+        /// <summary>
+        /// Invokes active tab changed event
+        /// </summary>
+        /// <param name="tab">New active tab</param>
+        protected virtual void OnActiveTabChanged(Tab tab)
+        {
+            ActiveTabChanged?.Invoke(this, tab);
         }
 
         /// <summary>
@@ -98,21 +113,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private Tab CreateEmptyTab()
         {
             Frame frame = new Frame();
-            frame.NavigationFailed += OnTabNavigationFailed;
-            frame.ContentTransitions = new TransitionCollection();
-            frame.Transitions = new TransitionCollection();
-            frame.Navigated += OnTabNavigated;
+            frame.NavigationFailed += OnTabNavigationFailed;            
             Tab tab = new Tab(frame);
+            tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
             return tab;
         }
 
-        /// <summary>
-        /// Invoked when tab navigation is performed
-        /// </summary>
-        private void OnTabNavigated(object sender, NavigationEventArgs e)
+        private void Tab_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-
+            UpdateWindowTitle();
         }
 
         /// <summary>
@@ -123,6 +133,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private void OnTabNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        /// <summary>
+        /// Updates the Window title to match the current tab
+        /// </summary>
+        private void UpdateWindowTitle()
+        {            
+            var viewTitle = ActiveTab?.Title;            
+            ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
         }
     }
 }

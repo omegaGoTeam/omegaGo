@@ -30,15 +30,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             Loaded += MainMenuView_Loaded;
         }
 
-        private void MainMenuView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox || DeviceFamilyHelper.DeviceFamily == DeviceFamily.Desktop)
-            {
-                FocusOptimization();
-            }
-            FullScreenButtonIcon.Glyph = FullScreenModeManager.IsFullScreen ? 
-                ExitFullScreenGlyph : GoFullScreenGlyph;
-        }
+        /// <summary>
+        /// Title of the main menu tab
+        /// </summary>
+        public override string TabTitle => Localizer.MainMenu;
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -50,6 +45,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 MenuItemsControl.Items.RemoveAt(0);
             }
 
+        }
+        
+        /// <summary>
+        /// Ensures focus setting for Xbox and desktop keyboard
+        /// </summary>
+        private void MainMenuView_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Xbox || DeviceFamilyHelper.DeviceFamily == DeviceFamily.Desktop)
+            {
+                FocusOptimization();
+            }
+            FullScreenButtonIcon.Glyph = FullScreenModeManager.IsFullScreen ?
+                ExitFullScreenGlyph : GoFullScreenGlyph;
         }
 
         /// <summary>
@@ -70,13 +78,16 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                     Tag = language,
                     Text = Localizer.GetString(language.Name),
                 };
-                menuItem.Click += MenuItem_Click;
+                menuItem.Click += LanguageMenuItem_Click;
                 LanguagesMenu.Items?.Add(menuItem);
             }
             UpdateLanguageMenuSelection();
         }
 
-        private void MenuItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        /// <summary>
+        /// Handles language menu selection
+        /// </summary>
+        private void LanguageMenuItem_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var menuItem = sender as ToggleMenuFlyoutItem;
             if (menuItem != null)
@@ -97,6 +108,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
         }
         
+        /// <summary>
+        /// Sets the full screen mode
+        /// </summary>
         private void FullScreenButtonClick(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             var useFullScreen = !FullScreenModeManager.IsFullScreen;
@@ -105,6 +119,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 ExitFullScreenGlyph : GoFullScreenGlyph;
         }
 
+        /// <summary>
+        /// Optimization of focus for the menu buttons, used for Xbox and desktop keyboard
+        /// </summary>
         private async void FocusOptimization()
         {
             await Dispatcher.RunAsync(
@@ -120,23 +137,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                         TutorialButton.Focus(FocusState.Programmatic);
                     }
                 });
-        }
-
-        private async void button_Click(object sender, RoutedEventArgs e)
-        {
-            CoreApplicationView newView = CoreApplication.CreateNewView();
-            int newViewId = 0;
-            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                Frame frame = new Frame();
-                //frame.Navigate(typeof(AppShell), null);
-                Window.Current.Content = frame;
-                // You have to activate the window in order to show it later.
-                Window.Current.Activate();
-
-                newViewId = ApplicationView.GetForCurrentView().Id;
-            });
-            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
         }
     }
 }

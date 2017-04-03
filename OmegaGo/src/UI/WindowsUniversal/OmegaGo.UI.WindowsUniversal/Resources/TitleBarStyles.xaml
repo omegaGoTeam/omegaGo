@@ -214,10 +214,13 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
                                         </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="FontWeight">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Bold" />
+                                        </ObjectAnimationUsingKeyFrames>
                                         <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder" Storyboard.TargetProperty="BorderThickness">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="2,2,2,0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder" Storyboard.TargetProperty="BorderBrush">
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentBorder" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>-->
                                     </Storyboard>

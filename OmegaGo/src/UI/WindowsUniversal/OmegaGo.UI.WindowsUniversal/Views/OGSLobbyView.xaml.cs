@@ -27,8 +27,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.InitializeComponent();
         }
 
-        public override string WindowTitle => Localizer.OnlineGame;
+        public override string TabTitle => Localizer.OnlineGame;
 
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
     }
 }

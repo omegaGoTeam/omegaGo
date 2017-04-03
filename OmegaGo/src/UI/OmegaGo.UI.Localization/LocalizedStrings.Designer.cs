@@ -1095,6 +1095,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main menu.
+        /// </summary>
+        public static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Making a move requires a confirmation click.
         /// </summary>
         public static string MakingAMoveRequiresAConfirmationClick {
