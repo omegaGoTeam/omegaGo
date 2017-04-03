@@ -294,27 +294,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
-                var view = UnderlyingFrame.Content as MainMenuView;
-                if (!UnderlyingFrame.CanGoBack && view != null)
-                {
-                    var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
-                    var dialogService = Mvx.Resolve<IDialogService>();
-                    if (await dialogService.ShowConfirmationDialogAsync(
-                        localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
-                    {
-                        Application.Current.Exit();
-                    }
-                }
-                else if (!args.Handled)
-                {
-                    args.Handled = true;
-                    //handle back navigation as usual
-                    GoBack();
-                }
+                //let the tab manager handle global back navigation
+                TabManager.HandleGlobalBackNavigation();               
             }
         }
 

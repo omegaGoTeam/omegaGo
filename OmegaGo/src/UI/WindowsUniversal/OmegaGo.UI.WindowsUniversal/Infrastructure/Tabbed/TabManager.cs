@@ -16,6 +16,7 @@ using MvvmCross.Core.Views;
 using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
@@ -79,6 +80,24 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             }
         }
 
+        /// <summary>
+        /// Handles back navigation globally - can close a tab or even the app
+        /// </summary>
+        /// <returns>Was back navigation successful?</returns>
+        public bool HandleGlobalBackNavigation()
+        {
+            var tab = ActiveTab;
+            if (tab != null)
+            {
+                var navigatedBack = GoBackInTab(tab);
+                if (!navigatedBack)
+                {
+                    return CloseTab(tab);
+                }
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Handles back navigation
@@ -88,10 +107,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
         {
             var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
-            if (tab != null && tab.Frame.CanGoBack)
+            if (tab != null)
             {
-                tab.Frame.GoBack();
-                return true;
+                return GoBackInTab(tab);
             }
             return false;
         }
@@ -128,7 +146,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
                 {
                     //shut down the app
-                    Application.Current.Exit();
+                    RequestAppClose();
+                    return false;
                 }
                 else
                 {
@@ -203,6 +222,21 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         }
 
         /// <summary>
+        /// Navigates back in tab
+        /// </summary>
+        /// <param name="tab">Tab</param>
+        /// <returns>Did the tab navigate back?</returns>
+        private bool GoBackInTab(Tab tab)
+        {            
+            if ( tab.Frame.CanGoBack )
+            {
+                tab.Frame.GoBack();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Creates and adds a new empty tab
         /// </summary>
         /// <returns>Created tab</returns>
@@ -215,6 +249,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
             return tab;
+        }
+
+        /// <summary>
+        /// Requests app close
+        /// </summary>
+        private async void RequestAppClose()
+        {
+            var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
+            var dialogService = Mvx.Resolve<IDialogService>();
+            if (await dialogService.ShowConfirmationDialogAsync(
+                localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
+            {
+                Application.Current.Exit();
+            }
         }
 
         /// <summary>
