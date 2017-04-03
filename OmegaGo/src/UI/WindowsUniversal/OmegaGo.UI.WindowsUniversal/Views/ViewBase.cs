@@ -50,21 +50,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
-        /// Handles the loading phase of the View
+        /// Informs the view that its tab has been activated
         /// </summary>
-        private void ViewBase_Loading(FrameworkElement sender, object args)
-        {
-            //Set view model as Data Context by default
-            DataContext = ViewModel;
+        internal virtual void TabActivated() { }
 
-            //set the tab title and icon uri
-            var tab = GetViewsTab();
-            if (tab != null)
-            {
-                tab.Title = TabTitle;
-                tab.IconUri = TabIconUri;
-            }
-        }
+        /// <summary>
+        /// Informs the viewm that its tab has been deactivated
+        /// </summary>
+        internal virtual void TabDeactivated() { }
+
+        /// <summary>
+        /// Informs the view that its tab has been closed
+        /// </summary>
+        internal virtual void TabClosed() { }
 
         /// <summary>
         /// Returns the tab where this view is currently displayed or null
@@ -74,5 +72,15 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             return AppShell.TabManager.Tabs.SingleOrDefault(t => t.Frame.Content == this);
         }
+
+        /// <summary>
+        /// Handles the loading phase of the View
+        /// </summary>
+        private void ViewBase_Loading(FrameworkElement sender, object args)
+        {
+            //Set view model as Data Context by default
+            DataContext = ViewModel;
+        }
+
     }
 }

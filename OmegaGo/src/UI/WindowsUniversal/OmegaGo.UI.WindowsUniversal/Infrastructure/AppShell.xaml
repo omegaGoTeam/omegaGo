@@ -59,44 +59,50 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Grid.ColumnSpan="3" x:Name="DraggableTitleBarArea" Background="Transparent">
                 </Grid>
-                <Grid Grid.Column="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <ListView SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="True" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="tabbed:Tab">
-                                <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" VerticalAlignment="Stretch" Width="150">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="32" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <Viewbox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Height="24">
-                                        <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" />
-                                    </Viewbox>
-                                    <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                                    <Button Grid.Column="2" Padding="5,0,5,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource TabCloseButtonStyle}">
-                                        <FontIcon FontSize="10" Glyph="&#xE106;" />
-                                    </Button>
-                                    <Border Grid.Column="3" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="1" HorizontalAlignment="Right" Background="Black" />
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <Border Grid.Column="1" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Border.Background>
-                            <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
-                        </Border.Background>
-                    </Border>
-                </Grid>
+                <ScrollViewer HorizontalScrollMode="Auto" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" Grid.Column="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListView SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="True" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="tabbed:Tab">
+                                    <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" VerticalAlignment="Stretch" Width="150">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Viewbox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Height="24">
+                                            <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" />
+                                        </Viewbox>
+                                        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
+                                        <Button Command="{x:Bind CloseCommand}" Grid.Column="2" Padding="5,0,5,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource TabCloseButtonStyle}">
+                                            <FontIcon FontSize="10" Glyph="&#xE106;" />
+                                        </Button>
+                                        <Border Grid.Column="3" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="1" HorizontalAlignment="Right" Background="Black" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Click="NewTabButton_Click" Grid.Column="1" Style="{ThemeResource NewTabButtonStyle}" VerticalAlignment="Stretch" Width="32">
+                            <FontIcon Glyph="&#xE109;" FontSize="10" />
+                        </Button>
+                        <Border Grid.Column="2" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Border.Background>
+                                <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
+                            </Border.Background>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
                 <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"  IsHitTestVisible="False" VerticalAlignment="Stretch">
                     <Border.Background>
                         <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />

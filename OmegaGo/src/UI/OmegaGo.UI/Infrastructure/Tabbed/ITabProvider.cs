@@ -24,5 +24,19 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// </summary>
         /// <returns>Used tab</returns>
         ITabInfo ShowViewModel(MvxViewModelRequest request, TabNavigationType tabNavigationType);
+
+        /// <summary>
+        /// Switches to the given tab
+        /// </summary>
+        /// <param name="tab">Tab to switch to</param>
+        /// <returns>Was switch successful?</returns>
+        bool SwitchToTab(ITabInfo tab);
+
+        /// <summary>
+        /// Closes the given tab
+        /// </summary>
+        /// <param name="tab">Tab to be closed</param>
+        /// <returns>Was closing the tab successful?</returns>
+        bool CloseTab(ITabInfo tab);
     }
 }

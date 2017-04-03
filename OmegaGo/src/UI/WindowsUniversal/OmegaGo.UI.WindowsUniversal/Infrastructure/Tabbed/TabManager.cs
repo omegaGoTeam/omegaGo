@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -16,7 +17,9 @@ using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
+using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
@@ -61,11 +64,104 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             {
                 if (_activeTab != value)
                 {
+                    if (_activeTab != null)
+                    {
+                        (_activeTab.Frame.Content as ViewBase)?.TabDeactivated();
+                    }
                     SetProperty(ref _activeTab, value);
                     ActiveTabChanged?.Invoke(this, value);
                     UpdateWindowTitle();
+                    if (value != null)
+                    {
+                        (value.Frame.Content as ViewBase)?.TabActivated();
+                    }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Handles back navigation
+        /// </summary>
+        /// <param name="viewModelToNavigateBack">View model that wants to navigate back</param>
+        /// <returns>Was back navigation successful?</returns>
+        public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
+        {
+            var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
+            if (tab != null && tab.Frame.CanGoBack)
+            {
+                tab.Frame.GoBack();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Activates a given tab
+        /// </summary>
+        /// <param name="tab">Tab to activate</param>
+        /// <returns>Was activation successful?</returns>
+        public bool SwitchToTab(ITabInfo tab)
+        {
+            if (Tabs.Contains(tab))
+            {
+                ActiveTab = (Tab)tab;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Closes a given tab
+        /// </summary>
+        /// <param name="tab">Tab to be closed</param>
+        /// <returns>Was closing successful?</returns>
+        public bool CloseTab(ITabInfo tab)
+        {
+            if (!Tabs.Contains(tab)) return false;
+
+            var closedTab = (Tab)tab;
+
+            //the closed tab is the only tab opened
+            if (Tabs.Count == 1)
+            {
+                if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
+                {
+                    //shut down the app
+                    Application.Current.Exit();
+                }
+                else
+                {
+                    //create new main menu tab
+                    ProcessViewModelRequest(
+                        new MvxViewModelRequest(typeof(MainMenuViewModel), new MvxBundle(), new MvxBundle(),
+                            MvxRequestedBy.Unknown),
+                        TabNavigationType.NewForegroundTab
+                    );
+                }
+            }
+            else
+            {
+                //is the closed tab active?
+                if (closedTab == ActiveTab)
+                {
+                    //activate a different tab
+                    var closedTabIndex = Tabs.IndexOf(closedTab);
+                    if ((Tabs.Count - 1) > closedTabIndex)
+                    {
+                        //activate next tab
+                        ActiveTab = Tabs[closedTabIndex + 1];
+                    }
+                    else
+                    {
+                        ActiveTab = Tabs[closedTabIndex - 1];
+                    }
+                }
+            }
+            Tabs.Remove(closedTab);
+            //inform the view that its tab has been closed
+            (closedTab.Frame.Content as ViewBase)?.TabClosed();
+            return true;
         }
 
         /// <summary>
@@ -113,13 +209,34 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private Tab CreateEmptyTab()
         {
             Frame frame = new Frame();
-            frame.NavigationFailed += OnTabNavigationFailed;            
+            frame.NavigationFailed += OnTabNavigationFailed;
+            frame.Navigated += Frame_Navigated;
             Tab tab = new Tab(frame);
             tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
             return tab;
         }
 
+        /// <summary>
+        /// Reacts to tab frame navigation
+        /// </summary>
+        private void Frame_Navigated(object sender, NavigationEventArgs e)
+        {
+            var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
+            if (tab != null)
+            {
+                var view = tab.Frame.Content as ViewBase;
+                if (view != null)
+                {
+                    tab.Title = view.TabTitle;
+                    tab.IconUri = view.TabIconUri;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the window title if necessary
+        /// </summary>
         private void Tab_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateWindowTitle();
@@ -139,25 +256,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// Updates the Window title to match the current tab
         /// </summary>
         private void UpdateWindowTitle()
-        {            
-            var viewTitle = ActiveTab?.Title;            
-            ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
-        }
-
-        /// <summary>
-        /// Handles back navigation
-        /// </summary>
-        /// <param name="viewModelToNavigateBack">View model that wants to navigate back</param>
-        /// <returns>Was back navigation successful?</returns>
-        public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
         {
-            var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
-            if (tab != null && tab.Frame.CanGoBack )
-            {
-                tab.Frame.GoBack();
-                return true;
-            }
-            return false;
+            var viewTitle = ActiveTab?.Title;
+            ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
         }
     }
 }

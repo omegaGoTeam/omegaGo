@@ -1098,7 +1098,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="YouAreLoggedInAs" translate="yes" xml:space="preserve">
           <source>You are logged in as:</source>
-          <target state="translated">Přihlášený uživatel:</target>          
+          <target state="translated">Přihlášený uživatel:</target>
         </trans-unit>
         <trans-unit id="MainMenu" translate="yes" xml:space="preserve">
           <source>Main menu</source>

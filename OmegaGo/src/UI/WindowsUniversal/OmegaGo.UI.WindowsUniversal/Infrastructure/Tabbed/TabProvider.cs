@@ -31,9 +31,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// <param name="tabNavigationType">Tab navigation type</param>
         /// <returns>Used tab</returns>
         public ITabInfo ShowViewModel(MvxViewModelRequest request, TabNavigationType tabNavigationType)
-        {
-            return GetTabManager().ProcessViewModelRequest(request, tabNavigationType);
-        }
+            => GetTabManager().ProcessViewModelRequest(request, tabNavigationType);
+
+        public bool SwitchToTab(ITabInfo tab)
+            => GetTabManager().SwitchToTab(tab);
+
+
+        public bool CloseTab(ITabInfo tab)
+            => GetTabManager().CloseTab(tab);
 
         /// <summary>
         /// Retrieves the tab manager for current view

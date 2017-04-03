@@ -64,7 +64,7 @@ namespace OmegaGo.UI.ViewModels
         public ITabInfo OpenInNewBackgroundTab<TViewModel>() where TViewModel : IMvxViewModel
         {
             return _tabProvider.ShowViewModel(
-                 new MvxViewModelRequest<TViewModel>(new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction), 
+                 new MvxViewModelRequest<TViewModel>(new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction),
                  TabNavigationType.NewBackgroundTab);
         }
 
@@ -74,26 +74,17 @@ namespace OmegaGo.UI.ViewModels
         /// <param name="tab">Tab to switch to</param>
         /// <returns>Was the switch successful?</returns>
         public bool SwitchToTab(ITabInfo tab)
-            => SwitchToTab(tab.Id);
+            => _tabProvider.SwitchToTab(tab);
 
         /// <summary>
-        /// Switches to a given tab
+        /// Requests the tab to be closed. This can be overriden to prevent closing or ask user to save changes.
         /// </summary>
-        /// <param name="tabId">Id of the tab to switch to</param>
-        /// <returns>Was the switch successful?</returns>
-        public bool SwitchToTab(Guid tabId)
+        /// <returns>Was the close successful?</returns>
+        public virtual Task<bool> RequestCloseTabAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(true);
         }
 
-        /// <summary>
-        /// Closes the tab this view model is displayed in
-        /// </summary>
-        /// <returns></returns>
-        public bool CloseTab()
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Override this method to do any "on navigated from" work or to stop the navigation altogether.
