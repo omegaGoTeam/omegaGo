@@ -5,6 +5,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs.Downstream;
@@ -18,7 +19,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
-
         private bool _handicapSet;
 
         public IgsConnector(IgsGameController igsGameController, IgsConnection connnection)
@@ -58,6 +58,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067
         public event EventHandler Disconnected;
+        public event EventHandler<GameEndInformation> GameEndedByServer;
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -161,6 +162,10 @@ so I thought suppressing warnings would have the same result.*/
         public void Disconnect()
         {
             Disconnected?.Invoke(this, EventArgs.Empty);
+        }
+        public void EndTheGame(GameEndInformation gameEndInfo)
+        {
+            GameEndedByServer?.Invoke(this, gameEndInfo);
         }
     }
 }
