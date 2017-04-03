@@ -12,11 +12,13 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Services.Store.Engagement;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.Localization;
@@ -54,7 +56,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
             window.Content = this;
 
-            TabManager = new TabManager(this);            
+            TabManager = new TabManager(this);
 
             DataContext = this;
 
@@ -66,7 +68,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             InitCheats();
             InitNotifications();
 
-            InitFeedback();            
+            InitFeedback();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -348,9 +350,28 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void CloseNotification_Click(object sender, RoutedEventArgs e)
         {
-            BubbleNotifications.Remove(
-                ((BubbleNotification)((Button)sender).Tag)
-                );
+            BubbleNotifications.Remove((BubbleNotification)((Button)sender).Tag);
+        }
+
+
+        /// <summary>
+        /// Handles feedback button
+        /// </summary>
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
+            await _feedback.LaunchAsync();
+        }
+
+        /// <summary>
+        /// Opens a new main menu tab
+        /// </summary>
+        private void NewTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabManager.ProcessViewModelRequest(
+                new MvxViewModelRequest(
+                    typeof(MainMenuViewModel), new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction),
+                TabNavigationType.NewForegroundTab);
         }
 
         [NotifyPropertyChangedInvocator]
@@ -363,13 +384,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
-        }
-
-        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
-        {
-
-            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
-            await _feedback.LaunchAsync();
         }
     }
 }

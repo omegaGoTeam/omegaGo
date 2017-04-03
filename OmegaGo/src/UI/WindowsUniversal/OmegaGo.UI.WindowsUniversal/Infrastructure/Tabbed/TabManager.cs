@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -16,6 +17,7 @@ using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
@@ -113,7 +115,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private Tab CreateEmptyTab()
         {
             Frame frame = new Frame();
-            frame.NavigationFailed += OnTabNavigationFailed;            
+            frame.NavigationFailed += OnTabNavigationFailed;
             Tab tab = new Tab(frame);
             tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
@@ -139,8 +141,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// Updates the Window title to match the current tab
         /// </summary>
         private void UpdateWindowTitle()
-        {            
-            var viewTitle = ActiveTab?.Title;            
+        {
+            var viewTitle = ActiveTab?.Title;
             ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
         }
 
@@ -152,12 +154,78 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
         {
             var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
-            if (tab != null && tab.Frame.CanGoBack )
+            if (tab != null && tab.Frame.CanGoBack)
             {
                 tab.Frame.GoBack();
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Activates a given tab
+        /// </summary>
+        /// <param name="tab">Tab to activate</param>
+        /// <returns>Was activation successful?</returns>
+        public bool SwitchToTab(ITabInfo tab)
+        {
+            if (Tabs.Contains(tab))
+            {
+                ActiveTab = (Tab)tab;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Closes a given tab
+        /// </summary>
+        /// <param name="tab">Tab to be closed</param>
+        /// <returns>Was closing successful?</returns>
+        public bool CloseTab(ITabInfo tab)
+        {
+            if (!Tabs.Contains(tab)) return false;
+
+            var closedTab = (Tab)tab;
+
+            //the closed tab is the only tab opened
+            if (Tabs.Count == 1)
+            {
+                if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
+                {
+                    //shut down the app
+                    Application.Current.Exit();
+                }
+                else
+                {
+                    //create new main menu tab
+                    ProcessViewModelRequest(
+                        new MvxViewModelRequest(typeof(MainMenuViewModel), new MvxBundle(), new MvxBundle(),
+                            MvxRequestedBy.Unknown),
+                        TabNavigationType.NewForegroundTab
+                    );
+                }
+            }
+            else
+            {
+                //is the closed tab active?
+                if (closedTab == ActiveTab)
+                {
+                    //activate a different tab
+                    var closedTabIndex = Tabs.IndexOf(closedTab);
+                    if ((Tabs.Count - 1) > closedTabIndex)
+                    {
+                        //activate next tab
+                        ActiveTab = Tabs[closedTabIndex + 1];
+                    }
+                    else
+                    {
+                        ActiveTab = Tabs[closedTabIndex - 1];
+                    }
+                }
+            }
+            Tabs.Remove(closedTab);
+            return true;
         }
     }
 }

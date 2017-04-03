@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Annotations;
@@ -20,6 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     /// </summary>
     public class Tab : MvxNotifyPropertyChanged, ITabInfo
     {
+        private ICommand _closeCommand;
         private string _title;
         private Uri _iconUri;
 
@@ -43,6 +45,16 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public Frame Frame { get; }
 
         /// <summary>
+        /// Gets the currently displayed view model
+        /// </summary>
+        public ViewModelBase CurrentViewModel => (Frame.Content as ViewBase)?.ViewModel as ViewModelBase;
+
+        /// <summary>
+        /// Close tab command
+        /// </summary>
+        public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new MvxCommand(Close));
+
+        /// <summary>
         /// Gets the tab's title
         /// </summary>
         public string Title
@@ -61,13 +73,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         }
 
         /// <summary>
-        /// Gets the currently displayed view model
-        /// </summary>
-        public ViewModelBase CurrentViewModel => (Frame.Content as ViewBase)?.ViewModel as ViewModelBase;
-
-        /// <summary>
         /// Gets or sets a helper tag object
         /// </summary>
         public object Tag { get; set; }
+
+
+        /// <summary>
+        /// Closes this tab using tab manager
+        /// </summary>
+        private void Close()
+        {
+            AppShell.GetForCurrentView().TabManager.CloseTab(this);
+        }
     }
 }
