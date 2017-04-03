@@ -22,6 +22,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
     public class Tab : MvxNotifyPropertyChanged, ITabInfo
     {
         private ICommand _closeCommand;
+        private ICommand _goBackCommand;
         private string _title;
         private Uri _iconUri;
 
@@ -55,6 +56,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new MvxCommand(Close));
 
         /// <summary>
+        /// Go back command
+        /// </summary>
+        public ICommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new MvxCommand(GoBack));
+
+        /// <summary>
         /// Gets the tab's title
         /// </summary>
         public string Title
@@ -77,6 +83,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// </summary>
         public object Tag { get; set; }
 
+        /// <summary>
+        /// Goes back in the tab
+        /// </summary>
+        private void GoBack()
+        {
+            AppShell.GetForCurrentView().TabManager.HandleBackNavigation(CurrentViewModel);
+        }
 
         /// <summary>
         /// Closes this tab using tab manager

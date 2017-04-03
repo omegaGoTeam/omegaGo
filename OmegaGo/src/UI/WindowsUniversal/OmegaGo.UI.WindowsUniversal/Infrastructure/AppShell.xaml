@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tabbed="using:OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed"
-    mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}">
+    mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}"
+    x:Name="PageRoot">
 
     <Border>
         <Border.Background>
@@ -75,6 +76,11 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="tabbed:Tab">
                                     <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" VerticalAlignment="Stretch" Width="150">
+                                        <Grid.ContextFlyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Command="{x:Bind GoBackCommand}" Text="{Binding Path=Localizer.GoBack, ElementName=PageRoot}"></MenuFlyoutItem>
+                                            </MenuFlyout>
+                                        </Grid.ContextFlyout>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32" />
                                             <ColumnDefinition Width="*" />

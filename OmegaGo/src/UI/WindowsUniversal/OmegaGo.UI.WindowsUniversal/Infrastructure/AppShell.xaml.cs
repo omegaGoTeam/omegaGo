@@ -48,6 +48,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private IGameSettings _settings;
         private IFeedbackService _feedback;
 
+        private Localizer _localizer;
+
         private AppShell(Window window)
         {
             if (window.Content != null) throw new ArgumentException("App shell can be registered only for Window with empty content", nameof(window));
@@ -77,6 +79,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// Manager of tabs
         /// </summary>
         public TabManager TabManager { get; }
+
+        /// <summary>
+        /// Localizer for the app shell
+        /// </summary>
+        public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
         /// Bubble notifications displayed in in the shell

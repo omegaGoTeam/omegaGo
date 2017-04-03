@@ -1108,6 +1108,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>New game</source>
           <target state="new">New game</target>
         </trans-unit>
+        <trans-unit id="GoBack" translate="yes" xml:space="preserve">
+          <source>Go back</source>
+          <target state="new">Go back</target>
+        </trans-unit>
       </group>
     </body>
   </file>
