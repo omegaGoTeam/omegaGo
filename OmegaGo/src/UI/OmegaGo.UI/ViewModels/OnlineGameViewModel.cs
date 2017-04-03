@@ -16,7 +16,9 @@ using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Dialogs;
@@ -38,5 +40,20 @@ namespace OmegaGo.UI.ViewModels
         {
             ChatViewModel = new ChatViewModel();
         }
+
+        public IMvxCommand UndoPleaseCommand => new MvxCommand(() =>
+        {
+            UiConnector.RequestMainUndo();
+        });
+        public IMvxCommand UndoYesCommand => new MvxCommand(async () =>
+        {
+            var remote = Game.Controller as RemoteGameController;
+            await remote.Server.Commands.AllowUndoAsync(Game.Info as RemoteGameInfo);
+        });
+        public IMvxCommand UndoNoCommand => new MvxCommand(async () =>
+        {
+            var remote = Game.Controller as RemoteGameController;
+            await remote.Server.Commands.RejectUndoAsync(Game.Info as RemoteGameInfo);
+        });
     }
 }
