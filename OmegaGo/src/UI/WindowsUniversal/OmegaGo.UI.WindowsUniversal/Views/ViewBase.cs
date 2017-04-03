@@ -50,6 +50,21 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
+        /// Informs the view that its tab has been activated
+        /// </summary>
+        internal virtual void TabActivated() { }
+
+        /// <summary>
+        /// Informs the viewm that its tab has been deactivated
+        /// </summary>
+        internal virtual void TabDeactivated() { }
+
+        /// <summary>
+        /// Informs the view that its tab has been closed
+        /// </summary>
+        internal virtual void TabClosed() { }
+
+        /// <summary>
         /// Handles the loading phase of the View
         /// </summary>
         private void ViewBase_Loading(FrameworkElement sender, object args)

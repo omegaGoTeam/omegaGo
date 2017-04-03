@@ -19,6 +19,7 @@ using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
+using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
@@ -63,9 +64,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             {
                 if (_activeTab != value)
                 {
+                    if (_activeTab != null)
+                    {
+                        (_activeTab.Frame.Content as ViewBase)?.TabDeactivated();
+                    }
                     SetProperty(ref _activeTab, value);
                     ActiveTabChanged?.Invoke(this, value);
                     UpdateWindowTitle();
+                    if (value != null)
+                    {
+                        (value.Frame.Content as ViewBase)?.TabActivated();
+                    }
                 }
             }
         }
@@ -225,6 +234,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 }
             }
             Tabs.Remove(closedTab);
+            //inform the view that its tab has been closed
+            ( closedTab.Frame.Content as ViewBase )?.TabClosed();
             return true;
         }
     }
