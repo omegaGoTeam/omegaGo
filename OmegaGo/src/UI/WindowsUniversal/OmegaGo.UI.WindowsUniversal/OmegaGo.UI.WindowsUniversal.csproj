@@ -197,9 +197,6 @@
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\OGSLobbyView.xaml.cs">
-      <DependentUpon>OGSLobbyView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -245,12 +242,27 @@
     <Content Include="Assets\Icons\TitleBar\Library.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Library.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Library.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\LocalGame.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\LocalGame.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\LocalGame.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\MainMenu.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\MainMenu.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\MainMenu.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Multiplayer.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Observe.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Observe.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Observe.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\OnlineGame.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\OnlineGame.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\OnlineGame.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Settings.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Settings.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Settings.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Singleplayer.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Singleplayer.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Singleplayer.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-200.png" />
@@ -447,10 +459,6 @@
     <Page Include="Views\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\OGSLobbyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>

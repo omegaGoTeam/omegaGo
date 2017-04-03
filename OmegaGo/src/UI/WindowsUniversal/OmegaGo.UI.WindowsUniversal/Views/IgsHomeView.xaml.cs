@@ -20,6 +20,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
+
+        public override string TabTitle => Localizer.IgsServerCaption;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
+
         private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await VM.Initialize();

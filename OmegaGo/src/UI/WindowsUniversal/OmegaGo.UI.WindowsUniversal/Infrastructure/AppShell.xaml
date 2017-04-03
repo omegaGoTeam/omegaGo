@@ -72,14 +72,14 @@
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="tabbed:Tab">
-                                <Grid VerticalAlignment="Stretch" Width="150">
+                                <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title}" VerticalAlignment="Stretch" Width="150">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="32" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Viewbox Width="24" Height="24">
+                                    <Viewbox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Height="24">
                                         <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" />
                                     </Viewbox>
                                     <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis" />

@@ -35,6 +35,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// </summary>
         public override string TabTitle => Localizer.MainMenu;
 
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/MainMenu.png");
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

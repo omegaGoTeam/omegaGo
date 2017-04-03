@@ -18,11 +18,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Help.png");
 
-        private void VM_WebViewContentChanged(object sender, string e)
-        {
-            WebView.NavigateToString(e);
-        }
-
         private void OpenCloseHelp(object sender, RoutedEventArgs e)
         {
             this.HelpSplitView.IsPaneOpen = !this.HelpSplitView.IsPaneOpen;
