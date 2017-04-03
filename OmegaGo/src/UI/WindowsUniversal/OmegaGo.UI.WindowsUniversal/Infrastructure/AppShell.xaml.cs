@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -23,6 +24,7 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
+using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Views;
 
@@ -47,8 +49,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private AppShell(Window window)
         {
             if (window.Content != null) throw new ArgumentException("App shell can be registered only for Window with empty content", nameof(window));
+
             this.InitializeComponent();
+
             window.Content = this;
+
+            TabManager = new TabManager(this);            
+
+            DataContext = this;
+
             AppShells.Add(window, this);
 
             InitNavigation();
@@ -57,47 +66,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             InitCheats();
             InitNotifications();
 
-            InitFeedback();
+            InitFeedback();            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
         /// <summary>
-        /// Gets or sets text in the title bar of the window
+        /// Manager of tabs
         /// </summary>
-        public string WindowTitle
-        {
-            get { return PageTitle.Text; }
-            set { PageTitle.Text = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets icon next to the title bar of the window
-        /// </summary>
-        public Uri WindowTitleIconUri
-        {
-            get
-            {
-                return PageIcon.UriSource;
-            }
-            set
-            {
-                if (PageIcon.UriSource != value)
-                {
-                    PageIcon.UriSource = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the visibility of the back button in the title bar
-        /// </summary>
-        public Visibility TitleBarBackButtonVisibility
-        {
-            get { return BackButton.Visibility; }
-            set { BackButton.Visibility = value; }
-        }
+        public TabManager TabManager { get; }
 
         /// <summary>
         /// Bubble notifications displayed in in the shell
@@ -167,10 +144,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         public FrameworkElement AppTitleBar => TitleBar;
 
+
         /// <summary>
         /// Main frame that hosts app views
         /// </summary>
-        public Frame AppFrame => MainFrame;
+        public Frame UnderlyingFrame => MainFrame;
 
         /// <summary>
         /// Creates and registers a App Shell for a given Window
@@ -226,9 +204,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <returns>Was back navigation handled?</returns>
         public bool GoBack()
         {
-            if (AppFrame.CanGoBack)
+            if (UnderlyingFrame.CanGoBack)
             {
-                var view = AppFrame.Content as ViewBase;
+                var view = UnderlyingFrame.Content as ViewBase;
                 var vm = view?.ViewModel as ViewModelBase;
                 vm?.GoBackCommand.Execute(null);
                 return true;
@@ -281,35 +259,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         /// <summary>
-        /// Synchronizes the title bar with the currently displayed view
-        /// </summary>
-        private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            var view = AppFrame.Content as ViewBase;
-
-            //update title bar back button visibility
-            TitleBarBackButtonVisibility = AppFrame.CanGoBack ?
-                Visibility.Visible :
-                Visibility.Collapsed;
-
-            if (view != null)
-            {
-                WindowTitleIconUri = view.WindowTitleIconUri;
-                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-                var title = view.WindowTitle;
-                WindowTitle = title;
-                appView.Title = title;
-            }
-        }
-
-        /// <summary>
         /// Initializes navigation features
         /// </summary>
         private void InitNavigation()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
             Window.Current.CoreWindow.KeyUp += EscapingHandling;
-            AppFrame.Navigated += AppFrame_Navigated;
         }
 
 
@@ -334,8 +289,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
-                var view = AppFrame.Content as MainMenuView;
-                if (!AppFrame.CanGoBack && view != null)
+                var view = UnderlyingFrame.Content as MainMenuView;
+                if (!UnderlyingFrame.CanGoBack && view != null)
                 {
                     var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
                     var dialogService = Mvx.Resolve<IDialogService>();
@@ -389,17 +344,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         /// <summary>
-        /// Handles the click on the title bar back button
-        /// Causes back navigation request
-        /// </summary>
-        private void TitleBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            var view = AppFrame.Content as ViewBase;
-            var vm = view?.ViewModel as ViewModelBase;
-            vm?.GoBackCommand.Execute();
-        }
-
-        /// <summary>
         /// Closes a bubble notification
         /// </summary>
         private void CloseNotification_Click(object sender, RoutedEventArgs e)
@@ -423,6 +367,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
         private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
         {
+
             _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
             await _feedback.LaunchAsync();
         }

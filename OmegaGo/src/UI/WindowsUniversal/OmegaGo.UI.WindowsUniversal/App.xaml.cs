@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -70,12 +71,13 @@ namespace OmegaGo.UI.WindowsUniversal
             if (appShell == null)
             {
                 //create app shell to hold app content
-                var shell = AppShell.CreateForWindow(Window.Current);                
+                appShell = AppShell.CreateForWindow(Window.Current);
+
                 //create extended splash screen
                 ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                 //temporarily place splash into the root frame
-                shell.AppFrame.Content = extendedSplash;
-                shell.AppFrame.NavigationFailed += OnNavigationFailed;
+                appShell.UnderlyingFrame.Content = extendedSplash;
+
                 //setup the title bar
                 SetupTitleBar();
 
@@ -162,9 +164,11 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             var shell = AppShell.GetForCurrentView();
             if (shell == null) throw new NullReferenceException("Shell is not initialized");
-            var setup = new Setup(shell.AppFrame);
+            var setup = new Setup(shell);
             setup.Initialize();
-
+            
+            //hide splash screen
+            shell.UnderlyingFrame.Content = null;
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
             OnlineStartup.Startup();
@@ -188,16 +192,6 @@ namespace OmegaGo.UI.WindowsUniversal
                 case ControlStyle.OperatingSystem:
                     break;
             }
-        }
-
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void OptimizeDisplay()

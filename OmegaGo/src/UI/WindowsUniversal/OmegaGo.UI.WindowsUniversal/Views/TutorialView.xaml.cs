@@ -15,9 +15,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             InitializeComponent();
         }
 
-        public override string WindowTitle => this.Localizer.Tutorial;
+        public override string TabTitle => this.Localizer.Tutorial;
 
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tutorial.png");
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tutorial.png");
 
         private void Scenario_ScenarioCompleted(object sender, EventArgs e)
         {

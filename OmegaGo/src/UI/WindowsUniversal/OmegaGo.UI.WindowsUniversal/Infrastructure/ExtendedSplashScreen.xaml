@@ -9,8 +9,8 @@
 
     <Grid Background="{ThemeResource GameColorBrush}">
         <Canvas>
-            <Image x:Name="extendedSplashImage" Source="/Assets/SplashScreen.png"/>
-            <ProgressRing Name="splashProgressRing" Foreground="White" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" />
+            <Image x:Name="extendedSplashImage" Source="/Assets/Logos/SplashScreen.png"/>
+            <ProgressRing Name="splashProgressRing" Foreground="Black" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" />
         </Canvas>
     </Grid>
 </Page>

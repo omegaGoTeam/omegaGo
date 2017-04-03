@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Feedback;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
