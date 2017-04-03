@@ -33,41 +33,17 @@ namespace OmegaGo.Core.Time
         /// <summary>
         ///     Updates the snapshot time based on the "TIMELEFT" SGF property sent by KGS.
         /// </summary>
-        /// <param name="secondsLeft">The seconds left in this period for this player.</param>
-        public abstract void UpdateFromKgsFloat(float secondsLeft);
-
-        /// <summary>
-        ///     Gets the GTP time_settings command that should be used to initialize this time control to the value at the
-        ///     beginning
-        ///     of a game, as per
-        ///     http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html#SECTION00073400000000000000.
-        ///     Returns null if no command should be sent (because we play with no time limit or because the GTP protocol does not
-        ///     understand this time control.
-        /// </summary>
-        /// <returns></returns>
-        public abstract string GetGtpInitializationCommand();
-
-        /// <summary>
-        ///     Gets arguments for the GTP time_left command that should be called prior to every move generation request.
-        ///     Returns null if no command should be sent.
-        /// </summary>
-        public abstract TimeLeftArguments GetGtpTimeLeftCommandArguments();
-        /// <summary>
-        /// Updates the snapshot based on clock information sent by KGS's GAME_STATE request.
-        /// </summary>
-        /// <param name="clock">The clock.</param>
-        public abstract void UpdateFromClock(Clock clock);
-        /// <summary>
-        ///     Gets the remaining time for this player. Uses the snapshot time and the difference
-        ///     to <see cref="DateTime.Now" /> to get the remaining time.
-        /// </summary>
-        public TimeInformation GetDisplayTime()
+        /// <param name="withGrace">If true, an additional second should be added to the elapsed time, as though we were one second in the future.</param>
+        public TimeInformation GetDisplayTime(bool withGrace)
         {
             if (this.Running)
             {
-                return GetDisplayTime(DateTime.Now - this.LastTimeClockStarted);
+                return GetDisplayTime(DateTime.Now - this.LastTimeClockStarted + (withGrace ? TimeSpan.FromSeconds(1) : TimeSpan.Zero));
             }
-            return GetDisplayTime(TimeSpan.Zero);
+            else
+            {
+                return GetDisplayTime(TimeSpan.Zero + (withGrace ? TimeSpan.FromSeconds(1) : TimeSpan.Zero));
+            }
         }
 
         /// <summary>
