@@ -236,6 +236,9 @@
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\GameCreation.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\GameCreation.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\GameCreation.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Help.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Help.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Help.scale-200.png" />
@@ -266,6 +269,9 @@
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Statistics.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Tsumego.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Tsumego.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Tsumego.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Tutorial.scale-200.png" />

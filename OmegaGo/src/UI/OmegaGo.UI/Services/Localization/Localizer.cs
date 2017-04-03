@@ -21,6 +21,8 @@ namespace OmegaGo.UI.Services.Localization
 
         }
 
+        public string NewGame => LocalizeCaller();
+
         public string MainMenu => LocalizeCaller();
 
         public string ThemesPanel => LocalizeCaller();

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Windows.UI.Xaml.Controls;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Quests;
@@ -16,6 +17,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.InitializeComponent();
         }
         
+        public override string TabTitle => Localizer.SingleplayerMenu;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Singleplayer.png");
+
         private void TransparencyViewBase_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             VM.Load();
