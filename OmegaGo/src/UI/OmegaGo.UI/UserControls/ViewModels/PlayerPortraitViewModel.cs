@@ -85,7 +85,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             bool graceSecond =
                 _settings.Display.AddGraceSecond &&
-                this._player.IsHuman &&
+                _player.IsHuman &&
                 _isOnline;
             TimeInformation info = Clock.GetDisplayTime(graceSecond);
             TimeControlMainLine = info.MainText;

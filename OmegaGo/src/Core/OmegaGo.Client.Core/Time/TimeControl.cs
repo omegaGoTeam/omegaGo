@@ -26,6 +26,7 @@ namespace OmegaGo.Core.Time
         /// Gets the remaining time for this player. Uses the snapshot time and the difference
         /// to <see cref="DateTime.Now"/> to get the remaining time. 
         /// </summary>
+        /// <param name="withGrace">If true, an additional second should be added to the elapsed time, as though we were one second in the future.</param>
         public TimeInformation GetDisplayTime(bool withGrace)
         {
             if (Running)

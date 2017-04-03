@@ -87,6 +87,7 @@ namespace OmegaGo.UI.Services.Settings
                 SetSetting(nameof(AppTheme), (int)value, SettingLocality.Roamed);
             }
         }
+
         public bool AddGraceSecond
         {
             get { return GetSetting(nameof(AddGraceSecond), () => true, SettingLocality.Roamed); }
