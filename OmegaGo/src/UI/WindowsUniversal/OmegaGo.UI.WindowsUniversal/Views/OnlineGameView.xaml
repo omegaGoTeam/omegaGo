@@ -68,14 +68,13 @@
                 <Button Click="DebugFill" Content="Fill" HorizontalAlignment="Stretch" />
                 <Button Content="Save as SGF" HorizontalAlignment="Stretch" /> 
                 <TextBlock Text="Life/Death" FontSize="20"/>
-                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done"/>
+                <Button Command="{x:Bind VM.LifeAndDeathDoneCommand}" Content="Done" HorizontalAlignment="Stretch"/>
                 <Button Command="{x:Bind VM.RequestUndoDeathMarksCommand}" Content="Undo Death Marks" HorizontalAlignment="Stretch"/>
                 <Button Command="{x:Bind VM.ResumeGameCommand}" Content="Resume game" HorizontalAlignment="Stretch"/>
                 <TextBlock Text="Undo" FontSize="20"/>
-                <Button IsEnabled="False" Content="Undo please" HorizontalAlignment="Stretch" />
-                <Button IsEnabled="False" Content="Undo (yes)" HorizontalAlignment="Stretch"/>
-                <Button IsEnabled="False" Content="Undo (no)" HorizontalAlignment="Stretch" />
-                <Button Command="{x:Bind VM.UndoCommand}" Content="Undo locally" HorizontalAlignment="Stretch" />
+                <Button Content="Undo please" Command="{x:Bind VM.UndoPleaseCommand}"  HorizontalAlignment="Stretch" />
+                <Button Content="Undo (yes)" Command="{x:Bind VM.UndoYesCommand}" HorizontalAlignment="Stretch"/>
+                <Button Content="Undo (no)" Command="{x:Bind VM.UndoNoCommand}" HorizontalAlignment="Stretch" />
                 <TextBlock Text="Moves" FontSize="20"/>
                 <Button Command="{x:Bind VM.PassCommand}" Content="Pass" HorizontalAlignment="Stretch"/>
                 <Button Command="{x:Bind VM.ResignCommand}" Content="Resign" HorizontalAlignment="Stretch"/>
