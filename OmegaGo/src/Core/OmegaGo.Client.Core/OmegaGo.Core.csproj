@@ -178,6 +178,7 @@
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
     <Compile Include="Online\Kgs\Downstream\NotificationMessageDownstreamEvent.cs" />
+    <Compile Include="Online\Kgs\Structures\KgsLoginPhase.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />

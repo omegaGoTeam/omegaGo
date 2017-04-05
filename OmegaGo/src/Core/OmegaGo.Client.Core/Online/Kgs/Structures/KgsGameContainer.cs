@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
@@ -42,7 +43,10 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
             return Challenges;
         }
-
+        public IEnumerable<KgsGameChannel> GetAllChannels()
+        {
+            return Games.Concat(Challenges);
+        }
         public void UpdateGames(GameChannel[] games, KgsConnection connection)
         {
             foreach (var g in games)
@@ -59,5 +63,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 AddGame(g, connection);
             }
         }
+
+       
     }
 }
