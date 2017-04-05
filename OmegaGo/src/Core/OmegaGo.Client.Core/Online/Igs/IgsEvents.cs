@@ -99,6 +99,13 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public event Action<string> IncomingShoutMessage;
 
+        public event EventHandler<IgsLoginPhase> LoginPhaseChanged;
+
+        internal void RaiseLoginPhaseChanged(IgsLoginPhase phase)
+        {
+            LoginPhaseChanged?.Invoke(this, phase);
+        }
+
         internal void RaiseDisconnected()
         {
             Disconnected?.Invoke(this, EventArgs.Empty);
