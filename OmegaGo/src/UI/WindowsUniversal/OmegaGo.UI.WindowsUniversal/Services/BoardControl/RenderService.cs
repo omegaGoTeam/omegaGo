@@ -41,15 +41,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._textFormat = new CanvasTextFormat() { WordWrapping = CanvasWordWrapping.NoWrap };
         }
 
-        private CanvasBitmap blackStoneBitmap;
-        private CanvasBitmap whiteStoneBitmap;
-        private CanvasBitmap oakBitmap;
-        private CanvasBitmap kayaBitmap;
-        private CanvasBitmap spaceBitmap;
-        private CanvasBitmap sabakiBoardBitmap;
-        private CanvasBitmap sabakiTatamiBitmap;
-        private CanvasBitmap sabakiBlackBitmap;
-        private CanvasBitmap sabakiWhiteBitmap;
+        private static CanvasBitmap blackStoneBitmap;
+        private static CanvasBitmap whiteStoneBitmap;
+        private static CanvasBitmap oakBitmap;
+        private static CanvasBitmap kayaBitmap;
+        private static CanvasBitmap spaceBitmap;
+        private static CanvasBitmap sabakiBoardBitmap;
+        private static CanvasBitmap sabakiTatamiBitmap;
+        private static CanvasBitmap sabakiBlackBitmap;
+        private static CanvasBitmap sabakiWhiteBitmap;
+        private static TaskCompletionSource<bool> BitmapInitializationCompletion = new TaskCompletionSource<bool>();
 
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
@@ -75,11 +76,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
         {
             ReloadSettings();
-            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
+            args.TrackAsyncAction(WaitUntilResourcesAreAvailableAsync().AsAsyncAction());
         }
-      
 
-        async Task CreateResourcesAsync(ICanvasResourceCreator sender)
+        private async Task WaitUntilResourcesAreAvailableAsync()
+        {
+            await BitmapInitializationCompletion.Task;
+        }
+
+        public static async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
@@ -90,7 +95,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
             sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
             sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
-
+            BitmapInitializationCompletion.SetResult(true);
         }
        
 
