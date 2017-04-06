@@ -53,6 +53,7 @@
             </StackPanel>
             <win2d:CanvasControl Grid.Row="1" Visibility="Collapsed" Name="PersistentHolderCanvas"
                    CreateResources="PersistentHolderCanvas_CreateResources"
+                UseSharedDevice="True"
                     >
             </win2d:CanvasControl>
             <Grid x:Name="TitleBar"  Visibility="Visible">
