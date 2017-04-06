@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
@@ -26,6 +29,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
+            Connections.Kgs.Events.GameJoined += Events_GameJoined; // TODO Petr: move this to app initialization later
 
             if (Connections.Kgs.LoggedIn)
             {
@@ -36,6 +40,19 @@ namespace OmegaGo.UI.ViewModels
             {
                 this.LoginForm.FormVisible = true;
                 this.LoginForm.FormEnabled = true;
+            }
+        }
+
+        private void Events_GameJoined(object sender, Core.Modes.LiveGame.Remote.Kgs.KgsGame e)
+        {
+            Mvx.RegisterSingleton<IGame>(e);
+            if (e.Controller.Players.Any(pl => pl.IsLocal))
+            {
+                ShowViewModel<OnlineGameViewModel>();
+            }
+            else
+            {
+                ShowViewModel<ObserverGameViewModel>();
             }
         }
 
@@ -83,6 +100,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
+            Connections.Kgs.Events.GameJoined -= Events_GameJoined;
         }
 
         public IMvxCommand UnjoinRoomCommand => _unjoinRoomCommand ?? (_unjoinRoomCommand = new MvxCommand(async () =>
@@ -111,7 +129,14 @@ namespace OmegaGo.UI.ViewModels
 
         public IMvxCommand JoinSelectedGameChannelCommand => _joinSelectedGameChannelCommand ?? (_joinSelectedGameChannelCommand = new MvxCommand(async () =>
         {
-          
+            if (SelectedGameChannel != null)
+            {
+                if (SelectedGameChannel is KgsTrueGameChannel)
+                {
+                    KgsTrueGameChannel trueChannel = (SelectedGameChannel as KgsTrueGameChannel);
+                    await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
+                }
+            }
         }, () => SelectedGameChannel != null));
 
         public IMvxCommand LogoutCommand => new MvxCommand(async () =>
@@ -139,8 +164,17 @@ namespace OmegaGo.UI.ViewModels
         {
             get
             {
+                if (SelectedGameContainer == null)
+                {
+                    return new ObservableCollection<KgsGameChannel>();
+                }
                 return new ObservableCollection<KgsGameChannel>(
-                        SelectedGameContainer.GetAllChannels()
+                        SelectedGameContainer.GetAllChannels().Where(channel =>
+                        {
+                            if (ShowRobots) return true;
+                            if (channel.Users.Any(usr => usr.IsRobot)) return false;
+                            return true;
+                        })
                     );
             }
         }

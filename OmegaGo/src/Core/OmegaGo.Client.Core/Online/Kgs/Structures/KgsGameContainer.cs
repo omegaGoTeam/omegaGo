@@ -7,7 +7,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     public abstract class KgsGameContainer : KgsChannel
     {
         public string Name { get; set; }
-        private readonly List<KgsGameInfo> Games = new List<KgsGameInfo>();
+        private readonly List<KgsTrueGameChannel> Games = new List<KgsTrueGameChannel>();
         private readonly List<KgsChallenge> Challenges = new List<KgsChallenge>();
 
         public void AddGame(GameChannel channel, KgsConnection connection)
@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             var kinfo = KgsGameInfo.FromChannel(channel, connection);
             if (kinfo != null)
             { 
-                Games.Add(kinfo);
+                Games.Add(new KgsTrueGameChannel(channel, connection));
                 return;
             }
             var kchallenge = KgsChallenge.FromChannel(channel, connection);
@@ -35,7 +35,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             return (Joined ? "[JOINED] " : "") + "[" + ChannelId + "] " + Name;
         }
 
-        public IEnumerable<KgsGameInfo> GetGames()
+        public IEnumerable<KgsTrueGameChannel> GetGames()
         {
             return Games;
         }
@@ -45,13 +45,13 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         }
         public IEnumerable<KgsGameChannel> GetAllChannels()
         {
-            return Games.Concat(Challenges);
+            return Games.Concat<KgsGameChannel>(Challenges);
         }
         public void UpdateGames(GameChannel[] games, KgsConnection connection)
         {
             foreach (var g in games)
             {
-                KgsGameInfo equiv = Games.Find(kgs => kgs.ChannelId == g.ChannelId);
+                KgsTrueGameChannel equiv = Games.Find(kgs => kgs.ChannelId == g.ChannelId);
                 if (equiv == null)
                 {
                 }
