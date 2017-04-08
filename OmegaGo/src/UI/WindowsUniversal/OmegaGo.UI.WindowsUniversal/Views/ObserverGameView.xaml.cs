@@ -17,7 +17,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         
         public ObserverGameViewModel VM => (ObserverGameViewModel)ViewModel;
 
-        public override string TabTitle => $"{VM.Game.Info.Black.Name} vs. {VM.Game.Info.White.Name}";
+        public override string TabTitle => Localizer.Observing;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Observe.png");
 

@@ -1338,6 +1338,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Observing.
+        /// </summary>
+        public static string Observing {
+            get {
+                return ResourceManager.GetString("Observing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to omegaGo.
         /// </summary>
         public static string OmegaGo {

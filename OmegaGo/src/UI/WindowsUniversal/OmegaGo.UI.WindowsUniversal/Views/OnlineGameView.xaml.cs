@@ -22,7 +22,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public OnlineGameViewModel VM => (OnlineGameViewModel)ViewModel;
         
-        public override string TabTitle => $"{VM.Game.Info.Black.Name} vs. {VM.Game.Info.White.Name}";
+        public override string TabTitle => Localizer.OnlineGame;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/OnlineGame.png");
 

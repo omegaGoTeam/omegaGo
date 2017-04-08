@@ -26,7 +26,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public ViewBase()
         {
-            Loading += ViewBase_Loading;
+            Loading += ViewBase_Loading;            
         }
 
         /// <summary>
@@ -78,6 +78,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// </summary>
         private void ViewBase_Loading(FrameworkElement sender, object args)
         {
+            //notify the view model
+            ( ViewModel as ViewModelBase )?.Appearing();
             //Set view model as Data Context by default
             DataContext = ViewModel;
         }

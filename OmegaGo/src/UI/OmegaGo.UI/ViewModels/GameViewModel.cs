@@ -116,9 +116,9 @@ namespace OmegaGo.UI.ViewModels
 
         public virtual void Init()
         {
-            Game.Controller.BeginGame();
+            Game.Controller.BeginGame();            
             //UpdateTimeline();
-        }
+        }        
 
         protected virtual void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {

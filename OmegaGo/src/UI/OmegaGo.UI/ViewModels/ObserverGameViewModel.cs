@@ -53,7 +53,7 @@ namespace OmegaGo.UI.ViewModels
 
         public override async void Init()
         {
-            Game.Controller.BeginGame();
+            Game.Controller.BeginGame();            
             UpdateTimeline();
             string gameName = (this.Game.Info as IgsGameInfo)?.GameName;
             if (gameName != null)
@@ -63,6 +63,11 @@ namespace OmegaGo.UI.ViewModels
                         gameName);
                 await this.DialogService.ShowAsync(contents, "You are observing a professional game.");
             }
+        }
+
+        public override void Appearing()
+        {            
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.Observing})";
         }
 
         protected override void OnCurrentNodeStateChanged()

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 {
@@ -39,6 +40,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
 
         public bool CloseTab(ITabInfo tab)
             => GetTabManager().CloseTab(tab);
+
+        /// <summary>
+        /// Returns the tab for a given view model
+        /// </summary>
+        /// <param name="viewModel">View model</param>
+        /// <returns>Tab or null</returns>
+        public ITabInfo GetTabForViewModel(ViewModelBase viewModel)
+            => GetTabManager().Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModel);
 
         /// <summary>
         /// Retrieves the tab manager for current view

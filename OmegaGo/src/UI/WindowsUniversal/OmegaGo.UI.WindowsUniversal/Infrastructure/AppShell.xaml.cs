@@ -367,6 +367,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 TabNavigationType.NewForegroundTab);
         }
 
+        /// <summary>
+        /// Creates shared resources for Win2D rendering
+        /// </summary>
+        private void PersistentHolderCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+            args.TrackAsyncAction(RenderService.CreateResourcesAsync(sender).AsAsyncAction());
+        }
+
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -377,17 +385,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
-        }
-
-        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
-            await _feedback.LaunchAsync();
-        }
-
-        private void PersistentHolderCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
-        {
-            args.TrackAsyncAction(RenderService.CreateResourcesAsync(sender).AsAsyncAction());
         }
     }
 }

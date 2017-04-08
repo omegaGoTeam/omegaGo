@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using MvvmCross.Core.ViewModels;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Infrastructure.Tabbed
 {
@@ -38,5 +39,12 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// <param name="tab">Tab to be closed</param>
         /// <returns>Was closing the tab successful?</returns>
         bool CloseTab(ITabInfo tab);
+
+        /// <summary>
+        /// Gets the tab for a given viewModel
+        /// </summary>
+        /// <param name="viewModel">View model to get tab for</param>
+        /// <returns>Tab or null</returns>
+        ITabInfo GetTabForViewModel(ViewModelBase viewModel);
     }
 }
