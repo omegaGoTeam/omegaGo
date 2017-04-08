@@ -167,6 +167,7 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
+    <Compile Include="Online\Igs\IgsLoginPhase.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />

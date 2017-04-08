@@ -69,6 +69,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
             IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
             IgsConnector.Disconnected += IgsConnector_Disconnected;
+            IgsConnector.GameEndedByServer += IgsConnector_GameEndedByServer;
+        }
+
+        private void IgsConnector_GameEndedByServer(object sender, GameEndInformation e)
+        {
+            this.EndGame(e);
         }
 
         private void IgsConnector_Disconnected(object sender, System.EventArgs e)

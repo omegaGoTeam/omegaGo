@@ -137,6 +137,16 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        public Task AllowUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
         {
             // Join

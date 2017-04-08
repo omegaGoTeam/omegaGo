@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:tabbed="using:OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed"
+    xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}">
 
     <Border>
@@ -51,6 +53,11 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
+            <win2d:CanvasControl Grid.Row="1" Visibility="Collapsed" Name="PersistentHolderCanvas"
+                   CreateResources="PersistentHolderCanvas_CreateResources"
+                UseSharedDevice="True"
+                    >
+            </win2d:CanvasControl>
             <Grid x:Name="TitleBar"  Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

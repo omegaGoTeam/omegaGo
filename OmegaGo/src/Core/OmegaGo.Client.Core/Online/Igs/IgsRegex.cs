@@ -30,6 +30,7 @@ namespace OmegaGo.Core.Online.Igs
         private static readonly Regex regexGameTitleLine = new Regex(@"9 Game is titled: (.*)");
         private static readonly Regex regexHandicapMove = new Regex(@".*Handicap ([0-9])");
         private static readonly Regex regexIncreaseTime = new Regex(@"9 Increase ([^']+)'s time by ([0-9]+) minutes");
+        private static readonly Regex regexHasRunOutOfTime = new Regex(@"9 ([^ ]+) has run out of time.");
 
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -192,5 +193,10 @@ empty string*/
                 secondValueStones);
         }
 
+        public static string WhoRanOutOfTime(IgsLine igsLine)
+        {
+            Match match = regexHasRunOutOfTime.Match(igsLine.EntireLine);
+            return match.Groups[1].Value;
+        }
     }
 }

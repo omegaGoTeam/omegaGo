@@ -20,9 +20,9 @@ namespace OmegaGo.Core.Time.Canadian
 
         public CanadianTimeControl(TimeSpan mainTime, int stonesPerPeriod, TimeSpan periodTime)
         {
-            this._snapshot = new CanadianTimeInformation(mainTime, TimeSpan.Zero, 0);
-            this._stonesPerPeriod = stonesPerPeriod;
-            this._periodTime = periodTime;
+            _snapshot = new CanadianTimeInformation(mainTime, TimeSpan.Zero, 0);
+            _stonesPerPeriod = stonesPerPeriod;
+            _periodTime = periodTime;
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Canadian;
