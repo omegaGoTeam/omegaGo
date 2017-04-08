@@ -457,10 +457,6 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Strength => LocalizeCaller();
 		/// <summary>
-		/// Themes
-		/// </summary>
-		public string ThemesPanel => LocalizeCaller();
-		/// <summary>
 		/// Tips
 		/// </summary>
 		public string Tips => LocalizeCaller();
