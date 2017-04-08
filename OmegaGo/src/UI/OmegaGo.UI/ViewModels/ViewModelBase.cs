@@ -28,6 +28,13 @@ namespace OmegaGo.UI.ViewModels
         public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
+        /// Called when the view model is appearing
+        /// </summary>
+        public virtual void Appearing()
+        {
+        }
+
+        /// <summary>
         /// Provides back navigation
         /// </summary>
         public IMvxCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new MvxCommand(GoBack));
@@ -85,6 +92,21 @@ namespace OmegaGo.UI.ViewModels
             return Task.FromResult(true);
         }
 
+        /// <summary>
+        /// Gets or sets the title of the view model's tab if on top
+        /// </summary>
+        public string TabTitle
+        {
+            get { return _tabProvider.GetTabForViewModel(this)?.Title; }
+            set
+            {
+                var tab = _tabProvider.GetTabForViewModel(this);
+                if (tab != null)
+                {
+                    tab.Title = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Override this method to do any "on navigated from" work or to stop the navigation altogether.

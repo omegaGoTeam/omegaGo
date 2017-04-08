@@ -62,26 +62,6 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
-        ///Fluffy will always and only pass in response to its opponent passing.
-        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
-        /// </summary>
-        public static string AI_AlphaBetaPlayerWrapper_Description {
-            get {
-                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Fluffy (minimax).
-        /// </summary>
-        public static string AI_AlphaBetaPlayerWrapper_Name {
-            get {
-                return ResourceManager.GetString("AI_AlphaBetaPlayerWrapper_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
         ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
         /// </summary>
@@ -101,22 +81,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
+        ///Fluffy will always and only pass in response to its opponent passing.
+        ///You may set the depth the AI will search. Increasing the depth will increase the AI&apos;s thinking time..
+        /// </summary>
+        public static string AI_Fluffy_Description {
+            get {
+                return ResourceManager.GetString("AI_Fluffy_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fluffy (minimax).
+        /// </summary>
+        public static string AI_Fluffy_Name {
+            get {
+                return ResourceManager.GetString("AI_Fluffy_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
         ///It uses Monte Carlo tree search to make moves. It&apos;s capable of placing stones, passing and resigning, as the situation calls for.
         ///We recommend you use this AI program for all of your games..
         /// </summary>
-        public static string AI_FuegoAI_Description {
+        public static string AI_Fuego_Description {
             get {
-                return ResourceManager.GetString("AI_FuegoAI_Description", resourceCulture);
+                return ResourceManager.GetString("AI_Fuego_Description", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Fuego.
         /// </summary>
-        public static string AI_FuegoAI_Name {
+        public static string AI_Fuego_Name {
             get {
-                return ResourceManager.GetString("AI_FuegoAI_Name", resourceCulture);
+                return ResourceManager.GetString("AI_Fuego_Name", resourceCulture);
             }
         }
         
@@ -843,6 +843,78 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Challenge selected player....
+        /// </summary>
+        public static string Igs_ChallengeSelectedPlayer {
+            get {
+                return ResourceManager.GetString("Igs_ChallengeSelectedPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issue a challenge.
+        /// </summary>
+        public static string Igs_IssueAChallenge {
+            get {
+                return ResourceManager.GetString("Igs_IssueAChallenge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I am looking for a game.
+        /// </summary>
+        public static string Igs_LFG {
+            get {
+                return ResourceManager.GetString("Igs_LFG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only show players looking for a game.
+        /// </summary>
+        public static string Igs_OnlyShowLfgers {
+            get {
+                return ResourceManager.GetString("Igs_OnlyShowLfgers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh list of games.
+        /// </summary>
+        public static string Igs_RefreshGames {
+            get {
+                return ResourceManager.GetString("Igs_RefreshGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh list of users.
+        /// </summary>
+        public static string Igs_RefreshUsers {
+            get {
+                return ResourceManager.GetString("Igs_RefreshUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refuse all incoming match requests.
+        /// </summary>
+        public static string Igs_RefuseAll {
+            get {
+                return ResourceManager.GetString("Igs_RefuseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spectate a game.
+        /// </summary>
+        public static string Igs_SpectateAGame {
+            get {
+                return ResourceManager.GetString("Igs_SpectateAGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish 3 games on the Pandanet server..
         /// </summary>
         public static string IgsChallengeQuest_Description {
@@ -1095,6 +1167,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main menu.
         /// </summary>
         public static string MainMenu {
@@ -1235,6 +1316,24 @@ namespace OmegaGo.UI.Localization {
         public static string NonSquareBoardsPermitted {
             get {
                 return ResourceManager.GetString("NonSquareBoardsPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observe this game.
+        /// </summary>
+        public static string ObserveThisGame {
+            get {
+                return ResourceManager.GetString("ObserveThisGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observing.
+        /// </summary>
+        public static string Observing {
+            get {
+                return ResourceManager.GetString("Observing", resourceCulture);
             }
         }
         
@@ -1797,6 +1896,69 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sort by:.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Black&apos;s name.
+        /// </summary>
+        public static string SortBy_Black {
+            get {
+                return ResourceManager.GetString("SortBy_Black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string SortBy_Name {
+            get {
+                return ResourceManager.GetString("SortBy_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of observers (highest first).
+        /// </summary>
+        public static string SortBy_NumberOfObservers {
+            get {
+                return ResourceManager.GetString("SortBy_NumberOfObservers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rank (lowest first).
+        /// </summary>
+        public static string SortBy_RankAscending {
+            get {
+                return ResourceManager.GetString("SortBy_RankAscending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rank (highest first).
+        /// </summary>
+        public static string SortBy_RankDescending {
+            get {
+                return ResourceManager.GetString("SortBy_RankDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White&apos;s name.
+        /// </summary>
+        public static string SortBy_White {
+            get {
+                return ResourceManager.GetString("SortBy_White", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sounds.
         /// </summary>
         public static string Sounds {
@@ -2315,6 +2477,15 @@ namespace OmegaGo.UI.Localization {
         public static string Yes {
             get {
                 return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are logged in as:.
+        /// </summary>
+        public static string YouAreLoggedInAs {
+            get {
+                return ResourceManager.GetString("YouAreLoggedInAs", resourceCulture);
             }
         }
         

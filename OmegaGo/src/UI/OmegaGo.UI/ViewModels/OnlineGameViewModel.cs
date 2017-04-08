@@ -41,6 +41,16 @@ namespace OmegaGo.UI.ViewModels
             ChatViewModel = new ChatViewModel();
         }
 
+        public override void Init()
+        {
+            base.Init();          
+        }
+
+        public override void Appearing()
+        {
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.OnlineGame})";
+        }
+
         public IMvxCommand UndoPleaseCommand => new MvxCommand(() =>
         {
             UiConnector.RequestMainUndo();

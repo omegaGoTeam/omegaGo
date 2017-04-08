@@ -104,8 +104,13 @@ namespace OmegaGo.UI.ViewModels
 
         public override void Init()
         {
-            Game.Controller.BeginGame();
+            Game.Controller.BeginGame();            
             UpdateTimeline();
+        }
+
+        public override void Appearing()
+        {
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.LocalGame})";
         }
 
         ////////////////

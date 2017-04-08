@@ -1108,6 +1108,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>New game</source>
           <target state="new">New game</target>
         </trans-unit>
+        <trans-unit id="Observing" translate="yes" xml:space="preserve">
+          <source>Observing</source>
+          <target state="new">Observing</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -16,7 +16,7 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// <summary>
         /// Title of the tab
         /// </summary>
-        string Title { get; }
+        string Title { get; set; }
         
         /// <summary>
         /// Tag
