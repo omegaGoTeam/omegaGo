@@ -65,7 +65,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
             if (moveResult == MoveResult.Legal)
             {
                 //add the placed stone
-                StonesPlaced++;                
+                StonesPlaced++;
                 Controller.OnCurrentNodeStateChanged();
                 if (StonesPlaced == Controller.Info.NumberOfHandicapStones)
                 {

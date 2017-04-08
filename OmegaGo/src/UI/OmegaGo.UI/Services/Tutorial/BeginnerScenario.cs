@@ -19,7 +19,8 @@ namespace OmegaGo.UI.Services.Tutorial
         /// Format string for all tutorial resources
         /// </summary>
         private const string TutorialResourceFormatString = "OmegaGo.UI.Services.Tutorial.Tutorial-{0}.txt"; 
-           // Resources behave strangely when ".cs" is appended to them. When ".ces" or ".auto" is appended, everything works fine.
+        // Resources behave strangely when ".cs" is appended to them. When ".ces" or ".auto" is appended, everything works fine.
+        // That's why I opted for "-" instead of ".".
 
         /// <summary>
         /// Creates the beginner tutorial scenario

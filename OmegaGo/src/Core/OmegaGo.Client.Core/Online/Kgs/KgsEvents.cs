@@ -24,6 +24,12 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<string> Disconnection;
         public event EventHandler<string> NotificationMessage;
         public event EventHandler<User> PersonalInformationUpdate;
+        public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
+
+        internal void RaiseLoginPhaseChanged(KgsLoginPhase phase)
+        {
+            LoginPhaseChanged?.Invoke(this, phase);
+        }
 
         internal void RaisePersonalInformationUpdate(User you)
         {
