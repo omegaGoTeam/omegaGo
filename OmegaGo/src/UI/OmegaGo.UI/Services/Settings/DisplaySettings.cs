@@ -88,6 +88,12 @@ namespace OmegaGo.UI.Services.Settings
             }
         }
 
+        public bool AddGraceSecond
+        {
+            get { return GetSetting(nameof(AddGraceSecond), () => true, SettingLocality.Roamed); }
+            set { SetSetting(nameof(AddGraceSecond), value, SettingLocality.Roamed); }
+        }
+
         public bool HighlightLastMove
         {
             get { return GetSetting(nameof(HighlightLastMove), () => true, SettingLocality.Roamed); }

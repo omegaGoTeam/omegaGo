@@ -49,6 +49,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmegaGo.UI.Fuego", "src\UI\
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OmegaGo.UI.WindowsUniversal.BoostLibraries", "src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal.BoostLibraries\OmegaGo.UI.WindowsUniversal.BoostLibraries.shproj", "{388A5397-49B6-4D26-B83D-48A3DC5E316C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalizerGenerator", "LocalizerGenerator", "{5A3DEF89-E782-467E-8D17-31A200256CAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizerGenerator", "src\Sideprojects\LocalizerGenerator\LocalizerGenerator\LocalizerGenerator.csproj", "{C88156DE-6579-418C-8869-DCEACB70E35B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal.BoostLibraries\OmegaGo.UI.WindowsUniversal.BoostLibraries.projitems*{388a5397-49b6-4d26-b83d-48a3dc5e316c}*SharedItemsImports = 13
@@ -389,6 +393,30 @@ Global
 		{7A8582E3-6E4B-4E4E-A6E3-925B2CC2D882}.Release|x64.Build.0 = Release|x64
 		{7A8582E3-6E4B-4E4E-A6E3-925B2CC2D882}.Release|x86.ActiveCfg = Release|x86
 		{7A8582E3-6E4B-4E4E-A6E3-925B2CC2D882}.Release|x86.Build.0 = Release|x86
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|x64.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Debug|x86.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|Any CPU.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|Any CPU.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|ARM.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|ARM.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|x64.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|x64.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|x86.ActiveCfg = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.DebugWithoutFuego|x86.Build.0 = Debug|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|ARM.Build.0 = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|x64.ActiveCfg = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|x64.Build.0 = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|x86.ActiveCfg = Release|Any CPU
+		{C88156DE-6579-418C-8869-DCEACB70E35B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -412,5 +440,7 @@ Global
 		{3E7497AC-B68F-4EE0-ABB1-79874A897514} = {294376DC-9D57-42DD-AB5E-A656F1886B3A}
 		{7A8582E3-6E4B-4E4E-A6E3-925B2CC2D882} = {C2048123-AEE4-4041-95A1-AED3B2249851}
 		{388A5397-49B6-4D26-B83D-48A3DC5E316C} = {C2048123-AEE4-4041-95A1-AED3B2249851}
+		{5A3DEF89-E782-467E-8D17-31A200256CAB} = {CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}
+		{C88156DE-6579-418C-8869-DCEACB70E35B} = {5A3DEF89-E782-467E-8D17-31A200256CAB}
 	EndGlobalSection
 EndGlobal

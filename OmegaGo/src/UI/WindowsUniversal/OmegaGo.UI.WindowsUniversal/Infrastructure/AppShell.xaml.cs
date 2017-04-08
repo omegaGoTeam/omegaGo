@@ -28,6 +28,7 @@ using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
+using OmegaGo.UI.WindowsUniversal.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Views;
 
 namespace OmegaGo.UI.WindowsUniversal.Infrastructure
@@ -376,6 +377,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
+        }
+
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
+            await _feedback.LaunchAsync();
+        }
+
+        private void PersistentHolderCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+            args.TrackAsyncAction(RenderService.CreateResourcesAsync(sender).AsAsyncAction());
         }
     }
 }
