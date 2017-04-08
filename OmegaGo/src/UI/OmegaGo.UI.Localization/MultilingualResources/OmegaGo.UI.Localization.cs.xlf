@@ -1100,6 +1100,62 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>You are logged in as:</source>
           <target state="translated">Přihlášený uživatel:</target>
         </trans-unit>
+        <trans-unit id="BlackColon" translate="yes" xml:space="preserve">
+          <source>Black:</source>
+          <target state="translated">Černý:</target>
+        </trans-unit>
+        <trans-unit id="DateColon" translate="yes" xml:space="preserve">
+          <source>Date:</source>
+          <target state="translated">Datum:</target>
+        </trans-unit>
+        <trans-unit id="DeleteCommand" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Smazat</target>
+        </trans-unit>
+        <trans-unit id="DeleteQuestion" translate="yes" xml:space="preserve">
+          <source>Delete {0}?</source>
+          <target state="translated">Smazat {0}?</target>
+        </trans-unit>
+        <trans-unit id="DeleteWarning" translate="yes" xml:space="preserve">
+          <source>This will erase the file from the library permanently.</source>
+          <target state="translated">Soubor bude nenávratně odstraněn z disku.</target>
+        </trans-unit>
+        <trans-unit id="ErrorParsingSgfFile" translate="yes" xml:space="preserve">
+          <source>Error parsing SGF file</source>
+          <target state="translated">Chyba při čtení souboru SGF</target>
+        </trans-unit>
+        <trans-unit id="ExportCommand" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <target state="translated">Exportovat</target>
+        </trans-unit>
+        <trans-unit id="LoadingEllipsis" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="translated">Načítání...</target>
+        </trans-unit>
+        <trans-unit id="LoadSgfFileEllipsis" translate="yes" xml:space="preserve">
+          <source>Load SGF file...</source>
+          <target state="translated">Načíst soubor SGF...</target>
+        </trans-unit>
+        <trans-unit id="MovesColon" translate="yes" xml:space="preserve">
+          <source>Moves:</source>
+          <target state="translated">Počet tahů:</target>
+        </trans-unit>
+        <trans-unit id="OpenCommand" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="translated">Otevřít</target>
+        </trans-unit>
+        <trans-unit id="OpenLibraryInExplorer" translate="yes" xml:space="preserve">
+          <source>Open library in Explorer</source>
+          <target state="translated">Otevřít knihovnu v Průzkumníkovi</target>
+        </trans-unit>
+        <trans-unit id="Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">Obnovit</target>
+        </trans-unit>
+        <trans-unit id="WhiteColon" translate="yes" xml:space="preserve">
+          <source>White:</source>
+          <target state="translated">Bílý:</target>
+        </trans-unit>
       </group>
     </body>
   </file>
