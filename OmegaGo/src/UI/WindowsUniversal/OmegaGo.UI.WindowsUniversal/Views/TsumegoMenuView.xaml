@@ -44,8 +44,6 @@
                         </Border>
                     </DataTemplate>
                 </GridView.ItemTemplate>
-                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
-                <tsumego:ExampleTsumegoProblem></tsumego:ExampleTsumegoProblem>
             </GridView>
         </Border>
         
