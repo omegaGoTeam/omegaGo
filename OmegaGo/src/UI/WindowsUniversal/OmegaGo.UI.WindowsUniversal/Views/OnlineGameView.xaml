@@ -184,7 +184,9 @@
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
                         <Button Content="Pass" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
                         <Button Content="Resign" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="Undo" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                        <Button Content="Undo please" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                        <Button Content="Agree with undo" Command="{x:Bind VM.AgreeUndoCommand}" HorizontalAlignment="Stretch" />
+                        <Button Content="Disagree with undo" Command="{x:Bind VM.DisagreeUndoCommand}" HorizontalAlignment="Stretch" />
                     </StackPanel>
 
                     <StackPanel x:Name="lifeAndDeathCommands"
