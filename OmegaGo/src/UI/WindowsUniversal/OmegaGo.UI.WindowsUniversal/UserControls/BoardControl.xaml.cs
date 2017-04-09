@@ -6,6 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core.Game;
+using System;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
@@ -53,6 +54,44 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             this.canvas.TargetElapsedTime = System.TimeSpan.FromMilliseconds(32);
         }
 
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            //Size size = new Size(Math.Max(availableSize.Width, availableSize.Height), Math.Max(availableSize.Width, availableSize.Height));
+            //this.Content.Measure(size);
+
+            //return size;
+
+            if (double.IsInfinity(availableSize.Width))
+            {
+                return new Size(availableSize.Height, availableSize.Height);
+            }
+
+            if (double.IsInfinity(availableSize.Height))
+            {
+                return new Size(availableSize.Width, availableSize.Width);
+            }
+
+            return availableSize;
+        }
+
+        //protected override Size ArrangeOverride(Size finalSize)
+        //{
+        //    if (finalSize.Width == 0)
+        //    {
+        //        Size newSize = new Size(finalSize.Height, finalSize.Height);
+
+        //        return base.ArrangeOverride(newSize);
+        //    }
+        //    if (finalSize.Height == 0)
+        //    {
+        //        Size newSize = new Size(finalSize.Width, finalSize.Width);
+
+        //        return base.ArrangeOverride(newSize);
+        //    }
+
+        //    return base.ArrangeOverride(finalSize);
+        //}
+
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
@@ -62,7 +101,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _inputService = new InputService(_boardControlState);
             
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-            ;            
         }
 
         private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
