@@ -38,7 +38,7 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// </summary>
         /// <param name="tab">Tab to be closed</param>
         /// <returns>Was closing the tab successful?</returns>
-        bool CloseTab(ITabInfo tab);
+        void CloseTab(ITabInfo tab);
 
         /// <summary>
         /// Gets the tab for a given viewModel

@@ -38,7 +38,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             => GetTabManager().SwitchToTab(tab);
 
 
-        public bool CloseTab(ITabInfo tab)
+        public void CloseTab(ITabInfo tab)
             => GetTabManager().CloseTab(tab);
 
         /// <summary>

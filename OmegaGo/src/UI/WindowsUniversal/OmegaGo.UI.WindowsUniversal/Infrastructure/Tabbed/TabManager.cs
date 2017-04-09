@@ -92,7 +92,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 var navigatedBack = GoBackInTab(tab);
                 if (!navigatedBack)
                 {
-                    return CloseTab(tab);
+                    CloseTab(tab);
                 }
                 return true;
             }
@@ -134,11 +134,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// </summary>
         /// <param name="tab">Tab to be closed</param>
         /// <returns>Was closing successful?</returns>
-        public bool CloseTab(ITabInfo tab)
+        public async void CloseTab(ITabInfo tab)
         {
-            if (!Tabs.Contains(tab)) return false;
+            if (tab == null) throw new ArgumentNullException(nameof(tab));
+
+            if (!Tabs.Contains(tab)) return;
 
             var closedTab = (Tab)tab;
+            if (closedTab == null) throw new ArgumentException(nameof(tab));
+
+            //if the tab prevents closing, do not do anything
+            if (!await tab.CurrentViewModel.CanCloseViewModelAsync()) return;
 
             //the closed tab is the only tab opened
             if (Tabs.Count == 1)
@@ -147,7 +153,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 {
                     //shut down the app
                     RequestAppClose();
-                    return false;
                 }
                 else
                 {
@@ -180,7 +185,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             Tabs.Remove(closedTab);
             //inform the view that its tab has been closed
             (closedTab.Frame.Content as ViewBase)?.TabClosed();
-            return true;
         }
 
         /// <summary>
@@ -227,8 +231,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// <param name="tab">Tab</param>
         /// <returns>Did the tab navigate back?</returns>
         private bool GoBackInTab(Tab tab)
-        {            
-            if ( tab.Frame.CanGoBack )
+        {
+            if (tab.Frame.CanGoBack)
             {
                 tab.CurrentViewModel?.GoBackCommand.Execute();
                 return true;

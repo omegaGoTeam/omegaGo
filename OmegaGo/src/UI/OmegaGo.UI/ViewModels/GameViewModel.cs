@@ -77,10 +77,7 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
-        /// <summary>
-        /// Ensure the user really wants to go back in the game
-        /// </summary>
-        public override async void GoBack()
+        public override async Task<bool> CanCloseViewModelAsync()
         {
             //show confirmation
             var backNavigationConfirmed = await Mvx.Resolve<IDialogService>()
@@ -89,10 +86,7 @@ namespace OmegaGo.UI.ViewModels
                     Localizer.AreYouSure,
                     Localizer.Yes,
                     Localizer.No);
-            if (backNavigationConfirmed)
-            {
-                Close(this);
-            }
+            return backNavigationConfirmed;
         }
 
         private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
