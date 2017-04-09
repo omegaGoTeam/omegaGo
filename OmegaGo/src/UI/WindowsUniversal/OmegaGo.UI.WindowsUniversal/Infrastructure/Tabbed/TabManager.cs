@@ -45,7 +45,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public TabManager(AppShell appShell)
         {
             _appShell = appShell;
-            Window.Current.CoreWindow.KeyUp += HandleTabKeyboardShortcuts;
+            Window.Current.CoreWindow.KeyDown += HandleTabKeyboardShortcuts;
         }
 
         /// <summary>
@@ -155,7 +155,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
                 {
                     //shut down the app
-                    RequestAppClose();
+                    if (!await RequestAppCloseAsync())
+                    {
+                        return;
+                    }
                 }
                 else
                 {
@@ -261,7 +264,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// <summary>
         /// Requests app close
         /// </summary>
-        private async void RequestAppClose()
+        private async Task<bool> RequestAppCloseAsync()
         {
             var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
             var dialogService = Mvx.Resolve<IDialogService>();
@@ -269,7 +272,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
             {
                 Application.Current.Exit();
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -278,14 +283,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
-            if (tab != null)
+            var view = tab?.Frame.Content as ViewBase;
+            if (view != null)
             {
-                var view = tab.Frame.Content as ViewBase;
-                if (view != null)
-                {
-                    tab.Title = view.TabTitle;
-                    tab.IconUri = view.TabIconUri;
-                }
+                tab.Title = view.TabTitle;
+                tab.IconUri = view.TabIconUri;
             }
         }
 
