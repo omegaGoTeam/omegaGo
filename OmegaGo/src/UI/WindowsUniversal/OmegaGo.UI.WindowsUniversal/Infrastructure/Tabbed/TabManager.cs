@@ -72,11 +72,14 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                     {
                         (_activeTab.Frame.Content as ViewBase)?.TabDeactivated();
                     }
-                    SetProperty(ref _activeTab, value);
+                    SetProperty(ref _activeTab, value);                    
                     ActiveTabChanged?.Invoke(this, value);
                     UpdateWindowTitle();
                     if (value != null)
                     {
+                        //stop blinking
+                        value.IsBlinking = false;
+                        //inform the view
                         (value.Frame.Content as ViewBase)?.TabActivated();
                     }
                 }
@@ -374,7 +377,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                             if (Tabs.Count >= tabNumber)
                             {
                                 //activate the right tab
-                                ActiveTab = Tabs[tabNumber - 1];
+                                //ActiveTab = Tabs[tabNumber - 1];
+                                Tabs[tabNumber - 1].IsBlinking = !Tabs[tabNumber-1].IsBlinking;
                             }
                         }
                     }
