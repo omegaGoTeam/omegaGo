@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -43,6 +45,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public TabManager(AppShell appShell)
         {
             _appShell = appShell;
+            Window.Current.CoreWindow.KeyDown += HandleTabKeyboardShortcuts;
         }
 
         /// <summary>
@@ -152,7 +155,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
                 {
                     //shut down the app
-                    RequestAppClose();
+                    if (!await RequestAppCloseAsync())
+                    {
+                        return;
+                    }
                 }
                 else
                 {
@@ -258,7 +264,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// <summary>
         /// Requests app close
         /// </summary>
-        private async void RequestAppClose()
+        private async Task<bool> RequestAppCloseAsync()
         {
             var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
             var dialogService = Mvx.Resolve<IDialogService>();
@@ -266,7 +272,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
             {
                 Application.Current.Exit();
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -275,14 +283,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private void Frame_Navigated(object sender, NavigationEventArgs e)
         {
             var tab = Tabs.FirstOrDefault(t => t.Frame == sender);
-            if (tab != null)
+            var view = tab?.Frame.Content as ViewBase;
+            if (view != null)
             {
-                var view = tab.Frame.Content as ViewBase;
-                if (view != null)
-                {
-                    tab.Title = view.TabTitle;
-                    tab.IconUri = view.TabIconUri;
-                }
+                tab.Title = view.TabTitle;
+                tab.IconUri = view.TabIconUri;
             }
         }
 
@@ -311,6 +316,70 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         {
             var viewTitle = ActiveTab?.Title;
             ApplicationView.GetForCurrentView().Title = viewTitle ?? "";
+        }
+
+        /// <summary>
+        /// Handles the keyboard shortcuts
+        /// </summary>
+        private void HandleTabKeyboardShortcuts(CoreWindow sender, KeyEventArgs args)
+        {
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
+            if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+            {
+                if (args.VirtualKey == VirtualKey.T)
+                {
+                    //create new main menu tab on Ctrl + T
+                    ProcessViewModelRequest(
+                        new MvxViewModelRequest(
+                            typeof(MainMenuViewModel), new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction),
+                        TabNavigationType.NewForegroundTab);
+                }
+                if (args.VirtualKey == VirtualKey.W)
+                {
+                    //close current tab on Ctrl + W
+                    if (ActiveTab != null)
+                    {
+                        CloseTab(ActiveTab);
+                    }
+                }
+                if (args.VirtualKey == VirtualKey.Tab)
+                {
+                    if (ActiveTab != null)
+                    {
+                        var tabIndex = Tabs.IndexOf(ActiveTab);
+                        if (shift.HasFlag(CoreVirtualKeyStates.Down))
+                        {
+                            //go to previous tab
+                            tabIndex--;
+                        }
+                        else
+                        {
+                            //go to next tab
+                            tabIndex++;
+                        }
+                        tabIndex %= Tabs.Count;
+                        if (tabIndex < 0) tabIndex += Tabs.Count;
+                        ActiveTab = Tabs[tabIndex];
+                    }
+                }
+                if (args.VirtualKey.ToString().StartsWith("Number"))
+                {
+                    //parse the key number
+                    var tabNumber = 0;
+                    if (int.TryParse(args.VirtualKey.ToString().Replace("Number", ""), out tabNumber))
+                    {
+                        if (tabNumber > 0)
+                        {
+                            if (Tabs.Count >= tabNumber)
+                            {
+                                //activate the right tab
+                                ActiveTab = Tabs[tabNumber - 1];
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
