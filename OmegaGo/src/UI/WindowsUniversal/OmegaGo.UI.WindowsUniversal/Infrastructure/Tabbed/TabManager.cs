@@ -377,8 +377,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                             if (Tabs.Count >= tabNumber)
                             {
                                 //activate the right tab
-                                //ActiveTab = Tabs[tabNumber - 1];
-                                Tabs[tabNumber - 1].IsBlinking = !Tabs[tabNumber-1].IsBlinking;
+                                ActiveTab = Tabs[tabNumber - 1];
                             }
                         }
                     }
