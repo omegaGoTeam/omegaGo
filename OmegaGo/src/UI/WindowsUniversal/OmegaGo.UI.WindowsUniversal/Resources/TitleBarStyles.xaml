@@ -231,7 +231,7 @@
         </Setter>
     </Style>
     <Style TargetType="ListViewItem" x:Key="TabListViewItemContainerStyle">
-        <Setter Property="Padding" Value="10,0,0,0" />
+        <Setter Property="Padding" Value="0,0,0,0" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="MinHeight" Value="20" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -345,7 +345,7 @@
                         <ContentPresenter x:Name="ContentPresenter"
                                       ContentTransitions="{TemplateBinding ContentTransitions}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Content="{TemplateBinding Content}"
+                                      Content="{TemplateBinding Content}"                                      
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       Margin="{TemplateBinding Padding}" />
