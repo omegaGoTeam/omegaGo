@@ -111,9 +111,21 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Override this method to do any "on navigated from" work or to stop the navigation altogether.
         /// </summary>
-        public virtual void GoBack()
+        public async void GoBack()
         {
-            Close(this);
+            if ( await CanCloseViewModelAsync())
+            {
+                Close(this);
+            }
+        }
+
+        /// <summary>
+        /// Checks if the view model can be closed
+        /// </summary>
+        /// <returns>Can close view model?</returns>
+        public virtual Task<bool> CanCloseViewModelAsync()
+        {
+            return Task.FromResult(true);
         }
     }
 }

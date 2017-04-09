@@ -204,6 +204,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to end the game?.
+        /// </summary>
+        public static string AreYouSureYouWantToEndTheGame {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToEndTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A sound effect should play:.
         /// </summary>
         public static string ASoundEffectShouldPlay {
@@ -722,6 +740,15 @@ namespace OmegaGo.UI.Localization {
         public static string GettingStrongerQuest_Name {
             get {
                 return ResourceManager.GetString("GettingStrongerQuest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go back.
+        /// </summary>
+        public static string GoBack {
+            get {
+                return ResourceManager.GetString("GoBack", resourceCulture);
             }
         }
         

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Services.Store.Engagement;
@@ -49,6 +50,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private IGameSettings _settings;
         private IFeedbackService _feedback;
 
+        private Localizer _localizer;
+
         private AppShell(Window window)
         {
             if (window.Content != null) throw new ArgumentException("App shell can be registered only for Window with empty content", nameof(window));
@@ -78,6 +81,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// Manager of tabs
         /// </summary>
         public TabManager TabManager { get; }
+
+        /// <summary>
+        /// Localizer for the app shell
+        /// </summary>
+        public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
         /// Bubble notifications displayed in in the shell
@@ -183,6 +191,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundColor));
             OnPropertyChanged(nameof(BackgroundImageUrl));
             OnPropertyChanged(nameof(AppTheme));
+            UpdateTitleBarVisualSettings();
         }
 
         /// <summary>
@@ -190,6 +199,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         public void SetupCustomTitleBar()
         {
+            UpdateTitleBarVisualSettings();
             CoreApplicationViewTitleBar coreTitleBarAppView = CoreApplication.GetCurrentView().TitleBar;
             UpdateTitleBarVisibility();
 
@@ -226,6 +236,27 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             BubbleNotifications.Add(notification);
             notification.FirstAppeared = DateTime.Now;
+        }
+
+
+        /// <summary>
+        /// Updates title bar's visual setttings to match the requested element theme
+        /// </summary>
+        private void UpdateTitleBarVisualSettings()
+        {
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Colors.DodgerBlue;
+            titleBar.ButtonPressedBackgroundColor = Colors.LightBlue;
+            titleBar.ButtonHoverForegroundColor = Colors.White; ;
+            titleBar.ButtonPressedForegroundColor = Colors.Black; ;
+            titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
+            titleBar.ForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            titleBar.InactiveForegroundColor = Colors.DimGray;
+            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
         }
 
         /// <summary>
@@ -288,27 +319,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
-                var view = UnderlyingFrame.Content as MainMenuView;
-                if (!UnderlyingFrame.CanGoBack && view != null)
-                {
-                    var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
-                    var dialogService = Mvx.Resolve<IDialogService>();
-                    if (await dialogService.ShowConfirmationDialogAsync(
-                        localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
-                    {
-                        Application.Current.Exit();
-                    }
-                }
-                else if (!args.Handled)
-                {
-                    args.Handled = true;
-                    //handle back navigation as usual
-                    GoBack();
-                }
+                //let the tab manager handle global back navigation
+                TabManager.HandleGlobalBackNavigation();               
             }
         }
 

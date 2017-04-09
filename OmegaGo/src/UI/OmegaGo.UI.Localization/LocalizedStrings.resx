@@ -941,4 +941,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Observing" xml:space="preserve">
     <value>Observing</value>
   </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
+    <value>Are you sure you want to end the game?</value>
+  </data>
 </root>

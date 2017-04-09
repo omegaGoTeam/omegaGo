@@ -17,7 +17,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.InitializeComponent();
         }
 
-        public override string TabTitle => $"{VM.CurrentProblemName}";
+        public override string TabTitle => Localizer.TsumegoMenuCaption;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tsumego.png");
 

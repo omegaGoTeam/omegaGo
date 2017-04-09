@@ -16,6 +16,7 @@ using MvvmCross.Core.Views;
 using MvvmCross.Platform;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.UserControls.Navigation;
@@ -79,6 +80,24 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             }
         }
 
+        /// <summary>
+        /// Handles back navigation globally - can close a tab or even the app
+        /// </summary>
+        /// <returns>Was back navigation successful?</returns>
+        public bool HandleGlobalBackNavigation()
+        {
+            var tab = ActiveTab;
+            if (tab != null)
+            {
+                var navigatedBack = GoBackInTab(tab);
+                if (!navigatedBack)
+                {
+                    CloseTab(tab);
+                }
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Handles back navigation
@@ -88,10 +107,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public bool HandleBackNavigation(IMvxViewModel viewModelToNavigateBack)
         {
             var tab = Tabs.FirstOrDefault(t => t.CurrentViewModel == viewModelToNavigateBack);
-            if (tab != null && tab.Frame.CanGoBack)
+            if (tab != null)
             {
-                tab.Frame.GoBack();
-                return true;
+                return GoBackInTab(tab);
             }
             return false;
         }
@@ -116,11 +134,17 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// </summary>
         /// <param name="tab">Tab to be closed</param>
         /// <returns>Was closing successful?</returns>
-        public bool CloseTab(ITabInfo tab)
+        public async void CloseTab(ITabInfo tab)
         {
-            if (!Tabs.Contains(tab)) return false;
+            if (tab == null) throw new ArgumentNullException(nameof(tab));
+
+            if (!Tabs.Contains(tab)) return;
 
             var closedTab = (Tab)tab;
+            if (closedTab == null) throw new ArgumentException(nameof(tab));
+
+            //if the tab prevents closing, do not do anything
+            if (!await tab.CurrentViewModel.CanCloseViewModelAsync()) return;
 
             //the closed tab is the only tab opened
             if (Tabs.Count == 1)
@@ -128,7 +152,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 if (closedTab.CurrentViewModel.GetType() == typeof(MainMenuViewModel))
                 {
                     //shut down the app
-                    Application.Current.Exit();
+                    RequestAppClose();
                 }
                 else
                 {
@@ -161,7 +185,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             Tabs.Remove(closedTab);
             //inform the view that its tab has been closed
             (closedTab.Frame.Content as ViewBase)?.TabClosed();
-            return true;
         }
 
         /// <summary>
@@ -203,6 +226,21 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         }
 
         /// <summary>
+        /// Navigates back in tab
+        /// </summary>
+        /// <param name="tab">Tab</param>
+        /// <returns>Did the tab navigate back?</returns>
+        private bool GoBackInTab(Tab tab)
+        {
+            if (tab.Frame.CanGoBack)
+            {
+                tab.CurrentViewModel?.GoBackCommand.Execute();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Creates and adds a new empty tab
         /// </summary>
         /// <returns>Created tab</returns>
@@ -215,6 +253,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
             tab.PropertyChanged += Tab_PropertyChanged;
             Tabs.Add(tab);
             return tab;
+        }
+
+        /// <summary>
+        /// Requests app close
+        /// </summary>
+        private async void RequestAppClose()
+        {
+            var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
+            var dialogService = Mvx.Resolve<IDialogService>();
+            if (await dialogService.ShowConfirmationDialogAsync(
+                localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
+            {
+                Application.Current.Exit();
+            }
         }
 
         /// <summary>

@@ -1112,6 +1112,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Observing</source>
           <target state="new">Observing</target>
         </trans-unit>
+        <trans-unit id="GoBack" translate="yes" xml:space="preserve">
+          <source>Go back</source>
+          <target state="new">Go back</target>
+        </trans-unit>
+        <trans-unit id="AreYouSure" translate="yes" xml:space="preserve">
+          <source>Are you sure?</source>
+          <target state="new">Are you sure?</target>
+        </trans-unit>
+        <trans-unit id="AreYouSureYouWantToEndTheGame" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to end the game?</source>
+          <target state="new">Are you sure you want to end the game?</target>
+        </trans-unit>
       </group>
     </body>
   </file>

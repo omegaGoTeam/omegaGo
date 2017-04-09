@@ -76,6 +76,19 @@ namespace OmegaGo.UI.ViewModels
             ObserveDebuggingMessages();
         }
 
+
+        public override async Task<bool> CanCloseViewModelAsync()
+        {
+            //show confirmation
+            var backNavigationConfirmed = await Mvx.Resolve<IDialogService>()
+                .ShowConfirmationDialogAsync(
+                    Localizer.AreYouSureYouWantToEndTheGame,
+                    Localizer.AreYouSure,
+                    Localizer.Yes,
+                    Localizer.No);
+            return backNavigationConfirmed;
+        }
+
         private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
         {
             if (e.Type == GamePhaseType.LifeDeathDetermination)

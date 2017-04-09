@@ -78,11 +78,10 @@ namespace OmegaGo.UI.WindowsUniversal
                 //temporarily place splash into the root frame
                 appShell.UnderlyingFrame.Content = extendedSplash;
 
-                //setup the title bar
-                SetupTitleBar();
-
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                //setup the title bar
+                SetupTitleBar();
                 InitializeStyle();
             }
             CoreApplication.EnablePrelaunch(true);
@@ -124,22 +123,6 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         private void SetupTitleBar()
         {
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = false;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
-            titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
-            titleBar.ButtonHoverForegroundColor = Colors.Black;
-            titleBar.ButtonPressedForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
-            titleBar.ForegroundColor = Colors.Black;
-            titleBar.InactiveForegroundColor = Colors.DimGray;
-            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
-
             //setup the custom title bar in app shell
             AppShell.GetForCurrentView().SetupCustomTitleBar();
 
@@ -175,8 +158,7 @@ namespace OmegaGo.UI.WindowsUniversal
         }
 
         private void InitializeStyle()
-        {
-            // TODO Martin Do we keep it like this, or we move it somewhere? Possibly define and implement IControlStyleService/IStylingService?
+        {            
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
