@@ -17,6 +17,11 @@ namespace OmegaGo.UI.Infrastructure.Tabbed
         /// Title of the tab
         /// </summary>
         string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets if the tab is currently blinking to notify the user
+        /// </summary>
+        bool IsBlinking { get; set; }
         
         /// <summary>
         /// Tag
