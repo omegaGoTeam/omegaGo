@@ -132,6 +132,11 @@ A tsumego problem will also display a problem statement
             }
         }
 
+        public override void Appearing()
+        {
+            TabTitle = CurrentProblemName;
+        }
+
         public void UndoOneMove()
         {
             if (CurrentNode.Parent != null)
