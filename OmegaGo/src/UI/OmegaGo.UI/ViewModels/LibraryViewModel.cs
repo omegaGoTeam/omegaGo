@@ -152,8 +152,9 @@ namespace OmegaGo.UI.ViewModels
                 if (
                     await
                         this._dialogService.ShowConfirmationDialogAsync(
-                            "This will erase the file from the library permanently.",
-                            "Delete " + this.SelectedItem.Filename + "?", "Delete", "No"))
+                            Localizer.DeleteWarning,
+                            String.Format(Localizer.DeleteQuestion, this.SelectedItem.Filename),
+                            Localizer.DeleteCommand, Localizer.No))
                 {
                     await this._fileService.DeleteFile(SgfFolderName, this.SelectedItem.Filename);
                     await RefreshList();
@@ -185,7 +186,7 @@ namespace OmegaGo.UI.ViewModels
             }
             catch (Exception e)
             {
-                await this._dialogService.ShowAsync(e.ToString(), "Error parsing SGF file");
+                await this._dialogService.ShowAsync(e.ToString(), Localizer.ErrorParsingSgfFile);
             }
         }
     }

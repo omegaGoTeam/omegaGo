@@ -932,4 +932,46 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YouAreLoggedInAs" xml:space="preserve">
     <value>You are logged in as:</value>
   </data>
+  <data name="BlackColon" xml:space="preserve">
+    <value>Black:</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="DeleteWarning" xml:space="preserve">
+    <value>This will erase the file from the library permanently.</value>
+  </data>
+  <data name="ErrorParsingSgfFile" xml:space="preserve">
+    <value>Error parsing SGF file</value>
+  </data>
+  <data name="ExportCommand" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LoadingEllipsis" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LoadSgfFileEllipsis" xml:space="preserve">
+    <value>Load SGF file...</value>
+  </data>
+  <data name="MovesColon" xml:space="preserve">
+    <value>Moves:</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenLibraryInExplorer" xml:space="preserve">
+    <value>Open library in Explorer</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="WhiteColon" xml:space="preserve">
+    <value>White:</value>
+  </data>
 </root>
