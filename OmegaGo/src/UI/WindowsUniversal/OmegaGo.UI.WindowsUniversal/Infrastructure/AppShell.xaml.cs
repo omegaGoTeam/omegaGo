@@ -359,7 +359,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void UpdateTitleBarVisibility()
         {
-            AppTitleBar.Visibility = CoreApplication.GetCurrentView().TitleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+            var visible = CoreApplication.GetCurrentView().TitleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+            FeedbackButton.Visibility = visible;
+            RightTitleBarMask.Visibility = visible;
         }
 
         /// <summary>
