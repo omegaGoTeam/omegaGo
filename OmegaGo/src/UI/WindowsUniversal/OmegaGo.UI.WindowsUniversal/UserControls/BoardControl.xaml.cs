@@ -19,15 +19,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private InputService _inputService;
         private RenderService _renderService;
 
-        /// <summary>
-        /// Gets information stored with this board control, for example, styling or highlighted positions. This is the same object
-        /// as in the view model.
-        /// </summary>
-        public BoardControlState BoardControlState => _boardControlState;
-        public InputService InputService => _inputService;
-        public RenderService RenderService => _renderService;
+        private GameTreeNode _currentGameTreeNode;
 
-        private GameTreeNode currentGameTreeNode;
+        public BoardControl()
+        {
+            this.InitializeComponent();
+            this.canvas.TargetElapsedTime = System.TimeSpan.FromMilliseconds(32);
+        }
 
         public static readonly DependencyProperty ViewModelProperty =
                    DependencyProperty.Register(
@@ -37,30 +35,25 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                            new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets information stored with this board control, for example, styling or highlighted positions. This is the same object
+        /// as in the view model.
+        /// </summary>
+        public BoardControlState BoardControlState => _boardControlState;
+        public InputService InputService => _inputService;
+        public RenderService RenderService => _renderService;
+        
+        /// <summary>
         /// The view model contains the displayed node as well as the same <see cref="BoardControlState"/>. Once set,
         /// the viewmodel must not change. 
         /// </summary>
         public BoardViewModel ViewModel
         {
             get { return (BoardViewModel)GetValue(ViewModelProperty); }
-            set {
-                SetValue(ViewModelProperty, value);
-            }
-        }
-
-        public BoardControl()
-        {
-            this.InitializeComponent();
-            this.canvas.TargetElapsedTime = System.TimeSpan.FromMilliseconds(32);
+            set { SetValue(ViewModelProperty, value); }
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            //Size size = new Size(Math.Max(availableSize.Width, availableSize.Height), Math.Max(availableSize.Width, availableSize.Height));
-            //this.Content.Measure(size);
-
-            //return size;
-
             if (double.IsInfinity(availableSize.Width))
             {
                 return new Size(availableSize.Height, availableSize.Height);
@@ -74,28 +67,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             return availableSize;
         }
 
-        //protected override Size ArrangeOverride(Size finalSize)
-        //{
-        //    if (finalSize.Width == 0)
-        //    {
-        //        Size newSize = new Size(finalSize.Height, finalSize.Height);
-
-        //        return base.ArrangeOverride(newSize);
-        //    }
-        //    if (finalSize.Height == 0)
-        //    {
-        //        Size newSize = new Size(finalSize.Width, finalSize.Width);
-
-        //        return base.ArrangeOverride(newSize);
-        //    }
-
-        //    return base.ArrangeOverride(finalSize);
-        //}
-
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
-            currentGameTreeNode = ViewModel.GameTreeNode;
+            _currentGameTreeNode = ViewModel.GameTreeNode;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
@@ -105,7 +80,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
         {
-            currentGameTreeNode = e;
+            _currentGameTreeNode = e;
         }
         
 
@@ -137,7 +112,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
         {
-            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, currentGameTreeNode);
+            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, _currentGameTreeNode);
         }
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)

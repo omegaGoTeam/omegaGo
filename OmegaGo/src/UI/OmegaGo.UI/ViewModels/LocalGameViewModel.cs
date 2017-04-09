@@ -34,6 +34,16 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _lifeAndDeathDoneCommand;
         private IMvxCommand _resumeGameCommand;
         private IMvxCommand _requestUndoDeathMarksCommand;
+        
+        public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+            : base (gameSettings, questsManager, dialogService)
+        {
+            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
+            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
+
+            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
+            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+        }
 
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
@@ -80,18 +90,9 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand RequestUndoDeathMarksCommand
             => _requestUndoDeathMarksCommand ??
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
-        
 
-        public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
-            : base (gameSettings, questsManager, dialogService)
-        {
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
 
-            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
-        }
-        
+
         ////////////////
         // Initial setup overrides      
         ////////////////

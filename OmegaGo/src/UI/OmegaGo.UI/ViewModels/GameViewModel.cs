@@ -72,13 +72,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public IGame Game => _game;
-        public BoardViewModel BoardViewModel { get; private set; }
-        public GamePhaseType GamePhase
-        {
-            get { return _gamePhase; }
-            set { SetProperty(ref _gamePhase, value); }
-        }
-
         public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
 
         protected IGameSettings GameSettings => _gameSettings;
@@ -86,6 +79,18 @@ namespace OmegaGo.UI.ViewModels
         protected UiConnector UiConnector => _uiConnector;
         protected IQuestsManager QuestsManager => _questsManager;
         protected Assistant Assistant => _assistant;
+
+        public BoardViewModel BoardViewModel
+        {
+            get;
+            private set;
+        }
+
+        public GamePhaseType GamePhase
+        {
+            get { return _gamePhase; }
+            set { SetProperty(ref _gamePhase, value); }
+        }
 
         private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
         {
@@ -292,7 +297,11 @@ namespace OmegaGo.UI.ViewModels
         // Debugging      
         ////////////////
 
-        
+        protected void AppendLogLine(string logLine)
+        {
+            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
+        }
+
         /// <summary>
         /// Observes debugging messages from controller
         /// </summary>
@@ -303,11 +312,6 @@ namespace OmegaGo.UI.ViewModels
             {
                 debuggingMessagesProvider.DebuggingMessage += (s, e) => AppendLogLine(e);
             }
-        }
-
-        protected void AppendLogLine(string logLine)
-        {
-            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
         }
     }
 }

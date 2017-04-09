@@ -19,12 +19,7 @@ namespace OmegaGo.UI.WindowsUniversal.Converters
             get;
             set;
         }
-
-        public GamePhaseVisibilityConverter()
-        {
-
-        }
-        
+                
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             GamePhaseType currentPhase = (GamePhaseType)value;
