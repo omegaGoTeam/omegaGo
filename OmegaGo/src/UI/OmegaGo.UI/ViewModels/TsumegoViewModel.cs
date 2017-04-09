@@ -132,6 +132,9 @@ A tsumego problem will also display a problem statement
             }
         }
 
+        /// <summary>
+        /// Shows the problem name in the tab title
+        /// </summary>
         public override void Appearing()
         {
             TabTitle = CurrentProblemName;
