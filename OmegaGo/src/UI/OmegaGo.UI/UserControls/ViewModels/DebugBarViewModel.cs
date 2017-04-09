@@ -35,8 +35,8 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public string FuegoCommandText
         {
-            get => _fuegoCommandText;
-            set => SetProperty(ref _fuegoCommandText, value);
+            get { return _fuegoCommandText; }
+            set { SetProperty(ref _fuegoCommandText, value); }
         }
         
         public IMvxCommand FillCommand
