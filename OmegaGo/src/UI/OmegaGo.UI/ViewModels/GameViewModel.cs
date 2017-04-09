@@ -76,6 +76,25 @@ namespace OmegaGo.UI.ViewModels
             ObserveDebuggingMessages();
         }
 
+
+        /// <summary>
+        /// Ensure the user really wants to go back in the game
+        /// </summary>
+        public override async void GoBack()
+        {
+            //show confirmation
+            var backNavigationConfirmed = await Mvx.Resolve<IDialogService>()
+                .ShowConfirmationDialogAsync(
+                    Localizer.AreYouSureYouWantToEndTheGame,
+                    Localizer.AreYouSure,
+                    Localizer.Yes,
+                    Localizer.No);
+            if (backNavigationConfirmed)
+            {
+                Close(this);
+            }
+        }
+
         private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
         {
             if (e.Type == GamePhaseType.LifeDeathDetermination)

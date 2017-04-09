@@ -65,8 +65,6 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Grid.ColumnSpan="3" x:Name="DraggableTitleBarArea" Background="Transparent">
-                </Grid>
                 <ScrollViewer HorizontalScrollMode="Auto" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" Grid.Column="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -121,6 +119,8 @@
                         <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
                     </Border.Background>
                 </Border>
+                <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="DraggableTitleBarArea" Background="Transparent">
+                </Grid>
                 <Button x:Name="FeedbackButton" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed" />
                 <Grid Grid.Column="2" x:Name="RightTitleBarMask"/>
             </Grid>

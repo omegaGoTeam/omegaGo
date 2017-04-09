@@ -230,7 +230,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         {            
             if ( tab.Frame.CanGoBack )
             {
-                tab.Frame.GoBack();
+                tab.CurrentViewModel?.GoBackCommand.Execute();
                 return true;
             }
             return false;

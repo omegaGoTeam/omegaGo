@@ -81,7 +81,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
         private bool HandleClose(MvxClosePresentationHint hint)
         {
-            return _appShell.TabManager.HandleBackNavigation(hint.ViewModelToClose);
+            if (_appShell.TabManager.ActiveTab?.Frame.CanGoBack == true)
+            {
+                _appShell.TabManager.ActiveTab?.Frame.GoBack();                
+            }
+            return true;
         }
     }
 }
