@@ -59,27 +59,27 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Pass command from UI
         /// </summary>
-        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass));
+        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass, () => GamePhase == GamePhaseType.Main));
 
         /// <summary>
         /// Resignation command from UI
         /// </summary>
-        public IMvxCommand ResignCommand => _resignCommand ?? (_resignCommand = new MvxCommand(Resign));
+        public IMvxCommand ResignCommand => _resignCommand ?? (_resignCommand = new MvxCommand(Resign, () => GamePhase == GamePhaseType.Main));
 
         /// <summary>
         /// Undo command from UI
         /// </summary>
-        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo, () => GamePhase == GamePhaseType.Main));
 
         public IMvxCommand LifeAndDeathDoneCommand
-            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone));
+            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
         public IMvxCommand ResumeGameCommand
-            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame));
+            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
         public IMvxCommand RequestUndoDeathMarksCommand
             => _requestUndoDeathMarksCommand ??
-            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
+            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
         
 
         public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
@@ -133,6 +133,9 @@ namespace OmegaGo.UI.ViewModels
         
         protected override void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
+            // Handle raising the phase handlers
+            base.OnGamePhaseChanged(phaseState);
+
             if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 phaseState.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -143,8 +146,8 @@ namespace OmegaGo.UI.ViewModels
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
 
-            // Handle raising the phase handlers
-            base.OnGamePhaseChanged(phaseState);
+            // We are in a new Game Phase, refresh commands
+            RefreshCommands();
         }
 
         protected override void OnTurnPlayerChanged(GamePlayer newPlayer)
@@ -168,6 +171,16 @@ namespace OmegaGo.UI.ViewModels
                 // because we need the UpdateTimeline calls to be in order.
                 await PlaySoundIfAppropriate(newNode);
             }
+        }
+
+        protected void RefreshCommands()
+        {
+            PassCommand.RaiseCanExecuteChanged();
+            ResignCommand.RaiseCanExecuteChanged();
+            UndoCommand.RaiseCanExecuteChanged();
+            LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
+            ResumeGameCommand.RaiseCanExecuteChanged();
+            RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
         }
 
         ////////////////
