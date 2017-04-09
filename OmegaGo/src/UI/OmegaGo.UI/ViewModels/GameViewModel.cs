@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
+using System.Collections.ObjectModel;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -31,19 +32,13 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
-        protected Assistant Assistant;
+        private readonly Assistant _assistant;
 
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
 
-        public IGame Game => _game;
-        public BoardViewModel BoardViewModel { get; private set; }
-        
-        protected IGameSettings GameSettings => _gameSettings;
-        protected IDialogService DialogService => _dialogService;
-        protected UiConnector UiConnector => _uiConnector;
-        protected IQuestsManager QuestsManager => _questsManager;
-        
+        private GamePhaseType _gamePhase;
+
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
@@ -51,7 +46,7 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
-            Assistant = new Assistant(gameSettings, _game.Info is RemoteGameInfo);
+            _assistant = new Assistant(gameSettings, _game.Info is RemoteGameInfo);
             _game.Controller.GameEnded += (s, e) => OnGameEnded(e);
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
@@ -72,8 +67,29 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             Game.Controller.GamePhaseStarted += Controller_GamePhaseStarted;
-            
+
             ObserveDebuggingMessages();
+        }
+
+        public IGame Game => _game;
+        public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
+
+        protected IGameSettings GameSettings => _gameSettings;
+        protected IDialogService DialogService => _dialogService;
+        protected UiConnector UiConnector => _uiConnector;
+        protected IQuestsManager QuestsManager => _questsManager;
+        protected Assistant Assistant => _assistant;
+
+        public BoardViewModel BoardViewModel
+        {
+            get;
+            private set;
+        }
+
+        public GamePhaseType GamePhase
+        {
+            get { return _gamePhase; }
+            set { SetProperty(ref _gamePhase, value); }
         }
 
         private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
@@ -105,7 +121,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void _uiConnector_AiLog(object sender, string e)
         {
-            _systemLog.AppendLine("AI: " + e);
+            AppendLogLine($"AI: {e}");
         }
 
 
@@ -168,6 +184,8 @@ namespace OmegaGo.UI.ViewModels
                     .Invoke(phaseState.NewPhase);
             }
 
+            // Define publicly the new phase
+            GamePhase = phaseState.NewPhase.Type;
 
             // Should be implemented by the specific registered Action
             //if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
@@ -279,9 +297,10 @@ namespace OmegaGo.UI.ViewModels
         // Debugging      
         ////////////////
 
-        private readonly StringBuilder _systemLog = new StringBuilder();
-        
-        public string SystemLog => _systemLog.ToString();
+        protected void AppendLogLine(string logLine)
+        {
+            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
+        }
 
         /// <summary>
         /// Observes debugging messages from controller
@@ -291,7 +310,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => AppendLogLine(e);
             }
         }
     }
