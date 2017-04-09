@@ -47,6 +47,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         public Frame Frame { get; }
 
         /// <summary>
+        /// Gets the position of the tab
+        /// </summary>
+        public int Position => AppShell.GetForCurrentView().TabManager.Tabs.IndexOf(this);
+
+        /// <summary>
         /// Gets the currently displayed view model
         /// </summary>
         public ViewModelBase CurrentViewModel => (Frame.Content as ViewBase)?.ViewModel as ViewModelBase;
