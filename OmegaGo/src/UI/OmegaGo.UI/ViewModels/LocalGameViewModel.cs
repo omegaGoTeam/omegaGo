@@ -11,6 +11,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
@@ -172,6 +173,7 @@ namespace OmegaGo.UI.ViewModels
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
                 // because we need the UpdateTimeline calls to be in order.
                 await PlaySoundIfAppropriate(newNode);
+                Mvx.Resolve<ITabProvider>().GetTabForViewModel(this).IsBlinking = true;
             }
         }
 

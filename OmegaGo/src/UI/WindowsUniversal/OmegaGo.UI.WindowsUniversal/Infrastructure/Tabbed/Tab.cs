@@ -24,6 +24,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         private ICommand _closeCommand;
         private ICommand _goBackCommand;
         private string _title;
+        private bool _isBlinking;
         private Uri _iconUri;
 
         /// <summary>
@@ -44,6 +45,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         /// Frame used to display Tab's content
         /// </summary>
         public Frame Frame { get; }
+
+        /// <summary>
+        /// Gets the position of the tab
+        /// </summary>
+        public int Position => AppShell.GetForCurrentView().TabManager.Tabs.IndexOf(this);
 
         /// <summary>
         /// Gets the currently displayed view model
@@ -67,6 +73,22 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets whether the tab is currently blinking to notify the user
+        /// </summary>
+        public bool IsBlinking
+        {
+            get { return _isBlinking; }
+            set
+            {
+                //do not activate if tab is already active
+                if (value && this == AppShell.GetForCurrentView().TabManager.ActiveTab) return;
+
+                //perform action
+                SetProperty(ref _isBlinking, value);                
+            }
         }
 
         /// <summary>

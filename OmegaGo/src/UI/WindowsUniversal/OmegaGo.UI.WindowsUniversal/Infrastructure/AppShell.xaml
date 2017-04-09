@@ -7,6 +7,10 @@
     xmlns:tabbed="using:OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:media="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}"
     x:Name="PageRoot">
 
@@ -79,28 +83,8 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="tabbed:Tab">
-                                    <Grid Background="Transparent" ToolTipService.ToolTip="{x:Bind Title, Mode=OneWay}" VerticalAlignment="Stretch" Width="150">
-                                        <Grid.ContextFlyout>
-                                            <MenuFlyout>
-                                                <MenuFlyoutItem Command="{x:Bind GoBackCommand}" Text="{Binding Path=Localizer.GoBack, ElementName=PageRoot}"></MenuFlyoutItem>
-                                            </MenuFlyout>
-                                        </Grid.ContextFlyout>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="32" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <Viewbox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Height="24">
-                                            <BitmapIcon VerticalAlignment="Center" UriSource="{x:Bind IconUri, Mode=OneWay}" />
-                                        </Viewbox>
-                                        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                                        <Button Command="{x:Bind CloseCommand}" Grid.Column="2" Padding="5,0,5,0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Style="{StaticResource TabCloseButtonStyle}">
-                                            <FontIcon FontSize="10" Glyph="&#xE106;" />
-                                        </Button>
-                                        <Border Grid.Column="3" Margin="0,0,0,0" VerticalAlignment="Stretch" Width="1" HorizontalAlignment="Right" Background="Black" />
-                                    </Grid>
+                                <DataTemplate>
+                                    <navigation:TabControl />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
