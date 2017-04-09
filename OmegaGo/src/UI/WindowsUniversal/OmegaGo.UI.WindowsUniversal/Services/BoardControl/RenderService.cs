@@ -25,6 +25,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public class RenderService
     {
+        private const int ReferenceWidth = 600;
+        private const int ReferenceHeight = 600;
+        private const int ReferenceFontSize = 20;
+
         private BoardControlState _sharedBoardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         private double _flickerPercentage;
@@ -409,7 +413,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 charCode++;
             }
-            
+
+            float fontSize = Math.Min(boardWidth * _cellSize, boardHeight * _cellSize) / (float)ReferenceWidth;
+            _textFormat.FontSize = ReferenceFontSize * fontSize;
+
             // Draw horizontal char coordinates
             for (int i = 0; i < boardWidth; i++)
             {
