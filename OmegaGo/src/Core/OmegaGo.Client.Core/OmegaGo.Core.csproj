@@ -49,6 +49,7 @@
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\PrisonersNodeInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />
+    <Compile Include="Game\MarkupInfo.cs" />
     <Compile Include="Game\PlayerInfo.cs" />
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />

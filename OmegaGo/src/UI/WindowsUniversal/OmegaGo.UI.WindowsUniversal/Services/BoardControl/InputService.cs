@@ -60,7 +60,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="y">position on y axis</param>
         public void PointerMoved(int x, int y)
         {
-            SharedBoardControlState.MouseOverPosition
+            SharedBoardControlState.PointerOverPosition
                 = TranslateToBoardPosition(x, y);
         }
 
