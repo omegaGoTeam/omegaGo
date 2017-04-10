@@ -19,6 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
@@ -62,6 +63,11 @@
             <Button Command="{Binding Path=PlaceNumberCommand}">
                 <FontIcon Glyph="&#x31;" FontFamily="Segoe UI Emoji" />
             </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
             <Button Command="{Binding Path=PlaceRectangleCommand}">
                 <FontIcon Glyph="&#x25A1;" FontFamily="Segoe UI Emoji" />
             </Button>
@@ -76,7 +82,7 @@
             </Button>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Margin="0,5,0,0" Orientation="Horizontal"
+        <StackPanel Grid.Row="4" Margin="0,5,0,0" Orientation="Horizontal"
                     HorizontalAlignment="Center">
             <Button Content="Back to game" Command="{Binding Path=BackToGameCommand}" />
             <Button Content="Pass" Command="{Binding Path=PassCommand}"
@@ -84,6 +90,6 @@
         </StackPanel>
 
         <TextBlock x:Name="nodeCommentaryText"
-                   Grid.Row="4"/>
+                   Grid.Row="5"/>
     </Grid>
 </local:UserControlBase>

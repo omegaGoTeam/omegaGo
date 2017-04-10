@@ -102,7 +102,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void BackToGame()
         {
-
+            BackToGameRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void Pass()

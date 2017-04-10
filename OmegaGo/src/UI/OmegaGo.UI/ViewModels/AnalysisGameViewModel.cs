@@ -12,6 +12,7 @@ namespace OmegaGo.UI.ViewModels
         private bool _isInAnalysisMode;
 
         private MvxCommand _enableAnalysisModeCommand;
+        private MvxCommand _disableAnalysisModeCommand;
 
         public AnalysisViewModel AnalysisViewModel { get; private set; }
         public object AnalysisTool => AnalysisViewModel.SelectedTool;
@@ -25,7 +26,11 @@ namespace OmegaGo.UI.ViewModels
         public MvxCommand EnableAnalysisModeCommand => _enableAnalysisModeCommand ?? (_enableAnalysisModeCommand = new MvxCommand(
             () => { EnableAnalysisMode(); },
             () => !IsInAnalysisMode));
-        
+
+        public MvxCommand DisableAnalysisModeCommand => _disableAnalysisModeCommand ?? (_disableAnalysisModeCommand = new MvxCommand(
+            () => { DisableAnalysisMode(); },
+            () => IsInAnalysisMode));
+
         public AnalysisGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
         {
@@ -47,7 +52,7 @@ namespace OmegaGo.UI.ViewModels
 
         protected virtual void OnAnalysisBackToGameRequested()
         {
-
+            DisableAnalysisMode();
         }
 
         protected virtual void OnAnalysisBranchDeletionRequested()
@@ -67,6 +72,7 @@ namespace OmegaGo.UI.ViewModels
             IsInAnalysisMode = true;
             OnAnalysisModeEnabled();
             EnableAnalysisModeCommand.RaiseCanExecuteChanged();
+            DisableAnalysisModeCommand.RaiseCanExecuteChanged();
         }
 
         protected void DisableAnalysisMode()
@@ -76,6 +82,7 @@ namespace OmegaGo.UI.ViewModels
             IsInAnalysisMode = false;
             OnAnalysisModeDisabled();
             EnableAnalysisModeCommand.RaiseCanExecuteChanged();
+            DisableAnalysisModeCommand.RaiseCanExecuteChanged();
         }
     }
 }
