@@ -14,30 +14,11 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ObserverGameViewModel : GameViewModel
     {
-        private int _maximumMoveIndex;
-        private int _previousMoveIndex = -1;
-        private int _selectedMoveIndex;
 
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         public ChatViewModel ChatViewModel { get; private set; }
-
-        public int SelectedMoveIndex
-        {
-            get { return _selectedMoveIndex; }
-            set
-            {
-                SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing = Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
-                RefreshBoard(whatIsShowing);
-            }
-        }
-
-        public int MaximumMoveIndex
-        {
-            get { return _maximumMoveIndex; }
-            set { SetProperty(ref _maximumMoveIndex, value); }
-        }
+      
 
         public ObserverGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
@@ -68,35 +49,6 @@ namespace OmegaGo.UI.ViewModels
         protected override void OnCurrentNodeStateChanged()
         {
             RefreshBoard(Game.Controller.CurrentNode);
-        }
-
-        protected override async void OnGameEnded(GameEndInformation endInformation)
-        {
-            await DialogService.ShowAsync(endInformation.ToString(), $"End reason: {endInformation.Reason}");
-        }
-        
-        protected override async void OnCurrentNodeChanged(GameTreeNode newNode)
-        {
-            if (newNode != null)
-            {
-                UpdateTimeline();
-                // It is ABSOLUTELY necessary for this to be the last statement in this method,
-                // because we need the UpdateTimeline calls to be in order.
-                await PlaySoundIfAppropriate(newNode);
-            }
-        }
-        
-        private void UpdateTimeline()
-        {
-            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
-            int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
-            MaximumMoveIndex = newNumber;
-            if (autoUpdate && _previousMoveIndex != newNumber)
-            {
-                SelectedMoveIndex = newNumber;
-            }
-            _previousMoveIndex = newNumber;
         }
     }
 }

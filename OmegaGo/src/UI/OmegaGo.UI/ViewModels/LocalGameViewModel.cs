@@ -23,10 +23,6 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class LocalGameViewModel : GameViewModel
     {
-        private int _maximumMoveIndex;
-        private int _previousMoveIndex = -1;
-        private int _selectedMoveIndex;
-
         private IMvxCommand _passCommand;
         private IMvxCommand _resignCommand;
         private IMvxCommand _undoCommand;
@@ -48,24 +44,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
 
-        public int SelectedMoveIndex
-        {
-            get { return _selectedMoveIndex; }
-            set
-            {
-                SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                  Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
-                RefreshBoard(whatIsShowing);
-            }
-        }
-
-        public int MaximumMoveIndex
-        {
-            get { return _maximumMoveIndex; }
-            set { SetProperty(ref _maximumMoveIndex, value); }
-        }
-
+     
         /// <summary>
         /// Pass command from UI
         /// </summary>
@@ -129,7 +108,6 @@ namespace OmegaGo.UI.ViewModels
         {
             GameSettings.Statistics.GameHasBeenCompleted(Game, endInformation);
             QuestsManager.GameCompleted(Game, endInformation);
-            await DialogService.ShowAsync(endInformation.ToString(), $"End reason: {endInformation.Reason}");
         }
         
         protected override void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
@@ -161,17 +139,6 @@ namespace OmegaGo.UI.ViewModels
         protected override void OnCurrentNodeStateChanged()
         {
             RefreshBoard(Game.Controller.CurrentNode);
-        }
-
-        protected override async void OnCurrentNodeChanged(GameTreeNode newNode)
-        {
-            if (newNode != null)
-            {
-                UpdateTimeline();
-                // It is ABSOLUTELY necessary for this to be the last statement in this method,
-                // because we need the UpdateTimeline calls to be in order.
-                await PlaySoundIfAppropriate(newNode);
-            }
         }
 
         protected void RefreshCommands()
@@ -228,24 +195,7 @@ namespace OmegaGo.UI.ViewModels
         {
             UiConnector.RequestLifeDeathUndoDeathMarks();
         }
-
-        ////////////////
-        // Timeline handling
-        ////////////////
-
-        private void UpdateTimeline()
-        {
-            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
-            int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
-            MaximumMoveIndex = newNumber;
-            if (autoUpdate && _previousMoveIndex != newNumber)
-            {
-                SelectedMoveIndex = newNumber;
-            }
-            _previousMoveIndex = newNumber;
-        }
-
+        
 
         ////////////////
         // Phase handlers      

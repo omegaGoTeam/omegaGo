@@ -4,6 +4,7 @@ using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Time;
+using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
 
 namespace OmegaGo.UI.UserControls.ViewModels
@@ -21,10 +22,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly IGameController _controller;
         private readonly bool _isOnline;
 
-        private string _timeControlMainLine = "f";
-        private string _timeControlSubLine = "f";
+        private string _timeControlMainLine = "";
+        private string _timeControlSubLine = "";
         private int _prisonerCount = 0;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
+        private Localizer Localizer = (Localizer) Mvx.Resolve<ILocalizationService>();
 
         /// <summary>
         /// Creates the player portrait view model
@@ -77,6 +79,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _prisonerCount; }
             set { SetProperty(ref _prisonerCount, value); }
         }
+        public string CapturesLine
+        {
+            get { return string.Format(Localizer.StonesCaptured, PrisonerCount); }
+        }
         
         /// <summary>
         /// Updates the time control
@@ -95,6 +101,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
                     ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
                     : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
                 ;
+            RaisePropertyChanged(nameof(CapturesLine));
 
         }
     }
