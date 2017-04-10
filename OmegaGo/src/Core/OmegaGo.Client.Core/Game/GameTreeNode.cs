@@ -184,6 +184,17 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
+        /// Removes the given child of node.
+        /// </summary>
+        /// <param name="child">Child to remove</param>
+        public void RemoveChild(GameTreeNode child)
+        {
+            if (!Branches.RemoveNode(child))
+             throw new InvalidOperationException("Cannot remove child: The given node is not a child of current node"); 
+        
+        }
+
+        /// <summary>
         /// Gets node info of a given type. Throws <see cref="KeyNotFoundException"/> if info is not found.
         /// </summary>
         /// <typeparam name="T">Type of info to retrieve</typeparam>
