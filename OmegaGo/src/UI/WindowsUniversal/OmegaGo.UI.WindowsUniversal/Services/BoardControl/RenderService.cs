@@ -193,15 +193,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
 
             // Mouse over position special case
-            if (this._sharedBoardControlState.MouseOverPosition.IsDefined)
+            if (this._sharedBoardControlState.PointerOverPosition.IsDefined)
             {
                 // TODO Petr : only if legal - use Ruleset IsLegalMove?
                 // But it would be slow, you can implement caching to check for each intersection only once
-                if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None &&
-                    (this._sharedBoardControlState.TEMP_MoveLegality == null || this._sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y] == MoveResult.Legal)
+                if (this._sharedBoardControlState.PointerOverShadowColor != StoneColor.None &&
+                    (this._sharedBoardControlState.TEMP_MoveLegality == null || this._sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal)
                     )
                 {
-                    DrawStone(session, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
+                    DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, this._sharedBoardControlState.PointerOverShadowColor, 0.5);
                 }
             }
 
