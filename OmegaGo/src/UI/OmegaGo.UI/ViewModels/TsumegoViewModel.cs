@@ -306,30 +306,34 @@ A tsumego problem will also display a problem statement
         // Action buttons
         public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
         {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int prev = i - 1;
-            if (prev >= 0)
-            {
-                LoadProblem(Problems.AllProblems[prev]);
-            }
+            //int i = Problems.AllProblems.IndexOf(_currentProblem);
+            //int prev = i - 1;
+            //if (prev >= 0)
+            //{
+            //    LoadProblem(Problems.AllProblems[prev]);
+            //}
         }, () => {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int prev = i - 1;
-            return prev >= 0;
+            //int i = Problems.AllProblems.IndexOf(_currentProblem);
+            //int prev = i - 1;
+            //return prev >= 0;
+            return true;
         });
+
         public IMvxCommand GoToNextProblem => new MvxCommand(() =>
         {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int next = i + 1;
-            if (next < Problems.AllProblems.Count)
-            {
-                LoadProblem(Problems.AllProblems[next]);
-            }
+            //int i = Problems.AllProblems.IndexOf(_currentProblem);
+            //int next = i + 1;
+            //if (next < Problems.AllProblems.Count)
+            //{
+            //    LoadProblem(Problems.AllProblems[next]);
+            //}
         }, () => {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int next = i + 1;
-            return (next < Problems.AllProblems.Count);
+            //int i = Problems.AllProblems.IndexOf(_currentProblem);
+            //int next = i + 1;
+            //return (next < Problems.AllProblems.Count);
+            return true;
         });
+
         public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove, () => {
             return CurrentNode.Parent != null;
         });

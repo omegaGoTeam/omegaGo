@@ -34,7 +34,7 @@ namespace TsumegoListBuilder
             foreach (var file in files)
             {
                 FileInfo fileInfo = new FileInfo(file);
-                if (fileInfo.Extension.Contains("sgf"))
+                if (fileInfo.Extension.IndexOf("sgf", StringComparison.InvariantCultureIgnoreCase) != -1)
                 {
                     ProcessTsumegoFile(fileInfo, relativePath);
                 }
@@ -42,7 +42,8 @@ namespace TsumegoListBuilder
             var subFolders = Directory.GetDirectories(tsumegoFolder);
             foreach (var subFolder in subFolders)
             {
-                GetProblemsInFolder(subFolder, Path.Combine(relativePath, subFolder));
+                var dirInfo = new DirectoryInfo(subFolder);
+                GetProblemsInFolder(subFolder, Path.Combine(relativePath, dirInfo.Name));
             }
         }
 
@@ -58,7 +59,7 @@ namespace TsumegoListBuilder
                     plainBoard[x, y] = problem.InitialBoard[x, y];
                 }
             }
-            TsumegoProblemDefinition definition = new TsumegoProblemDefinition(problem.Name, problem.InitialBoard.Size,
+            TsumegoProblemDefinition definition = new TsumegoProblemDefinition(problem.Name, problem.InitialBoard.Size.Width, problem.InitialBoard.Size.Height,
                 plainBoard, Path.Combine(relativePath, fileInfo.Name));
             Definitions.Add(definition);
         }

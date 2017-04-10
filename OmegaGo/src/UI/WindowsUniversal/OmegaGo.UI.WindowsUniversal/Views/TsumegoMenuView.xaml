@@ -32,10 +32,10 @@
         <Border Margin="10" BorderThickness="1" BorderBrush="Black" Grid.Row="1">
             <GridView ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="tsumego:TsumegoProblem">
+                    <DataTemplate x:DataType="tsumego:TsumegoProblemInfo">
                         <Border Width="140" Height="140" BorderBrush="Black" BorderThickness="1">
                             <StackPanel>
-                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="4" GameBoard="{Binding InitialBoard}"  />
+                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="4" GameBoard="{x:Bind InitialBoard}"  />
                                 <TextBlock Text="{Binding ElementName=TsumegoMenuPage, Path=Localizer.SolvedExclamationPoint}" FontWeight="Bold"
                                            HorizontalAlignment="Center"
                                            Visibility="{Binding Solved, Converter={StaticResource VisibilityConverter}}"></TextBlock>

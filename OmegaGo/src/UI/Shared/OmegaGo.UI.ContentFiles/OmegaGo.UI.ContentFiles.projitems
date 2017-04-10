@@ -594,5 +594,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Tsumego\For a friend\8.sgf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="$(MSBuildThisFileDirectory)Tsumego\ProblemList.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

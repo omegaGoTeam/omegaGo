@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using OmegaGo.Core.Game;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Tsumego;
@@ -18,9 +19,11 @@ namespace OmegaGo.UI.ViewModels
     public class TsumegoMenuViewModel : ViewModelBase
     {
         private const string TsumegoAppDataFolder = "Tsumego";
-        private const string TsumegoListFileName = "TsumegoList.json";
+        private const string TsumegoListFileName = "ProblemList.json";
 
         private readonly IAppPackageFileService _appPackageFileService;
+
+        private ObservableCollection<TsumegoProblemInfo> _tsumegoProblems;
 
         public TsumegoMenuViewModel(IAppPackageFileService appPackageFileService)
         {
@@ -40,29 +43,18 @@ namespace OmegaGo.UI.ViewModels
             IsWorking = true;
 
             //Load tsumego problems
-            var tsumegoFiles = await _appPackageFileService.GetFilePathsAsync("Tsumego", true);
-            var tsumegoFileLoadTasks = new List<Task<TsumegoProblem>>();
-            foreach (var tsumegoFile in tsumegoFiles)
-            {
-                tsumegoFileLoadTasks.Add(LoadTsumegoProblemInfo(tsumegoFile));
-            }
-            var results = await Task.WhenAll(tsumegoFileLoadTasks);
-            foreach (var result in results) TsumegoProblems.Add(result);            
+            var problemList = JsonConvert.DeserializeObject<List<TsumegoProblemDefinition>>(
+                    await _appPackageFileService.ReadFileFromRelativePathAsync($"{TsumegoAppDataFolder}\\{TsumegoListFileName}"))
+                .Select(p => p.ToTsumegoProblemInfo());
+            TsumegoProblems = new ObservableCollection<TsumegoProblemInfo>(problemList);
             IsWorking = false;
         }
 
-        /// <summary>
-        /// Loads tsumego problem info from file
-        /// </summary>
-        /// <param name="tsumegoFile">Tsumego file</param>
-        /// <returns>Problem info</returns>
-        private async Task<TsumegoProblem> LoadTsumegoProblemInfo(string tsumegoFile)
+        public ObservableCollection<TsumegoProblemInfo> TsumegoProblems
         {
-            var fileContent = await _appPackageFileService.ReadContentFileFromPathAsync(tsumegoFile).ConfigureAwait(false);
-            return TsumegoProblem.CreateFromSgfText(fileContent);
+            get { return _tsumegoProblems; }
+            set { SetProperty(ref _tsumegoProblems, value); }
         }
-
-        public ObservableCollection<TsumegoProblem> TsumegoProblems { get; } = new ObservableCollection<TsumegoProblem>();
 
         public void MoveToSolveTsumegoProblem(TsumegoProblem problem)
         {

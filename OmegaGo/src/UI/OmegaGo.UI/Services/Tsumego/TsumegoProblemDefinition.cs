@@ -12,10 +12,16 @@ namespace OmegaGo.UI.Services.Tsumego
     /// </summary>
     public class TsumegoProblemDefinition
     {
-        public TsumegoProblemDefinition(string name, GameBoardSize gameBoardSize, StoneColor[,] initialGameBoard, string filePath )
+        public TsumegoProblemDefinition()
+        {
+            
+        }
+
+        public TsumegoProblemDefinition(string name, int boardWidth, int boardHeight, StoneColor[,] initialGameBoard, string filePath)
         {
             Name = name;
-            GameBoardSize = gameBoardSize;
+            BoardWidth = boardWidth;
+            BoardHeight = boardHeight;
             InitialGameBoard = initialGameBoard;
             FilePath = filePath;
         }
@@ -26,9 +32,14 @@ namespace OmegaGo.UI.Services.Tsumego
         public string Name { get; set; }
 
         /// <summary>
-        /// Game board size
+        /// Board width
         /// </summary>
-        public GameBoardSize GameBoardSize { get; set; }
+        public int BoardWidth { get; set; }
+
+        /// <summary>
+        /// Board height
+        /// </summary>
+        public int BoardHeight { get; set; }
 
         /// <summary>
         /// Initial game board state
@@ -36,13 +47,24 @@ namespace OmegaGo.UI.Services.Tsumego
         public StoneColor[,] InitialGameBoard { get; set; }
 
         /// <summary>
-        /// The starting game board
-        /// </summary>
-        public GameBoard GameBoard { get; set; }
-
-        /// <summary>
         /// Absolute file path
         /// </summary>
         public string FilePath { get; set; }
+
+        /// <summary>
+        /// Converts the problem definition to info
+        /// </summary>
+        public TsumegoProblemInfo ToTsumegoProblemInfo()
+        {
+            GameBoard gameBoard = new GameBoard(new GameBoardSize(BoardWidth, BoardHeight));
+            for (int x = 0; x < BoardWidth; x++)
+            {
+                for (int y = 0; y < BoardHeight; y++)
+                {
+                    gameBoard[x, y] = InitialGameBoard[x, y];
+                }
+            }
+            return new TsumegoProblemInfo(Name, gameBoard, FilePath);
+        }
     }
 }
