@@ -77,6 +77,8 @@ namespace OmegaGo.UI.ViewModels
 
         public bool IgsLimitation { get; set; }
 
+        public string FormTitle { get; set; } = "Hello";
+        public string RefusalCaption { get; set; } = "Refuse";
         public bool RulesetCanBeSelected => !IgsLimitation;
 
         public TimeControlSettingsViewModel TimeControl

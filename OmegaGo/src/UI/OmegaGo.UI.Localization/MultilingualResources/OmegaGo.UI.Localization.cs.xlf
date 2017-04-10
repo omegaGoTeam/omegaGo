@@ -174,8 +174,8 @@
           <target state="final">Obtížnost</target>
         </trans-unit>
         <trans-unit id="Rules" translate="yes" xml:space="preserve">
-          <source>Rules</source>
-          <target state="final">Pravidla</target>
+          <source>Ruleset</source>
+          <target state="translated">Pravidla</target>
         </trans-unit>
         <trans-unit id="WhiteHandicap" translate="yes" xml:space="preserve">
           <source>Handicap</source>
@@ -1155,6 +1155,90 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="WhiteColon" translate="yes" xml:space="preserve">
           <source>White:</source>
           <target state="translated">Bílý:</target>
+        </trans-unit>
+        <trans-unit id="AcceptChallenge" translate="yes" xml:space="preserve">
+          <source>Accept</source>
+          <target state="translated">Přijmout</target>
+        </trans-unit>
+        <trans-unit id="ChangeEllipsis" translate="yes" xml:space="preserve">
+          <source>Change...</source>
+          <target state="translated">Změnit...</target>
+        </trans-unit>
+        <trans-unit id="Creationg_KgsChallenge" translate="yes" xml:space="preserve">
+          <source>KGS challenge</source>
+          <target state="translated">Výzva na KGS</target>
+        </trans-unit>
+        <trans-unit id="Creation_IncomingIgsChallenge" translate="yes" xml:space="preserve">
+          <source>Incoming IGS challenge</source>
+          <target state="translated">Příchozí výzva na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="Creation_KgsChallengeCreation" translate="yes" xml:space="preserve">
+          <source>Create a public KGS challenge</source>
+          <target state="translated">Vytvořit veřejnou výzvu na KGS</target>
+        </trans-unit>
+        <trans-unit id="Creation_NewLocalGame" translate="yes" xml:space="preserve">
+          <source>New game</source>
+          <target state="translated">Nová hra</target>
+        </trans-unit>
+        <trans-unit id="Creation_OutgoingIgsRequest" translate="yes" xml:space="preserve">
+          <source>Issue an IGS challenge</source>
+          <target state="translated">Vyzvat soupeře ke hře na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="CustomEllipsis" translate="yes" xml:space="preserve">
+          <source>Custom...</source>
+          <target state="translated">Vlastní...</target>
+        </trans-unit>
+        <trans-unit id="DeclineKgsChallenger" translate="yes" xml:space="preserve">
+          <source>Decline</source>
+          <target state="translated">Odmítnout</target>
+        </trans-unit>
+        <trans-unit id="HeightColon" translate="yes" xml:space="preserve">
+          <source>Height:</source>
+          <target state="translated">Výška:</target>
+        </trans-unit>
+        <trans-unit id="Komi" translate="yes" xml:space="preserve">
+          <source>Komi</source>
+          <target state="translated">Komi</target>
+        </trans-unit>
+        <trans-unit id="KomiUseRecommended" translate="yes" xml:space="preserve">
+          <source>Use recommended</source>
+          <target state="translated">Použít doporučené</target>
+        </trans-unit>
+        <trans-unit id="Nigiri" translate="yes" xml:space="preserve">
+          <source>Choose at random</source>
+          <target state="translated">Vybrat náhodně</target>
+        </trans-unit>
+        <trans-unit id="RefuseChallenge" translate="yes" xml:space="preserve">
+          <source>Decline</source>
+          <target state="translated">Odmítnout</target>
+        </trans-unit>
+        <trans-unit id="SizeColon" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated">Velikost:</target>
+        </trans-unit>
+        <trans-unit id="TimeControl" translate="yes" xml:space="preserve">
+          <source>Time control</source>
+          <target state="translated">Řízení času</target>
+        </trans-unit>
+        <trans-unit id="UnjoinChallenge" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Zrušit</target>
+        </trans-unit>
+        <trans-unit id="WidthColon" translate="yes" xml:space="preserve">
+          <source>Width:</source>
+          <target state="translated">Šířka:</target>
+        </trans-unit>
+        <trans-unit id="YourAgent" translate="yes" xml:space="preserve">
+          <source>You are</source>
+          <target state="translated">Jste</target>
+        </trans-unit>
+        <trans-unit id="YourColor" translate="yes" xml:space="preserve">
+          <source>Your color</source>
+          <target state="translated">Tvoje barva</target>
+        </trans-unit>
+        <trans-unit id="SwitchColors" translate="yes" xml:space="preserve">
+          <source>Switch colors</source>
+          <target state="new">Switch colors</target>
         </trans-unit>
       </group>
     </body>
