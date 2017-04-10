@@ -8,11 +8,11 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreationBundle
 {
-    class HotseatBundle : GameCreationBundle
+    class HotseatBundle : LocalBundle
     {
-        public override GameCreationFormStyle Style => GameCreationFormStyle.LocalGame;
         public override void OnLoad(GameCreationViewModel gameCreationViewModel)
         {
+            gameCreationViewModel.FormTitle = Localizer.Creation_NewLocalGame;
             gameCreationViewModel.BlackPlayer =
                 gameCreationViewModel.PossiblePlayers.First();
             gameCreationViewModel.WhitePlayer =

@@ -74,6 +74,7 @@ namespace OmegaGo.UI.ViewModels
 
         public bool IgsLimitation { get; set; }
 
+        public GameCreationBundle Bundle => _bundle;
         public string FormTitle
         {
             get { return _formTitle; }
@@ -209,6 +210,15 @@ namespace OmegaGo.UI.ViewModels
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
             } // TODO Martin: do verification in game creation view
+        }
+        public string CustomSquareSize
+        {
+            get { return _customWidth.ToString(); }
+            set {
+                SetProperty(ref _customWidth, int.Parse(value));
+                SetProperty(ref _customHeight, int.Parse(value));
+                SetCustomBoardSize();
+            }
         }
         /// <summary>
         /// Handicap of white player

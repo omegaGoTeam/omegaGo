@@ -17,8 +17,12 @@ namespace OmegaGo.UI.Services.GameCreation
             this.selectedChallengeableUser = selectedChallengeableUser;
         }
 
+        public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
+        public override bool SupportsRectangularBoards => false;
+
         public override void OnLoad(GameCreationViewModel gameCreationViewModel)
         {
+            gameCreationViewModel.FormTitle = Localizer.Creation_OutgoingIgsRequest;
             gameCreationViewModel.IgsLimitation = true;
             gameCreationViewModel.Server = "IGS";
             gameCreationViewModel.SelectedRuleset = Core.Rules.RulesetType.Japanese;
