@@ -3,26 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.Services.Tsumego
 {
     /// <summary>
-    /// Used to serialize information about a tsumego problem
+    /// Definition of a tsumego problem
     /// </summary>
-    public class CachedTsumegoProblemInfo
+    public class TsumegoProblemDefinition
     {
-        public CachedTsumegoProblemInfo()
-        {
-            
-        }
-
-        public CachedTsumegoProblemInfo(string name, GameBoardSize gameBoardSize, StoneColor[,] gameBoardContent, string filePath )
+        public TsumegoProblemDefinition(string name, GameBoardSize gameBoardSize, StoneColor[,] initialGameBoard, string filePath )
         {
             Name = name;
-            BoardSize = gameBoardSize;
-            GameBoardContent = gameBoardContent;
+            GameBoardSize = gameBoardSize;
+            InitialGameBoard = initialGameBoard;
             FilePath = filePath;
         }
 
@@ -30,16 +24,21 @@ namespace OmegaGo.UI.Services.Tsumego
         /// Name of the problem
         /// </summary>
         public string Name { get; set; }
-        
-        /// <summary>
-        /// Size of the game board
-        /// </summary>
-        public GameBoardSize BoardSize { get; set; }
 
         /// <summary>
-        /// Game board content
+        /// Game board size
         /// </summary>
-        public StoneColor[,] GameBoardContent { get; set; }
+        public GameBoardSize GameBoardSize { get; set; }
+
+        /// <summary>
+        /// Initial game board state
+        /// </summary>
+        public StoneColor[,] InitialGameBoard { get; set; }
+
+        /// <summary>
+        /// The starting game board
+        /// </summary>
+        public GameBoard GameBoard { get; set; }
 
         /// <summary>
         /// Absolute file path

@@ -16,7 +16,7 @@ namespace OmegaGo.UI.Services.Files
         /// </summary>
         /// <param name="filePath">File path</param>
         /// <returns>Content of the file</returns>
-        Task<string> ReadContentFileFromPathAsync( string filePath );
+        Task<string> ReadFileFromRelativePathAsync( string filePath );
 
         /// <summary>
         /// Gets the file tree within a given folder of the app package content

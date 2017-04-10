@@ -18,9 +18,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         /// </summary>
         /// <param name="filePath">File path</param>
         /// <returns>File contents</returns>
-        public async Task<string> ReadContentFileFromPathAsync(string filePath)
+        public async Task<string> ReadFileFromRelativePathAsync(string filePath)
         {
-            var file = await StorageFile.GetFileFromPathAsync(filePath);
+            var file = await StorageFile.GetFileFromPathAsync(Package.Current.InstalledLocation + filePath);
             return await FileIO.ReadTextAsync(file);
         }
 
