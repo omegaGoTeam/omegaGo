@@ -25,29 +25,29 @@ namespace OmegaGo.UI.ViewModels
             new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer("Human") }
                 .Concat(Core.AI.AISystems.AIPrograms.Select(
                     program => new GameCreationViewAiPlayer(program))));
-
         private readonly IGameSettings _gameSettings;
 
-        private int _handicap = 0;
+        // Backing fields
         private bool _isHandicapFixed = true;
+        private int _handicap = 0;
         private float _compensation = 0;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
-        private RulesetType _selectedRuleset = RulesetType.Chinese;        
-
+        private RulesetType _selectedRuleset = RulesetType.Chinese;
+        private string _formTitle = "";
+        private string _refuseCaption = "";
         private int _customWidth = 19;
         private int _customHeight = 19;
         private string _server = "Local Game";
-
-        // Game Mode specific View Model
-        private readonly Type _gameModeViewModel;
-
         private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.PlayerList[0];
         private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.PlayerList[0];
-
         private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
-
         private IMvxCommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
+
+        // Non-backing fields
+        private GameCreationBundle _bundle;
+
+
 
         public GameCreationViewModel( IGameSettings gameSettings )
         {
@@ -56,11 +56,8 @@ namespace OmegaGo.UI.ViewModels
             _customHeight = _gameSettings.Interface.BoardHeight;
             SetCustomBoardSize();
 
-            var bundle = Mvx.GetSingleton<GameCreationBundle>();
-            bundle?.OnLoad(this);
-
-            // Get View Model type for the provided bundle.
-            _gameModeViewModel = GetGameModeViewModel(bundle);
+            _bundle = Mvx.GetSingleton<GameCreationBundle>();
+            _bundle.OnLoad(this);
         }
 
         /// <summary>
@@ -77,8 +74,18 @@ namespace OmegaGo.UI.ViewModels
 
         public bool IgsLimitation { get; set; }
 
-        public string FormTitle { get; set; } = "Hello";
-        public string RefusalCaption { get; set; } = "Refuse";
+        public string FormTitle
+        {
+            get { return _formTitle; }
+            set { SetProperty(ref _formTitle, value); }
+        }
+
+        public string RefusalCaption
+        {
+            get { return _refuseCaption; }
+            set { SetProperty(ref _refuseCaption, value); }
+        }
+    
         public bool RulesetCanBeSelected => !IgsLimitation;
 
         public TimeControlSettingsViewModel TimeControl
@@ -271,9 +278,16 @@ namespace OmegaGo.UI.ViewModels
             }
 
             CreateAndRegisterGame();
+
             // Navigate to specific View Model
-            // ShowViewModel<GameViewModel>();
-            ShowViewModel(_gameModeViewModel);
+            if (_bundle.Style == GameCreationFormStyle.LocalGame)
+            {
+                ShowViewModel<LocalGameViewModel>();
+            }
+            else
+            {
+                ShowViewModel<OnlineGameViewModel>();
+            }
         }
 
         /// <summary>
@@ -309,29 +323,6 @@ namespace OmegaGo.UI.ViewModels
                 if (SelectedGameBoardSize.Width < 5 || SelectedGameBoardSize.Width > 19) return false;
             }
             return true;
-        }
-
-        /// <summary>
-        /// Parses the provided GameCreationBundle and returns the appropriate View Model.
-        /// </summary>
-        /// <param name="gameCreationBundle"></param>
-        /// <returns>the appropriate View Model</returns>
-        private Type GetGameModeViewModel(GameCreationBundle gameCreationBundle)
-        {
-            // TODO Do we have any game mode enum? We could probably embbed it into GameCreationBundle so that we wouldnt need to do this.
-
-            //if (gameCreationBundle is GameCreationViewAiPlayer)
-            //    return typeof(LocalGameViewModel);
-            //if (gameCreationBundle is GameCreationViewHumanPlayer)
-            return typeof(LocalGameViewModel);
-            if (gameCreationBundle is HotseatBundle)
-                return typeof(LocalGameViewModel);
-            if (gameCreationBundle is IgsChallengeBundle)
-                return typeof(OnlineGameViewModel);
-            //if (gameCreationBundle is SoloBundle)
-            //    return typeof(LocalGameViewModel);
-
-            throw new ArgumentException($"Specific Game View Model not yet implemented for Bundle: {gameCreationBundle.GetType().Name}");
         }
     }
 }
