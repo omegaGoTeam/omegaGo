@@ -19,7 +19,7 @@ namespace OmegaGo.UI.Services.Tsumego
         static Problems()
         {
             var names = (typeof(Problems).GetTypeInfo().Assembly).GetManifestResourceNames();
-            foreach(var name in names)
+            foreach (var name in names)
             {
                 if (!name.StartsWith("OmegaGo.UI.Services.Tsumego.")) continue;
 
@@ -35,7 +35,7 @@ namespace OmegaGo.UI.Services.Tsumego
                     "At least one problem should have been loaded. Are you sure that the problems are located in the OmegaGo.UI.Services.Tsumego subfolder and that they're set as Embedded Resource?");
             }
         }
-        
+
         private static readonly List<TsumegoProblem> allProblems = new List<TsumegoProblem>();
         /// <summary>
         /// Gets all embedded tsumego problem statements.

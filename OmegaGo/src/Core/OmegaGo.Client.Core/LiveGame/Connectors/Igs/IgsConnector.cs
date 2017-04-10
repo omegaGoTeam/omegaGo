@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
-using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs.Downstream;
@@ -15,11 +15,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
     /// <summary>
     /// Connects the IgsConnection to a specific game
     /// </summary>
-    internal class IgsConnector : BaseConnector, IRemoteConnector, IIgsConnectorServerActions
+    internal class IgsConnector : IRemoteConnector, IIgsConnectorServerActions
     {
         private readonly IgsConnection _connnection;
         private readonly IgsGameController _gameController;
-
         private bool _handicapSet;
 
         public IgsConnector(IgsGameController igsGameController, IgsConnection connnection)
@@ -54,9 +53,12 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
+
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067
+        public event EventHandler Disconnected;
+        public event EventHandler<GameEndInformation> GameEndedByServer;
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -94,6 +96,7 @@ so I thought suppressing warnings would have the same result.*/
         public void HandicapFromServer(int stoneCount)
         {
             // TODO Petr: Can Handicap info arrive before HandicapPlacement starts?
+            // Quite possibly. Sigh. I'll try to do something about it.
             GameHandicapSet?.Invoke(this, stoneCount);
             _handicapSet = true;
         }
@@ -107,7 +110,7 @@ so I thought suppressing warnings would have the same result.*/
             //ignore IGS-based moves
             if (_gameController.Players[move.WhoMoves].Agent is IgsAgent) return;
             //inform the connection
-            _connnection.MadeMove(_gameController.Info, move);
+            _connnection.Commands.MakeMove(_gameController.Info, move);
         }
 
         /// <summary>
@@ -154,6 +157,15 @@ so I thought suppressing warnings would have the same result.*/
         public void ForceMainUndo()
         {
             MainUndoForced?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Disconnect()
+        {
+            Disconnected?.Invoke(this, EventArgs.Empty);
+        }
+        public void EndTheGame(GameEndInformation gameEndInfo)
+        {
+            GameEndedByServer?.Invoke(this, gameEndInfo);
         }
     }
 }

@@ -11,6 +11,7 @@ using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -88,8 +89,8 @@ namespace OmegaGo.UI.ViewModels
             get
             {
                 return _gameSettings.Audio.Mute
-                    ? "\uE74F" //"&#xE74F"
-                    : "\uE995"; //"&#xE995";
+                    ? "\uE74F" 
+                    : "\uE995"; 
 
             }
             set

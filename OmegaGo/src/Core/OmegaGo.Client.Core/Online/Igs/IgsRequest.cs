@@ -27,6 +27,11 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public readonly BufferBlock<IgsLine> IncomingLines = new BufferBlock<IgsLine>();
 
+        /// <summary>
+        /// An unattended request is enqueued in the outgoing queue just as attended requests. Then, when it's time, it's sent out,
+        /// but immediately after it's successfully sent out, it loses its current-request status and the next request in the queue
+        /// is sent out immediately. We do not except to receive any kind of reply from the server in response to this request.
+        /// </summary>
         public bool Unattended;
 
         /// <summary>
@@ -39,6 +44,10 @@ namespace OmegaGo.Core.Online.Igs
             while (true)
             {
                 IgsLine line = await IncomingLines.ReceiveAsync();
+                if (ForgottenForever)
+                {
+                    throw new System.Exception("If this happens, we should examine this in detail.");
+                }
                 if (line.Code == IgsCode.Prompt)
                 {
                     break;
@@ -46,6 +55,12 @@ namespace OmegaGo.Core.Online.Igs
                 lines.Add(line);
             }
             return lines;
+        }
+
+        private bool ForgottenForever;
+        public void Disconnect()
+        {
+            ForgottenForever = true;
         }
     }
 }

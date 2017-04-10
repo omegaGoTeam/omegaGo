@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuegoLib;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 
 namespace OmegaGo.UI.WindowsUniversal.Fuego
 {
@@ -12,7 +12,7 @@ namespace OmegaGo.UI.WindowsUniversal.Fuego
     /// This is created by <see cref="FuegoBuilder"/>. One instance of this class is created for each game in which
     /// Fuego plays (or two instances if Fuego plays as both Black and White). 
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.AI.Fuego.IGtpEngine" />
+    /// <seealso cref="OmegaGo.Core.AI.FuegoSpace.IGtpEngine" />
     class FuegoEngine : IGtpEngine
     {
         private int boardSize;

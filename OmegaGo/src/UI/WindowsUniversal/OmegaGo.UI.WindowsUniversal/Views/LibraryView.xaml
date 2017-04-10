@@ -5,6 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    x:Name="MainView"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -23,40 +25,63 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <TextBlock Text="Library" 
+        <navigation:TitleControl
                    Grid.Row="0"
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+                   Text="{x:Bind Localizer.GameLibrary}"
+                   Margin="0,20,0,0" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="5">
-            <Button Content="Open SGF file" Command="{x:Bind VM.OpenFileCommand}" />
-            <Button Content="Load" Command="{x:Bind Path=VM.LoadCommand}" Margin="5,0,0,0" />
-            <Button Content="Load Folder" Command="{x:Bind Path=VM.LoadFolderCommand}" Margin="5,0,0,0" />
-            <TextBlock Text="Filter by source"
-                       VerticalAlignment="Center"
-                       Margin="5,0,0,0"/>
-            <ComboBox ItemsSource="{x:Bind Path=VM.GameSource}"
-                      SelectedIndex="{x:Bind Path=VM.SelectedGameSourceItemIndex, Mode=TwoWay}"
-                      Margin="5,0,0,0"/>
-            <Button Content="Delete selection" Command="{x:Bind Path=VM.DeleteSelectionCommand}"
-                    Margin="5,0,0,0"/>
+            <Button Content="{x:Bind Localizer.LoadSgfFileEllipsis}" Command="{x:Bind VM.OpenFileCommand}" />
+            <Button Content="{x:Bind Localizer.Refresh}" Command="{x:Bind Path=VM.RefreshCommand}" Margin="5,0,0,0" />
+            <Button Content="{x:Bind Localizer.OpenLibraryInExplorer}" Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Margin="5,0,0,0" />
         </StackPanel>
 
-        <GridView x:Name="GameListView"
+        <ListView x:Name="GameListView"
                   Grid.Row="2"
-                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}">
-            <GridView.ItemTemplate>
+                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}"
+                  SelectedItem="{x:Bind Path=VM.SelectedItem, Mode=TwoWay}">
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Padding="15" Background="WhiteSmoke" CornerRadius="15" >
-                        <TextBlock Text="{Binding}" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Filename}" FontWeight="Bold" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Localizer.WhiteColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                <TextBlock Text="{Binding White}" FontWeight="Bold" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Localizer.BlackColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                <TextBlock Text="{Binding Black}" FontWeight="Bold" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                <TextBlock Text="{Binding Date}" FontWeight="Bold" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Comment}" />
+                        </StackPanel>
                     </Border>
                 </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+            </ListView.ItemTemplate>
+        </ListView>
 
+        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="{x:Bind VM.LoadingPanelVisible, Mode=OneWay}">
+            <StackPanel Orientation="Horizontal" Padding="15">
+                <ProgressRing IsActive="True"></ProgressRing>
+                <TextBlock Margin="10,0,0,0" Text="{x:Bind Localizer.LoadingEllipsis}"></TextBlock>
+            </StackPanel>
+        </Border>
+        
         <Grid Grid.Row="3" Padding="5">
-            <Button Content="Back" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Selected item: </TextBlock>
+                <Button Content="{x:Bind Localizer.OpenCommand}" Command="{x:Bind VM.OpenCommand}" />
+                <Button Content="{x:Bind Localizer.DeleteCommand}" Command="{x:Bind VM.DeleteCommand}"  />
+                <Button Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />
+            </StackPanel>
         </Grid>
     </Grid>
 </views:TransparencyViewBase>

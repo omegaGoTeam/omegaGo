@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
 namespace OmegaGo.Core.AI
@@ -20,19 +22,24 @@ namespace OmegaGo.Core.AI
 
         /// <summary>
         /// Asks the AI to make a move or resign, synchronously. It is guaranteed that this method
-        /// will be called in order, (TODO undos), but it may be called on white or black. The AI
+        /// will be called in order, but it may be called on white or black. The AI
         /// should check the history whether it agrees with its own. In case of a conflict,
-        /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history.
+        /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history. Undo's are
+        /// given to the AI using additional methods. Most AI's are stateless and won't need this.
         /// </summary>
-        /// <param name="preMoveInformation">Information the AI might need.</param>
+        /// <param name="gameInformation">Information the AI might need.</param>
         /// <returns>Decision</returns>
-        AIDecision RequestMove (AIPreMoveInformation preMoveInformation);
+        AIDecision RequestMove (AiGameInformation gameInformation);
 
         /// <summary>
         /// Asks the AI to tell us its best move for the given situation. This method must not have side-effects or
         /// be affected by the state of the class.
         /// </summary>
-        /// <param name="preMoveInformation">Information the AI might need.</param>
-        AIDecision GetHint(AIPreMoveInformation preMoveInformation);
+        /// <param name="gameInformation">Information the AI might need.</param>
+        AIDecision GetHint(AiGameInformation gameInformation);
+
+        void MoveUndone();
+        void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
+        Task<IEnumerable<Position>> GetDeadPositions();
     }
 }

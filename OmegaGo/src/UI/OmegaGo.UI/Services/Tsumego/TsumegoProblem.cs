@@ -41,7 +41,7 @@ namespace OmegaGo.UI.Services.Tsumego
         public GameTreeNode InitialTree { get; }
 
         public GameBoard InitialBoard => InitialTree.BoardState;
-        
+
         public virtual bool Solved => _settings?.Tsumego.SolvedProblems.Contains(this.Name) ?? false;
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace OmegaGo.UI.Services.Tsumego
                     if (node.Parent.Tsumego.Wrong) node.Tsumego.Wrong = true;
                     node.FillBoardState(TsumegoProblem.TsumegoRuleset);
                 }
-                foreach(GameTreeNode continuation in node.Branches)
+                foreach (GameTreeNode continuation in node.Branches)
                 {
                     node.Tsumego.MarkedPositions.Add(continuation.Move.Coordinates);
                 }
@@ -103,11 +103,11 @@ namespace OmegaGo.UI.Services.Tsumego
         public static TsumegoProblem CreateFromSgfText(string data)
         {
             SgfParser parser = new SgfParser();
-            var collection =  parser.Parse(data);
+            var collection = parser.Parse(data);
             SgfGameTree sgfTree = collection.GameTrees.First();
             string problemName = "";
             StoneColor playerToPlay = StoneColor.None;
-            foreach(var node in sgfTree.Sequence)
+            foreach (var node in sgfTree.Sequence)
             {
                 if (node["GN"] != null)
                 {
@@ -136,6 +136,6 @@ namespace OmegaGo.UI.Services.Tsumego
             return Rectangle.GetBoundingRectangle(board);
         }
 
-        
+
     }
 }

@@ -1,12 +1,17 @@
-﻿using OmegaGo.Core.Online.Kgs.Datatypes;
+﻿using System.Collections.Generic;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
-    public class KgsChallenge
+    public class KgsChallenge : KgsGameChannel
     {
 
         public Proposal Proposal { get; set; }
-        private KgsChallenge(Proposal proposal)
+
+        // TODO used for debugging so far
+        public List<string> Events { get; } = new List<string>();
+
+        private KgsChallenge(Proposal proposal, int channelId) : base(channelId)
         {
             Proposal = proposal;
         }
@@ -16,7 +21,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             {
                 return null;
             }
-            KgsChallenge challenge = new Structures.KgsChallenge(channel.InitialProposal);
+            KgsChallenge challenge = new Structures.KgsChallenge(channel.InitialProposal, channel.ChannelId);
             if (channel.InitialProposal.GameType != GameType.Free &&
                 channel.InitialProposal.GameType != GameType.Ranked) return null;
 

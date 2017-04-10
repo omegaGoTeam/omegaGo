@@ -20,6 +20,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
-        
+
+        private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
+        {
+            VM.Exit();
+        }
     }
 }

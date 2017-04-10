@@ -17,6 +17,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         {
         }
 
+        /// <summary>
+        /// Requests that the latest move (and or moves in case of play against AI or internet) be undone. The returned task is considered
+        /// completed as soon as the request is made, it doesn't need to actually take effect (or indeed, be accepted at all, in case of
+        /// online play). In local play, this always eventually results in an undo. In online play, it results in an undo request.
+        /// </summary>
         protected abstract Task MainRequestUndo();
 
         protected abstract void MainForceUndo();
@@ -63,6 +68,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             if (Controller.GameTree.LastNode != null)
             {
                 Controller.GameTree.RemoveLastNode();
+                foreach(var player in this.Controller.Players)
+                {
+                    player.Agent.MoveUndone();
+                }
+                Controller.OnMoveUndone();
                 Controller.SwitchTurnPlayer();
                 // TODO Petr What is this?
                 // Order here matters:
@@ -169,10 +179,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
             //ask the ruleset to validate the move
             MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(
-                       Controller.GameTree.LastNode?.BoardState ?? new GameBoard(Controller.Info.BoardSize),
-                       move,
-                       Controller.GameTree.GameTreeRoot?.GetTimelineView.Select(node => node.BoardState).ToArray() ?? new GameBoard[0]);
+                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);
@@ -212,7 +219,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
 
                 //applies the legal move
                 Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
-                ApplyMove(move, processingResult.NewBoard);
+                ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
 
                 //switches players
                 Controller.SwitchTurnPlayer();
@@ -226,16 +233,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         /// <param name="move">Move</param>
         /// <param name="newBoard">Game board state after the move</param>
-        private void ApplyMove(Move move, GameBoard newBoard)
+        private void ApplyMove(Move move, GameBoard newBoard, GroupState newGroupState)
         {
             //add new move to game tree
-            Controller.GameTree.AddMoveToEnd(move, newBoard);
+            Controller.GameTree.AddMoveToEnd(move, newBoard, newGroupState);
 
-            //inform the players that a move occured
+            //inform the ui and the internet that a move occured
             foreach (var connector in Controller.Connectors)
             {
                 connector.MovePerformed(move);
-            }            
+            }
+            //inform the players that a move occured
+            foreach (var informedPlayer in Controller.Players)
+            {
+                informedPlayer.Agent.MovePerformed(move);
+            }
         }
 
         /// <summary>

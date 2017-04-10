@@ -19,9 +19,9 @@ namespace OmegaGo.Core.AI.Defeatist
         /// <summary>
         /// Requests a move from the AI
         /// </summary>
-        /// <param name="preMoveInformation">Move request info</param>
+        /// <param name="gameInformation">Move request info</param>
         /// <returns>AI decision</returns>
-        public override AIDecision RequestMove(AIPreMoveInformation preMoveInformation)
+        public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
             return AIDecision.Resign("I could have won but I decided to let you win.");
         }

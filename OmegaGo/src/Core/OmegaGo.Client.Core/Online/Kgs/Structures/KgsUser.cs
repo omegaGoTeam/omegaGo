@@ -11,5 +11,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             Rank = user.Rank;
             AuthLevel = user.AuthLevel;
         }
+
+        public bool IsRobot => this.Flags.IndexOf(User.FlagRobot) >= 0;
     }
 }

@@ -25,6 +25,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
     public class RenderService
     {
+        private const int ReferenceWidth = 600;
+        private const int ReferenceHeight = 600;
+        private const int ReferenceFontSize = 20;
+
         private BoardControlState _sharedBoardControlState;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         private double _flickerPercentage;
@@ -50,6 +54,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private static CanvasBitmap sabakiTatamiBitmap;
         private static CanvasBitmap sabakiBlackBitmap;
         private static CanvasBitmap sabakiWhiteBitmap;
+        private static TaskCompletionSource<bool> BitmapInitializationCompletion = new TaskCompletionSource<bool>();
 
         private StoneTheme stoneDisplayTheme;
         private BoardTheme _boardTheme;
@@ -75,36 +80,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
         {
             ReloadSettings();
-            args.TrackAsyncAction(EnsureResourcesExistAsync(sender).AsAsyncAction());
+            args.TrackAsyncAction(WaitUntilResourcesAreAvailableAsync().AsAsyncAction());
         }
 
-
-        public static async void ResetResources()
+        private async Task WaitUntilResourcesAreAvailableAsync()
         {
-            if (resourceCreationAssigned == 1)
-            {
-                await resourcesCreation.Task;
-            }
-            resourcesCreation = new TaskCompletionSource<bool>();
-            resourceCreationAssigned = 0;
-        }
-        private static int resourceCreationAssigned = 0;
-        private static TaskCompletionSource<bool> resourcesCreation = new TaskCompletionSource<bool>();
-        async Task EnsureResourcesExistAsync(ICanvasResourceCreator sender)
-        {
-            if (Interlocked.CompareExchange(ref resourceCreationAssigned, 1, 0) == 1)
-            {
-                // wait
-                await resourcesCreation.Task;
-            }
-            else
-            {
-                await CreateResourcesAsync(sender);
-                resourcesCreation.SetResult(true);
-            }
+            await BitmapInitializationCompletion.Task;
         }
 
-        async Task CreateResourcesAsync(ICanvasResourceCreator sender)
+        public static async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
@@ -115,7 +99,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
             sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
             sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
-
+            BitmapInitializationCompletion.SetResult(true);
         }
        
 
@@ -213,7 +197,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 // TODO Petr : only if legal - use Ruleset IsLegalMove?
                 // But it would be slow, you can implement caching to check for each intersection only once
-                if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None)
+                if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None &&
+                    (this._sharedBoardControlState.TEMP_MoveLegality == null || this._sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y] == MoveResult.Legal)
+                    )
                 {
                     DrawStone(session, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
                 }
@@ -427,7 +413,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             {
                 charCode++;
             }
-            
+
+            float fontSize = Math.Min(boardWidth * _cellSize, boardHeight * _cellSize) / (float)ReferenceWidth;
+            _textFormat.FontSize = ReferenceFontSize * fontSize;
+
             // Draw horizontal char coordinates
             for (int i = 0; i < boardWidth; i++)
             {

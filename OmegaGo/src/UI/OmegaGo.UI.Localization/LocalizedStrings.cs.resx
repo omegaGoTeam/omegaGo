@@ -330,27 +330,11 @@
   <data name="WhenIReceiveANotification" xml:space="preserve">
     <value>Kdy obdržím upozornění</value>
   </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
-    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
-Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
-Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
-  </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
-    <value>Fluffy (minimax)</value>
-  </data>
   <data name="AI_DefeatistAI_Description" xml:space="preserve">
     <value>Vůbec nejsilnější program v této hře, Defeatist rezignuje hned, jakmile k tomu bude mít příležitost. Prostě mu nestojíte ani za hru. Jakmile uděláte první tah, nebo možná i předtím, Defeatist rozpozná, že je mnohem silnější než vy, a prostě rezignuje, aby vás nenutil hrát hru, jejíž výsledek je zjevný.</value>
   </data>
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
-  </data>
-  <data name="AI_FuegoAI_Description" xml:space="preserve">
-    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
-Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
-Doporučejeme používat pouze tuto umělou inteligenci.</value>
-  </data>
-  <data name="AI_FuegoAI_Name" xml:space="preserve">
-    <value>Fuego</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
     <value>Tato umělá inteligence používá jednoduchou heuristiku k učení svého dalšího tahu. Tato heuristika je založená na vlivu a bere v potaz všechny předchozí tahy.
@@ -693,6 +677,22 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   <data name="MoreEllipsis" xml:space="preserve">
     <value>Více...</value>
   </data>
+  <data name="AI_Fluffy_Description" xml:space="preserve">
+    <value>Fluffy používá alfa-beta strom s předdefinovanou hloubkou, aby určil nejlepší tah. Tomuto se často říká minimaxový algoritmus. V poslední vrstvě stromu se použijí na obodování desky heuristiky.
+Fluffy passuje tehdy a pouze tehdy, když zapassuje jeho soupeř.
+Hloubku stromu je možné nastavit. Zvýšení hloubky zpomalí výpočet.</value>
+  </data>
+  <data name="AI_Fluffy_Name" xml:space="preserve">
+    <value>Fluffy (minimax)</value>
+  </data>
+  <data name="AI_Fuego_Description" xml:space="preserve">
+    <value>Fuego je dobře známý open-source  program vytvořený na Albertské univerzitě v Kanadě. 
+Pro generování tahů používá prohledávání Monte Carlo. Umí pokládat kameny, pasovat a rezignovat.
+Doporučejeme používat pouze tuto umělou inteligenci.</value>
+  </data>
+  <data name="AI_Fuego_Name" xml:space="preserve">
+    <value>Fuego</value>
+  </data>
   <data name="EpicPlayQuest_Description" xml:space="preserve">
     <value>Dohraj jednu hru na desce o velikosti 25x25 nebo větší.</value>
   </data>
@@ -770,5 +770,179 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
   </data>
   <data name="UnevenStrengthQuest_Name" xml:space="preserve">
     <value>Nerovnoměrné síly</value>
+  </data>
+  <data name="CloseFlyout" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Igs_ChallengeSelectedPlayer" xml:space="preserve">
+    <value>Vyzvat vybraného hráče...</value>
+  </data>
+  <data name="Igs_IssueAChallenge" xml:space="preserve">
+    <value>Vyzvat ke hře</value>
+  </data>
+  <data name="Igs_LFG" xml:space="preserve">
+    <value>Hledám hru</value>
+  </data>
+  <data name="Igs_OnlyShowLfgers" xml:space="preserve">
+    <value>Zobrazit jen hráče hledající hru</value>
+  </data>
+  <data name="Igs_RefreshGames" xml:space="preserve">
+    <value>Obnovit seznam her</value>
+  </data>
+  <data name="Igs_RefreshUsers" xml:space="preserve">
+    <value>Obnovit seznam uživatelů</value>
+  </data>
+  <data name="Igs_RefuseAll" xml:space="preserve">
+    <value>Odmítat všechny příchozí žádosti o hru</value>
+  </data>
+  <data name="Igs_SpectateAGame" xml:space="preserve">
+    <value>Pozorovat hru</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="ObserveThisGame" xml:space="preserve">
+    <value>Pozorovat tuto hru</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Řazení podle:</value>
+  </data>
+  <data name="SortBy_Black" xml:space="preserve">
+    <value>Jméno černého</value>
+  </data>
+  <data name="SortBy_Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="SortBy_NumberOfObservers" xml:space="preserve">
+    <value>Počet diváků (od nejvyššího)</value>
+  </data>
+  <data name="SortBy_RankAscending" xml:space="preserve">
+    <value>Třída (od nejnižší)</value>
+  </data>
+  <data name="SortBy_RankDescending" xml:space="preserve">
+    <value>Třída (od nejvyšší)</value>
+  </data>
+  <data name="SortBy_White" xml:space="preserve">
+    <value>Jméno bílého</value>
+  </data>
+  <data name="YouAreLoggedInAs" xml:space="preserve">
+    <value>Přihlášený uživatel:</value>
+  </data>
+  <data name="BlackColon" xml:space="preserve">
+    <value>Černý:</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Datum:</value>
+  </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Smazat {0}?</value>
+  </data>
+  <data name="DeleteWarning" xml:space="preserve">
+    <value>Soubor bude nenávratně odstraněn z disku.</value>
+  </data>
+  <data name="ErrorParsingSgfFile" xml:space="preserve">
+    <value>Chyba při čtení souboru SGF</value>
+  </data>
+  <data name="ExportCommand" xml:space="preserve">
+    <value>Exportovat</value>
+  </data>
+  <data name="LoadingEllipsis" xml:space="preserve">
+    <value>Načítání...</value>
+  </data>
+  <data name="LoadSgfFileEllipsis" xml:space="preserve">
+    <value>Načíst soubor SGF...</value>
+  </data>
+  <data name="MovesColon" xml:space="preserve">
+    <value>Počet tahů:</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Otevřít</value>
+  </data>
+  <data name="OpenLibraryInExplorer" xml:space="preserve">
+    <value>Otevřít knihovnu v Průzkumníkovi</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="WhiteColon" xml:space="preserve">
+    <value>Bílý:</value>
+  </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Černý zvítězil.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Akceptovat odstraněné kameny</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Zrušit a vrátit se do hry</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Vzít zpět odstranění kamenů</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Soupeř passoval</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Vzdát hru</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} zajatců</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>Hra skončila remízou.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Zrušena</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Odpojení</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Vrátit zpět</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>Bílý je na tahu</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>Bílý zvítězil.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} zvítězil kontumačně.</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} zvítězil přes časový limit</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} vyhrál o {1} bodů</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>Hráč prohrál.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>Hráč vyhrál.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Tvůj tah</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>Hra byla zrušena předčasně.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>Ztratili jste připojení k serveru. Zkontrolujte své připojení k internetu. Je také možné, že jste byli odpojeni, protože jste se přihlásili k tomuto účtu z jiného počítače.</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Fáze odstranění kamenů</value>
   </data>
 </root>

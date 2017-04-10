@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.AI.Joker23.Players;
@@ -65,10 +65,10 @@ namespace FormsPrototype
             {
                 var connection = (_server as IgsConnection);
                 bLocalUndo.Visible = false;
-                connection.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
-                connection.ErrorMessageReceived += _igs_ErrorMessageReceived;
+                connection.Events.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
+                connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
-                connection.UndoDeclined += _igs_UndoDeclined;
+                connection.Events.UndoDeclined += _igs_UndoDeclined;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -175,10 +175,10 @@ namespace FormsPrototype
             if (_server is IgsConnection)
             {
                 var connection = (_server as IgsConnection);
-                connection.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
-                connection.ErrorMessageReceived -= _igs_ErrorMessageReceived;
+                connection.Events.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
+                connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
-                connection.UndoDeclined -= _igs_UndoDeclined;
+                connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
@@ -421,7 +421,6 @@ namespace FormsPrototype
             int y = -(boardSizeMinusYMinus1 - boardSize);
 
             tbInputMove.Text = Position.IntToIgsChar(x).ToString() + y.ToString();
-            // TODO
             
             if (_inLifeDeathDeterminationPhase || PlayerToMove?.Agent is HumanAgent)
             {
@@ -455,7 +454,7 @@ namespace FormsPrototype
             }
         }
 
-        private async void bMakeMove_Click(object sender, EventArgs e)
+        private void bMakeMove_Click(object sender, EventArgs e)
         {
             string coordinates = tbInputMove.Text;
             Position position;
@@ -487,7 +486,7 @@ namespace FormsPrototype
             pictureBox1.Refresh();
         }
 
-        private async void bSay_Click(object sender, EventArgs e)
+        private void bSay_Click(object sender, EventArgs e)
         {
             if (_server is IgsConnection)
             {
@@ -532,7 +531,7 @@ namespace FormsPrototype
            }
         }
 
-        private async void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
+        private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
         {
             _uiConnector.RequestLifeDeathDone();
         }
@@ -542,7 +541,7 @@ namespace FormsPrototype
             groupboxMoveMaker.Visible = true;
         }
 
-        private async void bUndoLifeDeath_Click(object sender, EventArgs e)
+        private void bUndoLifeDeath_Click(object sender, EventArgs e)
         {
             _uiConnector.RequestLifeDeathUndoDeathMarks();
         }
@@ -561,17 +560,17 @@ namespace FormsPrototype
         public IgsGameInfo OnlineInfo => (IgsGameInfo) _game.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).UndoPleaseAsync(OnlineInfo);
+            await (_server as IgsConnection).Commands.UndoPleaseAsync(OnlineInfo);
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).UndoAsync(OnlineInfo);
+            await (_server as IgsConnection).Commands.UndoAsync(OnlineInfo);
         }
 
         private void bUndoNo_Click(object sender, EventArgs e)
         {
-            (_server as IgsConnection).NoUndo(OnlineInfo);
+            (_server as IgsConnection).Commands.NoUndo(OnlineInfo);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
@@ -635,10 +634,10 @@ namespace FormsPrototype
         {
             if (_game != null)
             {
-                TimeInformation blackTime = _game.Controller.Players.Black.Clock.GetDisplayTime();
+                TimeInformation blackTime = _game.Controller.Players.Black.Clock.GetDisplayTime(false);
                 lblTimeBlackMain.Text = blackTime.MainText;
                 lblTimeBlackSub.Text = blackTime.SubText;
-                TimeInformation whiteTime = _game.Controller.Players.White.Clock.GetDisplayTime();
+                TimeInformation whiteTime = _game.Controller.Players.White.Clock.GetDisplayTime(false);
                 lblTimeWhiteMain.Text = whiteTime.MainText;
                 lblTimeWhiteSub.Text = whiteTime.SubText;
             }
@@ -659,7 +658,7 @@ namespace FormsPrototype
             {
                 if (pl.Agent is AiAgent)
                 {
-                    var fuego = (FuegoAI) ((AiAgent) pl.Agent).AI;
+                    var fuego = (Fuego) ((AiAgent) pl.Agent).AI;
                     MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
                 }
             }

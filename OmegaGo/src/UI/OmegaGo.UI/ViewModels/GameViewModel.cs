@@ -18,7 +18,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
+using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
+using System.Collections.ObjectModel;
+using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -29,18 +33,12 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
-
+        
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
 
-        public IGame Game => _game;
-        public BoardViewModel BoardViewModel { get; private set; }
-        
-        protected IGameSettings GameSettings => _gameSettings;
-        protected IDialogService DialogService => _dialogService;
-        protected UiConnector UiConnector => _uiConnector;
-        protected IQuestsManager QuestsManager => _questsManager;
-        
+        private GamePhaseType _gamePhase;
+
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
@@ -54,7 +52,6 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
 
             _uiConnector = new UiConnector(Game.Controller);
-            _uiConnector.AiLog += _uiConnector_AiLog;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
@@ -65,15 +62,30 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
-            
+
             ObserveDebuggingMessages();
         }
-
-        private void _uiConnector_AiLog(object sender, string e)
+        
+        public IGame Game => _game;
+        public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
+        
+        protected IGameSettings GameSettings => _gameSettings;
+        protected IDialogService DialogService => _dialogService;
+        protected UiConnector UiConnector => _uiConnector;
+        protected IQuestsManager QuestsManager => _questsManager;
+       
+        public BoardViewModel BoardViewModel
         {
-            _systemLog.AppendLine("AI: " + e);
+            get;
+            private set;
         }
 
+        public GamePhaseType GamePhase
+        {
+            get { return _gamePhase; }
+            set { SetProperty(ref _gamePhase, value); }
+        }
+        
         ////////////////
         // Initial setup overrides      
         ////////////////
@@ -81,7 +93,6 @@ namespace OmegaGo.UI.ViewModels
         public virtual void Init()
         {
             Game.Controller.BeginGame();
-            //UpdateTimeline();
         }
 
         protected virtual void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
@@ -92,7 +103,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
-        
+      
         protected virtual void OnGameEnded(GameEndInformation endInformation)
         {
 
@@ -117,7 +128,7 @@ namespace OmegaGo.UI.ViewModels
         {
 
         }
-
+        
         protected virtual void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
             if (phaseState.PreviousPhase != null)
@@ -132,7 +143,9 @@ namespace OmegaGo.UI.ViewModels
                     .Invoke(phaseState.NewPhase);
             }
 
-
+            // Define publicly the new phase
+            GamePhase = phaseState.NewPhase.Type;
+            
             // Should be implemented by the specific registered Action
             //if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
             //    phaseState.NewPhase.Type == GamePhaseType.Finished)
@@ -144,7 +157,7 @@ namespace OmegaGo.UI.ViewModels
             //    BoardViewModel.BoardControlState.ShowTerritory = false;
             //}
         }
-
+        
         public virtual void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -162,6 +175,7 @@ namespace OmegaGo.UI.ViewModels
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
+            BoardViewModel.BoardControlState.TEMP_MoveLegality = Game.Controller.Ruleset.GetMoveResultLite(boardState);
             // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
             BoardViewModel.Redraw();
         }
@@ -201,25 +215,25 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-
+        
         ////////////////
         // Debugging      
         ////////////////
 
-        private readonly StringBuilder _systemLog = new StringBuilder();
-        
-        public string SystemLog => _systemLog.ToString();
+        protected void AppendLogLine(string logLine)
+        {
+            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
+        }
 
         /// <summary>
         /// Observes debugging messages from controller
         /// </summary>
-        [Conditional("DEBUG")]
         private void ObserveDebuggingMessages()
         {
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => AppendLogLine(e);
             }
         }
     }

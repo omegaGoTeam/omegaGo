@@ -1,6 +1,6 @@
 using System;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.AI.Fuego;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.AI.Joker23.Players;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -38,14 +38,14 @@ namespace OmegaGo.UI.Services.GameCreation
             IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(_ai.GetType());
             if (settings.IsFuego)
             {
-                FuegoAI fuego = (FuegoAI) newInstance;
+                Fuego fuego = (Fuego) newInstance;
                 fuego.Ponder = settings.FuegoPonder;
                 fuego.AllowResign = settings.FuegoResign;
                 fuego.MaxGames = settings.FuegoMaxGames;
             }
             else if (settings.IsFluffy)
             {
-                AlphaBetaPlayerWrapper fluffy = (AlphaBetaPlayerWrapper) newInstance;
+                Fluffy fluffy = (Fluffy) newInstance;
                 fluffy.TreeDepth = settings.FluffyTreeDepth;
             }
             return new AiPlayerBuilder(color)
