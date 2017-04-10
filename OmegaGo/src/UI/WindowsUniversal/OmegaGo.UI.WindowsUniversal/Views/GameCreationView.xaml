@@ -113,10 +113,10 @@
                         </Button.Flyout>
                     </Button>
 
-                    <TextBlock Grid.Row="1" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Rules}"   />
+                    <TextBlock Grid.Row="1" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Rules}" />
                     <ComboBox  Grid.Row="1" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Rulesets}"
-                      IsEnabled="{Binding RulesetCanBeSelected}"
+                      IsEnabled="{Binding Bundle.SupportsChangingRulesets}"
                       SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -133,28 +133,30 @@
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
                                 <StackPanel>
-                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings, Mode=OneWay}" />
                                     <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
                     </Button>
 
-                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Visibility="{x:Bind VM.RulesetCanBeSelected}" Text="{x:Bind Localizer.White}" />
-                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.RulesetCanBeSelected}" 
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.White}" />
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}"  
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Visibility="{x:Bind VM.RulesetCanBeSelected}" Content="{x:Bind Localizer.MoreEllipsis}">
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
                                 <StackPanel>
-                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings, Mode=OneWay}" />
                                     <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button>
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}"
+                            Visibility="Collapsed"
+                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button> <!-- TODO Petr: add with KGS -->
                 
                 <!--
                 This code is being prepared for online forms.
@@ -180,7 +182,7 @@
                         </Button.Flyout>
                     </Button>
 -->
-                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" />
+                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" />
 
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
@@ -234,21 +236,24 @@
                     </Button>
 
                     <TextBlock Grid.Row="7" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Komi}" />
-                    <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}" IsEnabled="{Binding RulesetCanBeSelected}" x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
+                    <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
+                             IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
+                             x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
                     
                     <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
-                              Margin="5,0,5,5"
-                              Command="{x:Bind VM.SetDefaultCompensationCommand}"/>
+                              IsChecked="{x:Bind VM.UseRecommendedKomi, Mode=TwoWay}"
+                              Margin="5,0,5,5"/>
 
                     <Button Grid.Row="9" Command="{Binding Path=NavigateToGameCommand}"
-                            HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3">
+                            HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
+                            Visibility="{x:Bind VM.Bundle.Playable}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
                             <TextBlock Text="{x:Bind Localizer.Play}" Margin="10,0,0,0" />
                         </StackPanel>
                     </Button>
 
-                    <Grid Grid.Row="9" Style="{StaticResource Boxes}">
+                    <Grid Grid.Row="9" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.Bundle.AcceptableAndRefusable}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>

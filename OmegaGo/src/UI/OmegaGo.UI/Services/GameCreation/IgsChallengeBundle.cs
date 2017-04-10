@@ -18,7 +18,10 @@ namespace OmegaGo.UI.Services.GameCreation
         }
 
         public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
+        public override bool SupportsChangingRulesets => true;
         public override bool SupportsRectangularBoards => false;
+        public override bool AcceptableAndRefusable => false;
+        public override bool Playable => false;
 
         public override void OnLoad(GameCreationViewModel gameCreationViewModel)
         {

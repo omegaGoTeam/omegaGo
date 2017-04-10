@@ -40,9 +40,12 @@ namespace OmegaGo.UI.ViewModels
         private string _server = "Local Game";
         private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.PlayerList[0];
         private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.PlayerList[0];
+        private PlayerSettingsViewModel _blackSettings = new PlayerSettingsViewModel(PlayerList.First(), false);
+        private PlayerSettingsViewModel _whiteSettings = new PlayerSettingsViewModel(PlayerList.First(), false);
         private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
-        private IMvxCommand _setDefaultCompensationCommand;
         private IMvxCommand _navigateToGameCommand;
+        private IMvxCommand _switchColorsCommand;
+        private bool _useRecommendedKomi = true;
 
         // Non-backing fields
         private GameCreationBundle _bundle;
@@ -59,18 +62,18 @@ namespace OmegaGo.UI.ViewModels
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
         }
-
-        /// <summary>
-        /// Gets the black player settings
-        /// </summary>
-        public PlayerSettingsViewModel BlackPlayerSettings { get; } =
-            new PlayerSettingsViewModel(PlayerList.First(), false);
-
-        /// <summary>
-        /// Gets the white player settings
-        /// </summary>
-        public PlayerSettingsViewModel WhitePlayerSettings { get; } =
-            new PlayerSettingsViewModel(PlayerList.First(), false);
+        
+        public PlayerSettingsViewModel BlackPlayerSettings
+        {
+            get { return _blackSettings; }
+            set { SetProperty(ref _blackSettings, value); }
+        }
+        
+        public PlayerSettingsViewModel WhitePlayerSettings
+        {
+            get { return _whiteSettings; }
+            set { SetProperty(ref _whiteSettings, value); }
+        }
 
         public bool IgsLimitation { get; set; }
 
@@ -166,6 +169,21 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public IMvxCommand SwitchColorsCommand => _switchColorsCommand ?? (_switchColorsCommand = new MvxCommand(() =>
+        {
+            var white = this.WhitePlayer;
+            var whiteSettings = this.WhitePlayerSettings;
+            var black = this.BlackPlayer;
+            var blackSettings = this.BlackPlayerSettings;
+            // Order matters due to WhitePlayer and BlackPlayer setters.
+            this.WhitePlayerSettings = blackSettings;
+            this.WhitePlayer = black;
+            this.BlackPlayerSettings = whiteSettings;
+            this.BlackPlayer = white;
+            this.WhitePlayerSettings.ChangePlayer(this.WhitePlayer);
+            this.BlackPlayerSettings.ChangePlayer(this.BlackPlayer);
+        }));
+
         public ObservableCollection<GameCreationViewPlayer> PossiblePlayers { get; } =
             new ObservableCollection<GameCreationViewPlayer>(GameCreationViewModel.PlayerList);
 
@@ -210,6 +228,13 @@ namespace OmegaGo.UI.ViewModels
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
             } // TODO Martin: do verification in game creation view
+        }
+        public bool UseRecommendedKomi
+        {
+            get { return _useRecommendedKomi; }
+            set { SetProperty(ref _useRecommendedKomi, value);
+                SetDefaultCompensation();
+            }
         }
         public string CustomSquareSize
         {
@@ -256,8 +281,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
-        public IMvxCommand SetDefaultCompensationCommand => _setDefaultCompensationCommand ?? (_setDefaultCompensationCommand = new MvxCommand(SetDefaultCompensation));
-        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
+         public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
 
 
 
@@ -277,7 +301,11 @@ namespace OmegaGo.UI.ViewModels
 
         private void SetDefaultCompensation()
         {
-            Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap, CountingType.Area);
+            if (UseRecommendedKomi)
+            {
+                Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
+                    CountingType.Area);
+            }
         }
 
         private void NavigateToGame()
