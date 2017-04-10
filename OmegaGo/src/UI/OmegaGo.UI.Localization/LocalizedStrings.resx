@@ -117,12 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AI_AlphaBetaPlayerWrapper_Description" xml:space="preserve">
+  <data name="AI_Fluffy_Description" xml:space="preserve">
     <value>Fluffy uses an n-ply alpha-beta tree to figure out the best move. This is often called the minimax algorithm. In the last layer, heuristics are used to score the board position.
 Fluffy will always and only pass in response to its opponent passing.
 You may set the depth the AI will search. Increasing the depth will increase the AI's thinking time.</value>
   </data>
-  <data name="AI_AlphaBetaPlayerWrapper_Name" xml:space="preserve">
+  <data name="AI_Fluffy_Name" xml:space="preserve">
     <value>Fluffy (minimax)</value>
   </data>
   <data name="AI_DefeatistAI_Description" xml:space="preserve">
@@ -132,12 +132,12 @@ After you make your first move, or even before that, the AI will conclude that i
   <data name="AI_DefeatistAI_Name" xml:space="preserve">
     <value>Defeatist</value>
   </data>
-  <data name="AI_FuegoAI_Description" xml:space="preserve">
+  <data name="AI_Fuego_Description" xml:space="preserve">
     <value>Fuego is a well-known open-source Go-playing engine written at the University of Alberta in Canada.
 It uses Monte Carlo tree search to make moves. It's capable of placing stones, passing and resigning, as the situation calls for.
 We recommend you use this AI program for all of your games.</value>
   </data>
-  <data name="AI_FuegoAI_Name" xml:space="preserve">
+  <data name="AI_Fuego_Name" xml:space="preserve">
     <value>Fuego</value>
   </data>
   <data name="AI_HeuristicPlayerWrapper_Description" xml:space="preserve">
@@ -874,5 +874,179 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="UnevenStrengthQuest_Name" xml:space="preserve">
     <value>Uneven Strength</value>
+  </data>
+  <data name="CloseFlyout" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Igs_ChallengeSelectedPlayer" xml:space="preserve">
+    <value>Challenge selected player...</value>
+  </data>
+  <data name="Igs_IssueAChallenge" xml:space="preserve">
+    <value>Issue a challenge</value>
+  </data>
+  <data name="Igs_LFG" xml:space="preserve">
+    <value>I am looking for a game</value>
+  </data>
+  <data name="Igs_OnlyShowLfgers" xml:space="preserve">
+    <value>Only show players looking for a game</value>
+  </data>
+  <data name="Igs_RefreshGames" xml:space="preserve">
+    <value>Refresh list of games</value>
+  </data>
+  <data name="Igs_RefreshUsers" xml:space="preserve">
+    <value>Refresh list of users</value>
+  </data>
+  <data name="Igs_RefuseAll" xml:space="preserve">
+    <value>Refuse all incoming match requests</value>
+  </data>
+  <data name="Igs_SpectateAGame" xml:space="preserve">
+    <value>Spectate a game</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ObserveThisGame" xml:space="preserve">
+    <value>Observe this game</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort by:</value>
+  </data>
+  <data name="SortBy_Black" xml:space="preserve">
+    <value>Black's name</value>
+  </data>
+  <data name="SortBy_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="SortBy_NumberOfObservers" xml:space="preserve">
+    <value>Number of observers (highest first)</value>
+  </data>
+  <data name="SortBy_RankAscending" xml:space="preserve">
+    <value>Rank (lowest first)</value>
+  </data>
+  <data name="SortBy_RankDescending" xml:space="preserve">
+    <value>Rank (highest first)</value>
+  </data>
+  <data name="SortBy_White" xml:space="preserve">
+    <value>White's name</value>
+  </data>
+  <data name="YouAreLoggedInAs" xml:space="preserve">
+    <value>You are logged in as:</value>
+  </data>
+  <data name="BlackColon" xml:space="preserve">
+    <value>Black:</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="DeleteWarning" xml:space="preserve">
+    <value>This will erase the file from the library permanently.</value>
+  </data>
+  <data name="ErrorParsingSgfFile" xml:space="preserve">
+    <value>Error parsing SGF file</value>
+  </data>
+  <data name="ExportCommand" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LoadingEllipsis" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LoadSgfFileEllipsis" xml:space="preserve">
+    <value>Load SGF file...</value>
+  </data>
+  <data name="MovesColon" xml:space="preserve">
+    <value>Moves:</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenLibraryInExplorer" xml:space="preserve">
+    <value>Open library in Explorer</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="WhiteColon" xml:space="preserve">
+    <value>White:</value>
+  </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Black to play</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Black wins.</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>The game was cancelled before it could be scored.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Accept removed stones</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Cancel and resume game</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Undo stone removal</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Opponent passed</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Resign</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Stone Removal Phase</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} captures</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>The game is a draw.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Disconnection</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>White to play</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>White wins.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} wins by resignation</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} wins by timeout</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} wins by {1} points</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>You have lost.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>You have won.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Your move</value>
   </data>
 </root>

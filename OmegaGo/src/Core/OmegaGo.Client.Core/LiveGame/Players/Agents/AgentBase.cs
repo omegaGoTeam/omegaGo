@@ -104,9 +104,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
             Resigned?.Invoke(this);
         }
 
+        public virtual void MoveUndone()
+        {
+
+        }
+
         public virtual void MovePerformed(Move move)
         {
-            
         }
     }
 }

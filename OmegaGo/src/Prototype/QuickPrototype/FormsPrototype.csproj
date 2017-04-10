@@ -79,6 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChallengeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChallengeForm.Designer.cs">
+      <DependentUpon>ChallengeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChallengeForm.resx">
+      <DependentUpon>ChallengeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InGameForm.resx">
       <DependentUpon>InGameForm.cs</DependentUpon>
     </EmbeddedResource>

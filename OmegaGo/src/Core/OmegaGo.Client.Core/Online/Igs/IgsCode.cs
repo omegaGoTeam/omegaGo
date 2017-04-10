@@ -45,7 +45,7 @@
         ///<summary>
         ///File being sent
         ///</summary>
-        Fil = 6,
+        File = 6,
         ///<summary>
         /// This line contains basic information about a single game that's being played.
         ///</summary>
@@ -79,7 +79,7 @@
         ///</summary>
         Message = 14,
         ///<summary>
-        ///Move #:(B) A1
+        /// Move #:(B) A1. However, this may also be a game heading.
         ///</summary>
         Move = 15,
         ///<summary>
@@ -127,7 +127,7 @@
         ///<summary>
         ///times command
         ///</summary>
-        Tim = 26,
+        Times = 26,
         ///<summary>
         ///who command
         ///</summary>
@@ -165,7 +165,7 @@
         ///</summary>
         Version = 39,
         ///<summary>
-        ///your . string
+        /// Your . string. However, omegaGo doesn't use dot strings so we may ignore these.
         ///</summary>
         Dot = 40,
         ///<summary>
@@ -184,13 +184,5 @@
         /// An unrecognized IGS line code
         /// </summary>
         Unknown
-    }
-    enum IgsPromptCode
-    {
-        Username = 0,
-        Password = 1,
-        General = 5,
-        Playing = 6,
-        Observing = 8
     }
 }

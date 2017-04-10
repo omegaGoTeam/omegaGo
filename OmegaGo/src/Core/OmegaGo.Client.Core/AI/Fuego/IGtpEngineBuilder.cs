@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaGo.Core.AI.Fuego
+namespace OmegaGo.Core.AI.FuegoSpace
 {
     /// <summary>
     /// A GTP engine builder is capable of creating an instance of an AI program that communicates using the Go Text Protocol. A new instance will be created using the method <see cref="CreateEngine(int)"/> for every game. 

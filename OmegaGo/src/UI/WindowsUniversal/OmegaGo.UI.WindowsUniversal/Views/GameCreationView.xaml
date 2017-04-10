@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:viewModels="using:OmegaGo.UI.ViewModels"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:GameCreationViewModel, IsDesignTimeCreatable=False}">
     <Page.Transitions>
@@ -17,7 +18,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
@@ -25,14 +26,12 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <TextBlock Text="New Game" 
+        <navigation:TitleControl Text="New Game" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0"
-                   Grid.Row="0"
-                   Style="{ThemeResource HeaderTextBlockStyle}" />
+                   Grid.Row="0" />
 
 
         <Grid x:Name="GameSettingsGrid"
@@ -89,12 +88,13 @@
                     HorizontalAlignment="Stretch"
                     Content="Custom...">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
+                    <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
                         <StackPanel>
                             <TextBlock Text="Width: "/>
                             <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
                             <TextBlock Text="Height: "/>
                             <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
+                            <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -123,12 +123,13 @@
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
             <Button Grid.Column="2" Grid.Row="3" 
-                    Content="More..."
+                    Content="{x:Bind Localizer.MoreEllipsis}"
                     HorizontalAlignment="Stretch">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
+                    <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
                         <StackPanel>
                             <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
+                            <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
@@ -144,11 +145,14 @@
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
             <Button Visibility="{x:Bind VM.RulesetCanBeSelected}" 
                     Grid.Column="2" Grid.Row="4" 
-                    Content="More..."
+                    Content="{x:Bind Localizer.MoreEllipsis}"
                     HorizontalAlignment="Stretch">
                 <Button.Flyout>
-                    <Flyout Placement="Right">
-                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                    <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
+                        <StackPanel>
+                            <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                            <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                        </StackPanel>
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -171,7 +175,7 @@
                     HorizontalAlignment="Stretch"
                     Content="Change...">
                 <Button.Flyout>
-                    <Flyout  Placement="Right" >
+                    <Flyout  Placement="Right" x:Name="TimeControlFlyout">
                         <StackPanel Width="300">
                             <ComboBox  ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControl.Style, Mode=TwoWay}">
                             </ComboBox>
@@ -206,6 +210,7 @@
                                     <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
                                 </StackPanel>
                             </StackPanel>
+                            <Button Click="CloseTimeControlFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>

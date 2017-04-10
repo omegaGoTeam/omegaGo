@@ -16,7 +16,20 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr
+
+            // Thus far, we ignore this, because we don't need any information in this.
+            if (this.Clocks != null && connection.Data.IsJoined(this.ChannelId))
+            {
+                var game = connection.Data.GetGame(this.ChannelId);
+                if (this.Clocks[Role.White] != null)
+                {
+                    game.Controller.Players.White.Clock.UpdateFromClock(this.Clocks[Role.White]);
+                }
+                if (this.Clocks[Role.Black] != null)
+                {
+                    game.Controller.Players.Black.Clock.UpdateFromClock(this.Clocks[Role.Black]);
+                }
+            }
         }
         #region Flags
         // This region may be copied to other messages that make use of flags.

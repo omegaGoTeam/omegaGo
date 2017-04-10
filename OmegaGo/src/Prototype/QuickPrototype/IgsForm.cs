@@ -52,7 +52,7 @@ namespace FormsPrototype
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            this.observableGames = await igs.ListGamesInProgressAsync();
+            this.observableGames = await igs.Commands.ListGamesInProgressAsync();
             this.lbGames.Items.Clear();
             this.lbGames.Items.AddRange(this.observableGames.ToArray());
         }
@@ -74,16 +74,15 @@ namespace FormsPrototype
             this.cbWhoPlaysOnline.SelectedIndex = 0;
 
             igs = new IgsConnection();
-            igs.IncomingLine += IgsIncomingLine;
-            igs.IncomingChatMessage += Igs_IncomingChatMessage;
-            igs.Beep += Igs_Beep;
-            igs.UnhandledLine += Igs_UnhandledLine;
-            igs.IncomingMatchRequest += Igs_IncomingMatchRequest;
-            igs.IncomingShoutMessage += Igs_IncomingShoutMessage;
-            igs.OutgoingLine += Igs_OutgoingLine;
-         // TODO
-            igs.MatchRequestAccepted += Igs_MatchRequestAccepted;
-            igs.MatchRequestDeclined += Igs_MatchRequestDeclined;
+            igs.Events.IncomingLine += IgsIncomingLine;
+            igs.Events.IncomingChatMessage += Igs_IncomingChatMessage;
+            igs.Events.Beep += Igs_Beep;
+            igs.Events.UnhandledLine += Igs_UnhandledLine;
+            igs.Events.IncomingMatchRequest += Igs_IncomingMatchRequest;
+            igs.Events.IncomingShoutMessage += Igs_IncomingShoutMessage;
+            igs.Events.OutgoingLine += Igs_OutgoingLine;
+            igs.Events.MatchRequestAccepted += Igs_MatchRequestAccepted;
+            igs.Events.MatchRequestDeclined += Igs_MatchRequestDeclined;
             if (!await igs.ConnectAsync())
             {
                 MessageBox.Show("Connection to IGS failed.");
@@ -146,7 +145,7 @@ namespace FormsPrototype
             {
 
                 IgsGameInfo gameInfo = (IgsGameInfo)lbGames.SelectedItem;
-                var obs = await igs.StartObserving(gameInfo);
+                var obs = await igs.Commands.StartObserving(gameInfo);
                 if (obs != null)
                 {
                     this.lbObservedGames.Items.Add(obs);
@@ -171,7 +170,7 @@ namespace FormsPrototype
                 
                 this.lbObservedGames.Items.Remove(game);
 
-                if (!await igs.EndObserving(game))
+                if (!await igs.Commands.EndObserving(game))
                 {
                     MessageBox.Show("End observation failed.");
                 }
@@ -180,7 +179,7 @@ namespace FormsPrototype
 
         private async void bSendMessage_Click(object sender, EventArgs e)
         {
-            bool success = await igs.TellAsync(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
+            bool success = await igs.Commands.TellAsync(this.cbMessageRecipient.Text, this.tbChatMessage.Text);
             if (success)
             {
                 this.lbChat.Items.Add("OUTGOING to " + this.cbMessageRecipient.Text + ": " + this.tbChatMessage.Text);
@@ -206,7 +205,7 @@ namespace FormsPrototype
 
         private async void button7_Click(object sender, EventArgs e)
         {
-            List<IgsUser> users = await igs.ListOnlinePlayersAsync();
+            List<IgsUser> users = await igs.Commands.ListOnlinePlayersAsync();
             this.lbUsers.Items.Clear();
             this.lbUsers.Items.AddRange(users.ToArray());
 
@@ -293,7 +292,7 @@ namespace FormsPrototype
 
         private async void button5_Click(object sender, EventArgs e)
         {
-           bool result = await igs.RequestBasicMatchAsync(
+           bool result = await igs.Commands.RequestBasicMatchAsync(
                 this.cbMatchRecipient.Text,
                 StoneColor.Black,
                 (int) this.nBoardSize.Value,
@@ -315,7 +314,7 @@ namespace FormsPrototype
         {
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null) {
-                if (await igs.DeclineMatchRequestAsync(selectedItem))
+                if (await igs.Commands.DeclineMatchRequestAsync(selectedItem))
                 {
                     this.lbMatchRequests.Items.Remove(selectedItem);
                 }
@@ -343,7 +342,7 @@ namespace FormsPrototype
             IgsMatchRequest selectedItem = this.lbMatchRequests.SelectedItem as IgsMatchRequest;
             if (selectedItem != null)
             {
-                IgsGame game = await igs.AcceptMatchRequestAsync(selectedItem);
+                IgsGame game = await igs.Commands.AcceptMatchRequestAsync(selectedItem);
                 if (game != null)
                 {
                     InGameForm ingameForm = new FormsPrototype.InGameForm(game.Info, game.Controller, igs);

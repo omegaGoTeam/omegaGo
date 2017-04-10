@@ -8,12 +8,12 @@ using OmegaGo.Core.Game;
 namespace OmegaGo.Core.Rules
 {
     /// <summary>
-    /// Contains scores for individual players
+    /// Contains scores for individual players.
     /// </summary>
     public class Scores
     {
         /// <summary>
-        /// Creates empty scores
+        /// Creates empty scores.
         /// </summary>
         public Scores()
         {
@@ -31,22 +31,22 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
-        /// Score of the black player
+        /// Score of the black player.
         /// </summary>
         public float BlackScore { get; set; }
         
         /// <summary>
-        /// Score of the white player
+        /// Score of the white player.
         /// </summary>
         public float WhiteScore { get; set; }
 
         /// <summary>
-        /// Absolute score difference
+        /// Absolute score difference.
         /// </summary>
         public float AbsoluteScoreDifference => Math.Abs(this.WhiteScore - this.BlackScore);
 
         /// <summary>
-        /// Gets or sets score for a given stone color
+        /// Gets or sets score for a given stone color.
         /// </summary>
         /// <param name="color">Stone color</param>
         /// <returns>Score</returns>

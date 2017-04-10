@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs
@@ -71,14 +72,45 @@ namespace OmegaGo.Core.Online.Kgs
             await kgsConnection.MakeUnattendedRequestAsync("LOGOUT", new object());
         }
 
-        public void MakeMove(RemoteGameInfo remoteInfo, Move move)
+        public async Task MakeMove(RemoteGameInfo remoteInfo, Move move)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo) remoteInfo;
+            if (move.Kind == MoveKind.Pass)
+            {
+                await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
+                {
+                    ChannelId = kgsInfo.ChannelId,
+                    Loc = "PASS"
+                });
+            }
+            else
+            {
+                await kgsConnection.MakeUnattendedRequestAsync("GAME_MOVE", new
+                {
+                    ChannelId = kgsInfo.ChannelId,
+                    Loc = new 
+                    {
+                        X = move.Coordinates.X,
+                        Y = move.Coordinates.Y
+                    }
+                });
+            }
         }
 
-        public Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
+        public async Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            string opponentsRole = "black";
+            if (kgsInfo.Black.Name == kgsConnection.Username)
+            {
+                opponentsRole = "white";
+            }
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_ADD_TIME", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                Role = opponentsRole,
+                Time = (float) additionalTime.TotalSeconds
+            });
         }
 
         public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
@@ -96,14 +128,91 @@ namespace OmegaGo.Core.Online.Kgs
             throw new NotImplementedException();
         }
 
-        public Task Resign(RemoteGameInfo remoteInfo)
+        public async Task Resign(RemoteGameInfo remoteInfo)
+        {
+            var kgsInfo = (KgsGameInfo) remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_RESIGN", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+            });
+        }
+
+        public Task AllowUndoAsync(RemoteGameInfo remoteInfo)
         {
             throw new NotImplementedException();
         }
 
-        public Task AcceptChallengeAsync(KgsChallenge selectedItem)
+        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
+        {
+            // Join
+            await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
+            {
+                ChannelId = selectedItem.ChannelId
+            });
+            await kgsConnection.WaitUntilJoined(selectedItem.ChannelId);
+
+
+            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
+
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
+            return selectedItem;
+        }
+
+        private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)
+        {
+            var originalProposal = selectedItem.Proposal;
+            var ourName = this.kgsConnection.Username;
+            var upstreamProposal = originalProposal.ToUpstream();
+            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
+            emptySeat.Name = ourName;
+            var simpleProposal = new
+            {
+                ChannelId = selectedItem.ChannelId,
+                GameType = upstreamProposal.GameType,
+                Rules = upstreamProposal.Rules,
+                Nigiri = upstreamProposal.Nigiri,
+                Players = new[]
+                {
+                    new
+                    {
+                        Role = upstreamProposal.Players[0].Role,
+                        Name = upstreamProposal.Players[0].Name
+                    },
+                    new
+                    {
+                        Role = upstreamProposal.Players[1].Role,
+                        Name = upstreamProposal.Players[1].Name
+                    }
+                }
+            };
+            return simpleProposal;
+        }
+
+        public async Task GenericUnjoinAsync(KgsChannel channel)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = channel.ChannelId
+            });
+        }
+
+        public async Task AcceptChallenge(KgsChallenge challenge)
+        {
+           var newProposal = SubmitOurselvesIntoProposal(challenge);
+           await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_ACCEPT", newProposal);
+        }
+
+        public async Task GameTimeExpiredAsync(int channelId)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_TIME_EXPIRED", new
+            {
+                ChannelId = channelId
+            });
         }
     }
 }

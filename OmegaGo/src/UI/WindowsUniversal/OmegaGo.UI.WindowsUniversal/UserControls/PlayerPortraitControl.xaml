@@ -15,7 +15,7 @@
         <Border Background="White" BorderBrush="Black" BorderThickness="1" Margin="10">
             <StackPanel>
                 <TextBlock HorizontalAlignment="Center" Text="{x:Bind Path=ViewModel.Name, Mode=OneWay}" />
-                <TextBlock HorizontalAlignment="Center" Text="Prisoners: (uncounted)" />
+                <TextBlock Text="{x:Bind Path=ViewModel.CapturesLine, Mode=OneWay}" HorizontalAlignment="Center"></TextBlock>
                 <TextBlock HorizontalAlignment="Center" FontSize="26" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlMainLine, Mode=OneWay}" />
                 <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlSubLine, Mode=OneWay}" />
             </StackPanel>

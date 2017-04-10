@@ -50,7 +50,9 @@ namespace OmegaGo.Core.Game
         public GameTreeNode GameTreeRoot { get; set; }
         
         /// <summary>
-        /// Reference to the last added node
+        /// The LastNode is last node of the game's primary timeline and is the node where
+        /// the game currently "is". Whenever a player makes a move, the newly created node by that move becomes the LastNode.
+        /// Undoing moves will also changes the LastNode. However, working with the Analyze Mode will not change LastNode.
         /// </summary>
         public GameTreeNode LastNode
         {
@@ -74,7 +76,7 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets the primary timeline
+        /// Gets the primary timeline. The primary timeline is the list of nodes from the root up until the LastNode.
         /// </summary>
         public IEnumerable<GameTreeNode> PrimaryTimeline
         {
@@ -94,9 +96,9 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>
-        public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState)
+        public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState, GroupState groupState)
         {
-            return AddMoveToEndInternal(move, boardState);
+            return AddMoveToEndInternal(move, boardState, groupState);
         }
 
         /// <summary>
@@ -106,9 +108,9 @@ namespace OmegaGo.Core.Game
         /// <param name="newWhiteStones">Newly added white stones</param>
         /// <param name="gameBoard">Game board</param>
         /// <returns>Newly added node</returns>
-        public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard)
+        public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard, GroupState groupState)
         {
-            var newNode = AddMoveToEnd(Move.NoneMove, gameBoard);
+            var newNode = AddMoveToEnd(Move.NoneMove, gameBoard, groupState);
             newNode.AddBlack.AddRange(newBlackStones);
             newNode.AddWhite.AddRange(newWhiteStones);
             return newNode;
@@ -119,9 +121,9 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="gameBoard">Game board instance</param>
         /// <returns>Newly added node</returns>
-        public GameTreeNode AddBoardToEnd(GameBoard gameBoard)
+        public GameTreeNode AddBoardToEnd(GameBoard gameBoard, GroupState groupState)
         {
-            return AddMoveToEnd(Move.NoneMove, gameBoard);
+            return AddMoveToEnd(Move.NoneMove, gameBoard, groupState);
         }
 
         /// <summary>
@@ -154,9 +156,9 @@ namespace OmegaGo.Core.Game
         /// <param name="move">Added move</param>
         /// <param name="boardState">State of the board</param>
         /// <returns></returns>
-        private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState)
+        private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState, GroupState groupState)
         {
-            GameTreeNode node = new GameTreeNode(move) { BoardState = boardState };
+            GameTreeNode node = new GameTreeNode(move) { BoardState = boardState, GroupState = groupState };
 
             if (GameTreeRoot == null)
             {
@@ -166,6 +168,16 @@ namespace OmegaGo.Core.Game
             {
                 LastNode.Branches.AddNode(node);
                 node.Parent = LastNode;
+                node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
+                node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
+            }
+            if (move.WhoMoves == StoneColor.Black)
+            {
+                node.Prisoners.BlackPrisoners += move.Captures.Count();
+            }
+            else
+            {
+                node.Prisoners.WhitePrisoners += move.Captures.Count();
             }
             PrimaryTimelineLength++;
             LastNode = node;

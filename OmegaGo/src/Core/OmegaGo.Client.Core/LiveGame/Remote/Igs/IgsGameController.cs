@@ -9,6 +9,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
@@ -65,9 +66,21 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
-            // TODO Petr : Temporary: The following lines will be moved to the common constructor when life/death begins to work
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
             IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
+            IgsConnector.Disconnected += IgsConnector_Disconnected;
+            IgsConnector.GameEndedByServer += IgsConnector_GameEndedByServer;
+        }
+
+        private void IgsConnector_GameEndedByServer(object sender, GameEndInformation e)
+        {
+            this.EndGame(e);
+        }
+
+        private void IgsConnector_Disconnected(object sender, System.EventArgs e)
+        {
+            var us = Players.FirstOrDefault(pl => pl.IsLocal);
+            this.EndGame(GameEndInformation.CreateDisconnection(us, Players));
         }
 
         private void IgsConnector_GameScoredAndCompleted(object sender, GameScoreEventArgs e)

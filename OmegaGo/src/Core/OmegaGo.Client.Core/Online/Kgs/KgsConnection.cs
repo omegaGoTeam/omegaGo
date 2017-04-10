@@ -39,6 +39,7 @@ namespace OmegaGo.Core.Online.Kgs
     {
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
+        public string Username => _username;
         private string _password;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
@@ -139,12 +140,15 @@ namespace OmegaGo.Core.Online.Kgs
         {
             this._username = name;
             this._password = password;
+            Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
                 StartGetLoop();
             }
             this._username = name;
             this._password = password;
+            if (LoggedIn) return true;
+            Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
                 name = name,
@@ -161,13 +165,16 @@ namespace OmegaGo.Core.Online.Kgs
                 }
                 Events.RaisePersonalInformationUpdate(response.You);
                 Events.RaiseSystemMessage("Requesting room names...");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.RequestingRoomNames);
                 await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
                         Rooms = roomsArray
                     });
                 Events.RaiseSystemMessage("Joining global lists...");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.JoiningGlobalLists);
                 await Commands.GlobalListJoinRequestAsync("CHALLENGES");
                 await Commands.GlobalListJoinRequestAsync("ACTIVES");
                 await Commands.GlobalListJoinRequestAsync("FANS");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
                 Events.RaiseSystemMessage("On-login outgoing message burst complete.");
                 return true;
             }
@@ -217,6 +224,22 @@ namespace OmegaGo.Core.Online.Kgs
                 return default(T);
             }
         }
+
+        public Task WaitUntilJoined(int channelId)
+        {
+            return Task.Run(async () =>
+            {
+                while (true)
+                {
+                    if (this.Data.IsJoined(channelId))
+                    {
+                        return;
+                    }
+                    // TODO use TaskCompletionSource later on
+                    await Task.Delay(500);
+                }
+            });
+        }
     }
 
     public class JsonResponse
@@ -230,6 +253,10 @@ namespace OmegaGo.Core.Online.Kgs
                 Type = response.GetValue("type").Value<string>(),
                 Fulltext = response.ToString()
             };
+        }
+        public override string ToString()
+        {
+            return Type;
         }
     }
 

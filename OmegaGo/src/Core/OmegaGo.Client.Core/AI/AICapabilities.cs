@@ -20,12 +20,14 @@ namespace OmegaGo.Core.AI
         /// <param name="providesHints">Does AI provide hints</param>
         /// <param name="minSize">Minimum supported size</param>
         /// <param name="maxSize">Maximum supported size</param>
-        public AICapabilities(bool handlesNonSquareBoards, bool providesHints, int minSize, int maxSize)
+        /// <param name="providesFinalEvaluation">See <see cref="ProvidesFinalEvaluation"/>.</param>
+        public AICapabilities(bool handlesNonSquareBoards, bool providesHints, int minSize, int maxSize, bool providesFinalEvaluation = false)
         {
             HandlesNonSquareBoards = handlesNonSquareBoards;
             ProvidesHints = providesHints;
             MinimumBoardSize = minSize;
             MaximumBoardSize = maxSize;
+            ProvidesFinalEvaluation = providesFinalEvaluation;
         }
 
         /// <summary>
@@ -48,5 +50,10 @@ namespace OmegaGo.Core.AI
         /// and height for the AI to work. 
         /// </summary>
         public int MaximumBoardSize { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the AI can help determine life and death status of stones at the end of a game. Only Fuego can do this.
+        /// </summary>
+        public bool ProvidesFinalEvaluation { get; }
     }
 }

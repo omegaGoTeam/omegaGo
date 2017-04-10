@@ -6,6 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:igs="using:OmegaGo.Core.Online.Igs"
     Loaded="IgsHomeLoaded"
     Unloaded="IgsHomeUnloaded"
     mc:Ignorable="d">
@@ -21,65 +23,90 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Pivot Grid.Row="0">
-                <PivotItem Header="Spectate a game">
+            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}"></navigation:TitleControl>
+            <Pivot Grid.Row="1">
+                <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <Button Click="RefreshGames" Content="Refresh list of games" />
-                            <Button Click="SortByObservers_Click" Content="Sort by number of observers"/>
-                            <Button Click="SortByHighestRank_Click" Content="Sort by rank (highest first)"/>
-                            <Button Click="SortByBlackName_Click" Content="Sort by Black's name"/>
-                            <Button Click="SortByWhiteName_Click" Content="Sort by White's name"/>
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <Button Click="RefreshGames" Content="{x:Bind Localizer.Igs_RefreshGames}" />
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
+                                <RadioButton Margin="10,0,0,0" Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
+                            </StackPanel>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </ScrollViewer>
+                        <ListBox Grid.Row="1"  SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="igs:IgsGameInfo">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}"></TextBlock>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="v." Margin="5,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Black}" FontWeight="Bold"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding BoardSize}"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding PreplayedMoveCount}"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="moves" Margin="5,0,5,0"></TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <Button Grid.Row="2"
-                                Content="Observe this game"
+                                Content="{x:Bind Localizer.ObserveThisGame}"
                                 Command="{Binding ObserveSelectedGame}" />
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Issue a challenge">
+                <PivotItem Header="{x:Bind Localizer.Igs_IssueAChallenge}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <Button Click="RefreshUsers" Content="Refresh list of users"/>
-                            <Button Click="SortUsersByName" Content="Sort by name"/>
-                            <Button Click="SortUsersByRankAscending" Content="Sort by rank (lowest first)"/>
-                            <Button Click="SortUsersByRankDescending" Content="Sort by rank (highest first)"/>
-                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="Only show players looking for a game"/>
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <Button Click="RefreshUsers" Content="{x:Bind Localizer.Igs_RefreshUsers}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                            </StackPanel>
+                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </ScrollViewer>
+                        <ListBox Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                         <Button Grid.Row="2" 
-                                Content="Challenge selected player..."
+                                Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
                                 Command="{Binding ChallengeSelectedPlayer}"/>
                     </Grid>
                 </PivotItem>
@@ -90,7 +117,8 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <StackPanel Orientation="Vertical" Grid.Row="0">
+                            <TextBlock Text="This panel is temporary and will be removed once tabs are implemented."/>
                             <TextBlock Text="You have these match requests:"/>
                         </StackPanel>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
@@ -109,13 +137,17 @@
                         </StackPanel>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Console">
+                <PivotItem Header="Console" Visibility="{x:Bind VM.ConsoleVisible}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Button Click="RefreshConsole" Grid.Row="0">Refresh</Button>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Button Click="RefreshConsole">Refresh</Button>
+                            <Button Click="RefreshConsoleTail">Refresh tail</Button>
+                            <TextBlock Margin="10,0,0,0" FontStyle="Italic" VerticalAlignment="Center">Refreshing might block the UI for a while.</TextBlock>
+                        </StackPanel>
 
                         <TextBox Grid.Row="1"
                                  Padding="10"
@@ -129,17 +161,20 @@
                     </Grid>
                 </PivotItem>
             </Pivot>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Padding="0,0,10,0">You are logged in as:</TextBlock>
-                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                <Button Click="Logout_Click">Logout</Button>
-                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0">Looking for a game</CheckBox>
-                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0">Refuse all incoming match requests</CheckBox>
-                <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                    <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
-                    <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
+            <StackPanel Grid.Row="2" Orientation="Vertical">
+                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_LFG}"></CheckBox>
+                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0" Text="{x:Bind Localizer.YouAreLoggedInAs}"></TextBlock>
+                    <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
+                    <Button Click="Logout_Click" Content="{x:Bind Localizer.Logout}"></Button>
+                    <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                        <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
                         Communicating with Pandanet...
-                    </TextBlock>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>

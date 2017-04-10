@@ -358,7 +358,8 @@
                     -->
                         <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                     <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
-                    </StackPanel>
+                     <CheckBox Content="In online games, show 1 less second remaining on the clock." IsChecked="{Binding AddGraceSecond, Mode=TwoWay}" />
+                        </StackPanel>
                 </ScrollViewer>
             </PivotItem>
             <!--
@@ -426,9 +427,12 @@
 
                             <Button Content="{x:Bind Localizer.ConfigureEllipsis}">
                                 <Button.Flyout>
-                                    <Flyout>
-                                        <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
-                                    </Flyout>
+                                    <Flyout x:Name="AssistantFlyout">
+                                            <StackPanel>
+                                                <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.AssistantSettingsViewModel, Mode=OneWay}"></userControls:PlayerSettingsControl>
+                                                <Button Click="AssistantFlyout_Close" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                            </StackPanel>
+                                        </Flyout>
                                 </Button.Flyout>
                             </Button>
                         </StackPanel>

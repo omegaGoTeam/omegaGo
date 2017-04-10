@@ -52,6 +52,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lbRooms = new System.Windows.Forms.ListBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.chIgnoreTrivial = new System.Windows.Forms.CheckBox();
+            this.tbIncomingMessageDetail = new System.Windows.Forms.TextBox();
             this.lbAllIncomingMessages = new System.Windows.Forms.ListBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.bAccept = new System.Windows.Forms.Button();
@@ -66,6 +68,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbJoinedChannels = new System.Windows.Forms.ListBox();
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblNotificationMessage = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -76,6 +80,7 @@
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
             this.tabPage9.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tbUnhandledMessagesFull
@@ -124,7 +129,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1177, 579);
+            this.tabControl1.Size = new System.Drawing.Size(1177, 557);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
@@ -136,7 +141,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1169, 553);
+            this.tabPage1.Size = new System.Drawing.Size(1169, 531);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "System log";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -178,7 +183,7 @@
             this.tbLog.Multiline = true;
             this.tbLog.Name = "tbLog";
             this.tbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbLog.Size = new System.Drawing.Size(1163, 547);
+            this.tbLog.Size = new System.Drawing.Size(1163, 525);
             this.tbLog.TabIndex = 8;
             // 
             // tabPage2
@@ -323,6 +328,8 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.chIgnoreTrivial);
+            this.tabPage7.Controls.Add(this.tbIncomingMessageDetail);
             this.tabPage7.Controls.Add(this.lbAllIncomingMessages);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
@@ -332,14 +339,37 @@
             this.tabPage7.Text = "Incoming Messages";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
+            // chIgnoreTrivial
+            // 
+            this.chIgnoreTrivial.AutoSize = true;
+            this.chIgnoreTrivial.Location = new System.Drawing.Point(910, 20);
+            this.chIgnoreTrivial.Name = "chIgnoreTrivial";
+            this.chIgnoreTrivial.Size = new System.Drawing.Size(133, 17);
+            this.chIgnoreTrivial.TabIndex = 5;
+            this.chIgnoreTrivial.Text = "Ignore trivial messages";
+            this.chIgnoreTrivial.UseVisualStyleBackColor = true;
+            this.chIgnoreTrivial.CheckedChanged += new System.EventHandler(this.chIgnoreTrivial_CheckedChanged);
+            // 
+            // tbIncomingMessageDetail
+            // 
+            this.tbIncomingMessageDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbIncomingMessageDetail.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.tbIncomingMessageDetail.Location = new System.Drawing.Point(468, 3);
+            this.tbIncomingMessageDetail.Multiline = true;
+            this.tbIncomingMessageDetail.Name = "tbIncomingMessageDetail";
+            this.tbIncomingMessageDetail.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbIncomingMessageDetail.Size = new System.Drawing.Size(698, 547);
+            this.tbIncomingMessageDetail.TabIndex = 4;
+            // 
             // lbAllIncomingMessages
             // 
-            this.lbAllIncomingMessages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbAllIncomingMessages.Dock = System.Windows.Forms.DockStyle.Left;
             this.lbAllIncomingMessages.FormattingEnabled = true;
             this.lbAllIncomingMessages.Location = new System.Drawing.Point(3, 3);
             this.lbAllIncomingMessages.Name = "lbAllIncomingMessages";
-            this.lbAllIncomingMessages.Size = new System.Drawing.Size(1163, 547);
+            this.lbAllIncomingMessages.Size = new System.Drawing.Size(465, 547);
             this.lbAllIncomingMessages.TabIndex = 0;
+            this.lbAllIncomingMessages.SelectedIndexChanged += new System.EventHandler(this.lbAllIncomingMessages_SelectedIndexChanged);
             // 
             // tabPage8
             // 
@@ -468,6 +498,22 @@
             this.timerIdle.Interval = 10000;
             this.timerIdle.Tick += new System.EventHandler(this.timerIdle_Tick);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblNotificationMessage});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 557);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1177, 22);
+            this.statusStrip1.TabIndex = 10;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblNotificationMessage
+            // 
+            this.lblNotificationMessage.Name = "lblNotificationMessage";
+            this.lblNotificationMessage.Size = new System.Drawing.Size(118, 17);
+            this.lblNotificationMessage.Text = "toolStripStatusLabel1";
+            // 
             // KgsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -475,6 +521,7 @@
             this.ClientSize = new System.Drawing.Size(1177, 579);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.statusStrip1);
             this.Name = "KgsForm";
             this.Text = "KGS Prototype";
             this.Load += new System.EventHandler(this.KgsForm_Load);
@@ -492,10 +539,13 @@
             this.tabPage6.ResumeLayout(false);
             this.tabPage6.PerformLayout();
             this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
             this.tabPage9.ResumeLayout(false);
             this.tabPage9.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -539,5 +589,9 @@
         private System.Windows.Forms.Button bAccept;
         private System.Windows.Forms.ListBox lbContainerChallenges;
         private System.Windows.Forms.Label lblYourRank;
+        private System.Windows.Forms.TextBox tbIncomingMessageDetail;
+        private System.Windows.Forms.CheckBox chIgnoreTrivial;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblNotificationMessage;
     }
 }

@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         private int _strength;
         private readonly TimeSpan _timeLimit;
 
-        // TODO public for debugging purposes only
+        // TODO Petr (low importance): public for debugging purposes only
         public IAIProgram AI => _aiProgram;
 
         public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
@@ -42,13 +42,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         
         public override async void PleaseMakeAMove()
         {
-            var aiTask = Task.Run(() => _aiProgram.RequestMove(new AIPreMoveInformation(
+            var aiTask = Task.Run(() => _aiProgram.RequestMove(new AiGameInformation(
                GameInfo,
                Color,
                GameState.Players[Color],
-               GameState.GameTree,
-               _timeLimit,
-               _strength
+               GameState.GameTree
                )));
 
             AIDecision decision = await aiTask;
@@ -85,6 +83,15 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         public override string ToString()
         {
             return "Agent for " + this._aiProgram;
+        }
+
+        public override void MovePerformed(Move move)
+        {
+            _aiProgram.MovePerformed(move, this.GameState.GameTree, this.GameState.Players[move.WhoMoves], GameInfo);
+        }
+        public override void MoveUndone()
+        {
+            _aiProgram.MoveUndone();
         }
     }
 }

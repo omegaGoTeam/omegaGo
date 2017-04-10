@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Time.Japanese
 {
     /// <summary>
-    /// The Japanese time control is standard Japanese byo-yomi, i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// The Japanese time control is standard Japanese byo-yomi,
+    /// i.e. maintime + a number of byo-yomi periods where the current period resets upon move.
+    /// See http://senseis.xmp.net/?ByoYomi
     /// </summary>
     public class JapaneseTimeControl : TimeControl
     {
         private readonly int _byoyomiLengthInSeconds;
+        private readonly int _byoyomiPeriodCount;
 
         /// <summary>
         /// Time that was remaining when a snapshot was last made (just after a move)
@@ -21,16 +25,16 @@ namespace OmegaGo.Core.Time.Japanese
         public JapaneseTimeControl(int mainTimeSeconds, int byoyomiLengthInSeconds, int byoyomiPeriodCount)
         {
             this._byoyomiLengthInSeconds = byoyomiLengthInSeconds;
+            this._byoyomiPeriodCount = byoyomiPeriodCount;
             this._snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(mainTimeSeconds),
                 byoyomiPeriodCount, false);
         }
 
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
+
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
-            LastTimeClockStarted = DateTime.Now;
-            _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(secondsLeftIThink),
-                _snapshot.PeriodsLeft, _snapshot.InByoYomi);
+            // Don't use this. Use GAME_STATE instead for now. We don't need historical records of time keeping.
         }
 
         public override string GetGtpInitializationCommand()
@@ -45,10 +49,27 @@ namespace OmegaGo.Core.Time.Japanese
             return new Time.TimeLeftArguments((int) _snapshot.TimeLeft.TotalSeconds, _snapshot.InByoYomi ? 1 : 0);
         }
 
+        public override void UpdateFromClock(Clock clock)
+        {
+            LastTimeClockStarted = DateTime.Now;
+            if (clock.PeriodsLeft == 0)
+            {
+                _snapshot = new JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), _byoyomiPeriodCount, false);
+            }
+            else
+            {
+                _snapshot = new Japanese.JapaneseTimeInformation(TimeSpan.FromSeconds(clock.Time), clock.PeriodsLeft - 1,
+                    true);
+            }
+            // TODO Petr: Think about whether this is correct.
+
+        }
+
         protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
         {
             return ReduceBy(_snapshot, addThisTime);
         }
+
         protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
             // A move was just made.
@@ -65,7 +86,12 @@ namespace OmegaGo.Core.Time.Japanese
             return ReduceBy(_snapshot, addThisTime).IsViolating();
         }
 
-     
+        /// <summary>
+        /// Reduces the time remaining on the clock in the <paramref name="minued"/> by <paramref name="subtrahend"/>
+        /// and returns the result. This cannot be static because it uses the <see cref="_byoyomiLengthInSeconds"/> field. 
+        /// </summary>
+        /// <param name="minued">The minued.</param>
+        /// <param name="subtrahend">The subtrahend.</param>
         private JapaneseTimeInformation ReduceBy(JapaneseTimeInformation minued, TimeSpan subtrahend)
         {
             TimeSpan subtractStill = subtrahend;
@@ -88,7 +114,6 @@ namespace OmegaGo.Core.Time.Japanese
             }
             return result;
         }
-
-
+        
     }
 }

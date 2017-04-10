@@ -68,10 +68,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
         public async Task PlaySoundEffectAsync(SfxId id)
         {
             await EnsureInitializedAsync();
-            //play sound
-            string file = _filenames[id];
-            double gain = _gameSettings.Audio.MasterVolume * (_gameSettings.Audio.SfxVolume / 10000.0);
-            await PlaySound(file, gain);
+
+            // Play sound
+            if (!_gameSettings.Audio.Mute)
+            {
+                string file = _filenames[id];
+                double gain = _gameSettings.Audio.MasterVolume*(_gameSettings.Audio.SfxVolume/10000.0);
+                await PlaySound(file, gain);
+            }
         }
 
         /// <summary>

@@ -21,8 +21,7 @@ namespace OmegaGo.Core.Online.Igs
             float komi,
             CountingType countingType,
             int igsIndex,
-            int numberOfObservers,
-            IgsConnection server) :
+            int numberOfObservers) :
             base(
                 whitePlayerInfo,
                 blackPlayerInfo,
@@ -36,7 +35,7 @@ namespace OmegaGo.Core.Online.Igs
             NumberOfObservers = numberOfObservers;
             IgsIndex = igsIndex;
         }
-        public int MainTime { get; set; }
+
         public int ByoyomiPeriod { get; set; }
 
         /// <summary>
@@ -44,7 +43,10 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public int IgsIndex { get; private set; }
 
-        public int NumberOfObservers { get; set; }
+        public int NumberOfObservers { get; }
+        /// <summary>
+        /// Some games (professional games, mostly) on IGS have a name that's sent to a client that starts observing the game.
+        /// </summary>
         public string GameName { get; set; }
 
         public override string ToString()

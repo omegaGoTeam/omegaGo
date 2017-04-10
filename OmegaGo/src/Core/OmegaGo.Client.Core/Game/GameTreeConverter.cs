@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.Core.Game.Markup;
@@ -17,7 +20,27 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="tree">SGF game tree</param>
         /// <returns>Game tree</returns>
-        public static GameTreeNode FromSgfGameTree(SgfGameTree tree) => ConvertBranch(tree);
+        public static GameTreeNode FromSgfGameTree(SgfGameTree tree)
+        {
+            var converted = ConvertBranch(tree);
+            var boardSizeInt = tree.GetRootProperty<int>("SZ");
+            if (boardSizeInt == 0) boardSizeInt = 19;
+            GameBoardSize boardSize = new GameBoardSize(boardSizeInt);
+            var ruleset = new ChineseRuleset(boardSize);
+            // Post-processing 
+            converted.ForAllDescendants((node) => node.Branches, node =>
+            {
+                if (node.Parent == null)
+                {
+                    node.FillBoardStateOfRoot(boardSize, ruleset);
+                }
+                else
+                {
+                    node.FillBoardState(ruleset);
+                }
+            });
+            return converted;
+        }
 
         /// <summary>
         /// Converts a SGF tree branch to GameTreeNode

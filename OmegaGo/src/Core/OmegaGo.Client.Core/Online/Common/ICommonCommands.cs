@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Online.Common
         /// </summary>
         /// <param name="remoteInfo">The game where we wish to make a move.</param>
         /// <param name="move">The move that we wish to make.</param>
-        void MakeMove(RemoteGameInfo remoteInfo, Move move);
+        Task MakeMove(RemoteGameInfo remoteInfo, Move move);
 
         /// <summary>
         /// Tells the server to add additional time to our opponent's clock.
@@ -31,8 +31,15 @@ namespace OmegaGo.Core.Online.Common
         Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime);
 
         Task UndoLifeDeath(RemoteGameInfo remoteInfo);
+
         Task LifeDeathDone(RemoteGameInfo remoteInfo);
+
         Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo);
+
         Task Resign(RemoteGameInfo remoteInfo);
+        
+        Task AllowUndoAsync(RemoteGameInfo remoteInfo);
+
+        Task RejectUndoAsync(RemoteGameInfo remoteInfo);
     }
 }
