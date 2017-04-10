@@ -1156,6 +1156,106 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>White:</source>
           <target state="translated">Bílý:</target>
         </trans-unit>
+        <trans-unit id="BlackToPlay" translate="yes" xml:space="preserve">
+          <source>Black to play</source>
+          <target state="translated">Černý je na tahu</target>
+        </trans-unit>
+        <trans-unit id="BlackWon" translate="yes" xml:space="preserve">
+          <source>Black wins.</source>
+          <target state="translated">Černý zvítězil.</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathDone" translate="yes" xml:space="preserve">
+          <source>Accept removed stones</source>
+          <target state="translated">Akceptovat odstraněné kameny</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathResume" translate="yes" xml:space="preserve">
+          <source>Cancel and resume game</source>
+          <target state="translated">Zrušit a vrátit se do hry</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathUndo" translate="yes" xml:space="preserve">
+          <source>Undo stone removal</source>
+          <target state="translated">Vzít zpět odstranění kamenů</target>
+        </trans-unit>
+        <trans-unit id="OpponentPassed" translate="yes" xml:space="preserve">
+          <source>Opponent passed</source>
+          <target state="translated">Soupeř passoval</target>
+        </trans-unit>
+        <trans-unit id="Pass" translate="yes" xml:space="preserve">
+          <source>Pass</source>
+          <target state="translated">Pass</target>
+        </trans-unit>
+        <trans-unit id="Resign" translate="yes" xml:space="preserve">
+          <source>Resign</source>
+          <target state="translated">Vzdát hru</target>
+        </trans-unit>
+        <trans-unit id="StoneRemovalText" translate="yes" xml:space="preserve">
+          <source>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</source>
+          <target state="translated">Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</target>
+        </trans-unit>
+        <trans-unit id="StonesCaptured" translate="yes" xml:space="preserve">
+          <source>{0} captures</source>
+          <target state="translated">{0} zajatců</target>
+        </trans-unit>
+        <trans-unit id="TheGameIsADraw" translate="yes" xml:space="preserve">
+          <source>The game is a draw.</source>
+          <target state="translated">Hra skončila remízou.</target>
+        </trans-unit>
+        <trans-unit id="TieByCancellation" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <target state="translated">Zrušena</target>
+        </trans-unit>
+        <trans-unit id="TieByDisconnection" translate="yes" xml:space="preserve">
+          <source>Disconnection</source>
+          <target state="translated">Odpojení</target>
+        </trans-unit>
+        <trans-unit id="Undo" translate="yes" xml:space="preserve">
+          <source>Undo</source>
+          <target state="translated">Vrátit zpět</target>
+        </trans-unit>
+        <trans-unit id="WhiteToPlay" translate="yes" xml:space="preserve">
+          <source>White to play</source>
+          <target state="translated">Bílý je na tahu</target>
+        </trans-unit>
+        <trans-unit id="WhiteWon" translate="yes" xml:space="preserve">
+          <source>White wins.</source>
+          <target state="translated">Bílý zvítězil.</target>
+        </trans-unit>
+        <trans-unit id="WinByResign" translate="yes" xml:space="preserve">
+          <source>{0} wins by resignation</source>
+          <target state="translated">{0} zvítězil kontumačně.</target>
+        </trans-unit>
+        <trans-unit id="WinByTimeout" translate="yes" xml:space="preserve">
+          <source>{0} wins by timeout</source>
+          <target state="translated">{0} zvítězil přes časový limit</target>
+        </trans-unit>
+        <trans-unit id="WinsByPoints" translate="yes" xml:space="preserve">
+          <source>{0} wins by {1} points</source>
+          <target state="translated">{0} vyhrál o {1} bodů</target>
+        </trans-unit>
+        <trans-unit id="YouHaveLost" translate="yes" xml:space="preserve">
+          <source>You have lost.</source>
+          <target state="translated">Hráč prohrál.</target>
+        </trans-unit>
+        <trans-unit id="YouHaveWon" translate="yes" xml:space="preserve">
+          <source>You have won.</source>
+          <target state="translated">Hráč vyhrál.</target>
+        </trans-unit>
+        <trans-unit id="YourMove" translate="yes" xml:space="preserve">
+          <source>Your move</source>
+          <target state="translated">Tvůj tah</target>
+        </trans-unit>
+        <trans-unit id="CancellationExplanation" translate="yes" xml:space="preserve">
+          <source>The game was cancelled before it could be scored.</source>
+          <target state="translated">Hra byla zrušena předčasně.</target>
+        </trans-unit>
+        <trans-unit id="DisconnectionExplanation" translate="yes" xml:space="preserve">
+          <source>You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.</source>
+          <target state="translated">Ztratili jste připojení k serveru. Zkontrolujte své připojení k internetu. Je také možné, že jste byli odpojeni, protože jste se přihlásili k tomuto účtu z jiného počítače.</target>
+        </trans-unit>
+        <trans-unit id="StoneRemovalPhase" translate="yes" xml:space="preserve">
+          <source>Stone Removal Phase</source>
+          <target state="translated">Fáze odstranění kamenů</target>
+        </trans-unit>
       </group>
     </body>
   </file>

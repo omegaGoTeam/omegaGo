@@ -21,8 +21,11 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <converters:NativeBoolDoubleConverter x:Key="boolDoubleConverter" />
+        <converters:GamePhaseVisibilityConverter x:Key="handicapPhaseVisibilityConverter" RequiredGamePhase="HandicapPlacement" />
         <converters:GamePhaseVisibilityConverter x:Key="mainPhaseVisibilityConverter" RequiredGamePhase="Main" />
         <converters:GamePhaseVisibilityConverter x:Key="lifeAndDeathPhaseVisibilityConverter" RequiredGamePhase="LifeDeathDetermination" />
+        <converters:GamePhaseVisibilityConverter x:Key="finishedVisibilityConverter" RequiredGamePhase="Finished" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -163,21 +166,76 @@
 
                     <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" />
                     <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" />
+                   
+                    <StackPanel x:Name="handicapCommands" Orientation="Vertical" 
+                                Grid.Row="2" Grid.ColumnSpan="2"
+                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                        <Grid HorizontalAlignment="Stretch" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Grid.Column="0" Margin="5"
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                            <Button Grid.Column="1" Margin="5"
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                        </Grid>
 
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
+                        <!-- TODO Petr Move Resign to control menu when available -->
+                    </StackPanel>
+                    
                     <StackPanel x:Name="mainCommands" Orientation="Vertical" 
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
-                        <Button Content="Pass" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="Resign" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="Undo" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                        <Grid HorizontalAlignment="Stretch" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Margin="5"
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                            <Button Grid.Column="1" Margin="5"
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                        </Grid>
+
+                        <Button Margin="5" 
+                                Content="Get Hint" Command="{x:Bind VM.GetHintCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
+                        <!-- TODO Petr Move Resign to control menu when available -->
                     </StackPanel>
 
                     <StackPanel x:Name="lifeAndDeathCommands"
                                 Grid.Row="3" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource lifeAndDeathPhaseVisibilityConverter}, Mode=OneWay}">
-                        <Button Content="End Life and Death" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="Resume Game" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="Request Undo Death Marks" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
+                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                        <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
+                      </StackPanel>
+
+                    <StackPanel x:Name="finishedCommands"
+                                Grid.Row="3" Grid.ColumnSpan="2"
+                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource finishedVisibilityConverter}, Mode=OneWay}">
+                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
                     </StackPanel>
 
                     <ListView x:Name="systemLog" Grid.Row="4"

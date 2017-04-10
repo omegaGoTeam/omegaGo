@@ -870,4 +870,79 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="WhiteColon" xml:space="preserve">
     <value>Bílý:</value>
   </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Černý zvítězil.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Akceptovat odstraněné kameny</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Zrušit a vrátit se do hry</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Vzít zpět odstranění kamenů</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Soupeř passoval</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Vzdát hru</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} zajatců</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>Hra skončila remízou.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Zrušena</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Odpojení</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Vrátit zpět</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>Bílý je na tahu</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>Bílý zvítězil.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} zvítězil kontumačně.</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} zvítězil přes časový limit</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} vyhrál o {1} bodů</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>Hráč prohrál.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>Hráč vyhrál.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Tvůj tah</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>Hra byla zrušena předčasně.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>Ztratili jste připojení k serveru. Zkontrolujte své připojení k internetu. Je také možné, že jste byli odpojeni, protože jste se přihlásili k tomuto účtu z jiného počítače.</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Fáze odstranění kamenů</value>
+  </data>
 </root>
