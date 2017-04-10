@@ -4,5 +4,5 @@
 
     <Color x:Key="GameColor">#FDD270</Color>
     <SolidColorBrush x:Key="GameColorBrush" Color="{ThemeResource GameColor}" />
-    
+
 </ResourceDictionary>

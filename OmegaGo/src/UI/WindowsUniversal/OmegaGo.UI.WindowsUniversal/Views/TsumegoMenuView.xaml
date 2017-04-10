@@ -20,8 +20,7 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          >
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -31,7 +30,7 @@
                    Margin="0,20,0,20"
                    Grid.Row="0" />
         <Border Margin="10" BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-            <GridView Grid.Row="1" ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
+            <GridView ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="tsumego:TsumegoProblem">
                         <Border Width="140" Height="140" BorderBrush="Black" BorderThickness="1">
@@ -46,6 +45,11 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Border>
-        
+        <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
+            <Border.Background>
+                <SolidColorBrush Color="{ThemeResource SystemAccentColor}" Opacity="0.2" />
+            </Border.Background>
+            <ProgressRing Width="50" Height="50" VerticalAlignment="Center" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
+        </Border>
     </Grid>
 </views:TransparencyViewBase>

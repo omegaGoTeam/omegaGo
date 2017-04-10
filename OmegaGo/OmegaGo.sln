@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsUniversal", "WindowsUniversal", "{C2048123-AEE4-4041-95A1-AED3B2249851}"
 EndProject
@@ -53,9 +53,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LocalizerGenerator", "Local
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizerGenerator", "src\Sideprojects\LocalizerGenerator\LocalizerGenerator\LocalizerGenerator.csproj", "{C88156DE-6579-418C-8869-DCEACB70E35B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{79715E7A-9BF7-42F0-8B67-E0E99DC02F40}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OmegaGo.UI.ContentFiles", "src\UI\Shared\OmegaGo.UI.ContentFiles\OmegaGo.UI.ContentFiles.shproj", "{C0433805-FDA4-4CD3-94E3-398D7369E808}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal.BoostLibraries\OmegaGo.UI.WindowsUniversal.BoostLibraries.projitems*{388a5397-49b6-4d26-b83d-48a3dc5e316c}*SharedItemsImports = 13
+		src\UI\Shared\OmegaGo.UI.ContentFiles\OmegaGo.UI.ContentFiles.projitems*{c0433805-fda4-4cd3-94e3-398d7369e808}*SharedItemsImports = 13
+		src\UI\Shared\OmegaGo.UI.ContentFiles\OmegaGo.UI.ContentFiles.projitems*{e10dfc81-ff3c-416a-aea3-59f4cd63b683}*SharedItemsImports = 4
 		src\UI\WindowsUniversal\OmegaGo.UI.WindowsUniversal.BoostLibraries\OmegaGo.UI.WindowsUniversal.BoostLibraries.projitems*{e10dfc81-ff3c-416a-aea3-59f4cd63b683}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -442,5 +448,7 @@ Global
 		{388A5397-49B6-4D26-B83D-48A3DC5E316C} = {C2048123-AEE4-4041-95A1-AED3B2249851}
 		{5A3DEF89-E782-467E-8D17-31A200256CAB} = {CEAFAE59-C161-413C-8F32-9B2E1DC0DFEF}
 		{C88156DE-6579-418C-8869-DCEACB70E35B} = {5A3DEF89-E782-467E-8D17-31A200256CAB}
+		{79715E7A-9BF7-42F0-8B67-E0E99DC02F40} = {A3245683-3877-400D-B46F-3D7FE5733ADB}
+		{C0433805-FDA4-4CD3-94E3-398D7369E808} = {79715E7A-9BF7-42F0-8B67-E0E99DC02F40}
 	EndGlobalSection
 EndGlobal
