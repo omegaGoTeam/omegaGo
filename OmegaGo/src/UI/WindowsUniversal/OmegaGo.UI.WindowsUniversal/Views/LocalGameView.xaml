@@ -170,11 +170,19 @@
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
-                            <Button Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
-                            <Button Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
-                        </StackPanel>
-                        <Button Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
+                        <Grid HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Grid.Column="0" Margin="5"
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
+                            <Button Grid.Column="1" Margin="5"
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                        </Grid>
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
                     </StackPanel>
                     
@@ -182,11 +190,19 @@
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
-                            <Button Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
-                            <Button Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
-                        </StackPanel>
-                        <Button Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
+                        <Grid HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Margin="5"
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
+                            <Button Grid.Column="1" Margin="5"
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                        </Grid>
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
                     </StackPanel>
 
@@ -195,9 +211,12 @@
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource lifeAndDeathPhaseVisibilityConverter}, Mode=OneWay}">
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
                         <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
-                        <Button Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
-                        <Button Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
+                        <Button Margin="5" 
+                                Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
                       </StackPanel>
 
                     <StackPanel x:Name="finishedCommands"
