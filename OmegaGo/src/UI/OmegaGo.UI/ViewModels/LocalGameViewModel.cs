@@ -15,14 +15,21 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
+using OmegaGo.Core.AI;
+using OmegaGo.Core.Online.Common;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace OmegaGo.UI.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class LocalGameViewModel : GameViewModel
+    public class LocalGameViewModel : LiveGameViewModel
     {
+        private readonly Assistant _assistant;
+
+        private bool _canUndo;
+        private bool _canPass;
+
         private IMvxCommand _passCommand;
         private IMvxCommand _resignCommand;
         private IMvxCommand _undoCommand;
@@ -30,25 +37,25 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _lifeAndDeathDoneCommand;
         private IMvxCommand _resumeGameCommand;
         private IMvxCommand _requestUndoDeathMarksCommand;
+
+        // AI Assistant Help
+        private IMvxCommand _getHintCommand;
         
         public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base (gameSettings, questsManager, dialogService)
         {
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
-
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+
+            // AI Assistant Service 
+            _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
+            UiConnector.AiLog += Assistant_uiConnector_AiLog;
         }
-
-        public PlayerPortraitViewModel BlackPortrait { get; }
-        public PlayerPortraitViewModel WhitePortrait { get; }
-
-     
+        
         /// <summary>
         /// Pass command from UI
         /// </summary>
-        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass, () => GamePhase == GamePhaseType.Main));
+        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass, () => CanPass));
 
         /// <summary>
         /// Resignation command from UI
@@ -58,7 +65,7 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Undo command from UI
         /// </summary>
-        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo, () => GamePhase == GamePhaseType.Main));
+        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo, () => CanUndo));
 
         public IMvxCommand LifeAndDeathDoneCommand
             => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone, () => GamePhase == GamePhaseType.LifeDeathDetermination));
@@ -70,22 +77,36 @@ namespace OmegaGo.UI.ViewModels
             => _requestUndoDeathMarksCommand ??
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
+        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint));
 
+        public bool CanPass
+        {
+            get { return _canPass; }
+            set { SetProperty(ref _canPass, value); }
+        }
 
+        public bool CanUndo
+        {
+            get { return _canUndo; }
+            set { SetProperty(ref _canUndo, value); }
+        }
+
+        protected Assistant Assistant => _assistant;
+        
         ////////////////
         // Initial setup overrides      
         ////////////////
+        
+        public override void Init()
+        {
+            Game.Controller.BeginGame();
+            UpdateTimeline();
+        }
 
         protected override void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
             phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
             phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
-        }
-
-        public override void Init()
-        {
-            Game.Controller.BeginGame();
-            UpdateTimeline();
         }
 
         ////////////////
@@ -104,8 +125,10 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        protected override async void OnGameEnded(GameEndInformation endInformation)
+        protected override void OnGameEnded(GameEndInformation endInformation)
         {
+            base.OnGameEnded(endInformation);
+
             GameSettings.Statistics.GameHasBeenCompleted(Game, endInformation);
             QuestsManager.GameCompleted(Game, endInformation);
         }
@@ -127,17 +150,26 @@ namespace OmegaGo.UI.ViewModels
 
             // We are in a new Game Phase, refresh commands
             RefreshCommands();
+            UpdateCanPassAndUndo();
         }
 
         protected override void OnTurnPlayerChanged(GamePlayer newPlayer)
         {
+            base.OnTurnPlayerChanged(newPlayer);
+
             BoardViewModel.BoardControlState.MouseOverShadowColor = newPlayer.Agent.Type == AgentType.Human ?
                 newPlayer.Info.Color :
                 StoneColor.None;
+
+            // This must be updated here as well as Game.Controller.TurnPlayer is null until first OnTurnPlayerChanged. And at that time there are no more phase changes occuring.
+            // CanPass and CanUndo would remained false until next phase change (life and death).
+            UpdateCanPassAndUndo();
         }
 
         protected override void OnCurrentNodeStateChanged()
         {
+            base.OnCurrentNodeStateChanged();
+
             RefreshBoard(Game.Controller.CurrentNode);
         }
 
@@ -149,6 +181,16 @@ namespace OmegaGo.UI.ViewModels
             LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
             ResumeGameCommand.RaiseCanExecuteChanged();
             RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
+        }
+
+        protected void UpdateCanPassAndUndo()
+        {
+            CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+            // TODO Petr this allows to undo before the beginning of the game and causes exception
+            CanUndo = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+
+            PassCommand.RaiseCanExecuteChanged();
+            UndoCommand.RaiseCanExecuteChanged();
         }
 
         ////////////////
@@ -195,8 +237,42 @@ namespace OmegaGo.UI.ViewModels
         {
             UiConnector.RequestLifeDeathUndoDeathMarks();
         }
-        
 
+        private async void GetHint()
+        {
+            if (!Assistant.ProvidesHints) return;
+
+            AIDecision hint =
+                await
+                    Assistant.Hint(this.Game.Info, this.Game.Controller.TurnPlayer, this.Game.Controller.GameTree,
+                        this.Game.Controller.TurnPlayer.Info.Color);
+
+            string content = "";
+            string title = "";
+
+            switch (hint.Kind)
+            {
+                case AgentDecisionKind.Resign:
+                    title = "You should resign.";
+                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                    break;
+                case AgentDecisionKind.Move:
+                    title = hint.Move.ToString();
+                    if (hint.Move.Kind == MoveKind.Pass)
+                    {
+                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                    }
+                    else
+                    {
+                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                                  hint.Explanation;
+                    }
+                    break;
+            }
+
+            await DialogService.ShowAsync(content, title);
+        }
+        
         ////////////////
         // Phase handlers      
         ////////////////
@@ -217,6 +293,11 @@ namespace OmegaGo.UI.ViewModels
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
             RefreshBoard(Game.Controller.CurrentNode);
+        }
+        
+        private void Assistant_uiConnector_AiLog(object sender, string e)
+        {
+            AppendLogLine($"AI: {e}");
         }
     }
 }

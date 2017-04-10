@@ -21,6 +21,7 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <converters:NativeBoolDoubleConverter x:Key="boolDoubleConverter" />
         <converters:GamePhaseVisibilityConverter x:Key="handicapPhaseVisibilityConverter" RequiredGamePhase="HandicapPlacement" />
         <converters:GamePhaseVisibilityConverter x:Key="mainPhaseVisibilityConverter" RequiredGamePhase="Main" />
         <converters:GamePhaseVisibilityConverter x:Key="lifeAndDeathPhaseVisibilityConverter" RequiredGamePhase="LifeDeathDetermination" />
@@ -170,17 +171,22 @@
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <Grid HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
+                        <Grid HorizontalAlignment="Stretch" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
                             
                             <Button Grid.Column="0" Margin="5"
-                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                             <Button Grid.Column="1" Margin="5"
-                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                         </Grid>
+
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
@@ -190,17 +196,24 @@
                                 Grid.Row="2" Grid.ColumnSpan="2"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <Grid HorizontalAlignment="Stretch" Opacity="{x:Bind VM.PassUndoOpacity, Mode=OneWay}">
+                        <Grid HorizontalAlignment="Stretch" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*" />
                                 <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Column="0" Margin="5"
-                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" HorizontalAlignment="Stretch" />
+                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                             <Button Grid.Column="1" Margin="5"
-                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" HorizontalAlignment="Stretch" />
+                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                         </Grid>
+
+                        <Button Margin="5" 
+                                Content="Get Hint" Command="{x:Bind VM.GetHintCommand}" HorizontalAlignment="Stretch" />
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
