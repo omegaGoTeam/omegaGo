@@ -59,6 +59,7 @@
     <Compile Include="Game\Tools\IMarkupTool.cs" />
     <Compile Include="Game\Tools\SequenceMarkupTool.cs" />
     <Compile Include="Game\Tools\SimpleMarkupTool.cs" />
+    <Compile Include="Game\Tools\StonePlacementTool.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
