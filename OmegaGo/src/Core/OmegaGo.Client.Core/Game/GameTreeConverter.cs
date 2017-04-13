@@ -158,12 +158,14 @@ namespace OmegaGo.Core.Game
                 var property = sourceNode[circle];
                 var pointRectangles = property.Values<SgfPointRectangle>();
 
-                foreach (var rect in pointRectangles)
+                foreach (var rectangle in pointRectangles)
                 {
-                    targetNode.Markups.AddMarkup(
-                        new Circle(
-                            Position.FromSgfPoint(
-                                rect.LowerRight, boardSize)));
+                    foreach (var point in rectangle)
+                    {
+                        targetNode.Markups.AddMarkup(
+                            new Circle(
+                                Position.FromSgfPoint(point, boardSize)));
+                    }
                 }
             }
             if (sourceNode[dimPoint] != null)
