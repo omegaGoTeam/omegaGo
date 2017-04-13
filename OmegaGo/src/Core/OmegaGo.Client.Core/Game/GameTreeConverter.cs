@@ -22,10 +22,10 @@ namespace OmegaGo.Core.Game
         /// <returns>Game tree</returns>
         public static GameTreeNode FromSgfGameTree(SgfGameTree tree)
         {
-            var converted = ConvertBranch(tree);
             var boardSizeInt = tree.GetRootProperty<int>("SZ");
             if (boardSizeInt == 0) boardSizeInt = 19;
             GameBoardSize boardSize = new GameBoardSize(boardSizeInt);
+            var converted = ConvertBranch(tree, boardSize);
             var ruleset = new ChineseRuleset(boardSize);
             // Post-processing 
             converted.ForAllDescendants((node) => node.Branches, node =>
@@ -47,7 +47,7 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="branch">Branch</param>
         /// <returns>Game tree node</returns>
-        private static GameTreeNode ConvertBranch(SgfGameTree branch)
+        private static GameTreeNode ConvertBranch(SgfGameTree branch, GameBoardSize boardSize)
         {
             GameTreeNode root = null;
             GameTreeNode current = null;
@@ -58,13 +58,13 @@ namespace OmegaGo.Core.Game
                 {
                     SgfPoint point = node["W"].Value<SgfPoint>();
                     //add white move
-                    newNode = new GameTreeNode(Move.PlaceStone(StoneColor.White, Position.FromSgfPoint(point)));
+                    newNode = new GameTreeNode(Move.PlaceStone(StoneColor.White, Position.FromSgfPoint(point, boardSize)));
                 }
                 else if (node["B"] != null)
                 {
                     SgfPoint point = node["B"].Value<SgfPoint>();
                     //add black move
-                    newNode = new GameTreeNode(Move.PlaceStone(StoneColor.Black, Position.FromSgfPoint(point)));
+                    newNode = new GameTreeNode(Move.PlaceStone(StoneColor.Black, Position.FromSgfPoint(point, boardSize)));
                 }
                 else
                 {
@@ -75,23 +75,23 @@ namespace OmegaGo.Core.Game
                 {
                     //add white moves
                     var property = node["AW"];
-                    var pointRectangles = property.Values<SgfPointRectangle>();                    
-                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles ) );
+                    var pointRectangles = property.Values<SgfPointRectangle>();
+                    newNode.AddWhite.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
                 }
                 if (node["AB"] != null)
                 {
                     var property = node["AB"];
                     var pointRectangles = property.Values<SgfPointRectangle>();
-                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles));
+                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
                 }
-                if ( node[ "C" ] != null )
+                if (node["C"] != null)
                 {
-                    var property = node[ "C" ];
+                    var property = node["C"];
                     var comment = property.Value<string>();
                     newNode.Comment = comment;
                 }
                 // Fill in all markup properties
-                ParseAndFillMarkupProperties(node, newNode);
+                ParseAndFillMarkupProperties(node, newNode, boardSize);
                 if (current == null)
                 {
                     root = newNode;
@@ -111,24 +111,24 @@ namespace OmegaGo.Core.Game
             //add branches
             foreach (var child in branch.Children)
             {
-                var rootOfBranch = ConvertBranch(child);
+                var rootOfBranch = ConvertBranch(child, boardSize);
                 current.Branches.AddNode(rootOfBranch);
             }
             return root;
         }
 
-        private static IEnumerable<Position> GetPositionsFromPointRectangles(IEnumerable<SgfPointRectangle> pointRectangles)
+        private static IEnumerable<Position> GetPositionsFromPointRectangles(IEnumerable<SgfPointRectangle> pointRectangles, GameBoardSize boardSize)
         {
             foreach (var pointRectangle in pointRectangles)
             {
                 foreach (var point in pointRectangle)
                 {
-                    yield return Position.FromSgfPoint(point);
+                    yield return Position.FromSgfPoint(point, boardSize);
                 }
             }
         }
 
-        private static void ParseAndFillMarkupProperties(SgfNode sourceNode, GameTreeNode targetNode)
+        private static void ParseAndFillMarkupProperties(SgfNode sourceNode, GameTreeNode targetNode, GameBoardSize boardSize)
         {
             // Needs to handle: 
             string arrow = "AR"; // AR - Arrow
@@ -145,27 +145,25 @@ namespace OmegaGo.Core.Game
             {
                 // Add arrow
                 var property = sourceNode[arrow];
-                var pointRectangles = property.Values<SgfComposePropertyValue<SgfPoint, SgfPoint>>();
-                
-                foreach (var rect in pointRectangles)
+                var arrowDefinitions = property.Values<SgfComposePropertyValue<SgfPoint, SgfPoint>>();
+
+                foreach (var arrowDefinition in arrowDefinitions)
                 {
-
+                    targetNode.Markups.AddMarkup(new Arrow(Position.FromSgfPoint(arrowDefinition.LeftValue, boardSize), Position.FromSgfPoint(arrowDefinition.RightValue, boardSize)));
                 }
-
-                targetNode.Markups.AddMarkup(new Arrow(Position.Undefined, Position.Undefined));
             }
             if (sourceNode[circle] != null)
             {
                 // Add circle
                 var property = sourceNode[circle];
                 var pointRectangles = property.Values<SgfPointRectangle>();
-                
+
                 foreach (var rect in pointRectangles)
                 {
                     targetNode.Markups.AddMarkup(
                         new Circle(
                             Position.FromSgfPoint(
-                                rect.LowerRight)));
+                                rect.LowerRight, boardSize)));
                 }
             }
             if (sourceNode[dimPoint] != null)
@@ -206,7 +204,7 @@ namespace OmegaGo.Core.Game
                     targetNode.Markups.AddMarkup(
                         new Cross(
                             Position.FromSgfPoint(
-                                rect.LowerRight)));
+                                rect.LowerRight, boardSize)));
                 }
             }
             if (sourceNode[selected] != null)
@@ -224,7 +222,7 @@ namespace OmegaGo.Core.Game
                     targetNode.Markups.AddMarkup(
                         new Square(
                             Position.FromSgfPoint(
-                                rect.LowerRight)));
+                                rect.LowerRight, boardSize)));
                 }
             }
             if (sourceNode[triangle] != null)
@@ -238,7 +236,7 @@ namespace OmegaGo.Core.Game
                     targetNode.Markups.AddMarkup(
                         new Triangle(
                             Position.FromSgfPoint(
-                                rect.LowerRight)));
+                                rect.LowerRight, boardSize)));
                 }
             }
         }
