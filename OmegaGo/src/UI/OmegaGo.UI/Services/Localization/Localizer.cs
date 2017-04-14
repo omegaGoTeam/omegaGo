@@ -372,7 +372,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Rename => LocalizeCaller();
 		/// <summary>
-		/// Rules
+		/// Ruleset
 		/// </summary>
 		public string Rules => LocalizeCaller();
 		/// <summary>
@@ -1163,6 +1163,90 @@ namespace OmegaGo.UI.Services.Localization
 		/// White:
 		/// </summary>
 		public string WhiteColon => LocalizeCaller();
+		/// <summary>
+		/// Accept
+		/// </summary>
+		public string AcceptChallenge => LocalizeCaller();
+		/// <summary>
+		/// Change...
+		/// </summary>
+		public string ChangeEllipsis => LocalizeCaller();
+		/// <summary>
+		/// KGS challenge
+		/// </summary>
+		public string Creationg_KgsChallenge => LocalizeCaller();
+		/// <summary>
+		/// Incoming IGS challenge
+		/// </summary>
+		public string Creation_IncomingIgsChallenge => LocalizeCaller();
+		/// <summary>
+		/// Create a public KGS challenge
+		/// </summary>
+		public string Creation_KgsChallengeCreation => LocalizeCaller();
+		/// <summary>
+		/// New game
+		/// </summary>
+		public string Creation_NewLocalGame => LocalizeCaller();
+		/// <summary>
+		/// Issue an IGS challenge
+		/// </summary>
+		public string Creation_OutgoingIgsRequest => LocalizeCaller();
+		/// <summary>
+		/// Custom...
+		/// </summary>
+		public string CustomEllipsis => LocalizeCaller();
+		/// <summary>
+		/// Decline
+		/// </summary>
+		public string DeclineKgsChallenger => LocalizeCaller();
+		/// <summary>
+		/// Height:
+		/// </summary>
+		public string HeightColon => LocalizeCaller();
+		/// <summary>
+		/// Komi
+		/// </summary>
+		public string Komi => LocalizeCaller();
+		/// <summary>
+		/// Use recommended
+		/// </summary>
+		public string KomiUseRecommended => LocalizeCaller();
+		/// <summary>
+		/// Choose at random
+		/// </summary>
+		public string Nigiri => LocalizeCaller();
+		/// <summary>
+		/// Decline
+		/// </summary>
+		public string RefuseChallenge => LocalizeCaller();
+		/// <summary>
+		/// Size:
+		/// </summary>
+		public string SizeColon => LocalizeCaller();
+		/// <summary>
+		/// Switch colors
+		/// </summary>
+		public string SwitchColors => LocalizeCaller();
+		/// <summary>
+		/// Time control
+		/// </summary>
+		public string TimeControl => LocalizeCaller();
+		/// <summary>
+		/// Cancel
+		/// </summary>
+		public string UnjoinChallenge => LocalizeCaller();
+		/// <summary>
+		/// Width:
+		/// </summary>
+		public string WidthColon => LocalizeCaller();
+		/// <summary>
+		/// You are
+		/// </summary>
+		public string YourAgent => LocalizeCaller();
+		/// <summary>
+		/// Your color
+		/// </summary>
+		public string YourColor => LocalizeCaller();
 		/// <summary>
 		/// Black to play
 		/// </summary>
