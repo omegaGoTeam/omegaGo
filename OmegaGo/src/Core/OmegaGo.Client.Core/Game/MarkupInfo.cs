@@ -46,5 +46,44 @@ namespace OmegaGo.Core.Game
             // Should we deal with it being castable to List and then modifiable?
             return (IEnumerable<T>)_markups[typeof(T)];
         }
+
+        public void RemoveMarkupOnPosition(Position position)
+        {
+            foreach (var circle in GetMarkups<Circle>())
+                if (circle.Position == position)
+                {
+                    RemoveMarkup<Circle>(circle);
+                    return;
+                }
+
+            foreach (var cross in GetMarkups<Cross>())
+                if (cross.Position == position)
+                {
+                    RemoveMarkup<Cross>(cross);
+                    return;
+                }
+
+            foreach (var label in GetMarkups<Label>())
+                if (label.Position == position)
+                {
+                    RemoveMarkup<Label>(label);
+                    return;
+                }
+
+            foreach (var square in GetMarkups<Square>())
+                if (square.Position == position)
+                {
+                    RemoveMarkup<Square>(square);
+                    return;
+                }
+
+            foreach (var triangle in GetMarkups<Triangle>())
+                if (triangle.Position == position)
+                {
+                    RemoveMarkup<Triangle>(triangle);
+                    return;
+                }
+            
+        }
     }
 }

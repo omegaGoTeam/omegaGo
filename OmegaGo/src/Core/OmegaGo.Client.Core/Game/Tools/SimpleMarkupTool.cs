@@ -13,6 +13,19 @@ namespace OmegaGo.Core.Game.Tools
 
         public void Execute(IToolServices toolService)
         {
+            Position position = toolService.PointerOverPosition;
+            MarkupInfo markups = toolService.Node.Markups;
+
+            markups.RemoveMarkupOnPosition(position);
+
+            if (Markup == MarkupKind.Circle)
+                markups.AddMarkup<Circle>(new Circle(position));
+            if (Markup == MarkupKind.Cross)
+                markups.AddMarkup<Cross>(new Cross(position));
+            if (Markup == MarkupKind.Square)
+                markups.AddMarkup<Square>(new Square(position));
+            if (Markup == MarkupKind.Triangle)
+                markups.AddMarkup<Triangle>(new Triangle(position));
         }
 
     }

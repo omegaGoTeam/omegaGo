@@ -14,6 +14,5 @@ namespace OmegaGo.Core.Game.Tools
         GameTree GameTree { get; set; }
         GameTreeNode Node { get; set; }
         Position PointerOverPosition { get; set; }
-        
     }
 }
