@@ -1340,6 +1340,94 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Stone Removal Phase</source>
           <target state="translated">Fáze odstranění kamenů</target>
         </trans-unit>
+        <trans-unit id="AbsoluteTimeLabel" translate="yes" xml:space="preserve">
+          <source>Time (minutes):</source>
+          <target state="new">Time (minutes):</target>
+        </trans-unit>
+        <trans-unit id="CanadianMinutesPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Minutes per period:</source>
+          <target state="new">Minutes per period:</target>
+        </trans-unit>
+        <trans-unit id="CanadianMovesPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Moves per period:</source>
+          <target state="new">Moves per period:</target>
+        </trans-unit>
+        <trans-unit id="JapaneseNumberOfPeriodsLabel" translate="yes" xml:space="preserve">
+          <source>Number of periods:</source>
+          <target state="new">Number of periods:</target>
+        </trans-unit>
+        <trans-unit id="JapaneseSecondsPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Seconds per period:</source>
+          <target state="new">Seconds per period:</target>
+        </trans-unit>
+        <trans-unit id="MainTimeLabel" translate="yes" xml:space="preserve">
+          <source>Main time (minutes):</source>
+          <target state="new">Main time (minutes):</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Absolute" translate="yes" xml:space="preserve">
+          <source>Absolute</source>
+          <target state="new">Absolute</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Canadian" translate="yes" xml:space="preserve">
+          <source>Canadian byo-yomi</source>
+          <target state="new">Canadian byo-yomi</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Japanese" translate="yes" xml:space="preserve">
+          <source>Japanese byo-yomi</source>
+          <target state="new">Japanese byo-yomi</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="new">None</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Caption" translate="yes" xml:space="preserve">
+          <source>Absolute Timing.</source>
+          <target state="new">Absolute Timing.</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Description" translate="yes" xml:space="preserve">
+          <source>When a player's time elapses, that player loses immediately.</source>
+          <target state="new">When a player's time elapses, that player loses immediately.</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Oneline" translate="yes" xml:space="preserve">
+          <source>Absolute ({0} minutes)</source>
+          <target state="new">Absolute ({0} minutes)</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Caption" translate="yes" xml:space="preserve">
+          <source>Canadian Timing.</source>
+          <target state="new">Canadian Timing.</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Description" translate="yes" xml:space="preserve">
+          <source>Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.</source>
+          <target state="new">Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Oneline" translate="yes" xml:space="preserve">
+          <source>Canadian ({0}, then {1}/{2} min)</source>
+          <target state="new">Canadian ({0}, then {1}/{2} min)</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Caption" translate="yes" xml:space="preserve">
+          <source>Japanese Timing.</source>
+          <target state="new">Japanese Timing.</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Description" translate="yes" xml:space="preserve">
+          <source>Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.</source>
+          <target state="new">Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Oneline" translate="yes" xml:space="preserve">
+          <source>Japanese ({0}, then {1}x{2}sec)</source>
+          <target state="new">Japanese ({0}, then {1}x{2}sec)</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Caption" translate="yes" xml:space="preserve">
+          <source>No Time Control.</source>
+          <target state="new">No Time Control.</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Description" translate="yes" xml:space="preserve">
+          <source>There is no time limit for either player.</source>
+          <target state="new">There is no time limit for either player.</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Oneline" translate="yes" xml:space="preserve">
+          <source>No time control.</source>
+          <target state="new">No time control.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

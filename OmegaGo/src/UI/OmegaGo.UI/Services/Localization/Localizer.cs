@@ -1248,6 +1248,106 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string YourColor => LocalizeCaller();
 		/// <summary>
+		/// Black to play
+		/// </summary>
+		public string BlackToPlay => LocalizeCaller();
+		/// <summary>
+		/// Black wins.
+		/// </summary>
+		public string BlackWon => LocalizeCaller();
+		/// <summary>
+		/// The game was cancelled before it could be scored.
+		/// </summary>
+		public string CancellationExplanation => LocalizeCaller();
+		/// <summary>
+		/// You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.
+		/// </summary>
+		public string DisconnectionExplanation => LocalizeCaller();
+		/// <summary>
+		/// Accept removed stones
+		/// </summary>
+		public string LifeDeathDone => LocalizeCaller();
+		/// <summary>
+		/// Cancel and resume game
+		/// </summary>
+		public string LifeDeathResume => LocalizeCaller();
+		/// <summary>
+		/// Undo stone removal
+		/// </summary>
+		public string LifeDeathUndo => LocalizeCaller();
+		/// <summary>
+		/// Opponent passed
+		/// </summary>
+		public string OpponentPassed => LocalizeCaller();
+		/// <summary>
+		/// Pass
+		/// </summary>
+		public string Pass => LocalizeCaller();
+		/// <summary>
+		/// Resign
+		/// </summary>
+		public string Resign => LocalizeCaller();
+		/// <summary>
+		/// Stone Removal Phase
+		/// </summary>
+		public string StoneRemovalPhase => LocalizeCaller();
+		/// <summary>
+		/// Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.
+		/// </summary>
+		public string StoneRemovalText => LocalizeCaller();
+		/// <summary>
+		/// {0} captures
+		/// </summary>
+		public string StonesCaptured => LocalizeCaller();
+		/// <summary>
+		/// The game is a draw.
+		/// </summary>
+		public string TheGameIsADraw => LocalizeCaller();
+		/// <summary>
+		/// Cancelled
+		/// </summary>
+		public string TieByCancellation => LocalizeCaller();
+		/// <summary>
+		/// Disconnection
+		/// </summary>
+		public string TieByDisconnection => LocalizeCaller();
+		/// <summary>
+		/// Undo
+		/// </summary>
+		public string Undo => LocalizeCaller();
+		/// <summary>
+		/// White to play
+		/// </summary>
+		public string WhiteToPlay => LocalizeCaller();
+		/// <summary>
+		/// White wins.
+		/// </summary>
+		public string WhiteWon => LocalizeCaller();
+		/// <summary>
+		/// {0} wins by resignation
+		/// </summary>
+		public string WinByResign => LocalizeCaller();
+		/// <summary>
+		/// {0} wins by timeout
+		/// </summary>
+		public string WinByTimeout => LocalizeCaller();
+		/// <summary>
+		/// {0} wins by {1} points
+		/// </summary>
+		public string WinsByPoints => LocalizeCaller();
+		/// <summary>
+		/// You have lost.
+		/// </summary>
+		public string YouHaveLost => LocalizeCaller();
+		/// <summary>
+		/// You have won.
+		/// </summary>
+		public string YouHaveWon => LocalizeCaller();
+		/// <summary>
+		/// Your move
+		/// </summary>
+		public string YourMove => LocalizeCaller();
+		/// <summary>
 		/// Time (minutes):
 		/// </summary>
 		public string AbsoluteTimeLabel => LocalizeCaller();
