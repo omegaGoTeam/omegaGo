@@ -44,6 +44,7 @@ A tsumego problem will also display a problem statement
 
         private readonly IQuestsManager _questsManager;
         private readonly IGameSettings _gameSettings;
+        private readonly ITsumegoProblemsLoader _problemsLoader;
 
         private BoardViewModel _boardViewModel;
 
@@ -58,15 +59,20 @@ A tsumego problem will also display a problem statement
         private bool _wrongVisible;
         private GameTreeNode _currentNode;
 
+        private List<TsumegoProblemInfo> _allProblems = null;
+
+        private IMvxCommand _goToNextProblem;
+        private IMvxCommand _goToPreviousProblem;
+
         /// <summary>
         /// Creates the tsumego view model
         /// </summary>
-        public TsumegoViewModel(IQuestsManager questsManager, IGameSettings gameSettings )
+        public TsumegoViewModel(IQuestsManager questsManager, IGameSettings gameSettings, ITsumegoProblemsLoader problemsLoader)
         {
             _questsManager = questsManager;
             _gameSettings = gameSettings;
-
-            var problem = Mvx.GetSingleton<TsumegoProblem>();
+            _problemsLoader = problemsLoader;
+            var problem = Mvx.Resolve<TsumegoProblem>();
             Rectangle rectangle = problem.GetBoundingBoard();
             BoardViewModel = new BoardViewModel(rectangle);
             BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
@@ -93,7 +99,7 @@ A tsumego problem will also display a problem statement
             get { return _currentNodeStatus; }
             set { SetProperty(ref _currentNodeStatus, value); }
         }
-        public string CurrentProblemPermanentlySolved => 
+        public string CurrentProblemPermanentlySolved =>
             this._gameSettings.Tsumego.SolvedProblems.Contains(this.CurrentProblemName)
             ? (this._currentNode.Tsumego.Correct
                 ? Localizer.Tsumego_YouHaveSolvedThisProblem
@@ -132,6 +138,13 @@ A tsumego problem will also display a problem statement
             }
         }
 
+        public async void Init()
+        {
+            _allProblems = new List<TsumegoProblemInfo>(await _problemsLoader.GetProblemListAsync());
+            GoToPreviousProblem.RaiseCanExecuteChanged();
+            GoToNextProblem.RaiseCanExecuteChanged();
+        }
+
         public void UndoOneMove()
         {
             if (CurrentNode.Parent != null)
@@ -161,7 +174,7 @@ A tsumego problem will also display a problem statement
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
                 MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
-                
+
                 // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
                 // and which positions are correct or wrong is written in the .sgf file anyway, so this is not a big deal.
 
@@ -201,12 +214,12 @@ A tsumego problem will also display a problem statement
             if (node.Tsumego.Correct)
             {
                 status = Localizer.Tsumego_StatusCorrect;
-                 var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
+                var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
                 if (!hashset.Contains(_currentProblem.Name))
                 {
                     _questsManager.TsumegoSolved();
                 }
-                 hashset.Add(_currentProblem.Name);
+                hashset.Add(_currentProblem.Name);
                 _gameSettings.Tsumego.SolvedProblems = hashset;
                 WrongVisible = false;
                 CorrectVisible = true;
@@ -219,7 +232,7 @@ A tsumego problem will also display a problem statement
             }
             else
             {
-                status =  Localizer.Tsumego_StatusContinue;
+                status = Localizer.Tsumego_StatusContinue;
                 WrongVisible = false;
                 CorrectVisible = false;
             }
@@ -295,47 +308,59 @@ A tsumego problem will also display a problem statement
             }
             WrongVisible = false;
             CorrectVisible = false;
-            RaisePropertyChanged(nameof(GoToPreviousProblem));
-            RaisePropertyChanged(nameof(GoToNextProblem));
-            RaisePropertyChanged(nameof(UndoOneMoveCommand));
+            GoToPreviousProblem.RaiseCanExecuteChanged();
+            GoToNextProblem.RaiseCanExecuteChanged();
+            UndoOneMoveCommand.RaiseCanExecuteChanged();
             RaisePropertyChanged(nameof(CurrentProblemPermanentlySolved));
         }
 
 
 
         // Action buttons
-        public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
-        {
-            //int i = Problems.AllProblems.IndexOf(_currentProblem);
-            //int prev = i - 1;
-            //if (prev >= 0)
-            //{
-            //    LoadProblem(Problems.AllProblems[prev]);
-            //}
-        }, () => {
-            //int i = Problems.AllProblems.IndexOf(_currentProblem);
-            //int prev = i - 1;
-            //return prev >= 0;
-            return true;
-        });
+        public IMvxCommand GoToPreviousProblem => _goToPreviousProblem ?? (_goToPreviousProblem = new MvxCommand(
+            async () =>
+            {
+                int i =
+                    _allProblems.IndexOf(_allProblems.FirstOrDefault(
+                        p => p.Name == _currentProblem.Name));
+                int prev = i - 1;
+                if (prev >= 0)
+                {
+                    LoadProblem(
+                        await _problemsLoader.GetProblemAsync(
+                            _allProblems[prev]));
+                }
+            }, () =>
+            {
+                if (_allProblems != null)
+                {
+                    int i = _allProblems.IndexOf(_allProblems.FirstOrDefault(
+                        p => p.Name == _currentProblem.Name));
+                    int prev = i - 1;
+                    return prev >= 0;
+                }
+                return false;
+            }));
 
-        public IMvxCommand GoToNextProblem => new MvxCommand(() =>
+        public IMvxCommand GoToNextProblem => _goToNextProblem ?? (_goToNextProblem = new MvxCommand(async () =>
         {
-            //int i = Problems.AllProblems.IndexOf(_currentProblem);
-            //int next = i + 1;
-            //if (next < Problems.AllProblems.Count)
-            //{
-            //    LoadProblem(Problems.AllProblems[next]);
-            //}
-        }, () => {
-            //int i = Problems.AllProblems.IndexOf(_currentProblem);
-            //int next = i + 1;
-            //return (next < Problems.AllProblems.Count);
-            return true;
-        });
+            int i = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+            int next = i + 1;
+            if (next < _allProblems.Count)
+            {
+                LoadProblem(await _problemsLoader.GetProblemAsync(_allProblems[next]));
+            }
+        }, () =>
+        {
+            if (_allProblems != null)
+            {
+                int index = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+                int next = index + 1;
+                return (next < _allProblems.Count);
+            }
+            return false;
+        }));
 
-        public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove, () => {
-            return CurrentNode.Parent != null;
-        });
+        public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove, () => CurrentNode?.Parent != null);
     }
 }

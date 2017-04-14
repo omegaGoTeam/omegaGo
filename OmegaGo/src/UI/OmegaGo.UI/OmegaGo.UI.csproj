@@ -145,9 +145,10 @@
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Timer\ITimerService.cs" />
     <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
+    <Compile Include="Services\Tsumego\ITsumegoProblemsLoader.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemDefinition.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemInfo.cs" />
-    <Compile Include="Services\Tsumego\TsumegoProblems.cs" />
+    <Compile Include="Services\Tsumego\TsumegoProblemsLoader.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
@@ -204,6 +205,9 @@
     <Compile Include="App.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="MvvmCross.Binding, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\MvvmCross.Binding.4.4.0\lib\portable-net45+win+wpa81+wp80\MvvmCross.Binding.dll</HintPath>
       <Private>True</Private>

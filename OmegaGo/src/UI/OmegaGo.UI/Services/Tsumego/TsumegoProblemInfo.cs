@@ -39,6 +39,6 @@ namespace OmegaGo.UI.Services.Tsumego
         /// <summary>
         /// Checks if the problem has been solved
         /// </summary>
-        public bool Solved => Mvx.Resolve<IGameSettings>().Tsumego.SolvedProblems.Contains(this.Name);
+        public bool Solved => Mvx.Resolve<IGameSettings>().Tsumego.SolvedProblems.Contains(Name);
     }
 }

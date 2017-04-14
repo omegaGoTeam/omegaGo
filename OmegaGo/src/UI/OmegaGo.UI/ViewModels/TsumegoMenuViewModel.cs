@@ -18,16 +18,12 @@ namespace OmegaGo.UI.ViewModels
 {
     public class TsumegoMenuViewModel : ViewModelBase
     {
-        private const string TsumegoAppDataFolder = "Tsumego";
-        private const string TsumegoListFileName = "ProblemList.json";
-
-        private readonly IAppPackageFileService _appPackageFileService;
-
+        private readonly ITsumegoProblemsLoader _tsumegoProlemsLoader;
         private ObservableCollection<TsumegoProblemInfo> _tsumegoProblems;
 
-        public TsumegoMenuViewModel(IAppPackageFileService appPackageFileService)
+        public TsumegoMenuViewModel(ITsumegoProblemsLoader tsumegoProlemsLoader)
         {
-            _appPackageFileService = appPackageFileService;
+            _tsumegoProlemsLoader = tsumegoProlemsLoader;
         }
 
         public async void Init()
@@ -41,12 +37,7 @@ namespace OmegaGo.UI.ViewModels
         private async Task LoadProblemsAsync()
         {
             IsWorking = true;
-
-            //Load tsumego problems
-            var problemList = JsonConvert.DeserializeObject<List<TsumegoProblemDefinition>>(
-                    await _appPackageFileService.ReadFileFromRelativePathAsync($"{TsumegoAppDataFolder}\\{TsumegoListFileName}"))
-                .Select(p => p.ToTsumegoProblemInfo());
-            TsumegoProblems = new ObservableCollection<TsumegoProblemInfo>(problemList);
+            TsumegoProblems = new ObservableCollection<TsumegoProblemInfo>(await _tsumegoProlemsLoader.GetProblemListAsync());
             IsWorking = false;
         }
 
@@ -56,8 +47,9 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _tsumegoProblems, value); }
         }
 
-        public void MoveToSolveTsumegoProblem(TsumegoProblem problem)
+        public async void MoveToSolveTsumegoProblem(TsumegoProblemInfo problemInfo)
         {
+            var problem = await _tsumegoProlemsLoader.GetProblemAsync(problemInfo);
             Mvx.RegisterSingleton<TsumegoProblem>(problem);
             ShowViewModel<TsumegoViewModel>();
         }
