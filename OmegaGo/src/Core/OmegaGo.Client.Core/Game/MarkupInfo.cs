@@ -85,5 +85,71 @@ namespace OmegaGo.Core.Game
                 }
             
         }
+
+        public char GetSmallestUnusedLetter()
+        {
+            char minUnusedLetter = 'A';
+            foreach (var label in GetMarkups<Label>())
+            {
+                char letter;
+                char.TryParse(label.Text, out letter);
+                if (letter >= 'A' && letter <= 'Z')
+                    if (letter == minUnusedLetter + 1)
+                        minUnusedLetter++;
+            }
+
+            if (minUnusedLetter <= 'Z')
+                return minUnusedLetter;
+            else
+                return '0';
+        }
+
+        public char GetNextLetter()
+        {
+            char maxUsedLetter = '@';
+            foreach (var label in GetMarkups<Label>())
+            {
+                char letter;
+                char.TryParse(label.Text, out letter);
+                if (letter >= 'A' && letter <= 'Z')
+                    if (letter > maxUsedLetter)
+                        maxUsedLetter = letter;
+            }
+
+            if (maxUsedLetter < 'Z')
+                return (++maxUsedLetter);
+            else
+                return '0';
+        }
+
+        public int GetSmallestUnusedNumber()
+        {
+            int minUnusedNumber = 1;
+            foreach (var label in GetMarkups<Label>())
+            {
+                int number;
+                int.TryParse(label.Text, out number);
+                if (number != 0)
+                    if (number == minUnusedNumber + 1)
+                        minUnusedNumber++;
+            }
+
+            return minUnusedNumber;
+        }
+
+        public int GetNextNumber()
+        {
+            int maxUsedNumber = 0;
+            foreach (var label in GetMarkups<Label>())
+            {
+                int number;
+                int.TryParse(label.Text, out number);
+                if (number != 0)
+                    if (number > maxUsedNumber)
+                        maxUsedNumber = number;
+            }
+
+            return (++maxUsedNumber);
+        }
     }
 }

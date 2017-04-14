@@ -9,6 +9,7 @@ namespace OmegaGo.Core.Game.Tools
 {
     class SimpleMarkupTool : IMarkupTool
     {
+        public ToolKind Tool { get; }
         public MarkupKind Markup { get; }
 
         public void Execute(IToolServices toolService)
