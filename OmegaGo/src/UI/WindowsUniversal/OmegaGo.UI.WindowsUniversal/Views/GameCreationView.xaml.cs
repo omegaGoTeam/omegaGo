@@ -40,6 +40,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             TimeControlFlyout.Hide();
         }
+        private void CloseAgentPlayerFlyout(object sender, RoutedEventArgs e)
+        {
+            AgentFlyout.Hide();
+        }
 
         private void CloseWhitePlayerFlyout(object sender, RoutedEventArgs e)
         {
