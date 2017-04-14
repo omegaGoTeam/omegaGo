@@ -1037,6 +1037,81 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YourColor" xml:space="preserve">
     <value>Your color</value>
   </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Black to play</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Black wins.</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>The game was cancelled before it could be scored.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Accept removed stones</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Cancel and resume game</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Undo stone removal</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Opponent passed</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Resign</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Stone Removal Phase</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} captures</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>The game is a draw.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Disconnection</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>White to play</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>White wins.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} wins by resignation</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} wins by timeout</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} wins by {1} points</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>You have lost.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>You have won.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Your move</value>
+  </data>
   <data name="AbsoluteTimeLabel" xml:space="preserve">
     <value>Time (minutes):</value>
   </data>
