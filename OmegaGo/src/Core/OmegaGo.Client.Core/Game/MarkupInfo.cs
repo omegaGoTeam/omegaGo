@@ -94,7 +94,7 @@ namespace OmegaGo.Core.Game
                 char letter;
                 char.TryParse(label.Text, out letter);
                 if (letter >= 'A' && letter <= 'Z')
-                    if (letter == minUnusedLetter + 1)
+                    if (letter == minUnusedLetter)
                         minUnusedLetter++;
             }
 
@@ -130,7 +130,7 @@ namespace OmegaGo.Core.Game
                 int number;
                 int.TryParse(label.Text, out number);
                 if (number != 0)
-                    if (number == minUnusedNumber + 1)
+                    if (number == minUnusedNumber)
                         minUnusedNumber++;
             }
 
