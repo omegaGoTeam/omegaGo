@@ -1,15 +1,11 @@
 ﻿using OmegaGo.Core.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
     class StonePlacementTool : ITool, IStoneTool
     {
         public ToolKind Tool { get; } = ToolKind.StonePlacement;
+
         public void Execute(IToolServices toolService)
         {
             StoneColor previousPlayer = toolService.Node.Move.WhoMoves;

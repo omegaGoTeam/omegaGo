@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace OmegaGo.Core.Game.Tools
 {
     class DeleteBranchTool : ITool
     {
         public ToolKind Tool { get; } = ToolKind.DeleteBranch;
+
         public void Execute(IToolServices toolService)
         {
             if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node)) 
