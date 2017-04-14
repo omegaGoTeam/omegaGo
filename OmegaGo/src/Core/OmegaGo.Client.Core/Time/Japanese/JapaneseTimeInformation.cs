@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Japanese
 {
@@ -27,7 +28,7 @@ namespace OmegaGo.Core.Time.Japanese
                 {
                     return "Time exceeded";
                 }
-                return TimeLeft.ToString(@"mm\:ss");
+                return TimeLeft.ToCountdownString();
             }
         }
         public override string SubText
