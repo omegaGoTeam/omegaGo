@@ -46,9 +46,17 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToGameCommand;
         private IMvxCommand _switchColorsCommand;
         private bool _useRecommendedKomi = true;
+        private ObservableCollection<TimeControlStyle> _timeControlStyles =
+            new ObservableCollection<TimeControlStyle>
+            {
+                TimeControlStyle.None,
+                TimeControlStyle.Absolute,
+                TimeControlStyle.Canadian,
+                TimeControlStyle.Japanese
+            };
 
-        // Non-backing fields
-        private GameCreationBundle _bundle;
+    // Non-backing fields
+    private GameCreationBundle _bundle;
 
 
 
@@ -98,13 +106,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _timeControl, value); }
         }
 
-        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } =
-            new ObservableCollection<TimeControlStyle>
-            {
-                TimeControlStyle.None,
-                TimeControlStyle.Absolute,
-                TimeControlStyle.Canadian
-            };
+        public ObservableCollection<TimeControlStyle> TimeControlStyles => _timeControlStyles;
 
         /// <summary>
         /// Gets the default offered game board sizes
@@ -203,6 +205,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _whitePlayer, value);
                 WhitePlayerSettings.ChangePlayer(value);
+            }
+        }
+
+        public TimeControlStyle TimeControlStyle
+        {
+            get { return TimeControl.Style; }
+            set
+            {
+                TimeControl.Style = value;
             }
         }
 

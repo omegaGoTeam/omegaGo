@@ -1248,105 +1248,93 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string YourColor => LocalizeCaller();
 		/// <summary>
-		/// Black to play
+		/// Time (minutes):
 		/// </summary>
-		public string BlackToPlay => LocalizeCaller();
+		public string AbsoluteTimeLabel => LocalizeCaller();
 		/// <summary>
-		/// Black wins.
+		/// Minutes per period:
 		/// </summary>
-		public string BlackWon => LocalizeCaller();
+		public string CanadianMinutesPerPeriodLabel => LocalizeCaller();
 		/// <summary>
-		/// The game was cancelled before it could be scored.
+		/// Moves per period:
 		/// </summary>
-		public string CancellationExplanation => LocalizeCaller();
+		public string CanadianMovesPerPeriodLabel => LocalizeCaller();
 		/// <summary>
-		/// You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.
+		/// Number of periods:
 		/// </summary>
-		public string DisconnectionExplanation => LocalizeCaller();
+		public string JapaneseNumberOfPeriodsLabel => LocalizeCaller();
 		/// <summary>
-		/// Accept removed stones
+		/// Seconds per period:
 		/// </summary>
-		public string LifeDeathDone => LocalizeCaller();
+		public string JapaneseSecondsPerPeriodLabel => LocalizeCaller();
 		/// <summary>
-		/// Cancel and resume game
+		/// Main time (minutes):
 		/// </summary>
-		public string LifeDeathResume => LocalizeCaller();
+		public string MainTimeLabel => LocalizeCaller();
 		/// <summary>
-		/// Undo stone removal
+		/// Absolute
 		/// </summary>
-		public string LifeDeathUndo => LocalizeCaller();
+		public string TimeControlStyle_Absolute => LocalizeCaller();
 		/// <summary>
-		/// Opponent passed
+		/// Canadian byo-yomi
 		/// </summary>
-		public string OpponentPassed => LocalizeCaller();
+		public string TimeControlStyle_Canadian => LocalizeCaller();
 		/// <summary>
-		/// Pass
+		/// Japanese byo-yomi
 		/// </summary>
-		public string Pass => LocalizeCaller();
+		public string TimeControlStyle_Japanese => LocalizeCaller();
 		/// <summary>
-		/// Resign
+		/// None
 		/// </summary>
-		public string Resign => LocalizeCaller();
+		public string TimeControlStyle_None => LocalizeCaller();
 		/// <summary>
-		/// Stone Removal Phase
+		/// Absolute Timing.
 		/// </summary>
-		public string StoneRemovalPhase => LocalizeCaller();
+		public string Time_Absolute_Caption => LocalizeCaller();
 		/// <summary>
-		/// Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.
+		/// When a player's time elapses, that player loses immediately.
 		/// </summary>
-		public string StoneRemovalText => LocalizeCaller();
+		public string Time_Absolute_Description => LocalizeCaller();
 		/// <summary>
-		/// {0} captures
+		/// Absolute ({0} minutes)
 		/// </summary>
-		public string StonesCaptured => LocalizeCaller();
+		public string Time_Absolute_Oneline => LocalizeCaller();
 		/// <summary>
-		/// The game is a draw.
+		/// Canadian Timing.
 		/// </summary>
-		public string TheGameIsADraw => LocalizeCaller();
+		public string Time_Canadian_Caption => LocalizeCaller();
 		/// <summary>
-		/// Cancelled
+		/// Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.
 		/// </summary>
-		public string TieByCancellation => LocalizeCaller();
+		public string Time_Canadian_Description => LocalizeCaller();
 		/// <summary>
-		/// Disconnection
+		/// Canadian ({0}, then {1}/{2} min)
 		/// </summary>
-		public string TieByDisconnection => LocalizeCaller();
+		public string Time_Canadian_Oneline => LocalizeCaller();
 		/// <summary>
-		/// Undo
+		/// Japanese Timing.
 		/// </summary>
-		public string Undo => LocalizeCaller();
+		public string Time_Japanese_Caption => LocalizeCaller();
 		/// <summary>
-		/// White to play
+		/// Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.
 		/// </summary>
-		public string WhiteToPlay => LocalizeCaller();
+		public string Time_Japanese_Description => LocalizeCaller();
 		/// <summary>
-		/// White wins.
+		/// Japanese ({0}, then {1}x{2}sec)
 		/// </summary>
-		public string WhiteWon => LocalizeCaller();
+		public string Time_Japanese_Oneline => LocalizeCaller();
 		/// <summary>
-		/// {0} wins by resignation
+		/// No Time Control.
 		/// </summary>
-		public string WinByResign => LocalizeCaller();
+		public string Time_None_Caption => LocalizeCaller();
 		/// <summary>
-		/// {0} wins by timeout
+		/// There is no time limit for either player.
 		/// </summary>
-		public string WinByTimeout => LocalizeCaller();
+		public string Time_None_Description => LocalizeCaller();
 		/// <summary>
-		/// {0} wins by {1} points
+		/// No time control.
 		/// </summary>
-		public string WinsByPoints => LocalizeCaller();
-		/// <summary>
-		/// You have lost.
-		/// </summary>
-		public string YouHaveLost => LocalizeCaller();
-		/// <summary>
-		/// You have won.
-		/// </summary>
-		public string YouHaveWon => LocalizeCaller();
-		/// <summary>
-		/// Your move
-		/// </summary>
-		public string YourMove => LocalizeCaller();
+		public string Time_None_Oneline => LocalizeCaller();
 
         // 
         // This file is auto-generated by LocalizerGenerator.

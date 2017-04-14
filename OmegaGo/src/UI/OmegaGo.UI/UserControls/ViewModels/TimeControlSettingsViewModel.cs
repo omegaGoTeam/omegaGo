@@ -16,7 +16,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public TimeControlStyle Style
         {
-            get { return _style; }
+            get {
+                return _style;
+            }
             set
             {
                 SetProperty(ref _style, value);
