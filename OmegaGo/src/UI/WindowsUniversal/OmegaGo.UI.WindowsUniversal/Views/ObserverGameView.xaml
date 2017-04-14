@@ -159,6 +159,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -170,7 +171,10 @@
                     <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" />
                     <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" />
 
-                    <ListView x:Name="systemLog" Grid.Row="4"
+                    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" 
+                               Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5" />
+
+                    <ListView x:Name="systemLog" Grid.Row="3"
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
                               Background="White"
