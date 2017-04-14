@@ -870,6 +870,69 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="WhiteColon" xml:space="preserve">
     <value>Bílý:</value>
   </data>
+  <data name="AcceptChallenge" xml:space="preserve">
+    <value>Přijmout</value>
+  </data>
+  <data name="ChangeEllipsis" xml:space="preserve">
+    <value>Změnit...</value>
+  </data>
+  <data name="Creationg_KgsChallenge" xml:space="preserve">
+    <value>Výzva na KGS</value>
+  </data>
+  <data name="Creation_IncomingIgsChallenge" xml:space="preserve">
+    <value>Příchozí výzva na Pandanetu</value>
+  </data>
+  <data name="Creation_KgsChallengeCreation" xml:space="preserve">
+    <value>Vytvořit veřejnou výzvu na KGS</value>
+  </data>
+  <data name="Creation_NewLocalGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Creation_OutgoingIgsRequest" xml:space="preserve">
+    <value>Vyzvat soupeře ke hře na Pandanetu</value>
+  </data>
+  <data name="CustomEllipsis" xml:space="preserve">
+    <value>Vlastní...</value>
+  </data>
+  <data name="DeclineKgsChallenger" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="HeightColon" xml:space="preserve">
+    <value>Výška:</value>
+  </data>
+  <data name="Komi" xml:space="preserve">
+    <value>Komi</value>
+  </data>
+  <data name="KomiUseRecommended" xml:space="preserve">
+    <value>Použít doporučené</value>
+  </data>
+  <data name="Nigiri" xml:space="preserve">
+    <value>Vybrat náhodně</value>
+  </data>
+  <data name="RefuseChallenge" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="SizeColon" xml:space="preserve">
+    <value>Velikost:</value>
+  </data>
+  <data name="TimeControl" xml:space="preserve">
+    <value>Řízení času</value>
+  </data>
+  <data name="UnjoinChallenge" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="WidthColon" xml:space="preserve">
+    <value>Šířka:</value>
+  </data>
+  <data name="YourAgent" xml:space="preserve">
+    <value>Jste</value>
+  </data>
+  <data name="YourColor" xml:space="preserve">
+    <value>Tvoje barva</value>
+  </data>
+  <data name="SwitchColors" xml:space="preserve">
+    <value>Prohodit barvy</value>
+  </data>
   <data name="BlackToPlay" xml:space="preserve">
     <value>Černý je na tahu</value>
   </data>
