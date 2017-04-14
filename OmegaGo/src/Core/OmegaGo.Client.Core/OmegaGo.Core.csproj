@@ -54,6 +54,7 @@
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Game\Tools\DeleteBranchTool.cs" />
+    <Compile Include="Game\Tools\IStoneTool.cs" />
     <Compile Include="Game\Tools\ITool.cs" />
     <Compile Include="Game\Tools\IToolServices.cs" />
     <Compile Include="Game\Tools\IMarkupTool.cs" />

@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Game.Tools
                 }
                 else
                 {
-                    //TODO Aniko: Notify UI - no more unused capital letter
+                    //TODO Aniko: Inform UI - no more unused capital letter
                 }
             }
             else
@@ -36,8 +36,24 @@ namespace OmegaGo.Core.Game.Tools
                 markups.RemoveMarkupOnPosition(position);
                 markups.AddMarkup<Label>(new Label(position, number.ToString()));
             }
-                
+        }
 
+        public IMarkup GetShadowItem(IToolServices toolService)
+        {
+            if (Tool == ToolKind.Letter)
+            {
+                char letter = toolService.Node.Markups.GetSmallestUnusedLetter();
+                if (letter != '0')
+                    return new Label(toolService.PointerOverPosition, letter.ToString());
+                //TODO Aniko:  else Notify UI - no more unused capital letter
+            }
+            else
+            {
+                int number = toolService.Node.Markups.GetSmallestUnusedNumber();
+                return new Label(toolService.PointerOverPosition, number.ToString());
+            }
+
+            return null;
         }
     }
 }

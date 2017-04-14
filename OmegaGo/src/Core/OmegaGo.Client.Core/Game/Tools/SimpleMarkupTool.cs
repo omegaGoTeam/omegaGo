@@ -29,5 +29,19 @@ namespace OmegaGo.Core.Game.Tools
                 markups.AddMarkup<Triangle>(new Triangle(position));
         }
 
+        public IMarkup GetShadowItem(IToolServices toolServices)
+        {
+            if (Markup == MarkupKind.Circle)
+                return new Circle(toolServices.PointerOverPosition);
+            if (Markup == MarkupKind.Cross)
+                return new Cross(toolServices.PointerOverPosition);
+            if (Markup == MarkupKind.Square)
+                return new Square(toolServices.PointerOverPosition);
+            if (Markup == MarkupKind.Triangle)
+                return new Triangle(toolServices.PointerOverPosition);
+
+            return null;
+        }
+
     }
 }

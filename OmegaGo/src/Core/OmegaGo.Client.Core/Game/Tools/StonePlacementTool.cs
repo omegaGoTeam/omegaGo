@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
-    class StonePlacementTool : ITool
+    class StonePlacementTool : ITool, IStoneTool
     {
         public ToolKind Tool { get; } = ToolKind.StonePlacement;
         public void Execute(IToolServices toolService)
@@ -16,7 +16,6 @@ namespace OmegaGo.Core.Game.Tools
             StoneColor nextPlayer=StoneColor.None;
             if (toolService.Ruleset == null)
                 toolService.Ruleset = Ruleset.Create(RulesetType.Chinese, toolService.GameTree.BoardSize);
-
 
             //set next player
             if (previousPlayer == StoneColor.White)
@@ -59,6 +58,11 @@ namespace OmegaGo.Core.Game.Tools
                     toolService.Node.Branches.AddNode(newNode);
                 }                
             }
+        }
+
+        public MoveResult[,] GetMoveResults(IToolServices toolService)
+        {
+            return toolService.Ruleset.GetMoveResultLite(toolService.Node);
         }
     }
 }

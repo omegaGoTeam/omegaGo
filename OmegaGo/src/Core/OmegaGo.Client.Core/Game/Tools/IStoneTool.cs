@@ -1,4 +1,4 @@
-﻿using OmegaGo.Core.Game.Markup;
+﻿using OmegaGo.Core.Rules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
-    interface IMarkupTool : ITool
+    interface IStoneTool
     {
-        MarkupKind Markup { get; }
-
-        IMarkup GetShadowItem(IToolServices toolServices);
+        MoveResult[,] GetMoveResults(IToolServices toolService);
     }
 }
