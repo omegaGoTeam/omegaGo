@@ -26,7 +26,7 @@
                 <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.RememberPassword, Mode=TwoWay}" Content="{x:Bind ViewModel.RememberPasswordCaption}"></CheckBox>
                 <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.LoginAtStartup, Mode=TwoWay}" Content="{x:Bind ViewModel.LoginAtStartupCaption}"></CheckBox>
                 <Button IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Click="LogIn_Click" HorizontalAlignment="Stretch" Content="{x:Bind ViewModel.LogInButtonCaption}"></Button>
-                <TextBlock Width="300" TextWrapping="Wrap" Opacity="{x:Bind ViewModel.LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Red" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}"></TextBlock>
+                <TextBlock Width="300" TextWrapping="Wrap" Opacity="{x:Bind ViewModel.LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Blue" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}"></TextBlock>
             </StackPanel>
             <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <HyperlinkButton Click="HyperlinkButton_Click" Content="{x:Bind ViewModel.HyperlinkCaption}"></HyperlinkButton>

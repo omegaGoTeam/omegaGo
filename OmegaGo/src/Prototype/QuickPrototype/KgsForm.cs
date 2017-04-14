@@ -191,8 +191,8 @@ namespace FormsPrototype
         {
             if (this.lbContainerGames.SelectedItem != null)
             {
-                var game = (KgsGameInfo) this.lbContainerGames.SelectedItem;
-                await kgs.Commands.ObserveGameAsync(game);
+                var game = (KgsTrueGameChannel) this.lbContainerGames.SelectedItem;
+                await kgs.Commands.ObserveGameAsync(game.GameInfo);
             }
         }
 

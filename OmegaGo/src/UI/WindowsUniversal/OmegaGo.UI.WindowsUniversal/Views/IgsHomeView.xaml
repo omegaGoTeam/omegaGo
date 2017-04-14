@@ -46,37 +46,35 @@
                                 <RadioButton Margin="10,0,0,0" Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
                             </StackPanel>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate x:DataType="igs:IgsGameInfo">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}"></TextBlock>
-                                            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="v." Margin="5,0,5,0"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Black}" FontWeight="Bold"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding BoardSize}"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding PreplayedMoveCount}"></TextBlock>
-                                                <TextBlock VerticalAlignment="Center" Text="moves" Margin="5,0,5,0"></TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </ScrollViewer>
+                        <ListBox Grid.Row="1"  SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="igs:IgsGameInfo">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}"></TextBlock>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="v." Margin="5,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Black}" FontWeight="Bold"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding BoardSize}"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding PreplayedMoveCount}"></TextBlock>
+                                            <TextBlock VerticalAlignment="Center" Text="moves" Margin="5,0,5,0"></TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <Button Grid.Row="2"
                                 Content="{x:Bind Localizer.ObserveThisGame}"
                                 Command="{Binding ObserveSelectedGame}" />
@@ -99,16 +97,14 @@
                             </StackPanel>
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" VerticalScrollMode="Enabled">
-                            <ListBox ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </ScrollViewer>
+                        <ListBox Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
                         <Button Grid.Row="2" 
                                 Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
                                 Command="{Binding ChallengeSelectedPlayer}"/>

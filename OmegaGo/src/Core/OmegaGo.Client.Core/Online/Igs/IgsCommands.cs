@@ -85,6 +85,21 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
+        public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            var igsGameInfo = (IgsGameInfo)remoteInfo;
+            await UndoAsync(igsGameInfo);
+
+        }
+
+        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            var igsGameInfo = (IgsGameInfo)remoteInfo;
+            NoUndo(igsGameInfo);
+            return CompletedTask;
+
+        }
+
         public async Task AreYouThere()
         {
             if (this.igsConnection.LoggedIn)

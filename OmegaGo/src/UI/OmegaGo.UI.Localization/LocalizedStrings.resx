@@ -378,7 +378,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Rename</value>
   </data>
   <data name="Rules" xml:space="preserve">
-    <value>Rules</value>
+    <value>Ruleset</value>
   </data>
   <data name="RulesetType_AGA" xml:space="preserve">
     <value>AGA</value>
@@ -931,5 +931,185 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="YouAreLoggedInAs" xml:space="preserve">
     <value>You are logged in as:</value>
+  </data>
+  <data name="BlackColon" xml:space="preserve">
+    <value>Black:</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Date:</value>
+  </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Delete {0}?</value>
+  </data>
+  <data name="DeleteWarning" xml:space="preserve">
+    <value>This will erase the file from the library permanently.</value>
+  </data>
+  <data name="ErrorParsingSgfFile" xml:space="preserve">
+    <value>Error parsing SGF file</value>
+  </data>
+  <data name="ExportCommand" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="LoadingEllipsis" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="LoadSgfFileEllipsis" xml:space="preserve">
+    <value>Load SGF file...</value>
+  </data>
+  <data name="MovesColon" xml:space="preserve">
+    <value>Moves:</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenLibraryInExplorer" xml:space="preserve">
+    <value>Open library in Explorer</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="WhiteColon" xml:space="preserve">
+    <value>White:</value>
+  </data>
+  <data name="AcceptChallenge" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="ChangeEllipsis" xml:space="preserve">
+    <value>Change...</value>
+  </data>
+  <data name="Creationg_KgsChallenge" xml:space="preserve">
+    <value>KGS challenge</value>
+  </data>
+  <data name="Creation_IncomingIgsChallenge" xml:space="preserve">
+    <value>Incoming IGS challenge</value>
+  </data>
+  <data name="Creation_KgsChallengeCreation" xml:space="preserve">
+    <value>Create a public KGS challenge</value>
+  </data>
+  <data name="Creation_NewLocalGame" xml:space="preserve">
+    <value>New game</value>
+  </data>
+  <data name="Creation_OutgoingIgsRequest" xml:space="preserve">
+    <value>Issue an IGS challenge</value>
+  </data>
+  <data name="CustomEllipsis" xml:space="preserve">
+    <value>Custom...</value>
+  </data>
+  <data name="DeclineKgsChallenger" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="HeightColon" xml:space="preserve">
+    <value>Height:</value>
+  </data>
+  <data name="Komi" xml:space="preserve">
+    <value>Komi</value>
+  </data>
+  <data name="KomiUseRecommended" xml:space="preserve">
+    <value>Use recommended</value>
+  </data>
+  <data name="Nigiri" xml:space="preserve">
+    <value>Choose at random</value>
+  </data>
+  <data name="RefuseChallenge" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="SizeColon" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="SwitchColors" xml:space="preserve">
+    <value>Switch colors</value>
+  </data>
+  <data name="TimeControl" xml:space="preserve">
+    <value>Time control</value>
+  </data>
+  <data name="UnjoinChallenge" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="WidthColon" xml:space="preserve">
+    <value>Width:</value>
+  </data>
+  <data name="YourAgent" xml:space="preserve">
+    <value>You are</value>
+  </data>
+  <data name="YourColor" xml:space="preserve">
+    <value>Your color</value>
+  </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Black to play</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Black wins.</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>The game was cancelled before it could be scored.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Accept removed stones</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Cancel and resume game</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Undo stone removal</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Opponent passed</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Resign</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Stone Removal Phase</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} captures</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>The game is a draw.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Disconnection</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>White to play</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>White wins.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} wins by resignation</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} wins by timeout</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} wins by {1} points</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>You have lost.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>You have won.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Your move</value>
   </data>
 </root>

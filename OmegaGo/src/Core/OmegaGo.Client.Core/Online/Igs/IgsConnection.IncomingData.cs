@@ -16,6 +16,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
@@ -210,6 +211,20 @@ namespace OmegaGo.Core.Online.Igs
                             weAreHandlingAnInterrupt = true;
                             continue;
                         }
+                        if (igsLine.PureLine.Contains("has run out of time"))
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            string whoRanOutOfTime = IgsRegex.WhoRanOutOfTime(igsLine);
+                            foreach(var game in GetGamesIncluding(whoRanOutOfTime).ToList())
+                            {
+                                game.Controller.IgsConnector.EndTheGame(
+                                    GameEndInformation.CreateTimeout(
+                                        game.Controller.Players.First(pl => pl.Info.Name == whoRanOutOfTime),
+                                        game.Controller.Players)
+                                    );
+                            }
+                            continue;
+                        }
                         if (igsLine.PureLine.Contains("has resigned the game"))
                         {
                             string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
@@ -222,6 +237,7 @@ namespace OmegaGo.Core.Online.Igs
                                 }
                             }
                             weAreHandlingAnInterrupt = true;
+                            continue;
                         }
                         if (igsLine.PureLine.Contains("has typed done."))
                         {
@@ -230,6 +246,7 @@ namespace OmegaGo.Core.Online.Igs
                             {
                                 // TODO petr inform the controller that a 'done' was typed (when interface exists)
                             }
+                            continue;
                         }
                         if (igsLine.PureLine.Contains("Board is restored to what it was when you started scoring"))
                         {
@@ -399,8 +416,8 @@ namespace OmegaGo.Core.Online.Igs
             if (currentLineBatch.Count > 0)
             {
                
-                  if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
-                 {
+                if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
+                {
                     
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);

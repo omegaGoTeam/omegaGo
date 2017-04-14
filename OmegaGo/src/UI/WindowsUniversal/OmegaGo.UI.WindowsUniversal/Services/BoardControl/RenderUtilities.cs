@@ -52,6 +52,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
                 );
         }
 
+        private static float cachedFontSize = -1;
         private static int cachedCellSize = -1;
         private static Dictionary<string, CanvasTextLayout> cache = new Dictionary<string, CanvasTextLayout>();
 
@@ -66,7 +67,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
         /// <returns></returns>
         public static CanvasTextLayout GetCachedCanvasTextLayout(ICanvasResourceCreator resourceCreator, string text, CanvasTextFormat textFormat, int cellSize)
         {
-            if (cellSize != cachedCellSize)
+            if (cellSize != cachedCellSize || textFormat.FontSize != cachedFontSize)
             {
                 foreach(var val in cache.Values)
                 {
@@ -74,6 +75,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
                 }
                 cache.Clear();
                 cachedCellSize = cellSize;
+                cachedFontSize = textFormat.FontSize;
             }
             if (!cache.ContainsKey(text))
             {

@@ -74,10 +74,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
+            serverConnection.Events.IncomingInGameChatMessage += Events_IncomingInGameChatMessage;
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
             IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
             IgsConnector.Disconnected += IgsConnector_Disconnected;
-            serverConnection.Events.IncomingInGameChatMessage += Events_IncomingInGameChatMessage;
+            IgsConnector.GameEndedByServer += IgsConnector_GameEndedByServer;
+        }
+
+        private void IgsConnector_GameEndedByServer(object sender, GameEndInformation e)
+        {
+            this.EndGame(e);
         }
 
         private void Events_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, Online.Chat.ChatMessage> e)

@@ -17,164 +17,183 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+    <Page.Resources>
+        <Style x:Key="Labels" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="22"></Setter>
+            <Setter Property="Grid.Column" Value="0"></Setter>
+        </Style>
+        <Style x:Key="Boxes" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Grid.Column" Value="1"></Setter>
+            <Setter Property="MinWidth" Value="200"></Setter>
+        </Style>
+        <Style x:Key="Buttons" TargetType="Control">
+            <Setter Property="Grid.Column" Value="2"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        </Style>
+        <Style x:Key="TimeControlDescription" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Grid.Column" Value="1"></Setter>
+        </Style>
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        
-        <navigation:TitleControl Text="New Game" 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+            <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
                    HorizontalAlignment="Center"
-                   Margin="0,20,0,0"
-                   Grid.Row="0" />
+                   Margin="0,20,0,0" />
 
-
-        <Grid x:Name="GameSettingsGrid"
-              HorizontalAlignment="Center"
-              Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="FirstColumn" Width="Auto" />
-                <ColumnDefinition x:Name="SecondColumn" Width="Auto" />
-                <ColumnDefinition x:Name="ThirdColumn" Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="Server" Grid.Column="0"
-                       Grid.Row="0" HorizontalAlignment="Right"
-                       FontSize="22"
-                       Margin="5"
-                       VerticalAlignment="Center"></TextBlock>
-            <ComboBox Grid.Column="1" Grid.Row="0" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}" SelectedItem="{Binding Server, Mode=TwoWay}" IsEnabled="False">
-                <x:String>Local Game</x:String>
-                <x:String>IGS</x:String>
-                <x:String>KGS</x:String>
-            </ComboBox>
-
-            <TextBlock Text="{x:Bind Localizer.BoardSize}" Grid.Column="0" Grid.Row="1" 
-                       HorizontalAlignment="Right" VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5" Width="125" MinWidth="{Binding ElementName=FirstColumn, Path=ActualWidth}"
+            <Grid x:Name="Form"
+              HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="Labels" Width="Auto"  />
+                        <ColumnDefinition x:Name="Boxes" Width="Auto" />
+                        <ColumnDefinition x:Name="Buttons" Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                
+                    <TextBlock Grid.Row="0" Style="{StaticResource Labels}" Text="{x:Bind Localizer.BoardSize}" />
+                    <ComboBox Grid.Row="0" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Path=BoardSizes}"
                       SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
                             <Run Text="{Binding Width}" FontWeight="SemiBold" />
                             <Run Text=" x " />
                             <Run Text="{Binding Height}" FontWeight="SemiBold" />
-                        </TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Row="0" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.CustomEllipsis}">
+                        <Button.Flyout>
+                            <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
+                                <StackPanel>
+                                    <StackPanel Visibility="{x:Bind VM.Bundle.SupportsRectangularBoards}">
+                                        <TextBlock Text="{x:Bind Localizer.WidthColon}"/>
+                                        <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
+                                            <TextBlock Text="{x:Bind Localizer.HeightColon}"/>
+                                        <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
+                                        <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                    </StackPanel>
+                                    <StackPanel Visibility="{x:Bind VM.Bundle.SupportsOnlySquareBoards}">
+                                        <TextBlock Text="{x:Bind Localizer.SizeColon}"/>
+                                        <TextBox InputScope="Number" Name="TbCustomSquareSize" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
+                                        <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
 
-            <Button Grid.Column="2" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    Content="Custom...">
-                <Button.Flyout>
-                    <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
-                        <StackPanel>
-                            <TextBlock Text="Width: "/>
-                            <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
-                            <TextBlock Text="Height: "/>
-                            <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
-                            <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-
-            <TextBlock Text="{x:Bind Localizer.Rules}" Grid.Column="0" Grid.Row="2" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="2" Margin="5" HorizontalAlignment="Stretch"
+                    <TextBlock Grid.Row="1" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Rules}" />
+                    <ComboBox  Grid.Row="1" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Rulesets}"
-                      IsEnabled="{Binding RulesetCanBeSelected}"
+                      IsEnabled="{Binding Bundle.SupportsChangingRulesets}"
                       SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-            <TextBlock Text="Black" Grid.Column="0" Grid.Row="3" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <ComboBox Grid.Column="1" Grid.Row="3" Margin="5" HorizontalAlignment="Stretch"
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Black}" />
+                    <ComboBox Grid.Row="2" Style="{StaticResource Boxes}" 
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
-            <Button Grid.Column="2" Grid.Row="3" 
-                    Content="{x:Bind Localizer.MoreEllipsis}"
-                    HorizontalAlignment="Stretch">
-                <Button.Flyout>
-                    <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
-                        <StackPanel>
-                            <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
-                            <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+                    <Button Grid.Row="2" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
+                        <Button.Flyout>
+                            <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
+                                <StackPanel>
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings, Mode=OneWay}" />
+                                    <Button Click="CloseBlackPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
 
-            <TextBlock Visibility="{x:Bind VM.RulesetCanBeSelected}"
-                        Text="White" Grid.Column="0" Grid.Row="4" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <ComboBox Visibility="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="4" Margin="5" HorizontalAlignment="Stretch"
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.White}" />
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}"  
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-            <Button Visibility="{x:Bind VM.RulesetCanBeSelected}" 
-                    Grid.Column="2" Grid.Row="4" 
-                    Content="{x:Bind Localizer.MoreEllipsis}"
-                    HorizontalAlignment="Stretch">
-                <Button.Flyout>
-                    <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
-                        <StackPanel>
-                            <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
-                            <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
+                        <Button.Flyout>
+                            <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
+                                <StackPanel>
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings, Mode=OneWay}" />
+                                    <Button Click="CloseWhitePlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}"
+                            Visibility="Collapsed"
+                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button> <!-- TODO Petr: add with KGS -->
+                
+                <!--
+                This code is being prepared for online forms.
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your color"/>
+                    <ComboBox Grid.Row="2" Style="{StaticResource Boxes}">
+                        <ComboBoxItem>Black</ComboBoxItem>
+                        <ComboBoxItem>White</ComboBoxItem>
+                        <ComboBoxItem>Choose at random</ComboBoxItem>
+                    </ComboBox>
 
-            <TextBlock Text="{x:Bind Localizer.WhiteHandicap}" Grid.Column="0" Grid.Row="5" 
-                       HorizontalAlignment="Right" VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}" />
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" 
+                      ItemsSource="{Binding Path=PossiblePlayers}"
+                      SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Visibility="{x:Bind VM.RulesetCanBeSelected}" Content="{x:Bind Localizer.MoreEllipsis}">
+                        <Button.Flyout>
+                            <Flyout Placement="Right" x:Name="AgentFlyout">
+                                <StackPanel>
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                                    <Button Click="CloseAgentPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+-->
+                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" />
 
-            <Slider Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.RulesetCanBeSelected}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Stretch"  Margin="5" />
-            <TextBlock Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom" />
-            <TextBlock Text="Time Control" Grid.Column="0" Grid.Row="6" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <TextBlock Grid.Column="1" Grid.Row="6" Margin="5" HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}">
-            </TextBlock>
-            <Button Grid.Column="2" Grid.Row="6" 
-                    HorizontalAlignment="Stretch"
-                    Content="Change...">
-                <Button.Flyout>
+                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
+                    <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
+                            Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
+                            Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.RulesetCanBeSelected}" />
+                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
+                    
+                    <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
+                    <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
+                    <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}">
+                         <Button.Flyout>
                     <Flyout  Placement="Right" x:Name="TimeControlFlyout">
                         <StackPanel Width="300">
                             <ComboBox  ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControl.Style, Mode=TwoWay}">
@@ -214,27 +233,36 @@
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
-            </Button>
+                    </Button>
 
-            <TextBlock Text="Compensation" Grid.Column="0" Grid.Row="7" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center" 
-                       FontSize="22" Margin="5" />
-            <TextBox IsEnabled="{Binding RulesetCanBeSelected}" Grid.Row="7" Margin="5" Grid.Column="1" x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
-            <Button Grid.Row="7" Grid.Column="2" 
-                    Content="Set default"
-                    HorizontalAlignment="Stretch"
-                    Command="{x:Bind VM.SetDefaultCompensationCommand}"/>
-            <Button Grid.Row="8" 
-                    Command="{Binding Path=NavigateToGameCommand}"
-                    HorizontalAlignment="Stretch"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3">
-                <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
-                    <TextBlock Text="{x:Bind Localizer.Play}" Margin="10,0,0,0" />
-                </StackPanel>
-            </Button>
-        </Grid>
+                    <TextBlock Grid.Row="7" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Komi}" />
+                    <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
+                             IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
+                             x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
+                    
+                    <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
+                              IsChecked="{x:Bind VM.UseRecommendedKomi, Mode=TwoWay}"
+                              Margin="5,0,5,5"/>
+
+                    <Button Grid.Row="9" Command="{Binding Path=NavigateToGameCommand}"
+                            HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
+                            Visibility="{x:Bind VM.Bundle.Playable}">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
+                            <TextBlock Text="{x:Bind Localizer.Play}" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+
+                    <Grid Grid.Row="9" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.Bundle.AcceptableAndRefusable}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
+                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{x:Bind VM.RefusalCaption}"></Button>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </views:TransparencyViewBase>

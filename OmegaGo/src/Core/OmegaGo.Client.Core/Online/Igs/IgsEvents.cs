@@ -99,6 +99,16 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public event Action<string> IncomingShoutMessage;
 
+        /// <summary>
+        /// Occurs just before a new stage of the IGS login process is entered. The stage that's being entered is given as the argument.
+        /// </summary>
+        public event EventHandler<IgsLoginPhase> LoginPhaseChanged;
+
+        internal void RaiseLoginPhaseChanged(IgsLoginPhase phase)
+        {
+            LoginPhaseChanged?.Invoke(this, phase);
+        }
+
         internal void RaiseDisconnected()
         {
             Disconnected?.Invoke(this, EventArgs.Empty);
