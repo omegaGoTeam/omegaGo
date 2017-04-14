@@ -22,7 +22,7 @@ namespace OmegaGo.UI.ViewModels
     public class GameCreationViewModel : ViewModelBase
     {
         private static readonly List<GameCreationViewPlayer> PlayerList = new List<GameCreationViewPlayer>(
-            new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer("Human") }
+            new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer() }
                 .Concat(Core.AI.AISystems.AIPrograms.Select(
                     program => new GameCreationViewAiPlayer(program))));
         private readonly IGameSettings _gameSettings;

@@ -1178,4 +1178,10 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Time_None_Oneline" xml:space="preserve">
     <value>No time control.</value>
   </data>
+  <data name="Human" xml:space="preserve">
+    <value>Local human player</value>
+  </data>
+  <data name="HumanDescription" xml:space="preserve">
+    <value>This means that you (or a friend) will play this color on this device.</value>
+  </data>
 </root>
