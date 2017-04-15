@@ -77,7 +77,7 @@ namespace OmegaGo.Core.Online.Igs
         ///     Occurs when the opponent in a GAME declines our request to undo a move.
         ///     This will also prevent all further undo's in this game.
         /// </summary>
-        public event EventHandler<IgsGameInfo> UndoDeclined;
+        public event EventHandler<GameInfo> UndoDeclined;
 
         /// <summary>
         ///     Occurs when the connection class wants to present a log message to the user using the program, such an incoming

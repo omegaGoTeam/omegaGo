@@ -24,15 +24,7 @@ namespace OmegaGo.UI.ViewModels
         {
             ChatViewModel = new ChatViewModel();
             (Game.Controller as RemoteGameController).Server.Events.UndoRequestReceived += Events_UndoRequestReceived;
-        }
-
-        private void Events_UndoRequestReceived(object sender, Core.Game.GameInfo e)
-        {
-            if (e == Game.Info)
-            {
-                // TODO Petr: implement better equality comparison for GameInfo
-                this.CanAgreeOrDisagreeUndo = true;
-            }
+            (Game.Controller as RemoteGameController).Server.Events.UndoDeclined += Events_UndoDeclined;
         }
 
         public ChatViewModel ChatViewModel { get; private set; }
@@ -65,6 +57,23 @@ namespace OmegaGo.UI.ViewModels
             this.CanAgreeOrDisagreeUndo = false;
             var remote = Game.Controller as RemoteGameController;
             await remote.Server.Commands.RejectUndoAsync(Game.Info as RemoteGameInfo);
+        }
+
+        private void Events_UndoDeclined(object sender, Core.Game.GameInfo e)
+        {
+            if (e == Game.Info)
+            {
+                this.OutgoingUndoInProgress = false;
+            }
+        }
+
+        private void Events_UndoRequestReceived(object sender, Core.Game.GameInfo e)
+        {
+            if (e == Game.Info)
+            {
+                // TODO Petr: implement better equality comparison for GameInfo
+                this.CanAgreeOrDisagreeUndo = true;
+            }
         }
     }
 }

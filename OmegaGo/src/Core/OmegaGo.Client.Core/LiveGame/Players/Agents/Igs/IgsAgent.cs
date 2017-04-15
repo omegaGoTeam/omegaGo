@@ -52,6 +52,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
         {
             OnResign();
         }
+        
 
         /// <summary>
         /// May perform a move if on turn

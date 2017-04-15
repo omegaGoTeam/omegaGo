@@ -27,6 +27,7 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
         public event EventHandler<GameInfo> UndoRequestReceived;
+        public event EventHandler<GameInfo> UndoDeclined;
 
         internal void RaiseLoginPhaseChanged(KgsLoginPhase phase)
         {
