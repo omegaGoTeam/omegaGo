@@ -222,26 +222,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Events_LoginPhaseChanged(object sender, KgsLoginPhase e)
         {
-            string message = "";
-            switch (e)
-            {
-                case KgsLoginPhase.Done:
-                    message = "Done.";
-                    break;
-                case KgsLoginPhase.JoiningGlobalLists:
-                    message = "Joining global lists...";
-                    break;
-                case KgsLoginPhase.MakingLoginRequest:
-                    message = "Logging in...";
-                    break;
-                case KgsLoginPhase.RequestingRoomNames:
-                    message = "Requesting room names...";
-                    break;
-                case KgsLoginPhase.StartingGetLoop:
-                    message = "Startin get loop...";
-                    break;
-            }
-            this.LoginForm.LoginErrorMessage = message;
+            this.LoginForm.LoginErrorMessage = Localizer.GetString("KgsLoginPhase_" + e.ToString());
         }
 
         private void RefreshControls()

@@ -1112,4 +1112,43 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YourMove" xml:space="preserve">
     <value>Your move</value>
   </data>
+  <data name="IgsLoginPhase_Connecting" xml:space="preserve">
+    <value>Connecting...</value>
+  </data>
+  <data name="IgsLoginPhase_Done" xml:space="preserve">
+    <value>Done.</value>
+  </data>
+  <data name="IgsLoginPhase_LoggingIn" xml:space="preserve">
+    <value>Logging in...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingGames" xml:space="preserve">
+    <value>Downloading the list of games...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingUsers" xml:space="preserve">
+    <value>Downloading the list of users...</value>
+  </data>
+  <data name="IgsLoginPhase_SendingInitialBurst" xml:space="preserve">
+    <value>Explaining our capabilities to Pandanet...</value>
+  </data>
+  <data name="KgsLoginPhase_Done" xml:space="preserve">
+    <value>Done.</value>
+  </data>
+  <data name="KgsLoginPhase_JoiningGlobalLists" xml:space="preserve">
+    <value>Joining global games and challenges list...</value>
+  </data>
+  <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
+    <value>Logging in...</value>
+  </data>
+  <data name="KgsLoginPhase_RequestingRoomNames" xml:space="preserve">
+    <value>Requesting room names...</value>
+  </data>
+  <data name="KgsLoginPhase_StartingGetLoop" xml:space="preserve">
+    <value>Starting GET loop...</value>
+  </data>
+  <data name="RewardColon" xml:space="preserve">
+    <value>Reward:</value>
+  </data>
+  <data name="UseGraceSecond" xml:space="preserve">
+    <value>In online games, show 1 less second remaining on the clock.</value>
+  </data>
 </root>

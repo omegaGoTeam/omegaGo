@@ -1008,4 +1008,43 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="StoneRemovalPhase" xml:space="preserve">
     <value>Fáze odstranění kamenů</value>
   </data>
+  <data name="IgsLoginPhase_Connecting" xml:space="preserve">
+    <value>Připojování...</value>
+  </data>
+  <data name="IgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="IgsLoginPhase_LoggingIn" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingGames" xml:space="preserve">
+    <value>Stahování seznamu her...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingUsers" xml:space="preserve">
+    <value>Stahování seznamu uživatelů...</value>
+  </data>
+  <data name="IgsLoginPhase_SendingInitialBurst" xml:space="preserve">
+    <value>Vysvětlování našich schopností Pandanetu...</value>
+  </data>
+  <data name="KgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="KgsLoginPhase_JoiningGlobalList" xml:space="preserve">
+    <value>Připojování ke globálnímu seznamu her a výzev...</value>
+  </data>
+  <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="KgsLoginPhase_RequestingRoomNames" xml:space="preserve">
+    <value>Požadavek na názvy pokojů...</value>
+  </data>
+  <data name="KgsLoginPhase_StartingGetLoop" xml:space="preserve">
+    <value>Spuštění smyčky GET...</value>
+  </data>
+  <data name="RewardColon" xml:space="preserve">
+    <value>Odměna:</value>
+  </data>
+  <data name="UseGraceSecond" xml:space="preserve">
+    <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
+  </data>
 </root>

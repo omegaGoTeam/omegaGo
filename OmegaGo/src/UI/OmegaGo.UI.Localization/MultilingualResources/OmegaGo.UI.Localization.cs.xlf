@@ -1340,6 +1340,58 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Stone Removal Phase</source>
           <target state="translated">Fáze odstranění kamenů</target>
         </trans-unit>
+        <trans-unit id="IgsLoginPhase_Connecting" translate="yes" xml:space="preserve">
+          <source>Connecting...</source>
+          <target state="translated">Připojování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_LoggingIn" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingGames" translate="yes" xml:space="preserve">
+          <source>Downloading the list of games...</source>
+          <target state="translated">Stahování seznamu her...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingUsers" translate="yes" xml:space="preserve">
+          <source>Downloading the list of users...</source>
+          <target state="translated">Stahování seznamu uživatelů...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_SendingInitialBurst" translate="yes" xml:space="preserve">
+          <source>Explaining our capabilities to Pandanet...</source>
+          <target state="translated">Vysvětlování našich schopností Pandanetu...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_JoiningGlobalList" translate="yes" xml:space="preserve">
+          <source>Joining global games and challenges list...</source>
+          <target state="translated">Připojování ke globálnímu seznamu her a výzev...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_MakingLoginRequest" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_RequestingRoomNames" translate="yes" xml:space="preserve">
+          <source>Requesting room names...</source>
+          <target state="translated">Požadavek na názvy pokojů...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_StartingGetLoop" translate="yes" xml:space="preserve">
+          <source>Starting GET loop...</source>
+          <target state="translated">Spuštění smyčky GET...</target>
+        </trans-unit>
+        <trans-unit id="RewardColon" translate="yes" xml:space="preserve">
+          <source>Reward:</source>
+          <target state="translated">Odměna:</target>
+        </trans-unit>
+        <trans-unit id="UseGraceSecond" translate="yes" xml:space="preserve">
+          <source>In online games, show 1 less second remaining on the clock.</source>
+          <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
+        </trans-unit>
       </group>
     </body>
   </file>
