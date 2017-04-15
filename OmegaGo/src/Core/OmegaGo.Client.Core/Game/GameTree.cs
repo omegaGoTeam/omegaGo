@@ -18,10 +18,10 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Creates a game tree with a given ruleset
         /// </summary>
-        /// <param name="ruleset">Ruleset instance</param>
-        public GameTree(IRuleset ruleset)
+        public GameTree(IRuleset ruleset, GameBoardSize boardSize)
         {
             Ruleset = ruleset;
+            BoardSize = boardSize;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Game board size
         /// </summary>
-        public GameBoardSize BoardSize { get; set; }
+        public GameBoardSize BoardSize { get; }
 
         /// <summary>
         /// Root of the game tree

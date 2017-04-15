@@ -67,8 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame
             this.Ruleset = ruleset;
             this.Players = players;
             AssignPlayers();
-            this.GameTree = new GameTree(ruleset);
-            this.GameTree.BoardSize = this.Info.BoardSize;
+            this.GameTree = new GameTree(ruleset, this.Info.BoardSize);
             InitGameTree();
         }
 
