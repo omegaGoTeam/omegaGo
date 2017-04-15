@@ -18,6 +18,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
+        private bool _isInitialized;
 
         private GameTreeNode _currentGameTreeNode;
 
@@ -67,15 +68,20 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             return availableSize;
         }
 
+
+
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
-            _currentGameTreeNode = ViewModel.GameTreeNode;
-            _boardControlState = ViewModel.BoardControlState;
-            _renderService = new RenderService(_boardControlState);
-            _inputService = new InputService(_boardControlState);
-            
-            _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
+            if (!_isInitialized)
+            {
+                ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
+                _currentGameTreeNode = ViewModel.GameTreeNode;
+                _boardControlState = ViewModel.BoardControlState;
+                _renderService = new RenderService(_boardControlState);
+                _inputService = new InputService(_boardControlState);
+                _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
+                _isInitialized = true;
+            }
         }
 
         private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)

@@ -70,6 +70,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed
                 {
                     if (_activeTab != null)
                     {
+                        (_activeTab.Frame.Content as ViewBase)?.Transitions.Clear();
                         (_activeTab.Frame.Content as ViewBase)?.TabDeactivated();
                     }
                     SetProperty(ref _activeTab, value);                    

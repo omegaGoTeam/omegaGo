@@ -8,6 +8,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     // ReSharper disable once UnusedMember.Global
     public sealed partial class TutorialView
     {
+        private bool _isInitialized = false;
         public TutorialViewModel VM => (TutorialViewModel)this.ViewModel;
 
         public TutorialView()
@@ -46,16 +47,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TutorialViewPage_Loaded(object sender, RoutedEventArgs e)
         {
-            this.ButtonNext.Visibility = Visibility.Collapsed;
-            this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
-            var scenario = this.VM.Scenario;
-            scenario.ScenarioCompleted += Scenario_ScenarioCompleted;
-            scenario.SetChoices += Scenario_SetChoices;
-            scenario.SenseiMessageChanged += Scenario_SenseiMessageChanged;
-            scenario.NextButtonShown += Scenario_NextButtonShown;
-            scenario.NextButtonTextChanged += Scenario_NextButtonTextChanged;
-            scenario.ExecuteCommand();
-
+            if (!_isInitialized)
+            {
+                this.ButtonNext.Visibility = Visibility.Collapsed;
+                this.MakeYourChoiceDialog.Visibility = Visibility.Collapsed;
+                var scenario = this.VM.Scenario;
+                scenario.ScenarioCompleted += Scenario_ScenarioCompleted;
+                scenario.SetChoices += Scenario_SetChoices;
+                scenario.SenseiMessageChanged += Scenario_SenseiMessageChanged;
+                scenario.NextButtonShown += Scenario_NextButtonShown;
+                scenario.NextButtonTextChanged += Scenario_NextButtonTextChanged;
+                scenario.ExecuteCommand();
+                _isInitialized = true;
+            }
         }
 
         private void Scenario_NextButtonTextChanged(object sender, string e)

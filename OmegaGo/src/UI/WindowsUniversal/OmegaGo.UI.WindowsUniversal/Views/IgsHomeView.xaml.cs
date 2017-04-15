@@ -15,6 +15,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public sealed partial class IgsHomeView : TransparencyViewBase
     {
+        private bool _isInitialized;
         public IgsHomeViewModel VM => (IgsHomeViewModel)this.ViewModel;
 
         public IgsHomeView()
@@ -28,7 +29,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await VM.Initialize();
+            if (!_isInitialized)
+            {
+                _isInitialized = true;
+                await VM.Initialize();
+            }
         }
 
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)

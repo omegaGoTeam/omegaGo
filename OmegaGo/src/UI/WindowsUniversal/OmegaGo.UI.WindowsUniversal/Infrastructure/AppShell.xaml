@@ -63,50 +63,43 @@
                 UseSharedDevice="True"
                     >
             </win2d:CanvasControl>
-            <Grid x:Name="TitleBar"  Visibility="Visible">
+            <Grid Grid.Row="0" x:Name="TitleBar" Visibility="Visible">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" x:Name="TabTitleBarColumn" />
+                    <ColumnDefinition Width="*" x:Name="DraggableTitleBarColumn"/>
                 </Grid.ColumnDefinitions>
-                <ScrollViewer HorizontalScrollMode="Auto" VerticalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Auto" Grid.Column="0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="True" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <navigation:TabControl />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        <Button Click="NewTabButton_Click" Grid.Column="1" Style="{ThemeResource NewTabButtonStyle}" VerticalAlignment="Stretch" Width="32">
-                            <FontIcon Glyph="&#xE109;" FontSize="10" />
-                        </Button>
-                        <Border Grid.Column="2" IsHitTestVisible="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Border.Background>
-                                <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
-                            </Border.Background>
-                        </Border>
-                    </Grid>
-                </ScrollViewer>
-                <Border Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"  IsHitTestVisible="False" VerticalAlignment="Stretch">
+                <Grid HorizontalAlignment="Stretch" x:Name="TabListContainer">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="TabList" HorizontalAlignment="Stretch" SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="True" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <navigation:TabControl />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Click="NewTabButton_Click" Grid.Column="1" Style="{ThemeResource NewTabButtonStyle}" VerticalAlignment="Stretch" Width="32">
+                        <FontIcon Glyph="&#xE109;" FontSize="10" />
+                    </Button>
+                </Grid>
+                <Border Grid.Column="1" HorizontalAlignment="Stretch"  IsHitTestVisible="False" VerticalAlignment="Stretch">
                     <Border.Background>
                         <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
                     </Border.Background>
                 </Border>
-                <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="DraggableTitleBarArea" Background="Transparent">
+                <Grid Grid.Column="1" HorizontalAlignment="Stretch" x:Name="DraggableTitleBarArea" Background="Transparent">
+                    <StackPanel x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
+                        <Grid Width="0" x:Name="RightTitleBarMask"/>
+                    </StackPanel>
                 </Grid>
-                <Button x:Name="FeedbackButton" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed" />
-                <Grid Grid.Column="2" x:Name="RightTitleBarMask"/>
             </Grid>
         </Grid>
     </Border>
