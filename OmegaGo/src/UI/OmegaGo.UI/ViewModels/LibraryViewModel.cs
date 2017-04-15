@@ -111,7 +111,7 @@ namespace OmegaGo.UI.ViewModels
                     var parsed = p.Parse(content);
                     var firstTree = parsed.GameTrees.First();
                     var rootNode = GameTreeConverter.FromSgfGameTree(firstTree);
-                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size));
+                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size), rootNode.BoardState.Size);
                     trueTree.GameTreeRoot = rootNode;
                     int moveCount = 0;
                     var node = rootNode;
