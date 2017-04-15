@@ -26,7 +26,13 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public ViewBase()
         {
-            Loading += ViewBase_Loading;            
+            Loading += ViewBase_Loading;
+        }
+
+        private void ViewBase_Loaded(object sender, RoutedEventArgs e)
+        {
+            //remove transitions
+            Transitions.Clear();
         }
 
         /// <summary>
