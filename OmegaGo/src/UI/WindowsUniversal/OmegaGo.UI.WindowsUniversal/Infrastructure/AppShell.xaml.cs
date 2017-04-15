@@ -233,6 +233,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             return false;
         }
 
+        /// <summary>
+        /// Gets or sets if the app shell is in focus mode
+        /// </summary>
+        public bool FocusModeOn
+        {
+            get { return TitleBar.Visibility == Visibility.Collapsed; }
+            set { TitleBar.Visibility = value ? Visibility.Collapsed : Visibility.Visible; }
+        }
+
         //TODO Martin: Move to a separate control along with the UI
         /// <summary>
         /// Add this to a server when SFX is merged in.
@@ -244,6 +253,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             notification.FirstAppeared = DateTime.Now;
         }
 
+        /// <summary>
+        /// Toggles funny easter egg ;-)
+        /// </summary>
+        public void ToggleEasterEgg()
+        {
+            AppShellRotateTransform.Angle = Math.Abs(AppShellRotateTransform.Angle) < 0.01 ? 180 : 0;
+        }
 
         /// <summary>
         /// Updates title bar's visual setttings to match the requested element theme
@@ -419,7 +435,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             Cheats.Initialize();
         }
-        
+
         private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             UpdateTitleBarLayout();

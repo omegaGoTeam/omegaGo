@@ -140,5 +140,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                     }
                 });
         }
+
+        private void EasterEgg_Tapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            AppShell.GetForCurrentView().ToggleEasterEgg();
+        }
     }
 }

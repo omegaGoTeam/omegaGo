@@ -183,7 +183,7 @@
             </Button>
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
-                  FontSize="20" />
+                  FontSize="20" RightTapped="EasterEgg_Tapped" IsRightTapEnabled="True" />
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

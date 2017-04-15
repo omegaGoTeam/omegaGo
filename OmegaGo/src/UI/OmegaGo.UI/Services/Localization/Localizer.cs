@@ -1348,6 +1348,50 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string YourMove => LocalizeCaller();
 		/// <summary>
+		/// Connecting...
+		/// </summary>
+		public string IgsLoginPhase_Connecting => LocalizeCaller();
+		/// <summary>
+		/// Done.
+		/// </summary>
+		public string IgsLoginPhase_Done => LocalizeCaller();
+		/// <summary>
+		/// Logging in...
+		/// </summary>
+		public string IgsLoginPhase_LoggingIn => LocalizeCaller();
+		/// <summary>
+		/// Downloading the list of games...
+		/// </summary>
+		public string IgsLoginPhase_RefreshingGames => LocalizeCaller();
+		/// <summary>
+		/// Downloading the list of users...
+		/// </summary>
+		public string IgsLoginPhase_RefreshingUsers => LocalizeCaller();
+		/// <summary>
+		/// Explaining our capabilities to Pandanet...
+		/// </summary>
+		public string IgsLoginPhase_SendingInitialBurst => LocalizeCaller();
+		/// <summary>
+		/// Done.
+		/// </summary>
+		public string KgsLoginPhase_Done => LocalizeCaller();
+		/// <summary>
+		/// Joining global games and challenges list...
+		/// </summary>
+		public string KgsLoginPhase_JoiningGlobalLists => LocalizeCaller();
+		/// <summary>
+		/// Logging in...
+		/// </summary>
+		public string KgsLoginPhase_MakingLoginRequest => LocalizeCaller();
+		/// <summary>
+		/// Requesting room names...
+		/// </summary>
+		public string KgsLoginPhase_RequestingRoomNames => LocalizeCaller();
+		/// <summary>
+		/// Starting GET loop...
+		/// </summary>
+		public string KgsLoginPhase_StartingGetLoop => LocalizeCaller();
+		/// <summary>
 		/// Reward:
 		/// </summary>
 		public string RewardColon => LocalizeCaller();

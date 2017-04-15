@@ -18,7 +18,10 @@
         <Border.Background>
             <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" />
         </Border.Background>
-        <Grid>
+        <Grid RenderTransformOrigin="0.5,0.5"> 
+            <Grid.RenderTransform>
+                <RotateTransform Angle="0" x:Name="AppShellRotateTransform" />
+            </Grid.RenderTransform>
             <Grid.Background>
                 <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
             </Grid.Background>
@@ -95,11 +98,12 @@
                     </Border.Background>
                 </Border>
                 <Grid Grid.Column="1" HorizontalAlignment="Stretch" x:Name="DraggableTitleBarArea" Background="Transparent">
-                    <StackPanel x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
-                        <Grid Width="0" x:Name="RightTitleBarMask"/>
-                    </StackPanel>
+                    
                 </Grid>
+                <StackPanel Grid.Column="1" x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
+                    <Grid Width="0" x:Name="RightTitleBarMask"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>
