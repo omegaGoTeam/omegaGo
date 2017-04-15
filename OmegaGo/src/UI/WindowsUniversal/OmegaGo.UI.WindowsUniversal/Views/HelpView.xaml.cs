@@ -14,14 +14,9 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public HelpViewModel VM => (HelpViewModel)this.ViewModel;
 
-        public override string WindowTitle => Localizer.Help;
+        public override string TabTitle => Localizer.Help;
 
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Help.png");
-
-        private void VM_WebViewContentChanged(object sender, string e)
-        {
-            WebView.NavigateToString(e);
-        }
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Help.png");
 
         private void OpenCloseHelp(object sender, RoutedEventArgs e)
         {

@@ -37,7 +37,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Primary timeline length
         /// </summary>
-        public int PrimaryTimelineLength { get; private set; } = 0;
+        public int PrimaryTimelineLength => PrimaryTimeline.Count();
 
         /// <summary>
         /// Game board size
@@ -179,7 +179,6 @@ namespace OmegaGo.Core.Game
             {
                 node.Prisoners.WhitePrisoners += move.Captures.Count();
             }
-            PrimaryTimelineLength++;
             LastNode = node;
             return node;
         }

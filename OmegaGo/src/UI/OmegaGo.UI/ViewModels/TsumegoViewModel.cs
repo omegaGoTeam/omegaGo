@@ -175,6 +175,14 @@ A tsumego problem will also display a problem statement
         }
 
         /// <summary>
+        /// Shows the problem name in the tab title
+        /// </summary>
+        public override void Appearing()
+        {
+            TabTitle = CurrentProblemName;
+        }
+
+        /// <summary>
         /// Goes backward in the problem list
         /// </summary>
         private async Task GoToPreviousProblemAsync()

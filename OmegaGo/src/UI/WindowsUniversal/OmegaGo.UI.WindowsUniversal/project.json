@@ -3,6 +3,7 @@
     "Coding4Fun.Toolkit.Controls": "2.1.8",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Microsoft.Services.Store.SDK": "10.1703.19001",
+    "Microsoft.Xaml.Behaviors.Uwp.Managed": "2.0.0",
     "MvvmCross": "4.4.0",
     "MvvmCross.Plugin.Messenger": "4.4.0",
     "MvvmCross.Plugin.Visibility": "4.4.0",

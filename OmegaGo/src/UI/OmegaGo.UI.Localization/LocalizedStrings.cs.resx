@@ -1116,4 +1116,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="UseGraceSecond" xml:space="preserve">
     <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
   </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Hlavní menu</value>
+  </data>
 </root>

@@ -222,6 +222,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string AreYouSure {
+            get {
+                return ResourceManager.GetString("AreYouSure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to end the game?.
+        /// </summary>
+        public static string AreYouSureYouWantToEndTheGame {
+            get {
+                return ResourceManager.GetString("AreYouSureYouWantToEndTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A sound effect should play:.
         /// </summary>
         public static string ASoundEffectShouldPlay {
@@ -935,6 +953,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Go back.
+        /// </summary>
+        public static string GoBack {
+            get {
+                return ResourceManager.GetString("GoBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Solve 20 tsumego problems..
         /// </summary>
         public static string GreatLearnerQuest_Description {
@@ -1592,6 +1619,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main menu.
+        /// </summary>
+        public static string MainMenu {
+            get {
+                return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main time (minutes):.
         /// </summary>
         public static string MainTimeLabel {
@@ -1709,6 +1745,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New game.
+        /// </summary>
+        public static string NewGame {
+            get {
+                return ResourceManager.GetString("NewGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next rank at:.
         /// </summary>
         public static string NextRankAtColon {
@@ -1750,6 +1795,15 @@ namespace OmegaGo.UI.Localization {
         public static string ObserveThisGame {
             get {
                 return ResourceManager.GetString("ObserveThisGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Observing.
+        /// </summary>
+        public static string Observing {
+            get {
+                return ResourceManager.GetString("Observing", resourceCulture);
             }
         }
         

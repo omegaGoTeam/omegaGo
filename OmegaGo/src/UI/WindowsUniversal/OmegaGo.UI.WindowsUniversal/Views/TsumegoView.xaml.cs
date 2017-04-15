@@ -17,6 +17,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.InitializeComponent();
         }
 
+        public override string TabTitle => Localizer.TsumegoMenuCaption;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Tsumego.png");
+
         private void OpenCloseMenu(object sender, RoutedEventArgs e)
         {
             this.TsumegoSplitView.IsPaneOpen = !this.TsumegoSplitView.IsPaneOpen;

@@ -3,7 +3,6 @@ using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Canadian
 {
-    //TODO Martin - FromIgs does absolutely not belong here
     public class CanadianTimeInformation : TimeInformation
     {
         public TimeSpan MainTimeLeft { get;  }

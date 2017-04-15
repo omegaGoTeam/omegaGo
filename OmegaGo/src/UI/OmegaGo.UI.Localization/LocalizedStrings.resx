@@ -1223,6 +1223,24 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="UseGraceSecond" xml:space="preserve">
     <value>In online games, show 1 less second remaining on the clock.</value>
   </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Main menu</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>New game</value>
+  </data>
+  <data name="Observing" xml:space="preserve">
+    <value>Observing</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
+    <value>Are you sure you want to end the game?</value>
+  </data>
   <data name="Solved" xml:space="preserve">
     <value>Solved</value>
   </data>

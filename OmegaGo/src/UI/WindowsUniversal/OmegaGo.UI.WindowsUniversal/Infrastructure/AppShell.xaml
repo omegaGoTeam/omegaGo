@@ -4,15 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tabbed="using:OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed"
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}">
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:media="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}"
+    x:Name="PageRoot">
 
     <Border>
         <Border.Background>
             <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" />
         </Border.Background>
-        <Grid>
+        <Grid RenderTransformOrigin="0.5,0.5"> 
+            <Grid.RenderTransform>
+                <RotateTransform Angle="0" x:Name="AppShellRotateTransform" />
+            </Grid.RenderTransform>
             <Grid.Background>
                 <ImageBrush Opacity="{x:Bind BackgroundOpacity, Mode=OneWay}" ImageSource="{x:Bind BackgroundImageUrl, Mode=OneWay}" Stretch="UniformToFill" />
             </Grid.Background>
@@ -20,7 +29,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Frame Grid.Row="1" x:Name="MainFrame" />
+            <Frame x:Name="MainFrame" />
+            <ContentPresenter Grid.Row="1" Content="{Binding TabManager.ActiveTab.Frame, Mode=OneWay}" />
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <ItemsControl ItemsSource="{x:Bind BubbleNotifications, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
@@ -56,29 +66,44 @@
                 UseSharedDevice="True"
                     >
             </win2d:CanvasControl>
-            <Grid x:Name="TitleBar"  Visibility="Visible">
-                <Grid.Background>
-                    <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-                </Grid.Background>
+            <Grid Grid.Row="0" x:Name="TitleBar" Visibility="Visible">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" x:Name="TabTitleBarColumn" />
+                    <ColumnDefinition Width="*" x:Name="DraggableTitleBarColumn"/>
                 </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0" Grid.ColumnSpan="4" x:Name="DraggableTitleBarArea" Background="Transparent">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <BitmapIcon x:Name="PageIcon" Height="20" VerticalAlignment="Center" />
-                        <TextBlock Text="omegaGo" FontWeight="Normal" FontSize="14" VerticalAlignment="Center" Margin="10,0,10,0" />
-                        <TextBlock x:Name="PageTitle" Text="" FontWeight="Light" Opacity="0.8" VerticalAlignment="Center" FontSize="14" />
-                    </StackPanel>
+                <Grid HorizontalAlignment="Stretch" x:Name="TabListContainer">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="TabList" HorizontalAlignment="Stretch" SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="True" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <navigation:TabControl />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Click="NewTabButton_Click" Grid.Column="1" Style="{ThemeResource NewTabButtonStyle}" VerticalAlignment="Stretch" Width="32">
+                        <FontIcon Glyph="&#xE109;" FontSize="10" />
+                    </Button>
                 </Grid>
-                <Grid x:Name="BackButtonGrid">
-                    <Button Width="48" x:Name="BackButton" Click="TitleBackButton_Click" Margin="0" VerticalAlignment="Stretch" Background="#0000" FontFamily="Segoe MDL2 Assets" Content="&#59179;" Style="{StaticResource TitleBarBackButtonStyle}" />
+                <Border Grid.Column="1" HorizontalAlignment="Stretch"  IsHitTestVisible="False" VerticalAlignment="Stretch">
+                    <Border.Background>
+                        <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
+                    </Border.Background>
+                </Border>
+                <Grid Grid.Column="1" HorizontalAlignment="Stretch" x:Name="DraggableTitleBarArea" Background="Transparent">
+                    
                 </Grid>
-                <Button x:Name="FeedbackButton" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed" />
-                <Grid Grid.Column="3" x:Name="RightTitleBarMask"/>
+                <StackPanel Grid.Column="1" x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
+                    <Grid Width="0" x:Name="RightTitleBarMask"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>

@@ -72,6 +72,9 @@
     <Compile Include="Infrastructure\Bootstrap\OmegaGoAppStart.cs" />
     <Compile Include="Infrastructure\PresentationHints\PopBackStackPresentationHint.cs" />
     <Compile Include="Infrastructure\PresentationHints\RefreshDisplayPresentationHint.cs" />
+    <Compile Include="Infrastructure\Tabbed\ITabInfo.cs" />
+    <Compile Include="Infrastructure\Tabbed\ITabProvider.cs" />
+    <Compile Include="Infrastructure\Tabbed\TabNavigationType.cs" />
     <Compile Include="Models\Statistics\StatisticsItem.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -96,6 +99,7 @@
     <Compile Include="Services\GameCreation\IgsChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
+    <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameEndTranslator.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />

@@ -133,6 +133,7 @@
     <Compile Include="LiveGame\Remote\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="LiveGame\Remote\RemoteGame.cs" />
+    <Compile Include="Online\Common\ICommonEvents.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
     <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
     <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />
