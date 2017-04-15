@@ -1112,6 +1112,78 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YourMove" xml:space="preserve">
     <value>Your move</value>
   </data>
+  <data name="AbsoluteTimeLabel" xml:space="preserve">
+    <value>Time (minutes):</value>
+  </data>
+  <data name="CanadianMinutesPerPeriodLabel" xml:space="preserve">
+    <value>Minutes per period:</value>
+  </data>
+  <data name="CanadianMovesPerPeriodLabel" xml:space="preserve">
+    <value>Moves per period:</value>
+  </data>
+  <data name="JapaneseNumberOfPeriodsLabel" xml:space="preserve">
+    <value>Number of periods:</value>
+  </data>
+  <data name="JapaneseSecondsPerPeriodLabel" xml:space="preserve">
+    <value>Seconds per period:</value>
+  </data>
+  <data name="MainTimeLabel" xml:space="preserve">
+    <value>Main time (minutes):</value>
+  </data>
+  <data name="TimeControlStyle_Absolute" xml:space="preserve">
+    <value>Absolute</value>
+  </data>
+  <data name="TimeControlStyle_Canadian" xml:space="preserve">
+    <value>Canadian byo-yomi</value>
+  </data>
+  <data name="TimeControlStyle_Japanese" xml:space="preserve">
+    <value>Japanese byo-yomi</value>
+  </data>
+  <data name="TimeControlStyle_None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Time_Absolute_Caption" xml:space="preserve">
+    <value>Absolute Timing.</value>
+  </data>
+  <data name="Time_Absolute_Description" xml:space="preserve">
+    <value>When a player's time elapses, that player loses immediately.</value>
+  </data>
+  <data name="Time_Absolute_Oneline" xml:space="preserve">
+    <value>Absolute ({0} minutes)</value>
+  </data>
+  <data name="Time_Canadian_Caption" xml:space="preserve">
+    <value>Canadian Timing.</value>
+  </data>
+  <data name="Time_Canadian_Description" xml:space="preserve">
+    <value>Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.</value>
+  </data>
+  <data name="Time_Canadian_Oneline" xml:space="preserve">
+    <value>Canadian ({0}, then {1}/{2} min)</value>
+  </data>
+  <data name="Time_Japanese_Caption" xml:space="preserve">
+    <value>Japanese Timing.</value>
+  </data>
+  <data name="Time_Japanese_Description" xml:space="preserve">
+    <value>Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.</value>
+  </data>
+  <data name="Time_Japanese_Oneline" xml:space="preserve">
+    <value>Japanese ({0}, then {1}x{2}sec)</value>
+  </data>
+  <data name="Time_None_Caption" xml:space="preserve">
+    <value>No Time Control.</value>
+  </data>
+  <data name="Time_None_Description" xml:space="preserve">
+    <value>There is no time limit for either player.</value>
+  </data>
+  <data name="Time_None_Oneline" xml:space="preserve">
+    <value>No time control.</value>
+  </data>
+  <data name="Human" xml:space="preserve">
+    <value>Local human player</value>
+  </data>
+  <data name="HumanDescription" xml:space="preserve">
+    <value>This means that you (or a friend) will play this color on this device.</value>
+  </data>
   <data name="IgsLoginPhase_Connecting" xml:space="preserve">
     <value>Connecting...</value>
   </data>

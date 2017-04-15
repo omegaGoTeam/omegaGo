@@ -62,6 +62,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time (minutes):.
+        /// </summary>
+        public static string AbsoluteTimeLabel {
+            get {
+                return ResourceManager.GetString("AbsoluteTimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept.
         /// </summary>
         public static string AcceptChallenge {
@@ -510,6 +519,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Minutes per period:.
+        /// </summary>
+        public static string CanadianMinutesPerPeriodLabel {
+            get {
+                return ResourceManager.GetString("CanadianMinutesPerPeriodLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moves per period:.
+        /// </summary>
+        public static string CanadianMovesPerPeriodLabel {
+            get {
+                return ResourceManager.GetString("CanadianMovesPerPeriodLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The game was cancelled before it could be scored..
         /// </summary>
         public static string CancellationExplanation {
@@ -517,6 +544,8 @@ namespace OmegaGo.UI.Localization {
                 return ResourceManager.GetString("CancellationExplanation", resourceCulture);
             }
         }
+        
+      
         
         /// <summary>
         ///   Looks up a localized string similar to Can resign.
@@ -1059,6 +1088,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Local human player.
+        /// </summary>
+        public static string Human {
+            get {
+                return ResourceManager.GetString("Human", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This means that you (or a friend) will play this color on this device..
+        /// </summary>
+        public static string HumanDescription {
+            get {
+                return ResourceManager.GetString("HumanDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Challenge selected player....
         /// </summary>
         public static string Igs_ChallengeSelectedPlayer {
@@ -1253,6 +1300,24 @@ namespace OmegaGo.UI.Localization {
         public static string InputPanel {
             get {
                 return ResourceManager.GetString("InputPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of periods:.
+        /// </summary>
+        public static string JapaneseNumberOfPeriodsLabel {
+            get {
+                return ResourceManager.GetString("JapaneseNumberOfPeriodsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Seconds per period:.
+        /// </summary>
+        public static string JapaneseSecondsPerPeriodLabel {
+            get {
+                return ResourceManager.GetString("JapaneseSecondsPerPeriodLabel", resourceCulture);
             }
         }
         
@@ -1559,6 +1624,15 @@ namespace OmegaGo.UI.Localization {
         public static string MainMenu {
             get {
                 return ResourceManager.GetString("MainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main time (minutes):.
+        /// </summary>
+        public static string MainTimeLabel {
+            get {
+                return ResourceManager.GetString("MainTimeLabel", resourceCulture);
             }
         }
         
@@ -2192,6 +2266,8 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
+      
+        
         /// <summary>
         ///   Looks up a localized string similar to Ruleset.
         /// </summary>
@@ -2580,11 +2656,156 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Absolute Timing..
+        /// </summary>
+        public static string Time_Absolute_Caption {
+            get {
+                return ResourceManager.GetString("Time_Absolute_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When a player&apos;s time elapses, that player loses immediately..
+        /// </summary>
+        public static string Time_Absolute_Description {
+            get {
+                return ResourceManager.GetString("Time_Absolute_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absolute ({0} minutes).
+        /// </summary>
+        public static string Time_Absolute_Oneline {
+            get {
+                return ResourceManager.GetString("Time_Absolute_Oneline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian Timing..
+        /// </summary>
+        public static string Time_Canadian_Caption {
+            get {
+                return ResourceManager.GetString("Time_Canadian_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each player has a main time. When that elapses, the player enters their first &quot;overtime period&quot; and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player..
+        /// </summary>
+        public static string Time_Canadian_Description {
+            get {
+                return ResourceManager.GetString("Time_Canadian_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian ({0}, then {1}/{2} min).
+        /// </summary>
+        public static string Time_Canadian_Oneline {
+            get {
+                return ResourceManager.GetString("Time_Canadian_Oneline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japanese Timing..
+        /// </summary>
+        public static string Time_Japanese_Caption {
+            get {
+                return ResourceManager.GetString("Time_Japanese_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period &quot;resets&quot;, i.e. if you don&apos;t spend the entire period, the whole period remains unspent..
+        /// </summary>
+        public static string Time_Japanese_Description {
+            get {
+                return ResourceManager.GetString("Time_Japanese_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japanese ({0}, then {1}x{2}sec).
+        /// </summary>
+        public static string Time_Japanese_Oneline {
+            get {
+                return ResourceManager.GetString("Time_Japanese_Oneline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Time Control..
+        /// </summary>
+        public static string Time_None_Caption {
+            get {
+                return ResourceManager.GetString("Time_None_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no time limit for either player..
+        /// </summary>
+        public static string Time_None_Description {
+            get {
+                return ResourceManager.GetString("Time_None_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No time control..
+        /// </summary>
+        public static string Time_None_Oneline {
+            get {
+                return ResourceManager.GetString("Time_None_Oneline", resourceCulture);
+            }
+        }
+        
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time control.
         /// </summary>
         public static string TimeControl {
             get {
                 return ResourceManager.GetString("TimeControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Absolute.
+        /// </summary>
+        public static string TimeControlStyle_Absolute {
+            get {
+                return ResourceManager.GetString("TimeControlStyle_Absolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canadian byo-yomi.
+        /// </summary>
+        public static string TimeControlStyle_Canadian {
+            get {
+                return ResourceManager.GetString("TimeControlStyle_Canadian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Japanese byo-yomi.
+        /// </summary>
+        public static string TimeControlStyle_Japanese {
+            get {
+                return ResourceManager.GetString("TimeControlStyle_Japanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string TimeControlStyle_None {
+            get {
+                return ResourceManager.GetString("TimeControlStyle_None", resourceCulture);
             }
         }
         
