@@ -115,7 +115,7 @@ namespace OmegaGo.UI.Services.Quests
         /// <summary>
         /// Indicates whether the try this now button should be displayed
         /// </summary>
-        public virtual bool TryThisNowButtonVisible => false;
+        public abstract bool TryThisNowButtonVisible { get; }
 
         /// <summary>
         /// Dictionary of all quests
