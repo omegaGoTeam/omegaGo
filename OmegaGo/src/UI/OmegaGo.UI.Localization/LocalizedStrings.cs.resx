@@ -1008,6 +1008,78 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="StoneRemovalPhase" xml:space="preserve">
     <value>Fáze odstranění kamenů</value>
   </data>
+  <data name="AbsoluteTimeLabel" xml:space="preserve">
+    <value>Čas (v minutách):</value>
+  </data>
+  <data name="CanadianMinutesPerPeriodLabel" xml:space="preserve">
+    <value>Minut na periodu:</value>
+  </data>
+  <data name="CanadianMovesPerPeriodLabel" xml:space="preserve">
+    <value>Tahů za periodu:</value>
+  </data>
+  <data name="JapaneseNumberOfPeriodsLabel" xml:space="preserve">
+    <value>Počet period:</value>
+  </data>
+  <data name="JapaneseSecondsPerPeriodLabel" xml:space="preserve">
+    <value>Sekund na periodu:</value>
+  </data>
+  <data name="MainTimeLabel" xml:space="preserve">
+    <value>Hlavní čas (v minutách):</value>
+  </data>
+  <data name="TimeControlStyle_Absolute" xml:space="preserve">
+    <value>Absolutní</value>
+  </data>
+  <data name="TimeControlStyle_Canadian" xml:space="preserve">
+    <value>Kanadské bjó-jomi</value>
+  </data>
+  <data name="TimeControlStyle_Japanese" xml:space="preserve">
+    <value>Japonské bjó-jomi</value>
+  </data>
+  <data name="TimeControlStyle_None" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="Time_Absolute_Caption" xml:space="preserve">
+    <value>Absolutní časování.</value>
+  </data>
+  <data name="Time_Absolute_Description" xml:space="preserve">
+    <value>Když hráčův čas uplyne, tak hráč okamžitě prohraje.</value>
+  </data>
+  <data name="Time_Absolute_Oneline" xml:space="preserve">
+    <value>Absolutní ({0} minut)</value>
+  </data>
+  <data name="Time_Canadian_Caption" xml:space="preserve">
+    <value>Kanadské bjó-jomi.</value>
+  </data>
+  <data name="Time_Canadian_Description" xml:space="preserve">
+    <value>Každý hráč má hlavní čas. Až ten uplyne, hráč se přesune do své první "přesčasové periody" a musí učinit množství tahů (typicky 25) do určitého množství minut, jinak prohraje po uplynutí poslední minuty. Pokud učiní všechny tahy včas, tak zbývající čas je ztracen, ale ihned pro toho hráče začne nová perioda přesčasu.</value>
+  </data>
+  <data name="Time_Canadian_Oneline" xml:space="preserve">
+    <value>Kanadské ({0}, pak {1}/{2} min)</value>
+  </data>
+  <data name="Time_Japanese_Caption" xml:space="preserve">
+    <value>Japonské bjó-jomi.</value>
+  </data>
+  <data name="Time_Japanese_Description" xml:space="preserve">
+    <value>Každý hráč má hlavní čas. Až ten uplyne, má pak několik period přesčasu. Až poslední uplyne, hráč prohraje. Kdykoliv hráč udělá tah, tak jeho současná period přesčasu se "resetuje", tj. pokud nepoužijete celou periodu, tak se na ni hledí, jako by nebyla použitá vůbec.</value>
+  </data>
+  <data name="Time_Japanese_Oneline" xml:space="preserve">
+    <value>Japonské ({0}, pak {1}x{2}sek)</value>
+  </data>
+  <data name="Time_None_Caption" xml:space="preserve">
+    <value>Žádný časový systém.</value>
+  </data>
+  <data name="Time_None_Description" xml:space="preserve">
+    <value>Žádný hráč není omezen časovým limitem.</value>
+  </data>
+  <data name="Time_None_Oneline" xml:space="preserve">
+    <value>Žádný časový systém.</value>
+  </data>
+  <data name="Human" xml:space="preserve">
+    <value>Místní hráč</value>
+  </data>
+  <data name="HumanDescription" xml:space="preserve">
+    <value>Toto znamená, že ty (anebo někdo vedle tebe) bude hrát za tuto barvu na tomto zařízení.</value>
+  </data>
   <data name="IgsLoginPhase_Connecting" xml:space="preserve">
     <value>Připojování...</value>
   </data>
@@ -1028,9 +1100,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="KgsLoginPhase_Done" xml:space="preserve">
     <value>Hotovo.</value>
-  </data>
-  <data name="KgsLoginPhase_JoiningGlobalList" xml:space="preserve">
-    <value>Připojování ke globálnímu seznamu her a výzev...</value>
   </data>
   <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
     <value>Přihlašování...</value>

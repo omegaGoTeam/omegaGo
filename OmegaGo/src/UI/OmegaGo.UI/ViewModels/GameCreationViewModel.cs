@@ -24,7 +24,7 @@ namespace OmegaGo.UI.ViewModels
     public class GameCreationViewModel : ViewModelBase
     {
         private static readonly List<GameCreationViewPlayer> PlayerList = new List<GameCreationViewPlayer>(
-            new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer("Human") }
+            new GameCreationViewPlayer[] { new GameCreationViewHumanPlayer() }
                 .Concat(Core.AI.AISystems.AIPrograms.Select(
                     program => new GameCreationViewAiPlayer(program))));
         private readonly IGameSettings _gameSettings;
@@ -51,9 +51,17 @@ namespace OmegaGo.UI.ViewModels
         private bool _useRecommendedKomi = true;
         private string _validationErrorMessage = "";
         private int _selectedColorIndex = 0;
+        private ObservableCollection<TimeControlStyle> _timeControlStyles =
+            new ObservableCollection<TimeControlStyle>
+            {
+                TimeControlStyle.None,
+                TimeControlStyle.Absolute,
+                TimeControlStyle.Canadian,
+                TimeControlStyle.Japanese
+            };
 
-        // Non-backing fields
-        private GameCreationBundle _bundle;
+    // Non-backing fields
+    private GameCreationBundle _bundle;
 
 
         public GameCreationViewModel( IGameSettings gameSettings )
@@ -100,13 +108,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _timeControl, value); }
         }
 
-        public ObservableCollection<TimeControlStyle> TimeControlStyles { get; } =
-            new ObservableCollection<TimeControlStyle>
-            {
-                TimeControlStyle.None,
-                TimeControlStyle.Absolute,
-                TimeControlStyle.Canadian
-            };
+        public ObservableCollection<TimeControlStyle> TimeControlStyles => _timeControlStyles;
 
         /// <summary>
         /// Gets the default offered game board sizes
@@ -210,6 +212,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _whitePlayer, value);
                 WhitePlayerSettings.ChangePlayer(value);
+            }
+        }
+
+        public TimeControlStyle TimeControlStyle
+        {
+            get { return TimeControl.Style; }
+            set
+            {
+                TimeControl.Style = value;
             }
         }
 
