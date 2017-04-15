@@ -1484,6 +1484,30 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>In online games, show 1 less second remaining on the clock.</source>
           <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
         </trans-unit>
+        <trans-unit id="MainMenu" translate="yes" xml:space="preserve">
+          <source>Main menu</source>
+          <target state="translated">Hlavní menu</target>
+        </trans-unit>
+        <trans-unit id="NewGame" translate="yes" xml:space="preserve">
+          <source>New game</source>
+          <target state="new">New game</target>
+        </trans-unit>
+        <trans-unit id="Observing" translate="yes" xml:space="preserve">
+          <source>Observing</source>
+          <target state="new">Observing</target>
+        </trans-unit>
+        <trans-unit id="GoBack" translate="yes" xml:space="preserve">
+          <source>Go back</source>
+          <target state="new">Go back</target>
+        </trans-unit>
+        <trans-unit id="AreYouSure" translate="yes" xml:space="preserve">
+          <source>Are you sure?</source>
+          <target state="new">Are you sure?</target>
+        </trans-unit>
+        <trans-unit id="AreYouSureYouWantToEndTheGame" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to end the game?</source>
+          <target state="new">Are you sure you want to end the game?</target>
+        </trans-unit>
         <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
           <source>Joining global games and challenges list...</source>
           <target state="new">Joining global games and challenges list...</target>

@@ -34,6 +34,11 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public IMvxCommand DisagreeUndoCommand => _disagreeUndoCommand ?? (_disagreeUndoCommand = new MvxCommand(() => DisagreeUndo(), () => GamePhase == GamePhaseType.Main));
 
+        public override void Appearing()
+        {
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.OnlineGame})";
+        }
+
         private async void AgreeUndo()
         {
             var remote = Game.Controller as RemoteGameController;

@@ -11,6 +11,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
@@ -99,8 +100,13 @@ namespace OmegaGo.UI.ViewModels
         
         public override void Init()
         {
-            Game.Controller.BeginGame();
+            Game.Controller.BeginGame();            
             UpdateTimeline();
+        }
+
+        public override void Appearing()
+        {
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.LocalGame})";
         }
 
         protected override void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
@@ -108,6 +114,8 @@ namespace OmegaGo.UI.ViewModels
             phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
             phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
         }
+
+
 
         ////////////////
         // State Changes      
