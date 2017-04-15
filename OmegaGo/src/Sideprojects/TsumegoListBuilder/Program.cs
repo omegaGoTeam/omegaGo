@@ -30,7 +30,7 @@ namespace TsumegoListBuilder
 
         private static void GetProblemsInFolder(string tsumegoFolder, string relativePath)
         {
-            var files = Directory.GetFiles(tsumegoFolder);
+            var files = Directory.GetFiles(tsumegoFolder).OrderBy(f => f);
             foreach (var file in files)
             {
                 FileInfo fileInfo = new FileInfo(file);
@@ -39,7 +39,7 @@ namespace TsumegoListBuilder
                     ProcessTsumegoFile(fileInfo, relativePath);
                 }
             }
-            var subFolders = Directory.GetDirectories(tsumegoFolder);
+            var subFolders = Directory.GetDirectories(tsumegoFolder).OrderBy(d => d);
             foreach (var subFolder in subFolders)
             {
                 var dirInfo = new DirectoryInfo(subFolder);
