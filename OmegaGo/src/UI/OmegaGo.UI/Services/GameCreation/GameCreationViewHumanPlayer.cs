@@ -15,6 +15,7 @@ namespace OmegaGo.UI.ViewModels
         {
             this.Name = _localizer.Human;
         }
+
         public override string Description => _localizer.HumanDescription;
 
         public override bool IsAi => false;

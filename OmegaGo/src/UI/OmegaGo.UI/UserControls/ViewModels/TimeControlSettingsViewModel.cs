@@ -34,10 +34,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             }
         }
 
-        public bool IsCanadianTiming => this.Style == TimeControlStyle.Canadian;
-        public bool IsAbsoluteTiming => this.Style == TimeControlStyle.Absolute;
-        public bool IsJapaneseTiming => this.Style == TimeControlStyle.Japanese;
-        public bool IsNoTiming => this.Style == TimeControlStyle.None;
+        public bool IsCanadianTiming => Style == TimeControlStyle.Canadian;
+        public bool IsAbsoluteTiming => Style == TimeControlStyle.Absolute;
+        public bool IsJapaneseTiming => Style == TimeControlStyle.Japanese;
+        public bool IsNoTiming => Style == TimeControlStyle.None;
 
         public string MainTime
         {
@@ -93,18 +93,18 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             get
             {
-                switch (this.Style)
+                switch (Style)
                 {
                     case TimeControlStyle.None:
                         return _localizer.Time_None_Oneline;
                     case TimeControlStyle.Absolute:
-                        return string.Format(_localizer.Time_Absolute_Oneline, this.MainTime);
+                        return string.Format(_localizer.Time_Absolute_Oneline, MainTime);
                     case TimeControlStyle.Canadian:
-                        return string.Format(_localizer.Time_Canadian_Oneline, this.MainTime, this.StonesPerPeriod,
-                            this.OvertimeMinutes);
+                        return string.Format(_localizer.Time_Canadian_Oneline, MainTime, StonesPerPeriod,
+                            OvertimeMinutes);
                     case TimeControlStyle.Japanese:
-                        return string.Format(_localizer.Time_Japanese_Oneline, this.MainTime,
-                            this.NumberOfJapanesePeriods, this.OvertimeSeconds);
+                        return string.Format(_localizer.Time_Japanese_Oneline, MainTime,
+                            NumberOfJapanesePeriods, OvertimeSeconds);
                 }
                 throw new Exception("This style is unsupported.");
             }
@@ -112,19 +112,19 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public TimeControl Build()
         {
-            switch (this.Style)
+            switch (Style)
             {
                 case TimeControlStyle.None:
                     return new NoTimeControl();
                 case TimeControlStyle.Absolute:
-                    return new AbsoluteTimeControl(int.Parse(this.MainTime)*60);
+                    return new AbsoluteTimeControl(int.Parse(MainTime)*60);
                 case TimeControlStyle.Canadian:
-                    return new CanadianTimeControl(TimeSpan.FromMinutes(int.Parse(this.MainTime)),
-                        int.Parse(this.StonesPerPeriod),
-                        TimeSpan.FromMinutes(int.Parse(this.OvertimeMinutes)));
+                    return new CanadianTimeControl(TimeSpan.FromMinutes(int.Parse(MainTime)),
+                        int.Parse(StonesPerPeriod),
+                        TimeSpan.FromMinutes(int.Parse(OvertimeMinutes)));
                 case TimeControlStyle.Japanese:
-                    return new JapaneseTimeControl(int.Parse(this.MainTime)*60, int.Parse(this.OvertimeSeconds),
-                        int.Parse(this.NumberOfJapanesePeriods));
+                    return new JapaneseTimeControl(int.Parse(MainTime)*60, int.Parse(OvertimeSeconds),
+                        int.Parse(NumberOfJapanesePeriods));
             }
             throw new Exception("This style is unsupported.");
         }
