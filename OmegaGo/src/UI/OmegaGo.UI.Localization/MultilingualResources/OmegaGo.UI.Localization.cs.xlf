@@ -1464,10 +1464,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Done.</source>
           <target state="translated">Hotovo.</target>
         </trans-unit>
-        <trans-unit id="KgsLoginPhase_JoiningGlobalList" translate="yes" xml:space="preserve">
-          <source>Joining global games and challenges list...</source>
-          <target state="translated">Připojování ke globálnímu seznamu her a výzev...</target>
-        </trans-unit>
         <trans-unit id="KgsLoginPhase_MakingLoginRequest" translate="yes" xml:space="preserve">
           <source>Logging in...</source>
           <target state="translated">Přihlašování...</target>
@@ -1487,6 +1483,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="UseGraceSecond" translate="yes" xml:space="preserve">
           <source>In online games, show 1 less second remaining on the clock.</source>
           <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
+          <source>Joining global games and challenges list...</source>
+          <target state="new">Joining global games and challenges list...</target>
         </trans-unit>
       </group>
     </body>

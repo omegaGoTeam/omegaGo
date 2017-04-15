@@ -527,14 +527,7 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to The game was cancelled before it could be scored..
-        /// </summary>
-        public static string CancellationExplanation {
-            get {
-                return ResourceManager.GetString("CancellationExplanation", resourceCulture);
-            }
-        }
+      
         
         /// <summary>
         ///   Looks up a localized string similar to Can resign.
@@ -2219,14 +2212,7 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Resign.
-        /// </summary>
-        public static string Resign {
-            get {
-                return ResourceManager.GetString("Resign", resourceCulture);
-            }
-        }
+      
         
         /// <summary>
         ///   Looks up a localized string similar to Ruleset.
@@ -2723,23 +2709,6 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Cancelled.
-        /// </summary>
-        public static string TieByCancellation {
-            get {
-                return ResourceManager.GetString("TieByCancellation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disconnection.
-        /// </summary>
-        public static string TieByDisconnection {
-            get {
-                return ResourceManager.GetString("TieByDisconnection", resourceCulture);
-            }
-        }
         
         /// <summary>
         ///   Looks up a localized string similar to Time control.

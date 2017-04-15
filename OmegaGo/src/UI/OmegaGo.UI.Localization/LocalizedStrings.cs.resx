@@ -1101,9 +1101,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="KgsLoginPhase_Done" xml:space="preserve">
     <value>Hotovo.</value>
   </data>
-  <data name="KgsLoginPhase_JoiningGlobalList" xml:space="preserve">
-    <value>Připojování ke globálnímu seznamu her a výzev...</value>
-  </data>
   <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
     <value>Přihlašování...</value>
   </data>
