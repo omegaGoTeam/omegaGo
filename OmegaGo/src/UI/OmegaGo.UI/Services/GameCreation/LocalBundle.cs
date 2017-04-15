@@ -22,8 +22,11 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool Playable => true;
 
         public override bool BlackAndWhiteVisible => true;
+
         public override bool WillCreateChallenge => false;
+
         public override bool KomiIsAvailable => true;
+
         public override bool HandicapMayBeChanged => true;
     }
 }
