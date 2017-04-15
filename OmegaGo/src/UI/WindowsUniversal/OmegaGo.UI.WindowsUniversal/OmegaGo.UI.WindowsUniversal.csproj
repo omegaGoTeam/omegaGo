@@ -94,6 +94,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Compile Include="Bootstrap\VisibilityPluginBootstrap.cs" />
+    <Compile Include="Converters\GamePhaseVisibilityConverter.cs" />
     <Compile Include="Converters\NativeConverters.cs" />
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
@@ -138,6 +139,9 @@
     </Compile>
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DebugBarControl.xaml.cs">
+      <DependentUpon>DebugBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
@@ -390,6 +394,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\DebugBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\LoginFormControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -499,10 +507,6 @@
     <ProjectReference Include="..\..\..\Core\OmegaGo.Client.Core\OmegaGo.Core.csproj">
       <Project>{DAFE0A61-6D7C-4423-8A23-D59D774A8FC2}</Project>
       <Name>OmegaGo.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Sideprojects\Fuego\FuegoUniversalComponent.vcxproj" Condition="'$(Configuration)' != 'DebugWithoutFuego'">
-      <Project>{3e7497ac-b68f-4ee0-abb1-79874a897514}</Project>
-      <Name>FuegoUniversalComponent</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmegaGo.UI\OmegaGo.UI.csproj">
       <Project>{8823de70-5dc6-4151-84b4-0fc27e83eabd}</Project>

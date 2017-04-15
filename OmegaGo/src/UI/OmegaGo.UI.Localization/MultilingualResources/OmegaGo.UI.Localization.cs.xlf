@@ -174,8 +174,8 @@
           <target state="final">Obtížnost</target>
         </trans-unit>
         <trans-unit id="Rules" translate="yes" xml:space="preserve">
-          <source>Rules</source>
-          <target state="final">Pravidla</target>
+          <source>Ruleset</source>
+          <target state="translated">Pravidla</target>
         </trans-unit>
         <trans-unit id="WhiteHandicap" translate="yes" xml:space="preserve">
           <source>Handicap</source>
@@ -1099,6 +1099,298 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="YouAreLoggedInAs" translate="yes" xml:space="preserve">
           <source>You are logged in as:</source>
           <target state="translated">Přihlášený uživatel:</target>
+        </trans-unit>
+        <trans-unit id="BlackColon" translate="yes" xml:space="preserve">
+          <source>Black:</source>
+          <target state="translated">Černý:</target>
+        </trans-unit>
+        <trans-unit id="DateColon" translate="yes" xml:space="preserve">
+          <source>Date:</source>
+          <target state="translated">Datum:</target>
+        </trans-unit>
+        <trans-unit id="DeleteCommand" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Smazat</target>
+        </trans-unit>
+        <trans-unit id="DeleteQuestion" translate="yes" xml:space="preserve">
+          <source>Delete {0}?</source>
+          <target state="translated">Smazat {0}?</target>
+        </trans-unit>
+        <trans-unit id="DeleteWarning" translate="yes" xml:space="preserve">
+          <source>This will erase the file from the library permanently.</source>
+          <target state="translated">Soubor bude nenávratně odstraněn z disku.</target>
+        </trans-unit>
+        <trans-unit id="ErrorParsingSgfFile" translate="yes" xml:space="preserve">
+          <source>Error parsing SGF file</source>
+          <target state="translated">Chyba při čtení souboru SGF</target>
+        </trans-unit>
+        <trans-unit id="ExportCommand" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <target state="translated">Exportovat</target>
+        </trans-unit>
+        <trans-unit id="LoadingEllipsis" translate="yes" xml:space="preserve">
+          <source>Loading...</source>
+          <target state="translated">Načítání...</target>
+        </trans-unit>
+        <trans-unit id="LoadSgfFileEllipsis" translate="yes" xml:space="preserve">
+          <source>Load SGF file...</source>
+          <target state="translated">Načíst soubor SGF...</target>
+        </trans-unit>
+        <trans-unit id="MovesColon" translate="yes" xml:space="preserve">
+          <source>Moves:</source>
+          <target state="translated">Počet tahů:</target>
+        </trans-unit>
+        <trans-unit id="OpenCommand" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="translated">Otevřít</target>
+        </trans-unit>
+        <trans-unit id="OpenLibraryInExplorer" translate="yes" xml:space="preserve">
+          <source>Open library in Explorer</source>
+          <target state="translated">Otevřít knihovnu v Průzkumníkovi</target>
+        </trans-unit>
+        <trans-unit id="Refresh" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">Obnovit</target>
+        </trans-unit>
+        <trans-unit id="WhiteColon" translate="yes" xml:space="preserve">
+          <source>White:</source>
+          <target state="translated">Bílý:</target>
+        </trans-unit>
+        <trans-unit id="AcceptChallenge" translate="yes" xml:space="preserve">
+          <source>Accept</source>
+          <target state="translated">Přijmout</target>
+        </trans-unit>
+        <trans-unit id="ChangeEllipsis" translate="yes" xml:space="preserve">
+          <source>Change...</source>
+          <target state="translated">Změnit...</target>
+        </trans-unit>
+        <trans-unit id="Creationg_KgsChallenge" translate="yes" xml:space="preserve">
+          <source>KGS challenge</source>
+          <target state="translated">Výzva na KGS</target>
+        </trans-unit>
+        <trans-unit id="Creation_IncomingIgsChallenge" translate="yes" xml:space="preserve">
+          <source>Incoming IGS challenge</source>
+          <target state="translated">Příchozí výzva na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="Creation_KgsChallengeCreation" translate="yes" xml:space="preserve">
+          <source>Create a public KGS challenge</source>
+          <target state="translated">Vytvořit veřejnou výzvu na KGS</target>
+        </trans-unit>
+        <trans-unit id="Creation_NewLocalGame" translate="yes" xml:space="preserve">
+          <source>New game</source>
+          <target state="translated">Nová hra</target>
+        </trans-unit>
+        <trans-unit id="Creation_OutgoingIgsRequest" translate="yes" xml:space="preserve">
+          <source>Issue an IGS challenge</source>
+          <target state="translated">Vyzvat soupeře ke hře na Pandanetu</target>
+        </trans-unit>
+        <trans-unit id="CustomEllipsis" translate="yes" xml:space="preserve">
+          <source>Custom...</source>
+          <target state="translated">Vlastní...</target>
+        </trans-unit>
+        <trans-unit id="DeclineKgsChallenger" translate="yes" xml:space="preserve">
+          <source>Decline</source>
+          <target state="translated">Odmítnout</target>
+        </trans-unit>
+        <trans-unit id="HeightColon" translate="yes" xml:space="preserve">
+          <source>Height:</source>
+          <target state="translated">Výška:</target>
+        </trans-unit>
+        <trans-unit id="Komi" translate="yes" xml:space="preserve">
+          <source>Komi</source>
+          <target state="translated">Komi</target>
+        </trans-unit>
+        <trans-unit id="KomiUseRecommended" translate="yes" xml:space="preserve">
+          <source>Use recommended</source>
+          <target state="translated">Použít doporučené</target>
+        </trans-unit>
+        <trans-unit id="Nigiri" translate="yes" xml:space="preserve">
+          <source>Choose at random</source>
+          <target state="translated">Vybrat náhodně</target>
+        </trans-unit>
+        <trans-unit id="RefuseChallenge" translate="yes" xml:space="preserve">
+          <source>Decline</source>
+          <target state="translated">Odmítnout</target>
+        </trans-unit>
+        <trans-unit id="SizeColon" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated">Velikost:</target>
+        </trans-unit>
+        <trans-unit id="TimeControl" translate="yes" xml:space="preserve">
+          <source>Time control</source>
+          <target state="translated">Řízení času</target>
+        </trans-unit>
+        <trans-unit id="UnjoinChallenge" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Zrušit</target>
+        </trans-unit>
+        <trans-unit id="WidthColon" translate="yes" xml:space="preserve">
+          <source>Width:</source>
+          <target state="translated">Šířka:</target>
+        </trans-unit>
+        <trans-unit id="YourAgent" translate="yes" xml:space="preserve">
+          <source>You are</source>
+          <target state="translated">Jste</target>
+        </trans-unit>
+        <trans-unit id="YourColor" translate="yes" xml:space="preserve">
+          <source>Your color</source>
+          <target state="translated">Tvoje barva</target>
+        </trans-unit>
+        <trans-unit id="SwitchColors" translate="yes" xml:space="preserve">
+          <source>Switch colors</source>
+          <target state="translated">Prohodit barvy</target>
+        </trans-unit>
+        <trans-unit id="BlackToPlay" translate="yes" xml:space="preserve">
+          <source>Black to play</source>
+          <target state="translated">Černý je na tahu</target>
+        </trans-unit>
+        <trans-unit id="BlackWon" translate="yes" xml:space="preserve">
+          <source>Black wins.</source>
+          <target state="translated">Černý zvítězil.</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathDone" translate="yes" xml:space="preserve">
+          <source>Accept removed stones</source>
+          <target state="translated">Akceptovat odstraněné kameny</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathResume" translate="yes" xml:space="preserve">
+          <source>Cancel and resume game</source>
+          <target state="translated">Zrušit a vrátit se do hry</target>
+        </trans-unit>
+        <trans-unit id="LifeDeathUndo" translate="yes" xml:space="preserve">
+          <source>Undo stone removal</source>
+          <target state="translated">Vzít zpět odstranění kamenů</target>
+        </trans-unit>
+        <trans-unit id="OpponentPassed" translate="yes" xml:space="preserve">
+          <source>Opponent passed</source>
+          <target state="translated">Soupeř passoval</target>
+        </trans-unit>
+        <trans-unit id="Pass" translate="yes" xml:space="preserve">
+          <source>Pass</source>
+          <target state="translated">Pass</target>
+        </trans-unit>
+        <trans-unit id="Resign" translate="yes" xml:space="preserve">
+          <source>Resign</source>
+          <target state="translated">Vzdát hru</target>
+        </trans-unit>
+        <trans-unit id="StoneRemovalText" translate="yes" xml:space="preserve">
+          <source>Click stones that should be removed from the board, then click 'Accept removed stones' to end the game.</source>
+          <target state="translated">Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</target>
+        </trans-unit>
+        <trans-unit id="StonesCaptured" translate="yes" xml:space="preserve">
+          <source>{0} captures</source>
+          <target state="translated">{0} zajatců</target>
+        </trans-unit>
+        <trans-unit id="TheGameIsADraw" translate="yes" xml:space="preserve">
+          <source>The game is a draw.</source>
+          <target state="translated">Hra skončila remízou.</target>
+        </trans-unit>
+        <trans-unit id="TieByCancellation" translate="yes" xml:space="preserve">
+          <source>Cancelled</source>
+          <target state="translated">Zrušena</target>
+        </trans-unit>
+        <trans-unit id="TieByDisconnection" translate="yes" xml:space="preserve">
+          <source>Disconnection</source>
+          <target state="translated">Odpojení</target>
+        </trans-unit>
+        <trans-unit id="Undo" translate="yes" xml:space="preserve">
+          <source>Undo</source>
+          <target state="translated">Vrátit zpět</target>
+        </trans-unit>
+        <trans-unit id="WhiteToPlay" translate="yes" xml:space="preserve">
+          <source>White to play</source>
+          <target state="translated">Bílý je na tahu</target>
+        </trans-unit>
+        <trans-unit id="WhiteWon" translate="yes" xml:space="preserve">
+          <source>White wins.</source>
+          <target state="translated">Bílý zvítězil.</target>
+        </trans-unit>
+        <trans-unit id="WinByResign" translate="yes" xml:space="preserve">
+          <source>{0} wins by resignation</source>
+          <target state="translated">{0} zvítězil kontumačně.</target>
+        </trans-unit>
+        <trans-unit id="WinByTimeout" translate="yes" xml:space="preserve">
+          <source>{0} wins by timeout</source>
+          <target state="translated">{0} zvítězil přes časový limit</target>
+        </trans-unit>
+        <trans-unit id="WinsByPoints" translate="yes" xml:space="preserve">
+          <source>{0} wins by {1} points</source>
+          <target state="translated">{0} vyhrál o {1} bodů</target>
+        </trans-unit>
+        <trans-unit id="YouHaveLost" translate="yes" xml:space="preserve">
+          <source>You have lost.</source>
+          <target state="translated">Hráč prohrál.</target>
+        </trans-unit>
+        <trans-unit id="YouHaveWon" translate="yes" xml:space="preserve">
+          <source>You have won.</source>
+          <target state="translated">Hráč vyhrál.</target>
+        </trans-unit>
+        <trans-unit id="YourMove" translate="yes" xml:space="preserve">
+          <source>Your move</source>
+          <target state="translated">Tvůj tah</target>
+        </trans-unit>
+        <trans-unit id="CancellationExplanation" translate="yes" xml:space="preserve">
+          <source>The game was cancelled before it could be scored.</source>
+          <target state="translated">Hra byla zrušena předčasně.</target>
+        </trans-unit>
+        <trans-unit id="DisconnectionExplanation" translate="yes" xml:space="preserve">
+          <source>You have lost connection to the online server. Check your internet connection. It is also possible you were disconnected because you logged in to this account on another computer.</source>
+          <target state="translated">Ztratili jste připojení k serveru. Zkontrolujte své připojení k internetu. Je také možné, že jste byli odpojeni, protože jste se přihlásili k tomuto účtu z jiného počítače.</target>
+        </trans-unit>
+        <trans-unit id="StoneRemovalPhase" translate="yes" xml:space="preserve">
+          <source>Stone Removal Phase</source>
+          <target state="translated">Fáze odstranění kamenů</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_Connecting" translate="yes" xml:space="preserve">
+          <source>Connecting...</source>
+          <target state="translated">Připojování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_LoggingIn" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingGames" translate="yes" xml:space="preserve">
+          <source>Downloading the list of games...</source>
+          <target state="translated">Stahování seznamu her...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingUsers" translate="yes" xml:space="preserve">
+          <source>Downloading the list of users...</source>
+          <target state="translated">Stahování seznamu uživatelů...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_SendingInitialBurst" translate="yes" xml:space="preserve">
+          <source>Explaining our capabilities to Pandanet...</source>
+          <target state="translated">Vysvětlování našich schopností Pandanetu...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_JoiningGlobalList" translate="yes" xml:space="preserve">
+          <source>Joining global games and challenges list...</source>
+          <target state="translated">Připojování ke globálnímu seznamu her a výzev...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_MakingLoginRequest" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_RequestingRoomNames" translate="yes" xml:space="preserve">
+          <source>Requesting room names...</source>
+          <target state="translated">Požadavek na názvy pokojů...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_StartingGetLoop" translate="yes" xml:space="preserve">
+          <source>Starting GET loop...</source>
+          <target state="translated">Spuštění smyčky GET...</target>
+        </trans-unit>
+        <trans-unit id="RewardColon" translate="yes" xml:space="preserve">
+          <source>Reward:</source>
+          <target state="translated">Odměna:</target>
+        </trans-unit>
+        <trans-unit id="UseGraceSecond" translate="yes" xml:space="preserve">
+          <source>In online games, show 1 less second remaining on the clock.</source>
+          <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
         </trans-unit>
         <trans-unit id="MainMenu" translate="yes" xml:space="preserve">
           <source>Main menu</source>

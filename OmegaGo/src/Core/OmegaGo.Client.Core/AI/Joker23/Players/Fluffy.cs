@@ -1,4 +1,5 @@
-﻿using OmegaGo.Core.AI.Joker23.GameEngine;
+﻿using System.Linq;
+using OmegaGo.Core.AI.Joker23.GameEngine;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.AI.Joker23.Players
@@ -13,6 +14,14 @@ namespace OmegaGo.Core.AI.Joker23.Players
 
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
+            var moves = gameInformation.GameTree.PrimaryMoveTimeline.ToList();
+
+            if (moves.Any() &&
+               moves.Last().Kind == MoveKind.Pass)
+            {
+                return AIDecision.MakeMove(Move.Pass(gameInformation.AIColor), "You passed, too!");
+            }
+
             JokerGame currentGame = new JokerGame(gameInformation.GameInfo.BoardSize.Height,
                 gameInformation.GameInfo.BoardSize.Width,
                 null,

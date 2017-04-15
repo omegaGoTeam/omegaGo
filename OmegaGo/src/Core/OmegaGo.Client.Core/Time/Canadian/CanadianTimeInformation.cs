@@ -1,4 +1,5 @@
 ﻿using System;
+using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Canadian
 {
@@ -14,11 +15,11 @@ namespace OmegaGo.Core.Time.Canadian
             {
                 if (MainTimeLeft > TimeSpan.Zero)
                 {
-                    return MainTimeLeft.ToString(@"mm\:ss");
+                    return MainTimeLeft.ToCountdownString();
                 }
                 if (PeriodTimeLeft > TimeSpan.Zero)
                 {
-                    return PeriodTimeLeft.ToString(@"mm\:ss");
+                    return PeriodTimeLeft.ToCountdownString();
                 }
                 return "Time exceeded";
             }

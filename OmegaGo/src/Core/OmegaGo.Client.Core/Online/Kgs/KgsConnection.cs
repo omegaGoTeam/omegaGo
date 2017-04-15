@@ -140,12 +140,15 @@ namespace OmegaGo.Core.Online.Kgs
         {
             this._username = name;
             this._password = password;
+            Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
                 StartGetLoop();
             }
             this._username = name;
             this._password = password;
+            if (LoggedIn) return true;
+            Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
                 name = name,
@@ -162,13 +165,16 @@ namespace OmegaGo.Core.Online.Kgs
                 }
                 Events.RaisePersonalInformationUpdate(response.You);
                 Events.RaiseSystemMessage("Requesting room names...");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.RequestingRoomNames);
                 await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
                         Rooms = roomsArray
                     });
                 Events.RaiseSystemMessage("Joining global lists...");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.JoiningGlobalLists);
                 await Commands.GlobalListJoinRequestAsync("CHALLENGES");
                 await Commands.GlobalListJoinRequestAsync("ACTIVES");
                 await Commands.GlobalListJoinRequestAsync("FANS");
+                Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
                 Events.RaiseSystemMessage("On-login outgoing message burst complete.");
                 return true;
             }

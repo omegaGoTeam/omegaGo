@@ -12,10 +12,20 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
 {
     class OnlineStartup
     {
-        public static async void Startup()
+        /// <summary>
+        /// Starts the login process for all servers where the user wants to login at startup. All login processes
+        /// run simultaneously.
+        /// </summary>
+        public static void Startup()
         {
             IGameSettings settings = Mvx.Resolve<IGameSettings>();
             var notifications = Mvx.Resolve<IAppNotificationService>();
+            StartupIgs(settings, notifications);
+            StartupKgs(settings, notifications);
+        }
+
+        private static async void StartupIgs(IGameSettings settings, IAppNotificationService notifications)
+        {
             if (settings.Interface.IgsAutoLogin && settings.Interface.IgsRememberPassword)
             {
                 if (await Connections.Igs.ConnectAsync())
@@ -28,6 +38,11 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
                     }
                 }
             }
+        }
+
+        private static async void StartupKgs(IGameSettings settings, IAppNotificationService notifications)
+        {
+
             if (settings.Interface.KgsAutoLogin && settings.Interface.KgsRememberPassword)
             {
                 var success =

@@ -57,6 +57,7 @@
     <Compile Include="Controls\Themes\StoneTheme.cs" />
     <Compile Include="Controls\Styles\ControlStyle.cs" />
     <Compile Include="Controls\Themes\AppTheme.cs" />
+    <Compile Include="Converters\BoolDoubleConverter.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumSelectionConverter.cs" />
@@ -92,10 +93,13 @@
     <Compile Include="Services\Files\IFileService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GameCreation\GameCreationBundle.cs" />
+    <Compile Include="Services\GameCreation\GameCreationFormStyle.cs" />
     <Compile Include="Services\GameCreation\HotseatBundle.cs" />
     <Compile Include="Services\GameCreation\IgsChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
+    <Compile Include="Services\Localization\GameEndTranslator.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
     <Compile Include="Services\Localization\GameLanguages.cs" />
     <Compile Include="Services\Localization\ILocalizationService.cs" />
@@ -149,6 +153,7 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
+    <Compile Include="UserControls\ViewModels\DebugBarViewModel.cs" />
     <Compile Include="UserControls\ViewModels\IgsLoginForm.cs" />
     <Compile Include="UserControls\ViewModels\KgsLoginForm.cs" />
     <Compile Include="UserControls\ViewModels\LoginFormViewModel.cs" />
@@ -164,6 +169,7 @@
     <Compile Include="Utility\Assistant.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="Models\LibraryItem.cs" />
+    <Compile Include="ViewModels\LiveGameViewModel.cs" />
     <Compile Include="ViewModels\ObserverGameViewModel.cs" />
     <Compile Include="ViewModels\OnlineGameViewModel.cs" />
     <Compile Include="ViewModels\LocalGameViewModel.cs" />

@@ -828,7 +828,223 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="YouAreLoggedInAs" xml:space="preserve">
     <value>Přihlášený uživatel:</value>
   </data>
-  <data name="MainMenu" xml:space="preserve">
-    <value>Hlavní menu</value>
+  <data name="BlackColon" xml:space="preserve">
+    <value>Černý:</value>
+  </data>
+  <data name="DateColon" xml:space="preserve">
+    <value>Datum:</value>
+  </data>
+  <data name="DeleteCommand" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Smazat {0}?</value>
+  </data>
+  <data name="DeleteWarning" xml:space="preserve">
+    <value>Soubor bude nenávratně odstraněn z disku.</value>
+  </data>
+  <data name="ErrorParsingSgfFile" xml:space="preserve">
+    <value>Chyba při čtení souboru SGF</value>
+  </data>
+  <data name="ExportCommand" xml:space="preserve">
+    <value>Exportovat</value>
+  </data>
+  <data name="LoadingEllipsis" xml:space="preserve">
+    <value>Načítání...</value>
+  </data>
+  <data name="LoadSgfFileEllipsis" xml:space="preserve">
+    <value>Načíst soubor SGF...</value>
+  </data>
+  <data name="MovesColon" xml:space="preserve">
+    <value>Počet tahů:</value>
+  </data>
+  <data name="OpenCommand" xml:space="preserve">
+    <value>Otevřít</value>
+  </data>
+  <data name="OpenLibraryInExplorer" xml:space="preserve">
+    <value>Otevřít knihovnu v Průzkumníkovi</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="WhiteColon" xml:space="preserve">
+    <value>Bílý:</value>
+  </data>
+  <data name="AcceptChallenge" xml:space="preserve">
+    <value>Přijmout</value>
+  </data>
+  <data name="ChangeEllipsis" xml:space="preserve">
+    <value>Změnit...</value>
+  </data>
+  <data name="Creationg_KgsChallenge" xml:space="preserve">
+    <value>Výzva na KGS</value>
+  </data>
+  <data name="Creation_IncomingIgsChallenge" xml:space="preserve">
+    <value>Příchozí výzva na Pandanetu</value>
+  </data>
+  <data name="Creation_KgsChallengeCreation" xml:space="preserve">
+    <value>Vytvořit veřejnou výzvu na KGS</value>
+  </data>
+  <data name="Creation_NewLocalGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Creation_OutgoingIgsRequest" xml:space="preserve">
+    <value>Vyzvat soupeře ke hře na Pandanetu</value>
+  </data>
+  <data name="CustomEllipsis" xml:space="preserve">
+    <value>Vlastní...</value>
+  </data>
+  <data name="DeclineKgsChallenger" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="HeightColon" xml:space="preserve">
+    <value>Výška:</value>
+  </data>
+  <data name="Komi" xml:space="preserve">
+    <value>Komi</value>
+  </data>
+  <data name="KomiUseRecommended" xml:space="preserve">
+    <value>Použít doporučené</value>
+  </data>
+  <data name="Nigiri" xml:space="preserve">
+    <value>Vybrat náhodně</value>
+  </data>
+  <data name="RefuseChallenge" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="SizeColon" xml:space="preserve">
+    <value>Velikost:</value>
+  </data>
+  <data name="TimeControl" xml:space="preserve">
+    <value>Řízení času</value>
+  </data>
+  <data name="UnjoinChallenge" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="WidthColon" xml:space="preserve">
+    <value>Šířka:</value>
+  </data>
+  <data name="YourAgent" xml:space="preserve">
+    <value>Jste</value>
+  </data>
+  <data name="YourColor" xml:space="preserve">
+    <value>Tvoje barva</value>
+  </data>
+  <data name="SwitchColors" xml:space="preserve">
+    <value>Prohodit barvy</value>
+  </data>
+  <data name="BlackToPlay" xml:space="preserve">
+    <value>Černý je na tahu</value>
+  </data>
+  <data name="BlackWon" xml:space="preserve">
+    <value>Černý zvítězil.</value>
+  </data>
+  <data name="LifeDeathDone" xml:space="preserve">
+    <value>Akceptovat odstraněné kameny</value>
+  </data>
+  <data name="LifeDeathResume" xml:space="preserve">
+    <value>Zrušit a vrátit se do hry</value>
+  </data>
+  <data name="LifeDeathUndo" xml:space="preserve">
+    <value>Vzít zpět odstranění kamenů</value>
+  </data>
+  <data name="OpponentPassed" xml:space="preserve">
+    <value>Soupeř passoval</value>
+  </data>
+  <data name="Pass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="Resign" xml:space="preserve">
+    <value>Vzdát hru</value>
+  </data>
+  <data name="StoneRemovalText" xml:space="preserve">
+    <value>Klikněte na kameny, které by měly být odstraněy z desky a pak dokončete hru tlačítkem "Akceptovat odstraněné kameny".</value>
+  </data>
+  <data name="StonesCaptured" xml:space="preserve">
+    <value>{0} zajatců</value>
+  </data>
+  <data name="TheGameIsADraw" xml:space="preserve">
+    <value>Hra skončila remízou.</value>
+  </data>
+  <data name="TieByCancellation" xml:space="preserve">
+    <value>Zrušena</value>
+  </data>
+  <data name="TieByDisconnection" xml:space="preserve">
+    <value>Odpojení</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Vrátit zpět</value>
+  </data>
+  <data name="WhiteToPlay" xml:space="preserve">
+    <value>Bílý je na tahu</value>
+  </data>
+  <data name="WhiteWon" xml:space="preserve">
+    <value>Bílý zvítězil.</value>
+  </data>
+  <data name="WinByResign" xml:space="preserve">
+    <value>{0} zvítězil kontumačně.</value>
+  </data>
+  <data name="WinByTimeout" xml:space="preserve">
+    <value>{0} zvítězil přes časový limit</value>
+  </data>
+  <data name="WinsByPoints" xml:space="preserve">
+    <value>{0} vyhrál o {1} bodů</value>
+  </data>
+  <data name="YouHaveLost" xml:space="preserve">
+    <value>Hráč prohrál.</value>
+  </data>
+  <data name="YouHaveWon" xml:space="preserve">
+    <value>Hráč vyhrál.</value>
+  </data>
+  <data name="YourMove" xml:space="preserve">
+    <value>Tvůj tah</value>
+  </data>
+  <data name="CancellationExplanation" xml:space="preserve">
+    <value>Hra byla zrušena předčasně.</value>
+  </data>
+  <data name="DisconnectionExplanation" xml:space="preserve">
+    <value>Ztratili jste připojení k serveru. Zkontrolujte své připojení k internetu. Je také možné, že jste byli odpojeni, protože jste se přihlásili k tomuto účtu z jiného počítače.</value>
+  </data>
+  <data name="StoneRemovalPhase" xml:space="preserve">
+    <value>Fáze odstranění kamenů</value>
+  </data>
+  <data name="IgsLoginPhase_Connecting" xml:space="preserve">
+    <value>Připojování...</value>
+  </data>
+  <data name="IgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="IgsLoginPhase_LoggingIn" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingGames" xml:space="preserve">
+    <value>Stahování seznamu her...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingUsers" xml:space="preserve">
+    <value>Stahování seznamu uživatelů...</value>
+  </data>
+  <data name="IgsLoginPhase_SendingInitialBurst" xml:space="preserve">
+    <value>Vysvětlování našich schopností Pandanetu...</value>
+  </data>
+  <data name="KgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="KgsLoginPhase_JoiningGlobalList" xml:space="preserve">
+    <value>Připojování ke globálnímu seznamu her a výzev...</value>
+  </data>
+  <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="KgsLoginPhase_RequestingRoomNames" xml:space="preserve">
+    <value>Požadavek na názvy pokojů...</value>
+  </data>
+  <data name="KgsLoginPhase_StartingGetLoop" xml:space="preserve">
+    <value>Spuštění smyčky GET...</value>
+  </data>
+  <data name="RewardColon" xml:space="preserve">
+    <value>Odměna:</value>
+  </data>
+  <data name="UseGraceSecond" xml:space="preserve">
+    <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
   </data>
 </root>

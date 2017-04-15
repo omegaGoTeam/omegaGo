@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
+using System.Collections.ObjectModel;
+using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -31,19 +33,12 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly UiConnector _uiConnector;
         private readonly IQuestsManager _questsManager;
-        protected Assistant Assistant;
-
+        
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
 
-        public IGame Game => _game;
-        public BoardViewModel BoardViewModel { get; private set; }
-        
-        protected IGameSettings GameSettings => _gameSettings;
-        protected IDialogService DialogService => _dialogService;
-        protected UiConnector UiConnector => _uiConnector;
-        protected IQuestsManager QuestsManager => _questsManager;
-        
+        private GamePhaseType _gamePhase;
+
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
             _gameSettings = gameSettings;
@@ -51,87 +46,54 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
-            Assistant = new Assistant(gameSettings, _game.Info is RemoteGameInfo);
             _game.Controller.GameEnded += (s, e) => OnGameEnded(e);
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
 
             _uiConnector = new UiConnector(Game.Controller);
-            _uiConnector.AiLog += _uiConnector_AiLog;
-            _uiConnector.MoveWasPerformed += _uiConnector_MoveWasPerformed;
 
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
 
             Game.Controller.RegisterConnector(_uiConnector);
-            Game.Controller.MoveUndone += Controller_MoveUndone;
             Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
-            Game.Controller.GamePhaseStarted += Controller_GamePhaseStarted;
-            
+
             ObserveDebuggingMessages();
         }
-
-
-        public override async Task<bool> CanCloseViewModelAsync()
+        
+        public IGame Game => _game;
+        public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
+        
+        protected IGameSettings GameSettings => _gameSettings;
+        protected IDialogService DialogService => _dialogService;
+        protected UiConnector UiConnector => _uiConnector;
+        protected IQuestsManager QuestsManager => _questsManager;
+       
+        public BoardViewModel BoardViewModel
         {
-            //show confirmation
-            var backNavigationConfirmed = await Mvx.Resolve<IDialogService>()
-                .ShowConfirmationDialogAsync(
-                    Localizer.AreYouSureYouWantToEndTheGame,
-                    Localizer.AreYouSure,
-                    Localizer.Yes,
-                    Localizer.No);
-            return backNavigationConfirmed;
+            get;
+            private set;
         }
 
-        private async void Controller_GamePhaseStarted(object sender, IGamePhase e)
+        public GamePhaseType GamePhase
         {
-            if (e.Type == GamePhaseType.LifeDeathDetermination)
-            {
-                if (Assistant.ProvidesFinalEvaluation)
-                {
-                   var deads = await Assistant.GetDeadPositions();
-                   foreach(var dead in deads)
-                   {
-                       UiConnector.RequestLifeDeathKillGroup(dead);
-                   }
-                }
-            }
+            get { return _gamePhase; }
+            set { SetProperty(ref _gamePhase, value); }
         }
-
-        private void _uiConnector_MoveWasPerformed(object sender, Move e)
-        {
-            this.Assistant.MovePerformed(e,
-                new AiGameInformation(Game.Info, e.WhoMoves, Game.Controller.Players[e.WhoMoves],
-                    Game.Controller.GameTree));
-        }
-
-        private void Controller_MoveUndone(object sender, EventArgs e)
-        {
-            this.Assistant.MoveUndone();
-        }
-
-        private void _uiConnector_AiLog(object sender, string e)
-        {
-            _systemLog.AppendLine("AI: " + e);
-        }
-
-
-
+        
         ////////////////
         // Initial setup overrides      
         ////////////////
 
         public virtual void Init()
         {
-            Game.Controller.BeginGame();            
-            //UpdateTimeline();
-        }        
+            Game.Controller.BeginGame();
+        }
 
         protected virtual void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
@@ -141,7 +103,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
-        
+      
         protected virtual void OnGameEnded(GameEndInformation endInformation)
         {
 
@@ -166,7 +128,7 @@ namespace OmegaGo.UI.ViewModels
         {
 
         }
-
+        
         protected virtual void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
             if (phaseState.PreviousPhase != null)
@@ -181,7 +143,9 @@ namespace OmegaGo.UI.ViewModels
                     .Invoke(phaseState.NewPhase);
             }
 
-
+            // Define publicly the new phase
+            GamePhase = phaseState.NewPhase.Type;
+            
             // Should be implemented by the specific registered Action
             //if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
             //    phaseState.NewPhase.Type == GamePhaseType.Finished)
@@ -193,7 +157,7 @@ namespace OmegaGo.UI.ViewModels
             //    BoardViewModel.BoardControlState.ShowTerritory = false;
             //}
         }
-
+        
         public virtual void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -207,43 +171,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // Game View Model Services      
         ////////////////
-
-        private IMvxCommand _getHintCommand;
-
-        public IMvxCommand GetHint
-            => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHintMethod));
-
-        private async void GetHintMethod()
-        {
-            if (!Assistant.ProvidesHints) return;
-            AIDecision hint =
-                await
-                    Assistant.Hint(this.Game.Info, this.Game.Controller.TurnPlayer, this.Game.Controller.GameTree,
-                        this.Game.Controller.TurnPlayer.Info.Color);
-            string content = "";
-            string title = "";
-            switch(hint.Kind)
-            {
-                case AgentDecisionKind.Resign:
-                    title = "You should resign.";
-                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
-                    break;
-                case AgentDecisionKind.Move:
-                    title = hint.Move.ToString();
-                    if (hint.Move.Kind == MoveKind.Pass)
-                    {
-                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
-                    }
-                    else
-                    {
-                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
-                                  hint.Explanation;
-                    }
-                    break;
-            }
-            await DialogService.ShowAsync(content, title);
-        }
-
+        
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
@@ -287,14 +215,15 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-
+        
         ////////////////
         // Debugging      
         ////////////////
 
-        private readonly StringBuilder _systemLog = new StringBuilder();
-        
-        public string SystemLog => _systemLog.ToString();
+        protected void AppendLogLine(string logLine)
+        {
+            Dispatcher.RequestMainThreadAction(() => Log.Add(logLine));
+        }
 
         /// <summary>
         /// Observes debugging messages from controller
@@ -304,7 +233,7 @@ namespace OmegaGo.UI.ViewModels
             var debuggingMessagesProvider = Game.Controller as IDebuggingMessageProvider;
             if (debuggingMessagesProvider != null)
             {
-                debuggingMessagesProvider.DebuggingMessage += (s, e) => _systemLog.AppendLine(e);
+                debuggingMessagesProvider.DebuggingMessage += (s, e) => AppendLogLine(e);
             }
         }
     }

@@ -46,10 +46,5 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
         }
-        
-        private void UpdateSystemLog(object sender, RoutedEventArgs e)
-        {
-            SystemLog.Text = VM.SystemLog;
-        }
     }
 }
