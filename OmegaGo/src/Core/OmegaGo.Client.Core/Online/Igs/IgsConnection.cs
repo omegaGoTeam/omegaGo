@@ -13,11 +13,14 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Igs.Structures;
+using OmegaGo.Core.Rules;
 using Sockets.Plugin;
 
 namespace OmegaGo.Core.Online.Igs
@@ -402,8 +405,9 @@ namespace OmegaGo.Core.Online.Igs
             var stoneColor = GetStoneColorForPlayerName(gameInfo.IgsIndex, whoResigned);
             if (stoneColor == StoneColor.None) throw new InvalidOperationException("The player resignation is invalid for this game");
             _availableConnectors[gameInfo.IgsIndex].ResignationFromServer(stoneColor);
-            this.GamesYouHaveOpened.Remove(this.GamesYouHaveOpened.FirstOrDefault(g => g.Info.IgsIndex == gameInfo.IgsIndex));
+            DestroyGame(gameInfo);
         }
+
 
         /// <summary>
         /// Registers a IGS game connector
@@ -412,18 +416,21 @@ namespace OmegaGo.Core.Online.Igs
         internal void RegisterConnector(IgsConnector connector)
         {
             if (connector == null) throw new ArgumentNullException(nameof(connector));
-            //TODO Petr : Replace the old connector? The index can be reused?
-            // (Petr) Right, so, the way it works is this:
-            // At a single moment, there can be only one game with an ID on the server. However, as soon as
-            // that game ends (for any reason), the server is free to reassign its ID to a newly created game.
-            // This does happen in practice, often immediately, because new games are always being created.
-            // The IgsConnection class IS catching most of the messages that cause a game to be deleted and
-            // if that happens, it is removed from _gamesYouHaveOpened. A game-deletion message should arrive for 
-            // all games that we have opened before we receive any information about a new game with the same ID,
-            // BUT I'm certainly not sure that I handle all these messages correctly or that I catch all of them.
-            // This part of the protocol (and my implementation in this area) is rather messy.
-            // (Petr) I'll think about what can be done about this.
-            if (_availableConnectors.ContainsKey(connector.GameId)) throw new ArgumentException("This game was already registered", nameof(connector));
+            if (_availableConnectors.ContainsKey(connector.GameId))
+            {
+                // (Petr) Right, so, the way it works is this:
+                // At a single moment, there can be only one game with an ID on the server. However, as soon as
+                // that game ends (for any reason), the server is free to reassign its ID to a newly created game.
+                // This does happen in practice, often immediately, because new games are always being created.
+                // The IgsConnection class IS catching most of the messages that cause a game to be deleted and
+                // if that happens, it is removed from _gamesYouHaveOpened. A game-deletion message should arrive for 
+                // all games that we have opened before we receive any information about a new game with the same ID,
+                // BUT I'm certainly not sure that I handle all these messages correctly or that I catch all of them.
+                // This part of the protocol (and my implementation in this area) is rather messy.
+
+                // In any case, however, when this method is called, it means that the old connector will
+                // never receive another message from the server so we can just overwrite it.
+            }
             _availableConnectors[connector.GameId] = connector;
         }
 
@@ -446,6 +453,13 @@ namespace OmegaGo.Core.Online.Igs
             ExecuteRequestFromQueue();
             return lines;
 
+        }
+        internal void DestroyGame(IgsGameInfo gameInfo)
+        {
+
+            this.GamesYouHaveOpened.Remove(this.GamesYouHaveOpened.FirstOrDefault(g => g.Info.IgsIndex == gameInfo.IgsIndex));
+            // We will not delete it from _availableConnectors yet, I think it will be safer this way.
+            // If we encounter problems, we'll deal with them then.
         }
 
         /// <summary>
@@ -498,6 +512,8 @@ namespace OmegaGo.Core.Online.Igs
             this.GamesYouHaveOpened.Clear();
             // _gamesInProgressOnIgs.Clear();
         }
+
+      
 
         private Task WaitUntilComposureChangesAsync()
         {
@@ -567,9 +583,34 @@ namespace OmegaGo.Core.Online.Igs
         }
 
 
-        private void OnGameScoreAndCompleted(IgsGame gameInfo, float blackScore, float whiteScore)
+        private void ScoreGame(IgsGame gameInfo, float blackScore, float whiteScore)
         {
-            GetConnector(gameInfo.Info).ScoreGame(new GameScoreEventArgs(gameInfo, blackScore, whiteScore));
+            Scores scores = new Scores(blackScore, whiteScore);
+            GamePlayer winner = null;
+            if (scores.BlackScore > scores.WhiteScore)
+            {
+                winner = gameInfo.Controller.Players.Black;
+            }
+            else if (scores.BlackScore < scores.WhiteScore)
+            {
+                winner = gameInfo.Controller.Players.White;
+            }
+            else
+            {
+                winner = null;
+            }
+            if (winner != null)
+            {
+                GetConnector(gameInfo.Info).EndTheGame(
+                    GameEndInformation.CreateScoredGame(winner, gameInfo.Controller.Players.GetOpponentOf(winner),
+                        scores));
+
+            }
+            else
+            {
+                GetConnector(gameInfo.Info).EndTheGame(
+                    GameEndInformation.CreateDraw(gameInfo.Controller.Players, scores));
+            }
         }
         private void OnIncomingStoneRemoval(int gameNumber, Position deadPosition)
         {

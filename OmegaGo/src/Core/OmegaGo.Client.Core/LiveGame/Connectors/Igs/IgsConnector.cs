@@ -149,11 +149,6 @@ so I thought suppressing warnings would have the same result.*/
             LifeDeathUndoDeathMarksForced?.Invoke(this, EventArgs.Empty);
         }
 
-        public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
-        {
-            GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
-        }
-
         public void ForceMainUndo()
         {
             MainUndoForced?.Invoke(this, EventArgs.Empty);
@@ -166,6 +161,7 @@ so I thought suppressing warnings would have the same result.*/
         public void EndTheGame(GameEndInformation gameEndInfo)
         {
             GameEndedByServer?.Invoke(this, gameEndInfo);
+            _connnection.DestroyGame(_gameController.Info);
         }
     }
 }
