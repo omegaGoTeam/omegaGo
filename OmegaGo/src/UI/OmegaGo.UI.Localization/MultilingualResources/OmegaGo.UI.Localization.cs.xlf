@@ -1512,6 +1512,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Joining global games and challenges list...</source>
           <target state="new">Joining global games and challenges list...</target>
         </trans-unit>
+        <trans-unit id="Solved" translate="yes" xml:space="preserve">
+          <source>Solved</source>
+          <target state="new">Solved</target>
+        </trans-unit>
       </group>
     </body>
   </file>

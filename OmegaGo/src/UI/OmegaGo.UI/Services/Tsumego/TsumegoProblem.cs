@@ -19,7 +19,7 @@ namespace OmegaGo.UI.Services.Tsumego
     public class TsumegoProblem
     {
         // This field causes TsumegoProblem to not work at design time, but who cares.
-        protected virtual IGameSettings _settings { get; } = Mvx.Resolve<IGameSettings>();
+        protected virtual IGameSettings _settings => Mvx.Resolve<IGameSettings>();
 
         /// <summary>
         /// Gets the ruleset that is used for tsumego problems (i.e. Chinese 19x19).

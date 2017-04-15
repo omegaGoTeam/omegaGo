@@ -8,6 +8,7 @@
     xmlns:mainMenu="using:OmegaGo.UI.WindowsUniversal.UserControls.MainMenu"
     xmlns:hardwareInterfaceTriggers="using:AdaptiveTriggerLibrary.Triggers.HardwareInterfaceTriggers"
     xmlns:logicalTriggers="using:AdaptiveTriggerLibrary.Triggers.LogicalTriggers"
+    xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     mc:Ignorable="d">
     <Page.Resources>
         <ItemsPanelTemplate x:Key="GridPanel">
@@ -31,7 +32,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <hardwareInterfaceTriggers:DeviceFamilyTrigger Condition="Desktop"/>
+                        <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Desktop" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="FullScreenButton.Visibility" Value="Visible" />

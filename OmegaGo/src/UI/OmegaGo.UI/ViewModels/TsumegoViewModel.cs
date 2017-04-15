@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
@@ -44,6 +46,7 @@ A tsumego problem will also display a problem statement
 
         private readonly IQuestsManager _questsManager;
         private readonly IGameSettings _gameSettings;
+        private readonly ITsumegoProblemsLoader _problemsLoader;
 
         private BoardViewModel _boardViewModel;
 
@@ -58,15 +61,22 @@ A tsumego problem will also display a problem statement
         private bool _wrongVisible;
         private GameTreeNode _currentNode;
 
+        private List<TsumegoProblemInfo> _allProblems = null;
+
+        //commands
+        private IMvxCommand _goToNextProblemCommand;
+        private IMvxCommand _goToPreviousProblemCommand;
+        private IMvxCommand _undoOneMoveCommand;
+
         /// <summary>
         /// Creates the tsumego view model
         /// </summary>
-        public TsumegoViewModel(IQuestsManager questsManager, IGameSettings gameSettings )
+        public TsumegoViewModel(IQuestsManager questsManager, IGameSettings gameSettings, ITsumegoProblemsLoader problemsLoader)
         {
             _questsManager = questsManager;
             _gameSettings = gameSettings;
-
-            var problem = Mvx.GetSingleton<TsumegoProblem>();
+            _problemsLoader = problemsLoader;
+            var problem = Mvx.Resolve<TsumegoProblem>();
             Rectangle rectangle = problem.GetBoundingBoard();
             BoardViewModel = new BoardViewModel(rectangle);
             BoardViewModel.BoardTapped += BoardViewModel_BoardTapped;
@@ -74,11 +84,38 @@ A tsumego problem will also display a problem statement
             LoadProblem(problem);
         }
 
+        /// <summary>
+        /// Goes to the previous problem in list
+        /// </summary>
+        public IMvxCommand GoToPreviousProblemCommand => _goToPreviousProblemCommand ??
+            (_goToPreviousProblemCommand = new MvxAsyncCommand(GoToPreviousProblemAsync, CanGoToPreviousProblem));
+
+
+        /// <summary>
+        /// Goes to the next problem in list
+        /// </summary>
+        public IMvxCommand GoToNextProblemCommand => _goToNextProblemCommand ?? (_goToNextProblemCommand = new MvxAsyncCommand(GoToNextProblemAsync, CanGoToNextProblem));
+
+        /// <summary>
+        /// Undoes one move        
+        /// </summary>
+        public IMvxCommand UndoOneMoveCommand => _undoOneMoveCommand ??
+                                                 (_undoOneMoveCommand = new MvxCommand(UndoOneMove, CanUndoOneMove));
+
+
+        public string CurrentProblemPermanentlySolved =>
+            this._gameSettings.Tsumego.SolvedProblems.Contains(this.CurrentProblemName)
+                ? (_currentNode.Tsumego.Correct
+                    ? Localizer.Tsumego_YouHaveSolvedThisProblem
+                    : Localizer.Tsumego_YouHavePreviouslySolvedThisProblem)
+                : Localizer.Tsumego_NotYetSolved;
+
         public BoardViewModel BoardViewModel
         {
             get { return _boardViewModel; }
             set { SetProperty(ref _boardViewModel, value); }
         }
+
         public GameTreeNode CurrentNode
         {
             get { return _currentNode; }
@@ -88,23 +125,19 @@ A tsumego problem will also display a problem statement
                 BoardViewModel.GameTreeNode = value;
             }
         }
+
         public string CurrentNodeStatus
         {
             get { return _currentNodeStatus; }
             set { SetProperty(ref _currentNodeStatus, value); }
         }
-        public string CurrentProblemPermanentlySolved => 
-            this._gameSettings.Tsumego.SolvedProblems.Contains(this.CurrentProblemName)
-            ? (this._currentNode.Tsumego.Correct
-                ? Localizer.Tsumego_YouHaveSolvedThisProblem
-                : Localizer.Tsumego_YouHavePreviouslySolvedThisProblem)
-            : Localizer.Tsumego_NotYetSolved;
 
         public string CurrentProblemName
         {
             get { return _currentProblemName; }
             set { SetProperty(ref _currentProblemName, value); }
         }
+
         public string CurrentProblemInstructions
         {
             get { return _currentProblemInstructions; }
@@ -116,11 +149,13 @@ A tsumego problem will also display a problem statement
             get { return _correctVisible; }
             set { SetProperty(ref _correctVisible, value); }
         }
+
         public bool WrongVisible
         {
             get { return _wrongVisible; }
             set { SetProperty(ref _wrongVisible, value); }
         }
+
         public bool ShowPossibleMoves
         {
             get { return _gameSettings.Tsumego.ShowPossibleMoves; }
@@ -132,6 +167,13 @@ A tsumego problem will also display a problem statement
             }
         }
 
+        public async void Init()
+        {
+            _allProblems = new List<TsumegoProblemInfo>(await _problemsLoader.GetProblemListAsync());
+            GoToPreviousProblemCommand.RaiseCanExecuteChanged();
+            GoToNextProblemCommand.RaiseCanExecuteChanged();
+        }
+
         /// <summary>
         /// Shows the problem name in the tab title
         /// </summary>
@@ -140,12 +182,71 @@ A tsumego problem will also display a problem statement
             TabTitle = CurrentProblemName;
         }
 
-        public void UndoOneMove()
+        /// <summary>
+        /// Goes backward in the problem list
+        /// </summary>
+        private async Task GoToPreviousProblemAsync()
+        {
+            int i = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+            int prev = i - 1;
+            if (prev >= 0)
+            {
+                LoadProblem(await _problemsLoader.GetProblemAsync(_allProblems[prev]));
+            }
+        }
+
+        /// <summary>
+        /// Checks if we can go backward in the problem list
+        /// </summary>
+        /// <returns>Previous problem available?</returns>
+        private bool CanGoToPreviousProblem()
+        {
+            if (_allProblems != null)
+            {
+                int i = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+                int prev = i - 1;
+                return prev >= 0;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Goes forward in the problem list
+        /// </summary>
+        private async Task GoToNextProblemAsync()
+        {
+            int i = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+            int next = i + 1;
+            if (next < _allProblems.Count)
+            {
+                LoadProblem(await _problemsLoader.GetProblemAsync(_allProblems[next]));
+            }
+        }
+
+        /// <summary>
+        /// Checks if we can go forward in the problem list
+        /// </summary>
+        /// <returns>Next problem available?</returns>
+        private bool CanGoToNextProblem()
+        {
+            if (_allProblems != null)
+            {
+                int index = _allProblems.IndexOf(_allProblems.FirstOrDefault(p => p.Name == _currentProblem.Name));
+                int next = index + 1;
+                return (next < _allProblems.Count);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Undoes one move
+        /// </summary>
+        private void UndoOneMove()
         {
             if (CurrentNode.Parent != null)
             {
                 CurrentNode = CurrentNode.Parent;
-                ReachNode(CurrentNode, true);
+                ReachNode(CurrentNode);
                 if (CurrentNode.Tsumego.Expected &&
                     CurrentNode.Move.WhoMoves == _humansColor &&
                     CurrentNode.Parent != null)
@@ -154,6 +255,12 @@ A tsumego problem will also display a problem statement
                 }
             }
         }
+
+        /// <summary>
+        /// Checks if a move can be undone
+        /// </summary>
+        /// <returns></returns>
+        private bool CanUndoOneMove() => CurrentNode?.Parent != null;
 
         private void BoardViewModel_BoardTapped(object sender, Position e)
         {
@@ -169,7 +276,7 @@ A tsumego problem will also display a problem statement
                 // This is a new move.
                 GameTreeNode newNode = new GameTreeNode(move);
                 MoveProcessingResult mpr = TsumegoProblem.TsumegoRuleset.ProcessMove(CurrentNode, move); // TODO Petr: ko???
-                
+
                 // Note that we're not handling ko. Most or all of our problems don't depend on ko, 
                 // and which positions are correct or wrong is written in the .sgf file anyway, so this is not a big deal.
 
@@ -189,32 +296,32 @@ A tsumego problem will also display a problem statement
                     CurrentNode = newNode;
                 }
             }
-            ReachNode(CurrentNode, false);
+            ReachNode(CurrentNode);
             if (CurrentNode.Tsumego.Expected && CurrentNode.Move.WhoMoves == _humansColor)
             {
                 if (CurrentNode.Branches.Count(br => br.Tsumego.Expected) >= 1)
                 {
                     // The opponent responds...
                     CurrentNode = CurrentNode.Branches.First(br => br.Tsumego.Expected);
-                    ReachNode(CurrentNode, false);
+                    ReachNode(CurrentNode);
                 }
             }
 
         }
 
-        private void ReachNode(GameTreeNode node, bool afterUndo)
+        private void ReachNode(GameTreeNode node)
         {
             bool mayContinue = node.Branches.Any(br => br.Tsumego.Expected);
             string status;
             if (node.Tsumego.Correct)
             {
                 status = Localizer.Tsumego_StatusCorrect;
-                 var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
+                var hashset = new HashSet<string>(_gameSettings.Tsumego.SolvedProblems);
                 if (!hashset.Contains(_currentProblem.Name))
                 {
                     _questsManager.TsumegoSolved();
                 }
-                 hashset.Add(_currentProblem.Name);
+                hashset.Add(_currentProblem.Name);
                 _gameSettings.Tsumego.SolvedProblems = hashset;
                 WrongVisible = false;
                 CorrectVisible = true;
@@ -227,7 +334,7 @@ A tsumego problem will also display a problem statement
             }
             else
             {
-                status =  Localizer.Tsumego_StatusContinue;
+                status = Localizer.Tsumego_StatusContinue;
                 WrongVisible = false;
                 CorrectVisible = false;
             }
@@ -303,43 +410,10 @@ A tsumego problem will also display a problem statement
             }
             WrongVisible = false;
             CorrectVisible = false;
-            RaisePropertyChanged(nameof(GoToPreviousProblem));
-            RaisePropertyChanged(nameof(GoToNextProblem));
-            RaisePropertyChanged(nameof(UndoOneMoveCommand));
+            GoToPreviousProblemCommand.RaiseCanExecuteChanged();
+            GoToNextProblemCommand.RaiseCanExecuteChanged();
+            UndoOneMoveCommand.RaiseCanExecuteChanged();
             RaisePropertyChanged(nameof(CurrentProblemPermanentlySolved));
         }
-
-
-
-        // Action buttons
-        public IMvxCommand GoToPreviousProblem => new MvxCommand(() =>
-        {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int prev = i - 1;
-            if (prev >= 0)
-            {
-                LoadProblem(Problems.AllProblems[prev]);
-            }
-        }, () => {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int prev = i - 1;
-            return prev >= 0;
-        });
-        public IMvxCommand GoToNextProblem => new MvxCommand(() =>
-        {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int next = i + 1;
-            if (next < Problems.AllProblems.Count)
-            {
-                LoadProblem(Problems.AllProblems[next]);
-            }
-        }, () => {
-            int i = Problems.AllProblems.IndexOf(_currentProblem);
-            int next = i + 1;
-            return (next < Problems.AllProblems.Count);
-        });
-        public IMvxCommand UndoOneMoveCommand => new MvxCommand(UndoOneMove, () => {
-            return CurrentNode.Parent != null;
-        });
     }
 }

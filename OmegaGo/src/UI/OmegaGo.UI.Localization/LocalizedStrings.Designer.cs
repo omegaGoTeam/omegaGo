@@ -2431,6 +2431,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solved.
+        /// </summary>
+        public static string Solved {
+            get {
+                return ResourceManager.GetString("Solved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Solved!.
         /// </summary>
         public static string SolvedExclamationPoint {

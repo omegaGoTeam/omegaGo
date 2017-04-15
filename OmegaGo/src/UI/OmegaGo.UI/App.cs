@@ -5,6 +5,7 @@ using OmegaGo.UI.Infrastructure.Bootstrap;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
+using OmegaGo.UI.Services.Tsumego;
 
 namespace OmegaGo.UI
 {
@@ -13,7 +14,7 @@ namespace OmegaGo.UI
         public override void Initialize()
         {
             CreatableTypes()
-                .EndingWith( "Service" )
+                .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 
@@ -21,7 +22,7 @@ namespace OmegaGo.UI
 
             Mvx.RegisterType<IAsyncAppStart, OmegaGoAppStart>();
         }
-        
+
         /// <summary>
         /// Registers game services
         /// </summary>
@@ -30,6 +31,7 @@ namespace OmegaGo.UI
             RegisterSettings();
             RegisterLocalization();
             RegisterQuests();
+            RegisterTsumego();
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace OmegaGo.UI
         /// </summary>
         private void RegisterLocalization()
         {
-            Mvx.ConstructAndRegisterSingleton<ILocalizationService, Localizer>();            
+            Mvx.ConstructAndRegisterSingleton<ILocalizationService, Localizer>();
         }
 
         /// <summary>
@@ -54,6 +56,14 @@ namespace OmegaGo.UI
         private void RegisterQuests()
         {
             Mvx.LazyConstructAndRegisterSingleton<IQuestsManager, QuestsManager>();
+        }
+
+        /// <summary>
+        /// Registers Tsumego related services
+        /// </summary>
+        private void RegisterTsumego()
+        {
+            Mvx.LazyConstructAndRegisterSingleton<ITsumegoProblemsLoader, TsumegoProblemsLoader>();
         }
     }
 }

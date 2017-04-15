@@ -21,7 +21,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void GridView_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
         {
-            VM.MoveToSolveTsumegoProblem((TsumegoProblem) e.ClickedItem);
+            VM.MoveToSolveTsumegoProblem((TsumegoProblemInfo) e.ClickedItem);
         }
     }
 }
