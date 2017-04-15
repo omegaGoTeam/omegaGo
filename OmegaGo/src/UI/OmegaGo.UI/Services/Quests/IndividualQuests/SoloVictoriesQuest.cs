@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
+using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
@@ -10,6 +13,11 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
     {
         public SoloVictoriesQuest() : base("Human > Computer", "Win 3 solo games against an AI program.", RewardPoints.MediumReward, 3)
         {
+        }
+        public override Type GetViewModelToTry()
+        {
+            Mvx.RegisterSingleton<GameCreationBundle.GameCreationBundle>(new SoloBundle());
+            return typeof(GameCreationViewModel);
         }
 
         public override bool GameCompleted(GameCompletedQuestInformation info)
@@ -20,5 +28,6 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
                 !info.IsHotseat
                 ;
         }
+        public override bool TryThisNowButtonVisible => true;
     }
 }

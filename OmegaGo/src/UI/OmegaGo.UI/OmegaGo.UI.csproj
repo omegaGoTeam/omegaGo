@@ -98,6 +98,7 @@
     <Compile Include="Services\GameCreation\IgsChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
+    <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
     <Compile Include="Services\Localization\GameEndTranslator.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
