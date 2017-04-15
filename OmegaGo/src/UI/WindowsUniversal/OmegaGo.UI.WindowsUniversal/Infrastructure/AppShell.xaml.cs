@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -27,6 +28,7 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
+using OmegaGo.UI.WindowsUniversal.Helpers.Device;
 using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
@@ -40,6 +42,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// </summary>
     public sealed partial class AppShell : Page, INotifyPropertyChanged
     {
+        private const double MinimumTouchAreaSize = 44;
+
         /// <summary>
         /// Contains the app shells for opened windows
         /// </summary>
@@ -209,6 +213,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             coreTitleBarAppView.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DraggableTitleBarArea);
             Window.Current.Activated += WindowTitleBarActivationHandler;
+            Window.Current.SizeChanged += Window_SizeChanged;
+            UpdateTitleBarLayout();
         }
 
         /// <summary>
@@ -324,7 +330,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
                 //let the tab manager handle global back navigation
-                TabManager.HandleGlobalBackNavigation();               
+                TabManager.HandleGlobalBackNavigation();
             }
         }
 
@@ -344,6 +350,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             AppTitleBar.Height = sender.Height;
             RightTitleBarMask.Width = sender.SystemOverlayRightInset;
+            UpdateTitleBarLayout();
         }
 
         /// <summary>
@@ -411,6 +418,25 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void InitCheats()
         {
             Cheats.Initialize();
+        }
+        
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            UpdateTitleBarLayout();
+        }
+
+        private void UpdateTitleBarLayout()
+        {
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Desktop)
+            {
+                var minRightContentWidth = RightTitleBarMask.Width + FeedbackButton.ActualWidth +
+                                           MinimumTouchAreaSize; //leeway for dragging
+                TabListContainer.MaxWidth = Window.Current.Bounds.Width - minRightContentWidth;
+            }
+            else
+            {
+                TabListContainer.MaxWidth = Window.Current.Bounds.Width;
+            }
         }
     }
 }
