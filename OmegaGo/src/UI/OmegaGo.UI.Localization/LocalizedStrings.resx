@@ -1049,4 +1049,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YourMove" xml:space="preserve">
     <value>Your move</value>
   </data>
+  <data name="Solved" xml:space="preserve">
+    <value>Solved</value>
+  </data>
 </root>

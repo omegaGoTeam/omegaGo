@@ -116,7 +116,6 @@
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
-    <Compile Include="Infrastructure\Triggers\BoolTrigger.cs" />
     <Compile Include="Services\Cheats\Cheats.cs" />
     <Compile Include="Services\Dialogs\DialogService.cs" />
     <Compile Include="Services\Feedback\FeedbackService.cs" />

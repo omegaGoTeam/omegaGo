@@ -1256,6 +1256,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Stone Removal Phase</source>
           <target state="translated">Fáze odstranění kamenů</target>
         </trans-unit>
+        <trans-unit id="Solved" translate="yes" xml:space="preserve">
+          <source>Solved</source>
+          <target state="new">Solved</target>
+        </trans-unit>
       </group>
     </body>
   </file>

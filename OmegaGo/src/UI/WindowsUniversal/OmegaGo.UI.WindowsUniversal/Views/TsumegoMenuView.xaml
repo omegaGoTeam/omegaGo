@@ -10,7 +10,7 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     x:Name="TsumegoMenuPage"
     mc:Ignorable="d">
-    
+
 
     <Page.Transitions>
         <TransitionCollection>
@@ -29,22 +29,26 @@
                    HorizontalAlignment="Center"
                    Margin="0,20,0,20"
                    Grid.Row="0" />
-        <Border Margin="10" BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-            <GridView ItemsSource="{Binding TsumegoProblems}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="tsumego:TsumegoProblemInfo">
-                        <Border Width="140" Height="140" BorderBrush="Black" BorderThickness="1">
-                            <StackPanel>
-                                <userControls:SimpleBoardControl Height="100" Width="100" Margin="4" GameBoard="{x:Bind InitialBoard}"  />
-                                <TextBlock Text="{Binding ElementName=TsumegoMenuPage, Path=Localizer.SolvedExclamationPoint}" FontWeight="Bold"
-                                           HorizontalAlignment="Center"
-                                           Visibility="{Binding Solved, Converter={StaticResource VisibilityConverter}}"></TextBlock>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Border>
+        <GridView ItemsSource="{Binding TsumegoProblems}" HorizontalContentAlignment="Center" SelectionMode="None" IsItemClickEnabled="True" ItemClick="GridView_ItemClick" Grid.Row="1" Padding="10,0,10,10">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="tsumego:TsumegoProblemInfo">
+                    <Border Width="140" Height="140">
+                        <Grid>
+                            <userControls:SimpleBoardControl Height="100" Width="100" Margin="5" GameBoard="{x:Bind InitialBoard}" />
+                            <Grid HorizontalAlignment="Right" Margin="5"  Visibility="{x:Bind Solved, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" VerticalAlignment="Bottom">
+                                <Ellipse Fill="ForestGreen" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE001;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
         <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
             <Border.Background>
                 <SolidColorBrush Color="{ThemeResource SystemAccentColor}" Opacity="0.2" />
