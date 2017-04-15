@@ -16,6 +16,8 @@ using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
+using System.Threading.Tasks;
+using OmegaGo.UI.Services.Online;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -45,11 +47,13 @@ namespace OmegaGo.UI.ViewModels
         private TimeControlSettingsViewModel _timeControl = new TimeControlSettingsViewModel();
         private IMvxCommand _navigateToGameCommand;
         private IMvxCommand _switchColorsCommand;
+        private IMvxCommand _createChallengeCommand;
         private bool _useRecommendedKomi = true;
+        private string _validationErrorMessage = "";
+        private int _selectedColorIndex = 0;
 
         // Non-backing fields
         private GameCreationBundle _bundle;
-
 
 
         public GameCreationViewModel( IGameSettings gameSettings )
@@ -89,8 +93,6 @@ namespace OmegaGo.UI.ViewModels
             get { return _refuseCaption; }
             set { SetProperty(ref _refuseCaption, value); }
         }
-    
-        public bool RulesetCanBeSelected => !IgsLimitation;
 
         public TimeControlSettingsViewModel TimeControl
         {
@@ -130,7 +132,6 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameBoardSize, value);
-                RaisePropertyChanged(() => SampleGameBoard);
                 _customHeight = value.Height;
                 _customWidth = value.Width;
                 RaisePropertyChanged(nameof(CustomHeight));
@@ -145,6 +146,12 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _server; }
             set { SetProperty(ref _server, value); }
+        }
+
+        public string ValidationErrorMessage
+        {
+            get { return _validationErrorMessage; }
+            set { SetProperty(ref _validationErrorMessage, value); }
         }
 
         /// <summary>
@@ -258,6 +265,27 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public int SelectedColorIndex
+        {
+            get { return _selectedColorIndex; }
+            set { SetProperty(ref _selectedColorIndex, value); }
+        }
+        public StoneColor SelectedColor
+        {
+            get
+            {
+                switch (SelectedColorIndex)
+                {
+                    case 0:
+                        return StoneColor.Black;
+                    case 1:
+                        return StoneColor.White;
+                    default:
+                        return StoneColor.None;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the type of handicap
         /// </summary>
@@ -281,11 +309,12 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
 
-         public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
 
+        public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
+            async () => { await CreateChallenge(); }));
 
-
-
+     
 
         private void SetCustomBoardSize()
         {
@@ -306,6 +335,15 @@ namespace OmegaGo.UI.ViewModels
                 Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
                     CountingType.Area);
             }
+        }
+        private async Task CreateChallenge()
+        {
+            if (!Validate())
+            {
+                return;
+            }
+            await Bundle.CreateChallenge(this);
+            GoBack();
         }
 
         private void NavigateToGame()
@@ -355,11 +393,31 @@ namespace OmegaGo.UI.ViewModels
 
         private bool Validate()
         {
-            if (IgsLimitation)
+            ValidationErrorMessage = "";
+            if (Bundle.SupportsOnlySquareBoards && !SelectedGameBoardSize.IsSquare)
             {
-                if (!SelectedGameBoardSize.IsSquare) return false;
-                if (SelectedGameBoardSize.Width < 5 || SelectedGameBoardSize.Width > 19) return false;
+                ValidationErrorMessage = "You must select a square board.";
+                return false;
             }
+            if (Bundle.IsIgs)
+            {
+                if (SelectedGameBoardSize.Width < 5)
+                {
+                    ValidationErrorMessage = "Pandanet does not allow board sizes smaller than 5x5.";
+                    return false;
+                }
+                if (SelectedGameBoardSize.Width > 19)
+                {
+                    ValidationErrorMessage = "Pandanet does not allow board sizes smaller than 19x19.";
+                    return false;
+                }
+                if (SelectedColor == StoneColor.None)
+                {
+                    ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
+                    return false;
+                }
+            }
+            // TODO Petr: validate time control
             return true;
         }
     }

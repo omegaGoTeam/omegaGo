@@ -43,14 +43,59 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         /// </summary>
         public abstract bool AcceptableAndRefusable { get; }
 
+
+        /// <summary>
+        /// Gets a value indicating whether this form represents a challenge that may be issued or created.
+        /// </summary>
+        public abstract bool WillCreateChallenge { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the rows for black and white should be shown.
+        /// </summary>
+        public abstract bool BlackAndWhiteVisible { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the rows for the name of your opponent, your color and your agent are visible.
+        /// </summary>
+        public bool YouVersusOnlineVisible => !BlackAndWhiteVisible;
+
         /// <summary>
         /// Gets a value indicating whether non-square boards are forbidden to choose.
         /// </summary>
         public bool SupportsOnlySquareBoards => !SupportsRectangularBoards;
 
         /// <summary>
+        /// Gets a value indicating whether handicap may be changed by the local user.
+        /// </summary>
+        public abstract bool HandicapMayBeChanged { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the komi row should be displayed to the user at all.
+        /// </summary>
+        public abstract bool KomiIsAvailable { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether this method has something to do with IGS.
+        /// </summary>
+        public virtual bool IsIgs => false;
+
+        /// <summary>
+        /// Gets the name of the opponent to display as a TextBlock.
+        /// </summary>
+        public virtual string OpponentName => "Local";
+
+        /// <summary>
         /// Called when the <paramref name="gameCreationViewModel"/> loads. Use this to set properties of the model's controls.
         /// </summary>
         public abstract void OnLoad(GameCreationViewModel gameCreationViewModel);
+
+        /// <summary>
+        /// If this bundle can create a challenge, this creates the challenge.
+        /// </summary>
+        /// <param name="gameCreationViewModel">The game creation view model.</param>
+        public virtual Task CreateChallenge(GameCreationViewModel gameCreationViewModel)
+        {
+            throw new InvalidOperationException("This bundle does not support the creation of challenges.");
+        }
     }
 }
