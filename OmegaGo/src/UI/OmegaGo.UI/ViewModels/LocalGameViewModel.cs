@@ -17,6 +17,7 @@ using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Online.Common;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -30,6 +31,7 @@ namespace OmegaGo.UI.ViewModels
 
         private bool _canUndo;
         private bool _canPass;
+        private bool _outgoingUndoInProgress;
 
         private IMvxCommand _passCommand;
         private IMvxCommand _resignCommand;
@@ -48,11 +50,14 @@ namespace OmegaGo.UI.ViewModels
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
 
+            Game.Controller.MoveUndone += Controller_MoveUndone;
+
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
             UiConnector.AiLog += Assistant_uiConnector_AiLog;
         }
-        
+
+
         /// <summary>
         /// Pass command from UI
         /// </summary>
@@ -85,6 +90,14 @@ namespace OmegaGo.UI.ViewModels
             get { return _canPass; }
             set { SetProperty(ref _canPass, value); }
         }
+
+        public bool OutgoingUndoInProgress
+        {
+            get { return _outgoingUndoInProgress; }
+            set { SetProperty(ref _outgoingUndoInProgress, value); }
+        }
+
+        public virtual bool ResumingGameIsPossible => true;
 
         public bool CanUndo
         {
@@ -183,19 +196,44 @@ namespace OmegaGo.UI.ViewModels
 
         protected void RefreshCommands()
         {
+            RaisePropertyChanged(nameof(ResumingGameIsPossible));
             PassCommand.RaiseCanExecuteChanged();
             ResignCommand.RaiseCanExecuteChanged();
             UndoCommand.RaiseCanExecuteChanged();
             LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
             ResumeGameCommand.RaiseCanExecuteChanged();
             RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
+
         }
 
         protected void UpdateCanPassAndUndo()
         {
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
             // TODO Petr this allows to undo before the beginning of the game and causes exception
-            CanUndo = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+            if (this.Game?.Controller?.GameTree == null)
+            {
+                // Game not yet initialized.
+                CanUndo = false;
+            }
+            else if (this.Game.Controller.Players.Any(pl => pl.IsHuman))
+            {
+                if (this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(move =>
+                this.Game.Controller.Players[move.WhoMoves].IsHuman))
+                {
+                    // A local human has already made a move.
+                    CanUndo = true;
+                }
+                else
+                {
+                    // No human has yet made any move.
+                    CanUndo = false;
+                }
+            }
+            else
+            {
+                // No player is a local human.
+                CanUndo = false;
+            }
 
             PassCommand.RaiseCanExecuteChanged();
             UndoCommand.RaiseCanExecuteChanged();
@@ -208,9 +246,9 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private void Resign()
+        private async void Resign()
         {
-            UiConnector.Resign();
+                UiConnector.Resign();
         }
 
         /// <summary>
@@ -226,6 +264,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
+            OutgoingUndoInProgress = true;
             UiConnector.RequestMainUndo();
         }
         
@@ -306,6 +345,10 @@ namespace OmegaGo.UI.ViewModels
         private void Assistant_uiConnector_AiLog(object sender, string e)
         {
             AppendLogLine($"AI: {e}");
+        }
+        private void Controller_MoveUndone(object sender, EventArgs e)
+        {
+            this.OutgoingUndoInProgress = false;
         }
     }
 }

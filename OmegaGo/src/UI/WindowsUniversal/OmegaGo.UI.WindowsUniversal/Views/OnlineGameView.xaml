@@ -212,6 +212,7 @@
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
+                        <!-- TODO Vita Make a visibility converter that returns true for both Handicap and Main phase, because their controls are identical -->
                     </StackPanel>
 
                     <StackPanel x:Name="mainCommands" Orientation="Vertical" 
@@ -233,14 +234,20 @@
                                     HorizontalAlignment="Stretch"
                                     Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                         </Grid>
-
-                        <Button Grid.Column="1" Margin="5"
-                                    Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
-                                    HorizontalAlignment="Stretch" />
-                        <Button Grid.Column="1" Margin="5"
-                                    Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
-                                    HorizontalAlignment="Stretch"/>
-                        
+                        <Border Margin="5" Visibility="{x:Bind VM.OutgoingUndoInProgress, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
+                            <TextBlock Margin="5" HorizontalAlignment="Center" Text="You have requested an undo." TextWrapping="Wrap"></TextBlock>
+                        </Border>
+                        <Border Margin="5" Visibility="{x:Bind VM.CanAgreeOrDisagreeUndo, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
+                            <StackPanel>
+                                <TextBlock Text="Your opponent requested his or her last move to be undone." TextWrapping="Wrap" Margin="5"></TextBlock>
+                                <Button Margin="5"
+                                            Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
+                                            HorizontalAlignment="Stretch" />
+                                <Button Margin="5"
+                                            Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
+                                            HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </Border>
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
                         <!-- TODO Petr Move Resign to control menu when available -->
@@ -254,6 +261,7 @@
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
                         <Button Margin="5" 
+                                Visibility="{x:Bind VM.ResumingGameIsPossible, Mode=OneWay}"
                                 Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
