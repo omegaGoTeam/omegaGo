@@ -1,11 +1,13 @@
 using System;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Chat;
+using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
-    public class IgsEvents
+    public class IgsEvents : ICommonEvents
     {
         private readonly IgsConnection _igsConnection;
 
@@ -63,7 +65,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         ///     Occurs when the opponent in a GAME asks us to let them undo a move
         /// </summary>
-        public event EventHandler<IgsGameInfo> UndoRequestReceived;
+        public event EventHandler<GameInfo> UndoRequestReceived;
 
         /// <summary>
         ///     Occurs when an error message is produced by the server; it should be displayed

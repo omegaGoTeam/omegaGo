@@ -17,6 +17,8 @@ namespace OmegaGo.Core.Online.Common
         /// </summary>
         ICommonCommands Commands { get; }
 
+        ICommonEvents Events { get; }
+
         /// <summary>
         /// Gets information whether this is IGS or KGS.
         /// </summary>

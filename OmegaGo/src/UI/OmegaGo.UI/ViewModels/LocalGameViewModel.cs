@@ -29,6 +29,7 @@ namespace OmegaGo.UI.ViewModels
 
         private bool _canUndo;
         private bool _canPass;
+        private bool _outgoingUndoInProgress;
 
         private IMvxCommand _passCommand;
         private IMvxCommand _resignCommand;
@@ -47,11 +48,14 @@ namespace OmegaGo.UI.ViewModels
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
 
+            Game.Controller.MoveUndone += Controller_MoveUndone;
+
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
             UiConnector.AiLog += Assistant_uiConnector_AiLog;
         }
-        
+
+
         /// <summary>
         /// Pass command from UI
         /// </summary>
@@ -83,6 +87,12 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _canPass; }
             set { SetProperty(ref _canPass, value); }
+        }
+
+        public bool OutgoingUndoInProgress
+        {
+            get { return _outgoingUndoInProgress; }
+            set { SetProperty(ref _outgoingUndoInProgress, value); }
         }
 
         public virtual bool ResumingGameIsPossible => true;
@@ -245,6 +255,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         private void Undo()
         {
+            OutgoingUndoInProgress = true;
             UiConnector.RequestMainUndo();
         }
         
@@ -325,6 +336,10 @@ namespace OmegaGo.UI.ViewModels
         private void Assistant_uiConnector_AiLog(object sender, string e)
         {
             AppendLogLine($"AI: {e}");
+        }
+        private void Controller_MoveUndone(object sender, EventArgs e)
+        {
+            this.OutgoingUndoInProgress = false;
         }
     }
 }

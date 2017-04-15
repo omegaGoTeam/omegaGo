@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Datatypes;
@@ -13,7 +14,7 @@ namespace OmegaGo.Core.Online.Kgs
     /// <summary>
     /// Use events in this class to receive information from KGS. The Raise* message (such as <see cref="RaiseGameJoined(KgsGame)"/>) should only be called by classes within the <see cref="OmegaGo.Core.Online.Kgs"/> namespace.  
     /// </summary>    
-    public class KgsEvents
+    public class KgsEvents : ICommonEvents
     {
         public event EventHandler<string> SystemMessage;
         public event EventHandler<string> OutgoingRequest;
@@ -25,6 +26,7 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<string> NotificationMessage;
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
+        public event EventHandler<GameInfo> UndoRequestReceived;
 
         internal void RaiseLoginPhaseChanged(KgsLoginPhase phase)
         {

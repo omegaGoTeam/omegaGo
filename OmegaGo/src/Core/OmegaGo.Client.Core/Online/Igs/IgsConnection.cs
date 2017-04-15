@@ -186,6 +186,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Implements IServerConnection Commands
         /// </summary>
         ICommonCommands IServerConnection.Commands => Commands;
+        ICommonEvents IServerConnection.Events => Events;
 
         /// <summary>
         /// Provides access to IGS composure, ensures monitor pulsing
