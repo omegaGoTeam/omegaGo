@@ -35,17 +35,27 @@
                     <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center" HorizontalChildrenAlignment="Center" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="10" />
+                </Style>
+            </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="tsumego:TsumegoProblemInfo">
-                    <Border Width="140" Height="140">
-                        <Grid>
-                            <userControls:SimpleBoardControl Height="100" Width="100" Margin="5" GameBoard="{x:Bind InitialBoard}" />
-                            <Grid HorizontalAlignment="Right" Margin="5"  Visibility="{x:Bind Solved, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" VerticalAlignment="Bottom">
-                                <Ellipse Fill="ForestGreen" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <FontIcon Glyph="&#xE001;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
+                    <Grid Width="140" Height="140">
+                        <userControls:SimpleBoardControl Height="100" Width="100" Margin="0,0,10,10"  HorizontalAlignment="Center" VerticalAlignment="Center" GameBoard="{x:Bind InitialBoard}" />
+                        <Canvas Width="140" Height="140">
+                            <Polygon Fill="{ThemeResource OverlayPanelBrush}" Points="2,2,138,2,138,100,100,138,2,138" />
+                            <Rectangle Stroke="{ThemeResource OverlayPanelBrush}" StrokeThickness="2" Width="140" Height="140" />
+                        </Canvas>
+                        <Canvas Width="140" Height="140"  HorizontalAlignment="Right" Visibility="{x:Bind Solved, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" VerticalAlignment="Bottom">
+                            <Rectangle Stroke="Green" StrokeThickness="2" Width="140" Height="140" />
+                            <Polygon Fill="Green" Points="100,138,138,138,138,100" />
+                            <Grid Canvas.Top="100" Canvas.Left="100" Width="40" Height="40">
+                                <FontIcon Glyph="&#xE001;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="2" Foreground="White" />
                             </Grid>
-                        </Grid>
-                    </Border>
+                        </Canvas>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
