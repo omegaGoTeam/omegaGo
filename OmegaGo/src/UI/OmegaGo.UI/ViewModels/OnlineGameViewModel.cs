@@ -36,10 +36,12 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public override bool ResumingGameIsPossible => !(Game.Info is IgsGameInfo);
+
         /// <summary>
         /// Agree with undo command
         /// </summary>
         public IMvxCommand AgreeUndoCommand => _agreeUndoCommand ?? (_agreeUndoCommand = new MvxCommand(() => AgreeUndo(), () => true));
+
         /// <summary>
         /// Disagree with undo command
         /// </summary>
