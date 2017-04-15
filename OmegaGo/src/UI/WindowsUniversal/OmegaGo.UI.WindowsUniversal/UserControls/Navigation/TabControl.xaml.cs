@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
 {
-    public sealed partial class TabControl : UserControl
+    public sealed partial class TabControl : UserControlBase
     {
         public TabControl()
         {

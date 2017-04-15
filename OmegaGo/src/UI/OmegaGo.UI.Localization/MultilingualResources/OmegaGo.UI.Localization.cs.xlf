@@ -1512,10 +1512,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Joining global games and challenges list...</source>
           <target state="new">Joining global games and challenges list...</target>
         </trans-unit>
-        <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
-          <source>Joining global games and challenges list...</source>
-          <target state="new">Joining global games and challenges list...</target>
-        </trans-unit>
       </group>
     </body>
   </file>
