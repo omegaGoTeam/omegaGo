@@ -254,6 +254,7 @@
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
                         <Button Margin="5" 
+                                Visibility="{x:Bind VM.ResumingGameIsPossible, Mode=OneWay}"
                                 Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
                         <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />

@@ -85,6 +85,8 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _canPass, value); }
         }
 
+        public virtual bool ResumingGameIsPossible => true;
+
         public bool CanUndo
         {
             get { return _canUndo; }
@@ -175,19 +177,44 @@ namespace OmegaGo.UI.ViewModels
 
         protected void RefreshCommands()
         {
+            RaisePropertyChanged(nameof(ResumingGameIsPossible));
             PassCommand.RaiseCanExecuteChanged();
             ResignCommand.RaiseCanExecuteChanged();
             UndoCommand.RaiseCanExecuteChanged();
             LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
             ResumeGameCommand.RaiseCanExecuteChanged();
             RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
+
         }
 
         protected void UpdateCanPassAndUndo()
         {
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
             // TODO Petr this allows to undo before the beginning of the game and causes exception
-            CanUndo = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+            if (this.Game?.Controller?.GameTree == null)
+            {
+                // Game not yet initialized.
+                CanUndo = false;
+            }
+            else if (this.Game.Controller.Players.Any(pl => pl.IsHuman))
+            {
+                if (this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(move =>
+                this.Game.Controller.Players[move.WhoMoves].IsHuman))
+                {
+                    // A local human has already made a move.
+                    CanUndo = true;
+                }
+                else
+                {
+                    // No human has yet made any move.
+                    CanUndo = false;
+                }
+            }
+            else
+            {
+                // No player is a local human.
+                CanUndo = false;
+            }
 
             PassCommand.RaiseCanExecuteChanged();
             UndoCommand.RaiseCanExecuteChanged();

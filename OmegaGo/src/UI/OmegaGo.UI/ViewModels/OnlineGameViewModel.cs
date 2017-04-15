@@ -3,6 +3,7 @@ using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Online.Common;
+using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
@@ -25,6 +26,7 @@ namespace OmegaGo.UI.ViewModels
 
         public ChatViewModel ChatViewModel { get; private set; }
 
+        public override bool ResumingGameIsPossible => !(Game.Info is IgsGameInfo);
         /// <summary>
         /// Agree with undo command
         /// </summary>
