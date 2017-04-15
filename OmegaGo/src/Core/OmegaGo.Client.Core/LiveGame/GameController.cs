@@ -15,6 +15,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -322,6 +323,11 @@ namespace OmegaGo.Core.Modes.LiveGame
             MoveUndone?.Invoke(this, EventArgs.Empty);
         }
 
+
+        protected virtual void LocalResignationHappened(GamePlayer resignor)
+        {
+
+        }
         /// <summary>
         ///     Subscribes to whole-game events raisable by agents. Whole-game events may happen regardless
         ///     of the current phase.
@@ -381,6 +387,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             //end game with resignation
             EndGame(GameEndInformation.CreateResignation(this.Players[agent.Color], this.Players));
+            LocalResignationHappened(this.Players[agent.Color]);
         }
 
         /// <summary>

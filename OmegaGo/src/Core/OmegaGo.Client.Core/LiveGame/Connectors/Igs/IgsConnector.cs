@@ -121,8 +121,14 @@ so I thought suppressing warnings would have the same result.*/
         {
             var player = _gameController.Players[resigningPlayerColor];
             var igsAgent = player.Agent as IgsAgent;
-            if (igsAgent == null) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
-            igsAgent.ResignationFromServer();
+            if (igsAgent == null)
+            {
+                // Do nothing. We already know we have resigned.
+            }
+            else
+            {
+                igsAgent.ResignationFromServer();
+            }
         }
 
         /// <summary>

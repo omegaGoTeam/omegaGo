@@ -16,6 +16,7 @@ using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Online.Common;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
@@ -237,9 +238,9 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private void Resign()
+        private async void Resign()
         {
-            UiConnector.Resign();
+                UiConnector.Resign();
         }
 
         /// <summary>

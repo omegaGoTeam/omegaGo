@@ -41,5 +41,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         {
             ChatMessageReceived?.Invoke(this, message);
         }
+
+        protected override void LocalResignationHappened(GamePlayer resignor)
+        {
+            if (resignor.IsLocal)
+            {
+                this.Server.Commands.Resign(this.Info);
+            }
+        }
     }
 }
