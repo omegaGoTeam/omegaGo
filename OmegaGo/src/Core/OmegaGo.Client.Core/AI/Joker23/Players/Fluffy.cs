@@ -33,7 +33,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
                     new JokerPoint(move.Coordinates.X, move.Coordinates.Y)));
             }
 
-            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(gameInformation.GameTree.LastNode.BoardState, gameInformation.GameInfo.BoardSize);
+            currentGame.board = JokerExtensionMethods.OurBoardToJokerBoard(GetLastNodeOrEmptyBoard(gameInformation.GameTree).BoardState, gameInformation.GameInfo.BoardSize);
 
             JokerPoint point = new AlphaBetaPlayer(gameInformation.AIColor == StoneColor.Black ? 'B' : 'W').betterPlanMove(currentGame, this.TreeDepth);
             
