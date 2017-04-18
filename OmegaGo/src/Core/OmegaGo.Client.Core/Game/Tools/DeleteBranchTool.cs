@@ -4,8 +4,6 @@ namespace OmegaGo.Core.Game.Tools
 {
     public class DeleteBranchTool : ITool
     {
-        public ToolKind Tool { get; } = ToolKind.DeleteBranch;
-
         public void Execute(IToolServices toolService)
         {
             if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node))

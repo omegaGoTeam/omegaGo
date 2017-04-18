@@ -60,10 +60,10 @@
     <Compile Include="Game\Tools\ITool.cs" />
     <Compile Include="Game\Tools\IToolServices.cs" />
     <Compile Include="Game\Tools\IMarkupTool.cs" />
+    <Compile Include="Game\Markup\SequenceMarkupKind.cs" />
     <Compile Include="Game\Tools\SequenceMarkupTool.cs" />
     <Compile Include="Game\Tools\SimpleMarkupTool.cs" />
     <Compile Include="Game\Tools\StonePlacementTool.cs" />
-    <Compile Include="Game\Tools\ToolKind.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
