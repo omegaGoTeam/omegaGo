@@ -56,14 +56,14 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private static CanvasBitmap sabakiWhiteBitmap;
         private static TaskCompletionSource<bool> BitmapInitializationCompletion = new TaskCompletionSource<bool>();
 
-        private StoneTheme stoneDisplayTheme;
-        private BoardTheme _boardTheme;
+        private StoneTheme stoneDisplayTheme { get; set; }
+        private BoardTheme _boardTheme { get; set; }
         public bool ShowCoordinates { get; set; }
 
         public bool SimpleRenderService { get; set; }
 
-        private int _boardBorderThickness;
         private int _boardLineThickness;
+        private int _boardBorderThickness;
         private int _cellSize;
         private int _halfSize;
         private FpsCounter _fpsCounter = new FpsCounter();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 
@@ -51,6 +52,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
         public void ResignationFromServer()
         {
             OnResign();
+        }
+
+        public override void MoveUndone()
+        {
+            var timeline = (GameState.GameTree.PrimaryTimeline.ToList());
+            int latestStillExistingMove = timeline.Count - 1;
+            foreach(var storedTuple in _storedMoves.ToList())
+            {
+                if (storedTuple.Key > latestStillExistingMove)
+                {
+                    _storedMoves.Remove(storedTuple.Key);
+                }
+            }
         }
 
         /// <summary>

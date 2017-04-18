@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
+    <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\PrisonersNodeInfo.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="LiveGame\Remote\Igs\IgsGameBuilder.cs" />
     <Compile Include="Online\Common\ICommonCommands.cs" />
     <Compile Include="LiveGame\Remote\RemoteGame.cs" />
+    <Compile Include="Online\Common\ICommonEvents.cs" />
     <Compile Include="Online\Common\RemoteGameInfo.cs" />
     <Compile Include="Online\Igs\Events\GamePlayerEventArgs.cs" />
     <Compile Include="Online\Igs\Events\GameScoreEventArgs.cs" />

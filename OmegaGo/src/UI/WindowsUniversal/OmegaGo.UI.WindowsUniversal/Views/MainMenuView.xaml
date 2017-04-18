@@ -8,6 +8,7 @@
     xmlns:mainMenu="using:OmegaGo.UI.WindowsUniversal.UserControls.MainMenu"
     xmlns:hardwareInterfaceTriggers="using:AdaptiveTriggerLibrary.Triggers.HardwareInterfaceTriggers"
     xmlns:logicalTriggers="using:AdaptiveTriggerLibrary.Triggers.LogicalTriggers"
+    xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     mc:Ignorable="d">
     <Page.Resources>
         <ItemsPanelTemplate x:Key="GridPanel">
@@ -17,6 +18,7 @@
             <VirtualizingStackPanel HorizontalAlignment="Stretch" />
         </ItemsPanelTemplate>
     </Page.Resources>
+    
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -25,13 +27,12 @@
         </TransitionCollection>
     </Page.Transitions>
 
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <hardwareInterfaceTriggers:DeviceFamilyTrigger Condition="Desktop"/>
+                        <windowsStateTriggers:DeviceFamilyStateTrigger DeviceFamily="Desktop" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="FullScreenButton.Visibility" Value="Visible" />
@@ -183,7 +184,7 @@
             </Button>
             <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
                   FontFamily="Segoe UI Emoji"
-                  FontSize="20" />
+                  FontSize="20" RightTapped="EasterEgg_Tapped" IsRightTapEnabled="True" />
         </StackPanel>
     </Grid>
 </views:TransparencyViewBase>

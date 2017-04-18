@@ -74,7 +74,6 @@ namespace OmegaGo.UI.ViewModels
 
         public void TryThisNow(ActiveQuest activeQuest)
         {
-            // TODO Petr: Is this really necessary? It seems to always return TsumegoViewModel. (Víťa)
             Type model = activeQuest.Quest.GetViewModelToTry();
 
             if (model != null)

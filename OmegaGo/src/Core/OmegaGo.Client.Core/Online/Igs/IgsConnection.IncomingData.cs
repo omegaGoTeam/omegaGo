@@ -546,7 +546,7 @@ namespace OmegaGo.Core.Online.Igs
                     IgsGame gameInfo = this.GamesYouHaveOpened.Find(gi =>
                         gi.Info.White.Name == scoreLine.White &&
                         gi.Info.Black.Name == scoreLine.Black);
-                    OnGameScoreAndCompleted(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
+                    ScoreGame(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
                 }
             }
         }

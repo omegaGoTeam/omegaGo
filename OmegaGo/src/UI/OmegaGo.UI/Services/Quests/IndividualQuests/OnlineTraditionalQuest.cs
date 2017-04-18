@@ -21,5 +21,8 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
                 info.Game.Info.BoardSize.Height == 19
                 ;
         }
+
+        // No "Try This Now" because we don't know if the user wants a Pandanet or KGS game.
+        public override bool TryThisNowButtonVisible => false;
     }
 }

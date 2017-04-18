@@ -870,6 +870,69 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="WhiteColon" xml:space="preserve">
     <value>Bílý:</value>
   </data>
+  <data name="AcceptChallenge" xml:space="preserve">
+    <value>Přijmout</value>
+  </data>
+  <data name="ChangeEllipsis" xml:space="preserve">
+    <value>Změnit...</value>
+  </data>
+  <data name="Creationg_KgsChallenge" xml:space="preserve">
+    <value>Výzva na KGS</value>
+  </data>
+  <data name="Creation_IncomingIgsChallenge" xml:space="preserve">
+    <value>Příchozí výzva na Pandanetu</value>
+  </data>
+  <data name="Creation_KgsChallengeCreation" xml:space="preserve">
+    <value>Vytvořit veřejnou výzvu na KGS</value>
+  </data>
+  <data name="Creation_NewLocalGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Creation_OutgoingIgsRequest" xml:space="preserve">
+    <value>Vyzvat soupeře ke hře na Pandanetu</value>
+  </data>
+  <data name="CustomEllipsis" xml:space="preserve">
+    <value>Vlastní...</value>
+  </data>
+  <data name="DeclineKgsChallenger" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="HeightColon" xml:space="preserve">
+    <value>Výška:</value>
+  </data>
+  <data name="Komi" xml:space="preserve">
+    <value>Komi</value>
+  </data>
+  <data name="KomiUseRecommended" xml:space="preserve">
+    <value>Použít doporučené</value>
+  </data>
+  <data name="Nigiri" xml:space="preserve">
+    <value>Vybrat náhodně</value>
+  </data>
+  <data name="RefuseChallenge" xml:space="preserve">
+    <value>Odmítnout</value>
+  </data>
+  <data name="SizeColon" xml:space="preserve">
+    <value>Velikost:</value>
+  </data>
+  <data name="TimeControl" xml:space="preserve">
+    <value>Řízení času</value>
+  </data>
+  <data name="UnjoinChallenge" xml:space="preserve">
+    <value>Zrušit</value>
+  </data>
+  <data name="WidthColon" xml:space="preserve">
+    <value>Šířka:</value>
+  </data>
+  <data name="YourAgent" xml:space="preserve">
+    <value>Jste</value>
+  </data>
+  <data name="YourColor" xml:space="preserve">
+    <value>Tvoje barva</value>
+  </data>
+  <data name="SwitchColors" xml:space="preserve">
+    <value>Prohodit barvy</value>
+  </data>
   <data name="BlackToPlay" xml:space="preserve">
     <value>Černý je na tahu</value>
   </data>
@@ -944,5 +1007,116 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="StoneRemovalPhase" xml:space="preserve">
     <value>Fáze odstranění kamenů</value>
+  </data>
+  <data name="AbsoluteTimeLabel" xml:space="preserve">
+    <value>Čas (v minutách):</value>
+  </data>
+  <data name="CanadianMinutesPerPeriodLabel" xml:space="preserve">
+    <value>Minut na periodu:</value>
+  </data>
+  <data name="CanadianMovesPerPeriodLabel" xml:space="preserve">
+    <value>Tahů za periodu:</value>
+  </data>
+  <data name="JapaneseNumberOfPeriodsLabel" xml:space="preserve">
+    <value>Počet period:</value>
+  </data>
+  <data name="JapaneseSecondsPerPeriodLabel" xml:space="preserve">
+    <value>Sekund na periodu:</value>
+  </data>
+  <data name="MainTimeLabel" xml:space="preserve">
+    <value>Hlavní čas (v minutách):</value>
+  </data>
+  <data name="TimeControlStyle_Absolute" xml:space="preserve">
+    <value>Absolutní</value>
+  </data>
+  <data name="TimeControlStyle_Canadian" xml:space="preserve">
+    <value>Kanadské bjó-jomi</value>
+  </data>
+  <data name="TimeControlStyle_Japanese" xml:space="preserve">
+    <value>Japonské bjó-jomi</value>
+  </data>
+  <data name="TimeControlStyle_None" xml:space="preserve">
+    <value>Žádný</value>
+  </data>
+  <data name="Time_Absolute_Caption" xml:space="preserve">
+    <value>Absolutní časování.</value>
+  </data>
+  <data name="Time_Absolute_Description" xml:space="preserve">
+    <value>Když hráčův čas uplyne, tak hráč okamžitě prohraje.</value>
+  </data>
+  <data name="Time_Absolute_Oneline" xml:space="preserve">
+    <value>Absolutní ({0} minut)</value>
+  </data>
+  <data name="Time_Canadian_Caption" xml:space="preserve">
+    <value>Kanadské bjó-jomi.</value>
+  </data>
+  <data name="Time_Canadian_Description" xml:space="preserve">
+    <value>Každý hráč má hlavní čas. Až ten uplyne, hráč se přesune do své první "přesčasové periody" a musí učinit množství tahů (typicky 25) do určitého množství minut, jinak prohraje po uplynutí poslední minuty. Pokud učiní všechny tahy včas, tak zbývající čas je ztracen, ale ihned pro toho hráče začne nová perioda přesčasu.</value>
+  </data>
+  <data name="Time_Canadian_Oneline" xml:space="preserve">
+    <value>Kanadské ({0}, pak {1}/{2} min)</value>
+  </data>
+  <data name="Time_Japanese_Caption" xml:space="preserve">
+    <value>Japonské bjó-jomi.</value>
+  </data>
+  <data name="Time_Japanese_Description" xml:space="preserve">
+    <value>Každý hráč má hlavní čas. Až ten uplyne, má pak několik period přesčasu. Až poslední uplyne, hráč prohraje. Kdykoliv hráč udělá tah, tak jeho současná period přesčasu se "resetuje", tj. pokud nepoužijete celou periodu, tak se na ni hledí, jako by nebyla použitá vůbec.</value>
+  </data>
+  <data name="Time_Japanese_Oneline" xml:space="preserve">
+    <value>Japonské ({0}, pak {1}x{2}sek)</value>
+  </data>
+  <data name="Time_None_Caption" xml:space="preserve">
+    <value>Žádný časový systém.</value>
+  </data>
+  <data name="Time_None_Description" xml:space="preserve">
+    <value>Žádný hráč není omezen časovým limitem.</value>
+  </data>
+  <data name="Time_None_Oneline" xml:space="preserve">
+    <value>Žádný časový systém.</value>
+  </data>
+  <data name="Human" xml:space="preserve">
+    <value>Místní hráč</value>
+  </data>
+  <data name="HumanDescription" xml:space="preserve">
+    <value>Toto znamená, že ty (anebo někdo vedle tebe) bude hrát za tuto barvu na tomto zařízení.</value>
+  </data>
+  <data name="IgsLoginPhase_Connecting" xml:space="preserve">
+    <value>Připojování...</value>
+  </data>
+  <data name="IgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="IgsLoginPhase_LoggingIn" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingGames" xml:space="preserve">
+    <value>Stahování seznamu her...</value>
+  </data>
+  <data name="IgsLoginPhase_RefreshingUsers" xml:space="preserve">
+    <value>Stahování seznamu uživatelů...</value>
+  </data>
+  <data name="IgsLoginPhase_SendingInitialBurst" xml:space="preserve">
+    <value>Vysvětlování našich schopností Pandanetu...</value>
+  </data>
+  <data name="KgsLoginPhase_Done" xml:space="preserve">
+    <value>Hotovo.</value>
+  </data>
+  <data name="KgsLoginPhase_MakingLoginRequest" xml:space="preserve">
+    <value>Přihlašování...</value>
+  </data>
+  <data name="KgsLoginPhase_RequestingRoomNames" xml:space="preserve">
+    <value>Požadavek na názvy pokojů...</value>
+  </data>
+  <data name="KgsLoginPhase_StartingGetLoop" xml:space="preserve">
+    <value>Spuštění smyčky GET...</value>
+  </data>
+  <data name="RewardColon" xml:space="preserve">
+    <value>Odměna:</value>
+  </data>
+  <data name="UseGraceSecond" xml:space="preserve">
+    <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
+  </data>
+  <data name="MainMenu" xml:space="preserve">
+    <value>Hlavní menu</value>
   </data>
 </root>

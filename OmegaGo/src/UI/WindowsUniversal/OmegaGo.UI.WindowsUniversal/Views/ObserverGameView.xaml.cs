@@ -16,8 +16,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private DispatcherTimer _updateTimer;
         
         public ObserverGameViewModel VM => (ObserverGameViewModel)ViewModel;
-        public override string WindowTitle => Localizer.Game;
-        public override Uri WindowTitleIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Game.png");
+
+        public override string TabTitle => Localizer.Observing;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Observe.png");
 
 
         public ObserverGameView()

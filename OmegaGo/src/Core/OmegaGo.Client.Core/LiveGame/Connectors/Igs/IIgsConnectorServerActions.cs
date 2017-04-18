@@ -39,7 +39,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
         void TimeControlAdjustment(IgsTimeControlAdjustmentEventArgs igsTimeControlAdjustmentEventArgs);
         void ForceLifeDeathKillGroup(Position deadPosition);
         void ForceLifeDeathUndoDeathMarks();
-        void ScoreGame(GameScoreEventArgs gameScoreEventArgs);
         void ForceMainUndo();
     }
 }
