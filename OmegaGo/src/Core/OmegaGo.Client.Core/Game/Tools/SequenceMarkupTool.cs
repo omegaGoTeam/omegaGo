@@ -7,7 +7,7 @@ namespace OmegaGo.Core.Game.Tools
         public SequenceMarkupKind SequenceMarkup { get; }
         public bool AreMarksAvailable { get; private set; }
 
-        SequenceMarkupTool(SequenceMarkupKind kind)
+        public SequenceMarkupTool(SequenceMarkupKind kind)
         {
             SequenceMarkup = kind;
             AreMarksAvailable = false;
