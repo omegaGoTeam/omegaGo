@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    class StonePlacementTool : ITool, IStoneTool
+    public sealed class StonePlacementTool : ITool, IStoneTool
     {
         public ToolKind Tool { get; } = ToolKind.StonePlacement;
 

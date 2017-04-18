@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    class SequenceMarkupTool : IMarkupTool
+    public sealed class SequenceMarkupTool : IMarkupTool
     {
         public ToolKind Tool { get; }
         public MarkupKind Markup { get; }

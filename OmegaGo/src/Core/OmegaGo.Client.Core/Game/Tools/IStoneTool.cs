@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    interface IStoneTool
+    public interface IStoneTool
     {
         MoveResult[,] GetMoveResults(IToolServices toolService);
     }

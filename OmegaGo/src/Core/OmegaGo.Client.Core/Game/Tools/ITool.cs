@@ -1,7 +1,7 @@
 ﻿
 namespace OmegaGo.Core.Game.Tools
 {
-    interface ITool
+    public interface ITool
     {
         ToolKind Tool { get; }
 

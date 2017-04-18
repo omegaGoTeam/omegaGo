@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    interface IMarkupTool : ITool
+    public interface IMarkupTool : ITool
     {
         MarkupKind Markup { get; }
 

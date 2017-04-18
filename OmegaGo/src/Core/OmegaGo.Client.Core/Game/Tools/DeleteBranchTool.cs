@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    class DeleteBranchTool : ITool
+    public class DeleteBranchTool : ITool
     {
         public ToolKind Tool { get; } = ToolKind.DeleteBranch;
 

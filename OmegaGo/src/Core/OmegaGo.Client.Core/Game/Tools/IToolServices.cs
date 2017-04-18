@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    interface IToolServices
+    public interface IToolServices
     {
         IRuleset Ruleset { get; set; }
         GameTree GameTree { get; set; }
