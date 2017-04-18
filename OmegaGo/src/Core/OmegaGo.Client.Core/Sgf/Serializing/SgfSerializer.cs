@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Annotations;
 using OmegaGo.Core.Sgf.Properties;
+using OmegaGo.Core.Sgf.Properties.Values;
 
 namespace OmegaGo.Core.Sgf.Serializing
 {
@@ -60,7 +61,7 @@ namespace OmegaGo.Core.Sgf.Serializing
             builder.Append(SerializeSequence(gameTree.Sequence));
 
             foreach (var child in gameTree.Children)
-            {              
+            {
                 builder.Append(SerializeGameTree(child));
             }
 
@@ -98,7 +99,7 @@ namespace OmegaGo.Core.Sgf.Serializing
 
             builder.Append(';');
             foreach (var property in node)
-            {                
+            {
                 builder.Append(SerializeProperty(property));
             }
 
@@ -118,10 +119,24 @@ namespace OmegaGo.Core.Sgf.Serializing
 
             builder.Append(property.Identifier);
 
-            foreach (var value in values)
+            foreach (var propertyValue in property.PropertyValues)
             {
-                
+                builder.Append(SerializePropertyValue(propertyValue));                
             }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Serializes a SGF property value
+        /// </summary>
+        /// <param name="propertyValue">Property value</param>
+        /// <returns>Serialized SGF property value</returns>
+        private string SerializePropertyValue([NotNull] ISgfPropertyValue propertyValue)
+        {
+            if (propertyValue == null) throw new ArgumentNullException(nameof(propertyValue));
+
+            return $"[{propertyValue.Serialize()}]";
         }
     }
 }
