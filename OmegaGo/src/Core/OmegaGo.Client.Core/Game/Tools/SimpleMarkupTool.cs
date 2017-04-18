@@ -4,9 +4,9 @@ namespace OmegaGo.Core.Game.Tools
 {
     public sealed class SimpleMarkupTool : IMarkupTool
     {
-        public MarkupKind Markup { get; }
+        public SimpleMarkupKind Markup { get; }
 
-        public SimpleMarkupTool(MarkupKind markupKind)
+        public SimpleMarkupTool(SimpleMarkupKind markupKind)
         {
             Markup = markupKind;
         }
@@ -18,25 +18,25 @@ namespace OmegaGo.Core.Game.Tools
 
             markups.RemoveMarkupOnPosition(position);
 
-            if (Markup == MarkupKind.Circle)
+            if (Markup == SimpleMarkupKind.Circle)
                 markups.AddMarkup<Circle>(new Circle(position));
-            if (Markup == MarkupKind.Cross)
+            if (Markup == SimpleMarkupKind.Cross)
                 markups.AddMarkup<Cross>(new Cross(position));
-            if (Markup == MarkupKind.Square)
+            if (Markup == SimpleMarkupKind.Square)
                 markups.AddMarkup<Square>(new Square(position));
-            if (Markup == MarkupKind.Triangle)
+            if (Markup == SimpleMarkupKind.Triangle)
                 markups.AddMarkup<Triangle>(new Triangle(position));
         }
 
         public IMarkup GetShadowItem(IToolServices toolServices)
         {
-            if (Markup == MarkupKind.Circle)
+            if (Markup == SimpleMarkupKind.Circle)
                 return new Circle(toolServices.PointerOverPosition);
-            if (Markup == MarkupKind.Cross)
+            if (Markup == SimpleMarkupKind.Cross)
                 return new Cross(toolServices.PointerOverPosition);
-            if (Markup == MarkupKind.Square)
+            if (Markup == SimpleMarkupKind.Square)
                 return new Square(toolServices.PointerOverPosition);
-            if (Markup == MarkupKind.Triangle)
+            if (Markup == SimpleMarkupKind.Triangle)
                 return new Triangle(toolServices.PointerOverPosition);
 
             return null;

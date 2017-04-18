@@ -4,13 +4,11 @@ namespace OmegaGo.Core.Game.Tools
 {
     public sealed class SequenceMarkupTool : IMarkupTool
     {
-        public MarkupKind Markup { get; }
         public SequenceMarkupKind SequenceMarkup { get; }
         public bool AreMarksAvailable { get; private set; }
 
         SequenceMarkupTool(SequenceMarkupKind kind)
         {
-            Markup = MarkupKind.Label;
             SequenceMarkup = kind;
             AreMarksAvailable = false;
         }
