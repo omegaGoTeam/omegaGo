@@ -23,5 +23,11 @@ namespace OmegaGo.Core.Game.Tools
         /// Gets the board coordinates of the current pointer position.
         /// </summary>
         Position PointerOverPosition { get; }
+
+        /// <summary>
+        /// Sets the provided node as the current node.
+        /// </summary>
+        /// <param name="node">a node to set as current</param>
+        void SetNode(GameTreeNode node);
     }
 }

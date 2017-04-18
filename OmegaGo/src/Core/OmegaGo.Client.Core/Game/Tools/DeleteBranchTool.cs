@@ -8,11 +8,11 @@ namespace OmegaGo.Core.Game.Tools
 
         public void Execute(IToolServices toolService)
         {
-            if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node)) 
+            if (!toolService.GameTree.LastNode.GetNodeHistory().Contains(toolService.Node))
             {
                 GameTreeNode parent = toolService.Node.Parent;
                 parent.RemoveChild(toolService.Node);
-                toolService.Node = parent;
+                toolService.SetNode(parent);
             }
         }
     }

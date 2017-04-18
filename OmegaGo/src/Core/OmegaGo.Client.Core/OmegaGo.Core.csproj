@@ -48,6 +48,7 @@
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
+    <Compile Include="Game\GameToolServices.cs" />
     <Compile Include="Game\GameTreeNodeData\PrisonersNodeInfo.cs" />
     <Compile Include="Game\GameTreeNodeData\TsumegoNodeInfo.cs" />
     <Compile Include="Game\MarkupInfo.cs" />

@@ -6,22 +6,27 @@ namespace OmegaGo.Core.Game
 {
     public sealed class GameToolServices : IToolServices
     {
-        private readonly Ruleset _ruleset;
+        private readonly IRuleset _ruleset;
         private readonly GameTree _gameTree;
 
         private GameTreeNode _currentNode;
         private Position _pointerOverPosition;
-
+        
         /// <summary>
         /// Initializes a new instance of GameToolServices.
         /// </summary>
         /// <param name="ruleset">a ruleset that should be used for providing ruleset services</param>
         /// <param name="gameTree">a game tree representing the current game</param>
-        public GameToolServices(Ruleset ruleset, GameTree gameTree)
+        public GameToolServices(IRuleset ruleset, GameTree gameTree)
         {
+            if (ruleset == null)
+                ruleset = Rules.Ruleset.Create(RulesetType.Chinese, gameTree.BoardSize);
+
             _ruleset = ruleset;
             _gameTree = gameTree;
         }
+
+        public event EventHandler<GameTreeNode> NodeChanged;
 
         /// <summary>
         /// Gets the active ruleset for the current game.
@@ -55,6 +60,22 @@ namespace OmegaGo.Core.Game
         {
             get { return _pointerOverPosition; }
             set { _pointerOverPosition = value; }
+        }
+
+        ////////
+        //
+        //  IToolServices public API implementation
+        //  
+        //  - this is intended to be used only by ITools.
+        //////// 
+        
+        public void SetNode(GameTreeNode node)
+        {
+            if (node == null)
+                throw new ArgumentException("Node cant be null");
+
+            Node = node;
+            NodeChanged?.Invoke(this, node);
         }
     }
 }

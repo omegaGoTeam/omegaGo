@@ -9,10 +9,8 @@ namespace OmegaGo.Core.Game.Tools
         public void Execute(IToolServices toolService)
         {
             StoneColor previousPlayer = toolService.Node.Move.WhoMoves;
-            StoneColor nextPlayer=StoneColor.None;
-            if (toolService.Ruleset == null)
-                toolService.Ruleset = Ruleset.Create(RulesetType.Chinese, toolService.GameTree.BoardSize);
-
+            StoneColor nextPlayer = StoneColor.None;
+            
             //set next player
             if (previousPlayer == StoneColor.White)
             {
