@@ -1,11 +1,14 @@
 ﻿using MvvmCross.Core.ViewModels;
+using OmegaGo.Core.Game.Tools;
 using System;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
     public sealed class AnalysisViewModel : ControlViewModelBase
     {
-        private object _selectedTool;
+        private readonly IToolServices _toolServices;
+        private ITool _selectedTool;
+
 
         private MvxCommand _placeStoneCommand;
         private MvxCommand _deleteBranchCommand;
@@ -20,18 +23,32 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private MvxCommand _backToGameCommand;
         private MvxCommand _passCommand;
 
-        //public event EventHandler<object> ToolChanged;
-        public event EventHandler BranchDeletionRequested;
+        public AnalysisViewModel(IToolServices toolServices)
+        {
+            _toolServices = toolServices;
+        }
+
+        public event EventHandler<ITool> ToolChanged;
         public event EventHandler BackToGameRequested;
         public event EventHandler PassRequested;
 
-        public object SelectedTool
+        public IToolServices ToolServices
+        {
+            get { return _toolServices; }
+        }
+
+        public ITool SelectedTool
         {
             get { return _selectedTool; }
+            private set
+            {
+                SetProperty(ref _selectedTool, value);
+                ToolChanged?.Invoke(this, value);
+            }
         }
 
         public MvxCommand PlaceStoneCommand => _placeStoneCommand ?? (_placeStoneCommand = new MvxCommand(
-            () => { PlaceStore(); }));
+            () => { PlaceStone(); }));
         public MvxCommand DeleteBranchCommand => _deleteBranchCommand ?? (_deleteBranchCommand = new MvxCommand(
             () => { DeleteBranch(); }));
 
@@ -53,51 +70,55 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public MvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(
             () => { Pass(); }));
 
+        // Add null - visibility converter
+        public StonePlacementTool StonePlacementTool { get; internal set; }
+        public DeleteBranchTool DeleteBranchTool { get; internal set; }
 
-        public AnalysisViewModel()
-        {
-
-        }
-
-
-        private void PlaceStore()
-        {
-
-        }
+        public SequenceMarkupTool CharacterMarkupTool { get; internal set; }
+        public SequenceMarkupTool NumberMarkupTool { get; internal set; }
+        public SimpleMarkupTool RectangleMarkupTool { get; internal set; }
+        public SimpleMarkupTool TriangleMarkupTool { get; internal set; }
+        public SimpleMarkupTool CircleMarkupTool { get; internal set; }
+        public SimpleMarkupTool CrossMarkupTool { get; internal set; }
 
         private void DeleteBranch()
         {
-
+            DeleteBranchTool.Execute(ToolServices);
         }
 
+        private void PlaceStone()
+        {
+            SelectedTool = StonePlacementTool;
+        }
+        
         private void PlaceCharacter()
         {
-
+            SelectedTool = CharacterMarkupTool;
         }
 
         private void PlaceNumber()
         {
-
+            SelectedTool = NumberMarkupTool;
         }
 
         private void PlaceRectangle()
         {
-
+            SelectedTool = RectangleMarkupTool;
         }
 
         private void PlaceTriangle()
         {
-
+            SelectedTool = TriangleMarkupTool;
         }
 
         private void PlaceCircle()
         {
-
+            SelectedTool = CircleMarkupTool;
         }
 
         private void PlaceCross()
         {
-
+            SelectedTool = CrossMarkupTool;
         }
 
         private void BackToGame()
@@ -108,11 +129,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private void Pass()
         {
 
-        }
-
-        private void ChangeTool(object tool)
-        {
-            _selectedTool = tool;
         }
     }
 }

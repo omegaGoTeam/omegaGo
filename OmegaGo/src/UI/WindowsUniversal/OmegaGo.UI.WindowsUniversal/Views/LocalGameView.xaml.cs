@@ -9,6 +9,8 @@ using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.UI.Services.Dialogs;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Composition;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -49,7 +51,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
-
         }
     }
 }

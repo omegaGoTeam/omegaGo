@@ -21,6 +21,8 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
+        <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
         <converters:NativeBoolDoubleConverter x:Key="boolDoubleConverter" />
         <converters:GamePhaseVisibilityConverter x:Key="handicapPhaseVisibilityConverter" RequiredGamePhase="HandicapPlacement" />
         <converters:GamePhaseVisibilityConverter x:Key="mainPhaseVisibilityConverter" RequiredGamePhase="Main" />
@@ -156,6 +158,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -238,7 +241,20 @@
                         <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
                     </StackPanel>
 
-                    <ListView x:Name="systemLog" Grid.Row="4"
+                    <StackPanel x:Name="analyzeModeCommand"
+                                Grid.Row="4" Grid.ColumnSpan="2">
+                        <controls:AnalysisControl x:Name="analyzeControl"
+                                                  ViewModel="{x:Bind VM.AnalysisViewModel}"
+                                                  Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                        <Grid HorizontalAlignment="Stretch" Margin="5">
+                            <Button x:Name="disableAnalyzisButton" Content="Disable Analyze" Command="{x:Bind VM.DisableAnalyzeModeCommand}" 
+                                    HorizontalAlignment="Stretch" Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"/>
+                            <Button x:Name="enableAnalyzisButton" Content="Enable Analyze" Command="{x:Bind VM.EnableAnalyzeModeCommand}" 
+                                    HorizontalAlignment="Stretch" Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityInvertedConverter}}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <ListView x:Name="systemLog" Grid.Row="5"
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
                               Background="White"
