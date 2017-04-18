@@ -4,6 +4,9 @@ namespace OmegaGo.Core.Game.Tools
 {
     public sealed class StonePlacementTool : ITool, IStoneTool
     {
+        private GameTreeNode _currentNode;
+        private MoveResult[,] _moveResults; 
+
         public void Execute(IToolServices toolService)
         {
             StoneColor previousPlayer = toolService.Node.Move.WhoMoves;
@@ -54,7 +57,13 @@ namespace OmegaGo.Core.Game.Tools
 
         public MoveResult[,] GetMoveResults(IToolServices toolService)
         {
-            return toolService.Ruleset.GetMoveResultLite(toolService.Node);
+            if (toolService.Node.Equals(_currentNode))
+            {
+                _moveResults = toolService.Ruleset.GetMoveResultLite(toolService.Node);
+                _currentNode = toolService.Node;
+            }
+
+            return _moveResults;
         }
     }
 }
