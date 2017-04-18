@@ -4,9 +4,24 @@ namespace OmegaGo.Core.Game.Tools
 {
     public interface IToolServices
     {
-        IRuleset Ruleset { get; set; }
-        GameTree GameTree { get; set; }
-        GameTreeNode Node { get; set; }
-        Position PointerOverPosition { get; set; }
+        /// <summary>
+        /// Gets the active ruleset for the current game.
+        /// </summary>
+        IRuleset Ruleset { get; }
+
+        /// <summary>
+        /// Gets the GameTree representing the current game.
+        /// </summary>
+        GameTree GameTree { get; }
+
+        /// <summary>
+        /// Gets the current game node on which the tools should operate.
+        /// </summary>
+        GameTreeNode Node { get; }
+
+        /// <summary>
+        /// Gets the board coordinates of the current pointer position.
+        /// </summary>
+        Position PointerOverPosition { get; }
     }
 }
