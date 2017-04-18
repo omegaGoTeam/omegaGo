@@ -75,14 +75,14 @@ namespace OmegaGo.Core.Game
                 {
                     //add white moves
                     var property = node["AW"];
-                    var pointRectangles = property.Values<SgfPointRectangle>();
-                    newNode.AddWhite.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
+                    var pointRectangles = property.SimpleValues<SgfPointRectangle>();                    
+                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles ) );
                 }
                 if (node["AB"] != null)
                 {
                     var property = node["AB"];
-                    var pointRectangles = property.Values<SgfPointRectangle>();
-                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
+                    var pointRectangles = property.SimpleValues<SgfPointRectangle>();
+                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles));
                 }
                 if (node["C"] != null)
                 {
