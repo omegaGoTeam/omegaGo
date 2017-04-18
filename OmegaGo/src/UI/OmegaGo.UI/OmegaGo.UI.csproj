@@ -155,7 +155,6 @@
     <Compile Include="Services\Tsumego\TsumegoProblemDefinition.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemInfo.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemsLoader.cs" />
-    <Compile Include="Services\Tsumego\Problems.cs" />
     <Compile Include="UserControls\ViewModels\AnalysisViewModel.cs" />
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />

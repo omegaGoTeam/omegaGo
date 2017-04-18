@@ -76,13 +76,13 @@ namespace OmegaGo.Core.Game
                     //add white moves
                     var property = node["AW"];
                     var pointRectangles = property.SimpleValues<SgfPointRectangle>();                    
-                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles ) );
+                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles, boardSize ) );
                 }
                 if (node["AB"] != null)
                 {
                     var property = node["AB"];
                     var pointRectangles = property.SimpleValues<SgfPointRectangle>();
-                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles));
+                    newNode.AddBlack.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
                 }
                 if (node["C"] != null)
                 {
@@ -145,18 +145,18 @@ namespace OmegaGo.Core.Game
             {
                 // Add arrow
                 var property = sourceNode[arrow];
-                var arrowDefinitions = property.Values<SgfComposePropertyValue<SgfPoint, SgfPoint>>();
+                var arrowDefinitions = property.ComposeValues<SgfPoint, SgfPoint>();
 
                 foreach (var arrowDefinition in arrowDefinitions)
                 {
-                    targetNode.Markups.AddMarkup(new Arrow(Position.FromSgfPoint(arrowDefinition.LeftValue, boardSize), Position.FromSgfPoint(arrowDefinition.RightValue, boardSize)));
+                    targetNode.Markups.AddMarkup(new Arrow(Position.FromSgfPoint(arrowDefinition.Left, boardSize), Position.FromSgfPoint(arrowDefinition.Right, boardSize)));
                 }
             }
             if (sourceNode[circle] != null)
             {
                 // Add circle
                 var property = sourceNode[circle];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
                 foreach (var rectangle in pointRectangles)
                 {
@@ -172,7 +172,7 @@ namespace OmegaGo.Core.Game
             {
                 // Add dim point
                 var property = sourceNode[dimPoint];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.SimpleValues<SgfPointRectangle>();
                 foreach (var rectangle in pointRectangles)
                 {
                     var topLeft = Position.FromSgfPoint(rectangle.UpperLeft, boardSize);
@@ -184,22 +184,22 @@ namespace OmegaGo.Core.Game
             {
                 // Add label
                 var property = sourceNode[label];
-                var labelDefinitions = property.Values<SgfComposePropertyValue<SgfPoint, string>>();
+                var labelDefinitions = property.ComposeValues<SgfPoint, string>();
                 foreach (var labelDefinition in labelDefinitions)
                 {
-                    targetNode.Markups.AddMarkup(new Label(Position.FromSgfPoint(labelDefinition.LeftValue, boardSize), labelDefinition.RightValue));
+                    targetNode.Markups.AddMarkup(new Label(Position.FromSgfPoint(labelDefinition.Left, boardSize), labelDefinition.Right));
                 }
             }
             if (sourceNode[line] != null)
             {
                 // Add line
                 var property = sourceNode[line];
-                var lineDefinitions = property.Values<SgfComposePropertyValue<SgfPoint, SgfPoint>>();
+                var lineDefinitions = property.ComposeValues<SgfPoint, SgfPoint>();
 
                 foreach (var lineDefinition in lineDefinitions)
                 {
-                    var startPoint = Position.FromSgfPoint(lineDefinition.LeftValue, boardSize);
-                    var endPoint = Position.FromSgfPoint(lineDefinition.RightValue, boardSize);
+                    var startPoint = Position.FromSgfPoint(lineDefinition.Left, boardSize);
+                    var endPoint = Position.FromSgfPoint(lineDefinition.Right, boardSize);
                     targetNode.Markups.AddMarkup(new Line(startPoint, endPoint));
                 }                
             }
@@ -207,7 +207,7 @@ namespace OmegaGo.Core.Game
             {
                 // Add cross
                 var property = sourceNode[cross];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
                 foreach (var rectangle in pointRectangles)
                 {
@@ -227,7 +227,7 @@ namespace OmegaGo.Core.Game
             {
                 // Add square
                 var property = sourceNode[square];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
                 foreach (var rectangle in pointRectangles)
                 {
@@ -243,7 +243,7 @@ namespace OmegaGo.Core.Game
             {
                 // Add triangle
                 var property = sourceNode[triangle];
-                var pointRectangles = property.Values<SgfPointRectangle>();
+                var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
                 foreach (var rectangle in pointRectangles)
                 {
