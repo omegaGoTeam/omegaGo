@@ -84,6 +84,7 @@
     <Compile Include="Sgf\Properties\Values\SpecialSgfPropertyValueParsersTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointRectangleTests.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPointTests.cs" />
+    <Compile Include="Sgf\Serializing\SgfSerializerTests.cs" />
     <Compile Include="Sgf\SgfCollectionTests.cs" />
     <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
     <Compile Include="Sgf\SgfNodeTests.cs" />
@@ -139,9 +140,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sgf\Serializing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

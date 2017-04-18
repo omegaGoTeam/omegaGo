@@ -99,8 +99,8 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <typeparam name="TRight">Right type</typeparam>
         /// <returns>Compose values</returns>
         public IEnumerable<SgfComposeValue<TLeft, TRight>> ComposeValues<TLeft, TRight>() => _propertyValues
-            .OfType<SgfComposeValue<TLeft, TRight>>()
-            .Select(v => new SgfComposeValue<TLeft, TRight>(v.Left, v.Right));
+            .OfType<SgfComposePropertyValue<TLeft, TRight>>()
+            .Select(v => new SgfComposeValue<TLeft, TRight>(v.LeftValue, v.RightValue));
 
         /// <summary>
         /// Gets all property values
