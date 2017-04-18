@@ -117,7 +117,7 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         {
             var sgfProperty = SgfProperty.ParseValuesAndCreate("AW", "ab", "ac", "bb", "bc");
             Assert.AreEqual("AW", sgfProperty.Identifier);
-            Assert.AreEqual(4, sgfProperty.Values<SgfPointRectangle>().Count());
+            Assert.AreEqual(4, sgfProperty.SimpleValues<SgfPointRectangle>().Count());
         }
 
         [TestMethod]

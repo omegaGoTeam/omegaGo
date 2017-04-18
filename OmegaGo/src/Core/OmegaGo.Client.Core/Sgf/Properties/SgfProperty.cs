@@ -90,7 +90,22 @@ namespace OmegaGo.Core.Sgf.Properties
         /// </summary>
         /// <typeparam name="T">Type of values to return</typeparam>
         /// <returns>Values</returns>
-        public IEnumerable<T> Values<T>() => _propertyValues.OfType<SgfSimplePropertyValueBase<T>>().Select(v => v.Value);
+        public IEnumerable<T> SimpleValues<T>() => _propertyValues.OfType<SgfSimplePropertyValueBase<T>>().Select(v => v.Value);
+
+        /// <summary>
+        /// Retrieves all compose values
+        /// </summary>
+        /// <typeparam name="TLeft">Left type</typeparam>
+        /// <typeparam name="TRight">Right type</typeparam>
+        /// <returns>Compose values</returns>
+        public IEnumerable<SgfComposeValue<TLeft, TRight>> ComposeValues<TLeft, TRight>() => _propertyValues
+            .OfType<SgfComposeValue<TLeft, TRight>>()
+            .Select(v => new SgfComposeValue<TLeft, TRight>(v.Left, v.Right));
+
+        /// <summary>
+        /// Gets all property values
+        /// </summary>
+        public IEnumerable<ISgfPropertyValue> PropertyValues => _propertyValues;
 
         /// <summary>
         /// Retrives a single value
@@ -126,6 +141,10 @@ namespace OmegaGo.Core.Sgf.Properties
         /// <returns></returns>
         public SgfComposePropertyValue<TLeft, TRight> Value<TLeft, TRight>()
         {
+            if (_propertyValues.Count > 1 || _propertyValues.Count == 0)
+            {
+                throw new InvalidOperationException($"Single value can't be retrieved, there are {_propertyValues.Count} values.");
+            }
             var propertyValue = _propertyValues.First() as SgfComposePropertyValue<TLeft, TRight>;
             if (propertyValue == null)
             {
