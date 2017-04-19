@@ -332,7 +332,7 @@ namespace OmegaGo.Core.Online.Igs
 
 
         public async Task<bool> SayAsync(IgsGameInfo game, string chat)
-        {
+        {            
             if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
                 throw new ArgumentException("You don't have this game opened on IGS.");
             if (chat == null) throw new ArgumentNullException(nameof(chat));

@@ -88,7 +88,6 @@ namespace FormsPrototype
         {
             _game = game;
             _uiConnector = new UiConnector(game.Controller);
-            game.Controller.RegisterUiConnector(_uiConnector);
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
@@ -105,7 +104,7 @@ namespace FormsPrototype
             if (game is KgsGame)
             {
                 KgsGameController kgsController = ((KgsGame) game).Controller;
-                foreach (var msg in kgsController.MessageLog)
+                foreach (var msg in kgsController.Chat.Messages)
                 {
                     _controller_ChatMessageReceived(this, msg);
                 }
@@ -114,7 +113,7 @@ namespace FormsPrototype
             if (game.Controller is RemoteGameController)
             {
                 var remote = game.Controller as RemoteGameController;
-                remote.ChatMessageReceived += _controller_ChatMessageReceived;
+                remote.Chat.NewMessageReceived += _controller_ChatMessageReceived;
             }
            // _controller.LifeDeathTerritoryChanged += _controller_LifeDeathTerritoryChanged;
            /*
@@ -481,11 +480,11 @@ namespace FormsPrototype
             pictureBox1.Refresh();
         }
 
-        private void bSay_Click(object sender, EventArgs e)
+        private async void bSay_Click(object sender, EventArgs e)
         {
             if (this._isOnline)
             {
-                _uiConnector.SendChat(this.tbSayWhat.Text);
+                await _onlineGameController.Chat.SendMessageAsync(this.tbSayWhat.Text);
                 this.tbSayWhat.Clear();
             }
         }

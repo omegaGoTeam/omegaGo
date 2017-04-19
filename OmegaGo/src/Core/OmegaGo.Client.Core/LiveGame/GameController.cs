@@ -78,8 +78,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public IReadOnlyList<IGameConnector> Connectors =>
             new ReadOnlyCollection<IGameConnector>(this._registeredConnectors);
 
-        public UiConnector UiConnector { get; set; }
-
         /// <summary>
         ///     Get the associated metadata.
         /// </summary>
@@ -202,17 +200,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         public void RegisterConnector(IGameConnector connector)
         {
             this._registeredConnectors.Add(connector);
-        }
-
-        public void RegisterUiConnector(UiConnector uiConnector)
-        {
-            this.UiConnector = uiConnector;
-            RegisterConnector(uiConnector);
-            SubscribeUiConnectorEvents();
-        }
-
-        protected virtual void SubscribeUiConnectorEvents()
-        {
         }
 
         /// <summary>

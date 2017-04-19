@@ -66,8 +66,7 @@ namespace OmegaGo.UI.ViewModels
             _uiConnector = new UiConnector(Game.Controller);
 
             SetupPhaseChangeHandlers();
-
-            Game.Controller.RegisterUiConnector(_uiConnector);
+            
             Game.Controller.CurrentNodeChanged += Game_CurrentGameTreeNodeChanged;
             Game.Controller.CurrentNodeStateChanged += Game_CurrentNodeStateChanged;
             Game.Controller.TurnPlayerChanged += Controller_TurnPlayerChanged;
@@ -78,7 +77,7 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.GameEnded += Controller_GameEnded;
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => MakeMove(e);
-            ChatViewModel = new ChatViewModel();
+            //ChatViewModel = new ChatViewModel();
             //TODO Martin: Implement - online games will have their own ViewModel with specific properties
             //if (Game.Controller.IsOnlineGame)
             //{

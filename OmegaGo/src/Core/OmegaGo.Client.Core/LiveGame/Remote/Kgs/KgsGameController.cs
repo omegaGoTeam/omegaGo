@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using OmegaGo.Core.LiveGame.Connectors.Kgs;
+using OmegaGo.Core.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free;
@@ -19,7 +19,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
 {
     public class KgsGameController : RemoteGameController
     {
-        private List<ChatMessage> _messageLog = new List<ChatMessage>();
 
         /// <summary>
         ///     KGS SGF Nodes
@@ -33,49 +32,31 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             KgsConnection serverConnection) :
                 base(kgsGameInfo, ruleset, players, serverConnection)
         {
-            this.Info = kgsGameInfo;
-            this.KgsConnector = new KgsConnector(this, serverConnection);
+            Info = kgsGameInfo;
+            KgsConnector = new KgsConnector(this, serverConnection);
+            Chat = new ChatService(KgsConnector);
             Server = serverConnection;
-            RegisterConnector(this.KgsConnector);
-            this.KgsConnector.GameEndedByServer += KgsConnector_GameEndedByServer;
+            RegisterConnector(KgsConnector);
+            KgsConnector.GameEndedByServer += KgsConnector_GameEndedByServer;
         }
 
         internal KgsConnector KgsConnector { get; }
         internal KgsConnection Server { get; }
+
+        public override IChatService Chat { get; }
 
         /// <summary>
         ///     KGS game info
         /// </summary>
         internal new KgsGameInfo Info { get; }
 
-        public IEnumerable<ChatMessage> MessageLog => _messageLog;
-
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory
                 <InitializationPhase, KgsHandicapPhase, LocalMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
-
-        protected override void SubscribeUiConnectorEvents()
-        {
-            this.UiConnector.OutgoingChatMessage += UiConnector_OutgoingChatMessage;
-            base.SubscribeUiConnectorEvents();
-        }
-
-        public void AddMessage(ChatMessage message)
-        {
-            _messageLog.Add(message);
-        }
 
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             EndGame(e);
         }
-
-        private async void UiConnector_OutgoingChatMessage(object sender, string e)
-        {
-            await Server.Commands.ChatAsync(this.Info, e);
-            OnChatMessageReceived(new Online.Chat.ChatMessage(this.Server.Username, e, DateTimeOffset.Now,
-                ChatMessageKind.Outgoing));
-        }
-
     }
 }

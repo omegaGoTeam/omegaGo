@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OmegaGo.Core.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
@@ -11,6 +12,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
@@ -37,36 +39,39 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             IRuleset ruleset,
             PlayerPair players,
             IgsConnection serverConnection) :
-                base(gameInfo, ruleset, players, serverConnection)
+            base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
 
             //create and register connector
             IgsConnector = new IgsConnector(this, serverConnection);
+            Chat = new ChatService(IgsConnector);
             RegisterConnector(IgsConnector);
-            Server = serverConnection;
+            Server = serverConnection;            
             InitializeServer(serverConnection);
         }
-        
+
         /// <summary>
         /// Igs server connection
         /// </summary>
         internal new IgsConnection Server { get; }
 
         /// <summary>
+        /// Chat
+        /// </summary>
+        public override IChatService Chat { get; }
+
+        /// <summary>
         /// IGS game info
         /// </summary>
         internal new IgsGameInfo Info { get; }
 
-        protected override void SubscribeUiConnectorEvents()
-        {
-            this.UiConnector.OutgoingChatMessage += UiConnector_OutgoingChatMessage;
-            base.SubscribeUiConnectorEvents();
-        }
-
-
+        /// <summary>
+        /// Creates game phases
+        /// </summary>
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase,
+                RemoteLifeAndDeathPhase, FinishedPhase>();
 
         /// <summary>
         /// Initializes server
@@ -74,7 +79,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void InitializeServer(IgsConnection serverConnection)
         {
             serverConnection.RegisterConnector(IgsConnector);
-            serverConnection.Events.IncomingInGameChatMessage += Events_IncomingInGameChatMessage;
             IgsConnector.TimeControlShouldAdjust += IgsConnector_TimeControlShouldAdjust;
             IgsConnector.GameScoredAndCompleted += IgsConnector_GameScoredAndCompleted;
             IgsConnector.Disconnected += IgsConnector_Disconnected;
@@ -84,14 +88,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
         private void IgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             this.EndGame(e);
-        }
-
-        private void Events_IncomingInGameChatMessage(object sender, Tuple<IgsGameInfo, Online.Chat.ChatMessage> e)
-        {
-            if (e.Item1.IgsIndex == this.Info.IgsIndex)
-            {
-                OnChatMessageReceived(e.Item2);
-            }
         }
 
         private void IgsConnector_Disconnected(object sender, System.EventArgs e)
@@ -115,26 +111,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             {
                 (this.Players.Black.Clock as CanadianTimeControl).UpdateFrom(e.Black);
                 (this.Players.White.Clock as CanadianTimeControl).UpdateFrom(e.White);
-            }
-        }
-
-        private async void UiConnector_OutgoingChatMessage(object sender, string e)
-        {
-            if (this.Players.Local != null)
-            {
-                if (await Server.Commands.SayAsync(this.Info, e))
-                {
-                    this.OnChatMessageReceived(new Online.Chat.ChatMessage(this.Server.Username, e, DateTimeOffset.Now,
-                        Online.Chat.ChatMessageKind.Outgoing));
-                }
-            }
-            else
-            {
-                if (await Server.Commands.KibitzAsync(this.Info, e))
-                {
-                    this.OnChatMessageReceived(new Online.Chat.ChatMessage(this.Server.Username, e, DateTimeOffset.Now,
-                        Online.Chat.ChatMessageKind.Outgoing));
-                }
             }
         }
     }

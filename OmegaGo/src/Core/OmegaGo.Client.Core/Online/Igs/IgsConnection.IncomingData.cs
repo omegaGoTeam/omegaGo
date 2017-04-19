@@ -215,7 +215,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             weAreHandlingAnInterrupt = true;
                             string whoRanOutOfTime = IgsRegex.WhoRanOutOfTime(igsLine);
-                            foreach(var game in GetGamesIncluding(whoRanOutOfTime).ToList())
+                            foreach (var game in GetGamesIncluding(whoRanOutOfTime).ToList())
                             {
                                 game.Controller.IgsConnector.EndTheGame(
                                     GameEndInformation.CreateTimeout(
@@ -288,7 +288,7 @@ namespace OmegaGo.Core.Online.Igs
                         {
                             weAreHandlingAnInterrupt = true;
                             string person = IgsRegex.ParseIncreaseXTimeByYMinute(igsLine);
-                            foreach(var game in this.GamesYouHaveOpened)
+                            foreach (var game in this.GamesYouHaveOpened)
                             {
                                 if (game.Info.Black.Name == person ||
                                     game.Info.White.Name == person)
@@ -375,8 +375,8 @@ namespace OmegaGo.Core.Online.Igs
                     return;
                 }
                 _incomingMovesAreForThisGame = whatGame;
-                GetConnector(whatGame.Info).TimeControlAdjustment(new IgsTimeControlAdjustmentEventArgs( heading.WhiteTimeRemaining, heading.BlackTimeRemaining));               
-                
+                GetConnector(whatGame.Info).TimeControlAdjustment(new IgsTimeControlAdjustmentEventArgs(heading.WhiteTimeRemaining, heading.BlackTimeRemaining));
+
             }
             else if (trim.Contains("Handicap"))
             {
@@ -415,10 +415,10 @@ namespace OmegaGo.Core.Online.Igs
         {
             if (currentLineBatch.Count > 0)
             {
-               
+
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
-                    
+
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);
                     Modes.LiveGame.Remote.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
@@ -466,7 +466,7 @@ namespace OmegaGo.Core.Online.Igs
                     this.GamesYouHaveOpened.Add(newGame);
                     Events.OnMatchRequestAccepted(newGame);
                 }
-                               
+
                 if (currentLineBatch.Any(line => line.PureLine.Contains("Creating match") && line.Code == IgsCode.Info))
                 {
                     // Make it not be an interrupt and let it be handled by the match creator.
@@ -488,11 +488,11 @@ namespace OmegaGo.Core.Online.Igs
                         }
                     }
                 }
-                
+
                 if (currentLineBatch.Count == 3 && currentLineBatch[0].Code == IgsCode.SayInformation &&
                     currentLineBatch[1].Code == IgsCode.Say)
                 {
-                   
+
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
                     ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
                     IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == gameNumber);
@@ -506,7 +506,7 @@ namespace OmegaGo.Core.Online.Igs
                         chatLine.Text = chatLine.Text.Substring((gameNumber + " ").Length);
                     }
 
-                    Events.OnIncomingInGameChatMessage(relevantGame.Info, chatLine);
+                    GetConnector(relevantGame.Info).ChatMessageFromServer(chatLine);
                 }
 
                 if (currentLineBatch[0].Code == IgsCode.Kibitz &&
@@ -516,10 +516,10 @@ namespace OmegaGo.Core.Online.Igs
                     Tuple<string, int> firstLine = IgsRegex.ParseKibitzHeading(currentLineBatch[0]);
                     string text = currentLineBatch[1].PureLine.Trim();
                     IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == firstLine.Item2);
-                    Events.OnIncomingInGameChatMessage(relevantGame.Info, new Chat.ChatMessage(firstLine.Item1,
+                    GetConnector(relevantGame.Info).ChatMessageFromServer(new ChatMessage(firstLine.Item1,
                         text, DateTimeOffset.Now, ChatMessageKind.Incoming));
                 }
-                
+
                 if (currentLineBatch[0].Code == IgsCode.Tell &&
                     currentLineBatch[0].PureLine.StartsWith("*SYSTEM*") &&
                     currentLineBatch[0].PureLine.EndsWith("requests undo."))
@@ -550,11 +550,11 @@ namespace OmegaGo.Core.Online.Igs
                         GetConnector(gameInfo.Info).ForceMainUndo();
                     }
                 }
-                
+
                 if (currentLineBatch[0].EntireLine.Contains("'done'"))
                 {
                     IgsLine gameHeadingLine = currentLineBatch.Find(line => line.Code == IgsCode.Move);
-                    int gameIndex = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);                   
+                    int gameIndex = IgsRegex.ParseGameNumberFromHeading(gameHeadingLine);
                     _availableConnectors[gameIndex].SetPhaseFromServer(GamePhaseType.LifeDeathDetermination);
                 }
                 if (currentLineBatch.Any(ln => ln.Code == IgsCode.Score))
@@ -567,6 +567,6 @@ namespace OmegaGo.Core.Online.Igs
                 }
             }
         }
-        
+
     }
 }

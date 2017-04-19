@@ -6,66 +6,68 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
     public sealed class ChatViewModel : ControlViewModelBase
     {
-        private IChatService _chatService;
-        private string _messageText;
+        private readonly IChatService _chatService;
 
-        private MvxCommand _sendMessageCommand;
-        
-        public IChatService ChatService
+        private string _messageText = "";
+        private string _humanAuthor;
+
+        private MvxAsyncCommand _sendMessageCommand;
+
+        /// <summary>
+        /// Creates chat
+        /// </summary>
+        /// <param name="chatService"></param>
+        public ChatViewModel(IChatService chatService)
         {
-            get { return _chatService; }
-            set
-            {
-                SetProperty(ref _chatService, value);
-                _chatService.MessageReceived += ChatServiceMessageReceived;
-            }
+            _chatService = chatService;
+            _chatService.NewMessageReceived += ChatService_NewMessageReceived;
+            Messages = new ObservableCollection<ChatMessage>(chatService.Messages);
         }
 
+        public IMvxCommand SendMessageCommand => _sendMessageCommand ?? (_sendMessageCommand = new MvxAsyncCommand(
+                                                     SendMessageAsync,
+                                                     () => !string.IsNullOrEmpty(MessageText)));
+
+        /// <summary>
+        /// All chat messages
+        /// </summary>
         public ObservableCollection<ChatMessage> Messages { get; }
 
+        /// <summary>
+        /// Text of the message
+        /// </summary>
         public string MessageText
         {
             get { return _messageText; }
-            set { SetProperty(ref _messageText, value); SendMessageCommand.RaiseCanExecuteChanged(); }
-        }
-
-        private string _humanAuthor;
-        public string HumanAuthor
-        {
-            get { return _humanAuthor; }
-            set { SetProperty(ref _humanAuthor, value); }
-        }
-
-        public ChatViewModel()
-        {
-            _messageText = "";
-            Messages = new ObservableCollection<ChatMessage>();
-            /*
-            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            Messages.Add(new ChatMessage() { UserName = "Player", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Outgoing, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });
-            Messages.Add(new ChatMessage() { UserName = "Franta Perníkáč", Time = DateTimeOffset.Now, Kind = ChatMessageKind.Incoming, Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mauris et neque facilisis pharetra condimentum ac nisi. Fusce tincidunt a sem eu fermentum. Curabitur volutpat enim turpis, et vulputate diam auctor a" });*/
-        }
-
-        private void ChatServiceMessageReceived(object sender, ChatMessage e)
-        {
-            this.Dispatcher.RequestMainThreadAction(() => Messages.Add(e));
-        }
-
-        
-        //public MvxCommand SendMessageCommand => _sendMessageCommand ?? (_sendMessageCommand = new MvxCommand(() => ChatService.SendMessage(MessageText)));
-        public MvxCommand SendMessageCommand => _sendMessageCommand ?? (_sendMessageCommand = new MvxCommand(
-            () =>
+            set
             {
-                ChatService.SendMessage(MessageText);
-                Messages.Add(new ChatMessage() { Kind = ChatMessageKind.Outgoing, Text = MessageText, Time = DateTimeOffset.Now, UserName = HumanAuthor });
-                MessageText = "";
-            }, 
-            () => MessageText != ""));
+                SetProperty(ref _messageText, value);
+                SendMessageCommand.RaiseCanExecuteChanged();
+            }
+        }             
+
+        /// <summary>
+        /// Handles new incoming chat message
+        /// </summary>
+        private void ChatService_NewMessageReceived(object sender, ChatMessage e)
+        {            
+            Dispatcher.RequestMainThreadAction(() => Messages.Add(e));
+        }
+
+        /// <summary>
+        /// Sends a chat message
+        /// </summary>
+        /// <returns></returns>
+        private async Task SendMessageAsync()
+        {
+            await _chatService.SendMessageAsync(MessageText);            
+            MessageText = "";
+        }
     }
 }

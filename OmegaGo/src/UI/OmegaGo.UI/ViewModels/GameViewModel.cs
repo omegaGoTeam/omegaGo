@@ -56,8 +56,7 @@ namespace OmegaGo.UI.ViewModels
             _phaseStartHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             _phaseEndHandlers = new Dictionary<GamePhaseType, Action<IGamePhase>>();
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
-
-            Game.Controller.RegisterUiConnector(_uiConnector);
+            
             Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);

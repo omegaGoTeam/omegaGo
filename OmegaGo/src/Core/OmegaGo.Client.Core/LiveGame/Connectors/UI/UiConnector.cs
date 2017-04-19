@@ -102,10 +102,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         {
             MainUndoRequested?.Invoke(this, EventArgs.Empty);
         }
-        public void SendChat(string message)
-        {
-            OutgoingChatMessage?.Invoke(this, message);
-        }
 
         /// <summary>
         ///     Initializes agents

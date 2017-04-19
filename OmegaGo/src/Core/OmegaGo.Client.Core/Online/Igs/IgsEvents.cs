@@ -144,14 +144,6 @@ namespace OmegaGo.Core.Online.Igs
             MatchRequestAccepted?.Invoke(this, acceptedGame);
         }
 
-        /// <summary>
-        ///     Fires incoming in-game chat message
-        /// </summary>
-        internal void OnIncomingInGameChatMessage(IgsGameInfo relevantGame, ChatMessage chatLine)
-        {
-            IncomingInGameChatMessage?.Invoke(this, new Tuple<IgsGameInfo, ChatMessage>(relevantGame, chatLine));
-        }
-
         internal void OnUndoRequestReceived(IgsGameInfo game)
         {
             UndoRequestReceived?.Invoke(this, game);
