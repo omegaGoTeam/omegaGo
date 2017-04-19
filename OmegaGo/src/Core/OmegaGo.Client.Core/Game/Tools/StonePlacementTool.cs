@@ -5,7 +5,12 @@ namespace OmegaGo.Core.Game.Tools
     public sealed class StonePlacementTool : IStoneTool
     {
         private GameTreeNode _currentNode;
-        private MoveResult[,] _moveResults; 
+        private MoveResult[,] _moveResults;
+
+        public StonePlacementTool(GameBoardSize boardSize)
+        {
+            _moveResults = new MoveResult[boardSize.Width, boardSize.Height];
+        }
 
         public void Execute(IToolServices toolService)
         {

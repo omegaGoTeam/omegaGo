@@ -237,7 +237,8 @@ namespace OmegaGo.UI.ViewModels
             
             // Now register all available analysis tools for Live Games (observe, local, online)
             AnalyzeViewModel.DeleteBranchTool = new DeleteBranchTool();
-            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool();
+            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool(Game.Controller.GameTree.BoardSize);
+            AnalyzeViewModel.PassTool = new PassTool();
 
             AnalyzeViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
             AnalyzeViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
