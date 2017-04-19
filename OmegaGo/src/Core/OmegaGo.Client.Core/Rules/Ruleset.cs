@@ -14,6 +14,8 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public abstract class Ruleset : IRuleset
     {
+        public IRulesetInfo RulesetInfo { get; private set; }
+
         /// <summary>
         /// Factory method that creates a ruleset of given type and gameboard size
         /// </summary>
@@ -69,7 +71,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        public abstract Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions);
+        public abstract Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
@@ -97,8 +99,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="groupState">State of groups to use.</param>
         public void SetRulesetInfo(GameBoard boardState, GroupState groupState)
         {
-            RulesetInfo.GroupState = groupState;
-            RulesetInfo.BoardState = boardState;
+            RulesetInfo.SetState(boardState, groupState);
         }
 
         /// <summary>
@@ -128,8 +129,8 @@ namespace OmegaGo.Core.Rules
             GameBoard previousBoard, currentBoard;
             if (currentNode == null)
             {
-                previousGroupState = new GroupState(RulesetInfo.BoardSize);
-                currentGroupState = new GroupState(RulesetInfo.BoardSize);
+                previousGroupState = new GroupState(RulesetInfo);
+                currentGroupState = new GroupState(RulesetInfo);
                 previousBoard = new GameBoard(RulesetInfo.BoardSize);
                 currentBoard = new GameBoard(RulesetInfo.BoardSize);
             }
@@ -137,8 +138,8 @@ namespace OmegaGo.Core.Rules
             {
                 history = currentNode.GetGameBoardHistory().ToArray();
                 //set Ruleset state
-                previousGroupState = new GroupState(currentNode.GroupState);
-                currentGroupState = new GroupState(currentNode.GroupState);
+                previousGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
+                currentGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
                 previousBoard = new GameBoard(currentNode.BoardState);
                 currentBoard = new GameBoard(currentNode.BoardState);
             }
@@ -192,8 +193,7 @@ namespace OmegaGo.Core.Rules
                 }
                 else
                 {
-                    RulesetInfo.BoardState = previousBoard;
-                    RulesetInfo.GroupState = previousGroupState;
+                    SetRulesetInfo(previousBoard, previousGroupState);
                 }
 
                 processingResult.Result = r;
@@ -224,9 +224,8 @@ namespace OmegaGo.Core.Rules
                 for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
                 {
                     //set Ruleset state
-                    RulesetInfo.GroupState = new GroupState(currentNode.GroupState);
-                    RulesetInfo.BoardState = new GameBoard(currentNode.BoardState);
-
+                    SetRulesetInfo(new GameBoard(currentNode.BoardState), new GroupState(currentNode.GroupState, RulesetInfo));
+                    
                     Move move = Move.PlaceStone(player, new Position(x, y));
                     if (IsPositionOccupied(new Position(x,y)) == MoveResult.OccupiedPosition)
                     {
@@ -249,8 +248,7 @@ namespace OmegaGo.Core.Rules
                     }
                 }
 
-            RulesetInfo.GroupState = new GroupState(currentNode.GroupState);
-            RulesetInfo.BoardState = new GameBoard(currentNode.BoardState);
+            SetRulesetInfo(new GameBoard(currentNode.BoardState), new GroupState(currentNode.GroupState, RulesetInfo));
             
             return moveResults;
         }
@@ -282,7 +280,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="board">The current game board.</param>
         public Territory[,] DetermineTerritory(GameBoard board)
         {
-            RulesetInfo.BoardState = new GameBoard(board);
+            RulesetInfo.SetBoard(board);
 
             Territory[,] regions = new Territory[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
             for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
@@ -327,9 +325,10 @@ namespace OmegaGo.Core.Rules
         /// <param name="gbSize">Size of the game board.</param>
         protected Ruleset(GameBoardSize gbSize)
         {
+            RulesetInfo = new RulesetInfo(gbSize);
             GameBoard newBoard = new GameBoard(gbSize);
-            GroupState groupState = new GroupState(gbSize);
-            RulesetInfo rulesetInfo = new RulesetInfo(gbSize, newBoard, groupState);
+            GroupState groupState = new GroupState(RulesetInfo);
+            
         }
         
         /// <summary>
@@ -715,7 +714,7 @@ namespace OmegaGo.Core.Rules
         /// <returns>The score of players, which includes number of prisoners and dead stones yet.</returns>
         private Scores GetRegionScores(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
         {
-            RulesetInfo.BoardState = currentNode.BoardState.BoardWithoutTheseStones(deadPositions);
+            RulesetInfo.SetBoard(currentNode.BoardState.BoardWithoutTheseStones(deadPositions));
 
             Scores scores = new Scores(0, 0);
             Territory[,] regions = DetermineTerritory(RulesetInfo.BoardState);

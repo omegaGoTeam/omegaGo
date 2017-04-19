@@ -40,7 +40,6 @@ namespace OmegaGo.Core.Rules
                 compensation = 0.5f + handicapStoneCount - 1;
             else if (handicapStoneCount > 0 && cType == CountingType.Territory)
                 compensation = 0.5f;
-            RulesetInfo.Komi = compensation;
             return compensation;
         }
 
@@ -51,7 +50,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions)
+        public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi)
         {
             Scores scores;
             if (_countingType == CountingType.Area)
@@ -70,7 +69,7 @@ namespace OmegaGo.Core.Rules
                         scores.BlackScore++;
                 }
 
-            scores.WhiteScore += RulesetInfo.Komi;
+            scores.WhiteScore += komi;
             return scores;
         }
         

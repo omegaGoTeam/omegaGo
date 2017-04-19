@@ -10,6 +10,8 @@ namespace OmegaGo.Core.Rules
 {
     public interface IRuleset
     {
+        IRulesetInfo RulesetInfo { get; }
+
         /// <summary>
         /// There are two ways to score. One is based on territory, the other on area.
         /// This method uses the appropriate counting method according to the used ruleset and players' agreement.
@@ -17,7 +19,7 @@ namespace OmegaGo.Core.Rules
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
         /// <returns>The score of players.</returns>
-        Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions);
+        Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi);
 
         /// <summary>
         /// Places a handicap stone on the board. Verifies the legality of move (occupied position, outside the board).
