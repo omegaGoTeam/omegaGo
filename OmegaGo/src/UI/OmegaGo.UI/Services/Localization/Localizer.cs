@@ -1347,6 +1347,182 @@ namespace OmegaGo.UI.Services.Localization
 		/// Your move
 		/// </summary>
 		public string YourMove => LocalizeCaller();
+		/// <summary>
+		/// Time (minutes):
+		/// </summary>
+		public string AbsoluteTimeLabel => LocalizeCaller();
+		/// <summary>
+		/// Minutes per period:
+		/// </summary>
+		public string CanadianMinutesPerPeriodLabel => LocalizeCaller();
+		/// <summary>
+		/// Moves per period:
+		/// </summary>
+		public string CanadianMovesPerPeriodLabel => LocalizeCaller();
+		/// <summary>
+		/// Number of periods:
+		/// </summary>
+		public string JapaneseNumberOfPeriodsLabel => LocalizeCaller();
+		/// <summary>
+		/// Seconds per period:
+		/// </summary>
+		public string JapaneseSecondsPerPeriodLabel => LocalizeCaller();
+		/// <summary>
+		/// Main time (minutes):
+		/// </summary>
+		public string MainTimeLabel => LocalizeCaller();
+		/// <summary>
+		/// Absolute
+		/// </summary>
+		public string TimeControlStyle_Absolute => LocalizeCaller();
+		/// <summary>
+		/// Canadian byo-yomi
+		/// </summary>
+		public string TimeControlStyle_Canadian => LocalizeCaller();
+		/// <summary>
+		/// Japanese byo-yomi
+		/// </summary>
+		public string TimeControlStyle_Japanese => LocalizeCaller();
+		/// <summary>
+		/// None
+		/// </summary>
+		public string TimeControlStyle_None => LocalizeCaller();
+		/// <summary>
+		/// Absolute Timing.
+		/// </summary>
+		public string Time_Absolute_Caption => LocalizeCaller();
+		/// <summary>
+		/// When a player's time elapses, that player loses immediately.
+		/// </summary>
+		public string Time_Absolute_Description => LocalizeCaller();
+		/// <summary>
+		/// Absolute ({0} minutes)
+		/// </summary>
+		public string Time_Absolute_Oneline => LocalizeCaller();
+		/// <summary>
+		/// Canadian Timing.
+		/// </summary>
+		public string Time_Canadian_Caption => LocalizeCaller();
+		/// <summary>
+		/// Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.
+		/// </summary>
+		public string Time_Canadian_Description => LocalizeCaller();
+		/// <summary>
+		/// Canadian ({0}, then {1}/{2} min)
+		/// </summary>
+		public string Time_Canadian_Oneline => LocalizeCaller();
+		/// <summary>
+		/// Japanese Timing.
+		/// </summary>
+		public string Time_Japanese_Caption => LocalizeCaller();
+		/// <summary>
+		/// Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.
+		/// </summary>
+		public string Time_Japanese_Description => LocalizeCaller();
+		/// <summary>
+		/// Japanese ({0}, then {1}x{2}sec)
+		/// </summary>
+		public string Time_Japanese_Oneline => LocalizeCaller();
+		/// <summary>
+		/// No Time Control.
+		/// </summary>
+		public string Time_None_Caption => LocalizeCaller();
+		/// <summary>
+		/// There is no time limit for either player.
+		/// </summary>
+		public string Time_None_Description => LocalizeCaller();
+		/// <summary>
+		/// No time control.
+		/// </summary>
+		public string Time_None_Oneline => LocalizeCaller();
+		/// <summary>
+		/// Local human player
+		/// </summary>
+		public string Human => LocalizeCaller();
+		/// <summary>
+		/// This means that you (or a friend) will play this color on this device.
+		/// </summary>
+		public string HumanDescription => LocalizeCaller();
+		/// <summary>
+		/// Connecting...
+		/// </summary>
+		public string IgsLoginPhase_Connecting => LocalizeCaller();
+		/// <summary>
+		/// Done.
+		/// </summary>
+		public string IgsLoginPhase_Done => LocalizeCaller();
+		/// <summary>
+		/// Logging in...
+		/// </summary>
+		public string IgsLoginPhase_LoggingIn => LocalizeCaller();
+		/// <summary>
+		/// Downloading the list of games...
+		/// </summary>
+		public string IgsLoginPhase_RefreshingGames => LocalizeCaller();
+		/// <summary>
+		/// Downloading the list of users...
+		/// </summary>
+		public string IgsLoginPhase_RefreshingUsers => LocalizeCaller();
+		/// <summary>
+		/// Explaining our capabilities to Pandanet...
+		/// </summary>
+		public string IgsLoginPhase_SendingInitialBurst => LocalizeCaller();
+		/// <summary>
+		/// Done.
+		/// </summary>
+		public string KgsLoginPhase_Done => LocalizeCaller();
+		/// <summary>
+		/// Joining global games and challenges list...
+		/// </summary>
+		public string KgsLoginPhase_JoiningGlobalLists => LocalizeCaller();
+		/// <summary>
+		/// Logging in...
+		/// </summary>
+		public string KgsLoginPhase_MakingLoginRequest => LocalizeCaller();
+		/// <summary>
+		/// Requesting room names...
+		/// </summary>
+		public string KgsLoginPhase_RequestingRoomNames => LocalizeCaller();
+		/// <summary>
+		/// Starting GET loop...
+		/// </summary>
+		public string KgsLoginPhase_StartingGetLoop => LocalizeCaller();
+		/// <summary>
+		/// Reward:
+		/// </summary>
+		public string RewardColon => LocalizeCaller();
+		/// <summary>
+		/// In online games, show 1 less second remaining on the clock.
+		/// </summary>
+		public string UseGraceSecond => LocalizeCaller();
+		/// <summary>
+		/// Main menu
+		/// </summary>
+		public string MainMenu => LocalizeCaller();
+		/// <summary>
+		/// New game
+		/// </summary>
+		public string NewGame => LocalizeCaller();
+		/// <summary>
+		/// Observing
+		/// </summary>
+		public string Observing => LocalizeCaller();
+		/// <summary>
+		/// Go back
+		/// </summary>
+		public string GoBack => LocalizeCaller();
+		/// <summary>
+		/// Are you sure?
+		/// </summary>
+		public string AreYouSure => LocalizeCaller();
+		/// <summary>
+		/// Are you sure you want to end the game?
+		/// </summary>
+		public string AreYouSureYouWantToEndTheGame => LocalizeCaller();
+		/// <summary>
+		/// Solved
+		/// </summary>
+		public string Solved => LocalizeCaller();
 
         // 
         // This file is auto-generated by LocalizerGenerator.

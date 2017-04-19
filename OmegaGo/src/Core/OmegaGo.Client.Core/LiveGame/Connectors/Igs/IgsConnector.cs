@@ -124,8 +124,14 @@ so I thought suppressing warnings would have the same result.*/
         {
             var player = _gameController.Players[resigningPlayerColor];
             var igsAgent = player.Agent as IgsAgent;
-            if (igsAgent == null) throw new ArgumentException("Resignation from server was not for an IGS player", nameof(resigningPlayerColor));
-            igsAgent.ResignationFromServer();
+            if (igsAgent == null)
+            {
+                // Do nothing. We already know we have resigned.
+            }
+            else
+            {
+                igsAgent.ResignationFromServer();
+            }
         }
 
         /// <summary>
@@ -188,11 +194,6 @@ so I thought suppressing warnings would have the same result.*/
             LifeDeathUndoDeathMarksForced?.Invoke(this, EventArgs.Empty);
         }
 
-        public void ScoreGame(GameScoreEventArgs gameScoreEventArgs)
-        {
-            GameScoredAndCompleted?.Invoke(this, gameScoreEventArgs);
-        }
-
         public void ForceMainUndo()
         {
             MainUndoForced?.Invoke(this, EventArgs.Empty);
@@ -205,6 +206,7 @@ so I thought suppressing warnings would have the same result.*/
         public void EndTheGame(GameEndInformation gameEndInfo)
         {
             GameEndedByServer?.Invoke(this, gameEndInfo);
+            _connnection.DestroyGame(_gameController.Info);
         }
 
         protected virtual void OnNewChatMessageReceived(ChatMessage e)

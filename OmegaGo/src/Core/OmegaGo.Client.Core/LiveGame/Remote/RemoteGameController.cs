@@ -40,5 +40,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         /// Gets the remote game info
         /// </summary>
         internal new RemoteGameInfo Info { get; }
+
+        protected override void LocalResignationHappened(GamePlayer resignor)
+        {
+            if (resignor.IsLocal)
+            {
+                this.Server.Commands.Resign(this.Info);
+            }
+        }
     }
 }

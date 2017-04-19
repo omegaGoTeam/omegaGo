@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Services.Store.Engagement;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.Core.Annotations;
 using OmegaGo.UI.Controls.Themes;
 using OmegaGo.UI.Game.Styles;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.Localization;
@@ -23,6 +28,8 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
+using OmegaGo.UI.WindowsUniversal.Helpers.Device;
+using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
 using OmegaGo.UI.WindowsUniversal.Views;
@@ -35,6 +42,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
     /// </summary>
     public sealed partial class AppShell : Page, INotifyPropertyChanged
     {
+        private const double MinimumTouchAreaSize = 44;
+
         /// <summary>
         /// Contains the app shells for opened windows
         /// </summary>
@@ -45,11 +54,20 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private IGameSettings _settings;
         private IFeedbackService _feedback;
 
+        private Localizer _localizer;
+
         private AppShell(Window window)
         {
             if (window.Content != null) throw new ArgumentException("App shell can be registered only for Window with empty content", nameof(window));
+
             this.InitializeComponent();
+
             window.Content = this;
+
+            TabManager = new TabManager(this);
+
+            DataContext = this;
+
             AppShells.Add(window, this);
 
             InitNavigation();
@@ -63,42 +81,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Manager of tabs
+        /// </summary>
+        public TabManager TabManager { get; }
 
         /// <summary>
-        /// Gets or sets text in the title bar of the window
+        /// Localizer for the app shell
         /// </summary>
-        public string WindowTitle
-        {
-            get { return PageTitle.Text; }
-            set { PageTitle.Text = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets icon next to the title bar of the window
-        /// </summary>
-        public Uri WindowTitleIconUri
-        {
-            get
-            {
-                return PageIcon.UriSource;
-            }
-            set
-            {
-                if (PageIcon.UriSource != value)
-                {
-                    PageIcon.UriSource = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the visibility of the back button in the title bar
-        /// </summary>
-        public Visibility TitleBarBackButtonVisibility
-        {
-            get { return BackButton.Visibility; }
-            set { BackButton.Visibility = value; }
-        }
+        public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
         /// Bubble notifications displayed in in the shell
@@ -168,10 +159,11 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         public FrameworkElement AppTitleBar => TitleBar;
 
+
         /// <summary>
         /// Main frame that hosts app views
         /// </summary>
-        public Frame AppFrame => MainFrame;
+        public Frame UnderlyingFrame => MainFrame;
 
         /// <summary>
         /// Creates and registers a App Shell for a given Window
@@ -203,6 +195,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundColor));
             OnPropertyChanged(nameof(BackgroundImageUrl));
             OnPropertyChanged(nameof(AppTheme));
+            UpdateTitleBarVisualSettings();
         }
 
         /// <summary>
@@ -210,6 +203,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         public void SetupCustomTitleBar()
         {
+            UpdateTitleBarVisualSettings();
             CoreApplicationViewTitleBar coreTitleBarAppView = CoreApplication.GetCurrentView().TitleBar;
             UpdateTitleBarVisibility();
 
@@ -219,6 +213,8 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             coreTitleBarAppView.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DraggableTitleBarArea);
             Window.Current.Activated += WindowTitleBarActivationHandler;
+            Window.Current.SizeChanged += Window_SizeChanged;
+            UpdateTitleBarLayout();
         }
 
         /// <summary>
@@ -227,14 +223,23 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// <returns>Was back navigation handled?</returns>
         public bool GoBack()
         {
-            if (AppFrame.CanGoBack)
+            if (UnderlyingFrame.CanGoBack)
             {
-                var view = AppFrame.Content as ViewBase;
+                var view = UnderlyingFrame.Content as ViewBase;
                 var vm = view?.ViewModel as ViewModelBase;
                 vm?.GoBackCommand.Execute(null);
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Gets or sets if the app shell is in focus mode
+        /// </summary>
+        public bool FocusModeOn
+        {
+            get { return TitleBar.Visibility == Visibility.Collapsed; }
+            set { TitleBar.Visibility = value ? Visibility.Collapsed : Visibility.Visible; }
         }
 
         //TODO Martin: Move to a separate control along with the UI
@@ -246,6 +251,34 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             BubbleNotifications.Add(notification);
             notification.FirstAppeared = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Toggles funny easter egg ;-)
+        /// </summary>
+        public void ToggleEasterEgg()
+        {
+            AppShellRotateTransform.Angle = Math.Abs(AppShellRotateTransform.Angle) < 0.01 ? 180 : 0;
+        }
+
+        /// <summary>
+        /// Updates title bar's visual setttings to match the requested element theme
+        /// </summary>
+        private void UpdateTitleBarVisualSettings()
+        {
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = Colors.DodgerBlue;
+            titleBar.ButtonPressedBackgroundColor = Colors.LightBlue;
+            titleBar.ButtonHoverForegroundColor = Colors.White; ;
+            titleBar.ButtonPressedForegroundColor = Colors.Black; ;
+            titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
+            titleBar.ForegroundColor = AppTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            titleBar.InactiveForegroundColor = Colors.DimGray;
+            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
         }
 
         /// <summary>
@@ -282,35 +315,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         /// <summary>
-        /// Synchronizes the title bar with the currently displayed view
-        /// </summary>
-        private void AppFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            var view = AppFrame.Content as ViewBase;
-
-            //update title bar back button visibility
-            TitleBarBackButtonVisibility = AppFrame.CanGoBack ?
-                Visibility.Visible :
-                Visibility.Collapsed;
-
-            if (view != null)
-            {
-                WindowTitleIconUri = view.WindowTitleIconUri;
-                var appView = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView();
-                var title = view.WindowTitle;
-                WindowTitle = title;
-                appView.Title = title;
-            }
-        }
-
-        /// <summary>
         /// Initializes navigation features
         /// </summary>
         private void InitNavigation()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
             Window.Current.CoreWindow.KeyUp += EscapingHandling;
-            AppFrame.Navigated += AppFrame_Navigated;
         }
 
 
@@ -331,27 +341,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void EscapingHandling(CoreWindow sender, KeyEventArgs args)
+        private void EscapingHandling(CoreWindow sender, KeyEventArgs args)
         {
             if (args.VirtualKey == Windows.System.VirtualKey.Escape)
             {
-                var view = AppFrame.Content as MainMenuView;
-                if (!AppFrame.CanGoBack && view != null)
-                {
-                    var localizer = (Localizer)Mvx.Resolve<ILocalizationService>();
-                    var dialogService = Mvx.Resolve<IDialogService>();
-                    if (await dialogService.ShowConfirmationDialogAsync(
-                        localizer.QuitText, localizer.QuitCaption, localizer.QuitConfirm, localizer.QuitCancel))
-                    {
-                        Application.Current.Exit();
-                    }
-                }
-                else if (!args.Handled)
-                {
-                    args.Handled = true;
-                    //handle back navigation as usual
-                    GoBack();
-                }
+                //let the tab manager handle global back navigation
+                TabManager.HandleGlobalBackNavigation();
             }
         }
 
@@ -371,6 +366,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         {
             AppTitleBar.Height = sender.Height;
             RightTitleBarMask.Width = sender.SystemOverlayRightInset;
+            UpdateTitleBarLayout();
         }
 
         /// <summary>
@@ -386,18 +382,9 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void UpdateTitleBarVisibility()
         {
-            AppTitleBar.Visibility = CoreApplication.GetCurrentView().TitleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Handles the click on the title bar back button
-        /// Causes back navigation request
-        /// </summary>
-        private void TitleBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            var view = AppFrame.Content as ViewBase;
-            var vm = view?.ViewModel as ViewModelBase;
-            vm?.GoBackCommand.Execute();
+            var visible = CoreApplication.GetCurrentView().TitleBar.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+            FeedbackButton.Visibility = visible;
+            RightTitleBarMask.Visibility = visible;
         }
 
         /// <summary>
@@ -405,9 +392,36 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void CloseNotification_Click(object sender, RoutedEventArgs e)
         {
-            BubbleNotifications.Remove(
-                ((BubbleNotification)((Button)sender).Tag)
-                );
+            BubbleNotifications.Remove((BubbleNotification)((Button)sender).Tag);
+        }
+
+
+        /// <summary>
+        /// Handles feedback button
+        /// </summary>
+        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
+            await _feedback.LaunchAsync();
+        }
+
+        /// <summary>
+        /// Opens a new main menu tab
+        /// </summary>
+        private void NewTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            TabManager.ProcessViewModelRequest(
+                new MvxViewModelRequest(
+                    typeof(MainMenuViewModel), new MvxBundle(), new MvxBundle(), MvxRequestedBy.UserAction),
+                TabNavigationType.NewForegroundTab);
+        }
+
+        /// <summary>
+        /// Creates shared resources for Win2D rendering
+        /// </summary>
+        private void PersistentHolderCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        {
+            args.TrackAsyncAction(RenderService.CreateResourcesAsync(sender).AsAsyncAction());
         }
 
         [NotifyPropertyChangedInvocator]
@@ -422,15 +436,23 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             Cheats.Initialize();
         }
 
-        private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            _feedback = _feedback ?? Mvx.Resolve<IFeedbackService>();
-            await _feedback.LaunchAsync();
+            UpdateTitleBarLayout();
         }
 
-        private void PersistentHolderCanvas_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        private void UpdateTitleBarLayout()
         {
-            args.TrackAsyncAction(RenderService.CreateResourcesAsync(sender).AsAsyncAction());
+            if (DeviceFamilyHelper.DeviceFamily == DeviceFamily.Desktop)
+            {
+                var minRightContentWidth = RightTitleBarMask.Width + FeedbackButton.ActualWidth +
+                                           MinimumTouchAreaSize; //leeway for dragging
+                TabListContainer.MaxWidth = Window.Current.Bounds.Width - minRightContentWidth;
+            }
+            else
+            {
+                TabListContainer.MaxWidth = Window.Current.Bounds.Width;
+            }
         }
     }
 }

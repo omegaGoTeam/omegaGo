@@ -9,5 +9,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
 {
     public class ControlViewModelBase : MvxViewModel
     {
+         
     }
 }

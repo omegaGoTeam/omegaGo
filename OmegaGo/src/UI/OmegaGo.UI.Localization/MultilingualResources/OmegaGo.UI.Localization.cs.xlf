@@ -1340,6 +1340,182 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Stone Removal Phase</source>
           <target state="translated">Fáze odstranění kamenů</target>
         </trans-unit>
+        <trans-unit id="AbsoluteTimeLabel" translate="yes" xml:space="preserve">
+          <source>Time (minutes):</source>
+          <target state="translated">Čas (v minutách):</target>
+        </trans-unit>
+        <trans-unit id="CanadianMinutesPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Minutes per period:</source>
+          <target state="translated">Minut na periodu:</target>
+        </trans-unit>
+        <trans-unit id="CanadianMovesPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Moves per period:</source>
+          <target state="translated">Tahů za periodu:</target>
+        </trans-unit>
+        <trans-unit id="JapaneseNumberOfPeriodsLabel" translate="yes" xml:space="preserve">
+          <source>Number of periods:</source>
+          <target state="translated">Počet period:</target>
+        </trans-unit>
+        <trans-unit id="JapaneseSecondsPerPeriodLabel" translate="yes" xml:space="preserve">
+          <source>Seconds per period:</source>
+          <target state="translated">Sekund na periodu:</target>
+        </trans-unit>
+        <trans-unit id="MainTimeLabel" translate="yes" xml:space="preserve">
+          <source>Main time (minutes):</source>
+          <target state="translated">Hlavní čas (v minutách):</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Absolute" translate="yes" xml:space="preserve">
+          <source>Absolute</source>
+          <target state="translated">Absolutní</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Canadian" translate="yes" xml:space="preserve">
+          <source>Canadian byo-yomi</source>
+          <target state="translated">Kanadské bjó-jomi</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_Japanese" translate="yes" xml:space="preserve">
+          <source>Japanese byo-yomi</source>
+          <target state="translated">Japonské bjó-jomi</target>
+        </trans-unit>
+        <trans-unit id="TimeControlStyle_None" translate="yes" xml:space="preserve">
+          <source>None</source>
+          <target state="translated">Žádný</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Caption" translate="yes" xml:space="preserve">
+          <source>Absolute Timing.</source>
+          <target state="translated">Absolutní časování.</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Description" translate="yes" xml:space="preserve">
+          <source>When a player's time elapses, that player loses immediately.</source>
+          <target state="translated">Když hráčův čas uplyne, tak hráč okamžitě prohraje.</target>
+        </trans-unit>
+        <trans-unit id="Time_Absolute_Oneline" translate="yes" xml:space="preserve">
+          <source>Absolute ({0} minutes)</source>
+          <target state="translated">Absolutní ({0} minut)</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Caption" translate="yes" xml:space="preserve">
+          <source>Canadian Timing.</source>
+          <target state="translated">Kanadské bjó-jomi.</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Description" translate="yes" xml:space="preserve">
+          <source>Each player has a main time. When that elapses, the player enters their first "overtime period" and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.</source>
+          <target state="translated">Každý hráč má hlavní čas. Až ten uplyne, hráč se přesune do své první "přesčasové periody" a musí učinit množství tahů (typicky 25) do určitého množství minut, jinak prohraje po uplynutí poslední minuty. Pokud učiní všechny tahy včas, tak zbývající čas je ztracen, ale ihned pro toho hráče začne nová perioda přesčasu.</target>
+        </trans-unit>
+        <trans-unit id="Time_Canadian_Oneline" translate="yes" xml:space="preserve">
+          <source>Canadian ({0}, then {1}/{2} min)</source>
+          <target state="translated">Kanadské ({0}, pak {1}/{2} min)</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Caption" translate="yes" xml:space="preserve">
+          <source>Japanese Timing.</source>
+          <target state="translated">Japonské bjó-jomi.</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Description" translate="yes" xml:space="preserve">
+          <source>Each player has a main time. When that elapses, the player has a number of overtime periods. When the last elapses, the player loses. Whenever the player makes a move, their current overtime period "resets", i.e. if you don't spend the entire period, the whole period remains unspent.</source>
+          <target state="translated">Každý hráč má hlavní čas. Až ten uplyne, má pak několik period přesčasu. Až poslední uplyne, hráč prohraje. Kdykoliv hráč udělá tah, tak jeho současná period přesčasu se "resetuje", tj. pokud nepoužijete celou periodu, tak se na ni hledí, jako by nebyla použitá vůbec.</target>
+        </trans-unit>
+        <trans-unit id="Time_Japanese_Oneline" translate="yes" xml:space="preserve">
+          <source>Japanese ({0}, then {1}x{2}sec)</source>
+          <target state="translated">Japonské ({0}, pak {1}x{2}sek)</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Caption" translate="yes" xml:space="preserve">
+          <source>No Time Control.</source>
+          <target state="translated">Žádný časový systém.</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Description" translate="yes" xml:space="preserve">
+          <source>There is no time limit for either player.</source>
+          <target state="translated">Žádný hráč není omezen časovým limitem.</target>
+        </trans-unit>
+        <trans-unit id="Time_None_Oneline" translate="yes" xml:space="preserve">
+          <source>No time control.</source>
+          <target state="translated">Žádný časový systém.</target>
+        </trans-unit>
+        <trans-unit id="Human" translate="yes" xml:space="preserve">
+          <source>Local human player</source>
+          <target state="translated">Místní hráč</target>
+        </trans-unit>
+        <trans-unit id="HumanDescription" translate="yes" xml:space="preserve">
+          <source>This means that you (or a friend) will play this color on this device.</source>
+          <target state="translated">Toto znamená, že ty (anebo někdo vedle tebe) bude hrát za tuto barvu na tomto zařízení.</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_Connecting" translate="yes" xml:space="preserve">
+          <source>Connecting...</source>
+          <target state="translated">Připojování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_LoggingIn" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingGames" translate="yes" xml:space="preserve">
+          <source>Downloading the list of games...</source>
+          <target state="translated">Stahování seznamu her...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_RefreshingUsers" translate="yes" xml:space="preserve">
+          <source>Downloading the list of users...</source>
+          <target state="translated">Stahování seznamu uživatelů...</target>
+        </trans-unit>
+        <trans-unit id="IgsLoginPhase_SendingInitialBurst" translate="yes" xml:space="preserve">
+          <source>Explaining our capabilities to Pandanet...</source>
+          <target state="translated">Vysvětlování našich schopností Pandanetu...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_Done" translate="yes" xml:space="preserve">
+          <source>Done.</source>
+          <target state="translated">Hotovo.</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_MakingLoginRequest" translate="yes" xml:space="preserve">
+          <source>Logging in...</source>
+          <target state="translated">Přihlašování...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_RequestingRoomNames" translate="yes" xml:space="preserve">
+          <source>Requesting room names...</source>
+          <target state="translated">Požadavek na názvy pokojů...</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_StartingGetLoop" translate="yes" xml:space="preserve">
+          <source>Starting GET loop...</source>
+          <target state="translated">Spuštění smyčky GET...</target>
+        </trans-unit>
+        <trans-unit id="RewardColon" translate="yes" xml:space="preserve">
+          <source>Reward:</source>
+          <target state="translated">Odměna:</target>
+        </trans-unit>
+        <trans-unit id="UseGraceSecond" translate="yes" xml:space="preserve">
+          <source>In online games, show 1 less second remaining on the clock.</source>
+          <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
+        </trans-unit>
+        <trans-unit id="MainMenu" translate="yes" xml:space="preserve">
+          <source>Main menu</source>
+          <target state="translated">Hlavní menu</target>
+        </trans-unit>
+        <trans-unit id="NewGame" translate="yes" xml:space="preserve">
+          <source>New game</source>
+          <target state="new">New game</target>
+        </trans-unit>
+        <trans-unit id="Observing" translate="yes" xml:space="preserve">
+          <source>Observing</source>
+          <target state="new">Observing</target>
+        </trans-unit>
+        <trans-unit id="GoBack" translate="yes" xml:space="preserve">
+          <source>Go back</source>
+          <target state="new">Go back</target>
+        </trans-unit>
+        <trans-unit id="AreYouSure" translate="yes" xml:space="preserve">
+          <source>Are you sure?</source>
+          <target state="new">Are you sure?</target>
+        </trans-unit>
+        <trans-unit id="AreYouSureYouWantToEndTheGame" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to end the game?</source>
+          <target state="new">Are you sure you want to end the game?</target>
+        </trans-unit>
+        <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
+          <source>Joining global games and challenges list...</source>
+          <target state="new">Joining global games and challenges list...</target>
+        </trans-unit>
+        <trans-unit id="Solved" translate="yes" xml:space="preserve">
+          <source>Solved</source>
+          <target state="new">Solved</target>
+        </trans-unit>
       </group>
     </body>
   </file>

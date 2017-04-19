@@ -68,6 +68,41 @@ namespace OmegaGo.Core.Sgf.Parsing
         }
 
         /// <summary>
+        /// Parses a SGF game tree
+        /// </summary>
+        /// <param name="input">Input</param>
+        /// <param name="inputPosition">Current input position</param>
+        /// <returns>SGF game tree</returns>
+        private SgfGameTree ParseGameTree(string input, ref int inputPosition)
+        {
+            if (input[inputPosition] != '(')
+                throw new SgfParseException($"No gameTree node found on input position {inputPosition}");
+
+            inputPosition++;
+            SkipInputWhitespace(input, ref inputPosition);
+
+            //parse sequence            
+            SgfSequence sequence = ParseSequence(input, ref inputPosition);
+            SkipInputWhitespace(input, ref inputPosition);
+
+            //parse children
+            List<SgfGameTree> children = new List<SgfGameTree>();
+            while (inputPosition < input.Length && input[inputPosition] == '(')
+            {
+                SgfGameTree child = ParseGameTree(input, ref inputPosition);
+                children.Add(child);
+                SkipInputWhitespace(input, ref inputPosition);
+            }
+
+            //check proper ending of the game tree
+            if (inputPosition == input.Length || input[inputPosition] != ')')
+                throw new SgfParseException($"SGF gameTree was not properly terminated with ) at {inputPosition}");
+            inputPosition++;
+
+            return new SgfGameTree(sequence, children);
+        }
+
+        /// <summary>
         /// Parses a SGF sequence
         /// </summary>
         /// <param name="input">Input</param>
@@ -180,41 +215,6 @@ namespace OmegaGo.Core.Sgf.Parsing
             }
             inputPosition++;
             return valueBuilder.ToString();
-        }
-
-        /// <summary>
-        /// Parses a SGF game tree
-        /// </summary>
-        /// <param name="input">Input</param>
-        /// <param name="inputPosition">Current input position</param>
-        /// <returns>SGF game tree</returns>
-        private SgfGameTree ParseGameTree(string input, ref int inputPosition)
-        {
-            if (input[inputPosition] != '(')
-                throw new SgfParseException($"No gameTree node found on input position {inputPosition}");
-
-            inputPosition++;
-            SkipInputWhitespace(input, ref inputPosition);
-
-            //parse sequence            
-            SgfSequence sequence = ParseSequence(input, ref inputPosition);
-            SkipInputWhitespace(input, ref inputPosition);
-
-            //parse children
-            List<SgfGameTree> children = new List<SgfGameTree>();
-            while (inputPosition < input.Length && input[inputPosition] == '(')
-            {
-                SgfGameTree child = ParseGameTree(input, ref inputPosition);
-                children.Add(child);
-                SkipInputWhitespace(input, ref inputPosition);
-            }
-
-            //check proper ending of the game tree
-            if (inputPosition == input.Length || input[inputPosition] != ')')
-                throw new SgfParseException($"SGF gameTree was not properly terminated with ) at {inputPosition}");
-            inputPosition++;
-
-            return new SgfGameTree(sequence, children);
         }
 
         /// <summary>

@@ -1,9 +1,11 @@
 ﻿using OmegaGo.UI.UserControls.ViewModels;
 using System.Linq;
+using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
+using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
@@ -28,7 +30,7 @@ namespace OmegaGo.UI.ViewModels
 
         public override async void Init()
         {
-            Game.Controller.BeginGame();
+            Game.Controller.BeginGame();            
             UpdateTimeline();
 
             string gameName = (this.Game.Info as IgsGameInfo)?.GameName;
@@ -41,6 +43,11 @@ namespace OmegaGo.UI.ViewModels
 
                 await this.DialogService.ShowAsync(contents, "You are observing a professional game.");
             }
+        }
+
+        public override void Appearing()
+        {            
+            TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.Observing})";
         }
 
         protected override void OnCurrentNodeStateChanged()

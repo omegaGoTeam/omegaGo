@@ -18,10 +18,10 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Creates a game tree with a given ruleset
         /// </summary>
-        /// <param name="ruleset">Ruleset instance</param>
-        public GameTree(IRuleset ruleset)
+        public GameTree(IRuleset ruleset, GameBoardSize boardSize)
         {
             Ruleset = ruleset;
+            BoardSize = boardSize;
         }
 
         /// <summary>
@@ -37,12 +37,12 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Primary timeline length
         /// </summary>
-        public int PrimaryTimelineLength { get; private set; } = 0;
+        public int PrimaryTimelineLength => PrimaryTimeline.Count();
 
         /// <summary>
         /// Game board size
         /// </summary>
-        public GameBoardSize BoardSize { get; set; }
+        public GameBoardSize BoardSize { get; }
 
         /// <summary>
         /// Root of the game tree
@@ -179,7 +179,6 @@ namespace OmegaGo.Core.Game
             {
                 node.Prisoners.WhitePrisoners += move.Captures.Count();
             }
-            PrimaryTimelineLength++;
             LastNode = node;
             return node;
         }

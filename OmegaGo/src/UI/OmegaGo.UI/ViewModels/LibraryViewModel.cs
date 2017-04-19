@@ -20,7 +20,7 @@ namespace OmegaGo.UI.ViewModels
         private const string SgfFolderName = "Library";
         private readonly IDialogService _dialogService;
         private readonly IFilePickerService _filePicker;
-        private readonly IFileService _fileService;
+        private readonly IAppDataFileService _appDataFileService;
         private IMvxCommand _deleteCommand;
         private IMvxCommand _exportCommand;
 
@@ -34,10 +34,10 @@ namespace OmegaGo.UI.ViewModels
 
         private LibraryItem _selectedItem;
 
-        public LibraryViewModel(IFilePickerService filePicker, IFileService fileService, IDialogService dialogService)
+        public LibraryViewModel(IFilePickerService filePicker, IAppDataFileService appDataFileService, IDialogService dialogService)
         {
             this._filePicker = filePicker;
-            this._fileService = fileService;
+            this._appDataFileService = appDataFileService;
             this._dialogService = dialogService;
 
         }
@@ -74,7 +74,7 @@ namespace OmegaGo.UI.ViewModels
                 this._openLibraryInExplorer ??
                 (this._openLibraryInExplorer =
                     new MvxCommand(
-                        async () => { await this._fileService.LaunchFolderAsync(LibraryViewModel.SgfFolderName); }));
+                        async () => { await this._appDataFileService.LaunchFolderAsync(LibraryViewModel.SgfFolderName); }));
 
         public ICommand OpenFileCommand => this._openFileCommand ?? (this._openFileCommand = new MvxCommand(async()=> await OpenFile()));
 
@@ -88,8 +88,8 @@ namespace OmegaGo.UI.ViewModels
         private async Task RefreshList()
         {
             LoadingPanelVisible = true;
-            await this._fileService.EnsureFolderExists(LibraryViewModel.SgfFolderName);
-            var files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
+            await this._appDataFileService.EnsureFolderExistsAsync(LibraryViewModel.SgfFolderName);
+            var files = await this._appDataFileService.EnumerateFilesInFolderAsync(LibraryViewModel.SgfFolderName);
             if (!files.Any())
             {
                 // Add example file
@@ -98,20 +98,20 @@ namespace OmegaGo.UI.ViewModels
                         .Assembly.GetManifestResourceStream("OmegaGo.UI.ExampleFiles.AlphaGo1.sgf");
                 var sr = new StreamReader(stream);
                 string alphaGoContent = sr.ReadToEnd();
-                await this._fileService.WriteFile(SgfFolderName, "AlphaGo1.sgf", alphaGoContent);
-                files = await this._fileService.EnumerateFilesInFolder(LibraryViewModel.SgfFolderName);
+                await this._appDataFileService.WriteFileAsync(SgfFolderName, "AlphaGo1.sgf", alphaGoContent);
+                files = await this._appDataFileService.EnumerateFilesInFolderAsync(LibraryViewModel.SgfFolderName);
             }
             var list = new List<LibraryItem>();
             var p = new SgfParser();
             foreach (string file in files)
             {
-                string content = await this._fileService.ReadFile(SgfFolderName, file);
+                string content = await this._appDataFileService.ReadFileAsync(SgfFolderName, file);
                 try
                 {
                     var parsed = p.Parse(content);
                     var firstTree = parsed.GameTrees.First();
                     var rootNode = GameTreeConverter.FromSgfGameTree(firstTree);
-                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size));
+                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size), rootNode.BoardState.Size);
                     trueTree.GameTreeRoot = rootNode;
                     int moveCount = 0;
                     var node = rootNode;
@@ -156,7 +156,7 @@ namespace OmegaGo.UI.ViewModels
                             String.Format(Localizer.DeleteQuestion, this.SelectedItem.Filename),
                             Localizer.DeleteCommand, Localizer.No))
                 {
-                    await this._fileService.DeleteFile(SgfFolderName, this.SelectedItem.Filename);
+                    await this._appDataFileService.DeleteFileAsync(SgfFolderName, this.SelectedItem.Filename);
                     await RefreshList();
                 }
             }
@@ -181,7 +181,7 @@ namespace OmegaGo.UI.ViewModels
             try
             {
                 p.Parse(fileContents.Contents);
-                await this._fileService.WriteFile(SgfFolderName, fileContents.Name, fileContents.Contents);
+                await this._appDataFileService.WriteFileAsync(SgfFolderName, fileContents.Name, fileContents.Contents);
                 await RefreshList();
             }
             catch (Exception e)

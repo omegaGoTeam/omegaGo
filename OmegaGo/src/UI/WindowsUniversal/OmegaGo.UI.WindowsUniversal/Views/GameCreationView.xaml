@@ -46,11 +46,11 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
-            <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
+                <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
                    HorizontalAlignment="Center"
                    Margin="0,20,0,0" />
 
-            <Grid x:Name="Form"
+                <Grid x:Name="Form"
               HorizontalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -77,7 +77,7 @@
                         <ColumnDefinition x:Name="Boxes" Width="Auto" />
                         <ColumnDefinition x:Name="Buttons" Width="Auto" />
                     </Grid.ColumnDefinitions>
-                
+
                     <TextBlock Grid.Row="0" Style="{StaticResource Labels}" Text="{x:Bind Localizer.BoardSize}" />
                     <ComboBox Grid.Row="0" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Path=BoardSizes}"
@@ -99,7 +99,7 @@
                                     <StackPanel Visibility="{x:Bind VM.Bundle.SupportsRectangularBoards}">
                                         <TextBlock Text="{x:Bind Localizer.WidthColon}"/>
                                         <TextBox InputScope="Number" Name="TbCustomWidth" Text="{Binding CustomWidth, Mode=TwoWay}"/>
-                                            <TextBlock Text="{x:Bind Localizer.HeightColon}"/>
+                                        <TextBlock Text="{x:Bind Localizer.HeightColon}"/>
                                         <TextBox InputScope="Number" Name="TbCustomHeight" Text="{Binding CustomHeight, Mode=TwoWay}"/>
                                         <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                     </StackPanel>
@@ -125,11 +125,11 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Black}" />
-                    <ComboBox Grid.Row="2" Style="{StaticResource Boxes}" 
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Black}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
+                    <ComboBox Grid.Row="2" Style="{StaticResource Boxes}"  Visibility="{Binding Bundle.BlackAndWhiteVisible}"
                       ItemsSource="{Binding Path=PossiblePlayers}"
                       SelectedItem="{Binding BlackPlayer, Mode=TwoWay}"/>
-                    <Button Grid.Row="2" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
+                    <Button Grid.Row="2" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.BlackAndWhiteVisible}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="BlackPlayerFlyout">
                                 <StackPanel>
@@ -140,11 +140,11 @@
                         </Button.Flyout>
                     </Button>
 
-                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.White}" />
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.White}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
                     <ComboBox Grid.Row="3" Style="{StaticResource Boxes}"  
                       ItemsSource="{Binding Path=PossiblePlayers}"
-                      SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}">
+                      SelectedItem="{Binding WhitePlayer, Mode=TwoWay}" Visibility="{Binding Bundle.BlackAndWhiteVisible}"/>
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.BlackAndWhiteVisible}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="WhitePlayerFlyout">
                                 <StackPanel>
@@ -154,94 +154,126 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}"
+                    <Button Grid.Row="3" Style="{StaticResource Buttons}" 
                             Visibility="Collapsed"
                             Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button> <!-- TODO Petr: add with KGS -->
-                
-                <!--
-                This code is being prepared for online forms.
-                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your color"/>
-                    <ComboBox Grid.Row="2" Style="{StaticResource Boxes}">
-                        <ComboBoxItem>Black</ComboBoxItem>
-                        <ComboBoxItem>White</ComboBoxItem>
-                        <ComboBoxItem>Choose at random</ComboBoxItem>
+
+
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding Bundle.OpponentName}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
+                        <ComboBoxItem Content="{x:Bind Localizer.Black}"></ComboBoxItem>
+                        <ComboBoxItem Content="{x:Bind Localizer.White}"></ComboBoxItem>
+                        <ComboBoxItem Content="{x:Bind Localizer.Nigiri}"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}" />
-                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" 
+                    <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
+                    <ComboBox Grid.Row="4" Style="{StaticResource Boxes}" 
                       ItemsSource="{Binding Path=PossiblePlayers}"
-                      SelectedItem="{Binding WhitePlayer, Mode=TwoWay}"/>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" Visibility="{x:Bind VM.RulesetCanBeSelected}" Content="{x:Bind Localizer.MoreEllipsis}">
+                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
+                    <Button Grid.Row="4" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="AgentFlyout">
                                 <StackPanel>
-                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.WhitePlayerSettings}" />
+                                    <userControls:PlayerSettingsControl ViewModel="{x:Bind VM.BlackPlayerSettings}" />
                                     <Button Click="CloseAgentPlayerFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
                     </Button>
--->
-                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" />
+                
+                    <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
-                            Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.RulesetCanBeSelected}" />
+                            Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{Binding Bundle.HandicapMayBeChanged}" />
                     <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
-                    
+
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
                     <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}">
-                         <Button.Flyout>
-                    <Flyout  Placement="Right" x:Name="TimeControlFlyout">
-                        <StackPanel Width="300">
-                            <ComboBox  ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControl.Style, Mode=TwoWay}">
-                            </ComboBox>
-                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsAbsoluteTiming, Mode=OneWay}">
-                                <TextBlock TextWrapping="Wrap">
-                                        <Run FontWeight="Bold">Absolute Timing.</Run> When a player's time elapses, that player loses immediately.
-                                </TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Time:</TextBlock>
-                                    <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}" InputScope="Number" Width="30"></TextBox>
+                        <Button.Flyout>
+                            <Flyout  Placement="Right" x:Name="TimeControlFlyout">
+                                <StackPanel Width="300">
+                                    <ComboBox ItemsSource="{x:Bind VM.TimeControlStyles}" SelectedItem="{x:Bind VM.TimeControlStyle, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <StackPanel Visibility="{x:Bind VM.TimeControl.IsNoTiming, Mode=OneWay}">
+                                        <TextBlock TextWrapping="Wrap">
+                                            <Run Text="{x:Bind Localizer.Time_None_Caption}" FontWeight="Bold" ></Run> 
+                                            <Run Text="{x:Bind Localizer.Time_None_Description}"></Run>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{x:Bind VM.TimeControl.IsAbsoluteTiming, Mode=OneWay}">
+                                        <TextBlock TextWrapping="Wrap">
+                                            <Run FontWeight="Bold" Text="{x:Bind Localizer.Time_Absolute_Caption}" />
+                                            <Run Text="{x:Bind Localizer.Time_Absolute_Description}" />
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.AbsoluteTimeLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}" InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{x:Bind VM.TimeControl.IsCanadianTiming, Mode=OneWay}">
+                                        <TextBlock TextWrapping="Wrap">
+                                            <Run Text="{x:Bind Localizer.Time_Canadian_Caption}" FontWeight="Bold" ></Run> 
+                                            <Run Text="{x:Bind Localizer.Time_Canadian_Description}"> </Run>
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.MainTimeLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMovesPerPeriodLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMinutesPerPeriodLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Visibility="{x:Bind VM.TimeControl.IsJapaneseTiming, Mode=OneWay}">
+                                        <TextBlock TextWrapping="Wrap">
+                                            <Run Text="{x:Bind Localizer.Time_Japanese_Caption}" FontWeight="Bold" ></Run> 
+                                            <Run Text="{x:Bind Localizer.Time_Japanese_Description}"> </Run>
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.MainTimeLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.JapaneseNumberOfPeriodsLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.NumberOfJapanesePeriods, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.JapaneseSecondsPerPeriodLabel}"></TextBlock>
+                                            <TextBox Text="{x:Bind VM.TimeControl.OvertimeSeconds, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button Click="CloseTimeControlFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
                                 </StackPanel>
-                            </StackPanel>
-                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsNoTiming, Mode=OneWay}">
-                                <TextBlock TextWrapping="Wrap">
-                                        <Run FontWeight="Bold">No Time Control.</Run> There is no time limit for either player.
-                                </TextBlock>
-                            </StackPanel>
-                            <StackPanel Visibility="{x:Bind VM.TimeControl.IsCanadianTiming, Mode=OneWay}">
-                                <TextBlock TextWrapping="Wrap">
-                                        <Run FontWeight="Bold">Canadian Timing.</Run> Each player has a main time. When that elapses, the player enters their first <Run FontStyle="Italic">overtime period</Run> and must make a number of moves (usually 25) in a number of minutes (usually 10) or lose when the last minute elapses. If they make all the moves in time, then their remaining time is lost, but another overtime period begins for that player.
-                                </TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Main time:</TextBlock>
-                                    <TextBox Text="{x:Bind VM.TimeControl.MainTime, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Moves per period:</TextBlock>
-                                    <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Minutes per period:</TextBlock>
-                                    <TextBox Text="{x:Bind VM.TimeControl.OvertimeMinutes, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
-                                </StackPanel>
-                            </StackPanel>
-                            <Button Click="CloseTimeControlFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
+                            </Flyout>
+                        </Button.Flyout>
                     </Button>
 
-                    <TextBlock Grid.Row="7" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Komi}" />
+                    <TextBlock Grid.Row="7" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Komi}"
+                               Visibility="{Binding Bundle.KomiIsAvailable}"
+                               />
                     <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
                              IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
+                               Visibility="{Binding Bundle.KomiIsAvailable}"
                              x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
-                    
+
                     <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
                               IsChecked="{x:Bind VM.UseRecommendedKomi, Mode=TwoWay}"
+                               Visibility="{Binding Bundle.KomiIsAvailable}"
                               Margin="5,0,5,5"/>
 
                     <Button Grid.Row="9" Command="{Binding Path=NavigateToGameCommand}"
@@ -253,6 +285,15 @@
                         </StackPanel>
                     </Button>
 
+                    <Button Grid.Row="9" Command="{Binding Path=CreateChallengeCommand}"
+                            HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
+                            Visibility="{Binding Bundle.WillCreateChallenge}">
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
+                            <TextBlock Text="Create challenge" Margin="10,0,0,0" />
+                        </StackPanel>
+                    </Button>
+
                     <Grid Grid.Row="9" Style="{StaticResource Boxes}" Visibility="{x:Bind VM.Bundle.AcceptableAndRefusable}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -261,6 +302,8 @@
                         <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
                         <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{x:Bind VM.RefusalCaption}"></Button>
                     </Grid>
+
+                    <TextBlock Grid.Row="10" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

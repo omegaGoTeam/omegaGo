@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -70,17 +71,17 @@ namespace OmegaGo.UI.WindowsUniversal
             if (appShell == null)
             {
                 //create app shell to hold app content
-                var shell = AppShell.CreateForWindow(Window.Current);                
+                appShell = AppShell.CreateForWindow(Window.Current);
+
                 //create extended splash screen
                 ExtendedSplashScreen extendedSplash = new ExtendedSplashScreen(e.SplashScreen, false);
                 //temporarily place splash into the root frame
-                shell.AppFrame.Content = extendedSplash;
-                shell.AppFrame.NavigationFailed += OnNavigationFailed;
-                //setup the title bar
-                SetupTitleBar();
+                appShell.UnderlyingFrame.Content = extendedSplash;
 
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
+                //setup the title bar
+                SetupTitleBar();
                 InitializeStyle();
             }
             CoreApplication.EnablePrelaunch(true);
@@ -122,22 +123,6 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         private void SetupTitleBar()
         {
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = false;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonHoverBackgroundColor = (Color)App.Current.Resources["TitleBarButtonHoverColor"];
-            titleBar.ButtonPressedBackgroundColor = (Color)App.Current.Resources["TitleBarButtonPressedColor"];
-            titleBar.ButtonHoverForegroundColor = Colors.Black;
-            titleBar.ButtonPressedForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveForegroundColor = Colors.DimGray;
-            titleBar.ForegroundColor = Colors.Black;
-            titleBar.InactiveForegroundColor = Colors.DimGray;
-            titleBar.InactiveBackgroundColor = (Color)App.Current.Resources["GameColor"];
-
             //setup the custom title bar in app shell
             AppShell.GetForCurrentView().SetupCustomTitleBar();
 
@@ -162,17 +147,18 @@ namespace OmegaGo.UI.WindowsUniversal
         {
             var shell = AppShell.GetForCurrentView();
             if (shell == null) throw new NullReferenceException("Shell is not initialized");
-            var setup = new Setup(shell.AppFrame);
+            var setup = new Setup(shell);
             setup.Initialize();
-
+            
+            //hide splash screen
+            shell.UnderlyingFrame.Content = null;
             var start = Mvx.Resolve<IAsyncAppStart>();
             await start.StartAsync();
             OnlineStartup.Startup();
         }
 
         private void InitializeStyle()
-        {
-            // TODO Martin Do we keep it like this, or we move it somewhere? Possibly define and implement IControlStyleService/IStylingService?
+        {            
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
@@ -188,16 +174,6 @@ namespace OmegaGo.UI.WindowsUniversal
                 case ControlStyle.OperatingSystem:
                     break;
             }
-        }
-
-        /// <summary>
-        /// Invoked when Navigation to a certain page fails
-        /// </summary>
-        /// <param name="sender">The Frame which failed navigation</param>
-        /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         private void OptimizeDisplay()
