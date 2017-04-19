@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            RenderService.CreateResources(sender, args);
+            args.TrackAsyncAction(RenderService.CreateResources().AsAsyncAction());
         }
     }
 }

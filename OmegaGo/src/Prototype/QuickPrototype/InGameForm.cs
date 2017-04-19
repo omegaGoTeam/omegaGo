@@ -68,7 +68,7 @@ namespace FormsPrototype
                 connection.Events.IncomingInGameChatMessage += _igs_IncomingInGameChatMessage;
                 connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
-                connection.Events.UndoDeclined += _igs_UndoDeclined;
+                // connection.Events.UndoDeclined += _igs_UndoDeclined;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -178,7 +178,7 @@ namespace FormsPrototype
                 connection.Events.IncomingInGameChatMessage -= _igs_IncomingInGameChatMessage;
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
-                connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                // connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }

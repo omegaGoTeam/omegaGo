@@ -77,10 +77,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._highlightLastMove = this._settings.Display.HighlightLastMove;
         }
 
-        public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
+        public async Task CreateResources()
         {
             ReloadSettings();
-            args.TrackAsyncAction(WaitUntilResourcesAreAvailableAsync().AsAsyncAction());
+            await WaitUntilResourcesAreAvailableAsync();
         }
 
         private async Task WaitUntilResourcesAreAvailableAsync()
