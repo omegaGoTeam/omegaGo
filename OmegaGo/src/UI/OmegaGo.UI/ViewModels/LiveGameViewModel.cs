@@ -32,6 +32,9 @@ namespace OmegaGo.UI.ViewModels
         // Analyze
         private bool _isAnalyzeModeEnabled;
 
+        // System Log
+        private bool _isSystemLogEnabled;
+
         private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
         private int _selectedMoveIndex;
@@ -57,12 +60,15 @@ namespace OmegaGo.UI.ViewModels
             Tool = null;
 
             // Initialize analyze mode and register tools
-            AnalysisViewModel = new AnalysisViewModel(ToolServices);
+            AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
             RegisterAnalyzeTools();
             _isAnalyzeModeEnabled = false;
+
+            // System log visibility
+            _isSystemLogEnabled = false;
         }
         
-        public AnalysisViewModel AnalysisViewModel { get; }
+        public AnalyzeViewModel AnalyzeViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
@@ -88,6 +94,15 @@ namespace OmegaGo.UI.ViewModels
                 EnableAnalyzeModeCommand.RaiseCanExecuteChanged();
                 DisableAnalyzeModeCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the System Log should be shown.
+        /// </summary>
+        public bool IsSystemLogEnabled
+        {
+            get { return _isSystemLogEnabled; }
+            set { SetProperty(ref _isSystemLogEnabled, value); }
         }
 
         public int SelectedMoveIndex
@@ -204,30 +219,33 @@ namespace OmegaGo.UI.ViewModels
         private void RegisterAnalyzeTools()
         {
             // Set tool when 
-            AnalysisViewModel.ToolChanged += (s, tool) =>
+            AnalyzeViewModel.ToolChanged += (s, tool) =>
             {
                 Tool = tool;
                 BoardViewModel.Tool = tool as IMarkupTool;
             };
 
             // When coming out of analysis, reset tool
-            AnalysisViewModel.BackToGameRequested += (s, e) =>
+            AnalyzeViewModel.BackToGameRequested += (s, e) =>
             {
                 Tool = null;
                 BoardViewModel.Tool = null;
+
+                // Disable analyze mode
+                IsAnalyzeModeEnabled = false;
             };
             
             // Now register all available analysis tools for Live Games (observe, local, online)
-            AnalysisViewModel.DeleteBranchTool = new DeleteBranchTool();
-            AnalysisViewModel.StonePlacementTool = new StonePlacementTool();
+            AnalyzeViewModel.DeleteBranchTool = new DeleteBranchTool();
+            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool();
 
-            AnalysisViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
-            AnalysisViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
+            AnalyzeViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
+            AnalyzeViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
             // TODO naming square vs rectangle o.O
-            AnalysisViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
-            AnalysisViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
-            AnalysisViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
-            AnalysisViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
+            AnalyzeViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
+            AnalyzeViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
+            AnalyzeViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
+            AnalyzeViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
         }
 
         private void RefreshInstructionCaption()

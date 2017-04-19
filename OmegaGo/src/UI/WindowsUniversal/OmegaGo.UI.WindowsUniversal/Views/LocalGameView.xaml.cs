@@ -52,5 +52,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
         }
+
+        private void focusButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppShell.FocusModeOn = !AppShell.FocusModeOn;
+        }
     }
 }

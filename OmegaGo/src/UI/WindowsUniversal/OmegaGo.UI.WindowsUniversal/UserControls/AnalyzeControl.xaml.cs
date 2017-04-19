@@ -5,22 +5,22 @@ using Windows.UI.Xaml;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class AnalysisControl : UserControlBase
+    public sealed partial class AnalyzeControl : UserControlBase
     {
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(
                         "ViewModel",
-                        typeof(AnalysisViewModel),
-                        typeof(AnalysisControl),
+                        typeof(AnalyzeViewModel),
+                        typeof(AnalyzeControl),
                         new PropertyMetadata(null));
 
-        public AnalysisViewModel ViewModel
+        public AnalyzeViewModel ViewModel
         {
-            get { return (AnalysisViewModel)GetValue(ViewModelProperty); }
+            get { return (AnalyzeViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
-        public AnalysisControl()
+        public AnalyzeControl()
         {
             this.InitializeComponent();
         }

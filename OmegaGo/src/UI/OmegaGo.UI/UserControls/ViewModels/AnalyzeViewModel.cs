@@ -4,7 +4,7 @@ using System;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public sealed class AnalysisViewModel : ControlViewModelBase
+    public sealed class AnalyzeViewModel : ControlViewModelBase
     {
         private readonly IToolServices _toolServices;
         private ITool _selectedTool;
@@ -23,7 +23,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private MvxCommand _backToGameCommand;
         private MvxCommand _passCommand;
 
-        public AnalysisViewModel(IToolServices toolServices)
+        public AnalyzeViewModel(IToolServices toolServices)
         {
             _toolServices = toolServices;
         }
