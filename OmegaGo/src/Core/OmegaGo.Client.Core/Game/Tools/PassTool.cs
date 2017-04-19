@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public class PassTool : ITool
+    public sealed class PassTool : ITool
     {
         public void Execute(IToolServices toolService)
         {
