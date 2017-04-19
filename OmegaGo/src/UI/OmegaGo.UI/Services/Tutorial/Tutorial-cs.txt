@@ -24,7 +24,7 @@ clear E6
 s Prázdný prostor mezi čtyřmi černými kameny je nyní tvoje území a na konci hry ti dá 1 bod - pokud ho ovšem nezískám zpět tak, že zajmu tvoje obkličující kameny.
 next
 flash
-s Podívejme se nyní na tuto situace. Řetěz sousedících bílých kamenů tvoří "skupinu". Skupiny mohou být zajmuty jen jako celek. Zajmi nyní tuto skupinu.
+s Podívejme se nyní na tuto situaci. Řetěz sousedících bílých kamenů tvoří "skupinu". Skupiny mohou být zajmuty jen jako celek. Zajmi nyní tuto skupinu.
 white D5 E5 F5
 black D4 E4 F4 C5 G5 E6 F6
 expect D6
@@ -119,7 +119,7 @@ menu
 next
 s Budeš se muset naučit více. Nápověda v této aplikaci ti vysvětlí další pravidla a nějaké detaily, ale nejlepší způsob, jak začít, je hrát hry. 
 next
-s Doporučuji ti zahrát si pár her na desce 9x9 proti umělé inteligenci, nebo možná i proto začátečníkům na internetu.
+s Doporučuji ti zahrát si pár her na desce 9x9 proti umělé inteligenci, nebo možná i proti začátečníkům na internetu.
 next
 s Bohužel ovšem nelze nahradit lidského učitele. Pokud je ve tvém městě klub hráčů Go, měl bys vědět, že tě místní hráči velmi rádi naučí hrát a budou ti pomáhat.
 next

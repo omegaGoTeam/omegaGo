@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Time
         /// </summary>
         Canadian,
         /// <summary>
-        /// This is the Japanase byo-yomi system, too complex to be explained in a comment.
+        /// This is the Japanase byo-yomi system, too complex to be explained in a comment. See http://senseis.xmp.net/?ByoYomi
         /// </summary>
         Japanese
     }

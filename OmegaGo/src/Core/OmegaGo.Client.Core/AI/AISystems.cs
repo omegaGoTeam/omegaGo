@@ -16,25 +16,24 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
-        /// Fuego AI builder
+        /// Fuego AI builder. <see cref="FuegoAI"/> uses this to create the Fuego engine proper. 
         /// </summary>
         internal static IGtpEngineBuilder FuegoBuilder;
 
         /// <summary>
-        /// Indicates whether the AI systems have been registered
+        /// Indicates whether Fuego has been registered.
         /// </summary>
-        private static bool _registrationComplete;
+        private static bool RegistrationComplete;
 
         /// <summary>
-        /// Gets the list of AI programs known to this application. This cannot be used until
-        /// Fuego is registered.
+        /// Gets the list of AI programs known to this application. This should only be used after Fuego is registered 
+        /// (if we are compiling with Fuego).
         /// </summary>
-        /// <exception cref="Exception">Fuego was not yet registered!</exception>
         public static IEnumerable<IAIProgram> AIPrograms
         {
             get
             {
-                if (!_registrationComplete)
+                if (!AISystems.RegistrationComplete)
                 {
                     // Fuego is not available
                     return
@@ -68,7 +67,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
-            _registrationComplete = true;
+            AISystems.RegistrationComplete = true;
         }        
     }
 }

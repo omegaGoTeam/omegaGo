@@ -329,6 +329,7 @@ namespace OmegaGo.Core.Online.Igs
             if (password == null) throw new ArgumentNullException(nameof(password));
             try
             {
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.Connecting);
                 if (!ConnectionEstablished)
                 {
                     if (!await ConnectAsync())
@@ -336,6 +337,7 @@ namespace OmegaGo.Core.Online.Igs
                         return false;
                     }
                 }
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.LoggingIn);
                 Composure = IgsComposure.LoggingIn;
                 _username = username;
                 _password = password;
@@ -358,11 +360,16 @@ namespace OmegaGo.Core.Online.Igs
                     Events.RaiseLoginComplete(false);
                     return false;
                 }
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.SendingInitialBurst);
                 await MakeRequestAsync("toggle quiet true");
+                await MakeRequestAsync("id omegaGo");
                 await MakeRequestAsync("toggle newundo true");
                 await MakeRequestAsync("toggle verbose false");
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.RefreshingGames);
                 await Commands.ListGamesInProgressAsync();
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.RefreshingUsers);
                 await Commands.ListOnlinePlayersAsync();
+                Events.RaiseLoginPhaseChanged(IgsLoginPhase.Done);
                 Events.RaiseLoginComplete(true);
                 return true;
             }
@@ -468,6 +475,7 @@ namespace OmegaGo.Core.Online.Igs
                             _requestInProgress = dequeuedItem;
                         }
                         Events.OnOutgoingLine(dequeuedItem.Command);
+                        LogBuilder.AppendLine("> " + dequeuedItem.Command);
                         _streamWriter.WriteLine(dequeuedItem.Command);
                         if (dequeuedItem.Unattended)
                         {

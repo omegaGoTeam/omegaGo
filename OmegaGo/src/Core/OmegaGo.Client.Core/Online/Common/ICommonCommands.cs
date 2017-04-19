@@ -31,8 +31,15 @@ namespace OmegaGo.Core.Online.Common
         Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime);
 
         Task UndoLifeDeath(RemoteGameInfo remoteInfo);
+
         Task LifeDeathDone(RemoteGameInfo remoteInfo);
+
         Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo);
+
         Task Resign(RemoteGameInfo remoteInfo);
+        
+        Task AllowUndoAsync(RemoteGameInfo remoteInfo);
+
+        Task RejectUndoAsync(RemoteGameInfo remoteInfo);
     }
 }

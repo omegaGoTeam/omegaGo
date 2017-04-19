@@ -44,7 +44,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
-    <Compile Include="AI\AIStrength.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
@@ -54,7 +53,6 @@
     <Compile Include="Game\StoneColorExtensions.cs" />
     <Compile Include="Game\TerritoryMap.cs" />
     <Compile Include="Helpers\EventHandlerExtensions.cs" />
-    <Compile Include="LiveGame\Connectors\BaseConnector.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
@@ -169,6 +167,7 @@
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
     <Compile Include="Online\Igs\IgsChatService.cs" />
+    <Compile Include="Online\Igs\IgsLoginPhase.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
@@ -180,6 +179,7 @@
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
     <Compile Include="Online\Kgs\Downstream\NotificationMessageDownstreamEvent.cs" />
+    <Compile Include="Online\Kgs\Structures\KgsLoginPhase.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
@@ -228,6 +228,7 @@
     <Compile Include="Online\Kgs\KgsInterrupts.cs" />
     <Compile Include="Online\Kgs\Structures\KgsRoom.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfNode.cs" />
+    <Compile Include="Online\Kgs\Structures\KgsTrueGameChannel.cs" />
     <Compile Include="Online\Kgs\Structures\KgsUser.cs" />
     <Compile Include="Online\ServerID.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -315,6 +316,7 @@
     <Compile Include="Time\TimeControl.cs" />
     <Compile Include="Time\TimeControlStyle.cs" />
     <Compile Include="Time\TimeInformation.cs" />
+    <Compile Include="Time\TimeLeftArguments.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

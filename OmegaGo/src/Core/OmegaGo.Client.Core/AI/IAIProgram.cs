@@ -22,9 +22,10 @@ namespace OmegaGo.Core.AI
 
         /// <summary>
         /// Asks the AI to make a move or resign, synchronously. It is guaranteed that this method
-        /// will be called in order, (TODO undos), but it may be called on white or black. The AI
+        /// will be called in order, but it may be called on white or black. The AI
         /// should check the history whether it agrees with its own. In case of a conflict,
-        /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history.
+        /// the history provided in the pre-move information takes precedence and the AI might need to erase its own history. Undo's are
+        /// given to the AI using additional methods. Most AI's are stateless and won't need this.
         /// </summary>
         /// <param name="gameInformation">Information the AI might need.</param>
         /// <returns>Decision</returns>

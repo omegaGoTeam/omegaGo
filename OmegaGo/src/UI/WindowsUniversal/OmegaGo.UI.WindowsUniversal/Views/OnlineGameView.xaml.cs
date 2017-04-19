@@ -45,26 +45,5 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             VM.WhitePortrait.Update();
 
         }
-
-        private void DebugFill(object sender, RoutedEventArgs e)
-        {
-            for (int x = 1; x < VM.BoardViewModel.BoardControlState.BoardWidth; x += 3)
-            {
-                for (int xi = x; xi <= x + 1; xi++)
-                {
-                    for (int y = 1; y < VM.BoardViewModel.BoardControlState.BoardHeight - 1; y += 1)
-                    {
-                        (VM.Game.Controller.TurnPlayer.Agent as IHumanAgentActions)?.PlaceStone(new Position(
-                            xi, y));
-
-                    }
-                }
-            }
-        }
-
-        private void UpdateSystemLog(object sender, RoutedEventArgs e)
-        {
-            SystemLog.Text = VM.SystemLog;
-        }
     }
 }

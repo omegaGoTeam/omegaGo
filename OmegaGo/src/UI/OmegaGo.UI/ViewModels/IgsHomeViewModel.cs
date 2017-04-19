@@ -46,6 +46,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
+            Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
             {
                 LoginForm.FormEnabled = false;
@@ -57,6 +58,33 @@ namespace OmegaGo.UI.ViewModels
             {
                 await EnterIgsLobbyLoggedIn();
             }
+        }
+
+        private void Events_LoginPhaseChanged(object sender, IgsLoginPhase e)
+        {
+            string message = "";
+            switch (e)
+            {
+                case IgsLoginPhase.Connecting:
+                    message = "Connecting...";
+                    break;
+                case IgsLoginPhase.Done:
+                    message = "Done.";
+                    break;
+                case IgsLoginPhase.LoggingIn:
+                    message = "Logging in...";
+                    break;
+                case IgsLoginPhase.RefreshingGames:
+                    message = "Refreshing the list of games...";
+                    break;
+                case IgsLoginPhase.RefreshingUsers:
+                    message = "Refreshing the list of users...";
+                    break;
+                case IgsLoginPhase.SendingInitialBurst:
+                    message = "Sending initial message burst...";
+                    break;
+            }
+            this.LoginForm.LoginErrorMessage = message;
         }
 
         private void Events_Disconnected(object sender, EventArgs e)
@@ -100,6 +128,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
             Connections.Igs.Events.Disconnected -= Events_Disconnected;
+            Connections.Igs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
         }
 
         public LoginFormViewModel LoginForm { get; }
@@ -218,8 +247,7 @@ namespace OmegaGo.UI.ViewModels
                 RaisePropertyChanged(nameof(LoggedInUser));
                 LoginForm.FormVisible = false;
                 LoginForm.LoginErrorMessageOpacity = 0;
-                await RefreshGames();
-                await RefreshUsers();
+                await EnterIgsLobbyLoggedIn();
             }
             else
             {
@@ -302,9 +330,18 @@ namespace OmegaGo.UI.ViewModels
             allUsers.Sort(comparison);
             RefillChallengeableUsersFromAllUsers();
         }
-        //** GAMES *************************************************************
 
-
+        public bool ConsoleVisible
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
 
         public async Task RefreshGames()
         {
@@ -333,24 +370,32 @@ namespace OmegaGo.UI.ViewModels
         public IgsGameInfo SelectedSpectatableGame
         {
             get { return _selectedSpectatableGame; }
-            set { SetProperty(ref _selectedSpectatableGame, value); }
+            set {
+                SetProperty(ref _selectedSpectatableGame, value);
+                ObserveSelectedGame.RaiseCanExecuteChanged();
+            }
         }
         private IgsUser _selectedChallengeableUser;
         public IgsUser SelectedChallengeableUser
         {
             get { return _selectedChallengeableUser; }
-            set { SetProperty(ref _selectedChallengeableUser, value); }
+            set {
+                SetProperty(ref _selectedChallengeableUser, value);
+                ChallengeSelectedPlayer.RaiseCanExecuteChanged();
+            }
         }
 
-        public IMvxCommand ChallengeSelectedPlayer => new MvxCommand(() =>
+        private IMvxCommand _challengedSelectedPlayer;
+        public IMvxCommand ChallengeSelectedPlayer => _challengedSelectedPlayer ?? (_challengedSelectedPlayer = new MvxCommand(() =>
         {
             if (SelectedChallengeableUser != null)
             {
                 Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
                 ShowViewModel<GameCreationViewModel>();
             }
-        });
-        public IMvxCommand ObserveSelectedGame => new MvxCommand(async () =>
+        }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
+        private IMvxCommand _observeSelectedGame;
+        public IMvxCommand ObserveSelectedGame => _observeSelectedGame ?? (_observeSelectedGame = new MvxCommand(async () =>
         {
             ShowProgressPanel("Initiating observation of a game...");
             var onlinegame = await Connections.Igs.Commands.StartObserving(SelectedSpectatableGame);
@@ -364,7 +409,7 @@ namespace OmegaGo.UI.ViewModels
                 ShowViewModel<ObserverGameViewModel>();
             }
             ProgressPanelVisible = false;
-        });
+        }, ()=> SelectedSpectatableGame != null));
 
         public void StartGame(IgsGame game)
         {

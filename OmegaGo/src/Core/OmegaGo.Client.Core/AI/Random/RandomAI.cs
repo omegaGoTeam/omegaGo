@@ -9,6 +9,10 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.Random
 {
+    /// <summary>
+    /// This example basic AI will make random legal moves.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.AI.AIProgramBase" />
     public class RandomAI : AIProgramBase
     {
         public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
@@ -16,11 +20,13 @@ namespace OmegaGo.Core.AI.Random
         public override AIDecision RequestMove(AiGameInformation preMoveInformation)
         {
             var moves = preMoveInformation.GameTree.PrimaryMoveTimeline.ToList();
+
             if (moves.Any() &&
                moves.Last().Kind == MoveKind.Pass)
             {
                 return AIDecision.MakeMove(Move.Pass(preMoveInformation.AIColor), "You passed, too!");
             }
+
             GameBoard createdBoard = GameBoard.CreateBoardFromGameTree(preMoveInformation.GameInfo, preMoveInformation.GameTree);
             MoveResult[,] moveResults = 
                 Ruleset.Create(
@@ -36,6 +42,7 @@ namespace OmegaGo.Core.AI.Random
             {
                 return AIDecision.Resign("There are no more moves left to do.");
             }
+
             Position chosen = possibleIntersections[Randomizer.Next(possibleIntersections.Count)];
             return AIDecision.MakeMove(Move.PlaceStone(preMoveInformation.AIColor, chosen), "I chose at random.");
             //TODO Aniko: ask Petr, whether we need to check the legality(because of superko)

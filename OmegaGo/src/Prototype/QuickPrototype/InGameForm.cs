@@ -634,10 +634,10 @@ namespace FormsPrototype
         {
             if (_game != null)
             {
-                TimeInformation blackTime = _game.Controller.Players.Black.Clock.GetDisplayTime();
+                TimeInformation blackTime = _game.Controller.Players.Black.Clock.GetDisplayTime(false);
                 lblTimeBlackMain.Text = blackTime.MainText;
                 lblTimeBlackSub.Text = blackTime.SubText;
-                TimeInformation whiteTime = _game.Controller.Players.White.Clock.GetDisplayTime();
+                TimeInformation whiteTime = _game.Controller.Players.White.Clock.GetDisplayTime(false);
                 lblTimeWhiteMain.Text = whiteTime.MainText;
                 lblTimeWhiteSub.Text = whiteTime.SubText;
             }

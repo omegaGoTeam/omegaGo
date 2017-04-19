@@ -15,17 +15,20 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
+using OmegaGo.Core.AI;
+using OmegaGo.Core.Online.Common;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace OmegaGo.UI.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class LocalGameViewModel : GameViewModel
+    public class LocalGameViewModel : LiveGameViewModel
     {
-        private int _maximumMoveIndex;
-        private int _previousMoveIndex = -1;
-        private int _selectedMoveIndex;
+        private readonly Assistant _assistant;
+
+        private bool _canUndo;
+        private bool _canPass;
 
         private IMvxCommand _passCommand;
         private IMvxCommand _resignCommand;
@@ -35,77 +38,75 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _resumeGameCommand;
         private IMvxCommand _requestUndoDeathMarksCommand;
 
-        public PlayerPortraitViewModel BlackPortrait { get; }
-        public PlayerPortraitViewModel WhitePortrait { get; }
-
-        public int SelectedMoveIndex
+        // AI Assistant Help
+        private IMvxCommand _getHintCommand;
+        
+        public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+            : base (gameSettings, questsManager, dialogService)
         {
-            get { return _selectedMoveIndex; }
-            set
-            {
-                SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                  Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
-                RefreshBoard(whatIsShowing);
-            }
-        }
+            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
+            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
 
-        public int MaximumMoveIndex
-        {
-            get { return _maximumMoveIndex; }
-            set { SetProperty(ref _maximumMoveIndex, value); }
+            // AI Assistant Service 
+            _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
+            UiConnector.AiLog += Assistant_uiConnector_AiLog;
         }
-
+        
         /// <summary>
         /// Pass command from UI
         /// </summary>
-        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass));
+        public IMvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(Pass, () => CanPass));
 
         /// <summary>
         /// Resignation command from UI
         /// </summary>
-        public IMvxCommand ResignCommand => _resignCommand ?? (_resignCommand = new MvxCommand(Resign));
+        public IMvxCommand ResignCommand => _resignCommand ?? (_resignCommand = new MvxCommand(Resign, () => GamePhase == GamePhaseType.Main));
 
         /// <summary>
         /// Undo command from UI
         /// </summary>
-        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo));
+        public IMvxCommand UndoCommand => _undoCommand ?? (_undoCommand = new MvxCommand(Undo, () => CanUndo));
 
         public IMvxCommand LifeAndDeathDoneCommand
-            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone));
+            => _lifeAndDeathDoneCommand ?? (_lifeAndDeathDoneCommand = new MvxCommand(LifeAndDeathDone, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
         public IMvxCommand ResumeGameCommand
-            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame));
+            => _resumeGameCommand ?? (_resumeGameCommand = new MvxCommand(ResumeGame, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
         public IMvxCommand RequestUndoDeathMarksCommand
             => _requestUndoDeathMarksCommand ??
-            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks));
-        
+            (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
-        public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
-            : base (gameSettings, questsManager, dialogService)
+        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint));
+
+        public bool CanPass
         {
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game.Controller);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game.Controller);
-
-            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
+            get { return _canPass; }
+            set { SetProperty(ref _canPass, value); }
         }
+
+        public bool CanUndo
+        {
+            get { return _canUndo; }
+            set { SetProperty(ref _canUndo, value); }
+        }
+
+        protected Assistant Assistant => _assistant;
         
         ////////////////
         // Initial setup overrides      
         ////////////////
+        
+        public override void Init()
+        {
+            Game.Controller.BeginGame();
+            UpdateTimeline();
+        }
 
         protected override void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
             phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
             phaseEndHandlers[GamePhaseType.LifeDeathDetermination] = EndLifeAndDeathPhase;
-        }
-
-        public override void Init()
-        {
-            Game.Controller.BeginGame();
-            UpdateTimeline();
         }
 
         ////////////////
@@ -124,15 +125,19 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        protected override async void OnGameEnded(GameEndInformation endInformation)
+        protected override void OnGameEnded(GameEndInformation endInformation)
         {
+            base.OnGameEnded(endInformation);
+
             GameSettings.Statistics.GameHasBeenCompleted(Game, endInformation);
             QuestsManager.GameCompleted(Game, endInformation);
-            await DialogService.ShowAsync(endInformation.ToString(), $"End reason: {endInformation.Reason}");
         }
         
         protected override void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
+            // Handle raising the phase handlers
+            base.OnGamePhaseChanged(phaseState);
+
             if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 phaseState.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -143,31 +148,49 @@ namespace OmegaGo.UI.ViewModels
                 BoardViewModel.BoardControlState.ShowTerritory = false;
             }
 
-            // Handle raising the phase handlers
-            base.OnGamePhaseChanged(phaseState);
+            // We are in a new Game Phase, refresh commands
+            RefreshCommands();
+            UpdateCanPassAndUndo();
         }
 
         protected override void OnTurnPlayerChanged(GamePlayer newPlayer)
         {
+            base.OnTurnPlayerChanged(newPlayer);
+
             BoardViewModel.BoardControlState.MouseOverShadowColor = newPlayer.Agent.Type == AgentType.Human ?
                 newPlayer.Info.Color :
                 StoneColor.None;
+
+            // This must be updated here as well as Game.Controller.TurnPlayer is null until first OnTurnPlayerChanged. And at that time there are no more phase changes occuring.
+            // CanPass and CanUndo would remained false until next phase change (life and death).
+            UpdateCanPassAndUndo();
         }
 
         protected override void OnCurrentNodeStateChanged()
         {
+            base.OnCurrentNodeStateChanged();
+
             RefreshBoard(Game.Controller.CurrentNode);
         }
 
-        protected override async void OnCurrentNodeChanged(GameTreeNode newNode)
+        protected void RefreshCommands()
         {
-            if (newNode != null)
-            {
-                UpdateTimeline();
-                // It is ABSOLUTELY necessary for this to be the last statement in this method,
-                // because we need the UpdateTimeline calls to be in order.
-                await PlaySoundIfAppropriate(newNode);
-            }
+            PassCommand.RaiseCanExecuteChanged();
+            ResignCommand.RaiseCanExecuteChanged();
+            UndoCommand.RaiseCanExecuteChanged();
+            LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
+            ResumeGameCommand.RaiseCanExecuteChanged();
+            RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
+        }
+
+        protected void UpdateCanPassAndUndo()
+        {
+            CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+            // TODO Petr this allows to undo before the beginning of the game and causes exception
+            CanUndo = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
+
+            PassCommand.RaiseCanExecuteChanged();
+            UndoCommand.RaiseCanExecuteChanged();
         }
 
         ////////////////
@@ -215,24 +238,41 @@ namespace OmegaGo.UI.ViewModels
             UiConnector.RequestLifeDeathUndoDeathMarks();
         }
 
-        ////////////////
-        // Timeline handling
-        ////////////////
-
-        private void UpdateTimeline()
+        private async void GetHint()
         {
-            var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
-            int newNumber = primaryTimeline.Count() - 1;
-            bool autoUpdate = newNumber == 0 || SelectedMoveIndex >= newNumber - 1;
-            MaximumMoveIndex = newNumber;
-            if (autoUpdate && _previousMoveIndex != newNumber)
+            if (!Assistant.ProvidesHints) return;
+
+            AIDecision hint =
+                await
+                    Assistant.Hint(this.Game.Info, this.Game.Controller.TurnPlayer, this.Game.Controller.GameTree,
+                        this.Game.Controller.TurnPlayer.Info.Color);
+
+            string content = "";
+            string title = "";
+
+            switch (hint.Kind)
             {
-                SelectedMoveIndex = newNumber;
+                case AgentDecisionKind.Resign:
+                    title = "You should resign.";
+                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                    break;
+                case AgentDecisionKind.Move:
+                    title = hint.Move.ToString();
+                    if (hint.Move.Kind == MoveKind.Pass)
+                    {
+                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                    }
+                    else
+                    {
+                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                                  hint.Explanation;
+                    }
+                    break;
             }
-            _previousMoveIndex = newNumber;
+
+            await DialogService.ShowAsync(content, title);
         }
-
-
+        
         ////////////////
         // Phase handlers      
         ////////////////
@@ -253,6 +293,11 @@ namespace OmegaGo.UI.ViewModels
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
             RefreshBoard(Game.Controller.CurrentNode);
+        }
+        
+        private void Assistant_uiConnector_AiLog(object sender, string e)
+        {
+            AppendLogLine($"AI: {e}");
         }
     }
 }

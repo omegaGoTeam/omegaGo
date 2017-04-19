@@ -35,6 +35,7 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public event EventHandler MainUndoForced;
 #pragma warning restore CS0067
         public event EventHandler<GameEndInformation> GameEndedByServer;
+
         public async void MovePerformed(Move move)
         {
             if (kgsGameController.Players[move.WhoMoves].Agent is KgsAgent) return;

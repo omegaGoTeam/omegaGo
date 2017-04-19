@@ -4,42 +4,39 @@ using OmegaGo.Core.Online.Kgs.Downstream;
 namespace OmegaGo.Core.Time.Absolute
 {
     /// <summary>
-    /// In absolute time control, a player has a number of minutes that must suffice for the entire game.
+    ///     In absolute time control, a player has a number of minutes that must suffice for the entire game.
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Time.TimeControl" />
     public class AbsoluteTimeControl : TimeControl
     {
+        private TimeSpan _mainTime;
+
+        public AbsoluteTimeControl(int seconds)
+        {
+            _mainTime = TimeSpan.FromSeconds(seconds);
+        }
+
         public override TimeControlStyle Name => TimeControlStyle.Absolute;
 
-        protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
+        public override void UpdateFromKgsFloat(float secondsLeft)
         {
-            return new AbsoluteTimeInformation(_mainTime - addThisTime);
-        }
-
-        protected override void UpdateSnapshot(TimeSpan timeSpent)
-        {
-            _mainTime = _mainTime - timeSpent;
-        }
-
-        protected override bool IsViolating(TimeSpan addThisTime)
-        {
-            return (_mainTime - addThisTime).Ticks <= 0;
-        }
-
-        public override void UpdateFromKgsFloat(float secondsLeftIThink)
-        {
-            LastTimeClockStarted = DateTime.Now;
-            _mainTime = TimeSpan.FromSeconds(secondsLeftIThink);
+            this.LastTimeClockStarted = DateTime.Now;
+            this._mainTime = TimeSpan.FromSeconds(secondsLeft);
         }
 
         public override string GetGtpInitializationCommand()
         {
-            return "time_settings " + (int) _mainTime.TotalSeconds + " 0 0";
+            return "time_settings " + (int) this._mainTime.TotalSeconds + " 0 0";
         }
 
         public override TimeLeftArguments GetGtpTimeLeftCommandArguments()
         {
-            return new Time.TimeLeftArguments((int) _mainTime.TotalSeconds, 0);
+            return new TimeLeftArguments((int) this._mainTime.TotalSeconds, 0);
+        }
+
+        protected override TimeInformation GetDisplayTime(TimeSpan addThisTime)
+        {
+            return new AbsoluteTimeInformation(this._mainTime - addThisTime);
         }
 
         public override void UpdateFromClock(Clock clock)
@@ -47,12 +44,13 @@ namespace OmegaGo.Core.Time.Absolute
             LastTimeClockStarted = DateTime.Now;
             _mainTime = TimeSpan.FromSeconds(clock.Time);
         }
-
-        private TimeSpan _mainTime;
-
-        public AbsoluteTimeControl(int seconds)
+        protected override void UpdateSnapshot(TimeSpan timeSpent)
         {
-            _mainTime = TimeSpan.FromSeconds(seconds);
+            this._mainTime = this._mainTime - timeSpent;
+        }
+        protected override bool IsViolating(TimeSpan addThisTime)
+        {
+            return (this._mainTime - addThisTime).Ticks <= 0;
         }
     }
 }
