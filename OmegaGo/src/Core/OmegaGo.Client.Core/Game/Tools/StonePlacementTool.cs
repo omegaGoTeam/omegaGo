@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class StonePlacementTool : ITool, IStoneTool
+    public sealed class StonePlacementTool : IStoneTool
     {
         private GameTreeNode _currentNode;
         private MoveResult[,] _moveResults; 
@@ -29,30 +29,23 @@ namespace OmegaGo.Core.Game.Tools
                     nextPlayer = StoneColor.White;
             }
 
-            //process pass or move
-            if (toolService.PointerOverPosition == null) //it's a pass
+            //process move
+            MoveProcessingResult moveResult = toolService.Ruleset.ProcessMove(
+                toolService.Node, 
+                Move.PlaceStone(nextPlayer, toolService.PointerOverPosition));
+            if (moveResult.Result == MoveResult.Legal)
             {
-                GameTreeNode newNode = new GameTreeNode(Move.Pass(nextPlayer));
-                newNode.BoardState = new GameBoard(toolService.Node.BoardState);
-                newNode.GroupState = new GroupState(toolService.Node.GroupState);
+                GameTreeNode newNode = new GameTreeNode(Move.PlaceStone(nextPlayer, toolService.PointerOverPosition));
+
+                newNode.BoardState = moveResult.NewBoard;
+                newNode.GroupState = moveResult.NewGroupState;
+                newNode.Move.Captures.AddRange(moveResult.Captures);
                 newNode.Parent = toolService.Node;
                 toolService.Node.Branches.AddNode(newNode);
-            }
-            else
-            {
-                MoveProcessingResult moveResult = toolService.Ruleset.ProcessMove(
-                    toolService.Node, 
-                    Move.PlaceStone(nextPlayer, toolService.PointerOverPosition));
-                if (moveResult.Result == MoveResult.Legal)
-                {
-                    GameTreeNode newNode = new GameTreeNode(Move.PlaceStone(nextPlayer, toolService.PointerOverPosition));
-                    newNode.BoardState = moveResult.NewBoard;
-                    newNode.GroupState = moveResult.NewGroupState;
-                    newNode.Move.Captures.AddRange(moveResult.Captures);
-                    newNode.Parent = toolService.Node;
-                    toolService.Node.Branches.AddNode(newNode);
-                }                
-            }
+
+                toolService.SetNode(newNode);
+            }                
+            
         }
 
         public MoveResult[,] GetMoveResults(IToolServices toolService)
