@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
@@ -27,6 +25,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="id">Unique ID of new group.</param>
         /// <param name="color">The color of player who controlles the group.</param>
+        /// <param name="info">Ruleset state.</param>
         public Group(int id, StoneColor color, IRulesetInfo info)
         {
             _id = id;
@@ -43,6 +42,7 @@ namespace OmegaGo.Core.Rules
         /// Initializes a new <see cref="Group"/> as a copy of the given group.
         /// </summary>
         /// <param name="group">The group to copy.</param>
+        /// <param name="info">Ruleset state.</param>
         public Group(Group group, IRulesetInfo info)
         {
             _id = group.ID;
@@ -236,7 +236,7 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Increases the number of liberties.
         /// </summary>
-        /// <param name="value">//TODO Aniko</param>
+        /// <param name="value">Liberty count</param>
         internal void IncreaseLibertyCount(int value)
         {
             _libertyCount += value;
@@ -245,7 +245,7 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Decreses the number of liberties.
         /// </summary>
-        /// <param name="value">//TODO Aniko</param>
+        /// <param name="value">Liberty count</param>
         internal void DecreaseLibertyCount(int value)
         {
             if (_libertyCount - value >= 0)

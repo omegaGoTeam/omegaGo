@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
@@ -17,7 +15,7 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Initializes a new <see cref="GroupState"/>.
         /// </summary>
-        /// <param name="gbSize">The size of game board.</param>
+        /// <param name="info">Ruleset state.</param>
         public GroupState(IRulesetInfo info)
         {
             _rulesetInfo = info;
@@ -28,7 +26,8 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Initializes a new <see cref="GroupState"/> as a copy of the given group state.
         /// </summary>
-        /// <param name="gameState">The group state to copy.</param>
+        /// <param name="groupState">The group state to copy.</param>
+        /// <param name="info">Ruleset state.</param>
         public GroupState(GroupState groupState, IRulesetInfo info)
             : this(info)
         {

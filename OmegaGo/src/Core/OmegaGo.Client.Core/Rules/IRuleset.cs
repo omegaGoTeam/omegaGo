@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 
 namespace OmegaGo.Core.Rules
 {
     public interface IRuleset
     {
+        /// <summary>
+        /// Contains information about board state and group state.
+        /// </summary>
         IRulesetInfo RulesetInfo { get; }
 
         /// <summary>
@@ -18,6 +16,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
+        /// <param name="komi">Komi compensation.</param>
         /// <returns>The score of players.</returns>
         Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi);
 
@@ -61,12 +60,20 @@ namespace OmegaGo.Core.Rules
         MoveResult[,] GetMoveResult(GameTreeNode currentNode);
 
         /// <summary>
+        /// Gets the results of moves. Checks whether the intersection is occupied.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <returns>Map of move results.</returns>
+        MoveResult[,] GetMoveResultLite(GameTreeNode boardState);
+
+        /// <summary>
         /// Determines which points belong to which player as territory. This is a pure thread-safe method. 
         /// All stones on the board are considered alive for the purposes of determining territory using this method.
         /// </summary>
         /// <param name="board">The current game board.</param>
+        /// <returns>Map of territories.</returns>
         Territory[,] DetermineTerritory(GameBoard board);
 
-        MoveResult[,] GetMoveResultLite(GameTreeNode boardState);
+        
     }
 }

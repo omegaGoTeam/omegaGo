@@ -20,10 +20,23 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         GroupState GroupState { get; }
 
+        /// <summary>
+        /// Determines the group state based on the given board state.
+        /// </summary>
+        /// <param name="board">Board state</param>
         void SetState(GameBoard board);
 
+        /// <summary>
+        /// Sets the group state and board state.
+        /// </summary>
+        /// <param name="board">Board state</param>
+        /// <param name="groupState">Group state</param>
         void SetState(GameBoard board, GroupState groupState);
 
+        /// <summary>
+        /// Sets the board state. The group state remains unchanged. 
+        /// </summary>
+        /// <param name="board">Board state</param>
         void SetBoard(GameBoard board);
         
     }

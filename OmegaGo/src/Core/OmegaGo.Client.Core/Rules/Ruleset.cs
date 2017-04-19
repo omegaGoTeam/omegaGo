@@ -1,11 +1,7 @@
-﻿using OmegaGo.Core.Extensions;
-using OmegaGo.Core.Game;
+﻿using OmegaGo.Core.Game;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 
 namespace OmegaGo.Core.Rules
 {
@@ -70,6 +66,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
+        /// <param name="komi">Komi compensation.</param>
         /// <returns>The score of players.</returns>
         public abstract Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi);
 
@@ -253,6 +250,11 @@ namespace OmegaGo.Core.Rules
             return moveResults;
         }
 
+        /// <summary>
+        /// Gets the results of moves. Checks whether the intersection is occupied.
+        /// </summary>
+        /// <param name="currentNode">Node of tree representing the previous move.</param>
+        /// <returns>Map of move results.</returns>
         public MoveResult[,] GetMoveResultLite(GameTreeNode currentNode)
         {
             int width = currentNode.BoardState.Size.Width;
@@ -278,6 +280,7 @@ namespace OmegaGo.Core.Rules
         /// All stones on the board are considered alive for the purposes of determining territory using this method.
         /// </summary>
         /// <param name="board">The current game board.</param>
+        /// <returns>Map of territories.</returns>
         public Territory[,] DetermineTerritory(GameBoard board)
         {
             RulesetInfo.SetBoard(board);
@@ -314,6 +317,7 @@ namespace OmegaGo.Core.Rules
             }
             return regions;
         }
+
         public override string ToString()
         {
             return GetType().Name;
@@ -402,7 +406,7 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Determines whether the intersection is already occupied by another stone.
         /// </summary>
-        /// <param name="moveToMake">Move to check.</param>
+        /// <param name="p">Position to check.</param>
         /// <returns>The result of legality check.</returns>
         protected MoveResult IsPositionOccupied(Position p)
         {
@@ -472,7 +476,6 @@ namespace OmegaGo.Core.Rules
             return scores;
         }
 
-        
         /// <summary>
         /// The territory of a player are those empty points on the board which are entirely surrounded by his live stones. 
         /// This method adds up total territory of players. The scores include prisoners and dead stones. 

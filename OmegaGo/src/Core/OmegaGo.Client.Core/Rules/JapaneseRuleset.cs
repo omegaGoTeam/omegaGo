@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.Core.Rules
@@ -10,7 +6,7 @@ namespace OmegaGo.Core.Rules
     /// <summary>
     /// The ruleset contains the basics of Japanese Go rules. 
     /// </summary>
-    public class JapaneseRuleset : Ruleset
+    public sealed class JapaneseRuleset : Ruleset
     {
         /// <summary>
         /// Initializes the ruleset. For each game, a new ruleset must be created.
@@ -23,10 +19,8 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Calculates the default compensation (komi).
         /// </summary>
-        /// <param name="rsType">Type of the ruleset</param>
         /// <param name="gbSize">Game board size</param>
         /// <param name="handicapStoneCount">Handicap stone count</param>
-        /// <param name="cType">Counting type</param>
         /// <returns></returns>
         public static float GetJapaneseCompensation(GameBoardSize gbSize, int handicapStoneCount)
         {
@@ -44,6 +38,7 @@ namespace OmegaGo.Core.Rules
         /// </summary>
         /// <param name="currentNode">Node of tree representing the previous move.</param>
         /// <param name="deadPositions">List of dead stones.</param>
+        /// <param name="komi">Komi compensation.</param>
         /// <returns>The score of players.</returns>
         public override Scores CountScore(GameTreeNode currentNode, IEnumerable<Position> deadPositions, float komi)
         {
