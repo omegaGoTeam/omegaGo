@@ -252,6 +252,7 @@
     <Compile Include="Sgf\Properties\SgfPropertyType.cs" />
     <Compile Include="Sgf\Properties\Values\SgfColorValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfComposePropertyValue.cs" />
+    <Compile Include="Sgf\Properties\Values\SgfComposeValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfDoubleValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfNumberValue.cs" />
     <Compile Include="Sgf\Properties\Values\SgfPointValue.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Sgf\Properties\Values\SgfValueType.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfDouble.cs" />
     <Compile Include="Sgf\Properties\Values\ValueTypes\SgfPoint.cs" />
+    <Compile Include="Sgf\Serializing\SgfSerializer.cs" />
     <Compile Include="Sgf\SgfCollection.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
@@ -375,9 +377,7 @@
     <Content Include="Online\Kgs\Docs\upstream.html" />
     <Content Include="Online\Kgs\Docs\kgsApiTry.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sgf\Serializing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if exist "$(TargetDir)Sockets.Plugin.pdb" (
