@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsUniversal", "WindowsUniversal", "{C2048123-AEE4-4041-95A1-AED3B2249851}"
 EndProject
@@ -224,7 +224,6 @@ Global
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.DebugWithoutFuego|x64.ActiveCfg = DebugWithoutFuego|Any CPU
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.DebugWithoutFuego|x64.Build.0 = DebugWithoutFuego|Any CPU
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.DebugWithoutFuego|x86.ActiveCfg = DebugWithoutFuego|Any CPU
-		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.DebugWithoutFuego|x86.Build.0 = DebugWithoutFuego|Any CPU
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C8C1143-35EA-4007-82F7-6C3CE426B1D9}.Release|ARM.ActiveCfg = Release|Any CPU
@@ -358,7 +357,6 @@ Global
 		{59468521-149E-45D5-AC96-1AD10734E96F}.DebugWithoutFuego|x64.ActiveCfg = DebugWithoutFuego|Any CPU
 		{59468521-149E-45D5-AC96-1AD10734E96F}.DebugWithoutFuego|x64.Build.0 = DebugWithoutFuego|Any CPU
 		{59468521-149E-45D5-AC96-1AD10734E96F}.DebugWithoutFuego|x86.ActiveCfg = DebugWithoutFuego|Any CPU
-		{59468521-149E-45D5-AC96-1AD10734E96F}.DebugWithoutFuego|x86.Build.0 = DebugWithoutFuego|Any CPU
 		{59468521-149E-45D5-AC96-1AD10734E96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59468521-149E-45D5-AC96-1AD10734E96F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59468521-149E-45D5-AC96-1AD10734E96F}.Release|ARM.ActiveCfg = Release|Any CPU

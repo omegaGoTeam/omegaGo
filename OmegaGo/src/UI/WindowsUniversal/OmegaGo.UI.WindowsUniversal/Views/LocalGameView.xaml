@@ -163,15 +163,15 @@
                         
                         <Button.Flyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Text="Resign" Command="{x:Bind VM.ResignCommand}" />
-                                <MenuFlyoutItem Text="Hint" Command="{x:Bind VM.GetHintCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.Hint}" Command="{x:Bind VM.GetHintCommand}" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="Analyze Mode" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
-                                <ToggleMenuFlyoutItem x:Name="focusButton" Text="Focus" Click="focusButton_Click" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
+                                <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
-                                <MenuFlyoutItem Text="Export SGF" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
                                 <MenuFlyoutSeparator />
-                                <ToggleMenuFlyoutItem Text="System Log" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
+                                <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
