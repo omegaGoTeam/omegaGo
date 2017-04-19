@@ -117,7 +117,15 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
         {
             var sgfProperty = SgfProperty.ParseValuesAndCreate("AW", "ab", "ac", "bb", "bc");
             Assert.AreEqual("AW", sgfProperty.Identifier);
-            Assert.AreEqual(4, sgfProperty.Values<SgfPointRectangle>().Count());
+            Assert.AreEqual(4, sgfProperty.SimpleValues<SgfPointRectangle>().Count());
+        }
+
+        [TestMethod]
+        public void ValidPropertyWithValidComposeValuesIsCreatedSuccessfully()
+        {
+            var sgfProperty = SgfProperty.ParseValuesAndCreate("LB", "ab:Hello world!", "ac:Goodbye!");
+            Assert.AreEqual("LB", sgfProperty.Identifier);
+            Assert.AreEqual(2, sgfProperty.ComposeValues<SgfPoint, string>().Count());
         }
 
         [TestMethod]
@@ -126,7 +134,7 @@ namespace OmegaGo.Core.Tests.Sgf.Properties
             var sgfProperty = SgfProperty.ParseValuesAndCreate("AW", "ab", "ac", "bb", "bc");
             Assert.AreEqual(SgfValueType.PointRectangle, sgfProperty.ValueType);
         }
-        
+
         [TestMethod]
         public void ValueTypeOfNonePropertyIsCorrectlyReturned()
         {

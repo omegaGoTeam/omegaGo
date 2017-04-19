@@ -32,7 +32,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Width of the game board.
         /// </summary>
-        public int Width { get;  }
+        public int Width { get; }
         
         /// <summary>
         /// Height of the game board.

@@ -109,13 +109,13 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblem}">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToPreviousProblemCommand}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE892;"></FontIcon>
                             <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_PreviousProblem}"></TextBlock>
                         </StackPanel>
                     </Button>
-                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblem}">
+                    <Button Style="{StaticResource LowerBarButtonStyle}" Margin="0,0,5,0" Command="{Binding Path=GoToNextProblemCommand}">
                         <StackPanel Orientation="Horizontal">
                             <FontIcon Glyph="&#xE893;"></FontIcon>
                             <TextBlock Padding="5,0,0,0" Text="{x:Bind Localizer.Tsumego_NextProblem}"></TextBlock>

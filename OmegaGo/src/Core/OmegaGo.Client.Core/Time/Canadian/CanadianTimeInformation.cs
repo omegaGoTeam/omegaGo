@@ -1,8 +1,8 @@
 ﻿using System;
+using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Canadian
 {
-    //TODO Martin - FromIgs does absolutely not belong here
     public class CanadianTimeInformation : TimeInformation
     {
         public TimeSpan MainTimeLeft { get;  }
@@ -15,11 +15,11 @@ namespace OmegaGo.Core.Time.Canadian
             {
                 if (MainTimeLeft > TimeSpan.Zero)
                 {
-                    return MainTimeLeft.ToString(@"mm\:ss");
+                    return MainTimeLeft.ToCountdownString();
                 }
                 if (PeriodTimeLeft > TimeSpan.Zero)
                 {
-                    return PeriodTimeLeft.ToString(@"mm\:ss");
+                    return PeriodTimeLeft.ToCountdownString();
                 }
                 return "Time exceeded";
             }

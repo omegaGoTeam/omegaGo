@@ -358,7 +358,7 @@
                     -->
                         <CheckBox Content="{x:Bind Localizer.ShowCoordinates}" IsChecked="{Binding ShowCoordinates, Mode=TwoWay}" />
                     <CheckBox Content="{x:Bind Localizer.ShowTutorialButton}" IsChecked="{Binding ShowTutorialInMainMenu, Mode=TwoWay}" />
-                     <CheckBox Content="In online games, show 1 less second remaining on the clock." IsChecked="{Binding AddGraceSecond, Mode=TwoWay}" />
+                     <CheckBox Content="{x:Bind Localizer.UseGraceSecond}" IsChecked="{Binding AddGraceSecond, Mode=TwoWay}" />
                         </StackPanel>
                 </ScrollViewer>
             </PivotItem>

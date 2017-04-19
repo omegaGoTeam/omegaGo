@@ -64,5 +64,25 @@ namespace OmegaGo.Core.AI
         {
             return this.GetType().Name;
         }
+
+
+        /// <summary>
+        /// Gets the LastNode of the tree. If none exists yet, we are at the very beginning of a game, and we'll use an empty board instead.
+        /// </summary>
+        protected GameTreeNode GetLastNodeOrEmptyBoard(GameTree gameTree)
+        {
+            GameTreeNode lastNode = gameTree.LastNode;
+            if (lastNode == null)
+            {
+                GameTreeNode empty = new Game.GameTreeNode(Move.NoneMove);
+                empty.BoardState = new Game.GameBoard(gameTree.BoardSize);
+                empty.GroupState = new Rules.GroupState(gameTree.BoardSize);
+                return empty;
+            }
+            else
+            {
+                return lastNode;
+            }
+        }
     }
 }

@@ -62,29 +62,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Events_LoginPhaseChanged(object sender, IgsLoginPhase e)
         {
-            string message = "";
-            switch (e)
-            {
-                case IgsLoginPhase.Connecting:
-                    message = "Connecting...";
-                    break;
-                case IgsLoginPhase.Done:
-                    message = "Done.";
-                    break;
-                case IgsLoginPhase.LoggingIn:
-                    message = "Logging in...";
-                    break;
-                case IgsLoginPhase.RefreshingGames:
-                    message = "Refreshing the list of games...";
-                    break;
-                case IgsLoginPhase.RefreshingUsers:
-                    message = "Refreshing the list of users...";
-                    break;
-                case IgsLoginPhase.SendingInitialBurst:
-                    message = "Sending initial message burst...";
-                    break;
-            }
-            this.LoginForm.LoginErrorMessage = message;
+            this.LoginForm.LoginErrorMessage = Localizer.GetString("IgsLoginPhase_" + e.ToString()); ;
         }
 
         private void Events_Disconnected(object sender, EventArgs e)

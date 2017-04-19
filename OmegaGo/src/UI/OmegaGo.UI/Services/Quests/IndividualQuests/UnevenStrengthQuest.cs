@@ -20,5 +20,8 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
                 info.Game.Info.NumberOfHandicapStones >= 2
                 ;
         }
+
+        // No "Try This Now" because we don't know if the user wants a local or online game.
+        public override bool TryThisNowButtonVisible => false;
     }
 }

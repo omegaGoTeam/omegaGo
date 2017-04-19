@@ -15,15 +15,25 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 {
     public sealed partial class IgsHomeView : TransparencyViewBase
     {
+        private bool _isInitialized;
         public IgsHomeViewModel VM => (IgsHomeViewModel)this.ViewModel;
 
         public IgsHomeView()
         {
             this.InitializeComponent();
         }
+
+        public override string TabTitle => Localizer.IgsServerCaption;
+
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
+
         private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            await VM.Initialize();
+            if (!_isInitialized)
+            {
+                _isInitialized = true;
+                await VM.Initialize();
+            }
         }
 
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)

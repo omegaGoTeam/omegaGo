@@ -57,7 +57,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             switch (decision.Kind)
             {
                 case AgentDecisionKind.Move:
-                    OnPlaceStone(decision.Move.Coordinates);
+                    if (decision.Move.Kind == MoveKind.PlaceStone)
+                    {
+                        OnPlaceStone(decision.Move.Coordinates);
+                    }
+                    else
+                    {
+                        OnPass();
+                    }
                     break;
                 case AgentDecisionKind.Resign:
                     OnResign();

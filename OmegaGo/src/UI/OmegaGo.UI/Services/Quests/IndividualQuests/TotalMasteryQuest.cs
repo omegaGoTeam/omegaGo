@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
+using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
 {
@@ -13,6 +17,11 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         {
         }
 
+        public override Type GetViewModelToTry()
+        {
+            Mvx.RegisterSingleton<GameCreationBundle.GameCreationBundle>(new TotalMasteryBundle());
+            return typeof(GameCreationViewModel);
+        }
         public override bool GameCompleted(GameCompletedQuestInformation info)
         {
             var opponent =
@@ -26,5 +35,6 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
                 info.Human.Info.Color == Core.Game.StoneColor.White
                 ;
         }
+        public override bool TryThisNowButtonVisible => true;
     }
 }

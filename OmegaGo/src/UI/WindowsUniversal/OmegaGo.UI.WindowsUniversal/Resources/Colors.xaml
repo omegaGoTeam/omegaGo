@@ -5,4 +5,18 @@
     <Color x:Key="GameColor">#FDD270</Color>
     <SolidColorBrush x:Key="GameColorBrush" Color="{ThemeResource GameColor}" />
     
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="DefaultTabColor">#00FF0000</Color>
+            <Color x:Key="TabNotificationColor">OrangeRed</Color>
+            <Color x:Key="OverlayPanelColor">#22000000</Color>
+            <SolidColorBrush Color="{ThemeResource OverlayPanelColor}" x:Key="OverlayPanelBrush" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="DefaultTabColor">#00FF0000</Color>
+            <Color x:Key="TabNotificationColor">OrangeRed</Color>
+            <Color x:Key="OverlayPanelColor">#22FFFFFF</Color>
+            <SolidColorBrush Color="{ThemeResource OverlayPanelColor}" x:Key="OverlayPanelBrush" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
