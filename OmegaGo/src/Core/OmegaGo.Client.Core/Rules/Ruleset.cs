@@ -10,7 +10,18 @@ namespace OmegaGo.Core.Rules
     /// </summary>
     public abstract class Ruleset : IRuleset
     {
-        public IRulesetInfo RulesetInfo { get; private set; }
+        /// <summary>
+        /// Initializes the ruleset. For each game, a new ruleset must be created.
+        /// </summary>
+        /// <param name="gbSize">Size of the game board.</param>
+        protected Ruleset(GameBoardSize gbSize)
+        {
+            RulesetInfo = new RulesetInfo(gbSize);
+            GameBoard newBoard = new GameBoard(gbSize);
+            GroupState groupState = new GroupState(RulesetInfo);
+        }
+
+        public IRulesetInfo RulesetInfo { get; }
 
         /// <summary>
         /// Factory method that creates a ruleset of given type and gameboard size
@@ -323,18 +334,6 @@ namespace OmegaGo.Core.Rules
             return GetType().Name;
         }
 
-        /// <summary>
-        /// Initializes the ruleset. For each game, a new ruleset must be created.
-        /// </summary>
-        /// <param name="gbSize">Size of the game board.</param>
-        protected Ruleset(GameBoardSize gbSize)
-        {
-            RulesetInfo = new RulesetInfo(gbSize);
-            GameBoard newBoard = new GameBoard(gbSize);
-            GroupState groupState = new GroupState(RulesetInfo);
-            
-        }
-        
         /// <summary>
         /// Checks 3 illegal move types: self capture, ko, superko (Japanese ruleset permits superko).
         /// </summary>
