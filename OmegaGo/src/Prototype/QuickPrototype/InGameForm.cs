@@ -67,7 +67,7 @@ namespace FormsPrototype
                 bLocalUndo.Visible = false;
                 connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
-                connection.Events.UndoDeclined += _igs_UndoDeclined;
+                //connection.Events.UndoDeclined += _igs_UndoDeclined;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -88,6 +88,7 @@ namespace FormsPrototype
         {
             _game = game;
             _uiConnector = new UiConnector(game.Controller);
+            game.Controller.RegisterConnector(_uiConnector);
             Text = game.Info.White.Name + " (" + game.Info.White.Rank + ") vs. " + game.Info.Black.Name + "(" + game.Info.Black.Rank + ")";
 
             _controller = _game.Controller;
@@ -180,7 +181,7 @@ namespace FormsPrototype
                 var connection = (_server as IgsConnection);
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
-                connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                //connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
