@@ -95,11 +95,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 return;
             }
 
-            Controller.Ruleset.SetRulesetInfo(new GameBoard(Controller.CurrentNode.BoardState), new GroupState(Controller.CurrentNode.GroupState));
+            Controller.Ruleset.SetRulesetInfo(Controller.CurrentNode.BoardState, Controller.CurrentNode.GroupState);
 
             //discover group at position
-            int groupID = RulesetInfo.GroupState.GroupMap[position.X, position.Y];
-            var groupMembers = RulesetInfo.GroupState.Groups[groupID].Members;
+            int groupID = Controller.Ruleset.RulesetInfo.GroupState.GroupMap[position.X, position.Y];
+            var groupMembers = Controller.Ruleset.RulesetInfo.GroupState.Groups[groupID].Members;
 
             foreach (var deadStone in groupMembers)
             {
@@ -165,7 +165,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             Scores scores = e;
             if (scores == null)
             {
-                scores = Controller.Ruleset.CountScore(Controller.GameTree.LastNode, DeadPositions);
+                scores = Controller.Ruleset.CountScore(Controller.GameTree.LastNode, DeadPositions, Controller.Info.Komi);
             }
             bool isDraw = Math.Abs(scores.BlackScore - scores.WhiteScore) < 0.2f;
             GamePlayer winner;

@@ -232,13 +232,13 @@ namespace OmegaGo.Core.Game
         public void FillBoardStateOfRoot(GameBoardSize boardSize, IRuleset ruleset)
         {
             if (Parent != null) throw new InvalidOperationException("Only call this on a root.");
-            FillBoardStateInternal(new GameBoard(boardSize), new GroupState(boardSize), ruleset);
+            FillBoardStateInternal(new GameBoard(boardSize), new GroupState(ruleset.RulesetInfo), ruleset);
         }
 
         public void FillBoardState(IRuleset ruleset)
         {
             if (Parent == null) throw new InvalidOperationException("Only call this on a child node.");
-            FillBoardStateInternal(new GameBoard(Parent.BoardState), new GroupState(Parent.GroupState), ruleset);
+            FillBoardStateInternal(new GameBoard(Parent.BoardState), new GroupState(Parent.GroupState, ruleset.RulesetInfo), ruleset);
         }
 
         private void FillBoardStateInternal(GameBoard copyOfPreviousBoard, GroupState copyOfPreviousGroupState, IRuleset ruleset)
@@ -256,8 +256,8 @@ namespace OmegaGo.Core.Game
             }
             else
             {
-                RulesetInfo.UpdateRulesetInfo(copyOfPreviousBoard);
-                GroupState = RulesetInfo.GroupState;
+                ruleset.RulesetInfo.SetState(copyOfPreviousBoard);
+                GroupState = ruleset.RulesetInfo.GroupState;
             }
 
             //process only if move was performed

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
@@ -20,35 +18,43 @@ namespace OmegaGo.Core.Rules
         private List<Position> _members;
         private bool[,] _checkedInters;
 
+        private IRulesetInfo _rulesetInfo;
+
         /// <summary>
         /// Initializes a new <see cref="Group"/>.
         /// </summary>
         /// <param name="id">Unique ID of new group.</param>
         /// <param name="color">The color of player who controlles the group.</param>
-        public Group(int id, StoneColor color)
+        /// <param name="info">Ruleset state.</param>
+        public Group(int id, StoneColor color, IRulesetInfo info)
         {
             _id = id;
             _groupColor = color;
             _libertyCount = 0;
             _members = new List<Position>();
-            _checkedInters = new bool[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
-            RulesetInfo.GroupState.Groups[id] = this;
+            _checkedInters = new bool[info.BoardSize.Width, info.BoardSize.Height];
+            _rulesetInfo = info;
+
+            _rulesetInfo.GroupState.Groups[id] = this;
         }
 
         /// <summary>
         /// Initializes a new <see cref="Group"/> as a copy of the given group.
         /// </summary>
         /// <param name="group">The group to copy.</param>
-        public Group(Group group)
+        /// <param name="info">Ruleset state.</param>
+        public Group(Group group, IRulesetInfo info)
         {
             _id = group.ID;
             _groupColor = group.GroupColor;
             _libertyCount = group.LibertyCount;
             _members = new List<Position>();
             _members.AddRange(group.Members);
-            _checkedInters = new bool[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
-            for (int i = 0; i < RulesetInfo.BoardSize.Width; i++)
-                for (int j = 0; j < RulesetInfo.BoardSize.Height; j++)
+            _checkedInters = new bool[info.BoardSize.Width, info.BoardSize.Height];
+            _rulesetInfo = info;
+
+            for (int i = 0; i < info.BoardSize.Width; i++)
+                for (int j = 0; j < info.BoardSize.Height; j++)
                     _checkedInters[i, j] = group._checkedInters[i, j];
         }
         
@@ -94,34 +100,34 @@ namespace OmegaGo.Core.Rules
             if (!_checkedInters[position.X, position.Y])
             {
                 _members.Add(position);
-                RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
+                _rulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
                 _checkedInters[position.X, position.Y] = true;
             }
             Position newp = new Position();
 
             //has same unchecked right neighbour
-            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
+            if (position.X < _rulesetInfo.BoardSize.Width - 1 && _rulesetInfo.BoardState[position.X + 1, position.Y] == GroupColor && !_checkedInters[position.X + 1, position.Y])
             {
                 newp.X = position.X + 1;
                 newp.Y = position.Y;
                 DiscoverGroup(newp);
             }
             //has same unchecked upper neighbour
-            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
+            if (position.Y < _rulesetInfo.BoardSize.Height - 1 && _rulesetInfo.BoardState[position.X, position.Y + 1] == GroupColor && !_checkedInters[position.X, position.Y + 1])
             {
                 newp.X = position.X;
                 newp.Y = position.Y + 1;
                 DiscoverGroup(newp);
             }
             //has same unchecked left neighbour
-            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
+            if (position.X > 0 && _rulesetInfo.BoardState[position.X - 1, position.Y] == GroupColor && !_checkedInters[position.X - 1, position.Y])
             {
                 newp.X = position.X - 1;
                 newp.Y = position.Y;
                 DiscoverGroup(newp);
             }
             //has same unchecked bottom neighbour
-            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
+            if (position.Y > 0 && _rulesetInfo.BoardState[position.X, position.Y - 1] == GroupColor && !_checkedInters[position.X, position.Y - 1])
             {
                 newp.X = position.X;
                 newp.Y = position.Y - 1;
@@ -141,7 +147,7 @@ namespace OmegaGo.Core.Rules
             otherGroup.IncreaseLibertyCount(_libertyCount);
             ChangeGroupMembersID(otherGroup.ID);
             otherGroup.AddMembersToGroupList(_members);
-            RulesetInfo.GroupState.Groups[ID] = null;
+            _rulesetInfo.GroupState.Groups[ID] = null;
         }
 
         /// <summary>
@@ -152,7 +158,7 @@ namespace OmegaGo.Core.Rules
         {
             foreach (Position member in _members)
             {
-                RulesetInfo.GroupState.GroupMap[member.X, member.Y] = id;
+                _rulesetInfo.GroupState.GroupMap[member.X, member.Y] = id;
             }
         }
 
@@ -178,7 +184,7 @@ namespace OmegaGo.Core.Rules
                 throw new Exception("Cannot add stone to non empty group. Use join.");
 
             _members.Add(position);
-            RulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
+            _rulesetInfo.GroupState.GroupMap[position.X, position.Y] = _id;
             _libertyCount = GetLiberty(position);
             _checkedInters[position.X, position.Y] = true;
         }
@@ -193,16 +199,16 @@ namespace OmegaGo.Core.Rules
             {
                 // and update neighbour liberties
                 Position member = _members.First();
-                List<int> neighbours = RulesetInfo.GroupState.GetNeighbourGroups(member);
+                List<int> neighbours = _rulesetInfo.GroupState.GetNeighbourGroups(member);
                 foreach (int groupID in neighbours)
                 {
-                    RulesetInfo.GroupState.Groups[groupID].IncreaseLibertyCount(1);
+                    _rulesetInfo.GroupState.Groups[groupID].IncreaseLibertyCount(1);
                 }
 
                 //delete from group map
-                RulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
+                _rulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
                 //delete from board
-                RulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
+                _rulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
                 
             }
             else if (_members.Count > 1)
@@ -210,12 +216,12 @@ namespace OmegaGo.Core.Rules
                 foreach (Position member in _members)
                 {
                     //delete from group map
-                    RulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
+                    _rulesetInfo.GroupState.GroupMap[member.X, member.Y] = 0;
                     //delete from board
-                    RulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
+                    _rulesetInfo.BoardState[member.X, member.Y] = StoneColor.None;
                 }
                 //update liberties
-                RulesetInfo.GroupState.CountLiberties();
+                _rulesetInfo.GroupState.CountLiberties();
             }
             else
             {
@@ -223,14 +229,14 @@ namespace OmegaGo.Core.Rules
             }
 
             //delete from group list
-            RulesetInfo.GroupState.Groups[_id] = null;
+            _rulesetInfo.GroupState.Groups[_id] = null;
             
         }
 
         /// <summary>
         /// Increases the number of liberties.
         /// </summary>
-        /// <param name="value">//TODO Aniko</param>
+        /// <param name="value">Liberty count</param>
         internal void IncreaseLibertyCount(int value)
         {
             _libertyCount += value;
@@ -239,7 +245,7 @@ namespace OmegaGo.Core.Rules
         /// <summary>
         /// Decreses the number of liberties.
         /// </summary>
-        /// <param name="value">//TODO Aniko</param>
+        /// <param name="value">Liberty count</param>
         internal void DecreaseLibertyCount(int value)
         {
             if (_libertyCount - value >= 0)
@@ -256,13 +262,13 @@ namespace OmegaGo.Core.Rules
         private int GetLiberty(Position position)
         {
             int liberty = 0;
-            if (position.X > 0 && RulesetInfo.BoardState[position.X - 1, position.Y] == StoneColor.None)
+            if (position.X > 0 && _rulesetInfo.BoardState[position.X - 1, position.Y] == StoneColor.None)
                 liberty++;
-            if (position.X < RulesetInfo.BoardSize.Width - 1 && RulesetInfo.BoardState[position.X + 1, position.Y] == StoneColor.None)
+            if (position.X < _rulesetInfo.BoardSize.Width - 1 && _rulesetInfo.BoardState[position.X + 1, position.Y] == StoneColor.None)
                 liberty++;
-            if (position.Y > 0 && RulesetInfo.BoardState[position.X, position.Y - 1] == StoneColor.None)
+            if (position.Y > 0 && _rulesetInfo.BoardState[position.X, position.Y - 1] == StoneColor.None)
                 liberty++;
-            if (position.Y < RulesetInfo.BoardSize.Height - 1 && RulesetInfo.BoardState[position.X, position.Y + 1] == StoneColor.None)
+            if (position.Y < _rulesetInfo.BoardSize.Height - 1 && _rulesetInfo.BoardState[position.X, position.Y + 1] == StoneColor.None)
                 liberty++;
             return liberty;
         }
