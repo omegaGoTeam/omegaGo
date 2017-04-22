@@ -29,7 +29,7 @@ namespace OmegaGo.Core.Game.Tools
             GameTreeNode newNode = new GameTreeNode(Move.Pass(nextPlayer));
 
             newNode.BoardState = new GameBoard(toolService.Node.BoardState);
-            newNode.GroupState = new GroupState(toolService.Node.GroupState);
+            newNode.GroupState = new GroupState(toolService.Node.GroupState,toolService.Ruleset.RulesetInfo);
             newNode.Parent = toolService.Node;
             toolService.Node.Branches.AddNode(newNode);
 
