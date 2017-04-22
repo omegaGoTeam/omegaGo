@@ -135,6 +135,9 @@
     <Compile Include="Services\Settings\SettingsService.cs" />
     <Compile Include="Services\Timer\TimerService.cs" />
     <Compile Include="Services\Online\OnlineStartup.cs" />
+    <Compile Include="UserControls\AnalyzeControl.xaml.cs">
+      <DependentUpon>AnalyzeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
@@ -199,9 +202,6 @@
     </Compile>
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GameOldView.xaml.cs">
-      <DependentUpon>GameOldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -387,6 +387,10 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="UserControls\AnalyzeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\BoardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -468,10 +472,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameCreationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameOldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

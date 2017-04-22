@@ -195,6 +195,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analyze mode.
+        /// </summary>
+        public static string AnalyzeMode {
+            get {
+                return ResourceManager.GetString("AnalyzeMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string AppTheme {
@@ -545,8 +554,6 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
-      
-        
         /// <summary>
         ///   Looks up a localized string similar to Can resign.
         /// </summary>
@@ -881,6 +888,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export SGF.
+        /// </summary>
+        public static string ExportSGF {
+            get {
+                return ResourceManager.GetString("ExportSGF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by source.
         /// </summary>
         public static string FilterBySource {
@@ -1034,6 +1050,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide tabs.
+        /// </summary>
+        public static string HideTabs {
+            get {
+                return ResourceManager.GetString("HideTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Highlight illegal Ko moves.
         /// </summary>
         public static string HighlightIllegalKoMoves {
@@ -1075,6 +1100,15 @@ namespace OmegaGo.UI.Localization {
         public static string HighlightRecentCapturesTooltip {
             get {
                 return ResourceManager.GetString("HighlightRecentCapturesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hint.
+        /// </summary>
+        public static string Hint {
+            get {
+                return ResourceManager.GetString("Hint", resourceCulture);
             }
         }
         
@@ -2266,8 +2300,6 @@ namespace OmegaGo.UI.Localization {
             }
         }
         
-      
-        
         /// <summary>
         ///   Looks up a localized string similar to Ruleset.
         /// </summary>
@@ -2629,6 +2661,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System log.
+        /// </summary>
+        public static string SystemLog {
+            get {
+                return ResourceManager.GetString("SystemLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The game is a draw..
         /// </summary>
         public static string TheGameIsADraw {
@@ -2771,7 +2812,6 @@ namespace OmegaGo.UI.Localization {
                 return ResourceManager.GetString("Time_None_Oneline", resourceCulture);
             }
         }
-        
         
         /// <summary>
         ///   Looks up a localized string similar to Time control.

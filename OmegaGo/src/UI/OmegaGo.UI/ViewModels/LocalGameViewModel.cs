@@ -178,7 +178,7 @@ namespace OmegaGo.UI.ViewModels
         {
             base.OnTurnPlayerChanged(newPlayer);
 
-            BoardViewModel.BoardControlState.MouseOverShadowColor = newPlayer.Agent.Type == AgentType.Human ?
+            BoardViewModel.BoardControlState.PointerOverShadowColor = newPlayer.Agent.Type == AgentType.Human ?
                 newPlayer.Info.Color :
                 StoneColor.None;
 

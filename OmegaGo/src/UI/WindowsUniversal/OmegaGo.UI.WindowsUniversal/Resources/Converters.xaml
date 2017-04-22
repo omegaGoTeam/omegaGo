@@ -6,6 +6,7 @@
     <converters:NativeLocalizingConverter x:Key="LocalizingConverter" />
     <converters:NativeEnumLocalizingConverter x:Key="EnumLocalizingConverter" />
     <converters:NativeVisibilityConverter x:Key="VisibilityConverter" />
+    <converters:NativeInvertedVisibilityConverter x:Key="InvertedVisibilityConverter" />
     <converters:NativeConcreteEnumLocalizingConverter x:Key="ConcreteEnumLocalizingConverter" />
     <converters:NativeTypeNameLocalizingConverter x:Key="TypeNameLocalizingConverter" />
     <converters:NativeEnumSelectionConverter x:Key="EnumSelectionConverter" />

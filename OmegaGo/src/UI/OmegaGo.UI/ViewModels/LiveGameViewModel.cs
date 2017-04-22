@@ -14,11 +14,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.Core.Game.Tools;
+using OmegaGo.Core.Game.Markup;
+using MvvmCross.Core.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
+    /// <summary>
+    /// Represents a base class for games with competing players.
+    /// </summary>
     public abstract class LiveGameViewModel : GameViewModel
     {
+        // Tools
+        private readonly GameToolServices _gameToolServices;
+        private ITool _tool;
+
+        // Analyze
+        private bool _isAnalyzeModeEnabled;
+
+        // System Log
+        private bool _isSystemLogEnabled;
+
         private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
         private int _selectedMoveIndex;
@@ -27,15 +43,67 @@ namespace OmegaGo.UI.ViewModels
         
         private GameEndInformation _gameEndInformation;
 
+        private IMvxCommand _enableAnalyzeModeCommand;
+        private IMvxCommand _disableAnalyzeModeCommand;
+
         public LiveGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
         {
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
             WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
-        }
 
+            // Register tool services
+            ToolServices = 
+                new GameToolServices(
+                    Game.Controller.Ruleset, 
+                    Game.Controller.GameTree);
+            Tool = null;
+
+            // Initialize analyze mode and register tools
+            AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
+            RegisterAnalyzeTools();
+            _isAnalyzeModeEnabled = false;
+
+            // System log visibility
+            _isSystemLogEnabled = false;
+        }
+        
+        public AnalyzeViewModel AnalyzeViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
+        
+        protected GameToolServices ToolServices { get; }
+        protected ITool Tool { get; private set; }
+
+        public IMvxCommand EnableAnalyzeModeCommand
+            => _enableAnalyzeModeCommand ?? (_enableAnalyzeModeCommand = new MvxCommand(EnableAnalyzeMode, () => !IsAnalyzeModeEnabled));
+
+        public IMvxCommand DisableAnalyzeModeCommand
+                    => _disableAnalyzeModeCommand ?? (_disableAnalyzeModeCommand = new MvxCommand(DisableAnalyzeMode, () => IsAnalyzeModeEnabled));
+
+        /// <summary>
+        /// Gets or sets a value that enables or disables analyze mode.
+        /// </summary>
+        public bool IsAnalyzeModeEnabled
+        {
+            get { return _isAnalyzeModeEnabled; }
+            private set
+            {
+                SetProperty(ref _isAnalyzeModeEnabled, value);
+
+                EnableAnalyzeModeCommand.RaiseCanExecuteChanged();
+                DisableAnalyzeModeCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value that indicates whether the System Log should be shown.
+        /// </summary>
+        public bool IsSystemLogEnabled
+        {
+            get { return _isSystemLogEnabled; }
+            set { SetProperty(ref _isSystemLogEnabled, value); }
+        }
 
         public int SelectedMoveIndex
         {
@@ -125,8 +193,61 @@ namespace OmegaGo.UI.ViewModels
         }
 
         ////////////////
+        // Mvx Commands Implementation
+        ////////////////
+
+        private void EnableAnalyzeMode()
+        {
+            IsAnalyzeModeEnabled = true;
+        }
+
+        private void DisableAnalyzeMode()
+        {
+            IsAnalyzeModeEnabled = false;
+
+            Tool = null;
+            BoardViewModel.Tool = null;
+        }
+
+        ////////////////
         // Private methods      
         ////////////////
+
+        /// <summary>
+        /// Registers event handlers for analyze events and registers all valid tools fot this game type.
+        /// </summary>
+        private void RegisterAnalyzeTools()
+        {
+            // Set tool when 
+            AnalyzeViewModel.ToolChanged += (s, tool) =>
+            {
+                Tool = tool;
+                BoardViewModel.Tool = tool as IMarkupTool;
+            };
+
+            // When coming out of analysis, reset tool
+            AnalyzeViewModel.BackToGameRequested += (s, e) =>
+            {
+                Tool = null;
+                BoardViewModel.Tool = null;
+
+                // Disable analyze mode
+                IsAnalyzeModeEnabled = false;
+            };
+            
+            // Now register all available analysis tools for Live Games (observe, local, online)
+            AnalyzeViewModel.DeleteBranchTool = new DeleteBranchTool();
+            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool(Game.Controller.GameTree.BoardSize);
+            AnalyzeViewModel.PassTool = new PassTool();
+
+            AnalyzeViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
+            AnalyzeViewModel.NumberMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Number);
+            // TODO naming square vs rectangle o.O
+            AnalyzeViewModel.RectangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Square);
+            AnalyzeViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
+            AnalyzeViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
+            AnalyzeViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
+        }
 
         private void RefreshInstructionCaption()
         {

@@ -8,20 +8,49 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.UI.Utility;
+using OmegaGo.Core.Game.Tools;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
     public sealed class BoardViewModel : ControlViewModelBase
     {
         private BoardControlState _boardControlState;
-
         private GameTreeNode _gameTreeNode;
+        private IMarkupTool _tool;
 
-        public GameTreeNode GameTreeNode
+        // TODO Is this the correct location for this?
+        private bool _isMarkupDrawingEnabled;
+
+        /// <summary>
+        /// Initializes BoardViewModel.
+        /// </summary>
+        public BoardViewModel()
         {
-            get { return _gameTreeNode; }
-            set { SetProperty(ref _gameTreeNode, value); OnBoardChanged(); }
+            _isMarkupDrawingEnabled = false;
         }
+
+        /// <summary>
+        /// Initializes BoardViewModel with given board size.
+        /// </summary>
+        /// <param name="boardSize">Board size</param>
+        public BoardViewModel(GameBoardSize boardSize)
+        {
+            BoardControlState = new BoardControlState(boardSize);
+        }
+
+        public BoardViewModel(Rectangle rectangle)
+        {
+            BoardControlState = new BoardControlState(rectangle); ;
+        }
+
+        public event EventHandler<GameTreeNode> BoardRedrawRequested;
+
+        // This serves as a notifier for the UI, so it can tell the render service to / not to draw markups.
+        // (This VM is being accessed in the UI from a draw thread - which does not allow access to DependencyProperties!)
+        // TODO Should also give actual value as well?
+        public event EventHandler MarkupSettingsChanged;
+
+        internal event EventHandler<Position> BoardTapped;
 
         public BoardControlState BoardControlState
         {
@@ -29,28 +58,29 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _boardControlState, value); OnBoardChanged(); }
         }
 
-        public event EventHandler<GameTreeNode> BoardRedrawRequested;
-
-        internal event EventHandler<Position> BoardTapped;
-
-        public BoardViewModel()
+        public GameTreeNode GameTreeNode
         {
-
+            get { return _gameTreeNode; }
+            set { SetProperty(ref _gameTreeNode, value); OnBoardChanged(); }
         }
 
-        /// <summary>
-        /// Create board view model with give board size
-        /// </summary>
-        /// <param name="boardSize">Board size</param>
-        public BoardViewModel(GameBoardSize boardSize)
+        public IMarkupTool Tool
         {
-            BoardControlState = new BoardControlState( boardSize ); ;
-        }
-        public BoardViewModel(Rectangle rectangle)
-        {
-            BoardControlState = new BoardControlState(rectangle); ;
+            get { return _tool; }
+            set { _tool = value; }
         }
 
+        // TODO Is this the correct location for this?
+        public bool IsMarkupDrawingEnabled
+        {
+            get { return _isMarkupDrawingEnabled; }
+            set
+            {
+                SetProperty(ref _isMarkupDrawingEnabled, value);
+                MarkupSettingsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        
         public void BoardTap(Position position)
         {
             BoardTapped?.Invoke(this, position);

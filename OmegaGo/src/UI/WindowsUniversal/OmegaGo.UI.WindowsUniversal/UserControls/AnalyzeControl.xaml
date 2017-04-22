@@ -1,0 +1,100 @@
+﻿<local:UserControlBase
+    x:Name="layoutRoot"
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.AnalyzeControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance viewModels:AnalyzeViewModel, IsDesignTimeCreatable=True}"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    DataContext="{x:Bind Path=ViewModel}">
+
+    <local:UserControlBase.Resources>
+        <!-- Add Null to Visibility for each Tool -->
+    </local:UserControlBase.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="headerText" 
+                   Grid.Row="0"
+                   Text="Analysis Tools" TextAlignment="Center" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
+            <Button Command="{Binding Path=PlaceStoneCommand}">
+                <FontIcon Glyph="&#x25D3;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <!--<Button>
+                <FontIcon Glyph="&#x25CF;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button>
+                <FontIcon Glyph="&#x25CB;" FontFamily="Segoe UI Emoji" />
+            </Button>
+
+            <Button Margin="5,0,0,0" VerticalAlignment="Stretch" >
+                <FontIcon Glyph="&#xE70F;" />
+            </Button>
+            <Button VerticalAlignment="Stretch" RenderTransformOrigin="0.5 0.5">
+                <FontIcon Glyph="&#xE70F;" />
+                <Button.RenderTransform>
+                    <RotateTransform Angle="180" />
+                </Button.RenderTransform>
+            </Button>-->
+            <Button Command="{Binding Path=DeleteBranchCommand}" Margin="5,0,0,0" VerticalAlignment="Stretch">
+                <FontIcon Glyph="&#xE74D;" />
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
+            <Button Command="{Binding Path=PlaceCharacterCommand}">
+                <FontIcon Glyph="&#x41;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button Command="{Binding Path=PlaceNumberCommand}">
+                <FontIcon Glyph="&#x31;" FontFamily="Segoe UI Emoji" />
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
+            <Button Command="{Binding Path=PlaceRectangleCommand}">
+                <FontIcon Glyph="&#x25A1;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button Command="{Binding Path=PlaceTriangleCommand}">
+                <FontIcon Glyph="&#x025B3;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button Command="{Binding Path=PlaceCircleCommand}">
+                <FontIcon Glyph="&#x025EF;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button Command="{Binding Path=PlaceCrossCommand}">
+                <FontIcon Glyph="&#x02715;" FontFamily="Segoe UI Emoji" />
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Margin="0,5,0,0" Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Back to game" Command="{Binding Path=BackToGameCommand}" />
+            <Button Content="Pass" Command="{Binding Path=PassCommand}"
+                    Margin="5,0,0,0" />
+        </StackPanel>
+
+        <TextBlock x:Name="nodeCommentaryText"
+                   Grid.Row="5"
+                   MaxHeight="60"/>
+    </Grid>
+</local:UserControlBase>

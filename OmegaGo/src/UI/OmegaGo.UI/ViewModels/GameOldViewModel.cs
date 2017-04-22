@@ -210,7 +210,7 @@ namespace OmegaGo.UI.ViewModels
 
         private void Controller_TurnPlayerChanged(object sender, GamePlayer e)
         {
-            BoardViewModel.BoardControlState.MouseOverShadowColor = e.Agent.Type == AgentType.Human ?
+            BoardViewModel.BoardControlState.PointerOverShadowColor = e.Agent.Type == AgentType.Human ?
                 e.Info.Color :
                 StoneColor.None;
         }

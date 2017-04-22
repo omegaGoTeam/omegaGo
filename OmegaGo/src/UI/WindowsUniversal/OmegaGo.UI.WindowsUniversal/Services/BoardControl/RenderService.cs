@@ -77,10 +77,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             this._highlightLastMove = this._settings.Display.HighlightLastMove;
         }
 
-        public void CreateResources(ICanvasResourceCreator sender, CanvasCreateResourcesEventArgs args)
+        public async Task CreateResources()
         {
             ReloadSettings();
-            args.TrackAsyncAction(WaitUntilResourcesAreAvailableAsync().AsAsyncAction());
+            await WaitUntilResourcesAreAvailableAsync();
         }
 
         private async Task WaitUntilResourcesAreAvailableAsync()
@@ -129,7 +129,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="sender"></param>
         /// <param name="session"></param>
         /// <param name="gameState"></param>
-        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState)
+        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState, bool isMarkupRenderingEnabled = false)
         {
             // Calculations
             double clientWidth = width;
@@ -193,15 +193,15 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
 
             // Mouse over position special case
-            if (this._sharedBoardControlState.MouseOverPosition.IsDefined)
+            if (this._sharedBoardControlState.PointerOverPosition.IsDefined)
             {
                 // TODO Petr : only if legal - use Ruleset IsLegalMove?
                 // But it would be slow, you can implement caching to check for each intersection only once
-                if (this._sharedBoardControlState.MouseOverShadowColor != StoneColor.None &&
-                    (this._sharedBoardControlState.TEMP_MoveLegality == null || this._sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y] == MoveResult.Legal)
+                if (this._sharedBoardControlState.PointerOverShadowColor != StoneColor.None &&
+                    (this._sharedBoardControlState.TEMP_MoveLegality == null || this._sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal)
                     )
                 {
-                    DrawStone(session, this.SharedBoardControlState.MouseOverPosition.X, this.SharedBoardControlState.MouseOverPosition.Y, this._sharedBoardControlState.MouseOverShadowColor, 0.5);
+                    DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, this._sharedBoardControlState.PointerOverShadowColor, 0.5);
                 }
             }
 
