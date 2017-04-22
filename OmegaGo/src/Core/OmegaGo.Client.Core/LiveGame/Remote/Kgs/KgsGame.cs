@@ -19,13 +19,5 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         }
 
         public override KgsGameController Controller { get; }
-
-        public void GetChatMessage(Tuple<string, string> tuple)
-        {
-            var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
-                DateTimeOffset.Now, ChatMessageKind.Incoming);
-            Controller.OnChatMessageReceived(chatMessage);
-            Controller.AddMessage(chatMessage);
-        }
     }
 }

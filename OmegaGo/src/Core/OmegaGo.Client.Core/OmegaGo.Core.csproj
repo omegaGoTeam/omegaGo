@@ -68,6 +68,7 @@
     <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\KgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
+    <Compile Include="LiveGame\Remote\ChatService.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameController.cs" />
     <Compile Include="LiveGame\State\GameEndInformation.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
-    <Compile Include="Online\Igs\IgsChatService.cs" />
     <Compile Include="Online\Igs\IgsLoginPhase.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />

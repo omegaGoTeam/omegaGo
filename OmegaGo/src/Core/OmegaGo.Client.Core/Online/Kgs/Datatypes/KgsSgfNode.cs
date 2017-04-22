@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
@@ -76,7 +78,9 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     var tuple = KgsRegex.ParseCommentAsChat(prop.Text);
                     if (tuple != null)
                     {
-                        ongame.GetChatMessage(tuple);
+                        var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
+                            DateTimeOffset.Now, ChatMessageKind.Incoming);
+                        ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
                     }
                     break;
                 case "TIMELEFT":
