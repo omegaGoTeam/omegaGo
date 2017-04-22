@@ -93,6 +93,7 @@ namespace OmegaGo.Core.Rules
         {
             Group newGroup= CreateNewGroup(color,position);
             List<int> neighbourGroups = GetNeighbourGroups(position);
+
             foreach (int groupID in neighbourGroups)
             {
                 Group group = Groups[groupID];
@@ -110,6 +111,7 @@ namespace OmegaGo.Core.Rules
                         group.JoinGroupWith(newGroup);
                 }
             }
+
             _rulesetInfo.BoardState[position.X, position.Y] = color;
         }
 
@@ -122,6 +124,7 @@ namespace OmegaGo.Core.Rules
         {
             Group newGroup = CreateNewGroup(color, position);
             List<int> neighbourGroups = GetNeighbourGroups(position);
+
             foreach (int groupID in neighbourGroups)
             {
                 Group group = Groups[groupID];
@@ -129,6 +132,7 @@ namespace OmegaGo.Core.Rules
                 if (group.GroupColor == color && group.LibertyCount > 0)
                     newGroup.IncreaseLibertyCount(1);
             }
+
             _rulesetInfo.BoardState[position.X, position.Y] = color;
         }
 
@@ -192,6 +196,7 @@ namespace OmegaGo.Core.Rules
             int right = (position.X == _rulesetInfo.BoardSize.Width - 1) ? 0 : GroupMap[position.X + 1, position.Y];
             int bottom = (position.Y == 0) ? 0 : GroupMap[position.X, position.Y - 1];
             int upper = (position.Y == _rulesetInfo.BoardSize.Height - 1) ? 0 : GroupMap[position.X, position.Y + 1];
+
             if (left > 0)
                 neighbours.Add(left);
             if (right > 0)
