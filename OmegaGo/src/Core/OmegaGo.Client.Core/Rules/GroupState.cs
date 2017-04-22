@@ -114,6 +114,45 @@ namespace OmegaGo.Core.Rules
         }
 
         /// <summary>
+        /// Adds stone to the group map, group list and board, but the possible group join is ignored.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <param name="color">Color of stone.</param>
+        internal void AddTempStoneToBoard(Position position, StoneColor color)
+        {
+            Group newGroup = CreateNewGroup(color, position);
+            List<int> neighbourGroups = GetNeighbourGroups(position);
+            foreach (int groupID in neighbourGroups)
+            {
+                Group group = Groups[groupID];
+                group.DecreaseLibertyCount(1);
+                if (group.GroupColor == color && group.LibertyCount > 0)
+                    newGroup.IncreaseLibertyCount(1);
+            }
+            _rulesetInfo.BoardState[position.X, position.Y] = color;
+        }
+
+        /// <summary>
+        /// Removes temporarily added stone from group map, group list and board.
+        /// </summary>
+        /// <param name="position">Position of stone.</param>
+        internal void RemoveTempStoneFromPosition(Position position)
+        {
+            List<int> neighbourGroups = GetNeighbourGroups(position);
+
+            foreach (int groupID in neighbourGroups)
+            {
+                Group group = Groups[groupID];
+                group.IncreaseLibertyCount(1);
+            }
+
+            int ID = GroupMap[position.X, position.Y];
+            _rulesetInfo.BoardState[position.X, position.Y] = StoneColor.None;
+            Groups[ID] = null;
+            GroupMap[position.X, position.Y] = 0;
+        }
+
+        /// <summary>
         /// Counts the liberties of groups: For each empty intersection increases the liberty of neighbour groups.
         /// Call after discovering all groups (method FillGroupMap()).
         /// </summary>
