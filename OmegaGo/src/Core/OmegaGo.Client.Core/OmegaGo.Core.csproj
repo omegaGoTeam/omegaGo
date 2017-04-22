@@ -257,6 +257,7 @@
     <Compile Include="Rules\RulesetType.cs" />
     <Compile Include="Rules\Territory.cs" />
     <Compile Include="Rules\Scores.cs" />
+    <Compile Include="Sgf\Helpers\SgfPointCompressor.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
     <Compile Include="Sgf\Properties\SgfKnownProperties.cs" />
     <Compile Include="Sgf\Properties\SgfValueMultiplicity.cs" />
