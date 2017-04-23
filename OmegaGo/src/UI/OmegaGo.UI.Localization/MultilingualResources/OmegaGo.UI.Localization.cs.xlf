@@ -26,7 +26,7 @@
         </trans-unit>
         <trans-unit id="DeleteSelection" translate="yes" xml:space="preserve">
           <source>Delete selection</source>
-          <target state="translated">Velikost</target>
+          <target state="translated">Smazat výběr</target>
         </trans-unit>
         <trans-unit id="FilterBySource" translate="yes" xml:space="preserve">
           <source>Filter by source</source>
