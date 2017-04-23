@@ -17,6 +17,7 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsData
     {
         private KgsConnection kgsConnection;
+        public List<KgsChallenge> OpenChallenges { get; } = new List<KgsChallenge>();
         public Dictionary<int, KgsRoom> Rooms { get; } = new Dictionary<int, KgsRoom>();
         public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();

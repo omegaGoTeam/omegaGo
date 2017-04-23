@@ -8,13 +8,16 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
 
         public Proposal Proposal { get; set; }
-        public event EventHandler BecameAcceptable;
+        public event EventHandler StatusChanged;
         public bool Acceptable { get; set; }
+        public Proposal IncomingChallenge { get; set; }
 
         // TODO used for debugging so far
         public List<string> Events { get; } = new List<string>();
 
-        private KgsChallenge(Proposal proposal, int channelId) : base(channelId)
+        public bool OwnedByUs { get; set; }
+
+        public KgsChallenge(Proposal proposal, int channelId) : base(channelId)
         {
             Proposal = proposal;
         }
@@ -37,10 +40,9 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             return Proposal.Players[0].User.Name + " proposes " + Proposal.Rules.ToShortDescription();
         }
 
-        public void BecomeAcceptable()
+        public void RaiseStatusChanged()
         {
-            this.Acceptable = true;
-            BecameAcceptable?.Invoke(this, EventArgs.Empty);
+            StatusChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

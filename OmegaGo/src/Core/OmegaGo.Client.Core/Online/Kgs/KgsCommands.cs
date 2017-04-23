@@ -17,6 +17,7 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsCommands : ICommonCommands
     {
         private readonly KgsConnection kgsConnection;
+        private Task CompletedTask = Task.FromResult(0);
 
         public KgsCommands(KgsConnection kgsConnection)
         {
@@ -249,8 +250,59 @@ namespace OmegaGo.Core.Online.Kgs
                 ChannelId = info.ChannelId
             });
         }
+        public async Task CreateChallenge(KgsRoom room, bool ranked, bool global, RulesDescription rules, StoneColor yourColor)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_CREATE", new
+            {
+                ChannelId = room.ChannelId,
+                CallbackKey = 0,
+                Global = global,
+                Text = "Game",
+                Proposal = new 
+                {
+                    GameType = ranked ? GameType.Ranked : GameType.Free,
+                    Rules = rules,
+                    Nigiri = yourColor == StoneColor.None,
+                    Players = new KgsPlayer []
+                    {
+                        new KgsPlayer()
+                        {
+                            Name = kgsConnection.Username,
+                            Role = yourColor == StoneColor.Black ? "black" : "white"
+                        },
+                        new  KgsPlayer()
+                        {
+                            Role = yourColor == StoneColor.Black ? "white" : "black"
+                        }
+                    }
+                }
+            });
+        }
 
-        private Task CompletedTask = Task.FromResult(0);
 
+        public async Task DeclineChallengeAsync(KgsChallenge challenge, Proposal incomingChallenge)
+        {
+            string targetName =
+                incomingChallenge.Players.Select(pl => pl.User?.Name)
+                    .First(name => name != null && name != kgsConnection.Username);
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_DECLINE", new
+            {
+                ChannelId = challenge.ChannelId,
+                Name = targetName
+            });
+        }
+
+        public async Task ChallengeProposalAsync(KgsChallenge challenge, Proposal incomingChallenge)
+        {
+            Proposal outgoing = incomingChallenge.ToUpstream();
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_PROPOSAL", new
+            {
+                ChannelId = challenge.ChannelId,
+                GameType = outgoing.GameType,
+                Rules = outgoing.Rules,
+                Nigiri = outgoing.Nigiri,
+                Players = outgoing.Players
+            });
+        }
     }
 }
