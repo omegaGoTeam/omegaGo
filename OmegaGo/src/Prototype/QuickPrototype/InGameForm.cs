@@ -31,6 +31,7 @@ using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Structures;
 using OmegaGo.Core.Time;
 using GoColor = OmegaGo.Core.Game.StoneColor;
 
@@ -545,17 +546,24 @@ namespace FormsPrototype
         public IgsGameInfo OnlineInfo => (IgsGameInfo) _game.Info;
         private async void bUndoPlease_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).Commands.UndoPleaseAsync(OnlineInfo);
+            if (_server is IgsConnection)
+            {
+                await (_server as IgsConnection).Commands.UndoPleaseAsync(OnlineInfo);
+            }
+            else if (_server is KgsConnection)
+            {
+                await (_server as KgsConnection).Commands.UndoPleaseAsync((KgsGameInfo)_game.Info);
+            }
         }
 
         private async void bUndoYes_Click(object sender, EventArgs e)
         {
-            await (_server as IgsConnection).Commands.UndoAsync(OnlineInfo);
+            await (_server as IServerConnection).Commands.AllowUndoAsync(OnlineInfo);
         }
 
-        private void bUndoNo_Click(object sender, EventArgs e)
+        private async void bUndoNo_Click(object sender, EventArgs e)
         {
-            (_server as IgsConnection).Commands.NoUndo(OnlineInfo);
+            await (_server as IServerConnection).Commands.RejectUndoAsync(OnlineInfo);
         }
 
         private void bLocalUndo_Click(object sender, EventArgs e)
