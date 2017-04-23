@@ -154,14 +154,20 @@ namespace OmegaGo.UI.ViewModels
         {
             base.OnCurrentNodeChanged(newNode);
 
-            if (newNode != null)
+            ITabInfo tabInfo = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
+
+            // TODO Martin validate this hotfix
+            // With handicap this method is fired much sooned and the ViewModel is not yet set, returning null.
+            // Check for this case.
+            if (newNode != null && tabInfo != null)
             {
                 UpdateTimeline();
                 RefreshInstructionCaption();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
                 // because we need the UpdateTimeline calls to be in order.
                 await PlaySoundIfAppropriate(newNode);
-                Mvx.Resolve<ITabProvider>().GetTabForViewModel(this).IsBlinking = true;
+
+                tabInfo.IsBlinking = true;
             }
         }
 
