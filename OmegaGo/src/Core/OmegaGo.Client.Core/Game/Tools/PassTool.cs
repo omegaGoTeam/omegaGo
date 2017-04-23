@@ -30,7 +30,6 @@ namespace OmegaGo.Core.Game.Tools
 
             newNode.BoardState = new GameBoard(toolService.Node.BoardState);
             newNode.GroupState = new GroupState(toolService.Node.GroupState,toolService.Ruleset.RulesetInfo);
-            newNode.Parent = toolService.Node;
             toolService.Node.Branches.AddNode(newNode);
 
             toolService.SetNode(newNode);

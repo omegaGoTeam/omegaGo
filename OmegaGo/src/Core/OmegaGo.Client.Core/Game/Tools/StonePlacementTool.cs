@@ -45,7 +45,6 @@ namespace OmegaGo.Core.Game.Tools
                 newNode.BoardState = moveResult.NewBoard;
                 newNode.GroupState = moveResult.NewGroupState;
                 newNode.Move.Captures.AddRange(moveResult.Captures);
-                newNode.Parent = toolService.Node;
                 toolService.Node.Branches.AddNode(newNode);
 
                 toolService.SetNode(newNode);
