@@ -26,8 +26,7 @@
         </trans-unit>
         <trans-unit id="DeleteSelection" translate="yes" xml:space="preserve">
           <source>Delete selection</source>
-          <target state="final">Smazat výběr
-</target>
+          <target state="translated">Velikost</target>
         </trans-unit>
         <trans-unit id="FilterBySource" translate="yes" xml:space="preserve">
           <source>Filter by source</source>
@@ -390,7 +389,7 @@
         </trans-unit>
         <trans-unit id="EnableEvenInOnlineGamesTooltip" translate="yes" xml:space="preserve">
           <source>It is frowned upon to use AI assistance during games against human opponents without their knowledge.</source>
-          <target state="translated">Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</target>
+          <target state="translated">Není zdvořilé používat pomoc umělé inteligence během her proti ostatním lidem, pokud jim o tom předem neřeknete.</target>
         </trans-unit>
         <trans-unit id="EnableHints" translate="yes" xml:space="preserve">
           <source>Enable hints</source>
@@ -1482,7 +1481,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="UseGraceSecond" translate="yes" xml:space="preserve">
           <source>In online games, show 1 less second remaining on the clock.</source>
-          <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně .</target>
+          <target state="translated">V online hrách ukazovat na časovači o 1 vteřinu méně</target>
         </trans-unit>
         <trans-unit id="MainMenu" translate="yes" xml:space="preserve">
           <source>Main menu</source>

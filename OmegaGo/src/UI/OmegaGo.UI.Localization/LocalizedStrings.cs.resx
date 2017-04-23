@@ -27,8 +27,7 @@
 </value>
   </data>
   <data name="DeleteSelection" xml:space="preserve">
-    <value>Smazat výběr
-</value>
+    <value>Velikost</value>
   </data>
   <data name="FilterBySource" xml:space="preserve">
     <value>Filtrovat dle zdroje</value>
@@ -298,7 +297,7 @@
     <value>Povolit i v online hrách</value>
   </data>
   <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
-    <value>Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
+    <value>Není zdvořilé používat pomoc umělé inteligence během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
   </data>
   <data name="EnableHints" xml:space="preserve">
     <value>Povolit nápovědu</value>
@@ -1114,7 +1113,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Odměna:</value>
   </data>
   <data name="UseGraceSecond" xml:space="preserve">
-    <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
+    <value>V online hrách ukazovat na časovači o 1 vteřinu méně</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Hlavní menu</value>
