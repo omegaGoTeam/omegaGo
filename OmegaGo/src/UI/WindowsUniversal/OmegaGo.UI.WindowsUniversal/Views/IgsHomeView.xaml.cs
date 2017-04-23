@@ -27,7 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
 
-        private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void IgsHomeLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isInitialized)
             {
@@ -48,7 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortUsersByName(object sender, RoutedEventArgs e)
         {
-            VM.SortUsers((u1, u2) => String.Compare(u1.Name, u2.Name, StringComparison.Ordinal));
+            VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         private async void RefreshGames(object sender, RoutedEventArgs e)

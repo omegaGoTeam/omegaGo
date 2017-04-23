@@ -303,6 +303,21 @@ namespace OmegaGo.UI.ViewModels
                         return StoneColor.None;
                 }
             }
+            set
+            {
+                switch (value)
+                {
+                    case StoneColor.Black:
+                        SelectedColorIndex = 0;
+                        break;
+                    case StoneColor.White:
+                        SelectedColorIndex = 1;
+                        break;
+                    case StoneColor.None:
+                        SelectedColorIndex = 2;
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -335,6 +350,11 @@ namespace OmegaGo.UI.ViewModels
             => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
                 async () => { await RefuseChallenge(); }));
 
+
+        public override void Appearing()
+        {
+            TabTitle = Bundle.TabTitle;
+        }
 
         private void SetCustomBoardSize()
         {

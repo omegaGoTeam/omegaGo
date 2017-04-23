@@ -13,16 +13,16 @@ namespace OmegaGo.Core.Online.Igs.Structures
         public StoneColor YourColor { get; }
         public int MainTime { get; }
         public int OvertimeMinutes { get; }
-        public int OvertimeStones { get; }
+        public int BoardSize { get; }
         
 
 
 
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, int maintime, int overtimeMinutes, int overtimeStones)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, int boardSize, int maintime, int overtimeMinutes)
         {
             MainTime = maintime;
             OvertimeMinutes = overtimeMinutes;
-            OvertimeStones = overtimeStones;
+            BoardSize = boardSize;
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
             this.YourColor = yourColor;
@@ -31,19 +31,19 @@ namespace OmegaGo.Core.Online.Igs.Structures
 
 
         public static IgsMatchRequest FromOldStyleResponse(string opponentName, StoneColor yourColor, 
+            int boardSize,
             int canadianMainTime,
-            int canadianOvertimeMinutes,
-            int canadianOvertimeStones)
+            int canadianOvertimeMinutes)
         {
             return new IgsMatchRequest(
-                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " +
-                canadianOvertimeMinutes + " " + canadianOvertimeStones,
+                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + boardSize + " " +
+                canadianMainTime + " " + canadianOvertimeMinutes,
                 "decline " + opponentName,
                 yourColor,
                 opponentName,
+                boardSize,
                 canadianMainTime,
-                canadianOvertimeMinutes,
-                canadianOvertimeStones);
+                canadianOvertimeMinutes);
         }
         public override string ToString() => "Vs. " + this.OpponentName + " (you are " + this.YourColor.ToString() + ")";
     }

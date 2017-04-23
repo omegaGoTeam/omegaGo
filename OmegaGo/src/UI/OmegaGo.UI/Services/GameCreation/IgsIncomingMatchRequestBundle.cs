@@ -47,10 +47,12 @@ namespace OmegaGo.UI.Services.GameCreation
             
             gameCreationViewModel.FormTitle = Localizer.Creation_IncomingIgsChallenge;
             gameCreationViewModel.RefusalCaption = Localizer.RefuseChallenge;
+            gameCreationViewModel.CustomSquareSize = _igsMatchRequest.BoardSize.ToString();
+            gameCreationViewModel.SelectedColor = _igsMatchRequest.YourColor;
             gameCreationViewModel.TimeControl.Style = Core.Time.TimeControlStyle.Canadian;
             gameCreationViewModel.TimeControl.OvertimeMinutes = _igsMatchRequest.OvertimeMinutes.ToString();
             gameCreationViewModel.TimeControl.MainTime = _igsMatchRequest.MainTime.ToString();
-            gameCreationViewModel.TimeControl.StonesPerPeriod = _igsMatchRequest.OvertimeStones.ToString();
+            gameCreationViewModel.TimeControl.StonesPerPeriod = "25";
 
         }
     }

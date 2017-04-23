@@ -169,7 +169,7 @@
                       IsEnabled="{Binding Bundle.NotFrozen}">
                         <ComboBoxItem Content="{x:Bind Localizer.Black}"></ComboBoxItem>
                         <ComboBoxItem Content="{x:Bind Localizer.White}"></ComboBoxItem>
-                        <ComboBoxItem Content="{x:Bind Localizer.Nigiri}"></ComboBoxItem>
+                        <ComboBoxItem Content="{x:Bind Localizer.Nigiri}" Visibility="{x:Bind VM.Bundle.IsNotIgs}"></ComboBoxItem>
                     </ComboBox>
 
                     <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>

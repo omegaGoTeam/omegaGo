@@ -23,7 +23,12 @@ namespace OmegaGo.UI.ViewModels
     public class IgsHomeViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings;
-       
+#if DEBUG
+        private string _usernameFilter = "Soothie";
+#else
+        private string _usernameFilter = "";
+#endif
+
 
         public IgsHomeViewModel(IGameSettings settings)
         {
@@ -180,6 +185,14 @@ namespace OmegaGo.UI.ViewModels
             get { return _progressPanelVisible; }
             set { SetProperty(ref _progressPanelVisible, value); }
         }
+        public string UsernameFilter
+        {
+            get { return _usernameFilter; }
+            set {
+                SetProperty(ref _usernameFilter, value);
+                RefillChallengeableUsersFromAllUsers();
+            }
+        }
         public async Task AttemptLoginCommand(string username, string password)
         {
             LoginForm.LoginErrorMessageOpacity = 1;
@@ -263,13 +276,14 @@ namespace OmegaGo.UI.ViewModels
         }
         private void RefillChallengeableUsersFromAllUsers()
         {
+            var filteredUsers = allUsers.Where(usr => usr.Name.ToLower().Contains(UsernameFilter.ToLower()));
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
             }
             else
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers);
             }
         }
         private List<IgsUser> allUsers = new List<IgsUser>();
