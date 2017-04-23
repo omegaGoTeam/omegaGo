@@ -28,7 +28,7 @@ namespace OmegaGo.UI.ViewModels
         public Localizer Localizer => _localizer ?? (_localizer = new Localizer());
 
         /// <summary>
-        /// Called when the view model is appearing
+        /// Called when the view model is appearing (including background)
         /// </summary>
         public virtual void Appearing()
         {
