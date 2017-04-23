@@ -175,6 +175,7 @@
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeProposal.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />

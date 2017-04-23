@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
@@ -7,6 +8,8 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
 
         public Proposal Proposal { get; set; }
+        public event EventHandler BecameAcceptable;
+        public bool Acceptable { get; set; }
 
         // TODO used for debugging so far
         public List<string> Events { get; } = new List<string>();
@@ -32,6 +35,12 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
 
             return Proposal.Players[0].User.Name + " proposes " + Proposal.Rules.ToShortDescription();
+        }
+
+        public void BecomeAcceptable()
+        {
+            this.Acceptable = true;
+            BecameAcceptable?.Invoke(this, EventArgs.Empty);
         }
     }
 }

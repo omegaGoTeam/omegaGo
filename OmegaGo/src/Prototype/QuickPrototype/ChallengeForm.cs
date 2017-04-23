@@ -28,6 +28,12 @@ namespace FormsPrototype
             this._connection = connection;
             this.lblInfo.Text = challenge.ToString();
             connection.Events.Unjoin += Events_Unjoin;
+            challenge.BecameAcceptable += Challenge_BecameAcceptable;
+            RefreshEvents();
+        }
+
+        private void Challenge_BecameAcceptable(object sender, EventArgs e)
+        {
             RefreshEvents();
         }
 
@@ -43,6 +49,7 @@ namespace FormsPrototype
             {
                 this.lbEvents.Items.Add(e);
             }
+            this.bAccept.Enabled = challenge.Acceptable;
         }
 
         private void bRefreshEvents_Click(object sender, EventArgs e)
@@ -60,6 +67,11 @@ namespace FormsPrototype
         private async void bAccept_Click(object sender, EventArgs e)
         {
             await _connection.Commands.AcceptChallenge(challenge);
+        }
+
+        private void ChallengeForm_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }

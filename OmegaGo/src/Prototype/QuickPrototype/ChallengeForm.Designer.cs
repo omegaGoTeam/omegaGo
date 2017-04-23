@@ -58,6 +58,7 @@
             // 
             // bAccept
             // 
+            this.bAccept.Enabled = false;
             this.bAccept.Location = new System.Drawing.Point(26, 239);
             this.bAccept.Name = "bAccept";
             this.bAccept.Size = new System.Drawing.Size(171, 47);
@@ -118,6 +119,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ChallengeForm";
             this.Text = "KGS Challenge";
+            this.Load += new System.EventHandler(this.ChallengeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

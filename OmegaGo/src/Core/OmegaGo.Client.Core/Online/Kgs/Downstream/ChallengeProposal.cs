@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// the status of UI controls on the challenge form, but so far, they are merely displayed in a listbox.
     /// </summary>
     /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.KgsInterruptChannelMessage" />
-    class ChallengeDownstreamEvent : KgsInterruptChannelMessage
+    class ChallengeProposal : KgsInterruptChannelMessage
     {
         public override void Process(KgsConnection connection)
         {
@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                 if (challenge.ChannelId == this.ChannelId)
                 {
                     challenge.Events.Add(this.Type);
-                  
+                    challenge.BecomeAcceptable();
                 }
             }
         }

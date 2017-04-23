@@ -93,6 +93,8 @@ namespace OmegaGo.Core.Online.Kgs
                     HandleInterruptMessage<GameOver>(message);
                     return true;
                 case "CHALLENGE_PROPOSAL":
+                    HandleInterruptMessage<ChallengeProposal>(message);
+                    return true;
                 case "CHALLENGE_FINAL":
                 case "GAME_NOTIFY":
                     //  TODO Petr: Elaborate in specific messages later.
