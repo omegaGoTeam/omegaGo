@@ -25,8 +25,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private Localizer _localizer = null;       
 
         public ViewBase()
-        {
+        {           
             Loading += ViewBase_Loading;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            (ViewModel as ViewModelBase)?.Appearing();
         }
 
         private void ViewBase_Loaded(object sender, RoutedEventArgs e)
@@ -84,8 +90,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// </summary>
         private void ViewBase_Loading(FrameworkElement sender, object args)
         {
-            //notify the view model
-            ( ViewModel as ViewModelBase )?.Appearing();
             //Set view model as Data Context by default
             DataContext = ViewModel;
         }
