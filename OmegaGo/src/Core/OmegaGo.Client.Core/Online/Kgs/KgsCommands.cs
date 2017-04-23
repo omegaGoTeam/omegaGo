@@ -91,7 +91,7 @@ namespace OmegaGo.Core.Online.Kgs
                     Loc = new 
                     {
                         X = move.Coordinates.X,
-                        Y = move.Coordinates.Y
+                        Y = KgsCoordinates.OurToTheirs(move.Coordinates.Y, kgsInfo.BoardSize)
                     }
                 });
             }
@@ -138,7 +138,7 @@ namespace OmegaGo.Core.Online.Kgs
                 ChannelId = kgsInfo.ChannelId,
                 Alive = false,
                 X = position.X,
-                Y = position.Y
+                Y = KgsCoordinates.OurToTheirs(position.Y, kgsInfo.BoardSize)
             });
         }
 

@@ -64,8 +64,6 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public async Task SendChatMessageAsync(string chatMessage)
         {
             await _connection.Commands.ChatAsync(_gameController.Info, chatMessage);
-            OnNewChatMessageReceived(new ChatMessage(_connection.Username, chatMessage, DateTimeOffset.Now,
-                ChatMessageKind.Outgoing));
         }
 
         protected virtual void OnNewChatMessageReceived(ChatMessage e)

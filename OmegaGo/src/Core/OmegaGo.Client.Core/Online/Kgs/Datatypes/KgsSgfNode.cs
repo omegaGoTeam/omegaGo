@@ -88,7 +88,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
-                    ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, prop.Loc.Y));
+                    ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "TIMELEFT":
                     StoneColor colorTimeLeft = (prop.Color == "black" ? StoneColor.Black : StoneColor.White);
@@ -101,7 +101,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     if (!prop.Loc.IsPass)
                     {
                         XY whereTo = (XY) prop.Loc;
-                        Position position = new Game.Position(whereTo.X, whereTo.Y);
+                        Position position = new Game.Position(whereTo.X, KgsCoordinates.TheirsToOurs(whereTo.Y, ongame.Info.BoardSize));
                         move = Move.PlaceStone(color, position);
                     }
                     else

@@ -16,7 +16,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
 
         public override string ToString()
         {
-            return new Position(X, Y).ToIgsCoordinates();
+            return new Position(X, Y).ToIgsCoordinates() + "(KGS!)";
         }
     }
 }
