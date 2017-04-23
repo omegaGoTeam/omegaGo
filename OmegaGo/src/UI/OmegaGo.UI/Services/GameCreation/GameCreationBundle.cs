@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 
-namespace OmegaGo.UI.Services.GameCreationBundle
+namespace OmegaGo.UI.Services.GameCreation
 {
     /// <summary>
     /// Represents a method by which one can enter the <see cref="GameCreationViewModel"/>.  
@@ -81,14 +80,26 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         public abstract bool Frozen { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the user can modify something in this form.
+        /// </summary>
+        public bool NotFrozen => !Frozen;
+
+        /// <summary>
         /// Gets a value indicating whether this method has something to do with IGS.
         /// </summary>
         public virtual bool IsIgs => false;
 
         /// <summary>
+        /// Gets a value indicating whether this method is not related to IGS. This is used to disable a field on the form.
+        /// </summary>
+        public bool IsNotIgs => !IsIgs;
+
+        /// <summary>
         /// Gets the name of the opponent to display as a TextBlock.
         /// </summary>
         public virtual string OpponentName => "Local";
+
+        public abstract string TabTitle { get; }
 
         /// <summary>
         /// Called when the <paramref name="gameCreationViewModel"/> loads. Use this to set properties of the model's controls.

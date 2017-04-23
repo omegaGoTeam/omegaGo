@@ -14,7 +14,6 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
-using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.Quests.IndividualQuests
@@ -16,7 +16,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         }
         public override Type GetViewModelToTry()
         {
-            Mvx.RegisterSingleton<GameCreationBundle.GameCreationBundle>(new SoloBundle());
+            Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(new SoloBundle());
             return typeof(GameCreationViewModel);
         }
 

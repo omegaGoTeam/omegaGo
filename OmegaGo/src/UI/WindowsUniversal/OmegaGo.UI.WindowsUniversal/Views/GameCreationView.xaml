@@ -81,6 +81,7 @@
                     <TextBlock Grid.Row="0" Style="{StaticResource Labels}" Text="{x:Bind Localizer.BoardSize}" />
                     <ComboBox Grid.Row="0" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Path=BoardSizes}"
+                      IsEnabled="{Binding Bundle.NotFrozen}"
                       SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -92,7 +93,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Row="0" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.CustomEllipsis}">
+                    <Button Grid.Row="0" Style="{StaticResource Buttons}"
+                      IsEnabled="{Binding Bundle.NotFrozen}" Content="{x:Bind Localizer.CustomEllipsis}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
                                 <StackPanel>
@@ -162,8 +164,9 @@
                     <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
                     <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding Bundle.OpponentName}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
 
-                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
-                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"
+                      IsEnabled="{Binding Bundle.NotFrozen}">
                         <ComboBoxItem Content="{x:Bind Localizer.Black}"></ComboBoxItem>
                         <ComboBoxItem Content="{x:Bind Localizer.White}"></ComboBoxItem>
                         <ComboBoxItem Content="{x:Bind Localizer.Nigiri}"></ComboBoxItem>
@@ -194,7 +197,8 @@
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
-                    <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}">
+                    <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}" 
+                      IsEnabled="{Binding Bundle.NotFrozen}">
                         <Button.Flyout>
                             <Flyout  Placement="Right" x:Name="TimeControlFlyout">
                                 <StackPanel Width="300">
@@ -232,7 +236,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMovesPerPeriodLabel}"></TextBlock>
-                                            <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                            <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30" IsEnabled="{Binding Bundle.IsNotIgs}"></TextBox>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMinutesPerPeriodLabel}"></TextBlock>

@@ -12,12 +12,12 @@ using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.GameCreation;
-using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Online;
+using OmegaGo.UI.Infrastructure.Tabbed;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -66,7 +66,7 @@ namespace OmegaGo.UI.ViewModels
     private GameCreationBundle _bundle;
 
 
-        public GameCreationViewModel( IGameSettings gameSettings )
+        public GameCreationViewModel(IGameSettings gameSettings)
         {
             _gameSettings = gameSettings;
             _customWidth = _gameSettings.Interface.BoardWidth;
@@ -75,8 +75,14 @@ namespace OmegaGo.UI.ViewModels
 
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
+
+            var thisTab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
+            if (thisTab != null)
+            {
+                thisTab.Title = _bundle.TabTitle;
+            }
         }
-        
+
         public PlayerSettingsViewModel BlackPlayerSettings
         {
             get { return _blackSettings; }
@@ -378,7 +384,8 @@ namespace OmegaGo.UI.ViewModels
                 return;
             }
             await Bundle.RefuseChallenge(this);
-            this.Close(this);
+            var provider = Mvx.Resolve<ITabProvider>();
+            provider.CloseTab(provider.GetTabForViewModel(this));
         }
 
         private void StartGameImmediately()

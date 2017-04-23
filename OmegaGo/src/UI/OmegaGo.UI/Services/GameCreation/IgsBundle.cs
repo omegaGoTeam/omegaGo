@@ -7,7 +7,7 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
 {
-    abstract class IgsBundle : GameCreationBundle.GameCreationBundle
+    abstract class IgsBundle : GameCreationBundle
     {
         public override bool SupportsChangingRulesets => false;
         public override bool SupportsRectangularBoards => false;
@@ -22,6 +22,7 @@ namespace OmegaGo.UI.Services.GameCreation
             gameCreationViewModel.IgsLimitation = true;
             gameCreationViewModel.Server = "IGS";
             gameCreationViewModel.SelectedRuleset = Core.Rules.RulesetType.Japanese;
+            gameCreationViewModel.TimeControlStyles.Remove(Core.Time.TimeControlStyle.Japanese);
         }
     }
 }

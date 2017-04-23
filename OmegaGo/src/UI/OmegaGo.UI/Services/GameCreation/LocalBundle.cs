@@ -9,7 +9,7 @@ namespace OmegaGo.UI.Services.GameCreation
     /// <summary>
     /// Base class for methods that result in a local game.
     /// </summary>
-    abstract class LocalBundle : GameCreationBundle.GameCreationBundle
+    abstract class LocalBundle : GameCreation.GameCreationBundle
     {
         public override GameCreationFormStyle Style => GameCreationFormStyle.LocalGame;
 
@@ -29,5 +29,6 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool KomiIsAvailable => true;
 
         public override bool HandicapMayBeChanged => true;
+        public override string TabTitle => Localizer.NewGame;
     }
 }

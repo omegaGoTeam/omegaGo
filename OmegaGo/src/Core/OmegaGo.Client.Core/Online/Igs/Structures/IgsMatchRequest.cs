@@ -11,14 +11,18 @@ namespace OmegaGo.Core.Online.Igs.Structures
         public readonly string RejectCommand;
         public string OpponentName { get; }
         public StoneColor YourColor { get; }
-        public CanadianTimeControl TimeSettings { get;  }
+        public int MainTime { get; }
+        public int OvertimeMinutes { get; }
+        public int OvertimeStones { get; }
         
 
 
 
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, CanadianTimeControl timeSettings)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, int maintime, int overtimeMinutes, int overtimeStones)
         {
-            TimeSettings = timeSettings;
+            MainTime = maintime;
+            OvertimeMinutes = overtimeMinutes;
+            OvertimeStones = overtimeStones;
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
             this.YourColor = yourColor;
@@ -32,13 +36,14 @@ namespace OmegaGo.Core.Online.Igs.Structures
             int canadianOvertimeStones)
         {
             return new IgsMatchRequest(
-                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " + canadianOvertimeMinutes + " " + canadianOvertimeStones,
+                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " +
+                canadianOvertimeMinutes + " " + canadianOvertimeStones,
                 "decline " + opponentName,
                 yourColor,
                 opponentName,
-                new CanadianTimeControl(TimeSpan.FromMinutes(canadianMainTime),
-                  canadianOvertimeStones, TimeSpan.FromMinutes(canadianOvertimeMinutes))
-                );
+                canadianMainTime,
+                canadianOvertimeMinutes,
+                canadianOvertimeStones);
         }
         public override string ToString() => "Vs. " + this.OpponentName + " (you are " + this.YourColor.ToString() + ")";
     }

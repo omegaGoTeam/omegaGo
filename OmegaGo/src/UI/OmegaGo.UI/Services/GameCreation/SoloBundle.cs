@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.ViewModels;
 
-namespace OmegaGo.UI.Services.GameCreationBundle
+namespace OmegaGo.UI.Services.GameCreation
 {
     class SoloBundle : LocalBundle
     {

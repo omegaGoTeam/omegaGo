@@ -10,6 +10,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
@@ -92,15 +93,21 @@ namespace OmegaGo.UI.Services.Online
                         new MvxBundle(), MvxRequestedBy.Unknown), TabNavigationType.NewForegroundTab);
         }
 
-        private static void Pandanet_IncomingMatchRequest(Core.Online.Igs.Structures.IgsMatchRequest obj)
+        private static async void Pandanet_IncomingMatchRequest(Core.Online.Igs.Structures.IgsMatchRequest obj)
         {
-            Mvx.RegisterSingleton<GameCreationBundle.GameCreationBundle>(
+            Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(
                 new GameCreation.IgsIncomingMatchRequestBundle(obj));
             var newTab = Mvx.Resolve<ITabProvider>()
                 .ShowViewModel(
                     new MvxViewModelRequest(typeof(GameCreationViewModel), new MvxBundle(), new MvxBundle(),
                         MvxRequestedBy.Unknown), TabNavigationType.NewBackgroundTab);
             newTab.IsBlinking = true;
+
+            var settings = Mvx.Resolve<IGameSettings>();
+            if (settings.Audio.PlayWhenNotificationReceived)
+            {
+                await Sounds.Notification.PlayAsync();
+            }
         }
 
         /// <summary>

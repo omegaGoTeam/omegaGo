@@ -299,6 +299,7 @@
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
+    <Content Include="Assets\Sounds\Notification.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place0.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place1.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place2.mp3" />
