@@ -94,8 +94,8 @@
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <TextBlock Text="Name: "></TextBlock>
-                                <TextBox Text="{x:Bind VM.UsernameFilter, Mode=TwoWay}"></TextBox>
+                                <TextBlock Margin="10,0,0,0" Text="Name: " VerticalAlignment="Center"></TextBlock>
+                                <TextBox Margin="10,0,0,0" Width="200" VerticalAlignment="Center" Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>

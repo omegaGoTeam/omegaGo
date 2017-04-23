@@ -79,9 +79,16 @@ namespace OmegaGo.UI.Services.Online
             _igsConnection = new IgsConnection();
             _igsConnection.Events.PersonalInformationUpdate += IgsUserUpdate;
             _igsConnection.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest; 
-            _igsConnection.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted; 
+            _igsConnection.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
+            _igsConnection.Events.MatchRequestDeclined += Pandanet_MatchRequestDeclined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
+        }
+
+        private static void Pandanet_MatchRequestDeclined(object sender, string e)
+        {
+            Mvx.Resolve<Notifications.IAppNotificationService>()
+                .TriggerNotification(new Notifications.BubbleNotification(e + " declined your match request."));
         }
 
         private static void Pandanet_MatchRequestAccepted(object sender, Core.Modes.LiveGame.Remote.Igs.IgsGame e)
