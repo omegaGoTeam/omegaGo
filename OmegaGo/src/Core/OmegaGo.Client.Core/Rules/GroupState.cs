@@ -93,6 +93,7 @@ namespace OmegaGo.Core.Rules
         {
             Group newGroup= CreateNewGroup(color,position);
             List<int> neighbourGroups = GetNeighbourGroups(position);
+
             foreach (int groupID in neighbourGroups)
             {
                 Group group = Groups[groupID];
@@ -110,7 +111,49 @@ namespace OmegaGo.Core.Rules
                         group.JoinGroupWith(newGroup);
                 }
             }
+
             _rulesetInfo.BoardState[position.X, position.Y] = color;
+        }
+
+        /// <summary>
+        /// Adds stone to the group map, group list and board, but the possible group join is ignored.
+        /// </summary>
+        /// <param name="position">Position on the board.</param>
+        /// <param name="color">Color of stone.</param>
+        internal void AddTempStoneToBoard(Position position, StoneColor color)
+        {
+            Group newGroup = CreateNewGroup(color, position);
+            List<int> neighbourGroups = GetNeighbourGroups(position);
+
+            foreach (int groupID in neighbourGroups)
+            {
+                Group group = Groups[groupID];
+                group.DecreaseLibertyCount(1);
+                if (group.GroupColor == color && group.LibertyCount > 0)
+                    newGroup.IncreaseLibertyCount(1);
+            }
+
+            _rulesetInfo.BoardState[position.X, position.Y] = color;
+        }
+
+        /// <summary>
+        /// Removes temporarily added stone from group map, group list and board.
+        /// </summary>
+        /// <param name="position">Position of stone.</param>
+        internal void RemoveTempStoneFromPosition(Position position)
+        {
+            List<int> neighbourGroups = GetNeighbourGroups(position);
+
+            foreach (int groupID in neighbourGroups)
+            {
+                Group group = Groups[groupID];
+                group.IncreaseLibertyCount(1);
+            }
+
+            int ID = GroupMap[position.X, position.Y];
+            _rulesetInfo.BoardState[position.X, position.Y] = StoneColor.None;
+            Groups[ID] = null;
+            GroupMap[position.X, position.Y] = 0;
         }
 
         /// <summary>
@@ -153,6 +196,7 @@ namespace OmegaGo.Core.Rules
             int right = (position.X == _rulesetInfo.BoardSize.Width - 1) ? 0 : GroupMap[position.X + 1, position.Y];
             int bottom = (position.Y == 0) ? 0 : GroupMap[position.X, position.Y - 1];
             int upper = (position.Y == _rulesetInfo.BoardSize.Height - 1) ? 0 : GroupMap[position.X, position.Y + 1];
+
             if (left > 0)
                 neighbours.Add(left);
             if (right > 0)

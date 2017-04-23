@@ -40,6 +40,6 @@ namespace OmegaGo.Core.Online.Common
         
         Task AllowUndoAsync(RemoteGameInfo remoteInfo);
 
-        Task RejectUndoAsync(RemoteGameInfo remoteInfo);
+        Task RejectUndoAsync(RemoteGameInfo remoteInfo);        
     }
 }

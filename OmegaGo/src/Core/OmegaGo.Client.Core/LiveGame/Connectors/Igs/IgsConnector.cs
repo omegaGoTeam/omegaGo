@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
-using OmegaGo.Core.Online.Kgs.Downstream;
 
 namespace OmegaGo.Core.Modes.LiveGame.Connectors.Igs
 {
@@ -54,11 +54,14 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 
+
         public event EventHandler<IgsTimeControlAdjustmentEventArgs> TimeControlShouldAdjust;
         public event EventHandler<GameScoreEventArgs> GameScoredAndCompleted;
 #pragma warning restore CS0067
         public event EventHandler Disconnected;
         public event EventHandler<GameEndInformation> GameEndedByServer;
+
+        public event EventHandler<ChatMessage> NewChatMessageReceived;
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -132,6 +135,42 @@ so I thought suppressing warnings would have the same result.*/
         }
 
         /// <summary>
+        /// New chat message received from server
+        /// </summary>
+        /// <param name="chatMessage"></param>
+        public void ChatMessageFromServer( ChatMessage chatMessage )
+        {
+            OnNewChatMessageReceived(chatMessage);
+        }
+
+        /// <summary>
+        /// Sends a chat message
+        /// </summary>
+        /// <param name="chatMessage">Chat message to send</param>        
+        public async Task SendChatMessageAsync( string chatMessage )
+        {
+            //IGS has two different chat message forms - say and kibitz, depending on whether you are a player or an obersver
+            if (_gameController.Players.Local != null)
+            {
+                //say 
+                if (await _connnection.Commands.SayAsync( _gameController.Info, chatMessage ))
+                {
+                    OnNewChatMessageReceived(new ChatMessage(_connnection.Username, chatMessage, DateTimeOffset.Now,
+                        ChatMessageKind.Outgoing));
+                }
+            }
+            else
+            {
+                //kibitz
+                if (await _connnection.Commands.KibitzAsync(_gameController.Info, chatMessage))
+                {
+                    OnNewChatMessageReceived(new ChatMessage(_connnection.Username, chatMessage, DateTimeOffset.Now,
+                        ChatMessageKind.Outgoing));
+                }
+            }
+        }
+
+        /// <summary>
         /// Server indicates that it wants to change the game phase
         /// </summary>
         /// <param name="gamePhase">Game phase type to start</param>
@@ -168,6 +207,11 @@ so I thought suppressing warnings would have the same result.*/
         {
             GameEndedByServer?.Invoke(this, gameEndInfo);
             _connnection.DestroyGame(_gameController.Info);
+        }
+
+        protected virtual void OnNewChatMessageReceived(ChatMessage e)
+        {
+            NewChatMessageReceived?.Invoke(this, e);
         }
     }
 }
