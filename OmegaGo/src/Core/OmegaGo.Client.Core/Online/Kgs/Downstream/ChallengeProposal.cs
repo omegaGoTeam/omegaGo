@@ -8,10 +8,8 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
     /// <summary>
-    /// A downstream message by the metatranslator which has some meaning for a challenge that we have opened. These events may alter
-    /// the status of UI controls on the challenge form, but so far, they are merely displayed in a listbox.
+    /// A player in a challenge has proposed a game.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.KgsInterruptChannelMessage" />
     class ChallengeProposal : KgsInterruptChannelMessage
     {
         public override void Process(KgsConnection connection)
