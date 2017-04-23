@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
@@ -75,6 +76,11 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         public abstract bool KomiIsAvailable { get; }
 
         /// <summary>
+        /// Gets a value indicating whether all form fields, except for the experimental "Your Agent" field, are frozen and cannot be changed.
+        /// </summary>
+        public abstract bool Frozen { get; }
+
+        /// <summary>
         /// Gets a value indicating whether this method has something to do with IGS.
         /// </summary>
         public virtual bool IsIgs => false;
@@ -96,6 +102,16 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         public virtual Task CreateChallenge(GameCreationViewModel gameCreationViewModel)
         {
             throw new InvalidOperationException("This bundle does not support the creation of challenges.");
+        }
+
+        public virtual Task<IGame> AcceptChallenge(GameCreationViewModel gameCreationViewModel)
+        {
+            throw new InvalidOperationException("This bundle does not support accepting challenges.");
+        }
+
+        public virtual Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
+        {
+            throw new InvalidOperationException("This bundle does not support refusing challenges.");
         }
     }
 }

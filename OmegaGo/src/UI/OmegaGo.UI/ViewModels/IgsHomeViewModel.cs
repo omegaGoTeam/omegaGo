@@ -42,9 +42,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task Initialize()
         {
             LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok; 
-            Connections.Igs.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
-            Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
             Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
@@ -101,8 +99,6 @@ namespace OmegaGo.UI.ViewModels
 
         public void Deinitialize()
         {
-            Connections.Igs.Events.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Igs.Events.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
             Connections.Igs.Events.Disconnected -= Events_Disconnected;
@@ -110,17 +106,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public LoginFormViewModel LoginForm { get; }
-    
-
-        private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
-        {
-            StartGame(e);
-        }
-
-        private void Pandanet_IncomingMatchRequest(IgsMatchRequest obj)
-        {
-            this.IncomingMatchRequests.Add(obj);
-        }
 
      
 
@@ -368,7 +353,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (SelectedChallengeableUser != null)
             {
-                Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
+                Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
                 ShowViewModel<GameCreationViewModel>();
             }
         }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));

@@ -9,26 +9,20 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
 {
-    class IgsChallengeBundle : GameCreationBundle.GameCreationBundle
+    class IgsOutgoingChallengeBundle : IgsBundle
     {
         private IgsUser selectedChallengeableUser;
 
-        public IgsChallengeBundle(IgsUser selectedChallengeableUser)
+        public IgsOutgoingChallengeBundle(IgsUser selectedChallengeableUser)
         {
             this.selectedChallengeableUser = selectedChallengeableUser;
         }
 
         public override string OpponentName => selectedChallengeableUser.Name;
         public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
-        public override bool SupportsChangingRulesets => false;
-        public override bool SupportsRectangularBoards => false;
         public override bool AcceptableAndRefusable => false;
-        public override bool Playable => false;
-        public override bool BlackAndWhiteVisible => false;
         public override bool WillCreateChallenge => true;
-        public override bool KomiIsAvailable => false;
-        public override bool HandicapMayBeChanged => false;
-        public override bool IsIgs => true;
+        public override bool Frozen => false;
 
         public override async Task CreateChallenge(GameCreationViewModel gameCreationViewModel)
         {
@@ -44,10 +38,8 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override void OnLoad(GameCreationViewModel gameCreationViewModel)
         {
+            base.OnLoad(gameCreationViewModel);
             gameCreationViewModel.FormTitle = Localizer.Creation_OutgoingIgsRequest;
-            gameCreationViewModel.IgsLimitation = true;
-            gameCreationViewModel.Server = "IGS";
-            gameCreationViewModel.SelectedRuleset = Core.Rules.RulesetType.Japanese;
         }
     }
 }

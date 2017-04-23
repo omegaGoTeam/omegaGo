@@ -1,5 +1,7 @@
-﻿using OmegaGo.Core.Extensions;
+﻿using System;
+using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs.Structures
 {
@@ -7,19 +9,20 @@ namespace OmegaGo.Core.Online.Igs.Structures
     {
         public readonly string AcceptCommand;
         public readonly string RejectCommand;
+        public string OpponentName { get; }
+        public StoneColor YourColor { get; }
+        public CanadianTimeControl TimeSettings { get;  }
+        
 
-        private StoneColor _yourColor;
-        private string _opponentName;
 
 
-        public override string ToString() => "Vs. " + this._opponentName + " (you are " + this._yourColor.ToString() + ")";
-
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, CanadianTimeControl timeSettings)
         {
+            TimeSettings = timeSettings;
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
-            this._yourColor = yourColor;
-            this._opponentName = opponentName;
+            this.YourColor = yourColor;
+            this.OpponentName = opponentName;
         }
 
 
@@ -32,8 +35,11 @@ namespace OmegaGo.Core.Online.Igs.Structures
                 "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " + canadianOvertimeMinutes + " " + canadianOvertimeStones,
                 "decline " + opponentName,
                 yourColor,
-                opponentName
+                opponentName,
+                new CanadianTimeControl(TimeSpan.FromMinutes(canadianMainTime),
+                  canadianOvertimeStones, TimeSpan.FromMinutes(canadianOvertimeMinutes))
                 );
         }
+        public override string ToString() => "Vs. " + this.OpponentName + " (you are " + this.YourColor.ToString() + ")";
     }
 }

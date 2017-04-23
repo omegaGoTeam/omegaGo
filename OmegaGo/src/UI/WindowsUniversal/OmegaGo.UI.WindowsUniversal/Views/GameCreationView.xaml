@@ -299,8 +299,8 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
-                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{x:Bind VM.RefusalCaption}"></Button>
+                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding AcceptChallengeCommand}" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
+                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding RefuseChallengeCommand}" Content="{x:Bind VM.RefusalCaption}"></Button>
                     </Grid>
 
                     <TextBlock Grid.Row="10" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>

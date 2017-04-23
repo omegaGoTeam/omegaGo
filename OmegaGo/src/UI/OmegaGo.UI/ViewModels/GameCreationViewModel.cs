@@ -31,8 +31,8 @@ namespace OmegaGo.UI.ViewModels
 
         // Backing fields
         private bool _isHandicapFixed = true;
-        private int _handicap = 0;
-        private float _compensation = 0;
+        private int _handicap;
+        private float _compensation;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
         private RulesetType _selectedRuleset = RulesetType.Chinese;
         private string _formTitle = "";
@@ -48,6 +48,8 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToGameCommand;
         private IMvxCommand _switchColorsCommand;
         private IMvxCommand _createChallengeCommand;
+        private IMvxCommand _acceptChallengeCommand;
+        private IMvxCommand _refuseChallengeCommand;
         private bool _useRecommendedKomi = true;
         private string _validationErrorMessage = "";
         private int _selectedColorIndex = 0;
@@ -184,7 +186,7 @@ namespace OmegaGo.UI.ViewModels
             var whiteSettings = this.WhitePlayerSettings;
             var black = this.BlackPlayer;
             var blackSettings = this.BlackPlayerSettings;
-            // Order matters due to WhitePlayer and BlackPlayer setters.
+            // Order probably still matters due to WhitePlayer and BlackPlayer setters.
             this.WhitePlayerSettings = blackSettings;
             this.WhitePlayer = black;
             this.BlackPlayerSettings = whiteSettings;
@@ -315,17 +317,18 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _compensation, value); }
         }
 
-        /// <summary>
-        /// Sample game board for preview
-        /// </summary>
-        public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
-
-        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(StartGameImmediately));
 
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
             async () => { await CreateChallenge(); }));
 
-     
+        public IMvxCommand AcceptChallengeCommand
+            => _acceptChallengeCommand ?? (_acceptChallengeCommand = new MvxCommand(
+                async () => { await AcceptChallenge(); }));
+        public IMvxCommand RefuseChallengeCommand
+            => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
+                async () => { await RefuseChallenge(); }));
+
 
         private void SetCustomBoardSize()
         {
@@ -347,6 +350,8 @@ namespace OmegaGo.UI.ViewModels
                     CountingType.Area);
             }
         }
+
+        // The four button-confirmation methods
         private async Task CreateChallenge()
         {
             if (!Validate())
@@ -356,8 +361,27 @@ namespace OmegaGo.UI.ViewModels
             await Bundle.CreateChallenge(this);
             GoBack();
         }
+        private async Task AcceptChallenge()
+        {
+            if (!Validate())
+            {
+                return;
+            }
+            IGame game = await Bundle.AcceptChallenge(this);
+            Mvx.RegisterSingleton<IGame>(game);
+            ShowViewModel<OnlineGameViewModel>();
+        }
+        private async Task RefuseChallenge()
+        {
+            if (!Validate())
+            {
+                return;
+            }
+            await Bundle.RefuseChallenge(this);
+            this.Close(this);
+        }
 
-        private void NavigateToGame()
+        private void StartGameImmediately()
         {
             if (!Validate())
             {

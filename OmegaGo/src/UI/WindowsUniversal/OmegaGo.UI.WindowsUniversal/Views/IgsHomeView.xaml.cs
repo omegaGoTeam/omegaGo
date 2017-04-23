@@ -106,31 +106,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             await VM.RefreshUsers();
         }
 
-        private async void Temp_RejectRequest_Click(object sender, RoutedEventArgs e)
-        {
-            if (TempIncomingMatchRequests.SelectedItem != null)
-            {
-                IgsMatchRequest mr = (IgsMatchRequest) this.TempIncomingMatchRequests.SelectedItem;
-                VM.ShowProgressPanel("Declining request...");
-                VM.IncomingMatchRequests.Remove(mr);
-                await Connections.Igs.Commands.DeclineMatchRequestAsync(mr);
-                VM.ProgressPanelVisible = false;
-            }
-        }
-
-        private async void Temp_AcceptRequest_Click(object sender, RoutedEventArgs e)
-        {
-            if (TempIncomingMatchRequests.SelectedItem != null)
-            {
-                IgsMatchRequest mr = (IgsMatchRequest)this.TempIncomingMatchRequests.SelectedItem;
-                VM.ShowProgressPanel("Accepting request...");
-                VM.IncomingMatchRequests.Remove(mr);
-                IgsGame game = await Connections.Igs.Commands.AcceptMatchRequestAsync(mr);
-                VM.ProgressPanelVisible = false;
-                VM.StartGame(game);
-            }
-        }
-
         private void RefreshConsole(object sender, RoutedEventArgs e)
         {
             this.IgsConsole.Text = Connections.Igs.Log;
