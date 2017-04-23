@@ -1510,11 +1510,67 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
           <source>Joining global games and challenges list...</source>
-          <target state="new">Joining global games and challenges list...</target>
+          <target state="translated">Připojování k hlavnímu seznamu her a výzev...</target>
         </trans-unit>
         <trans-unit id="Solved" translate="yes" xml:space="preserve">
           <source>Solved</source>
-          <target state="new">Solved</target>
+          <target state="translated">Vyřešeno</target>
+        </trans-unit>
+        <trans-unit id="Igs_ConnectingToPandanet" translate="yes" xml:space="preserve">
+          <source>Connecting to Pandanet...</source>
+          <target state="translated">Připojování k Pandanetu...</target>
+        </trans-unit>
+        <trans-unit id="Igs_ConnectionError" translate="yes" xml:space="preserve">
+          <source>Could not connect to Pandanet. Maybe your internet connection failed?</source>
+          <target state="translated">Nelze se připojit k Pandanetu. Možná selhalo připojení k internetu?</target>
+        </trans-unit>
+        <trans-unit id="Igs_Disconnecting" translate="yes" xml:space="preserve">
+          <source>Disconnecting...</source>
+          <target state="translated">Odpojování...</target>
+        </trans-unit>
+        <trans-unit id="Igs_InitiatingObservationOfAGame" translate="yes" xml:space="preserve">
+          <source>Initiating observation of a game...</source>
+          <target state="translated">Zahajuji pozorování hry...</target>
+        </trans-unit>
+        <trans-unit id="Igs_LoggingInAs" translate="yes" xml:space="preserve">
+          <source>Loggin in as {0}...</source>
+          <target state="translated">Přihlášení jako {0}...</target>
+        </trans-unit>
+        <trans-unit id="Igs_LoginAlreadyInProgress" translate="yes" xml:space="preserve">
+          <source>Login already in progress. Waiting...</source>
+          <target state="translated">Přihlášení již proběhí. Počkejte chvíli...</target>
+        </trans-unit>
+        <trans-unit id="LoginFailed" translate="yes" xml:space="preserve">
+          <source>Login failed.</source>
+          <target state="translated">Přihlášení se nezdařilo.</target>
+        </trans-unit>
+        <trans-unit id="NotLoggedIn" translate="yes" xml:space="preserve">
+          <source>[not logged in]</source>
+          <target state="translated">[nepřihlášen]</target>
+        </trans-unit>
+        <trans-unit id="SelectedItemColon" translate="yes" xml:space="preserve">
+          <source>Selected file:</source>
+          <target state="translated">Vybraný soubor:</target>
+        </trans-unit>
+        <trans-unit id="SetDefaultColor" translate="yes" xml:space="preserve">
+          <source>Set default color</source>
+          <target state="translated">Nastavit výchozí barvu</target>
+        </trans-unit>
+        <trans-unit id="TogglingLFG" translate="yes" xml:space="preserve">
+          <source>Toggling whether we are looking for games...</source>
+          <target state="translated">Přepínání, zda hledáme hry...</target>
+        </trans-unit>
+        <trans-unit id="TogglingOpenness" translate="yes" xml:space="preserve">
+          <source>Toggling whether we are open..</source>
+          <target state="translated">Přepínání, jestli jsme otevřeni pro hry...</target>
+        </trans-unit>
+        <trans-unit id="WrongCredentials" translate="yes" xml:space="preserve">
+          <source>The username or password you entered is incorrect.</source>
+          <target state="translated">Uživatelské jméno nebo heslo je nesprávné.</target>
+        </trans-unit>
+        <trans-unit id="YouHaveBeenDisconnected" translate="yes" xml:space="preserve">
+          <source>You have been disconnected.</source>
+          <target state="translated">Byli jste odpojeni.</target>
         </trans-unit>
       </group>
     </body>

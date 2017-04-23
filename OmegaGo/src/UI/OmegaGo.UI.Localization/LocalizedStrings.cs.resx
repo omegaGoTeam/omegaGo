@@ -1119,4 +1119,52 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="MainMenu" xml:space="preserve">
     <value>Hlavní menu</value>
   </data>
+  <data name="KgsLoginPhase_JoiningGlobalLists" xml:space="preserve">
+    <value>Připojování k hlavnímu seznamu her a výzev...</value>
+  </data>
+  <data name="Solved" xml:space="preserve">
+    <value>Vyřešeno</value>
+  </data>
+  <data name="Igs_ConnectingToPandanet" xml:space="preserve">
+    <value>Připojování k Pandanetu...</value>
+  </data>
+  <data name="Igs_ConnectionError" xml:space="preserve">
+    <value>Nelze se připojit k Pandanetu. Možná selhalo připojení k internetu?</value>
+  </data>
+  <data name="Igs_Disconnecting" xml:space="preserve">
+    <value>Odpojování...</value>
+  </data>
+  <data name="Igs_InitiatingObservationOfAGame" xml:space="preserve">
+    <value>Zahajuji pozorování hry...</value>
+  </data>
+  <data name="Igs_LoggingInAs" xml:space="preserve">
+    <value>Přihlášení jako {0}...</value>
+  </data>
+  <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
+    <value>Přihlášení již proběhí. Počkejte chvíli...</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Přihlášení se nezdařilo.</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>[nepřihlášen]</value>
+  </data>
+  <data name="SelectedItemColon" xml:space="preserve">
+    <value>Vybraný soubor:</value>
+  </data>
+  <data name="SetDefaultColor" xml:space="preserve">
+    <value>Nastavit výchozí barvu</value>
+  </data>
+  <data name="TogglingLFG" xml:space="preserve">
+    <value>Přepínání, zda hledáme hry...</value>
+  </data>
+  <data name="TogglingOpenness" xml:space="preserve">
+    <value>Přepínání, jestli jsme otevřeni pro hry...</value>
+  </data>
+  <data name="WrongCredentials" xml:space="preserve">
+    <value>Uživatelské jméno nebo heslo je nesprávné.</value>
+  </data>
+  <data name="YouHaveBeenDisconnected" xml:space="preserve">
+    <value>Byli jste odpojeni.</value>
+  </data>
 </root>
