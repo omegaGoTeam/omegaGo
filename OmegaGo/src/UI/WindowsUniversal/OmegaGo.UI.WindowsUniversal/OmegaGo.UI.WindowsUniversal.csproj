@@ -141,9 +141,6 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DebugBarControl.xaml.cs">
-      <DependentUpon>DebugBarControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
     </Compile>
@@ -199,9 +196,6 @@
     </Compile>
     <Compile Include="Views\GameCreationView.xaml.cs">
       <DependentUpon>GameCreationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GameOldView.xaml.cs">
-      <DependentUpon>GameOldView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -395,10 +389,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\DebugBarControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\LoginFormControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -468,10 +458,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameCreationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameOldView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
