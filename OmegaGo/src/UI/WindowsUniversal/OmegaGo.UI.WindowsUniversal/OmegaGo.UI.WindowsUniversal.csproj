@@ -144,9 +144,6 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DebugBarControl.xaml.cs">
-      <DependentUpon>DebugBarControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
     </Compile>
@@ -396,10 +393,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\DebugBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

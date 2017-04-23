@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using OmegaGo.Core.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Connectors.Igs;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
@@ -10,6 +12,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
+using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Events;
 using OmegaGo.Core.Rules;
@@ -36,29 +39,39 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             IRuleset ruleset,
             PlayerPair players,
             IgsConnection serverConnection) :
-                base(gameInfo, ruleset, players, serverConnection)
+            base(gameInfo, ruleset, players, serverConnection)
         {
             Info = gameInfo;
 
             //create and register connector
             IgsConnector = new IgsConnector(this, serverConnection);
+            Chat = new ChatService(IgsConnector);
             RegisterConnector(IgsConnector);
-            Server = serverConnection;
+            Server = serverConnection;            
             InitializeServer(serverConnection);
         }
-        
+
         /// <summary>
         /// Igs server connection
         /// </summary>
         internal new IgsConnection Server { get; }
 
         /// <summary>
+        /// Chat
+        /// </summary>
+        public override IChatService Chat { get; }
+
+        /// <summary>
         /// IGS game info
         /// </summary>
         internal new IgsGameInfo Info { get; }
 
+        /// <summary>
+        /// Creates game phases
+        /// </summary>
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+            new GenericPhaseFactory<InitializationPhase, IgsHandicapPlacementPhase, IgsMainPhase,
+                RemoteLifeAndDeathPhase, FinishedPhase>();
 
         /// <summary>
         /// Initializes server

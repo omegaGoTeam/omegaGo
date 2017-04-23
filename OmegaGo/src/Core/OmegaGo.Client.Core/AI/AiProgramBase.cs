@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -76,7 +74,7 @@ namespace OmegaGo.Core.AI
             {
                 GameTreeNode empty = new Game.GameTreeNode(Move.NoneMove);
                 empty.BoardState = new Game.GameBoard(gameTree.BoardSize);
-                empty.GroupState = new Rules.GroupState(gameTree.BoardSize);
+                empty.GroupState = new Rules.GroupState(gameTree.Ruleset.RulesetInfo);
                 return empty;
             }
             else

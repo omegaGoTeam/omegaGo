@@ -27,19 +27,20 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Fixed
                 GameBoard gameBoard = new GameBoard(Controller.Info.BoardSize);
 
                 var positions = FixedHandicapPositions.GetHandicapStonePositions(gameInfo.BoardSize, gameInfo.NumberOfHandicapStones).ToArray();
+                GroupState groupState = Controller.Ruleset.RulesetInfo.GroupState;
 
                 //set game board stones
                 foreach (var position in positions)
                 {
                     gameBoard[position.X, position.Y] = StoneColor.Black;
-                    RulesetInfo.GroupState.AddStoneToBoard(position,StoneColor.Black);
+                    groupState.AddStoneToBoard(position,StoneColor.Black);
                 }
 
                 //reflect the number of placed stones to listeners
                 StonesPlaced = gameInfo.NumberOfHandicapStones;
 
                 //add the board to game
-                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard, new GroupState(RulesetInfo.GroupState));                              
+                Controller.GameTree.AddToEnd(positions, new Position[0], gameBoard, new GroupState(groupState, Controller.Ruleset.RulesetInfo));                              
             }            
         }
     }

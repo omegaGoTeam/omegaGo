@@ -1,70 +1,71 @@
 ﻿using OmegaGo.Core.Game;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Rules
 {
     /// <summary>
     /// Represents the current state of board and groups on the board.
     /// </summary>
-    internal class RulesetInfo
+    internal class RulesetInfo : IRulesetInfo
     {
         /// <summary>
-        /// The size of game board.
+        /// Initializes the state of ruleset.
         /// </summary>
-        private static GameBoardSize _gbSize;
-        
-        /// <summary>
-        /// The size of game board.
-        /// </summary>
-        internal static GameBoardSize BoardSize
+        /// <param name="gbSize">Size of game board.</param>
+        internal RulesetInfo(GameBoardSize gbSize)
         {
-            get { return _gbSize; }
+            BoardSize = gbSize;
+            BoardState = new GameBoard(gbSize);
+            GroupState = new GroupState(this);
         }
 
         /// <summary>
-        /// Komi compensation.
+        /// The size of game board.
         /// </summary>
-        internal static float Komi { get; set; }
+        public GameBoardSize BoardSize { get; }
 
         /// <summary>
         /// The current state of game board.
         /// </summary>
-        internal static GameBoard BoardState { get; set; }
+        public GameBoard BoardState { get; private set; }
 
         /// <summary>
         /// The current state of groups on the game board.
         /// See <see cref="GroupState"/>.
         /// </summary>
-        internal static GroupState GroupState { get; set; }
+        public GroupState GroupState { get; private set; }
 
         /// <summary>
-        /// Updates Ruleset state according to given game board state.
+        /// Determines the group state based on the given board state.
         /// </summary>
-        /// <param name="currentBoard">State of board.</param>
-        public static void UpdateRulesetInfo(GameBoard currentBoard)
+        /// <param name="board">Board state</param>
+        public void SetState(GameBoard currentBoard)
         {
-            _gbSize = currentBoard.Size;
             BoardState = new GameBoard(currentBoard);
-            GroupState = new GroupState(_gbSize);
+            GroupState = new GroupState(this);
             GroupState.FillGroupMap(currentBoard);
             GroupState.CountLiberties();
         }
 
         /// <summary>
-        /// Initializes the state of ruleset.
+        /// Sets the group state and board state.
         /// </summary>
-        /// <param name="gbSize">Size of game board.</param>
-        /// <param name="currentBoard">The state of game board.</param>
-        /// <param name="groupState">The state of groups.</param>
-        internal RulesetInfo(GameBoardSize gbSize, GameBoard currentBoard, GroupState groupState)
+        /// <param name="board">Board state</param>
+        /// <param name="groupState">Group state</param>
+        public void SetState(GameBoard board, GroupState groupState)
         {
-            _gbSize = gbSize;
-            BoardState = currentBoard;
+            BoardState = board;
             GroupState = groupState;
         }
+
+        /// <summary>
+        /// Sets the board state. The group state remains unchanged. 
+        /// </summary>
+        /// <param name="board">Board state</param>
+        public void SetBoard(GameBoard board)
+        {
+            BoardState = new GameBoard(board);
+        }
+
+
     }
 }

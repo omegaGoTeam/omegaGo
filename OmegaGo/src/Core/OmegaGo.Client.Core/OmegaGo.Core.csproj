@@ -62,6 +62,7 @@
     <Compile Include="Game\Tools\IToolServices.cs" />
     <Compile Include="Game\Tools\IMarkupTool.cs" />
     <Compile Include="Game\Markup\SequenceMarkupKind.cs" />
+    <Compile Include="Game\Tools\PassTool.cs" />
     <Compile Include="Game\Tools\SequenceMarkupTool.cs" />
     <Compile Include="Game\Tools\SimpleMarkupTool.cs" />
     <Compile Include="Game\Tools\StonePlacementTool.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\KgsMainPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\MainPhaseBase.cs" />
+    <Compile Include="LiveGame\Remote\ChatService.cs" />
     <Compile Include="LiveGame\Remote\IRemoteGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameController.cs" />
     <Compile Include="LiveGame\State\GameEndInformation.cs" />
@@ -180,7 +182,6 @@
     <Compile Include="Game\Markup\IMarkup.cs" />
     <Compile Include="Game\Markup\MarkupKind.cs" />
     <Compile Include="Online\Common\IServerConnection.cs" />
-    <Compile Include="Online\Igs\IgsChatService.cs" />
     <Compile Include="Online\Igs\IgsLoginPhase.cs" />
     <Compile Include="Online\Igs\IgsResponse.cs" />
     <Compile Include="Online\Igs\IgsStoneColorExtensions.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Rules\Group.cs" />
     <Compile Include="Rules\GroupState.cs" />
     <Compile Include="Rules\IRuleset.cs" />
+    <Compile Include="Rules\IRulesetInfo.cs" />
     <Compile Include="Rules\MoveProcessingResult.cs" />
     <Compile Include="Rules\RulesetInfo.cs" />
     <Compile Include="Rules\RulesetType.cs" />

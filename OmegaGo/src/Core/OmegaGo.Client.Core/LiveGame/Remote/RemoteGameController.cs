@@ -30,17 +30,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote
         /// Gets the server connection, or null if this is not an online game.
         /// </summary>
         public IServerConnection Server { get; }
+        
+        /// <summary>
+        /// Chat
+        /// </summary>
+        public abstract IChatService Chat { get; }
 
         /// <summary>
         /// Gets the remote game info
         /// </summary>
         internal new RemoteGameInfo Info { get; }
-
-        public event EventHandler<ChatMessage> ChatMessageReceived;
-        internal void OnChatMessageReceived(ChatMessage message)
-        {
-            ChatMessageReceived?.Invoke(this, message);
-        }
 
         protected override void LocalResignationHappened(GamePlayer resignor)
         {

@@ -72,8 +72,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         // Add null - visibility converter
         public StonePlacementTool StonePlacementTool { get; internal set; }
+        public PassTool PassTool { get; internal set; }
         public DeleteBranchTool DeleteBranchTool { get; internal set; }
-
+        
         public SequenceMarkupTool CharacterMarkupTool { get; internal set; }
         public SequenceMarkupTool NumberMarkupTool { get; internal set; }
         public SimpleMarkupTool RectangleMarkupTool { get; internal set; }
@@ -128,7 +129,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void Pass()
         {
-
+            SelectedTool = PassTool;
         }
     }
 }

@@ -21,13 +21,16 @@ namespace OmegaGo.UI.ViewModels
 
         public OnlineGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
-        {
-            ChatViewModel = new ChatViewModel();
+        {            
             (Game.Controller as RemoteGameController).Server.Events.UndoRequestReceived += Events_UndoRequestReceived;
             (Game.Controller as RemoteGameController).Server.Events.UndoDeclined += Events_UndoDeclined;
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
         }
 
-        public ChatViewModel ChatViewModel { get; private set; }
+        /// <summary>
+        /// Chat view model
+        /// </summary>
+        public ChatViewModel ChatViewModel { get; }
 
         public bool CanAgreeOrDisagreeUndo
         {

@@ -2,6 +2,7 @@
 using System.Linq;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.UI.Infrastructure.Tabbed;
@@ -19,12 +20,12 @@ namespace OmegaGo.UI.ViewModels
         public ObserverGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
         {
-            ChatViewModel = new ChatViewModel();
-            
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
+
             //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
-        
+
         public ChatViewModel ChatViewModel { get; private set; }
 
         public override async void Init()
