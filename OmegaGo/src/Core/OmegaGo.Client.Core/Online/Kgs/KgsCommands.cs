@@ -115,17 +115,46 @@ namespace OmegaGo.Core.Online.Kgs
 
         public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            // Life/death works a little differently in KGS.
+            return CompletedTask;
         }
 
-        public Task LifeDeathDone(RemoteGameInfo remoteInfo)
+        public async Task LifeDeathDone(RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            var game = kgsConnection.Data.GetGame(kgsInfo.ChannelId);
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_SCORING_DONE", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                DoneId = game.Controller.DoneId
+            });
         }
 
-        public Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
+        public async Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_MARK_LIFE", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                Alive = false,
+                X = position.X,
+                Y = position.Y
+            });
+        }
+
+        public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_UNDO_ACCEPT", new
+            {
+                ChannelId = kgsInfo.ChannelId
+            });
+        }
+
+        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            // At KGS, to reject an undo, simply ignore it. 
+            return CompletedTask;
         }
 
         public async Task Resign(RemoteGameInfo remoteInfo)
@@ -135,16 +164,6 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 ChannelId = kgsInfo.ChannelId,
             });
-        }
-
-        public Task AllowUndoAsync(RemoteGameInfo remoteInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
@@ -223,5 +242,15 @@ namespace OmegaGo.Core.Online.Kgs
                 Text = text
             });
         }
+        public async Task UndoPleaseAsync(KgsGameInfo info)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_UNDO_REQUEST", new
+            {
+                ChannelId = info.ChannelId
+            });
+        }
+
+        private Task CompletedTask = Task.FromResult(0);
+
     }
 }

@@ -83,6 +83,13 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                         ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
                     }
                     break;
+                case "DEAD":
+                    if (ongame.Controller.Phase.Type != Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+                    {
+                        ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
+                    }
+                    ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, prop.Loc.Y));
+                    break;
                 case "TIMELEFT":
                     StoneColor colorTimeLeft = (prop.Color == "black" ? StoneColor.Black : StoneColor.White);
                     ongame.Controller.Players[colorTimeLeft].Clock.UpdateFromKgsFloat(prop.Float);

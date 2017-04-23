@@ -72,5 +72,10 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         {
             NewChatMessageReceived?.Invoke(this, e);
         }
+
+        public void ForceKillGroup(Position position)
+        {
+            LifeDeathKillGroupForced?.Invoke(this, position);
+        }
     }
 }

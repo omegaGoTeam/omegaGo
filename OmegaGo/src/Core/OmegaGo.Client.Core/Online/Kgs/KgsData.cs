@@ -117,7 +117,7 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public KgsGame GetGame(int channelId)
         {
-            return joinedGames[channelId];
+            return joinedGames.ContainsKey(channelId) ? joinedGames[channelId] : null;
         }
         public bool IsJoined(int channelId)
         {

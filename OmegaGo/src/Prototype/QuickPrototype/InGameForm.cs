@@ -163,7 +163,7 @@ namespace FormsPrototype
             }
             if (e.PreviousPhase.Type == GamePhaseType.LifeDeathDetermination)
             {
-                (e.NewPhase as ILifeAndDeathPhase).LifeDeathTerritoryChanged -= _controller_LifeDeathTerritoryChanged;
+                (e.PreviousPhase as ILifeAndDeathPhase).LifeDeathTerritoryChanged -= _controller_LifeDeathTerritoryChanged;
             }
             grpTiming.Visible = e.NewPhase.Type == GamePhaseType.Main;
             if (e.NewPhase.Type != GamePhaseType.Main)
