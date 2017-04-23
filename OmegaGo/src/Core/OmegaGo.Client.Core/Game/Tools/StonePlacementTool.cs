@@ -57,7 +57,7 @@ namespace OmegaGo.Core.Game.Tools
         {
             if (toolService.Node.Equals(_currentNode))
             {
-                _moveResults = toolService.Ruleset.GetMoveResultLite(toolService.Node);
+                _moveResults = toolService.Ruleset.GetMoveResult(toolService.Node);
                 _currentNode = toolService.Node;
             }
 
