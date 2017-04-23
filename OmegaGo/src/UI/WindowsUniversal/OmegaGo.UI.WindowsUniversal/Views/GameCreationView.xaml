@@ -109,6 +109,7 @@
                                         <TextBlock Text="{x:Bind Localizer.SizeColon}"/>
                                         <TextBox InputScope="Number" Name="TbCustomSquareSize" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                         <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
+                                        <TextBox InputScope="Number" x:Name="TbCustomSquareSize_Copy" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
@@ -189,8 +190,8 @@
                 
                     <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
-                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
-                    <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
+                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.IsNotIgs}" Text="{x:Bind Localizer.WhiteHandicap}" />
+                    <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.IsNotIgs}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
                             Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{Binding Bundle.HandicapMayBeChanged}" />
                     <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
@@ -273,7 +274,7 @@
                     <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
                              IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
                                Visibility="{Binding Bundle.KomiIsAvailable}"
-                             x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
+                             x:Name="CompensationInput" InputScope="Number" Text="{Binding CompensationString, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
 
                     <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
                               IsChecked="{x:Bind VM.UseRecommendedKomi, Mode=TwoWay}"

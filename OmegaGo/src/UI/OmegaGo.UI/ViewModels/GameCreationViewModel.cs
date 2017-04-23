@@ -15,6 +15,7 @@ using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Infrastructure.Tabbed;
@@ -52,6 +53,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _refuseChallengeCommand;
         private bool _useRecommendedKomi = true;
         private string _validationErrorMessage = "";
+        private string _compensationString;
         private int _selectedColorIndex = 0;
         private ObservableCollection<TimeControlStyle> _timeControlStyles =
             new ObservableCollection<TimeControlStyle>
@@ -271,6 +273,12 @@ namespace OmegaGo.UI.ViewModels
                 SetCustomBoardSize();
             }
         }
+
+        public string CompensationString
+        {
+            get { return _compensationString; }
+            set { SetProperty(ref _compensationString, value); }
+        }
         /// <summary>
         /// Handicap of white player
         /// </summary>
@@ -329,15 +337,6 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _isHandicapFixed, value); }
         }
 
-        /// <summary>
-        /// Compensation
-        /// </summary>
-        public float Compensation
-        {
-            get { return _compensation; }
-            set { SetProperty(ref _compensation, value); }
-        }
-
         public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(StartGameImmediately));
 
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
@@ -372,8 +371,8 @@ namespace OmegaGo.UI.ViewModels
         {
             if (UseRecommendedKomi)
             {
-                Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
-                    CountingType.Area);
+                CompensationString = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
+                    CountingType.Area).ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -391,6 +390,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (!Validate())
             {
+                // Requires validation because of AI.
                 return;
             }
             IGame game = await Bundle.AcceptChallenge(this);
@@ -399,10 +399,7 @@ namespace OmegaGo.UI.ViewModels
         }
         private async Task RefuseChallenge()
         {
-            if (!Validate())
-            {
-                return;
-            }
+            // Refusing does not require validation.
             await Bundle.RefuseChallenge(this);
             var provider = Mvx.Resolve<ITabProvider>();
             provider.CloseTab(provider.GetTabForViewModel(this));
@@ -441,7 +438,7 @@ namespace OmegaGo.UI.ViewModels
             LocalGame game = GameBuilder.CreateLocalGame().
                 BoardSize(SelectedGameBoardSize).
                 Ruleset(SelectedRuleset).
-                Komi(Compensation).
+                Komi(float.Parse(CompensationString, CultureInfo.InvariantCulture)).
                 Handicap(Handicap).
                 HandicapPlacementType(
                     IsHandicapFixed ?
@@ -461,6 +458,45 @@ namespace OmegaGo.UI.ViewModels
                 ValidationErrorMessage = "You must select a square board.";
                 return false;
             }
+            if (SelectedGameBoardSize.Width < 2 || SelectedGameBoardSize.Height < 2)
+            {
+                ValidationErrorMessage = "Board size must be 2x2 or larger.";
+                return false;
+            }
+            float compensation;
+            if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))
+            {
+                float fractionalpart = compensation - (int) compensation;
+                // ReSharper disable CompareOfFloatsByEqualityOperator
+                if (fractionalpart != 0 && fractionalpart != 0.5f)
+                {
+                    ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                    return false;
+                }
+                // ReSharper restore CompareOfFloatsByEqualityOperator
+            }
+            else
+            {
+                ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                return false;
+            }
+            string errorMessage = "Error loading AI information."; // <-- Should never display.
+            if (!BlackPlayerSettings.Validate(this, ref errorMessage))
+            {
+                ValidationErrorMessage = errorMessage;
+                return false;
+            }
+            if (!WhitePlayerSettings.Validate(this, ref errorMessage))
+            {
+                ValidationErrorMessage = errorMessage;
+                return false;
+            }
+            string timeErrorMessage = "Error parsing time control settings."; // <-- Should never display.
+            if (!TimeControl.Validate(ref timeErrorMessage))
+            {
+                ValidationErrorMessage = timeErrorMessage;
+                return false;
+            }
             if (Bundle.IsIgs)
             {
                 if (SelectedGameBoardSize.Width < 5)
@@ -470,11 +506,12 @@ namespace OmegaGo.UI.ViewModels
                 }
                 if (SelectedGameBoardSize.Width > 19)
                 {
-                    ValidationErrorMessage = "Pandanet does not allow board sizes smaller than 19x19.";
+                    ValidationErrorMessage = "Pandanet does not allow board sizes larger than 19x19.";
                     return false;
                 }
                 if (SelectedColor == StoneColor.None)
                 {
+                    // This should never happen.
                     ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
                     return false;
                 }

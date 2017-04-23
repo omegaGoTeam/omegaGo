@@ -16,5 +16,6 @@ namespace OmegaGo.UI.ViewModels
         {
             return this.Name;
         }
+        
     }
 }
