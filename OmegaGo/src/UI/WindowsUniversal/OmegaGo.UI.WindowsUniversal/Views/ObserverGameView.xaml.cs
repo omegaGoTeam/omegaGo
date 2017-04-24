@@ -31,7 +31,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             _updateTimer.Stop();
             _updateTimer.Tick -= UpdateTimer_Tick;
-            VM.Unload();
         }
 
         private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)

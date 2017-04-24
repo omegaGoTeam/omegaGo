@@ -151,10 +151,6 @@ namespace OmegaGo.UI.ViewModels
             GamePhase = phaseState.NewPhase.Type;
         }
         
-        public virtual void Unload()
-        {
-        }
-
 
         ////////////////
         // Game View Model Services      
