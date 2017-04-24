@@ -131,14 +131,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             GetNodeAtPoint(e.GetCurrentPoint(canvas).Position, ViewModel.GameTree.GameTreeRoot, 0, 0, out pressedNode);
 
             if (pressedNode != null)
-            {
-                System.Diagnostics.Debug.WriteLine($"node: {pressedNode.ToString()} pressed");
                 ViewModel.SelectedTimelineNode = pressedNode;
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine($"node: null pressed");
-            }
         }
 
         private int DrawNode(CanvasDrawingSession drawingSession, GameTreeNode node, int depth, int offset, int parentOffset)
