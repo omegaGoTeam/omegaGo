@@ -39,12 +39,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             get { return (LoginFormViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.FormVisible = false;
-        }
-
+        
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.LogIn();
