@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Timer;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -22,6 +23,7 @@ namespace OmegaGo.UI.ViewModels
         private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
         private int _selectedMoveIndex;
+        private ITimer _portraitUpdateTimer;
 
         private string _instructionCaption = "";
         
@@ -32,7 +34,10 @@ namespace OmegaGo.UI.ViewModels
         {
             BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
             WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
+            _portraitUpdateTimer = Mvx.Resolve<ITimerService>()
+                .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
         }
+
 
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
@@ -64,6 +69,12 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
+
+        public override Task<bool> CanCloseViewModelAsync()
+        {
+            _portraitUpdateTimer.End();
+            return base.CanCloseViewModelAsync();
+        }
 
         protected override async void OnGameEnded(GameEndInformation endInformation)
         {
@@ -128,6 +139,11 @@ namespace OmegaGo.UI.ViewModels
         // Private methods      
         ////////////////
 
+        private void UpdatePortraits()
+        {
+            BlackPortrait.Update();
+            WhitePortrait.Update();
+        }
         private void RefreshInstructionCaption()
         {
             InstructionCaption = GenerateInstructionCaption();

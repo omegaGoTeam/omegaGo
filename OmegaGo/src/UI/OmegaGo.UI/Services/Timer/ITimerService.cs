@@ -17,6 +17,6 @@ namespace OmegaGo.UI.Services.Timer
         /// </summary>
         /// <param name="interval">Time interval</param>
         /// <param name="action">Action to perform</param>
-        void StartTimer(TimeSpan interval, Action action);
+        ITimer StartTimer(TimeSpan interval, Action action);
     }
 }

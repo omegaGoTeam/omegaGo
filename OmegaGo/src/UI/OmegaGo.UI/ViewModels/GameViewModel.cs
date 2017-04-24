@@ -92,7 +92,6 @@ namespace OmegaGo.UI.ViewModels
 
         public virtual void Init()
         {
-            Game.Controller.BeginGame();
         }
         public override Task<bool> CanCloseViewModelAsync()
         {
