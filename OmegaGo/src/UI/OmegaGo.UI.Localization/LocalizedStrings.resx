@@ -1286,4 +1286,25 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="YouHaveBeenDisconnected" xml:space="preserve">
     <value>You have been disconnected.</value>
   </data>
+  <data name="ExitLocal_Caption" xml:space="preserve">
+    <value>Do you want to abandon the game?</value>
+  </data>
+  <data name="ExitLocal_Confirm" xml:space="preserve">
+    <value>Abandon game</value>
+  </data>
+  <data name="ExitLocal_Text" xml:space="preserve">
+    <value>Exiting this screen will end this game. It will not be counted in statistics at all.</value>
+  </data>
+  <data name="ExitOnline_Caption" xml:space="preserve">
+    <value>Do you want to resign?</value>
+  </data>
+  <data name="ExitOnline_Confirm" xml:space="preserve">
+    <value>Yes, resign</value>
+  </data>
+  <data name="ExitOnline_Text" xml:space="preserve">
+    <value>Exiting this screen will cause you to resign this online game.</value>
+  </data>
+  <data name="Exit_ReturnToGame" xml:space="preserve">
+    <value>Return to game</value>
+  </data>
 </root>

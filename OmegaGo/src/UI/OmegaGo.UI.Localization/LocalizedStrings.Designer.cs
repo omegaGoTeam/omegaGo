@@ -870,6 +870,69 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return to game.
+        /// </summary>
+        public static string Exit_ReturnToGame {
+            get {
+                return ResourceManager.GetString("Exit_ReturnToGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to abandon the game?.
+        /// </summary>
+        public static string ExitLocal_Caption {
+            get {
+                return ResourceManager.GetString("ExitLocal_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abandon game.
+        /// </summary>
+        public static string ExitLocal_Confirm {
+            get {
+                return ResourceManager.GetString("ExitLocal_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exiting this screen will end this game. It will not be counted in statistics at all..
+        /// </summary>
+        public static string ExitLocal_Text {
+            get {
+                return ResourceManager.GetString("ExitLocal_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to resign?.
+        /// </summary>
+        public static string ExitOnline_Caption {
+            get {
+                return ResourceManager.GetString("ExitOnline_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, resign.
+        /// </summary>
+        public static string ExitOnline_Confirm {
+            get {
+                return ResourceManager.GetString("ExitOnline_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exiting this screen will cause you to resign this online game..
+        /// </summary>
+        public static string ExitOnline_Text {
+            get {
+                return ResourceManager.GetString("ExitOnline_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string ExportCommand {

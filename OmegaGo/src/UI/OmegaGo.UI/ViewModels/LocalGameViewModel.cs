@@ -19,6 +19,7 @@ using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Online.Common;
+using System.Threading.Tasks;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -120,6 +121,31 @@ namespace OmegaGo.UI.ViewModels
         public override void Appearing()
         {
             TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.LocalGame})";
+        }
+
+        public override async Task<bool> CanCloseViewModelAsync()
+        {
+            if (this.GetType() == typeof(LocalGameViewModel) && this.Game.Controller.Phase.Type != GamePhaseType.Finished)
+            {
+                if (await
+                    DialogService.ShowConfirmationDialogAsync(Localizer.ExitLocal_Text, Localizer.ExitLocal_Caption,
+                        Localizer.ExitLocal_Confirm, Localizer.Exit_ReturnToGame))
+                {
+                    UiConnector.AiLog -= Assistant_uiConnector_AiLog;
+                    await base.CanCloseViewModelAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                UiConnector.AiLog -= Assistant_uiConnector_AiLog;
+                await base.CanCloseViewModelAsync();
+                return true;
+            }
         }
 
         protected override void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
