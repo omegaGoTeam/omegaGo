@@ -151,7 +151,7 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Implementation of adding a new mode into the primary timeline of the tree
+        /// Implementation of adding a new node into the primary timeline of the tree
         /// </summary>
         /// <param name="move">Added move</param>
         /// <param name="boardState">State of the board</param>
@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Game
             }
             else
             {
-                LastNode.Branches.AddNode(node);
+                LastNode.Branches.Insert(0, node);
                 node.Parent = LastNode;
                 node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
                 node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
