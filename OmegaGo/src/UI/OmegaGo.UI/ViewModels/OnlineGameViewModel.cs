@@ -59,6 +59,11 @@ namespace OmegaGo.UI.ViewModels
         
         public override async Task<bool> CanCloseViewModelAsync()
         {
+            if (this.Game.Controller.Phase.Type != GamePhaseType.Finished)
+            {
+                await base.CanCloseViewModelAsync();
+                return true;
+            }
             if (await DialogService.ShowConfirmationDialogAsync(Localizer.ExitOnline_Text, Localizer.ExitOnline_Caption, Localizer.ExitOnline_Confirm, Localizer.Exit_ReturnToGame))
             {
                 UiConnector.Resign();

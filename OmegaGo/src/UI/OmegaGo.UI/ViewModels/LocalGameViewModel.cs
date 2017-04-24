@@ -125,7 +125,7 @@ namespace OmegaGo.UI.ViewModels
 
         public override async Task<bool> CanCloseViewModelAsync()
         {
-            if (this.GetType() == typeof(LocalGameViewModel))
+            if (this.GetType() == typeof(LocalGameViewModel) && this.Game.Controller.Phase.Type != GamePhaseType.Finished)
             {
                 if (await
                     DialogService.ShowConfirmationDialogAsync(Localizer.ExitLocal_Text, Localizer.ExitLocal_Caption,
