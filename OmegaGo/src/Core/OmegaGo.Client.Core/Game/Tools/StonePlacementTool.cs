@@ -14,6 +14,7 @@ namespace OmegaGo.Core.Game.Tools
 
         public void Execute(IToolServices toolService)
         {
+            // TODO if board this empty and we first make move with this tool, exception is thrown
             StoneColor previousPlayer = toolService.Node.Move.WhoMoves;
             StoneColor nextPlayer = StoneColor.None;
             

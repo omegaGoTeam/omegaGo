@@ -50,11 +50,13 @@ namespace OmegaGo.UI.ViewModels
             TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.Observing})";
         }
 
-        protected override void OnCurrentNodeStateChanged()
+        protected override void OnBoardTapped(Position position)
         {
-            base.OnCurrentNodeStateChanged();
-
-            RefreshBoard(Game.Controller.CurrentNode);
+            if (IsAnalyzeModeEnabled)
+            {
+                AnalyzeBoardTap(position);
+                return;
+            }
         }
     }
 }

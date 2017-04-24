@@ -274,6 +274,7 @@
                             <controls:TimelineControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Margin="5" Height="200"
+                                                      ViewModel="{x:Bind VM.TimelineViewModel}"
                                                       Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
                         </StackPanel>
 

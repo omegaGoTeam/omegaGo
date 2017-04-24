@@ -9,6 +9,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly IToolServices _toolServices;
         private ITool _selectedTool;
 
+        private bool _isStoneToolSelected;        
+        private bool _isCharacterToolSelected;
+        private bool _isNumberToolSelected;
+        private bool _isRectangleToolSelected;
+        private bool _isTriangleToolSelected;
+        private bool _isCircleToolSelected;
+        private bool _isCrossToolSelected;
 
         private MvxCommand _placeStoneCommand;
         private MvxCommand _deleteBranchCommand;
@@ -30,7 +37,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public event EventHandler<ITool> ToolChanged;
         public event EventHandler BackToGameRequested;
-        public event EventHandler PassRequested;
 
         public IToolServices ToolServices
         {
@@ -45,6 +51,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 SetProperty(ref _selectedTool, value);
                 ToolChanged?.Invoke(this, value);
             }
+        }
+
+        public string NodeCommentary
+        {
+            get { return ToolServices.Node.Comment; }
+            set { ToolServices.Node.Comment = value; RaisePropertyChanged(nameof(NodeCommentary)); }
         }
 
         public MvxCommand PlaceStoneCommand => _placeStoneCommand ?? (_placeStoneCommand = new MvxCommand(
@@ -82,6 +94,64 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public SimpleMarkupTool CircleMarkupTool { get; internal set; }
         public SimpleMarkupTool CrossMarkupTool { get; internal set; }
 
+        public bool IsStoneToolSelected
+        {
+            get { return _isStoneToolSelected; }
+            set { SetProperty(ref _isStoneToolSelected, value); }
+        }
+
+        public bool IsCharacterToolSelected
+        {
+            get { return _isCharacterToolSelected; }
+            set { SetProperty(ref _isCharacterToolSelected, value); }
+        }
+
+        public bool IsNumberToolSelected
+        {
+            get { return _isNumberToolSelected; }
+            set { SetProperty(ref _isNumberToolSelected, value); }
+        }
+
+        public bool IsRectangleToolSelected
+        {
+            get { return _isRectangleToolSelected; }
+            set { SetProperty(ref _isRectangleToolSelected, value); }
+        }
+
+        public bool IsTriangleToolSelected
+        {
+            get { return _isTriangleToolSelected; }
+            set { SetProperty(ref _isTriangleToolSelected, value); }
+        }
+
+        public bool IsCircleToolSelected
+        {
+            get { return _isCircleToolSelected; }
+            set { SetProperty(ref _isCircleToolSelected, value); }
+        }
+
+        public bool IsCrossToolSelected
+        {
+            get { return _isCrossToolSelected; }
+            set { SetProperty(ref _isCrossToolSelected, value); }
+        }
+
+        internal void OnNodeChanged()
+        {
+            RaisePropertyChanged(NodeCommentary);
+        }
+
+        private void UnselectAllTools()
+        {
+            IsStoneToolSelected = false;
+            IsCharacterToolSelected = false;
+            IsNumberToolSelected = false;
+            IsRectangleToolSelected = false;
+            IsTriangleToolSelected = false;
+            IsCircleToolSelected = false;
+            IsCrossToolSelected = false;
+        }
+
         private void DeleteBranch()
         {
             DeleteBranchTool.Execute(ToolServices);
@@ -89,36 +159,50 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void PlaceStone()
         {
+            UnselectAllTools();
+            IsStoneToolSelected = true;
             SelectedTool = StonePlacementTool;
         }
         
         private void PlaceCharacter()
         {
+            UnselectAllTools();
+            IsCharacterToolSelected = true;
             SelectedTool = CharacterMarkupTool;
         }
 
         private void PlaceNumber()
         {
+            UnselectAllTools();
+            IsNumberToolSelected = true;
             SelectedTool = NumberMarkupTool;
         }
 
         private void PlaceRectangle()
         {
+            UnselectAllTools();
+            IsRectangleToolSelected = true;
             SelectedTool = RectangleMarkupTool;
         }
 
         private void PlaceTriangle()
         {
+            UnselectAllTools();
+            IsTriangleToolSelected = true;
             SelectedTool = TriangleMarkupTool;
         }
 
         private void PlaceCircle()
         {
+            UnselectAllTools();
+            IsCircleToolSelected = true;
             SelectedTool = CircleMarkupTool;
         }
 
         private void PlaceCross()
         {
+            UnselectAllTools();
+            IsCrossToolSelected = true;
             SelectedTool = CrossMarkupTool;
         }
 
@@ -129,7 +213,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void Pass()
         {
-            SelectedTool = PassTool;
+            PassTool.Execute(ToolServices);
         }
     }
 }

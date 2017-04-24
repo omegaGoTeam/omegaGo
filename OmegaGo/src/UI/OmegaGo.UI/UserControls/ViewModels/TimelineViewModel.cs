@@ -26,8 +26,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _selectedTimelineNode, value); OnTimelineSelectionChanged(); }
         }
 
+        // Indended for the UI View to subscribe and refresh the timeline accordingly.
         public event EventHandler TimelineRedrawRequsted;
-        public event EventHandler<GameTreeNode> TimelineSelectionChanged;
+        // Intended for the ViewModel to know when currently rendered node should be changed.
+        internal event EventHandler<GameTreeNode> TimelineSelectionChanged;
 
         /// <summary>
         /// Creates timeline view model
@@ -44,15 +46,21 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public TimelineViewModel(GameTree gameTree)
         {
             GameTree = gameTree;
+            GameTree.LastNodeChanged += (s, node) => OnTimelineRedrawRequested();
+        }
+        
+        public void RaiseGameTreeChanged()
+        {
+            OnTimelineRedrawRequested();
         }
 
         // TODO Petr: GameTree now has LastNodeChanged event, use it to fix this - GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
-        public void OnTimelineRedrawRequested()
+        private void OnTimelineRedrawRequested()
         {
             TimelineRedrawRequsted?.Invoke(this, EventArgs.Empty);
         }
 
-        public void OnTimelineSelectionChanged()
+        private void OnTimelineSelectionChanged()
         {
             TimelineSelectionChanged?.Invoke(this, SelectedTimelineNode);
         }

@@ -57,6 +57,7 @@ namespace OmegaGo.UI.ViewModels
                 new GameToolServices(
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
+            ToolServices.NodeChanged += (s, node) => { AnalyzeViewModel.OnNodeChanged(); RefreshBoard(node); TimelineViewModel.RaiseGameTreeChanged();  };
             Tool = null;
 
             // Initialize analyze mode and register tools
@@ -66,9 +67,14 @@ namespace OmegaGo.UI.ViewModels
 
             // System log visibility
             _isSystemLogEnabled = false;
+
+            // Set up Timeline
+            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
+            TimelineViewModel.TimelineSelectionChanged += (s, e) => { ToolServices.Node = e; RefreshBoard(e); };
         }
-        
+
         public AnalyzeViewModel AnalyzeViewModel { get; }
+        public TimelineViewModel TimelineViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
@@ -132,11 +138,9 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
-
+        
         protected override async void OnGameEnded(GameEndInformation endInformation)
         {
-            base.OnGameEnded(endInformation);
-
             _gameEndInformation = endInformation;
 
             await DialogService.ShowAsync(GameEndTranslator.TranslateDetails(endInformation, Localizer),
@@ -152,15 +156,19 @@ namespace OmegaGo.UI.ViewModels
 
         protected override async void OnCurrentNodeChanged(GameTreeNode newNode)
         {
-            base.OnCurrentNodeChanged(newNode);
-
             ITabInfo tabInfo = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
 
+            // This method is invoked by an event coming from Controller
+            // If we are in the analyze mode, we want to change current node manually.
+            if (IsAnalyzeModeEnabled)
+                return;
+            
             // TODO Martin validate this hotfix
             // With handicap this method is fired much sooned and the ViewModel is not yet set, returning null.
             // Check for this case.
             if (newNode != null && tabInfo != null)
             {
+                RefreshBoard(Game.Controller.CurrentNode);
                 UpdateTimeline();
                 RefreshInstructionCaption();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
@@ -173,15 +181,23 @@ namespace OmegaGo.UI.ViewModels
 
         protected override void OnTurnPlayerChanged(GamePlayer newPlayer)
         {
-            base.OnTurnPlayerChanged(newPlayer);
-
             RefreshInstructionCaption();
         }
 
         ////////////////
         // Live Game Services      
         ////////////////
+        
+        protected void AnalyzeBoardTap(Position position)
+        {
+            // Set current pointer position
+            ToolServices.PointerOverPosition = position;
 
+            // It the current tool is not empty, execute it
+            if (Tool != null)
+                Tool.Execute(ToolServices);
+        }
+        
         protected void UpdateTimeline()
         {
             var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimeline;
@@ -205,14 +221,19 @@ namespace OmegaGo.UI.ViewModels
         private void EnableAnalyzeMode()
         {
             IsAnalyzeModeEnabled = true;
+            Tool = AnalyzeViewModel.SelectedTool;
+            BoardViewModel.Tool = Tool as IMarkupTool;
+
+            ToolServices.Node = Game.Controller.CurrentNode;
         }
 
         private void DisableAnalyzeMode()
         {
             IsAnalyzeModeEnabled = false;
-
             Tool = null;
             BoardViewModel.Tool = null;
+
+            RefreshBoard(Game.Controller.CurrentNode);
         }
 
         ////////////////
@@ -234,11 +255,7 @@ namespace OmegaGo.UI.ViewModels
             // When coming out of analysis, reset tool
             AnalyzeViewModel.BackToGameRequested += (s, e) =>
             {
-                Tool = null;
-                BoardViewModel.Tool = null;
-
-                // Disable analyze mode
-                IsAnalyzeModeEnabled = false;
+                DisableAnalyzeMode();
             };
             
             // Now register all available analysis tools for Live Games (observe, local, online)
