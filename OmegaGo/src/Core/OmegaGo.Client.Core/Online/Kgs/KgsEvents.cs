@@ -17,6 +17,9 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsEvents : ICommonEvents
     {
         public event EventHandler<string> SystemMessage;
+
+
+        public event EventHandler<KgsChallenge> ChallengeJoined;
         public event EventHandler<string> OutgoingRequest;
         public event EventHandler<KgsGame> GameJoined;
         public event EventHandler<KgsChannel> Unjoin;
@@ -29,6 +32,10 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<GameInfo> UndoRequestReceived;
         public event EventHandler<GameInfo> UndoDeclined;
 
+        internal void RaiseChallengeJoined(KgsChallenge createdChallenge)
+        {
+            ChallengeJoined?.Invoke(this, createdChallenge);
+        }
         internal void RaiseLoginPhaseChanged(KgsLoginPhase phase)
         {
             LoginPhaseChanged?.Invoke(this, phase);

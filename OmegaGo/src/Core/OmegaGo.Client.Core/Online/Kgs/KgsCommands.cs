@@ -17,6 +17,7 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsCommands : ICommonCommands
     {
         private readonly KgsConnection kgsConnection;
+        private Task CompletedTask = Task.FromResult(0);
 
         public KgsCommands(KgsConnection kgsConnection)
         {
@@ -91,7 +92,7 @@ namespace OmegaGo.Core.Online.Kgs
                     Loc = new 
                     {
                         X = move.Coordinates.X,
-                        Y = move.Coordinates.Y
+                        Y = KgsCoordinates.OurToTheirs(move.Coordinates.Y, kgsInfo.BoardSize)
                     }
                 });
             }
@@ -115,17 +116,46 @@ namespace OmegaGo.Core.Online.Kgs
 
         public Task UndoLifeDeath(RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            // Life/death works a little differently in KGS.
+            return CompletedTask;
         }
 
-        public Task LifeDeathDone(RemoteGameInfo remoteInfo)
+        public async Task LifeDeathDone(RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            var game = kgsConnection.Data.GetGame(kgsInfo.ChannelId);
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_SCORING_DONE", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                DoneId = game.Controller.DoneId
+            });
         }
 
-        public Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
+        public async Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo)
         {
-            throw new NotImplementedException();
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_MARK_LIFE", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                Alive = false,
+                X = position.X,
+                Y = KgsCoordinates.OurToTheirs(position.Y, kgsInfo.BoardSize)
+            });
+        }
+
+        public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_UNDO_ACCEPT", new
+            {
+                ChannelId = kgsInfo.ChannelId
+            });
+        }
+
+        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
+        {
+            // At KGS, to reject an undo, simply ignore it. 
+            return CompletedTask;
         }
 
         public async Task Resign(RemoteGameInfo remoteInfo)
@@ -135,16 +165,6 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 ChannelId = kgsInfo.ChannelId,
             });
-        }
-
-        public Task AllowUndoAsync(RemoteGameInfo remoteInfo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
@@ -221,6 +241,67 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 ChannelId = info.ChannelId,
                 Text = text
+            });
+        }
+        public async Task UndoPleaseAsync(KgsGameInfo info)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_UNDO_REQUEST", new
+            {
+                ChannelId = info.ChannelId
+            });
+        }
+        public async Task CreateChallenge(KgsRoom room, bool ranked, bool global, RulesDescription rules, StoneColor yourColor)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_CREATE", new
+            {
+                ChannelId = room.ChannelId,
+                CallbackKey = 0,
+                Global = global,
+                Text = "Game",
+                Proposal = new 
+                {
+                    GameType = ranked ? GameType.Ranked : GameType.Free,
+                    Rules = rules,
+                    Nigiri = yourColor == StoneColor.None,
+                    Players = new KgsPlayer []
+                    {
+                        new KgsPlayer()
+                        {
+                            Name = kgsConnection.Username,
+                            Role = yourColor == StoneColor.Black ? "black" : "white"
+                        },
+                        new  KgsPlayer()
+                        {
+                            Role = yourColor == StoneColor.Black ? "white" : "black"
+                        }
+                    }
+                }
+            });
+        }
+
+
+        public async Task DeclineChallengeAsync(KgsChallenge challenge, Proposal incomingChallenge)
+        {
+            string targetName =
+                incomingChallenge.Players.Select(pl => pl.User?.Name)
+                    .First(name => name != null && name != kgsConnection.Username);
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_DECLINE", new
+            {
+                ChannelId = challenge.ChannelId,
+                Name = targetName
+            });
+        }
+
+        public async Task ChallengeProposalAsync(KgsChallenge challenge, Proposal incomingChallenge)
+        {
+            Proposal outgoing = incomingChallenge.ToUpstream();
+            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_PROPOSAL", new
+            {
+                ChannelId = challenge.ChannelId,
+                GameType = outgoing.GameType,
+                Rules = outgoing.Rules,
+                Nigiri = outgoing.Nigiri,
+                Players = outgoing.Players
             });
         }
     }

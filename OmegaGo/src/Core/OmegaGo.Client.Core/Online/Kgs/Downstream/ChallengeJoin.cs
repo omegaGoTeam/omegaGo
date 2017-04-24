@@ -22,7 +22,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-            connection.Data.JoinChallenge(this.ChannelId);
+            if (!connection.Data.IsJoined(this.ChannelId))
+            {
+                connection.Data.JoinChallenge(this.ChannelId);
+            }
             foreach (var user in Users)
             {
                 connection.Data.AddUserToChannel(this.ChannelId, user);
