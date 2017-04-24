@@ -127,6 +127,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         ///     if the phase ended before its StartPhase method ended (this happens, for example, with InitializationPhase).
         /// </summary>
         public event EventHandler<IGamePhase> GamePhaseStarted;
+        public event EventHandler MoveUndone;
+        public void UnsubscribeEveryoneFromController()
+        {
+            GamePhaseStarted = null;
+            GamePhaseChanged = null;
+            CurrentNodeStateChanged = null;
+            CurrentNodeChanged = null;
+            TurnPlayerChanged = null;
+            GameEnded = null;
+            DebuggingMessage = null;
+            MoveUndone = null;
+        }
 
         /// <summary>
         ///     Gets the player currently on turn
@@ -225,7 +237,6 @@ namespace OmegaGo.Core.Modes.LiveGame
             UnsubscribePlayerEvents();
         }
 
-        public event EventHandler MoveUndone;
 
         /// <summary>
         ///     Fires the <see cref="TurnPlayerChanged" /> event.

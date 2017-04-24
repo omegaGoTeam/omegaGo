@@ -75,5 +75,10 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// </summary>
         /// <param name="connector">Connector to register</param>
         void RegisterConnector(IGameConnector connector);
+
+        /// <summary>
+        /// Clears the invocation list of all events declared in the controller.
+        /// </summary>
+        void UnsubscribeEveryoneFromController();
     }
 }

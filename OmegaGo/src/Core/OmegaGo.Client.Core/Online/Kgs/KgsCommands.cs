@@ -23,6 +23,15 @@ namespace OmegaGo.Core.Online.Kgs
             this.kgsConnection = kgsConnection;
         }
 
+        public async Task UnobserveAsync(RemoteGameInfo remoteInfo)
+        {
+            var kgsInfo = remoteInfo as KgsGameInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = kgsInfo.ChannelId
+            });
+        }
+
         public async Task JoinRoomAsync(KgsRoom room)
         {
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new

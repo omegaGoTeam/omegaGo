@@ -46,7 +46,6 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
 
             _game = Mvx.GetSingleton<IGame>();
-            _game.Controller.GameEnded += (s, e) => OnGameEnded(e);
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
@@ -58,11 +57,12 @@ namespace OmegaGo.UI.ViewModels
             SetupPhaseChangeHandlers(_phaseStartHandlers, _phaseEndHandlers);
 
             Game.Controller.RegisterConnector(_uiConnector);
+
+            Game.Controller.GameEnded += (s, e) => OnGameEnded(e);
             Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
-
             ObserveDebuggingMessages();
         }
         
@@ -94,7 +94,11 @@ namespace OmegaGo.UI.ViewModels
         {
             Game.Controller.BeginGame();
         }
-
+        public override Task<bool> CanCloseViewModelAsync()
+        {
+            Game.Controller.UnsubscribeEveryoneFromController();
+            return base.CanCloseViewModelAsync();
+        }
         protected virtual void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
 
@@ -145,26 +149,10 @@ namespace OmegaGo.UI.ViewModels
 
             // Define publicly the new phase
             GamePhase = phaseState.NewPhase.Type;
-            
-            // Should be implemented by the specific registered Action
-            //if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
-            //    phaseState.NewPhase.Type == GamePhaseType.Finished)
-            //{
-            //    BoardViewModel.BoardControlState.ShowTerritory = true;
-            //}
-            //else
-            //{
-            //    BoardViewModel.BoardControlState.ShowTerritory = false;
-            //}
         }
         
         public virtual void Unload()
         {
-            //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
-            //if (this.Game is IgsGame)
-            //{
-            //    await ((IgsGame)this.Game).Info.Server.EndObserving((IgsGame)this.Game);
-            //}
         }
 
 

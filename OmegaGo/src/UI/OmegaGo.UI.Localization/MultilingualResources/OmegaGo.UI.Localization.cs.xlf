@@ -1516,6 +1516,34 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Solved</source>
           <target state="new">Solved</target>
         </trans-unit>
+        <trans-unit id="ExitLocal_Caption" translate="yes" xml:space="preserve">
+          <source>Do you want to abandon the game?</source>
+          <target state="new">Do you want to abandon the game?</target>
+        </trans-unit>
+        <trans-unit id="ExitLocal_Confirm" translate="yes" xml:space="preserve">
+          <source>Abandon game</source>
+          <target state="new">Abandon game</target>
+        </trans-unit>
+        <trans-unit id="ExitLocal_Text" translate="yes" xml:space="preserve">
+          <source>Exiting this screen will end this game. It will not be counted in statistics at all.</source>
+          <target state="new">Exiting this screen will end this game. It will not be counted in statistics at all.</target>
+        </trans-unit>
+        <trans-unit id="ExitOnline_Caption" translate="yes" xml:space="preserve">
+          <source>Do you want to resign?</source>
+          <target state="new">Do you want to resign?</target>
+        </trans-unit>
+        <trans-unit id="ExitOnline_Confirm" translate="yes" xml:space="preserve">
+          <source>Yes, resign</source>
+          <target state="new">Yes, resign</target>
+        </trans-unit>
+        <trans-unit id="ExitOnline_Text" translate="yes" xml:space="preserve">
+          <source>Exiting this screen will cause you to resign this online game.</source>
+          <target state="new">Exiting this screen will cause you to resign this online game.</target>
+        </trans-unit>
+        <trans-unit id="Exit_ReturnToGame" translate="yes" xml:space="preserve">
+          <source>Return to game</source>
+          <target state="new">Return to game</target>
+        </trans-unit>
       </group>
     </body>
   </file>

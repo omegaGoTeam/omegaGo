@@ -46,5 +46,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             VM.BlackPortrait.Update();
             VM.WhitePortrait.Update();
         }
+        
     }
 }
