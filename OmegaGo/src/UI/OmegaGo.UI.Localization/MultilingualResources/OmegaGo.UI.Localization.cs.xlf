@@ -1490,23 +1490,23 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="NewGame" translate="yes" xml:space="preserve">
           <source>New game</source>
-          <target state="new">New game</target>
+          <target state="translated">Nová hra</target>
         </trans-unit>
         <trans-unit id="Observing" translate="yes" xml:space="preserve">
           <source>Observing</source>
-          <target state="new">Observing</target>
+          <target state="translated">Pozorování</target>
         </trans-unit>
         <trans-unit id="GoBack" translate="yes" xml:space="preserve">
           <source>Go back</source>
-          <target state="new">Go back</target>
+          <target state="translated">Vrátit se</target>
         </trans-unit>
         <trans-unit id="AreYouSure" translate="yes" xml:space="preserve">
           <source>Are you sure?</source>
-          <target state="new">Are you sure?</target>
+          <target state="translated">Jste si jistí?</target>
         </trans-unit>
         <trans-unit id="AreYouSureYouWantToEndTheGame" translate="yes" xml:space="preserve">
           <source>Are you sure you want to end the game?</source>
-          <target state="new">Are you sure you want to end the game?</target>
+          <target state="translated">Opravdu chcete tuto hru ukončit?</target>
         </trans-unit>
         <trans-unit id="KgsLoginPhase_JoiningGlobalLists" translate="yes" xml:space="preserve">
           <source>Joining global games and challenges list...</source>
@@ -1518,31 +1518,31 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="ExitLocal_Caption" translate="yes" xml:space="preserve">
           <source>Do you want to abandon the game?</source>
-          <target state="new">Do you want to abandon the game?</target>
+          <target state="translated">Chcete opustit tuto hru?</target>
         </trans-unit>
         <trans-unit id="ExitLocal_Confirm" translate="yes" xml:space="preserve">
           <source>Abandon game</source>
-          <target state="new">Abandon game</target>
+          <target state="translated">Opustit hru</target>
         </trans-unit>
         <trans-unit id="ExitLocal_Text" translate="yes" xml:space="preserve">
           <source>Exiting this screen will end this game. It will not be counted in statistics at all.</source>
-          <target state="new">Exiting this screen will end this game. It will not be counted in statistics at all.</target>
+          <target state="translated">Opuštění této obrazovky ukončí rozehranou hru. Nebude se počítat ve statistikách ani jako prohra ani jako výhra.</target>
         </trans-unit>
         <trans-unit id="ExitOnline_Caption" translate="yes" xml:space="preserve">
           <source>Do you want to resign?</source>
-          <target state="new">Do you want to resign?</target>
+          <target state="translated">Chcete se vzdát?</target>
         </trans-unit>
         <trans-unit id="ExitOnline_Confirm" translate="yes" xml:space="preserve">
           <source>Yes, resign</source>
-          <target state="new">Yes, resign</target>
+          <target state="translated">Ano, vzdát</target>
         </trans-unit>
         <trans-unit id="ExitOnline_Text" translate="yes" xml:space="preserve">
           <source>Exiting this screen will cause you to resign this online game.</source>
-          <target state="new">Exiting this screen will cause you to resign this online game.</target>
+          <target state="translated">Opuštěním této obrazovky vzdáte hru.</target>
         </trans-unit>
         <trans-unit id="Exit_ReturnToGame" translate="yes" xml:space="preserve">
           <source>Return to game</source>
-          <target state="new">Return to game</target>
+          <target state="translated">Vrátit se do hry</target>
         </trans-unit>
       </group>
     </body>

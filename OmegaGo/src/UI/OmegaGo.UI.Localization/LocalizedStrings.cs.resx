@@ -1119,4 +1119,40 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="MainMenu" xml:space="preserve">
     <value>Hlavní menu</value>
   </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Observing" xml:space="preserve">
+    <value>Pozorování</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Vrátit se</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Jste si jistí?</value>
+  </data>
+  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
+    <value>Opravdu chcete tuto hru ukončit?</value>
+  </data>
+  <data name="ExitLocal_Caption" xml:space="preserve">
+    <value>Chcete opustit tuto hru?</value>
+  </data>
+  <data name="ExitLocal_Confirm" xml:space="preserve">
+    <value>Opustit hru</value>
+  </data>
+  <data name="ExitLocal_Text" xml:space="preserve">
+    <value>Opuštění této obrazovky ukončí rozehranou hru. Nebude se počítat ve statistikách ani jako prohra ani jako výhra.</value>
+  </data>
+  <data name="ExitOnline_Caption" xml:space="preserve">
+    <value>Chcete se vzdát?</value>
+  </data>
+  <data name="ExitOnline_Confirm" xml:space="preserve">
+    <value>Ano, vzdát</value>
+  </data>
+  <data name="ExitOnline_Text" xml:space="preserve">
+    <value>Opuštěním této obrazovky vzdáte hru.</value>
+  </data>
+  <data name="Exit_ReturnToGame" xml:space="preserve">
+    <value>Vrátit se do hry</value>
+  </data>
 </root>
