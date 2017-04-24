@@ -175,12 +175,16 @@
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeSubmit.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeCreated.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeProposal.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
     <Compile Include="Online\Kgs\Downstream\NotificationMessageDownstreamEvent.cs" />
+    <Compile Include="Online\Kgs\KgsCoordinates.cs" />
     <Compile Include="Online\Kgs\Structures\KgsLoginPhase.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />

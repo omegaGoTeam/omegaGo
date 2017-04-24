@@ -27,7 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
 
-        private async void IgsHomeLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void IgsHomeLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isInitialized)
             {
@@ -48,7 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortUsersByName(object sender, RoutedEventArgs e)
         {
-            VM.SortUsers((u1, u2) => String.Compare(u1.Name, u2.Name, StringComparison.Ordinal));
+            VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         private async void RefreshGames(object sender, RoutedEventArgs e)
@@ -104,31 +104,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private async void RefreshUsers(object sender, RoutedEventArgs e)
         {
             await VM.RefreshUsers();
-        }
-
-        private async void Temp_RejectRequest_Click(object sender, RoutedEventArgs e)
-        {
-            if (TempIncomingMatchRequests.SelectedItem != null)
-            {
-                IgsMatchRequest mr = (IgsMatchRequest) this.TempIncomingMatchRequests.SelectedItem;
-                VM.ShowProgressPanel("Declining request...");
-                VM.IncomingMatchRequests.Remove(mr);
-                await Connections.Igs.Commands.DeclineMatchRequestAsync(mr);
-                VM.ProgressPanelVisible = false;
-            }
-        }
-
-        private async void Temp_AcceptRequest_Click(object sender, RoutedEventArgs e)
-        {
-            if (TempIncomingMatchRequests.SelectedItem != null)
-            {
-                IgsMatchRequest mr = (IgsMatchRequest)this.TempIncomingMatchRequests.SelectedItem;
-                VM.ShowProgressPanel("Accepting request...");
-                VM.IncomingMatchRequests.Remove(mr);
-                IgsGame game = await Connections.Igs.Commands.AcceptMatchRequestAsync(mr);
-                VM.ProgressPanelVisible = false;
-                VM.StartGame(game);
-            }
         }
 
         private void RefreshConsole(object sender, RoutedEventArgs e)

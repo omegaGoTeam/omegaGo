@@ -42,13 +42,13 @@
         </CheckBox>
         <StackPanel Orientation="Horizontal" Visibility="{x:Bind ViewModel.IsFluffy,Mode=OneWay}">
             <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.TreeDepthColon}"></TextBlock>
-            <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FluffyTreeDepth, Mode=TwoWay}"></TextBox>
+            <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FluffyTreeDepthString, Mode=TwoWay}"></TextBox>
             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
                           ToolTipService.ToolTip="{x:Bind Localizer.TreeDepthTooltip}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal"  Visibility="{x:Bind ViewModel.IsFuego,Mode=OneWay}">
             <TextBlock VerticalAlignment="Center" Text="{x:Bind Localizer.MaxPlayoutsColon}"></TextBlock>
-            <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FuegoMaxGames, Mode=TwoWay}"></TextBox>
+            <TextBox Margin="5,0,0,0" Text="{x:Bind ViewModel.FuegoMaxGamesString, Mode=TwoWay}"></TextBox>
             <FontIcon Margin="5,0,0,0" Glyph="&#xE82F;"
                           ToolTipService.ToolTip="{x:Bind Localizer.MaxPlayoutsTooltip}" />
         </StackPanel>

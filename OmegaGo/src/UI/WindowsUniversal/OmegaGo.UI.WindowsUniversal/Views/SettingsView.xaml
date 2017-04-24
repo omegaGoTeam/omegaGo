@@ -319,7 +319,7 @@
 
                             <TextBlock Text="{x:Bind Localizer.BackgroundColor}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <controls:ColorPicker Height="200" Color="{x:Bind SelectedBackgroundColor, Mode=TwoWay}" />
-                            <Button Click="SetDefaultBackgroundColor" Content="Set default color" />
+                            <Button Click="SetDefaultBackgroundColor" Content="{x:Bind Localizer.SetDefaultColor}" />
 
                             <TextBlock Text="{x:Bind Localizer.ControlStyle}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <ComboBox ItemsSource="{Binding ControlStyles}" 

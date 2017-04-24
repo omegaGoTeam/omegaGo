@@ -77,7 +77,7 @@
         
         <Grid Grid.Row="3" Padding="5">
             <StackPanel Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Selected item: </TextBlock>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.SelectedItemColon}"></TextBlock>
                 <Button Content="{x:Bind Localizer.OpenCommand}" Command="{x:Bind VM.OpenCommand}" />
                 <Button Content="{x:Bind Localizer.DeleteCommand}" Command="{x:Bind VM.DeleteCommand}"  />
                 <Button Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />

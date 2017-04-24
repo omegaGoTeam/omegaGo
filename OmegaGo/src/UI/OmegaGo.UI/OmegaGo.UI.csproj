@@ -96,7 +96,8 @@
     <Compile Include="Services\GameCreation\GameCreationBundle.cs" />
     <Compile Include="Services\GameCreation\GameCreationFormStyle.cs" />
     <Compile Include="Services\GameCreation\HotseatBundle.cs" />
-    <Compile Include="Services\GameCreation\IgsChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\IgsBundle.cs" />
+    <Compile Include="Services\GameCreation\IgsOutgoingChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
+    <Compile Include="Services\GameCreation\IgsIncomingMatchRequestBundle.cs" />
     <Compile Include="Services\PasswordVault\IPasswordVaultService.cs" />
     <Compile Include="Services\Quests\ActiveQuest.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />

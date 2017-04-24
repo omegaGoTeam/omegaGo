@@ -114,6 +114,40 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 }
             }
         }
+        public string FuegoMaxGamesString
+        {
+            get { return FuegoMaxGames.ToString(); }
+            set
+            {
+                int parsed;
+                if (int.TryParse(value, out parsed))
+                {
+                    FuegoMaxGames = parsed;
+                }
+                else
+                {
+                    FuegoMaxGames = FuegoMaxGames;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        public string FluffyTreeDepthString
+        {
+            get { return FluffyTreeDepth.ToString(); }
+            set
+            {
+                int parsed;
+                if (int.TryParse(value, out parsed))
+                {
+                    FluffyTreeDepth = parsed;
+                }
+                else
+                {
+                    FluffyTreeDepth = FluffyTreeDepth;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
 
         public void ChangePlayer(GameCreationViewPlayer value)
@@ -141,6 +175,52 @@ namespace OmegaGo.UI.UserControls.ViewModels
             {
                 _settings.Interface.FluffyDepth = this.FluffyTreeDepth;
             }
+        }
+
+        public bool Validate(GameCreationViewModel gameCreationViewModel, ref string errorMessage)
+        {
+            if (IsFluffy)
+            {
+                if (FluffyTreeDepth < 1)
+                {
+                    errorMessage = "Fluffy tree depth must be at least 1.";
+                    return false;
+                }
+
+            }
+            if (IsFuego)
+            {
+                if (FuegoMaxGames < 10)
+                {
+                    errorMessage = "Fuego must be set to play at least 10 games.";
+                    return false;
+                }
+
+            }
+            if (player.IsAi)
+            {
+                bool nonSquare = this.Capabitilies?.HandlesNonSquareBoards ?? true;
+                if (!nonSquare && !gameCreationViewModel.SelectedGameBoardSize.IsSquare)
+                {
+                    errorMessage = "For this AI program, you must select a square board.";
+                    return false;
+                }
+                int minimumBoardSize = this.Capabitilies?.MinimumBoardSize ?? 0;
+                int maximumBoardSize = this.Capabitilies?.MaximumBoardSize ?? int.MaxValue;
+                if (minimumBoardSize > gameCreationViewModel.SelectedGameBoardSize.Width ||
+                    minimumBoardSize > gameCreationViewModel.SelectedGameBoardSize.Height)
+                {
+                    errorMessage = "For this AI program, you must select a larger board.";
+                    return false;
+                }
+                if (maximumBoardSize < gameCreationViewModel.SelectedGameBoardSize.Width ||
+                    maximumBoardSize < gameCreationViewModel.SelectedGameBoardSize.Height)
+                {
+                    errorMessage = "For this AI program, you must select a smaller board.";
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
