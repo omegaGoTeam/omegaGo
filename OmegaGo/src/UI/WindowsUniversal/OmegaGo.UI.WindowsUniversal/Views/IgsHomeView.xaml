@@ -94,6 +94,8 @@
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
                                 <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <TextBlock Margin="10,0,0,0" Text="Name: " VerticalAlignment="Center"></TextBlock>
+                                <TextBox Margin="10,0,0,0" Width="200" VerticalAlignment="Center" Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
                             <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                         </StackPanel>
@@ -108,33 +110,6 @@
                         <Button Grid.Row="2" 
                                 Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
                                 Command="{Binding ChallengeSelectedPlayer}"/>
-                    </Grid>
-                </PivotItem>
-                <PivotItem Header="Incoming Match Requests">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <TextBlock Text="This panel is temporary and will be removed once tabs are implemented."/>
-                            <TextBlock Text="You have these match requests:"/>
-                        </StackPanel>
-                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
-                            <ListBox Name="TempIncomingMatchRequests" ItemsSource="{Binding IncomingMatchRequests, Mode=OneWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </ScrollViewer>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            <Button Background="LimeGreen" Click="Temp_AcceptRequest_Click">Accept</Button>
-                            <Button Background="Red" Click="Temp_RejectRequest_Click">Reject</Button>
-                        </StackPanel>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console" Visibility="{x:Bind VM.ConsoleVisible}">

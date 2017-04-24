@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
+using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
+using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.Online
 {
@@ -73,8 +78,43 @@ namespace OmegaGo.UI.Services.Online
         {
             _igsConnection = new IgsConnection();
             _igsConnection.Events.PersonalInformationUpdate += IgsUserUpdate;
+            _igsConnection.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest; 
+            _igsConnection.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
+            _igsConnection.Events.MatchRequestDeclined += Pandanet_MatchRequestDeclined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
+        }
+
+        private static void Pandanet_MatchRequestDeclined(object sender, string e)
+        {
+            Mvx.Resolve<Notifications.IAppNotificationService>()
+                .TriggerNotification(new Notifications.BubbleNotification(e + " declined your match request."));
+        }
+
+        private static void Pandanet_MatchRequestAccepted(object sender, Core.Modes.LiveGame.Remote.Igs.IgsGame e)
+        {
+            Mvx.RegisterSingleton<IGame>(e);
+            Mvx.Resolve<ITabProvider>()
+                .ShowViewModel(
+                    new MvxViewModelRequest(typeof(OnlineGameViewModel), new MvxBundle(),
+                        new MvxBundle(), MvxRequestedBy.Unknown), TabNavigationType.NewForegroundTab);
+        }
+
+        private static async void Pandanet_IncomingMatchRequest(Core.Online.Igs.Structures.IgsMatchRequest obj)
+        {
+            Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(
+                new GameCreation.IgsIncomingMatchRequestBundle(obj));
+            var newTab = Mvx.Resolve<ITabProvider>()
+                .ShowViewModel(
+                    new MvxViewModelRequest(typeof(GameCreationViewModel), new MvxBundle(), new MvxBundle(),
+                        MvxRequestedBy.Unknown), TabNavigationType.NewBackgroundTab);
+            newTab.IsBlinking = true;
+
+            var settings = Mvx.Resolve<IGameSettings>();
+            if (settings.Audio.PlayWhenNotificationReceived)
+            {
+                await Sounds.Notification.PlayAsync();
+            }
         }
 
         /// <summary>

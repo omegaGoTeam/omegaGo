@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Platform;
-using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.ViewModels;
 
-namespace OmegaGo.UI.Services.GameCreationBundle
+namespace OmegaGo.UI.Services.GameCreation
 {
     /// <summary>
     /// Represents a method by which one can enter the <see cref="GameCreationViewModel"/>.  
@@ -75,14 +75,31 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         public abstract bool KomiIsAvailable { get; }
 
         /// <summary>
+        /// Gets a value indicating whether all form fields, except for the experimental "Your Agent" field, are frozen and cannot be changed.
+        /// </summary>
+        public abstract bool Frozen { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the user can modify something in this form.
+        /// </summary>
+        public bool NotFrozen => !Frozen;
+
+        /// <summary>
         /// Gets a value indicating whether this method has something to do with IGS.
         /// </summary>
         public virtual bool IsIgs => false;
 
         /// <summary>
+        /// Gets a value indicating whether this method is not related to IGS. This is used to disable a field on the form.
+        /// </summary>
+        public bool IsNotIgs => !IsIgs;
+
+        /// <summary>
         /// Gets the name of the opponent to display as a TextBlock.
         /// </summary>
         public virtual string OpponentName => "Local";
+
+        public abstract string TabTitle { get; }
 
         /// <summary>
         /// Called when the <paramref name="gameCreationViewModel"/> loads. Use this to set properties of the model's controls.
@@ -96,6 +113,16 @@ namespace OmegaGo.UI.Services.GameCreationBundle
         public virtual Task CreateChallenge(GameCreationViewModel gameCreationViewModel)
         {
             throw new InvalidOperationException("This bundle does not support the creation of challenges.");
+        }
+
+        public virtual Task<IGame> AcceptChallenge(GameCreationViewModel gameCreationViewModel)
+        {
+            throw new InvalidOperationException("This bundle does not support accepting challenges.");
+        }
+
+        public virtual Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
+        {
+            throw new InvalidOperationException("This bundle does not support refusing challenges.");
         }
     }
 }

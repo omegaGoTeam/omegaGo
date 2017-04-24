@@ -14,7 +14,6 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
-using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
@@ -24,7 +23,12 @@ namespace OmegaGo.UI.ViewModels
     public class IgsHomeViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings;
-       
+#if DEBUG
+        private string _usernameFilter = "Soothie";
+#else
+        private string _usernameFilter = "";
+#endif
+
 
         public IgsHomeViewModel(IGameSettings settings)
         {
@@ -42,9 +46,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task Initialize()
         {
             LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok; 
-            Connections.Igs.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
-            Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
             Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
@@ -101,8 +103,6 @@ namespace OmegaGo.UI.ViewModels
 
         public void Deinitialize()
         {
-            Connections.Igs.Events.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Igs.Events.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
             Connections.Igs.Events.Disconnected -= Events_Disconnected;
@@ -110,17 +110,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public LoginFormViewModel LoginForm { get; }
-    
-
-        private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
-        {
-            StartGame(e);
-        }
-
-        private void Pandanet_IncomingMatchRequest(IgsMatchRequest obj)
-        {
-            this.IncomingMatchRequests.Add(obj);
-        }
 
      
 
@@ -195,6 +184,14 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _progressPanelVisible; }
             set { SetProperty(ref _progressPanelVisible, value); }
+        }
+        public string UsernameFilter
+        {
+            get { return _usernameFilter; }
+            set {
+                SetProperty(ref _usernameFilter, value);
+                RefillChallengeableUsersFromAllUsers();
+            }
         }
         public async Task AttemptLoginCommand(string username, string password)
         {
@@ -279,13 +276,14 @@ namespace OmegaGo.UI.ViewModels
         }
         private void RefillChallengeableUsersFromAllUsers()
         {
+            var filteredUsers = allUsers.Where(usr => usr.Name.ToLower().Contains(UsernameFilter.ToLower()));
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
             }
             else
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers);
             }
         }
         private List<IgsUser> allUsers = new List<IgsUser>();
@@ -368,7 +366,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (SelectedChallengeableUser != null)
             {
-                Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
+                Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
                 ShowViewModel<GameCreationViewModel>();
             }
         }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));

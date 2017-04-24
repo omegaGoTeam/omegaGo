@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OmegaGo.UI.Services.GameCreationBundle;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
