@@ -10,7 +10,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Timer
 {    
     class TimerService : ITimerService
     {
-        private List<Timer> _timers = new List<Timer>();
+        private readonly List<Timer> _timers = new List<Timer>();
         public ITimer StartTimer(TimeSpan interval, Action action)
         {
             DispatcherTimer newTimer = new DispatcherTimer()
