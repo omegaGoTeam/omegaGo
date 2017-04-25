@@ -29,7 +29,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler<Position> LifeDeathKillGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
-        public event EventHandler<string> OutgoingChatMessage;
         /// <summary>
         ///     Occurs when any AI involved in the game sends a line of information to the user interface.
         /// </summary>
