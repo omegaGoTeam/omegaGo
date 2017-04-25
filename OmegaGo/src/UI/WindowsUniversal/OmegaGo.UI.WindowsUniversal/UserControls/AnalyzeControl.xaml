@@ -6,8 +6,6 @@
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
-    xmlns:tools="using:OmegaGo.Core.Game.Tools"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -96,8 +94,12 @@
         </StackPanel>
 
         <TextBox x:Name="nodeCommentaryText"
-                 Grid.Row="5"
-                 MaxHeight="60"
-                 Text="{x:Bind ViewModel.ToolServices.Node.Comment, Mode=TwoWay}"/>
+                 Grid.Row="5" MaxHeight="120" 
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 Header="Commentary"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Text="{Binding ElementName=layoutRoot, 
+                                Path=ViewModel.NodeCommentary, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </local:UserControlBase>

@@ -9,7 +9,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private GameTreeNode _selectedTimelineNode;
         
         /// <summary>
-        /// Creates timeline view model with a given game tree
+        /// Creates timeline view model with a given game tree.
         /// </summary>
         /// <param name="gameTree">Game tree</param>
         public TimelineViewModel(GameTree gameTree)

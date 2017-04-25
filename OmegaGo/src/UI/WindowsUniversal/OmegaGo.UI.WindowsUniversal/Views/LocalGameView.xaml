@@ -267,13 +267,14 @@
 
                         
                         <StackPanel x:Name="analyzeModeCommand"
-                                Grid.Row="4" Grid.ColumnSpan="2">
+                                    Grid.Row="4" Grid.ColumnSpan="2"
+                                    Margin="10">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}"
                                                       Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
                             <controls:TimelineControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
-                                                      Margin="5" Height="200"
+                                                      Height="200"
                                                       ViewModel="{x:Bind VM.TimelineViewModel}"
                                                       Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
                         </StackPanel>

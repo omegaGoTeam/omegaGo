@@ -8,15 +8,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
     {
         private readonly IToolServices _toolServices;
         private ITool _selectedTool;
-
-        private bool _isStoneToolSelected;        
-        private bool _isCharacterToolSelected;
-        private bool _isNumberToolSelected;
-        private bool _isRectangleToolSelected;
-        private bool _isTriangleToolSelected;
-        private bool _isCircleToolSelected;
-        private bool _isCrossToolSelected;
-
+        
         private MvxCommand _placeStoneCommand;
         private MvxCommand _deleteBranchCommand;
 
@@ -30,19 +22,36 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private MvxCommand _backToGameCommand;
         private MvxCommand _passCommand;
 
+        /// <summary>
+        /// Initializes a new instance of the AnalyzeViewModel class.
+        /// </summary>
+        /// <param name="toolServices">tool services that will be used by the analyze mode tools</param>
         public AnalyzeViewModel(IToolServices toolServices)
         {
             _toolServices = toolServices;
         }
 
+        /// <summary>
+        /// Occurs when currently selected tool changes.
+        /// </summary>
         public event EventHandler<ITool> ToolChanged;
+
+        /// <summary>
+        /// Occurs when player requests the exit of analyze mode and return to normal game.
+        /// </summary>
         public event EventHandler BackToGameRequested;
 
+        /// <summary>
+        /// Gets the tool services provider.
+        /// </summary>
         public IToolServices ToolServices
         {
             get { return _toolServices; }
         }
 
+        /// <summary>
+        /// Gets the currently selected tool.
+        /// </summary>
         public ITool SelectedTool
         {
             get { return _selectedTool; }
@@ -53,10 +62,20 @@ namespace OmegaGo.UI.UserControls.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the commertary of the current node.
+        /// </summary>
         public string NodeCommentary
         {
-            get { return ToolServices.Node.Comment; }
-            set { ToolServices.Node.Comment = value; RaisePropertyChanged(nameof(NodeCommentary)); }
+            get { return ToolServices.Node?.Comment; }
+            set
+            {
+                // TODO Vita this can happen when there is no move yet. This should be fixed once every game starts with an empty node.
+                if (ToolServices.Node == null)
+                    return;
+
+                ToolServices.Node.Comment = value;
+            }
         }
 
         public MvxCommand PlaceStoneCommand => _placeStoneCommand ?? (_placeStoneCommand = new MvxCommand(
@@ -82,7 +101,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public MvxCommand PassCommand => _passCommand ?? (_passCommand = new MvxCommand(
             () => { Pass(); }));
 
-        // Add null - visibility converter
+        // In future possibly add null - visibility converter for tools that might not be available for all game types.
         public StonePlacementTool StonePlacementTool { get; internal set; }
         public PassTool PassTool { get; internal set; }
         public DeleteBranchTool DeleteBranchTool { get; internal set; }
@@ -96,60 +115,57 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public bool IsStoneToolSelected
         {
-            get { return _isStoneToolSelected; }
-            set { SetProperty(ref _isStoneToolSelected, value); }
+            get { return SelectedTool == StonePlacementTool; }
         }
 
         public bool IsCharacterToolSelected
         {
-            get { return _isCharacterToolSelected; }
-            set { SetProperty(ref _isCharacterToolSelected, value); }
+            get { return SelectedTool == CharacterMarkupTool; }
         }
 
         public bool IsNumberToolSelected
         {
-            get { return _isNumberToolSelected; }
-            set { SetProperty(ref _isNumberToolSelected, value); }
+            get { return SelectedTool == NumberMarkupTool; }
         }
 
         public bool IsRectangleToolSelected
         {
-            get { return _isRectangleToolSelected; }
-            set { SetProperty(ref _isRectangleToolSelected, value); }
+            get { return SelectedTool == RectangleMarkupTool; }
         }
 
         public bool IsTriangleToolSelected
         {
-            get { return _isTriangleToolSelected; }
-            set { SetProperty(ref _isTriangleToolSelected, value); }
+            get { return SelectedTool == TriangleMarkupTool; }
         }
 
         public bool IsCircleToolSelected
         {
-            get { return _isCircleToolSelected; }
-            set { SetProperty(ref _isCircleToolSelected, value); }
+            get { return SelectedTool == CircleMarkupTool; }
         }
 
         public bool IsCrossToolSelected
         {
-            get { return _isCrossToolSelected; }
-            set { SetProperty(ref _isCrossToolSelected, value); }
+            get { return SelectedTool == CrossMarkupTool; }
         }
 
+        /// <summary>
+        /// Notifies this view model that node changed.
+        /// This is used to update the node commentary.
+        /// </summary>
         internal void OnNodeChanged()
         {
-            RaisePropertyChanged(NodeCommentary);
+            RaisePropertyChanged(nameof(NodeCommentary));
         }
 
-        private void UnselectAllTools()
+        private void RaiseToolPropertiesChanged()
         {
-            IsStoneToolSelected = false;
-            IsCharacterToolSelected = false;
-            IsNumberToolSelected = false;
-            IsRectangleToolSelected = false;
-            IsTriangleToolSelected = false;
-            IsCircleToolSelected = false;
-            IsCrossToolSelected = false;
+            RaisePropertyChanged(nameof(IsStoneToolSelected));
+            RaisePropertyChanged(nameof(IsCharacterToolSelected));
+            RaisePropertyChanged(nameof(IsNumberToolSelected));
+            RaisePropertyChanged(nameof(IsRectangleToolSelected));
+            RaisePropertyChanged(nameof(IsTriangleToolSelected));
+            RaisePropertyChanged(nameof(IsCircleToolSelected));
+            RaisePropertyChanged(nameof(IsCrossToolSelected));
         }
 
         private void DeleteBranch()
@@ -159,51 +175,44 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void PlaceStone()
         {
-            UnselectAllTools();
-            IsStoneToolSelected = true;
             SelectedTool = StonePlacementTool;
+            RaiseToolPropertiesChanged();
         }
         
         private void PlaceCharacter()
         {
-            UnselectAllTools();
-            IsCharacterToolSelected = true;
             SelectedTool = CharacterMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void PlaceNumber()
         {
-            UnselectAllTools();
-            IsNumberToolSelected = true;
             SelectedTool = NumberMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void PlaceRectangle()
         {
-            UnselectAllTools();
-            IsRectangleToolSelected = true;
             SelectedTool = RectangleMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void PlaceTriangle()
         {
-            UnselectAllTools();
-            IsTriangleToolSelected = true;
             SelectedTool = TriangleMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void PlaceCircle()
         {
-            UnselectAllTools();
-            IsCircleToolSelected = true;
             SelectedTool = CircleMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void PlaceCross()
         {
-            UnselectAllTools();
-            IsCrossToolSelected = true;
             SelectedTool = CrossMarkupTool;
+            RaiseToolPropertiesChanged();
         }
 
         private void BackToGame()

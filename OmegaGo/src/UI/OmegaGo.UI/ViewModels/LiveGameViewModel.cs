@@ -72,7 +72,12 @@ namespace OmegaGo.UI.ViewModels
 
             // Set up Timeline
             TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => { ToolServices.Node = e; RefreshBoard(e); };
+            TimelineViewModel.TimelineSelectionChanged += (s, e) => 
+            {
+                ToolServices.Node = e;
+                RefreshBoard(e);
+                AnalyzeViewModel.OnNodeChanged();
+            };
         }
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
