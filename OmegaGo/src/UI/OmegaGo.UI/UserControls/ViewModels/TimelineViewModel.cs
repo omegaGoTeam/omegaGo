@@ -13,32 +13,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
     {
         private GameTree _gameTree;
         private GameTreeNode _selectedTimelineNode;
-
-        public GameTree GameTree
-        {
-            get { return _gameTree; }
-            set { SetProperty(ref _gameTree, value); OnTimelineRedrawRequested(); }
-        }
-
-        public GameTreeNode SelectedTimelineNode
-        {
-            get { return _selectedTimelineNode; }
-            set { SetProperty(ref _selectedTimelineNode, value); OnTimelineSelectionChanged(); }
-        }
-
-        // Indended for the UI View to subscribe and refresh the timeline accordingly.
-        public event EventHandler TimelineRedrawRequsted;
-        // Intended for the ViewModel to know when currently rendered node should be changed.
-        internal event EventHandler<GameTreeNode> TimelineSelectionChanged;
-
-        /// <summary>
-        /// Creates timeline view model
-        /// </summary>
-        public TimelineViewModel()
-        {
-
-        }
-
+        
         /// <summary>
         /// Creates timeline view model with a given game tree
         /// </summary>
@@ -48,13 +23,49 @@ namespace OmegaGo.UI.UserControls.ViewModels
             GameTree = gameTree;
             GameTree.LastNodeChanged += (s, node) => OnTimelineRedrawRequested();
         }
-        
-        public void RaiseGameTreeChanged()
+
+
+        // Indended for the UI View to subscribe and refresh the timeline accordingly.
+        public event EventHandler TimelineRedrawRequsted;
+        // Intended for the ViewModel to know when currently rendered node should be changed.
+        internal event EventHandler<GameTreeNode> TimelineSelectionChanged;
+
+        /// <summary>
+        /// Gets a value representing the game tree.
+        /// </summary>
+        public GameTree GameTree
+        {
+            get { return _gameTree; }
+            private set { SetProperty(ref _gameTree, value); OnTimelineRedrawRequested(); }
+        }
+
+        /// <summary>
+        /// Gets a value representing the currently selected game tree node.
+        /// </summary>
+        public GameTreeNode SelectedTimelineNode
+        {
+            get { return _selectedTimelineNode; }
+            internal set { SetProperty(ref _selectedTimelineNode, value); OnTimelineRedrawRequested(); }
+        }
+
+        /// <summary>
+        /// Sets the provided node as the selected node. 
+        /// LiveGameViewModel gets also notified about the change.
+        /// </summary>
+        /// <param name="node">a node to set as selected</param>
+        public void SetSelectedNode(GameTreeNode node)
+        {
+            // Set selected node, this also rises redraw request in the UWP.UI
+            SelectedTimelineNode = node;
+            // Notify the ViewModel about the change
+            OnTimelineSelectionChanged();
+        }
+
+        internal void RaiseGameTreeChanged()
         {
             OnTimelineRedrawRequested();
         }
 
-        // TODO Petr: GameTree now has LastNodeChanged event, use it to fix this - GameTree should notify - NodeAddedEvent<GameTreeNode>, for now make public and. Called from GameViewModel
         private void OnTimelineRedrawRequested()
         {
             TimelineRedrawRequsted?.Invoke(this, EventArgs.Empty);

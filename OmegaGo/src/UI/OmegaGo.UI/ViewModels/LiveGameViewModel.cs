@@ -57,7 +57,13 @@ namespace OmegaGo.UI.ViewModels
                 new GameToolServices(
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
-            ToolServices.NodeChanged += (s, node) => { AnalyzeViewModel.OnNodeChanged(); RefreshBoard(node); TimelineViewModel.RaiseGameTreeChanged();  };
+            ToolServices.NodeChanged += (s, node) => 
+            {
+                AnalyzeViewModel.OnNodeChanged();
+                RefreshBoard(node);
+                TimelineViewModel.SelectedTimelineNode = node;
+                TimelineViewModel.RaiseGameTreeChanged();
+            };
             Tool = null;
 
             // Initialize analyze mode and register tools
@@ -161,7 +167,11 @@ namespace OmegaGo.UI.ViewModels
             // This method is invoked by an event coming from Controller
             // If we are in the analyze mode, we want to change current node manually.
             if (IsAnalyzeModeEnabled)
+            {
+                // Notify Timeline VM that the game timeline has changed
+                TimelineViewModel.RaiseGameTreeChanged();
                 return;
+            }
             
             // TODO Martin validate this hotfix
             // With handicap this method is fired much sooned and the ViewModel is not yet set, returning null.
@@ -224,7 +234,11 @@ namespace OmegaGo.UI.ViewModels
             Tool = AnalyzeViewModel.SelectedTool;
             BoardViewModel.Tool = Tool as IMarkupTool;
 
-            ToolServices.Node = Game.Controller.CurrentNode;
+            // Set current game node to ToolServices and Timeline VM (for node highlight)
+            GameTreeNode currentNode = Game.Controller.CurrentNode;
+
+            ToolServices.Node = currentNode;
+            TimelineViewModel.SelectedTimelineNode = currentNode;
         }
 
         private void DisableAnalyzeMode()
