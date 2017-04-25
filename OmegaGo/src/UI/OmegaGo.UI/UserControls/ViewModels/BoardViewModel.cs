@@ -43,7 +43,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
             BoardControlState = new BoardControlState(rectangle); ;
         }
 
-        public event EventHandler<GameTreeNode> BoardRedrawRequested;
+        /// <summary>
+        /// Occurs when the node that should be drawn is changed.
+        /// </summary>
+        public event EventHandler<GameTreeNode> NodeChanged;
 
         // This serves as a notifier for the UI, so it can tell the render service to / not to draw markups.
         // (This VM is being accessed in the UI from a draw thread - which does not allow access to DependencyProperties!)
@@ -93,7 +96,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void OnBoardChanged()
         {
-            BoardRedrawRequested?.Invoke(this, GameTreeNode);
+            NodeChanged?.Invoke(this, GameTreeNode);
         }
     }
 }

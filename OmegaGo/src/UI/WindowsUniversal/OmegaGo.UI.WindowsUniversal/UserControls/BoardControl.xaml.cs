@@ -94,9 +94,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             //    _isInitialized = true;
             //}
         }
-
-        // TODO Rename event - like CurrentNodeChanged
-        private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
+        
+        private void ViewModel_NodeChanged(object sender, GameTreeNode e)
         {
             _currentGameTreeNode = e;
         }
@@ -123,7 +122,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
         
-        private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
+        private void canvas_Draw_1(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, _currentGameTreeNode);
         }
@@ -138,7 +137,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             if (viewModel == null)
                 return;
 
-            ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
+            ViewModel.NodeChanged += ViewModel_NodeChanged;
             _currentGameTreeNode = ViewModel.GameTreeNode;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
