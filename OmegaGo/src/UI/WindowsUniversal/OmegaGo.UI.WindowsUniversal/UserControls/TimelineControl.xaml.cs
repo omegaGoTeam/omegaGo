@@ -1,27 +1,15 @@
-﻿using OmegaGo.Core;
-using OmegaGo.UI.UserControls.ViewModels;
+﻿using OmegaGo.UI.UserControls.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using System.Numerics;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.UI.Xaml.Shapes;
 using OmegaGo.Core.Game;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
-using System.Numerics;
 using Microsoft.Graphics.Canvas.Text;
-using Windows.UI.Text;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -52,7 +40,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             if (timelineControl != null)
             {
                 TimelineViewModel viewModel = (TimelineViewModel)e.NewValue;
-                viewModel.TimelineRedrawRequsted += timelineControl.TimelineRedrawRequsted;
+                viewModel.TimelineRedrawRequested += timelineControl.TimelineRedrawRequsted;
 
                 timelineControl.canvas.Draw += timelineControl.Canvas_Draw;
                 timelineControl.canvas.PointerReleased += timelineControl.Canvas_PointerReleased;

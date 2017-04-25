@@ -1,10 +1,4 @@
-﻿using MvvmCross.Core.ViewModels;
-using OmegaGo.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.UserControls.ViewModels
@@ -23,11 +17,17 @@ namespace OmegaGo.UI.UserControls.ViewModels
             GameTree = gameTree;
             GameTree.LastNodeChanged += (s, node) => OnTimelineRedrawRequested();
         }
-
-
-        // Indended for the UI View to subscribe and refresh the timeline accordingly.
-        public event EventHandler TimelineRedrawRequsted;
-        // Intended for the ViewModel to know when currently rendered node should be changed.
+        
+        // Indended for the UI View.
+        /// <summary>
+        /// Occurs when game tree representing the game changes and timeline should be redrawn.
+        /// </summary>
+        public event EventHandler TimelineRedrawRequested;
+        
+        // Intended for the ViewModel.
+        /// <summary>
+        /// Occurs when the selected game tree node changes.
+        /// </summary>
         internal event EventHandler<GameTreeNode> TimelineSelectionChanged;
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void OnTimelineRedrawRequested()
         {
-            TimelineRedrawRequsted?.Invoke(this, EventArgs.Empty);
+            TimelineRedrawRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnTimelineSelectionChanged()
