@@ -19,9 +19,8 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// Creates game end information
         /// </summary>
         /// <param name="reason">Reason why the game has ended</param>
-        /// <param name="hasWinnerAndLoser">Indicates whether there is a winner and loser</param>
-        /// <param name="winner">Who is the winner</param>
-        /// <param name="loser">Who is the loser</param>
+        /// <param name="players">The player pair of the game controller.</param>
+        /// <param name="winnerColor">The player who has won the game, or None if there is no winner.</param>
         private GameEndInformation(GameEndReason reason, PlayerPair players, StoneColor winnerColor = StoneColor.None)
         {
             Reason = reason;
@@ -103,11 +102,6 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// <summary>
         /// Creates scored game end
         /// </summary>
-        /// <param name="isDraw">Was the game a draw</param>
-        /// <param name="winner"></param>
-        /// <param name="loser"></param>
-        /// <param name="scores"></param>
-        /// <returns>Game end info</returns>
         public static GameEndInformation CreateDraw(PlayerPair players, Scores scores) =>
              new GameEndInformation(GameEndReason.ScoringComplete, players )
              {
@@ -117,11 +111,6 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// <summary>
         /// Creates scored game end
         /// </summary>
-        /// <param name="isDraw">Was the game a draw</param>
-        /// <param name="winner">Winner</param>
-        /// <param name="loser">Loser</param>
-        /// <param name="scores">Scores</param>
-        /// <returns>Game end info</returns>
         public static GameEndInformation CreateScoredGame(GamePlayer winner, GamePlayer loser, Scores scores) =>
             new GameEndInformation(GameEndReason.ScoringComplete, new PlayerPair(winner, loser), winner.Info.Color)
             {
@@ -147,7 +136,7 @@ namespace OmegaGo.Core.Modes.LiveGame.State
                 case GameEndReason.ScoringComplete:
                     if (HasWinnerAndLoser)
                     {
-                        return (Winner.Info.Color == Game.StoneColor.Black ? "B" : "W") + "+" +
+                        return (Winner.Info.Color == StoneColor.Black ? "B" : "W") + "+" +
                                Scores.AbsoluteScoreDifference;
                     }
                     else
