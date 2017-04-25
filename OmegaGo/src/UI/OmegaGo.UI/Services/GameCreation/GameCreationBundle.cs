@@ -115,6 +115,8 @@ namespace OmegaGo.UI.Services.GameCreation
         /// </summary>
         public bool IsNotIgs => !IsIgs;
 
+        public bool ShowHandicapSlider => !IsIgs && !IsKgs;
+
         /// <summary>
         /// Gets the name of the opponent to display as a TextBlock.
         /// </summary>
@@ -144,6 +146,20 @@ namespace OmegaGo.UI.Services.GameCreation
         public virtual Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {
             throw new InvalidOperationException("This bundle does not support refusing challenges.");
+        }
+
+        public virtual bool IsDeclineSingleOpponentEnabled()
+        {
+            return true;
+        }
+        public virtual bool IsAcceptButtonEnabled()
+        {
+            return true;
+        }
+
+        public virtual Task DeclineSingleOpponent()
+        {
+            throw new InvalidOperationException("This bundle does not support refusing challengers.");
         }
     }
 }

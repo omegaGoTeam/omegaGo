@@ -51,6 +51,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _createChallengeCommand;
         private IMvxCommand _acceptChallengeCommand;
         private IMvxCommand _refuseChallengeCommand;
+        private IMvxCommand _declineSingleOpponentCommand;
         private bool _useRecommendedKomi = true;
         private string _opponentName = "";
         private string _validationErrorMessage = "";
@@ -343,9 +344,16 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
             async () => { await CreateChallenge(); }));
 
+        
+        public IMvxCommand DeclineSingleOpponentCommand
+            => _declineSingleOpponentCommand ?? (_declineSingleOpponentCommand = new MvxCommand(
+                async () => { await DeclineSingleOpponent(); },
+                () => Bundle.IsDeclineSingleOpponentEnabled()));
         public IMvxCommand AcceptChallengeCommand
             => _acceptChallengeCommand ?? (_acceptChallengeCommand = new MvxCommand(
-                async () => { await AcceptChallenge(); }));
+                async () => { await AcceptChallenge(); },
+                ()=> Bundle.IsAcceptButtonEnabled()));
+
         public IMvxCommand RefuseChallengeCommand
             => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
                 async () => { await RefuseChallenge(); }));
@@ -401,6 +409,12 @@ namespace OmegaGo.UI.ViewModels
                 ShowViewModel<OnlineGameViewModel>();
             }
         }
+
+        private async Task DeclineSingleOpponent()
+        {
+            await Bundle.DeclineSingleOpponent();
+        }
+
         private async Task RefuseChallenge()
         {
             // Refusing does not require validation.

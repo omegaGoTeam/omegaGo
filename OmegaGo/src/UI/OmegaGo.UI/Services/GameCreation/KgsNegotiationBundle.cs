@@ -14,7 +14,7 @@ namespace OmegaGo.UI.Services.GameCreation
     public abstract class KgsNegotiationBundle : KgsBundle
     {
         private GameCreationViewModel _vm;
-        private string _opponentName;
+        protected string _opponentName;
 
         protected KgsNegotiationBundle(KgsChallenge challenge)
         {
@@ -42,10 +42,37 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.RefusalCaption = Localizer.UnjoinChallenge;
             vm.CustomSquareSize = Challenge.Proposal.Rules.Size.ToString();
             vm.SelectedRuleset = KgsGameInfo.ConvertRuleset(Challenge.Proposal.Rules.Rules);
-            var you = Challenge.Proposal.Players.FirstOrDefault(pl => pl.GetName() == Connections.Kgs.Username); // TODO Petr: this is errorful;
-            vm.SelectedColor = (Challenge.Proposal.Nigiri || you == null)
-                ? Core.Game.StoneColor.None
-                : (you.Role == Role.White ? Core.Game.StoneColor.White : Core.Game.StoneColor.Black);
+            foreach (var player in Challenge.Proposal.Players)
+            {
+                if (player.GetName() == Connections.Kgs.Username)
+                {
+                    vm.SelectedColor = player.Role == Role.White
+                        ? Core.Game.StoneColor.White
+                        : Core.Game.StoneColor.Black;
+                }
+                else if (!String.IsNullOrEmpty(player.GetName()))
+                {
+                    string opponent = player.GetName();
+                    this._opponentName = opponent;
+                    vm.OpponentName = opponent;
+                    if (player.Role == Role.White)
+                    {
+                        vm.SelectedColor = Core.Game.StoneColor.Black;
+                    }
+                    else if (player.Role == Role.Black)
+                    {
+                        vm.SelectedColor = Core.Game.StoneColor.White;
+                    }
+                    else
+                    {
+                        // Other roles don't affect color.
+                    }
+                }
+            }
+            if (Challenge.Proposal.Nigiri)
+            {
+                vm.SelectedColor = Core.Game.StoneColor.None;
+            }
             vm.Handicap = Challenge.Proposal.Rules.Handicap;
             vm.CompensationString = Challenge.Proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
             vm.UseRecommendedKomi = false;
@@ -82,14 +109,25 @@ namespace OmegaGo.UI.Services.GameCreation
             }
         }
 
-        private void Challenge_StatusChanged(object sender, EventArgs e)
+        protected void ClearOpponentName()
         {
-            // TODO Petr change accept/decline single from this
+            _opponentName = "[no opponent yet]";
+        }
+
+        protected void RefreshStatus()
+        {
             if (Challenge.IncomingChallenge != null)
             {
                 UpdateOpponentFromProposal(Challenge.IncomingChallenge.Players);
-                _vm.OpponentName = _opponentName;
             }
+            _vm.OpponentName = _opponentName;
+            _vm.AcceptChallengeCommand.RaiseCanExecuteChanged();
+            _vm.DeclineSingleOpponentCommand.RaiseCanExecuteChanged();
+        }
+
+        private void Challenge_StatusChanged(object sender, EventArgs e)
+        {
+            RefreshStatus();
         }
 
         private void Events_Unjoin(object sender, KgsChannel e)
@@ -103,8 +141,8 @@ namespace OmegaGo.UI.Services.GameCreation
 
         private void UpdateOpponentFromProposal(KgsPlayer[] players)
         {
-            var opponent = players.FirstOrDefault(player => player.User?.Name != Connections.Kgs.Username);
-            _opponentName = opponent.Name ?? "[no opponent yet]";
+            var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
+            _opponentName = opponent.GetName() ?? "[no opponent yet]";
         }
 
         // TODO Petr: updating username
@@ -112,6 +150,16 @@ namespace OmegaGo.UI.Services.GameCreation
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {
             await Connections.Kgs.Commands.GenericUnjoinAsync(Challenge);
+        }
+
+        public override bool IsDeclineSingleOpponentEnabled()
+        {
+            return Challenge.IncomingChallenge != null;
+        }
+
+        public override bool IsAcceptButtonEnabled()
+        {
+            return Challenge.Acceptable || (Challenge.IncomingChallenge != null);
         }
     }
 }

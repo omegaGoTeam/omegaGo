@@ -15,7 +15,8 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool SupportsChangingRulesets => true;
         public override bool IsIgs => false;
         public override bool IsKgs => true;
-        public override bool KomiIsAvailable => true;
+        public override bool KomiIsAvailable => false;
+        public override bool HandicapMayBeChanged => false;
 
         public override void OnLoad(GameCreationViewModel vm)
         {
