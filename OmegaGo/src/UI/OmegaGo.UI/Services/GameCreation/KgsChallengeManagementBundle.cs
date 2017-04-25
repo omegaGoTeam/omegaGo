@@ -8,27 +8,11 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
 {
-    public class KgsChallengeManagementBundle : KgsNegotiationBundle
-    {
-        private readonly KgsChallenge _challenge;
-
-        public override bool HandicapMayBeChanged => false;
-        public override bool Frozen => true;
-        public override bool WillCreateChallenge => false;
-        public override bool AcceptableAndRefusable => true;
-        public override string TabTitle => _challenge.ToString();
-        public override GameCreationFormStyle Style => GameCreationFormStyle.KgsChallengeNegotiation;
+    public class KgsChallengeManagementBundle : KgsNegotiationBundle { 
         public override bool CanDeclineSingleOpponent => false;
 
-        public KgsChallengeManagementBundle(KgsChallenge challenge)
+        public KgsChallengeManagementBundle(KgsChallenge challenge) : base(challenge)
         {
-            _challenge = challenge;
-        }
-        public override void OnLoad(GameCreationViewModel vm)
-        {
-            vm.FormTitle = Localizer.Creationg_KgsChallenge;
-            vm.RefusalCaption = Localizer.UnjoinChallenge;
-            base.OnLoad(vm);
         }
     }
 }

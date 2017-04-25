@@ -160,7 +160,7 @@
 
 
                     <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
-                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding Bundle.OpponentName}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
                     <Button Grid.Row="2" Style="{StaticResource Buttons}" 
                             Visibility="{x:Bind VM.Bundle.CanDeclineSingleOpponent}"
                             Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button>

@@ -125,7 +125,11 @@ namespace OmegaGo.UI.ViewModels
         public void CloseSelf()
         {
             var provider = Mvx.Resolve<ITabProvider>();
-            provider.CloseTab(provider.GetTabForViewModel(this));
+            var tab = provider.GetTabForViewModel(this);
+            if (tab != null)
+            {
+                provider.CloseTab(tab);
+            }
         }
     }
 }

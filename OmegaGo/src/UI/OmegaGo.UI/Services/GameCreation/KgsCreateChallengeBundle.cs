@@ -68,7 +68,7 @@ namespace OmegaGo.UI.Services.GameCreation
                     rules.TimeSystem = RulesDescription.TimeSystemCanadian;
                     rules.MainTime = vm.TimeControl.MainTime.AsInteger() * 60;
                     rules.ByoYomiStones = vm.TimeControl.StonesPerPeriod.AsInteger();
-                    rules.ByoYomiTime = vm.TimeControl.OvertimeMinutes.AsInteger();
+                    rules.ByoYomiTime = vm.TimeControl.OvertimeMinutes.AsInteger() * 60;
                     break;
                 case Core.Time.TimeControlStyle.Japanese:
                     rules.TimeSystem = RulesDescription.TimeSystemJapanese;

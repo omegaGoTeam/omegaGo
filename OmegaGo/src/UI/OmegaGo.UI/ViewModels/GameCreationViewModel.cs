@@ -52,6 +52,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _acceptChallengeCommand;
         private IMvxCommand _refuseChallengeCommand;
         private bool _useRecommendedKomi = true;
+        private string _opponentName = "";
         private string _validationErrorMessage = "";
         private string _compensationString;
         private int _selectedColorIndex = 0;
@@ -77,6 +78,7 @@ namespace OmegaGo.UI.ViewModels
 
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
+            this.OpponentName = _bundle.OpponentName;
 
             var thisTab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
             if (thisTab != null)
@@ -228,6 +230,11 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public string OpponentName
+        {
+            get { return _opponentName; }
+            set { SetProperty(ref _opponentName, value); }
+        }
         public string CustomWidth
         {
             get { return _customWidth.ToString(); }
@@ -388,8 +395,11 @@ namespace OmegaGo.UI.ViewModels
                 return;
             }
             IGame game = await Bundle.AcceptChallenge(this);
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<OnlineGameViewModel>();
+            if (game != null)
+            {
+                Mvx.RegisterSingleton<IGame>(game);
+                ShowViewModel<OnlineGameViewModel>();
+            }
         }
         private async Task RefuseChallenge()
         {
