@@ -109,7 +109,6 @@
                                         <TextBlock Text="{x:Bind Localizer.SizeColon}"/>
                                         <TextBox InputScope="Number" Name="TbCustomSquareSize" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                         <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                                        <TextBox InputScope="Number" x:Name="TbCustomSquareSize_Copy" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
