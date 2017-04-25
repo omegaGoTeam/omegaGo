@@ -39,7 +39,20 @@ namespace OmegaGo.Core.AI
         AIDecision GetHint(AiGameInformation gameInformation);
 
         void MoveUndone();
+
+
+        /// <summary>
+        /// Informs the AI engine that a move was just made in the game. This may be the agent's own move or the move of the other player.
+        /// </summary>
+        /// <param name="move">We're currently not using this move becasue we can get this information from the GameTree, but some future AI's might want it for simplicity.</param>
+        /// <param name="gameTree">The game tree.</param>
+        /// <param name="informedPlayer">The player associated with this AI, not the player who made the move.</param>
+        /// <param name="info">Information about the game.</param>
         void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info);
+
+        /// <summary>
+        /// Determines (asynchronously, if possible) all positions that should be marked dead at the beginning of the Life/Death Determination Phase.
+        /// </summary>
         Task<IEnumerable<Position>> GetDeadPositions();
     }
 }

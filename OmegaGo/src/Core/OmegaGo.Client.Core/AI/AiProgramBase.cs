@@ -18,11 +18,6 @@ namespace OmegaGo.Core.AI
         public abstract AICapabilities Capabilities { get; }
 
         /// <summary>
-        /// AI agent backed by this AI
-        /// </summary>
-        protected AiAgent Agent { get; set; }
-
-        /// <summary>
         /// Requests a move from the AI
         /// </summary>
         /// <param name="gameInformation"></param>
@@ -43,16 +38,30 @@ namespace OmegaGo.Core.AI
             return RequestMove(gameInformation);
         }
 
+        /// <summary>
+        /// Informs the AI engine that a move was just undone. Stateful AIs (i.e. Fuego) use this.
+        /// </summary>
         public virtual void MoveUndone()
         {
             // Stateless AI's don't need to do anything.
         }
 
+        /// <summary>
+        ///Informs the AI engine that a move was just made. Stateful AIs (i.e. Fuego) use this.
+        /// </summary>
+        /// <param name="move">The move.</param>
+        /// <param name="gameTree">The game tree.</param>
+        /// <param name="informedPlayer">The player who is associated with this AI, not the player who made the move.</param>
+        /// <param name="info">Information about the game</param>
         public virtual void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
             // Stateless AI's don't need to do anything.
         }
 
+        /// <summary>
+        /// Determines (asynchronously, if possible) all positions that should be marked dead at the beginning of the Life/Death Determination Phase.
+        /// </summary>
+        /// <exception cref="Exception">Nobody except Fuego supports this.</exception>
         public virtual Task<IEnumerable<Position>> GetDeadPositions()
         {
             throw new Exception("Nobody except Fuego supports this.");
