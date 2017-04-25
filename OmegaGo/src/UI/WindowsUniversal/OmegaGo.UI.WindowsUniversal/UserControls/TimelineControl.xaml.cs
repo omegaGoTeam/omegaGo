@@ -21,6 +21,7 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Text;
+using Windows.UI.Text;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -80,6 +81,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _textFormat = new CanvasTextFormat()
             {
                 FontSize = 12,
+                FontWeight = FontWeights.SemiBold,
                 HorizontalAlignment = CanvasHorizontalAlignment.Center,
                 VerticalAlignment = CanvasVerticalAlignment.Center
             };
