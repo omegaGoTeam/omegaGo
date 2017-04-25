@@ -20,6 +20,7 @@ using OmegaGo.Core.Game;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Microsoft.Graphics.Canvas;
 using System.Numerics;
+using Microsoft.Graphics.Canvas.Text;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -55,6 +56,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                         typeof(TimelineControl),
                         new PropertyMetadata(0));
 
+        private Dictionary<string, CanvasTextLayout> _textLayoutCache;
+        private CanvasTextFormat _textFormat;
+
         private static void TimelineChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TimelineControl timelineControl= d as TimelineControl;
@@ -72,6 +76,14 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         
         public TimelineControl()
         {
+            _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
+            _textFormat = new CanvasTextFormat()
+            {
+                FontSize = 12,
+                HorizontalAlignment = CanvasHorizontalAlignment.Center,
+                VerticalAlignment = CanvasVerticalAlignment.Center
+            };
+
             this.InitializeComponent();
         }
 
@@ -139,15 +151,14 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             int nodeOffset = offset;
             TimelineDepth = Math.Max(TimelineDepth, depth);
 
-            Vector2 stoneCenter = new Vector2(
+            Vector2 stoneTopLeft = new Vector2(
                 depth * TimelineNodeSize + depth * TimelineNodeSpacing,
                 offset * TimelineNodeSize + offset * TimelineNodeSpacing);
 
+            Vector2 stoneCenter = stoneTopLeft;
             stoneCenter.X += TimelineNodeSize * 0.5f;
             stoneCenter.Y += TimelineNodeSize * 0.5f;
-
-
-
+            
             //Ellipse nodeVisual = new Ellipse();
             //nodeVisual.Width = TimelineNodeSize;
             //nodeVisual.Height = TimelineNodeSize;
@@ -156,12 +167,23 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             //nodeVisual.Tag = node;
 
             if (node.Move.WhoMoves == StoneColor.Black)
-                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.Black);
-            else if (node.Move.WhoMoves == StoneColor.White)
-                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.White);
-            else
-                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.MediumPurple);
+            {
+                CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, node.Move.Coordinates.ToIgsCoordinates());
 
+                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.Black);
+                drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.White);
+            }
+            else if (node.Move.WhoMoves == StoneColor.White)
+            {
+                CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, node.Move.Coordinates.ToIgsCoordinates());
+
+                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.White);
+                drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.Black);
+            }
+            else
+            {
+                drawingSession.FillEllipse(stoneCenter, TimelineNodeSize * 0.5f, TimelineNodeSize * 0.5f, Colors.MediumPurple);
+            }
             //nodeVisual.PointerEntered += (s, e) => nodeVisual.Stroke = new SolidColorBrush(Colors.Yellow);
             //nodeVisual.PointerExited += (s, e) => nodeVisual.Stroke = null;
             //nodeVisual.PointerReleased += (s, e) => ViewModel.SelectedTimelineNode = (GameTreeNode)((Ellipse)s).Tag;
@@ -234,6 +256,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             resultNode = null;
             return offset;
+        }
+
+        private CanvasTextLayout GetTextLayoutForString(CanvasDevice device, string text)
+        {
+            if (_textLayoutCache.ContainsKey(text))
+                return _textLayoutCache[text];
+
+            CanvasTextLayout textLayout = new CanvasTextLayout(device, text, _textFormat, TimelineNodeSize, TimelineNodeSize);
+            _textLayoutCache[text] = textLayout;
+
+            return textLayout;
         }
     }
 }
