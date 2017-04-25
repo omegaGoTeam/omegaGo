@@ -14,7 +14,6 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
-using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
@@ -24,7 +23,12 @@ namespace OmegaGo.UI.ViewModels
     public class IgsHomeViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings;
-       
+#if DEBUG
+        private string _usernameFilter = "Soothie";
+#else
+        private string _usernameFilter = "";
+#endif
+
 
         public IgsHomeViewModel(IGameSettings settings)
         {
@@ -42,15 +46,13 @@ namespace OmegaGo.UI.ViewModels
         public async Task Initialize()
         {
             LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok; 
-            Connections.Igs.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest;
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
-            Connections.Igs.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
             Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             if (LoginForm.FormVisible && Connections.Igs.Composure != IgsComposure.Disconnected)
             {
                 LoginForm.FormEnabled = false;
-                LoginForm.LoginErrorMessage = "Login already in progress...";
+                LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
                 LoginForm.LoginErrorMessageOpacity = 1;
                 Connections.Igs.Events.LoginComplete += OnLoginComplete;
             }
@@ -69,7 +71,7 @@ namespace OmegaGo.UI.ViewModels
         {
             this.LoginForm.FormEnabled = true;
             this.LoginForm.FormVisible = true;
-            this.LoginForm.LoginErrorMessage = "You have been disconnected.";
+            this.LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
             this.LoginForm.LoginErrorMessageOpacity = 1;
 
         }
@@ -83,7 +85,7 @@ namespace OmegaGo.UI.ViewModels
             else
             {
                 this.LoginForm.FormEnabled = true;
-                this.LoginForm.LoginErrorMessage = "Login failed.";
+                this.LoginForm.LoginErrorMessage = Localizer.LoginFailed;
                 this.LoginForm.LoginErrorMessageOpacity = 1;
             }
         }
@@ -101,8 +103,6 @@ namespace OmegaGo.UI.ViewModels
 
         public void Deinitialize()
         {
-            Connections.Igs.Events.IncomingMatchRequest -= Pandanet_IncomingMatchRequest;
-            Connections.Igs.Events.MatchRequestAccepted -= Pandanet_MatchRequestAccepted;
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.LoginComplete -= OnLoginComplete;
             Connections.Igs.Events.Disconnected -= Events_Disconnected;
@@ -110,17 +110,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public LoginFormViewModel LoginForm { get; }
-    
-
-        private void Pandanet_MatchRequestAccepted(object sender, IgsGame e)
-        {
-            StartGame(e);
-        }
-
-        private void Pandanet_IncomingMatchRequest(IgsMatchRequest obj)
-        {
-            this.IncomingMatchRequests.Add(obj);
-        }
 
      
 
@@ -136,14 +125,14 @@ namespace OmegaGo.UI.ViewModels
                 }
                 else
                 {
-                    return "[not logged in]";
+                    return Localizer.NotLoggedIn;
                 }
             }
         }
 
 
         private bool _incomingCheckboxChange = false;
-        private string _progressPanelText = "Communicating with Pandanet...";
+        private string _progressPanelText = "";
 
         private bool _humanLookingForGame;
         public bool HumanLookingForGame
@@ -173,13 +162,13 @@ namespace OmegaGo.UI.ViewModels
 
         private async void ToggleRefusingAllGamesTo(bool value)
         {
-            ShowProgressPanel("Toggling whether we are open...");
+            ShowProgressPanel(Localizer.TogglingOpenness);
             await Connections.Igs.Commands.ToggleAsync("open", !value);
             ProgressPanelVisible = false;
         }
         private async void ToggleHumanLookingForGameTo(bool value)
         {
-            ShowProgressPanel("Toggling whether we are looking for games...");
+            ShowProgressPanel(Localizer.TogglingLFG);
             await Connections.Igs.Commands.ToggleAsync("looking", value);
             ProgressPanelVisible = false;
         }
@@ -196,19 +185,27 @@ namespace OmegaGo.UI.ViewModels
             get { return _progressPanelVisible; }
             set { SetProperty(ref _progressPanelVisible, value); }
         }
+        public string UsernameFilter
+        {
+            get { return _usernameFilter; }
+            set {
+                SetProperty(ref _usernameFilter, value);
+                RefillChallengeableUsersFromAllUsers();
+            }
+        }
         public async Task AttemptLoginCommand(string username, string password)
         {
             LoginForm.LoginErrorMessageOpacity = 1;
             ProgressPanelVisible = true;
-            ProgressPanelText = "Connecting to Pandanet...";
+            ProgressPanelText = Localizer.Igs_ConnectingToPandanet;
             LoginForm.FormEnabled = false;
-            LoginForm.LoginErrorMessage = "Connecting to Pandanet...";
+            LoginForm.LoginErrorMessage = Localizer.Igs_ConnectingToPandanet;
             if (!Connections.Igs.ConnectionEstablished)
             {
                 bool success = await Connections.Igs.ConnectAsync();
                 if (!success)
                 {
-                    LoginForm.LoginErrorMessage = "Could not connect to Pandanet. Maybe your internet connection failed?";
+                    LoginForm.LoginErrorMessage = Localizer.Igs_ConnectionError;
                     LoginForm.LoginErrorMessageOpacity = 1;
                     ProgressPanelVisible = false;
                     return;
@@ -216,8 +213,8 @@ namespace OmegaGo.UI.ViewModels
             }
 
 
-            ProgressPanelText = "Logging in as " + username + "...";
-            LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
+            ProgressPanelText = String.Format(Localizer.Igs_LoggingInAs, username);
+            LoginForm.LoginErrorMessage = String.Format(Localizer.Igs_LoggingInAs, username);
             bool loginSuccess = await Connections.Igs.LoginAsync(username, password);
             LoginForm.FormEnabled = true;
             if (loginSuccess)
@@ -229,7 +226,7 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
+                LoginForm.LoginErrorMessage = Localizer.WrongCredentials;
                 LoginForm.LoginErrorMessageOpacity = 1;
             }
             ProgressPanelVisible = false;
@@ -242,7 +239,7 @@ namespace OmegaGo.UI.ViewModels
                 Debug.WriteLine("You are not logged in.");
             }
             ProgressPanelVisible = true;
-            ProgressPanelText = "Disconnecting...";
+            ProgressPanelText = Localizer.Igs_Disconnecting;
             await Connections.Igs.DisconnectAsync();
             RaisePropertyChanged(nameof(LoggedInUser));
             ProgressPanelVisible = false;
@@ -272,20 +269,21 @@ namespace OmegaGo.UI.ViewModels
         }
         public async Task RefreshUsers()
         {
-            ShowProgressPanel("Refreshing the list of logged-in users...");
+            ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingUsers);
             allUsers = await Connections.Igs.Commands.ListOnlinePlayersAsync();
             RefillChallengeableUsersFromAllUsers();
             ProgressPanelVisible = false;
         }
         private void RefillChallengeableUsersFromAllUsers()
         {
+            var filteredUsers = allUsers.Where(usr => usr.Name.ToLower().Contains(UsernameFilter.ToLower()));
             if (OnlyShowLfgUsers)
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers.Where(usr => usr.LookingForAGame && !usr.RejectsRequests));
             }
             else
             {
-                ChallengeableUsers = new ObservableCollection<IgsUser>(allUsers);
+                ChallengeableUsers = new ObservableCollection<IgsUser>(filteredUsers);
             }
         }
         private List<IgsUser> allUsers = new List<IgsUser>();
@@ -323,7 +321,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task RefreshGames()
         {
-            ShowProgressPanel("Refreshing the list of observable games...");
+            ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingGames);
             var games = await Connections.Igs.Commands.ListGamesInProgressAsync();
             ObservableGames = new ObservableCollection<IgsGameInfo>(games);
             ProgressPanelVisible = false;
@@ -368,14 +366,14 @@ namespace OmegaGo.UI.ViewModels
         {
             if (SelectedChallengeableUser != null)
             {
-                Mvx.RegisterSingleton<GameCreationBundle>(new IgsChallengeBundle(SelectedChallengeableUser));
+                Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
                 ShowViewModel<GameCreationViewModel>();
             }
         }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
         private IMvxCommand _observeSelectedGame;
         public IMvxCommand ObserveSelectedGame => _observeSelectedGame ?? (_observeSelectedGame = new MvxCommand(async () =>
         {
-            ShowProgressPanel("Initiating observation of a game...");
+            ShowProgressPanel(Localizer.Igs_InitiatingObservationOfAGame);
             var onlinegame = await Connections.Igs.Commands.StartObserving(SelectedSpectatableGame);
             if (onlinegame == null)
             {

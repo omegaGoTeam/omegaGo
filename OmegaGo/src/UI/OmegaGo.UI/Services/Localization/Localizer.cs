@@ -1524,6 +1524,90 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Solved => LocalizeCaller();
 		/// <summary>
+		/// Connecting to Pandanet...
+		/// </summary>
+		public string Igs_ConnectingToPandanet => LocalizeCaller();
+		/// <summary>
+		/// Could not connect to Pandanet. Maybe your internet connection failed?
+		/// </summary>
+		public string Igs_ConnectionError => LocalizeCaller();
+		/// <summary>
+		/// Disconnecting...
+		/// </summary>
+		public string Igs_Disconnecting => LocalizeCaller();
+		/// <summary>
+		/// Initiating observation of a game...
+		/// </summary>
+		public string Igs_InitiatingObservationOfAGame => LocalizeCaller();
+		/// <summary>
+		/// Loggin in as {0}...
+		/// </summary>
+		public string Igs_LoggingInAs => LocalizeCaller();
+		/// <summary>
+		/// Login already in progress. Waiting...
+		/// </summary>
+		public string Igs_LoginAlreadyInProgress => LocalizeCaller();
+		/// <summary>
+		/// Login failed.
+		/// </summary>
+		public string LoginFailed => LocalizeCaller();
+		/// <summary>
+		/// [not logged in]
+		/// </summary>
+		public string NotLoggedIn => LocalizeCaller();
+		/// <summary>
+		/// Selected file:
+		/// </summary>
+		public string SelectedItemColon => LocalizeCaller();
+		/// <summary>
+		/// Set default color
+		/// </summary>
+		public string SetDefaultColor => LocalizeCaller();
+		/// <summary>
+		/// Toggling whether we are looking for games...
+		/// </summary>
+		public string TogglingLFG => LocalizeCaller();
+		/// <summary>
+		/// Toggling whether we are open..
+		/// </summary>
+		public string TogglingOpenness => LocalizeCaller();
+		/// <summary>
+		/// The username or password you entered is incorrect.
+		/// </summary>
+		public string WrongCredentials => LocalizeCaller();
+		/// <summary>
+		/// You have been disconnected.
+		/// </summary>
+		public string YouHaveBeenDisconnected => LocalizeCaller();
+		/// <summary>
+		/// Abandon game
+		/// </summary>
+		public string ExitLocal_Caption => LocalizeCaller();
+		/// <summary>
+		/// Do you want to abandon the game?
+		/// </summary>
+		public string ExitLocal_Confirm => LocalizeCaller();
+		/// <summary>
+		/// Exiting this screen will end this game. It will not be counted in statistics at all.
+		/// </summary>
+		public string ExitLocal_Text => LocalizeCaller();
+		/// <summary>
+		/// Do you want to resign?
+		/// </summary>
+		public string ExitOnline_Caption => LocalizeCaller();
+		/// <summary>
+		/// Yes, resign
+		/// </summary>
+		public string ExitOnline_Confirm => LocalizeCaller();
+		/// <summary>
+		/// Exiting this screen will cause you to resign this online game.
+		/// </summary>
+		public string ExitOnline_Text => LocalizeCaller();
+		/// <summary>
+		/// Return to game
+		/// </summary>
+		public string Exit_ReturnToGame => LocalizeCaller();
+		/// <summary>
 		/// Analyze mode
 		/// </summary>
 		public string AnalyzeMode => LocalizeCaller();

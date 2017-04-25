@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
@@ -35,6 +36,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             switch (Type)
             {
+                case "PROP_REMOVED":
+                    Debug.WriteLine(this);
+                    // TODO ALIVE
+                    break;
                 case "PROP_GROUP_ADDED":
                     foreach (var prop in Props)
                     {

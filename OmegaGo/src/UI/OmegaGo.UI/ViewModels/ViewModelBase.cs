@@ -82,16 +82,7 @@ namespace OmegaGo.UI.ViewModels
         /// <returns>Was the switch successful?</returns>
         public bool SwitchToTab(ITabInfo tab)
             => _tabProvider.SwitchToTab(tab);
-
-        /// <summary>
-        /// Requests the tab to be closed. This can be overriden to prevent closing or ask user to save changes.
-        /// </summary>
-        /// <returns>Was the close successful?</returns>
-        public virtual Task<bool> RequestCloseTabAsync()
-        {
-            return Task.FromResult(true);
-        }
-
+        
         /// <summary>
         /// Gets or sets the title of the view model's tab if on top
         /// </summary>

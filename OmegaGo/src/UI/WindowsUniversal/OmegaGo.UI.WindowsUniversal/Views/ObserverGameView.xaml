@@ -7,9 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
-    mc:Ignorable="d"
-    Unloaded="TransparencyViewBase_Unloaded"
-    Loaded="TransparencyViewBase_Loaded">
+    mc:Ignorable="d">
 
     <Page.Transitions>
         <TransitionCollection>

@@ -133,6 +133,7 @@
     <Compile Include="Services\Notifications\AppNotificationService.cs" />
     <Compile Include="Services\PasswordVault\PasswordVaultService.cs" />
     <Compile Include="Services\Settings\SettingsService.cs" />
+    <Compile Include="Services\Timer\Timer.cs" />
     <Compile Include="Services\Timer\TimerService.cs" />
     <Compile Include="Services\Online\OnlineStartup.cs" />
     <Compile Include="UserControls\AnalyzeControl.xaml.cs">
@@ -296,6 +297,7 @@
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
+    <Content Include="Assets\Sounds\Notification.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place0.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place1.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place2.mp3" />

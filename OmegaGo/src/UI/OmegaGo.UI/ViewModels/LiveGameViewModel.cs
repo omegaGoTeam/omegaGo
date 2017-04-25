@@ -10,6 +10,7 @@ using OmegaGo.UI.UserControls.ViewModels;
 using System.Linq;
 using MvvmCross.Platform;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Timer;
 using OmegaGo.Core.Game.Tools;
 using OmegaGo.Core.Game.Markup;
 using MvvmCross.Core.ViewModels;
@@ -34,6 +35,7 @@ namespace OmegaGo.UI.ViewModels
         private int _maximumMoveIndex;
         private int _previousMoveIndex = -1;
         private int _selectedMoveIndex;
+        private ITimer _portraitUpdateTimer;
 
         private string _instructionCaption = "";
         
@@ -78,6 +80,8 @@ namespace OmegaGo.UI.ViewModels
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
+            _portraitUpdateTimer = Mvx.Resolve<ITimerService>()
+                .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
         }
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
@@ -145,7 +149,13 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // State Changes      
         ////////////////
-        
+
+        public override Task<bool> CanCloseViewModelAsync()
+        {
+            _portraitUpdateTimer.End();
+            return base.CanCloseViewModelAsync();
+        }
+
         protected override async void OnGameEnded(GameEndInformation endInformation)
         {
             _gameEndInformation = endInformation;
@@ -287,6 +297,11 @@ namespace OmegaGo.UI.ViewModels
             AnalyzeViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
         }
 
+        private void UpdatePortraits()
+        {
+            BlackPortrait.Update();
+            WhitePortrait.Update();
+        }
         private void RefreshInstructionCaption()
         {
             InstructionCaption = GenerateInstructionCaption();

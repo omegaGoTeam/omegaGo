@@ -100,6 +100,16 @@ namespace OmegaGo.Core.Online.Igs
 
         }
 
+        public async Task UnobserveAsync(RemoteGameInfo remoteInfo)
+        {
+            var igsGameInfo = (IgsGameInfo) remoteInfo;
+            var igsGame = igsConnection.GamesBeingObserved.FirstOrDefault(gm => gm.Info.IgsIndex == igsGameInfo.IgsIndex);
+            if (igsGame != null)
+            {
+                await this.EndObserving(igsGame);
+            }
+        }
+
         public async Task AreYouThere()
         {
             if (this.igsConnection.LoggedIn)

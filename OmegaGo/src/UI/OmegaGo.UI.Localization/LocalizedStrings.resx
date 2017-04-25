@@ -1259,4 +1259,67 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="ExportSGF" xml:space="preserve">
     <value>Export SGF</value>
   </data>
+  <data name="Igs_ConnectingToPandanet" xml:space="preserve">
+    <value>Connecting to Pandanet...</value>
+  </data>
+  <data name="Igs_ConnectionError" xml:space="preserve">
+    <value>Could not connect to Pandanet. Maybe your internet connection failed?</value>
+  </data>
+  <data name="Igs_Disconnecting" xml:space="preserve">
+    <value>Disconnecting...</value>
+  </data>
+  <data name="Igs_InitiatingObservationOfAGame" xml:space="preserve">
+    <value>Initiating observation of a game...</value>
+  </data>
+  <data name="Igs_LoggingInAs" xml:space="preserve">
+    <value>Loggin in as {0}...</value>
+  </data>
+  <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
+    <value>Login already in progress. Waiting...</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed.</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>[not logged in]</value>
+  </data>
+  <data name="SelectedItemColon" xml:space="preserve">
+    <value>Selected file:</value>
+  </data>
+  <data name="SetDefaultColor" xml:space="preserve">
+    <value>Set default color</value>
+  </data>
+  <data name="TogglingLFG" xml:space="preserve">
+    <value>Toggling whether we are looking for games...</value>
+  </data>
+  <data name="TogglingOpenness" xml:space="preserve">
+    <value>Toggling whether we are open..</value>
+  </data>
+  <data name="WrongCredentials" xml:space="preserve">
+    <value>The username or password you entered is incorrect.</value>
+  </data>
+  <data name="YouHaveBeenDisconnected" xml:space="preserve">
+    <value>You have been disconnected.</value>
+  </data>
+  <data name="ExitLocal_Caption" xml:space="preserve">
+    <value>Do you want to abandon the game?</value>
+  </data>
+  <data name="ExitLocal_Confirm" xml:space="preserve">
+    <value>Abandon game</value>
+  </data>
+  <data name="ExitLocal_Text" xml:space="preserve">
+    <value>Exiting this screen will end this game. It will not be counted in statistics at all.</value>
+  </data>
+  <data name="ExitOnline_Caption" xml:space="preserve">
+    <value>Do you want to resign?</value>
+  </data>
+  <data name="ExitOnline_Confirm" xml:space="preserve">
+    <value>Yes, resign</value>
+  </data>
+  <data name="ExitOnline_Text" xml:space="preserve">
+    <value>Exiting this screen will cause you to resign this online game.</value>
+  </data>
+  <data name="Exit_ReturnToGame" xml:space="preserve">
+    <value>Return to game</value>
+  </data>
 </root>

@@ -35,6 +35,7 @@
             this.bCancelOffer = new System.Windows.Forms.Button();
             this.lbEvents = new System.Windows.Forms.ListBox();
             this.bRefreshEvents = new System.Windows.Forms.Button();
+            this.bAcceptChallenger = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -58,6 +59,7 @@
             // 
             // bAccept
             // 
+            this.bAccept.Enabled = false;
             this.bAccept.Location = new System.Drawing.Point(26, 239);
             this.bAccept.Name = "bAccept";
             this.bAccept.Size = new System.Drawing.Size(171, 47);
@@ -79,12 +81,13 @@
             // bCancelOffer
             // 
             this.bCancelOffer.Enabled = false;
-            this.bCancelOffer.Location = new System.Drawing.Point(380, 239);
+            this.bCancelOffer.Location = new System.Drawing.Point(380, 275);
             this.bCancelOffer.Name = "bCancelOffer";
-            this.bCancelOffer.Size = new System.Drawing.Size(171, 47);
+            this.bCancelOffer.Size = new System.Drawing.Size(171, 26);
             this.bCancelOffer.TabIndex = 4;
-            this.bCancelOffer.Text = "Cancel offer";
+            this.bCancelOffer.Text = "Decline challenger";
             this.bCancelOffer.UseVisualStyleBackColor = true;
+            this.bCancelOffer.Click += new System.EventHandler(this.bCancelOffer_Click);
             // 
             // lbEvents
             // 
@@ -104,11 +107,23 @@
             this.bRefreshEvents.UseVisualStyleBackColor = true;
             this.bRefreshEvents.Click += new System.EventHandler(this.bRefreshEvents_Click);
             // 
+            // bAcceptChallenger
+            // 
+            this.bAcceptChallenger.Enabled = false;
+            this.bAcceptChallenger.Location = new System.Drawing.Point(380, 243);
+            this.bAcceptChallenger.Name = "bAcceptChallenger";
+            this.bAcceptChallenger.Size = new System.Drawing.Size(171, 26);
+            this.bAcceptChallenger.TabIndex = 7;
+            this.bAcceptChallenger.Text = "Accept challenger";
+            this.bAcceptChallenger.UseVisualStyleBackColor = true;
+            this.bAcceptChallenger.Click += new System.EventHandler(this.bAcceptChallenger_Click);
+            // 
             // ChallengeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(570, 313);
+            this.Controls.Add(this.bAcceptChallenger);
             this.Controls.Add(this.bRefreshEvents);
             this.Controls.Add(this.lbEvents);
             this.Controls.Add(this.bCancelOffer);
@@ -118,6 +133,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ChallengeForm";
             this.Text = "KGS Challenge";
+            this.Load += new System.EventHandler(this.ChallengeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,5 +148,6 @@
         private System.Windows.Forms.Button bCancelOffer;
         private System.Windows.Forms.ListBox lbEvents;
         private System.Windows.Forms.Button bRefreshEvents;
+        private System.Windows.Forms.Button bAcceptChallenger;
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
@@ -16,18 +17,30 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-
-            // Thus far, we ignore this, because we don't need any information in this.
-            if (this.Clocks != null && connection.Data.IsJoined(this.ChannelId))
+            KgsGame game = connection.Data.GetGame(ChannelId);
+            if (game != null)
             {
-                var game = connection.Data.GetGame(this.ChannelId);
-                if (this.Clocks[Role.White] != null)
+                if (this.Clocks != null)
                 {
-                    game.Controller.Players.White.Clock.UpdateFromClock(this.Clocks[Role.White]);
+                    if (this.Clocks[Role.White] != null)
+                    {
+                        game.Controller.Players.White.Clock.UpdateFromClock(this.Clocks[Role.White]);
+                    }
+                    if (this.Clocks[Role.Black] != null)
+                    {
+                        game.Controller.Players.Black.Clock.UpdateFromClock(this.Clocks[Role.Black]);
+                    }
                 }
-                if (this.Clocks[Role.Black] != null)
+                game.Controller.DoneId = DoneId;
+                if (this.Actions != null)
                 {
-                    game.Controller.Players.Black.Clock.UpdateFromClock(this.Clocks[Role.Black]);
+                    if (this.Actions.Any(action => action.Action == "SCORE"))
+                    {
+                        if (game.Controller.Phase.Type != Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+                        {
+                            game.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
+                        }
+                    }
                 }
             }
         }

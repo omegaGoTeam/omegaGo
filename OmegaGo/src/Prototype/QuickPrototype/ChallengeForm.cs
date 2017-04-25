@@ -28,6 +28,12 @@ namespace FormsPrototype
             this._connection = connection;
             this.lblInfo.Text = challenge.ToString();
             connection.Events.Unjoin += Events_Unjoin;
+            challenge.StatusChanged += ChallengeStatusChanged;
+            RefreshEvents();
+        }
+
+        private void ChallengeStatusChanged(object sender, EventArgs e)
+        {
             RefreshEvents();
         }
 
@@ -43,6 +49,9 @@ namespace FormsPrototype
             {
                 this.lbEvents.Items.Add(e);
             }
+            this.bAccept.Enabled = challenge.Acceptable;
+            this.bAcceptChallenger.Enabled = challenge.IncomingChallenge != null;
+            this.bCancelOffer.Enabled = challenge.IncomingChallenge != null;
         }
 
         private void bRefreshEvents_Click(object sender, EventArgs e)
@@ -60,6 +69,24 @@ namespace FormsPrototype
         private async void bAccept_Click(object sender, EventArgs e)
         {
             await _connection.Commands.AcceptChallenge(challenge);
+        }
+
+        private void ChallengeForm_Load(object sender, EventArgs e)
+        {
+            
+        }
+
+        private async void bAcceptChallenger_Click(object sender, EventArgs e)
+        {
+            await _connection.Commands.ChallengeProposalAsync(challenge, challenge.IncomingChallenge);
+            RefreshEvents();
+        }
+
+        private async void bCancelOffer_Click(object sender, EventArgs e)
+        {
+            await _connection.Commands.DeclineChallengeAsync(challenge, challenge.IncomingChallenge);
+            challenge.IncomingChallenge = null;
+            RefreshEvents();
         }
     }
 }

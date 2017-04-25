@@ -31,30 +31,19 @@
             </Grid.RowDefinitions>
             <Frame x:Name="MainFrame" />
             <ContentPresenter Grid.Row="1" Content="{Binding TabManager.ActiveTab.Frame, Mode=OneWay}" />
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
                 <ItemsControl ItemsSource="{x:Bind BubbleNotifications, Mode=OneWay}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderThickness="1"
-                BorderBrush="Black"
-                CornerRadius="4"
-                                    MaxWidth="600"
+                            <Border BorderThickness="2"
+                                    BorderBrush="Black"
+                                    CornerRadius="4"
+                                    MaxWidth="1000"
                                     Margin="0,0,0,10">
                                 <Grid>
-                                    <Border
-                Name="Mask"
-                Background="LightBlue"
-                CornerRadius="4"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Button Grid.Column="0" Visibility="{Binding Closeable, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}" Margin="8" Click="CloseNotification_Click">
-                                            <FontIcon Glyph="&#xE8BB;" FontSize="10"></FontIcon>
-                                        </Button>
-                                        <TextBlock Grid.Column="1" TextWrapping="Wrap" Margin="10,0,0,0" Padding="4" Text="{Binding Text, Mode=OneWay}" FontSize="12" />
-                                    </Grid>
+                                    <Border Background="LightBlue"
+                                            CornerRadius="4"/>
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="10,0,10,0" Padding="4" Text="{Binding Text, Mode=OneWay}" FontSize="12" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
