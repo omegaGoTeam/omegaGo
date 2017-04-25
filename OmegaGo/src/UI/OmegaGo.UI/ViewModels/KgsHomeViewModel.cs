@@ -7,6 +7,7 @@ using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Structures;
+using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
@@ -22,6 +23,7 @@ namespace OmegaGo.UI.ViewModels
         private ObservableCollection<KgsGameContainer> _gameContainers = new ObservableCollection<KgsGameContainer>();
 
         private IMvxCommand _joinRoomCommand;
+        private IMvxCommand _createChallengeCommand;
 
         private IMvxCommand _joinSelectedGameChannelCommand;
 
@@ -59,7 +61,14 @@ namespace OmegaGo.UI.ViewModels
                 RefreshControls();
             }
         }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
-
+        public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
+        {
+            if (this.SelectedRoom != null && this.SelectedRoom.Joined)
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsCreateChallengeBundle(this.SelectedRoom));
+                OpenInNewActiveTab<GameCreationViewModel>();
+            }
+        }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
         public IMvxCommand JoinSelectedGameChannelCommand
             => _joinSelectedGameChannelCommand ?? (_joinSelectedGameChannelCommand = new MvxCommand(async () =>
             {
@@ -69,6 +78,13 @@ namespace OmegaGo.UI.ViewModels
                     {
                         var trueChannel = this.SelectedGameChannel as KgsTrueGameChannel;
                         await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
+                    }
+                    else if (this.SelectedGameChannel is KgsChallenge)
+                    {
+                        var challenge = this.SelectedGameChannel as KgsChallenge;
+                        await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
+                        Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(challenge));
+                        OpenInNewActiveTab<GameCreationViewModel>();
                     }
                 }
             }, () => this.SelectedGameChannel != null));
@@ -138,6 +154,7 @@ namespace OmegaGo.UI.ViewModels
                 SetProperty(ref _selectedRoom, value);
                 this.JoinRoomCommand.RaiseCanExecuteChanged();
                 this.UnjoinRoomCommand.RaiseCanExecuteChanged();
+                this.CreateChallengeCommand.RaiseCanExecuteChanged();
             }
         }
 

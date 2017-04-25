@@ -154,12 +154,6 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public string Server
-        {
-            get { return _server; }
-            set { SetProperty(ref _server, value); }
-        }
-
         public string ValidationErrorMessage
         {
             get { return _validationErrorMessage; }
@@ -474,6 +468,14 @@ namespace OmegaGo.UI.ViewModels
                     return false;
                 }
                 // ReSharper restore CompareOfFloatsByEqualityOperator
+                if (Bundle.IsKgs)
+                {
+                    if (compensation < -100 || compensation > 100)
+                    {
+                        ValidationErrorMessage = "KGS requires that komi be between -100 and 100.";
+                        return false;
+                    }
+                }
             }
             else
             {
@@ -513,6 +515,14 @@ namespace OmegaGo.UI.ViewModels
                 {
                     // This should never happen.
                     ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
+                    return false;
+                }
+            }
+            if (Bundle.IsKgs)
+            {
+                if (SelectedGameBoardSize.Width > 38)
+                {
+                    ValidationErrorMessage = "KGS does not allow board sizes larger than 38x38.";
                     return false;
                 }
             }

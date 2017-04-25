@@ -25,6 +25,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool BlackAndWhiteVisible => true;
 
         public override bool WillCreateChallenge => false;
+        public override bool CanDeclineSingleOpponent => false;
 
         public override bool KomiIsAvailable => true;
 

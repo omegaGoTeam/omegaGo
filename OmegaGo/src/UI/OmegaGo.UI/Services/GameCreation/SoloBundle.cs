@@ -10,11 +10,11 @@ namespace OmegaGo.UI.Services.GameCreation
 {
     class SoloBundle : LocalBundle
     {
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
-            gameCreationViewModel.FormTitle = Localizer.Creation_NewLocalGame;
-            gameCreationViewModel.WhitePlayer =
-                gameCreationViewModel.PossiblePlayers.Last();
+            vm.FormTitle = Localizer.Creation_NewLocalGame;
+            vm.WhitePlayer =
+                vm.PossiblePlayers.Last();
         }
     }
 }

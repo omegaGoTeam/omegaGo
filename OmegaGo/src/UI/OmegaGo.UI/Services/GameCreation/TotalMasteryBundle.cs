@@ -9,13 +9,13 @@ namespace OmegaGo.UI.Services.GameCreation
 {
     class TotalMasteryBundle : LocalBundle
     {
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
             // "Win a solo game against Fuego where Fuego is playing black and has a handicap of 3 stones or more."
-            gameCreationViewModel.FormTitle = Localizer.Creation_NewLocalGame;
-            gameCreationViewModel.BlackPlayer =
-                gameCreationViewModel.PossiblePlayers.Last();
-            gameCreationViewModel.Handicap = 3;
+            vm.FormTitle = Localizer.Creation_NewLocalGame;
+            vm.BlackPlayer =
+                vm.PossiblePlayers.Last();
+            vm.Handicap = 3;
         }
     }
 }

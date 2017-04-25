@@ -98,6 +98,9 @@
     <Compile Include="Services\GameCreation\HotseatBundle.cs" />
     <Compile Include="Services\GameCreation\IgsBundle.cs" />
     <Compile Include="Services\GameCreation\IgsOutgoingChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\KgsBundle.cs" />
+    <Compile Include="Services\GameCreation\KgsCreateChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\KgsJoinChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />

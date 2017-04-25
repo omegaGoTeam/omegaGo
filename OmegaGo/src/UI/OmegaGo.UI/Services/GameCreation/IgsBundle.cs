@@ -16,13 +16,13 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool KomiIsAvailable => false;
         public override bool HandicapMayBeChanged => false;
         public override bool IsIgs => true;
+        public override bool CanDeclineSingleOpponent => false;
 
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
-            gameCreationViewModel.IgsLimitation = true;
-            gameCreationViewModel.Server = "IGS";
-            gameCreationViewModel.SelectedRuleset = Core.Rules.RulesetType.Japanese;
-            gameCreationViewModel.TimeControlStyles.Remove(Core.Time.TimeControlStyle.Japanese);
+            vm.IgsLimitation = true;
+            vm.SelectedRuleset = Core.Rules.RulesetType.Japanese;
+            vm.TimeControlStyles.Remove(Core.Time.TimeControlStyle.Japanese);
         }
     }
 }
