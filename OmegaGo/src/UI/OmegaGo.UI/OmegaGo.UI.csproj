@@ -187,7 +187,6 @@
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
