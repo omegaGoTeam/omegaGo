@@ -113,7 +113,7 @@ namespace OmegaGo.UI.Services.Online
             var settings = Mvx.Resolve<IGameSettings>();
             if (settings.Audio.PlayWhenNotificationReceived)
             {
-                await Sounds.Notification.PlayAsync();
+                await Sounds.IncomingMatchRequest.PlayAsync();
             }
         }
 

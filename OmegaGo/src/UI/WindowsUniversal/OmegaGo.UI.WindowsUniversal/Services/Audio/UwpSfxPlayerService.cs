@@ -41,7 +41,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
             [SfxId.SabakiPlace4] = "Sounds\\Sabaki\\place4.mp3",
             [SfxId.SabakiNewGame] = "Sounds\\Sabaki\\newgame.mp3",
             [SfxId.SabakiPass] = "Sounds\\Sabaki\\pass.mp3",
-            [SfxId.Notification] = "Sounds\\Notification.mp3"
+            [SfxId.PleasantJingle] = "Sounds\\Notification.mp3"
         };
 
         private bool _initialized = false;
