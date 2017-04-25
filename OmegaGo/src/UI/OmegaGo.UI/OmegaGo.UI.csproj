@@ -100,7 +100,9 @@
     <Compile Include="Services\GameCreation\IgsOutgoingChallengeBundle.cs" />
     <Compile Include="Services\GameCreation\KgsBundle.cs" />
     <Compile Include="Services\GameCreation\KgsCreateChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\KgsChallengeManagementBundle.cs" />
     <Compile Include="Services\GameCreation\KgsJoinChallengeBundle.cs" />
+    <Compile Include="Services\GameCreation\KgsNegotiationBundle.cs" />
     <Compile Include="Services\GameCreation\LocalBundle.cs" />
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />

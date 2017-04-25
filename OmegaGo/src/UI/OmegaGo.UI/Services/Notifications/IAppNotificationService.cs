@@ -16,5 +16,7 @@ namespace OmegaGo.UI.Services.Notifications
         /// </summary>
         /// <param name="notification">The notification.</param>
         void TriggerNotification(BubbleNotification notification);
+
+        void TriggerNotification(string text);
     }
 }

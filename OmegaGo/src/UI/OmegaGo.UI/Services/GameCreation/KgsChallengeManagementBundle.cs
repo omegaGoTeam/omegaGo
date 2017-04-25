@@ -8,7 +8,7 @@ using OmegaGo.UI.ViewModels;
 
 namespace OmegaGo.UI.Services.GameCreation
 {
-    public class KgsJoinChallengeBundle : KgsNegotiationBundle
+    public class KgsChallengeManagementBundle : KgsNegotiationBundle
     {
         private readonly KgsChallenge _challenge;
 
@@ -20,7 +20,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public override GameCreationFormStyle Style => GameCreationFormStyle.KgsChallengeNegotiation;
         public override bool CanDeclineSingleOpponent => false;
 
-        public KgsJoinChallengeBundle(KgsChallenge challenge)
+        public KgsChallengeManagementBundle(KgsChallenge challenge)
         {
             _challenge = challenge;
         }

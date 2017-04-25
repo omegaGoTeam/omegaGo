@@ -174,7 +174,6 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
-            Connections.Kgs.Events.GameJoined += Events_GameJoined; // TODO Petr: move this to app initialization later
 
             if (Connections.Kgs.LoggedIn)
             {
@@ -192,7 +191,6 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
-            Connections.Kgs.Events.GameJoined -= Events_GameJoined;
         }
 
         public async Task AttemptLoginCommand(string username, string password)
@@ -213,19 +211,6 @@ namespace OmegaGo.UI.ViewModels
             {
                 this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
                 this.LoginForm.LoginErrorMessageOpacity = 1;
-            }
-        }
-
-        private void Events_GameJoined(object sender, KgsGame e)
-        {
-            Mvx.RegisterSingleton<IGame>(e);
-            if (e.Controller.Players.Any(pl => pl.IsLocal))
-            {
-                ShowViewModel<OnlineGameViewModel>();
-            }
-            else
-            {
-                ShowViewModel<ObserverGameViewModel>();
             }
         }
 

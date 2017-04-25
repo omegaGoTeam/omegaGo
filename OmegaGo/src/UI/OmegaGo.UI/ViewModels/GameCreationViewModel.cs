@@ -395,8 +395,7 @@ namespace OmegaGo.UI.ViewModels
         {
             // Refusing does not require validation.
             await Bundle.RefuseChallenge(this);
-            var provider = Mvx.Resolve<ITabProvider>();
-            provider.CloseTab(provider.GetTabForViewModel(this));
+            this.CloseSelf();
         }
 
         private void StartGameImmediately()

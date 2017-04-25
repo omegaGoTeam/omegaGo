@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OmegaGo.UI.Services.GameCreation
+{
+    public abstract class KgsNegotiationBundle : KgsBundle
+    {
+    }
+}

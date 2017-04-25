@@ -118,5 +118,14 @@ namespace OmegaGo.UI.ViewModels
         {
             return Task.FromResult(true);
         }
+
+        /// <summary>
+        /// Closes the tab that contains this viewmodel.
+        /// </summary>
+        public void CloseSelf()
+        {
+            var provider = Mvx.Resolve<ITabProvider>();
+            provider.CloseTab(provider.GetTabForViewModel(this));
+        }
     }
 }
