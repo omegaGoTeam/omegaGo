@@ -9,6 +9,11 @@ namespace OmegaGo.Core.Online.Igs
     public class IgsUser
     {
         public string Name;
+        /// <summary>
+        /// The first 7 characters of the country name or some form of abbreviation. If somebody sometime
+        /// finds a list that would convert the country to an actual country name, then we can use this,
+        /// until then, we can't.
+        /// </summary>
         public string Country;
         public string Rank;
 
