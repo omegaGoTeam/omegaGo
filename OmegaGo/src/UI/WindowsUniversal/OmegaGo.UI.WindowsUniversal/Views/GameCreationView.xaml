@@ -189,7 +189,7 @@
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
-                            Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{Binding Bundle.HandicapMayBeChanged}" />
+                            Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
                     <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />

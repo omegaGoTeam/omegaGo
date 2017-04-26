@@ -51,6 +51,7 @@ namespace OmegaGo.UI.ViewModels
             //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
 
             Game.Controller.MoveUndone += Controller_MoveUndone;
+            
 
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
@@ -158,7 +159,7 @@ namespace OmegaGo.UI.ViewModels
         {
             // Handle raising the phase handlers
             base.OnGamePhaseChanged(phaseState);
-
+            
             if (phaseState.NewPhase.Type == GamePhaseType.LifeDeathDetermination ||
                 phaseState.NewPhase.Type == GamePhaseType.Finished)
             {
@@ -217,8 +218,15 @@ namespace OmegaGo.UI.ViewModels
             }
             else if (this.Game.Controller.Players.Any(pl => pl.IsHuman))
             {
-                if (this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(move =>
-                this.Game.Controller.Players[move.WhoMoves].IsHuman))
+                // TODO Petr Please find a suitable name for this property.
+                bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
+                    move => 
+                    {
+                        if (move.WhoMoves == StoneColor.None) return false;
+                        return this.Game.Controller.Players[move.WhoMoves].IsHuman;
+                    });
+
+                if (value)
                 {
                     // A local human has already made a move.
                     CanUndo = true;

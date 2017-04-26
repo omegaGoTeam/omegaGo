@@ -98,9 +98,8 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
+        /// Gets the first child node of this node, if it exists, otherwise null. 
         /// </summary>
-        /// <exception cref="InvalidOperationException">When this is a branching node.</exception>
         public GameTreeNode NextNode
         {
             get
@@ -109,11 +108,8 @@ namespace OmegaGo.Core.Game
                 {
                     case 0:
                         return null;
-                    case 1:
-                        return Branches[0];
                     default:
-                        throw new InvalidOperationException(
-                            "This is a branching node. Therefore, there is no single 'next' move.");
+                        return Branches[0];
                 }
             }
         }

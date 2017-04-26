@@ -67,7 +67,7 @@ namespace FormsPrototype
                 bLocalUndo.Visible = false;
                 connection.Events.ErrorMessageReceived += _igs_ErrorMessageReceived;
                 //    this._igs.UndoRequestReceived += _igs_UndoRequestReceived;
-                // connection.Events.UndoDeclined += _igs_UndoDeclined;
+                //connection.Events.UndoDeclined += _igs_UndoDeclined;
                 bAddTimeToMyOpponent.Visible = true;
                 bResumeAsBlack.Visible = false;
             }
@@ -181,7 +181,11 @@ namespace FormsPrototype
                 var connection = (_server as IgsConnection);
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
+<<<<<<<<< Temporary merge branch 1
+                //connection.Events.UndoDeclined -= _igs_UndoDeclined;
+=========
                 // connection.Events.UndoDeclined -= _igs_UndoDeclined;
+>>>>>>>>> Temporary merge branch 2
             }
            // _controller.AbortGame();*/
         }
