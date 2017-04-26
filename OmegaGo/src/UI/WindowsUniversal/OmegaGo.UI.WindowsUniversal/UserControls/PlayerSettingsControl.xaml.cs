@@ -22,8 +22,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
     public sealed partial class PlayerSettingsControl : UserControlBase
     {
-        public Localizer Localizer { get; } = (Localizer) Mvx.Resolve<ILocalizationService>();
-
         public PlayerSettingsControl()
         {
             this.InitializeComponent();

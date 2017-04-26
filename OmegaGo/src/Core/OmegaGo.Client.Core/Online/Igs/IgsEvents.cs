@@ -57,12 +57,6 @@ namespace OmegaGo.Core.Online.Igs
         public event EventHandler<IgsGame> MatchRequestAccepted;
 
         /// <summary>
-        ///     Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have
-        ///     opened.
-        /// </summary>
-        public event EventHandler<Tuple<IgsGameInfo, ChatMessage>> IncomingInGameChatMessage;
-
-        /// <summary>
         ///     Occurs when the opponent in a GAME asks us to let them undo a move
         /// </summary>
         public event EventHandler<GameInfo> UndoRequestReceived;

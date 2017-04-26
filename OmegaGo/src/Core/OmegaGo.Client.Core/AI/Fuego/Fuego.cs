@@ -22,7 +22,6 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private IGtpEngine _engine;
 
         private bool _initialized;
-        private int _timelimit = -1;
         private bool SendAllAiOutputToLog = true;
         private bool SendDebuggingInformationToLogToo = true;
 

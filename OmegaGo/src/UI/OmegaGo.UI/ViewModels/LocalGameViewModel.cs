@@ -272,7 +272,7 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private async void Resign()
+        private void Resign()
         {
                 UiConnector.Resign();
         }
