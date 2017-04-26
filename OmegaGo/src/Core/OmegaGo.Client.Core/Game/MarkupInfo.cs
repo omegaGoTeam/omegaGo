@@ -95,20 +95,20 @@ namespace OmegaGo.Core.Game
 
         public char GetSmallestUnusedLetter()
         {
-            char minUnusedLetter = 'A';
+            bool[] isLetterUsed = new bool[26];
             foreach (var label in GetMarkups<Label>())
             {
                 char letter;
                 char.TryParse(label.Text, out letter);
                 if (letter >= 'A' && letter <= 'Z')
-                    if (letter == minUnusedLetter)
-                        minUnusedLetter++;
+                    isLetterUsed[letter - 65] = true;
             }
 
-            if (minUnusedLetter <= 'Z')
-                return minUnusedLetter;
-            else
-                return '0';
+            for (int i = 0; i < isLetterUsed.Length; i++)
+                if (!isLetterUsed[i])
+                    return Convert.ToChar(i + 65);
+            
+            return '0';
         }
 
         public char GetNextLetter()
@@ -131,17 +131,20 @@ namespace OmegaGo.Core.Game
 
         public int GetSmallestUnusedNumber()
         {
-            int minUnusedNumber = 1;
+            bool[] isNumberUsed = new bool[700];
             foreach (var label in GetMarkups<Label>())
             {
                 int number;
                 int.TryParse(label.Text, out number);
                 if (number != 0)
-                    if (number == minUnusedNumber)
-                        minUnusedNumber++;
+                    isNumberUsed[number] = true;
             }
 
-            return minUnusedNumber;
+            for (int i = 1; i < isNumberUsed.Length; i++)
+                if (!isNumberUsed[i])
+                    return i;
+
+            return 0;
         }
 
         public int GetNextNumber()
