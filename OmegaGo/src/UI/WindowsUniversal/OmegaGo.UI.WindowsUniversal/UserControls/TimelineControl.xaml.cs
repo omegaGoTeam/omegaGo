@@ -17,9 +17,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
     public sealed partial class TimelineControl : UserControlBase
     {
-        private const int NODESIZE = 32;
-        private const int NODESPACING = 8;
-        private const int NODEHIGHLIGHTSTROKE = 6;
+        private const int NODESIZE = 24;
+        private const int NODESPACING = 4;
+        private const int NODEHIGHLIGHTSTROKE = 2;
+        private const int NODEFONTSIZE = 10;
 
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(
@@ -53,7 +54,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
             _textFormat = new CanvasTextFormat()
             {
-                FontSize = 12,
+                FontSize = NODEFONTSIZE,
                 HorizontalAlignment = CanvasHorizontalAlignment.Center,
                 VerticalAlignment = CanvasVerticalAlignment.Center
             };
@@ -66,33 +67,44 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             get { return (TimelineViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
+                return base.MeasureOverride(availableSize);
+
+            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot, 0, 0) + 1;
+            
+            Size desiredSize = new Size();
+            desiredSize.Height =
+                    requiredHeight * NODESIZE +
+                    (requiredHeight - 1) * NODESPACING +
+                    2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for top and bottom
+
+            desiredSize.Width =
+                (_timelineDepth + 1) * NODESIZE +
+                (_timelineDepth + 1) * NODESPACING +
+                2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for left and right
+
+            canvas.Width = desiredSize.Width;
+            canvas.Height = desiredSize.Height;
+
+            return base.MeasureOverride(availableSize); 
+        }
         
         private void TimelineRedrawRequsted(object sender, EventArgs e)
         {
+            // TODO are both neccessary?
+            this.InvalidateMeasure();
             canvas.Invalidate();
-            // canvas.InvalidateMeasure();
         }
 
         private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            _timelineDepth = 0;
-            canvas.Width = 0;
-            canvas.Height = 0;
-
             if (ViewModel?.GameTree != null && ViewModel?.GameTree?.GameTreeRoot != null)
             {
                 args.DrawingSession.Transform = Matrix3x2.CreateTranslation(NODEHIGHLIGHTSTROKE, NODEHIGHLIGHTSTROKE);
                 int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
-
-                canvas.Height =
-                    requiredHeight * NODESIZE +
-                    (requiredHeight - 1) * NODESPACING + 
-                    2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for top and bottom
-
-                canvas.Width =
-                    (_timelineDepth + 1) * NODESIZE +
-                    (_timelineDepth + 1) * NODESPACING +
-                    2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for left and right
             }
         }
 
@@ -116,7 +128,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private int DrawNode(CanvasDrawingSession drawingSession, GameTreeNode node, int depth, int offset, int parentOffset)
         {
             int nodeOffset = offset;
-            _timelineDepth = Math.Max(_timelineDepth, depth);
 
             Vector2 stoneTopLeft = new Vector2(
                 depth * NODESIZE + depth * NODESPACING,
@@ -171,6 +182,24 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             return offset;
         }
 
+        // Calculating measure
+        private int CalculateDesiredSize(GameTreeNode node, int depth, int offset)
+        {
+            _timelineDepth = Math.Max(_timelineDepth, depth);
+
+            foreach (GameTreeNode childNode in node.Branches)
+            {
+                offset = CalculateDesiredSize(childNode, depth + 1, offset);
+                offset++;
+            }
+
+            if (node.Branches.Count > 0)
+                offset--;
+
+            return offset;
+        }
+
+        // Calculating pointer over node
         private int GetNodeAtPoint(Point point, GameTreeNode node, int depth, int offset, out GameTreeNode resultNode)
         {
             // We draw elipse but hit test rectangle as this is easier.

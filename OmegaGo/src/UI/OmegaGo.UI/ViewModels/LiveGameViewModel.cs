@@ -67,6 +67,8 @@ namespace OmegaGo.UI.ViewModels
             Tool = null;
 
             // Initialize analyze mode and register tools
+            BoardViewModel.ToolServices = ToolServices;
+
             AnalyzeViewModel = new AnalyzeViewModel(ToolServices);
             RegisterAnalyzeTools();
             _isAnalyzeModeEnabled = false;
@@ -247,7 +249,7 @@ namespace OmegaGo.UI.ViewModels
             IsAnalyzeModeEnabled = true;
             Tool = AnalyzeViewModel.SelectedTool;
 
-            BoardViewModel.Tool = Tool as IMarkupTool;
+            BoardViewModel.Tool = Tool;
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
@@ -281,7 +283,7 @@ namespace OmegaGo.UI.ViewModels
             AnalyzeViewModel.ToolChanged += (s, tool) =>
             {
                 Tool = tool;
-                BoardViewModel.Tool = tool as IMarkupTool;
+                BoardViewModel.Tool = tool;
             };
 
             // When coming out of analysis, reset tool
