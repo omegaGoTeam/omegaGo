@@ -14,6 +14,8 @@ using OmegaGo.UI.Services.Timer;
 using OmegaGo.Core.Game.Tools;
 using OmegaGo.Core.Game.Markup;
 using MvvmCross.Core.ViewModels;
+using System.Threading.Tasks;
+using System;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -80,6 +82,7 @@ namespace OmegaGo.UI.ViewModels
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
+
             _portraitUpdateTimer = Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
         }
@@ -243,7 +246,9 @@ namespace OmegaGo.UI.ViewModels
         {
             IsAnalyzeModeEnabled = true;
             Tool = AnalyzeViewModel.SelectedTool;
+
             BoardViewModel.Tool = Tool as IMarkupTool;
+            BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
             GameTreeNode currentNode = Game.Controller.CurrentNode;
@@ -256,7 +261,9 @@ namespace OmegaGo.UI.ViewModels
         {
             IsAnalyzeModeEnabled = false;
             Tool = null;
+
             BoardViewModel.Tool = null;
+            BoardViewModel.IsMarkupDrawingEnabled = false;
 
             RefreshBoard(Game.Controller.CurrentNode);
         }

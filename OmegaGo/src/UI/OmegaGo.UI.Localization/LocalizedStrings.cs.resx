@@ -27,7 +27,7 @@
 </value>
   </data>
   <data name="DeleteSelection" xml:space="preserve">
-    <value>Velikost</value>
+    <value>Smazat výběr</value>
   </data>
   <data name="FilterBySource" xml:space="preserve">
     <value>Filtrovat dle zdroje</value>
@@ -1118,6 +1118,21 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="MainMenu" xml:space="preserve">
     <value>Hlavní menu</value>
   </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Observing" xml:space="preserve">
+    <value>Pozorování</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Vrátit se</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Jste si jistí?</value>
+  </data>
+  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
+    <value>Opravdu chcete tuto hru ukončit?</value>
+  </data>
   <data name="KgsLoginPhase_JoiningGlobalLists" xml:space="preserve">
     <value>Připojování k hlavnímu seznamu her a výzev...</value>
   </data>
@@ -1165,21 +1180,6 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="YouHaveBeenDisconnected" xml:space="preserve">
     <value>Byli jste odpojeni.</value>
-  </data>
-  <data name="NewGame" xml:space="preserve">
-    <value>Nová hra</value>
-  </data>
-  <data name="Observing" xml:space="preserve">
-    <value>Pozorování</value>
-  </data>
-  <data name="GoBack" xml:space="preserve">
-    <value>Vrátit se</value>
-  </data>
-  <data name="AreYouSure" xml:space="preserve">
-    <value>Jste si jistí?</value>
-  </data>
-  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
-    <value>Opravdu chcete tuto hru ukončit?</value>
   </data>
   <data name="ExitLocal_Caption" xml:space="preserve">
     <value>Chcete opustit tuto hru?</value>

@@ -46,44 +46,51 @@ namespace OmegaGo.Core.Game
             // Should we deal with it being castable to List and then modifiable?
             return (IEnumerable<T>)_markups[typeof(T)];
         }
+        
 
-        public void RemoveMarkupOnPosition(Position position)
+        /// <summary>
+        /// Removes any markup (if exists) on a provided position and returns its kind.
+        /// </summary>
+        /// <param name="position">position to clear</param>
+        /// <returns>kind of markup located on the provided position</returns>
+        public MarkupKind RemoveMarkupOnPosition(Position position)
         {
             foreach (var circle in GetMarkups<Circle>())
                 if (circle.Position == position)
                 {
                     RemoveMarkup<Circle>(circle);
-                    return;
+                    return MarkupKind.Circle;
                 }
 
             foreach (var cross in GetMarkups<Cross>())
                 if (cross.Position == position)
                 {
                     RemoveMarkup<Cross>(cross);
-                    return;
+                    return MarkupKind.Cross;
                 }
 
             foreach (var label in GetMarkups<Label>())
                 if (label.Position == position)
                 {
                     RemoveMarkup<Label>(label);
-                    return;
+                    return MarkupKind.Label;
                 }
 
             foreach (var square in GetMarkups<Square>())
                 if (square.Position == position)
                 {
                     RemoveMarkup<Square>(square);
-                    return;
+                    return MarkupKind.Square;
                 }
 
             foreach (var triangle in GetMarkups<Triangle>())
                 if (triangle.Position == position)
                 {
                     RemoveMarkup<Triangle>(triangle);
-                    return;
+                    return MarkupKind.Triangle;
                 }
-            
+
+            return MarkupKind.None;
         }
 
         public char GetSmallestUnusedLetter()

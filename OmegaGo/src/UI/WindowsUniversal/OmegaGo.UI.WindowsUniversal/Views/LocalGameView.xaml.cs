@@ -21,37 +21,16 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     /// </summary>
     public sealed partial class LocalGameView : TransparencyViewBase
     {
-        private DispatcherTimer _updateTimer;
-
         public LocalGameView()
         {
             this.InitializeComponent();
         }
-        
+
         public LocalGameViewModel VM => (LocalGameViewModel)ViewModel;
-        
+
         public override string TabTitle => Localizer.LocalGame;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/LocalGame.png");
-
-        private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _updateTimer.Tick -= UpdateTimer_Tick;
-            VM.Unload();
-        }
-
-        private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
-        {
-            _updateTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-            _updateTimer.Tick += UpdateTimer_Tick;
-            _updateTimer.Start();
-        }
-
-        private void UpdateTimer_Tick(object sender, object e)
-        {
-            VM.BlackPortrait.Update();
-            VM.WhitePortrait.Update();
-        }
 
         private void focusButton_Click(object sender, RoutedEventArgs e)
         {

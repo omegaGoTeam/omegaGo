@@ -16,7 +16,11 @@ namespace OmegaGo.Core.Game.Tools
             Position position = toolService.PointerOverPosition;
             MarkupInfo markups = toolService.Node.Markups;
 
-            markups.RemoveMarkupOnPosition(position);
+            MarkupKind markupKindOnPosition = markups.RemoveMarkupOnPosition(position);
+            
+            // If the removed markup is the same as the new one than do not add anything.
+            if (IsMarkupEqual(Markup, markupKindOnPosition))
+                return;
 
             if (Markup == SimpleMarkupKind.Circle)
                 markups.AddMarkup<Circle>(new Circle(position));
@@ -42,5 +46,21 @@ namespace OmegaGo.Core.Game.Tools
             return null;
         }
 
+        private bool IsMarkupEqual(SimpleMarkupKind simpleMarkupKind, MarkupKind markupKind)
+        {
+            switch(simpleMarkupKind)
+            {
+                case SimpleMarkupKind.Circle:
+                    return markupKind == MarkupKind.Circle;
+                case SimpleMarkupKind.Cross:
+                    return markupKind == MarkupKind.Cross;
+                case SimpleMarkupKind.Square:
+                    return markupKind == MarkupKind.Square;
+                case SimpleMarkupKind.Triangle:
+                    return markupKind == MarkupKind.Triangle;
+            }
+
+            return false;
+        }
     }
 }
