@@ -48,6 +48,27 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 else
                     return new SolidColorBrush(Colors.White);
             }
-        }        
+        }    
+        
+        public Color GradientColorStart
+        {
+            get
+            {
+                if (ViewModel?.Color == Core.Game.StoneColor.Black)
+                    return (Colors.DimGray);
+                else
+                    return (Colors.White);
+            }
+        } 
+        public Color GradientColorEnd
+        {
+            get
+            {
+                if (ViewModel?.Color == Core.Game.StoneColor.Black)
+                    return  (Colors.Black);
+                else
+                    return  (Colors.DimGray);
+            }
+        }
     }
 }

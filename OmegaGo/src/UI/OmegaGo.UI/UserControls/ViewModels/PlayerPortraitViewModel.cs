@@ -23,6 +23,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly bool _isOnline;
 
         private string _timeControlMainLine = "";
+        private string _timeControlTooltip = null;
         private string _timeControlSubLine = "";
         private int _prisonerCount = 0;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
@@ -73,6 +74,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _timeControlSubLine; }
             set { SetProperty(ref _timeControlSubLine, value); }
         }
+        public string TimeControlTooltip
+        {
+            get { return _timeControlTooltip; }
+            set { SetProperty(ref _timeControlTooltip, value); }
+        }
 
         public int PrisonerCount
         {
@@ -84,6 +90,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return string.Format(Localizer.StonesCaptured, PrisonerCount); }
         }
         
+        public bool IsTurnPlayer
+        {
+            get { return _controller.TurnPlayer == _player; }
+        }
+
         /// <summary>
         /// Updates the time control
         /// </summary>
@@ -94,14 +105,17 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 _player.IsHuman &&
                 _isOnline;
             TimeInformation info = Clock.GetDisplayTime(graceSecond);
-            TimeControlMainLine = info.MainText;
-            TimeControlSubLine = info.SubText;
+            TimeControlMainLine = TimeControlTranslator.TranslateMaintext(info);
+            var tuple = TimeControlTranslator.TranslateSubtext(info, Clock);
+            TimeControlSubLine = tuple.Subtext;
+            TimeControlTooltip = tuple.Tooltip;
             PrisonerCount =
                 _player.Info.Color == StoneColor.Black
                     ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
                     : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
                 ;
             RaisePropertyChanged(nameof(CapturesLine));
+            RaisePropertyChanged(nameof(IsTurnPlayer));
 
         }
     }
