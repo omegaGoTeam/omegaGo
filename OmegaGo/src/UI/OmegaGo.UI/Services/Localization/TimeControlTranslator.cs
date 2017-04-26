@@ -54,7 +54,8 @@ namespace OmegaGo.UI.Services.Localization
                 return new TimeControlTexts(
                     string.Format(Localizer.TimeControl_CanadianSubtextMain,
                         control.StonesPerPeriod, control.PeriodTime.TotalMinutes),
-                    Localizer.TimeControl_CanadianTooltipMain
+                    string.Format(Localizer.TimeControl_CanadianTooltipMain,
+                        control.StonesPerPeriod, control.PeriodTime.TotalMinutes)
                     );
             }
             else

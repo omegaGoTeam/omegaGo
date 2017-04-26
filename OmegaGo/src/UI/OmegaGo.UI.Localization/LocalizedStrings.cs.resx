@@ -1202,4 +1202,37 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="Exit_ReturnToGame" xml:space="preserve">
     <value>Vrátit se do hry</value>
   </data>
+  <data name="TimeControl_AbsoluteSubtext" xml:space="preserve">
+    <value>Přesčas není možný</value>
+  </data>
+  <data name="TimeControl_AbsoluteTooltip" xml:space="preserve">
+    <value>Když váš čas uplyne, prohrajete.</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextByoyomi" xml:space="preserve">
+    <value>{0}/{1} zbývá (pak {2} min)</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextMain" xml:space="preserve">
+    <value>Hlavní čas (+{0}/{1}min)</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipByoyomi" xml:space="preserve">
+    <value>"A/B zbývá (pak C mins)" znamená, že musíte udělat A tahů nebo prohrajete. Až tyto tahy uděláte, budete mít C dalších minut na B dalších tahů.</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipMain" xml:space="preserve">
+    <value>Jakmile uplyne hlavní čas, budete mít {1} minut na {0} tahů.</value>
+  </data>
+  <data name="TimeControl_JapaneseSubtext" xml:space="preserve">
+    <value>+{0} x {1}s</value>
+  </data>
+  <data name="TimeControl_JapaneseTooltip" xml:space="preserve">
+    <value>"+A x Bs" znamená, že až uplyne váš současný čas, budete mít ještě A period po B sekundách. Pokud periodu nepoužijete celou, neuplyne z ní žádný čas.</value>
+  </data>
+  <data name="TimeControl_NoneSubtext" xml:space="preserve">
+    <value>Žádný časový limit</value>
+  </data>
+  <data name="TimeControl_NoneTooltip" xml:space="preserve">
+    <value>Tato hra nemá časový limit.</value>
+  </data>
+  <data name="TimeControl_TimeExceeded" xml:space="preserve">
+    <value>Čas vypršel</value>
+  </data>
 </root>
