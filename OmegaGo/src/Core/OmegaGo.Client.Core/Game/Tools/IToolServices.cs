@@ -29,5 +29,11 @@ namespace OmegaGo.Core.Game.Tools
         /// </summary>
         /// <param name="node">a node to set as current</param>
         void SetNode(GameTreeNode node);
+
+        /// <summary>
+        /// Sets the current pointer position to a given position.
+        /// </summary>
+        /// <param name="position">target position to set</param>
+        void SetPointerPosition(Position position);
     }
 }

@@ -16,6 +16,7 @@ using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Services.BoardControl;
 using OmegaGo.Core.Game.Markup;
 using Microsoft.Graphics.Canvas.Geometry;
+using OmegaGo.Core.Game.Tools;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Game
 {
@@ -97,7 +98,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="sender"></param>
         /// <param name="session"></param>
         /// <param name="gameState"></param>
-        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState, bool isMarkupRenderingEnabled = false)
+        public void Draw(ICanvasResourceCreator sender, double width, double height, CanvasDrawingSession session, GameTreeNode gameState)
         {
             // Calculations
             double clientWidth = width;
@@ -181,18 +182,26 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Mouse over position special case
             if (_sharedBoardControlState.PointerOverPosition.IsDefined)
             {
-                // TODO Petr : only if legal - use Ruleset IsLegalMove?
-                // But it would be slow, you can implement caching to check for each intersection only once
-                if (_sharedBoardControlState.PointerOverShadowColor != StoneColor.None && (
-                    _sharedBoardControlState.TEMP_MoveLegality == null || 
-                    _sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal))
+                if (SharedBoardControlState.IsAnalyzeModeEnabled)
                 {
-                    DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
+                    // Analyze mode is enabled, draw selected tool shadow item.
+                    DrawAnalyzeToolShadow(session, SharedBoardControlState.AnalyzeModeTool);
+                }
+                else
+                {
+                    // TODO Petr : only if legal - use Ruleset IsLegalMove?
+                    // But it would be slow, you can implement caching to check for each intersection only once
+                    if (_sharedBoardControlState.PointerOverShadowColor != StoneColor.None && (
+                        _sharedBoardControlState.TEMP_MoveLegality == null ||
+                        _sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal))
+                    {
+                        DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
+                    }
                 }
             }
 
             // Draw markups if enabled
-            if(isMarkupRenderingEnabled)
+            if(SharedBoardControlState.IsAnalyzeModeEnabled)
             {
                 session.Blend = CanvasBlend.SourceOver;
                 DrawMarkups(session, gameState.Markups);
@@ -570,7 +579,52 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         //
         //////
 
+        private void DrawAnalyzeToolShadow(CanvasDrawingSession drawingSession, ITool tool)
+        {
+            if(tool is IMarkupTool)
+            {
+                IMarkupTool markupTool = (IMarkupTool)tool;
+                IMarkup markup = markupTool.GetShadowItem(SharedBoardControlState.AnalyzeToolServices);
 
+                switch(markup.Kind)
+                {
+                    case MarkupKind.Label:
+                        DrawLabelMark(drawingSession, ((Label)markup).Position.X, ((Label)markup).Position.Y, Colors.DarkBlue, Colors.Transparent, ((Label)markup).Text);
+                        break;
+                    case MarkupKind.Circle:
+                        DrawCircleMark(drawingSession, ((Circle)markup).Position.X, ((Circle)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case MarkupKind.Cross:
+                        DrawCrossOutMark(drawingSession, ((Cross)markup).Position.X, ((Cross)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case MarkupKind.Square:
+                        DrawSquareMark(drawingSession, ((Square)markup).Position.X, ((Square)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case MarkupKind.Triangle:
+                        DrawTriangleMark(drawingSession, ((Triangle)markup).Position.X, ((Triangle)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                }
+            }
+            else if(tool is IStoneTool)
+            {
+                IStoneTool stoneTool = (IStoneTool)tool;
+                Position pointerPosition = SharedBoardControlState.AnalyzeToolServices.PointerOverPosition;
+                GameTreeNode node = SharedBoardControlState.AnalyzeToolServices.Node;
+
+                var moveResults = stoneTool.GetMoveResults(SharedBoardControlState.AnalyzeToolServices);
+                MoveResult moveResult = moveResults[pointerPosition.X, pointerPosition.Y];
+
+                if(moveResult != MoveResult.Legal)
+                {
+                    return;
+                }
+
+                // We must take the oposite of current node
+                StoneColor stoneColor = (node.Move.WhoMoves == StoneColor.White) ? StoneColor.Black : StoneColor.White;
+
+                DrawStone(drawingSession, pointerPosition.X, pointerPosition.Y, stoneColor, 0.5);
+            }
+        }
 
         private void DrawMarkups(CanvasDrawingSession drawingSession, MarkupInfo markupInfo)
         {

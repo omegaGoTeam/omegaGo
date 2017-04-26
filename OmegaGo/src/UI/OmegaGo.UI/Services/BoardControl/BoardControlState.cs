@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Rules;
 using OmegaGo.UI.Utility;
+using OmegaGo.Core.Game.Tools;
 
 namespace OmegaGo.UI.Services.Game
 {
@@ -68,6 +69,9 @@ namespace OmegaGo.UI.Services.Game
             set { _boardLineThickness = value; }
         }
 
+        public bool IsAnalyzeModeEnabled { get; set; }
+        public ITool AnalyzeModeTool { get; set; }
+        public IToolServices AnalyzeToolServices { get; set; }
         public bool TsumegoMode { get; }
         public int LeftPadding { get; set; }
         public int TopPadding { get; set; }

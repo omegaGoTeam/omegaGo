@@ -27,6 +27,7 @@ namespace OmegaGo.Core.Game
         }
 
         public event EventHandler<GameTreeNode> NodeChanged;
+        public event EventHandler<Position> PointerPositionChanged;
 
         /// <summary>
         /// Gets the active ruleset for the current game.
@@ -72,10 +73,19 @@ namespace OmegaGo.Core.Game
         public void SetNode(GameTreeNode node)
         {
             if (node == null)
-                throw new ArgumentException("Node cant be null");
+                throw new ArgumentException($"{nameof(node)} cant be null");
 
             Node = node;
             NodeChanged?.Invoke(this, node);
+        }
+
+        public void SetPointerPosition(Position position)
+        {
+            if(position == null)
+                throw new ArgumentException($"{nameof(position)} cant be null");
+
+            PointerOverPosition = position;
+            PointerPositionChanged?.Invoke(this, position);
         }
     }
 }

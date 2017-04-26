@@ -19,8 +19,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
-        private bool _isMarkupRenderingEnabled;
-
         private GameTreeNode _currentGameTreeNode;
 
         public BoardControl()
@@ -129,8 +127,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 sender.Size.Width, 
                 sender.Size.Height, 
                 args.DrawingSession, 
-                _currentGameTreeNode, 
-                _isMarkupRenderingEnabled);
+                _currentGameTreeNode);
         }
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
@@ -144,7 +141,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 return;
 
             ViewModel.NodeChanged += ViewModel_NodeChanged;
-            ViewModel.MarkupRenderingChanged += ViewModel_MarkupRenderingChanged;
             _currentGameTreeNode = ViewModel.GameTreeNode;
             _boardControlState = ViewModel.BoardControlState;
             _renderService = new RenderService(_boardControlState);
@@ -160,11 +156,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             canvas.PointerReleased += canvas_PointerReleased;
 
             _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-        }
-
-        private void ViewModel_MarkupRenderingChanged(object sender, bool isMarkupRenderingEnabled)
-        {
-            var task = canvas.RunOnGameLoopThreadAsync(() => _isMarkupRenderingEnabled = isMarkupRenderingEnabled);
         }
     }
 }
