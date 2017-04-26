@@ -24,6 +24,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
-        
+
+        private void focusButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppShell.FocusModeOn = !AppShell.FocusModeOn;
+        }
     }
 }
