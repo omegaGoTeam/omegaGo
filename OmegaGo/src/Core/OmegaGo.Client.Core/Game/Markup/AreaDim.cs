@@ -5,7 +5,7 @@
     /// </summary>
     public sealed class AreaDim : IMarkup
     {
-        public MarkupKind Kind => MarkupKind.AreaDim;
+        public MarkupKind MarkupKind => MarkupKind.AreaDim;
 
         public Position From { get; }
 

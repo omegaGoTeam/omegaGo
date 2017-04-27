@@ -581,48 +581,34 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private void DrawAnalyzeToolShadow(CanvasDrawingSession drawingSession, ITool tool)
         {
-            if(tool is IMarkupTool)
+            if(tool is IPlacementTool)
             {
-                IMarkupTool markupTool = (IMarkupTool)tool;
-                IMarkup markup = markupTool.GetShadowItem(SharedBoardControlState.AnalyzeToolServices);
-
-                switch(markup.Kind)
-                {
-                    case MarkupKind.Label:
-                        DrawLabelMark(drawingSession, ((Label)markup).Position.X, ((Label)markup).Position.Y, Colors.DarkBlue, Colors.Transparent, ((Label)markup).Text);
-                        break;
-                    case MarkupKind.Circle:
-                        DrawCircleMark(drawingSession, ((Circle)markup).Position.X, ((Circle)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
-                        break;
-                    case MarkupKind.Cross:
-                        DrawCrossOutMark(drawingSession, ((Cross)markup).Position.X, ((Cross)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
-                        break;
-                    case MarkupKind.Square:
-                        DrawSquareMark(drawingSession, ((Square)markup).Position.X, ((Square)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
-                        break;
-                    case MarkupKind.Triangle:
-                        DrawTriangleMark(drawingSession, ((Triangle)markup).Position.X, ((Triangle)markup).Position.Y, Colors.DarkBlue, Colors.Transparent);
-                        break;
-                }
-            }
-            else if(tool is IStoneTool)
-            {
-                IStoneTool stoneTool = (IStoneTool)tool;
+                IPlacementTool markupTool = (IPlacementTool)tool;
                 Position pointerPosition = SharedBoardControlState.AnalyzeToolServices.PointerOverPosition;
                 GameTreeNode node = SharedBoardControlState.AnalyzeToolServices.Node;
-
-                var moveResults = stoneTool.GetMoveResults(SharedBoardControlState.AnalyzeToolServices);
-                MoveResult moveResult = moveResults[pointerPosition.X, pointerPosition.Y];
-
-                if(moveResult != MoveResult.Legal)
+                IShadowItem shadowItem = markupTool.GetShadowItem(SharedBoardControlState.AnalyzeToolServices);
+                
+                switch(shadowItem.ShadowItemKind)
                 {
-                    return;
+                    case ShadowItemKind.Label:
+                        DrawLabelMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent, ((Label)shadowItem).Text);
+                        break;
+                    case ShadowItemKind.Circle:
+                        DrawCircleMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case ShadowItemKind.Cross:
+                        DrawCrossOutMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case ShadowItemKind.Square:
+                        DrawSquareMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case ShadowItemKind.Triangle:
+                        DrawTriangleMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        break;
+                    case ShadowItemKind.Stone:
+                        DrawStone(drawingSession, pointerPosition.X, pointerPosition.Y, ((Stone)shadowItem).Color, 0.5);
+                        break;
                 }
-
-                // We must take the oposite of current node
-                StoneColor stoneColor = (node.Move.WhoMoves == StoneColor.White) ? StoneColor.Black : StoneColor.White;
-
-                DrawStone(drawingSession, pointerPosition.X, pointerPosition.Y, stoneColor, 0.5);
             }
         }
 

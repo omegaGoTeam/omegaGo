@@ -1,8 +1,10 @@
 ﻿namespace OmegaGo.Core.Game.Markup
 {
-    public sealed class Label : IMarkup
+    public sealed class Label : IMarkup,IShadowItem
     {
-        public MarkupKind Kind => MarkupKind.Label;
+        public MarkupKind MarkupKind => MarkupKind.Label;
+
+        public ShadowItemKind ShadowItemKind => ShadowItemKind.Label;
 
         public Position Position { get; }
 

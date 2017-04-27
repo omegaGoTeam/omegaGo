@@ -2,7 +2,7 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class SimpleMarkupTool : IMarkupTool
+    public sealed class SimpleMarkupTool : IPlacementTool
     {
         public SimpleMarkupKind Markup { get; }
 
@@ -32,7 +32,7 @@ namespace OmegaGo.Core.Game.Tools
                 markups.AddMarkup<Triangle>(new Triangle(position));
         }
 
-        public IMarkup GetShadowItem(IToolServices toolServices)
+        public IShadowItem GetShadowItem(IToolServices toolServices)
         {
             if (Markup == SimpleMarkupKind.Circle)
                 return new Circle(toolServices.PointerOverPosition);

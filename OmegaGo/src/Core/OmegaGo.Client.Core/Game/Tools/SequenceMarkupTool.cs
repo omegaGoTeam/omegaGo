@@ -2,10 +2,14 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class SequenceMarkupTool : IMarkupTool
+    public sealed class SequenceMarkupTool : IPlacementTool
     {
+        private GameTreeNode _currentNode;
+        private IMarkup _currentMarkup;
+
         public SequenceMarkupKind SequenceMarkup { get; }
         public bool AreMarksAvailable { get; private set; }
+        
 
         public SequenceMarkupTool(SequenceMarkupKind kind)
         {
@@ -35,7 +39,7 @@ namespace OmegaGo.Core.Game.Tools
             }
         }
 
-        public IMarkup GetShadowItem(IToolServices toolService)
+        public IShadowItem GetShadowItem(IToolServices toolService)
         {
             if (SequenceMarkup == SequenceMarkupKind.Letter)
             {

@@ -255,6 +255,10 @@ namespace OmegaGo.Core.Rules
 
                         // add temporarily a stone to board
                         RulesetInfo.GroupState.AddTempStoneToBoard(position, player);
+                        if (RulesetInfo.GroupState.GroupMap[position.X, position.Y] == 0)
+                        {
+                            int a = 0;
+                        }
                         //check selfcapture, ko
                         moveResults[x, y] = CheckSelfCaptureKo(move, history);
                         // remove added stone

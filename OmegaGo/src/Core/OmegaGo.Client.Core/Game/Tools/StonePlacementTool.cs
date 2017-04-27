@@ -1,8 +1,9 @@
-﻿using OmegaGo.Core.Rules;
+﻿using OmegaGo.Core.Game.Markup;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class StonePlacementTool : IStoneTool
+    public sealed class StonePlacementTool : IPlacementTool
     {
         private GameTreeNode _currentNode;
         private MoveResult[,] _moveResults;
@@ -53,15 +54,23 @@ namespace OmegaGo.Core.Game.Tools
             
         }
 
-        public MoveResult[,] GetMoveResults(IToolServices toolService)
+        public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (toolService.Node.Equals(_currentNode))
+            if (!toolService.Node.Equals(_currentNode) || _currentNode==null)
             {
                 _moveResults = toolService.Ruleset.GetMoveResult(toolService.Node);
                 _currentNode = toolService.Node;
             }
 
-            return _moveResults;
+            MoveResult result=_moveResults[toolService.PointerOverPosition.X,toolService.PointerOverPosition.Y];
+            if (result == MoveResult.Legal) {
+                if (_currentNode.Move.WhoMoves == StoneColor.Black)
+                    return new Stone(StoneColor.White, toolService.PointerOverPosition);
+                else if (_currentNode.Move.WhoMoves == StoneColor.White)
+                    return new Stone(StoneColor.Black, toolService.PointerOverPosition); ;
+            }
+
+            return new None();
         }
     }
 }
