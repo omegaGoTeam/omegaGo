@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Game
     /// <summary>
     /// Converting between Game Trees and SGF Game trees
     /// </summary>
+    [Obsolete("This class has been superseeded by converters in GameTreeConversion namespace")]
     public static class GameTreeConverter
     {
         /// <summary>
