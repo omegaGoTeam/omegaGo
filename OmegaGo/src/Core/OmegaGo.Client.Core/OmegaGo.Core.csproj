@@ -292,7 +292,6 @@
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarning.cs" />
     <Compile Include="Sgf\Parsing\Warnings\SgfParseWarningKind.cs" />
     <Compile Include="Sgf\SgfGameInfo.cs" />
-    <Compile Include="Game\GameTreeConverter.cs" />
     <Compile Include="Sgf\SgfGameInfoSearcher.cs" />
     <Compile Include="Sgf\SgfNewLineHandling.cs" />
     <Compile Include="Sgf\SgfSequence.cs" />

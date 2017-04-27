@@ -11,6 +11,11 @@ namespace OmegaGo.Core.Game.GameTreeConversion
     /// </summary>
     public class SgfToGameTreeConversionResult
     {   
+        /// <summary>
+        /// Creates SGF to GameTree conversion result
+        /// </summary>
+        /// <param name="gameInfo">Game info</param>
+        /// <param name="gameTree">Game tree</param>
         public SgfToGameTreeConversionResult( GameInfo gameInfo, GameTree gameTree )
         {
             GameInfo = gameInfo;

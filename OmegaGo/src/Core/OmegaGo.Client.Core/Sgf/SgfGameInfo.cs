@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Sgf.Properties;
 
 namespace OmegaGo.Core.Sgf
@@ -70,6 +71,28 @@ namespace OmegaGo.Core.Sgf
         public SgfProperty WhiteRank => this["WR"];
 
         public SgfProperty WhiteTeam => this["WT"];
+
+        /// <summary>
+        /// Converts the SGF game info to GameInfo
+        /// </summary>
+        /// <returns></returns>
+        public GameInfo ToGameInfo()
+        {
+
+            var whitePlayerInfo = new PlayerInfo(StoneColor.White, PlayerWhite?.Value<string>(),
+                WhiteRank?.Value<string>(), WhiteTeam?.Value<string>());
+            var blackPlayerInfo = new PlayerInfo(StoneColor.Black, PlayerBlack?.Value<string>(),
+                BlackRank?.Value<string>(), BlackTeam?.Value<string>());
+
+            var gameInfo = new GameInfo(whitePlayerInfo, blackPlayerInfo);
+            gameInfo.NumberOfHandicapStones = Handicap?.Value<int>() ?? 0;
+            gameInfo.Komi = Komi?.Value<float>() ?? 0.0f;
+            gameInfo.Name = GameName?.Value<string>() ?? "";
+            gameInfo.Copyright = Copyright?.Value<string>() ?? "";
+            gameInfo.Date = Date?.Value<string>() ?? "";
+            gameInfo.Comment = GameComment?.Value<string>() ?? "";
+            return gameInfo;
+        }
 
         /// <summary>
         /// Retrieves a Game info property by identifier
