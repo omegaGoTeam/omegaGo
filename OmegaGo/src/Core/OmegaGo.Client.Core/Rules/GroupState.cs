@@ -134,10 +134,6 @@ namespace OmegaGo.Core.Rules
             }
 
             _rulesetInfo.BoardState[position.X, position.Y] = color;
-
-            if (GroupMap[position.X, position.Y] == 0) {
-                int a = 5;
-            }            
         }
 
         /// <summary>

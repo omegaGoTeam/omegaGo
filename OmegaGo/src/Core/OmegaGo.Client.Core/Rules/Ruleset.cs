@@ -130,82 +130,85 @@ namespace OmegaGo.Core.Rules
         /// <returns>Object, which contains: the result of legality check, list of prisoners, the new state of game board, the new state of groups.</returns>
         public MoveProcessingResult ProcessMove(GameTreeNode currentNode, Move moveToMake)
         {
-            StoneColor player = moveToMake.WhoMoves;
-            Position position = moveToMake.Coordinates;
-            GameBoard[] history = new GameBoard[0];
-            GroupState previousGroupState, currentGroupState;
-            GameBoard previousBoard, currentBoard;
-            if (currentNode == null)
+            lock (RulesetInfo)
             {
-                previousGroupState = new GroupState(RulesetInfo);
-                currentGroupState = new GroupState(RulesetInfo);
-                previousBoard = new GameBoard(RulesetInfo.BoardSize);
-                currentBoard = new GameBoard(RulesetInfo.BoardSize);
-            }
-            else
-            {
-                history = currentNode.GetGameBoardHistory().ToArray();
-                //set Ruleset state
-                previousGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
-                currentGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
-                previousBoard = new GameBoard(currentNode.BoardState);
-                currentBoard = new GameBoard(currentNode.BoardState);
-            }
-
-            SetRulesetInfo(currentBoard, currentGroupState);
-
-            MoveProcessingResult processingResult = new MoveProcessingResult
-            {
-                Captures = new List<Position>(),
-                NewBoard = previousBoard,
-                NewGroupState = previousGroupState
-            };
-
-            //1. step: check intersection
-            if (moveToMake.Kind == MoveKind.Pass)
-            {
-                processingResult.Result = Pass(currentNode);
-                return processingResult;
-            }
-            else if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
-            {
-                processingResult.Result = MoveResult.OutsideTheBoard;
-                return processingResult;
-            }
-            else if (IsPositionOccupied(position) == MoveResult.OccupiedPosition)
-            {
-                processingResult.Result = MoveResult.OccupiedPosition;
-                return processingResult;
-            }
-            else
-            {
-                //2. step: add stone
-                RulesetInfo.GroupState.AddStoneToBoard(moveToMake.Coordinates, moveToMake.WhoMoves);
-
-                //3. step: find captures and remove prisoners
-                List<int> capturedGroups = CheckCapturedGroups(moveToMake);
-                foreach (int groupID in capturedGroups)
+                StoneColor player = moveToMake.WhoMoves;
+                Position position = moveToMake.Coordinates;
+                GameBoard[] history = new GameBoard[0];
+                GroupState previousGroupState, currentGroupState;
+                GameBoard previousBoard, currentBoard;
+                if (currentNode == null)
                 {
-                    processingResult.Captures.AddRange(RulesetInfo.GroupState.Groups[groupID].Members);
-                    RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
-                }
-
-                //4. step: check selfcapture, ko
-                MoveResult r = CheckSelfCaptureKoSuperko(moveToMake, history);
-
-                if (r == MoveResult.Legal)
-                {
-                    RulesetInfo.GroupState.CountLiberties();
-                    processingResult.NewBoard = currentBoard;
-                    processingResult.NewGroupState = currentGroupState;
+                    previousGroupState = new GroupState(RulesetInfo);
+                    currentGroupState = new GroupState(RulesetInfo);
+                    previousBoard = new GameBoard(RulesetInfo.BoardSize);
+                    currentBoard = new GameBoard(RulesetInfo.BoardSize);
                 }
                 else
                 {
-                    SetRulesetInfo(previousBoard, previousGroupState);
+                    history = currentNode.GetGameBoardHistory().ToArray();
+                    //set Ruleset state
+                    previousGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
+                    currentGroupState = new GroupState(currentNode.GroupState, RulesetInfo);
+                    previousBoard = new GameBoard(currentNode.BoardState);
+                    currentBoard = new GameBoard(currentNode.BoardState);
                 }
 
-                processingResult.Result = r;
-                return processingResult;
+                SetRulesetInfo(currentBoard, currentGroupState);
+
+                MoveProcessingResult processingResult = new MoveProcessingResult
+                {
+                    Captures = new List<Position>(),
+                    NewBoard = previousBoard,
+                    NewGroupState = previousGroupState
+                };
+
+                //1. step: check intersection
+                if (moveToMake.Kind == MoveKind.Pass)
+                {
+                    processingResult.Result = Pass(currentNode);
+                    return processingResult;
+                }
+                else if (IsOutsideTheBoard(position) == MoveResult.OutsideTheBoard)
+                {
+                    processingResult.Result = MoveResult.OutsideTheBoard;
+                    return processingResult;
+                }
+                else if (IsPositionOccupied(position) == MoveResult.OccupiedPosition)
+                {
+                    processingResult.Result = MoveResult.OccupiedPosition;
+                    return processingResult;
+                }
+                else
+                {
+                    //2. step: add stone
+                    RulesetInfo.GroupState.AddStoneToBoard(moveToMake.Coordinates, moveToMake.WhoMoves);
+
+                    //3. step: find captures and remove prisoners
+                    List<int> capturedGroups = CheckCapturedGroups(moveToMake);
+                    foreach (int groupID in capturedGroups)
+                    {
+                        processingResult.Captures.AddRange(RulesetInfo.GroupState.Groups[groupID].Members);
+                        RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
+                    }
+
+                    //4. step: check selfcapture, ko
+                    MoveResult r = CheckSelfCaptureKoSuperko(moveToMake, history);
+
+                    if (r == MoveResult.Legal)
+                    {
+                        RulesetInfo.GroupState.CountLiberties();
+                        processingResult.NewBoard = currentBoard;
+                        processingResult.NewGroupState = currentGroupState;
+                    }
+                    else
+                    {
+                        SetRulesetInfo(previousBoard, previousGroupState);
+                    }
+
+                    processingResult.Result = r;
+                    return processingResult;
+                }
             }
         }
         
@@ -216,57 +219,56 @@ namespace OmegaGo.Core.Rules
         /// <returns>Map of move results.</returns>
         public MoveResult[,] GetMoveResult(GameTreeNode currentNode)
         {
-            MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
-            GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
-            GameBoard boardState = new GameBoard(currentNode.BoardState);
-            GroupState groupState = new GroupState(currentNode.GroupState, RulesetInfo);
-            StoneColor player;
-            
-            if (currentNode.Move.WhoMoves == StoneColor.None)
-                player = StoneColor.White; // TODO Petr: ensure this is actually appropriate in all such situations (probably isn't)
-            else
-                player = currentNode.Move.WhoMoves.GetOpponentColor();
-            
-            for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
-                for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
-                {
-                    //set Ruleset state
-                    SetRulesetInfo(boardState, groupState);
-                    Position position = new Position(x, y);
-                    Move move = Move.PlaceStone(player, position);
+            lock (RulesetInfo)
+            {
+                MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
+                GameBoard[] history = currentNode.GetGameBoardHistory().ToArray();
+                GameBoard boardState = new GameBoard(currentNode.BoardState);
+                GroupState groupState = new GroupState(currentNode.GroupState, RulesetInfo);
+                StoneColor player;
 
-                    if (IsPositionOccupied(position) == MoveResult.OccupiedPosition)
+                if (currentNode.Move.WhoMoves == StoneColor.None)
+                    player = StoneColor.White; // TODO Petr: ensure this is actually appropriate in all such situations (probably isn't)
+                else
+                    player = currentNode.Move.WhoMoves.GetOpponentColor();
+
+                for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
+                    for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
                     {
-                        moveResults[x, y] = MoveResult.OccupiedPosition;
-                    }
-                    else
-                    {
-                        //Find captures and remove prisoners
-                        List<int> capturedGroups = CheckPossiblyCapturedGroups(move);
+                        //set Ruleset state
+                        SetRulesetInfo(boardState, groupState);
+                        Position position = new Position(x, y);
+                        Move move = Move.PlaceStone(player, position);
 
-                        if (capturedGroups.Count != 0)
-                            SetRulesetInfo(new GameBoard(currentNode.BoardState), new GroupState(currentNode.GroupState, RulesetInfo));
-
-                        //remove prisoners
-                        foreach (int groupID in capturedGroups)
+                        if (IsPositionOccupied(position) == MoveResult.OccupiedPosition)
                         {
-                            RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
+                            moveResults[x, y] = MoveResult.OccupiedPosition;
                         }
-
-                        // add temporarily a stone to board
-                        RulesetInfo.GroupState.AddTempStoneToBoard(position, player);
-                        if (RulesetInfo.GroupState.GroupMap[position.X, position.Y] == 0)
+                        else
                         {
-                            int a = 0;
-                        }
-                        //check selfcapture, ko
-                        moveResults[x, y] = CheckSelfCaptureKo(move, history);
-                        // remove added stone
-                        RulesetInfo.GroupState.RemoveTempStoneFromPosition(position);
-                    }
-                }
+                            //Find captures and remove prisoners
+                            List<int> capturedGroups = CheckPossiblyCapturedGroups(move);
 
-            return moveResults;
+                            if (capturedGroups.Count != 0)
+                                SetRulesetInfo(new GameBoard(currentNode.BoardState), new GroupState(currentNode.GroupState, RulesetInfo));
+
+                            //remove prisoners
+                            foreach (int groupID in capturedGroups)
+                            {
+                                RulesetInfo.GroupState.Groups[groupID].DeleteGroup();
+                            }
+
+                            // add temporarily a stone to board
+                            RulesetInfo.GroupState.AddTempStoneToBoard(position, player);
+                            //check selfcapture, ko
+                            moveResults[x, y] = CheckSelfCaptureKo(move, history);
+                            // remove added stone
+                            RulesetInfo.GroupState.RemoveTempStoneFromPosition(position);
+                        }
+                    }
+
+                return moveResults;
+            }
         }
 
         /// <summary>
