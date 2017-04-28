@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Time.None
     /// <summary>
     /// This is the <see cref="TimeInformation"/> subclass for <see cref="NoTimeControl"/>.  
     /// </summary>
-    internal class NoTimeInformation : TimeInformation
+    public class NoTimeInformation : TimeInformation
     {
         public override string MainText => "";
         public override string SubText => "No time limit";

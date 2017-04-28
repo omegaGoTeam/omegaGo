@@ -30,6 +30,8 @@ namespace OmegaGo.Core.Time.Japanese
                 byoyomiPeriodCount, false);
         }
 
+        public int PeriodLength => _byoyomiLengthInSeconds;
+
         public override TimeControlStyle Name => TimeControlStyle.Japanese;
 
         public override void UpdateFromKgsFloat(float secondsLeft)
