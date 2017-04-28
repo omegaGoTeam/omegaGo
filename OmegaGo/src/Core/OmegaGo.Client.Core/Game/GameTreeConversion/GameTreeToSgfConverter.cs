@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Sgf.Properties;
 using OmegaGo.Core.Sgf.Properties.Known;
 using OmegaGo.Core.Sgf.Properties.Values;
@@ -43,15 +44,30 @@ namespace OmegaGo.Core.Game.GameTreeConversion
             var rootGameTree = ProcessNode(_gameTree.GameTreeRoot);
             var rootProperties = GetRootProperties();
             var gameInfoProperties = GetGameInfoProperties();
+
             //modify the root node
             var firstNode = rootGameTree.Sequence.First();
-            var newNode = new SgfNode(rootProperties.Union(gameInfoProperties).Union(firstNode.Properties.Values));
             var newSequenceNodeList = new List<SgfNode>();
-            newSequenceNodeList.Add(newNode);
-            for (int i = 1; i < rootGameTree.Sequence.Count(); i++)
+
+            //check if the first node has a move (mixing move and root properties is not recommended)
+            if (firstNode["B"] != null || firstNode["W"] != null)
             {
-                newSequenceNodeList.Add(rootGameTree.Sequence.Nodes[i]);
+                //create a new first node
+                var newNode = new SgfNode(rootProperties.Union(gameInfoProperties));
+                newSequenceNodeList.Add(newNode);
+                newSequenceNodeList.AddRange(rootGameTree.Sequence);
             }
+            else
+            {
+                //modify first node
+                var newNode = new SgfNode(rootProperties.Union(gameInfoProperties).Union(firstNode.Properties.Values));
+                newSequenceNodeList.Add(newNode);
+                for (int i = 1; i < rootGameTree.Sequence.Count(); i++)
+                {
+                    newSequenceNodeList.Add(rootGameTree.Sequence.Nodes[i]);
+                }
+            }
+
             return new SgfGameTree(new SgfSequence(newSequenceNodeList), rootGameTree.Children);
         }
 
@@ -98,6 +114,12 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 properties.Add(new SgfCommentProperty(node.Comment));
             }
 
+            //setup properties
+            properties.AddRange(GetSetupProperties(node));
+
+            //markup properties
+            properties.AddRange(GetMarkupProperties(node));
+
             return new SgfNode(properties);
         }
 
@@ -119,6 +141,44 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Gets setup properties from node
+        /// </summary>
+        /// <param name="node">Node</param>
+        /// <returns>Setup properties</returns>
+        private IEnumerable<SgfProperty> GetSetupProperties(GameTreeNode node)
+        {
+            List<SgfProperty> properties = new List<SgfProperty>();
+            if (node.AddBlack.Count > 0)
+            {
+                //add black
+                properties.Add(new SgfAddBlackProperty(ConvertPositionsToPointRectangles(node.AddBlack)));
+            }
+            if (node.AddWhite.Count > 0)
+            {
+                //add white
+                properties.Add( new SgfAddWhiteProperty(ConvertPositionsToPointRectangles(node.AddWhite)));
+            }
+            return properties;
+        }
+
+        /// <summary>
+        /// Gets markup properties from node
+        /// </summary>
+        /// <param name="node">Node</param>
+        /// <returns>Markup properties</returns>
+        private IEnumerable<SgfProperty> GetMarkupProperties(GameTreeNode node)
+        {
+            List<SgfProperty> properties = new List<SgfProperty>();
+
+            foreach (var arrow in node.Markups.GetMarkups<Arrow>())
+            {
+                
+            }
+
+            return properties;
         }
 
         /// <summary>
@@ -158,9 +218,15 @@ namespace OmegaGo.Core.Game.GameTreeConversion
         {
             if (positions == null || positions.Length == 0) return null;
 
-            var pointRectangles = SgfPointRectangle.CompressPoints(positions.Select(p => Position.ToSgfPoint(p, _gameInfo.BoardSize)).ToArray());
+            var pointRectangles = ConvertPositionsToPointRectangles(positions);
             return new SgfProperty(identifier,
                 pointRectangles.Select(pr => new SgfPointRectangleValue(pr)).ToArray<ISgfPropertyValue>());
+        }
+
+        private SgfPointRectangle[] ConvertPositionsToPointRectangles(IEnumerable<Position> positions)
+        {
+            return SgfPointRectangle.CompressPoints(positions.Select(p => Position.ToSgfPoint(p, _gameInfo.BoardSize))
+                .ToArray());
         }
     }
 }
