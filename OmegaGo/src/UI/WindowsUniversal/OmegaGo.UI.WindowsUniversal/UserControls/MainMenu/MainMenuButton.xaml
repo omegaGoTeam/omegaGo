@@ -18,10 +18,11 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="Button.HorizontalAlignment" Value="Stretch" />
-                        <Setter Target="Button.Height" Value="80" />
+                        <Setter Target="Button.Height" Value="70" />
                         <Setter Target="RelativeContainer.Orientation" Value="Horizontal" />
                         <Setter Target="IconContent.Width" Value="24" />
                         <Setter Target="IconContent.Height" Value="24" />
+                        <Setter Target="Button.Margin" Value="12,6,12,6" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -36,6 +37,7 @@
                         <Setter Target="IconContent.Height" Value="64" />
                         <Setter Target="TextContent.FontSize" Value="20" />
                         <Setter Target="TextArea.Height" Value="70" />
+                        <Setter Target="Button.Margin" Value="12" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

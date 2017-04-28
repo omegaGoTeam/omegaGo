@@ -1643,6 +1643,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Time exceeded</source>
           <target state="translated">Čas vypršel</target>
         </trans-unit>
+        <trans-unit id="Feedback" translate="yes" xml:space="preserve">
+          <source>Feedback</source>
+          <target state="new">Feedback</target>
+        </trans-unit>
       </group>
     </body>
   </file>

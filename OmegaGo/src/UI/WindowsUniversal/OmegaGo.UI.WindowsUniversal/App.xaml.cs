@@ -81,7 +81,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
                 //setup the title bar
-                SetupTitleBar();
+                await SetupTitleBarAsync();
                 InitializeStyle();
             }
             CoreApplication.EnablePrelaunch(true);
@@ -121,25 +121,26 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <summary>
         /// Sets up the application title bar design
         /// </summary>
-        private void SetupTitleBar()
+        private async Task SetupTitleBarAsync()
         {
             //setup the custom title bar in app shell
             AppShell.GetForCurrentView().SetupCustomTitleBar();
 
-            SetupStatusBar();
+            await SetupStatusBarAsync();
         }
 
         /// <summary>
         /// Sets up the status bar design
         /// </summary>
-        private void SetupStatusBar()
+        private async Task SetupStatusBarAsync()
         {
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
+                StatusBar statusBar = StatusBar.GetForCurrentView();                
                 statusBar.BackgroundOpacity = 1;
                 statusBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
                 statusBar.ForegroundColor = Colors.Black;
+                await statusBar.HideAsync();
             }
         }
 
