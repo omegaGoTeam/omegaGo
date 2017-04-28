@@ -7,6 +7,7 @@ using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf;
+using OmegaGo.Core.Sgf.Properties.Values;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
 namespace OmegaGo.Core.Game.GameTreeConversion
@@ -19,38 +20,43 @@ namespace OmegaGo.Core.Game.GameTreeConversion
         /// <summary>
         /// Input SGF collection
         /// </summary>
-        private readonly SgfCollection _collection;
-
-        public SgfToGameTreeConverter(SgfCollection collection)
-        {
-            _collection = collection;
-        }
+        private readonly SgfGameTree _inputTree;
 
         /// <summary>
-        /// Converter for a single game tree
+        /// Converter for a game tree
         /// </summary>
         /// <param name="gameTree">SGF Game Tree</param>
-        public SgfToGameTreeConverter(SgfGameTree gameTree) : this(new SgfCollection(new[] { gameTree }))
+        public SgfToGameTreeConverter(SgfGameTree gameTree)
         {
+            _inputTree = gameTree;
         }
 
         /// <summary>
         /// Converts the input collection to GameTrees with their respective GameInfos
         /// </summary>
         /// <returns>Converted trees</returns>
-        public IEnumerable<SgfToGameTreeConversionResult> Convert()
+        public SgfToGameTreeConversionResult Convert()
         {
-            List<SgfToGameTreeConversionResult> results = new List<SgfToGameTreeConversionResult>();
-            foreach (var tree in _collection)
-            {
-                var gameInfo = FindGameInfo(tree);
-                var gameTree = ConvertTree(tree);
-                //set board size
-                gameInfo.BoardSize = gameTree.BoardSize;
-                var conversionResult = new SgfToGameTreeConversionResult(gameInfo, gameTree);
-                results.Add(conversionResult);
-            }
-            return results;
+            var gameInfo = FindGameInfo(_inputTree);
+            var applicationInfo = FindApplicationInfo();
+            var gameTree = ConvertTree(_inputTree);
+            //set board size
+            gameInfo.BoardSize = gameTree.BoardSize;
+            return new SgfToGameTreeConversionResult(applicationInfo, gameInfo, gameTree);
+        }
+
+        /// <summary>
+        /// Finds application info
+        /// </summary>
+        /// <returns>Application info</returns>
+        private ApplicationInfo FindApplicationInfo()
+        {
+            var values =
+                _inputTree.GetPropertyInSequence("AP")
+                    ?.PropertyValues.First() as SgfComposePropertyValue<string, string>;
+            string name = values?.LeftValue ?? "";
+            string version = values?.RightValue ?? "";
+            return new ApplicationInfo(name, version);
         }
 
         /// <summary>
@@ -71,8 +77,8 @@ namespace OmegaGo.Core.Game.GameTreeConversion
         /// <param name="tree">SGF game tree</param>
         /// <returns>Game tree root</returns>
         private GameTree ConvertTree(SgfGameTree tree)
-        {            
-            var boardSizeInt = tree.GetRootProperty<int>("SZ");
+        {
+            var boardSizeInt = tree.GetPropertyInSequence("SZ")?.Value<int>() ?? 19;
             if (boardSizeInt == 0) boardSizeInt = 19;
             GameBoardSize boardSize = new GameBoardSize(boardSizeInt);
             var converted = ConvertBranch(tree, boardSize);
@@ -89,7 +95,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                     node.FillBoardState(ruleset);
                 }
             });
-            var gameTree = new GameTree(new ChineseRuleset(boardSize), boardSize) {GameTreeRoot = converted};
+            var gameTree = new GameTree(new ChineseRuleset(boardSize), boardSize) { GameTreeRoot = converted };
             return gameTree;
         }
 
@@ -208,7 +214,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 foreach (var position in positions)
                 {
                     targetNode.Markups.AddMarkup(
-                            new Circle(position));                    
+                            new Circle(position));
                 }
             }
             if (sourceNode[dimPoint] != null)
@@ -256,7 +262,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 foreach (var position in positions)
                 {
                     targetNode.Markups.AddMarkup(
-                            new Cross(position));                   
+                            new Cross(position));
                 }
             }
             if (sourceNode[selected] != null)
