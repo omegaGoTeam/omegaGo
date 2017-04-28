@@ -36,8 +36,8 @@ namespace OmegaGo.Core.Game
         internal static Position FromSgfPoint(SgfPoint sgfPoint, GameBoardSize size) => 
             new Position(sgfPoint.Column, size.Height - sgfPoint.Row - 1);
 
-        internal static SgfPoint ToSgfPoint(Position position, GameBoardSize size) => 
-            new SgfPoint(position.X, size.Height - position.Y - 1);
+        internal SgfPoint ToSgfPoint( GameBoardSize size) => 
+            new SgfPoint(X, size.Height - Y - 1);
 
         /// <summary>
         /// Gets or sets the letter-based coordinate that is usually put first (e.g. the "C" in "C6"). It is zero-based, i.e. it would be "2" for C6.

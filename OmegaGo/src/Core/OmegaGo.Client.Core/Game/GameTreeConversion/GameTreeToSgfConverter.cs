@@ -135,9 +135,9 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 switch (node.Move.WhoMoves)
                 {
                     case StoneColor.Black:
-                        return new SgfProperty("B", new SgfPointValue(Position.ToSgfPoint(node.Move.Coordinates, _gameInfo.BoardSize)));
+                        return new SgfProperty("B", new SgfPointValue(node.Move.Coordinates.ToSgfPoint( _gameInfo.BoardSize)));
                     case StoneColor.White:
-                        return new SgfProperty("W", new SgfPointValue(Position.ToSgfPoint(node.Move.Coordinates, _gameInfo.BoardSize)));
+                        return new SgfProperty("W", new SgfPointValue(node.Move.Coordinates.ToSgfPoint( _gameInfo.BoardSize)));
                 }
             }
             return null;
@@ -159,7 +159,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
             if (node.AddWhite.Count > 0)
             {
                 //add white
-                properties.Add( new SgfAddWhiteProperty(ConvertPositionsToPointRectangles(node.AddWhite)));
+                properties.Add(new SgfAddWhiteProperty(ConvertPositionsToPointRectangles(node.AddWhite)));
             }
             return properties;
         }
@@ -175,15 +175,54 @@ namespace OmegaGo.Core.Game.GameTreeConversion
 
             var arrows = node.Markups.GetMarkups<Arrow>()
                 .Select(ar => new SgfComposeValue<SgfPoint, SgfPoint>(
-                    Position.ToSgfPoint(ar.From, _gameInfo.BoardSize),
-                    Position.ToSgfPoint(ar.To, _gameInfo.BoardSize))).ToArray();
+                    ar.From.ToSgfPoint(_gameInfo.BoardSize),
+                    ar.To.ToSgfPoint(_gameInfo.BoardSize))).ToArray();
             if (arrows.Any())
             {
                 properties.Add(new SgfArrowProperty(arrows));
             }
 
-            
-            
+            var circles = node.Markups.GetMarkups<Circle>().
+                Select(c => c.Position).ToArray();
+            properties.AddIfNotNull(ConvertSgfPointRectangleProperty("CR", circles));
+
+            var dimPoints = node.Markups.GetMarkups<AreaDim>().
+                Select(dp => new SgfPointRectangle(dp.From.ToSgfPoint(_gameInfo.BoardSize), dp.To.ToSgfPoint(_gameInfo.BoardSize))).
+                ToArray();
+
+            if (dimPoints.Any())
+            {
+                properties.Add(new SgfDimPointProperty(dimPoints));
+            }
+
+            var labels = node.Markups.GetMarkups<Label>().
+                Select(l => new SgfComposeValue<SgfPoint, string>(l.Position.ToSgfPoint(_gameInfo.BoardSize), l.Text)).
+                ToArray();
+            if (labels.Any())
+            {
+                properties.Add(new SgfLabelProperty(labels));
+            }
+
+            var lines = node.Markups.GetMarkups<Line>().
+                Select(l => new SgfComposeValue<SgfPoint, SgfPoint>(l.From.ToSgfPoint(_gameInfo.BoardSize), l.To.ToSgfPoint(_gameInfo.BoardSize))).
+                ToArray();
+
+            if(lines.Any())
+            {
+                properties.Add(new SgfLineProperty(lines));
+            }
+
+            var crosses = node.Markups.GetMarkups<Cross>().
+                Select(c => c.Position).ToArray();
+            properties.AddIfNotNull(ConvertSgfPointRectangleProperty("MA", crosses));
+
+            var squares = node.Markups.GetMarkups<Square>().
+                Select(s => s.Position).ToArray();
+            properties.AddIfNotNull(ConvertSgfPointRectangleProperty("SQ", squares));
+
+            var triangles = node.Markups.GetMarkups<Triangle>().
+                 Select(s => s.Position).ToArray();
+            properties.AddIfNotNull(ConvertSgfPointRectangleProperty("TR", triangles));
 
             return properties;
         }
@@ -232,7 +271,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
 
         private SgfPointRectangle[] ConvertPositionsToPointRectangles(IEnumerable<Position> positions)
         {
-            return SgfPointRectangle.CompressPoints(positions.Select(p => Position.ToSgfPoint(p, _gameInfo.BoardSize))
+            return SgfPointRectangle.CompressPoints(positions.Select(p => p.ToSgfPoint( _gameInfo.BoardSize))
                 .ToArray());
         }
     }
