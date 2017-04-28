@@ -17,41 +17,38 @@ namespace OmegaGo.UI.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class HelpViewModel : ViewModelBase
     {
-        /// <summary>
-        /// List of all help items
-        /// </summary>
-        private readonly List<HelpPage> _helpItems;
 
         /// <summary>
         /// Stores the selected help item
         /// </summary>
-        private HelpPage _selectedHelpItem;
+        private HelpPageMenuItem _selectedHelpItem;
         
         /// <summary>
         /// Creates the View Model
         /// </summary>
         public HelpViewModel()
         {
-            _helpItems = HelpPage.CreateAllHelpPages();
-            SelectedHelpItem = _helpItems[0];
-        }        
+            HelpItems = new ObservableCollection<HelpPageMenuItem>(HelpPage.CreateAllHelpPages()
+                .Select((hp, id) => new HelpPageMenuItem(id + 1, hp)));
+            SelectedHelpItem = HelpItems[0];
+        }
 
         /// <summary>
         /// Enumerates all help items
         /// </summary>
-        public IEnumerable<HelpPage> HelpItems => _helpItems;
+        public ObservableCollection<HelpPageMenuItem> HelpItems { get; }
 
         /// <summary>
         /// Currently selected help item
         /// </summary>
-        public HelpPage SelectedHelpItem
+        public HelpPageMenuItem SelectedHelpItem
         {
             get
             {
                 return _selectedHelpItem;
             }
             set
-            {
+            {                
                 SetProperty(ref _selectedHelpItem, value);
             }
         }
