@@ -201,7 +201,9 @@ namespace OmegaGo.Core.Game.GameTreeConversion
 
                 foreach (var arrowDefinition in arrowDefinitions)
                 {
-                    targetNode.Markups.AddMarkup(new Arrow(Position.FromSgfPoint(arrowDefinition.Left, boardSize), Position.FromSgfPoint(arrowDefinition.Right, boardSize)));
+                    var fromPoint = Position.FromSgfPoint(arrowDefinition.Left, boardSize);
+                    var toPoint = Position.FromSgfPoint(arrowDefinition.Right, boardSize);
+                    targetNode.Markups.AddMarkup(new Arrow(fromPoint, toPoint));
                 }
             }
             if (sourceNode[circle] != null)
@@ -267,7 +269,8 @@ namespace OmegaGo.Core.Game.GameTreeConversion
             }
             if (sourceNode[selected] != null)
             {
-                // Add selected                
+                // Add selected     
+                // TODO Vita : This is not implemented?
             }
             if (sourceNode[square] != null)
             {

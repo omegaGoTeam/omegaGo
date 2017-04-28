@@ -30,7 +30,7 @@ namespace OmegaGo.Core.Sgf.Serializing
         {
             if (sgfCollection == null) throw new ArgumentNullException(nameof(sgfCollection));
 
-            return SerializeCollection(sgfCollection);
+            return SerializeCollection(sgfCollection).Trim();
         }
 
         /// <summary>

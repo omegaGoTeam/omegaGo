@@ -173,10 +173,17 @@ namespace OmegaGo.Core.Game.GameTreeConversion
         {
             List<SgfProperty> properties = new List<SgfProperty>();
 
-            foreach (var arrow in node.Markups.GetMarkups<Arrow>())
+            var arrows = node.Markups.GetMarkups<Arrow>()
+                .Select(ar => new SgfComposeValue<SgfPoint, SgfPoint>(
+                    Position.ToSgfPoint(ar.From, _gameInfo.BoardSize),
+                    Position.ToSgfPoint(ar.To, _gameInfo.BoardSize))).ToArray();
+            if (arrows.Any())
             {
-                
+                properties.Add(new SgfArrowProperty(arrows));
             }
+
+            
+            
 
             return properties;
         }
