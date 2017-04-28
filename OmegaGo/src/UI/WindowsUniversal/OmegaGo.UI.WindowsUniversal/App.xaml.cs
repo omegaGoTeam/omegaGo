@@ -163,16 +163,16 @@ namespace OmegaGo.UI.WindowsUniversal
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
-
             switch (controlStyle)
             {
-                case ControlStyle.Wood:
+                case ControlStyle.Wood:                    
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
                     break;
                 case ControlStyle.Lite:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
                     break;
                 case ControlStyle.OperatingSystem:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["OperatingSystemButtonStyle"]);
                     break;
             }
         }
