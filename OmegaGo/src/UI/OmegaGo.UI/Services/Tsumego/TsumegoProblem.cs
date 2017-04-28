@@ -51,7 +51,7 @@ namespace OmegaGo.UI.Services.Tsumego
         public GameTreeNode SpawnThisProblem()
         {
             var treeRoot = new SgfToGameTreeConverter(SgfGameTree).
-                Convert().FirstOrDefault().
+                Convert().
                 GameTree.GameTreeRoot;
             treeRoot.ForAllDescendants((node) => node.Branches, node =>
             {

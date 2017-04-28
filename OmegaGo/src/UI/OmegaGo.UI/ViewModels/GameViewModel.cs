@@ -22,6 +22,12 @@ using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.AI;
 using OmegaGo.Core.Online.Common;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using OmegaGo.Core;
+using OmegaGo.Core.Game.GameTreeConversion;
+using OmegaGo.Core.Sgf;
+using OmegaGo.Core.Sgf.Serializing;
+using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.ViewModels
@@ -36,8 +42,10 @@ namespace OmegaGo.UI.ViewModels
         
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseStartHandlers;
         private readonly Dictionary<GamePhaseType, Action<IGamePhase>> _phaseEndHandlers;
-
+ 
         private GamePhaseType _gamePhase;
+
+        private ICommand _exportSGFCommand = null;
 
         public GameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
@@ -68,12 +76,19 @@ namespace OmegaGo.UI.ViewModels
         
         public IGame Game => _game;
         public ObservableCollection<string> Log { get; } = new ObservableCollection<string>();
-        
+
+        public ICommand ExportSGFCommand => _exportSGFCommand ??
+                                               (_exportSGFCommand = new MvxAsyncCommand(ExportSGF));
+
+
         protected IGameSettings GameSettings => _gameSettings;
+
         protected IDialogService DialogService => _dialogService;
+
         protected UiConnector UiConnector => _uiConnector;
+
         protected IQuestsManager QuestsManager => _questsManager;
-       
+
         public BoardViewModel BoardViewModel
         {
             get;
@@ -85,7 +100,8 @@ namespace OmegaGo.UI.ViewModels
             get { return _gamePhase; }
             set { SetProperty(ref _gamePhase, value); }
         }
-        
+
+
         ////////////////
         // Initial setup overrides      
         ////////////////
@@ -100,10 +116,11 @@ namespace OmegaGo.UI.ViewModels
 
         }
 
+
         ////////////////
         // State Changes      
         ////////////////
-      
+
         protected virtual void OnGameEnded(GameEndInformation endInformation)
         {
 
@@ -128,7 +145,7 @@ namespace OmegaGo.UI.ViewModels
         {
 
         }
-        
+
         protected virtual void OnGamePhaseChanged(GamePhaseChangedEventArgs phaseState)
         {
             if (phaseState.PreviousPhase != null)
@@ -157,7 +174,7 @@ namespace OmegaGo.UI.ViewModels
             //    BoardViewModel.BoardControlState.ShowTerritory = false;
             //}
         }
-        
+
         public virtual void Unload()
         {
             //TODO Petr : IMPLEMENT this, but using some ordinary flow like EndGame (it can be part of the IGS Game Controller logic)
@@ -171,7 +188,7 @@ namespace OmegaGo.UI.ViewModels
         ////////////////
         // Game View Model Services      
         ////////////////
-        
+
         protected void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
@@ -215,7 +232,23 @@ namespace OmegaGo.UI.ViewModels
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Exports SGF
+        /// </summary>
+        /// <returns></returns>
+        private Task ExportSGF()
+        {
+            GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
+                new ApplicationInfo("omegaGo", "1"),
+                Game.Info,
+                Game.Controller.GameTree);
+            var sgfGameTree = converter.Convert();
+            string serializedSGF = new SgfSerializer(true).Serialize(new SgfCollection(new []{sgfGameTree}));
+            Debug.WriteLine(serializedSGF);
+            return Task.FromResult((object) null);
+        }
+
         ////////////////
         // Debugging      
         ////////////////

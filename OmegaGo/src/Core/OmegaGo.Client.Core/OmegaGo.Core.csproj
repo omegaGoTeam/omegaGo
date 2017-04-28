@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
+    <Compile Include="ApplicationInfo.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
     <Compile Include="Game\GameInfo.cs" />
@@ -262,6 +263,8 @@
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Helpers\SgfPointCompressor.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
+    <Compile Include="Sgf\Properties\Known\NoTypePropertyTypes.cs" />
+    <Compile Include="Sgf\Properties\Known\RootPropertyTypes.cs" />
     <Compile Include="Sgf\Properties\SgfKnownProperties.cs" />
     <Compile Include="Sgf\Properties\SgfValueMultiplicity.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValueParser.cs" />

@@ -31,6 +31,20 @@ namespace OmegaGo.Core.Extensions
                 list[k] = list[n];
                 list[n] = value;
             }
-        }  
+        }
+
+        /// <summary>
+        /// Adds item into collection if it is not null
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="list">List</param>
+        /// <param name="addedItem">Added item</param>
+        public static void AddIfNotNull<T>(this IList<T> list, T addedItem) where T : class
+        {
+            if (addedItem != null)
+            {
+                list.Add(addedItem);
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Sgf
         /// <summary>
         /// Nodes in the SGF sequence
         /// </summary>
-        public IEnumerable<SgfNode> Nodes { get; }
+        public IReadOnlyList<SgfNode> Nodes { get; }
 
         /// <summary>
         /// Gets the generic sequence's nodes enumerator

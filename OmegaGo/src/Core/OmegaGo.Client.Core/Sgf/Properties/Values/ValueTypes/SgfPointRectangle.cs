@@ -74,7 +74,7 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
 
         public static bool operator !=(SgfPointRectangle left, SgfPointRectangle right) => !(left == right);
 
-        public static SgfPointRectangle[] CompressPoints(SgfPoint[] points)
+        public static SgfPointRectangle[] CompressPoints(params SgfPoint[] points)
         {
             return new SgfPointCompressor(points).CompressPoints();
         }
