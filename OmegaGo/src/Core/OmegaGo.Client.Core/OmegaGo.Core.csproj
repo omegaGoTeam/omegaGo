@@ -263,8 +263,10 @@
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Helpers\SgfPointCompressor.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
+    <Compile Include="Sgf\Properties\Known\MarkupPropertyTypes.cs" />
     <Compile Include="Sgf\Properties\Known\NoTypePropertyTypes.cs" />
     <Compile Include="Sgf\Properties\Known\RootPropertyTypes.cs" />
+    <Compile Include="Sgf\Properties\Known\SetupPropertyTypes.cs" />
     <Compile Include="Sgf\Properties\SgfKnownProperties.cs" />
     <Compile Include="Sgf\Properties\SgfValueMultiplicity.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValueParser.cs" />

@@ -27,6 +27,7 @@ using OmegaGo.Core;
 using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Serializing;
+using OmegaGo.UI.Services.AppPackage;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Services.Localization;
 
@@ -239,8 +240,9 @@ namespace OmegaGo.UI.ViewModels
         /// <returns></returns>
         private Task ExportSGF()
         {
+            var appPackage = Mvx.Resolve<IAppPackageService>();
             GameTreeToSgfConverter converter = new GameTreeToSgfConverter(
-                new ApplicationInfo("omegaGo", "1"),
+                new ApplicationInfo(appPackage.AppName, appPackage.Version),
                 Game.Info,
                 Game.Controller.GameTree);
             var sgfGameTree = converter.Convert();
