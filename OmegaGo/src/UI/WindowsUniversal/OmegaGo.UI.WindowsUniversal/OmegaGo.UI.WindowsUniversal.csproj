@@ -119,6 +119,7 @@
     <Compile Include="Infrastructure\Tabbed\Tab.cs" />
     <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
     <Compile Include="Infrastructure\Tabbed\TabProvider.cs" />
+    <Compile Include="Services\AppPackage\AppPackageService.cs" />
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
