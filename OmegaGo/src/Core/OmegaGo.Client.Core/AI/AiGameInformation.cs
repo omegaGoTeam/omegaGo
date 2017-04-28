@@ -32,13 +32,13 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Related AI player
         /// </summary>
-        public GamePlayer AiPlayer { get; set; }
+        public GamePlayer AiPlayer { get; }
 
         /// <summary>
         /// Game info
         /// </summary>
-        public GameInfo GameInfo { get; set; }
-
+        public GameInfo GameInfo { get; }
+        
         /// <summary>
         /// The player whose turn it is. The AI will make a move for this player.
         /// </summary>

@@ -85,7 +85,7 @@
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
-    <Compile Include="Services\EmbeddedResourceReading.cs" />
+    <Compile Include="Services\Help\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Feedback\IFeedbackService.cs" />
     <Compile Include="Services\Files\IAppPackageFileService.cs" />
@@ -153,7 +153,6 @@
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Timer\ITimer.cs" />
     <Compile Include="Services\Timer\ITimerService.cs" />
-    <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\ITsumegoProblemsLoader.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemDefinition.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemInfo.cs" />
@@ -187,7 +186,6 @@
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

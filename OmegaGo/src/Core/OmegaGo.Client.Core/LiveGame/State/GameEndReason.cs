@@ -25,7 +25,7 @@
         /// <summary>
         /// The game was cancelled without a result, perhaps because the server
         /// decided that it will be so or because it was a local game that was aborted
-        /// by user without result.
+        /// by user without result, or perhaps because the user just exited the game.
         /// </summary>
         Cancellation
     }

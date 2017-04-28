@@ -88,16 +88,15 @@ namespace OmegaGo.Core.Online.Igs
         public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
         {
             var igsGameInfo = (IgsGameInfo)remoteInfo;
-            await UndoAsync(igsGameInfo);
+            await MakeRequestAsync("undo " + igsGameInfo.IgsIndex);
 
         }
 
         public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
         {
             var igsGameInfo = (IgsGameInfo)remoteInfo;
-            NoUndo(igsGameInfo);
+            this.igsConnection.MakeUnattendedRequest("noundo " + igsGameInfo.IgsIndex);
             return CompletedTask;
-
         }
 
         public async Task UnobserveAsync(RemoteGameInfo remoteInfo)
@@ -388,16 +387,6 @@ namespace OmegaGo.Core.Online.Igs
         public async Task UndoPleaseAsync(IgsGameInfo game)
         {
             await MakeRequestAsync("undoplease " + game.IgsIndex);
-        }
-
-        public async Task UndoAsync(IgsGameInfo game)
-        {
-            await MakeRequestAsync("undo " + game.IgsIndex);
-        }
-
-        public void NoUndo(IgsGameInfo game)
-        {
-            this.igsConnection.MakeUnattendedRequest("noundo " + game.IgsIndex);
         }
 
 
