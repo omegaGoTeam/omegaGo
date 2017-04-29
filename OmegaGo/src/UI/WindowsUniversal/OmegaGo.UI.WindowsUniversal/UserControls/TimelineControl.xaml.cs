@@ -158,7 +158,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             if (node == ViewModel.SelectedTimelineNode)
             {
-                drawingSession.DrawEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, Colors.DarkBlue, NODEHIGHLIGHTSTROKE);
+                drawingSession.DrawEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, Colors.Tomato, NODEHIGHLIGHTSTROKE);
             }
 
             Vector2 lineStart = new Vector2(

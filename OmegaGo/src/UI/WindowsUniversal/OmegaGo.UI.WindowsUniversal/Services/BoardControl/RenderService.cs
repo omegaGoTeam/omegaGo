@@ -581,7 +581,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private void DrawAnalyzeToolShadow(CanvasDrawingSession drawingSession, ITool tool)
         {
-            if(tool is IPlacementTool)
+            Color markupColor = Color.FromArgb(255, 66, 24, 5);
+            if (tool is IPlacementTool)
             {
                 IPlacementTool markupTool = (IPlacementTool)tool;
                 Position pointerPosition = SharedBoardControlState.AnalyzeToolServices.PointerOverPosition;
@@ -591,19 +592,19 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 switch(shadowItem.ShadowItemKind)
                 {
                     case ShadowItemKind.Label:
-                        DrawLabelMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent, ((Label)shadowItem).Text);
+                        DrawLabelMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent, ((Label)shadowItem).Text);
                         break;
                     case ShadowItemKind.Circle:
-                        DrawCircleMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        DrawCircleMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent);
                         break;
                     case ShadowItemKind.Cross:
-                        DrawCrossOutMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        DrawCrossOutMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent);
                         break;
                     case ShadowItemKind.Square:
-                        DrawSquareMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        DrawSquareMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent);
                         break;
                     case ShadowItemKind.Triangle:
-                        DrawTriangleMark(drawingSession, pointerPosition.X, pointerPosition.Y, Colors.DarkBlue, Colors.Transparent);
+                        DrawTriangleMark(drawingSession, pointerPosition.X, pointerPosition.Y, markupColor, Colors.Transparent);
                         break;
                     case ShadowItemKind.Stone:
                         DrawStone(drawingSession, pointerPosition.X, pointerPosition.Y, ((Stone)shadowItem).Color, 0.5);
@@ -614,7 +615,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         private void DrawMarkups(CanvasDrawingSession drawingSession, MarkupInfo markupInfo)
         {
-            Color markupColor = Colors.DarkBlue;
+            Color markupColor = Colors.Maroon;
             Color backgroundColor = Colors.Transparent;
 
             //backgroundColor.A = 0xBB;
@@ -691,8 +692,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     _cellSize * y + cellSizeHalf), 
                 _cellSize * 0.4f, 
                 _cellSize * 0.4f,
-                color, 
-                3);
+                color, 3);
         }
 
         private void DrawCrossOutMark(CanvasDrawingSession session, int x, int y, Color color, Color background)
