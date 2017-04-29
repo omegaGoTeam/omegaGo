@@ -218,22 +218,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         }
 
         /// <summary>
-        /// Initiates back navigation
-        /// </summary>
-        /// <returns>Was back navigation handled?</returns>
-        public bool GoBack()
-        {
-            if (UnderlyingFrame.CanGoBack)
-            {
-                var view = UnderlyingFrame.Content as ViewBase;
-                var vm = view?.ViewModel as ViewModelBase;
-                vm?.GoBackCommand.Execute(null);
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
         /// Gets or sets if the app shell is in focus mode
         /// </summary>
         public bool FocusModeOn
@@ -329,11 +313,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void BackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (GoBack())
-            {
-                //prevent navigation from the app
-                e.Handled = true;
-            }
+            //let the tab manager handle global back navigation
+            TabManager.HandleGlobalBackNavigation();
+            //prevent navigation from the app
+            e.Handled = true;           
         }
 
         /// <summary>
