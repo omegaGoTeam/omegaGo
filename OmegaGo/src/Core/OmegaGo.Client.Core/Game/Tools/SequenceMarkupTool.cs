@@ -22,20 +22,19 @@ namespace OmegaGo.Core.Game.Tools
             Position position = toolService.PointerOverPosition;
             MarkupInfo markups = toolService.Node.Markups;
 
+            MarkupKind markupKindOnPosition = markups.RemoveMarkupOnPosition(position);
+
             if (SequenceMarkup == SequenceMarkupKind.Letter)
             {
                 char letter = markups.GetSmallestUnusedLetter();
-                if (letter != '0')
-                {
-                    markups.RemoveMarkupOnPosition(position);
+                if (letter != '0' && markupKindOnPosition!= MarkupKind.Label)
                     markups.AddMarkup<Label>(new Label(position, letter.ToString()));
-                }
             }
             else
             {
                 int number = markups.GetSmallestUnusedNumber();
-                markups.RemoveMarkupOnPosition(position);
-                markups.AddMarkup<Label>(new Label(position, number.ToString()));
+                if (markupKindOnPosition != MarkupKind.Label)
+                    markups.AddMarkup<Label>(new Label(position, number.ToString()));
             }
         }
 
