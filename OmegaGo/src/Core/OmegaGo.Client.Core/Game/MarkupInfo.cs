@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Game.Markup;
+using OmegaGo.Core.Game.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,75 @@ namespace OmegaGo.Core.Game
             return MarkupKind.None;
         }
 
+        public string[,] FillSequenceShadowMap(GameBoardSize boardSize, SequenceMarkupKind kind)
+        {
+            string shadow;
+            string[,] shadows = new string[boardSize.Width, boardSize.Height];
+            if (kind == SequenceMarkupKind.Letter)
+                shadow = GetSmallestUnusedLetter().ToString();
+            else
+                shadow = GetSmallestUnusedNumber().ToString();
+
+            for (int x = 0; x < boardSize.Width; x++)
+                for (int y = 0; y < boardSize.Height; y++)
+                    shadows[x, y] = shadow;
+
+            foreach (var label in GetMarkups<Label>())
+                shadows[label.Position.X, label.Position.Y] = "r";
+
+            return shadows;    
+        }
+
+        public char[,] FillSimpleShadowMap(GameBoardSize boardSize, SimpleMarkupKind kind)
+        {
+            char[,] shadows = new char[boardSize.Width, boardSize.Height];
+
+            switch (kind)
+            {
+                case SimpleMarkupKind.Circle:
+                    {
+                        for (int x = 0; x < boardSize.Width; x++)
+                            for (int y = 0; y < boardSize.Height; y++)
+                                shadows[x, y] = 'c';
+
+                        foreach (var circle in GetMarkups<Circle>())
+                            shadows[circle.Position.X, circle.Position.Y] = 'r';
+                    }
+                    return shadows;
+                case SimpleMarkupKind.Cross:
+                    {
+                        for (int x = 0; x < boardSize.Width; x++)
+                            for (int y = 0; y < boardSize.Height; y++)
+                                shadows[x, y] = 'x';
+
+                        foreach (var cross in GetMarkups<Cross>())
+                            shadows[cross.Position.X, cross.Position.Y] = 'r';
+                    }
+                    return shadows;
+                case SimpleMarkupKind.Square:
+                    {
+                        for (int x = 0; x < boardSize.Width; x++)
+                            for (int y = 0; y < boardSize.Height; y++)
+                                shadows[x, y] = 's';
+
+                        foreach (var square in GetMarkups<Square>())
+                            shadows[square.Position.X, square.Position.Y] = 'r';
+                    }
+                    return shadows;
+                case SimpleMarkupKind.Triangle:
+                    {
+                        for (int x = 0; x < boardSize.Width; x++)
+                            for (int y = 0; y < boardSize.Height; y++)
+                                shadows[x, y] = 't';
+
+                        foreach (var triangle in GetMarkups<Triangle>())
+                            shadows[triangle.Position.X, triangle.Position.Y] = 'r';
+                    }
+                    return shadows;
+            }
+
+            return shadows;
+        }
         public char GetSmallestUnusedLetter()
         {
             bool[] isLetterUsed = new bool[26];

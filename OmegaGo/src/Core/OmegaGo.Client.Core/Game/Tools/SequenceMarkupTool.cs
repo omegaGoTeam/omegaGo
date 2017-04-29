@@ -4,17 +4,13 @@ namespace OmegaGo.Core.Game.Tools
 {
     public sealed class SequenceMarkupTool : IPlacementTool
     {
-        private GameTreeNode _currentNode;
-        private IMarkup _currentMarkup;
+        private string[,] _shadows;
 
         public SequenceMarkupKind SequenceMarkup { get; }
-        public bool AreMarksAvailable { get; private set; }
         
-
         public SequenceMarkupTool(SequenceMarkupKind kind)
         {
             SequenceMarkup = kind;
-            AreMarksAvailable = false;
         }
 
         public void Execute(IToolServices toolService)
@@ -36,31 +32,20 @@ namespace OmegaGo.Core.Game.Tools
                 if (markupKindOnPosition != MarkupKind.Label)
                     markups.AddMarkup<Label>(new Label(position, number.ToString()));
             }
+
+            _shadows = toolService.Node.Markups.FillSequenceShadowMap(toolService.GameTree.BoardSize, SequenceMarkup);
         }
 
         public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (SequenceMarkup == SequenceMarkupKind.Letter)
-            {
-                char letter = toolService.Node.Markups.GetSmallestUnusedLetter();
-                if (letter != '0')
-                {
-                    AreMarksAvailable = true;
-                    return new Label(toolService.PointerOverPosition, letter.ToString());
-                }
-                else
-                {
-                    AreMarksAvailable = false;
-                }
-            }
+            if (_shadows == null)
+                _shadows = toolService.Node.Markups.FillSequenceShadowMap(toolService.GameTree.BoardSize, SequenceMarkup);
+            
+            string labelText=_shadows[toolService.PointerOverPosition.X, toolService.PointerOverPosition.Y];
+            if (labelText.Equals("r") || labelText.Equals("0"))
+                return new None();
             else
-            {
-                int number = toolService.Node.Markups.GetSmallestUnusedNumber();
-                AreMarksAvailable = true;
-                return new Label(toolService.PointerOverPosition, number.ToString());
-            }
-
-            return null;
+                return new Label(toolService.PointerOverPosition, labelText);            
         }
     }
 }
