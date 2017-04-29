@@ -30,6 +30,10 @@ namespace OmegaGo.UI.ViewModels
         {
             HelpItems = new ObservableCollection<HelpPageMenuItem>(HelpPage.CreateAllHelpPages()
                 .Select((hp, id) => new HelpPageMenuItem(id + 1, hp)));
+        }
+
+        public void Init()
+        {
             SelectedHelpItem = HelpItems[0];
         }
 

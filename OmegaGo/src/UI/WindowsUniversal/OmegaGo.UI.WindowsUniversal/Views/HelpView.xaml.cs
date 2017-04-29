@@ -1,6 +1,7 @@
 ﻿using OmegaGo.UI.ViewModels;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
