@@ -2,17 +2,27 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
+    /// <summary>
+    /// Sequence markup tools (Letter, Number) place a label(kind of markup) on the board. 
+    /// If the intersection contains a label, the tool removes it.    
+    /// </summary>
     public sealed class SequenceMarkupTool : IPlacementTool
     {
+        /// <summary>
+        /// Map of shadow items.
+        /// </summary>
         private string[,] _shadows;
 
-        public SequenceMarkupKind SequenceMarkup { get; }
-        
         public SequenceMarkupTool(SequenceMarkupKind kind)
         {
             SequenceMarkup = kind;
         }
 
+        /// <summary>
+        /// Type of label (Letter, Number)
+        /// </summary>
+        public SequenceMarkupKind SequenceMarkup { get; }
+        
         public void Execute(IToolServices toolService)
         {
             Position position = toolService.PointerOverPosition;

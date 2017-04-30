@@ -2,15 +2,26 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
+    /// <summary>
+    /// Simple markup tools (Circle, Cross, Square, Triangle) place a shape(markup) on the board. 
+    /// If the intersection contains a markup, the tool removes or changes it (depends on the type of selected tool and markup on the position).    
+    /// </summary>
     public sealed class SimpleMarkupTool : IPlacementTool
     {
+        /// <summary>
+        /// Map of shadow items.
+        /// </summary>
         private char[,] _shadows;
-        public SimpleMarkupKind SimpleMarkup { get; }
-
+        
         public SimpleMarkupTool(SimpleMarkupKind markupKind)
         {
             SimpleMarkup = markupKind;
         }
+
+        /// <summary>
+        /// Type of markup (Circle, Cross, Square, Triangle)
+        /// </summary>
+        public SimpleMarkupKind SimpleMarkup { get; }
 
         public void Execute(IToolServices toolService)
         {
@@ -56,6 +67,12 @@ namespace OmegaGo.Core.Game.Tools
             return new None();
         }
 
+        /// <summary>
+        /// Indicates whether the given markups have the same type.
+        /// </summary>
+        /// <param name="simpleMarkupKind">Markup kind.</param>
+        /// <param name="markupKind">Other markup kind.</param>
+        /// <returns>True, if the type of given markups equals.</returns>
         private bool IsMarkupEqual(SimpleMarkupKind simpleMarkupKind, MarkupKind markupKind)
         {
             switch(simpleMarkupKind)

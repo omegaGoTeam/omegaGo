@@ -2,7 +2,10 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public class DeleteBranchTool : ITool
+    /// <summary>
+    /// Removes the selected node and its children. Nodes in the primary timeline cannot be deleted.
+    /// </summary>
+    public sealed class DeleteBranchTool : ITool
     {
         public void Execute(IToolServices toolService)
         {

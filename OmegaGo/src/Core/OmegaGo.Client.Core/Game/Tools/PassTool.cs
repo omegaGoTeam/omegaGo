@@ -2,6 +2,10 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
+    /// <summary>
+    /// Using this tool the player can make a pass. 
+    /// In analyze mode, the pass move creates a new game tree node and doesn't use the ruleset.
+    /// </summary>
     public sealed class PassTool : ITool
     {
         public void Execute(IToolServices toolService)

@@ -3,9 +3,19 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game.Tools
 {
+    /// <summary>
+    /// Places a stone of a color that's different from the current nodes's move color. 
+    /// </summary>
     public sealed class StonePlacementTool : IPlacementTool
     {
+        /// <summary>
+        /// Contains the last processed node.
+        /// </summary>
         private GameTreeNode _currentNode;
+        
+        /// <summary>
+        /// Contains the results of possible moves based on the board state in _currentNode.
+        /// </summary>
         private MoveResult[,] _moveResults;
 
         public StonePlacementTool(GameBoardSize boardSize)
