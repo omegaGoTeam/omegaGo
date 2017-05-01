@@ -19,6 +19,7 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
         <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
     </Page.Resources>
 
@@ -113,16 +114,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!--<CommandBar Grid.Column="0" Grid.Row="0"
-                    Grid.ColumnSpan="3" 
-                    Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top">
-            <AppBar.Background>
-                <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-            </AppBar.Background>
-
-            <AppBarButton Content="" />
-        </CommandBar>-->
-
         <ScrollViewer x:Name="layoutScroller" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid   x:Name="layoutGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -146,8 +137,6 @@
                                    VerticalAlignment="Stretch" />
 
                     <Button x:Name="controlMenuButton"
-                            Grid.Column="0" Grid.Row="0"
-                            Grid.ColumnSpan="3"
                             HorizontalAlignment="Right" VerticalAlignment="Top"
                             Margin="5">
                         <FontIcon Glyph="&#xE700;"
@@ -157,6 +146,8 @@
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Text="Chat" />
                                 <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
                                 <MenuFlyoutSeparator />
@@ -175,8 +166,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -187,21 +176,21 @@
                         <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" Margin="10" />
                         <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" Margin="10" />
 
+
                         <StackPanel x:Name="analyzeModeCommand"
-                                    Grid.Row="4" Grid.ColumnSpan="2"
-                                    Margin="10">
+                                    Grid.Row="2" Grid.ColumnSpan="2"
+                                    Margin="10"
+                                    Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}"
-                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
                             <controls:TimelineControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}"
-                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
                         </StackPanel>
 
 
-                        <ListView x:Name="systemLog" Grid.Row="5"
+                        <ListView x:Name="systemLog" Grid.Row="3"
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2"
                                   Margin="10" Height="400"
@@ -223,11 +212,14 @@
                         </ListView>
                     </Grid>
                 </ScrollViewer>
-
             </Grid>
         </ScrollViewer>
 
-        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="0">
+        <Border x:Name="gameTimeline"
+                Grid.Row="2" Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                BorderBrush="Black" BorderThickness="1"
+                Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>

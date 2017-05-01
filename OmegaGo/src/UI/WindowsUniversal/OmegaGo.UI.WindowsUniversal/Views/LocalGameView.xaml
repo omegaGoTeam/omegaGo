@@ -171,8 +171,6 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -183,89 +181,88 @@
                         <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" Margin="10" />
                         <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" Margin="10" />
 
-                        
-                        <StackPanel x:Name="handicapCommands" Orientation="Vertical" 
-                                Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
-                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5" />
-                            <Grid HorizontalAlignment="Stretch" >
+                        <Grid x:Name="normalGameCommands"
+                              Grid.Row="2" Grid.ColumnSpan="2"
+                              HorizontalAlignment="Stretch"
+                              Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock x:Name="instructionCaptionText" 
+                                   Grid.Row="0" Margin="10" 
+                                   Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" 
+                                   TextWrapping="Wrap" TextAlignment="Center"
+                                   Style="{ThemeResource TitleTextBlockStyle}" />
+
+                            <Grid   x:Name="handicapCommands" 
+                                    Grid.Row="1" Margin="10"
+                                    Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Button Grid.Column="0" Margin="5"
-                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
-                                    HorizontalAlignment="Stretch"
-                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                                        Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                        HorizontalAlignment="Stretch"
+                                        Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                                 <Button Grid.Column="1" Margin="5"
-                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
-                                    HorizontalAlignment="Stretch"
-                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                                        Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                        HorizontalAlignment="Stretch"
+                                        Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                             </Grid>
-                        </StackPanel>
 
-                        
-                        <StackPanel x:Name="mainCommands" Orientation="Vertical" 
-                                Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
-                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"/>
-                            <Grid HorizontalAlignment="Stretch" >
+
+                            <Grid   x:Name="mainCommands"
+                                    Grid.Row="1" Margin="10"
+                                    Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="1*" />
                                 </Grid.ColumnDefinitions>
 
                                 <Button Grid.Column="0" Margin="5"
-                                    Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
-                                    HorizontalAlignment="Stretch"
-                                    Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                                        Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
+                                        HorizontalAlignment="Stretch"
+                                        Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                                 <Button Grid.Column="1" Margin="5"
-                                    Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
-                                    HorizontalAlignment="Stretch"
-                                    Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                                        Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
+                                        HorizontalAlignment="Stretch"
+                                        Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                             </Grid>
-                        </StackPanel>
 
-                        
-                        <StackPanel x:Name="lifeAndDeathCommands"
-                                Grid.Row="3" Grid.ColumnSpan="2" Margin="10"
-                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource lifeAndDeathPhaseVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                            <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
-                            <Button Margin="5" 
-                                Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
-                            <Button Margin="5" 
-                                Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
-                            <Button Margin="5" 
-                                Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
-                        </StackPanel>
 
-                        
-                        <StackPanel x:Name="finishedCommands"
-                                Grid.Row="3" Grid.ColumnSpan="2" Margin="10"
-                                Visibility="{x:Bind VM.GamePhase, Converter={StaticResource finishedVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        </StackPanel>
+                            <StackPanel x:Name="lifeAndDeathCommands"
+                                        Grid.Row="1" Margin="10"
+                                        Visibility="{x:Bind VM.GamePhase, Converter={StaticResource lifeAndDeathPhaseVisibilityConverter}, Mode=OneWay}">
+                                <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
+                                <Button Margin="5" 
+                                        Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
+                                <Button Margin="5" 
+                                        Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
+                                <Button Margin="5" 
+                                        Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </Grid>
 
-                        
+
                         <StackPanel x:Name="analyzeModeCommand"
-                                    Grid.Row="4" Grid.ColumnSpan="2"
-                                    Margin="10">
+                                    Grid.Row="2" Grid.ColumnSpan="2"
+                                    Margin="10"
+                                    Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
-                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}"
-                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
                             <controls:TimelineControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}"
-                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
                         </StackPanel>
 
-                        
-                        <ListView x:Name="systemLog" Grid.Row="5"
-                                  Grid.Column="0"
-                                  Grid.ColumnSpan="2"
+
+                        <ListView x:Name="systemLog" 
+                                  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                   Margin="10" Height="400"
                                   Visibility="{x:Bind VM.IsSystemLogEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"
                                   Background="White" Foreground="Black"
@@ -285,12 +282,14 @@
                         </ListView>
                     </Grid>
                 </ScrollViewer>
-                
             </Grid>
         </ScrollViewer>
 
-        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" 
-                Grid.Row="2" Grid.Column="0">
+        <Border x:Name="gameTimeline"
+                Grid.Row="2" Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                BorderBrush="Black" BorderThickness="1"
+                Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>

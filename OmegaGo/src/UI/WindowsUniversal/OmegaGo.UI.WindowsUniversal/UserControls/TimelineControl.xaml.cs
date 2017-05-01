@@ -85,7 +85,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 (_timelineDepth + 1) * NODESIZE +
                 (_timelineDepth + 1) * NODESPACING +
                 2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for left and right
-
+            
             canvas.Width = desiredSize.Width;
             canvas.Height = desiredSize.Height;
 
@@ -94,14 +94,18 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         
         private void TimelineRedrawRequsted(object sender, EventArgs e)
         {
-            // TODO are both neccessary?
+            // New node could could had been added, in which case the neccessary space could change
             this.InvalidateMeasure();
+
+            // If the desired size had not changed - issue redraw request anyway
             canvas.Invalidate();
+
+            // This will not result in two draws.
         }
 
         private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (ViewModel?.GameTree != null && ViewModel?.GameTree?.GameTreeRoot != null)
+            if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot != null)
             {
                 args.DrawingSession.Transform = Matrix3x2.CreateTranslation(NODEHIGHLIGHTSTROKE, NODEHIGHLIGHTSTROKE);
                 int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
