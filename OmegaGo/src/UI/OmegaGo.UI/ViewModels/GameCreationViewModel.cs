@@ -33,7 +33,6 @@ namespace OmegaGo.UI.ViewModels
         // Backing fields
         private bool _isHandicapFixed = true;
         private int _handicap;
-        private float _compensation;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
         private RulesetType _selectedRuleset = RulesetType.Chinese;
         private string _formTitle = "";

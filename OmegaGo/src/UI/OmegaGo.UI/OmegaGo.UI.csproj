@@ -163,7 +163,6 @@
     <Compile Include="UserControls\ViewModels\BoardViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ChatViewModel.cs" />
     <Compile Include="UserControls\ViewModels\ControlViewModelBase.cs" />
-    <Compile Include="UserControls\ViewModels\DebugBarViewModel.cs" />
     <Compile Include="UserControls\ViewModels\IgsLoginForm.cs" />
     <Compile Include="UserControls\ViewModels\KgsLoginForm.cs" />
     <Compile Include="UserControls\ViewModels\LoginFormViewModel.cs" />
