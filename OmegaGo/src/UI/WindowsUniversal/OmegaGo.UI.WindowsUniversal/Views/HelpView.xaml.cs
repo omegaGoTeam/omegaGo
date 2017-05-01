@@ -1,6 +1,8 @@
 ﻿using OmegaGo.UI.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using OmegaGo.UI.Services;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
@@ -21,6 +23,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void OpenCloseHelp(object sender, RoutedEventArgs e)
         {
             this.HelpSplitView.IsPaneOpen = !this.HelpSplitView.IsPaneOpen;
+        }
+
+        private async void WebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        {
         }
     }
 }
