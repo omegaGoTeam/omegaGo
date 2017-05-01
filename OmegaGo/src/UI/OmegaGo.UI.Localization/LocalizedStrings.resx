@@ -1307,4 +1307,40 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Exit_ReturnToGame" xml:space="preserve">
     <value>Return to game</value>
   </data>
+  <data name="TimeControl_AbsoluteSubtext" xml:space="preserve">
+    <value>No overtime available</value>
+  </data>
+  <data name="TimeControl_AbsoluteTooltip" xml:space="preserve">
+    <value>When your time elapses, you lose.</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextByoyomi" xml:space="preserve">
+    <value>{0}/{1} remaining ({2} mins/period)</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextMain" xml:space="preserve">
+    <value>Main (+{0}/{1}min)</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipByoyomi" xml:space="preserve">
+    <value>"A/B remaining (C mins/period)" means that you have to make A more moves or lose. When you make those moves, you will have C more minutes to make B moves again.</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipMain" xml:space="preserve">
+    <value>After your main time elapses, you will have to make {0} moves per {1} minutes.</value>
+  </data>
+  <data name="TimeControl_JapaneseSubtext" xml:space="preserve">
+    <value>+{0} x {1}s</value>
+  </data>
+  <data name="TimeControl_JapaneseTooltip" xml:space="preserve">
+    <value>"+A x Bs" means that after your current time elapses, you will still have A periods of B seconds each to make moves. If you don't use an entire period, it is not expended at all.</value>
+  </data>
+  <data name="TimeControl_NoneSubtext" xml:space="preserve">
+    <value>No time limit</value>
+  </data>
+  <data name="TimeControl_NoneTooltip" xml:space="preserve">
+    <value>This game is not timed.</value>
+  </data>
+  <data name="TimeControl_TimeExceeded" xml:space="preserve">
+    <value>Time exceeded</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
 </root>

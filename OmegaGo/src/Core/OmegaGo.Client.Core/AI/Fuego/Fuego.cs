@@ -24,31 +24,28 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private bool _initialized;
         private bool SendAllAiOutputToLog = true;
         private bool SendDebuggingInformationToLogToo = true;
-
-        /// <summary>
-        ///     Capabilities of the AI
-        /// </summary>
+        
         public override AICapabilities Capabilities => new AICapabilities(false, true, 2, 19, true);
 
         /// <summary>
-        ///     Allows resigning
+        /// Indicates whether Fuego is permitted to resign in hopeless situations in non-handicap games.
         /// </summary>
         public bool AllowResign { get; set; }
 
         /// <summary>
-        ///     Maximum number of games
+        /// Gets or sets the maximum number of playouts Fuego tries before offering a move.
         /// </summary>
         public int MaxGames { get; set; }
 
         /// <summary>
-        ///     Pondering
+        /// Indicates whether Fuego should be thinking during its opponent's turn.
         /// </summary>
         public bool Ponder { get; set; }
 
         /// <summary>
-        ///     Requests a move from Fuego AI
+        ///     Requests a move from Fuego 
         /// </summary>
-        /// <param name="gameInformation">Information about the requested move</param>
+        /// <param name="gameInformation">Information about the requested move and the game</param>
         /// <returns>Decision</returns>
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
@@ -107,6 +104,11 @@ namespace OmegaGo.Core.AI.FuegoSpace
             return moveDecision;
         }
 
+        /// <summary>
+        /// Sends a GTP command to the GTP engine.
+        /// </summary>
+        /// <param name="command">The command, including arguments.</param>
+        /// <returns></returns>
         public GtpResponse SendCommand(string command)
         {
             var output = this._engine.SendCommand(command);
@@ -117,7 +119,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             }
             return output;
         }
-
+        
         public override AIDecision GetHint(AiGameInformation gameInformation)
         {
             var result = RequestMove(gameInformation);

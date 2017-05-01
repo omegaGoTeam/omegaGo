@@ -7,7 +7,7 @@ using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Absolute
 {
-    class AbsoluteTimeInformation : TimeInformation
+    public class AbsoluteTimeInformation : TimeInformation
     {
         public TimeSpan RemainingMainTime { get; }
         public AbsoluteTimeInformation(TimeSpan remainingTime)
@@ -15,7 +15,8 @@ namespace OmegaGo.Core.Time.Absolute
             RemainingMainTime = remainingTime;
         }
 
-        public override string MainText => RemainingMainTime > TimeSpan.Zero ? RemainingMainTime.ToCountdownString() : "Time exceeded";
+        public override string MainText
+            => RemainingMainTime > TimeSpan.Zero ? RemainingMainTime.ToCountdownString() : "00:00";
         public override string SubText => "No overtime available!";
         public override TimeControlStyle Style => TimeControlStyle.Absolute;
     }

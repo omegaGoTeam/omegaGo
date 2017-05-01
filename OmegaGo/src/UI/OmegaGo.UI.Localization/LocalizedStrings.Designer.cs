@@ -942,6 +942,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Feedback.
+        /// </summary>
+        public static string Feedback {
+            get {
+                return ResourceManager.GetString("Feedback", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by source.
         /// </summary>
         public static string FilterBySource {
@@ -2927,6 +2936,105 @@ namespace OmegaGo.UI.Localization {
         public static string TimeControl {
             get {
                 return ResourceManager.GetString("TimeControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No overtime available.
+        /// </summary>
+        public static string TimeControl_AbsoluteSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_AbsoluteSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When your time elapses, you lose..
+        /// </summary>
+        public static string TimeControl_AbsoluteTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_AbsoluteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}/{1} remaining ({2} mins/period).
+        /// </summary>
+        public static string TimeControl_CanadianSubtextByoyomi {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianSubtextByoyomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main (+{0}/{1}min).
+        /// </summary>
+        public static string TimeControl_CanadianSubtextMain {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianSubtextMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;A/B remaining (C mins/period)&quot; means that you have to make A more moves or lose. When you make those moves, you will have C more minutes to make B moves again..
+        /// </summary>
+        public static string TimeControl_CanadianTooltipByoyomi {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianTooltipByoyomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After your main time elapses, you will have to make {0} moves per {1} minutes..
+        /// </summary>
+        public static string TimeControl_CanadianTooltipMain {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianTooltipMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0} x {1}s.
+        /// </summary>
+        public static string TimeControl_JapaneseSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_JapaneseSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;+A x Bs&quot; means that after your current time elapses, you will still have A periods of B seconds each to make moves. If you don&apos;t use an entire period, it is not expended at all..
+        /// </summary>
+        public static string TimeControl_JapaneseTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_JapaneseTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No time limit.
+        /// </summary>
+        public static string TimeControl_NoneSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_NoneSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This game is not timed..
+        /// </summary>
+        public static string TimeControl_NoneTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_NoneTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time exceeded.
+        /// </summary>
+        public static string TimeControl_TimeExceeded {
+            get {
+                return ResourceManager.GetString("TimeControl_TimeExceeded", resourceCulture);
             }
         }
         

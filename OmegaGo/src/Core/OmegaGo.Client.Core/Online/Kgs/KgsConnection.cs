@@ -40,7 +40,6 @@ namespace OmegaGo.Core.Online.Kgs
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
         public string Username => _username;
-        private string _password;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
@@ -58,10 +57,10 @@ namespace OmegaGo.Core.Online.Kgs
         };
         public KgsConnection()
         {
-            this.Commands = new Kgs.KgsCommands(this);
+            this.Commands = new KgsCommands(this);
             this.Events = new KgsEvents();
             this.Interrupts = new KgsInterrupts(this);
-            this.Data = new Kgs.KgsData(this);
+            this.Data = new KgsData(this);
             var handler = new HttpClientHandler() { CookieContainer = cookieContainer };
             this._httpClient = new HttpClient(handler);
 
@@ -140,14 +139,12 @@ namespace OmegaGo.Core.Online.Kgs
         public async Task<bool> LoginAsync(string name, string password)
         {
             this._username = name;
-            this._password = password;
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
                 StartGetLoop();
             }
             this._username = name;
-            this._password = password;
             if (LoggedIn) return true;
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
@@ -187,7 +184,7 @@ namespace OmegaGo.Core.Online.Kgs
             var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(Uri, jsonContent);
-            return new Kgs.PostRequestResult(
+            return new PostRequestResult(
                 result.IsSuccessStatusCode,
                 result.ReasonPhrase
                 );
@@ -208,7 +205,7 @@ namespace OmegaGo.Core.Online.Kgs
             JObject jo = JObject.FromObject(data, Serializer);
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
-            var kgsRequest = new Kgs.KgsRequest(possibleResponseTypes);
+            var kgsRequest = new KgsRequest(possibleResponseTypes);
             requestsAwaitingResponse.Add(kgsRequest);
             Events.RaiseOutgoingRequest(contents);
             PostRequestResult postResult = await SendPostRequest(contents);
@@ -279,8 +276,11 @@ namespace OmegaGo.Core.Online.Kgs
 
     class PostRequestResult
     {
-        public bool Successful;
-        public string ErrorReason;
+        public bool Successful { get; }
+        /// <summary>
+        /// We assume POST requests will generally be successful. This property is for debugging reasons.
+        /// </summary>
+        public string ErrorReason { get; }
         public PostRequestResult(bool success, string error)
         {
             Successful = success;

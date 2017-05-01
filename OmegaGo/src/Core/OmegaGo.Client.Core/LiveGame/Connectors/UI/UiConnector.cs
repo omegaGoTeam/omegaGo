@@ -31,6 +31,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 #pragma warning restore CS0067
+
         /// <summary>
         ///     Occurs when any AI involved in the game sends a line of information to the user interface.
         /// </summary>

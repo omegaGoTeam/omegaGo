@@ -58,6 +58,7 @@
     <Compile Include="Controls\Styles\ControlStyle.cs" />
     <Compile Include="Controls\Themes\AppTheme.cs" />
     <Compile Include="Converters\BoolDoubleConverter.cs" />
+    <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumSelectionConverter.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
-    <Compile Include="Services\EmbeddedResourceReading.cs" />
+    <Compile Include="Services\Help\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Feedback\IFeedbackService.cs" />
     <Compile Include="Services\Files\IAppPackageFileService.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Services\GameCreation\SoloBundle.cs" />
     <Compile Include="Services\GameCreation\TotalMasteryBundle.cs" />
     <Compile Include="Services\Help\HelpPage.cs" />
+    <Compile Include="Services\Help\HelpPageMenuItem.cs" />
     <Compile Include="Services\Localization\GameEndTranslator.cs" />
     <Compile Include="Services\Localization\GameLanguage.cs" />
     <Compile Include="Services\Localization\GameLanguages.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Services\Localization\LocalizationService.cs" />
     <Compile Include="Services\Localization\LocalizedMetadata\AiProgramLocalizedMetadata.cs" />
     <Compile Include="Services\Localization\Localizer.cs" />
+    <Compile Include="Services\Localization\TimeControlTranslator.cs" />
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
     <Compile Include="Services\Online\Connections.cs" />
@@ -153,7 +156,6 @@
     <Compile Include="Services\Settings\TsumegoSettings.cs" />
     <Compile Include="Services\Timer\ITimer.cs" />
     <Compile Include="Services\Timer\ITimerService.cs" />
-    <Compile Include="Services\Tsumego\ExampleTsumegoProblem.cs" />
     <Compile Include="Services\Tsumego\ITsumegoProblemsLoader.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemDefinition.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblemInfo.cs" />
@@ -186,7 +188,6 @@
     <Compile Include="ViewModels\TsumegoViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\GameCreationViewModel.cs" />
-    <Compile Include="ViewModels\GameOldViewModel.cs" />
     <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="ViewModels\MainMenuViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

@@ -255,7 +255,7 @@ namespace OmegaGo.Core.Online.Igs
                                     this.GamesYouHaveOpened.Where(
                                         gi =>
                                             gi.Controller.Phase.Type ==
-                                            Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination))
+                                            GamePhaseType.LifeDeathDetermination))
                             {
                                 GetConnector(game.Info).ForceLifeDeathUndoDeathMarks();
                             }
@@ -421,7 +421,7 @@ namespace OmegaGo.Core.Online.Igs
 
                     GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);
-                    Modes.LiveGame.Remote.Igs.IgsGameBuilder builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
+                    var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
                     bool youAreBlack = ogi.Black.Name == _username;
                     bool youAreWhite = ogi.White.Name == _username;
                     if (youAreBlack)

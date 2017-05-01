@@ -20,14 +20,14 @@ namespace OmegaGo.Core.Modes.LiveGame
         private readonly TBuilderType _concreteBuilderInstance;
 
         private float _komi = 0.5f;
-        private int _handicap = 0;
+        private int _handicap;
         private RulesetType _rulesetType = RulesetType.Japanese;
         private GameBoardSize _boardSize = new GameBoardSize(19);
         private CountingType _countingType = Rules.CountingType.Area;
         private HandicapPlacementType _handicapPlacementType = Phases.HandicapPlacement.HandicapPlacementType.Fixed;
 
-        private GamePlayer _whitePlayer = null;
-        private GamePlayer _blackPlayer = null;
+        private GamePlayer _whitePlayer;
+        private GamePlayer _blackPlayer;
 
         protected GameBuilder()
         {

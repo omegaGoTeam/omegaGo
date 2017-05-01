@@ -1,7 +1,6 @@
 using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
-using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Structures;
 

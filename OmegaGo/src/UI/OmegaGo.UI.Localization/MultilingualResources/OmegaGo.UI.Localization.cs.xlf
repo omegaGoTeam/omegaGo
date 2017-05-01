@@ -1599,6 +1599,54 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Return to game</source>
           <target state="translated">Vrátit se do hry</target>
         </trans-unit>
+        <trans-unit id="TimeControl_AbsoluteSubtext" translate="yes" xml:space="preserve">
+          <source>No overtime available</source>
+          <target state="translated">Přesčas není možný</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_AbsoluteTooltip" translate="yes" xml:space="preserve">
+          <source>When your time elapses, you lose.</source>
+          <target state="translated">Když váš čas uplyne, prohrajete.</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_CanadianSubtextByoyomi" translate="yes" xml:space="preserve">
+          <source>{0}/{1} remaining ({2} mins/period)</source>
+          <target state="translated">{0}/{1} zbývá (pak {2} min)</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_CanadianSubtextMain" translate="yes" xml:space="preserve">
+          <source>Main (+{0}/{1}min)</source>
+          <target state="translated">Hlavní čas (+{0}/{1}min)</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_CanadianTooltipByoyomi" translate="yes" xml:space="preserve">
+          <source>"A/B remaining (C mins/period)" means that you have to make A more moves or lose. When you make those moves, you will have C more minutes to make B moves again.</source>
+          <target state="translated">"A/B zbývá (pak C mins)" znamená, že musíte udělat A tahů nebo prohrajete. Až tyto tahy uděláte, budete mít C dalších minut na B dalších tahů.</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_CanadianTooltipMain" translate="yes" xml:space="preserve">
+          <source>After your main time elapses, you will have to make {0} moves per {1} minutes.</source>
+          <target state="translated">Jakmile uplyne hlavní čas, budete mít {1} minut na {0} tahů.</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_JapaneseSubtext" translate="yes" xml:space="preserve">
+          <source>+{0} x {1}s</source>
+          <target state="translated">+{0} x {1}s</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_JapaneseTooltip" translate="yes" xml:space="preserve">
+          <source>"+A x Bs" means that after your current time elapses, you will still have A periods of B seconds each to make moves. If you don't use an entire period, it is not expended at all.</source>
+          <target state="translated">"+A x Bs" znamená, že až uplyne váš současný čas, budete mít ještě A period po B sekundách. Pokud periodu nepoužijete celou, neuplyne z ní žádný čas.</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_NoneSubtext" translate="yes" xml:space="preserve">
+          <source>No time limit</source>
+          <target state="translated">Žádný časový limit</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_NoneTooltip" translate="yes" xml:space="preserve">
+          <source>This game is not timed.</source>
+          <target state="translated">Tato hra nemá časový limit.</target>
+        </trans-unit>
+        <trans-unit id="TimeControl_TimeExceeded" translate="yes" xml:space="preserve">
+          <source>Time exceeded</source>
+          <target state="translated">Čas vypršel</target>
+        </trans-unit>
+        <trans-unit id="Feedback" translate="yes" xml:space="preserve">
+          <source>Feedback</source>
+          <target state="new">Feedback</target>
+        </trans-unit>
       </group>
     </body>
   </file>

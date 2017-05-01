@@ -104,6 +104,7 @@
     <Compile Include="Extensions\Xaml\WebViewHtmlBinding.cs" />
     <Compile Include="Helpers\Device\DeviceFamily.cs" />
     <Compile Include="Helpers\Device\DeviceFamilyHelper.cs" />
+    <Compile Include="Helpers\UI\VisualSettings.cs" />
     <Compile Include="Helpers\UI\VisualTreeExtensions.cs" />
     <Compile Include="Helpers\Files\StorageHelpers.cs" />
     <Compile Include="Infrastructure\AppShell.xaml.cs">

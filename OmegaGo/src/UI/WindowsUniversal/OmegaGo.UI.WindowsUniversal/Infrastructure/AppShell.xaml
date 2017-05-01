@@ -90,7 +90,7 @@
                     
                 </Grid>
                 <StackPanel Grid.Column="1" x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
-                    <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xE939;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
+                    <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xED15;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />
                     <Grid Width="0" x:Name="RightTitleBarMask"/>
                 </StackPanel>
             </Grid>

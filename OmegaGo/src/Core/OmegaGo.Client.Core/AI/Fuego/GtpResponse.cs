@@ -18,6 +18,7 @@
         /// In general, we assume all GTP commands to be successful, since the commands we use may only fail if the command itself
         /// is malformed, and we sanitize user input. This property exists for debugging purposes.
         /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool Successful { get; }
 
         /// <summary>

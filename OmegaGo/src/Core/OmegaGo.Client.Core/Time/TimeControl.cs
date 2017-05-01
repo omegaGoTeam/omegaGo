@@ -104,7 +104,7 @@ namespace OmegaGo.Core.Time
         /// <summary>
         ///     Determines whether the player has exceeded their time and should lose.
         /// </summary>
-        internal bool IsViolating()
+        public bool IsViolating()
         {
             return IsViolating(this.Running
                 ? DateTime.Now - this.LastTimeClockStarted
