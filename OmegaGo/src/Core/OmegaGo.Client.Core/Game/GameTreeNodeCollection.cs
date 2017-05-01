@@ -35,6 +35,21 @@ namespace OmegaGo.Core.Game
             node.Parent = _owner;
         }
 
+        public void Insert(int index, GameTreeNode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            if (node.Parent != null)
+                throw new ArgumentException("Given node already has a parent", nameof(node));
+
+            if (index > Count)
+                throw new ArgumentOutOfRangeException(nameof(index), $"Cannot insert a node at the given index: {index} as the number of current nodes is smaller.");
+
+            _nodes.Insert(index, node);
+            node.Parent = _owner;
+        }
+
         public bool RemoveNode( GameTreeNode node )
         {
             if ( node == null )

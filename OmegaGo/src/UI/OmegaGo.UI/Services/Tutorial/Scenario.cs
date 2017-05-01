@@ -84,7 +84,7 @@ namespace OmegaGo.UI.ViewModels.Tutorial
             }
             else
             {
-                _currentGameTreeNode.Branches.AddNode(newNode);
+                _currentGameTreeNode.Branches.Insert(0, newNode);
                 fullBoardPosition = _currentGameTreeNode.BoardState;
                 _currentGameTreeNode = newNode;
             }

@@ -137,6 +137,9 @@
     <Compile Include="Services\Timer\Timer.cs" />
     <Compile Include="Services\Timer\TimerService.cs" />
     <Compile Include="Services\Online\OnlineStartup.cs" />
+    <Compile Include="UserControls\AnalyzeControl.xaml.cs">
+      <DependentUpon>AnalyzeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
@@ -356,6 +359,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\CommonControlResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ToggleButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\ButtonStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -383,6 +394,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="UserControls\AnalyzeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\BoardControl.xaml">
       <SubType>Designer</SubType>

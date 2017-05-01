@@ -195,8 +195,8 @@
                     <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Text="{x:Bind Localizer.WhiteHandicap}" />
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
-                            Value="{Binding Handicap, Mode=TwoWay}" IsEnabled="{Binding Bundle.HandicapMayBeChanged}" />
-                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
+                            Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
+                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />

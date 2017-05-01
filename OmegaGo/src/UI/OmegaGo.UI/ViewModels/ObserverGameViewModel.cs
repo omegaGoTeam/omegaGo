@@ -58,11 +58,13 @@ namespace OmegaGo.UI.ViewModels
             return true;
         }
 
-        protected override void OnCurrentNodeStateChanged()
+        protected override void OnBoardTapped(Position position)
         {
-            base.OnCurrentNodeStateChanged();
-
-            RefreshBoard(Game.Controller.CurrentNode);
+            if (IsAnalyzeModeEnabled)
+            {
+                AnalyzeBoardTap(position);
+                return;
+            }
         }
     }
 }

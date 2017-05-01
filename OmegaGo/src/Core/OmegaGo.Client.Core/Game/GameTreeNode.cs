@@ -13,6 +13,7 @@ namespace OmegaGo.Core.Game
     public sealed class GameTreeNode
     {
         private readonly Dictionary<Type, object> _additionalNodeInfo = new Dictionary<Type, object>();
+        private readonly MarkupInfo _markups = new MarkupInfo();
 
         public GameTreeNode(Move move = null)
         {
@@ -21,12 +22,13 @@ namespace OmegaGo.Core.Game
             Branches = new GameTreeNodeCollection(this);
             Move = move;
         }
-        
+
         // Information taken from official SGF file definition
         // http://www.red-bean.com/sgf/proplist_ff.html
         // and SGF file examples
         // http://www.red-bean.com/sgf/examples/
 
+        public MarkupInfo Markups => _markups;
         public string Comment { get; set; }
         public string Name { get; set; }
 
@@ -96,9 +98,8 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets the only child node of this node, if it exists, otherwise null. Throws if there are two or more children.
+        /// Gets the first child node of this node, if it exists, otherwise null. 
         /// </summary>
-        /// <exception cref="InvalidOperationException">When this is a branching node.</exception>
         public GameTreeNode NextNode
         {
             get
@@ -107,11 +108,8 @@ namespace OmegaGo.Core.Game
                 {
                     case 0:
                         return null;
-                    case 1:
-                        return Branches[0];
                     default:
-                        throw new InvalidOperationException(
-                            "This is a branching node. Therefore, there is no single 'next' move.");
+                        return Branches[0];
                 }
             }
         }
@@ -179,6 +177,17 @@ namespace OmegaGo.Core.Game
             var nodes = GetNodeHistory();
             var boards = nodes.Select(node => node.BoardState).ToList();
             return boards;
+        }
+
+        /// <summary>
+        /// Removes the given child of node.
+        /// </summary>
+        /// <param name="child">Child to remove</param>
+        public void RemoveChild(GameTreeNode child)
+        {
+            if (!Branches.RemoveNode(child))
+             throw new InvalidOperationException("Cannot remove child: The given node is not a child of current node"); 
+        
         }
 
         /// <summary>

@@ -23,5 +23,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public override string TabTitle => Localizer.OnlineGame;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/OnlineGame.png");
+
+        private void focusButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppShell.FocusModeOn = !AppShell.FocusModeOn;
+        }
     }
 }

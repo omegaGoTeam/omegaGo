@@ -1,8 +1,10 @@
 ﻿namespace OmegaGo.Core.Game.Markup
 {
-    public sealed class Square : IMarkup
+    public sealed class Square : IMarkup, IShadowItem
     {
-        public MarkupKind Kind => MarkupKind.Square;
+        public MarkupKind MarkupKind => MarkupKind.Square;
+
+        public ShadowItemKind ShadowItemKind => ShadowItemKind.Square;
 
         public Position Position { get; }
 

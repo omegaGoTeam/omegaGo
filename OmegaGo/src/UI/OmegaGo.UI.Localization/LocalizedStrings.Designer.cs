@@ -195,6 +195,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analyze mode.
+        /// </summary>
+        public static string AnalyzeMode {
+            get {
+                return ResourceManager.GetString("AnalyzeMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Theme.
         /// </summary>
         public static string AppTheme {
@@ -942,6 +951,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export SGF.
+        /// </summary>
+        public static string ExportSGF {
+            get {
+                return ResourceManager.GetString("ExportSGF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Feedback.
         /// </summary>
         public static string Feedback {
@@ -1104,6 +1122,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide tabs.
+        /// </summary>
+        public static string HideTabs {
+            get {
+                return ResourceManager.GetString("HideTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Highlight illegal Ko moves.
         /// </summary>
         public static string HighlightIllegalKoMoves {
@@ -1145,6 +1172,15 @@ namespace OmegaGo.UI.Localization {
         public static string HighlightRecentCapturesTooltip {
             get {
                 return ResourceManager.GetString("HighlightRecentCapturesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hint.
+        /// </summary>
+        public static string Hint {
+            get {
+                return ResourceManager.GetString("Hint", resourceCulture);
             }
         }
         
@@ -2783,6 +2819,15 @@ namespace OmegaGo.UI.Localization {
         public static string SwitchColors {
             get {
                 return ResourceManager.GetString("SwitchColors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System log.
+        /// </summary>
+        public static string SystemLog {
+            get {
+                return ResourceManager.GetString("SystemLog", resourceCulture);
             }
         }
         

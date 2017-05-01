@@ -1647,6 +1647,26 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Feedback</source>
           <target state="new">Feedback</target>
         </trans-unit>
+        <trans-unit id="AnalyzeMode" translate="yes" xml:space="preserve">
+          <source>Analyze mode</source>
+          <target state="translated">Režim analýzy</target>
+        </trans-unit>
+        <trans-unit id="HideTabs" translate="yes" xml:space="preserve">
+          <source>Hide tabs</source>
+          <target state="translated">Skrýt záložky</target>
+        </trans-unit>
+        <trans-unit id="Hint" translate="yes" xml:space="preserve">
+          <source>Hint</source>
+          <target state="translated">Doporučit tah</target>
+        </trans-unit>
+        <trans-unit id="SystemLog" translate="yes" xml:space="preserve">
+          <source>System log</source>
+          <target state="translated">Systémový log</target>
+        </trans-unit>
+        <trans-unit id="ExportSGF" translate="yes" xml:space="preserve">
+          <source>Export SGF</source>
+          <target state="translated">Exportovat SGF</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -2,6 +2,6 @@
 {
     public interface IMarkup
     {
-        MarkupKind Kind { get; }
+        MarkupKind MarkupKind { get; }
     }
 }
