@@ -161,13 +161,13 @@ namespace OmegaGo.UI.Services.Online
             }
         }
 
-        private static void CreateTab<T>(TabNavigationType background)
+        private static void CreateTab<T>(TabNavigationType navigationType)
         {
             var newTab = Mvx.Resolve<ITabProvider>()
                .ShowViewModel(
                    new MvxViewModelRequest(typeof(T), new MvxBundle(), new MvxBundle(),
-                       MvxRequestedBy.Unknown), background);
-            newTab.IsBlinking = background == TabNavigationType.NewBackgroundTab;
+                       MvxRequestedBy.Unknown), navigationType);
+            newTab.IsBlinking = navigationType == TabNavigationType.NewBackgroundTab;
         }
 
         /// <summary>
