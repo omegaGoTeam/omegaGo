@@ -29,6 +29,7 @@ using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Helpers.Device;
+using OmegaGo.UI.WindowsUniversal.Helpers.UI;
 using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
@@ -196,6 +197,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundImageUrl));
             OnPropertyChanged(nameof(AppTheme));
             UpdateTitleBarVisualSettings();
+            UpdateVisualSettings();
         }
 
         /// <summary>
@@ -243,6 +245,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         public void ToggleEasterEgg()
         {
             AppShellRotateTransform.Angle = Math.Abs(AppShellRotateTransform.Angle) < 0.01 ? 180 : 0;
+        }
+
+        /// <summary>
+        /// Updates binding visual settings instance
+        /// </summary>
+        private void UpdateVisualSettings()
+        {
+            var visualSettings = Application.Current.Resources["VisualSettings"] as VisualSettings;
+            visualSettings?.Refresh();
         }
 
         /// <summary>

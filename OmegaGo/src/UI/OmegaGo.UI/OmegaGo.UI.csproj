@@ -58,6 +58,7 @@
     <Compile Include="Controls\Styles\ControlStyle.cs" />
     <Compile Include="Controls\Themes\AppTheme.cs" />
     <Compile Include="Converters\BoolDoubleConverter.cs" />
+    <Compile Include="Converters\BoolNegationConverter.cs" />
     <Compile Include="Converters\ConcreteEnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumSelectionConverter.cs" />

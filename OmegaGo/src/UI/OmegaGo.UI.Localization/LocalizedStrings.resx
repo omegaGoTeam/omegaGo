@@ -1340,4 +1340,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="TimeControl_TimeExceeded" xml:space="preserve">
     <value>Time exceeded</value>
   </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
 </root>

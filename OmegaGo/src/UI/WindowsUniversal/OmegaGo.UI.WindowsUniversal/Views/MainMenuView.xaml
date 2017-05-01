@@ -18,7 +18,7 @@
             <VirtualizingStackPanel HorizontalAlignment="Stretch" />
         </ItemsPanelTemplate>
     </Page.Resources>
-    
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -64,7 +64,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Center"
-                   Margin="0,20,0,0"              
+                   Margin="0,12,0,12"              
                    Style="{ThemeResource HeaderTextBlockStyle}">
                 <Run>omega</Run><Run FontWeight="SemiBold">Go</Run>
         </TextBlock>
@@ -81,28 +81,28 @@
                     </TransitionCollection>
                 </ItemsControl.ItemContainerTransitions>
                 <ItemsControl.Items>
-                    <mainMenu:MainMenuButton Margin="10" x:Name="TutorialButton" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
+                    <mainMenu:MainMenuButton x:Name="TutorialButton" Text="{x:Bind Localizer.Tutorial}" Command="{Binding Path=NavigateToTutorial}" ToolTip="{x:Bind Localizer.TutorialToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Tutorial.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" x:Name="SinglePlayerButton" Text="{x:Bind Localizer.Singleplayer}" Command="{Binding Path=NavigateToSingleplayer}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
+                    <mainMenu:MainMenuButton x:Name="SinglePlayerButton" Text="{x:Bind Localizer.Singleplayer}" Command="{Binding Path=NavigateToSingleplayer}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/SinglePlayer.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.LocalGame}" Command="{Binding Path=NavigateToGameCreation}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
+                    <mainMenu:MainMenuButton Text="{x:Bind Localizer.LocalGame}" Command="{Binding Path=NavigateToGameCreation}" ToolTip="{x:Bind Localizer.SingleplayerToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Local.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="Pandanet"
+                    <mainMenu:MainMenuButton Text="Pandanet"
                                              Command="{Binding Path=NavigateToIgsHome}" 
                                              ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
                         <mainMenu:MainMenuButton.Icon>
@@ -114,7 +114,7 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="KGS"
+                    <mainMenu:MainMenuButton Text="KGS"
                                              Command="{Binding Path=NavigateToKgsHome}" 
                                              ToolTip="{x:Bind Localizer.OnlineGameToolTip}">
                         <mainMenu:MainMenuButton.Icon>
@@ -126,28 +126,28 @@
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.GameLibrary}" Command="{Binding Path=NavigateToLibrary}" ToolTip="{x:Bind Localizer.GameLibraryToolTip}">
+                    <mainMenu:MainMenuButton Text="{x:Bind Localizer.GameLibrary}" Command="{Binding Path=NavigateToLibrary}" ToolTip="{x:Bind Localizer.GameLibraryToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Library.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Statistics}" Command="{Binding Path=NavigateToStatistics}" ToolTip="{x:Bind Localizer.StatisticsToolTip}">
+                    <mainMenu:MainMenuButton Text="{x:Bind Localizer.Statistics}" Command="{Binding Path=NavigateToStatistics}" ToolTip="{x:Bind Localizer.StatisticsToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Statistics.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Settings}" Command="{Binding Path=NavigateToSettings}" ToolTip="{x:Bind Localizer.SettingsToolTip}">
+                    <mainMenu:MainMenuButton Text="{x:Bind Localizer.Settings}" Command="{Binding Path=NavigateToSettings}" ToolTip="{x:Bind Localizer.SettingsToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Settings.png" />
                             </Viewbox>
                         </mainMenu:MainMenuButton.Icon>
                     </mainMenu:MainMenuButton>
-                    <mainMenu:MainMenuButton Margin="10" Text="{x:Bind Localizer.Help}" Command="{Binding Path=NavigateToHelp}" ToolTip="{x:Bind Localizer.HelpToolTip}">
+                    <mainMenu:MainMenuButton Text="{x:Bind Localizer.Help}" Command="{Binding Path=NavigateToHelp}" ToolTip="{x:Bind Localizer.HelpToolTip}">
                         <mainMenu:MainMenuButton.Icon>
                             <Viewbox>
                                 <BitmapIcon UriSource="/Assets/MainMenu/Buttons/Help.png" />
@@ -157,36 +157,65 @@
                 </ItemsControl.Items>
             </ItemsControl>
         </ScrollViewer>
-        <StackPanel Grid.Row="2" Margin="12" VerticalAlignment="Bottom" HorizontalAlignment="Left" Orientation="Horizontal">
-            <Button>
-                <FontIcon Glyph="&#xE8C1;" />
-                <Button.Flyout>
-                    <MenuFlyout x:Name="LanguagesMenu">
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-
-            <Button Margin="12,0,0,0"
-                    ToolTipService.ToolTip="{x:Bind Localizer.MuteTooltip}"
-                    Command="{Binding Path=ToggleMute}" >
-                <FontIcon Glyph="{Binding Path=MuteGlyph}" />
-            </Button>
-
-        </StackPanel>
-
-        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Margin="12"
-                    VerticalAlignment="Bottom" Orientation="Horizontal">
-            <Button x:Name="FeedbackButton" Margin="0,0,12,0" FontFamily="Segoe MDL2 Assets" Command="{x:Bind VM.LaunchFeedbackCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{x:Bind VM.ShowFeedbackButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
-                <TextBlock VerticalAlignment="Top">
-                    <Run Text="&#xE939;" FontFamily="Segoe MDL2 Assets" />
-                    <Run Text=" Feedback" />
-                </TextBlock>
-            </Button>
-            <FontIcon Glyph="&#x1f431;&#x200d;&#127949;" 
-                  FontFamily="Segoe UI Emoji"
-                  FontSize="20" RightTapped="EasterEgg_Tapped" IsRightTapEnabled="True" />
-        </StackPanel>
     </Grid>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="BottomCommandBar" Opening="BottomCommandBar_OnOpening"  Closing="BottomCommandBar_OnClosing" Grid.Row="2">
+            <CommandBar.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+            </CommandBar.Background>
+            <CommandBar.Content>
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton x:Name="LanguageMenuButton" IsCompact="True" Label="{x:Bind Localizer.Language}">
+                        <AppBarButton.Resources>
+                            <Style x:Key="FlyoutStyle" TargetType="MenuFlyoutPresenter">
+                                <Setter Property="Background" Value="{ThemeResource MenuFlyoutPresenterBackground}"/>
+                                <Setter Property="BorderBrush" Value="{ThemeResource MenuFlyoutPresenterBorderBrush}"/>
+                                <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}"/>
+                                <Setter Property="Padding" Value="{ThemeResource MenuFlyoutPresenterThemePadding}"/>
+                                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+                                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                                <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+                                <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False"/>
+                                <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+                                <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxWidth}"/>
+                                <Setter Property="MinHeight" Value="{ThemeResource MenuFlyoutThemeMinHeight}"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="MenuFlyoutPresenter">
+                                            <Grid>
+                                                <Grid.Background>
+                                                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                                                </Grid.Background>
+                                                <ScrollViewer x:Name="MenuFlyoutPresenterScrollViewer" AutomationProperties.AccessibilityView="Raw" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" Margin="{TemplateBinding BorderThickness}" MinWidth="{Binding TemplateSettings.FlyoutContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" Padding="{TemplateBinding Padding}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                                    <ItemsPresenter Margin="0,8,0,8"/>
+                                                </ScrollViewer>
+                                                <Border x:Name="MenuFlyoutPresenterBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </AppBarButton.Resources>
+                        <FontIcon Glyph="&#xE8C1;" />
+                        <AppBarButton.Flyout>
+                            <MenuFlyout x:Name="LanguagesMenu" MenuFlyoutPresenterStyle="{StaticResource FlyoutStyle}">
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton x:Name="SoundsButton" IsCompact="True" Label="{x:Bind Localizer.Sounds}"
+                                  ToolTipService.ToolTip="{x:Bind Localizer.MuteTooltip}"
+                                  Command="{Binding Path=ToggleMute}" >
+                        <FontIcon Glyph="{Binding Path=MuteGlyph}" />
+                    </AppBarButton>
+                </StackPanel>
+            </CommandBar.Content>
+            <AppBarButton x:Name="FeedbackButton" Label="{x:Bind Localizer.Feedback}" Command="{x:Bind VM.LaunchFeedbackCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{x:Bind VM.ShowFeedbackButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+                <FontIcon Glyph="&#xED15;" />
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
 </views:TransparencyViewBase>
 
 
