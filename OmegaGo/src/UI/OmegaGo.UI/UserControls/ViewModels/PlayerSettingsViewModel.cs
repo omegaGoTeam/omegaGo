@@ -183,7 +183,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             {
                 if (FluffyTreeDepth < 1)
                 {
-                    errorMessage = "Fluffy tree depth must be at least 1.";
+                    errorMessage = _localizer.Validation_FluffyDepthTooSmall;
                     return false;
                 }
 
@@ -192,7 +192,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             {
                 if (FuegoMaxGames < 10)
                 {
-                    errorMessage = "Fuego must be set to play at least 10 games.";
+                    errorMessage = _localizer.Validation_FuegoGamesTooFew;
                     return false;
                 }
 
@@ -202,7 +202,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 bool nonSquare = this.Capabitilies?.HandlesNonSquareBoards ?? true;
                 if (!nonSquare && !gameCreationViewModel.SelectedGameBoardSize.IsSquare)
                 {
-                    errorMessage = "For this AI program, you must select a square board.";
+                    errorMessage = _localizer.Validation_SquareNeeded;
                     return false;
                 }
                 int minimumBoardSize = this.Capabitilies?.MinimumBoardSize ?? 0;
@@ -210,13 +210,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 if (minimumBoardSize > gameCreationViewModel.SelectedGameBoardSize.Width ||
                     minimumBoardSize > gameCreationViewModel.SelectedGameBoardSize.Height)
                 {
-                    errorMessage = "For this AI program, you must select a larger board.";
+                    errorMessage = _localizer.Validation_SizeTooSmall;
                     return false;
                 }
                 if (maximumBoardSize < gameCreationViewModel.SelectedGameBoardSize.Width ||
                     maximumBoardSize < gameCreationViewModel.SelectedGameBoardSize.Height)
                 {
-                    errorMessage = "For this AI program, you must select a smaller board.";
+                    errorMessage = _localizer.Validation_SizeTooLarge;
                     return false;
                 }
             }

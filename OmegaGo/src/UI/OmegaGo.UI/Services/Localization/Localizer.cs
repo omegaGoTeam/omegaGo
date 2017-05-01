@@ -1656,6 +1656,14 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Feedback => LocalizeCaller();
 		/// <summary>
+		/// Fluffy tree depth must be at least 1.
+		/// </summary>
+		public string Validation_FluffyDepthTooSmall => LocalizeCaller();
+		/// <summary>
+		/// Fuego must be set to play at least 10 games.
+		/// </summary>
+		public string Validation_FuegoGamesTooFew => LocalizeCaller();
+		/// <summary>
 		/// main time
 		/// </summary>
 		public string Validation_MainTime => LocalizeCaller();
@@ -1671,6 +1679,18 @@ namespace OmegaGo.UI.Services.Localization
 		/// overtime length
 		/// </summary>
 		public string Validation_OvertimeLength => LocalizeCaller();
+		/// <summary>
+		/// For this AI program, you must select a smaller board.
+		/// </summary>
+		public string Validation_SizeTooLarge => LocalizeCaller();
+		/// <summary>
+		/// For this AI program, you must select a larger board.
+		/// </summary>
+		public string Validation_SizeTooSmall => LocalizeCaller();
+		/// <summary>
+		/// For this AI program, you must select a square board.
+		/// </summary>
+		public string Validation_SquareNeeded => LocalizeCaller();
 		/// <summary>
 		/// A field ('{0}') doesn't contain a nonnegative integer.
 		/// </summary>

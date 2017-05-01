@@ -1343,6 +1343,12 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
   </data>
+  <data name="Validation_FluffyDepthTooSmall" xml:space="preserve">
+    <value>Fluffy tree depth must be at least 1.</value>
+  </data>
+  <data name="Validation_FuegoGamesTooFew" xml:space="preserve">
+    <value>Fuego must be set to play at least 10 games.</value>
+  </data>
   <data name="Validation_MainTime" xml:space="preserve">
     <value>main time</value>
   </data>
@@ -1354,6 +1360,15 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="Validation_OvertimeLength" xml:space="preserve">
     <value>overtime length</value>
+  </data>
+  <data name="Validation_SizeTooLarge" xml:space="preserve">
+    <value>For this AI program, you must select a smaller board.</value>
+  </data>
+  <data name="Validation_SizeTooSmall" xml:space="preserve">
+    <value>For this AI program, you must select a larger board.</value>
+  </data>
+  <data name="Validation_SquareNeeded" xml:space="preserve">
+    <value>For this AI program, you must select a square board.</value>
   </data>
   <data name="Validation_TimeControlError" xml:space="preserve">
     <value>A field ('{0}') doesn't contain a nonnegative integer.</value>

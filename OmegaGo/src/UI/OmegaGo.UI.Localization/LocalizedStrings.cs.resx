@@ -1235,4 +1235,58 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="TimeControl_TimeExceeded" xml:space="preserve">
     <value>Čas vypršel</value>
   </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
+  </data>
+  <data name="Validation_FluffyDepthTooSmall" xml:space="preserve">
+    <value>Hloubka stromu pro Fluffyho musí být alespoň 1.</value>
+  </data>
+  <data name="Validation_FuegoGamesTooFew" xml:space="preserve">
+    <value>Fuego musí vždy odehrát alespoň 10 her.</value>
+  </data>
+  <data name="Validation_MainTime" xml:space="preserve">
+    <value>hlavní čas</value>
+  </data>
+  <data name="Validation_NigiriIsForbidden" xml:space="preserve">
+    <value>Pandanet neumožňuje náhodnou volbu barvy.</value>
+  </data>
+  <data name="Validation_NumberOfMovesPerPeriod" xml:space="preserve">
+    <value>počet tahů za periodu</value>
+  </data>
+  <data name="Validation_OvertimeLength" xml:space="preserve">
+    <value>délka přesčasové periody</value>
+  </data>
+  <data name="Validation_SizeTooLarge" xml:space="preserve">
+    <value>Pro tuto umělou inteligenci musíte zvolit menší velikost.</value>
+  </data>
+  <data name="Validation_SizeTooSmall" xml:space="preserve">
+    <value>Pro tuto umělou inteligenci musíte zvolit větší velikost.</value>
+  </data>
+  <data name="Validation_SquareNeeded" xml:space="preserve">
+    <value>Pro tuto umělou inteligenci musíte zvolit čtvercovou velikost.</value>
+  </data>
+  <data name="Validation_TimeControlError" xml:space="preserve">
+    <value>Pole '{0}' by mělo obsahovat nezáporné celé číslo.</value>
+  </data>
+  <data name="Validation_YouMustHave19x19OrSmaller" xml:space="preserve">
+    <value>Pandanet neumožňuje velikosti větší než 19x19.</value>
+  </data>
+  <data name="Validation_YouMustHave2x2OrGreater" xml:space="preserve">
+    <value>Velikost musí být 2x2 nebo větší.</value>
+  </data>
+  <data name="Validation_YouMustHave38x38OrSmaller" xml:space="preserve">
+    <value>KGS neumožňuje velikosti větší než 38x38.</value>
+  </data>
+  <data name="Validation_YouMustHave5x5OrGreater" xml:space="preserve">
+    <value>Pandanet neumožňuje velikosti menší než 5x5.</value>
+  </data>
+  <data name="Validation_YouMustHaveHalfInteger" xml:space="preserve">
+    <value>Komi musí být celé nebo celé a jedna polovina, jako například '0' nebo '7.5'.</value>
+  </data>
+  <data name="Validation_YouMustHaveSmallerKomi" xml:space="preserve">
+    <value>KGS vyžaduje, aby komi bylo mezi -100 a 100.</value>
+  </data>
+  <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
+    <value>Musíte zvolit čtvercovou velikost.</value>
+  </data>
 </root>

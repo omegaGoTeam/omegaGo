@@ -3507,6 +3507,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy tree depth must be at least 1..
+        /// </summary>
+        public static string Validation_FluffyDepthTooSmall {
+            get {
+                return ResourceManager.GetString("Validation_FluffyDepthTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego must be set to play at least 10 games..
+        /// </summary>
+        public static string Validation_FuegoGamesTooFew {
+            get {
+                return ResourceManager.GetString("Validation_FuegoGamesTooFew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to main time.
         /// </summary>
         public static string Validation_MainTime {
@@ -3539,6 +3557,33 @@ namespace OmegaGo.UI.Localization {
         public static string Validation_OvertimeLength {
             get {
                 return ResourceManager.GetString("Validation_OvertimeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a smaller board..
+        /// </summary>
+        public static string Validation_SizeTooLarge {
+            get {
+                return ResourceManager.GetString("Validation_SizeTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a larger board..
+        /// </summary>
+        public static string Validation_SizeTooSmall {
+            get {
+                return ResourceManager.GetString("Validation_SizeTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a square board..
+        /// </summary>
+        public static string Validation_SquareNeeded {
+            get {
+                return ResourceManager.GetString("Validation_SquareNeeded", resourceCulture);
             }
         }
         
