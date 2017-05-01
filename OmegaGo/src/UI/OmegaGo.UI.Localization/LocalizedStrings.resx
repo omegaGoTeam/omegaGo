@@ -1343,4 +1343,40 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
   </data>
+  <data name="Validation_MainTime" xml:space="preserve">
+    <value>main time</value>
+  </data>
+  <data name="Validation_NigiriIsForbidden" xml:space="preserve">
+    <value>Pandanet does not allow the use of nigiri to choose a color.</value>
+  </data>
+  <data name="Validation_NumberOfMovesPerPeriod" xml:space="preserve">
+    <value>number of moves per period</value>
+  </data>
+  <data name="Validation_OvertimeLength" xml:space="preserve">
+    <value>overtime length</value>
+  </data>
+  <data name="Validation_TimeControlError" xml:space="preserve">
+    <value>A field ('{0}') doesn't contain a nonnegative integer.</value>
+  </data>
+  <data name="Validation_YouMustHave19x19OrSmaller" xml:space="preserve">
+    <value>Pandanet does not allow board sizes larger than 19x19.</value>
+  </data>
+  <data name="Validation_YouMustHave2x2OrGreater" xml:space="preserve">
+    <value>Board size must be 2x2 or larger.</value>
+  </data>
+  <data name="Validation_YouMustHave38x38OrSmaller" xml:space="preserve">
+    <value>KGS does not allow board sizes larger than 38x38.</value>
+  </data>
+  <data name="Validation_YouMustHave5x5OrGreater" xml:space="preserve">
+    <value>Pandanet does not allow board sizes smaller than 5x5.</value>
+  </data>
+  <data name="Validation_YouMustHaveHalfInteger" xml:space="preserve">
+    <value>Komi must be a half-integer, such as '0' or '7.5'.</value>
+  </data>
+  <data name="Validation_YouMustHaveSmallerKomi" xml:space="preserve">
+    <value>KGS requires that komi be between -100 and 100.</value>
+  </data>
+  <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
+    <value>You must select a square board.</value>
+  </data>
 </root>

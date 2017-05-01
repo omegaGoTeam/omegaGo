@@ -6,6 +6,7 @@ using OmegaGo.Core.Time.Canadian;
 using OmegaGo.Core.Time.Japanese;
 using OmegaGo.Core.Time.None;
 using OmegaGo.UI.Services.Localization;
+using static System.String;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
@@ -140,35 +141,36 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         public bool Validate(ref string timeErrorMessage)
         {
-            if (!ValidateField(MainTime, "main time", ref timeErrorMessage))
+            if (!ValidateField(MainTime,  _localizer.Validation_MainTime, ref timeErrorMessage))
             {
                 return false;
             }
-            if (!ValidateField(OvertimeMinutes, "overtime length", ref timeErrorMessage))
+            if (!ValidateField(OvertimeMinutes, _localizer.Validation_OvertimeLength, ref timeErrorMessage))
             {
                 return false;
             }
-            if (!ValidateField(OvertimeSeconds, "overtime length", ref timeErrorMessage))
+            if (!ValidateField(OvertimeSeconds, _localizer.Validation_OvertimeLength, ref timeErrorMessage))
             {
                 return false;
             }
-            if (!ValidateField(StonesPerPeriod, "number of moves per period", ref timeErrorMessage))
+            if (!ValidateField(StonesPerPeriod, _localizer.Validation_NumberOfMovesPerPeriod, ref timeErrorMessage))
             {
                 return false;
             }
             return true;
         }
+        
         private bool ValidateField(string field, string fieldname, ref string error)
         {
             int value;
-            if (!int.TryParse(NumberOfJapanesePeriods, out value))
+            if (!int.TryParse(field, out value))
             {
-                error = "A field ('" + fieldname + "') doesn't contain a nonnegative integer.";
+                error = string.Format(_localizer.Validation_TimeControlError, fieldname);
                 return false;
             }
             if (value < 0)
             {
-                error = "A field ('" + fieldname + "') doesn't contain a nonnegative integer.";
+                error = string.Format(_localizer.Validation_TimeControlError, fieldname);
                 return false;
             }
             return true;
