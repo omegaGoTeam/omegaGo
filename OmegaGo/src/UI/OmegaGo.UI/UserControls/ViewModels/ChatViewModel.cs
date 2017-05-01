@@ -15,7 +15,6 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly IChatService _chatService;
 
         private string _messageText = "";
-        private string _humanAuthor;
 
         private MvxAsyncCommand _sendMessageCommand;
 

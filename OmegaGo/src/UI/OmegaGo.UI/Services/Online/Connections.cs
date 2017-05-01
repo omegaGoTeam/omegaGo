@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs;
@@ -11,6 +13,8 @@ using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.GameCreation;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
@@ -113,7 +117,7 @@ namespace OmegaGo.UI.Services.Online
             var settings = Mvx.Resolve<IGameSettings>();
             if (settings.Audio.PlayWhenNotificationReceived)
             {
-                await Sounds.Notification.PlayAsync();
+                await Sounds.IncomingMatchRequest.PlayAsync();
             }
         }
 
@@ -125,10 +129,46 @@ namespace OmegaGo.UI.Services.Online
         {
             _kgsConnection = new KgsConnection();
             _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
+            _kgsConnection.Events.GameJoined += Kgs_GameJoined;
+            _kgsConnection.Events.NotificationMessage += Kgs_NotificationMessage;
+            _kgsConnection.Events.ChallengeJoined += Kgs_ChallengeJoined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _kgsConnection.Commands.WakeUpAsync(); });
         }
 
+        private static void Kgs_ChallengeJoined(object sender, Core.Online.Kgs.Structures.KgsChallenge e)
+        {
+            Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
+        }
+
+        private static void Kgs_NotificationMessage(object sender, string e)
+        {
+            Mvx.Resolve<IAppNotificationService>().TriggerNotification(e);
+        }
+
+        private static void Kgs_GameJoined(object sender, KgsGame e)
+        {
+            Mvx.RegisterSingleton<IGame>(e);
+            var tabProvider = Mvx.Resolve<ITabProvider>();
+            if (e.Controller.Players.Any(pl => pl.IsLocal))
+            {
+                CreateTab<OnlineGameViewModel>(TabNavigationType.NewForegroundTab);
+            }
+            else
+            {
+                CreateTab<ObserverGameViewModel>(TabNavigationType.NewForegroundTab);
+            }
+        }
+
+        private static void CreateTab<T>(TabNavigationType background)
+        {
+            var newTab = Mvx.Resolve<ITabProvider>()
+               .ShowViewModel(
+                   new MvxViewModelRequest(typeof(T), new MvxBundle(), new MvxBundle(),
+                       MvxRequestedBy.Unknown), background);
+            newTab.IsBlinking = background == TabNavigationType.NewBackgroundTab;
+        }
 
         /// <summary>
         /// Handles IGS user update

@@ -20,11 +20,14 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool AcceptableAndRefusable => false;
         public override bool Frozen => false;
 
+        public override bool CanReturn => true;
+
         public override bool Playable => true;
 
         public override bool BlackAndWhiteVisible => true;
 
         public override bool WillCreateChallenge => false;
+        public override bool CanDeclineSingleOpponent => false;
 
         public override bool KomiIsAvailable => true;
 

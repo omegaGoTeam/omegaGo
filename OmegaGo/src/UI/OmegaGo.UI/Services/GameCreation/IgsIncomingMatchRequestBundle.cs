@@ -26,6 +26,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override bool WillCreateChallenge => false;
         public override string TabTitle => _igsMatchRequest.OpponentName + " (IGS)";
+        public override bool CanReturn => false;
 
 
         public override bool Frozen => true;
@@ -41,18 +42,18 @@ namespace OmegaGo.UI.Services.GameCreation
             IgsGame game = await Connections.Igs.Commands.AcceptMatchRequestAsync(_igsMatchRequest);
             return game;
         }
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
-            base.OnLoad(gameCreationViewModel);
+            base.OnLoad(vm);
             
-            gameCreationViewModel.FormTitle = Localizer.Creation_IncomingIgsChallenge;
-            gameCreationViewModel.RefusalCaption = Localizer.RefuseChallenge;
-            gameCreationViewModel.CustomSquareSize = _igsMatchRequest.BoardSize.ToString();
-            gameCreationViewModel.SelectedColor = _igsMatchRequest.YourColor;
-            gameCreationViewModel.TimeControl.Style = Core.Time.TimeControlStyle.Canadian;
-            gameCreationViewModel.TimeControl.OvertimeMinutes = _igsMatchRequest.OvertimeMinutes.ToString();
-            gameCreationViewModel.TimeControl.MainTime = _igsMatchRequest.MainTime.ToString();
-            gameCreationViewModel.TimeControl.StonesPerPeriod = "25";
+            vm.FormTitle = Localizer.Creation_IncomingIgsChallenge;
+            vm.RefusalCaption = Localizer.RefuseChallenge;
+            vm.CustomSquareSize = _igsMatchRequest.BoardSize.ToString();
+            vm.SelectedColor = _igsMatchRequest.YourColor;
+            vm.TimeControl.Style = Core.Time.TimeControlStyle.Canadian;
+            vm.TimeControl.OvertimeMinutes = _igsMatchRequest.OvertimeMinutes.ToString();
+            vm.TimeControl.MainTime = _igsMatchRequest.MainTime.ToString();
+            vm.TimeControl.StonesPerPeriod = "25";
 
         }
     }

@@ -10,4 +10,5 @@
     <converters:NativeConcreteEnumLocalizingConverter x:Key="ConcreteEnumLocalizingConverter" />
     <converters:NativeTypeNameLocalizingConverter x:Key="TypeNameLocalizingConverter" />
     <converters:NativeEnumSelectionConverter x:Key="EnumSelectionConverter" />
+    <converters:NativeBoolNegationConverter x:Key="BoolNegationConverter" />
 </ResourceDictionary>

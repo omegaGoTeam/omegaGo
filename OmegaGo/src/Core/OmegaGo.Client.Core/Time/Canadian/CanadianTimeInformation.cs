@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Time.Canadian
                 {
                     return PeriodTimeLeft.ToCountdownString();
                 }
-                return "Time exceeded";
+                return "00:00";
             }
         }
 

@@ -8,13 +8,13 @@ namespace OmegaGo.UI.Services.GameCreation
 {
     class HotseatBundle : LocalBundle
     {
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
-            gameCreationViewModel.FormTitle = Localizer.Creation_NewLocalGame;
-            gameCreationViewModel.BlackPlayer =
-                gameCreationViewModel.PossiblePlayers.First();
-            gameCreationViewModel.WhitePlayer =
-                gameCreationViewModel.PossiblePlayers.First();
+            vm.FormTitle = Localizer.Creation_NewLocalGame;
+            vm.BlackPlayer =
+                vm.PossiblePlayers.First();
+            vm.WhitePlayer =
+                vm.PossiblePlayers.First();
         }
     }
 }

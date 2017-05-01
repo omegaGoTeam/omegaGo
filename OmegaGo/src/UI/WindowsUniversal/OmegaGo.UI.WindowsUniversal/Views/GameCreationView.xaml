@@ -47,8 +47,9 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0" />
+                                         ShowBackButton="{x:Bind VM.Bundle.CanReturn}"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,20,0,0" />     
 
                 <Grid x:Name="Form"
               HorizontalAlignment="Center">
@@ -109,7 +110,6 @@
                                         <TextBlock Text="{x:Bind Localizer.SizeColon}"/>
                                         <TextBox InputScope="Number" Name="TbCustomSquareSize" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                         <Button Click="CloseCustomBoardSizeFlyout" Content="{x:Bind Localizer.CloseFlyout}" Width="150" HorizontalAlignment="Center" Margin="10" />
-                                        <TextBox InputScope="Number" x:Name="TbCustomSquareSize_Copy" Text="{Binding CustomSquareSize, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Flyout>
@@ -119,7 +119,7 @@
                     <TextBlock Grid.Row="1" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Rules}" />
                     <ComboBox  Grid.Row="1" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Rulesets}"
-                      IsEnabled="{Binding Bundle.SupportsChangingRulesets}"
+                      IsEnabled="{Binding Bundle.SupportsChangingRulesetsAndNotFrozen}"
                       SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -157,13 +157,15 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" 
-                            Visibility="Collapsed"
-                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button> <!-- TODO Petr: add with KGS -->
+                   
 
 
                     <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
-                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding Bundle.OpponentName}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <Button Grid.Row="2" Style="{StaticResource Buttons}" 
+                            Visibility="{x:Bind VM.Bundle.CanDeclineSingleOpponent}"
+                            Command="{x:Bind VM.DeclineSingleOpponentCommand}"
+                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button>
 
                     <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
                     <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"
@@ -173,11 +175,11 @@
                         <ComboBoxItem Content="{x:Bind Localizer.Nigiri}" Visibility="{x:Bind VM.Bundle.IsNotIgs}"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
+                    <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.IsUserAgentSelectable}"/>
                     <ComboBox Grid.Row="4" Style="{StaticResource Boxes}" 
                       ItemsSource="{Binding Path=PossiblePlayers}"
-                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
-                    <Button Grid.Row="4" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
+                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}" Visibility="{Binding Bundle.IsUserAgentSelectable}"/>
+                    <Button Grid.Row="4" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.IsUserAgentSelectable}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="AgentFlyout">
                                 <StackPanel>
@@ -190,8 +192,8 @@
                 
                     <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
-                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.IsNotIgs}" Text="{x:Bind Localizer.WhiteHandicap}" />
-                    <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.IsNotIgs}" 
+                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Text="{x:Bind Localizer.WhiteHandicap}" />
+                    <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
                             Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
                     <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />

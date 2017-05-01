@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
-        /// Fuego AI builder. <see cref="FuegoAI"/> uses this to create the Fuego engine proper. 
+        /// Fuego AI builder. <see cref="Fuego"/> uses this to create the Fuego engine proper. 
         /// </summary>
         internal static IGtpEngineBuilder FuegoBuilder;
 
@@ -33,7 +33,7 @@ namespace OmegaGo.Core.AI
         {
             get
             {
-                if (!AISystems.RegistrationComplete)
+                if (!RegistrationComplete)
                 {
                     // Fuego is not available
                     return
@@ -54,7 +54,7 @@ namespace OmegaGo.Core.AI
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new Fluffy(),
-                        new FuegoSpace.Fuego()
+                        new Fuego()
                     };
             }
         }

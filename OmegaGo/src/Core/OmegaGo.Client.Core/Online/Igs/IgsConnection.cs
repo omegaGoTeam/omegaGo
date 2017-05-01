@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -120,7 +119,7 @@ namespace OmegaGo.Core.Online.Igs
         /// <summary>
         /// Contains the login error info
         /// </summary>
-        private string _loginError = null;
+        private string _loginError;
 
         /*
          * Internal TCP connection objects  
@@ -147,7 +146,7 @@ namespace OmegaGo.Core.Online.Igs
         public IgsConnection()
         {
             Commands = new IgsCommands(this);
-            Data = new IgsData(this);
+            Data = new IgsData();
             Events = new IgsEvents(this);
         }
 
@@ -202,18 +201,6 @@ namespace OmegaGo.Core.Online.Igs
                     Monitor.PulseAll(_mutexComposureRegained);
                 }
             }
-        }
-
-        /// <summary>
-        /// Sends a command to the IGS server without doing any checking and synchronization. 
-        /// This should only be used while testing, and never as part of any player-facing game action.
-        /// The response to the command will be handled by the main response loop.
-        /// </summary>
-        /// <param name="command">The command to send to IGS.</param>
-        [Conditional("DEBUG")]
-        private void DEBUG_SendRawText(string command)
-        {
-            _streamWriter.WriteLine(command);
         }
 
         /// <summary>
@@ -296,10 +283,7 @@ namespace OmegaGo.Core.Online.Igs
             }
             lock (_mutex)
             {
-                if (_requestInProgress != null)
-                {
-                    _requestInProgress.Disconnect();
-                }
+                _requestInProgress?.Disconnect();
                 _requestInProgress = null;
             }
 

@@ -145,5 +145,17 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             AppShell.GetForCurrentView().ToggleEasterEgg();
         }
+
+        private void BottomCommandBar_OnClosing(object sender, object e)
+        {
+            SoundsButton.IsCompact = true;
+            LanguageMenuButton.IsCompact = true;
+        }
+
+        private void BottomCommandBar_OnOpening(object sender, object e)
+        {
+            SoundsButton.IsCompact = false;
+            LanguageMenuButton.IsCompact = false;
+        }
     }
 }

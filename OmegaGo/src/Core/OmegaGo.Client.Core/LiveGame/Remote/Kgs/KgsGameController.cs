@@ -42,7 +42,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         }
 
         internal KgsConnector KgsConnector { get; }
-        internal KgsConnection Server { get; }
+        internal new KgsConnection Server { get; }
 
         public override IChatService Chat { get; }
         public int DoneId { get; set; }

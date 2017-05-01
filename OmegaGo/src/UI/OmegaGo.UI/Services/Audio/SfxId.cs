@@ -32,8 +32,9 @@ namespace OmegaGo.UI.Services.Audio
         SabakiCapture3,
         SabakiCapture4,
 
-        // incoming match request, for example
+
+        // used for incoming match request
         // https://www.freesound.org/people/GabrielAraujo/sounds/242502/
-        Notification
+        PleasantJingle
     }
 }

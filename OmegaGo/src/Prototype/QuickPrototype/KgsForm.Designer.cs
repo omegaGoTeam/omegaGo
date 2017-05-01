@@ -45,6 +45,7 @@
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tbLastOutgoingMessage = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.bCreateSimpleChallenge = new System.Windows.Forms.Button();
             this.bUnjoinRoom = new System.Windows.Forms.Button();
             this.bJoinRoom = new System.Windows.Forms.Button();
             this.tbRoomDescription = new System.Windows.Forms.TextBox();
@@ -70,7 +71,6 @@
             this.timerIdle = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblNotificationMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.bCreateSimpleChallenge = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -269,6 +269,17 @@
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Rooms";
             this.tabPage6.UseVisualStyleBackColor = true;
+            this.tabPage6.Click += new System.EventHandler(this.tabPage6_Click);
+            // 
+            // bCreateSimpleChallenge
+            // 
+            this.bCreateSimpleChallenge.Location = new System.Drawing.Point(505, 416);
+            this.bCreateSimpleChallenge.Name = "bCreateSimpleChallenge";
+            this.bCreateSimpleChallenge.Size = new System.Drawing.Size(132, 23);
+            this.bCreateSimpleChallenge.TabIndex = 11;
+            this.bCreateSimpleChallenge.Text = "Create simple challenge";
+            this.bCreateSimpleChallenge.UseVisualStyleBackColor = true;
+            this.bCreateSimpleChallenge.Click += new System.EventHandler(this.bCreateSimpleChallenge_Click);
             // 
             // bUnjoinRoom
             // 
@@ -515,16 +526,6 @@
             this.lblNotificationMessage.Name = "lblNotificationMessage";
             this.lblNotificationMessage.Size = new System.Drawing.Size(118, 17);
             this.lblNotificationMessage.Text = "toolStripStatusLabel1";
-            // 
-            // bCreateSimpleChallenge
-            // 
-            this.bCreateSimpleChallenge.Location = new System.Drawing.Point(505, 416);
-            this.bCreateSimpleChallenge.Name = "bCreateSimpleChallenge";
-            this.bCreateSimpleChallenge.Size = new System.Drawing.Size(132, 23);
-            this.bCreateSimpleChallenge.TabIndex = 11;
-            this.bCreateSimpleChallenge.Text = "Create simple challenge";
-            this.bCreateSimpleChallenge.UseVisualStyleBackColor = true;
-            this.bCreateSimpleChallenge.Click += new System.EventHandler(this.bCreateSimpleChallenge_Click);
             // 
             // KgsForm
             // 

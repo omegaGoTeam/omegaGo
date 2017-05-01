@@ -34,30 +34,51 @@ namespace OmegaGo.UI.Services.GameCreation
         public abstract bool SupportsChangingRulesets { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the successful completion of this form results in a <see cref="GameViewModel"/>. 
+        /// Gets a value indicating whether the back button should be displayed in a game creation view.
+        /// </summary>
+        public abstract bool CanReturn { get; }
+
+        public bool SupportsChangingRulesetsAndNotFrozen => SupportsChangingRulesets && NotFrozen;
+
+        /// <summary>
+        /// Gets a value indicating whether the successful completion of this form results in a <see cref="GameViewModel"/>. Used by local games.
         /// </summary>
         public abstract bool Playable { get; }
 
         /// <summary>
-        /// Gets a value indicating whether this form represents something that can be accepted or refused (such as a match request).
+        /// Gets a value indicating whether this form represents something that can be accepted or refused (such as a match request). 
         /// </summary>
         public abstract bool AcceptableAndRefusable { get; }
 
 
         /// <summary>
-        /// Gets a value indicating whether this form represents a challenge that may be issued or created.
+        /// Gets a value indicating whether this form represents a challenge that may be issued or created. Used by servers.
         /// </summary>
         public abstract bool WillCreateChallenge { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the rows for black and white should be shown.
+        /// Gets a value indicating whether the rows for black and white should be shown. Used by local games.
         /// </summary>
         public abstract bool BlackAndWhiteVisible { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the rows for the name of your opponent, your color and your agent are visible.
+        /// Gets a value indicating whether the user may change their agent, if they're playing online. Used by servers.
+        /// </summary>
+#if DEBUG
+        public bool IsUserAgentSelectable => YouVersusOnlineVisible;
+#else
+        public bool IsUserAgentSelectable => false;
+#endif
+
+        /// <summary>
+        /// Gets a value indicating whether the rows for the name of your opponent, your color and your agent are visible. Used by servers.
         /// </summary>
         public bool YouVersusOnlineVisible => !BlackAndWhiteVisible;
+
+        /// <summary>
+        /// Gets a value indicating whether the user may decline their opponent without aborting the form. Used by KGS.
+        /// </summary>
+        public abstract bool CanDeclineSingleOpponent { get; }
 
         /// <summary>
         /// Gets a value indicating whether non-square boards are forbidden to choose.
@@ -90,9 +111,16 @@ namespace OmegaGo.UI.Services.GameCreation
         public virtual bool IsIgs => false;
 
         /// <summary>
+        /// Gets a value indicating whether this method has something to do with KGS.
+        /// </summary>
+        public virtual bool IsKgs => false;
+
+        /// <summary>
         /// Gets a value indicating whether this method is not related to IGS. This is used to disable a field on the form.
         /// </summary>
         public bool IsNotIgs => !IsIgs;
+
+        public bool ShowHandicapSlider => !IsIgs && !IsKgs;
 
         /// <summary>
         /// Gets the name of the opponent to display as a TextBlock.
@@ -102,9 +130,9 @@ namespace OmegaGo.UI.Services.GameCreation
         public abstract string TabTitle { get; }
 
         /// <summary>
-        /// Called when the <paramref name="gameCreationViewModel"/> loads. Use this to set properties of the model's controls.
+        /// Called when the <paramref name="vm"/> loads. Use this to set properties of the model's controls.
         /// </summary>
-        public abstract void OnLoad(GameCreationViewModel gameCreationViewModel);
+        public abstract void OnLoad(GameCreationViewModel vm);
 
         /// <summary>
         /// If this bundle can create a challenge, this creates the challenge.
@@ -123,6 +151,20 @@ namespace OmegaGo.UI.Services.GameCreation
         public virtual Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {
             throw new InvalidOperationException("This bundle does not support refusing challenges.");
+        }
+
+        public virtual bool IsDeclineSingleOpponentEnabled()
+        {
+            return true;
+        }
+        public virtual bool IsAcceptButtonEnabled()
+        {
+            return true;
+        }
+
+        public virtual Task DeclineSingleOpponent()
+        {
+            throw new InvalidOperationException("This bundle does not support refusing challengers.");
         }
     }
 }

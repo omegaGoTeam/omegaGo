@@ -23,5 +23,10 @@
         {
             return Name + "/" + User + "/" + Role;
         }
+
+        public string GetName()
+        {
+            return User?.Name ?? Name;
+        }
     }
 }
