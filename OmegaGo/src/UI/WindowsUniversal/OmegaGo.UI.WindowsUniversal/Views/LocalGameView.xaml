@@ -118,16 +118,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <!--<CommandBar Grid.Column="0" Grid.Row="0"
-                    Grid.ColumnSpan="3" 
-                    Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top">
-            <AppBar.Background>
-                <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-            </AppBar.Background>
-
-            <AppBarButton Content="" />
-        </CommandBar>-->
-
         <ScrollViewer x:Name="layoutScroller" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid   x:Name="layoutGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -151,8 +141,6 @@
                                    VerticalAlignment="Stretch" />
 
                     <Button x:Name="controlMenuButton"
-                            Grid.Column="0" Grid.Row="0"
-                            Grid.ColumnSpan="3"
                             HorizontalAlignment="Right" VerticalAlignment="Top"
                             Margin="5">
                         <FontIcon Glyph="&#xE700;"
@@ -199,7 +187,7 @@
                         <StackPanel x:Name="handicapCommands" Orientation="Vertical" 
                                 Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5" />
                             <Grid HorizontalAlignment="Stretch" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
@@ -221,7 +209,7 @@
                         <StackPanel x:Name="mainCommands" Orientation="Vertical" 
                                 Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
-                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"/>
                             <Grid HorizontalAlignment="Stretch" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*" />
@@ -301,7 +289,8 @@
             </Grid>
         </ScrollViewer>
 
-        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="0">
+        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" 
+                Grid.Row="2" Grid.Column="0">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>

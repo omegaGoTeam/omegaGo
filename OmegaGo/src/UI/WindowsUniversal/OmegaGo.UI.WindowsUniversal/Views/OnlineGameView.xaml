@@ -19,6 +19,8 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
+        <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
         <converters:NativeBoolDoubleConverter x:Key="boolDoubleConverter" />
         <converters:GamePhaseVisibilityConverter x:Key="handicapPhaseVisibilityConverter" RequiredGamePhase="HandicapPlacement" />
         <converters:GamePhaseVisibilityConverter x:Key="mainPhaseVisibilityConverter" RequiredGamePhase="Main" />
@@ -60,7 +62,7 @@
                         <Setter Target="layoutGrid.RowDefinitions[0].Height" Value="*" />
                         <Setter Target="layoutGrid.RowDefinitions[1].Height" Value="Auto" />
 
-                        <Setter Target="gameInfoControl.Width" Value="200" />
+                        <Setter Target="gameInfoControl.Width" Value="250" />
 
                         <Setter Target="whitePortrait.(Grid.Row)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Row)" Value="1" />
@@ -117,29 +119,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <CommandBar Grid.ColumnSpan="3" Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top"
-                    Grid.Column="0"
-                    
-                Grid.Row="0" Content="">
-            <AppBar.Background>
-                <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-            </AppBar.Background>
-
-            <AppBarButton Icon="Message" Label="Chat"
-                          AllowFocusOnInteraction="True">
-                <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
-
         <ScrollViewer x:Name="layoutScroller" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid   x:Name="layoutGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -154,147 +133,189 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <controls:BoardControl x:Name="boardControl" 
-                                   Grid.Row="0"
-                                   Grid.Column="0"
+                <Grid x:Name="boardControl" 
+                      Grid.Row="0"
+                      Grid.Column="0">
+                    <controls:BoardControl 
                                    ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch" />
 
-                <Grid x:Name="gameInfoControl"
-                      Grid.Row="0" Grid.Column="1" 
-                      BorderBrush="Black" BorderThickness="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    <Button x:Name="controlMenuButton"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="5">
+                        <FontIcon Glyph="&#xE700;"
+                                  Margin="2"/>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.Hint}" Command="{x:Bind VM.GetHintCommand}" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Text="Chat" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
+                                <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+                </Grid>
 
-                    <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" />
-                    <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" />
+                <ScrollViewer x:Name="gameInfoControl"
+                              Grid.Row="0" Grid.Column="1"
+                              VerticalScrollBarVisibility="Auto">
+                    <Grid BorderBrush="Black" BorderThickness="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                    <StackPanel x:Name="handicapCommands" Orientation="Vertical" 
-                                Grid.Row="2" Grid.ColumnSpan="2"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" Margin="10" />
+                        <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" Margin="10" />
+
+                        
+                        <StackPanel x:Name="handicapCommands" Orientation="Vertical" 
+                                Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource handicapPhaseVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <Grid HorizontalAlignment="Stretch" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5" />
+                            <Grid HorizontalAlignment="Stretch" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="0" Margin="5"
+                                <Button Grid.Column="0" Margin="5"
                                     Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
                                     HorizontalAlignment="Stretch"
                                     Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
-                            <Button Grid.Column="1" Margin="5"
+                                <Button Grid.Column="1" Margin="5"
                                     Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
                                     HorizontalAlignment="Stretch"
                                     Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
-                        </Grid>
+                            </Grid>
 
-                        <Button Grid.Column="1" Margin="5"
+                            <Button Margin="5"
                                     Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
                                     HorizontalAlignment="Stretch" />
-                        <Button Grid.Column="1" Margin="5"
+                            <Button Margin="5"
                                     Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
                                     HorizontalAlignment="Stretch"/>
+                            <!-- TODO Vita Make a visibility converter that returns true for both Handicap and Main phase, because their controls are identical -->
+                        </StackPanel>
 
-                        <Button Margin="5" 
-                                Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
-                        <!-- TODO Petr Move Resign to control menu when available -->
-                        <!-- TODO Vita Make a visibility converter that returns true for both Handicap and Main phase, because their controls are identical -->
-                    </StackPanel>
-
-                    <StackPanel x:Name="mainCommands" Orientation="Vertical" 
-                                Grid.Row="2" Grid.ColumnSpan="2"
+                        <StackPanel x:Name="mainCommands" Orientation="Vertical" 
+                                Grid.Row="2" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource mainPhaseVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <Grid HorizontalAlignment="Stretch" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*" />
-                                <ColumnDefinition Width="1*" />
-                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                            <Grid HorizontalAlignment="Stretch" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
 
-                            <Button Grid.Column="0" Margin="5"
+                                <Button Grid.Column="0" Margin="5"
                                     Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
                                     HorizontalAlignment="Stretch"
                                     Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
-                            <Button Grid.Column="1" Margin="5"
+                                <Button Grid.Column="1" Margin="5"
                                     Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
                                     HorizontalAlignment="Stretch"
                                     Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
-                        </Grid>
-                        <Border Margin="5" Visibility="{x:Bind VM.OutgoingUndoInProgress, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
-                            <TextBlock Margin="5" HorizontalAlignment="Center" Text="You have requested an undo." TextWrapping="Wrap"></TextBlock>
-                        </Border>
-                        <Border Margin="5" Visibility="{x:Bind VM.CanAgreeOrDisagreeUndo, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
-                            <StackPanel>
-                                <TextBlock Text="Your opponent requested his or her last move to be undone." TextWrapping="Wrap" Margin="5"></TextBlock>
-                                <Button Margin="5"
+                            </Grid>
+                            <Border Margin="5" Visibility="{x:Bind VM.OutgoingUndoInProgress, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
+                                <TextBlock Margin="5" HorizontalAlignment="Center" Text="You have requested an undo." TextWrapping="Wrap"></TextBlock>
+                            </Border>
+                            <Border Margin="5" Visibility="{x:Bind VM.CanAgreeOrDisagreeUndo, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
+                                <StackPanel>
+                                    <TextBlock Text="Your opponent requested his or her last move to be undone." TextWrapping="Wrap" Margin="5"></TextBlock>
+                                    <Button Margin="5"
                                             Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
                                             HorizontalAlignment="Stretch" />
-                                <Button Margin="5"
+                                    <Button Margin="5"
                                             Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
                                             HorizontalAlignment="Stretch"/>
-                            </StackPanel>
-                        </Border>
-                        <Button Margin="5" 
+                                </StackPanel>
+                            </Border>
+                            <Button Margin="5" 
                                 Content="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" HorizontalAlignment="Stretch" />
-                        <!-- TODO Petr Move Resign to control menu when available -->
-                    </StackPanel>
+                            <!-- TODO Petr Move Resign to control menu when available -->
+                        </StackPanel>
 
-                    <StackPanel x:Name="lifeAndDeathCommands"
-                                Grid.Row="3" Grid.ColumnSpan="2"
+                        <StackPanel x:Name="lifeAndDeathCommands"
+                                Grid.Row="3" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource lifeAndDeathPhaseVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                        <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
-                        <Button Margin="5" 
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                            <TextBlock Text="{x:Bind Localizer.StoneRemovalText, Mode=OneWay}" Padding="3" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,5"></TextBlock>
+                            <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathDone}" Command="{x:Bind VM.LifeAndDeathDoneCommand}" HorizontalAlignment="Stretch" />
-                        <Button Margin="5" 
+                            <Button Margin="5" 
                                 Visibility="{x:Bind VM.ResumingGameIsPossible, Mode=OneWay}"
                                 Content="{x:Bind Localizer.LifeDeathResume}" Command="{x:Bind VM.ResumeGameCommand}" HorizontalAlignment="Stretch" />
-                        <Button Margin="5" 
+                            <Button Margin="5" 
                                 Content="{x:Bind Localizer.LifeDeathUndo}" Command="{x:Bind VM.RequestUndoDeathMarksCommand}" HorizontalAlignment="Stretch" />
-                    </StackPanel>
+                        </StackPanel>
 
-                    <StackPanel x:Name="finishedCommands"
-                                Grid.Row="3" Grid.ColumnSpan="2"
+                        <StackPanel x:Name="finishedCommands"
+                                Grid.Row="3" Grid.ColumnSpan="2" Margin="10"
                                 Visibility="{x:Bind VM.GamePhase, Converter={StaticResource finishedVisibilityConverter}, Mode=OneWay}">
-                        <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
-                    </StackPanel>
+                            <TextBlock Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" TextWrapping="Wrap" FontSize="24" HorizontalAlignment="Center" Margin="0,5,0,5"></TextBlock>
+                        </StackPanel>
 
-                    <ListView x:Name="systemLog" Grid.Row="4"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="2"
-                              Background="White"
-                              Foreground="Black"
-                              ItemsSource="{x:Bind VM.Log}">
-                        <ListView.Resources>
-                            <Style TargetType="ListViewItem">
-                                <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
-                                <Setter Property="MinHeight" Value="10"/>
-                            </Style>
-                        </ListView.Resources>
+                        <StackPanel x:Name="analyzeModeCommand"
+                                    Grid.Row="4" Grid.ColumnSpan="2"
+                                    Margin="10">
+                            <controls:AnalyzeControl  x:Name="analyzeControl"
+                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}"
+                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                            <controls:TimelineControl x:Name="timelineControl"
+                                                      HorizontalAlignment="Stretch"
+                                                      Height="200"
+                                                      ViewModel="{x:Bind VM.TimelineViewModel}"
+                                                      Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}"/>
+                        </StackPanel>
 
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+
+                        <ListView x:Name="systemLog" Grid.Row="5"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  Margin="10" Height="400"
+                                  Visibility="{x:Bind VM.IsSystemLogEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"
+                                  Background="White" Foreground="Black"
+                                  ItemsSource="{x:Bind VM.Log}">
+                            <ListView.Resources>
+                                <Style TargetType="ListViewItem">
+                                    <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
+                                    <Setter Property="MinHeight" Value="10"/>
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollViewer>
+                
             </Grid>
         </ScrollViewer>
 
-        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="0">
+        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" 
+                Grid.Row="2" Grid.Column="0">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>
