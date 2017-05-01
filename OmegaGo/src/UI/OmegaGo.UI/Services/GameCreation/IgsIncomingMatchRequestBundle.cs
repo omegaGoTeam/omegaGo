@@ -26,6 +26,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override bool WillCreateChallenge => false;
         public override string TabTitle => _igsMatchRequest.OpponentName + " (IGS)";
+        public override bool CanReturn => false;
 
 
         public override bool Frozen => true;

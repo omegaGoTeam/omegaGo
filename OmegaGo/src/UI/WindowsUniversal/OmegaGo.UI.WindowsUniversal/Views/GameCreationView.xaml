@@ -47,8 +47,9 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0" />
+                                         ShowBackButton="{x:Bind VM.Bundle.CanReturn}"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,20,0,0" />     
 
                 <Grid x:Name="Form"
               HorizontalAlignment="Center">

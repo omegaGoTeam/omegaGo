@@ -33,6 +33,11 @@ namespace OmegaGo.UI.Services.GameCreation
         /// </summary>
         public abstract bool SupportsChangingRulesets { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether the back button should be displayed in a game creation view.
+        /// </summary>
+        public abstract bool CanReturn { get; }
+
         public bool SupportsChangingRulesetsAndNotFrozen => SupportsChangingRulesets && NotFrozen;
 
         /// <summary>
