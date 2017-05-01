@@ -49,6 +49,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         event EventHandler<Position> LifeDeathKillGroupForced;
 
         /// <summary>
+        /// Indicates that a group must be brought back to life
+        /// </summary>
+        event EventHandler<Position> LifeDeathRevivifyGroupForced;
+
+        /// <summary>
         /// Indicates a request to undo a move in main phase
         /// </summary>
         event EventHandler MainUndoRequested;

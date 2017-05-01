@@ -51,6 +51,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler LifeDeathDoneForced;
         public event EventHandler<Position> LifeDeathKillGroupRequested;
         public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler<Position> LifeDeathRevivifyGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 

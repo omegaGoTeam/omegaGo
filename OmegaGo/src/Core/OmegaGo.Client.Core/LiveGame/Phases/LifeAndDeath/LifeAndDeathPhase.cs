@@ -62,10 +62,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathUndoDeathMarksRequested += Connector_LifeDeathUndoDeathMarksRequested;
                 connector.LifeDeathKillGroupRequested += Connector_LifeDeathKillGroupRequested;
                 connector.LifeDeathKillGroupForced += Connector_LifeDeathKillGroupForced;
+                connector.LifeDeathRevivifyGroupForced += Connector_LifeDeathRevivifyGroupForced;
                 connector.LifeDeathUndoDeathMarksForced += Connector_LifeDeathUndoDeathMarksForced;
             }
         }
-      
+
         /// <summary>
         /// Ends life and death phase
         /// </summary>
@@ -79,6 +80,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
                 connector.LifeDeathKillGroupRequested -= Connector_LifeDeathKillGroupRequested;
                 connector.LifeDeathKillGroupForced -= Connector_LifeDeathKillGroupForced;
                 connector.LifeDeathUndoDeathMarksForced -= Connector_LifeDeathUndoDeathMarksForced;
+                connector.LifeDeathRevivifyGroupForced -= Connector_LifeDeathRevivifyGroupForced;
             }
         }
 
@@ -114,6 +116,37 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
 
             RecalculateTerritories();
             Controller.OnDebuggingMessage(position + " marked dead.");
+        }
+
+        private void MarkGroupAlive(Position position)
+        {
+
+            //take the current board
+            var board = Controller.CurrentNode.BoardState;
+            if (board[position.X, position.Y] == StoneColor.None)
+            {
+                return;
+            }
+
+            Controller.Ruleset.SetRulesetInfo(Controller.CurrentNode.BoardState, Controller.CurrentNode.GroupState);
+
+            //discover group at position
+            int groupID = Controller.Ruleset.RulesetInfo.GroupState.GroupMap[position.X, position.Y];
+            var groupMembers = Controller.Ruleset.RulesetInfo.GroupState.Groups[groupID].Members;
+
+            foreach (var deadStone in groupMembers)
+            {
+                if (_deadPositions.Contains(deadStone))
+                {
+                    _deadPositions.Remove(deadStone);
+                }
+            }
+
+            //reset life and death players state
+            _playersDoneWithLifeDeath.Clear();
+
+            RecalculateTerritories();
+            Controller.OnDebuggingMessage(position + " marked alive.");
         }
 
         /// <summary>
@@ -228,6 +261,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         private void Connector_LifeDeathKillGroupForced(object sender, Position e)
         {
             MarkGroupDead(e);
+        }
+        private void Connector_LifeDeathRevivifyGroupForced(object sender, Position e)
+        {
+            MarkGroupAlive(e);
         }
 
         private void Connector_LifeDeathDoneRequested(object sender, EventArgs e)

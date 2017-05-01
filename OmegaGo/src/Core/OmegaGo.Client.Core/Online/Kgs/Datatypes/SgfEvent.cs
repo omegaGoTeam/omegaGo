@@ -37,8 +37,13 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
             switch (Type)
             {
                 case "PROP_REMOVED":
-                    Debug.WriteLine(this);
-                    // TODO ALIVE
+                    ongame.Controller.Nodes[NodeId].RemoveProperty(Prop, ongame);
+                    break;
+                case "PROP_GROUP_REMOVED":
+                    foreach (var prop in Props)
+                    {
+                        ongame.Controller.Nodes[NodeId].RemoveProperty(prop, ongame);
+                    }
                     break;
                 case "PROP_GROUP_ADDED":
                     foreach (var prop in Props)

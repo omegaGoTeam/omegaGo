@@ -47,6 +47,18 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
             ExecuteProperty(prop, ongame);
         }
 
+        public void RemoveProperty(KgsSgfProperty prop, KgsGame ongame)
+        {
+            var existing =  Properties.FirstOrDefault(p => p.Name == prop.Name && (p.Loc?.SameAs(prop.Loc) ?? true));
+            if (existing != null)
+            {
+                Properties.Remove(existing);
+            }
+            ExecutePropertyRemoval(prop, ongame);
+        }
+
+        
+
         private void ExecuteProperty(KgsSgfProperty prop, KgsGame ongame)
         {
             switch (prop.Name)
@@ -120,9 +132,28 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     break;
             }
         }
+        private void ExecutePropertyRemoval(KgsSgfProperty prop, KgsGame ongame)
+        {
+            switch (prop.Name)
+            {
+                case "DEAD":
+                    if (ongame.Controller.Phase.Type != Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+                    {
+                        ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
+                    }
+                    ongame.Controller.KgsConnector.ForceRevivifyGroup(
+                        new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         public override string ToString()
         {
             return "Node [" + Properties.Count + " props, first: " + Properties.FirstOrDefault()?.Name + "]";
         }
+
     }
 }
