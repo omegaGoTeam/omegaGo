@@ -50,7 +50,9 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _createChallengeCommand;
         private IMvxCommand _acceptChallengeCommand;
         private IMvxCommand _refuseChallengeCommand;
+        private IMvxCommand _declineSingleOpponentCommand;
         private bool _useRecommendedKomi = true;
+        private string _opponentName = "";
         private string _validationErrorMessage = "";
         private string _compensationString;
         private int _selectedColorIndex = 0;
@@ -76,6 +78,7 @@ namespace OmegaGo.UI.ViewModels
 
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
+            this.OpponentName = _bundle.OpponentName;
 
             var thisTab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
             if (thisTab != null)
@@ -153,12 +156,6 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public string Server
-        {
-            get { return _server; }
-            set { SetProperty(ref _server, value); }
-        }
-
         public string ValidationErrorMessage
         {
             get { return _validationErrorMessage; }
@@ -233,6 +230,11 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public string OpponentName
+        {
+            get { return _opponentName; }
+            set { SetProperty(ref _opponentName, value); }
+        }
         public string CustomWidth
         {
             get { return _customWidth.ToString(); }
@@ -341,9 +343,16 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
             async () => { await CreateChallenge(); }));
 
+        
+        public IMvxCommand DeclineSingleOpponentCommand
+            => _declineSingleOpponentCommand ?? (_declineSingleOpponentCommand = new MvxCommand(
+                async () => { await DeclineSingleOpponent(); },
+                () => Bundle.IsDeclineSingleOpponentEnabled()));
         public IMvxCommand AcceptChallengeCommand
             => _acceptChallengeCommand ?? (_acceptChallengeCommand = new MvxCommand(
-                async () => { await AcceptChallenge(); }));
+                async () => { await AcceptChallenge(); },
+                ()=> Bundle.IsAcceptButtonEnabled()));
+
         public IMvxCommand RefuseChallengeCommand
             => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
                 async () => { await RefuseChallenge(); }));
@@ -393,15 +402,23 @@ namespace OmegaGo.UI.ViewModels
                 return;
             }
             IGame game = await Bundle.AcceptChallenge(this);
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<OnlineGameViewModel>();
+            if (game != null)
+            {
+                Mvx.RegisterSingleton<IGame>(game);
+                ShowViewModel<OnlineGameViewModel>();
+            }
         }
+
+        private async Task DeclineSingleOpponent()
+        {
+            await Bundle.DeclineSingleOpponent();
+        }
+
         private async Task RefuseChallenge()
         {
             // Refusing does not require validation.
             await Bundle.RefuseChallenge(this);
-            var provider = Mvx.Resolve<ITabProvider>();
-            provider.CloseTab(provider.GetTabForViewModel(this));
+            this.CloseSelf();
         }
 
         private void StartGameImmediately()
@@ -473,6 +490,14 @@ namespace OmegaGo.UI.ViewModels
                     return false;
                 }
                 // ReSharper restore CompareOfFloatsByEqualityOperator
+                if (Bundle.IsKgs)
+                {
+                    if (compensation < -100 || compensation > 100)
+                    {
+                        ValidationErrorMessage = "KGS requires that komi be between -100 and 100.";
+                        return false;
+                    }
+                }
             }
             else
             {
@@ -512,6 +537,14 @@ namespace OmegaGo.UI.ViewModels
                 {
                     // This should never happen.
                     ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
+                    return false;
+                }
+            }
+            if (Bundle.IsKgs)
+            {
+                if (SelectedGameBoardSize.Width > 38)
+                {
+                    ValidationErrorMessage = "KGS does not allow board sizes larger than 38x38.";
                     return false;
                 }
             }

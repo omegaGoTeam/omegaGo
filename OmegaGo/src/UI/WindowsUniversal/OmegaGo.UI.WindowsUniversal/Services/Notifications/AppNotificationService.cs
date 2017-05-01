@@ -14,5 +14,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Notifications
         {
             AppShell.GetForCurrentView().TriggerBubbleNotification(notification);
         }
+
+        public void TriggerNotification(string text)
+        {
+            TriggerNotification(new BubbleNotification(text));
+        }
     }
 }

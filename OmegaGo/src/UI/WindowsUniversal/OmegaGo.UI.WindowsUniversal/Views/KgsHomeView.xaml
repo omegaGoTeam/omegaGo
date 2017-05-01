@@ -66,7 +66,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock>All rooms: </TextBlock>
+                        <TextBlock>All rooms:</TextBlock>
                         <ListBox Grid.Row="1" Width="400" ItemsSource="{x:Bind VM.AllRooms, Mode=OneWay}"
                                  SelectedItem="{x:Bind VM.SelectedRoom, Mode=TwoWay}">
                             <ListBox.ItemContainerStyle>
@@ -87,21 +87,15 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="0">
                             <Button Command="{x:Bind VM.JoinRoomCommand}">Join</Button>
                             <Button Command="{x:Bind VM.UnjoinRoomCommand}">Unjoin</Button>
+                            <Button Command="{x:Bind VM.CreateChallengeCommand}">Create challenge...</Button>
                         </StackPanel>
                         <TextBox Grid.Row="1" Height="300" AcceptsReturn="True" TextWrapping="Wrap"
                                  IsReadOnly="True"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                                  Text="{x:Bind VM.SelectedRoom.Description, Mode=OneWay}">
                         </TextBox>
-                        <TextBlock Grid.Row="2">Games and challenges:</TextBlock>
-                        <ListBox Grid.Row="3">
-                            <!-- to be done later -->
-                        </ListBox>
                     </Grid>
                 </Grid>
-            </PivotItem>
-            <PivotItem Header="Automatch">
-                <TextBlock>To be done.</TextBlock>
             </PivotItem>
         </Pivot>
         <StackPanel Grid.Row="1" Orientation="Horizontal">

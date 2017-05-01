@@ -60,14 +60,14 @@ namespace OmegaGo.UI.Services.GameCreation
                     new Notifications.BubbleNotification("Challenge to " + selectedChallengeableUser.Name + " sent."));
         }
 
-        public override void OnLoad(GameCreationViewModel gameCreationViewModel)
+        public override void OnLoad(GameCreationViewModel vm)
         {
-            base.OnLoad(gameCreationViewModel);
-            gameCreationViewModel.FormTitle = Localizer.Creation_OutgoingIgsRequest;
-            gameCreationViewModel.TimeControl.Style = Core.Time.TimeControlStyle.Canadian;
-            gameCreationViewModel.TimeControl.StonesPerPeriod = "25";
-            gameCreationViewModel.TimeControl.OvertimeMinutes = "10";
-            gameCreationViewModel.TimeControl.MainTime = "90";
+            base.OnLoad(vm);
+            vm.FormTitle = Localizer.Creation_OutgoingIgsRequest;
+            vm.TimeControl.Style = Core.Time.TimeControlStyle.Canadian;
+            vm.TimeControl.StonesPerPeriod = "25";
+            vm.TimeControl.OvertimeMinutes = "10";
+            vm.TimeControl.MainTime = "90";
         }
     }
 }
