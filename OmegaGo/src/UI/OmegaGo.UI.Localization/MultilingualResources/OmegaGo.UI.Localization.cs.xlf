@@ -1645,7 +1645,75 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Feedback" translate="yes" xml:space="preserve">
           <source>Feedback</source>
-          <target state="new">Feedback</target>
+          <target state="needs-review-translation">Feedback</target>
+        </trans-unit>
+        <trans-unit id="Validation_FluffyDepthTooSmall" translate="yes" xml:space="preserve">
+          <source>Fluffy tree depth must be at least 1.</source>
+          <target state="translated">Hloubka stromu pro Fluffyho musí být alespoň 1.</target>
+        </trans-unit>
+        <trans-unit id="Validation_FuegoGamesTooFew" translate="yes" xml:space="preserve">
+          <source>Fuego must be set to play at least 10 games.</source>
+          <target state="translated">Fuego musí vždy odehrát alespoň 10 her.</target>
+        </trans-unit>
+        <trans-unit id="Validation_MainTime" translate="yes" xml:space="preserve">
+          <source>main time</source>
+          <target state="translated">hlavní čas</target>
+        </trans-unit>
+        <trans-unit id="Validation_NigiriIsForbidden" translate="yes" xml:space="preserve">
+          <source>Pandanet does not allow the use of nigiri to choose a color.</source>
+          <target state="translated">Pandanet neumožňuje náhodnou volbu barvy.</target>
+        </trans-unit>
+        <trans-unit id="Validation_NumberOfMovesPerPeriod" translate="yes" xml:space="preserve">
+          <source>number of moves per period</source>
+          <target state="translated">počet tahů za periodu</target>
+        </trans-unit>
+        <trans-unit id="Validation_OvertimeLength" translate="yes" xml:space="preserve">
+          <source>overtime length</source>
+          <target state="translated">délka přesčasové periody</target>
+        </trans-unit>
+        <trans-unit id="Validation_SizeTooLarge" translate="yes" xml:space="preserve">
+          <source>For this AI program, you must select a smaller board.</source>
+          <target state="translated">Pro tuto umělou inteligenci musíte zvolit menší velikost.</target>
+        </trans-unit>
+        <trans-unit id="Validation_SizeTooSmall" translate="yes" xml:space="preserve">
+          <source>For this AI program, you must select a larger board.</source>
+          <target state="translated">Pro tuto umělou inteligenci musíte zvolit větší velikost.</target>
+        </trans-unit>
+        <trans-unit id="Validation_SquareNeeded" translate="yes" xml:space="preserve">
+          <source>For this AI program, you must select a square board.</source>
+          <target state="translated">Pro tuto umělou inteligenci musíte zvolit čtvercovou velikost.</target>
+        </trans-unit>
+        <trans-unit id="Validation_TimeControlError" translate="yes" xml:space="preserve">
+          <source>A field ('{0}') doesn't contain a nonnegative integer.</source>
+          <target state="translated">Pole '{0}' by mělo obsahovat nezáporné celé číslo.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHave19x19OrSmaller" translate="yes" xml:space="preserve">
+          <source>Pandanet does not allow board sizes larger than 19x19.</source>
+          <target state="translated">Pandanet neumožňuje velikosti větší než 19x19.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHave2x2OrGreater" translate="yes" xml:space="preserve">
+          <source>Board size must be 2x2 or larger.</source>
+          <target state="translated">Velikost musí být 2x2 nebo větší.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHave38x38OrSmaller" translate="yes" xml:space="preserve">
+          <source>KGS does not allow board sizes larger than 38x38.</source>
+          <target state="translated">KGS neumožňuje velikosti větší než 38x38.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHave5x5OrGreater" translate="yes" xml:space="preserve">
+          <source>Pandanet does not allow board sizes smaller than 5x5.</source>
+          <target state="translated">Pandanet neumožňuje velikosti menší než 5x5.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHaveHalfInteger" translate="yes" xml:space="preserve">
+          <source>Komi must be a half-integer, such as '0' or '7.5'.</source>
+          <target state="translated">Komi musí být celé nebo celé a jedna polovina, jako například '0' nebo '7.5'.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustHaveSmallerKomi" translate="yes" xml:space="preserve">
+          <source>KGS requires that komi be between -100 and 100.</source>
+          <target state="translated">KGS vyžaduje, aby komi bylo mezi -100 a 100.</target>
+        </trans-unit>
+        <trans-unit id="Validation_YouMustSelectASquareBoard" translate="yes" xml:space="preserve">
+          <source>You must select a square board.</source>
+          <target state="translated">Musíte zvolit čtvercovou velikost.</target>
         </trans-unit>
         <trans-unit id="AnalyzeMode" translate="yes" xml:space="preserve">
           <source>Analyze mode</source>

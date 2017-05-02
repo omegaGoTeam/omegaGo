@@ -463,12 +463,12 @@ namespace OmegaGo.UI.ViewModels
             ValidationErrorMessage = "";
             if (Bundle.SupportsOnlySquareBoards && !SelectedGameBoardSize.IsSquare)
             {
-                ValidationErrorMessage = "You must select a square board.";
+                ValidationErrorMessage = Localizer.Validation_YouMustSelectASquareBoard;
                 return false;
             }
             if (SelectedGameBoardSize.Width < 2 || SelectedGameBoardSize.Height < 2)
             {
-                ValidationErrorMessage = "Board size must be 2x2 or larger.";
+                ValidationErrorMessage = Localizer.Validation_YouMustHave2x2OrGreater;
                 return false;
             }
             float compensation;
@@ -478,7 +478,7 @@ namespace OmegaGo.UI.ViewModels
                 // ReSharper disable CompareOfFloatsByEqualityOperator
                 if (fractionalpart != 0 && fractionalpart != 0.5f)
                 {
-                    ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                    ValidationErrorMessage = Localizer.Validation_YouMustHaveHalfInteger;
                     return false;
                 }
                 // ReSharper restore CompareOfFloatsByEqualityOperator
@@ -486,14 +486,14 @@ namespace OmegaGo.UI.ViewModels
                 {
                     if (compensation < -100 || compensation > 100)
                     {
-                        ValidationErrorMessage = "KGS requires that komi be between -100 and 100.";
+                        ValidationErrorMessage = Localizer.Validation_YouMustHaveSmallerKomi;
                         return false;
                     }
                 }
             }
             else
             {
-                ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                ValidationErrorMessage = Localizer.Validation_YouMustHaveHalfInteger;
                 return false;
             }
             string errorMessage = "Error loading AI information."; // <-- Should never display.
@@ -517,18 +517,18 @@ namespace OmegaGo.UI.ViewModels
             {
                 if (SelectedGameBoardSize.Width < 5)
                 {
-                    ValidationErrorMessage = "Pandanet does not allow board sizes smaller than 5x5.";
+                    ValidationErrorMessage = Localizer.Validation_YouMustHave5x5OrGreater;
                     return false;
                 }
                 if (SelectedGameBoardSize.Width > 19)
                 {
-                    ValidationErrorMessage = "Pandanet does not allow board sizes larger than 19x19.";
+                    ValidationErrorMessage = Localizer.Validation_YouMustHave19x19OrSmaller;
                     return false;
                 }
                 if (SelectedColor == StoneColor.None)
                 {
                     // This should never happen.
-                    ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
+                    ValidationErrorMessage = Localizer.Validation_NigiriIsForbidden;
                     return false;
                 }
             }
@@ -536,11 +536,10 @@ namespace OmegaGo.UI.ViewModels
             {
                 if (SelectedGameBoardSize.Width > 38)
                 {
-                    ValidationErrorMessage = "KGS does not allow board sizes larger than 38x38.";
+                    ValidationErrorMessage = Localizer.Validation_YouMustHave38x38OrSmaller;
                     return false;
                 }
             }
-            // TODO Petr: validate time control
             return true;
         }
     }
