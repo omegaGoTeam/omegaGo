@@ -405,7 +405,8 @@ namespace OmegaGo.UI.ViewModels
             if (game != null)
             {
                 Mvx.RegisterSingleton<IGame>(game);
-                ShowViewModel<OnlineGameViewModel>();
+                OpenInNewActiveTab<OnlineGameViewModel>();
+                this.CloseSelf();
             }
         }
 
@@ -428,24 +429,6 @@ namespace OmegaGo.UI.ViewModels
                 return;
             }
 
-            CreateAndRegisterGame();
-
-            // Navigate to specific View Model
-            if (_bundle.Style == GameCreationFormStyle.LocalGame)
-            {
-                ShowViewModel<LocalGameViewModel>();
-            }
-            else
-            {
-                ShowViewModel<OnlineGameViewModel>();
-            }
-        }
-
-        /// <summary>
-        /// Creates and registers the specified game
-        /// </summary>
-        private void CreateAndRegisterGame()
-        {
             GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl, BlackPlayerSettings);
             GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl, WhitePlayerSettings);
             BlackPlayerSettings.SaveAsInterfaceMementos();
@@ -464,6 +447,16 @@ namespace OmegaGo.UI.ViewModels
                 BlackPlayer(blackPlayer).
                 Build();
             Mvx.RegisterSingleton<IGame>(game);
+
+            // Navigate to specific View Model
+            if (_bundle.Style == GameCreationFormStyle.LocalGame)
+            {
+                OpenInNewActiveTab<LocalGameViewModel>();
+            }
+            else
+            {
+                OpenInNewActiveTab<OnlineGameViewModel>();
+            }
         }
 
         private bool Validate()
