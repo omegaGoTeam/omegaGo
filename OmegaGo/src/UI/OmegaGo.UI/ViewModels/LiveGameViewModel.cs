@@ -94,6 +94,7 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
+        
         protected GameToolServices ToolServices { get; }
         protected ITool Tool { get; private set; }
 

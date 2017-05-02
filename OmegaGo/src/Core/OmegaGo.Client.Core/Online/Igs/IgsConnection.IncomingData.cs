@@ -494,7 +494,7 @@ namespace OmegaGo.Core.Online.Igs
                 {
 
                     int gameNumber = IgsRegex.ParseGameNumberFromSayInformation(currentLineBatch[0]);
-                    ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1]);
+                    ChatMessage chatLine = IgsRegex.ParseSayLine(currentLineBatch[1], this);
                     IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == gameNumber);
                     if (relevantGame == null)
                     {
@@ -517,7 +517,7 @@ namespace OmegaGo.Core.Online.Igs
                     string text = currentLineBatch[1].PureLine.Trim();
                     IgsGame relevantGame = this.GamesYouHaveOpened.Find(gi => gi.Info.IgsIndex == firstLine.Item2);
                     GetConnector(relevantGame.Info).ChatMessageFromServer(new ChatMessage(firstLine.Item1,
-                        text, DateTimeOffset.Now, ChatMessageKind.Incoming));
+                        text, DateTimeOffset.Now, firstLine.Item1 == this.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming));
                 }
 
                 if (currentLineBatch[0].Code == IgsCode.Tell &&

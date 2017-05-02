@@ -110,11 +110,11 @@ empty string*/
             return match.Groups[1].Value.AsInteger();
         }
 
-        public static ChatMessage ParseSayLine(IgsLine igsLine)
+        public static ChatMessage ParseSayLine(IgsLine igsLine, IgsConnection server)
         {
             Match match = regexSay.Match(igsLine.EntireLine);
             return new ChatMessage(match.Groups[1].Value, match.Groups[2].Value, DateTimeOffset.Now,
-                ChatMessageKind.Incoming);
+                 match.Groups[1].Value == server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
         }
 
         public static string WhoRequestsUndo(IgsLine igsLine)

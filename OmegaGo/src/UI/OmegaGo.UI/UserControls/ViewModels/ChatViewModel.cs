@@ -65,8 +65,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// <returns></returns>
         private async Task SendMessageAsync()
         {
-            await _chatService.SendMessageAsync(MessageText);            
+            if (String.IsNullOrWhiteSpace(MessageText))
+            {
+                return;
+            }
+            string msg = MessageText;
             MessageText = "";
+            await _chatService.SendMessageAsync(msg); 
         }
     }
 }

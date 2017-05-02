@@ -79,7 +79,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     if (tuple != null)
                     {
                         var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
-                            DateTimeOffset.Now, ChatMessageKind.Incoming);
+                            DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
                         ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
                     }
                     break;

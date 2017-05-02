@@ -14,6 +14,8 @@ namespace OmegaGo.Core.Online.Chat
 
         public DateTimeOffset Time { get;  }
 
+        public string TimeString => Time.ToString("HH:mm");
+
         public ChatMessageKind Kind { get; }
 
         public ChatMessage(string userName, string text, DateTimeOffset time, ChatMessageKind kind)
