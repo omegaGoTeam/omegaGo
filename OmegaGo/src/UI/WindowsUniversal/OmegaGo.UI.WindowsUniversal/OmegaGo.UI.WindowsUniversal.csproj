@@ -173,6 +173,9 @@
     <Compile Include="UserControls\SimpleBoardControl.xaml.cs">
       <DependentUpon>SimpleBoardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Singleplayer\QuestControl.xaml.cs">
+      <DependentUpon>QuestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\TimelineControl.xaml.cs">
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
@@ -448,6 +451,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SimpleBoardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Singleplayer\QuestControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
