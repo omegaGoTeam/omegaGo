@@ -33,7 +33,11 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="sgfPoint">SGF point</param>
         /// <returns>Position</returns>
-        internal static Position FromSgfPoint(SgfPoint sgfPoint, GameBoardSize size ) => new Position(sgfPoint.Column, size.Height - sgfPoint.Row-1);
+        internal static Position FromSgfPoint(SgfPoint sgfPoint, GameBoardSize size) => 
+            new Position(sgfPoint.Column, size.Height - sgfPoint.Row - 1);
+
+        internal SgfPoint ToSgfPoint( GameBoardSize size) => 
+            new SgfPoint(X, size.Height - Y - 1);
 
         /// <summary>
         /// Gets or sets the letter-based coordinate that is usually put first (e.g. the "C" in "C6"). It is zero-based, i.e. it would be "2" for C6.
@@ -117,7 +121,7 @@ namespace OmegaGo.Core.Game
         {
             if (xCoordinate < 0 || xCoordinate >= 25)
             {
-                return "[" + xCoordinate +  "]";
+                return "[" + xCoordinate + "]";
             }
             char result = (char)('A' + xCoordinate);
             if (result >= 'I')

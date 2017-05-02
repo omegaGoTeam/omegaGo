@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.UI.Services.Dialogs;
@@ -115,9 +116,9 @@ namespace OmegaGo.UI.ViewModels
                 {
                     var parsed = p.Parse(content);
                     var firstTree = parsed.GameTrees.First();
-                    var rootNode = GameTreeConverter.FromSgfGameTree(firstTree);
-                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size), rootNode.BoardState.Size);
-                    trueTree.GameTreeRoot = rootNode;
+                    var conversionResult = new SgfToGameTreeConverter(firstTree).Convert();
+                    var trueTree = conversionResult.GameTree;
+                    var rootNode = trueTree.GameTreeRoot;
                     int moveCount = 0;
                     var node = rootNode;
                     while (node.Branches.Any())
@@ -127,9 +128,9 @@ namespace OmegaGo.UI.ViewModels
                     }
 
                     list.Add(new LibraryItem(trueTree, file, moveCount,
-                        firstTree.GetRootProperty<string>("DT"),
-                        firstTree.GetRootProperty<string>("PB"),
-                        firstTree.GetRootProperty<string>("PW"),
+                        firstTree.GetPropertyInSequence("DT")?.Value<string>(),
+                        firstTree.GetPropertyInSequence("PB")?.Value<string>(),
+                        firstTree.GetPropertyInSequence("PW")?.Value<string>(),
                         rootNode.Comment?.Substring(0, Math.Min(200, rootNode.Comment.Length)) ?? "",
                         content
                         ));
