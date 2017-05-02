@@ -595,16 +595,16 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Storno</target>
         </trans-unit>
         <trans-unit id="QuitCaption" translate="yes" xml:space="preserve">
-          <source>Quit game?</source>
-          <target state="translated">Ukončit hru?</target>
+          <source>Quit omegaGo?</source>
+          <target state="translated">Ukončit omegaGo?</target>
         </trans-unit>
         <trans-unit id="QuitConfirm" translate="yes" xml:space="preserve">
           <source>Quit</source>
-          <target state="translated">Ukončit</target>
+          <target state="translated">Ukončit omegaGo</target>
         </trans-unit>
         <trans-unit id="QuitText" translate="yes" xml:space="preserve">
-          <source>Do you really want to quit the game?</source>
-          <target state="translated">Opravdu chcete ukončit hru?</target>
+          <source>Do you really want to exit the omegaGo program? All ongoing games will be cancelled.</source>
+          <target state="translated">Opravdu chcete ukončit program omegaGo? Všechny probíhající hry budou zrušeny.</target>
         </trans-unit>
         <trans-unit id="SingleplayerMenu" translate="yes" xml:space="preserve">
           <source>Singleplayer Menu</source>

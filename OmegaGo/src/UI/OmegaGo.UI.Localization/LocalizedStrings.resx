@@ -653,13 +653,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Cancel</value>
   </data>
   <data name="QuitCaption" xml:space="preserve">
-    <value>Quit game?</value>
+    <value>Quit omegaGo?</value>
   </data>
   <data name="QuitConfirm" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="QuitText" xml:space="preserve">
-    <value>Do you really want to quit the game?</value>
+    <value>Do you really want to exit the omegaGo program? All ongoing games will be cancelled.</value>
   </data>
   <data name="SingleplayerMenu" xml:space="preserve">
     <value>Singleplayer Menu</value>
@@ -846,7 +846,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Net Traditional</value>
   </data>
   <data name="PureSkillQuest_Description" xml:space="preserve">
-    <value>"Win a solo game against Fuego without handicap.</value>
+    <value>Win a solo game against Fuego without handicap.</value>
   </data>
   <data name="PureSkillQuest_Name" xml:space="preserve">
     <value>Pure Skill</value>

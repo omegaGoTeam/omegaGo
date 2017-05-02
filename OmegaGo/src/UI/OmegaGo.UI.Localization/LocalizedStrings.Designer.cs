@@ -2184,7 +2184,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Win a solo game against Fuego without handicap..
+        ///   Looks up a localized string similar to Win a solo game against Fuego without handicap..
         /// </summary>
         public static string PureSkillQuest_Description {
             get {
@@ -2274,7 +2274,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quit game?.
+        ///   Looks up a localized string similar to Quit omegaGo?.
         /// </summary>
         public static string QuitCaption {
             get {
@@ -2292,7 +2292,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you really want to quit the game?.
+        ///   Looks up a localized string similar to Do you really want to exit the omegaGo program? All ongoing games will be cancelled..
         /// </summary>
         public static string QuitText {
             get {
