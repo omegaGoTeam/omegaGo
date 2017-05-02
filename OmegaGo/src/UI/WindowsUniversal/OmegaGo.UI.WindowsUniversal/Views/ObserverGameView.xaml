@@ -166,6 +166,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -188,6 +189,10 @@
                                                       Height="200"
                                                       ViewModel="{x:Bind VM.TimelineViewModel}" />
                         </StackPanel>
+
+                        <controls:ChatControl ViewModel="{x:Bind VM.ChatViewModel, Mode=OneWay}"
+                                              Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                                              ></controls:ChatControl>
 
 
                         <ListView x:Name="systemLog" Grid.Row="3"
