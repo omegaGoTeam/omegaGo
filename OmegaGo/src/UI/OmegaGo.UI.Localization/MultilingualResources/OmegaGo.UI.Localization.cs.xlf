@@ -984,8 +984,9 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <target state="translated">Tradiční síťová</target>
         </trans-unit>
         <trans-unit id="PureSkillQuest_Description" translate="yes" xml:space="preserve">
-          <source>"Win a solo game against Fuego without handicap.</source>
-          <target state="translated">Vyhraj hru proti Fuegu bez handicapu.</target>
+          <source>Win a solo game against Fuego without handicap.</source>
+          <target state="needs-review-translation">Vyhraj hru proti Fuegu bez handicapu.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PureSkillQuest_Name" translate="yes" xml:space="preserve">
           <source>Pure Skill</source>
