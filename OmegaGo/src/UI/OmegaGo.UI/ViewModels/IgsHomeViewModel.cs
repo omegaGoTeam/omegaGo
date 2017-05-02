@@ -45,7 +45,8 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task Initialize()
         {
-            LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok; 
+            LoginForm.FormVisible = Connections.Igs.Composure != IgsComposure.Ok ||
+                                    Connections.Igs.CurrentLoginPhase != IgsLoginPhase.Done;
             Connections.Igs.Events.PersonalInformationUpdate += Pandanet_PersonalInformationUpdate;
             Connections.Igs.Events.Disconnected += Events_Disconnected;
             Connections.Igs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
@@ -61,6 +62,15 @@ namespace OmegaGo.UI.ViewModels
                 await EnterIgsLobbyLoggedIn();
             }
         }
+        public override Task<bool> CanCloseViewModelAsync()
+        {
+            Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
+            Connections.Igs.Events.LoginComplete -= OnLoginComplete;
+            Connections.Igs.Events.Disconnected -= Events_Disconnected;
+            Connections.Igs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
+            return base.CanCloseViewModelAsync();
+        }
+
 
         private void Events_LoginPhaseChanged(object sender, IgsLoginPhase e)
         {
@@ -101,14 +111,7 @@ namespace OmegaGo.UI.ViewModels
             await Connections.Igs.Commands.RequestPersonalInformationUpdate(Connections.Igs.Username);
         }
 
-        public void Deinitialize()
-        {
-            Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
-            Connections.Igs.Events.LoginComplete -= OnLoginComplete;
-            Connections.Igs.Events.Disconnected -= Events_Disconnected;
-            Connections.Igs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
-        }
-
+   
         public LoginFormViewModel LoginForm { get; }
 
      

@@ -161,30 +161,30 @@ namespace OmegaGo.Core.Online.Igs
         public bool LoggedIn => ConnectionEstablished && Composure == IgsComposure.Ok;
 
         public ServerId Name => ServerId.Igs;
-
-        /// <summary>
-        /// IGS commands
-        /// </summary>
+        
         public IgsCommands Commands { get; }
+
         public IgsEvents Events { get; }
 
         public IgsData Data { get; }
 
         /// <summary>
-        /// Gets user's username
+        /// Gets our username, if we're logged in.
         /// </summary>
         public string Username => _username;
 
-        // TODO Petr (low importance): The log might or might not be present in the final version, we'll see
+        /// <summary>
+        /// Gets the active step of the IGS login process. If we're not currently logging in, this property has no meaning.
+        /// </summary>
+        public IgsLoginPhase CurrentLoginPhase { get; internal set; } = IgsLoginPhase.Connecting;
+        
         /// <summary>
         /// Log of Igs
         /// </summary>
         public string Log => this.LogBuilder.ToString();
-
-        /// <summary>
-        /// Implements IServerConnection Commands
-        /// </summary>
+        
         ICommonCommands IServerConnection.Commands => Commands;
+
         ICommonEvents IServerConnection.Events => Events;
 
         /// <summary>
@@ -290,6 +290,10 @@ namespace OmegaGo.Core.Online.Igs
             Events.RaiseDisconnected();
         }
 
+        /// <summary>
+        /// Disconnects us from the IGS server and closes all IGS games.
+        /// </summary>
+        /// <returns></returns>
         public async Task DisconnectAsync()
         {
             try
@@ -368,7 +372,6 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        // TODO Petr (low importance): It's possible we will prevent arbitrary console requests in the final version
         /// <summary>
         /// Enqueues a command to be send to IGS.
         /// </summary>
@@ -439,6 +442,7 @@ namespace OmegaGo.Core.Online.Igs
             return lines;
 
         }
+
         internal void DestroyGame(IgsGameInfo gameInfo)
         {
 

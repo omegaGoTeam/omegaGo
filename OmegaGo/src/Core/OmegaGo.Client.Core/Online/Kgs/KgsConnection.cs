@@ -39,22 +39,10 @@ namespace OmegaGo.Core.Online.Kgs
     {
         private const string Uri = "https://metakgs.org/api/access";
         private string _username;
-        public string Username => _username;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
         private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
-
-        private KgsInterrupts Interrupts { get; }
-        public KgsCommands Commands { get; }
-        public KgsEvents Events { get; }
-        public ServerId Name => ServerId.Kgs;
-        public KgsData Data { get; }
-        public bool LoggedIn { get; set; }
-        public JsonSerializer Serializer { get; } = new JsonSerializer()
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -65,6 +53,41 @@ namespace OmegaGo.Core.Online.Kgs
             this._httpClient = new HttpClient(handler);
 
         }
+
+        private KgsInterrupts Interrupts { get; }
+
+        public KgsCommands Commands { get; }
+
+        public KgsEvents Events { get; }
+
+        public KgsData Data { get; }
+
+        public ServerId Name => ServerId.Kgs;
+
+        /// <summary>
+        /// Gets our username, if we're logged in.
+        /// </summary>
+        public string Username => _username;
+
+        /// <summary>
+        /// Gets or sets whether we're logged in to KGS. This is only true when the entire login process is completed, not merely
+        /// when KGS thinks we're logged in.
+        /// </summary>
+        public bool LoggedIn { get; internal set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether we're currently attempting to log in to KGS. If this is is false, then we're either
+        /// disconnected or logged in.
+        /// </summary>
+        public bool LoggingIn { get; private set; }
+
+        /// <summary>
+        /// This serializer is used to convert metatranslator's camelCase properties to our TitleCase properties.
+        /// </summary>
+        internal JsonSerializer Serializer { get; } = new JsonSerializer()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
 
 
         ICommonCommands IServerConnection.Commands => Commands;
@@ -135,9 +158,15 @@ namespace OmegaGo.Core.Online.Kgs
         }
 
 
-
+        /// <summary>
+        /// Attempts to login to KGS. Returns true if login is successful, false otherwise. This not only performs the login,
+        /// but also the initial command burst, such as retrieving the names of all rooms. Also calls <see cref="KgsEvents.RaiseLoginPhaseChanged(KgsLoginPhase)"/> throughout the process.  
+        /// </summary>
+        /// <param name="name">The user's username.</param>
+        /// <param name="password">The user's password.</param>
         public async Task<bool> LoginAsync(string name, string password)
         {
+            LoggingIn = true;
             this._username = name;
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
@@ -145,7 +174,11 @@ namespace OmegaGo.Core.Online.Kgs
                 StartGetLoop();
             }
             this._username = name;
-            if (LoggedIn) return true;
+            if (LoggedIn)
+            {
+                LoggingIn = false;
+                return true;
+            }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
@@ -155,7 +188,6 @@ namespace OmegaGo.Core.Online.Kgs
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
-                LoggedIn = true;
                 var roomsArray = new int[response.Rooms.Length];
                 for (int i = 0; i < response.Rooms.Length; i++)
                 {
@@ -174,8 +206,11 @@ namespace OmegaGo.Core.Online.Kgs
                 await Commands.GlobalListJoinRequestAsync("FANS");
                 Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
                 Events.RaiseSystemMessage("On-login outgoing message burst complete.");
+                LoggedIn = true;
+                LoggingIn = false;
                 return true;
             }
+            LoggingIn = false;
             return false;
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
@@ -189,6 +224,13 @@ namespace OmegaGo.Core.Online.Kgs
                 result.ReasonPhrase
                 );
         }
+
+        /// <summary>
+        /// Sends an upstream message to the KGS server.
+        /// </summary>
+        /// <param name="type">The TYPE field of the message, such as "UNJOIN".</param>
+        /// <param name="data">An anonymous object that contains remaining information for the upstream message, such as ChannelId.</param>
+        /// <returns>Returns true. If it returns false, it's probably because we did not fully understand the communication protocol.</returns>
         public async Task<bool> MakeUnattendedRequestAsync(string type, object data)
         {
             JObject jo = JObject.FromObject(data, Serializer);
@@ -223,7 +265,13 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
 
-        public Task WaitUntilJoined(int channelId)
+        /// <summary>
+        /// Creates a task that will complete as soon as we join the specified channel. If it's already joined, the task completes
+        /// immediately.
+        /// </summary>
+        /// <param name="channelId">The ChannelId of the channel we want to join.</param>
+        /// <returns></returns>
+        public Task WaitUntilJoinedAsync(int channelId)
         {
             return Task.Run(async () =>
             {
