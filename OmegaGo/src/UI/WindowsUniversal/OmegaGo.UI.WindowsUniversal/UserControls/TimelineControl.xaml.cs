@@ -140,18 +140,21 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             Vector2 stoneCenter = stoneTopLeft;
             stoneCenter.X += NODESIZE * 0.5f;
             stoneCenter.Y += NODESIZE * 0.5f;
-            
+
+            string nodeText="";
+            if (node.Move.Kind == MoveKind.PlaceStone)
+                nodeText = node.Move.Coordinates.ToIgsCoordinates();
+            else if (node.Move.Kind == MoveKind.Pass)
+                nodeText = "P";
+
+            CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, nodeText);
             if (node.Move.WhoMoves == StoneColor.Black)
             {
-                CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, node.Move.Coordinates.ToIgsCoordinates());
-
                 drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, Colors.Black);
                 drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.White);
             }
             else if (node.Move.WhoMoves == StoneColor.White)
             {
-                CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, node.Move.Coordinates.ToIgsCoordinates());
-
                 drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, Colors.White);
                 drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.Black);
             }
