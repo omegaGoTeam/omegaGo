@@ -382,7 +382,7 @@ namespace OmegaGo.UI.ViewModels
             else
             {
                 Mvx.RegisterSingleton<IGame>(onlinegame); 
-                ShowViewModel<ObserverGameViewModel>();
+                OpenInNewActiveTab<ObserverGameViewModel>();
             }
             ProgressPanelVisible = false;
         }, ()=> SelectedSpectatableGame != null));
