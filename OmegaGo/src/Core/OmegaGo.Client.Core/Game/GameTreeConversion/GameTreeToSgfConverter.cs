@@ -135,9 +135,9 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 switch (node.Move.WhoMoves)
                 {
                     case StoneColor.Black:
-                        return new SgfProperty("B", new SgfPointValue(node.Move.Coordinates.ToSgfPoint( _gameInfo.BoardSize)));
+                        return new SgfProperty("B", new SgfPointValue(node.Move.Coordinates.ToSgfPoint(_gameInfo.BoardSize)));
                     case StoneColor.White:
-                        return new SgfProperty("W", new SgfPointValue(node.Move.Coordinates.ToSgfPoint( _gameInfo.BoardSize)));
+                        return new SgfProperty("W", new SgfPointValue(node.Move.Coordinates.ToSgfPoint(_gameInfo.BoardSize)));
                 }
             }
             return null;
@@ -207,7 +207,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                 Select(l => new SgfComposeValue<SgfPoint, SgfPoint>(l.From.ToSgfPoint(_gameInfo.BoardSize), l.To.ToSgfPoint(_gameInfo.BoardSize))).
                 ToArray();
 
-            if(lines.Any())
+            if (lines.Any())
             {
                 properties.Add(new SgfLineProperty(lines));
             }
@@ -250,7 +250,37 @@ namespace OmegaGo.Core.Game.GameTreeConversion
         private IEnumerable<SgfProperty> GetGameInfoProperties()
         {
             List<SgfProperty> properties = new List<SgfProperty>();
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Name, "GN", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Date, "DT", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Comment, "GC", properties, true);            
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Name, "PB", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Rank, "BR", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Team, "BT", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.White.Name, "PW", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.White.Rank, "WR", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.White.Team, "WT", properties);
+            
+            properties.Add(new SgfProperty("HA", new SgfNumberValue(_gameInfo.NumberOfHandicapStones)));
+            properties.Add(new SgfProperty("KM", new SgfRealValue((decimal)_gameInfo.Komi)));
             return properties;
+        }
+
+        /// <summary>
+        /// Adds a game-info property to the list if the string value is not null or empty
+        /// </summary>
+        private void AddPropertyIfNotNullNorEmpty(string value, string identifier, IList<SgfProperty> target, bool isTextValue = false)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                if (!isTextValue)
+                {
+                    target.Add(new SgfProperty(identifier, new SgfSimpleTextValue(value)));
+                }
+                else
+                {
+                    target.Add(new SgfProperty(identifier, new SgfTextValue(value)));
+                }
+            }
         }
 
         /// <summary>
@@ -271,7 +301,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
 
         private SgfPointRectangle[] ConvertPositionsToPointRectangles(IEnumerable<Position> positions)
         {
-            return SgfPointRectangle.CompressPoints(positions.Select(p => p.ToSgfPoint( _gameInfo.BoardSize))
+            return SgfPointRectangle.CompressPoints(positions.Select(p => p.ToSgfPoint(_gameInfo.BoardSize))
                 .ToArray());
         }
     }
