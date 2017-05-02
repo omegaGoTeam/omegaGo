@@ -36,5 +36,16 @@ namespace OmegaGo.Core.Game.Tools
         /// </summary>
         /// <param name="position">target position to set</param>
         void SetPointerPosition(Position position);
+
+        /// <summary>
+        /// Causes the "pass" sound effect to be played.
+        /// </summary>
+        void PlayPassSound();
+
+        /// <summary>
+        /// Causes the "place stone" sound effect to be played. Possibly also "stones captures" sound effect may be played.
+        /// </summary>
+        /// <param name="wereThereAnyCaptures">True, if the placed stone triggered any captures.</param>
+        void PlayStonePlacementSound(bool wereThereAnyCaptures);
     }
 }
