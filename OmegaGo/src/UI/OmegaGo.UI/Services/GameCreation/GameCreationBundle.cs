@@ -38,7 +38,7 @@ namespace OmegaGo.UI.Services.GameCreation
         /// </summary>
         public abstract bool CanReturn { get; }
 
-        public bool SupportsChangingRulesetsAndNotFrozen => SupportsChangingRulesets && NotFrozen;
+        public bool SupportsChangingRulesetsAndNotFrozen => SupportsChangingRulesets && !Frozen;
 
         /// <summary>
         /// Gets a value indicating whether the successful completion of this form results in a <see cref="GameViewModel"/>. Used by local games.
