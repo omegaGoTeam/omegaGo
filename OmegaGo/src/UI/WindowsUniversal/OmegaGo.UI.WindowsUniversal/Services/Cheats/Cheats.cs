@@ -48,7 +48,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
             {
                 if (!Cheats.PermitCheats)
                 {
-                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("Cheats enabled."));
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("Cheats are now enabled.", "Do you dare to cheat?"));
                 }
                 Cheats.PermitCheats = true;
                 args.Handled = true;
@@ -70,21 +70,21 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Cheats
             {
                 case VirtualKey.F1:
                     Cheats.GameSettings.Quests.Points = 20;
-                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: Points set to 20."));
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: Points set to 20.", "Cheat activated"));
                     break;
                 case VirtualKey.F2:
                     Cheats.GameSettings.Quests.LastQuestReceivedWhen = DateTime.Today.GetNoon().GetPreviousDay();
                     Cheats.GameSettings.Quests.LastQuestExchangedWhen = DateTime.Today.GetNoon().GetPreviousDay();
 
-                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: Cooldowns refreshed to 1 day."));
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: Cooldowns refreshed to 1 day.", "Cheat activated"));
                     break;
                 case VirtualKey.F3:
                     Cheats.GameSettings.Quests.ClearAllQuests();
-                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: All quests cleared."));
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: All quests cleared.", "Cheat activated"));
                     break;
                 case VirtualKey.F4:
                     QuestManager.AddPoints(100);
-                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: +100 points"));
+                    AppShell.GetForCurrentView().TriggerBubbleNotification(new BubbleNotification("CHEAT: +100 points", "Cheat activated"));
                     break;
                 default:
                     //not handled, just return
