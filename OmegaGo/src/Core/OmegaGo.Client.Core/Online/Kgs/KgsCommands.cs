@@ -183,7 +183,7 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 ChannelId = selectedItem.ChannelId
             });
-            await kgsConnection.WaitUntilJoined(selectedItem.ChannelId);
+            await kgsConnection.WaitUntilJoinedAsync(selectedItem.ChannelId);
 
 
             var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
