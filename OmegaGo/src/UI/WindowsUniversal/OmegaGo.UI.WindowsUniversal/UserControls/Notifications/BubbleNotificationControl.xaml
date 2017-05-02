@@ -23,7 +23,7 @@
             </Border>
             <Border Grid.Column="1" Padding="8,8,12,8">
                 <Border.Background>
-                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.85" />
                 </Border.Background>
                 <Grid>
                     <Grid.RowDefinitions>

@@ -92,7 +92,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Notifications
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                return new SolidColorBrush(color) { Opacity = 0.8 };
+                return new SolidColorBrush(color) { Opacity = 0.9 };
             }
         }
 

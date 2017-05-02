@@ -10,6 +10,7 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Feedback;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Localization;
+using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Tsumego;
 
