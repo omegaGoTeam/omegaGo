@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
+    xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -16,6 +17,11 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+
+    <Page.Resources>
+        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
+        <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
@@ -51,7 +57,7 @@
                         <Setter Target="layoutGrid.RowDefinitions[0].Height" Value="*" />
                         <Setter Target="layoutGrid.RowDefinitions[1].Height" Value="Auto" />
 
-                        <Setter Target="gameInfoControl.Width" Value="200" />
+                        <Setter Target="gameInfoControl.Width" Value="250" />
 
                         <Setter Target="whitePortrait.(Grid.Row)" Value="0" />
                         <Setter Target="blackPortrait.(Grid.Row)" Value="1" />
@@ -108,28 +114,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <CommandBar Grid.ColumnSpan="2" Style="{StaticResource OpenDownCommandBar}" VerticalAlignment="Top"
-                    Grid.Column="0"
-                    Grid.Row="0" Content="">
-            <AppBar.Background>
-                <SolidColorBrush Color="{ThemeResource GameColor}" Opacity="0.3" />
-            </AppBar.Background>
-
-            <AppBarButton Icon="Message" Label="Chat"
-                          AllowFocusOnInteraction="True">
-                <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <controls:ChatControl ViewModel="{x:Bind Path=VM.ChatViewModel, Mode=OneWay}" />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
-
         <ScrollViewer x:Name="layoutScroller" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid   x:Name="layoutGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -144,58 +128,98 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <controls:BoardControl x:Name="boardControl" 
-                                   Grid.Row="0"
-                                   Grid.Column="0"
+                <Grid x:Name="boardControl" 
+                      Grid.Row="0"
+                      Grid.Column="0">
+                    <controls:BoardControl 
                                    ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                    HorizontalAlignment="Stretch"
                                    VerticalAlignment="Stretch" />
 
-                <Grid x:Name="gameInfoControl"
-                      Grid.Row="0" Grid.Column="1" 
-                      BorderBrush="Black" BorderThickness="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    <Button x:Name="controlMenuButton"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Margin="5">
+                        <FontIcon Glyph="&#xE700;"
+                                  Margin="2"/>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-
-                    <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" />
-                    <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" />
-
-                    <TextBlock Grid.Row="2" Grid.ColumnSpan="2" 
-                               Text="{x:Bind VM.InstructionCaption, Mode=OneWay}" FontSize="24" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,5,0,5" />
-
-                    <ListView x:Name="systemLog" Grid.Row="3"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="2"
-                              Background="White"
-                              Foreground="Black"
-                              ItemsSource="{x:Bind VM.Log}">
-                        <ListView.Resources>
-                            <Style TargetType="ListViewItem">
-                                <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
-                                <Setter Property="MinHeight" Value="10"/>
-                            </Style>
-                        </ListView.Resources>
-                        
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
+                                <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Text="Chat" />
+                                <MenuFlyoutSeparator />
+                                <MenuFlyoutItem Text="{x:Bind Localizer.ExportSGF}" />
+                                <MenuFlyoutSeparator />
+                                <ToggleMenuFlyoutItem Text="{x:Bind Localizer.SystemLog}" IsChecked="{x:Bind VM.IsSystemLogEnabled, Mode=TwoWay}" />
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                 </Grid>
+
+                <ScrollViewer x:Name="gameInfoControl"
+                              Grid.Row="0" Grid.Column="1"
+                              VerticalScrollBarVisibility="Auto">
+                    <Grid BorderBrush="Black" BorderThickness="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <controls:PlayerPortraitControl x:Name="whitePortrait" ViewModel="{x:Bind Path=VM.WhitePortrait, Mode=OneWay}" Margin="10" />
+                        <controls:PlayerPortraitControl x:Name="blackPortrait" ViewModel="{x:Bind Path=VM.BlackPortrait, Mode=OneWay}" Margin="10" />
+
+
+                        <StackPanel x:Name="analyzeModeCommand"
+                                    Grid.Row="2" Grid.ColumnSpan="2"
+                                    Margin="10"
+                                    Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
+                            <controls:AnalyzeControl  x:Name="analyzeControl"
+                                                      ViewModel="{x:Bind VM.AnalyzeViewModel}" />
+                            <controls:TimelineControl x:Name="timelineControl"
+                                                      HorizontalAlignment="Stretch"
+                                                      Height="200"
+                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
+                        </StackPanel>
+
+
+                        <ListView x:Name="systemLog" Grid.Row="3"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  Margin="10" Height="400"
+                                  Visibility="{x:Bind VM.IsSystemLogEnabled, Mode=OneWay, Converter={StaticResource boolVisibilityConverter}}"
+                                  Background="White" Foreground="Black"
+                                  ItemsSource="{x:Bind VM.Log}">
+                            <ListView.Resources>
+                                <Style TargetType="ListViewItem">
+                                    <!--<Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>-->
+                                    <Setter Property="MinHeight" Value="10"/>
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" TextWrapping="WrapWholeWords" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollViewer>
             </Grid>
         </ScrollViewer>
 
-        <Border BorderBrush="Black" HorizontalAlignment="Stretch" BorderThickness="1" Grid.Row="2" Grid.Column="0">
+        <Border x:Name="gameTimeline"
+                Grid.Row="2" Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                BorderBrush="Black" BorderThickness="1"
+                Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
         </Border>

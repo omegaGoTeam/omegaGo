@@ -284,7 +284,7 @@ A tsumego problem will also display a problem statement
                 {
                     newNode.BoardState = mpr.NewBoard;
                     newNode.GroupState = mpr.NewGroupState;
-                    CurrentNode.Branches.AddNode(newNode);
+                    CurrentNode.Branches.Insert(0, newNode);
                     if (CurrentNode.Tsumego.Correct)
                     {
                         newNode.Tsumego.Correct = true;

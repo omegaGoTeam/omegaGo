@@ -4,6 +4,7 @@
     // Web source: http://www.red-bean.com/sgf/properties.html#AR
     public enum MarkupKind
     {
+        None,
         AreaDim,    // DD
         Arrow,      // AR
         Cross,      // MA

@@ -1289,4 +1289,19 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
     <value>Musíte zvolit čtvercovou velikost.</value>
   </data>
+  <data name="AnalyzeMode" xml:space="preserve">
+    <value>Režim analýzy</value>
+  </data>
+  <data name="HideTabs" xml:space="preserve">
+    <value>Skrýt záložky</value>
+  </data>
+  <data name="Hint" xml:space="preserve">
+    <value>Doporučit tah</value>
+  </data>
+  <data name="SystemLog" xml:space="preserve">
+    <value>Systémový log</value>
+  </data>
+  <data name="ExportSGF" xml:space="preserve">
+    <value>Exportovat SGF</value>
+  </data>
 </root>

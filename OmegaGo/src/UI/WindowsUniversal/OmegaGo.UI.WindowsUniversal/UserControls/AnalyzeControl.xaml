@@ -1,0 +1,106 @@
+﻿<local:UserControlBase
+    x:Name="layoutRoot"
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.AnalyzeControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="headerText" 
+                   Grid.Row="0"
+                   Text="Analyze Tools" TextAlignment="Center" 
+                   Style="{ThemeResource TitleTextBlockStyle}"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Center">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceStoneCommand}"
+                          IsChecked="{x:Bind ViewModel.IsStoneToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x25D3;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+            <!--<Button>
+                <FontIcon Glyph="&#x25CF;" FontFamily="Segoe UI Emoji" />
+            </Button>
+            <Button>
+                <FontIcon Glyph="&#x25CB;" FontFamily="Segoe UI Emoji" />
+            </Button>
+
+            <Button Margin="5,0,0,0" VerticalAlignment="Stretch" >
+                <FontIcon Glyph="&#xE70F;" />
+            </Button>
+            <Button VerticalAlignment="Stretch" RenderTransformOrigin="0.5 0.5">
+                <FontIcon Glyph="&#xE70F;" />
+                <Button.RenderTransform>
+                    <RotateTransform Angle="180" />
+                </Button.RenderTransform>
+            </Button>-->
+            <Button Command="{x:Bind ViewModel.DeleteBranchCommand}" Margin="5,0,0,0" VerticalAlignment="Stretch">
+                <FontIcon Glyph="&#xE74D;" />
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCharacterCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCharacterToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x41;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceNumberCommand}"
+                          IsChecked="{x:Bind ViewModel.IsNumberToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x31;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceRectangleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsRectangleToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x25A1;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceTriangleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsTriangleToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x025B3;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCircleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCircleToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x025EF;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCrossCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCrossToolSelected, Mode=OneWay}">
+                <FontIcon Glyph="&#x02715;" FontFamily="Segoe UI Emoji" />
+            </ToggleButton>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Margin="0,5,0,0" Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Back to game" Command="{x:Bind ViewModel.BackToGameCommand}" />
+            <Button Content="Pass" Command="{x:Bind ViewModel.PassCommand}"
+                    Margin="5,0,0,0" />
+        </StackPanel>
+
+        <TextBox x:Name="nodeCommentaryText"
+                 Grid.Row="5" MaxHeight="120" 
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 Header="Commentary"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Text="{Binding ElementName=layoutRoot, 
+                                Path=ViewModel.NodeCommentary, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.8,0,-0.8"/>
+    </Grid>
+</local:UserControlBase>

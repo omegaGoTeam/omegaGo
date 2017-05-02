@@ -24,6 +24,7 @@ using OmegaGo.UI.WindowsUniversal.Fuego;
 #endif
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -167,9 +168,11 @@ namespace OmegaGo.UI.WindowsUniversal
             {
                 case ControlStyle.Wood:                    
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
+                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["woodToggleButtonStyle"]);
                     break;
                 case ControlStyle.Lite:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
+                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["liteToggleButtonStyle"]);
                     break;
                 case ControlStyle.OperatingSystem:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["OperatingSystemButtonStyle"]);

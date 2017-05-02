@@ -16,12 +16,6 @@
     <win2d:CanvasAnimatedControl 
                 x:Name="canvas" 
                 IsFixedTimeStep="False"
-                Draw="canvas_Draw_1"
-                Update="canvas_Update"
-                UseSharedDevice="True"
-                CreateResources="canvas_CreateResources_1"
-                PointerPressed="canvas_PointerPressed"
-                PointerReleased="canvas_PointerReleased"
-                PointerMoved="canvas_PointerMoved"/>
+                UseSharedDevice="True"/>
     
 </local:UserControlBase>

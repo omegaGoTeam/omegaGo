@@ -1656,6 +1656,26 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Feedback => LocalizeCaller();
 		/// <summary>
+		/// Analyze mode
+		/// </summary>
+		public string AnalyzeMode => LocalizeCaller();
+		/// <summary>
+		/// Hide tabs
+		/// </summary>
+		public string HideTabs => LocalizeCaller();
+		/// <summary>
+		/// Hint
+		/// </summary>
+		public string Hint => LocalizeCaller();
+		/// <summary>
+		/// System log
+		/// </summary>
+		public string SystemLog => LocalizeCaller();
+		/// <summary>
+		/// Export SGF
+		/// </summary>
+		public string ExportSGF => LocalizeCaller();
+		/// <summary>
 		/// Fluffy tree depth must be at least 1.
 		/// </summary>
 		public string Validation_FluffyDepthTooSmall => LocalizeCaller();

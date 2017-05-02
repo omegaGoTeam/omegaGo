@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Game\GameTreeConverterTests.cs" />
     <Compile Include="Game\GameTreeNodeTests.cs" />
     <Compile Include="Game\Mocks\TestGameTreeNodeInfo.cs" />
     <Compile Include="Modes\LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositionsTests.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Sgf\SgfCollectionTests.cs" />
     <Compile Include="Sgf\Parsing\SgfParserTests.cs" />
     <Compile Include="Sgf\SgfNodeTests.cs" />
+    <Compile Include="Sgf\SgfTestHelpers.cs" />
     <Compile Include="TestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>

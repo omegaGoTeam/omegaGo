@@ -2,7 +2,7 @@
 {
     public sealed class Arrow : IMarkup
     {
-        public MarkupKind Kind => MarkupKind.Arrow;
+        public MarkupKind MarkupKind => MarkupKind.Arrow;
 
         public Position From { get; }
 

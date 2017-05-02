@@ -47,6 +47,8 @@ namespace OmegaGo.Core.Sgf.Properties
                 new SgfKnownProperty( "ON", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Overtime
                 new SgfKnownProperty( "OT", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
+                //Place
+                new SgfKnownProperty( "PC", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Player Black
                 new SgfKnownProperty( "PB", SgfPropertyType.GameInfo, SgfValueMultiplicity.Single, SgfSimpleTextValue.Parse ),
                 //Player White

@@ -1244,6 +1244,21 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Solved" xml:space="preserve">
     <value>Solved</value>
   </data>
+  <data name="AnalyzeMode" xml:space="preserve">
+    <value>Analyze mode</value>
+  </data>
+  <data name="HideTabs" xml:space="preserve">
+    <value>Hide tabs</value>
+  </data>
+  <data name="Hint" xml:space="preserve">
+    <value>Hint</value>
+  </data>
+  <data name="SystemLog" xml:space="preserve">
+    <value>System log</value>
+  </data>
+  <data name="ExportSGF" xml:space="preserve">
+    <value>Export SGF</value>
+  </data>
   <data name="Igs_ConnectingToPandanet" xml:space="preserve">
     <value>Connecting to Pandanet...</value>
   </data>

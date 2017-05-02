@@ -10,18 +10,6 @@ namespace OmegaGo.Core.Tests.Sgf
     [TestClass]
     public class SgfParserTests
     {
-        private SgfCollection ParseFile( SgfParser parser, string sampleSgfSubPath )
-        {
-            return parser.Parse( File.ReadAllText( Path.Combine( Directory.GetCurrentDirectory(),
-                "Sgf/Parsing/SampleSgfs/", sampleSgfSubPath ) ) );
-        }
-
-        private string[] GetSgfFiles( string sgfFolder )
-        {
-            return Directory.GetFiles( Path.Combine( Directory.GetCurrentDirectory(),
-                "Sgf/Parsing/SampleSgfs/", sgfFolder ) );
-        }
-
         /// <summary>
         /// Tests all files in an invalid folder for exceptions
         /// </summary>
@@ -29,7 +17,7 @@ namespace OmegaGo.Core.Tests.Sgf
         private void InvalidSgfFolderTest( string invalidFolder )
         {
             var parser = new SgfParser();
-            var files = GetSgfFiles( Path.Combine( "Invalid", invalidFolder ) );
+            var files = SgfTestHelpers.GetSgfFiles( Path.Combine( "Invalid", invalidFolder ) );
             foreach ( var file in files )
             {
                 try
@@ -113,7 +101,7 @@ namespace OmegaGo.Core.Tests.Sgf
         public void AlphaGoGame1IsSuccessfullyParsed()
         {
             var parser = new SgfParser();
-            var collection = ParseFile( parser, "Valid/AlphaGo1.sgf" );
+            var collection = SgfTestHelpers.ParseFile( parser, "Valid/AlphaGo1.sgf" );
             //the file has one non-standard property - MULTIGOGM
             Assert.AreEqual( 1, parser.Warnings.Count );
         }
@@ -122,7 +110,7 @@ namespace OmegaGo.Core.Tests.Sgf
         public void AlphaGoGame2IsSuccessfullyParsed()
         {
             var parser = new SgfParser();
-            var collection = ParseFile( parser, "Valid/AlphaGo2.sgf" );
+            var collection = SgfTestHelpers.ParseFile( parser, "Valid/AlphaGo2.sgf" );
             Assert.IsFalse( parser.HasWarnings );
         }
 
@@ -130,7 +118,7 @@ namespace OmegaGo.Core.Tests.Sgf
         public void AlphaGoGame3IsSuccessfullyParsed()
         {
             var parser = new SgfParser();
-            var collection = ParseFile( parser, "Valid/AlphaGo3.sgf" );
+            var collection = SgfTestHelpers.ParseFile( parser, "Valid/AlphaGo3.sgf" );
             Assert.IsFalse( parser.HasWarnings );
         }
 
@@ -138,7 +126,7 @@ namespace OmegaGo.Core.Tests.Sgf
         public void ExampleSgfFileIsSuccessfullyParsed()
         {
             var parser = new SgfParser();
-            var collection = ParseFile( parser, "Valid/ff4_ex.sgf" );
+            var collection = SgfTestHelpers.ParseFile( parser, "Valid/ff4_ex.sgf" );
 
             //check the root game tree count
             Assert.AreEqual( 2, collection.Count() );

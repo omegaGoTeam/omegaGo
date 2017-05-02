@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core.Game;
 using System;
+using System.Threading.Tasks;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
@@ -18,8 +19,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
-        private bool _isInitialized;
-
         private GameTreeNode _currentGameTreeNode;
 
         public BoardControl()
@@ -33,7 +32,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                            "ViewModel",
                            typeof(BoardViewModel),
                            typeof(BoardControl),
-                           new PropertyMetadata(null));
+                           new PropertyMetadata(null, ViewModelChanged));
+
+        private static void ViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BoardControl boardControl = d as BoardControl;
+
+            if(boardControl != null)
+            {
+                boardControl.InitializeVM(e.NewValue as BoardViewModel);
+            }
+        }
 
         /// <summary>
         /// Gets information stored with this board control, for example, styling or highlighted positions. This is the same object
@@ -72,19 +81,19 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void BoardControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (!_isInitialized)
-            {
-                ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
-                _currentGameTreeNode = ViewModel.GameTreeNode;
-                _boardControlState = ViewModel.BoardControlState;
-                _renderService = new RenderService(_boardControlState);
-                _inputService = new InputService(_boardControlState);
-                _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
-                _isInitialized = true;
-            }
+            //if (!_isInitialized)
+            //{
+            //    ViewModel.BoardRedrawRequested += ViewModel_BoardRedrawRequested;
+            //    _currentGameTreeNode = ViewModel.GameTreeNode;
+            //    _boardControlState = ViewModel.BoardControlState;
+            //    _renderService = new RenderService(_boardControlState);
+            //    _inputService = new InputService(_boardControlState);
+            //    _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
+            //    _isInitialized = true;
+            //}
         }
-
-        private void ViewModel_BoardRedrawRequested(object sender, GameTreeNode e)
+        
+        private void ViewModel_NodeChanged(object sender, GameTreeNode e)
         {
             _currentGameTreeNode = e;
         }
@@ -110,20 +119,43 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
-
-        private void canvas_CreateResources_1(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+        
+        private void canvas_Draw_1(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            RenderService.CreateResources(sender, args);
-        }
-
-        private void canvas_Draw_1(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
-        {
-            RenderService.Draw(sender, sender.Size.Width, sender.Size.Height, args.DrawingSession, _currentGameTreeNode);
+            RenderService.Draw(
+                sender, 
+                sender.Size.Width, 
+                sender.Size.Height, 
+                args.DrawingSession, 
+                _currentGameTreeNode);
         }
 
         private void canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             RenderService.Update(args.Timing.ElapsedTime);
+        }
+
+        private async Task InitializeVM(BoardViewModel viewModel)
+        {
+            if (viewModel == null)
+                return;
+
+            ViewModel.NodeChanged += ViewModel_NodeChanged;
+            _currentGameTreeNode = ViewModel.GameTreeNode;
+            _boardControlState = ViewModel.BoardControlState;
+            _renderService = new RenderService(_boardControlState);
+            _inputService = new InputService(_boardControlState);
+
+            await RenderService.CreateResources();
+            
+            canvas.Draw += canvas_Draw_1;
+            canvas.Update += canvas_Update;
+
+            canvas.PointerMoved += canvas_PointerMoved;
+            canvas.PointerPressed += canvas_PointerPressed;
+            canvas.PointerReleased += canvas_PointerReleased;
+
+            _inputService.PointerTapped += (s, ev) => ViewModel.BoardTap(ev);
         }
     }
 }
