@@ -62,6 +62,10 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         {
             SharedBoardControlState.PointerOverPosition
                 = TranslateToBoardPosition(x, y);
+
+            // If analyze tools are not null (there are situations where BoardControl is not used for normal game) set its pointer over position.
+            if (SharedBoardControlState.AnalyzeToolServices != null)
+                SharedBoardControlState.AnalyzeToolServices.SetPointerPosition(SharedBoardControlState.PointerOverPosition);
         }
 
         /// <summary>

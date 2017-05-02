@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
+    /// <summary>
+    /// Indicates the type of label markup.
+    /// </summary>
     public enum SequenceMarkupKind
     {
         Letter,

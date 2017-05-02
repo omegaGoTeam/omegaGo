@@ -1,5 +1,7 @@
-﻿using OmegaGo.Core.Extensions;
+﻿using System;
+using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Time.Canadian;
 
 namespace OmegaGo.Core.Online.Igs.Structures
 {
@@ -7,33 +9,42 @@ namespace OmegaGo.Core.Online.Igs.Structures
     {
         public readonly string AcceptCommand;
         public readonly string RejectCommand;
+        public string OpponentName { get; }
+        public StoneColor YourColor { get; }
+        public int MainTime { get; }
+        public int OvertimeMinutes { get; }
+        public int BoardSize { get; }
+        
 
-        private StoneColor _yourColor;
-        private string _opponentName;
 
 
-        public override string ToString() => "Vs. " + this._opponentName + " (you are " + this._yourColor.ToString() + ")";
-
-        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName)
+        private IgsMatchRequest(string acceptCommand, string rejectCommand, StoneColor yourColor, string opponentName, int boardSize, int maintime, int overtimeMinutes)
         {
+            MainTime = maintime;
+            OvertimeMinutes = overtimeMinutes;
+            BoardSize = boardSize;
             this.AcceptCommand = acceptCommand;
             this.RejectCommand = rejectCommand;
-            this._yourColor = yourColor;
-            this._opponentName = opponentName;
+            this.YourColor = yourColor;
+            this.OpponentName = opponentName;
         }
 
 
         public static IgsMatchRequest FromOldStyleResponse(string opponentName, StoneColor yourColor, 
+            int boardSize,
             int canadianMainTime,
-            int canadianOvertimeMinutes,
-            int canadianOvertimeStones)
+            int canadianOvertimeMinutes)
         {
             return new IgsMatchRequest(
-                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + canadianMainTime + " " + canadianOvertimeMinutes + " " + canadianOvertimeStones,
+                "match " + opponentName + " " + yourColor.ToIgsCharacterString() + " " + boardSize + " " +
+                canadianMainTime + " " + canadianOvertimeMinutes,
                 "decline " + opponentName,
                 yourColor,
-                opponentName
-                );
+                opponentName,
+                boardSize,
+                canadianMainTime,
+                canadianOvertimeMinutes);
         }
+        public override string ToString() => "Vs. " + this.OpponentName + " (you are " + this.YourColor.ToString() + ")";
     }
 }

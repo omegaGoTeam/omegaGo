@@ -47,8 +47,9 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <navigation:TitleControl Text="{x:Bind VM.FormTitle}" 
-                   HorizontalAlignment="Center"
-                   Margin="0,20,0,0" />
+                                         ShowBackButton="{x:Bind VM.Bundle.CanReturn}"
+                                         HorizontalAlignment="Center"
+                                         Margin="0,20,0,0" />     
 
                 <Grid x:Name="Form"
               HorizontalAlignment="Center">
@@ -81,6 +82,7 @@
                     <TextBlock Grid.Row="0" Style="{StaticResource Labels}" Text="{x:Bind Localizer.BoardSize}" />
                     <ComboBox Grid.Row="0" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Path=BoardSizes}"
+                      IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}"
                       SelectedItem="{Binding Path=SelectedGameBoardSize, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -92,7 +94,8 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Row="0" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.CustomEllipsis}">
+                    <Button Grid.Row="0" Style="{StaticResource Buttons}"
+                      IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}" Content="{x:Bind Localizer.CustomEllipsis}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="CustomBoardSizeFlyout">
                                 <StackPanel>
@@ -116,7 +119,7 @@
                     <TextBlock Grid.Row="1" Style="{StaticResource Labels}" Text="{x:Bind Localizer.Rules}" />
                     <ComboBox  Grid.Row="1" Style="{StaticResource Boxes}"
                       ItemsSource="{Binding Rulesets}"
-                      IsEnabled="{Binding Bundle.SupportsChangingRulesets}"
+                      IsEnabled="{Binding Bundle.SupportsChangingRulesetsAndNotFrozen}"
                       SelectedItem="{Binding SelectedRuleset, Mode=TwoWay}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -154,26 +157,29 @@
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Grid.Row="3" Style="{StaticResource Buttons}" 
-                            Visibility="Collapsed"
-                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button> <!-- TODO Petr: add with KGS -->
+                   
 
 
                     <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
-                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding Bundle.OpponentName}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <Button Grid.Row="2" Style="{StaticResource Buttons}" 
+                            Visibility="{x:Bind VM.Bundle.CanDeclineSingleOpponent}"
+                            Command="{x:Bind VM.DeclineSingleOpponentCommand}"
+                            Content="{x:Bind Localizer.DeclineKgsChallenger}"></Button>
 
-                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
-                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
+                    <TextBlock Grid.Row="3" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourColor}" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
+                    <ComboBox Grid.Row="3" Style="{StaticResource Boxes}" SelectedIndex="{x:Bind VM.SelectedColorIndex, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"
+                      IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}">
                         <ComboBoxItem Content="{x:Bind Localizer.Black}"></ComboBoxItem>
                         <ComboBoxItem Content="{x:Bind Localizer.White}"></ComboBoxItem>
-                        <ComboBoxItem Content="{x:Bind Localizer.Nigiri}"></ComboBoxItem>
+                        <ComboBoxItem Content="{x:Bind Localizer.Nigiri}" Visibility="{x:Bind VM.Bundle.IsNotIgs}"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
+                    <TextBlock Grid.Row="4" Style="{StaticResource Labels}" Text="{x:Bind Localizer.YourAgent}"  Visibility="{Binding Bundle.IsUserAgentSelectable}"/>
                     <ComboBox Grid.Row="4" Style="{StaticResource Boxes}" 
                       ItemsSource="{Binding Path=PossiblePlayers}"
-                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"/>
-                    <Button Grid.Row="4" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.YouVersusOnlineVisible}">
+                      SelectedItem="{Binding BlackPlayer, Mode=TwoWay}" Visibility="{Binding Bundle.IsUserAgentSelectable}"/>
+                    <Button Grid.Row="4" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.MoreEllipsis}" Visibility="{Binding Bundle.IsUserAgentSelectable}">
                         <Button.Flyout>
                             <Flyout Placement="Right" x:Name="AgentFlyout">
                                 <StackPanel>
@@ -186,15 +192,16 @@
                 
                     <Button Grid.Row="4" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.SwitchColors}" Command="{Binding SwitchColorsCommand}" Visibility="{Binding Bundle.BlackAndWhiteVisible}" />
 
-                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Text="{x:Bind Localizer.WhiteHandicap}" />
-                    <Slider Grid.Row="5" Style="{StaticResource Boxes}" 
+                    <TextBlock Grid.Row="5" Style="{StaticResource Labels}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" Text="{x:Bind Localizer.WhiteHandicap}" />
+                    <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
                             Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
                     <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
-                    <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}">
+                    <Button Grid.Row="6" Style="{StaticResource Buttons}" Content="{x:Bind Localizer.ChangeEllipsis}" 
+                      IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}">
                         <Button.Flyout>
                             <Flyout  Placement="Right" x:Name="TimeControlFlyout">
                                 <StackPanel Width="300">
@@ -232,7 +239,7 @@
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMovesPerPeriodLabel}"></TextBlock>
-                                            <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30"></TextBox>
+                                            <TextBox Text="{x:Bind VM.TimeControl.StonesPerPeriod, Mode=TwoWay}"  InputScope="Number" Width="30" IsEnabled="{Binding Bundle.IsNotIgs}"></TextBox>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.CanadianMinutesPerPeriodLabel}"></TextBlock>
@@ -269,7 +276,7 @@
                     <TextBox Grid.Row="7" Margin="5,5,5,0" Style="{StaticResource Boxes}"
                              IsReadOnly="{x:Bind VM.UseRecommendedKomi, Mode=OneWay}"
                                Visibility="{Binding Bundle.KomiIsAvailable}"
-                             x:Name="CompensationInput" InputScope="Number" Text="{Binding Compensation, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
+                             x:Name="CompensationInput" InputScope="Number" Text="{Binding CompensationString, Mode=TwoWay}" KeyDown="CompensationInput_KeyDown" />
 
                     <CheckBox Grid.Row="8"  Style="{StaticResource Boxes}"  Content="{x:Bind Localizer.KomiUseRecommended}" 
                               IsChecked="{x:Bind VM.UseRecommendedKomi, Mode=TwoWay}"
@@ -299,8 +306,8 @@
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
-                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Content="{x:Bind VM.RefusalCaption}"></Button>
+                        <Button Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding AcceptChallengeCommand}" Content="{x:Bind Localizer.AcceptChallenge}"></Button>
+                        <Button Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding RefuseChallengeCommand}" Content="{x:Bind VM.RefusalCaption}"></Button>
                     </Grid>
 
                     <TextBlock Grid.Row="10" Text="{x:Bind VM.ValidationErrorMessage, Mode=OneWay}" HorizontalAlignment="Center" Grid.ColumnSpan="3"></TextBlock>

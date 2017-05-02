@@ -7,7 +7,7 @@ using OmegaGo.Core.Extensions;
 
 namespace OmegaGo.Core.Time.Japanese
 {
-    class JapaneseTimeInformation : TimeInformation
+    public class JapaneseTimeInformation : TimeInformation
     {
         public TimeSpan TimeLeft { get; }
         public int PeriodsLeft { get; }
@@ -26,7 +26,7 @@ namespace OmegaGo.Core.Time.Japanese
             {
                 if (PeriodsLeft < 0)
                 {
-                    return "Time exceeded";
+                    return "00:00";
                 }
                 return TimeLeft.ToCountdownString();
             }

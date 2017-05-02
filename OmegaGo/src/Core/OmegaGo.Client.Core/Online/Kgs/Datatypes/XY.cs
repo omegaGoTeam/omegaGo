@@ -14,9 +14,14 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// </summary>
         public bool IsPass { get; set; }
 
+        public bool SameAs(XY xy)
+        {
+            return this.X == xy.X && this.Y == xy.Y && this.IsPass == xy.IsPass;
+        }
+
         public override string ToString()
         {
-            return new Position(X, Y).ToIgsCoordinates();
+            return new Position(X, Y).ToIgsCoordinates() + "(KGS!)";
         }
     }
 }

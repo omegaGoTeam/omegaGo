@@ -24,6 +24,7 @@ using OmegaGo.UI.WindowsUniversal.Fuego;
 #endif
 using OmegaGo.UI.WindowsUniversal.Services.Settings;
 using OmegaGo.UI.WindowsUniversal.Services.Uncategorized;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace OmegaGo.UI.WindowsUniversal
 {
@@ -81,7 +82,7 @@ namespace OmegaGo.UI.WindowsUniversal
                 SetupWindowServices(Window.Current);
                 await InitializeMvvmCrossAsync();
                 //setup the title bar
-                SetupTitleBar();
+                await SetupTitleBarAsync();
                 InitializeStyle();
             }
             CoreApplication.EnablePrelaunch(true);
@@ -121,25 +122,26 @@ namespace OmegaGo.UI.WindowsUniversal
         /// <summary>
         /// Sets up the application title bar design
         /// </summary>
-        private void SetupTitleBar()
+        private async Task SetupTitleBarAsync()
         {
             //setup the custom title bar in app shell
             AppShell.GetForCurrentView().SetupCustomTitleBar();
 
-            SetupStatusBar();
+            await SetupStatusBarAsync();
         }
 
         /// <summary>
         /// Sets up the status bar design
         /// </summary>
-        private void SetupStatusBar()
+        private async Task SetupStatusBarAsync()
         {
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
-                StatusBar statusBar = StatusBar.GetForCurrentView();
+                StatusBar statusBar = StatusBar.GetForCurrentView();                
                 statusBar.BackgroundOpacity = 1;
                 statusBar.BackgroundColor = (Color)App.Current.Resources["GameColor"];
                 statusBar.ForegroundColor = Colors.Black;
+                await statusBar.HideAsync();
             }
         }
 
@@ -162,16 +164,18 @@ namespace OmegaGo.UI.WindowsUniversal
             IGameSettings settingsService = Mvx.Resolve<IGameSettings>();
 
             ControlStyle controlStyle = settingsService.Display.ControlStyle;
-
             switch (controlStyle)
             {
-                case ControlStyle.Wood:
+                case ControlStyle.Wood:                    
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["woodButtonStyle"]);
+                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["woodToggleButtonStyle"]);
                     break;
                 case ControlStyle.Lite:
                     Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["liteButtonStyle"]);
+                    Application.Current.Resources.Add(typeof(ToggleButton), Application.Current.Resources["liteToggleButtonStyle"]);
                     break;
                 case ControlStyle.OperatingSystem:
+                    Application.Current.Resources.Add(typeof(Button), Application.Current.Resources["OperatingSystemButtonStyle"]);
                     break;
             }
         }

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
+    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:TimelineViewModel, IsDesignTimeCreatable=True}"
     d:DesignHeight="300"
@@ -17,6 +18,7 @@
                   VerticalScrollBarVisibility="Auto"
                   ZoomMode="Enabled"
                   Background="#FFFDD270">
-        <Canvas x:Name="canvas" />
+        <win2d:CanvasControl x:Name="canvas"
+                             Margin="5"/>
     </ScrollViewer>
 </local:UserControlBase>

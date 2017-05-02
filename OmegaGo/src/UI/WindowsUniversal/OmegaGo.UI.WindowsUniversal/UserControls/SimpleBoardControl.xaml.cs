@@ -54,9 +54,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             this.InitializeComponent();
         }
 
-        private float _cellSize = 0;
-        private float _halfCellSize = 0;
-
         private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
             if (GameBoard != null)

@@ -653,13 +653,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Cancel</value>
   </data>
   <data name="QuitCaption" xml:space="preserve">
-    <value>Quit game?</value>
+    <value>Quit omegaGo?</value>
   </data>
   <data name="QuitConfirm" xml:space="preserve">
     <value>Quit</value>
   </data>
   <data name="QuitText" xml:space="preserve">
-    <value>Do you really want to quit the game?</value>
+    <value>Do you really want to exit the omegaGo program? All ongoing games will be cancelled.</value>
   </data>
   <data name="SingleplayerMenu" xml:space="preserve">
     <value>Singleplayer Menu</value>
@@ -846,7 +846,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Net Traditional</value>
   </data>
   <data name="PureSkillQuest_Description" xml:space="preserve">
-    <value>"Win a solo game against Fuego without handicap.</value>
+    <value>Win a solo game against Fuego without handicap.</value>
   </data>
   <data name="PureSkillQuest_Name" xml:space="preserve">
     <value>Pure Skill</value>
@@ -1258,5 +1258,104 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="ExportSGF" xml:space="preserve">
     <value>Export SGF</value>
+  </data>
+  <data name="Igs_ConnectingToPandanet" xml:space="preserve">
+    <value>Connecting to Pandanet...</value>
+  </data>
+  <data name="Igs_ConnectionError" xml:space="preserve">
+    <value>Could not connect to Pandanet. Maybe your internet connection failed?</value>
+  </data>
+  <data name="Igs_Disconnecting" xml:space="preserve">
+    <value>Disconnecting...</value>
+  </data>
+  <data name="Igs_InitiatingObservationOfAGame" xml:space="preserve">
+    <value>Initiating observation of a game...</value>
+  </data>
+  <data name="Igs_LoggingInAs" xml:space="preserve">
+    <value>Loggin in as {0}...</value>
+  </data>
+  <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
+    <value>Login already in progress. Waiting...</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed.</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>[not logged in]</value>
+  </data>
+  <data name="SelectedItemColon" xml:space="preserve">
+    <value>Selected file:</value>
+  </data>
+  <data name="SetDefaultColor" xml:space="preserve">
+    <value>Set default color</value>
+  </data>
+  <data name="TogglingLFG" xml:space="preserve">
+    <value>Toggling whether we are looking for games...</value>
+  </data>
+  <data name="TogglingOpenness" xml:space="preserve">
+    <value>Toggling whether we are open..</value>
+  </data>
+  <data name="WrongCredentials" xml:space="preserve">
+    <value>The username or password you entered is incorrect.</value>
+  </data>
+  <data name="YouHaveBeenDisconnected" xml:space="preserve">
+    <value>You have been disconnected.</value>
+  </data>
+  <data name="ExitLocal_Caption" xml:space="preserve">
+    <value>Do you want to abandon the game?</value>
+  </data>
+  <data name="ExitLocal_Confirm" xml:space="preserve">
+    <value>Abandon game</value>
+  </data>
+  <data name="ExitLocal_Text" xml:space="preserve">
+    <value>Exiting this screen will end this game. It will not be counted in statistics at all.</value>
+  </data>
+  <data name="ExitOnline_Caption" xml:space="preserve">
+    <value>Do you want to resign?</value>
+  </data>
+  <data name="ExitOnline_Confirm" xml:space="preserve">
+    <value>Yes, resign</value>
+  </data>
+  <data name="ExitOnline_Text" xml:space="preserve">
+    <value>Exiting this screen will cause you to resign this online game.</value>
+  </data>
+  <data name="Exit_ReturnToGame" xml:space="preserve">
+    <value>Return to game</value>
+  </data>
+  <data name="TimeControl_AbsoluteSubtext" xml:space="preserve">
+    <value>No overtime available</value>
+  </data>
+  <data name="TimeControl_AbsoluteTooltip" xml:space="preserve">
+    <value>When your time elapses, you lose.</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextByoyomi" xml:space="preserve">
+    <value>{0}/{1} remaining ({2} mins/period)</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextMain" xml:space="preserve">
+    <value>Main (+{0}/{1}min)</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipByoyomi" xml:space="preserve">
+    <value>"A/B remaining (C mins/period)" means that you have to make A more moves or lose. When you make those moves, you will have C more minutes to make B moves again.</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipMain" xml:space="preserve">
+    <value>After your main time elapses, you will have to make {0} moves per {1} minutes.</value>
+  </data>
+  <data name="TimeControl_JapaneseSubtext" xml:space="preserve">
+    <value>+{0} x {1}s</value>
+  </data>
+  <data name="TimeControl_JapaneseTooltip" xml:space="preserve">
+    <value>"+A x Bs" means that after your current time elapses, you will still have A periods of B seconds each to make moves. If you don't use an entire period, it is not expended at all.</value>
+  </data>
+  <data name="TimeControl_NoneSubtext" xml:space="preserve">
+    <value>No time limit</value>
+  </data>
+  <data name="TimeControl_NoneTooltip" xml:space="preserve">
+    <value>This game is not timed.</value>
+  </data>
+  <data name="TimeControl_TimeExceeded" xml:space="preserve">
+    <value>Time exceeded</value>
+  </data>
+  <data name="Feedback" xml:space="preserve">
+    <value>Feedback</value>
   </data>
 </root>

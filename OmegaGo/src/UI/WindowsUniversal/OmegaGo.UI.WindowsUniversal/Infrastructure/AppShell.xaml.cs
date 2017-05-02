@@ -29,6 +29,7 @@ using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Extensions.Colors;
 using OmegaGo.UI.WindowsUniversal.Helpers.Device;
+using OmegaGo.UI.WindowsUniversal.Helpers.UI;
 using OmegaGo.UI.WindowsUniversal.Infrastructure.Tabbed;
 using OmegaGo.UI.WindowsUniversal.Services.Cheats;
 using OmegaGo.UI.WindowsUniversal.Services.Game;
@@ -196,6 +197,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             OnPropertyChanged(nameof(BackgroundImageUrl));
             OnPropertyChanged(nameof(AppTheme));
             UpdateTitleBarVisualSettings();
+            UpdateVisualSettings();
         }
 
         /// <summary>
@@ -215,22 +217,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             Window.Current.Activated += WindowTitleBarActivationHandler;
             Window.Current.SizeChanged += Window_SizeChanged;
             UpdateTitleBarLayout();
-        }
-
-        /// <summary>
-        /// Initiates back navigation
-        /// </summary>
-        /// <returns>Was back navigation handled?</returns>
-        public bool GoBack()
-        {
-            if (UnderlyingFrame.CanGoBack)
-            {
-                var view = UnderlyingFrame.Content as ViewBase;
-                var vm = view?.ViewModel as ViewModelBase;
-                vm?.GoBackCommand.Execute(null);
-                return true;
-            }
-            return false;
         }
 
         /// <summary>
@@ -259,6 +245,15 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         public void ToggleEasterEgg()
         {
             AppShellRotateTransform.Angle = Math.Abs(AppShellRotateTransform.Angle) < 0.01 ? 180 : 0;
+        }
+
+        /// <summary>
+        /// Updates binding visual settings instance
+        /// </summary>
+        private void UpdateVisualSettings()
+        {
+            var visualSettings = Application.Current.Resources["VisualSettings"] as VisualSettings;
+            visualSettings?.Refresh();
         }
 
         /// <summary>
@@ -329,11 +324,10 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         /// </summary>
         private void BackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (GoBack())
-            {
-                //prevent navigation from the app
-                e.Handled = true;
-            }
+            //let the tab manager handle global back navigation
+            TabManager.HandleGlobalBackNavigation();
+            //prevent navigation from the app
+            e.Handled = true;           
         }
 
         /// <summary>

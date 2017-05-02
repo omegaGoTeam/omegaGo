@@ -879,6 +879,69 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return to game.
+        /// </summary>
+        public static string Exit_ReturnToGame {
+            get {
+                return ResourceManager.GetString("Exit_ReturnToGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to abandon the game?.
+        /// </summary>
+        public static string ExitLocal_Caption {
+            get {
+                return ResourceManager.GetString("ExitLocal_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Abandon game.
+        /// </summary>
+        public static string ExitLocal_Confirm {
+            get {
+                return ResourceManager.GetString("ExitLocal_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exiting this screen will end this game. It will not be counted in statistics at all..
+        /// </summary>
+        public static string ExitLocal_Text {
+            get {
+                return ResourceManager.GetString("ExitLocal_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to resign?.
+        /// </summary>
+        public static string ExitOnline_Caption {
+            get {
+                return ResourceManager.GetString("ExitOnline_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, resign.
+        /// </summary>
+        public static string ExitOnline_Confirm {
+            get {
+                return ResourceManager.GetString("ExitOnline_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exiting this screen will cause you to resign this online game..
+        /// </summary>
+        public static string ExitOnline_Text {
+            get {
+                return ResourceManager.GetString("ExitOnline_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export.
         /// </summary>
         public static string ExportCommand {
@@ -893,6 +956,15 @@ namespace OmegaGo.UI.Localization {
         public static string ExportSGF {
             get {
                 return ResourceManager.GetString("ExportSGF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Feedback.
+        /// </summary>
+        public static string Feedback {
+            get {
+                return ResourceManager.GetString("Feedback", resourceCulture);
             }
         }
         
@@ -1149,6 +1221,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connecting to Pandanet....
+        /// </summary>
+        public static string Igs_ConnectingToPandanet {
+            get {
+                return ResourceManager.GetString("Igs_ConnectingToPandanet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not connect to Pandanet. Maybe your internet connection failed?.
+        /// </summary>
+        public static string Igs_ConnectionError {
+            get {
+                return ResourceManager.GetString("Igs_ConnectionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnecting....
+        /// </summary>
+        public static string Igs_Disconnecting {
+            get {
+                return ResourceManager.GetString("Igs_Disconnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initiating observation of a game....
+        /// </summary>
+        public static string Igs_InitiatingObservationOfAGame {
+            get {
+                return ResourceManager.GetString("Igs_InitiatingObservationOfAGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Issue a challenge.
         /// </summary>
         public static string Igs_IssueAChallenge {
@@ -1163,6 +1271,24 @@ namespace OmegaGo.UI.Localization {
         public static string Igs_LFG {
             get {
                 return ResourceManager.GetString("Igs_LFG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loggin in as {0}....
+        /// </summary>
+        public static string Igs_LoggingInAs {
+            get {
+                return ResourceManager.GetString("Igs_LoggingInAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login already in progress. Waiting....
+        /// </summary>
+        public static string Igs_LoginAlreadyInProgress {
+            get {
+                return ResourceManager.GetString("Igs_LoginAlreadyInProgress", resourceCulture);
             }
         }
         
@@ -1635,6 +1761,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login failed..
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string LoginFormCaption {
@@ -1820,6 +1955,15 @@ namespace OmegaGo.UI.Localization {
         public static string NonSquareBoardsPermitted {
             get {
                 return ResourceManager.GetString("NonSquareBoardsPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [not logged in].
+        /// </summary>
+        public static string NotLoggedIn {
+            get {
+                return ResourceManager.GetString("NotLoggedIn", resourceCulture);
             }
         }
         
@@ -2040,7 +2184,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Win a solo game against Fuego without handicap..
+        ///   Looks up a localized string similar to Win a solo game against Fuego without handicap..
         /// </summary>
         public static string PureSkillQuest_Description {
             get {
@@ -2130,7 +2274,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Quit game?.
+        ///   Looks up a localized string similar to Quit omegaGo?.
         /// </summary>
         public static string QuitCaption {
             get {
@@ -2148,7 +2292,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do you really want to quit the game?.
+        ///   Looks up a localized string similar to Do you really want to exit the omegaGo program? All ongoing games will be cancelled..
         /// </summary>
         public static string QuitText {
             get {
@@ -2342,6 +2486,24 @@ namespace OmegaGo.UI.Localization {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected file:.
+        /// </summary>
+        public static string SelectedItemColon {
+            get {
+                return ResourceManager.GetString("SelectedItemColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set default color.
+        /// </summary>
+        public static string SetDefaultColor {
+            get {
+                return ResourceManager.GetString("SetDefaultColor", resourceCulture);
             }
         }
         
@@ -2823,6 +2985,105 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No overtime available.
+        /// </summary>
+        public static string TimeControl_AbsoluteSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_AbsoluteSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When your time elapses, you lose..
+        /// </summary>
+        public static string TimeControl_AbsoluteTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_AbsoluteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}/{1} remaining ({2} mins/period).
+        /// </summary>
+        public static string TimeControl_CanadianSubtextByoyomi {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianSubtextByoyomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main (+{0}/{1}min).
+        /// </summary>
+        public static string TimeControl_CanadianSubtextMain {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianSubtextMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;A/B remaining (C mins/period)&quot; means that you have to make A more moves or lose. When you make those moves, you will have C more minutes to make B moves again..
+        /// </summary>
+        public static string TimeControl_CanadianTooltipByoyomi {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianTooltipByoyomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After your main time elapses, you will have to make {0} moves per {1} minutes..
+        /// </summary>
+        public static string TimeControl_CanadianTooltipMain {
+            get {
+                return ResourceManager.GetString("TimeControl_CanadianTooltipMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0} x {1}s.
+        /// </summary>
+        public static string TimeControl_JapaneseSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_JapaneseSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;+A x Bs&quot; means that after your current time elapses, you will still have A periods of B seconds each to make moves. If you don&apos;t use an entire period, it is not expended at all..
+        /// </summary>
+        public static string TimeControl_JapaneseTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_JapaneseTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No time limit.
+        /// </summary>
+        public static string TimeControl_NoneSubtext {
+            get {
+                return ResourceManager.GetString("TimeControl_NoneSubtext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This game is not timed..
+        /// </summary>
+        public static string TimeControl_NoneTooltip {
+            get {
+                return ResourceManager.GetString("TimeControl_NoneTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time exceeded.
+        /// </summary>
+        public static string TimeControl_TimeExceeded {
+            get {
+                return ResourceManager.GetString("TimeControl_TimeExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Absolute.
         /// </summary>
         public static string TimeControlStyle_Absolute {
@@ -2882,6 +3143,24 @@ namespace OmegaGo.UI.Localization {
         public static string ToggleFullscreenTooltip {
             get {
                 return ResourceManager.GetString("ToggleFullscreenTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggling whether we are looking for games....
+        /// </summary>
+        public static string TogglingLFG {
+            get {
+                return ResourceManager.GetString("TogglingLFG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggling whether we are open...
+        /// </summary>
+        public static string TogglingOpenness {
+            get {
+                return ResourceManager.GetString("TogglingOpenness", resourceCulture);
             }
         }
         
@@ -3381,6 +3660,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The username or password you entered is incorrect..
+        /// </summary>
+        public static string WrongCredentials {
+            get {
+                return ResourceManager.GetString("WrongCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         public static string Yes {
@@ -3404,6 +3692,15 @@ namespace OmegaGo.UI.Localization {
         public static string YouHaveAdvancedToNewRankX {
             get {
                 return ResourceManager.GetString("YouHaveAdvancedToNewRankX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have been disconnected..
+        /// </summary>
+        public static string YouHaveBeenDisconnected {
+            get {
+                return ResourceManager.GetString("YouHaveBeenDisconnected", resourceCulture);
             }
         }
         

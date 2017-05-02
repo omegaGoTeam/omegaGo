@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Helpers;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
-using OmegaGo.Core.Modes.LiveGame.Connectors.UI;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
 using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
@@ -16,7 +14,6 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
-using OmegaGo.Core.Modes.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -127,6 +124,18 @@ namespace OmegaGo.Core.Modes.LiveGame
         ///     if the phase ended before its StartPhase method ended (this happens, for example, with InitializationPhase).
         /// </summary>
         public event EventHandler<IGamePhase> GamePhaseStarted;
+        public event EventHandler MoveUndone;
+        public void UnsubscribeEveryoneFromController()
+        {
+            GamePhaseStarted = null;
+            GamePhaseChanged = null;
+            CurrentNodeStateChanged = null;
+            CurrentNodeChanged = null;
+            TurnPlayerChanged = null;
+            GameEnded = null;
+            DebuggingMessage = null;
+            MoveUndone = null;
+        }
 
         /// <summary>
         ///     Gets the player currently on turn
@@ -225,24 +234,13 @@ namespace OmegaGo.Core.Modes.LiveGame
             UnsubscribePlayerEvents();
         }
 
-        public event EventHandler MoveUndone;
 
         /// <summary>
         ///     Fires the <see cref="TurnPlayerChanged" /> event.
         /// </summary>
-        protected virtual void OnTurnPlayerChanged()
+        private void OnTurnPlayerChanged()
         {
             TurnPlayerChanged?.Invoke(this, this.TurnPlayer);
-        }
-
-        /// <summary>
-        ///     Returns a registered connector of a given type
-        /// </summary>
-        /// <typeparam name="T">Type of connector to return</typeparam>
-        /// <returns>Connector or default in case not found</returns>
-        internal T GetConnector<T>() where T : IGameConnector
-        {
-            return this._registeredConnectors.OfType<T>().FirstOrDefault();
         }
 
         /// <summary>
@@ -260,7 +258,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         ///     Sets a concrete phase of the game
         /// </summary>
         /// <param name="phase">Phase instance</param>
-        internal void SetPhase(IGamePhase phase)
+        private void SetPhase(IGamePhase phase)
         {
             if (phase == null) throw new ArgumentNullException(nameof(phase));
 

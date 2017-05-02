@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
@@ -35,6 +36,15 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             switch (Type)
             {
+                case "PROP_REMOVED":
+                    ongame.Controller.Nodes[NodeId].RemoveProperty(Prop, ongame);
+                    break;
+                case "PROP_GROUP_REMOVED":
+                    foreach (var prop in Props)
+                    {
+                        ongame.Controller.Nodes[NodeId].RemoveProperty(prop, ongame);
+                    }
+                    break;
                 case "PROP_GROUP_ADDED":
                     foreach (var prop in Props)
                     {

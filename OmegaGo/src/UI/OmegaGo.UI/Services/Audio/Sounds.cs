@@ -44,5 +44,10 @@ namespace OmegaGo.UI.Services.Audio
         /// Sound for testing the volume setting of the app
         /// </summary>
         public static AudioFilePack VolumeTestSound = SfxId.SabakiPlace1;
+
+        /// <summary>
+        /// Sound for incoming match requests, among others.
+        /// </summary>
+        public static AudioFilePack IncomingMatchRequest => SfxId.PleasantJingle;
     }
 }

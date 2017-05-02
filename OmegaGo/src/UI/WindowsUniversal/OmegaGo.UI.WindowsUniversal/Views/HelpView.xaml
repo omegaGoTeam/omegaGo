@@ -11,9 +11,7 @@
 
     <Page.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition>
-                <ContinuumNavigationTransitionInfo />
-            </NavigationThemeTransition>
+
         </TransitionCollection>
     </Page.Transitions>
     <Grid>
@@ -30,11 +28,14 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView PaneBackground="{ThemeResource GameColorBrush}" IsPaneOpen="True"
+        <SplitView IsPaneOpen="True"
                Name="HelpSplitView"
                DisplayMode="CompactOverlay"
                CompactPaneLength="48"
                OpenPaneLength="300">
+            <SplitView.PaneBackground>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" />
+            </SplitView.PaneBackground>
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -59,7 +60,13 @@
                     <navigation:TitleControl x:Name="viewName" 
                                          Text="{x:Bind Localizer.Help}" 
                                          Grid.Row="0"
-                                         Grid.Column="1"/>
+                                         Grid.Column="1">
+                        <navigation:TitleControl.Transitions>
+                            <TransitionCollection>
+                                <ContentThemeTransition HorizontalOffset="20" VerticalOffset="0" />
+                            </TransitionCollection>
+                        </navigation:TitleControl.Transitions>
+                    </navigation:TitleControl>
 
                     <ListView x:Name="helpPagesList"
                           Grid.Row="1"
@@ -67,20 +74,30 @@
                           Grid.ColumnSpan="2"
                           ItemsSource="{Binding Path=HelpItems}"
                           SelectedItem="{Binding Path=SelectedHelpItem, Mode=TwoWay}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <FontIcon Glyph="&#xE1D3;" />
-                                    <TextBlock Margin="15,0,0,0" Text="{Binding Path=Name}" />
-                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="48" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Number}" HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Path=HelpPage.Name}" VerticalAlignment="Center" />
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </Grid>
             </SplitView.Pane>
 
-            <Border>
-                <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.Content, Mode=OneWay}" DefaultBackgroundColor="White" Name="WebView" />
+            <Border Background="WhiteSmoke">
+                <WebView xaml:WebViewHtmlBinding.Html="{x:Bind VM.SelectedHelpItem.HelpPage.Content, Mode=OneWay}" Name="WebView" />
             </Border>
         </SplitView>
     </Grid>

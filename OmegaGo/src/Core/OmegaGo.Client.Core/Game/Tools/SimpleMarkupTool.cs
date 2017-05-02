@@ -2,45 +2,92 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class SimpleMarkupTool : IMarkupTool
+    /// <summary>
+    /// Simple markup tools (Circle, Cross, Square, Triangle) place a shape(markup) on the board. 
+    /// If the intersection contains a markup, the tool removes or changes it (depends on the type of selected tool and markup on the position).    
+    /// </summary>
+    public sealed class SimpleMarkupTool : IPlacementTool
     {
-        public SimpleMarkupKind Markup { get; }
-
+        /// <summary>
+        /// Map of shadow items.
+        /// </summary>
+        private char[,] _shadows;
+        
         public SimpleMarkupTool(SimpleMarkupKind markupKind)
         {
-            Markup = markupKind;
+            SimpleMarkup = markupKind;
         }
+
+        /// <summary>
+        /// Type of markup (Circle, Cross, Square, Triangle)
+        /// </summary>
+        public SimpleMarkupKind SimpleMarkup { get; }
 
         public void Execute(IToolServices toolService)
         {
             Position position = toolService.PointerOverPosition;
             MarkupInfo markups = toolService.Node.Markups;
 
-            markups.RemoveMarkupOnPosition(position);
+            MarkupKind markupKindOnPosition = markups.RemoveMarkupOnPosition(position);
+            
+            // If the removed markup is the same as the new one than do not add anything.
+            if (IsMarkupEqual(SimpleMarkup, markupKindOnPosition))
+                return;
 
-            if (Markup == SimpleMarkupKind.Circle)
+            if (SimpleMarkup == SimpleMarkupKind.Circle)
                 markups.AddMarkup<Circle>(new Circle(position));
-            if (Markup == SimpleMarkupKind.Cross)
+            if (SimpleMarkup == SimpleMarkupKind.Cross)
                 markups.AddMarkup<Cross>(new Cross(position));
-            if (Markup == SimpleMarkupKind.Square)
+            if (SimpleMarkup == SimpleMarkupKind.Square)
                 markups.AddMarkup<Square>(new Square(position));
-            if (Markup == SimpleMarkupKind.Triangle)
+            if (SimpleMarkup == SimpleMarkupKind.Triangle)
                 markups.AddMarkup<Triangle>(new Triangle(position));
         }
 
-        public IMarkup GetShadowItem(IToolServices toolServices)
+        public IShadowItem GetShadowItem(IToolServices toolServices)
         {
-            if (Markup == SimpleMarkupKind.Circle)
-                return new Circle(toolServices.PointerOverPosition);
-            if (Markup == SimpleMarkupKind.Cross)
-                return new Cross(toolServices.PointerOverPosition);
-            if (Markup == SimpleMarkupKind.Square)
-                return new Square(toolServices.PointerOverPosition);
-            if (Markup == SimpleMarkupKind.Triangle)
-                return new Triangle(toolServices.PointerOverPosition);
+            if (_shadows == null)
+                _shadows = toolServices.Node.Markups.FillSimpleShadowMap(toolServices.GameTree.BoardSize, SimpleMarkup);
 
-            return null;
+            char shadow = _shadows[toolServices.PointerOverPosition.X, toolServices.PointerOverPosition.Y];
+            if (shadow=='r')
+                return new None();
+            else
+                switch (SimpleMarkup) {
+                    case SimpleMarkupKind.Circle:
+                        return new Circle(toolServices.PointerOverPosition);
+                    case SimpleMarkupKind.Cross:
+                        return new Cross(toolServices.PointerOverPosition);
+                    case SimpleMarkupKind.Square:
+                        return new Square(toolServices.PointerOverPosition);
+                    case SimpleMarkupKind.Triangle:
+                        return new Triangle(toolServices.PointerOverPosition);
+                }
+            
+            return new None();
         }
 
+        /// <summary>
+        /// Indicates whether the given markups have the same type.
+        /// </summary>
+        /// <param name="simpleMarkupKind">Markup kind.</param>
+        /// <param name="markupKind">Other markup kind.</param>
+        /// <returns>True, if the type of given markups equals.</returns>
+        private bool IsMarkupEqual(SimpleMarkupKind simpleMarkupKind, MarkupKind markupKind)
+        {
+            switch(simpleMarkupKind)
+            {
+                case SimpleMarkupKind.Circle:
+                    return markupKind == MarkupKind.Circle;
+                case SimpleMarkupKind.Cross:
+                    return markupKind == MarkupKind.Cross;
+                case SimpleMarkupKind.Square:
+                    return markupKind == MarkupKind.Square;
+                case SimpleMarkupKind.Triangle:
+                    return markupKind == MarkupKind.Triangle;
+            }
+
+            return false;
+        }
     }
 }

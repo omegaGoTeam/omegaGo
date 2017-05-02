@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MvvmCross.Platform;
+using OmegaGo.UI.Infrastructure.Tabbed;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -36,6 +38,15 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowBackButtonProperty = DependencyProperty.Register(
+            "ShowBackButton", typeof(bool), typeof(TitleControl), new PropertyMetadata(true));
+
+        public bool ShowBackButton
+        {
+            get { return (bool)GetValue(ShowBackButtonProperty); }
+            set { SetValue(ShowBackButtonProperty, value); }
         }
     }
 }

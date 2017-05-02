@@ -110,7 +110,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             }
             else if (reader.TokenType == JsonToken.Float)
             {
-                return new FloatOrString((float) reader.Value);
+                return new FloatOrString((float) (double) reader.Value);
             }
             throw new Exception("Unexpected type.");
         }

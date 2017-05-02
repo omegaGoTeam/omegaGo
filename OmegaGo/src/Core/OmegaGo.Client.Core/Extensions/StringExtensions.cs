@@ -6,7 +6,7 @@ namespace OmegaGo.Core.Extensions
     /// <summary>
     /// Extensions for strings
     /// </summary>
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Parses string to int

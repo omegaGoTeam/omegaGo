@@ -25,6 +25,9 @@ namespace OmegaGo.Core.Time.Canadian
             _periodTime = periodTime;
         }
 
+        public TimeSpan PeriodTime => _periodTime;
+        public int StonesPerPeriod => _stonesPerPeriod;
+
         public override TimeControlStyle Name => TimeControlStyle.Canadian;
 
         public override void UpdateFromKgsFloat(float secondsLeft)

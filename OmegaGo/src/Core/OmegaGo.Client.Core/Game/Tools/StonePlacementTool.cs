@@ -1,10 +1,21 @@
-﻿using OmegaGo.Core.Rules;
+﻿using OmegaGo.Core.Game.Markup;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class StonePlacementTool : IStoneTool
+    /// <summary>
+    /// Places a stone of a color that's different from the current nodes's move color. 
+    /// </summary>
+    public sealed class StonePlacementTool : IPlacementTool
     {
+        /// <summary>
+        /// Contains the last processed node.
+        /// </summary>
         private GameTreeNode _currentNode;
+        
+        /// <summary>
+        /// Contains the results of possible moves based on the board state in _currentNode.
+        /// </summary>
         private MoveResult[,] _moveResults;
 
         public StonePlacementTool(GameBoardSize boardSize)
@@ -14,6 +25,7 @@ namespace OmegaGo.Core.Game.Tools
 
         public void Execute(IToolServices toolService)
         {
+            // TODO if board this empty and we first make move with this tool, exception is thrown
             StoneColor previousPlayer = toolService.Node.Move.WhoMoves;
             StoneColor nextPlayer = StoneColor.None;
             
@@ -52,15 +64,23 @@ namespace OmegaGo.Core.Game.Tools
             
         }
 
-        public MoveResult[,] GetMoveResults(IToolServices toolService)
+        public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (toolService.Node.Equals(_currentNode))
+            if (!toolService.Node.Equals(_currentNode) || _currentNode==null)
             {
                 _moveResults = toolService.Ruleset.GetMoveResult(toolService.Node);
                 _currentNode = toolService.Node;
             }
 
-            return _moveResults;
+            MoveResult result=_moveResults[toolService.PointerOverPosition.X,toolService.PointerOverPosition.Y];
+            if (result == MoveResult.Legal) {
+                if (_currentNode.Move.WhoMoves == StoneColor.Black)
+                    return new Stone(StoneColor.White, toolService.PointerOverPosition);
+                else if (_currentNode.Move.WhoMoves == StoneColor.White)
+                    return new Stone(StoneColor.Black, toolService.PointerOverPosition); ;
+            }
+
+            return new None();
         }
     }
 }

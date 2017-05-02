@@ -2,16 +2,18 @@ using System.Collections.Generic;
 
 namespace OmegaGo.Core.Online.Igs
 {
+    /// <summary>
+    /// Contains our current knowledge about the IGS server.
+    /// </summary>
     public class IgsData
     {
-        private readonly IgsConnection _igsConnection;
-
-        public List<IgsGameInfo> GamesInProgress { get; set; } = new List<IgsGameInfo>();
-        public List<IgsUser> OnlineUsers { get; set; } = new List<IgsUser>();
-
-        public IgsData(IgsConnection igsConnection)
-        {
-            this._igsConnection = igsConnection;
-        }
+        /// <summary>
+        /// Gets or sets the list of games that were in progress on IGS at the time we last checked.
+        /// </summary>
+        public List<IgsGameInfo> GamesInProgress { get; internal set; } = new List<IgsGameInfo>();
+        /// <summary>
+        /// Gets or sets the list of users who were online on IGS at the time we last checked.
+        /// </summary>
+        public List<IgsUser> OnlineUsers { get; internal set; } = new List<IgsUser>();
     }
 }

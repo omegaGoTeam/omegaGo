@@ -27,8 +27,7 @@
 </value>
   </data>
   <data name="DeleteSelection" xml:space="preserve">
-    <value>Smazat výběr
-</value>
+    <value>Smazat výběr</value>
   </data>
   <data name="FilterBySource" xml:space="preserve">
     <value>Filtrovat dle zdroje</value>
@@ -298,7 +297,7 @@
     <value>Povolit i v online hrách</value>
   </data>
   <data name="EnableEvenInOnlineGamesTooltip" xml:space="preserve">
-    <value>Není zdvořilé používat pomoc umělé inteligenci během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
+    <value>Není zdvořilé používat pomoc umělé inteligence během her proti ostatním lidem, pokud jim o tom předem neřeknete.</value>
   </data>
   <data name="EnableHints" xml:space="preserve">
     <value>Povolit nápovědu</value>
@@ -452,13 +451,13 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
     <value>Storno</value>
   </data>
   <data name="QuitCaption" xml:space="preserve">
-    <value>Ukončit hru?</value>
+    <value>Ukončit omegaGo?</value>
   </data>
   <data name="QuitConfirm" xml:space="preserve">
-    <value>Ukončit</value>
+    <value>Ukončit omegaGo</value>
   </data>
   <data name="QuitText" xml:space="preserve">
-    <value>Opravdu chcete ukončit hru?</value>
+    <value>Opravdu chcete ukončit program omegaGo? Všechny probíhající hry budou zrušeny.</value>
   </data>
   <data name="SingleplayerMenu" xml:space="preserve">
     <value>Menu pro hru jednoho hráče</value>
@@ -1114,10 +1113,127 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Odměna:</value>
   </data>
   <data name="UseGraceSecond" xml:space="preserve">
-    <value>V online hrách ukazovat na časovači o 1 vteřinu méně .</value>
+    <value>V online hrách ukazovat na časovači o 1 vteřinu méně</value>
   </data>
   <data name="MainMenu" xml:space="preserve">
     <value>Hlavní menu</value>
+  </data>
+  <data name="NewGame" xml:space="preserve">
+    <value>Nová hra</value>
+  </data>
+  <data name="Observing" xml:space="preserve">
+    <value>Pozorování</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Vrátit se</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Jste si jistí?</value>
+  </data>
+  <data name="AreYouSureYouWantToEndTheGame" xml:space="preserve">
+    <value>Opravdu chcete tuto hru ukončit?</value>
+  </data>
+  <data name="KgsLoginPhase_JoiningGlobalLists" xml:space="preserve">
+    <value>Připojování k hlavnímu seznamu her a výzev...</value>
+  </data>
+  <data name="Solved" xml:space="preserve">
+    <value>Vyřešeno</value>
+  </data>
+  <data name="Igs_ConnectingToPandanet" xml:space="preserve">
+    <value>Připojování k Pandanetu...</value>
+  </data>
+  <data name="Igs_ConnectionError" xml:space="preserve">
+    <value>Nelze se připojit k Pandanetu. Možná selhalo připojení k internetu?</value>
+  </data>
+  <data name="Igs_Disconnecting" xml:space="preserve">
+    <value>Odpojování...</value>
+  </data>
+  <data name="Igs_InitiatingObservationOfAGame" xml:space="preserve">
+    <value>Zahajuji pozorování hry...</value>
+  </data>
+  <data name="Igs_LoggingInAs" xml:space="preserve">
+    <value>Přihlášení jako {0}...</value>
+  </data>
+  <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
+    <value>Přihlášení již proběhí. Počkejte chvíli...</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Přihlášení se nezdařilo.</value>
+  </data>
+  <data name="NotLoggedIn" xml:space="preserve">
+    <value>[nepřihlášen]</value>
+  </data>
+  <data name="SelectedItemColon" xml:space="preserve">
+    <value>Vybraný soubor:</value>
+  </data>
+  <data name="SetDefaultColor" xml:space="preserve">
+    <value>Nastavit výchozí barvu</value>
+  </data>
+  <data name="TogglingLFG" xml:space="preserve">
+    <value>Přepínání, zda hledáme hry...</value>
+  </data>
+  <data name="TogglingOpenness" xml:space="preserve">
+    <value>Přepínání, jestli jsme otevřeni pro hry...</value>
+  </data>
+  <data name="WrongCredentials" xml:space="preserve">
+    <value>Uživatelské jméno nebo heslo je nesprávné.</value>
+  </data>
+  <data name="YouHaveBeenDisconnected" xml:space="preserve">
+    <value>Byli jste odpojeni.</value>
+  </data>
+  <data name="ExitLocal_Caption" xml:space="preserve">
+    <value>Chcete opustit tuto hru?</value>
+  </data>
+  <data name="ExitLocal_Confirm" xml:space="preserve">
+    <value>Opustit hru</value>
+  </data>
+  <data name="ExitLocal_Text" xml:space="preserve">
+    <value>Opuštění této obrazovky ukončí rozehranou hru. Nebude se počítat ve statistikách ani jako prohra ani jako výhra.</value>
+  </data>
+  <data name="ExitOnline_Caption" xml:space="preserve">
+    <value>Chcete se vzdát?</value>
+  </data>
+  <data name="ExitOnline_Confirm" xml:space="preserve">
+    <value>Ano, vzdát</value>
+  </data>
+  <data name="ExitOnline_Text" xml:space="preserve">
+    <value>Opuštěním této obrazovky vzdáte hru.</value>
+  </data>
+  <data name="Exit_ReturnToGame" xml:space="preserve">
+    <value>Vrátit se do hry</value>
+  </data>
+  <data name="TimeControl_AbsoluteSubtext" xml:space="preserve">
+    <value>Přesčas není možný</value>
+  </data>
+  <data name="TimeControl_AbsoluteTooltip" xml:space="preserve">
+    <value>Když váš čas uplyne, prohrajete.</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextByoyomi" xml:space="preserve">
+    <value>{0}/{1} zbývá (pak {2} min)</value>
+  </data>
+  <data name="TimeControl_CanadianSubtextMain" xml:space="preserve">
+    <value>Hlavní čas (+{0}/{1}min)</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipByoyomi" xml:space="preserve">
+    <value>"A/B zbývá (pak C mins)" znamená, že musíte udělat A tahů nebo prohrajete. Až tyto tahy uděláte, budete mít C dalších minut na B dalších tahů.</value>
+  </data>
+  <data name="TimeControl_CanadianTooltipMain" xml:space="preserve">
+    <value>Jakmile uplyne hlavní čas, budete mít {1} minut na {0} tahů.</value>
+  </data>
+  <data name="TimeControl_JapaneseSubtext" xml:space="preserve">
+    <value>+{0} x {1}s</value>
+  </data>
+  <data name="TimeControl_JapaneseTooltip" xml:space="preserve">
+    <value>"+A x Bs" znamená, že až uplyne váš současný čas, budete mít ještě A period po B sekundách. Pokud periodu nepoužijete celou, neuplyne z ní žádný čas.</value>
+  </data>
+  <data name="TimeControl_NoneSubtext" xml:space="preserve">
+    <value>Žádný časový limit</value>
+  </data>
+  <data name="TimeControl_NoneTooltip" xml:space="preserve">
+    <value>Tato hra nemá časový limit.</value>
+  </data>
+  <data name="TimeControl_TimeExceeded" xml:space="preserve">
+    <value>Čas vypršel</value>
   </data>
   <data name="AnalyzeMode" xml:space="preserve">
     <value>Režim analýzy</value>

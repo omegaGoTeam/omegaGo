@@ -20,6 +20,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
             InitAgents();
         }
 
+#pragma warning disable CS0067
         public event EventHandler LifeDeathReturnToMainForced;
         public event EventHandler LifeDeathUndoDeathMarksRequested;
         public event EventHandler LifeDeathUndoDeathMarksForced;
@@ -27,9 +28,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler LifeDeathDoneForced;
         public event EventHandler<Position> LifeDeathKillGroupRequested;
         public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler<Position> LifeDeathRevivifyGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
-        public event EventHandler<string> OutgoingChatMessage;
+#pragma warning restore CS0067
+
         /// <summary>
         ///     Occurs when any AI involved in the game sends a line of information to the user interface.
         /// </summary>

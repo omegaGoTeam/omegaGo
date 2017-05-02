@@ -16,8 +16,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
     {
         private BoardControlState _boardControlState;
         private GameTreeNode _gameTreeNode;
-        private IMarkupTool _tool;
-
+        
         // TODO Is this the correct location for this?
         private bool _isMarkupDrawingEnabled;
 
@@ -26,7 +25,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// </summary>
         public BoardViewModel()
         {
-            _isMarkupDrawingEnabled = false;
+            
         }
 
         /// <summary>
@@ -43,12 +42,15 @@ namespace OmegaGo.UI.UserControls.ViewModels
             BoardControlState = new BoardControlState(rectangle); ;
         }
 
-        public event EventHandler<GameTreeNode> BoardRedrawRequested;
-
+        /// <summary>
+        /// Occurs when the node that should be drawn is changed.
+        /// </summary>
+        public event EventHandler<GameTreeNode> NodeChanged;
+        
         // This serves as a notifier for the UI, so it can tell the render service to / not to draw markups.
         // (This VM is being accessed in the UI from a draw thread - which does not allow access to DependencyProperties!)
         // TODO Should also give actual value as well?
-        public event EventHandler MarkupSettingsChanged;
+        //public event EventHandler<bool> MarkupRenderingChanged;
 
         internal event EventHandler<Position> BoardTapped;
 
@@ -64,21 +66,23 @@ namespace OmegaGo.UI.UserControls.ViewModels
             set { SetProperty(ref _gameTreeNode, value); OnBoardChanged(); }
         }
 
-        public IMarkupTool Tool
+        public IToolServices ToolServices
         {
-            get { return _tool; }
-            set { _tool = value; }
+            get { return _boardControlState.AnalyzeToolServices; }
+            set { _boardControlState.AnalyzeToolServices = value; }
+        }
+
+        public ITool Tool
+        {
+            get { return _boardControlState.AnalyzeModeTool; }
+            set { _boardControlState.AnalyzeModeTool = value; }
         }
 
         // TODO Is this the correct location for this?
         public bool IsMarkupDrawingEnabled
         {
-            get { return _isMarkupDrawingEnabled; }
-            set
-            {
-                SetProperty(ref _isMarkupDrawingEnabled, value);
-                MarkupSettingsChanged?.Invoke(this, EventArgs.Empty);
-            }
+            get { return _boardControlState.IsAnalyzeModeEnabled; }
+            internal set { _boardControlState.IsAnalyzeModeEnabled = value; }
         }
         
         public void BoardTap(Position position)
@@ -93,7 +97,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
         private void OnBoardChanged()
         {
-            BoardRedrawRequested?.Invoke(this, GameTreeNode);
+            NodeChanged?.Invoke(this, GameTreeNode);
         }
     }
 }

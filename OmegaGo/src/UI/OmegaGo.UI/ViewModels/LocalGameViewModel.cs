@@ -11,14 +11,12 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
 using OmegaGo.Core.Modes.LiveGame.State;
-using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
-using OmegaGo.Core.Modes.LiveGame.Remote;
-using OmegaGo.Core.Online.Common;
+using System.Threading.Tasks;
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -47,9 +45,6 @@ namespace OmegaGo.UI.ViewModels
         public LocalGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base (gameSettings, questsManager, dialogService)
         {
-            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
-
             Game.Controller.MoveUndone += Controller_MoveUndone;
             
 
@@ -84,7 +79,8 @@ namespace OmegaGo.UI.ViewModels
             => _requestUndoDeathMarksCommand ??
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
-        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint));
+        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint, () => Assistant.ProvidesHints));
+
 
         public bool CanPass
         {
@@ -123,6 +119,31 @@ namespace OmegaGo.UI.ViewModels
             TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.LocalGame})";
         }
 
+        public override async Task<bool> CanCloseViewModelAsync()
+        {
+            if (this.GetType() == typeof(LocalGameViewModel) && this.Game.Controller.Phase.Type != GamePhaseType.Finished)
+            {
+                if (await
+                    DialogService.ShowConfirmationDialogAsync(Localizer.ExitLocal_Text, Localizer.ExitLocal_Caption,
+                        Localizer.ExitLocal_Confirm, Localizer.Exit_ReturnToGame))
+                {
+                    UiConnector.AiLog -= Assistant_uiConnector_AiLog;
+                    await base.CanCloseViewModelAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                UiConnector.AiLog -= Assistant_uiConnector_AiLog;
+                await base.CanCloseViewModelAsync();
+                return true;
+            }
+        }
+
         protected override void SetupPhaseChangeHandlers(Dictionary<GamePhaseType, Action<IGamePhase>> phaseStartHandlers, Dictionary<GamePhaseType, Action<IGamePhase>> phaseEndHandlers)
         {
             phaseStartHandlers[GamePhaseType.LifeDeathDetermination] = StartLifeAndDeathPhase;
@@ -137,6 +158,14 @@ namespace OmegaGo.UI.ViewModels
 
         protected override void OnBoardTapped(Position position)
         {
+            // If the analyze mode is enabled handle it and return
+            if (IsAnalyzeModeEnabled)
+            {
+                AnalyzeBoardTap(position);
+                return;
+            }
+
+            // Otherwise do a normal move
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
                 UiConnector.RequestLifeDeathKillGroup(position);
@@ -172,7 +201,6 @@ namespace OmegaGo.UI.ViewModels
 
             // We are in a new Game Phase, refresh commands
             RefreshCommands();
-            UpdateCanPassAndUndo();
         }
 
         protected override void OnTurnPlayerChanged(GamePlayer newPlayer)
@@ -187,24 +215,16 @@ namespace OmegaGo.UI.ViewModels
             // CanPass and CanUndo would remained false until next phase change (life and death).
             UpdateCanPassAndUndo();
         }
-
-        protected override void OnCurrentNodeStateChanged()
-        {
-            base.OnCurrentNodeStateChanged();
-
-            RefreshBoard(Game.Controller.CurrentNode);
-        }
-
+        
         protected void RefreshCommands()
         {
             RaisePropertyChanged(nameof(ResumingGameIsPossible));
-            PassCommand.RaiseCanExecuteChanged();
             ResignCommand.RaiseCanExecuteChanged();
-            UndoCommand.RaiseCanExecuteChanged();
             LifeAndDeathDoneCommand.RaiseCanExecuteChanged();
             ResumeGameCommand.RaiseCanExecuteChanged();
             RequestUndoDeathMarksCommand.RaiseCanExecuteChanged();
 
+            UpdateCanPassAndUndo();
         }
 
         protected void UpdateCanPassAndUndo()
@@ -254,9 +274,9 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Resignation from UI
         /// </summary>
-        private async void Resign()
+        private void Resign()
         {
-                UiConnector.Resign();
+            UiConnector.Resign();
         }
 
         /// <summary>
@@ -295,8 +315,6 @@ namespace OmegaGo.UI.ViewModels
 
         private async void GetHint()
         {
-            if (!Assistant.ProvidesHints) return;
-
             AIDecision hint =
                 await
                     Assistant.Hint(this.Game.Info, this.Game.Controller.TurnPlayer, this.Game.Controller.GameTree,

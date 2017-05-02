@@ -17,6 +17,9 @@ namespace OmegaGo.Core.Online.Kgs
     public class KgsEvents : ICommonEvents
     {
         public event EventHandler<string> SystemMessage;
+
+
+        public event EventHandler<KgsChallenge> ChallengeJoined;
         public event EventHandler<string> OutgoingRequest;
         public event EventHandler<KgsGame> GameJoined;
         public event EventHandler<KgsChannel> Unjoin;
@@ -27,8 +30,15 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
         public event EventHandler<GameInfo> UndoRequestReceived;
-        public event EventHandler<GameInfo> UndoDeclined;
 
+#pragma warning disable CS0067 // KGS does not have a command for declining undos. To decline an undo, you're supposed to just ignore it.
+        public event EventHandler<GameInfo> UndoDeclined;
+#pragma warning restore CS0067
+
+        internal void RaiseChallengeJoined(KgsChallenge createdChallenge)
+        {
+            ChallengeJoined?.Invoke(this, createdChallenge);
+        }
         internal void RaiseLoginPhaseChanged(KgsLoginPhase phase)
         {
             LoginPhaseChanged?.Invoke(this, phase);

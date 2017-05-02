@@ -6,15 +6,9 @@
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    DataContext="{x:Bind Path=ViewModel, Mode=OneWay}">
-
-    <local:UserControlBase.Resources>
-        <!-- Add Null to Visibility for each Tool -->
-    </local:UserControlBase.Resources>
+    d:DesignWidth="400">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,14 +22,16 @@
 
         <TextBlock x:Name="headerText" 
                    Grid.Row="0"
-                   Text="Analysis Tools" TextAlignment="Center" />
+                   Text="Analyze Tools" TextAlignment="Center" 
+                   Style="{ThemeResource TitleTextBlockStyle}"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal"
-                    Margin="0,5,0,0"
+                    Margin="0,10,0,0"
                     HorizontalAlignment="Center">
-            <Button Command="{x:Bind ViewModel.PlaceStoneCommand}">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceStoneCommand}"
+                          IsChecked="{x:Bind ViewModel.IsStoneToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x25D3;" FontFamily="Segoe UI Emoji" />
-            </Button>
+            </ToggleButton>
             <!--<Button>
                 <FontIcon Glyph="&#x25CF;" FontFamily="Segoe UI Emoji" />
             </Button>
@@ -60,29 +56,35 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Center">
-            <Button Command="{x:Bind ViewModel.PlaceCharacterCommand}">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCharacterCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCharacterToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x41;" FontFamily="Segoe UI Emoji" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.PlaceNumberCommand}">
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceNumberCommand}"
+                          IsChecked="{x:Bind ViewModel.IsNumberToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x31;" FontFamily="Segoe UI Emoji" />
-            </Button>
+            </ToggleButton>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Center">
-            <Button Command="{x:Bind ViewModel.PlaceRectangleCommand}">
+            <ToggleButton Command="{x:Bind ViewModel.PlaceRectangleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsRectangleToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x25A1;" FontFamily="Segoe UI Emoji" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.PlaceTriangleCommand}">
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceTriangleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsTriangleToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x025B3;" FontFamily="Segoe UI Emoji" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.PlaceCircleCommand}">
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCircleCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCircleToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x025EF;" FontFamily="Segoe UI Emoji" />
-            </Button>
-            <Button Command="{x:Bind ViewModel.PlaceCrossCommand}">
+            </ToggleButton>
+            <ToggleButton Command="{x:Bind ViewModel.PlaceCrossCommand}"
+                          IsChecked="{x:Bind ViewModel.IsCrossToolSelected, Mode=OneWay}">
                 <FontIcon Glyph="&#x02715;" FontFamily="Segoe UI Emoji" />
-            </Button>
+            </ToggleButton>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Margin="0,5,0,0" Orientation="Horizontal"
@@ -93,8 +95,12 @@
         </StackPanel>
 
         <TextBox x:Name="nodeCommentaryText"
-                 Grid.Row="5"
-                 MaxHeight="60"
-                 Text="{x:Bind ViewModel.ToolServices.Node.Comment, Mode=TwoWay}"/>
+                 Grid.Row="5" MaxHeight="120" 
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 Header="Commentary"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Text="{Binding ElementName=layoutRoot, 
+                                Path=ViewModel.NodeCommentary, 
+                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0.8,0,-0.8"/>
     </Grid>
 </local:UserControlBase>

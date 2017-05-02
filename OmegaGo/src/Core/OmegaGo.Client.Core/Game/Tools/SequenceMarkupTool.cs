@@ -2,62 +2,60 @@
 
 namespace OmegaGo.Core.Game.Tools
 {
-    public sealed class SequenceMarkupTool : IMarkupTool
+    /// <summary>
+    /// Sequence markup tools (Letter, Number) place a label(kind of markup) on the board. 
+    /// If the intersection contains a label, the tool removes it.    
+    /// </summary>
+    public sealed class SequenceMarkupTool : IPlacementTool
     {
-        public SequenceMarkupKind SequenceMarkup { get; }
-        public bool AreMarksAvailable { get; private set; }
+        /// <summary>
+        /// Map of shadow items.
+        /// </summary>
+        private string[,] _shadows;
 
         public SequenceMarkupTool(SequenceMarkupKind kind)
         {
             SequenceMarkup = kind;
-            AreMarksAvailable = false;
         }
 
+        /// <summary>
+        /// Type of label (Letter, Number)
+        /// </summary>
+        public SequenceMarkupKind SequenceMarkup { get; }
+        
         public void Execute(IToolServices toolService)
         {
             Position position = toolService.PointerOverPosition;
             MarkupInfo markups = toolService.Node.Markups;
 
+            MarkupKind markupKindOnPosition = markups.RemoveMarkupOnPosition(position);
+
             if (SequenceMarkup == SequenceMarkupKind.Letter)
             {
                 char letter = markups.GetSmallestUnusedLetter();
-                if (letter != '0')
-                {
-                    markups.RemoveMarkupOnPosition(position);
+                if (letter != '0' && markupKindOnPosition!= MarkupKind.Label)
                     markups.AddMarkup<Label>(new Label(position, letter.ToString()));
-                }
             }
             else
             {
                 int number = markups.GetSmallestUnusedNumber();
-                markups.RemoveMarkupOnPosition(position);
-                markups.AddMarkup<Label>(new Label(position, number.ToString()));
+                if (markupKindOnPosition != MarkupKind.Label)
+                    markups.AddMarkup<Label>(new Label(position, number.ToString()));
             }
+
+            _shadows = toolService.Node.Markups.FillSequenceShadowMap(toolService.GameTree.BoardSize, SequenceMarkup);
         }
 
-        public IMarkup GetShadowItem(IToolServices toolService)
+        public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (SequenceMarkup == SequenceMarkupKind.Letter)
-            {
-                char letter = toolService.Node.Markups.GetSmallestUnusedLetter();
-                if (letter != '0')
-                {
-                    AreMarksAvailable = true;
-                    return new Label(toolService.PointerOverPosition, letter.ToString());
-                }
-                else
-                {
-                    AreMarksAvailable = false;
-                }
-            }
+            if (_shadows == null)
+                _shadows = toolService.Node.Markups.FillSequenceShadowMap(toolService.GameTree.BoardSize, SequenceMarkup);
+            
+            string labelText=_shadows[toolService.PointerOverPosition.X, toolService.PointerOverPosition.Y];
+            if (labelText.Equals("r") || labelText.Equals("0"))
+                return new None();
             else
-            {
-                int number = toolService.Node.Markups.GetSmallestUnusedNumber();
-                AreMarksAvailable = true;
-                return new Label(toolService.PointerOverPosition, number.ToString());
-            }
-
-            return null;
+                return new Label(toolService.PointerOverPosition, labelText);            
         }
     }
 }

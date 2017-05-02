@@ -12,12 +12,13 @@ using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.GameCreation;
-using OmegaGo.UI.Services.GameCreationBundle;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.UserControls.ViewModels;
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Online;
+using OmegaGo.UI.Infrastructure.Tabbed;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -31,15 +32,13 @@ namespace OmegaGo.UI.ViewModels
 
         // Backing fields
         private bool _isHandicapFixed = true;
-        private int _handicap = 0;
-        private float _compensation = 0;
+        private int _handicap;
         private GameBoardSize _selectedGameBoardSize = new GameBoardSize(19);
         private RulesetType _selectedRuleset = RulesetType.Chinese;
         private string _formTitle = "";
         private string _refuseCaption = "";
         private int _customWidth = 19;
         private int _customHeight = 19;
-        private string _server = "Local Game";
         private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.PlayerList[0];
         private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.PlayerList[0];
         private PlayerSettingsViewModel _blackSettings = new PlayerSettingsViewModel(PlayerList.First(), false);
@@ -48,8 +47,13 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _navigateToGameCommand;
         private IMvxCommand _switchColorsCommand;
         private IMvxCommand _createChallengeCommand;
+        private IMvxCommand _acceptChallengeCommand;
+        private IMvxCommand _refuseChallengeCommand;
+        private IMvxCommand _declineSingleOpponentCommand;
         private bool _useRecommendedKomi = true;
+        private string _opponentName = "";
         private string _validationErrorMessage = "";
+        private string _compensationString;
         private int _selectedColorIndex = 0;
         private ObservableCollection<TimeControlStyle> _timeControlStyles =
             new ObservableCollection<TimeControlStyle>
@@ -64,7 +68,7 @@ namespace OmegaGo.UI.ViewModels
     private GameCreationBundle _bundle;
 
 
-        public GameCreationViewModel( IGameSettings gameSettings )
+        public GameCreationViewModel(IGameSettings gameSettings)
         {
             _gameSettings = gameSettings;
             _customWidth = _gameSettings.Interface.BoardWidth;
@@ -73,8 +77,15 @@ namespace OmegaGo.UI.ViewModels
 
             _bundle = Mvx.GetSingleton<GameCreationBundle>();
             _bundle.OnLoad(this);
+            this.OpponentName = _bundle.OpponentName;
+
+            var thisTab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(this);
+            if (thisTab != null)
+            {
+                thisTab.Title = _bundle.TabTitle;
+            }
         }
-        
+
         public PlayerSettingsViewModel BlackPlayerSettings
         {
             get { return _blackSettings; }
@@ -144,12 +155,6 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public string Server
-        {
-            get { return _server; }
-            set { SetProperty(ref _server, value); }
-        }
-
         public string ValidationErrorMessage
         {
             get { return _validationErrorMessage; }
@@ -184,7 +189,7 @@ namespace OmegaGo.UI.ViewModels
             var whiteSettings = this.WhitePlayerSettings;
             var black = this.BlackPlayer;
             var blackSettings = this.BlackPlayerSettings;
-            // Order matters due to WhitePlayer and BlackPlayer setters.
+            // Order probably still matters due to WhitePlayer and BlackPlayer setters.
             this.WhitePlayerSettings = blackSettings;
             this.WhitePlayer = black;
             this.BlackPlayerSettings = whiteSettings;
@@ -224,6 +229,11 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public string OpponentName
+        {
+            get { return _opponentName; }
+            set { SetProperty(ref _opponentName, value); }
+        }
         public string CustomWidth
         {
             get { return _customWidth.ToString(); }
@@ -263,6 +273,12 @@ namespace OmegaGo.UI.ViewModels
                 SetCustomBoardSize();
             }
         }
+
+        public string CompensationString
+        {
+            get { return _compensationString; }
+            set { SetProperty(ref _compensationString, value); }
+        }
         /// <summary>
         /// Handicap of white player
         /// </summary>
@@ -295,6 +311,21 @@ namespace OmegaGo.UI.ViewModels
                         return StoneColor.None;
                 }
             }
+            set
+            {
+                switch (value)
+                {
+                    case StoneColor.Black:
+                        SelectedColorIndex = 0;
+                        break;
+                    case StoneColor.White:
+                        SelectedColorIndex = 1;
+                        break;
+                    case StoneColor.None:
+                        SelectedColorIndex = 2;
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -306,26 +337,30 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _isHandicapFixed, value); }
         }
 
-        /// <summary>
-        /// Compensation
-        /// </summary>
-        public float Compensation
-        {
-            get { return _compensation; }
-            set { SetProperty(ref _compensation, value); }
-        }
-
-        /// <summary>
-        /// Sample game board for preview
-        /// </summary>
-        public GameBoard SampleGameBoard => new GameBoard(SelectedGameBoardSize);
-
-        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(NavigateToGame));
+        public IMvxCommand NavigateToGameCommand => _navigateToGameCommand ?? (_navigateToGameCommand = new MvxCommand(StartGameImmediately));
 
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(
             async () => { await CreateChallenge(); }));
 
-     
+        
+        public IMvxCommand DeclineSingleOpponentCommand
+            => _declineSingleOpponentCommand ?? (_declineSingleOpponentCommand = new MvxCommand(
+                async () => { await DeclineSingleOpponent(); },
+                () => Bundle.IsDeclineSingleOpponentEnabled()));
+        public IMvxCommand AcceptChallengeCommand
+            => _acceptChallengeCommand ?? (_acceptChallengeCommand = new MvxCommand(
+                async () => { await AcceptChallenge(); },
+                ()=> Bundle.IsAcceptButtonEnabled()));
+
+        public IMvxCommand RefuseChallengeCommand
+            => _refuseChallengeCommand ?? (_refuseChallengeCommand = new MvxCommand(
+                async () => { await RefuseChallenge(); }));
+
+
+        public override void Appearing()
+        {
+            TabTitle = Bundle.TabTitle;
+        }
 
         private void SetCustomBoardSize()
         {
@@ -343,10 +378,12 @@ namespace OmegaGo.UI.ViewModels
         {
             if (UseRecommendedKomi)
             {
-                Compensation = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
-                    CountingType.Area);
+                CompensationString = Ruleset.GetDefaultCompensation(SelectedRuleset, SelectedGameBoardSize, Handicap,
+                    CountingType.Area).ToString(CultureInfo.InvariantCulture);
             }
         }
+
+        // The four button-confirmation methods
         private async Task CreateChallenge()
         {
             if (!Validate())
@@ -356,32 +393,41 @@ namespace OmegaGo.UI.ViewModels
             await Bundle.CreateChallenge(this);
             GoBack();
         }
+        private async Task AcceptChallenge()
+        {
+            if (!Validate())
+            {
+                // Requires validation because of AI.
+                return;
+            }
+            IGame game = await Bundle.AcceptChallenge(this);
+            if (game != null)
+            {
+                Mvx.RegisterSingleton<IGame>(game);
+                OpenInNewActiveTab<OnlineGameViewModel>();
+                this.CloseSelf();
+            }
+        }
 
-        private void NavigateToGame()
+        private async Task DeclineSingleOpponent()
+        {
+            await Bundle.DeclineSingleOpponent();
+        }
+
+        private async Task RefuseChallenge()
+        {
+            // Refusing does not require validation.
+            await Bundle.RefuseChallenge(this);
+            this.CloseSelf();
+        }
+
+        private void StartGameImmediately()
         {
             if (!Validate())
             {
                 return;
             }
 
-            CreateAndRegisterGame();
-
-            // Navigate to specific View Model
-            if (_bundle.Style == GameCreationFormStyle.LocalGame)
-            {
-                ShowViewModel<LocalGameViewModel>();
-            }
-            else
-            {
-                ShowViewModel<OnlineGameViewModel>();
-            }
-        }
-
-        /// <summary>
-        /// Creates and registers the specified game
-        /// </summary>
-        private void CreateAndRegisterGame()
-        {
             GamePlayer blackPlayer = BlackPlayer.Build(StoneColor.Black, TimeControl, BlackPlayerSettings);
             GamePlayer whitePlayer = WhitePlayer.Build(StoneColor.White, TimeControl, WhitePlayerSettings);
             BlackPlayerSettings.SaveAsInterfaceMementos();
@@ -390,7 +436,7 @@ namespace OmegaGo.UI.ViewModels
             LocalGame game = GameBuilder.CreateLocalGame().
                 BoardSize(SelectedGameBoardSize).
                 Ruleset(SelectedRuleset).
-                Komi(Compensation).
+                Komi(float.Parse(CompensationString, CultureInfo.InvariantCulture)).
                 Handicap(Handicap).
                 HandicapPlacementType(
                     IsHandicapFixed ?
@@ -400,6 +446,16 @@ namespace OmegaGo.UI.ViewModels
                 BlackPlayer(blackPlayer).
                 Build();
             Mvx.RegisterSingleton<IGame>(game);
+
+            // Navigate to specific View Model
+            if (_bundle.Style == GameCreationFormStyle.LocalGame)
+            {
+                OpenInNewActiveTab<LocalGameViewModel>();
+            }
+            else
+            {
+                OpenInNewActiveTab<OnlineGameViewModel>();
+            }
         }
 
         private bool Validate()
@@ -408,6 +464,53 @@ namespace OmegaGo.UI.ViewModels
             if (Bundle.SupportsOnlySquareBoards && !SelectedGameBoardSize.IsSquare)
             {
                 ValidationErrorMessage = "You must select a square board.";
+                return false;
+            }
+            if (SelectedGameBoardSize.Width < 2 || SelectedGameBoardSize.Height < 2)
+            {
+                ValidationErrorMessage = "Board size must be 2x2 or larger.";
+                return false;
+            }
+            float compensation;
+            if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))
+            {
+                float fractionalpart = compensation - (int) compensation;
+                // ReSharper disable CompareOfFloatsByEqualityOperator
+                if (fractionalpart != 0 && fractionalpart != 0.5f)
+                {
+                    ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                    return false;
+                }
+                // ReSharper restore CompareOfFloatsByEqualityOperator
+                if (Bundle.IsKgs)
+                {
+                    if (compensation < -100 || compensation > 100)
+                    {
+                        ValidationErrorMessage = "KGS requires that komi be between -100 and 100.";
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                ValidationErrorMessage = "Komi must be a half-integer, such as '0' or '7.5'.";
+                return false;
+            }
+            string errorMessage = "Error loading AI information."; // <-- Should never display.
+            if (!BlackPlayerSettings.Validate(this, ref errorMessage))
+            {
+                ValidationErrorMessage = errorMessage;
+                return false;
+            }
+            if (!WhitePlayerSettings.Validate(this, ref errorMessage))
+            {
+                ValidationErrorMessage = errorMessage;
+                return false;
+            }
+            string timeErrorMessage = "Error parsing time control settings."; // <-- Should never display.
+            if (!TimeControl.Validate(ref timeErrorMessage))
+            {
+                ValidationErrorMessage = timeErrorMessage;
                 return false;
             }
             if (Bundle.IsIgs)
@@ -419,12 +522,21 @@ namespace OmegaGo.UI.ViewModels
                 }
                 if (SelectedGameBoardSize.Width > 19)
                 {
-                    ValidationErrorMessage = "Pandanet does not allow board sizes smaller than 19x19.";
+                    ValidationErrorMessage = "Pandanet does not allow board sizes larger than 19x19.";
                     return false;
                 }
                 if (SelectedColor == StoneColor.None)
                 {
+                    // This should never happen.
                     ValidationErrorMessage = "Pandanet does not allow the use of nigiri to choose a color.";
+                    return false;
+                }
+            }
+            if (Bundle.IsKgs)
+            {
+                if (SelectedGameBoardSize.Width > 38)
+                {
+                    ValidationErrorMessage = "KGS does not allow board sizes larger than 38x38.";
                     return false;
                 }
             }

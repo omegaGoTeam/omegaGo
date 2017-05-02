@@ -9,6 +9,9 @@ using OmegaGo.UI.Infrastructure.Tabbed;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
+using System.Threading.Tasks;
+using OmegaGo.Core.Online.Common;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -21,9 +24,6 @@ namespace OmegaGo.UI.ViewModels
             : base(gameSettings, questsManager, dialogService)
         {
             ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
-
-            //TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            //TimelineViewModel.TimelineSelectionChanged += (s, e) => OnBoardRefreshRequested(e);
         }
 
         public ChatViewModel ChatViewModel { get; private set; }
@@ -50,11 +50,21 @@ namespace OmegaGo.UI.ViewModels
             TabTitle = $"{Game.Info.Black.Name} vs. {Game.Info.White.Name} ({Localizer.Observing})";
         }
 
-        protected override void OnCurrentNodeStateChanged()
+        public override async Task<bool> CanCloseViewModelAsync()
         {
-            base.OnCurrentNodeStateChanged();
+            await (Game.Controller as RemoteGameController).Server.Commands.UnobserveAsync(Game.Info as RemoteGameInfo);
+            await base.CanCloseViewModelAsync();
+            Game.Controller.EndGame(GameEndInformation.CreateCancellation(Game.Controller.Players));
+            return true;
+        }
 
-            RefreshBoard(Game.Controller.CurrentNode);
+        protected override void OnBoardTapped(Position position)
+        {
+            if (IsAnalyzeModeEnabled)
+            {
+                AnalyzeBoardTap(position);
+                return;
+            }
         }
     }
 }

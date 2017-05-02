@@ -88,16 +88,25 @@ namespace OmegaGo.Core.Online.Igs
         public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
         {
             var igsGameInfo = (IgsGameInfo)remoteInfo;
-            await UndoAsync(igsGameInfo);
+            await MakeRequestAsync("undo " + igsGameInfo.IgsIndex);
 
         }
 
         public Task RejectUndoAsync(RemoteGameInfo remoteInfo)
         {
             var igsGameInfo = (IgsGameInfo)remoteInfo;
-            NoUndo(igsGameInfo);
+            this.igsConnection.MakeUnattendedRequest("noundo " + igsGameInfo.IgsIndex);
             return CompletedTask;
+        }
 
+        public async Task UnobserveAsync(RemoteGameInfo remoteInfo)
+        {
+            var igsGameInfo = (IgsGameInfo) remoteInfo;
+            var igsGame = igsConnection.GamesBeingObserved.FirstOrDefault(gm => gm.Info.IgsIndex == igsGameInfo.IgsIndex);
+            if (igsGame != null)
+            {
+                await this.EndObserving(igsGame);
+            }
         }
 
         public async Task AreYouThere()
@@ -380,16 +389,6 @@ namespace OmegaGo.Core.Online.Igs
             await MakeRequestAsync("undoplease " + game.IgsIndex);
         }
 
-        public async Task UndoAsync(IgsGameInfo game)
-        {
-            await MakeRequestAsync("undo " + game.IgsIndex);
-        }
-
-        public void NoUndo(IgsGameInfo game)
-        {
-            this.igsConnection.MakeUnattendedRequest("noundo " + game.IgsIndex);
-        }
-
 
         public async Task<bool> ToggleAsync(string toggleKey, bool newToggleValue)
         {
@@ -453,7 +452,6 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger());
             game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
-            game.PreplayedMoveCount = match.Groups[6].Value.AsInteger();
             return game;
         }
 

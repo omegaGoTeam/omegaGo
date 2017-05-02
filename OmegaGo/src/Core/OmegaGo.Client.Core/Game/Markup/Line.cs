@@ -2,7 +2,7 @@
 {
     public sealed class Line : IMarkup
     {
-        public MarkupKind Kind => MarkupKind.Line;
+        public MarkupKind MarkupKind => MarkupKind.Line;
 
         public Position From { get; }
 

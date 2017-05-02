@@ -51,6 +51,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler LifeDeathDoneForced;
         public event EventHandler<Position> LifeDeathKillGroupRequested;
         public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler<Position> LifeDeathRevivifyGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 
@@ -124,14 +125,7 @@ so I thought suppressing warnings would have the same result.*/
         {
             var player = _gameController.Players[resigningPlayerColor];
             var igsAgent = player.Agent as IgsAgent;
-            if (igsAgent == null)
-            {
-                // Do nothing. We already know we have resigned.
-            }
-            else
-            {
-                igsAgent.ResignationFromServer();
-            }
+            igsAgent?.ResignationFromServer();
         }
 
         /// <summary>
@@ -209,7 +203,7 @@ so I thought suppressing warnings would have the same result.*/
             _connnection.DestroyGame(_gameController.Info);
         }
 
-        protected virtual void OnNewChatMessageReceived(ChatMessage e)
+        private void OnNewChatMessageReceived(ChatMessage e)
         {
             NewChatMessageReceived?.Invoke(this, e);
         }

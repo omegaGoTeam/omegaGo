@@ -55,16 +55,21 @@ namespace OmegaGo.UI.ViewModels
         public LibraryItem SelectedItem
         {
             get { return this._selectedItem; }
-            set { SetProperty(ref this._selectedItem, value); }
+            set {
+                SetProperty(ref this._selectedItem, value);
+                OpenCommand.RaiseCanExecuteChanged();
+                DeleteCommand.RaiseCanExecuteChanged();
+                ExportCommand.RaiseCanExecuteChanged();
+            }
         }
 
-        public IMvxCommand OpenCommand => this._openCommand ?? (this._openCommand = new MvxCommand(Open));
+        public IMvxCommand OpenCommand => this._openCommand ?? (this._openCommand = new MvxCommand(Open, ()=>SelectedItem != null));
 
         public IMvxCommand DeleteCommand
-            => this._deleteCommand ?? (this._deleteCommand = new MvxCommand(async () => await Delete()));
+            => this._deleteCommand ?? (this._deleteCommand = new MvxCommand(async () => await Delete(), () => SelectedItem != null));
 
         public IMvxCommand ExportCommand
-            => this._exportCommand ?? (this._exportCommand = new MvxCommand(async () => await Export()));
+            => this._exportCommand ?? (this._exportCommand = new MvxCommand(async () => await Export(), () => SelectedItem != null));
 
         public IMvxCommand RefreshCommand
             => this._refreshCommand ?? (this._refreshCommand = new MvxCommand(async ()=> await RefreshList()));

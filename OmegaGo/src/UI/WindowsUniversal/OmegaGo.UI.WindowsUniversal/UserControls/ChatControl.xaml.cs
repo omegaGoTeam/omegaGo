@@ -51,5 +51,13 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 }
             };
         }
+
+        private void TextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                ViewModel.SendMessageCommand.Execute();
+            }
+        }
     }
 }

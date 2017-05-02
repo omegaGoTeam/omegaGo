@@ -1,7 +1,8 @@
 ﻿The files in this folder are extracted from the .war file provided at
 https://www.gokgs.com/help/protocol.html
 
-They are from the version from 17th September 2016, downloaded late January 2017. However, they are almost certainly not up to date, as the API was likely improved over 2016 but the API docs, I suspect, remain from March 2016.
+They are from the version from 17th September 2016, downloaded late January 2017. However, they are not up to date, as the API was likely improved over 2016 but the API docs, I suspect, remain from March 2016. Some information in the documentation was either always wrong or
+is wrong now, such as the level of nesting of 'proposal' properties (they're sometimes actually one more level up).
 
 Also note that WE MIGHT BE USING AN OUTDATED VERSION of the .war file anyway, since we don't know what version of the .war is running on MetaKGS.
 

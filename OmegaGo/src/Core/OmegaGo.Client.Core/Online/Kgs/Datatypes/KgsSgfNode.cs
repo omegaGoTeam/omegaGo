@@ -47,6 +47,18 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
             ExecuteProperty(prop, ongame);
         }
 
+        public void RemoveProperty(KgsSgfProperty prop, KgsGame ongame)
+        {
+            var existing =  Properties.FirstOrDefault(p => p.Name == prop.Name && (p.Loc?.SameAs(prop.Loc) ?? true));
+            if (existing != null)
+            {
+                Properties.Remove(existing);
+            }
+            ExecutePropertyRemoval(prop, ongame);
+        }
+
+        
+
         private void ExecuteProperty(KgsSgfProperty prop, KgsGame ongame)
         {
             switch (prop.Name)
@@ -79,9 +91,16 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     if (tuple != null)
                     {
                         var chatMessage = new ChatMessage(tuple.Item1, tuple.Item2,
-                            DateTimeOffset.Now, ChatMessageKind.Incoming);
+                            DateTimeOffset.Now, tuple.Item1 == ongame.Controller.Server.Username ? ChatMessageKind.Outgoing : ChatMessageKind.Incoming);
                         ongame.Controller.KgsConnector.ChatMessageFromServer(chatMessage);
                     }
+                    break;
+                case "DEAD":
+                    if (ongame.Controller.Phase.Type != Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+                    {
+                        ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
+                    }
+                    ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "TIMELEFT":
                     StoneColor colorTimeLeft = (prop.Color == "black" ? StoneColor.Black : StoneColor.White);
@@ -94,7 +113,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     if (!prop.Loc.IsPass)
                     {
                         XY whereTo = (XY) prop.Loc;
-                        Position position = new Game.Position(whereTo.X, whereTo.Y);
+                        Position position = new Game.Position(whereTo.X, KgsCoordinates.TheirsToOurs(whereTo.Y, ongame.Info.BoardSize));
                         move = Move.PlaceStone(color, position);
                     }
                     else
@@ -113,9 +132,28 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     break;
             }
         }
+        private void ExecutePropertyRemoval(KgsSgfProperty prop, KgsGame ongame)
+        {
+            switch (prop.Name)
+            {
+                case "DEAD":
+                    if (ongame.Controller.Phase.Type != Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination)
+                    {
+                        ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
+                    }
+                    ongame.Controller.KgsConnector.ForceRevivifyGroup(
+                        new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
         public override string ToString()
         {
             return "Node [" + Properties.Count + " props, first: " + Properties.FirstOrDefault()?.Name + "]";
         }
+
     }
 }

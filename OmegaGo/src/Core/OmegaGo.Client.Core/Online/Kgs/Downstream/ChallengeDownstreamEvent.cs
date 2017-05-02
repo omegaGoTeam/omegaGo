@@ -21,6 +21,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                 if (challenge.ChannelId == this.ChannelId)
                 {
                     challenge.Events.Add(this.Type);
+                  
                 }
             }
         }

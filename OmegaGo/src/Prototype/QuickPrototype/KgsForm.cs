@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Kgs;
+using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace FormsPrototype
@@ -26,7 +27,14 @@ namespace FormsPrototype
             kgs.Events.OutgoingRequest += Events_OutgoingRequest;
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
+            kgs.Events.ChallengeJoined += Events_ChallengeJoined;
             kgs.Events.NotificationMessage += Events_NotificationMessage;
+        }
+
+        private void Events_ChallengeJoined(object sender, KgsChallenge e)
+        {
+            ChallengeForm form = new FormsPrototype.ChallengeForm(e, kgs);
+            form.Show();
         }
 
         private void Events_NotificationMessage(object sender, string e)
@@ -278,6 +286,25 @@ namespace FormsPrototype
                     }
                 }
             }
+        }
+
+        private async void bCreateSimpleChallenge_Click(object sender, EventArgs e)
+        {
+            KgsRoom room = (KgsRoom)this.lbRooms.SelectedItem;
+            if (room != null)
+            {
+                await this.kgs.Commands.CreateChallenge(room, false, false, new OmegaGo.Core.Online.Kgs.Datatypes.RulesDescription() {
+                            Rules = RulesDescription.RulesChinese,
+                            Size = 7,
+                            Komi = 6.5f,
+                            TimeSystem = "none"
+                    }, OmegaGo.Core.Game.StoneColor.None);
+            }
+        }
+
+        private void tabPage6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Lite STYLE -->
+
+    <Color x:Key="StandardLiteButtonBorderDarkColor">#FF974B00</Color>
+    <Color x:Key="StandardLiteButtonBorderLightColor">#FFC76300</Color>
+
+    <Color x:Key="StandardLiteButtonBackgroundDarkColor">#FFC59525</Color>
+    <Color x:Key="StandardLiteButtonBackgroundLightColor">#e4bd65</Color>
+
+    <LinearGradientBrush x:Key="StandardLiteButtonBackgroundNormalBrush" EndPoint="0.5 0" StartPoint="0.5 1">
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundDarkColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundLightColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundDarkColor}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="StandardLiteButtonBackgroundPressedBrush" EndPoint="0.5 0" StartPoint="0.5 1">
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundLightColor}" Offset="0"/>
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundDarkColor}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource StandardLiteButtonBackgroundLightColor}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="StandardLiteButtonBorderNormalBrush" StartPoint="0.5 0" EndPoint="0.5 1" >
+        <GradientStopCollection>
+            <GradientStop Color="{StaticResource StandardLiteButtonBorderDarkColor}" Offset="0" />
+            <GradientStop Color="{StaticResource StandardLiteButtonBorderLightColor}" Offset="0.4" />
+            <GradientStop Color="{StaticResource StandardLiteButtonBorderLightColor}" Offset="0.7" />
+            <GradientStop Color="{StaticResource StandardLiteButtonBorderDarkColor}" Offset="1" />
+        </GradientStopCollection>
+    </LinearGradientBrush>
+
+    <!-- WOOD STYLE -->
+
+    <ImageBrush x:Key="woodenButtonBackground" ImageSource="ms-appx:///Assets/Textures/WoodenButton.png"  />
+    <ImageBrush x:Key="woodenButtonBackgroundHighlighted" ImageSource="ms-appx:///Assets/Textures/WoodenButtonHighlighted.png" />
+    <ImageBrush x:Key="woodenButtonBackgroundPressed" ImageSource="ms-appx:///Assets/Textures/WoodenButtonPressed.png" />
+
+    <!-- Windows STYLE -->
+    <!-- Windows does not need a style -->
+    
+</ResourceDictionary>

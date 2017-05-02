@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using OmegaGo.Core.LiveGame.Connectors.Kgs;
+using OmegaGo.Core.LiveGame.Phases.Main;
 using OmegaGo.Core.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Finished;
@@ -41,9 +42,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         }
 
         internal KgsConnector KgsConnector { get; }
-        internal KgsConnection Server { get; }
+        internal new KgsConnection Server { get; }
 
         public override IChatService Chat { get; }
+        public int DoneId { get; set; }
 
         /// <summary>
         ///     KGS game info
@@ -52,11 +54,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory
-                <InitializationPhase, KgsHandicapPhase, LocalMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+                <InitializationPhase, KgsHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
 
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             EndGame(e);
+
         }
     }
 }

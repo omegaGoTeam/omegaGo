@@ -1,7 +1,6 @@
 using System;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
-using OmegaGo.Core.Online.Chat;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Igs.Structures;
 
@@ -55,12 +54,6 @@ namespace OmegaGo.Core.Online.Igs
         ///     Occurs when our match request is accepted and creates a GAME.
         /// </summary>
         public event EventHandler<IgsGame> MatchRequestAccepted;
-
-        /// <summary>
-        ///     Occurs when an INCOMING CHAT MESSAGE is received from the server that's stored with a GAME we currently have
-        ///     opened.
-        /// </summary>
-        public event EventHandler<Tuple<IgsGameInfo, ChatMessage>> IncomingInGameChatMessage;
 
         /// <summary>
         ///     Occurs when the opponent in a GAME asks us to let them undo a move

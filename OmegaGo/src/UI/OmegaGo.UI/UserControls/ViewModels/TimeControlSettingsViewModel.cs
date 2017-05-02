@@ -134,5 +134,44 @@ namespace OmegaGo.UI.UserControls.ViewModels
         {
             RaisePropertyChanged(nameof(TimeControlSettingsViewModel.OneLineDescription));
         }
+
+
+       
+
+        public bool Validate(ref string timeErrorMessage)
+        {
+            if (!ValidateField(MainTime, "main time", ref timeErrorMessage))
+            {
+                return false;
+            }
+            if (!ValidateField(OvertimeMinutes, "overtime length", ref timeErrorMessage))
+            {
+                return false;
+            }
+            if (!ValidateField(OvertimeSeconds, "overtime length", ref timeErrorMessage))
+            {
+                return false;
+            }
+            if (!ValidateField(StonesPerPeriod, "number of moves per period", ref timeErrorMessage))
+            {
+                return false;
+            }
+            return true;
+        }
+        private bool ValidateField(string field, string fieldname, ref string error)
+        {
+            int value;
+            if (!int.TryParse(NumberOfJapanesePeriods, out value))
+            {
+                error = "A field ('" + fieldname + "') doesn't contain a nonnegative integer.";
+                return false;
+            }
+            if (value < 0)
+            {
+                error = "A field ('" + fieldname + "') doesn't contain a nonnegative integer.";
+                return false;
+            }
+            return true;
+        }
     }
 }

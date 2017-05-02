@@ -13,8 +13,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     /// </summary>
     public sealed partial class ObserverGameView : TransparencyViewBase
     {
-        private DispatcherTimer _updateTimer;
-        
         public ObserverGameViewModel VM => (ObserverGameViewModel)ViewModel;
 
         public override string TabTitle => Localizer.Observing;
@@ -26,25 +24,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             this.InitializeComponent();
         }
-        
-        private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _updateTimer.Stop();
-            _updateTimer.Tick -= UpdateTimer_Tick;
-            VM.Unload();
-        }
 
-        private void TransparencyViewBase_Loaded(object sender, RoutedEventArgs e)
+        private void focusButton_Click(object sender, RoutedEventArgs e)
         {
-            _updateTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(100) };
-            _updateTimer.Tick += UpdateTimer_Tick;
-            _updateTimer.Start();
-        }
-
-        private void UpdateTimer_Tick(object sender, object e)
-        {
-            VM.BlackPortrait.Update();
-            VM.WhitePortrait.Update();
+            AppShell.FocusModeOn = !AppShell.FocusModeOn;
         }
     }
 }

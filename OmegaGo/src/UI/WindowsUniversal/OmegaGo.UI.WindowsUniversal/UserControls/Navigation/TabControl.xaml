@@ -42,18 +42,9 @@
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="TabBorder.Width" Value="110" />
+                        <Setter Target="TabBorder.Width" Value="125" />
                     </VisualState.Setters>
                 </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="300" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TabBorder.Width" Value="90" />
-                    </VisualState.Setters>
-                </VisualState>
-
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Border.Background>

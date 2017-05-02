@@ -20,7 +20,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         }
 
 
-        public override string TabTitle => Localizer.NewGame;
+        public override string TabTitle => VM?.Bundle?.TabTitle ?? "Loading...";
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/GameCreation.png");
 
