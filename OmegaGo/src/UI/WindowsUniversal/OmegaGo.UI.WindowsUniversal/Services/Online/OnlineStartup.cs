@@ -30,8 +30,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
             {
                 if (await Connections.Igs.ConnectAsync())
                 {
-                    var success =
-                        await Connections.Igs.LoginAsync(settings.Interface.IgsName, settings.Interface.IgsPassword);
+                    var success = await Connections.Igs.LoginAsync(settings.Interface.IgsName, settings.Interface.IgsPassword);
                     if (!success)
                     {
                         notifications.TriggerNotification(new BubbleNotification("IGS auto-login failed."));

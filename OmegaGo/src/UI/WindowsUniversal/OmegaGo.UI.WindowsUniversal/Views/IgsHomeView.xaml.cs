@@ -38,7 +38,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)
         {
-            VM.Deinitialize();
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

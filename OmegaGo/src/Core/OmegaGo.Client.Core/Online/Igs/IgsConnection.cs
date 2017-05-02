@@ -175,6 +175,9 @@ namespace OmegaGo.Core.Online.Igs
         /// </summary>
         public string Username => _username;
 
+
+        public IgsLoginPhase CurrentLoginPhase { get; internal set; } = IgsLoginPhase.Connecting;
+
         // TODO Petr (low importance): The log might or might not be present in the final version, we'll see
         /// <summary>
         /// Log of Igs

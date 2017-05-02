@@ -51,6 +51,7 @@ namespace OmegaGo.Core.Online.Kgs
         public ServerId Name => ServerId.Kgs;
         public KgsData Data { get; }
         public bool LoggedIn { get; set; }
+        public bool LoggingIn { get; set; }
         public JsonSerializer Serializer { get; } = new JsonSerializer()
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver()
@@ -138,6 +139,7 @@ namespace OmegaGo.Core.Online.Kgs
 
         public async Task<bool> LoginAsync(string name, string password)
         {
+            LoggingIn = true;
             this._username = name;
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
@@ -145,7 +147,11 @@ namespace OmegaGo.Core.Online.Kgs
                 StartGetLoop();
             }
             this._username = name;
-            if (LoggedIn) return true;
+            if (LoggedIn)
+            {
+                LoggingIn = false;
+                return true;
+            }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
@@ -155,7 +161,6 @@ namespace OmegaGo.Core.Online.Kgs
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
-                LoggedIn = true;
                 var roomsArray = new int[response.Rooms.Length];
                 for (int i = 0; i < response.Rooms.Length; i++)
                 {
@@ -174,8 +179,11 @@ namespace OmegaGo.Core.Online.Kgs
                 await Commands.GlobalListJoinRequestAsync("FANS");
                 Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
                 Events.RaiseSystemMessage("On-login outgoing message burst complete.");
+                LoggedIn = true;
+                LoggingIn = false;
                 return true;
             }
+            LoggingIn = false;
             return false;
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)

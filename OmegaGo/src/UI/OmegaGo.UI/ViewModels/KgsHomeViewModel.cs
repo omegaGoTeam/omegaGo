@@ -183,14 +183,27 @@ namespace OmegaGo.UI.ViewModels
             else
             {
                 this.LoginForm.FormVisible = true;
-                this.LoginForm.FormEnabled = true;
+                if (Connections.Kgs.LoggingIn)
+                {
+                    this.LoginForm.FormEnabled = false;
+                    this.LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
+                    this.LoginForm.LoginErrorMessageOpacity = 1;
+
+                }
+                else
+                {
+                    this.LoginForm.LoginErrorMessage = "";
+                    this.LoginForm.LoginErrorMessageOpacity = 0;
+                    this.LoginForm.FormEnabled = true;
+                }
             }
         }
 
-        public void Exit()
+        public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
+            return base.CanCloseViewModelAsync();
         }
 
         public async Task AttemptLoginCommand(string username, string password)
@@ -203,9 +216,6 @@ namespace OmegaGo.UI.ViewModels
             this.LoginForm.FormEnabled = true;
             if (loginSuccess)
             {
-                this.LoginForm.FormVisible = false;
-                this.LoginForm.LoginErrorMessageOpacity = 0;
-                RefreshControls();
             }
             else
             {
@@ -225,6 +235,12 @@ namespace OmegaGo.UI.ViewModels
         private void Events_LoginPhaseChanged(object sender, KgsLoginPhase e)
         {
             this.LoginForm.LoginErrorMessage = Localizer.GetString("KgsLoginPhase_" + e.ToString());
+            if (e == KgsLoginPhase.Done)
+            {
+                this.LoginForm.FormVisible = false;
+                this.LoginForm.LoginErrorMessageOpacity = 0;
+                RefreshControls();
+            }
         }
 
         private void RefreshControls()
