@@ -69,7 +69,6 @@
     <Compile Include="Game\Markup\ShadowItemKind.cs" />
     <Compile Include="Game\Tools\SimpleMarkupTool.cs" />
     <Compile Include="Game\Tools\StonePlacementTool.cs" />
-    <Compile Include="Helpers\EventHandlerExtensions.cs" />
     <Compile Include="LiveGame\Connectors\IGameConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IgsConnector.cs" />
     <Compile Include="LiveGame\Connectors\Igs\IIgsConnectorServerActions.cs" />
