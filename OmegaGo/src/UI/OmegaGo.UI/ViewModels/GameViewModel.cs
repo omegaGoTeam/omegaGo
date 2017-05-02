@@ -178,8 +178,7 @@ namespace OmegaGo.UI.ViewModels
                     bool notificationDemanded =
                         (humanPlayed
                             ? _gameSettings.Audio.PlayWhenYouPlaceStone
-                            : _gameSettings.Audio.PlayWhenOthersPlaceStone) &&
-                        (!(Game.Info is RemoteGameInfo) || state.MoveNumber > ((RemoteGameInfo) Game.Info).PreplayedMoveCount);
+                            : _gameSettings.Audio.PlayWhenOthersPlaceStone);
                     if (notificationDemanded)
                     {
                         if (state.Move.Kind == MoveKind.PlaceStone)

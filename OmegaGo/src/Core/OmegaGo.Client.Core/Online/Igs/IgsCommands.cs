@@ -452,7 +452,6 @@ namespace OmegaGo.Core.Online.Igs
                 match.Groups[1].Value.AsInteger(),
                 match.Groups[12].Value.AsInteger());
             game.ByoyomiPeriod = match.Groups[10].Value.AsInteger();
-            game.PreplayedMoveCount = match.Groups[6].Value.AsInteger();
             return game;
         }
 

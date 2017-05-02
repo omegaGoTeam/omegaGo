@@ -44,6 +44,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
             [SfxId.PleasantJingle] = "Sounds\\Notification.mp3"
         };
 
+        private Dictionary<SfxId, StorageFile> _loaded = new Dictionary<SfxId, StorageFile>();
+
         private bool _initialized = false;
         private bool _initializing = false;
 
@@ -75,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
             {
                 string file = _filenames[id];
                 double gain = _gameSettings.Audio.MasterVolume*(_gameSettings.Audio.SfxVolume/10000.0);
-                await PlaySound(file, gain);
+                await PlaySound(id, gain);
             }
         }
 
@@ -113,19 +115,32 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Audio
             if (outputResult.Status != AudioDeviceNodeCreationStatus.Success) return;
             _outputNode = outputResult.DeviceOutputNode;
             _audioGraph.Start();
+
+            foreach(var kvp in _filenames)
+            {
+                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/{kvp.Value}"));
+                _loaded.Add(kvp.Key, storageFile);
+            }
         }
-        
+
+        private int _lastSoundId;
+
         /// <summary>
         /// Plays a sound file
         /// </summary>
         /// <param name="file">File</param>
         /// <param name="gain">Gain</param>
         /// <returns></returns>
-        private async Task PlaySound(string file, double gain)
+        private async Task PlaySound(SfxId id, double gain)
         {
-            var soundFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appx:///Assets/{file}"));
-            var fileInputNodeResult = await _audioGraph.CreateFileInputNodeAsync(soundFile);
-            if (fileInputNodeResult.Status != AudioFileNodeCreationStatus.Success) return;
+            _lastSoundId++;
+            int thisSoundId = _lastSoundId;
+            await Task.Delay(80);
+            if (thisSoundId != _lastSoundId)
+            {
+                return;
+            }
+            var fileInputNodeResult = await _audioGraph.CreateFileInputNodeAsync(_loaded[id]);
             var fileInputNode = fileInputNodeResult.FileInputNode;
             fileInputNode.FileCompleted += FileInputNodeOnFileCompleted;
             fileInputNode.AddOutgoingConnection(_outputNode, gain);
