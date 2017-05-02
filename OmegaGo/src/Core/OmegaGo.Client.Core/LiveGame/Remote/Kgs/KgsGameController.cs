@@ -59,6 +59,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             EndGame(e);
+
         }
     }
 }
