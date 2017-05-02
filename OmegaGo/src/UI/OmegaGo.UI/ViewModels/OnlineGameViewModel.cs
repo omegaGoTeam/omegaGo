@@ -59,7 +59,7 @@ namespace OmegaGo.UI.ViewModels
         
         public override async Task<bool> CanCloseViewModelAsync()
         {
-            if (this.Game.Controller.Phase.Type != GamePhaseType.Finished)
+            if (this.Game.Controller.Phase.Type == GamePhaseType.Finished)
             {
                 await base.CanCloseViewModelAsync();
                 return true;
