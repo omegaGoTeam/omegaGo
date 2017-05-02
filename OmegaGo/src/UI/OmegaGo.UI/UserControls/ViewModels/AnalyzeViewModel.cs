@@ -54,7 +54,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// </summary>
         public ITool SelectedTool
         {
-            get { return _selectedTool; }
+            get { return (_selectedTool ?? StonePlacementTool); }
             private set
             {
                 SetProperty(ref _selectedTool, value);
