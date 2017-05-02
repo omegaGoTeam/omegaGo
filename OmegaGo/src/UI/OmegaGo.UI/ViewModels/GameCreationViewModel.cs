@@ -39,7 +39,6 @@ namespace OmegaGo.UI.ViewModels
         private string _refuseCaption = "";
         private int _customWidth = 19;
         private int _customHeight = 19;
-        private string _server = "Local Game";
         private GameCreationViewPlayer _blackPlayer = GameCreationViewModel.PlayerList[0];
         private GameCreationViewPlayer _whitePlayer = GameCreationViewModel.PlayerList[0];
         private PlayerSettingsViewModel _blackSettings = new PlayerSettingsViewModel(PlayerList.First(), false);

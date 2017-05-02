@@ -151,6 +151,17 @@ namespace OmegaGo.Core.Online.Kgs
                 Y = KgsCoordinates.OurToTheirs(position.Y, kgsInfo.BoardSize)
             });
         }
+        public async Task LifeDeathMarkLife(Position position, RemoteGameInfo remoteInfo)
+        {
+            KgsGameInfo kgsInfo = (KgsGameInfo)remoteInfo;
+            await kgsConnection.MakeUnattendedRequestAsync("GAME_MARK_LIFE", new
+            {
+                ChannelId = kgsInfo.ChannelId,
+                Alive = true,
+                X = position.X,
+                Y = KgsCoordinates.OurToTheirs(position.Y, kgsInfo.BoardSize)
+            });
+        }
 
         public async Task AllowUndoAsync(RemoteGameInfo remoteInfo)
         {

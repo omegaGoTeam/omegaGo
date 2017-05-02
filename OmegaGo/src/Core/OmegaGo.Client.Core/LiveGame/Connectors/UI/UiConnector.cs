@@ -28,6 +28,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors.UI
         public event EventHandler LifeDeathDoneForced;
         public event EventHandler<Position> LifeDeathKillGroupRequested;
         public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler<Position> LifeDeathRevivifyGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 #pragma warning restore CS0067

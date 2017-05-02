@@ -29,6 +29,7 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public event EventHandler LifeDeathDoneForced;
         public event EventHandler<Position> LifeDeathKillGroupRequested;
         public event EventHandler<Position> LifeDeathKillGroupForced;
+        public event EventHandler<Position> LifeDeathRevivifyGroupForced;
         public event EventHandler MainUndoRequested;
         public event EventHandler MainUndoForced;
 #pragma warning restore CS0067
@@ -74,6 +75,11 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public void ForceKillGroup(Position position)
         {
             LifeDeathKillGroupForced?.Invoke(this, position);
+        }
+
+        public void ForceRevivifyGroup(Position position)
+        {
+            LifeDeathRevivifyGroupForced?.Invoke(this, position);
         }
     }
 }

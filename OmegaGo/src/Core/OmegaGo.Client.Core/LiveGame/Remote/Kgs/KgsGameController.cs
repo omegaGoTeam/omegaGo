@@ -54,7 +54,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
 
         protected override IGameControllerPhaseFactory PhaseFactory { get; } =
             new GenericPhaseFactory
-                <InitializationPhase, KgsHandicapPhase, KgsMainPhase, RemoteLifeAndDeathPhase, FinishedPhase>();
+                <InitializationPhase, KgsHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
 
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
