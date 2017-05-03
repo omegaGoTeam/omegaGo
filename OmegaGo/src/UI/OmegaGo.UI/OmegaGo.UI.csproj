@@ -119,6 +119,7 @@
     <Compile Include="Services\Localization\TimeControlTranslator.cs" />
     <Compile Include="Services\Notifications\BubbleNotification.cs" />
     <Compile Include="Services\Notifications\IAppNotificationService.cs" />
+    <Compile Include="Services\Notifications\NotificationType.cs" />
     <Compile Include="Services\Online\Connections.cs" />
     <Compile Include="Services\GameCreation\IgsIncomingMatchRequestBundle.cs" />
     <Compile Include="Services\PasswordVault\IPasswordVaultService.cs" />
