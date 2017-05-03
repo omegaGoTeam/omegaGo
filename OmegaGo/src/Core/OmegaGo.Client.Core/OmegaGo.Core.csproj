@@ -270,7 +270,6 @@
     <Compile Include="Rules\Scores.cs" />
     <Compile Include="Sgf\Helpers\SgfPointCompressor.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverter.cs" />
-    <Compile Include="Sgf\Properties\Known\GameInfoPropertyTypes.cs" />
     <Compile Include="Sgf\Properties\Known\MarkupPropertyTypes.cs" />
     <Compile Include="Sgf\Properties\Known\NoTypePropertyTypes.cs" />
     <Compile Include="Sgf\Properties\Known\RootPropertyTypes.cs" />

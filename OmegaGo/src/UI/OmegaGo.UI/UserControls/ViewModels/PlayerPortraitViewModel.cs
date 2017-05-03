@@ -2,6 +2,7 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.Localization;
@@ -39,6 +40,21 @@ namespace OmegaGo.UI.UserControls.ViewModels
             _player = player;
             _controller = game.Controller;
             _isOnline = game.Info is RemoteGameInfo;
+        }
+
+        /// <summary>
+        /// Creates light-weight version of player portrait without a game. Used with analysis mode.
+        /// </summary>
+        /// <param name="playerInfo">Player info</param>
+        public PlayerPortraitViewModel(PlayerInfo playerInfo)
+        {
+            _player = new HumanPlayerBuilder(playerInfo.Color)
+                .Name(playerInfo.Name)
+                .Rank(playerInfo.Rank)
+                .Team(playerInfo.Team)
+                .Build();
+            _controller = null;
+            _isOnline = false;
         }
 
         /// <summary>
@@ -92,7 +108,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         
         public bool IsTurnPlayer
         {
-            get { return _controller.TurnPlayer == _player; }
+            get { return _controller?.TurnPlayer == _player; }
         }
 
         /// <summary>
@@ -109,11 +125,14 @@ namespace OmegaGo.UI.UserControls.ViewModels
             var tuple = TimeControlTranslator.TranslateSubtext(info, Clock);
             TimeControlSubLine = tuple.Subtext;
             TimeControlTooltip = tuple.Tooltip;
-            PrisonerCount =
-                _player.Info.Color == StoneColor.Black
-                    ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
-                    : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
-                ;
+            if (_controller != null)
+            {
+                PrisonerCount =
+                    _player.Info.Color == StoneColor.Black
+                        ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
+                        : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
+                    ;
+            }
             RaisePropertyChanged(nameof(CapturesLine));
             RaisePropertyChanged(nameof(IsTurnPlayer));
 
