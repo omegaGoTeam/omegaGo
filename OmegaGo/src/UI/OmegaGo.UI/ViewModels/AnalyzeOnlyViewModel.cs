@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Game.Tools;
+using OmegaGo.Core.Rules;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
@@ -15,19 +17,34 @@ using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
-    public class AnalyzeOnlyGameViewModel : GameViewModel
+    public class AnalyzeOnlyViewModel : MvxViewModel
     {
-        public AnalyzeOnlyGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService) :
-            base(gameSettings, questsManager, dialogService)
+        public class NavigationBundle
         {
-            BlackPortrait = new PlayerPortraitViewModel(Game.Controller.Players.Black, Game);
-            WhitePortrait = new PlayerPortraitViewModel(Game.Controller.Players.White, Game);
+            public NavigationBundle(GameTree gameTree, GameInfo gameInfo)
+            {
+                GameTree = gameTree;
+                GameInfo = gameInfo;
+            }
+
+            public GameTree GameTree { get; }
+            public GameInfo GameInfo { get; }
+        }
+
+        private readonly IRuleset _ruleset;
+
+        public AnalyzeOnlyGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+        {
+            var analyzeBundle = Mvx.Resolve<NavigationBundle>();
+            GameTree = analyzeBundle.GameTree;
+            GameInfo = analyzeBundle.GameInfo;
+            BlackPortrait = new PlayerPortraitViewModel(analyzeBundle.GameInfo.Black);
+            WhitePortrait = new PlayerPortraitViewModel(analyzeBundle.GameInfo.White);
+
+            _ruleset = new ChineseRuleset(analyzeBundle.GameInfo.BoardSize);
 
             // Register tool services
-            ToolServices =
-                new GameToolServices(
-                    Game.Controller.Ruleset,
-                    Game.Controller.GameTree);
+            ToolServices = new GameToolServices(_ruleset, analyzeBundle.GameTree);
             ToolServices.NodeChanged += (s, node) =>
             {
                 AnalyzeViewModel.OnNodeChanged();
@@ -37,6 +54,9 @@ namespace OmegaGo.UI.ViewModels
             };
             Tool = null;
 
+            BoardViewModel = new BoardViewModel(analyzeBundle.GameInfo.BoardSize);
+            BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+
             // Initialize analyze mode and register tools
             BoardViewModel.ToolServices = ToolServices;
 
@@ -44,7 +64,7 @@ namespace OmegaGo.UI.ViewModels
             RegisterAnalyzeTools();
 
             // Set up Timeline
-            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
+            TimelineViewModel = new TimelineViewModel(GameTree);
             TimelineViewModel.TimelineSelectionChanged += (s, e) =>
             {
                 ToolServices.Node = e;
@@ -52,7 +72,10 @@ namespace OmegaGo.UI.ViewModels
                 AnalyzeViewModel.OnNodeChanged();
             };
         }
-        
+
+        public GameTree GameTree { get; }
+        public GameInfo GameInfo { get; }
+
         protected GameToolServices ToolServices { get; }
         protected ITool Tool { get; private set; }
 
@@ -62,6 +85,8 @@ namespace OmegaGo.UI.ViewModels
 
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
+
+        public BoardViewModel BoardViewModel { get; }
 
         /// <summary>
         /// Registers event handlers for analyze events and registers all valid tools fot this game type.
@@ -82,7 +107,7 @@ namespace OmegaGo.UI.ViewModels
 
             // Now register all available analysis tools for Live Games (observe, local, online)
             AnalyzeViewModel.DeleteBranchTool = new DeleteBranchTool();
-            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool(Game.Controller.GameTree.BoardSize);
+            AnalyzeViewModel.StonePlacementTool = new StonePlacementTool(GameTree.BoardSize);
             AnalyzeViewModel.PassTool = new PassTool();
 
             AnalyzeViewModel.CharacterMarkupTool = new SequenceMarkupTool(SequenceMarkupKind.Letter);
@@ -92,6 +117,29 @@ namespace OmegaGo.UI.ViewModels
             AnalyzeViewModel.TriangleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Triangle);
             AnalyzeViewModel.CircleMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Circle);
             AnalyzeViewModel.CrossMarkupTool = new SimpleMarkupTool(SimpleMarkupKind.Cross);
+        }
+
+        private void RefreshBoard(GameTreeNode boardState)
+        {
+            BoardViewModel.GameTreeNode = boardState;
+            BoardViewModel.BoardControlState.TEMP_MoveLegality = _ruleset.GetMoveResult(boardState);
+            // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
+            BoardViewModel.Redraw();
+        }
+
+        private void OnBoardTapped(Position position)
+        {
+            AnalyzeBoardTap(position);
+        }
+
+        private void AnalyzeBoardTap(Position position)
+        {
+            // Set current pointer position
+            ToolServices.PointerOverPosition = position;
+
+            // It the current tool is not empty, execute it
+            if (Tool != null)
+                Tool.Execute(ToolServices);
         }
     }
 }
