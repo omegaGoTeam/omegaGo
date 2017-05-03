@@ -888,6 +888,33 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you want to exit analysis?.
+        /// </summary>
+        public static string ExitAnalyze_Caption {
+            get {
+                return ResourceManager.GetString("ExitAnalyze_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End analysis.
+        /// </summary>
+        public static string ExitAnalyze_Confirm {
+            get {
+                return ResourceManager.GetString("ExitAnalyze_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exiting this screen will end analysis and all your changes will be lost..
+        /// </summary>
+        public static string ExitAnalyze_Text {
+            get {
+                return ResourceManager.GetString("ExitAnalyze_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to abandon the game?.
         /// </summary>
         public static string ExitLocal_Caption {

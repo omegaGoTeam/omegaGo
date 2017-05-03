@@ -49,9 +49,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public PlayerPortraitViewModel(PlayerInfo playerInfo)
         {
             _player = new HumanPlayerBuilder(playerInfo.Color)
-                .Name(playerInfo.Name)
-                .Rank(playerInfo.Rank)
-                .Team(playerInfo.Team)
+                .Name(playerInfo.Name??"")
+                .Rank(playerInfo.Rank??"")
+                .Team(playerInfo.Team??"")
                 .Build();
             _controller = null;
             _isOnline = false;

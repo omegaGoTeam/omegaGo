@@ -1358,4 +1358,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Feedback" xml:space="preserve">
     <value>Feedback</value>
   </data>
+  <data name="ExitAnalyze_Caption" xml:space="preserve">
+    <value>Do you want to exit analysis?</value>
+  </data>
+  <data name="ExitAnalyze_Confirm" xml:space="preserve">
+    <value>End analysis</value>
+  </data>
+  <data name="ExitAnalyze_Text" xml:space="preserve">
+    <value>Exiting this screen will end analysis and all your changes will be lost.</value>
+  </data>
 </root>

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Rules;
@@ -127,7 +128,7 @@ namespace OmegaGo.UI.ViewModels
                         node = node.Branches[0];
                     }
 
-                    list.Add(new LibraryItem(trueTree, file, moveCount,
+                    list.Add(new LibraryItem(trueTree, conversionResult.GameInfo, file, moveCount,
                         firstTree.GetPropertyInSequence("DT")?.Value<string>(),
                         firstTree.GetPropertyInSequence("PB")?.Value<string>(),
                         firstTree.GetPropertyInSequence("PW")?.Value<string>(),
@@ -149,6 +150,9 @@ namespace OmegaGo.UI.ViewModels
         private void Open()
         {
             // TODO Petr: When Analyze Mode is done
+            var bundle = new AnalyzeOnlyViewModel.NavigationBundle( SelectedItem.GameTree, SelectedItem.GameInfo);
+            Mvx.RegisterSingleton(bundle);
+            ShowViewModel<AnalyzeOnlyViewModel>();
         }
 
         private async Task Delete()

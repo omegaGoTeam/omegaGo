@@ -17,7 +17,7 @@ using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.ViewModels
 {
-    public class AnalyzeOnlyViewModel : MvxViewModel
+    public class AnalyzeOnlyViewModel : ViewModelBase
     {
         public class NavigationBundle
         {
@@ -32,9 +32,11 @@ namespace OmegaGo.UI.ViewModels
         }
 
         private readonly IRuleset _ruleset;
+        private readonly IDialogService _dialogService;
 
-        public AnalyzeOnlyGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
+        public AnalyzeOnlyViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
         {
+            _dialogService = dialogService;
             var analyzeBundle = Mvx.Resolve<NavigationBundle>();
             GameTree = analyzeBundle.GameTree;
             GameInfo = analyzeBundle.GameInfo;
@@ -56,6 +58,9 @@ namespace OmegaGo.UI.ViewModels
 
             BoardViewModel = new BoardViewModel(analyzeBundle.GameInfo.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+            BoardViewModel.GameTreeNode = GameTree.GameTreeRoot;
+            BoardViewModel.IsMarkupDrawingEnabled = true;
+
 
             // Initialize analyze mode and register tools
             BoardViewModel.ToolServices = ToolServices;
@@ -87,6 +92,22 @@ namespace OmegaGo.UI.ViewModels
         public PlayerPortraitViewModel WhitePortrait { get; }
 
         public BoardViewModel BoardViewModel { get; }
+
+
+        /// <summary>
+        /// Confirmation for closing
+        /// </summary>
+        /// <returns>Can close?</returns>
+        public override async Task<bool> CanCloseViewModelAsync()
+        {
+            if (await _dialogService.ShowConfirmationDialogAsync(Localizer.ExitAnalyze_Text, Localizer.ExitAnalyze_Caption,
+                    Localizer.ExitAnalyze_Confirm, Localizer.Exit_ReturnToGame))
+            {
+                await base.CanCloseViewModelAsync();
+                return true;
+            }
+            return false;
+        }
 
         /// <summary>
         /// Registers event handlers for analyze events and registers all valid tools fot this game type.
@@ -122,7 +143,6 @@ namespace OmegaGo.UI.ViewModels
         private void RefreshBoard(GameTreeNode boardState)
         {
             BoardViewModel.GameTreeNode = boardState;
-            BoardViewModel.BoardControlState.TEMP_MoveLegality = _ruleset.GetMoveResult(boardState);
             // TODO Petr: GameTree has now LastNodeChanged event - use it to fix this - for now make public and. Called from GameViewModel
             BoardViewModel.Redraw();
         }

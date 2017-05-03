@@ -86,7 +86,7 @@ namespace OmegaGo.Core.Sgf
 
             var gameInfo = new GameInfo(whitePlayerInfo, blackPlayerInfo);
             gameInfo.NumberOfHandicapStones = Handicap?.Value<int>() ?? 0;
-            gameInfo.Komi = Komi?.Value<float>() ?? 0.0f;
+            gameInfo.Komi = (float?)(Komi?.Value<decimal>()) ?? 0.0f;
             gameInfo.Name = GameName?.Value<string>() ?? "";
             gameInfo.Copyright = Copyright?.Value<string>() ?? "";
             gameInfo.Date = Date?.Value<string>() ?? "";
