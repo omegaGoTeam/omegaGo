@@ -10,6 +10,7 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 using OmegaGo.Core.Online.Common;
 
 // ReSharper disable UnusedMember.Global
@@ -23,7 +24,7 @@ namespace OmegaGo.UI.ViewModels
         public ObserverGameViewModel(IGameSettings gameSettings, IQuestsManager questsManager, IDialogService dialogService)
             : base(gameSettings, questsManager, dialogService)
         {
-            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat, (Game.Controller as RemoteGameController).Connectors.First(connector => connector is IRemoteConnector) as IRemoteConnector);
         }
 
         public ChatViewModel ChatViewModel { get; private set; }

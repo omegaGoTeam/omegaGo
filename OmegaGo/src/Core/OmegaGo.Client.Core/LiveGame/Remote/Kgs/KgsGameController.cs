@@ -56,6 +56,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             new GenericPhaseFactory
                 <InitializationPhase, KgsHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
 
+        public bool BlackDoneReceived { get; set; }
+
+        public bool WhiteDoneReceived { get; set; }
+
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             EndGame(e);

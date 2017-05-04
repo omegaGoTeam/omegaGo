@@ -244,7 +244,8 @@ namespace OmegaGo.Core.Online.Igs
                             string username = IgsRegex.GetFirstWord(igsLine);
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                // TODO petr inform the controller that a 'done' was typed (when interface exists)
+                                var player = game.Controller.Players.First(pl => pl.Info.Name == username);
+                                game.Controller.IgsConnector.RaiseServerSaidDone(player);
                             }
                             continue;
                         }

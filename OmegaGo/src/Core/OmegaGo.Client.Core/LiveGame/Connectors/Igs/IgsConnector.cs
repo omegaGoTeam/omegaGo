@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -63,6 +65,7 @@ so I thought suppressing warnings would have the same result.*/
         public event EventHandler<GameEndInformation> GameEndedByServer;
 
         public event EventHandler<ChatMessage> NewChatMessageReceived;
+        public event EventHandler<GamePlayer> ServerSaysAPlayerIsDone;
         /// <summary>
         /// Unique identification of the game
         /// </summary>
@@ -206,6 +209,11 @@ so I thought suppressing warnings would have the same result.*/
         private void OnNewChatMessageReceived(ChatMessage e)
         {
             NewChatMessageReceived?.Invoke(this, e);
+        }
+
+        public void RaiseServerSaidDone(GamePlayer player)
+        {
+            ServerSaysAPlayerIsDone?.Invoke(this, player);
         }
     }
 }
