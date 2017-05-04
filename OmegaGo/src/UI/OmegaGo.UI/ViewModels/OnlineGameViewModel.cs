@@ -39,7 +39,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _canAgreeOrDisagreeUndo, value); }
         }
 
-        public override bool ResumingGameIsPossible => !(Game.Info is IgsGameInfo);
+        public bool IsIgs => (Game.Info is IgsGameInfo);
 
         /// <summary>
         /// Agree with undo command
