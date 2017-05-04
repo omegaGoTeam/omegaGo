@@ -79,8 +79,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
                 //_game.NumberOfMovesPlayed--;
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
-
-                Controller.OnCurrentNodeStateChanged();
             }
         }
 
@@ -178,8 +176,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 throw new InvalidOperationException("It is not your turn.");
 
             //ask the ruleset to validate the move
-            MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
+            MoveProcessingResult processingResult = Controller.Ruleset.ProcessMove(Controller.GameTree.LastNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);

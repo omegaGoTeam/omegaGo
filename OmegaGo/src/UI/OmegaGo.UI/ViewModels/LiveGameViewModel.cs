@@ -205,7 +205,7 @@ namespace OmegaGo.UI.ViewModels
             // Check for this case.
             if (newNode != null && tabInfo != null)
             {
-                RefreshBoard(Game.Controller.CurrentNode);
+                RefreshBoard(Game.Controller.GameTree.LastNode); // TODO Vita, Aniko: This will not work well with neither timeline nor analyze mode, I think
                 UpdateTimeline();
                 RefreshInstructionCaption();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
@@ -263,7 +263,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
-            GameTreeNode currentNode = Game.Controller.CurrentNode;
+            GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
             ToolServices.Node = currentNode;
             TimelineViewModel.SelectedTimelineNode = currentNode;
@@ -277,7 +277,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.Tool = null;
             BoardViewModel.IsMarkupDrawingEnabled = false;
 
-            RefreshBoard(Game.Controller.CurrentNode);
+            RefreshBoard(Game.Controller.GameTree.LastNode);
         }
 
         ////////////////

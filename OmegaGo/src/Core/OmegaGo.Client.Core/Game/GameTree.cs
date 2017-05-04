@@ -86,6 +86,10 @@ namespace OmegaGo.Core.Game
                 while (node != null)
                 {
                     yield return node;
+                    if (node == LastNode)
+                    {
+                        yield break;
+                    }
                     node = node.NextNode;
                 }
             }
