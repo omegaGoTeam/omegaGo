@@ -70,10 +70,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
+            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot.Branches == null)
                 return base.MeasureOverride(availableSize);
 
-            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot, 0, 0) + 1;
+            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0);
             
             Size desiredSize = new Size();
             desiredSize.Height =
@@ -105,10 +105,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot != null)
+            if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot.Branches != null)
             {
                 args.DrawingSession.Transform = Matrix3x2.CreateTranslation(NODEHIGHLIGHTSTROKE, NODEHIGHLIGHTSTROKE);
-                int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
+                int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0, 0) + 1;
             }
         }
 
@@ -121,7 +121,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             pointerPosition.X -= NODEHIGHLIGHTSTROKE;
             pointerPosition.Y -= NODEHIGHLIGHTSTROKE;
 
-            GetNodeAtPoint(pointerPosition, ViewModel.GameTree.GameTreeRoot, 0, 0, out pressedNode);
+            GetNodeAtPoint(pointerPosition, ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0, out pressedNode);
 
             if (pressedNode != null && pressedNode != ViewModel.SelectedTimelineNode)
             {

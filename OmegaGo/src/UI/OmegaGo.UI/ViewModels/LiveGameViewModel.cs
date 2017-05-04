@@ -135,7 +135,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _selectedMoveIndex, value);
                 GameTreeNode whatIsShowing =
-                    Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
+                    Game.Controller.GameTree.PrimaryTimeline.Skip(value).FirstOrDefault();
                 RefreshBoard(whatIsShowing);
             }
         }

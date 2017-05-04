@@ -22,6 +22,10 @@ namespace OmegaGo.Core.Game
         {
             Ruleset = ruleset;
             BoardSize = boardSize;
+            GameTreeRoot = new GameTreeNode();
+            GameTreeRoot.BoardState = new GameBoard(boardSize);
+            GameTreeRoot.GroupState = new GroupState(ruleset.RulesetInfo);
+            LastNode = GameTreeRoot;
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Root of the game tree
         /// </summary>
-        public GameTreeNode GameTreeRoot { get; set; }
+        public GameTreeNode GameTreeRoot { get; }
         
         /// <summary>
         /// The LastNode is last node of the game's primary timeline and is the node where
@@ -82,11 +86,14 @@ namespace OmegaGo.Core.Game
         {
             get
             {
-                var node = GameTreeRoot;
-                while (node != null)
+                if (GameTreeRoot.Branches.Count != 0)
                 {
-                    yield return node;
-                    node = node.NextNode;
+                    var node = GameTreeRoot.Branches[0];
+                    while (node != null)
+                    {
+                        yield return node;
+                        node = node.NextNode;
+                    }
                 }
             }
         }
@@ -132,22 +139,14 @@ namespace OmegaGo.Core.Game
         public void RemoveLastNode()
         {
             //is there actually something to remove?
-            if (LastNode == null)
+            if (!LastNode.Equals(GameTreeRoot))
             {
-                throw new InvalidOperationException("There is no node to remove from the GameTree.");
-            }
-            //remove last node, make its parent last
-            var previousMove = LastNode.Parent;            
-            if (previousMove == null)
-            {
-                GameTreeRoot = null;
-                LastNode = null;
-            }
-            else
-            {
+                //remove last node, make its parent last
+                var previousMove = LastNode.Parent;
                 previousMove.Branches.RemoveNode(LastNode);
                 LastNode = previousMove;
             }
+            
         }
 
         /// <summary>
@@ -160,25 +159,16 @@ namespace OmegaGo.Core.Game
         {
             GameTreeNode node = new GameTreeNode(move) { BoardState = boardState, GroupState = groupState };
 
-            if (GameTreeRoot == null)
-            {
-                GameTreeRoot = node;
-            }
-            else
-            {
-                LastNode.Branches.Insert(0, node);
-                node.Parent = LastNode;
-                node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
-                node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
-            }
+            LastNode.Branches.Insert(0, node);
+            node.Parent = LastNode;
+            node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
+            node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
+
             if (move.WhoMoves == StoneColor.Black)
-            {
                 node.Prisoners.BlackPrisoners += move.Captures.Count();
-            }
             else
-            {
                 node.Prisoners.WhitePrisoners += move.Captures.Count();
-            }
+
             LastNode = node;
             return node;
         }
