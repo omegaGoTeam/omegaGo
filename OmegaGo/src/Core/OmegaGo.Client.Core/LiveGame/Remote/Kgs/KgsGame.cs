@@ -15,7 +15,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
         public KgsGame(KgsGameInfo info, IRuleset ruleset, PlayerPair players, KgsConnection connection) : base(info)
         {
             Controller = new KgsGameController(info, ruleset, players, connection);
-            Controller.Nodes.Add(0, new KgsSgfNode(0));
+            Controller.Nodes.Add(0, new KgsSgfNode(0, 0, null));
         }
 
         public override KgsGameController Controller { get; }
