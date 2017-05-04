@@ -12,6 +12,7 @@ namespace OmegaGo.Core.Game.Tools
         /// Map of shadow items.
         /// </summary>
         private char[,] _shadows;
+        private GameTreeNode _currentNode;
         
         public SimpleMarkupTool(SimpleMarkupKind markupKind)
         {
@@ -46,8 +47,11 @@ namespace OmegaGo.Core.Game.Tools
 
         public IShadowItem GetShadowItem(IToolServices toolServices)
         {
-            if (_shadows == null)
+            if (_shadows == null || !toolServices.Node.Equals(_currentNode))
+            {
                 _shadows = toolServices.Node.Markups.FillSimpleShadowMap(toolServices.GameTree.BoardSize, SimpleMarkup);
+                _currentNode = toolServices.Node;
+            }
 
             char shadow = _shadows[toolServices.PointerOverPosition.X, toolServices.PointerOverPosition.Y];
             if (shadow=='r')
