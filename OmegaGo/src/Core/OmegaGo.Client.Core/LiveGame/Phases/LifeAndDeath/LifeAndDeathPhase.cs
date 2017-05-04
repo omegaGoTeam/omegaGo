@@ -91,13 +91,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         public void MarkGroupDead(Position position)
         {
             //take the current board
-            var board = Controller.CurrentNode.BoardState;
+            var board = Controller.GameTree.LastNode.BoardState;
             if (board[position.X, position.Y] == StoneColor.None)
             {
                 return;
             }
 
-            Controller.Ruleset.SetRulesetInfo(Controller.CurrentNode.BoardState, Controller.CurrentNode.GroupState);
+            Controller.Ruleset.SetRulesetInfo(Controller.GameTree.LastNode.BoardState, Controller.GameTree.LastNode.GroupState);
 
             //discover group at position
             int groupID = Controller.Ruleset.RulesetInfo.GroupState.GroupMap[position.X, position.Y];
@@ -122,13 +122,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         {
 
             //take the current board
-            var board = Controller.CurrentNode.BoardState;
+            var board = Controller.GameTree.LastNode.BoardState;
             if (board[position.X, position.Y] == StoneColor.None)
             {
                 return;
             }
 
-            Controller.Ruleset.SetRulesetInfo(Controller.CurrentNode.BoardState, Controller.CurrentNode.GroupState);
+            Controller.Ruleset.SetRulesetInfo(Controller.GameTree.LastNode.BoardState, Controller.GameTree.LastNode.GroupState);
 
             //discover group at position
             int groupID = Controller.Ruleset.RulesetInfo.GroupState.GroupMap[position.X, position.Y];
