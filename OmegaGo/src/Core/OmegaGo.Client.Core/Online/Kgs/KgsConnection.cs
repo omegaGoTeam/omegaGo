@@ -104,8 +104,16 @@ namespace OmegaGo.Core.Online.Kgs
         {
             while (true)
             {
-                var response = await this._httpClient.GetAsync(Uri);
-                HandleResponse(response);
+                try
+                {
+                    var response = await this._httpClient.GetAsync(Uri);
+                    HandleResponse(response);
+                }
+                catch (HttpRequestException)
+                {
+                    // This may be a disconnection or perhaps we went to sleep for a bit. 
+                    // Anyway, let's resume and hope for the best.
+                }
             }
         }
 
