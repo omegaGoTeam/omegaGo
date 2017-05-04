@@ -27,6 +27,8 @@ namespace OmegaGo.Core.AI
             AIColor = aiColor;
             AiPlayer = aiPlayer;
             GameTree = gameTree;
+            Node = gameTree.LastNode; // Some concurrency problems may occur here, but they're very unlikely.
+            // If we want to solve them, then gameTree.LastNode should be given as an argument to this.
         }
 
         /// <summary>
@@ -48,6 +50,11 @@ namespace OmegaGo.Core.AI
         /// Game tree
         /// </summary>
         public GameTree GameTree { get; }
-        
+
+        /// <summary>
+        /// Gets the node to which we're replying.
+        /// </summary>
+        public GameTreeNode Node { get; }
+
     }
 }
