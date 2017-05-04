@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
@@ -215,14 +217,23 @@ namespace OmegaGo.Core.Online.Kgs
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
-           
-            var jsonContent = new StringContent(jsonContents,
+
+            try
+            {
+                var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
             var result = await _httpClient.PostAsync(Uri, jsonContent);
             return new PostRequestResult(
                 result.IsSuccessStatusCode,
                 result.ReasonPhrase
                 );
+            }
+            catch (HttpRequestException)
+            {
+                // Connection failure.
+                LogoutAndDisconnect("Connection failed.");
+                return new PostRequestResult(false, "Connection error.");
+            }
         }
 
         /// <summary>
@@ -230,7 +241,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         /// <param name="type">The TYPE field of the message, such as "UNJOIN".</param>
         /// <param name="data">An anonymous object that contains remaining information for the upstream message, such as ChannelId.</param>
-        /// <returns>Returns true. If it returns false, it's probably because we did not fully understand the communication protocol.</returns>
+        /// <returns>Returns true if there is no problem with the outgoing message and the connection did not fail.</returns>
         public async Task<bool> MakeUnattendedRequestAsync(string type, object data)
         {
             JObject jo = JObject.FromObject(data, Serializer);
@@ -285,6 +296,18 @@ namespace OmegaGo.Core.Online.Kgs
                     await Task.Delay(500);
                 }
             });
+        }
+
+        internal void LogoutAndDisconnect(string reason)
+        {
+
+            this.LoggedIn = false;
+            this.Events.RaiseDisconnection(reason);
+            foreach(var game in this.Data.Games.ToList())
+            {
+                GamePlayer whoDisconnected = game.Controller.Players.FirstOrDefault(pl => pl.Info.Name == this.Username);
+                game.Controller.EndGame(GameEndInformation.CreateDisconnection(whoDisconnected, game.Controller.Players));
+            }
         }
     }
 
