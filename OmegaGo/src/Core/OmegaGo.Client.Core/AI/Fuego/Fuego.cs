@@ -334,8 +334,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 {
                     var trueMove = trueHistory[i];
                     this._history.Add(trueMove);
-                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
-                                trueMove.Coordinates.ToIgsCoordinates());
+                    string moveDescription = trueMove.Coordinates.ToIgsCoordinates();
+                    if (trueMove.Kind == MoveKind.Pass)
+                    {
+                        moveDescription = "PASS";
+                    }
+
+                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " + moveDescription);
                 }
             }
         }
