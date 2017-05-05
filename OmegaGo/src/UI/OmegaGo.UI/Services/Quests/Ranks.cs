@@ -13,18 +13,18 @@ namespace OmegaGo.UI.Services.Quests
     /// </summary>
     internal static class Ranks
     {
-        private readonly static int[] rankLines = {100, 400, 800, 1400, 1000000 };
+        private static readonly int[] RankLines = {100, 400, 800, 1400, 1000000 };
 
         private static int PointsToRank(int points)
         {
-            for (int i = 0; i < Ranks.rankLines.Length; i++)
+            for (int i = 0; i < Ranks.RankLines.Length; i++)
             {
-                if (points < Ranks.rankLines[i])
+                if (points < Ranks.RankLines[i])
                 {
                     return i;
                 }
             }
-            return Ranks.rankLines.Length;
+            return Ranks.RankLines.Length;
         }
         /// <summary>
         /// Determines whether an increase in points from <paramref name="previously"/> to <paramref name="now"/> will increase the player's rank.
@@ -63,31 +63,14 @@ namespace OmegaGo.UI.Services.Quests
                     return "Impossible rank";
             }
         }
-        public static string GetRankName(ILocalizationService localizationService, int points)
-        {
-            switch (PointsToRank(points))
-            {
-                case 0:
-                    return localizationService["Rank1"];
-                case 1:
-                    return localizationService["Rank2"];
-                case 2:
-                    return localizationService["Rank3"];
-                case 3:
-                    return localizationService["Rank4"];
-                case 4:
-                    return localizationService["Rank5"];
-                default:
-                    return "Impossible rank";
-            }
-        }
+
         /// <summary>
         /// Gets the number of points the user needs (in total) to become the next omegaGo rank.
         /// </summary>
         public static int GetNextRankPoints(int points)
         {
             int yourRank = PointsToRank(points);
-            return rankLines[yourRank];
+            return Ranks.RankLines[yourRank];
         }
 
        

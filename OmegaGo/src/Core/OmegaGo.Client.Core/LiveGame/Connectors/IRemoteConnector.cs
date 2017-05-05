@@ -18,6 +18,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Connectors
         /// <summary>
         /// Chat message from server
         /// </summary>
+        // ReSharper disable once UnusedMemberInSuper.Global - while it's not used directly, it forces its implementation in the classes.
         void ChatMessageFromServer(ChatMessage chatMessage);
 
         /// <summary>
