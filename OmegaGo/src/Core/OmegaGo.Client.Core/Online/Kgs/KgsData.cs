@@ -124,5 +124,16 @@ namespace OmegaGo.Core.Online.Kgs
         {
             return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
         }
+
+        internal IEnumerable<KgsGame> Games
+        {
+            get
+            {
+                foreach(var game in joinedGames.Values)
+                {
+                    yield return game;
+                }
+            }
+        }
     }
 }

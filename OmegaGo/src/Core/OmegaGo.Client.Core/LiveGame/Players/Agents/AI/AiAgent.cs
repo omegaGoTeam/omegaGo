@@ -42,6 +42,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         
         public override async void PleaseMakeAMove()
         {
+            GameTreeNode respondingToWhatNode = GameState.GameTree.LastNode;
             var aiTask = Task.Run(() => _aiProgram.RequestMove(new AiGameInformation(
                GameInfo,
                Color,
@@ -53,6 +54,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             foreach(var aiNote in decision.AiNotes)
             {
                 SendAiNote(aiNote);
+            }
+            if (respondingToWhatNode != GameState.GameTree.LastNode)
+            {
+                // Ignore. That result is now obsolete.
+                return;
             }
             switch (decision.Kind)
             {
