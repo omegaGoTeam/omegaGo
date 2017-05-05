@@ -73,6 +73,11 @@ namespace OmegaGo.Core.Online.Igs
             return null;
         }
 
+        /// <summary>
+        /// Attempts to parse a line as an IGS game heading starting with the code 15. If it fails, it returns null.
+        /// </summary>
+        /// <param name="line">The line, such as "15 Game 693 I: Robot730 (0 4500 -1) vs OmegaGo3 (0 4500 -1)".</param>
+        /// <returns></returns>
         public static GameHeading ParseGameHeading(IgsLine line)
         {
             Match match = regexGameHeading.Match(line.EntireLine);

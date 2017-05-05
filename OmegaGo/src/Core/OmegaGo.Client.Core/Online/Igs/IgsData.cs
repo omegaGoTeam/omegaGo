@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OmegaGo.Core.Online.Igs.Structures;
 
 namespace OmegaGo.Core.Online.Igs
 {
@@ -15,5 +16,7 @@ namespace OmegaGo.Core.Online.Igs
         /// Gets or sets the list of users who were online on IGS at the time we last checked.
         /// </summary>
         public List<IgsUser> OnlineUsers { get; internal set; } = new List<IgsUser>();
+
+        internal GameHeading LastReceivedGameHeading { get; set; }
     }
 }

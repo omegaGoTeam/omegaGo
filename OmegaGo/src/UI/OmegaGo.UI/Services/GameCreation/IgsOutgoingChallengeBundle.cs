@@ -58,7 +58,7 @@ namespace OmegaGo.UI.Services.GameCreation
                 );
             Mvx.Resolve<Notifications.IAppNotificationService>()
                 .TriggerNotification(
-                    new Notifications.BubbleNotification("Challenge to " + selectedChallengeableUser.Name + " sent."));
+                    new Notifications.BubbleNotification("Challenge to " + selectedChallengeableUser.Name + " sent.", null, Notifications.NotificationType.Info));
         }
 
         public override void OnLoad(GameCreationViewModel vm)

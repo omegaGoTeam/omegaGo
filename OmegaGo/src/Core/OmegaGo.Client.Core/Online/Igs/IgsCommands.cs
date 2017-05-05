@@ -311,9 +311,10 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task<IgsGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
+            // We are accepting a match and it begins.
             var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.IsError) return null;
-            var heading = IgsRegex.ParseGameHeading(lines[0]);
+            var heading = this.igsConnection.Data.LastReceivedGameHeading;
             var ogi = await GetGameByIdAsync(heading.GameNumber);
             var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this.igsConnection);
             bool youAreBlack = heading.BlackName == this.igsConnection.Username;
