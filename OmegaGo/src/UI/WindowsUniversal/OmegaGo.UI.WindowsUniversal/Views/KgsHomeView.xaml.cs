@@ -23,7 +23,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
         {
-            VM.Exit();
         }
 
 

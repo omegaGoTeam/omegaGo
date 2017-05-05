@@ -24,7 +24,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main.Igs
 
         protected override void MainForceUndo()
         {
-            Undo();
+            Undo(1);
         }
 
         protected override async Task MainRequestUndo()

@@ -3579,6 +3579,159 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fluffy tree depth must be at least 1..
+        /// </summary>
+        public static string Validation_FluffyDepthTooSmall {
+            get {
+                return ResourceManager.GetString("Validation_FluffyDepthTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fuego must be set to play at least 10 games..
+        /// </summary>
+        public static string Validation_FuegoGamesTooFew {
+            get {
+                return ResourceManager.GetString("Validation_FuegoGamesTooFew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to main time.
+        /// </summary>
+        public static string Validation_MainTime {
+            get {
+                return ResourceManager.GetString("Validation_MainTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet does not allow the use of nigiri to choose a color..
+        /// </summary>
+        public static string Validation_NigiriIsForbidden {
+            get {
+                return ResourceManager.GetString("Validation_NigiriIsForbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to number of moves per period.
+        /// </summary>
+        public static string Validation_NumberOfMovesPerPeriod {
+            get {
+                return ResourceManager.GetString("Validation_NumberOfMovesPerPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to overtime length.
+        /// </summary>
+        public static string Validation_OvertimeLength {
+            get {
+                return ResourceManager.GetString("Validation_OvertimeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a smaller board..
+        /// </summary>
+        public static string Validation_SizeTooLarge {
+            get {
+                return ResourceManager.GetString("Validation_SizeTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a larger board..
+        /// </summary>
+        public static string Validation_SizeTooSmall {
+            get {
+                return ResourceManager.GetString("Validation_SizeTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For this AI program, you must select a square board..
+        /// </summary>
+        public static string Validation_SquareNeeded {
+            get {
+                return ResourceManager.GetString("Validation_SquareNeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A field (&apos;{0}&apos;) doesn&apos;t contain a nonnegative integer..
+        /// </summary>
+        public static string Validation_TimeControlError {
+            get {
+                return ResourceManager.GetString("Validation_TimeControlError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet does not allow board sizes larger than 19x19..
+        /// </summary>
+        public static string Validation_YouMustHave19x19OrSmaller {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHave19x19OrSmaller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Board size must be 2x2 or larger..
+        /// </summary>
+        public static string Validation_YouMustHave2x2OrGreater {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHave2x2OrGreater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS does not allow board sizes larger than 38x38..
+        /// </summary>
+        public static string Validation_YouMustHave38x38OrSmaller {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHave38x38OrSmaller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pandanet does not allow board sizes smaller than 5x5..
+        /// </summary>
+        public static string Validation_YouMustHave5x5OrGreater {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHave5x5OrGreater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Komi must be a half-integer, such as &apos;0&apos; or &apos;7.5&apos;..
+        /// </summary>
+        public static string Validation_YouMustHaveHalfInteger {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHaveHalfInteger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KGS requires that komi be between -100 and 100..
+        /// </summary>
+        public static string Validation_YouMustHaveSmallerKomi {
+            get {
+                return ResourceManager.GetString("Validation_YouMustHaveSmallerKomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select a square board..
+        /// </summary>
+        public static string Validation_YouMustSelectASquareBoard {
+            get {
+                return ResourceManager.GetString("Validation_YouMustSelectASquareBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When another player places a stone.
         /// </summary>
         public static string WhenAnotherPlayerPlacesAStone {

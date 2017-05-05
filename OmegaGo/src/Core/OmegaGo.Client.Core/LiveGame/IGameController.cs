@@ -24,11 +24,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         event EventHandler<GamePlayer> TurnPlayerChanged;
 
         /// <summary>
-        /// Indicates that the current game tree node has changed
-        /// </summary>
-        event EventHandler<GameTreeNode> CurrentNodeChanged;
-
-        /// <summary>
         /// Indicates taht the current game has ended
         /// </summary>
         event EventHandler<GameEndInformation> GameEnded;
@@ -43,11 +38,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// if the phase ended before its StartPhase method ended (this happens, for example, with InitializationPhase).
         /// </summary>
         event EventHandler<IGamePhase> GamePhaseStarted;
-
-        /// <summary>
-        /// Indicates that the game board must be refreshed
-        /// </summary>
-        event EventHandler CurrentNodeStateChanged;
 
         /// <summary>
         /// Occurs when the latest move is undone. This may happen multiple times in sequence.

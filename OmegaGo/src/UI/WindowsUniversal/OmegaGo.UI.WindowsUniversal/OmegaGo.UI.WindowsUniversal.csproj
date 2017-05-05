@@ -162,6 +162,9 @@
     <Compile Include="UserControls\Navigation\TitleControl.xaml.cs">
       <DependentUpon>TitleControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Notifications\BubbleNotificationControl.xaml.cs">
+      <DependentUpon>BubbleNotificationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PlayerPortraitControl.xaml.cs">
       <DependentUpon>PlayerPortraitControl.xaml</DependentUpon>
     </Compile>
@@ -302,6 +305,11 @@
     <Content Include="Assets\MainMenu\ginkakuJi.jpg" />
     <Content Include="Assets\MainMenu\pixel.png" />
     <Content Include="Assets\MainMenu\shintoShrine.jpg" />
+    <Content Include="Assets\Notifications\Achievement.png" />
+    <Content Include="Assets\Notifications\Alert.png" />
+    <Content Include="Assets\Notifications\Error.png" />
+    <Content Include="Assets\Notifications\Info.png" />
+    <Content Include="Assets\Notifications\Success.png" />
     <Content Include="Assets\Sounds\Notification.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place0.mp3" />
     <Content Include="Assets\Sounds\Sabaki\place1.mp3" />
@@ -426,6 +434,10 @@
     <Page Include="UserControls\Navigation\TitleControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Notifications\BubbleNotificationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PlayerPortraitControl.xaml">
       <SubType>Designer</SubType>

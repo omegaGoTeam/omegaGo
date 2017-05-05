@@ -20,11 +20,6 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         GameTree GameTree { get; }
 
         /// <summary>
-        /// Gets the current game tree node
-        /// </summary>
-        GameTreeNode CurrentNode { get; }
-
-        /// <summary>
         /// Players in the game.
         /// </summary>
         PlayerPair Players { get; }

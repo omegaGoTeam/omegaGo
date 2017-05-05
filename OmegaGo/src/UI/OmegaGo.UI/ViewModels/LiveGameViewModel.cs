@@ -16,6 +16,7 @@ using OmegaGo.Core.Game.Markup;
 using MvvmCross.Core.ViewModels;
 using System.Threading.Tasks;
 using System;
+using OmegaGo.UI.Services.Audio;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -57,6 +58,9 @@ namespace OmegaGo.UI.ViewModels
                 new GameToolServices(
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
+            ToolServices.PassSoundShouldBePlayed += ToolServices_PassSoundShouldBePlayed;
+            ToolServices.StoneCapturesShouldBePlayed += ToolServices_StoneCapturesShouldBePlayed;
+            ToolServices.StonePlacementShouldBePlayed += ToolServices_StonePlacementShouldBePlayed;
             ToolServices.NodeChanged += (s, node) => 
             {
                 AnalyzeViewModel.OnNodeChanged();
@@ -88,6 +92,7 @@ namespace OmegaGo.UI.ViewModels
             _portraitUpdateTimer = Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
         }
+
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
         public TimelineViewModel TimelineViewModel { get; }
@@ -158,6 +163,9 @@ namespace OmegaGo.UI.ViewModels
 
         public override Task<bool> CanCloseViewModelAsync()
         {
+            ToolServices.PassSoundShouldBePlayed -= ToolServices_PassSoundShouldBePlayed;
+            ToolServices.StoneCapturesShouldBePlayed -= ToolServices_StoneCapturesShouldBePlayed;
+            ToolServices.StonePlacementShouldBePlayed -= ToolServices_StonePlacementShouldBePlayed;
             _portraitUpdateTimer.End();
             return base.CanCloseViewModelAsync();
         }
@@ -187,6 +195,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 // Notify Timeline VM that the game timeline has changed
                 TimelineViewModel.RaiseGameTreeChanged();
+                await PlaySoundIfAppropriate(newNode);
+                tabInfo.IsBlinking = true;
                 return;
             }
             
@@ -195,13 +205,12 @@ namespace OmegaGo.UI.ViewModels
             // Check for this case.
             if (newNode != null && tabInfo != null)
             {
-                RefreshBoard(Game.Controller.CurrentNode);
+                RefreshBoard(Game.Controller.GameTree.LastNode); // TODO Vita, Aniko: This will not work well with neither timeline nor analyze mode, I think
                 UpdateTimeline();
                 RefreshInstructionCaption();
                 // It is ABSOLUTELY necessary for this to be the last statement in this method,
                 // because we need the UpdateTimeline calls to be in order.
                 await PlaySoundIfAppropriate(newNode);
-
                 tabInfo.IsBlinking = true;
             }
         }
@@ -254,7 +263,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)
-            GameTreeNode currentNode = Game.Controller.CurrentNode;
+            GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
             ToolServices.Node = currentNode;
             TimelineViewModel.SelectedTimelineNode = currentNode;
@@ -268,7 +277,7 @@ namespace OmegaGo.UI.ViewModels
             BoardViewModel.Tool = null;
             BoardViewModel.IsMarkupDrawingEnabled = false;
 
-            RefreshBoard(Game.Controller.CurrentNode);
+            RefreshBoard(Game.Controller.GameTree.LastNode);
         }
 
         ////////////////
@@ -316,7 +325,21 @@ namespace OmegaGo.UI.ViewModels
         {
             InstructionCaption = GenerateInstructionCaption();
         }
-        
+
+        private async void ToolServices_StonePlacementShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.PlaceStone.PlayAsync();
+        }
+
+        private async void ToolServices_StoneCapturesShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.Capture.PlayAsync();
+        }
+
+        private async void ToolServices_PassSoundShouldBePlayed(object sender, EventArgs e)
+        {
+            await Sounds.Pass.PlayAsync();
+        }
         private string GenerateInstructionCaption()
         {
             // This happens during every phase change until first OnTurnPlayerChanged when TurnPlayer is filled properly.

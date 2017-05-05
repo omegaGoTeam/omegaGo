@@ -68,8 +68,7 @@ namespace OmegaGo.UI.ViewModels
             Game.Controller.RegisterConnector(_uiConnector);
 
             Game.Controller.GameEnded += (s, e) => OnGameEnded(e);
-            Game.Controller.CurrentNodeChanged += (s, e) => OnCurrentNodeChanged(e);
-            Game.Controller.CurrentNodeStateChanged += (s, e) => OnCurrentNodeStateChanged();
+            Game.Controller.GameTree.LastNodeChanged += (s, e) => OnCurrentNodeChanged(e);
             Game.Controller.TurnPlayerChanged += (s, e) => OnTurnPlayerChanged(e);
             Game.Controller.GamePhaseChanged += (s, e) => OnGamePhaseChanged(e);
             ObserveDebuggingMessages();
@@ -136,11 +135,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         protected virtual void OnCurrentNodeChanged(GameTreeNode newNode)
-        {
-
-        }
-
-        protected virtual void OnCurrentNodeStateChanged()
         {
 
         }

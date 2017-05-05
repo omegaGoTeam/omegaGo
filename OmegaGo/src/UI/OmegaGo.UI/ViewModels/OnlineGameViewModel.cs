@@ -39,7 +39,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _canAgreeOrDisagreeUndo, value); }
         }
 
-        public override bool ResumingGameIsPossible => !(Game.Info is IgsGameInfo);
+        public bool IsIgs => (Game.Info is IgsGameInfo);
 
         /// <summary>
         /// Agree with undo command
@@ -59,7 +59,7 @@ namespace OmegaGo.UI.ViewModels
         
         public override async Task<bool> CanCloseViewModelAsync()
         {
-            if (this.Game.Controller.Phase.Type != GamePhaseType.Finished)
+            if (this.Game.Controller.Phase.Type == GamePhaseType.Finished)
             {
                 await base.CanCloseViewModelAsync();
                 return true;

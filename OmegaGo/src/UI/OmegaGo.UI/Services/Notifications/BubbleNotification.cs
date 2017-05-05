@@ -16,10 +16,19 @@ namespace OmegaGo.UI.Services.Notifications
         /// Creates a bubble notification
         /// </summary>
         /// <param name="text">Text of the notification</param>
-        public BubbleNotification(string text)
+        /// <param name="heading">Heading of the notification</param>
+        /// <param name="type">Type of the notification</param>
+        public BubbleNotification(string text, string heading = null, NotificationType type = NotificationType.Info)
         {
             Text = text;
+            Heading = heading;
+            Type = type;
         }
+
+        /// <summary>
+        /// Heading of the notification
+        /// </summary>
+        public string Heading { get; }
 
         /// <summary>
         /// Text of the notification
@@ -30,5 +39,10 @@ namespace OmegaGo.UI.Services.Notifications
         /// Time when the notification first appeared
         /// </summary>
         public DateTime FirstAppeared { get; set; }
+
+        /// <summary>
+        /// Type of the notification
+        /// </summary>
+        public NotificationType Type { get; }
     }
 }

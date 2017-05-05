@@ -11,6 +11,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:media="using:Microsoft.Xaml.Interactions.Media"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:notifications="using:OmegaGo.UI.WindowsUniversal.UserControls.Notifications"
+    xmlns:notifications1="using:OmegaGo.UI.Services.Notifications"
     mc:Ignorable="d" RequestedTheme="{x:Bind AppTheme, Mode=OneWay}"
     x:Name="PageRoot">
 
@@ -18,7 +20,7 @@
         <Border.Background>
             <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" />
         </Border.Background>
-        <Grid RenderTransformOrigin="0.5,0.5"> 
+        <Grid RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <RotateTransform Angle="0" x:Name="AppShellRotateTransform" />
             </Grid.RenderTransform>
@@ -31,25 +33,32 @@
             </Grid.RowDefinitions>
             <Frame x:Name="MainFrame" />
             <ContentPresenter Grid.Row="1" Content="{Binding TabManager.ActiveTab.Frame, Mode=OneWay}" />
-            <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0">
-                <ItemsControl ItemsSource="{x:Bind BubbleNotifications, Mode=OneWay}">
+            <Grid Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,0,0">
+                <ItemsControl HorizontalAlignment="Right" Width="264" HorizontalContentAlignment="Right" ItemsSource="{x:Bind BubbleNotifications, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                                <VirtualizingStackPanel.ChildrenTransitions>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition />
+                                        <ReorderThemeTransition />
+                                    </TransitionCollection>
+                                </VirtualizingStackPanel.ChildrenTransitions>
+                            </VirtualizingStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Margin" Value="0,12,0,0" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderThickness="2"
-                                    BorderBrush="Black"
-                                    CornerRadius="4"
-                                    MaxWidth="1000"
-                                    Margin="0,0,0,10">
-                                <Grid>
-                                    <Border Background="LightBlue"
-                                            CornerRadius="4"/>
-                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Margin="10,0,10,0" Padding="4" Text="{Binding Text, Mode=OneWay}" FontSize="12" />
-                                </Grid>
-                            </Border>
+                        <DataTemplate x:DataType="notifications1:BubbleNotification">
+                            <notifications:BubbleNotificationControl Notification="{x:Bind}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
+            </Grid>
             <win2d:CanvasControl Grid.Row="1" Visibility="Collapsed" x:Name="PersistentHolderCanvas"
                    CreateResources="PersistentHolderCanvas_CreateResources"
                 UseSharedDevice="True"
@@ -87,7 +96,7 @@
                     </Border.Background>
                 </Border>
                 <Grid Grid.Column="1" HorizontalAlignment="Stretch" x:Name="DraggableTitleBarArea" Background="Transparent">
-                    
+
                 </Grid>
                 <StackPanel Grid.Column="1" x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button x:Name="FeedbackButton" FontFamily="Segoe MDL2 Assets" Content="&#xED15;" Click="FeedbackButton_OnClick" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="Collapsed" />

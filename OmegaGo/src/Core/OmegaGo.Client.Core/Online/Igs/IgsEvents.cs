@@ -101,6 +101,7 @@ namespace OmegaGo.Core.Online.Igs
 
         internal void RaiseLoginPhaseChanged(IgsLoginPhase phase)
         {
+            _igsConnection.CurrentLoginPhase = phase;
             LoginPhaseChanged?.Invoke(this, phase);
         }
 

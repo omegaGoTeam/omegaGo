@@ -28,6 +28,9 @@ namespace OmegaGo.Core.Game
 
         public event EventHandler<GameTreeNode> NodeChanged;
         public event EventHandler<Position> PointerPositionChanged;
+        public event EventHandler PassSoundShouldBePlayed;
+        public event EventHandler StonePlacementShouldBePlayed;
+        public event EventHandler StoneCapturesShouldBePlayed;
 
         /// <summary>
         /// Gets the active ruleset for the current game.
@@ -86,6 +89,23 @@ namespace OmegaGo.Core.Game
 
             PointerOverPosition = position;
             PointerPositionChanged?.Invoke(this, position);
+        }
+
+        public void PlayPassSound()
+        {
+            PassSoundShouldBePlayed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void PlayStonePlacementSound(bool wereThereAnyCaptures)
+        {
+            if (wereThereAnyCaptures)
+            {
+                StoneCapturesShouldBePlayed?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                StonePlacementShouldBePlayed?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }
