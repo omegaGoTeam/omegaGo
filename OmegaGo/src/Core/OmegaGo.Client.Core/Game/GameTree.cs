@@ -194,5 +194,14 @@ namespace OmegaGo.Core.Game
         {
             LastNodeChanged?.Invoke(this, LastNode);
         }
+
+        /// <summary>
+        /// Clears the invocation list of all events in the game tree, notably <see cref="LastNodeChanged"/>. This is called as a game ends to prevent
+        /// UI windows that no longer exist from being updated. 
+        /// </summary>
+        public void UnsubscribeEveryoneFromGameTree()
+        {
+            LastNodeChanged = null;
+        }
     }
 }

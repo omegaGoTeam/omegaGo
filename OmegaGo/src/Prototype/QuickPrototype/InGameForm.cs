@@ -510,10 +510,6 @@ namespace FormsPrototype
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           foreach (GamePlayer player in _game.Controller.Players)
-           {
-               (player.Agent as AiAgent)?.SetStrength((int) nAiStrength.Value);
-           }
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)

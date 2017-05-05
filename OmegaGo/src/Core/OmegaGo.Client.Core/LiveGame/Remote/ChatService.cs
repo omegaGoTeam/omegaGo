@@ -11,6 +11,7 @@ using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.LiveGame.Remote
 {
+    
     public class ChatService : IChatService
     {
         private readonly IRemoteConnector _connector;
@@ -43,7 +44,7 @@ namespace OmegaGo.Core.LiveGame.Remote
         /// Raises the NewMessageReceived event
         /// </summary>
         /// <param name="chatMessage">Chat message received</param>
-        protected virtual void OnNewMessageReceived(ChatMessage chatMessage)
+        private void OnNewMessageReceived(ChatMessage chatMessage)
         {
             _messages.Add(chatMessage);
             NewMessageReceived?.Invoke(this, chatMessage);
