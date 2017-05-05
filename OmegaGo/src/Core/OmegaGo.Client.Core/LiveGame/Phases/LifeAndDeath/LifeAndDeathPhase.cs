@@ -182,11 +182,19 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
         /// </summary>
         public void Resume()
         {
+
+            GameTreeNode prePasses = Controller.GameTree.LastNode;
+            while (prePasses.Move != null && prePasses.Move.Kind == MoveKind.Pass)
+            {
+                prePasses = prePasses.Parent;
+            }
+            Controller.GameTree.LastNode = prePasses;
             _deadPositions = new List<Position>();
             GoToPhase(GamePhaseType.Main);
             _playersDoneWithLifeDeath.Clear();
             RecalculateTerritories();
             Controller.OnDebuggingMessage("Life/death phase cancelled. Resuming gameplay...");
+
         }
 
         /// <summary>
