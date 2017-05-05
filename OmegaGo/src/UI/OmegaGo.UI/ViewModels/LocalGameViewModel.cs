@@ -365,7 +365,8 @@ namespace OmegaGo.UI.ViewModels
         private void LifeDeath_TerritoryChanged(object sender, TerritoryMap e)
         {
             BoardViewModel.BoardControlState.TerritoryMap = e;
-            RefreshBoard(Game.Controller.CurrentNode);
+            RefreshBoard(Game.Controller.GameTree.LastNode);
+            // TODO Aniko, Vita: This won't work well with Analyze mode in multiplayer.
         }
         
         private void Assistant_uiConnector_AiLog(object sender, string e)
