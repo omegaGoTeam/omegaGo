@@ -164,14 +164,14 @@ namespace OmegaGo.UI.Services.Quests
                         string.Format(
                             _localizer.YouHaveGainedXPointsNowYouHaveY,
                             addedPoints,
-                            newValue)));
+                            newValue), null, NotificationType.Achievement));
                 if (Ranks.AdvancedInRank(oldvalue, newValue))
                 {
                     _appNotificationService.TriggerNotification(
                         new BubbleNotification(
                             string.Format(
                                 _localizer.YouHaveAdvancedToNewRankX,
-                                Ranks.GetRankName(_localizer, newValue))));
+                                Ranks.GetRankName(_localizer, newValue)),null, NotificationType.Achievement));
                 }
             }
             _gameSettings.Quests.Points = newValue;

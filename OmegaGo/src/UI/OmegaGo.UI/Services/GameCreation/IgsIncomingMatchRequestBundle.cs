@@ -14,7 +14,7 @@ namespace OmegaGo.UI.Services.GameCreation
     internal class IgsIncomingMatchRequestBundle : IgsBundle
     {
         private readonly IgsMatchRequest _igsMatchRequest;
-
+        private string _opponentDisplayName;
         public IgsIncomingMatchRequestBundle(IgsMatchRequest igsMatchRequest)
         {
             _igsMatchRequest = igsMatchRequest;
@@ -31,7 +31,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         public override bool Frozen => true;
 
-        public override string OpponentName => _igsMatchRequest.OpponentName;
+        public override string OpponentName => _opponentDisplayName;
 
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {
@@ -45,7 +45,15 @@ namespace OmegaGo.UI.Services.GameCreation
         public override void OnLoad(GameCreationViewModel vm)
         {
             base.OnLoad(vm);
-            
+            _opponentDisplayName = _igsMatchRequest.OpponentName;
+            foreach (var usr in Connections.Igs.Data.OnlineUsers)
+            {
+                if (usr.Name == _igsMatchRequest.OpponentName)
+                {
+                    _opponentDisplayName = usr.Name + " (" + usr.Rank + ")";
+                }
+            }
+            vm.OpponentName = _opponentDisplayName;
             vm.FormTitle = Localizer.Creation_IncomingIgsChallenge;
             vm.RefusalCaption = Localizer.RefuseChallenge;
             vm.CustomSquareSize = _igsMatchRequest.BoardSize.ToString();

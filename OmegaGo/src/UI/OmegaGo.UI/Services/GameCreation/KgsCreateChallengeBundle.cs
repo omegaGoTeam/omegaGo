@@ -85,7 +85,7 @@ namespace OmegaGo.UI.Services.GameCreation
             await Connections.Kgs.Commands.CreateChallenge(_room, false, false,
                     rules, vm.SelectedColor);
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new Notifications.BubbleNotification("Challenge is being created..."));
+                .TriggerNotification(new Notifications.BubbleNotification("Challenge is being created...", null, NotificationType.Info));
             vm.CloseSelf();
         }
     }

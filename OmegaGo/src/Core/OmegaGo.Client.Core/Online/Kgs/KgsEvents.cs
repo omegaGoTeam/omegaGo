@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Online.Kgs
     /// </summary>    
     public class KgsEvents : ICommonEvents
     {
+
         public event EventHandler<string> SystemMessage;
 
 
@@ -86,6 +87,11 @@ namespace OmegaGo.Core.Online.Kgs
         public void RaiseNotification(string type)
         {
             NotificationMessage?.Invoke(this, type);
+        }
+
+        internal void RaiseUndoRequestReceived(KgsGame kgsGame)
+        {
+            UndoRequestReceived?.Invoke(this, kgsGame.Info);
         }
     }
 }

@@ -60,6 +60,7 @@ namespace OmegaGo.Core.Game.Tools
                 toolService.Node.Branches.AddNode(newNode);
 
                 toolService.SetNode(newNode);
+                toolService.PlayStonePlacementSound(newNode.Move.Captures.Count > 0);
             }                
             
         }

@@ -104,7 +104,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (e.Type == GamePhaseType.LifeDeathDetermination)
             {
-                if (ProvidesFinalEvaluation)
+                if (ProvidesFinalEvaluation && !_isOnlineGame)
                 {
                     var deads = await GetDeadPositions();
 

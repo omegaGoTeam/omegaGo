@@ -166,7 +166,7 @@ namespace OmegaGo.Core.Online.Igs
 
         public IgsEvents Events { get; }
 
-        public IgsData Data { get; }
+        public IgsData Data { get; set; }
 
         /// <summary>
         /// Gets our username, if we're logged in.
@@ -497,6 +497,7 @@ namespace OmegaGo.Core.Online.Igs
             {
             }
             _incomingMovesAreForThisGame = null;
+            this.Data = new IgsData();
             this.GamesBeingObserved.Clear();
             this.GamesYouHaveOpened.Clear();
             // _gamesInProgressOnIgs.Clear();
@@ -568,7 +569,10 @@ namespace OmegaGo.Core.Online.Igs
 
         private void OnIncomingHandicapInformation(IgsGame game, int stoneCount)
         {
-            _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
+            if (game != null)
+            {
+                _availableConnectors[game.Info.IgsIndex].HandicapFromServer(stoneCount);
+            }
         }
 
 

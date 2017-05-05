@@ -312,7 +312,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Color.
+        ///   Looks up a localized string similar to Background color.
         /// </summary>
         public static string BackgroundColor {
             get {
@@ -348,7 +348,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Image.
+        ///   Looks up a localized string similar to Background image.
         /// </summary>
         public static string BackgroundImage {
             get {
@@ -618,7 +618,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Control Style.
+        ///   Looks up a localized string similar to Control style.
         /// </summary>
         public static string ControlStyle {
             get {
@@ -636,7 +636,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operating System.
+        ///   Looks up a localized string similar to Operating system.
         /// </summary>
         public static string ControlStyle_OperatingSystem {
             get {
@@ -1419,7 +1419,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IGS rank.
+        ///   Looks up a localized string similar to Pandanet rank.
         /// </summary>
         public static string IgsRank {
             get {
@@ -2769,7 +2769,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stones Theme.
+        ///   Looks up a localized string similar to Stones theme.
         /// </summary>
         public static string StonesTheme {
             get {

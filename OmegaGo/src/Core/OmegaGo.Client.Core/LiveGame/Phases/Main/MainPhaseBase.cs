@@ -62,26 +62,25 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// Undoes the last move made, regardless of which player made it. This is called whenever the server commands
         /// us to undo, or whenever the user clicks to locally undo.
         /// </summary>
-        public void Undo()
+        public void Undo(int howManyMoves)
         {
             //is there a move to undo?
-            if (!Controller.GameTree.LastNode.Equals(Controller.GameTree.GameTreeRoot))
+            for (int i = 0; i < howManyMoves; i++)
             {
-                Controller.GameTree.RemoveLastNode();
-                foreach (var player in this.Controller.Players)
+                if (!Controller.GameTree.LastNode.Equals(Controller.GameTree.GameTreeRoot))
                 {
-                    player.Agent.MoveUndone();
+                    Controller.GameTree.LastNode = Controller.GameTree.LastNode.Parent;
+                    foreach (var player in this.Controller.Players)
+                    {
+                        player.Agent.MoveUndone();
+                    }
+                    Controller.OnMoveUndone();
+                    Controller.SwitchTurnPlayer();
                 }
-                Controller.OnMoveUndone();
-                Controller.SwitchTurnPlayer();
-                // TODO Petr What is this?
-                // Order here matters:
-                //(this._turnPlayer.Agent as OnlineAgent)?.Undo();
-                //_game.NumberOfMovesPlayed--;
-                Controller.TurnPlayer.Agent.PleaseMakeAMove();
-
-                Controller.OnCurrentNodeStateChanged();
             }
+
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+            
         }
 
         /// <summary>
@@ -178,8 +177,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 throw new InvalidOperationException("It is not your turn.");
 
             //ask the ruleset to validate the move
-            MoveProcessingResult processingResult =
-                   Controller.Ruleset.ProcessMove(Controller.CurrentNode, move);
+            MoveProcessingResult processingResult = Controller.Ruleset.ProcessMove(Controller.GameTree.LastNode, move);
 
             //let the specific game controller alter the processing result to match game type
             AlterMoveProcessingResult(move, processingResult);

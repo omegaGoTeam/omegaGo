@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 
@@ -39,12 +40,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         ///     The current game phase.
         /// </summary>
         private IGamePhase _currentGamePhase;
-
-        /// <summary>
-        ///     The node that represents the tip of the game timeline. In other words, the current node is the last node in the
-        ///     primary timeline that has not yet been undone.
-        /// </summary>
-        private GameTreeNode _currentNode;
 
         /// <summary>
         ///     The player on turn.
@@ -154,19 +149,6 @@ namespace OmegaGo.Core.Modes.LiveGame
 
                     OnTurnPlayerChanged();
                 }
-            }
-        }
-
-        /// <summary>
-        ///     Gets the current game tree node
-        /// </summary>
-        public GameTreeNode CurrentNode
-        {
-            get { return this._currentNode; }
-            private set
-            {
-                this._currentNode = value;
-                OnCurrentNodeChanged();
             }
         }
 
@@ -308,15 +290,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         {
             this.TurnPlayer = this.Players.GetOpponentOf(this.TurnPlayer);
         }
-
-        /// <summary>
-        ///     Fires the board refresh event
-        /// </summary>
-        internal void OnCurrentNodeStateChanged()
-        {
-            CurrentNodeStateChanged?.Invoke(this, EventArgs.Empty);
-        }
-
+        
         internal void OnMoveUndone()
         {
             MoveUndone?.Invoke(this, EventArgs.Empty);
@@ -371,14 +345,6 @@ namespace OmegaGo.Core.Modes.LiveGame
         }
 
         /// <summary>
-        ///     Fires the current <see cref="CurrentNodeChanged" /> event.
-        /// </summary>
-        private void OnCurrentNodeChanged()
-        {
-            CurrentNodeChanged?.Invoke(this, this.CurrentNode);
-        }
-
-        /// <summary>
         ///     Handles player resignation
         /// </summary>
         /// <param name="agent">Agent that resigned</param>
@@ -405,7 +371,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         private void GameTree_LastNodeChanged(object sender, GameTreeNode newLastNode)
         {
             //update the current node
-            this.CurrentNode = newLastNode;
+            // this.CurrentNode = newLastNode;
         }
 
         /// <summary>

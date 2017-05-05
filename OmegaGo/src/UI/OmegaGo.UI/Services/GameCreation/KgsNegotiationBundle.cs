@@ -52,7 +52,7 @@ namespace OmegaGo.UI.Services.GameCreation
                 }
                 else if (!String.IsNullOrEmpty(player.GetName()))
                 {
-                    string opponent = player.GetName();
+                    string opponent = player.GetNameAndRank();
                     this._opponentName = opponent;
                     vm.OpponentName = opponent;
                     if (player.Role == Role.White)
@@ -142,7 +142,7 @@ namespace OmegaGo.UI.Services.GameCreation
         private void UpdateOpponentFromProposal(KgsPlayer[] players)
         {
             var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
-            _opponentName = opponent.GetName() ?? "[no opponent yet]";
+            _opponentName = opponent.GetNameAndRank() ?? "[no opponent yet]";
         }
 
         // TODO Petr: updating username
