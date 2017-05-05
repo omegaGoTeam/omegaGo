@@ -27,13 +27,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Igs
         /// </summary>
         public override void StartPhase()
         {
-            base.StartPhase();
-            _connector.GameHandicapSet += GameHandicapSet;
-            if (Controller.Players.Black.IsLocal)
+            if (this.Controller.Info.NumberOfHandicapStones > 0)
             {
-                // skip handicap if we begin
-                GoToPhase(GamePhaseType.Main);
+                PlaceHandicapStones();
             }
+            GoToPhase(GamePhaseType.Main);
         }
 
         /// <summary>
