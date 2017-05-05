@@ -108,7 +108,6 @@ namespace OmegaGo.Core.Online.Kgs
                 case "GAME_NOTIFY":
                     //  TODO Petr: Elaborate in specific messages later.
                     HandleInterruptMessage<ChallengeDownstreamEvent>(message);
-                    HandleInterruptMessage<NotificationMessageDownstreamEvent>(message);
                     return true;
                 case "CLOSE":
                     HandleInterruptMessage<Close>(message);
@@ -117,6 +116,13 @@ namespace OmegaGo.Core.Online.Kgs
                     HandleInterruptMessage<GameTimeExpired>(message);
                     return true;
                 case "CHANNEL_ALREADY_JOINED":
+                case "PRIVATE_KEEP_OUT":
+                case "CHALLENGE_NOT_CREATED":
+                case "CHALLENGE_CANT_PLAY_RANKED":
+                case "IDLE_WARNING":
+                case "CHANNEL_SUBSCRIBERS_ONLY":
+                case "CHANNEL_NO_TALKING":
+                case "CANT_PLAY_TWICE":
                     HandleInterruptMessage<NotificationMessageDownstreamEvent>(message);
                     return true;
 

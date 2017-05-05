@@ -18,7 +18,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     {
         public override void Process(KgsConnection connection)
         {
-            connection.Events.RaiseNotification(this.Type);
+            connection.Events.RaiseErrorNotification(this.Type);
         }
     }
 }
