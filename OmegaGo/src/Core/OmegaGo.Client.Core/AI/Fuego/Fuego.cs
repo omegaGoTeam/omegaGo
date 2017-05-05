@@ -17,9 +17,14 @@ namespace OmegaGo.Core.AI.FuegoSpace
     {
         private const float ComparisonTolerance = 0.00001f;
 
+
         private readonly List<Move> _history = new List<Move>();
         private readonly List<string> _storedNotes = new List<string>();
         private IGtpEngine _engine;
+        private object _fuegoMutex = new object();
+
+        private System.Collections.Concurrent.ConcurrentQueue<FuegoAction> _fuegoActions = new System.Collections.Concurrent.ConcurrentQueue<FuegoAction>();
+        private bool _fuegoExecuting = false;
 
         private bool _initialized;
         private bool SendAllAiOutputToLog = true;
@@ -44,103 +49,173 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         /// <summary>
         ///     Requests a move from Fuego 
+        /// <para>
+        /// This is called ASYNCHRONOUSLY by the AI agent.
+        /// </para>
         /// </summary>
         /// <param name="gameInformation">Information about the requested move and the game</param>
         /// <returns>Decision</returns>
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            FixHistory(gameInformation);
-
-            // Move for what color?
-            string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
-
-            // Update remaining time
-            var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
-            if (timeLeftArguments != null)
+            FuegoAction action = new FuegoSpace.FuegoAction(this, () =>
             {
-                int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
-                secondsRemaining = Math.Max(secondsRemaining - 2, 0);
+                FixHistory(gameInformation);
+
+                // Move for what color?
+                string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
+
+                // Update remaining time
+                var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+                if (timeLeftArguments != null)
+                {
+                    int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
+                    secondsRemaining = Math.Max(secondsRemaining - 2, 0);
                     // let's give the AI less time to ensure it does its move on time
-                SendCommand("time_left " + movecolor + " " + secondsRemaining + " " +
-                            timeLeftArguments.NumberOfStonesRemaining);
-            }
+                    SendCommand("time_left " + movecolor + " " + secondsRemaining + " " +
+                                timeLeftArguments.NumberOfStonesRemaining);
+                }
 
-            // Generate the next move
-            string result = SendCommand("genmove " + movecolor).Text;
-            if (result == "resign")
-            {
-                var resignDecision = AIDecision.Resign("Resigned because of low win chance.");
-                resignDecision.AiNotes = this._storedNotes;
+                // Generate the next move
+                string result = SendCommand("genmove " + movecolor).Text;
+                if (result == "resign")
+                {
+                    var resignDecision = AIDecision.Resign("Resigned because of low win chance.");
+                    resignDecision.AiNotes = this._storedNotes;
+                    this._storedNotes.Clear();
+                    return resignDecision;
+                }
+                var move = result == "PASS"
+                    ? Move.Pass(gameInformation.AIColor)
+                    : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
+
+                // Change history
+                this._history.Add(move);
+
+                // Get win percentage
+                string commandResult = SendCommand("uct_value_black").Text;
+                float value = float.Parse(commandResult, CultureInfo.InvariantCulture);
+                if (gameInformation.AIColor == StoneColor.White)
+                {
+                    value = 1 - value;
+                }
+                string winChanceNote = (Math.Abs(value) < Fuego.ComparisonTolerance) ||
+                                       (Math.Abs(value - 1) < Fuego.ComparisonTolerance)
+                    ? "Reading from opening book."
+                    : "Win chance (" + gameInformation.AIColor + "): " + 100*value + "%";
+                Note(winChanceNote);
+                var moveDecision = AIDecision.MakeMove(
+                    move, winChanceNote);
+                moveDecision.AiNotes = this._storedNotes.ToList(); // copy
+
+                // Prepare the way
                 this._storedNotes.Clear();
-                return resignDecision;
-            }
-            var move = result == "PASS"
-                ? Move.Pass(gameInformation.AIColor)
-                : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
 
-            // Change history
-            this._history.Add(move);
+                // Return result
+                return moveDecision;
 
-            // Get win percentage
-            string commandResult = SendCommand("uct_value_black").Text;
-            float value = float.Parse(commandResult, CultureInfo.InvariantCulture);
-            if (gameInformation.AIColor == StoneColor.White)
+            });
+            EnqueueAction(action);
+            return action.GetAiDecisionResult();
+        }
+
+        private void EnqueueAction(FuegoAction action)
+        {
+            _fuegoActions.Enqueue(action);
+            ExecuteQueueIfNotRunning();
+        }
+
+        private void ExecuteQueueIfNotRunning()
+        {
+            lock (_fuegoMutex)
             {
-                value = 1 - value;
+                if (_fuegoExecuting) return;
+                else
+                {
+                    FuegoAction topOfQueue;
+                    if (_fuegoActions.TryDequeue(out topOfQueue))
+                    {
+                        _fuegoExecuting = true;
+                        Task.Run(() =>
+                        {
+                            topOfQueue.Execute();
+                        });
+                    }
+                }
             }
-            string winChanceNote = (Math.Abs(value) < Fuego.ComparisonTolerance) ||
-                                   (Math.Abs(value - 1) < Fuego.ComparisonTolerance)
-                ? "Reading from opening book."
-                : "Win chance (" + gameInformation.AIColor + "): " + 100*value + "%";
-            Note(winChanceNote);
-            var moveDecision = AIDecision.MakeMove(
-                move, winChanceNote);
-            moveDecision.AiNotes = this._storedNotes.ToList(); // copy
+        }
 
-            // Prepare the way
-            this._storedNotes.Clear();
+        internal void ExecutionComplete()
+        {
+            lock (_fuegoMutex)
+            {
+                _fuegoExecuting = false;
+            }
+            ExecuteQueueIfNotRunning();
+        }
 
-            // Return result
-            return moveDecision;
+
+        /// <summary>
+        /// Gets a hint from the AI.
+        /// <para>
+        /// This is called ASYNCHRONOUSLY by the assistant.
+        /// </para>
+        /// </summary>
+        /// <param name="gameInformation"></param>
+        /// <returns></returns>
+        public override AIDecision GetHint(AiGameInformation gameInformation)
+        {
+            var action = new FuegoAction(this, () =>
+            {
+                var result = RequestMove(gameInformation);
+                UndoOneMove();
+                return result;
+            });
+            EnqueueAction(action);
+            return action.GetAiDecisionResult();
+
         }
 
         /// <summary>
-        /// Sends a GTP command to the GTP engine.
+        /// Informs the AI engine that a move was just undone. Stateful AIs (i.e. Fuego) use this.
+        /// <para>
+        /// This is called synchronously in the main thread by the game controller or the assistant.
+        /// </para>
         /// </summary>
-        /// <param name="command">The command, including arguments.</param>
-        /// <returns></returns>
-        public GtpResponse SendCommand(string command)
-        {
-            var output = this._engine.SendCommand(command);
-            if (this.SendAllAiOutputToLog)
-            {
-                Note(">" + command);
-                Note(output.ToString());
-            }
-            return output;
-        }
-        
-        public override AIDecision GetHint(AiGameInformation gameInformation)
-        {
-            var result = RequestMove(gameInformation);
-            UndoOneMove();
-            return result;
-        }
-
         public override void MoveUndone()
         {
-            UndoOneMove();
+            var action = new FuegoAction(this, () => {
+                UndoOneMove();
+                return null;
+            });
+            EnqueueAction(action);
         }
 
+        /// <summary>
+        /// Informs the AI engine that a move was just made. Stateful AIs (i.e. Fuego) use this.
+        /// <para>
+        /// This is called synchronously in the main thread by the game controller or the assistant.
+        /// </para>
+        /// </summary>
+        /// <param name="move">The move.</param>
+        /// <param name="gameTree">The game tree.</param>
+        /// <param name="informedPlayer">The player who is associated with this AI, not the player who made the move.</param>
+        /// <param name="info">Information about the game</param>
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
-            FixHistory(new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
+            var action = new FuegoAction(this, () => {
+                FixHistory(new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
+                return null;
+            });
+            EnqueueAction(action);
         }
 
         /// <summary>
         ///     Gets all positions that the Fuego engines consider dead in its current state (as arrived at by its own moves,
         ///     RequestMoves calls
         ///     and MovePerformed/MoveUndone calls. Currently this is not multithreaded for ease of debugging.
+        /// <para>
+        ///     This is called synchronously in the main thread by the assistant.
+        /// </para>
         /// </summary>
         /// <returns></returns>
         public override async Task<IEnumerable<Position>> GetDeadPositions()
@@ -154,29 +229,6 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 mark.Add(Position.FromIgsCoordinates(position));
             }
             return mark;
-        }
-
-        private void FixHistory(AiGameInformation aiGameInformation)
-        {
-            // Initialize if not yet.
-            if (!this._initialized)
-            {
-                Initialize(aiGameInformation);
-                this._initialized = true;
-            }
-
-            // Fix history.
-            var trueHistory = aiGameInformation.GameTree.PrimaryMoveTimeline.ToList();
-            for (int i = 0; i < trueHistory.Count; i++)
-            {
-                if (this._history.Count == i)
-                {
-                    var trueMove = trueHistory[i];
-                    this._history.Add(trueMove);
-                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
-                                trueMove.Coordinates.ToIgsCoordinates());
-                }
-            }
         }
 
         private void Initialize(AiGameInformation gameInformation)
@@ -231,6 +283,21 @@ namespace OmegaGo.Core.AI.FuegoSpace
             SendCommand("go_param_rules");
         }
 
+        /// <summary>
+        /// Sends a GTP command to the GTP engine.
+        /// </summary>
+        /// <param name="command">The command, including arguments.</param>
+        /// <returns></returns>
+        public GtpResponse SendCommand(string command)
+        {
+            var output = this._engine.SendCommand(command);
+            if (this.SendAllAiOutputToLog)
+            {
+                Note(">" + command);
+                Note(output.ToString());
+            }
+            return output;
+        }
         private void Note(string note)
         {
             this._storedNotes.Add(note);
@@ -248,6 +315,29 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             SendCommand("undo");
             this._history.RemoveAt(this._history.Count - 1);
+        }
+
+        private void FixHistory(AiGameInformation aiGameInformation)
+        {
+            // Initialize if not yet.
+            if (!this._initialized)
+            {
+                Initialize(aiGameInformation);
+                this._initialized = true;
+            }
+
+            // Fix history.
+            var trueHistory = aiGameInformation.GameTree.PrimaryMoveTimeline.ToList();
+            for (int i = 0; i < trueHistory.Count; i++)
+            {
+                if (this._history.Count == i)
+                {
+                    var trueMove = trueHistory[i];
+                    this._history.Add(trueMove);
+                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
+                                trueMove.Coordinates.ToIgsCoordinates());
+                }
+            }
         }
     }
 }
