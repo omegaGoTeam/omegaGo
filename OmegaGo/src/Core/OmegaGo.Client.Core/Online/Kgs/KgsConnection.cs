@@ -62,7 +62,7 @@ namespace OmegaGo.Core.Online.Kgs
 
         public KgsEvents Events { get; }
 
-        public KgsData Data { get; }
+        public KgsData Data { get; private set; }
 
         public ServerId Name => ServerId.Kgs;
 
@@ -176,6 +176,12 @@ namespace OmegaGo.Core.Online.Kgs
         /// <param name="password">The user's password.</param>
         public async Task<bool> LoginAsync(string name, string password)
         {
+            if (LoggedIn)
+            {
+                // Already connected.
+                return false;
+            }
+            this.Data = new Kgs.KgsData(this);
             LoggingIn = true;
             this._username = name;
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
