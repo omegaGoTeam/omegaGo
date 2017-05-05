@@ -123,7 +123,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public bool ShowHandicapSlider => !IsIgs && !IsKgs;
 
         /// <summary>
-        /// Gets the name of the opponent to display as a TextBlock.
+        /// Gets the name of the opponent to display as a TextBlock. This should include rank, if it is known.
         /// </summary>
         public virtual string OpponentName => "Local";
 
