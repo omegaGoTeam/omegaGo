@@ -16,6 +16,7 @@ namespace OmegaGo.Core.Online.Kgs
     /// </summary>    
     public class KgsEvents : ICommonEvents
     {
+
         public event EventHandler<string> SystemMessage;
 
 
