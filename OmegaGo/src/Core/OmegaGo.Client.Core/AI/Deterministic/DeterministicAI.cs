@@ -23,6 +23,10 @@ namespace OmegaGo.Core.AI.Deterministic
             {
                 ; // Active waiting.
             } 
+            if (gameInformation.Node == null)
+            {
+                return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, new Position(0,0)), "The board is empty so I'll just play at A1.");
+            }
             for (int y = 0; y < gameInformation.GameInfo.BoardSize.Height; y++)
             {
                 for (int x =0; x < gameInformation.GameInfo.BoardSize.Width; x++)
