@@ -57,65 +57,66 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <returns>Decision</returns>
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            FuegoAction action = new FuegoSpace.FuegoAction(this, () =>
-            {
-                FixHistory(gameInformation);
-
-                // Move for what color?
-                string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
-
-                // Update remaining time
-                var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
-                if (timeLeftArguments != null)
-                {
-                    int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
-                    secondsRemaining = Math.Max(secondsRemaining - 2, 0);
-                    // let's give the AI less time to ensure it does its move on time
-                    SendCommand("time_left " + movecolor + " " + secondsRemaining + " " +
-                                timeLeftArguments.NumberOfStonesRemaining);
-                }
-
-                // Generate the next move
-                string result = SendCommand("genmove " + movecolor).Text;
-                if (result == "resign")
-                {
-                    var resignDecision = AIDecision.Resign("Resigned because of low win chance.");
-                    resignDecision.AiNotes = this._storedNotes;
-                    this._storedNotes.Clear();
-                    return resignDecision;
-                }
-                var move = result == "PASS"
-                    ? Move.Pass(gameInformation.AIColor)
-                    : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
-
-                // Change history
-                this._history.Add(move);
-
-                // Get win percentage
-                string commandResult = SendCommand("uct_value_black").Text;
-                float value = float.Parse(commandResult, CultureInfo.InvariantCulture);
-                if (gameInformation.AIColor == StoneColor.White)
-                {
-                    value = 1 - value;
-                }
-                string winChanceNote = (Math.Abs(value) < Fuego.ComparisonTolerance) ||
-                                       (Math.Abs(value - 1) < Fuego.ComparisonTolerance)
-                    ? "Reading from opening book."
-                    : "Win chance (" + gameInformation.AIColor + "): " + 100*value + "%";
-                Note(winChanceNote);
-                var moveDecision = AIDecision.MakeMove(
-                    move, winChanceNote);
-                moveDecision.AiNotes = this._storedNotes.ToList(); // copy
-
-                // Prepare the way
-                this._storedNotes.Clear();
-
-                // Return result
-                return moveDecision;
-
-            });
+            FuegoAction action = new FuegoSpace.FuegoAction(this, () => TrueRequestMove(gameInformation));
             EnqueueAction(action);
             return action.GetAiDecisionResult();
+        }
+
+        private AIDecision TrueRequestMove(AiGameInformation gameInformation)
+        {
+            FixHistory(gameInformation);
+
+            // Move for what color?
+            string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
+
+            // Update remaining time
+            var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+            if (timeLeftArguments != null)
+            {
+                int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
+                secondsRemaining = Math.Max(secondsRemaining - 2, 0);
+                // let's give the AI less time to ensure it does its move on time
+                SendCommand("time_left " + movecolor + " " + secondsRemaining + " " +
+                            timeLeftArguments.NumberOfStonesRemaining);
+            }
+
+            // Generate the next move
+            string result = SendCommand("genmove " + movecolor).Text;
+            if (result == "resign")
+            {
+                var resignDecision = AIDecision.Resign("Resigned because of low win chance.");
+                resignDecision.AiNotes = this._storedNotes;
+                this._storedNotes.Clear();
+                return resignDecision;
+            }
+            var move = result == "PASS"
+                ? Move.Pass(gameInformation.AIColor)
+                : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
+
+            // Change history
+            this._history.Add(move);
+
+            // Get win percentage
+            string commandResult = SendCommand("uct_value_black").Text;
+            float value = float.Parse(commandResult, CultureInfo.InvariantCulture);
+            if (gameInformation.AIColor == StoneColor.White)
+            {
+                value = 1 - value;
+            }
+            string winChanceNote = (Math.Abs(value) < Fuego.ComparisonTolerance) ||
+                                   (Math.Abs(value - 1) < Fuego.ComparisonTolerance)
+                ? "Reading from opening book."
+                : "Win chance (" + gameInformation.AIColor + "): " + 100 * value + "%";
+            Note(winChanceNote);
+            var moveDecision = AIDecision.MakeMove(
+                move, winChanceNote);
+            moveDecision.AiNotes = this._storedNotes.ToList(); // copy
+
+            // Prepare the way
+            this._storedNotes.Clear();
+
+            // Return result
+            return moveDecision;
         }
 
         private void EnqueueAction(FuegoAction action)
@@ -166,7 +167,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             var action = new FuegoAction(this, () =>
             {
-                var result = RequestMove(gameInformation);
+                var result = TrueRequestMove(gameInformation);
                 UndoOneMove();
                 return result;
             });
