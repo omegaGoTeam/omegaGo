@@ -167,6 +167,12 @@ so I thought suppressing warnings would have the same result.*/
                     OnNewChatMessageReceived(new ChatMessage(_connnection.Username, chatMessage, DateTimeOffset.Now,
                         ChatMessageKind.Outgoing));
                 }
+                else
+                {
+                    // Not localized, but that's fine.
+                    OnNewChatMessageReceived(new ChatMessage("SYSTEM", "Message failed to send: '" + chatMessage + "'. You cannot send messages when the game is over.", DateTimeOffset.Now,
+                        ChatMessageKind.Outgoing));
+                }
             }
         }
 
