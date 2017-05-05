@@ -79,6 +79,7 @@ namespace OmegaGo.UI.Services.GameCreation
             UpdateTimeControlFromRules(Challenge.Proposal.Rules);
             Connections.Kgs.Events.Unjoin += Events_Unjoin;
             Challenge.StatusChanged += Challenge_StatusChanged;
+            RefreshStatus();
             base.OnLoad(vm);
         }
 
