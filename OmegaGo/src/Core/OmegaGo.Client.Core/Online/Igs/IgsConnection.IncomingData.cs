@@ -182,6 +182,11 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (code == IgsCode.Move)
                     {
+                        var heading = IgsRegex.ParseGameHeading(igsLine);
+                        if (heading != null)
+                        {
+                            this.Data.LastReceivedGameHeading = heading;
+                        }
                         if (!thisIsNotAMove)
                         {
                             HandleIncomingMove(igsLine);
@@ -208,6 +213,11 @@ namespace OmegaGo.Core.Online.Igs
 
                         if (igsLine.EntireLine ==
                             "9 You can check your score with the score command, type 'done' when finished.")
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.Contains("accepted."))
                         {
                             weAreHandlingAnInterrupt = true;
                             continue;
@@ -425,8 +435,8 @@ namespace OmegaGo.Core.Online.Igs
 
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
-
-                    GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
+                    // An outgoing match request has been accepted by another player and the game can begin.
+                    GameHeading heading = this.Data.LastReceivedGameHeading;
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);
                     var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
                     bool youAreBlack = ogi.Black.Name == _username;
