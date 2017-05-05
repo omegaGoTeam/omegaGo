@@ -197,6 +197,7 @@
     <Compile Include="Online\Kgs\Downstream\ChallengeProposal.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\GameUndoRequest.cs" />
     <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />

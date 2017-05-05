@@ -41,6 +41,9 @@ namespace OmegaGo.Core.Online.Kgs
                 case "ROOM_NAMES":
                     HandleInterruptMessage<RoomNames>(message);
                     return true;
+                case "GAME_UNDO_REQUEST":
+                    HandleInterruptMessage<GameUndoRequest>(message);
+                    return true;
                 case "ROOM_DESC":
                     HandleInterruptMessage<RoomDesc>(message);
                     return true;

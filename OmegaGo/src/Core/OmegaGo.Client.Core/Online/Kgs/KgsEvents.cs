@@ -88,5 +88,10 @@ namespace OmegaGo.Core.Online.Kgs
         {
             NotificationMessage?.Invoke(this, type);
         }
+
+        internal void RaiseUndoRequestReceived(KgsGame kgsGame)
+        {
+            UndoRequestReceived?.Invoke(this, kgsGame.Info);
+        }
     }
 }
