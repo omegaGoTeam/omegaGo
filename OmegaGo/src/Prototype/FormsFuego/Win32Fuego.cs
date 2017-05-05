@@ -58,6 +58,11 @@ namespace FormsFuego
             return new GtpResponse(success, msg);
         }
 
+        public void Dispose()
+        {
+            
+        }
+
         private void ReadResponse(out string code, out bool success, out string msg)
         {
             success = false;

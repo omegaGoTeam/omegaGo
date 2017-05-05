@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
@@ -80,6 +82,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             }
         }
 
+        public override void GamePhaseChanged(GamePhaseType phase)
+        {
+            if (phase == GamePhaseType.Finished)
+            {
+                if (this.AI is Fuego)
+                {
+                    (this.AI as Fuego).Finished();
+                }
+            }
+            base.GamePhaseChanged(phase);
+        }
         public override void MoveIllegal(MoveResult moveResult)
         {
             throw new Exception("This should never be called.");

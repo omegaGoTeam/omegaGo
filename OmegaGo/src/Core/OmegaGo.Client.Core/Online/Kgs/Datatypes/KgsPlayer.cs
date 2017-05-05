@@ -28,5 +28,17 @@
         {
             return User?.Name ?? Name;
         }
+
+        public string GetNameAndRank()
+        {
+           if (User != null)
+           {
+               return User.Name + " (" + User.Rank + ")";
+           }
+           else
+            {
+                return Name;
+            }
+        }
     }
 }

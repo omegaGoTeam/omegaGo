@@ -242,6 +242,7 @@ namespace OmegaGo.Core.Online.Igs
                         if (igsLine.PureLine.Contains("has typed done."))
                         {
                             string username = IgsRegex.GetFirstWord(igsLine);
+                            weAreHandlingAnInterrupt = true;
                             foreach (var game in GetGamesIncluding(username))
                             {
                                 // TODO petr inform the controller that a 'done' was typed (when interface exists)
