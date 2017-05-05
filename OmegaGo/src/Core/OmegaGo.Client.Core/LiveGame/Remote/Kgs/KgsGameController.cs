@@ -21,10 +21,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
     public class KgsGameController : RemoteGameController
     {
 
-        /// <summary>
-        ///     KGS SGF Nodes
-        /// </summary>
-        internal Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
 
         public KgsGameController(
             KgsGameInfo kgsGameInfo,
@@ -40,6 +36,16 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             RegisterConnector(KgsConnector);
             KgsConnector.GameEndedByServer += KgsConnector_GameEndedByServer;
         }
+
+        /// <summary>
+        /// Gets or sets the KGS SGF node that was last given as the argument of the ACTIVATED downstream message.
+        /// </summary>
+        public KgsSgfNode ActivatedNode { get; set; }
+
+        /// <summary>
+        ///     KGS SGF Nodes
+        /// </summary>
+        internal Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
 
         internal KgsConnector KgsConnector { get; }
         internal new KgsConnection Server { get; }

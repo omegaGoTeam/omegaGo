@@ -15,9 +15,15 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
     public class KgsSgfNode
     {
         /// <summary>
-        /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1.
+        /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1 (unless that move was undone).
         /// </summary>
         public int Index { get; set; }
+
+        /// <summary>
+        /// Gets the number of edges from the root node that one must traverse to reach this node. For example, if this is a grandson
+        /// of the root, then Layer is 2.
+        /// </summary>
+        public int Layer { get; }
         /// <summary>
         /// Gets the children of this node. Order matters.
         /// </summary>
@@ -29,14 +35,18 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// </summary>
         public List<KgsSgfProperty> Properties { get; } = new List<KgsSgfProperty>();
 
-        public KgsSgfNode(int index)
+        public KgsSgfNode Parent { get; }
+
+        public KgsSgfNode(int index, int layer, KgsSgfNode parent)
         {
             Index = index;
+            Layer = layer;
+            Parent = parent;
         }
 
         public void AddChild(int childNodeId, int position, KgsGame game)
         {
-            var newNode = new KgsSgfNode(childNodeId);
+            var newNode = new KgsSgfNode(childNodeId, this.Layer + 1, this);
             Children.Insert(position, newNode);
             game.Controller.Nodes[childNodeId] = newNode;
         }
@@ -126,7 +136,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         if (player.Agent is KgsAgent)
                         {
-                            ((KgsAgent) player.Agent).StoreMove(this.Index, color, move);
+                            ((KgsAgent) player.Agent).StoreMove(this.Layer, color, move);
                         }
                     }
                     break;

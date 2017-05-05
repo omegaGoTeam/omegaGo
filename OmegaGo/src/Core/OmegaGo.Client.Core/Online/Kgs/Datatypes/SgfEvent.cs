@@ -64,7 +64,27 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     }
                     break;
                 case "ACTIVATED":
-                    // Ignore for now
+                    var whatWasActivated = ongame.Controller.Nodes[NodeId];
+                    var currentActiveNode = ongame.Controller.ActivatedNode;
+                    ongame.Controller.ActivatedNode = whatWasActivated;
+                    if (whatWasActivated.Children.Count > 0)
+                    {
+                        // It is an undo.
+                        int howManyUndos = 0;
+                        var passNode = currentActiveNode;
+                        while (passNode != whatWasActivated)
+                        {
+                            if (passNode == null)
+                            {
+                                // This should not happen.
+                                // Let's nope out.
+                                break;
+                            }
+                            passNode = passNode.Parent;
+                            howManyUndos++;
+                        }
+                        ongame.Controller.KgsConnector.CauseUndo(howManyUndos);
+                    }
                     break;
                 default:
                     // TODO Petr 

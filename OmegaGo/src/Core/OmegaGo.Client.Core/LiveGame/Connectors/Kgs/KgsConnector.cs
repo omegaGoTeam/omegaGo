@@ -88,5 +88,13 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         {
             ServerSaysAPlayerIsDone?.Invoke(this, gamePlayer);
         }
+
+        public void CauseUndo(int howManyUndos)
+        {
+            for (int i = 0; i < howManyUndos; i++)
+            {
+                MainUndoForced?.Invoke(this, EventArgs.Empty);
+            }
+        }
     }
 }

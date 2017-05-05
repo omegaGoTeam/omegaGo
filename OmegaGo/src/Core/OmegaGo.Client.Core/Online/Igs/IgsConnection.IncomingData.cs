@@ -242,6 +242,7 @@ namespace OmegaGo.Core.Online.Igs
                         if (igsLine.PureLine.Contains("has typed done."))
                         {
                             string username = IgsRegex.GetFirstWord(igsLine);
+                            weAreHandlingAnInterrupt = true;
                             foreach (var game in GetGamesIncluding(username))
                             {
                                 var player = game.Controller.Players.First(pl => pl.Info.Name == username);

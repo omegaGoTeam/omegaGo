@@ -93,7 +93,7 @@ so I thought suppressing warnings would have the same result.*/
         /// </summary>
         public void UndoFromServer()
         {
-            (_gameController.Phase as IgsMainPhase)?.Undo();
+            (_gameController.Phase as IgsMainPhase)?.Undo(1);
         }
 
         /// <summary>
