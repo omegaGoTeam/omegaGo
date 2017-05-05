@@ -85,14 +85,22 @@ namespace OmegaGo.UI.Services.Online
             _igsConnection.Events.IncomingMatchRequest += Pandanet_IncomingMatchRequest; 
             _igsConnection.Events.MatchRequestAccepted += Pandanet_MatchRequestAccepted;
             _igsConnection.Events.MatchRequestDeclined += Pandanet_MatchRequestDeclined;
+            _igsConnection.Events.ErrorMessageReceived += Pandanet_ErrorMessageReceived;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
         }
 
+        private static void Pandanet_ErrorMessageReceived(object sender, string e)
+        {
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(e, "Pandanet Error", NotificationType.Alert));
+
+        }
+
         private static void Pandanet_MatchRequestDeclined(object sender, string e)
         {
-            Mvx.Resolve<Notifications.IAppNotificationService>()
-                .TriggerNotification(new Notifications.BubbleNotification(e + " declined your match request."));
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(e + " declined your match request.", null, NotificationType.Alert));
         }
 
         private static void Pandanet_MatchRequestAccepted(object sender, Core.Modes.LiveGame.Remote.Igs.IgsGame e)
@@ -144,7 +152,8 @@ namespace OmegaGo.UI.Services.Online
 
         private static void Kgs_NotificationMessage(object sender, string e)
         {
-            Mvx.Resolve<IAppNotificationService>().TriggerNotification(e);
+            Mvx.Resolve<IAppNotificationService>()
+                .TriggerNotification(new BubbleNotification(e, "KGS Technical Message", NotificationType.Info));
         }
 
         private static void Kgs_GameJoined(object sender, KgsGame e)
