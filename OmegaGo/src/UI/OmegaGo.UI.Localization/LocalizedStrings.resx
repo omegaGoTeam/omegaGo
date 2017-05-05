@@ -182,7 +182,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Back</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background Color</value>
+    <value>Background color</value>
   </data>
   <data name="BackgroundColor_Basic" xml:space="preserve">
     <value>Basic orange</value>
@@ -194,7 +194,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>None</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background Image</value>
+    <value>Background image</value>
   </data>
   <data name="BackgroundImage_Forest" xml:space="preserve">
     <value>Bamboo forest</value>
@@ -423,7 +423,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>View your winrate and other statistics.</value>
   </data>
   <data name="StonesTheme" xml:space="preserve">
-    <value>Stones Theme</value>
+    <value>Stones theme</value>
   </data>
   <data name="StoneTheme_PolishedBitmap" xml:space="preserve">
     <value>Polished stones</value>
@@ -615,7 +615,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>You have solved this problem!</value>
   </data>
   <data name="IgsRank" xml:space="preserve">
-    <value>IGS rank</value>
+    <value>Pandanet rank</value>
   </data>
   <data name="KgsRank" xml:space="preserve">
     <value>KGS rank</value>
@@ -681,13 +681,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Reset all progress</value>
   </data>
   <data name="ControlStyle_OperatingSystem" xml:space="preserve">
-    <value>Operating System</value>
+    <value>Operating system</value>
   </data>
   <data name="ControlStyle_Wood" xml:space="preserve">
     <value>Wood</value>
   </data>
   <data name="ControlStyle" xml:space="preserve">
-    <value>Control Style</value>
+    <value>Control style</value>
   </data>
   <data name="ControlStyle_Lite" xml:space="preserve">
     <value>Lite</value>

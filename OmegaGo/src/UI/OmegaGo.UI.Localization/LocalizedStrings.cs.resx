@@ -1155,7 +1155,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Přihlášení jako {0}...</value>
   </data>
   <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
-    <value>Přihlášení již proběhí. Počkejte chvíli...</value>
+    <value>Přihlášení již probíhá. Počkejte chvíli...</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Přihlášení se nezdařilo.</value>
