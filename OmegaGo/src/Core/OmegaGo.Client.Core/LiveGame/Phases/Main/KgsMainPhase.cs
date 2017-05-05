@@ -30,7 +30,7 @@ namespace OmegaGo.Core.LiveGame.Phases.Main
 
         protected override void MainForceUndo()
         {
-            throw new NotImplementedException();
+            Undo(1);
         }
         /// <summary>
         /// Ensures moves from IGS are properly handled

@@ -81,5 +81,13 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         {
             LifeDeathRevivifyGroupForced?.Invoke(this, position);
         }
+
+        public void CauseUndo(int howManyUndos)
+        {
+            for (int i = 0; i < howManyUndos; i++)
+            {
+                MainUndoForced?.Invoke(this, EventArgs.Empty);
+            }
+        }
     }
 }

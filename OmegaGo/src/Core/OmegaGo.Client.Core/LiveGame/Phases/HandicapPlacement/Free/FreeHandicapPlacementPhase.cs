@@ -66,7 +66,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
             {
                 //add the placed stone
                 StonesPlaced++;
-                Controller.OnCurrentNodeStateChanged();
                 if (StonesPlaced == Controller.Info.NumberOfHandicapStones)
                 {
                     Controller.GameTree.AddBoardToEnd(_gameBoard, new GroupState(Controller.Ruleset.RulesetInfo.GroupState, Controller.Ruleset.RulesetInfo));
