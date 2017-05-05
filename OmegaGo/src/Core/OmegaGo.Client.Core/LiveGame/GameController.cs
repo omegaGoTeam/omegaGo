@@ -14,6 +14,7 @@ using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Phases.Main;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Rules;
 

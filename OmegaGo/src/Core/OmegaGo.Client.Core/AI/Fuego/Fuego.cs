@@ -186,7 +186,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             var action = new FuegoAction(this, () => {
                 UndoOneMove();
-                return null;
+                return default(AIDecision);
             });
             EnqueueAction(action);
         }
@@ -205,7 +205,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             var action = new FuegoAction(this, () => {
                 FixHistory(new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
-                return null;
+                return default(AIDecision);
             });
             EnqueueAction(action);
         }
@@ -221,9 +221,15 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <returns></returns>
         public override async Task<IEnumerable<Position>> GetDeadPositions()
         {
-            var result = SendCommand("final_status_list dead");
+            var action = new FuegoAction(this, () =>
+            {
+                var result = SendCommand("final_status_list dead");
+                return result;
+            });
+            EnqueueAction(action);
+            var response = await action.GetGtpResponseAsync();
 
-            var positions = result.Text.Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            var positions = response.Text.Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries);
             var mark = new List<Position>();
             foreach (string position in positions)
             {
@@ -343,6 +349,16 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
                     SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " + moveDescription);
                 }
+            }
+        }
+
+        private bool _disposed;
+        public void Finished()
+        {
+            if (!_disposed)
+            {
+                _disposed = true;
+                _engine.Dispose();
             }
         }
     }

@@ -40,5 +40,10 @@ namespace OmegaGo.UI.WindowsUniversal.Fuego
             }
             return new GtpResponse(success, res.Trim());
         }
+
+        public void Dispose()
+        {
+            _fuegoInstance.Dispose();
+        }
     }
 }
