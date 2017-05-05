@@ -70,10 +70,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot.Branches == null)
+            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot.Branches.Count == 0)
                 return base.MeasureOverride(availableSize);
 
-            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0);
+            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0) + 1;
             
             Size desiredSize = new Size();
             desiredSize.Height =
@@ -105,7 +105,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot.Branches != null)
+            if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot.Branches.Count != 0)
             {
                 args.DrawingSession.Transform = Matrix3x2.CreateTranslation(NODEHIGHLIGHTSTROKE, NODEHIGHLIGHTSTROKE);
                 int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot.Branches[0], 0, 0, 0) + 1;
