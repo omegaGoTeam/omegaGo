@@ -19,7 +19,7 @@ namespace OmegaGo.UI.Services.GameCreation
             this.selectedChallengeableUser = selectedChallengeableUser;
         }
 
-        public override string OpponentName => selectedChallengeableUser.Name;
+        public override string OpponentName => selectedChallengeableUser.Name + " (" + selectedChallengeableUser.Rank + ")";
         public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
         public override bool AcceptableAndRefusable => false;
         public override bool WillCreateChallenge => true;
