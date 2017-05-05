@@ -86,6 +86,12 @@ namespace OmegaGo.Core.Online.Igs
                             this._loginError = "The password is incorrect.";
                             continue;
                         }
+                        if (igsLine.EntireLine.Contains("Sorry, names can be"))
+                        {
+                            this.Composure = IgsComposure.Confused;
+                            this._loginError = "Your name is too long.";
+                            continue;
+                        }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
                             this.Composure = IgsComposure.Confused;
