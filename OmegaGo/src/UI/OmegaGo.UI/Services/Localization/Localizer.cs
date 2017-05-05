@@ -1686,8 +1686,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// <summary>
 		/// Exiting this screen will end analysis and all your changes will be lost.
 		/// </summary>
-		public string ExitAnalyze_Text => LocalizeCaller();
-		public string ExportSGF => LocalizeCaller();
+		public string ExitAnalyze_Text => LocalizeCaller();		
 		/// <summary>
 		/// Fluffy tree depth must be at least 1.
 		/// </summary>
