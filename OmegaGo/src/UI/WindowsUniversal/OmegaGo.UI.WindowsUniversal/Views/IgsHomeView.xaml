@@ -50,7 +50,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}" />
-            <Pivot Grid.Row="1">
+            <Pivot Grid.Row="1" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}">
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -58,26 +58,35 @@
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshGames" Content="{x:Bind Localizer.Igs_RefreshGames}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
-                                <RadioButton Margin="10,0,0,0" Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
-                            </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <AppBarButton Icon="Sort" Height="48" IsCompact="True" Label="{x:Bind Localizer.SortBy}">
+                                <AppBarButton.Flyout>
+                                    <Flyout>
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{x:Bind Localizer.SortBy}" FontWeight="SemiBold" Margin="0,0,0,4" VerticalAlignment="Center" />
+                                            <RadioButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
+                                            <RadioButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                            <RadioButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
+                                            <RadioButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
+                            <AppBarButton Icon="Refresh" IsCompact="True" Height="48" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
                         </StackPanel>
-                        <GridView Grid.Row="1" SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                        
+                        <GridView Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True"  ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind VM.ObserveCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
                             <GridView.ItemTemplate>
                                 <DataTemplate x:DataType="igs:IgsGameInfo">
                                     <igs1:IgsObservedGameControl />
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-                        <Button Grid.Row="2"
-                                Content="{x:Bind Localizer.ObserveThisGame}"
-                                Command="{Binding ObserveSelectedGame}" />
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{x:Bind Localizer.Igs_IssueAChallenge}">
@@ -88,12 +97,11 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshUsers" Content="{x:Bind Localizer.Igs_RefreshUsers}"/>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                <RadioButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                <RadioButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                <RadioButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
                                 <TextBlock Margin="10,0,0,0" Text="Name: " VerticalAlignment="Center"></TextBlock>
                                 <TextBox Margin="10,0,0,0" Width="200" VerticalAlignment="Center" Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                             </StackPanel>
@@ -142,28 +150,32 @@
 
                 <StackPanel Orientation="Horizontal">
 
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                        <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
-                        Communicating with Pandanet...
-                        </TextBlock>
-                    </StackPanel>
+
                 </StackPanel>
             </StackPanel>
-            <CommandBar Grid.Row="3" VerticalContentAlignment="Center">
+            <CommandBar HorizontalContentAlignment="Stretch" IsDynamicOverflowEnabled="False" OverflowButtonVisibility="Visible" Grid.Row="3" VerticalContentAlignment="Top">
                 <CommandBar.Content>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
-                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0"  Text="{Binding LoggedInUser, Mode=OneWay}"/>
-                    </StackPanel>
+                    <Grid HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding LoggedInUser, Mode=OneWay}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Right" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                            <ProgressRing IsActive="True" Height="20" Width="20" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{Binding ProgressPanelText, Mode=OneWay}" />
+                        </StackPanel>
+                    </Grid>
                 </CommandBar.Content>
                 <CommandBar.PrimaryCommands>
+
+                </CommandBar.PrimaryCommands>
+                <CommandBar.SecondaryCommands>
                     <AppBarButton Command="{x:Bind VM.LogoutCommand}" Label="{x:Bind Localizer.Logout}">
                         <AppBarButton.Icon>
                             <PathIcon Style="{StaticResource LogoutIcon}" />
                         </AppBarButton.Icon>
                     </AppBarButton>
-                </CommandBar.PrimaryCommands>
+                </CommandBar.SecondaryCommands>
             </CommandBar>
         </Grid>
 

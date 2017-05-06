@@ -29,6 +29,10 @@ namespace OmegaGo.UI.ViewModels
 #endif
 
         private ICommand _logoutCommand;
+        private ICommand _observeCommand;
+        private ICommand _refreshCommand;
+
+        private int _selectedViewIndex;
 
         public IgsHomeViewModel(IGameSettings settings)
         {
@@ -42,6 +46,25 @@ namespace OmegaGo.UI.ViewModels
         /// Logs the user out
         /// </summary>
         public ICommand LogoutCommand => _logoutCommand ?? (_logoutCommand = new MvxCommand(Logout));
+
+        /// <summary>
+        /// Observe game
+        /// </summary>
+        public ICommand ObserveCommand => _observeCommand ?? (_observeCommand = new MvxAsyncCommand<IgsGameInfo>(ObserveGame));
+
+        /// <summary>
+        /// Refreshes the current view
+        /// </summary>
+        public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new MvxAsyncCommand(RefreshAsync));
+
+        /// <summary>
+        /// Selected view index
+        /// </summary>
+        public int SelectedViewIndex
+        {
+            get { return _selectedViewIndex; }
+            set { SetProperty(ref _selectedViewIndex, value); }
+        }
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
         {
@@ -67,6 +90,7 @@ namespace OmegaGo.UI.ViewModels
                 await EnterIgsLobbyLoggedIn();
             }
         }
+
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
@@ -116,10 +140,46 @@ namespace OmegaGo.UI.ViewModels
             await Connections.Igs.Commands.RequestPersonalInformationUpdate(Connections.Igs.Username);
         }
 
-   
+        private async Task ObserveGame( IgsGameInfo selectedGame )
+        {
+            if (selectedGame == null) return;
+            ShowProgressPanel(Localizer.Igs_InitiatingObservationOfAGame);
+            var onlinegame = await Connections.Igs.Commands.StartObserving(selectedGame);
+            if (onlinegame == null)
+            {
+                // TODO Petr: error report
+            }
+            else
+            {
+                Mvx.RegisterSingleton<IGame>(onlinegame);
+                OpenInNewActiveTab<ObserverGameViewModel>();
+            }
+            ProgressPanelVisible = false;
+        }
+
+        private async Task RefreshAsync()
+        {
+            switch (SelectedViewIndex)
+            {
+                case 0:
+                {
+                    await RefreshGames();
+                    break;
+                }
+                case 1:
+                {
+                    await RefreshUsers();
+                    break;
+                }
+                default:
+                {                    
+                    return;
+                }
+            }
+        }
+
         public LoginFormViewModel LoginForm { get; }
 
-     
 
         //***************************************************************
         // STATUS BAR
@@ -353,7 +413,6 @@ namespace OmegaGo.UI.ViewModels
             get { return _selectedSpectatableGame; }
             set {
                 SetProperty(ref _selectedSpectatableGame, value);
-                ObserveSelectedGame.RaiseCanExecuteChanged();
             }
         }
         private IgsUser _selectedChallengeableUser;
@@ -375,22 +434,6 @@ namespace OmegaGo.UI.ViewModels
                 ShowViewModel<GameCreationViewModel>();
             }
         }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
-        private IMvxCommand _observeSelectedGame;
-        public IMvxCommand ObserveSelectedGame => _observeSelectedGame ?? (_observeSelectedGame = new MvxCommand(async () =>
-        {
-            ShowProgressPanel(Localizer.Igs_InitiatingObservationOfAGame);
-            var onlinegame = await Connections.Igs.Commands.StartObserving(SelectedSpectatableGame);
-            if (onlinegame == null)
-            {
-                // TODO Petr: error report
-            }
-            else
-            {
-                Mvx.RegisterSingleton<IGame>(onlinegame); 
-                OpenInNewActiveTab<ObserverGameViewModel>();
-            }
-            ProgressPanelVisible = false;
-        }, ()=> SelectedSpectatableGame != null));
 
         public void StartGame(IgsGame game)
         {
