@@ -36,7 +36,7 @@ namespace OmegaGo.Core.Modes.LiveGame.State
         /// <summary>
         /// Gets the game's players
         /// </summary>
-        public PlayerPair Players { get; }
+        private PlayerPair Players { get; }
 
         /// <summary>
         /// Gets the loser (or null if no loser)
