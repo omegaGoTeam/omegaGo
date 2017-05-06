@@ -67,7 +67,17 @@ namespace OmegaGo.Core.Game.Tools
 
         public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (!toolService.Node.Equals(_currentNode) || _currentNode==null)
+            if (toolService.Node.Equals(toolService.GameTree.GameTreeRoot))
+            {
+                int width = toolService.GameTree.BoardSize.Width;
+                int height = toolService.GameTree.BoardSize.Height;
+                MoveResult[,] moveResults = new MoveResult[width, height];
+                for (int x = 0; x < width; x++)
+                    for (int y = 0; y < height; y++)
+                        moveResults[x, y] = MoveResult.Legal;
+                _currentNode = toolService.Node;
+            }
+            else if (!toolService.Node.Equals(_currentNode) || _currentNode == null)
             {
                 _moveResults = toolService.Ruleset.GetMoveResult(toolService.Node);
                 _currentNode = toolService.Node;
@@ -77,8 +87,8 @@ namespace OmegaGo.Core.Game.Tools
             if (result == MoveResult.Legal) {
                 if (_currentNode.Move.WhoMoves == StoneColor.Black)
                     return new Stone(StoneColor.White, toolService.PointerOverPosition);
-                else if (_currentNode.Move.WhoMoves == StoneColor.White)
-                    return new Stone(StoneColor.Black, toolService.PointerOverPosition); ;
+                else
+                    return new Stone(StoneColor.Black, toolService.PointerOverPosition);
             }
 
             return new None();
