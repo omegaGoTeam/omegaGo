@@ -191,8 +191,12 @@ namespace OmegaGo.Core.Online.Kgs
         /// <param name="challenge">The challenge to join.</param>
         public void JoinChallenge(KgsChallenge challenge)
         {
+            bool wasJoined = challenge.Joined;
             JoinChannel(challenge);
-            this._kgsConnection.Events.RaiseChallengeJoined(challenge);
+            if (!wasJoined)
+            {
+                this._kgsConnection.Events.RaiseChallengeJoined(challenge);
+            }
         }
 
         /// <summary>

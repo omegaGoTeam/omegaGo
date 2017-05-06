@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -138,6 +139,7 @@ namespace OmegaGo.Core.Online.Kgs
                     {
                         var message = (JObject) jToken;
                         Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
+                        Debug.WriteLine("INC:" + message.GetValue("type").Value<string>());
                         KgsRequest matchingRequest =
                             requestsAwaitingResponse.FirstOrDefault(
                                 kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
@@ -190,6 +192,7 @@ namespace OmegaGo.Core.Online.Kgs
             this.Data = new Kgs.KgsData(this);
             LoggingIn = true;
             this._username = name;
+            Debug.WriteLine("Starting get loop");
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
@@ -202,6 +205,7 @@ namespace OmegaGo.Core.Online.Kgs
                 return true;
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
+            Debug.WriteLine("Making login request");
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
                 name = name,
@@ -210,6 +214,7 @@ namespace OmegaGo.Core.Online.Kgs
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
+                Debug.WriteLine("Success. Now getting info.");
                 var roomsArray = new int[response.Rooms.Length];
                 for (int i = 0; i < response.Rooms.Length; i++)
                 {
@@ -281,11 +286,14 @@ namespace OmegaGo.Core.Online.Kgs
             var kgsRequest = new KgsRequest(possibleResponseTypes);
             requestsAwaitingResponse.Add(kgsRequest);
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Sending post request....");
             PostRequestResult postResult = await SendPostRequest(contents);
             if (postResult.Successful)
             {
-               var response = await kgsRequest.TaskCompletionSource.Task;
-               string responseText = response.ToString();
+                Debug.WriteLine("Awaiting task");
+                var response = await kgsRequest.TaskCompletionSource.Task;
+                Debug.WriteLine("Task awaited");
+                string responseText = response.ToString();
                var returnValue = response.ToObject<T>(Serializer);
                 returnValue.FullText = responseText;
                return returnValue;
