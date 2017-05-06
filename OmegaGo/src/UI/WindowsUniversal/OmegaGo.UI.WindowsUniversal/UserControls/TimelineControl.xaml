@@ -5,20 +5,22 @@
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:OmegaGo.UI.UserControls.ViewModels"
     xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance viewModels:TimelineViewModel, IsDesignTimeCreatable=True}"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    IsTabStop="True"
+    IsTapEnabled="True">
 
-    <ScrollViewer HorizontalScrollMode="Auto"
-                  VerticalScrollMode="Auto"
-                  HorizontalScrollBarVisibility="Auto"
-                  VerticalScrollBarVisibility="Auto"
-                  ZoomMode="Enabled"
-                  Background="#FFFDD270">
-        <win2d:CanvasControl x:Name="canvas"
+    <Border Background="#FFFDD270">
+        <ScrollViewer HorizontalScrollMode="Auto"
+                      VerticalScrollMode="Auto"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Disabled"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <win2d:CanvasControl x:Name="canvas"
                              Margin="5"/>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Border>
 </local:UserControlBase>
