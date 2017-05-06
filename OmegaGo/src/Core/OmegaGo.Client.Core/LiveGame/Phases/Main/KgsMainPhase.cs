@@ -17,10 +17,12 @@ namespace OmegaGo.Core.LiveGame.Phases.Main
     class KgsMainPhase : MainPhaseBase
     {
         private readonly KgsGameController _gameController;
+        private int _handicapStones;
 
         public KgsMainPhase(KgsGameController gameController) : base(gameController)
         {
             _gameController = gameController;
+            _handicapStones = gameController.Info.NumberOfHandicapStones;
         }
 
         protected override async Task MainRequestUndo()
@@ -52,6 +54,27 @@ namespace OmegaGo.Core.LiveGame.Phases.Main
                 {
                     result.Result = MoveResult.Legal;
                 }
+            }
+        }
+        protected override void AskFirstPlayerToMove()
+        {
+            Controller.TurnPlayer = Controller.Players.Black;
+
+            Controller.OnDebuggingMessage(Controller.TurnPlayer + " begins!");
+
+            //inform the agent that he is on turn
+            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+        }
+
+        protected override void DetermineNextTurnPlayer()
+        {
+            if (_gameController.NumberOfMoves < _handicapStones)
+            {
+                Controller.TurnPlayer = Controller.Players.Black;
+            }
+            else
+            {
+                base.DetermineNextTurnPlayer();
             }
         }
         protected override bool HandleLocalClockOut(GamePlayer player)
