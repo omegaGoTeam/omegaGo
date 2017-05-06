@@ -370,7 +370,7 @@ namespace OmegaGo.UI.ViewModels
             if (SelectedChallengeableUser != null)
             {
                 Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
-                ShowViewModel<GameCreationViewModel>();
+                OpenInNewActiveTab<GameCreationViewModel>();fix
             }
         }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
         private IMvxCommand _observeSelectedGame;
