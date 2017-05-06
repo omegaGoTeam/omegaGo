@@ -37,6 +37,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         }
         public override void Process(KgsConnection connection)
         {
+            // TODO Petr KGS OVERHAUL
             // TODO Petr : handle bad types
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this, connection);
             if (info == null) return; // TODO Petr : warn the user that joining failed

@@ -10,6 +10,7 @@ namespace OmegaGo.Core.Online.Kgs
         public Proposal Proposal;
         public override void Process(KgsConnection connection)
         {
+            // TODO Petr KGS OVERHAUL
             if (connection.Data.OpenChallenges.Exists(chlg => chlg.ChannelId == this.ChannelId))
             {
                 var challenge = connection.Data.OpenChallenges.First(chlg => chlg.ChannelId == this.ChannelId);

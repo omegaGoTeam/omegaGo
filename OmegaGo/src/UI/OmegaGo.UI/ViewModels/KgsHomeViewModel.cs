@@ -106,15 +106,10 @@ namespace OmegaGo.UI.ViewModels
                 {
                     return new ObservableCollection<KgsGameChannel>();
                 }
-                return
-                    new ObservableCollection<KgsGameChannel>(
-                        this.SelectedGameContainer.GetAllChannels().Where(channel =>
-                        {
-                            if (this.ShowRobots) return true;
-                            if (channel.Users.Any(usr => usr.IsRobot)) return false;
-                            return true;
-                        })
-                        );
+                else
+                {
+                    return this.SelectedGameContainer.AllChannelsCollection;
+                }
             }
         }
 
@@ -157,16 +152,6 @@ namespace OmegaGo.UI.ViewModels
         }
 
         public LoginFormViewModel LoginForm { get; }
-
-        public bool ShowRobots
-        {
-            get { return _showRobots; }
-            set
-            {
-                SetProperty(ref _showRobots, value);
-                UpdateBindings();
-            }
-        }
 
         public void Init()
         {

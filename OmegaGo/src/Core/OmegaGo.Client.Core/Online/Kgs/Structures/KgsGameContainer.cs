@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 
@@ -13,10 +14,23 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     /// <seealso cref="OmegaGo.Core.Online.Kgs.Structures.KgsChannel" />
     public abstract class KgsGameContainer : KgsChannel
     {
+        private string _name;
+
         /// <summary>
         /// Gets or sets the name of the room or global list.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<KgsGameChannel> AllChannelsCollection { get; } = new ObservableCollection<KgsGameChannel>();
+
         private readonly List<KgsTrueGameChannel> Games = new List<KgsTrueGameChannel>();
         private readonly List<KgsChallenge> Challenges = new List<KgsChallenge>();
 
@@ -63,6 +77,13 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
         public void RemoveGame(int gameId)
         {
+            var removeWhat = AllChannelsCollection.FirstOrDefault(kgc => kgc.ChannelId == gameId);
+            if (removeWhat != null)
+            {
+                AllChannelsCollection.Remove(removeWhat);
+            }
+
+            // Old:
             Games.RemoveAll(kgi => kgi.ChannelId == gameId);
             Challenges.RemoveAll(kgi => kgi.ChannelId == gameId);
         }

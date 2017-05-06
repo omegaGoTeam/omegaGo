@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using OmegaGo.Core.Annotations;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
@@ -7,7 +10,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     /// a <see cref="KgsGameContainer"/> (i.e. a room or a global list). Instances of this class are stored in Data,
     /// and are not sent directly via downstream or upstream messages. 
     /// </summary>
-    public class KgsChannel
+    public class KgsChannel : INotifyPropertyChanged
     {
         /// <summary>
         /// Gets or sets the number KGS assigned to this channel. Unlike with IGS, channel ID numbers are unique and don't repeat.
@@ -27,6 +30,14 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public override string ToString()
         {
             return "Channel " + ChannelId;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

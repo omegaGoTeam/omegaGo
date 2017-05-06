@@ -13,7 +13,8 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public GameChannel[] Games { get; set; }
         public override void Process(KgsConnection connection)
         {
-            connection.Data.Containers[ChannelId].UpdateGames(Games,connection);
+            // TODO Petr KGS OVERHAUL
+            connection.Data.Containers[ChannelId].UpdateGames(Games, connection);
         }
     }
 }

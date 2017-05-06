@@ -39,7 +39,6 @@
                             <ComboBoxItem>Joined Room 2</ComboBoxItem>
                             <ComboBoxItem>Joined Room 3</ComboBoxItem>
                         </ComboBox>
-                        <CheckBox IsChecked="{x:Bind VM.ShowRobots, Mode=TwoWay}">Show robots</CheckBox>
                     </StackPanel>
                     <ListBox Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChannels, Mode=OneWay}"
                              SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}">

@@ -134,7 +134,7 @@ namespace OmegaGo.Core.Online.Kgs
         }
 
         /// <summary>
-        /// Joins the specified room.
+        /// Joins the specified room. If the room isn't loaded in Data yet, it is loaded now.
         /// </summary>
         /// <param name="channelId">The room's channelId.</param>
         public void JoinRoom(int channelId)
@@ -144,6 +144,26 @@ namespace OmegaGo.Core.Online.Kgs
             GameContainers.Add(room);
         }
 
+        /// <summary>
+        /// Sets the description of a room. If the room isn't loaded in Data yet, it is loaded now.
+        /// </summary>
+        /// <param name="channelId">The channel identifier of the room.</param>
+        /// <param name="description">The description.</param>
+        public void SetRoomDescription(int channelId, string description)
+        {
+            var room = EnsureRoomExists(channelId);
+            room.Description = description;
+        }
+        /// <summary>
+        /// Sets the name of a room. If the room isn't loaded in Data yet, it is loaded now.
+        /// </summary>
+        /// <param name="channelId">The channel identifier of the room.</param>
+        /// <param name="name">The name.</param>
+        public void SetRoomName(int channelId, string name)
+        {
+            var room = EnsureRoomExists(channelId);
+            room.Name = name;
+        }
 
 
         // ------------------------- BEFORE OVERHAUL ----------------------------
@@ -160,16 +180,6 @@ namespace OmegaGo.Core.Online.Kgs
             }
         }
        
-        public void SetRoomDescription(int channelId, string description)
-        {
-            EnsureRoomExists(channelId);
-            Rooms[channelId].Description = description;
-        }
-        public void SetRoomName(int channelId, string name)
-        {
-            EnsureRoomExists(channelId);
-            Rooms[channelId].Name = name;
-        }
         public void JoinChannel(int channelId)
         {
             if (Channels.ContainsKey(channelId))
@@ -216,6 +226,7 @@ namespace OmegaGo.Core.Online.Kgs
         }
         public KgsGame GetGame(int channelId)
         {
+            // TODO Petr KGS OVERHAUL
             return joinedGames.ContainsKey(channelId) ? joinedGames[channelId] : null;
         }
         public bool IsJoined(int channelId)

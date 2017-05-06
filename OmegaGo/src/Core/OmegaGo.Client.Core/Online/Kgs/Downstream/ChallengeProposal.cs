@@ -14,6 +14,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     {
         public override void Process(KgsConnection connection)
         {
+            // TODO Petr KGS OVERHAUL
             foreach (var challenge in connection.Data.Containers.SelectMany(container => container.Value.GetChallenges()))
             {
                 if (challenge.ChannelId == this.ChannelId)
