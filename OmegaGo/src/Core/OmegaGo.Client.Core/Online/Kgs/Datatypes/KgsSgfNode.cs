@@ -95,6 +95,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 case "PHANTOMCLEAR":
                     // I don't know what to do with this yet.
                     break;
+                case "ADDSTONE":
+                    ongame.Controller.AddHandicapStonePosition(new Position(prop.Loc.X,
+                        KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
+                    break;
                 case "COMMENT":
                     // "Putti [2k]: hi\n
                     var tuple = KgsRegex.ParseCommentAsChat(prop.Text);

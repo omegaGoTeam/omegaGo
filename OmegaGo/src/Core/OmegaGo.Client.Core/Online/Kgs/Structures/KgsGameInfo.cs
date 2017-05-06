@@ -31,14 +31,25 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 new Game.GameBoardSize(rules.Size),
                 KgsHelpers.ConvertRuleset(rules.Rules),
                 rules.Handicap,
-                HandicapPlacementType.Free,
+                GetHandicapPlacementType(KgsHelpers.ConvertRuleset(rules.Rules)),
                 rules.Komi,
                 CountingType.Area,
                 kgsGameJoin.ChannelId);
             return kgi;
         }
 
-       
+        public static HandicapPlacementType GetHandicapPlacementType(RulesetType ruleset)
+        {
+            switch (ruleset)
+            {
+                case RulesetType.AGA:
+                case RulesetType.Japanese:
+                    return HandicapPlacementType.Fixed;
+                case RulesetType.Chinese:
+                default:
+                    return HandicapPlacementType.Free;
+            }
+        }
 
 
         public KgsGameInfo(PlayerInfo whitePlayerInfo, PlayerInfo blackPlayerInfo, GameBoardSize boardSize, RulesetType rulesetType, int numberOfHandicapStones, HandicapPlacementType handicapPlacementType, float komi, CountingType countingType, int channelId) : base(whitePlayerInfo, blackPlayerInfo, boardSize, rulesetType, numberOfHandicapStones, handicapPlacementType, komi, countingType)

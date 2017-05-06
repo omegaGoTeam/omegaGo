@@ -58,17 +58,26 @@ namespace OmegaGo.Core.LiveGame.Phases.Main
         }
         protected override void AskFirstPlayerToMove()
         {
-            Controller.TurnPlayer = Controller.Players.Black;
+            if (Controller.Info.HandicapPlacementType == Modes.LiveGame.Phases.HandicapPlacement.HandicapPlacementType
+                    .Free)
+            {
+                Controller.TurnPlayer = Controller.Players.Black;
 
-            Controller.OnDebuggingMessage(Controller.TurnPlayer + " begins!");
+                Controller.OnDebuggingMessage(Controller.TurnPlayer + " begins!");
 
-            //inform the agent that he is on turn
-            Controller.TurnPlayer.Agent.PleaseMakeAMove();
+                //inform the agent that he is on turn
+                Controller.TurnPlayer.Agent.PleaseMakeAMove();
+            }
+            else
+            {
+                base.AskFirstPlayerToMove();
+            }
         }
 
         protected override void DetermineNextTurnPlayer()
         {
-            if (_gameController.NumberOfMoves < _handicapStones)
+            if (_gameController.Info.HandicapPlacementType == Modes.LiveGame.Phases.HandicapPlacement.HandicapPlacementType.Free 
+                && _gameController.NumberOfMoves < _handicapStones)
             {
                 Controller.TurnPlayer = Controller.Players.Black;
             }

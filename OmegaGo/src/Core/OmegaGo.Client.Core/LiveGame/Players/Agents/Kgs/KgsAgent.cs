@@ -31,6 +31,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs
         private void MaybeMakeAMove()
         {
             int moveToMake = this.GameState.NumberOfMoves;
+            if (this.GameInfo.HandicapPlacementType == Phases.HandicapPlacement.HandicapPlacementType.Fixed)
+            {
+                moveToMake--;
+            }
             if (_storedMoves.ContainsKey(moveToMake))
             {
                 Move move = _storedMoves[moveToMake];
