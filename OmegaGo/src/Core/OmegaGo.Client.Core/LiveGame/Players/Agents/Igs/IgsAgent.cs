@@ -9,7 +9,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.Igs
     /// <summary>
     /// IGS agent
     /// </summary>
-    public class IgsAgent : AgentBase, IIgsAgent
+    public class IgsAgent : AgentBase
     {
         /// <summary>
         /// Contains the moves already received from the server

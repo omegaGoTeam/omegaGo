@@ -8,20 +8,20 @@ using OmegaGo.Core.Game;
 namespace OmegaGo.Core.AI.Deterministic
 {
     /// <summary>
-    /// This AI waits a couple of second, then makes a predictable move.
+    /// This AI waits a couple of seconds, then makes a predictable move.
     /// </summary>
-    // TODO remove this before release
+    // TODO Petr: remove this before release
     /// <seealso cref="OmegaGo.Core.AI.AIProgramBase" />
     class DeterministicAI : AIProgramBase
     {
-        public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue, false);
+        public override AICapabilities Capabilities => new AICapabilities(true, true, 1, int.MaxValue);
 
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
             DateTime whenEndWaiting = DateTime.Now.AddSeconds(2);
             while (DateTime.Now < whenEndWaiting)
             {
-                ; // Active waiting.
+                // Active waiting.
             } 
             if (gameInformation.Node == null)
             {
@@ -31,9 +31,9 @@ namespace OmegaGo.Core.AI.Deterministic
             {
                 for (int x =0; x < gameInformation.GameInfo.BoardSize.Width; x++)
                 {
-                    if (gameInformation.Node.BoardState[x,y] == Game.StoneColor.None)
+                    if (gameInformation.Node.BoardState[x,y] == StoneColor.None)
                     {
-                        return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, new Game.Position(x, y)), "I always place stones in the first point that's unoccupied.");
+                        return AIDecision.MakeMove(Move.PlaceStone(gameInformation.AIColor, new Position(x, y)), "I always place stones in the first point that's unoccupied.");
                     }
                 }
             }

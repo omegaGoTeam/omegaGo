@@ -28,7 +28,7 @@ namespace FormsPrototype
             kgs.Events.GameJoined += Events_GameJoined;
             kgs.Events.Disconnection += Events_Disconnection;
             kgs.Events.ChallengeJoined += Events_ChallengeJoined;
-            kgs.Events.NotificationMessage += Events_NotificationMessage;
+            kgs.Events.NotificationErrorMessage += EventsNotificationErrorMessage;
         }
 
         private void Events_ChallengeJoined(object sender, KgsChallenge e)
@@ -37,7 +37,7 @@ namespace FormsPrototype
             form.Show();
         }
 
-        private void Events_NotificationMessage(object sender, string e)
+        private void EventsNotificationErrorMessage(object sender, string e)
         {
             this.lblNotificationMessage.Text = e;
         }

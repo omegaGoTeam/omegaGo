@@ -18,10 +18,5 @@ namespace OmegaGo.Core.Online.Common
         {
             
         }
-
-        /// <summary>
-        /// Explicit implementation of IRemoteGame.Info
-        /// </summary>
-        RemoteGameInfo IRemoteGame.Info => Info;
     }
 }

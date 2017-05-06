@@ -27,7 +27,7 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<JsonResponse> IncomingMessage;
         public event EventHandler<JsonResponse> UnhandledMessage;
         public event EventHandler<string> Disconnection;
-        public event EventHandler<string> NotificationMessage;
+        public event EventHandler<string> NotificationErrorMessage;
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
         public event EventHandler<GameInfo> UndoRequestReceived;
@@ -84,9 +84,9 @@ namespace OmegaGo.Core.Online.Kgs
             Unjoin?.Invoke(this, channel);
         }
 
-        public void RaiseNotification(string type)
+        public void RaiseErrorNotification(string type)
         {
-            NotificationMessage?.Invoke(this, type);
+            NotificationErrorMessage?.Invoke(this, type);
         }
 
         internal void RaiseUndoRequestReceived(KgsGame kgsGame)
