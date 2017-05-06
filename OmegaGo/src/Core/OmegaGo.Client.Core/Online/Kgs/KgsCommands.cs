@@ -206,10 +206,17 @@ namespace OmegaGo.Core.Online.Kgs
         private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)
         {
             var originalProposal = selectedItem.Proposal;
+            if (selectedItem.CreatorsNewProposal != null)
+            {
+                originalProposal = selectedItem.CreatorsNewProposal;
+            }
             var ourName = this.kgsConnection.Username;
             var upstreamProposal = originalProposal.ToUpstream();
-            var emptySeat = upstreamProposal.Players.First(pl => pl.Name == null);
-            emptySeat.Name = ourName;
+            var emptySeat = upstreamProposal.Players.FirstOrDefault(pl => pl.Name == null);
+            if (emptySeat != null)
+            {
+                emptySeat.Name = ourName;
+            }
             var simpleProposal = new
             {
                 ChannelId = selectedItem.ChannelId,
