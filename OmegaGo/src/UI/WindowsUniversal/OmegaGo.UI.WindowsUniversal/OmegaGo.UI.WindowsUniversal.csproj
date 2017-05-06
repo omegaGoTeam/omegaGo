@@ -152,6 +152,9 @@
     <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
       <DependentUpon>MainMenuButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml.cs">
+      <DependentUpon>IgsObservedGameControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Navigation\BackButton.xaml.cs">
       <DependentUpon>BackButton.xaml</DependentUpon>
     </Compile>
@@ -244,6 +247,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Info\Dimensions.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Dimensions.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Dimensions.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
@@ -426,6 +432,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\LoginFormControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
