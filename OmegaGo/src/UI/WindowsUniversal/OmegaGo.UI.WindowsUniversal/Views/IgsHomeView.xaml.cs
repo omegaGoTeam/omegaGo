@@ -21,6 +21,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public IgsHomeView()
         {
             this.InitializeComponent();
+#if DEBUG
+#else
+            this.IgsPivotControl.Items.Remove(this.ConsolePivotItem);
+#endif
         }
 
         public override string TabTitle => Localizer.IgsServerCaption;
