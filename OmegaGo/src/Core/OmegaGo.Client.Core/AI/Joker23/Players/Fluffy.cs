@@ -8,7 +8,7 @@ namespace OmegaGo.Core.AI.Joker23.Players
     {
         // TODO Petr make it pass in other scenarios, too
 
-        public override AICapabilities Capabilities => new AICapabilities(false, true, 2, int.MaxValue);
+        public override AICapabilities Capabilities => new AICapabilities(false, true, 9, int.MaxValue);
 
         public int TreeDepth { get; set; }
 
