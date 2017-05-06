@@ -73,5 +73,6 @@ namespace OmegaGo.Core.Game.Tools
                 return new None();
         }
 
+        public void Set(IToolServices toolServices) { }
     }
 }
