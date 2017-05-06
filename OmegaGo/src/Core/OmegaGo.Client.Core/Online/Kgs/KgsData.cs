@@ -34,8 +34,16 @@ namespace OmegaGo.Core.Online.Kgs
         /// Gets a map associating channel IDs to their canonical channel data.
         /// </summary>
         public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
-        
+
+        /// <summary>
+        /// Gets those game containers that we have joined, i.e. we can see the games inside.
+        /// </summary>
         public ObservableCollection<KgsGameContainer> GameContainers { get; } = new ObservableCollection<KgsGameContainer>();
+
+        /// <summary>
+        /// Gets all rooms, even those that we haven't joined.
+        /// </summary>
+        public ObservableCollection<KgsRoom> AllRooms { get; } = new ObservableCollection<KgsRoom>();
 
         // ------------------------- METHODS AND EVENTS  ----------------------------
 
@@ -95,6 +103,39 @@ namespace OmegaGo.Core.Online.Kgs
             Containers[channelId] = globalGamesList;
         }
 
+        /// <summary>
+        /// Gets the room with the specified ID. If it doesn't exist, it is created.
+        /// </summary>
+        /// <param name="channelId">The channel identifier.</param>
+        private KgsRoom EnsureRoomExists(int channelId)
+        {
+            if (Channels.ContainsKey(channelId))
+            {
+            }
+            else
+            {
+                var room = new KgsRoom(channelId);
+                Channels[channelId] = room;
+                AllRooms.Add(room);
+
+                // Old:
+                Rooms[channelId] = room;
+                Containers[channelId] = room;
+            }
+            return Channels[channelId] as KgsRoom;
+        }
+
+        /// <summary>
+        /// Joins the specified room.
+        /// </summary>
+        /// <param name="channelId">The room's channelId.</param>
+        public void JoinRoom(int channelId)
+        {
+            var room = EnsureRoomExists(channelId);
+            JoinChannel(room);
+            GameContainers.Add(room);
+        }
+
 
 
         // ------------------------- BEFORE OVERHAUL ----------------------------
@@ -110,16 +151,7 @@ namespace OmegaGo.Core.Online.Kgs
                 }
             }
         }
-        private void EnsureRoomExists(int channel)
-        {
-            if (!Rooms.ContainsKey(channel))
-            {
-                var room = new KgsRoom(channel);
-                Rooms[channel] = room;
-                Containers[channel] = room;
-                Channels[channel] = room;
-            }
-        }
+       
         public void SetRoomDescription(int channelId, string description)
         {
             EnsureRoomExists(channelId);
@@ -137,11 +169,6 @@ namespace OmegaGo.Core.Online.Kgs
                 Channels[channelId].Joined = true;
                 JoinedChannels.Add(channelId);
             } 
-        }
-        public void JoinRoom(int channelId)
-        {
-            EnsureRoomExists(channelId);
-            JoinChannel(channelId);
         }
         public void JoinChallenge(int channelId)
         {

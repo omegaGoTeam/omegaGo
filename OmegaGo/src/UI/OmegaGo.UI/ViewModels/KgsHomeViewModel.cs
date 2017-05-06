@@ -49,7 +49,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 await Connections.Kgs.Commands.UnjoinRoomAsync(this.SelectedRoom);
                 // TODO Petr: figure out a way to inform the UI when unjoin/join happens
-                RefreshControls();
+                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
 
@@ -58,7 +58,7 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && !this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.JoinRoomAsync(this.SelectedRoom);
-                RefreshControls();
+                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
@@ -92,15 +92,11 @@ namespace OmegaGo.UI.ViewModels
         public IMvxCommand LogoutCommand
             => new MvxCommand(async () => { await Connections.Kgs.Commands.LogoutAsync(); });
 
-        public IMvxCommand RefreshControlsCommand => new MvxCommand(RefreshControls);
+        public IMvxCommand RefreshControlsCommand => new MvxCommand(UpdateBindings);
 
         public ObservableCollection<KgsGameContainer> GameContainers => Connections.Kgs.Data.GameContainers;
 
-        public ObservableCollection<KgsRoom> AllRooms
-        {
-            get { return _allRooms; }
-            set { SetProperty(ref _allRooms, value); }
-        }
+        public ObservableCollection<KgsRoom> AllRooms => Connections.Kgs.Data.AllRooms;
 
         public ObservableCollection<KgsGameChannel> SelectedGameContainerChannels
         {
@@ -162,7 +158,7 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _showRobots, value);
-                RefreshControls();
+                UpdateBindings();
             }
         }
 
@@ -174,7 +170,7 @@ namespace OmegaGo.UI.ViewModels
             if (Connections.Kgs.LoggedIn)
             {
                 this.LoginForm.FormVisible = false;
-                RefreshControls();
+                UpdateBindings();
             }
             else
             {
@@ -231,17 +227,17 @@ namespace OmegaGo.UI.ViewModels
         private void Events_LoginPhaseChanged(object sender, KgsLoginPhase e)
         {
             this.LoginForm.LoginErrorMessage = Localizer.GetString("KgsLoginPhase_" + e.ToString());
-            RefreshControls();
+            UpdateBindings();
             if (e == KgsLoginPhase.Done)
             {
                 this.LoginForm.FormVisible = false;
                 this.LoginForm.LoginErrorMessageOpacity = 0;
             }
         }
-
-        private void RefreshControls()
+        
+        private void UpdateBindings()
         {
-            this.AllRooms = new ObservableCollection<KgsRoom>(Connections.Kgs.Data.Rooms.Values);
+            RaisePropertyChanged(nameof(AllRooms));
             RaisePropertyChanged(nameof(GameContainers));
         }
 
