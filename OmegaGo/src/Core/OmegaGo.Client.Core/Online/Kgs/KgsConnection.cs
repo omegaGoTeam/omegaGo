@@ -62,6 +62,12 @@ namespace OmegaGo.Core.Online.Kgs
 
         public KgsEvents Events { get; }
 
+        /// <summary>
+        /// Contains information downloaded from KGS. This information is continuously updated whenever we receive
+        /// up-to-date information from KGS. Events on this member fire when the data is updated and should be used to update the UI.
+        /// That may include closing tabs that are no longer relevant, such as challenge negotiation tabs.
+        /// Methods on this member affect data stored in the member and trigger events, but they never send information to the server.
+        /// </summary>
         public KgsData Data { get; private set; }
 
         public ServerId Name => ServerId.Kgs;

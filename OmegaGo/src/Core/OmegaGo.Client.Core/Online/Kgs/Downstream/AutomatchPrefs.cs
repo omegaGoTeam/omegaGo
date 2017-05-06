@@ -7,6 +7,11 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
+    /// <summary>
+    /// Tells you the automatch preferences that this user has uploaded before.
+    /// We do not make use of this in omegaGo.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.KgsInterruptResponse" />
     public class AutomatchPrefs : KgsInterruptResponse
     {
         /// <summary>
@@ -28,7 +33,6 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-            connection.Data.AutomatchPreferences = this;
         }
     }
 }

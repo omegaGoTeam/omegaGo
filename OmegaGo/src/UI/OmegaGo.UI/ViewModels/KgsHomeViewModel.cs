@@ -94,11 +94,7 @@ namespace OmegaGo.UI.ViewModels
 
         public IMvxCommand RefreshControlsCommand => new MvxCommand(RefreshControls);
 
-        public ObservableCollection<KgsGameContainer> GameContainers
-        {
-            get { return _gameContainers; }
-            set { SetProperty(ref _gameContainers, value); }
-        }
+        public ObservableCollection<KgsGameContainer> GameContainers => Connections.Kgs.Data.GameContainers;
 
         public ObservableCollection<KgsRoom> AllRooms
         {
@@ -235,20 +231,18 @@ namespace OmegaGo.UI.ViewModels
         private void Events_LoginPhaseChanged(object sender, KgsLoginPhase e)
         {
             this.LoginForm.LoginErrorMessage = Localizer.GetString("KgsLoginPhase_" + e.ToString());
+            RefreshControls();
             if (e == KgsLoginPhase.Done)
             {
                 this.LoginForm.FormVisible = false;
                 this.LoginForm.LoginErrorMessageOpacity = 0;
-                RefreshControls();
             }
         }
 
         private void RefreshControls()
         {
             this.AllRooms = new ObservableCollection<KgsRoom>(Connections.Kgs.Data.Rooms.Values);
-            this.GameContainers = new ObservableCollection<KgsGameContainer>(
-                Connections.Kgs.Data.Containers.Values.Where(v => v.Joined)
-                );
+            RaisePropertyChanged(nameof(GameContainers));
         }
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)

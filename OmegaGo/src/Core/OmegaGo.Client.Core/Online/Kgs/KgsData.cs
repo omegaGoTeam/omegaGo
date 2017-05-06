@@ -1,36 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
-using OmegaGo.Core.Online.Kgs.Downstream;
 using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs
 {
     /// <summary>
     /// Contains information downloaded from KGS. This information is continuously updated whenever we receive
-    /// up-to-date information from KGS.
+    /// up-to-date information from KGS. More information is available in documentation for <see cref="KgsConnection.Data"/> 
     /// </summary>
-    public class KgsData
+    public class KgsData 
     {
         private KgsConnection kgsConnection;
         public List<KgsChallenge> OpenChallenges { get; } = new List<KgsChallenge>();
         public Dictionary<int, KgsRoom> Rooms { get; } = new Dictionary<int, KgsRoom>();
-        public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
         public Dictionary<string, KgsGlobalGamesList> GlobalGameLists = new Dictionary<string, KgsGlobalGamesList>();
         private readonly Dictionary<int, KgsGame> joinedGames = new Dictionary<int, KgsGame>();
         public Dictionary<int, KgsGameContainer> Containers = new Dictionary<int, KgsGameContainer>();
         private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
-        public AutomatchPrefs AutomatchPreferences = null;
+
         public KgsData(KgsConnection kgsConnection)
         {
             this.kgsConnection = kgsConnection;
         }
 
+        /// <summary>
+        /// Gets a map associating channel IDs to their canonical channel data.
+        /// </summary>
+        public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
+        
+        public ObservableCollection<KgsGameContainer> GameContainers { get; } = new ObservableCollection<KgsGameContainer>();
+
+        // ------------------------- METHODS AND EVENTS  ----------------------------
+
+        public delegate void KgsDataUpdate<in T>(T concernedItem);
+
+        public event KgsDataUpdate<KgsChannel> ChannelJoined;
+        public event KgsDataUpdate<KgsChannel> ChannelUnjoined;
+
+        /// <summary>
+        /// Unjoins the specified channel. If it wasn't joined, the events trigger anyway.
+        /// </summary>
+        /// <param name="channelId">Its ID.</param>
+        public void UnjoinChannel(int channelId)
+        {
+            if (!Channels.ContainsKey(channelId))
+            {
+                return;
+            }
+            KgsChannel channel = Channels[channelId];
+            channel.Joined = false;
+            ChannelUnjoined?.Invoke(channel);
+
+            // Old:
+            JoinedChannels.Remove(channelId);
+            kgsConnection.Events.RaiseUnjoin(channel);
+        }
+
+
+        /// <summary>
+        /// Joins the specified channel. If it was already joined, events trigger anyway.
+        /// This only affects <see cref="Channels"/>.
+        /// </summary>
+        /// <param name="channel">The channel.</param>
+        private void JoinChannel(KgsChannel channel)
+        {
+            if (!Channels.ContainsKey(channel.ChannelId))
+            {
+                Channels.Add(channel.ChannelId, channel);
+            }
+            channel.Joined = true;
+            ChannelJoined?.Invoke(channel);
+        }
+
+        /// <summary>
+        /// Joins the specified global games list.
+        /// </summary>
+        /// <param name="channelId">The global games list channel ID.</param>
+        /// <param name="containerType">Type of the container.</param>
+        public void JoinGlobalChannel(int channelId, string containerType)
+        {
+            var globalGamesList = new KgsGlobalGamesList(channelId, containerType);
+            JoinChannel(globalGamesList);
+            GameContainers.Add(globalGamesList);
+
+            // Old:
+            GlobalGameLists.Add(containerType, globalGamesList);
+            Containers[channelId] = globalGamesList;
+        }
+
+
+
+        // ------------------------- BEFORE OVERHAUL ----------------------------
+
+
+        internal IEnumerable<KgsGame> Games
+        {
+            get
+            {
+                foreach (var game in joinedGames.Values)
+                {
+                    yield return game;
+                }
+            }
+        }
         private void EnsureRoomExists(int channel)
         {
             if (!Rooms.ContainsKey(channel))
@@ -75,14 +154,6 @@ namespace OmegaGo.Core.Online.Kgs
             }
             JoinChannel(channelId);
         }
-        public void JoinGlobalChannel(int channelId, string containerType)
-        {
-            var nth = new KgsGlobalGamesList(channelId, containerType);
-            GlobalGameLists.Add(containerType, nth);
-            Containers[channelId] = nth;
-            Channels[channelId] = nth;
-            JoinChannel(channelId);
-        }
         public void AddUserToChannel(int channelId, User user)
         {
             EnsureUserExists(user);
@@ -101,12 +172,6 @@ namespace OmegaGo.Core.Online.Kgs
         {
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
-        public void UnjoinChannel(int channelId)
-        {
-            Channels[channelId].Joined = false;
-            kgsConnection.Events.RaiseUnjoin(Channels[channelId]);
-            JoinedChannels.Remove(channelId);
-        }
         public void JoinGame(KgsGame ongame)
         {
             Channels[ongame.Info.ChannelId] = new KgsGameChannel(ongame.Info.ChannelId);
@@ -121,17 +186,6 @@ namespace OmegaGo.Core.Online.Kgs
         public bool IsJoined(int channelId)
         {
             return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
-        }
-
-        internal IEnumerable<KgsGame> Games
-        {
-            get
-            {
-                foreach(var game in joinedGames.Values)
-                {
-                    yield return game;
-                }
-            }
         }
     }
 }

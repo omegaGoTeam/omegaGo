@@ -28,6 +28,21 @@
         /// Gets information on which of the three global lists this is.
         /// </summary>
         public GlobalGamesListKind Kind { get; }
+
+        public override string ToString()
+        {
+            switch (Kind)
+            {
+                case GlobalGamesListKind.ActiveGames:
+                    return "All observable games";
+                case GlobalGamesListKind.Challenges:
+                    return "All open challenges";
+                case GlobalGamesListKind.Favourites:
+                    return "Favourite games";
+                default:
+                    return base.ToString();
+            }
+        }
     }
 
     public enum GlobalGamesListKind

@@ -1,5 +1,6 @@
 ﻿using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
@@ -12,7 +13,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             connection.Data.JoinGlobalChannel(ChannelId, ContainerType);
             foreach (var channel in Games)
             {
-                connection.Data.Containers[ChannelId].AddChannel(channel, connection);
+                (connection.Data.Channels[ChannelId] as KgsGameContainer).AddChannel(channel, connection);
             }
         }
     }
