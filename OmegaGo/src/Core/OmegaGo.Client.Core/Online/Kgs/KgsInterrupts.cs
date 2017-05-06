@@ -115,6 +115,9 @@ namespace OmegaGo.Core.Online.Kgs
                 case "GAME_TIME_EXPIRED":
                     HandleInterruptMessage<GameTimeExpired>(message);
                     return true;
+                case "CHALLENGE_DECLINE":
+                    HandleInterruptMessage<ChallengeDecline>(message);
+                    return true;
                 case "CHANNEL_ALREADY_JOINED":
                 case "PRIVATE_KEEP_OUT":
                 case "CHALLENGE_NOT_CREATED":

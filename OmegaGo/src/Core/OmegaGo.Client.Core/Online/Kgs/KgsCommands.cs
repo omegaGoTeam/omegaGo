@@ -241,6 +241,14 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        public async Task GenericUnjoinAsync(int channelId)
+        {
+            await kgsConnection.MakeUnattendedRequestAsync("UNJOIN_REQUEST", new
+            {
+                ChannelId = channelId
+            });
+        }
+
         public async Task AcceptChallenge(KgsChallenge challenge)
         {
            var newProposal = SubmitOurselvesIntoProposal(challenge);

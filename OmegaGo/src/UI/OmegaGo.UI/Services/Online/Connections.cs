@@ -138,11 +138,12 @@ namespace OmegaGo.UI.Services.Online
             _kgsConnection = new KgsConnection();
             _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
             _kgsConnection.Events.GameJoined += Kgs_GameJoined;
-            _kgsConnection.Events.NotificationErrorMessage += Connections.KgsNotificationErrorMessage;
+            _kgsConnection.Events.NotificationErrorMessage += KgsNotificationErrorMessage;
             _kgsConnection.Events.ChallengeJoined += Kgs_ChallengeJoined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _kgsConnection.Commands.WakeUpAsync(); });
         }
+        
 
         private static void Kgs_ChallengeJoined(object sender, Core.Online.Kgs.Structures.KgsChallenge e)
         {
