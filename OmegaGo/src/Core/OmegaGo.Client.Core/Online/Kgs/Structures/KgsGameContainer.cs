@@ -4,17 +4,53 @@ using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
+    /// <summary>
+    /// Base class for game channels that can contain other game channels.
+    /// Those may either be a room (<see cref="KgsRoom"/>) or a global list (<see cref="KgsGlobalGamesList"/>).
+    /// These can be browsed for challenges and games that may be then be joined.  
+    /// Only those games and challenges that omegaGo understands are loaded.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Structures.KgsChannel" />
     public abstract class KgsGameContainer : KgsChannel
     {
+        /// <summary>
+        /// Gets or sets the name of the room or global list.
+        /// </summary>
         public string Name { get; set; }
         private readonly List<KgsTrueGameChannel> Games = new List<KgsTrueGameChannel>();
         private readonly List<KgsChallenge> Challenges = new List<KgsChallenge>();
 
-        public void AddGame(GameChannel channel, KgsConnection connection)
+
+        /// <summary>
+        /// Gets all non-challenge games in this container.
+        /// </summary>
+        public IEnumerable<KgsTrueGameChannel> GetGames()
+        {
+            return Games;
+        }
+
+        /// <summary>
+        /// Gets all challenges in this container.
+        /// </summary>
+        public IEnumerable<KgsChallenge> GetChallenges()
+        {
+            return Challenges;
+        }
+
+        /// <summary>
+        /// Gets all channels (games and challenges) in this container.
+        /// </summary>
+        public IEnumerable<KgsGameChannel> GetAllChannels()
+        {
+            return Games.Concat<KgsGameChannel>(Challenges);
+        }
+
+        // TODO KGS OVERHAUL THIS
+        public void AddChannel(GameChannel channel, KgsConnection connection)
         {
             var kinfo = KgsGameInfo.FromChannel(channel, connection);
             if (kinfo != null)
-            { 
+            {
                 Games.Add(new KgsTrueGameChannel(channel, connection));
                 return;
             }
@@ -30,23 +66,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             Games.RemoveAll(kgi => kgi.ChannelId == gameId);
             Challenges.RemoveAll(kgi => kgi.ChannelId == gameId);
         }
-        public override string ToString()
-        {
-            return (Joined ? "[JOINED] " : "") + "[" + ChannelId + "] " + Name;
-        }
 
-        public IEnumerable<KgsTrueGameChannel> GetGames()
-        {
-            return Games;
-        }
-        public IEnumerable<KgsChallenge> GetChallenges()
-        {
-            return Challenges;
-        }
-        public IEnumerable<KgsGameChannel> GetAllChannels()
-        {
-            return Games.Concat<KgsGameChannel>(Challenges);
-        }
         public void UpdateGames(GameChannel[] games, KgsConnection connection)
         {
             foreach (var g in games)
@@ -60,10 +80,13 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                     Games.Remove(equiv);
                 }
                 // TODO Petr : update instead of replace
-                AddGame(g, connection);
+                AddChannel(g, connection);
             }
         }
 
-       
+        public override string ToString()
+        {
+            return (Joined ? "[JOINED] " : "") + "[" + ChannelId + "] " + Name;
+        }
     }
 }

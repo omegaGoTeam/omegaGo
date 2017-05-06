@@ -57,9 +57,7 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 Channels[channelId].Joined = true;
                 JoinedChannels.Add(channelId);
-            } else
-            {
-            }
+            } 
         }
         public void JoinRoom(int channelId)
         {

@@ -4,6 +4,10 @@ using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
+    /// <summary>
+    /// Represents a KGS game channel of which we are certain that it's a challenge, not an actual game of Go.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Structures.KgsGameChannel" />
     public class KgsChallenge : KgsGameChannel
     {
 

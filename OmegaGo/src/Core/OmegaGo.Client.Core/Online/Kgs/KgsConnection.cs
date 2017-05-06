@@ -44,7 +44,7 @@ namespace OmegaGo.Core.Online.Kgs
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
+        private readonly List<KgsRequest> requestsAwaitingResponse = new List<KgsRequest>();
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -312,6 +312,12 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        /// <summary>
+        /// Cancels all ongoing games and informs the UI that we're disconnected. Sets the <see cref="LoggedIn"/> flag.
+        /// This does not send any information to the server and should only be called in response to a connection issue
+        /// or when the server logs us out. 
+        /// </summary>
+        /// <param name="reason">The reason.</param>
         internal void LogoutAndDisconnect(string reason)
         {
 
@@ -342,11 +348,7 @@ namespace OmegaGo.Core.Online.Kgs
             return Type;
         }
     }
-
-    internal class ConcurrentList<T> : List<T>
-    {
-    }
-
+    
     internal class KgsRequest
     {
         public HashSet<string> PossibleResponseTypes;

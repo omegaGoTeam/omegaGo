@@ -8,7 +8,7 @@ using OmegaGo.Core.Online.Kgs.Datatypes;
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
     /// <summary>
-    /// Represents a game channel of which we are certain that it is a game of Go, not a challenge or some special kind of game.
+    /// Represents a game channel of which we are certain that it is a game of Go, not a challenge.
     /// </summary>
     public class KgsTrueGameChannel : KgsGameChannel
     {
