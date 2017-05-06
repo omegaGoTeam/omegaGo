@@ -99,7 +99,6 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 var existingGame = AllChannelsCollection.FirstOrDefault(kgc => kgc.ChannelId == g.ChannelId);
                 if (existingGame != null)
                 {
-                    // TODO PEtr
                     existingGame.UpdateFrom(g);
                 }
                 else
