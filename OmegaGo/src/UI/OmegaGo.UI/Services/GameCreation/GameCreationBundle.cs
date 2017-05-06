@@ -76,6 +76,12 @@ namespace OmegaGo.UI.Services.GameCreation
         public bool YouVersusOnlineVisible => !BlackAndWhiteVisible;
 
         /// <summary>
+        /// Gets a value indicating whether the row with your opponent's name should be displayed in the form.
+        /// </summary>
+        public bool ShowYourOpponent => YouVersusOnlineVisible &&
+                                        this.Style != GameCreationFormStyle.KgsChallengeCreation;
+
+        /// <summary>
         /// Gets a value indicating whether the user may decline their opponent without aborting the form. Used by KGS.
         /// </summary>
         public abstract bool CanDeclineSingleOpponent { get; }

@@ -22,7 +22,7 @@
 
         <TextBlock x:Name="headerText" 
                    Grid.Row="0"
-                   Text="Analyze Tools" TextAlignment="Center" 
+                   Text="{x:Bind Localizer.AnalyzeMode}" TextAlignment="Center" 
                    Style="{ThemeResource TitleTextBlockStyle}"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal"
@@ -89,7 +89,7 @@
 
         <StackPanel Grid.Row="4" Margin="0,5,0,0" Orientation="Horizontal"
                     HorizontalAlignment="Center">
-            <Button Content="Back to game" Command="{x:Bind ViewModel.BackToGameCommand}" />
+            <Button Content="{x:Bind Localizer.BackToGame}" Command="{x:Bind ViewModel.BackToGameCommand}" />
             <Button Content="Pass" Command="{x:Bind ViewModel.PassCommand}"
                     Margin="5,0,0,0" />
         </StackPanel>
@@ -97,7 +97,7 @@
         <TextBox x:Name="nodeCommentaryText"
                  Grid.Row="5" MaxHeight="120" 
                  AcceptsReturn="True" TextWrapping="Wrap"
-                 Header="Commentary"
+                 Header="{x:Bind Localizer.Commentary}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  Text="{Binding ElementName=layoutRoot, 
                                 Path=ViewModel.NodeCommentary, 

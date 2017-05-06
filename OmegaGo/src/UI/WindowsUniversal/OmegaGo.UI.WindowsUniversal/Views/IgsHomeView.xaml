@@ -28,7 +28,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}"></navigation:TitleControl>
-            <Pivot Grid.Row="1">
+            <Pivot Name="IgsPivotControl" Grid.Row="1">
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -112,7 +112,7 @@
                                 Command="{Binding ChallengeSelectedPlayer}"/>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Console" Visibility="{x:Bind VM.ConsoleVisible}">
+                <PivotItem Header="Console" Name="ConsolePivotItem">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
