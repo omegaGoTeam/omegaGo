@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +19,8 @@ namespace OmegaGo.Core.Online.Kgs
     {
         private KgsConnection kgsConnection;
         public List<KgsChallenge> OpenChallenges { get; } = new List<KgsChallenge>();
-        public Dictionary<int, KgsRoom> Rooms { get; } = new Dictionary<int, KgsRoom>();
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
-        public Dictionary<string, KgsGlobalGamesList> GlobalGameLists = new Dictionary<string, KgsGlobalGamesList>();
         private readonly Dictionary<int, KgsGame> joinedGames = new Dictionary<int, KgsGame>();
-        public Dictionary<int, KgsGameContainer> Containers = new Dictionary<int, KgsGameContainer>();
         private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
 
         public KgsData(KgsConnection kgsConnection)
@@ -33,8 +31,9 @@ namespace OmegaGo.Core.Online.Kgs
         /// <summary>
         /// Gets a map associating channel IDs to their canonical channel data.
         /// </summary>
-        public Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
+        private Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
 
+        private Dictionary<int, KgsGameContainer> _containerMap = new Dictionary<int, KgsGameContainer>();
         /// <summary>
         /// Gets those game containers that we have joined, i.e. we can see the games inside.
         /// </summary>
@@ -52,6 +51,48 @@ namespace OmegaGo.Core.Online.Kgs
         public event KgsDataUpdate<KgsChannel> ChannelJoined;
         public event KgsDataUpdate<KgsChannel> ChannelUnjoined;
         public event Action SomethingChanged;
+
+        /// <summary>
+        /// Gets the channel with the specified channel ID, if it exists and if it has the appropriate type.
+        /// Otherwise, it returns null, but that means there is an error
+        /// somewhere in our code or the protocol.
+        /// </summary>
+        /// <param name="channelId">The channel identifier of a channel of a particular kind.</param>
+        /// <returns></returns>
+        public T GetChannel<T>(int channelId) where T : KgsChannel
+        {
+            if (Channels.ContainsKey(channelId))
+            {
+                T t = Channels[channelId] as T;
+                if (t == null)
+                {
+                    Debug.WriteLine("This isn't supposed to happen - bad cast.");
+                }
+                return t;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Gets the channel with the specified ID, if it exists. Otherwise, it returns null, but that means there is an error
+        /// somewhere in our code or the protocol.
+        /// </summary>
+        /// <param name="channelId">The channel identifier of the channel to get.</param>
+        /// <returns></returns>
+        public KgsChannel GetChannel(int channelId)
+        {
+            if (Channels.ContainsKey(channelId))
+            {
+                return Channels[channelId];
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Unjoins the specified channel. If it wasn't joined, the events trigger anyway.
@@ -105,10 +146,6 @@ namespace OmegaGo.Core.Online.Kgs
             var globalGamesList = new KgsGlobalGamesList(channelId, containerType);
             JoinChannel(globalGamesList);
             GameContainers.Add(globalGamesList);
-
-            // Old:
-            GlobalGameLists.Add(containerType, globalGamesList);
-            Containers[channelId] = globalGamesList;
         }
 
         /// <summary>
@@ -125,10 +162,6 @@ namespace OmegaGo.Core.Online.Kgs
                 var room = new KgsRoom(channelId);
                 Channels[channelId] = room;
                 AllRooms.Add(room);
-
-                // Old:
-                Rooms[channelId] = room;
-                Containers[channelId] = room;
             }
             return Channels[channelId] as KgsRoom;
         }
@@ -233,5 +266,6 @@ namespace OmegaGo.Core.Online.Kgs
         {
             return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
         }
+
     }
 }
