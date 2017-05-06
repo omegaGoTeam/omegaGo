@@ -138,7 +138,7 @@ namespace OmegaGo.UI.Services.Online
             _kgsConnection = new KgsConnection();
             _kgsConnection.Events.PersonalInformationUpdate += KgsUserUpdate;
             _kgsConnection.Events.GameJoined += Kgs_GameJoined;
-            _kgsConnection.Events.NotificationMessage += Kgs_NotificationMessage;
+            _kgsConnection.Events.NotificationErrorMessage += Connections.KgsNotificationErrorMessage;
             _kgsConnection.Events.ChallengeJoined += Kgs_ChallengeJoined;
             Mvx.Resolve<ITimerService>()
                 .StartTimer(TimeSpan.FromSeconds(10), async () => { await _kgsConnection.Commands.WakeUpAsync(); });
@@ -150,10 +150,10 @@ namespace OmegaGo.UI.Services.Online
             CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
         }
 
-        private static void Kgs_NotificationMessage(object sender, string e)
+        private static void KgsNotificationErrorMessage(object sender, string e)
         {
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new BubbleNotification(e, "KGS Technical Message", NotificationType.Info));
+                .TriggerNotification(new BubbleNotification(e, "KGS Technical Message", NotificationType.Alert));
         }
 
         private static void Kgs_GameJoined(object sender, KgsGame e)
