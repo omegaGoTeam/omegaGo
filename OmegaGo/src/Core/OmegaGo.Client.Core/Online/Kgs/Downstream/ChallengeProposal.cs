@@ -14,7 +14,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// </summary>
     class ChallengeProposal : KgsInterruptChannelMessage
     {
-        public Proposal Proposal { get; }
+        public Proposal Proposal { get; set;  }
         public override void Process(KgsConnection connection)
         {
             var challenge = connection.Data.GetChannel<KgsChallenge>(this.ChannelId);
