@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
@@ -138,6 +139,5 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             return ChannelId + " (" + GameType + ", in " + RoomId + ")";
         }
-
     }
 }

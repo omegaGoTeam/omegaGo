@@ -83,7 +83,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     }
                     ongame.Info.NumberOfHandicapStones = rules.Handicap;
                     ongame.Info.Komi = rules.Komi;
-                    ongame.Info.RulesetType = KgsGameInfo.ConvertRuleset(rules.Rules);
+                    ongame.Info.RulesetType = KgsHelpers.ConvertRuleset(rules.Rules);
                     // TODO (Petr) ensure that even written late, these values are respected
                     break;
                 case "PLAYERNAME":

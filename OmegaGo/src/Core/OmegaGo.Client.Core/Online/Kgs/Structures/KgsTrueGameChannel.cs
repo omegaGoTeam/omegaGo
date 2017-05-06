@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement;
 using OmegaGo.Core.Online.Kgs.Datatypes;
+using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
@@ -12,13 +15,11 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     /// </summary>
     public class KgsTrueGameChannel : KgsGameChannel
     {
-        private readonly GameChannel _channel;
         private KgsGameInfo _gameInfo;
 
-        public KgsTrueGameChannel(GameChannel channel, KgsConnection connection) : base(channel.ChannelId)
+        private KgsTrueGameChannel(GameChannel channel, KgsGameInfo gameInfo) : base(channel.ChannelId)
         {
-            this._channel = channel;
-            this._gameInfo = KgsGameInfo.FromChannel(channel, connection);
+            this._gameInfo = gameInfo;
         }
 
         public KgsGameInfo GameInfo => _gameInfo;
@@ -26,6 +27,45 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public override string ToString()
         {
             return _gameInfo.ToString();
+        }
+
+        public override void UpdateFrom(GameChannel gameChannel)
+        {
+            _gameInfo = CreateGameInfo(gameChannel);
+        }
+
+        public static KgsTrueGameChannel FromChannel(GameChannel channel)
+        {
+            var gameInfo = CreateGameInfo(channel);
+            if (gameInfo != null)
+            {
+                return new KgsTrueGameChannel(channel, gameInfo);
+            }
+            return null;
+        }
+
+        private static KgsGameInfo CreateGameInfo(GameChannel channel)
+        {
+            if (channel.GameType != GameType.Free &&
+                channel.GameType != GameType.Ranked) return null;
+            
+            var whiteInfo = new PlayerInfo(StoneColor.White, channel.Players["white"].Name,
+                channel.Players["white"].Rank ?? "??");
+            var blackInfo = new PlayerInfo(StoneColor.Black, channel.Players["black"].Name,
+                channel.Players["black"].Rank ?? "??");
+            string ruleset = channel.Rules ?? RulesDescription.RulesJapanese;
+            if (!KgsHelpers.IsSupportedRuleset(ruleset)) return null;
+            var kgi = new KgsGameInfo(
+                whiteInfo,
+                blackInfo,
+                new GameBoardSize(channel.Size),
+                KgsHelpers.ConvertRuleset(ruleset),
+                channel.Handicap,
+                HandicapPlacementType.Free,
+                channel.Komi,
+                CountingType.Area,
+                channel.ChannelId);
+            return kgi;
         }
     }
 }

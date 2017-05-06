@@ -33,7 +33,6 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         private Dictionary<int, KgsChannel> Channels { get; } = new Dictionary<int, KgsChannel>();
 
-        private Dictionary<int, KgsGameContainer> _containerMap = new Dictionary<int, KgsGameContainer>();
         /// <summary>
         /// Gets those game containers that we have joined, i.e. we can see the games inside.
         /// </summary>
@@ -115,7 +114,6 @@ namespace OmegaGo.Core.Online.Kgs
             SomethingChanged?.Invoke();
 
             // Old:
-            JoinedChannels.Remove(channelId);
             kgsConnection.Events.RaiseUnjoin(channel);
         }
 
@@ -134,6 +132,14 @@ namespace OmegaGo.Core.Online.Kgs
             channel.Joined = true;
             ChannelJoined?.Invoke(channel);
             SomethingChanged?.Invoke();
+        }
+
+        public void EnsureChannelExists(KgsChannel channel)
+        {
+            if (!Channels.ContainsKey(channel.ChannelId))
+            {
+                Channels.Add(channel.ChannelId, channel);
+            }
         }
 
         /// <summary>
@@ -198,6 +204,35 @@ namespace OmegaGo.Core.Online.Kgs
             room.Name = name;
         }
 
+        /// <summary>
+        /// Gets the running game associated with a channel ID. If we haven't opened that game yet, this returns null.
+        /// </summary>
+        /// <param name="channelId">The channel identifier of the game.</param>
+        public KgsGame GetGame(int channelId)
+        {
+            return joinedGames.ContainsKey(channelId) ? joinedGames[channelId] : null;
+        }
+
+        /// <summary>
+        /// Determines whether the logged-in used is joined in the channel with the specified ID.
+        /// </summary>
+        /// <param name="channelId">The channel identifier.</param>
+        public bool IsJoined(int channelId)
+        {
+            return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
+        }
+
+        /// <summary>
+        /// Joins the game channel and opens the given game so it can be referenced by other messages.
+        /// </summary>
+        /// <param name="ongame">The KGS game that will be referenced later.</param>
+        /// <param name="kgsTrueGameChannel">The game channel that we are joining.</param>
+        public void JoinGame(KgsGame ongame, KgsTrueGameChannel kgsTrueGameChannel)
+        {
+            joinedGames[ongame.Info.ChannelId] = ongame;
+            JoinChannel(kgsTrueGameChannel);
+        }
+
 
         // ------------------------- BEFORE OVERHAUL ----------------------------
 
@@ -218,11 +253,11 @@ namespace OmegaGo.Core.Online.Kgs
             if (Channels.ContainsKey(channelId))
             {
                 Channels[channelId].Joined = true;
-                JoinedChannels.Add(channelId);
             } 
         }
         public void JoinChallenge(int channelId)
         {
+            // TODO PETR OVERHAUL
             if (!Channels.ContainsKey(channelId))
             {
                 Channels.Add(channelId, new KgsChannel()
@@ -250,22 +285,5 @@ namespace OmegaGo.Core.Online.Kgs
         {
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
-        public void JoinGame(KgsGame ongame)
-        {
-            Channels[ongame.Info.ChannelId] = new KgsGameChannel(ongame.Info.ChannelId);
-            Channels[ongame.Info.ChannelId].Joined = true;
-            JoinedChannels.Add(ongame.Info.ChannelId);
-            joinedGames.Add(ongame.Info.ChannelId, ongame);
-        }
-        public KgsGame GetGame(int channelId)
-        {
-            // TODO Petr KGS OVERHAUL
-            return joinedGames.ContainsKey(channelId) ? joinedGames[channelId] : null;
-        }
-        public bool IsJoined(int channelId)
-        {
-            return Channels.ContainsKey(channelId) && Channels[channelId].Joined;
-        }
-
     }
 }

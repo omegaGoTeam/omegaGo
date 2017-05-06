@@ -37,12 +37,18 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
             return challenge;
         }
+        public override void UpdateFrom(GameChannel gameChannel)
+        {
+            Proposal = gameChannel.InitialProposal;
+        }
 
         public override string ToString()
         {
 
             return Proposal.Players[0].User.Name + " proposes " + Proposal.Rules.ToShortDescription();
         }
+
+     
 
         public void RaiseStatusChanged()
         {

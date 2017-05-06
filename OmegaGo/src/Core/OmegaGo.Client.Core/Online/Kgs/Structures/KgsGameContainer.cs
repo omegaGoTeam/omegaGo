@@ -58,20 +58,24 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
             return Games.Concat<KgsGameChannel>(Challenges);
         }
-
-        // TODO KGS OVERHAUL THIS
+        
         public void AddChannel(GameChannel channel, KgsConnection connection)
         {
-            var kinfo = KgsGameInfo.FromChannel(channel, connection);
-            if (kinfo != null)
+            var kChallenge = KgsChallenge.FromChannel(channel, connection);
+            if (kChallenge != null)
             {
-                Games.Add(new KgsTrueGameChannel(channel, connection));
+                connection.Data.EnsureChannelExists(kChallenge);
+                Challenges.Add(kChallenge);
+                AllChannelsCollection.Add(kChallenge);
                 return;
             }
-            var kchallenge = KgsChallenge.FromChannel(channel, connection);
-            if (kchallenge != null)
+            var kGame = KgsTrueGameChannel.FromChannel(channel);
+            if (kGame != null)
             {
-                Challenges.Add(kchallenge);
+                connection.Data.EnsureChannelExists(kGame);
+                Games.Add(kGame);
+                AllChannelsCollection.Add(kGame);
+                return;
             }
         }
 
@@ -92,16 +96,16 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
             foreach (var g in games)
             {
-                KgsTrueGameChannel equiv = Games.Find(kgs => kgs.ChannelId == g.ChannelId);
-                if (equiv == null)
+                var existingGame = AllChannelsCollection.FirstOrDefault(kgc => kgc.ChannelId == g.ChannelId);
+                if (existingGame != null)
                 {
+                    // TODO PEtr
+                    existingGame.UpdateFrom(g);
                 }
                 else
                 {
-                    Games.Remove(equiv);
+                    AddChannel(g, connection);
                 }
-                // TODO Petr : update instead of replace
-                AddChannel(g, connection);
             }
         }
 
