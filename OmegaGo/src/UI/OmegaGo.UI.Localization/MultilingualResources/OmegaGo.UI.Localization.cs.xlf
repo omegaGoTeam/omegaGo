@@ -1741,6 +1741,30 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Export SGF</source>
           <target state="translated">Exportovat SGF</target>
         </trans-unit>
+        <trans-unit id="BackToGame" translate="yes" xml:space="preserve">
+          <source>Back to game</source>
+          <target state="new">Back to game</target>
+        </trans-unit>
+        <trans-unit id="Commentary" translate="yes" xml:space="preserve">
+          <source>Commentary</source>
+          <target state="new">Commentary</target>
+        </trans-unit>
+        <trans-unit id="CreateChallenge" translate="yes" xml:space="preserve">
+          <source>Create challenge</source>
+          <target state="new">Create challenge</target>
+        </trans-unit>
+        <trans-unit id="NoOpponentYet" translate="yes" xml:space="preserve">
+          <source>[no opponent yet]</source>
+          <target state="new">[no opponent yet]</target>
+        </trans-unit>
+        <trans-unit id="Send" translate="yes" xml:space="preserve">
+          <source>Send</source>
+          <target state="new">Send</target>
+        </trans-unit>
+        <trans-unit id="YourOpponent" translate="yes" xml:space="preserve">
+          <source>Your opponent</source>
+          <target state="new">Your opponent</target>
+        </trans-unit>
       </group>
     </body>
   </file>

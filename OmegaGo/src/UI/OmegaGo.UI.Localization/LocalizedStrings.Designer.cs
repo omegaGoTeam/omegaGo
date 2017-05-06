@@ -411,6 +411,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back to game.
+        /// </summary>
+        public static string BackToGame {
+            get {
+                return ResourceManager.GetString("BackToGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Black.
         /// </summary>
         public static string Black {
@@ -609,6 +618,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Commentary.
+        /// </summary>
+        public static string Commentary {
+            get {
+                return ResourceManager.GetString("Commentary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure....
         /// </summary>
         public static string ConfigureEllipsis {
@@ -659,6 +677,15 @@ namespace OmegaGo.UI.Localization {
         public static string ControlStyleChangeInfo {
             get {
                 return ResourceManager.GetString("ControlStyleChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create challenge.
+        /// </summary>
+        public static string CreateChallenge {
+            get {
+                return ResourceManager.GetString("CreateChallenge", resourceCulture);
             }
         }
         
@@ -1959,6 +1986,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [no opponent yet].
+        /// </summary>
+        public static string NoOpponentYet {
+            get {
+                return ResourceManager.GetString("NoOpponentYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [not logged in].
         /// </summary>
         public static string NotLoggedIn {
@@ -2495,6 +2531,15 @@ namespace OmegaGo.UI.Localization {
         public static string SelectedItemColon {
             get {
                 return ResourceManager.GetString("SelectedItemColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
             }
         }
         
@@ -3908,6 +3953,15 @@ namespace OmegaGo.UI.Localization {
         public static string YourMove {
             get {
                 return ResourceManager.GetString("YourMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your opponent.
+        /// </summary>
+        public static string YourOpponent {
+            get {
+                return ResourceManager.GetString("YourOpponent", resourceCulture);
             }
         }
     }

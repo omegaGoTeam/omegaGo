@@ -111,7 +111,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         protected void ClearOpponentName()
         {
-            _opponentName = "[no opponent yet]";
+            _opponentName = Localizer.NoOpponentYet;
         }
 
         protected void RefreshStatus()
@@ -142,10 +142,8 @@ namespace OmegaGo.UI.Services.GameCreation
         private void UpdateOpponentFromProposal(KgsPlayer[] players)
         {
             var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
-            _opponentName = opponent.GetNameAndRank() ?? "[no opponent yet]";
+            _opponentName = opponent.GetNameAndRank() ?? Localizer.NoOpponentYet;
         }
-
-        // TODO Petr: updating username
 
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {
