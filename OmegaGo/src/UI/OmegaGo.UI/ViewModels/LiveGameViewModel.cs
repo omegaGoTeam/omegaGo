@@ -85,6 +85,7 @@ namespace OmegaGo.UI.ViewModels
             TimelineViewModel.TimelineSelectionChanged += (s, e) => 
             {
                 ToolServices.Node = e;
+                BoardViewModel.BoardControlState.ShowTerritory = e.Equals(Game.Controller.GameTree.LastNode);
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
@@ -139,8 +140,8 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                    Game.Controller.GameTree.PrimaryTimeline.Skip(value).FirstOrDefault();
+                GameTreeNode whatIsShowing = Game.Controller.GameTree.PrimaryTimeline.Skip(value).FirstOrDefault();
+                BoardViewModel.BoardControlState.ShowTerritory = _selectedMoveIndex == _maximumMoveIndex ? true : false;
                 RefreshBoard(whatIsShowing);
             }
         }
