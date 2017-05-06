@@ -10,7 +10,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ItemsPanelTemplate x:Key="GridPanel">
-            <WrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal" />
+            <ItemsWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal" />
         </ItemsPanelTemplate>
         <ItemsPanelTemplate x:Key="ListPanel">
             <VirtualizingStackPanel HorizontalAlignment="Stretch" />
