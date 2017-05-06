@@ -257,8 +257,7 @@
         </trans-unit>
         <trans-unit id="BackgroundColor" translate="yes" xml:space="preserve">
           <source>Background color</source>
-          <target state="needs-review-translation">Barva pozadí</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Barva pozadí</target>
         </trans-unit>
         <trans-unit id="BackgroundColor_Basic" translate="yes" xml:space="preserve">
           <source>Basic orange</source>
@@ -274,8 +273,7 @@
         </trans-unit>
         <trans-unit id="BackgroundImage" translate="yes" xml:space="preserve">
           <source>Background image</source>
-          <target state="needs-review-translation">Obrázek na pozadí</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Obrázek na pozadí</target>
         </trans-unit>
         <trans-unit id="BackgroundImage_Forest" translate="yes" xml:space="preserve">
           <source>Bamboo forest</source>
@@ -319,8 +317,7 @@
         </trans-unit>
         <trans-unit id="StonesTheme" translate="yes" xml:space="preserve">
           <source>Stones theme</source>
-          <target state="needs-review-translation">Motiv kamenů</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Motiv kamenů</target>
         </trans-unit>
         <trans-unit id="StoneTheme_PolishedBitmap" translate="yes" xml:space="preserve">
           <source>Polished stones</source>
@@ -732,8 +729,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
           <source>Pandanet rank</source>
-          <target state="needs-review-translation">Třída na IGS</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Třída na IGS</target>
         </trans-unit>
         <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
           <source>KGS rank</source>
@@ -741,8 +737,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="ControlStyle_OperatingSystem" translate="yes" xml:space="preserve">
           <source>Operating system</source>
-          <target state="needs-review-translation">Operační systém</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Operační systém</target>
         </trans-unit>
         <trans-unit id="ControlStyle_Wood" translate="yes" xml:space="preserve">
           <source>Wood</source>
@@ -750,8 +745,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
         </trans-unit>
         <trans-unit id="ControlStyle" translate="yes" xml:space="preserve">
           <source>Control style</source>
-          <target state="needs-review-translation">Styl ovládacích prvků</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Styl ovládacích prvků</target>
         </trans-unit>
         <trans-unit id="ControlStyle_Lite" translate="yes" xml:space="preserve">
           <source>Lite</source>
@@ -1743,27 +1737,27 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="BackToGame" translate="yes" xml:space="preserve">
           <source>Back to game</source>
-          <target state="new">Back to game</target>
+          <target state="translated">Zpět ke hře</target>
         </trans-unit>
         <trans-unit id="Commentary" translate="yes" xml:space="preserve">
           <source>Commentary</source>
-          <target state="new">Commentary</target>
+          <target state="translated">Komentář</target>
         </trans-unit>
         <trans-unit id="CreateChallenge" translate="yes" xml:space="preserve">
           <source>Create challenge</source>
-          <target state="new">Create challenge</target>
+          <target state="translated">Vytvořit výzvu</target>
         </trans-unit>
         <trans-unit id="NoOpponentYet" translate="yes" xml:space="preserve">
           <source>[no opponent yet]</source>
-          <target state="new">[no opponent yet]</target>
+          <target state="translated">[zatím žádný]</target>
         </trans-unit>
         <trans-unit id="Send" translate="yes" xml:space="preserve">
           <source>Send</source>
-          <target state="new">Send</target>
+          <target state="translated">Poslat</target>
         </trans-unit>
         <trans-unit id="YourOpponent" translate="yes" xml:space="preserve">
           <source>Your opponent</source>
-          <target state="new">Your opponent</target>
+          <target state="translated">Tvůj soupeř</target>
         </trans-unit>
       </group>
     </body>
