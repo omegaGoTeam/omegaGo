@@ -160,9 +160,6 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Opening="BottomCommandBar_OnOpening"  Closing="BottomCommandBar_OnClosing" Grid.Row="2">
-            <CommandBar.Background>
-                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
-            </CommandBar.Background>
             <CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
                     <AppBarButton x:Name="LanguageMenuButton" IsCompact="True" Label="{x:Bind Localizer.Language}">

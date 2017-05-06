@@ -10,8 +10,13 @@ namespace OmegaGo.UI.UserControls.ViewModels
 {
     public abstract class LoginFormViewModel : ControlViewModelBase
     {
+
+        
         protected readonly IGameSettings Settings;
         protected Localizer Localizer { get; }
+
+        private bool _loginErrorMessageVisible = false;
+
 
         protected LoginFormViewModel(IGameSettings settings, Localizer localizer)
         {
@@ -37,12 +42,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public string FormCaption => Localizer.LoginFormCaption;
         public abstract string UsernameCaption { get; }
         public string PasswordCaption => Localizer.PasswordCaption;
-
-        private double _loginErrorMessageOpacity = 0;
-        public double LoginErrorMessageOpacity
+        
+        public bool LoginErrorMessageVisible
         {
-            get { return _loginErrorMessageOpacity; }
-            set { SetProperty(ref _loginErrorMessageOpacity, value); }
+            get { return _loginErrorMessageVisible; }
+            set { SetProperty(ref _loginErrorMessageVisible, value); }
         }
 
         public string LogInButtonCaption => Localizer.LoginButtonCaption;

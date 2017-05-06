@@ -40,11 +40,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
         }
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            VM.Logout();
-        }
-
         private void SortUsersByName(object sender, RoutedEventArgs e)
         {
             VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
@@ -118,6 +113,16 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 log = log.Substring(log.Length - 80*100);
             }
             this.IgsConsole.Text = log;
+        }
+
+        public void Blur()
+        {
+            BlurBehavior.Value = 3;
+        }
+
+        public void Unblur()
+        {
+            BlurBehavior.Value = 0;
         }
     }
 }

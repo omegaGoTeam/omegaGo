@@ -6,6 +6,14 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
     </Style>
 
+    <Style TargetType="CommandBar">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="CommandBar" x:Key="OpenDownCommandBar">
         <Setter Property="Background" Value="{ThemeResource CommandBarBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource CommandBarForeground}" />

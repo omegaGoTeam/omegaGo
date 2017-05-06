@@ -8,29 +8,35 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     mc:Ignorable="d"
     d:DesignHeight="800"
-    d:DesignWidth="320">
+    d:DesignWidth="600">
 
-    <Border Background="White" Margin="2" BorderBrush="Black" BorderThickness="2" Visibility="{x:Bind ViewModel.FormVisible, Mode=OneWay}">
-        <Grid>
-            <TextBlock FontSize="32" Margin="0,20,0,0" TextAlignment="Center" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName}"></TextBlock>
-
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <navigation:TitleControl HorizontalAlignment="Center" Text="{x:Bind ViewModel.FormCaption}"></navigation:TitleControl>
-                <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.UsernameCaption}">Pandanet username</TextBlock>
-                <TextBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Width="300" Text="{x:Bind ViewModel.UsernameText, Mode=TwoWay}"></TextBox>
-                <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.PasswordCaption}">Password</TextBlock>
-                <PasswordBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Width="300" Password="{x:Bind ViewModel.PasswordText, Mode=TwoWay}"></PasswordBox>
-                <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.RememberPassword, Mode=TwoWay}" Content="{x:Bind ViewModel.RememberPasswordCaption}"></CheckBox>
-                <CheckBox IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.LoginAtStartup, Mode=TwoWay}" Content="{x:Bind ViewModel.LoginAtStartupCaption}"></CheckBox>
-                <Button IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Click="LogIn_Click" HorizontalAlignment="Stretch" Content="{x:Bind ViewModel.LogInButtonCaption}"></Button>
-                <TextBlock Width="300" TextWrapping="Wrap" Opacity="{x:Bind ViewModel.LoginErrorMessageOpacity, Mode=OneWay}" Foreground="Blue" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}"></TextBlock>
-            </StackPanel>
-            <StackPanel Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <HyperlinkButton Click="HyperlinkButton_Click" Content="{x:Bind ViewModel.HyperlinkCaption}"></HyperlinkButton>
-                <TextBlock TextWrapping="Wrap" MaxWidth="400" Text="{x:Bind ViewModel.ServerInformation}"></TextBlock>
-            </StackPanel>
-            
-        </Grid>
+    <Border Visibility="{x:Bind ViewModel.FormVisible, Mode=OneWay}" Background="Transparent">
+        <Border Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColorBrush}" >
+            <ScrollViewer VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" HorizontalScrollMode="Disabled" Padding="20,0,20,0">
+                <Grid Margin="0,20,0,20" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock TextAlignment="Center" Margin="0,0,0,8" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" Typography.Capitals="AllSmallCaps" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName}" />
+                    <StackPanel HorizontalAlignment="Stretch" MaxWidth="300" VerticalAlignment="Center" Grid.Row="1">
+                        <navigation:TitleControl HorizontalAlignment="Center" Text="{x:Bind ViewModel.FormCaption}" />
+                        <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.UsernameCaption}" Style="{ThemeResource FormHeadingTextBlockStyle}" />
+                        <TextBox Style="{ThemeResource FormControlStyle}" IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" HorizontalAlignment="Stretch" Text="{x:Bind ViewModel.UsernameText, Mode=TwoWay}"></TextBox>
+                        <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.PasswordCaption}" Style="{ThemeResource FormHeadingTextBlockStyle}" />
+                        <PasswordBox Style="{ThemeResource FormControlStyle}" IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Password="{x:Bind ViewModel.PasswordText, Mode=TwoWay}"></PasswordBox>
+                        <CheckBox Style="{ThemeResource FormControlStyle}" IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.RememberPassword, Mode=TwoWay}" Content="{x:Bind ViewModel.RememberPasswordCaption}"></CheckBox>
+                        <CheckBox Style="{ThemeResource FormControlStyle}" IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" IsChecked="{x:Bind ViewModel.LoginAtStartup, Mode=TwoWay}" Content="{x:Bind ViewModel.LoginAtStartupCaption}"></CheckBox>
+                        <Button  Style="{ThemeResource FormControlStyle}"  IsEnabled="{x:Bind ViewModel.FormEnabled, Mode=OneWay}" Click="LogIn_Click" HorizontalAlignment="Stretch" Content="{x:Bind ViewModel.LogInButtonCaption}" />
+                        <TextBlock HorizontalAlignment="Stretch" Margin="0,8,0,0" TextAlignment="Center" TextWrapping="Wrap" Visibility="{x:Bind ViewModel.LoginErrorMessageVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{ThemeResource ErrorTextBlockStyle}" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Margin="0,8,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <HyperlinkButton Click="HyperlinkButton_Click" FontSize="16" HorizontalAlignment="Center" Content="{x:Bind ViewModel.HyperlinkCaption}" />
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="13" HorizontalAlignment="Center" Text="{x:Bind ViewModel.ServerInformation}" />
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </Border>
     </Border>
-
 </UserControl>

@@ -8,9 +8,14 @@
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:igs="using:OmegaGo.Core.Online.Igs"
+    xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     Loaded="IgsHomeLoaded"
     Unloaded="IgsHomeUnloaded"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="ParentView">
 
     <Page.Transitions>
         <TransitionCollection>
@@ -21,13 +26,29 @@
     </Page.Transitions>
 
     <Grid>
-        <Grid>
+
+
+        <Grid IsHitTestVisible="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior"
+                                Value="3"
+                                Duration="500"
+                                Delay="0"
+                                AutomaticallyStart="True"/>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay}" ComparisonCondition="Equal" Value="True">
+                    <core:CallMethodAction MethodName="Blur" TargetObject="{Binding ElementName=ParentView}" />
+                </core:DataTriggerBehavior>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay}" ComparisonCondition="Equal" Value="False">
+                    <core:CallMethodAction MethodName="Unblur" TargetObject="{Binding ElementName=ParentView}" />
+                </core:DataTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}"></navigation:TitleControl>
+            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}" />
             <Pivot Grid.Row="1">
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
@@ -141,9 +162,7 @@
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0" Text="{x:Bind Localizer.YouAreLoggedInAs}"></TextBlock>
-                    <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                    <Button Click="Logout_Click" Content="{x:Bind Localizer.Logout}"></Button>
+                   
                     <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                         <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
                         <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
@@ -152,8 +171,25 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+            <CommandBar Grid.Row="3">
+                <CommandBar.Content>
+                    <TextBlock VerticalAlignment="Center">
+                        <Run Text="{x:Bind Localizer.YouAreLoggedInAs}" />
+                        <Run FontWeight="SemiBold" Text="{Binding LoggedInUser, Mode=OneWay}" />
+                    </TextBlock>
+                </CommandBar.Content>
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Command="{x:Bind VM.LogoutCommand}" Label="{x:Bind Localizer.Logout}">
+                        <AppBarButton.Icon>
+                            <PathIcon Style="{StaticResource LogoutIcon}" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
         </Grid>
-        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
+
+        <!-- Login form -->
+        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" Visibility="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
     </Grid>
 </views:TransparencyViewBase>
 
