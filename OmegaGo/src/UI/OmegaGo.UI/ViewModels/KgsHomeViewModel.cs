@@ -144,10 +144,16 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedRoom, value);
-                this.JoinRoomCommand.RaiseCanExecuteChanged();
-                this.UnjoinRoomCommand.RaiseCanExecuteChanged();
-                this.CreateChallengeCommand.RaiseCanExecuteChanged();
+                MinorBindingsUpdate();
             }
+        }
+
+        private void MinorBindingsUpdate()
+        {
+            this.JoinRoomCommand.RaiseCanExecuteChanged();
+            this.UnjoinRoomCommand.RaiseCanExecuteChanged();
+            this.CreateChallengeCommand.RaiseCanExecuteChanged();
+            this.JoinSelectedGameChannelCommand.RaiseCanExecuteChanged();
         }
 
         public LoginFormViewModel LoginForm { get; }
@@ -166,6 +172,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
+            Connections.Kgs.Data.SomethingChanged += MinorBindingsUpdate;
 
             if (Connections.Kgs.LoggedIn)
             {
@@ -195,6 +202,7 @@ namespace OmegaGo.UI.ViewModels
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
+            Connections.Kgs.Data.SomethingChanged -= MinorBindingsUpdate;
             return base.CanCloseViewModelAsync();
         }
 

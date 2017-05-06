@@ -51,6 +51,7 @@ namespace OmegaGo.Core.Online.Kgs
 
         public event KgsDataUpdate<KgsChannel> ChannelJoined;
         public event KgsDataUpdate<KgsChannel> ChannelUnjoined;
+        public event Action SomethingChanged;
 
         /// <summary>
         /// Unjoins the specified channel. If it wasn't joined, the events trigger anyway.
@@ -64,7 +65,13 @@ namespace OmegaGo.Core.Online.Kgs
             }
             KgsChannel channel = Channels[channelId];
             channel.Joined = false;
+            if (channel is KgsGameContainer)
+            {
+                KgsGameContainer container = channel as KgsGameContainer;
+                GameContainers.Remove(container);
+            }
             ChannelUnjoined?.Invoke(channel);
+            SomethingChanged?.Invoke();
 
             // Old:
             JoinedChannels.Remove(channelId);
@@ -85,6 +92,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             channel.Joined = true;
             ChannelJoined?.Invoke(channel);
+            SomethingChanged?.Invoke();
         }
 
         /// <summary>
