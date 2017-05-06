@@ -27,6 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
             this.InitializeComponent();
             if (DesignMode.DesignModeEnabled)
             {
+                Back.Visibility = Visibility.Collapsed;
                 Back.FullScreenOnly = true;
             }
         }
