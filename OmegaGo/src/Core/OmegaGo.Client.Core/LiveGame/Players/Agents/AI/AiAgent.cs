@@ -11,17 +11,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
     public class AiAgent : AgentBase
     {
         private readonly IAIProgram _aiProgram;
-        private int _strength;
-        private readonly TimeSpan _timeLimit;
-
-        // TODO Petr (low importance): public for debugging purposes only
+        
         public IAIProgram AI => _aiProgram;
 
-        public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
+        public AiAgent(StoneColor color, IAIProgram aiProgram) : base(color)
         {
             _aiProgram = aiProgram;
-            _strength = strength;
-            _timeLimit = timeLimit;
         }
 
         /// <summary>
@@ -32,11 +27,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         public override AgentType Type => AgentType.AI;
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
-
-        public void SetStrength(int newStrength)
-        {
-            _strength = newStrength;
-        }
 
         public override void GameInitialized()
         {
@@ -86,10 +76,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             if (phase == GamePhaseType.Finished)
             {
-                if (this.AI is Fuego)
-                {
-                    (this.AI as Fuego).Finished();
-                }
+                (AI as Fuego)?.Finished();
             }
             base.GamePhaseChanged(phase);
         }

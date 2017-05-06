@@ -18,6 +18,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players
         /// </summary>
         /// <param name="playerInfo">Information about the player</param>
         /// <param name="agent">Agent</param>
+        /// <param name="clock">Time control system for this player, including time at the beginning.</param>
         public GamePlayer( PlayerInfo playerInfo, IAgent agent, TimeControl clock)
         {
             Info = playerInfo;
