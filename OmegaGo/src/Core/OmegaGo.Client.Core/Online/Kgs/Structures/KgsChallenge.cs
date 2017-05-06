@@ -25,7 +25,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
             Proposal = proposal;
         }
-        public static KgsChallenge FromChannel(GameChannel channel, KgsConnection connection)
+        public static KgsChallenge FromChannel(GameChannel channel)
         {
             if (channel.GameType != GameType.Challenge)
             {

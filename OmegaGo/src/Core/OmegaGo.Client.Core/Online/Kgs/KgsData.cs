@@ -17,15 +17,13 @@ namespace OmegaGo.Core.Online.Kgs
     /// </summary>
     public class KgsData 
     {
-        private KgsConnection kgsConnection;
-        public List<KgsChallenge> OpenChallenges { get; } = new List<KgsChallenge>();
+        private KgsConnection _kgsConnection;
         public Dictionary<string, KgsUser> Users { get; } = new Dictionary<string, KgsUser>();
-        private readonly Dictionary<int, KgsGame> joinedGames = new Dictionary<int, KgsGame>();
-        private HashSet<int> JoinedChannels { get; } = new HashSet<int>();
+        private readonly Dictionary<int, KgsGame> _joinedGames = new Dictionary<int, KgsGame>();
 
         public KgsData(KgsConnection kgsConnection)
         {
-            this.kgsConnection = kgsConnection;
+            this._kgsConnection = kgsConnection;
         }
 
         /// <summary>
@@ -42,8 +40,6 @@ namespace OmegaGo.Core.Online.Kgs
         /// Gets all rooms, even those that we haven't joined.
         /// </summary>
         public ObservableCollection<KgsRoom> AllRooms { get; } = new ObservableCollection<KgsRoom>();
-
-        // ------------------------- METHODS AND EVENTS  ----------------------------
 
         public delegate void KgsDataUpdate<in T>(T concernedItem);
 
@@ -110,11 +106,18 @@ namespace OmegaGo.Core.Online.Kgs
                 KgsGameContainer container = channel as KgsGameContainer;
                 GameContainers.Remove(container);
             }
+            if (channel is KgsTrueGameChannel)
+            {
+                if (_joinedGames.ContainsKey(channel.ChannelId))
+                {
+                    _joinedGames.Remove(channel.ChannelId);
+                }
+            }
             ChannelUnjoined?.Invoke(channel);
             SomethingChanged?.Invoke();
 
             // Old:
-            kgsConnection.Events.RaiseUnjoin(channel);
+            _kgsConnection.Events.RaiseUnjoin(channel);
         }
 
 
@@ -182,6 +185,15 @@ namespace OmegaGo.Core.Online.Kgs
             JoinChannel(room);
             GameContainers.Add(room);
         }
+        /// <summary>
+        /// Joins the specified challenge. If it isn't loaded in Data yet, it is loaded now.
+        /// </summary>
+        /// <param name="challenge">The challenge to join.</param>
+        public void JoinChallenge(KgsChallenge challenge)
+        {
+            JoinChannel(challenge);
+            this._kgsConnection.Events.RaiseChallengeJoined(challenge);
+        }
 
         /// <summary>
         /// Sets the description of a room. If the room isn't loaded in Data yet, it is loaded now.
@@ -210,7 +222,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// <param name="channelId">The channel identifier of the game.</param>
         public KgsGame GetGame(int channelId)
         {
-            return joinedGames.ContainsKey(channelId) ? joinedGames[channelId] : null;
+            return _joinedGames.ContainsKey(channelId) ? _joinedGames[channelId] : null;
         }
 
         /// <summary>
@@ -229,44 +241,27 @@ namespace OmegaGo.Core.Online.Kgs
         /// <param name="kgsTrueGameChannel">The game channel that we are joining.</param>
         public void JoinGame(KgsGame ongame, KgsTrueGameChannel kgsTrueGameChannel)
         {
-            joinedGames[ongame.Info.ChannelId] = ongame;
+            _joinedGames[ongame.Info.ChannelId] = ongame;
             JoinChannel(kgsTrueGameChannel);
         }
 
 
-        // ------------------------- BEFORE OVERHAUL ----------------------------
-
-
+        /// <summary>
+        /// Gets all open KGS games. This may include games that have already finished if they were not unjoined.
+        /// </summary>
         internal IEnumerable<KgsGame> Games
         {
             get
             {
-                foreach (var game in joinedGames.Values)
+                foreach (var game in _joinedGames.Values)
                 {
                     yield return game;
                 }
             }
         }
-       
-        public void JoinChannel(int channelId)
-        {
-            if (Channels.ContainsKey(channelId))
-            {
-                Channels[channelId].Joined = true;
-            } 
-        }
-        public void JoinChallenge(int channelId)
-        {
-            // TODO PETR OVERHAUL
-            if (!Channels.ContainsKey(channelId))
-            {
-                Channels.Add(channelId, new KgsChannel()
-                {
-                    ChannelId = channelId
-                });
-            }
-            JoinChannel(channelId);
-        }
+
+        // Users --- not yet used
+
         public void AddUserToChannel(int channelId, User user)
         {
             EnsureUserExists(user);
@@ -285,5 +280,6 @@ namespace OmegaGo.Core.Online.Kgs
         {
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
+
     }
 }

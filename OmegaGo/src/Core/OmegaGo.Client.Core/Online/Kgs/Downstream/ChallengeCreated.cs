@@ -10,12 +10,12 @@ namespace OmegaGo.Core.Online.Kgs
         public GameChannel Game { get; set; }
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr KGS OVERHAUL
-            connection.Data.JoinChallenge(Game.ChannelId);
-            KgsChallenge createdChallenge = new KgsChallenge(Game.InitialProposal, Game.ChannelId);
-            connection.Data.OpenChallenges.Add(createdChallenge);
-            createdChallenge.OwnedByUs = true;
-            connection.Events.RaiseChallengeJoined(createdChallenge);
+            KgsChallenge createdChallenge = KgsChallenge.FromChannel(Game);
+            if (createdChallenge != null)
+            {
+                createdChallenge.OwnedByUs = true;
+                connection.Data.JoinChallenge(createdChallenge);
+            }
             createdChallenge.RaiseStatusChanged();
         }
     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
@@ -22,10 +23,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
 
         public override void Process(KgsConnection connection)
         {
-            // TODO Petr KGS OVERHAUL
-            if (!connection.Data.IsJoined(this.ChannelId))
+            var challenge = connection.Data.GetChannel<KgsChallenge>(this.ChannelId);
+            if (challenge != null)
             {
-                connection.Data.JoinChallenge(this.ChannelId);
+                connection.Data.JoinChallenge(challenge);
             }
             foreach (var user in Users)
             {

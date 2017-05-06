@@ -61,7 +61,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         
         public void AddChannel(GameChannel channel, KgsConnection connection)
         {
-            var kChallenge = KgsChallenge.FromChannel(channel, connection);
+            var kChallenge = KgsChallenge.FromChannel(channel);
             if (kChallenge != null)
             {
                 connection.Data.EnsureChannelExists(kChallenge);
