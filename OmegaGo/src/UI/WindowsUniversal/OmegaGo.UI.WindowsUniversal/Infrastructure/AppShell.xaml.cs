@@ -446,6 +446,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             else
             {
                 TabListContainer.MaxWidth = Window.Current.Bounds.Width;
+                AppTitleBar.Height = 32;
             }
         }
     }

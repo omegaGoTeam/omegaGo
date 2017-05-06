@@ -83,10 +83,10 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="TabList" HorizontalAlignment="Stretch" SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="False" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
+                    <ListView x:Name="TabList" ScrollViewer.VerticalScrollMode="Disabled"  HorizontalAlignment="Stretch" SelectionMode="Single" ItemContainerStyle="{StaticResource TabListViewItemContainerStyle}" IsItemClickEnabled="False" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0"  CanReorderItems="True" ReorderMode="Enabled" AllowDrop="True" Style="{StaticResource TabRowStyle}" ItemsSource="{x:Bind TabManager.Tabs}" SelectedItem="{x:Bind TabManager.ActiveTab, Mode=TwoWay}">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal" />
+                                <VirtualizingStackPanel ScrollViewer.VerticalScrollMode="Disabled" Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>

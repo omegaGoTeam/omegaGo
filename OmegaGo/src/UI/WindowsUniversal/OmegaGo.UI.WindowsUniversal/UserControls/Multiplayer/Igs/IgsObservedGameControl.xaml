@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Padding="8" Width="250" Height="120">
+    <Border Padding="8" Width="250" Height="80">
         <Border.Background>
             <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
         </Border.Background>
@@ -46,11 +46,11 @@
                 <TextBlock VerticalAlignment="Center" Text="{Binding Black.Name}" Margin="8,0,0,0" FontWeight="SemiBold" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding Black.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
-            <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+            <StackPanel x:Name="DimensionsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
                 <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
                 <TextBlock Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding BoardSize}" />
             </StackPanel>
-            <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+            <StackPanel x:Name="ObserveStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
                 <BitmapIcon UriSource="/Assets/Icons/TitleBar/Observe.png" Width="24" HorizontalAlignment="Center" />
                 <TextBlock Margin="4" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding NumberOfObservers}" />
             </StackPanel>
