@@ -141,7 +141,7 @@
                 <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
 
                 <StackPanel Orientation="Horizontal">
-                   
+
                     <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
                         <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
                         <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
@@ -150,12 +150,12 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            <CommandBar Grid.Row="3">
+            <CommandBar Grid.Row="3" VerticalContentAlignment="Center">
                 <CommandBar.Content>
-                    <TextBlock VerticalAlignment="Center">
-                        <Run Text="{x:Bind Localizer.YouAreLoggedInAs}" />
-                        <Run FontWeight="SemiBold" Text="{Binding LoggedInUser, Mode=OneWay}" />
-                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
+                        <TextBlock VerticalAlignment="Center" Margin="8,0,0,0"  Text="{Binding LoggedInUser, Mode=OneWay}"/>
+                    </StackPanel>
                 </CommandBar.Content>
                 <CommandBar.PrimaryCommands>
                     <AppBarButton Command="{x:Bind VM.LogoutCommand}" Label="{x:Bind Localizer.Logout}">

@@ -9,26 +9,28 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Padding="12">
+    <Border Padding="12" Width="250" Height="150">
         <Border.Background>
             <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
         </Border.Background>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="36"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Ellipse Fill="White" Width="24" Height="24" />
-                <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="8,0,0,0" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Ellipse Fill="White" Width="16" Height="16" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding White.Name}" Margin="8,0,0,0" FontWeight="Bold" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding White.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <Ellipse Fill="Black" Width="24" Height="24" />
-                <TextBlock VerticalAlignment="Center" Text="{Binding Black}" Margin="8,0,0,0" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1">
+                <Ellipse Fill="Black" Width="16" Height="16" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding Black.Name}" Margin="8,0,0,0" FontWeight="Bold" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding Black.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
                 <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
@@ -36,7 +38,7 @@
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
                 <BitmapIcon UriSource="/Assets/Icons/TitleBar/Observe.png" Width="24" HorizontalAlignment="Center" />
-                <TextBlock Margin="4" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}" />
+                <TextBlock Margin="4" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding NumberOfObservers}" />
             </StackPanel>
         </Grid>
     </Border>
