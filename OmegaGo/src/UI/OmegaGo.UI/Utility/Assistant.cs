@@ -58,9 +58,9 @@ namespace OmegaGo.UI.ViewModels
                 fluffy.TreeDepth = gameSettings.Assistant.FluffyDepth;
             }
 
-            if (Program is OldFuego)
+            if (Program is Fuego)
             {
-                OldFuego oldFuego = Program as OldFuego;
+                Fuego oldFuego = Program as Fuego;
                 oldFuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
                 oldFuego.Ponder = gameSettings.Assistant.FuegoPonder;
                 oldFuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
@@ -118,14 +118,14 @@ namespace OmegaGo.UI.ViewModels
 
         private void Assistant_uiConnector_MoveWasPerformed(object sender, Move e)
         {
-            MovePerformed(e,
-                new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
-                    _gameController.GameTree));
+            //MovePerformed(e,
+              //  new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
+                //    _gameController.GameTree));
         }
 
         private void Assistant_Controller_MoveUndone(object sender, EventArgs e)
         {
-            MoveUndone();
+            //MoveUndone();
         }
     }
 }
