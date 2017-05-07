@@ -38,14 +38,27 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private int _lastMaxGames = -1;
         private bool? _lastAllowResign;
 
+        /// <summary>
+        /// Gets the single instance of this class. Creates it, if necessary. See class documentation for more details.
+        /// </summary>
         public static FuegoSingleton Instance => FuegoSingleton.instance ?? (FuegoSingleton.instance = new FuegoSingleton());
-
+        /// <summary>
+        /// Prevents a default instance of the <see cref="FuegoSingleton"/> class from being created.
+        /// </summary>
         private FuegoSingleton()
         {
         }
-        
-        public GameController CurrentGame { get; set; }   
-        
+
+        /// <summary>
+        /// Gets or sets the game controller of the only game that currently has Fuego as at least one of its players. If there is no such 
+        /// game, this returns null. Changed from the UI thread only.
+        /// </summary>
+        public GameController CurrentGame { get; set; }
+
+        /// <summary>
+        /// Called once, at the start of omegaGo, just after Fuego registration, this creates the Fuego engine and associates it 
+        /// with this instance. That may take a long time so it's put in the Fuego queue as its first item. Called from the UI thread.
+        /// </summary>
         public void AppWideInitialization()
         {
             var init = new FuegoAction(() =>
@@ -55,13 +68,24 @@ namespace OmegaGo.Core.AI.FuegoSpace
             EnqueueAction(init);
         }
 
-
+        /// <summary>
+        /// Schedules a block of code to run on a different thread when possible. Only code passed to this method
+        /// may call <see cref="IGtpEngine.SendCommand(string)"/>, no other code may do that. This prevents Fuego from being 
+        /// called from multiple threads at the same time. Never add actions to the queue directly, always use this method.
+        /// </summary>
+        /// <param name="action">The action.</param>
         private void EnqueueAction(FuegoAction action)
         {
             _queue.Enqueue(action);
             ExecuteQueueIfNotRunning();
         }
 
+        /// <summary>
+        /// If there is currently no <see cref="FuegoAction"/> running, then this method will repeatedly run <see cref="FuegoAction"/>
+        /// instances from the queue, one after another, until the queue is empty. Since actions are added to the queue using
+        /// <see cref="EnqueueAction(FuegoAction)"/> which calls this, we have it ensured that there will always be an action executing
+        /// or the queue empty. 
+        /// </summary>
         private void ExecuteQueueIfNotRunning()
         {
             lock (_fuegoMutex)
@@ -82,6 +106,10 @@ namespace OmegaGo.Core.AI.FuegoSpace
             }
         }
 
+        /// <summary>
+        /// Called from <see cref="FuegoAction"/> only. May be on any thread. Informs us that the action has finished running and that 
+        /// we may now run the next action in the queue, which we do.
+        /// </summary>
         internal void ExecutionComplete()
         {
             lock (_fuegoMutex)
@@ -92,6 +120,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
             ExecuteQueueIfNotRunning();
         }
 
+        /// <summary>
+        /// Schedules the initialization of Fuego for a game.
+        /// </summary>
         public void Initialize(AiGameInformation gameInformation)
         {
             var init = new FuegoAction(() =>
@@ -101,6 +132,10 @@ namespace OmegaGo.Core.AI.FuegoSpace
             EnqueueAction(init);
         }
 
+        /// <summary>
+        /// Initializes Fuego for a game, by setting board size, rules and time control.
+        /// </summary>
+        /// <param name="gameInformation">The game information.</param>
         private void TrueInitialize(AiGameInformation gameInformation)
         {
             // Clear locals
@@ -142,6 +177,12 @@ namespace OmegaGo.Core.AI.FuegoSpace
             Debug.WriteLine("AI: Random seed is " + SendCommand("get_random_seed").Text);
         }
 
+        /// <summary>
+        /// Sends a command to the GTP engine and returns the result. This may only be called from within <see cref="FuegoAction"/>
+        /// instances. 
+        /// </summary>
+        /// <param name="command">The GTP command.</param>
+        /// <returns></returns>
         private GtpResponse SendCommand(string command)
         {
             var output = this._engine.SendCommand(command);
@@ -156,6 +197,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             EnqueueAction(action);
             return action.GetAiDecisionResult();
         }
+
         private void FixHistory(AiGameInformation aiGameInformation)
         {
             // Fix history.
