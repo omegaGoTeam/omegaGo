@@ -59,6 +59,15 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             if (_brokenDueToInvalidLaunch) return;
             RequireInitialization(new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
+            FuegoEngine.Instance.MovePerformed(
+                new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
+        }
+        public override void MoveUndone()
+        {
+            if (_brokenDueToInvalidLaunch) return;
+            // Initialization is guaranteed.
+            FuegoEngine.Instance.MoveUndone();
+
         }
 
         private void RequireInitialization(AiGameInformation aiGameInformation)
@@ -73,10 +82,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             }
         }
 
-        public override void MoveUndone()
-        {
-            if (_brokenDueToInvalidLaunch) return;
-        }
+       
         
         private bool _isPrimaryPlayer;
         private bool _initialized;

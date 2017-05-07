@@ -247,6 +247,27 @@ namespace OmegaGo.Core.AI.FuegoSpace
             // Return result
             return moveDecision;
         }
+
+        public void MovePerformed(AiGameInformation aiGameInformation)
+        {
+            var action = new FuegoEngineAction(() =>
+            {
+                FixHistory(aiGameInformation);
+            });
+            EnqueueAction(action);
+        }
+
+        public void MoveUndone()
+        {
+            var action = new FuegoEngineAction(UndoOneMove);
+            EnqueueAction(action);
+        }
+
+        private void UndoOneMove()
+        {
+            SendCommand("undo");
+            this._history.RemoveAt(this._history.Count - 1);
+        }
     }
 
     class FuegoEngineAction
