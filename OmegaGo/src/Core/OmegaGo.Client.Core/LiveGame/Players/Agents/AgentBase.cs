@@ -89,17 +89,17 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
 
         }
 
-        protected virtual void OnPlaceStone( Position position )
+        protected void OnPlaceStone( Position position )
         {
             PlaceStone?.Invoke(this, position);
         }
 
-        protected virtual void OnPass()
+        protected void OnPass()
         {
             Pass?.Invoke(this);
         }
 
-        protected virtual void OnResign()
+        protected void OnResign()
         {
             Resigned?.Invoke(this);
         }

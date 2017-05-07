@@ -23,9 +23,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly bool _isOnline;
 
         private string _timeControlMainLine = "";
-        private string _timeControlTooltip = null;
+        private string _timeControlTooltip;
         private string _timeControlSubLine = "";
-        private int _prisonerCount = 0;
+        private int _prisonerCount;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         private Localizer Localizer = (Localizer) Mvx.Resolve<ILocalizationService>();
 
@@ -33,7 +33,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// Creates the player portrait view model
         /// </summary>
         /// <param name="player">Player for which this portrait is applicable</param>
-        /// <param name="controller"></param>
+        /// <param name="game">Game that contains that player.</param>
         public PlayerPortraitViewModel(GamePlayer player, IGame game)
         {
             _player = player;
@@ -85,15 +85,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _prisonerCount; }
             set { SetProperty(ref _prisonerCount, value); }
         }
-        public string CapturesLine
-        {
-            get { return string.Format(Localizer.StonesCaptured, PrisonerCount); }
-        }
-        
-        public bool IsTurnPlayer
-        {
-            get { return _controller.TurnPlayer == _player; }
-        }
+        public string CapturesLine => string.Format(Localizer.StonesCaptured, PrisonerCount);
+
+        private bool IsTurnPlayer => _controller.TurnPlayer == _player;
 
         /// <summary>
         /// Updates the time control

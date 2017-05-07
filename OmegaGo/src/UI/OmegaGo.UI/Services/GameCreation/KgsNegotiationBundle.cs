@@ -14,7 +14,7 @@ namespace OmegaGo.UI.Services.GameCreation
     public abstract class KgsNegotiationBundle : KgsBundle
     {
         private GameCreationViewModel _vm;
-        protected string _opponentName;
+        private string _opponentName;
 
         protected KgsNegotiationBundle(KgsChallenge challenge)
         {
@@ -22,15 +22,12 @@ namespace OmegaGo.UI.Services.GameCreation
             UpdateOpponentFromProposal(challenge.Proposal.Players);
         }
 
-        public KgsChallenge Challenge { get; }
+        protected KgsChallenge Challenge { get; }
 
         public override GameCreationFormStyle Style => GameCreationFormStyle.KgsChallengeNegotiation;
         public override string TabTitle => Challenge.ToString();
         public override bool HandicapMayBeChanged => false;
-        public override string OpponentName
-        {
-            get { return _opponentName; }
-        }
+        public override string OpponentName => _opponentName;
         public override bool Frozen => true;
         public override bool WillCreateChallenge => false;
         public override bool AcceptableAndRefusable => true;
@@ -79,6 +76,7 @@ namespace OmegaGo.UI.Services.GameCreation
             UpdateTimeControlFromRules(Challenge.Proposal.Rules);
             Connections.Kgs.Events.Unjoin += Events_Unjoin;
             Challenge.StatusChanged += Challenge_StatusChanged;
+            RefreshStatus();
             base.OnLoad(vm);
         }
 
@@ -111,7 +109,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         protected void ClearOpponentName()
         {
-            _opponentName = "[no opponent yet]";
+            _opponentName = Localizer.NoOpponentYet;
         }
 
         protected void RefreshStatus()
@@ -142,10 +140,8 @@ namespace OmegaGo.UI.Services.GameCreation
         private void UpdateOpponentFromProposal(KgsPlayer[] players)
         {
             var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
-            _opponentName = opponent.GetNameAndRank() ?? "[no opponent yet]";
+            _opponentName = opponent.GetNameAndRank() ?? Localizer.NoOpponentYet;
         }
-
-        // TODO Petr: updating username
 
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {

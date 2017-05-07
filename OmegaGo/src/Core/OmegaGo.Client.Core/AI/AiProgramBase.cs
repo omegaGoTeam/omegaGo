@@ -69,7 +69,7 @@ namespace OmegaGo.Core.AI
 
         public override string ToString()
         {
-            return this.GetType().Name;
+            return GetType().Name;
         }
 
 
@@ -81,8 +81,8 @@ namespace OmegaGo.Core.AI
             GameTreeNode lastNode = gameTree.LastNode;
             if (lastNode == null)
             {
-                GameTreeNode empty = new Game.GameTreeNode(Move.NoneMove);
-                empty.BoardState = new Game.GameBoard(gameTree.BoardSize);
+                GameTreeNode empty = new GameTreeNode(Move.NoneMove);
+                empty.BoardState = new GameBoard(gameTree.BoardSize);
                 empty.GroupState = new Rules.GroupState(gameTree.Ruleset.RulesetInfo);
                 return empty;
             }

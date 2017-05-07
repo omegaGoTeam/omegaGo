@@ -67,7 +67,7 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
             await _connection.Commands.ChatAsync(_gameController.Info, chatMessage);
         }
 
-        protected virtual void OnNewChatMessageReceived(ChatMessage e)
+        protected void OnNewChatMessageReceived(ChatMessage e)
         {
             NewChatMessageReceived?.Invoke(this, e);
         }

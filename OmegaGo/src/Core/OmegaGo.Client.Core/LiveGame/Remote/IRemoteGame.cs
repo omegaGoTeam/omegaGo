@@ -9,11 +9,11 @@ using OmegaGo.Core.Online.Common;
 
 namespace OmegaGo.Core.Modes.LiveGame.Remote
 {
+    /// <summary>
+    /// This is a marker interface used by some UI project classes to determine whether a game is an online game.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Modes.LiveGame.IGame" />
     public interface IRemoteGame : IGame
     {
-        /// <summary>
-        /// Game info
-        /// </summary>
-        new RemoteGameInfo Info { get; }
     }
 }

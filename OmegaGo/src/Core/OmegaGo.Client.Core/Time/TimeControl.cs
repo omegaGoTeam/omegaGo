@@ -21,6 +21,7 @@ namespace OmegaGo.Core.Time
         /// <summary>
         ///     Gets the identifier of the time control system.
         /// </summary>
+        // ReSharper disable once UnusedMember.Global -- We don't use this (we do a lot of direct casting), but it makes sense for this to be here.
         public abstract TimeControlStyle Name { get; }
         
         /// <summary>

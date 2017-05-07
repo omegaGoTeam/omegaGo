@@ -97,7 +97,6 @@
     <Compile Include="LiveGame\Phases\HandicapPlacement\Igs\IgsHandicapPlacementPhase.cs" />
     <Compile Include="LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeathPhase.cs" />
     <Compile Include="LiveGame\Players\Agents\AgentEventHandler.cs" />
-    <Compile Include="LiveGame\Players\Agents\Igs\IIgsAgent.cs" />
     <Compile Include="LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="LiveGame\IGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameBuilder.cs" />
@@ -198,6 +197,7 @@
     <Compile Include="Online\Kgs\Downstream\ChallengeProposal.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeDecline.cs" />
     <Compile Include="Online\Kgs\Downstream\GameUndoRequest.cs" />
     <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
