@@ -69,6 +69,10 @@ namespace OmegaGo.Core.AI.FuegoSpace
             FuegoEngine.Instance.MoveUndone();
 
         }
+        public override void YourMoveWasRejected()
+        {
+            MoveUndone();
+        }
 
         private void RequireInitialization(AiGameInformation aiGameInformation)
         {

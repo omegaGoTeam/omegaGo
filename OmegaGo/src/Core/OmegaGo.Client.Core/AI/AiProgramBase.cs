@@ -46,6 +46,11 @@ namespace OmegaGo.Core.AI
             // Stateless AI's don't need to do anything.
         }
 
+        public virtual void YourMoveWasRejected()
+        {
+            // Stateless AI's don't need to do anything.
+        }
+
         /// <summary>
         ///Informs the AI engine that a move was just made. Stateful AIs (i.e. Fuego) use this.
         /// </summary>

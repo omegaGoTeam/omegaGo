@@ -187,6 +187,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath
             while (prePasses.Move != null && prePasses.Move.Kind == MoveKind.Pass)
             {
                 prePasses = prePasses.Parent;
+                foreach(var pl in Controller.Players)
+                {
+                    pl.Agent.MoveUndone();
+                }
             }
             Controller.GameTree.LastNode = prePasses;
             _deadPositions = new List<Position>();

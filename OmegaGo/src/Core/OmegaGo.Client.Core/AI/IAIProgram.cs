@@ -54,5 +54,7 @@ namespace OmegaGo.Core.AI
         /// Determines (asynchronously, if possible) all positions that should be marked dead at the beginning of the Life/Death Determination Phase.
         /// </summary>
         Task<IEnumerable<Position>> GetDeadPositions();
+
+        void YourMoveWasRejected();
     }
 }

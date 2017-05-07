@@ -54,6 +54,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             if (respondingToWhatNode != GameState.GameTree.LastNode)
             {
                 // Ignore. That result is now obsolete.
+                _aiProgram.YourMoveWasRejected();
                 return;
             }
             switch (decision.Kind)
