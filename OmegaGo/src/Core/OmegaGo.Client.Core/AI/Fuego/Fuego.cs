@@ -53,8 +53,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
             }
             RequireInitialization(gameInformation);
-
-            return null;
+            return FuegoEngine.Instance.RequestMove(gameInformation);
         }
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.FuegoSpace;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Rules;
 
@@ -13,6 +14,8 @@ namespace OmegaGo.Core.AI.FuegoSpace
 {
     class FuegoEngine
     {
+        private const float ComparisonTolerance = 0.00001f;
+
         private static FuegoEngine _instance;
         private IGtpEngine _engine;
 
@@ -20,6 +23,8 @@ namespace OmegaGo.Core.AI.FuegoSpace
             new System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction>();
         private object _fuegoMutex = new object();
         private bool _fuegoExecuting = false;
+        private List<Move> _history = new List<Move>();
+        private List<string> _storedNotes = new List<string>();
 
         public static FuegoEngine Instance => FuegoEngine._instance ?? (FuegoEngine._instance = new FuegoEngine());
 
@@ -79,6 +84,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             var init = new FuegoEngineAction(() =>
             {
+                // Clear locals
+                _history = new List<Game.Move>();
+                _storedNotes = new List<string>();
 
                 // Board size
                 SendCommand("boardsize " + gameInformation.GameInfo.BoardSize.Width);
@@ -126,11 +134,99 @@ namespace OmegaGo.Core.AI.FuegoSpace
             Debug.WriteLine(output.ToString());
             return output;
         }
+
+        public AIDecision RequestMove(AiGameInformation gameInformation)
+        {
+            var action = FuegoEngineAction.ThatReturnsAiDecision(() => TrueRequestMove(gameInformation));
+            EnqueueAction(action);
+            return action.GetAiDecisionResult();
+        }
+        private void FixHistory(AiGameInformation aiGameInformation)
+        {
+            // Fix history.
+            var trueHistory = aiGameInformation.GameTree.PrimaryMoveTimeline.ToList();
+            for (int i = 0; i < trueHistory.Count; i++)
+            {
+                if (this._history.Count == i)
+                {
+                    var trueMove = trueHistory[i];
+                    this._history.Add(trueMove);
+                    string moveDescription = trueMove.Coordinates.ToIgsCoordinates();
+                    if (trueMove.Kind == MoveKind.Pass)
+                    {
+                        moveDescription = "PASS";
+                    }
+                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " + moveDescription);
+                }
+            }
+        }
+
+
+        private AIDecision TrueRequestMove(AiGameInformation gameInformation)
+        {
+            FixHistory(gameInformation);
+
+            // Move for what color?
+            string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";
+
+            // Update remaining time
+            var timeLeftArguments = gameInformation.AiPlayer.Clock.GetGtpTimeLeftCommandArguments();
+            if (timeLeftArguments != null)
+            {
+                int secondsRemaining = timeLeftArguments.NumberOfSecondsRemaining;
+                secondsRemaining = Math.Max(secondsRemaining - 2, 0);
+                // let's give the AI less time to ensure it does its move on time
+                SendCommand("time_left " + movecolor + " " + secondsRemaining + " " +
+                            timeLeftArguments.NumberOfStonesRemaining);
+            }
+
+            // Generate the next move
+            string result = SendCommand("genmove " + movecolor).Text;
+            if (result == "resign")
+            {
+                var resignDecision = AIDecision.Resign("Resigned because of low win chance.");
+                resignDecision.AiNotes = this._storedNotes;
+                this._storedNotes.Clear();
+                return resignDecision;
+            }
+            var move = result == "PASS"
+                ? Move.Pass(gameInformation.AIColor)
+                : Move.PlaceStone(gameInformation.AIColor, Position.FromIgsCoordinates(result));
+
+            // Change history
+            this._history.Add(move);
+
+            // Get win percentage
+            string commandResult = SendCommand("uct_value_black").Text;
+            float value = float.Parse(commandResult, CultureInfo.InvariantCulture);
+            if (gameInformation.AIColor == StoneColor.White)
+            {
+                value = 1 - value;
+            }
+            string winChanceNote = (Math.Abs(value) < ComparisonTolerance) ||
+                                   (Math.Abs(value - 1) < ComparisonTolerance)
+                ? "Reading from opening book."
+                : "Win chance (" + gameInformation.AIColor + "): " + 100 * value + "%";
+            Debug.WriteLine(winChanceNote);
+            var moveDecision = AIDecision.MakeMove(
+                move, winChanceNote);
+            moveDecision.AiNotes = this._storedNotes.ToList(); // copy
+
+            // Prepare the way
+            this._storedNotes.Clear();
+
+            // Return result
+            return moveDecision;
+        }
     }
 
     class FuegoEngineAction
     {
         public Action Action;
+        private Func<AIDecision> _action;
+        private Func<GtpResponse> _action2;
+        private TaskCompletionSource<AIDecision> _result;
+        private TaskCompletionSource<GtpResponse> _result2;
 
         public FuegoEngineAction(Action action)
         {
@@ -138,8 +234,36 @@ namespace OmegaGo.Core.AI.FuegoSpace
         }
         public void Execute()
         {
-            Action();
+            if (Action != null)
+            {
+                Action();
+            }
+            if (_action != null)
+            {
+
+                var result = _action();
+                _result.SetResult(result);
+            }
+
             FuegoEngine.Instance.ExecutionComplete();
+        }
+
+        public static FuegoEngineAction ThatReturnsAiDecision(Func<AIDecision> func)
+        {
+            return new FuegoEngineAction(null)
+            {
+                _action = func,
+                _result = new TaskCompletionSource<AIDecision>()
+            };
+        }
+        public AIDecision GetAiDecisionResult()
+        {
+            return _result.Task.Result;
+        }
+
+        public Task<GtpResponse> GetGtpResponseAsync()
+        {
+            return _result2.Task;
         }
     }
 }
