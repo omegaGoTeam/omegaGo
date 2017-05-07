@@ -49,7 +49,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public bool AiPanelVisible => player.IsAi;
 
         public bool IsFuego
-            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(OldFuego);
+            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fuego);
 
         public bool IsFluffy
             => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fluffy);
@@ -193,6 +193,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 if (FuegoMaxGames < 10)
                 {
                     errorMessage = _localizer.Validation_FuegoGamesTooFew;
+                    return false;
+                }
+                if (FuegoEngine.Instance.CurrentGame != null)
+                {
+                    errorMessage = "A game with Fuego is already open.";
                     return false;
                 }
 

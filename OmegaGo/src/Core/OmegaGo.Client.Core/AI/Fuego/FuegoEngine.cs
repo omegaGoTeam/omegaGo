@@ -12,7 +12,7 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.FuegoSpace
 {
-    class FuegoEngine
+    public class FuegoEngine
     {
         private const float ComparisonTolerance = 0.00001f;
 

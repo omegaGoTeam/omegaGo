@@ -38,10 +38,10 @@ namespace OmegaGo.UI.Services.GameCreation
             IAIProgram newInstance = (IAIProgram)Activator.CreateInstance(_ai.GetType());
             if (settings.IsFuego)
             {
-                OldFuego oldFuego = (OldFuego) newInstance;
-                oldFuego.Ponder = settings.FuegoPonder;
-                oldFuego.AllowResign = settings.FuegoResign;
-                oldFuego.MaxGames = settings.FuegoMaxGames;
+                Fuego fuego = (Fuego) newInstance;
+                fuego.Ponder = settings.FuegoPonder;
+                fuego.AllowResign = settings.FuegoResign;
+                fuego.MaxGames = settings.FuegoMaxGames;
             }
             else if (settings.IsFluffy)
             {

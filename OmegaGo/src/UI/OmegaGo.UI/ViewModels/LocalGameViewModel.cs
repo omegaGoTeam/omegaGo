@@ -129,6 +129,7 @@ namespace OmegaGo.UI.ViewModels
                 {
                     UiConnector.AiLog -= Assistant_uiConnector_AiLog;
                     await base.CanCloseViewModelAsync();
+                    Game.Controller.EndGame(GameEndInformation.CreateCancellation(Game.Controller.Players));
                     return true;
                 }
                 else

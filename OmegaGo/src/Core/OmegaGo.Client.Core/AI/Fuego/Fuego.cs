@@ -80,7 +80,21 @@ namespace OmegaGo.Core.AI.FuegoSpace
         
         private bool _isPrimaryPlayer;
         private bool _initialized;
-        private bool _brokenDueToInvalidLaunch;
+        private bool _brokenDueToInvalidLaunch; 
+        /// <summary>
+        /// Indicates whether Fuego is permitted to resign in hopeless situations in non-handicap games.
+        /// </summary>
+        public bool AllowResign { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of playouts Fuego tries before offering a move.
+        /// </summary>
+        public int MaxGames { get; set; }
+
+        /// <summary>
+        /// Indicates whether Fuego should be thinking during its opponent's turn.
+        /// </summary>
+        public bool Ponder { get; set; }
 
         public void Initialize(AiAgent aiAgent)
         {

@@ -27,27 +27,27 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Initialization
         /// </summary>
         public override void StartPhase()
         {
-            BeginGame();
-            GoToPhase(GamePhaseType.HandicapPlacement);
-        }
-        
-        private void BeginGame()
-        {
             Controller.OnDebuggingMessage("Game begins!");
+            bool thisIsAGoodFuegoGame = false;
             foreach (var player in Controller.Players)
             {
-                player.Agent.GameInitialized();
                 if (player.Agent is AiAgent && (player.Agent as AiAgent).AI is Fuego)
                 {
-                    if (FuegoEngine.Instance.CurrentGame != null)
+                    if (FuegoEngine.Instance.CurrentGame != null && !thisIsAGoodFuegoGame)
                     {
                         // Fuego can't be in two games at once.
                         Controller.EndGame(GameEndInformation.CreateCancellation(Controller.Players));
                         return;
                     }
-                    FuegoEngine.Instance.CurrentGame = Controller;
+                    if (!thisIsAGoodFuegoGame)
+                    {
+                        FuegoEngine.Instance.CurrentGame = Controller;
+                        thisIsAGoodFuegoGame = true;
+                    }
                 }
+                player.Agent.GameInitialized();
             }
+            GoToPhase(GamePhaseType.HandicapPlacement);
         }
     }
 }
