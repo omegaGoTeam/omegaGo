@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
@@ -53,7 +54,8 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Determines (asynchronously, if possible) all positions that should be marked dead at the beginning of the Life/Death Determination Phase.
         /// </summary>
-        Task<IEnumerable<Position>> GetDeadPositions();
+        /// <param name="gameController"></param>
+        Task<IEnumerable<Position>> GetDeadPositions(IGameController gameController);
 
         void YourMoveWasRejected();
     }

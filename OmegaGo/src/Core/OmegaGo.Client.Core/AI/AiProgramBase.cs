@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 
@@ -66,8 +67,9 @@ namespace OmegaGo.Core.AI
         /// <summary>
         /// Determines (asynchronously, if possible) all positions that should be marked dead at the beginning of the Life/Death Determination Phase.
         /// </summary>
+        /// <param name="gameController"></param>
         /// <exception cref="Exception">Nobody except Fuego supports this.</exception>
-        public virtual Task<IEnumerable<Position>> GetDeadPositions()
+        public virtual Task<IEnumerable<Position>> GetDeadPositions(IGameController gameController)
         {
             throw new Exception("Nobody except Fuego supports this.");
         }

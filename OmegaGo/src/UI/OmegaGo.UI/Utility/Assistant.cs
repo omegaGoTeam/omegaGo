@@ -90,7 +90,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task<IEnumerable<Position>> GetDeadPositions()
         {
-            return await Program.GetDeadPositions();
+            return await Program.GetDeadPositions(_gameController);
         }
 
         private void RegisterHandlers()

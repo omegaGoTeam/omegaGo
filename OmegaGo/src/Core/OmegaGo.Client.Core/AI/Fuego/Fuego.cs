@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -17,22 +18,38 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
      
 
-        public override async Task<IEnumerable<Position>> GetDeadPositions()
+        public override async Task<IEnumerable<Position>> GetDeadPositions(IGameController gameController)
         {
-            return new List<Position>();
+            if (FuegoEngine.Instance.CurrentGame == null)
+            {
+                return FuegoEngine.Instance.GetIsolatedDeadPositions(this, gameController);
+            }
+            else
+            {
+                if (FuegoEngine.Instance.CurrentGame == gameController)
+                {
+                    var positions = await FuegoEngine.Instance.GetDeadPositions(this);
+                    return positions;
+                }
+                else
+                {
+                    // Fuego is playing elsewhere, we cannot get hints.
+                    return new List<Position>();
+                }
+            }
         }
 
         public override AIDecision GetHint(AiGameInformation gameInformation)
         {
             if (FuegoEngine.Instance.CurrentGame == null)
             {
-                return AIDecision.Resign("Not yet implemented, but this should work.");
+                return FuegoEngine.Instance.GetIsolatedHint(this, gameInformation);
             }
             else
             {
                 if (FuegoEngine.Instance.CurrentGame.Info.Equals(gameInformation.GameInfo))
                 {
-                    return AIDecision.Resign("Not yet implemented, but this should work.");
+                    return FuegoEngine.Instance.GetHint(this, gameInformation);
                 }
                 else
                 {

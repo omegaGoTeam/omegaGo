@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Rules;
 
@@ -218,8 +219,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
         ///     This is called synchronously in the main thread by the assistant.
         /// </para>
         /// </summary>
+        /// <param name="gameController"></param>
         /// <returns></returns>
-        public override async Task<IEnumerable<Position>> GetDeadPositions()
+        public override async Task<IEnumerable<Position>> GetDeadPositions(IGameController gameController)
         {
             var action = new FuegoAction(this, () =>
             {

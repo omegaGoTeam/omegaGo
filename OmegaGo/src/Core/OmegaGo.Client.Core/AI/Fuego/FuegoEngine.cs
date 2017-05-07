@@ -268,6 +268,54 @@ namespace OmegaGo.Core.AI.FuegoSpace
             SendCommand("undo");
             this._history.RemoveAt(this._history.Count - 1);
         }
+
+        public AIDecision GetHint(Fuego fuego, AiGameInformation gameInformation)
+        {
+            var action = FuegoEngineAction.ThatReturnsAiDecision(() =>
+            {
+                var result = TrueRequestMove(fuego, gameInformation);
+                UndoOneMove();
+                return result;
+            });
+            EnqueueAction(action);
+            return action.GetAiDecisionResult();
+        }
+
+        public async Task<IEnumerable<Position>> GetDeadPositions(Fuego fuego)
+        {
+            var action = FuegoEngineAction.ThatReturnsGtpResponse(() =>
+            { 
+                // Set the player's strength
+                if (_lastMaxGames != fuego.MaxGames)
+                {
+                    SendCommand("uct_param_player max_games " + fuego.MaxGames);
+                    _lastMaxGames = fuego.MaxGames;
+
+                }
+                var result = SendCommand("final_status_list dead");
+                return result;
+            });
+            EnqueueAction(action);
+            var response = await action.GetGtpResponseAsync();
+
+            var positions = response.Text.Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var mark = new List<Position>();
+            foreach (string position in positions)
+            {
+                mark.Add(Position.FromIgsCoordinates(position));
+            }
+            return mark;
+        }
+
+        public IEnumerable<Position> GetIsolatedDeadPositions(Fuego fuego, IGameController gameController)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AIDecision GetIsolatedHint(Fuego fuego, AiGameInformation gameInformation)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class FuegoEngineAction
@@ -294,6 +342,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 var result = _action();
                 _result.SetResult(result);
             }
+            if (_action2 != null)
+            {
+
+                var result = _action2();
+                _result2.SetResult(result);
+            }
+
 
             FuegoEngine.Instance.ExecutionComplete();
         }
@@ -304,6 +359,14 @@ namespace OmegaGo.Core.AI.FuegoSpace
             {
                 _action = func,
                 _result = new TaskCompletionSource<AIDecision>()
+            };
+        }
+        public static FuegoEngineAction ThatReturnsGtpResponse(Func<GtpResponse> func)
+        {
+            return new FuegoEngineAction(null)
+            {
+                _action2 = func,
+                _result2 = new TaskCompletionSource<GtpResponse>()
             };
         }
         public AIDecision GetAiDecisionResult()
