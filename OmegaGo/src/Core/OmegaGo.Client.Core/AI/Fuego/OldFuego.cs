@@ -23,7 +23,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private readonly List<string> _storedNotes = new List<string>();
         private IGtpEngine _engine;
 
-        private System.Collections.Concurrent.ConcurrentQueue<FuegoAction> _fuegoActions = new System.Collections.Concurrent.ConcurrentQueue<FuegoAction>();
+        private System.Collections.Concurrent.ConcurrentQueue<OldFuegoAction> _fuegoActions = new System.Collections.Concurrent.ConcurrentQueue<OldFuegoAction>();
         private object _fuegoMutex = new object();
         private bool _fuegoExecuting = false;
 
@@ -58,7 +58,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <returns>Decision</returns>
         public override AIDecision RequestMove(AiGameInformation gameInformation)
         {
-            FuegoAction action = new FuegoSpace.FuegoAction(this, () => TrueRequestMove(gameInformation));
+            OldFuegoAction action = new FuegoSpace.OldFuegoAction(this, () => TrueRequestMove(gameInformation));
             EnqueueAction(action);
             return action.GetAiDecisionResult();
         }
@@ -120,7 +120,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             return moveDecision;
         }
 
-        private void EnqueueAction(FuegoAction action)
+        private void EnqueueAction(OldFuegoAction action)
         {
             _fuegoActions.Enqueue(action);
             ExecuteQueueIfNotRunning();
@@ -133,7 +133,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 if (_fuegoExecuting) return;
                 else
                 {
-                    FuegoAction topOfQueue;
+                    OldFuegoAction topOfQueue;
                     if (_fuegoActions.TryDequeue(out topOfQueue))
                     {
                         _fuegoExecuting = true;
@@ -166,7 +166,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <returns></returns>
         public override AIDecision GetHint(AiGameInformation gameInformation)
         {
-            var action = new FuegoAction(this, () =>
+            var action = new OldFuegoAction(this, () =>
             {
                 var result = TrueRequestMove(gameInformation);
                 UndoOneMove();
@@ -185,7 +185,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// </summary>
         public override void MoveUndone()
         {
-            var action = new FuegoAction(this, () => {
+            var action = new OldFuegoAction(this, () => {
                 UndoOneMove();
                 return default(AIDecision);
             });
@@ -204,7 +204,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <param name="info">Information about the game</param>
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)
         {
-            var action = new FuegoAction(this, () => {
+            var action = new OldFuegoAction(this, () => {
                 FixHistory(new AiGameInformation(info, informedPlayer.Info.Color, informedPlayer, gameTree));
                 return default(AIDecision);
             });
@@ -223,7 +223,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <returns></returns>
         public override async Task<IEnumerable<Position>> GetDeadPositions(IGameController gameController)
         {
-            var action = new FuegoAction(this, () =>
+            var action = new OldFuegoAction(this, () =>
             {
                 var result = SendCommand("final_status_list dead");
                 return result;
@@ -362,7 +362,6 @@ namespace OmegaGo.Core.AI.FuegoSpace
             if (!_disposed)
             {
                 _disposed = true;
-                _engine.Dispose();
             }
         }
     }

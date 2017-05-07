@@ -12,26 +12,35 @@ using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.AI.FuegoSpace
 {
-    public class FuegoEngine
+    /// <summary>
+    /// Represents the single Fuego instance that we maintain. We cannot have a separate instance for each player since that 
+    /// occupies too much RAM. All Fuego players and the Fuego assistant thus share the single instance of this class and thus
+    /// the engine. For each method, it is written from where it's accessed but it's usually "from any thread". Fuego is not thread-safe,
+    /// and moreover, the order of operations matters, so we keep a queue of actions.
+    /// </summary>
+    public class FuegoSingleton
     {
         private const float ComparisonTolerance = 0.00001f;
 
-        private static FuegoEngine _instance;
+        // ReSharper disable once InconsistentNaming - cannot be uppercase because the property is uppercase.
+        private static FuegoSingleton instance;
         private IGtpEngine _engine;
-
+        
         private System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction> _queue =
             new System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction>();
         private object _fuegoMutex = new object();
-        private bool _fuegoExecuting = false;
+        private bool _fuegoExecuting;
+
         private List<Move> _history = new List<Move>();
         private List<string> _storedNotes = new List<string>();
-        private bool _ponderSet = false;
+
+        private bool _ponderSet;
         private int _lastMaxGames = -1;
-        private bool? _lastAllowResign = null;
+        private bool? _lastAllowResign;
 
-        public static FuegoEngine Instance => FuegoEngine._instance ?? (FuegoEngine._instance = new FuegoEngine());
+        public static FuegoSingleton Instance => FuegoSingleton.instance ?? (FuegoSingleton.instance = new FuegoSingleton());
 
-        private FuegoEngine()
+        private FuegoSingleton()
         {
         }
         
@@ -57,8 +66,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             lock (_fuegoMutex)
             {
-                if (_fuegoExecuting) return;
-                else
+                if (!_fuegoExecuting) 
                 {
                     FuegoEngineAction topOfQueue;
                     if (_queue.TryDequeue(out topOfQueue))
@@ -73,6 +81,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 }
             }
         }
+
         internal void ExecutionComplete()
         {
             lock (_fuegoMutex)
@@ -95,7 +104,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private void TrueInitialize(AiGameInformation gameInformation)
         {
             // Clear locals
-            _history = new List<Game.Move>();
+            _history = new List<Move>();
             _storedNotes = new List<string>();
 
             // Board size
@@ -317,7 +326,14 @@ namespace OmegaGo.Core.AI.FuegoSpace
                 var information = new AiGameInformation(gameController.Info, StoneColor.Black,
                     gameController.Players.Black, gameController.GameTree);
                 TrueInitialize(information);
-                FixHistory(information);
+                FixHistory(information); 
+                // Set the player's strength
+                if (_lastMaxGames != fuego.MaxGames)
+                {
+                    SendCommand("uct_param_player max_games " + fuego.MaxGames);
+                    _lastMaxGames = fuego.MaxGames;
+
+                }
                 var result = SendCommand("final_status_list dead");
                 return result;
             });
@@ -342,68 +358,6 @@ namespace OmegaGo.Core.AI.FuegoSpace
             });
             EnqueueAction(action);
             return action.GetAiDecisionResult();
-        }
-    }
-
-    class FuegoEngineAction
-    {
-        public Action Action;
-        private Func<AIDecision> _action;
-        private Func<GtpResponse> _action2;
-        private TaskCompletionSource<AIDecision> _result;
-        private TaskCompletionSource<GtpResponse> _result2;
-
-        public FuegoEngineAction(Action action)
-        {
-            this.Action = action;
-        }
-        public void Execute()
-        {
-            if (Action != null)
-            {
-                Action();
-            }
-            if (_action != null)
-            {
-
-                var result = _action();
-                _result.SetResult(result);
-            }
-            if (_action2 != null)
-            {
-
-                var result = _action2();
-                _result2.SetResult(result);
-            }
-
-
-            FuegoEngine.Instance.ExecutionComplete();
-        }
-
-        public static FuegoEngineAction ThatReturnsAiDecision(Func<AIDecision> func)
-        {
-            return new FuegoEngineAction(null)
-            {
-                _action = func,
-                _result = new TaskCompletionSource<AIDecision>()
-            };
-        }
-        public static FuegoEngineAction ThatReturnsGtpResponse(Func<GtpResponse> func)
-        {
-            return new FuegoEngineAction(null)
-            {
-                _action2 = func,
-                _result2 = new TaskCompletionSource<GtpResponse>()
-            };
-        }
-        public AIDecision GetAiDecisionResult()
-        {
-            return _result.Task.Result;
-        }
-
-        public Task<GtpResponse> GetGtpResponseAsync()
-        {
-            return _result2.Task;
         }
     }
 }

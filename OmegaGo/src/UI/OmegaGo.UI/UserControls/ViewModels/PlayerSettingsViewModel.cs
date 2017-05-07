@@ -195,7 +195,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
                     errorMessage = _localizer.Validation_FuegoGamesTooFew;
                     return false;
                 }
-                if (FuegoEngine.Instance.CurrentGame != null)
+                if (FuegoSingleton.Instance.CurrentGame != null)
                 {
                     errorMessage = "A game with Fuego is already open.";
                     return false;

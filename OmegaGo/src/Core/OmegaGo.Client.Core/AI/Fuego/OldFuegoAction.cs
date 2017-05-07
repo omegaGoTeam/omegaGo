@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace OmegaGo.Core.AI.FuegoSpace
 {
-    class FuegoAction
+    class OldFuegoAction
     {
         private OldFuego oldFuego;
         private readonly Func<AIDecision> _action;
@@ -11,13 +11,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private TaskCompletionSource<AIDecision> _result;
         private TaskCompletionSource<GtpResponse> _result2;
 
-        public FuegoAction(OldFuego oldFuego, Func<AIDecision> action)
+        public OldFuegoAction(OldFuego oldFuego, Func<AIDecision> action)
         {
             this.oldFuego = oldFuego;
             _action = action;
             _result = new TaskCompletionSource<AI.AIDecision>();
         }
-        public FuegoAction(OldFuego oldFuego, Func<GtpResponse> action)
+        public OldFuegoAction(OldFuego oldFuego, Func<GtpResponse> action)
         {
             this.oldFuego = oldFuego;
             _action2 = action;

@@ -45,8 +45,9 @@
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\Deterministic\DeterministicAI.cs" />
-    <Compile Include="AI\Fuego\FuegoAction.cs" />
-    <Compile Include="AI\Fuego\FuegoEngine.cs" />
+    <Compile Include="AI\Fuego\FuegoEngineAction.cs" />
+    <Compile Include="AI\Fuego\OldFuegoAction.cs" />
+    <Compile Include="AI\Fuego\FuegoSingleton.cs" />
     <Compile Include="AI\Fuego\Fuego.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />

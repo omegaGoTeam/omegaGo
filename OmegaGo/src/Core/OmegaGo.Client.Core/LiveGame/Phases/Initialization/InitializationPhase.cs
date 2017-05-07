@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Initialization
             {
                 if (player.Agent is AiAgent && (player.Agent as AiAgent).AI is Fuego)
                 {
-                    if (FuegoEngine.Instance.CurrentGame != null && !thisIsAGoodFuegoGame)
+                    if (FuegoSingleton.Instance.CurrentGame != null && !thisIsAGoodFuegoGame)
                     {
                         // Fuego can't be in two games at once.
                         Controller.EndGame(GameEndInformation.CreateCancellation(Controller.Players));
@@ -41,7 +41,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Initialization
                     }
                     if (!thisIsAGoodFuegoGame)
                     {
-                        FuegoEngine.Instance.CurrentGame = Controller;
+                        FuegoSingleton.Instance.CurrentGame = Controller;
                         thisIsAGoodFuegoGame = true;
                     }
                 }

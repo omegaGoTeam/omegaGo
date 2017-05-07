@@ -24,9 +24,9 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
         public override void StartPhase()
         {
             // Clear Fuego
-            if (FuegoEngine.Instance.CurrentGame == this.Controller)
+            if (FuegoSingleton.Instance.CurrentGame == this.Controller)
             {
-                FuegoEngine.Instance.CurrentGame = null;
+                FuegoSingleton.Instance.CurrentGame = null;
             }
         }
     }

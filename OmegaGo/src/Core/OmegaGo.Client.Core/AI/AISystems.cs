@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
-        /// Fuego AI builder. <see cref="FuegoEngine"/> uses this to create the Fuego engine proper. 
+        /// Fuego AI builder. <see cref="FuegoSingleton"/> uses this to create the Fuego engine proper. 
         /// </summary>
         internal static IGtpEngineBuilder FuegoBuilder;
 
@@ -69,7 +69,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
-            FuegoEngine.Instance.AppWideInitialization();
+            FuegoSingleton.Instance.AppWideInitialization();
             AISystems.RegistrationComplete = true;
         }        
     }
