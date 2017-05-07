@@ -245,8 +245,6 @@ namespace OmegaGo.Core.AI.FuegoSpace
             // Board size
             SendCommand("boardsize " + gameInformation.GameInfo.BoardSize.Width);
 
-            // Strength
-            SendCommand("uct_param_player ponder " + (this.Ponder ? "1" : "0"));
 
             // Rules
             switch (gameInformation.GameInfo.RulesetType)
@@ -262,6 +260,10 @@ namespace OmegaGo.Core.AI.FuegoSpace
                     break;
             }
             SendCommand("komi " + gameInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
+
+
+            // Strength
+            SendCommand("uct_param_player ponder " + (this.Ponder ? "1" : "0"));
             if (this.MaxGames > 0)
             {
                 SendCommand("uct_param_player max_games " + this.MaxGames);
