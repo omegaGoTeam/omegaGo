@@ -13,18 +13,76 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private static FuegoEngine _instance;
         private IGtpEngine _engine;
 
+        private System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction> _queue =
+            new System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction>();
+        private object _fuegoMutex = new object();
+        private bool _fuegoExecuting = false;
+
         public static FuegoEngine Instance => FuegoEngine._instance ?? (FuegoEngine._instance = new FuegoEngine());
 
         private FuegoEngine()
         {
-            AppWideInitialization();
         }
         
         public GameController CurrentGame { get; set; }   
-
-        private void AppWideInitialization()
+        
+        public void AppWideInitialization()
         {
-            _engine = AISystems.FuegoBuilder.CreateEngine(0);
+            var init = new FuegoEngineAction(() =>
+            {
+                _engine = AISystems.FuegoBuilder.CreateEngine(0);
+            });
+            EnqueueAction(init);
+        }
+
+
+        private void EnqueueAction(FuegoEngineAction action)
+        {
+            _queue.Enqueue(action);
+            ExecuteQueueIfNotRunning();
+        }
+
+        private void ExecuteQueueIfNotRunning()
+        {
+            lock (_fuegoMutex)
+            {
+                if (_fuegoExecuting) return;
+                else
+                {
+                    FuegoEngineAction topOfQueue;
+                    if (_queue.TryDequeue(out topOfQueue))
+                    {
+                        _fuegoExecuting = true;
+                        Task.Run(() =>
+                        {
+                            topOfQueue.Execute();
+                        });
+                    }
+                }
+            }
+        }
+        internal void ExecutionComplete()
+        {
+            lock (_fuegoMutex)
+            {
+                _fuegoExecuting = false;
+            }
+            ExecuteQueueIfNotRunning();
+        }
+    }
+
+    class FuegoEngineAction
+    {
+        public Action Action;
+
+        public FuegoEngineAction(Action action)
+        {
+            this.Action = action;
+        }
+        public void Execute()
+        {
+            Action();
+            FuegoEngine.Instance.ExecutionComplete();
         }
     }
 }

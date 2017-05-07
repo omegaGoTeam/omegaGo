@@ -33,10 +33,14 @@ namespace OmegaGo.Core.AI.Fuego
             {
                 if (FuegoEngine.Instance.CurrentGame.Info.Equals(gameInformation.GameInfo))
                 {
+                    return AIDecision.Resign("Not yet implemented, but this should work.");
+                }
+                else
+                {
+                    // Fuego is playing elsewhere, we cannot get hints.
                     return null;
                 }
             }
-            return null;
         }
 
         public override void MovePerformed(Move move, GameTree gameTree, GamePlayer informedPlayer, GameInfo info)

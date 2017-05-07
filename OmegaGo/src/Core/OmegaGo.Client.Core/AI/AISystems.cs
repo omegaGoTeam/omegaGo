@@ -69,6 +69,7 @@ namespace OmegaGo.Core.AI
         public static void RegisterFuegoBuilder(IGtpEngineBuilder builder)
         {
             FuegoBuilder = builder;
+            FuegoEngine.Instance.AppWideInitialization();
             AISystems.RegistrationComplete = true;
         }        
     }

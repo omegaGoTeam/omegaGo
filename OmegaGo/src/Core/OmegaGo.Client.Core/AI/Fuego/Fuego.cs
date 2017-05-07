@@ -21,9 +21,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private readonly List<Move> _history = new List<Move>();
         private readonly List<string> _storedNotes = new List<string>();
         private IGtpEngine _engine;
-        private object _fuegoMutex = new object();
 
         private System.Collections.Concurrent.ConcurrentQueue<FuegoAction> _fuegoActions = new System.Collections.Concurrent.ConcurrentQueue<FuegoAction>();
+        private object _fuegoMutex = new object();
         private bool _fuegoExecuting = false;
 
         private bool _initialized;
