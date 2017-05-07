@@ -87,47 +87,50 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             var init = new FuegoEngineAction(() =>
             {
-                // Clear locals
-                _history = new List<Game.Move>();
-                _storedNotes = new List<string>();
-
-                // Board size
-                SendCommand("boardsize " + gameInformation.GameInfo.BoardSize.Width);
-
-                // Rules
-                switch (gameInformation.GameInfo.RulesetType)
-                {
-                    case RulesetType.AGA:
-                    case RulesetType.Chinese:
-                        SendCommand("go_rules chinese");
-                        SendCommand("go_param_rules japanese_scoring 0");
-                        break;
-                    case RulesetType.Japanese:
-                        SendCommand("go_rules japanese");
-                        SendCommand("go_param_rules japanese_scoring 1");
-                        break;
-                }
-
-                // Komi
-                SendCommand("komi " + gameInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
-
-                // Time settings
-                string timeSettings = gameInformation.AiPlayer.Clock.GetGtpInitializationCommand();
-                if (timeSettings != null)
-                {
-                    SendCommand(timeSettings);
-                }
-
-                // Regardless of time controls, we are never willing to wait more than 15 seconds.
-                SendCommand("go_param timelimit 15");  
-                
-                // Print beginning info
-                Debug.WriteLine("AI: Komi set to " + SendCommand("get_komi").Text);
-                Debug.WriteLine("AI: Random seed is " + SendCommand("get_random_seed").Text);
-
-                // TODO player strength
+                TrueInitialize(gameInformation);
             });
             EnqueueAction(init);
+        }
+
+        private void TrueInitialize(AiGameInformation gameInformation)
+        {
+            // Clear locals
+            _history = new List<Game.Move>();
+            _storedNotes = new List<string>();
+
+            // Board size
+            SendCommand("boardsize " + gameInformation.GameInfo.BoardSize.Width);
+
+            // Rules
+            switch (gameInformation.GameInfo.RulesetType)
+            {
+                case RulesetType.AGA:
+                case RulesetType.Chinese:
+                    SendCommand("go_rules chinese");
+                    SendCommand("go_param_rules japanese_scoring 0");
+                    break;
+                case RulesetType.Japanese:
+                    SendCommand("go_rules japanese");
+                    SendCommand("go_param_rules japanese_scoring 1");
+                    break;
+            }
+
+            // Komi
+            SendCommand("komi " + gameInformation.GameInfo.Komi.ToString(CultureInfo.InvariantCulture));
+
+            // Time settings
+            string timeSettings = gameInformation.AiPlayer.Clock.GetGtpInitializationCommand();
+            if (timeSettings != null)
+            {
+                SendCommand(timeSettings);
+            }
+
+            // Regardless of time controls, we are never willing to wait more than 15 seconds.
+            SendCommand("go_param timelimit 15");
+
+            // Print beginning info
+            Debug.WriteLine("AI: Komi set to " + SendCommand("get_komi").Text);
+            Debug.WriteLine("AI: Random seed is " + SendCommand("get_random_seed").Text);
         }
 
         private GtpResponse SendCommand(string command)
@@ -307,14 +310,38 @@ namespace OmegaGo.Core.AI.FuegoSpace
             return mark;
         }
 
-        public IEnumerable<Position> GetIsolatedDeadPositions(Fuego fuego, IGameController gameController)
+        public async Task<IEnumerable<Position>> GetIsolatedDeadPositions(Fuego fuego, GameController gameController)
         {
-            throw new NotImplementedException();
+            var action = FuegoEngineAction.ThatReturnsGtpResponse(() =>
+            {
+                var information = new AiGameInformation(gameController.Info, StoneColor.Black,
+                    gameController.Players.Black, gameController.GameTree);
+                TrueInitialize(information);
+                FixHistory(information);
+                var result = SendCommand("final_status_list dead");
+                return result;
+            });
+            EnqueueAction(action);
+            var response = await action.GetGtpResponseAsync();
+
+            var positions = response.Text.Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var mark = new List<Position>();
+            foreach (string position in positions)
+            {
+                mark.Add(Position.FromIgsCoordinates(position));
+            }
+            return mark;
         }
 
         public AIDecision GetIsolatedHint(Fuego fuego, AiGameInformation gameInformation)
         {
-            throw new NotImplementedException();
+            var action = FuegoEngineAction.ThatReturnsAiDecision(() =>
+            {
+                TrueInitialize(gameInformation);
+                return TrueRequestMove(fuego, gameInformation);
+            });
+            EnqueueAction(action);
+            return action.GetAiDecisionResult();
         }
     }
 

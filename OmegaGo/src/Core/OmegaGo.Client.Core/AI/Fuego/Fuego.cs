@@ -22,7 +22,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         {
             if (FuegoEngine.Instance.CurrentGame == null)
             {
-                return FuegoEngine.Instance.GetIsolatedDeadPositions(this, gameController);
+                return await FuegoEngine.Instance.GetIsolatedDeadPositions(this, gameController as GameController);
             }
             else
             {
