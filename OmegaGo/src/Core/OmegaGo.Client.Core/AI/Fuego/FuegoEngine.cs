@@ -25,6 +25,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private bool _fuegoExecuting = false;
         private List<Move> _history = new List<Move>();
         private List<string> _storedNotes = new List<string>();
+        private bool _ponderSet = false;
+        private int _lastMaxGames = -1;
+        private bool? _lastAllowResign = null;
 
         public static FuegoEngine Instance => FuegoEngine._instance ?? (FuegoEngine._instance = new FuegoEngine());
 
@@ -135,9 +138,9 @@ namespace OmegaGo.Core.AI.FuegoSpace
             return output;
         }
 
-        public AIDecision RequestMove(AiGameInformation gameInformation)
+        public AIDecision RequestMove(Fuego fuego, AiGameInformation gameInformation)
         {
-            var action = FuegoEngineAction.ThatReturnsAiDecision(() => TrueRequestMove(gameInformation));
+            var action = FuegoEngineAction.ThatReturnsAiDecision(() => TrueRequestMove(fuego, gameInformation));
             EnqueueAction(action);
             return action.GetAiDecisionResult();
         }
@@ -162,9 +165,35 @@ namespace OmegaGo.Core.AI.FuegoSpace
         }
 
 
-        private AIDecision TrueRequestMove(AiGameInformation gameInformation)
+        private AIDecision TrueRequestMove(Fuego fuego, AiGameInformation gameInformation)
         {
             FixHistory(gameInformation);
+
+            // Set whether a player can resign
+            bool allowResign = fuego.AllowResign && gameInformation.GameInfo.NumberOfHandicapStones == 0;
+            if (allowResign != this._lastAllowResign)
+            {
+                this._lastAllowResign = allowResign;
+                if (!allowResign)
+                {
+                    SendCommand("uct_param_player resign_threshold 0");
+                }
+            }
+
+            // Set whether a player can ponder
+            if (!_ponderSet)
+            {
+                SendCommand("uct_param_player ponder " + (fuego.Ponder ? "1" : "0"));
+                _ponderSet = true;
+            }
+
+            // Set the player's strength
+            if (_lastMaxGames != fuego.MaxGames)
+            {
+                SendCommand("uct_param_player max_games " + fuego.MaxGames);
+                _lastMaxGames = fuego.MaxGames;
+
+            }
 
             // Move for what color?
             string movecolor = gameInformation.AIColor == StoneColor.Black ? "B" : "W";

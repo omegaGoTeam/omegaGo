@@ -60,10 +60,10 @@ namespace OmegaGo.UI.ViewModels
 
             if (Program is Fuego)
             {
-                Fuego oldFuego = Program as Fuego;
-                oldFuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
-                oldFuego.Ponder = gameSettings.Assistant.FuegoPonder;
-                oldFuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
+                Fuego fuego = Program as Fuego;
+                fuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
+                fuego.Ponder = gameSettings.Assistant.FuegoPonder;
+                fuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
             }
 
             RegisterHandlers();
