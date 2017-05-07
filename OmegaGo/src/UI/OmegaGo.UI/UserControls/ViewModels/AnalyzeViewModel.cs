@@ -58,6 +58,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
             private set
             {
                 SetProperty(ref _selectedTool, value);
+                value.Set(_toolServices);
                 ToolChanged?.Invoke(this, value);
             }
         }
