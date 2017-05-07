@@ -58,12 +58,12 @@ namespace OmegaGo.UI.ViewModels
                 fluffy.TreeDepth = gameSettings.Assistant.FluffyDepth;
             }
 
-            if (Program is Fuego)
+            if (Program is OldFuego)
             {
-                Fuego fuego = Program as Fuego;
-                fuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
-                fuego.Ponder = gameSettings.Assistant.FuegoPonder;
-                fuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
+                OldFuego oldFuego = Program as OldFuego;
+                oldFuego.AllowResign = gameSettings.Assistant.FuegoAllowResign;
+                oldFuego.Ponder = gameSettings.Assistant.FuegoPonder;
+                oldFuego.MaxGames = gameSettings.Assistant.FuegoMaxGames;
             }
 
             RegisterHandlers();

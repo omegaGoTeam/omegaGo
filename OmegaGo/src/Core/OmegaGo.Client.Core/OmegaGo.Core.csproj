@@ -47,7 +47,7 @@
     <Compile Include="AI\Deterministic\DeterministicAI.cs" />
     <Compile Include="AI\Fuego\FuegoAction.cs" />
     <Compile Include="AI\Fuego\FuegoEngine.cs" />
-    <Compile Include="AI\Fuego\FuegoWrapper.cs" />
+    <Compile Include="AI\Fuego\Fuego.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Extensions\TreeExtensions.cs" />
@@ -124,7 +124,7 @@
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\DefeatistAI.cs" />
-    <Compile Include="AI\Fuego\Fuego.cs" />
+    <Compile Include="AI\Fuego\OldFuego.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
     <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />

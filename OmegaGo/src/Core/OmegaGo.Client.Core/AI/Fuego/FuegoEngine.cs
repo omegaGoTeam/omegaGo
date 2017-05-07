@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
                     if (_queue.TryDequeue(out topOfQueue))
                     {
                         _fuegoExecuting = true;
+                        Debug.WriteLine("Fuego action begin.");
                         Task.Run(() =>
                         {
                             topOfQueue.Execute();
@@ -67,7 +69,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
             {
                 _fuegoExecuting = false;
             }
+            Debug.WriteLine("Fuego action complete.");
             ExecuteQueueIfNotRunning();
+        }
+
+        public void Initialize(AiGameInformation aiGameInformation)
+        {
+            // 
         }
     }
 

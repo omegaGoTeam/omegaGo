@@ -16,7 +16,7 @@ namespace OmegaGo.Core.AI
     public static class AISystems
     {
         /// <summary>
-        /// Fuego AI builder. <see cref="Fuego"/> uses this to create the Fuego engine proper. 
+        /// Fuego AI builder. <see cref="OldFuego"/> uses this to create the Fuego engine proper. 
         /// </summary>
         internal static IGtpEngineBuilder FuegoBuilder;
 

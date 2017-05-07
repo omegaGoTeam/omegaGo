@@ -49,7 +49,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public bool AiPanelVisible => player.IsAi;
 
         public bool IsFuego
-            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fuego);
+            => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(OldFuego);
 
         public bool IsFluffy
             => player.IsAi && ((GameCreationViewAiPlayer) player).AI.GetType() == typeof(Fluffy);

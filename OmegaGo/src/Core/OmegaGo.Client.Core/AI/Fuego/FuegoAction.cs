@@ -5,21 +5,21 @@ namespace OmegaGo.Core.AI.FuegoSpace
 {
     class FuegoAction
     {
-        private Fuego fuego;
+        private OldFuego oldFuego;
         private readonly Func<AIDecision> _action;
         private readonly Func<GtpResponse> _action2;
         private TaskCompletionSource<AIDecision> _result;
         private TaskCompletionSource<GtpResponse> _result2;
 
-        public FuegoAction(Fuego fuego, Func<AIDecision> action)
+        public FuegoAction(OldFuego oldFuego, Func<AIDecision> action)
         {
-            this.fuego = fuego;
+            this.oldFuego = oldFuego;
             _action = action;
             _result = new TaskCompletionSource<AI.AIDecision>();
         }
-        public FuegoAction(Fuego fuego, Func<GtpResponse> action)
+        public FuegoAction(OldFuego oldFuego, Func<GtpResponse> action)
         {
-            this.fuego = fuego;
+            this.oldFuego = oldFuego;
             _action2 = action;
             _result2 = new TaskCompletionSource<GtpResponse>();
         }
@@ -30,13 +30,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
             {
                 var result = _action();
                 _result.SetResult(result);
-                fuego.ExecutionComplete();
+                oldFuego.ExecutionComplete();
             }
             else if (_action2 != null)
             {
                 var result = _action2();
                 _result2.SetResult(result);
-                fuego.ExecutionComplete();
+                oldFuego.ExecutionComplete();
             }
         }
 
