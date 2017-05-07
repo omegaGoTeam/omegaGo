@@ -13,6 +13,7 @@ using Microsoft.Graphics.Canvas.Text;
 using Windows.System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.Devices.Input;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -37,11 +38,43 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                         typeof(TimelineViewModel),
                         typeof(TimelineControl),
                         new PropertyMetadata(null, TimelineChanged));
-        
+
+        public static readonly DependencyProperty TimelineWidthProperty =
+                DependencyProperty.Register(
+                        "TimelineWidth",
+                        typeof(double),
+                        typeof(TimelineControl),
+                        new PropertyMetadata(0d));
+
+        public static readonly DependencyProperty TimelineHeightProperty =
+                DependencyProperty.Register(
+                        "TimelineHeight",
+                        typeof(double),
+                        typeof(TimelineControl),
+                        new PropertyMetadata(0d));
+
+        public static readonly DependencyProperty TimelineVerticalOffsetProperty =
+                DependencyProperty.Register(
+                        "TimelineVerticalOffset",
+                        typeof(double),
+                        typeof(TimelineControl),
+                        new PropertyMetadata(0d));
+
+        public static readonly DependencyProperty TimelineHorizontalOffsetProperty =
+                DependencyProperty.Register(
+                        "TimelineHorizontalOffset",
+                        typeof(double),
+                        typeof(TimelineControl),
+                        new PropertyMetadata(0d));
+
         private int _timelineDepth;
 
         private Dictionary<string, CanvasTextLayout> _textLayoutCache;
         private CanvasTextFormat _textFormat;
+
+        private bool _isPointerDown;
+        private Point _pointerDownPosition = new Point();
+        private Point _pointerCurrentPosition = new Point();
 
         private static void TimelineChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -56,6 +89,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 timelineControl.KeyUp += timelineControl.TimelineControl_KeyUp;
                 timelineControl.canvas.Draw += timelineControl.Canvas_Draw;
                 timelineControl.canvas.PointerReleased += timelineControl.Canvas_PointerReleased;
+                timelineControl.canvas.PointerMoved += timelineControl.Canvas_PointerMoved;
+                timelineControl.canvas.PointerPressed += timelineControl.Canvas_PointerPressed;
                 timelineControl.canvas.Invalidate();
             }
         }
@@ -79,48 +114,69 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             set { SetValue(ViewModelProperty, value); }
         }
 
-        protected override Size MeasureOverride(Size availableSize)
+        public double TimelineWidth
         {
-            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
-                return base.MeasureOverride(availableSize);
+            get { return (double)GetValue(TimelineWidthProperty); }
+            set { SetValue(TimelineWidthProperty, value); }
+        }
 
-            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot, 0, 0) + 1;
-            
-            Size desiredSize = new Size();
-            desiredSize.Height =
-                    requiredHeight * NODESIZE +
-                    (requiredHeight - 1) * NODESPACING +
-                    2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for top and bottom
+        public double TimelineHeight
+        {
+            get { return (double)GetValue(TimelineHeightProperty); }
+            set { SetValue(TimelineHeightProperty, value); }
+        }
 
-            desiredSize.Width =
-                (_timelineDepth + 1) * NODESIZE +
-                (_timelineDepth + 1) * NODESPACING +
-                2 * NODEHIGHLIGHTSTROKE;                // Add node elliptical stroke for left and right
-            
-            canvas.Width = desiredSize.Width;
-            canvas.Height = desiredSize.Height;
+        public double TimelineVerticalOffset
+        {
+            get { return (double)GetValue(TimelineVerticalOffsetProperty); }
+            set { SetValue(TimelineVerticalOffsetProperty, value); }
+        }
 
-            return base.MeasureOverride(availableSize); 
+        public double TimelineHorizontalOffset
+        {
+            get { return (double)GetValue(TimelineHorizontalOffsetProperty); }
+            set { SetValue(TimelineHorizontalOffsetProperty, value); }
         }
         
         private void TimelineRedrawRequsted(object sender, EventArgs e)
         {
             // New node could could had been added, in which case the neccessary space could change
-            this.InvalidateMeasure();
+            UpdateTimelineSize();
 
-            // If the desired size had not changed - issue redraw request anyway
+            // Issue redraw request
             canvas.Invalidate();
-
-            // This will not result in two draws.
         }
-
+        
         private void Canvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
             if (ViewModel.GameTree != null && ViewModel.GameTree.GameTreeRoot != null)
             {
-                args.DrawingSession.Transform = Matrix3x2.CreateTranslation(NODEHIGHLIGHTSTROKE, NODEHIGHLIGHTSTROKE);
+                args.DrawingSession.Transform = 
+                    Matrix3x2.CreateTranslation(
+                        NODEHIGHLIGHTSTROKE - (float)TimelineHorizontalOffset, 
+                        NODEHIGHLIGHTSTROKE - (float)TimelineVerticalOffset);
                 int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
             }
+        }
+
+        //////
+        // Timeline Pointer input
+        //////
+
+        private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+                ;
+
+            HandleTouchPointerDown();
+        }
+
+        private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+                ;
+
+            HandleTouchPointerMove();
         }
 
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -129,8 +185,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
             // Compensate position for transformation
-            pointerPosition.X -= NODEHIGHLIGHTSTROKE;
-            pointerPosition.Y -= NODEHIGHLIGHTSTROKE;
+            pointerPosition.X = pointerPosition.X - NODEHIGHLIGHTSTROKE + TimelineHorizontalOffset;
+            pointerPosition.Y = pointerPosition.Y - NODEHIGHLIGHTSTROKE + TimelineVerticalOffset;
 
             // First node is empty, ignor it
             if (ViewModel.GameTree.GameTreeRoot == null)
@@ -144,6 +200,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 ViewModel.SetSelectedNode(pressedNode);
             }
         }
+
+        //////
+        // Timeline drawing
+        //////
 
         private int DrawNode(CanvasDrawingSession drawingSession, GameTreeNode node, int depth, int offset, int parentOffset)
         {
@@ -422,6 +482,60 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             if (node.Parent != null)
                 ViewModel.SetSelectedNode(node.Parent);
+        }
+
+        //////
+        // Custom scrolling implementation
+        //////
+
+        private void UpdateTimelineSize()
+        {
+            if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
+                return;
+
+            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot, 0, 0) + 1;
+
+            double height = requiredHeight * NODESIZE +
+                            (requiredHeight - 1) * NODESPACING +
+                            2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for top and bottom
+
+            double width = (_timelineDepth + 1) * NODESIZE +
+                            (_timelineDepth + 1) * NODESPACING +
+                            2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for left and right
+
+            TimelineHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
+            TimelineWidth = width - canvas.ActualWidth;     // Subtract from the entire required width what we can display
+        }
+
+        private void verticalBar_Scroll(object sender, Windows.UI.Xaml.Controls.Primitives.ScrollEventArgs e)
+        {
+            this.canvas.Invalidate();
+        }
+
+        private void horizontalBar_Scroll(object sender, Windows.UI.Xaml.Controls.Primitives.ScrollEventArgs e)
+        {
+            this.canvas.Invalidate();
+        }
+        
+        private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            verticalBar.ViewportSize = e.NewSize.Height;
+            horizontalBar.ViewportSize = e.NewSize.Width;
+        }
+
+        private void HandleTouchPointerDown()
+        {
+
+        }
+
+        private void HandleTouchPointerMove()
+        {
+
+        }
+
+        private void HandleTouchPointerUp()
+        {
+
         }
     }
 }

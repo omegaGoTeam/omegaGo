@@ -73,8 +73,9 @@ namespace OmegaGo.Core.Game.Tools
                 _currentNode = toolService.Node;
             }
 
+            // TODO Víťa Fix RenderService not to ask for Shadow Item if Position is Position.Undefined
             MoveResult result=_moveResults[toolService.PointerOverPosition.X,toolService.PointerOverPosition.Y];
-            if (result == MoveResult.Legal) {
+            if (result == MoveResult.Legal) { 
                 if (_currentNode.Move.WhoMoves == StoneColor.Black)
                     return new Stone(StoneColor.White, toolService.PointerOverPosition);
                 else if (_currentNode.Move.WhoMoves == StoneColor.White)

@@ -1,4 +1,5 @@
 ﻿<local:UserControlBase
+    x:Name="layoutRoot"
     x:Class="OmegaGo.UI.WindowsUniversal.UserControls.TimelineControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,17 +11,37 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     IsTabStop="True"
-    IsTapEnabled="True">
+    IsTapEnabled="True"
+    SizeChanged="layoutRoot_SizeChanged">
 
-    <Border Background="#FFFDD270">
-        <ScrollViewer HorizontalScrollMode="Auto"
-                      VerticalScrollMode="Auto"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Disabled"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center">
-            <win2d:CanvasControl x:Name="canvas"
-                             Margin="5"/>
-        </ScrollViewer>
-    </Border>
+    <Grid Background="#FFFDD270">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        
+        <win2d:CanvasControl x:Name="canvas"
+                             Margin="5,5,0,0"
+                             Grid.RowSpan="1"
+                             Grid.ColumnSpan="1"/>
+
+        <ScrollBar x:Name="verticalBar" Grid.Column="1" Grid.Row="0"
+                   Orientation="Vertical" IndicatorMode="MouseIndicator"
+                   HorizontalAlignment="Right" Minimum="0" Visibility="Visible"
+                   Maximum="{x:Bind TimelineHeight, Mode=OneWay}"
+                   Value="{x:Bind TimelineVerticalOffset, Mode=TwoWay}"
+                   Scroll="verticalBar_Scroll"/>
+        
+        <ScrollBar x:Name="horizontalBar" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                   Orientation="Horizontal" IndicatorMode="MouseIndicator"
+                   VerticalAlignment="Bottom" Minimum="0" Visibility="Visible"
+                   Maximum="{x:Bind TimelineWidth, Mode=OneWay}"
+                   Value="{x:Bind TimelineHorizontalOffset, Mode=TwoWay}"
+                   Scroll="horizontalBar_Scroll"/>
+    </Grid>
 </local:UserControlBase>
