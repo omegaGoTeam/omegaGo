@@ -17,16 +17,13 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
      
 
-        public override Task<IEnumerable<Position>> GetDeadPositions()
+        public override async Task<IEnumerable<Position>> GetDeadPositions()
         {
-            throw new NotImplementedException("Assistant later.");
-            return null;
-            return base.GetDeadPositions();
+            return new List<Position>();
         }
 
         public override AIDecision GetHint(AiGameInformation gameInformation)
         {
-            throw new NotImplementedException("Assistant later.");
             if (FuegoEngine.Instance.CurrentGame == null)
             {
                 return AIDecision.Resign("Not yet implemented, but this should work.");

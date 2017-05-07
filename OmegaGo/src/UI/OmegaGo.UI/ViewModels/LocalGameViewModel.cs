@@ -321,28 +321,36 @@ namespace OmegaGo.UI.ViewModels
 
             string content = "";
             string title = "";
-
-            switch (hint.Kind)
+            if (hint != null)
             {
-                case AgentDecisionKind.Resign:
-                    title = "You should resign.";
-                    content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
-                    break;
-                case AgentDecisionKind.Move:
-                    title = hint.Move.ToString();
-                    if (hint.Move.Kind == MoveKind.Pass)
-                    {
-                        content = "You should pass.\n\nExplanation: " + hint.Explanation;
-                    }
-                    else
-                    {
-                        content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
-                                  hint.Explanation;
-                    }
-                    break;
-            }
 
+                switch (hint.Kind)
+                {
+                    case AgentDecisionKind.Resign:
+                        title = "You should resign.";
+                        content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                        break;
+                    case AgentDecisionKind.Move:
+                        title = hint.Move.ToString();
+                        if (hint.Move.Kind == MoveKind.Pass)
+                        {
+                            content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                        }
+                        else
+                        {
+                            content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                                      hint.Explanation;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                title = "Hint unavailable";
+                content = "Hint cannot be given because Fuego is occupied elsewhere.";
+            }
             await DialogService.ShowAsync(content, title);
+            
         }
         
         ////////////////
