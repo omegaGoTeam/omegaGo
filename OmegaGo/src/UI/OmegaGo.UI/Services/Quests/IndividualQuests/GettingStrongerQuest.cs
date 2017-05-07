@@ -22,6 +22,7 @@ namespace OmegaGo.UI.Services.Quests.IndividualQuests
         }
         public override bool GameCompleted(GameCompletedQuestInformation info)
         {
+            if (info.Human == null) return false;
             var opponent =
                 info.Game.Controller.Players.GetOpponentOf(info.Human);
             return
