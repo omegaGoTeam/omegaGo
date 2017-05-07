@@ -76,6 +76,5 @@ namespace OmegaGo.Core.Game
         {
             return "GameInfo: " + White + " v." + Black;
         }
-
     }
 }

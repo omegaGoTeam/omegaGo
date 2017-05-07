@@ -56,7 +56,7 @@ namespace OmegaGo.Core.AI
                         new RandomPlayerWrapper(),
                         new HeuristicPlayerWrapper(),
                         new Fluffy(),
-                        new Fuego()
+                        new FuegoSpace.Fuego()
                     };
             }
         }

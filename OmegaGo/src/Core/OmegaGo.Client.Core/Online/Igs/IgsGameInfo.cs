@@ -53,5 +53,21 @@ namespace OmegaGo.Core.Online.Igs
         {
             return $"{White.Name}({White.Rank}) v. {Black.Name}({Black.Rank}) (" + NumberOfObservers + " observers)";
         }
+
+        public override bool Equals(object obj)
+        {
+            return (obj is IgsGameInfo) && this.Equals(obj as IgsGameInfo);
+        }
+
+        protected bool Equals(IgsGameInfo other)
+        {
+            return IgsIndex == other.IgsIndex && this.Black.Name == other.Black.Name &&
+                   this.White.Name == other.White.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return IgsIndex;
+        }
     }
 }
