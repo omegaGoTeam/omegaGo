@@ -1,4 +1,8 @@
-﻿namespace OmegaGo.Core.Modes.LiveGame.Phases.Initialization
+﻿using OmegaGo.Core.AI.FuegoSpace;
+using OmegaGo.Core.Modes.LiveGame.Players.Agents.AI;
+using OmegaGo.Core.Modes.LiveGame.State;
+
+namespace OmegaGo.Core.Modes.LiveGame.Phases.Initialization
 {
     /// <summary>
     /// Game initialization phase
@@ -33,6 +37,16 @@
             foreach (var player in Controller.Players)
             {
                 player.Agent.GameInitialized();
+                if (player.Agent is AiAgent && (player.Agent as AiAgent).AI is Fuego)
+                {
+                    if (FuegoEngine.Instance.CurrentGame != null)
+                    {
+                        // Fuego can't be in two games at once.
+                        Controller.EndGame(GameEndInformation.CreateCancellation(Controller.Players));
+                        return;
+                    }
+                    FuegoEngine.Instance.CurrentGame = Controller;
+                }
             }
         }
     }

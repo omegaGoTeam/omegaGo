@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Phases.LifeAndDeath;
 using OmegaGo.Core.Modes.LiveGame.Players;
@@ -22,7 +23,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
 
         public override void StartPhase()
         {
-            // Nothing to be done.
+            // Clear Fuego
+            if (FuegoEngine.Instance.CurrentGame == this.Controller)
+            {
+                FuegoEngine.Instance.CurrentGame = null;
+            }
         }
     }
 }
