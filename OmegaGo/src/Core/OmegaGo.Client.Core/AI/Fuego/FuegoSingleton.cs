@@ -26,8 +26,8 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private static FuegoSingleton instance;
         private IGtpEngine _engine;
         
-        private System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction> _queue =
-            new System.Collections.Concurrent.ConcurrentQueue<FuegoEngineAction>();
+        private System.Collections.Concurrent.ConcurrentQueue<FuegoAction> _queue =
+            new System.Collections.Concurrent.ConcurrentQueue<FuegoAction>();
         private object _fuegoMutex = new object();
         private bool _fuegoExecuting;
 
@@ -48,7 +48,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         
         public void AppWideInitialization()
         {
-            var init = new FuegoEngineAction(() =>
+            var init = new FuegoAction(() =>
             {
                 _engine = AISystems.FuegoBuilder.CreateEngine(0);
             });
@@ -56,7 +56,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         }
 
 
-        private void EnqueueAction(FuegoEngineAction action)
+        private void EnqueueAction(FuegoAction action)
         {
             _queue.Enqueue(action);
             ExecuteQueueIfNotRunning();
@@ -68,7 +68,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             {
                 if (!_fuegoExecuting) 
                 {
-                    FuegoEngineAction topOfQueue;
+                    FuegoAction topOfQueue;
                     if (_queue.TryDequeue(out topOfQueue))
                     {
                         _fuegoExecuting = true;
@@ -94,7 +94,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public void Initialize(AiGameInformation gameInformation)
         {
-            var init = new FuegoEngineAction(() =>
+            var init = new FuegoAction(() =>
             {
                 TrueInitialize(gameInformation);
             });
@@ -152,7 +152,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public AIDecision RequestMove(Fuego fuego, AiGameInformation gameInformation)
         {
-            var action = FuegoEngineAction.ThatReturnsAiDecision(() => TrueRequestMove(fuego, gameInformation));
+            var action = FuegoAction.ThatReturnsAiDecision(() => TrueRequestMove(fuego, gameInformation));
             EnqueueAction(action);
             return action.GetAiDecisionResult();
         }
@@ -262,7 +262,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public void MovePerformed(AiGameInformation aiGameInformation)
         {
-            var action = new FuegoEngineAction(() =>
+            var action = new FuegoAction(() =>
             {
                 FixHistory(aiGameInformation);
             });
@@ -271,7 +271,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public void MoveUndone()
         {
-            var action = new FuegoEngineAction(UndoOneMove);
+            var action = new FuegoAction(UndoOneMove);
             EnqueueAction(action);
         }
 
@@ -283,7 +283,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public AIDecision GetHint(Fuego fuego, AiGameInformation gameInformation)
         {
-            var action = FuegoEngineAction.ThatReturnsAiDecision(() =>
+            var action = FuegoAction.ThatReturnsAiDecision(() =>
             {
                 var result = TrueRequestMove(fuego, gameInformation);
                 UndoOneMove();
@@ -295,7 +295,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public async Task<IEnumerable<Position>> GetDeadPositions(Fuego fuego)
         {
-            var action = FuegoEngineAction.ThatReturnsGtpResponse(() =>
+            var action = FuegoAction.ThatReturnsGtpResponse(() =>
             { 
                 // Set the player's strength
                 if (_lastMaxGames != fuego.MaxGames)
@@ -321,7 +321,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public async Task<IEnumerable<Position>> GetIsolatedDeadPositions(Fuego fuego, GameController gameController)
         {
-            var action = FuegoEngineAction.ThatReturnsGtpResponse(() =>
+            var action = FuegoAction.ThatReturnsGtpResponse(() =>
             {
                 var information = new AiGameInformation(gameController.Info, StoneColor.Black,
                     gameController.Players.Black, gameController.GameTree);
@@ -351,7 +351,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
 
         public AIDecision GetIsolatedHint(Fuego fuego, AiGameInformation gameInformation)
         {
-            var action = FuegoEngineAction.ThatReturnsAiDecision(() =>
+            var action = FuegoAction.ThatReturnsAiDecision(() =>
             {
                 TrueInitialize(gameInformation);
                 return TrueRequestMove(fuego, gameInformation);
