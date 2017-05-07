@@ -168,7 +168,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
                 ;
 
-            HandleTouchPointerDown();
+            HandleTouchPointerDown(e.GetCurrentPoint(canvas).Position);
         }
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
@@ -176,11 +176,16 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
                 ;
 
-            HandleTouchPointerMove();
+            HandleTouchPointerMove(e.GetCurrentPoint(canvas).Position);
         }
 
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+                ;
+
+            HandleTouchPointerUp(e.GetCurrentPoint(canvas).Position);
+
             GameTreeNode pressedNode;
             Point pointerPosition = e.GetCurrentPoint(canvas).Position;
 
@@ -523,17 +528,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             horizontalBar.ViewportSize = e.NewSize.Width;
         }
 
-        private void HandleTouchPointerDown()
+        private void HandleTouchPointerDown(Point pointerPosition)
         {
 
         }
 
-        private void HandleTouchPointerMove()
+        private void HandleTouchPointerMove(Point pointerPosition)
         {
 
         }
 
-        private void HandleTouchPointerUp()
+        private void HandleTouchPointerUp(Point pointerPosition)
         {
 
         }
