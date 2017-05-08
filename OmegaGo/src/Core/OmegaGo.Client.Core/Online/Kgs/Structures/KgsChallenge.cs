@@ -4,6 +4,10 @@ using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
 {
+    /// <summary>
+    /// Represents a KGS game channel of which we are certain that it's a challenge, not an actual game of Go.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Structures.KgsGameChannel" />
     public class KgsChallenge : KgsGameChannel
     {
 
@@ -21,7 +25,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         {
             Proposal = proposal;
         }
-        public static KgsChallenge FromChannel(GameChannel channel, KgsConnection connection)
+        public static KgsChallenge FromChannel(GameChannel channel)
         {
             if (channel.GameType != GameType.Challenge)
             {
@@ -33,12 +37,18 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
             return challenge;
         }
+        public override void UpdateFrom(GameChannel gameChannel)
+        {
+            Proposal = gameChannel.InitialProposal;
+        }
 
         public override string ToString()
         {
 
             return Proposal.Players[0].User.Name + " proposes " + Proposal.Rules.ToShortDescription();
         }
+
+     
 
         public void RaiseStatusChanged()
         {

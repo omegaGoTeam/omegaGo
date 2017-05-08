@@ -64,11 +64,8 @@ namespace OmegaGo.UI.Services.GameCreation
         /// <summary>
         /// Gets a value indicating whether the user may change their agent, if they're playing online. Used by servers.
         /// </summary>
-#if DEBUG
-        public bool IsUserAgentSelectable => YouVersusOnlineVisible;
-#else
+        //public bool IsUserAgentSelectable => YouVersusOnlineVisible;
         public bool IsUserAgentSelectable => false;
-#endif
 
         /// <summary>
         /// Gets a value indicating whether the rows for the name of your opponent, your color and your agent are visible. Used by servers.

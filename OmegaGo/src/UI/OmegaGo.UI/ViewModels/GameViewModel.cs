@@ -49,6 +49,8 @@ namespace OmegaGo.UI.ViewModels
 
             BoardViewModel = new BoardViewModel(Game.Info.BoardSize);
             BoardViewModel.BoardTapped += (s, e) => OnBoardTapped(e);
+            // Set empty node (should be in the beginning of every gametree) as current node for board rendering
+            RefreshBoard(Game.Controller.GameTree.LastNode);
 
             _uiConnector = new UiConnector(Game.Controller);
 

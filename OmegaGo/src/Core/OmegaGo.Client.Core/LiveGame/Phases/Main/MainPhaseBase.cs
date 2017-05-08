@@ -67,7 +67,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //is there a move to undo?
             for (int i = 0; i < howManyMoves; i++)
             {
-                if (Controller.GameTree.LastNode != null)
+                if (!Controller.GameTree.LastNode.Equals(Controller.GameTree.GameTreeRoot))
                 {
                     Controller.GameTree.LastNode = Controller.GameTree.LastNode.Parent;
                     foreach (var player in this.Controller.Players)

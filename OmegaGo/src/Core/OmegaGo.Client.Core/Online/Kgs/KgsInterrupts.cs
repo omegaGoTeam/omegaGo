@@ -106,7 +106,6 @@ namespace OmegaGo.Core.Online.Kgs
                     return true;
                 case "CHALLENGE_FINAL":
                 case "GAME_NOTIFY":
-                    //  TODO Petr: Elaborate in specific messages later.
                     HandleInterruptMessage<ChallengeDownstreamEvent>(message);
                     return true;
                 case "CLOSE":
