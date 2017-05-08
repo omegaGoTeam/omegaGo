@@ -18,10 +18,6 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _settings;
 
-        private ObservableCollection<KgsRoom> _allRooms = new ObservableCollection<KgsRoom>();
-
-        private ObservableCollection<KgsGameContainer> _gameContainers = new ObservableCollection<KgsGameContainer>();
-
         private IMvxCommand _joinRoomCommand;
         private IMvxCommand _createChallengeCommand;
 
@@ -32,7 +28,6 @@ namespace OmegaGo.UI.ViewModels
 
         private KgsRoom _selectedRoom;
 
-        private bool _showRobots = true;
         private IMvxCommand _unjoinRoomCommand;
 
 
