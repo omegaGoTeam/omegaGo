@@ -26,8 +26,10 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private const int NODESIZE = 24;
         private const int NODESPACING = 4;
         private const int NODEHIGHLIGHTSTROKE = 2;
+        private const int NODECOMBINEDSIZE = NODESIZE + NODESPACING + NODEHIGHLIGHTSTROKE;
         private const int NODEFONTSIZE = 10;
-
+        private const string NODEPASSTEXT = "P";
+        
         private const double POINTERMOVETOLERANCE = 2.5d;
 
         private static readonly Color WhiteNodeColor = Colors.White;
@@ -35,6 +37,28 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private static readonly Color EmptyNodeColor = Colors.Maroon;
         private static readonly Color HighlightNodeColor = Colors.Tomato;
         private static readonly Color LineColor = Colors.Gray;
+        
+        private int _GameTreeDepth;
+
+        private Dictionary<string, CanvasTextLayout> _textLayoutCache;
+        private CanvasTextFormat _textFormat;
+
+        private bool _isPointerDown;
+        private double _pointerMoveDifference;
+        private Point _pointerCurrentPosition = new Point();
+        
+        public GameTreeControl()
+        {
+            _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
+            _textFormat = new CanvasTextFormat()
+            {
+                FontSize = NODEFONTSIZE,
+                HorizontalAlignment = CanvasHorizontalAlignment.Center,
+                VerticalAlignment = CanvasVerticalAlignment.Center
+            };
+
+            this.InitializeComponent();
+        }
 
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(
@@ -63,14 +87,44 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                         typeof(double),
                         typeof(GameTreeControl),
                         new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
-        
+
         public static readonly DependencyProperty GameTreeHorizontalOffsetProperty =
                 DependencyProperty.Register(
                         "GameTreeHorizontalOffset",
                         typeof(double),
                         typeof(GameTreeControl),
                         new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
-        
+
+        public GameTreeViewModel ViewModel
+        {
+            get { return (GameTreeViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        public double GameTreeWidth
+        {
+            get { return (double)GetValue(GameTreeWidthProperty); }
+            set { SetValue(GameTreeWidthProperty, value); }
+        }
+
+        public double GameTreeHeight
+        {
+            get { return (double)GetValue(GameTreeHeightProperty); }
+            set { SetValue(GameTreeHeightProperty, value); }
+        }
+
+        public double GameTreeVerticalOffset
+        {
+            get { return (double)GetValue(GameTreeVerticalOffsetProperty); }
+            set { SetValue(GameTreeVerticalOffsetProperty, value); }
+        }
+
+        public double GameTreeHorizontalOffset
+        {
+            get { return (double)GetValue(GameTreeHorizontalOffsetProperty); }
+            set { SetValue(GameTreeHorizontalOffsetProperty, value); }
+        }
+
         private static void GameTreeVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             GameTreeControl GameTreeControl = d as GameTreeControl;
@@ -100,7 +154,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 GameTreeControl.canvas.Invalidate();
             }
         }
-        
+
         private void GameTreeControl_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             _isPointerDown = false;
@@ -138,58 +192,6 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             }
         }
 
-        private int _GameTreeDepth;
-
-        private Dictionary<string, CanvasTextLayout> _textLayoutCache;
-        private CanvasTextFormat _textFormat;
-
-        private bool _isPointerDown;
-        private double _pointerMoveDifference;
-        private Point _pointerCurrentPosition = new Point();
-
-        public GameTreeControl()
-        {
-            _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
-            _textFormat = new CanvasTextFormat()
-            {
-                FontSize = NODEFONTSIZE,
-                HorizontalAlignment = CanvasHorizontalAlignment.Center,
-                VerticalAlignment = CanvasVerticalAlignment.Center
-            };
-
-            this.InitializeComponent();
-        }
-
-        public GameTreeViewModel ViewModel
-        {
-            get { return (GameTreeViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-
-        public double GameTreeWidth
-        {
-            get { return (double)GetValue(GameTreeWidthProperty); }
-            set { SetValue(GameTreeWidthProperty, value); }
-        }
-
-        public double GameTreeHeight
-        {
-            get { return (double)GetValue(GameTreeHeightProperty); }
-            set { SetValue(GameTreeHeightProperty, value); }
-        }
-
-        public double GameTreeVerticalOffset
-        {
-            get { return (double)GetValue(GameTreeVerticalOffsetProperty); }
-            set { SetValue(GameTreeVerticalOffsetProperty, value); }
-        }
-
-        public double GameTreeHorizontalOffset
-        {
-            get { return (double)GetValue(GameTreeHorizontalOffsetProperty); }
-            set { SetValue(GameTreeHorizontalOffsetProperty, value); }
-        }
-        
         private void GameTreeRedrawRequsted(object sender, EventArgs e)
         {
             // New node could could had been added, in which case the neccessary space could change
@@ -207,7 +209,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                     Matrix3x2.CreateTranslation(
                         NODEHIGHLIGHTSTROKE - (float)GameTreeHorizontalOffset, 
                         NODEHIGHLIGHTSTROKE - (float)GameTreeVerticalOffset);
-                int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
+
+                DrawGameTree(args.DrawingSession, ViewModel.GameTree.GameTreeRoot);
             }
         }
 
@@ -269,7 +272,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 return;
 
             GameTreeNode gameTreeRootNode = ViewModel.GameTree.GameTreeRoot;
-            GetNodeAtPoint(pointerPosition, gameTreeRootNode, 0, 0, out pressedNode);
+            pressedNode = GetNodeAtPoint(pointerPosition, gameTreeRootNode);
 
             if (pressedNode != null && pressedNode != ViewModel.SelectedGameTreeNode)
             {
@@ -281,128 +284,108 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // GameTree drawing
         //////
 
-        private int DrawNode(CanvasDrawingSession drawingSession, GameTreeNode node, int depth, int offset, int parentOffset)
+        private void DrawGameTree(CanvasDrawingSession drawingSession, GameTreeNode gameTreeRoot)
         {
-            int nodeOffset = offset;
+            int resultVerticalOffset = 0;
+            WalkGameTree(gameTreeRoot, 0, ref resultVerticalOffset, 0,
+                (node, horizontalOffset, verticalOffset, parentVerticalOffset) =>
+                {
+                    // Calculate node position
+                    Vector2 stoneTopLeft = new Vector2(
+                        horizontalOffset * NODESIZE + horizontalOffset * NODESPACING,
+                        verticalOffset * NODESIZE + verticalOffset * NODESPACING);
 
-            // Calculate node position
-            Vector2 stoneTopLeft = new Vector2(
-                depth * NODESIZE + depth * NODESPACING,
-                offset * NODESIZE + offset * NODESPACING);
+                    Vector2 stoneCenter = stoneTopLeft;
+                    stoneCenter.X += NODESIZE * 0.5f;
+                    stoneCenter.Y += NODESIZE * 0.5f;
 
-            Vector2 stoneCenter = stoneTopLeft;
-            stoneCenter.X += NODESIZE * 0.5f;
-            stoneCenter.Y += NODESIZE * 0.5f;
+                    string nodeText = "";
 
-            string nodeText = "";
+                    // Get text for node
+                    if (node.Move.Kind == MoveKind.PlaceStone)
+                        nodeText = node.Move.Coordinates.ToIgsCoordinates();
+                    else if (node.Move.Kind == MoveKind.Pass)
+                        nodeText = NODEPASSTEXT;
 
-            // Get text for node
-            if (node.Move.Kind == MoveKind.PlaceStone)
-                nodeText = node.Move.Coordinates.ToIgsCoordinates();
-            else if (node.Move.Kind == MoveKind.Pass)
-                nodeText = "P";
+                    CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, nodeText);
+                    // Draw node according to the color of player whose move that was
+                    if (node.Move.WhoMoves == StoneColor.Black)
+                    {
+                        // Black move
+                        drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, BlackNodeColor);
+                        drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.White);
+                    }
+                    else if (node.Move.WhoMoves == StoneColor.White)
+                    {
+                        // White move
+                        drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, WhiteNodeColor);
+                        drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.Black);
+                    }
+                    else
+                    {
+                        // Empty node, no move
+                        drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, EmptyNodeColor);
+                    }
 
-            CanvasTextLayout textLayout = GetTextLayoutForString(drawingSession.Device, nodeText);
-            // Draw node according to the color of player whose move that was
-            if (node.Move.WhoMoves == StoneColor.Black)
-            {
-                // Black move
-                drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, BlackNodeColor);
-                drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.White);
-            }
-            else if (node.Move.WhoMoves == StoneColor.White)
-            {
-                // White move
-                drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, WhiteNodeColor);
-                drawingSession.DrawTextLayout(textLayout, stoneTopLeft, Colors.Black);
-            }
-            else
-            {
-                // Empty node, no move
-                drawingSession.FillEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, EmptyNodeColor);
-            }
+                    // If the current node is the selected node, draw highlight
+                    if (node == ViewModel.SelectedGameTreeNode)
+                    {
+                        drawingSession.DrawEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, HighlightNodeColor, NODEHIGHLIGHTSTROKE);
+                    }
 
-            // If the current node is the selected node, draw highlight
-            if (node == ViewModel.SelectedGameTreeNode)
-            {
-                drawingSession.DrawEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, HighlightNodeColor, NODEHIGHLIGHTSTROKE);
-            }
+                    // Calculate starting and end points for line connecting two nodes
+                    Vector2 lineStart = new Vector2(
+                        (horizontalOffset) * NODESIZE + (horizontalOffset - 1) * NODESPACING,
+                        (parentVerticalOffset) * NODESIZE + parentVerticalOffset * NODESPACING + NODESIZE * 0.5f);
+                    Vector2 lineEnd = new Vector2(
+                        horizontalOffset * NODESIZE + horizontalOffset * NODESPACING,
+                        verticalOffset * NODESIZE + verticalOffset * NODESPACING + NODESIZE * 0.5f);
 
-            // Calculate starting and end points for line connecting two nodes
-            Vector2 lineStart = new Vector2(
-                (depth) * NODESIZE + (depth - 1) * NODESPACING, 
-                (parentOffset) * NODESIZE + parentOffset * NODESPACING + NODESIZE * 0.5f);
-            Vector2 lineEnd = new Vector2(
-                depth * NODESIZE + depth * NODESPACING,
-                offset * NODESIZE + offset * NODESPACING + NODESIZE * 0.5f);
+                    // Draw line between new node and its parent
+                    drawingSession.DrawLine(lineStart, lineEnd, LineColor);
 
-            // Draw line between new node and its parent
-            drawingSession.DrawLine(lineStart, lineEnd, LineColor);
-            
-            // Draw children nodes
-            foreach(GameTreeNode childNode in node.Branches)
-            {
-                offset = DrawNode(drawingSession, childNode, depth + 1, offset, nodeOffset);
-                offset++;
-            }
-
-            if (node.Branches.Count > 0)
-                offset--;
-
-            return offset;
+                    return GameTreeNodeCallbackResultBehavior.Continue;
+                });
         }
 
         // Calculating measure
-        private int CalculateDesiredSize(GameTreeNode node, int depth, int offset)
+        private int CalculateDesiredSize(GameTreeNode node)
         {
-            _GameTreeDepth = Math.Max(_GameTreeDepth, depth);
+            int resultVerticalOffset = 0;
+            WalkGameTree(node, 0, ref resultVerticalOffset, 0, 
+                (currentNode, horizontalOffset, verticalOffset, parentVerticalOffset) => 
+                {
+                    _GameTreeDepth = Math.Max(_GameTreeDepth, horizontalOffset);
+                    return GameTreeNodeCallbackResultBehavior.Continue;
+                });
 
-            foreach (GameTreeNode childNode in node.Branches)
-            {
-                offset = CalculateDesiredSize(childNode, depth + 1, offset);
-                offset++;
-            }
-
-            if (node.Branches.Count > 0)
-                offset--;
-
-            return offset;
+            return resultVerticalOffset;
         }
 
         // Calculating pointer over node
-        private int GetNodeAtPoint(Point point, GameTreeNode node, int depth, int offset, out GameTreeNode resultNode)
+        private GameTreeNode GetNodeAtPoint(Point point, GameTreeNode node)
         {
-            // We draw elipse but hit test rectangle as this is easier.
-            Rect nodeRect = new Rect(
-                depth * NODESIZE + depth * NODESPACING,
-                offset * NODESIZE + offset * NODESPACING,
-                NODESIZE, NODESIZE);
+            GameTreeNode resultNode = null;
 
-            if (nodeRect.Contains(point))
-            {
-                resultNode = node;
-                return offset;
-            }
-            
-            foreach (GameTreeNode childNode in node.Branches)
-            {
-                GameTreeNode nodeAtPoint;
-                offset = GetNodeAtPoint(point, childNode, depth + 1, offset, out nodeAtPoint);
-                
-                if (nodeAtPoint != null)
+            int resultVerticalOffset = 0;
+            WalkGameTree(node, 0, ref resultVerticalOffset, 0,
+                (currentNode, horizontalOffset, verticalOffset, parentVerticalOffset) =>
                 {
-                    resultNode = nodeAtPoint;
-                    return offset;
-                }
-                
-                offset++;
-            }
+                    Rect nodeRect = new Rect(
+                        horizontalOffset * NODESIZE + horizontalOffset * NODESPACING,
+                        verticalOffset * NODESIZE + verticalOffset * NODESPACING,
+                        NODESIZE, NODESIZE);
 
-            if (node.Branches.Count > 0)
-                offset--;
+                    if (nodeRect.Contains(point))
+                    {
+                        resultNode = currentNode;
+                        return GameTreeNodeCallbackResultBehavior.Stop;
+                    }
 
-            resultNode = null;
-            return offset;
+                    return GameTreeNodeCallbackResultBehavior.Continue;
+                });
+            
+            return resultNode;
         }
 
         private CanvasTextLayout GetTextLayoutForString(CanvasDevice device, string text)
@@ -549,7 +532,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             GameTreeNode node = ViewModel.SelectedGameTreeNode;
 
             if (node.NextNode != null)
+            {
                 ViewModel.SetSelectedNode(node.NextNode);
+            }
         }
 
         private void SwitchToParentNode()
@@ -557,7 +542,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             GameTreeNode node = ViewModel.SelectedGameTreeNode;
 
             if (node.Parent != null)
+            {
                 ViewModel.SetSelectedNode(node.Parent);
+            }
         }
 
         //////
@@ -569,15 +556,15 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
                 return;
 
-            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot, 0, 0) + 1;
+            int requiredHeight = CalculateDesiredSize(ViewModel.GameTree.GameTreeRoot) + 1;
 
             double height = requiredHeight * NODESIZE +
                             (requiredHeight - 1) * NODESPACING +
-                            2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for top and bottom
+                            2 * NODEHIGHLIGHTSTROKE;        // Add node elliptical stroke for top and bottom
 
             double width = (_GameTreeDepth + 1) * NODESIZE +
                             (_GameTreeDepth + 1) * NODESPACING +
-                            2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for left and right
+                            2 * NODEHIGHLIGHTSTROKE;        // Add node elliptical stroke for left and right
 
             GameTreeHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
             GameTreeWidth = width - canvas.ActualWidth;     // Subtract from the entire required width what we can display
@@ -586,6 +573,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             SetScrollOffset(
                 GameTreeHorizontalOffset,
                 GameTreeVerticalOffset);
+            
+            BringNodeIntoView(ViewModel.GameTree.GameTreeRoot);
         }
                 
         private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -639,6 +628,96 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             // Make sure we are not behind bounds
             GameTreeHorizontalOffset = Math.Min(GameTreeWidth, horizontalOffset);
             GameTreeVerticalOffset = Math.Min(GameTreeHeight, verticalOffset);
+        }
+        
+        private void BringNodeIntoView(GameTreeNode node)
+        {
+            int tmpVerticalOffset = 0;
+
+            WalkGameTree(
+                node, 0, ref tmpVerticalOffset, 0,
+                (currentNode, horizontalOffset, verticalOffset, parentVerticalOffset) =>
+                {
+                    if (currentNode == ViewModel.SelectedGameTreeNode)
+                    {
+                        double nodeVerticalOffset =
+                            verticalOffset * NODESIZE +
+                            (verticalOffset - 1) * NODESPACING +
+                            2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for top and bottom
+
+                        double nodeHorizontalOffset =
+                            horizontalOffset * NODESIZE +
+                            horizontalOffset * NODESPACING;    // Add node elliptical stroke for left and right
+
+                        double horizontalDiff = nodeHorizontalOffset;
+                        double verticalDiff = nodeVerticalOffset;
+
+                        if (horizontalDiff >= GameTreeHorizontalOffset && horizontalDiff < (GameTreeHorizontalOffset + canvas.ActualWidth - NODECOMBINEDSIZE))
+                            // We are located inside current Viewport
+                            horizontalDiff = GameTreeHorizontalOffset;
+                        else if (horizontalDiff > GameTreeHorizontalOffset)
+                            // We are located on the right side of Viewport
+                            horizontalDiff = GameTreeHorizontalOffset + (horizontalDiff - GameTreeHorizontalOffset - canvas.ActualWidth + NODECOMBINEDSIZE);
+
+                        if (verticalDiff >= GameTreeVerticalOffset && verticalDiff < (GameTreeVerticalOffset + canvas.ActualHeight - NODECOMBINEDSIZE))
+                            // We are located inside current Viewport
+                            verticalDiff = GameTreeVerticalOffset;
+                        else if (verticalDiff > GameTreeVerticalOffset)
+                            // We are located on the right side of Viewport
+                            verticalDiff = GameTreeVerticalOffset + (verticalDiff - GameTreeVerticalOffset - canvas.ActualHeight + (NODESIZE + NODESPACING + NODEHIGHLIGHTSTROKE));
+
+                        // Make sure we are not behing bounds (could happen when branch get deleted)
+                        SetScrollOffset(
+                            horizontalDiff,
+                            verticalDiff);
+
+                        return GameTreeNodeCallbackResultBehavior.Stop;
+                    }
+
+                    return GameTreeNodeCallbackResultBehavior.Continue;
+                });
+        }
+
+        //////
+        // Game Tree Walker Infrastructure
+        //////
+
+        private delegate GameTreeNodeCallbackResultBehavior GameTreeNodeCallback(GameTreeNode node, int horizontalOffset, int verticalOffset, int parentVerticalOffset);
+
+        private enum GameTreeNodeCallbackResultBehavior
+        {
+            Continue,
+            Stop
+        }
+
+        private GameTreeNodeCallbackResultBehavior WalkGameTree(GameTreeNode node, int horizontalOffset, ref int verticalOffset, int parentVerticalOffset, GameTreeNodeCallback nodeResultCallback)
+        {
+            var resultBehavior = nodeResultCallback(node, horizontalOffset, verticalOffset, parentVerticalOffset);
+
+            if (resultBehavior == GameTreeNodeCallbackResultBehavior.Stop)
+                return resultBehavior;
+
+            int nodeOffset = verticalOffset;
+
+            foreach (GameTreeNode childNode in node.Branches)
+            {
+                resultBehavior = WalkGameTree(childNode, horizontalOffset + 1, ref verticalOffset, nodeOffset, nodeResultCallback);
+
+                if (resultBehavior == GameTreeNodeCallbackResultBehavior.Stop)
+                {
+                    if (node.Branches.Count > 0)
+                        verticalOffset--;
+
+                    return resultBehavior;
+                }
+
+                verticalOffset++;
+            }
+
+            if (node.Branches.Count > 0)
+                verticalOffset--;
+
+            return GameTreeNodeCallbackResultBehavior.Continue;
         }
     }
 }
