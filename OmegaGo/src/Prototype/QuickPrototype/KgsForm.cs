@@ -233,8 +233,6 @@ namespace FormsPrototype
             if (this.lbContainerChallenges.SelectedItem != null)
             {
                 var challenge = await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
-                ChallengeForm form = new FormsPrototype.ChallengeForm(challenge, kgs);
-                form.Show();
             }
         }
         

@@ -21,6 +21,8 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
         public bool OwnedByUs { get; set; }
 
+        public Proposal CreatorsNewProposal { get; set; }
+
         public KgsChallenge(Proposal proposal, int channelId) : base(channelId)
         {
             Proposal = proposal;
