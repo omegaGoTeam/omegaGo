@@ -1,28 +1,84 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf;
-using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
-using OmegaGo.Core.Game.Markup;
 using OmegaGo.Core.Sgf.Properties.Values;
+using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 
-namespace OmegaGo.Core.Game
+namespace OmegaGo.Core.Game.GameTreeConversion
 {
     /// <summary>
-    /// Converting between Game Trees and SGF Game trees
+    /// Converts input SGF Collection to GameTree + GameInfo
     /// </summary>
-    public static class GameTreeConverter
+    public class SgfToGameTreeConverter
     {
         /// <summary>
-        /// Converts a SGF game tree to GameTree
+        /// Input SGF collection
+        /// </summary>
+        private readonly SgfGameTree _inputTree;
+
+        /// <summary>
+        /// Converter for a game tree
+        /// </summary>
+        /// <param name="gameTree">SGF Game Tree</param>
+        public SgfToGameTreeConverter(SgfGameTree gameTree)
+        {
+            _inputTree = gameTree;
+        }
+
+        /// <summary>
+        /// Converts the input collection to GameTrees with their respective GameInfos
+        /// </summary>
+        /// <returns>Converted trees</returns>
+        public SgfToGameTreeConversionResult Convert()
+        {
+            var gameInfo = FindGameInfo(_inputTree);
+            var applicationInfo = FindApplicationInfo();
+            var gameTree = ConvertTree(_inputTree);
+            //set board size
+            gameInfo.BoardSize = gameTree.BoardSize;
+            return new SgfToGameTreeConversionResult(applicationInfo, gameInfo, gameTree);
+        }
+
+        /// <summary>
+        /// Finds application info
+        /// </summary>
+        /// <returns>Application info</returns>
+        private ApplicationInfo FindApplicationInfo()
+        {
+            var values =
+                _inputTree.GetPropertyInSequence("AP")
+                    ?.PropertyValues.First() as SgfComposePropertyValue<string, string>;
+            string name = values?.LeftValue ?? "";
+            string version = values?.RightValue ?? "";
+            return new ApplicationInfo(name, version);
+        }
+
+        /// <summary>
+        /// Finds all available game info in the SGF game tree
+        /// </summary>
+        /// <param name="tree">Tree</param>
+        /// <returns>Game info</returns>
+        private GameInfo FindGameInfo(SgfGameTree tree)
+        {
+            var gameInfoSearcher = new SgfGameInfoSearcher(tree);
+            var sgfGameInfo = gameInfoSearcher.GetGameInfo();
+            return sgfGameInfo.ToGameInfo();
+        }
+
+        /// <summary>
+        /// Converts a game tree
         /// </summary>
         /// <param name="tree">SGF game tree</param>
-        /// <returns>Game tree</returns>
-        public static GameTreeNode FromSgfGameTree(SgfGameTree tree)
+        /// <returns>Game tree root</returns>
+        private GameTree ConvertTree(SgfGameTree tree)
         {
-            var boardSizeInt = tree.GetRootProperty<int>("SZ");
+            var boardSizeInt = tree.GetPropertyInSequence("SZ")?.Value<int>() ?? 19;
             if (boardSizeInt == 0) boardSizeInt = 19;
             GameBoardSize boardSize = new GameBoardSize(boardSizeInt);
             var converted = ConvertBranch(tree, boardSize);
@@ -39,7 +95,8 @@ namespace OmegaGo.Core.Game
                     node.FillBoardState(ruleset);
                 }
             });
-            return converted;
+            var gameTree = new GameTree(new ChineseRuleset(boardSize), boardSize, converted);
+            return gameTree;
         }
 
         /// <summary>
@@ -47,7 +104,7 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="branch">Branch</param>
         /// <returns>Game tree node</returns>
-        private static GameTreeNode ConvertBranch(SgfGameTree branch, GameBoardSize boardSize)
+        private GameTreeNode ConvertBranch(SgfGameTree branch, GameBoardSize boardSize)
         {
             GameTreeNode root = null;
             GameTreeNode current = null;
@@ -75,8 +132,8 @@ namespace OmegaGo.Core.Game
                 {
                     //add white moves
                     var property = node["AW"];
-                    var pointRectangles = property.SimpleValues<SgfPointRectangle>();                    
-                    newNode.AddWhite.AddRange( GetPositionsFromPointRectangles( pointRectangles, boardSize ) );
+                    var pointRectangles = property.SimpleValues<SgfPointRectangle>();
+                    newNode.AddWhite.AddRange(GetPositionsFromPointRectangles(pointRectangles, boardSize));
                 }
                 if (node["AB"] != null)
                 {
@@ -117,18 +174,13 @@ namespace OmegaGo.Core.Game
             return root;
         }
 
-        private static IEnumerable<Position> GetPositionsFromPointRectangles(IEnumerable<SgfPointRectangle> pointRectangles, GameBoardSize boardSize)
-        {
-            foreach (var pointRectangle in pointRectangles)
-            {
-                foreach (var point in pointRectangle)
-                {
-                    yield return Position.FromSgfPoint(point, boardSize);
-                }
-            }
-        }
-
-        private static void ParseAndFillMarkupProperties(SgfNode sourceNode, GameTreeNode targetNode, GameBoardSize boardSize)
+        /// <summary>
+        /// Parses and fills markup properties
+        /// </summary>
+        /// <param name="sourceNode">Source SGF node</param>
+        /// <param name="targetNode">Target game tree node</param>
+        /// <param name="boardSize">Board size</param>
+        private void ParseAndFillMarkupProperties(SgfNode sourceNode, GameTreeNode targetNode, GameBoardSize boardSize)
         {
             // Needs to handle: 
             string arrow = "AR"; // AR - Arrow
@@ -149,7 +201,9 @@ namespace OmegaGo.Core.Game
 
                 foreach (var arrowDefinition in arrowDefinitions)
                 {
-                    targetNode.Markups.AddMarkup(new Arrow(Position.FromSgfPoint(arrowDefinition.Left, boardSize), Position.FromSgfPoint(arrowDefinition.Right, boardSize)));
+                    var fromPoint = Position.FromSgfPoint(arrowDefinition.Left, boardSize);
+                    var toPoint = Position.FromSgfPoint(arrowDefinition.Right, boardSize);
+                    targetNode.Markups.AddMarkup(new Arrow(fromPoint, toPoint));
                 }
             }
             if (sourceNode[circle] != null)
@@ -158,14 +212,11 @@ namespace OmegaGo.Core.Game
                 var property = sourceNode[circle];
                 var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
-                foreach (var rectangle in pointRectangles)
+                var positions = GetPositionsFromPointRectangles(pointRectangles, boardSize);
+                foreach (var position in positions)
                 {
-                    foreach (var point in rectangle)
-                    {
-                        targetNode.Markups.AddMarkup(
-                            new Circle(
-                                Position.FromSgfPoint(point, boardSize)));
-                    }
+                    targetNode.Markups.AddMarkup(
+                            new Circle(position));
                 }
             }
             if (sourceNode[dimPoint] != null)
@@ -201,7 +252,7 @@ namespace OmegaGo.Core.Game
                     var startPoint = Position.FromSgfPoint(lineDefinition.Left, boardSize);
                     var endPoint = Position.FromSgfPoint(lineDefinition.Right, boardSize);
                     targetNode.Markups.AddMarkup(new Line(startPoint, endPoint));
-                }                
+                }
             }
             if (sourceNode[cross] != null)
             {
@@ -209,19 +260,17 @@ namespace OmegaGo.Core.Game
                 var property = sourceNode[cross];
                 var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
-                foreach (var rectangle in pointRectangles)
+                var positions = GetPositionsFromPointRectangles(pointRectangles, boardSize);
+                foreach (var position in positions)
                 {
-                    foreach (var point in rectangle)
-                    {
-                        targetNode.Markups.AddMarkup(
-                            new Cross(Position.FromSgfPoint(
-                                point, boardSize)));
-                    }
+                    targetNode.Markups.AddMarkup(
+                            new Cross(position));
                 }
             }
             if (sourceNode[selected] != null)
             {
-                // Add selected                
+                // Add selected     
+                // TODO Vita : This is not implemented?
             }
             if (sourceNode[square] != null)
             {
@@ -229,14 +278,11 @@ namespace OmegaGo.Core.Game
                 var property = sourceNode[square];
                 var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
-                foreach (var rectangle in pointRectangles)
+                var positions = GetPositionsFromPointRectangles(pointRectangles, boardSize);
+                foreach (var position in positions)
                 {
-                    foreach (var point in rectangle)
-                    {
-                        targetNode.Markups.AddMarkup(
-                            new Square(Position.FromSgfPoint(
-                                point, boardSize)));
-                    }
+                    targetNode.Markups.AddMarkup(
+                            new Square(position));
                 }
             }
             if (sourceNode[triangle] != null)
@@ -245,26 +291,30 @@ namespace OmegaGo.Core.Game
                 var property = sourceNode[triangle];
                 var pointRectangles = property.SimpleValues<SgfPointRectangle>();
 
-                foreach (var rectangle in pointRectangles)
+                var positions = GetPositionsFromPointRectangles(pointRectangles, boardSize);
+                foreach (var position in positions)
                 {
-                    foreach (var point in rectangle)
-                    {
-                        targetNode.Markups.AddMarkup(
-                            new Triangle(Position.FromSgfPoint(
-                                point, boardSize)));
-                    }
+                    targetNode.Markups.AddMarkup(
+                        new Triangle(position));
                 }
             }
         }
 
-
         /// <summary>
-        /// Converts a GameTree to SGF game tree
+        /// Gets all positions from point rectangles
         /// </summary>
-        /// <returns>SGF game tree</returns>
-        public static SgfGameTree ToSgfGameTree(GameTree tree)
+        /// <param name="pointRectangles">Point rectangles</param>
+        /// <param name="boardSize">Board size</param>
+        /// <returns>Positions</returns>
+        private IEnumerable<Position> GetPositionsFromPointRectangles(IEnumerable<SgfPointRectangle> pointRectangles, GameBoardSize boardSize)
         {
-            throw new NotImplementedException();
+            foreach (var pointRectangle in pointRectangles)
+            {
+                foreach (var point in pointRectangle)
+                {
+                    yield return Position.FromSgfPoint(point, boardSize);
+                }
+            }
         }
     }
 }

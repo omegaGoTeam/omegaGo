@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using OmegaGo.Core.Sgf.Helpers;
 
 namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
 {
@@ -72,6 +73,11 @@ namespace OmegaGo.Core.Sgf.Properties.Values.ValueTypes
         public static bool operator ==(SgfPointRectangle left, SgfPointRectangle right) => left.Equals(right);
 
         public static bool operator !=(SgfPointRectangle left, SgfPointRectangle right) => !(left == right);
+
+        public static SgfPointRectangle[] CompressPoints(params SgfPoint[] points)
+        {
+            return new SgfPointCompressor(points).CompressPoints();
+        }
 
         /// <summary>
         /// Checks for equality of two SGF point rectangles

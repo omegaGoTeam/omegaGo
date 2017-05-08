@@ -23,7 +23,7 @@ namespace OmegaGo.Core.Sgf
             if ( children == null ) throw new ArgumentNullException( nameof( children ) );
 
             Sequence = sequence;
-            Children = children;
+            Children = new List<SgfGameTree>(children);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace OmegaGo.Core.Sgf
         /// <summary>
         /// Child trees
         /// </summary>
-        public IEnumerable<SgfGameTree> Children { get; }
+        public ICollection<SgfGameTree> Children { get; }
 
         /// <summary>
         /// Gathers all game info properties from the tree
@@ -53,16 +53,16 @@ namespace OmegaGo.Core.Sgf
         /// <typeparam name="T">Type of the property. Make sure this is correct.</typeparam>
         /// <param name="name">The name of the SGF property.</param>
         /// <returns></returns>
-        public T GetRootProperty<T>(string name)
+        public SgfProperty GetPropertyInSequence(string name)
         {
-            foreach (var node in this.Sequence)
+            foreach (var node in Sequence)
             {
                 if (node[name] != null)
                 {
-                    return node[name].Value<T>();
+                    return node[name];
                 }
             }
-            return default(T);
+            return null;
         }
     }
 }

@@ -7,7 +7,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.UI.Services.Dialogs;
@@ -115,9 +117,9 @@ namespace OmegaGo.UI.ViewModels
                 {
                     var parsed = p.Parse(content);
                     var firstTree = parsed.GameTrees.First();
-                    var rootNode = GameTreeConverter.FromSgfGameTree(firstTree);
-                    var trueTree = new GameTree(new ChineseRuleset(rootNode.BoardState.Size), rootNode.BoardState.Size);
-                    trueTree.GameTreeRoot.Branches.Insert(0,rootNode);
+                    var conversionResult = new SgfToGameTreeConverter(firstTree).Convert();
+                    var trueTree = conversionResult.GameTree;
+                    var rootNode = trueTree.GameTreeRoot;
                     int moveCount = 0;
                     var node = rootNode;
                     while (node.Branches.Any())
@@ -126,10 +128,10 @@ namespace OmegaGo.UI.ViewModels
                         node = node.Branches[0];
                     }
 
-                    list.Add(new LibraryItem(trueTree, file, moveCount,
-                        firstTree.GetRootProperty<string>("DT"),
-                        firstTree.GetRootProperty<string>("PB"),
-                        firstTree.GetRootProperty<string>("PW"),
+                    list.Add(new LibraryItem(trueTree, conversionResult.GameInfo, file, moveCount,
+                        firstTree.GetPropertyInSequence("DT")?.Value<string>(),
+                        firstTree.GetPropertyInSequence("PB")?.Value<string>(),
+                        firstTree.GetPropertyInSequence("PW")?.Value<string>(),
                         rootNode.Comment?.Substring(0, Math.Min(200, rootNode.Comment.Length)) ?? "",
                         content
                         ));
@@ -148,6 +150,9 @@ namespace OmegaGo.UI.ViewModels
         private void Open()
         {
             // TODO Petr: When Analyze Mode is done
+            var bundle = new AnalyzeOnlyViewModel.NavigationBundle( SelectedItem.GameTree, SelectedItem.GameInfo);
+            Mvx.RegisterSingleton(bundle);
+            ShowViewModel<AnalyzeOnlyViewModel>();
         }
 
         private async Task Delete()
