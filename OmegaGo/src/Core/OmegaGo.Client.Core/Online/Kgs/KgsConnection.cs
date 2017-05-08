@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,6 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
-using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -45,7 +43,6 @@ namespace OmegaGo.Core.Online.Kgs
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private readonly List<KgsRequest> requestsAwaitingResponse = new List<KgsRequest>();
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -141,15 +138,7 @@ namespace OmegaGo.Core.Online.Kgs
                         var message = (JObject) jToken;
                         Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
                         Debug.WriteLine("INC:" + message.GetValue("type").Value<string>());
-                        KgsRequest matchingRequest =
-                            requestsAwaitingResponse.FirstOrDefault(
-                                kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
-                        if (matchingRequest != null)
-                        {
-                            matchingRequest.TaskCompletionSource.SetResult(message);
-                            requestsAwaitingResponse.Remove(matchingRequest);
-                        }
-                        else if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
+                        if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
                         {
 
                         }
@@ -207,9 +196,9 @@ namespace OmegaGo.Core.Online.Kgs
             Debug.WriteLine("Making login request");
             await MakeUnattendedRequestAsync("LOGIN", new
             {
-                name = name,
-                password = password,
-                locale = "en_US"
+                Name = name,
+                Password = password,
+                Locale = "en_US"
             });
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
@@ -249,33 +238,6 @@ namespace OmegaGo.Core.Online.Kgs
             Events.RaiseOutgoingRequest(contents);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
-        }
-
-        private async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
-            where T : KgsResponse
-        {
-            JObject jo = JObject.FromObject(data, Serializer);
-            jo.Add("type", type.ToUpper());
-            string contents = jo.ToString();
-            var kgsRequest = new KgsRequest(possibleResponseTypes);
-            requestsAwaitingResponse.Add(kgsRequest);
-            Events.RaiseOutgoingRequest(contents);
-            Debug.WriteLine("Sending post request....");
-            PostRequestResult postResult = await SendPostRequest(contents);
-            if (postResult.Successful)
-            {
-                Debug.WriteLine("Awaiting task");
-                var response = await kgsRequest.TaskCompletionSource.Task;
-                Debug.WriteLine("Task awaited");
-                string responseText = response.ToString();
-               var returnValue = response.ToObject<T>(Serializer);
-                returnValue.FullText = responseText;
-               return returnValue;
-            }
-            else
-            {
-                return default(T);
-            }
         }
 
         /// <summary>
@@ -334,18 +296,6 @@ namespace OmegaGo.Core.Online.Kgs
         public override string ToString()
         {
             return Type;
-        }
-    }
-    
-    internal class KgsRequest
-    {
-        public HashSet<string> PossibleResponseTypes;
-        public TaskCompletionSource<JObject> TaskCompletionSource;
-
-        public KgsRequest(string[] possibleResponseTypes)
-        {
-            this.PossibleResponseTypes = new HashSet<string>(possibleResponseTypes);
-            this.TaskCompletionSource = new TaskCompletionSource<JObject>();
         }
     }
 
