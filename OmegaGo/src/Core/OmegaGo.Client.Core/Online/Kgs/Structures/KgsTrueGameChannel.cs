@@ -61,7 +61,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 new GameBoardSize(channel.Size),
                 KgsHelpers.ConvertRuleset(ruleset),
                 channel.Handicap,
-                HandicapPlacementType.Free,
+                KgsGameInfo.GetHandicapPlacementType(KgsHelpers.ConvertRuleset(ruleset)),
                 channel.Komi,
                 CountingType.Area,
                 channel.ChannelId);

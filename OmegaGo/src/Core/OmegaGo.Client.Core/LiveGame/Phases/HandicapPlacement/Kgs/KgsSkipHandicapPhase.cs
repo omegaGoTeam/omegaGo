@@ -10,11 +10,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
     /// <summary>
     /// On KGS, we handle handicaps in the main phase, not the handicap phase.
     /// </summary>
-    class KgsHandicapPhase : FreeHandicapPlacementPhase
+    class KgsSkipHandicapPhase : FreeHandicapPlacementPhase
     {
         private readonly KgsGameController _gameController;
 
-        public KgsHandicapPhase(KgsGameController gameController) : base(gameController)
+        public KgsSkipHandicapPhase(KgsGameController gameController) : base(gameController)
         {
             this._gameController = gameController;
         }
