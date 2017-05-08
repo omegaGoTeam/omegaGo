@@ -98,15 +98,7 @@ namespace FormsPrototype
         private async void KgsForm_Load(object sender, EventArgs e)
         {
             this.tbLog.Text += ("Logging in." + Environment.NewLine);
-            if (await kgs.LoginAsync("OmegaGo1", "123456789"))
-            {
-                this.tbLog.Text += ("Logged in." + Environment.NewLine);
-                
-            }
-            else
-            {
-                MessageBox.Show("Fail.");
-            }
+            await kgs.LoginAsync("OmegaGo1", "123456789");
         }
 
        

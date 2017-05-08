@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -13,7 +12,6 @@ using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.State;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Online.Kgs.Downstream;
-using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs
 {
@@ -45,7 +43,6 @@ namespace OmegaGo.Core.Online.Kgs
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private readonly List<KgsRequest> requestsAwaitingResponse = new List<KgsRequest>();
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -88,7 +85,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// Gets or sets a value indicating whether we're currently attempting to log in to KGS. If this is is false, then we're either
         /// disconnected or logged in.
         /// </summary>
-        public bool LoggingIn { get; private set; }
+        public bool LoggingIn { get; internal set; }
 
         /// <summary>
         /// This serializer is used to convert metatranslator's camelCase properties to our TitleCase properties.
@@ -133,6 +130,7 @@ namespace OmegaGo.Core.Online.Kgs
                 string text = (await response.Content.ReadAsStringAsync()).Trim();
                 if (text != "" && text != "{}")
                 {
+                    Debug.WriteLine("KGS: Incoming.");
                     JObject downstreamObject = JObject.Parse(text);
                     JArray messages = downstreamObject.Value<JArray>("messages");
                     foreach(var jToken in messages)
@@ -140,15 +138,7 @@ namespace OmegaGo.Core.Online.Kgs
                         var message = (JObject) jToken;
                         Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
                         Debug.WriteLine("INC:" + message.GetValue("type").Value<string>());
-                        KgsRequest matchingRequest =
-                            requestsAwaitingResponse.FirstOrDefault(
-                                kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
-                        if (matchingRequest != null)
-                        {
-                            matchingRequest.TaskCompletionSource.SetResult(message);
-                            requestsAwaitingResponse.Remove(matchingRequest);
-                        }
-                        else if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
+                        if (HandleInterruptResponse(message.GetValue("type").Value<string>(), message))
                         {
 
                         }
@@ -158,7 +148,6 @@ namespace OmegaGo.Core.Online.Kgs
                         }
                     }
                 }
-                // response.c
             }
             else if (response.StatusCode == HttpStatusCode.NoContent)
             {
@@ -182,14 +171,14 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         /// <param name="name">The user's username.</param>
         /// <param name="password">The user's password.</param>
-        public async Task<bool> LoginAsync(string name, string password)
+        public async Task LoginAsync(string name, string password)
         {
             if (LoggedIn)
             {
                 // Already connected.
-                return false;
+                return;
             }
-            this.Data = new Kgs.KgsData(this);
+            this.Data = new KgsData(this);
             LoggingIn = true;
             this._username = name;
             Debug.WriteLine("Starting get loop");
@@ -202,43 +191,15 @@ namespace OmegaGo.Core.Online.Kgs
             if (LoggedIn)
             {
                 LoggingIn = false;
-                return true;
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             Debug.WriteLine("Making login request");
-            LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
+            await MakeUnattendedRequestAsync("LOGIN", new
             {
-                name = name,
-                password = password,
-                locale = "en_US"
-            }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
-            if (response.Succeeded())
-            {
-                Debug.WriteLine("Success. Now getting info.");
-                var roomsArray = new int[response.Rooms.Length];
-                for (int i = 0; i < response.Rooms.Length; i++)
-                {
-                    roomsArray[i] = response.Rooms[i].ChannelId;
-                }
-                Events.RaisePersonalInformationUpdate(response.You);
-                Events.RaiseSystemMessage("Requesting room names...");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.RequestingRoomNames);
-                await MakeUnattendedRequestAsync("ROOM_NAMES_REQUEST", new {
-                        Rooms = roomsArray
-                    });
-                Events.RaiseSystemMessage("Joining global lists...");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.JoiningGlobalLists);
-                await Commands.GlobalListJoinRequestAsync("CHALLENGES");
-                await Commands.GlobalListJoinRequestAsync("ACTIVES");
-                await Commands.GlobalListJoinRequestAsync("FANS");
-                Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
-                Events.RaiseSystemMessage("On-login outgoing message burst complete.");
-                LoggedIn = true;
-                LoggingIn = false;
-                return true;
-            }
-            LoggingIn = false;
-            return false;
+                Name = name,
+                Password = password,
+                Locale = "en_US"
+            });
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
@@ -247,11 +208,13 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-            var result = await _httpClient.PostAsync(Uri, jsonContent);
-            return new PostRequestResult(
-                result.IsSuccessStatusCode,
-                result.ReasonPhrase
-                );
+                Debug.WriteLine("Posting...");
+                var result = await _httpClient.PostAsync(Uri, jsonContent);
+                Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
+                return new PostRequestResult(
+                    result.IsSuccessStatusCode,
+                    result.ReasonPhrase
+                    );
             }
             catch (HttpRequestException)
             {
@@ -275,33 +238,6 @@ namespace OmegaGo.Core.Online.Kgs
             Events.RaiseOutgoingRequest(contents);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
-        }
-
-        private async Task<T> MakeRequestAsync<T>(string type, object data, params string[] possibleResponseTypes)
-            where T : KgsResponse
-        {
-            JObject jo = JObject.FromObject(data, Serializer);
-            jo.Add("type", type.ToUpper());
-            string contents = jo.ToString();
-            var kgsRequest = new KgsRequest(possibleResponseTypes);
-            requestsAwaitingResponse.Add(kgsRequest);
-            Events.RaiseOutgoingRequest(contents);
-            Debug.WriteLine("Sending post request....");
-            PostRequestResult postResult = await SendPostRequest(contents);
-            if (postResult.Successful)
-            {
-                Debug.WriteLine("Awaiting task");
-                var response = await kgsRequest.TaskCompletionSource.Task;
-                Debug.WriteLine("Task awaited");
-                string responseText = response.ToString();
-               var returnValue = response.ToObject<T>(Serializer);
-                returnValue.FullText = responseText;
-               return returnValue;
-            }
-            else
-            {
-                return default(T);
-            }
         }
 
         /// <summary>
@@ -360,18 +296,6 @@ namespace OmegaGo.Core.Online.Kgs
         public override string ToString()
         {
             return Type;
-        }
-    }
-    
-    internal class KgsRequest
-    {
-        public HashSet<string> PossibleResponseTypes;
-        public TaskCompletionSource<JObject> TaskCompletionSource;
-
-        public KgsRequest(string[] possibleResponseTypes)
-        {
-            this.PossibleResponseTypes = new HashSet<string>(possibleResponseTypes);
-            this.TaskCompletionSource = new TaskCompletionSource<JObject>();
         }
     }
 

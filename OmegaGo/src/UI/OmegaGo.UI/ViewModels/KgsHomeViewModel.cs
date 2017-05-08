@@ -158,6 +158,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
             Connections.Kgs.Data.SomethingChanged += MinorBindingsUpdate;
+            Connections.Kgs.Events.LoginComplete += Events_LoginComplete;
 
             if (Connections.Kgs.LoggedIn)
             {
@@ -183,11 +184,23 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        private void Events_LoginComplete(object sender, bool success)
+        {
+            this.LoginForm.FormEnabled = true;
+            if (!success)
+            {
+
+                this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
+                this.LoginForm.LoginErrorMessageOpacity = 1;
+            }
+        }
+
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
             Connections.Kgs.Data.SomethingChanged -= MinorBindingsUpdate;
+            Connections.Kgs.Events.LoginComplete -= Events_LoginComplete;
             return base.CanCloseViewModelAsync();
         }
 
@@ -197,16 +210,7 @@ namespace OmegaGo.UI.ViewModels
             this.LoginForm.FormEnabled = false;
 
             this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
-            bool loginSuccess = await Connections.Kgs.LoginAsync(username, password);
-            this.LoginForm.FormEnabled = true;
-            if (loginSuccess)
-            {
-            }
-            else
-            {
-                this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
-                this.LoginForm.LoginErrorMessageOpacity = 1;
-            }
+            await Connections.Kgs.LoginAsync(username, password);
         }
 
         private void Events_Disconnection(object sender, string e)
