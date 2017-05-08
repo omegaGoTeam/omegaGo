@@ -8,7 +8,7 @@ using OmegaGo.Core.Rules;
 namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
 {
     /// <summary>
-    /// Default local game implementation of the free handicap phase
+    /// On KGS, we handle handicaps in the main phase, not the handicap phase.
     /// </summary>
     class KgsHandicapPhase : FreeHandicapPlacementPhase
     {
@@ -21,7 +21,8 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.HandicapPlacement.Free
 
         public override void StartPhase()
         {
-            base.StartPhase();
+            // Skip.
+            GoToPhase(GamePhaseType.Main);
         }
     }
 }
