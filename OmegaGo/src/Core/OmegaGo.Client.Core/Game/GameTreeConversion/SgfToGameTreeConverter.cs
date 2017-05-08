@@ -95,7 +95,7 @@ namespace OmegaGo.Core.Game.GameTreeConversion
                     node.FillBoardState(ruleset);
                 }
             });
-            var gameTree = new GameTree(new ChineseRuleset(boardSize), boardSize) { GameTreeRoot = converted };
+            var gameTree = new GameTree(new ChineseRuleset(boardSize), boardSize, converted);
             return gameTree;
         }
 
