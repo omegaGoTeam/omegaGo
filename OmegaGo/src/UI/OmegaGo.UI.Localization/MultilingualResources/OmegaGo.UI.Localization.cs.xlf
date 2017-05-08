@@ -1074,8 +1074,9 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <target state="translated">Pozorovat tuto hru</target>
         </trans-unit>
         <trans-unit id="SortBy" translate="yes" xml:space="preserve">
-          <source>Sort by:</source>
-          <target state="translated">Řazení podle:</target>
+          <source>Sort by</source>
+          <target state="needs-review-translation">Řazení podle:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SortBy_Black" translate="yes" xml:space="preserve">
           <source>Black's name</source>
@@ -1740,6 +1741,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="ExportSGF" translate="yes" xml:space="preserve">
           <source>Export SGF</source>
           <target state="translated">Exportovat SGF</target>
+        </trans-unit>
+        <trans-unit id="Filter" translate="yes" xml:space="preserve">
+          <source>Filter</source>
+          <target state="new">Filter</target>
+        </trans-unit>
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="Search" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
         </trans-unit>
       </group>
     </body>

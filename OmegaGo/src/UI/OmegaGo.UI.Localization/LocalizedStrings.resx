@@ -909,7 +909,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Observe this game</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>Sort by</value>
   </data>
   <data name="SortBy_Black" xml:space="preserve">
     <value>Black's name</value>
@@ -1408,5 +1408,14 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
     <value>You must select a square board.</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>

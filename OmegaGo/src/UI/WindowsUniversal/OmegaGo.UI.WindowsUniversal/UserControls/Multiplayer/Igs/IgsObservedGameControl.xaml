@@ -9,21 +9,37 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Padding="8" Width="250" Height="80">
-        <Border.Background>
-            <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
-        </Border.Background>
-        <Grid>
+    <Border Padding="12,12,12,12">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="BlackPlayerInfo.(Grid.Column)" Value="1" />
+                        <Setter Target="BlackPlayerInfo.(Grid.Row)" Value="0" />
+                        <Setter Target="ObserveStackPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="ObserveStackPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="BlackColumn.Width" Value="*" />
+                        <Setter Target="ObserverColumn.Width" Value="0.5*" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0" x:Name="BlackColumn" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="0" x:Name="ObserverColumn" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,10,0">
+                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
                     <Ellipse.Fill>
                         <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
                             <GradientStop Color="White" Offset="0.0" />
@@ -34,8 +50,8 @@
                 <TextBlock VerticalAlignment="Center" Text="{Binding White.Name}" Margin="8,0,0,0" FontWeight="SemiBold" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding White.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1">
-                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,10,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo">
+                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
                     <Ellipse.Fill>
                         <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
                             <GradientStop Color="DimGray" Offset="0.0" />
@@ -46,13 +62,13 @@
                 <TextBlock VerticalAlignment="Center" Text="{Binding Black.Name}" Margin="8,0,0,0" FontWeight="SemiBold" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding Black.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
-            <StackPanel x:Name="DimensionsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0">
+            <StackPanel x:Name="DimensionsStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0">
                 <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
-                <TextBlock Margin="4" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding BoardSize}" />
+                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding BoardSize}" />
             </StackPanel>
-            <StackPanel x:Name="ObserveStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+            <StackPanel x:Name="ObserveStackPanel" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1">
                 <BitmapIcon UriSource="/Assets/Icons/TitleBar/Observe.png" Width="24" HorizontalAlignment="Center" />
-                <TextBlock Margin="4" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding NumberOfObservers}" />
+                <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding NumberOfObservers}" />
             </StackPanel>
         </Grid>
     </Border>

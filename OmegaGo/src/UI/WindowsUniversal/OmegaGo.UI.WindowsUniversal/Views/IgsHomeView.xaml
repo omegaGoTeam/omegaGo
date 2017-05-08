@@ -113,6 +113,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="12" />
+        </Style>
     </views:TransparencyViewBase.Resources>
 
     <Page.Transitions>
@@ -124,8 +128,19 @@
     </Page.Transitions>
 
     <Grid>
-
-
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GameListHeader.Visibility" Value="Visible" />
+                        <Setter Target="UserListHeader.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid IsHitTestVisible="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
@@ -146,74 +161,139 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}" />
-            <Pivot Grid.Row="1" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}">
+            <Pivot Grid.Row="1" Title="{x:Bind Localizer.IgsServerCaption}" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}" Style="{StaticResource CenteredPivotStyle}">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                        <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <AppBarButton Icon="Sort" Height="48" IsCompact="True" Label="{x:Bind Localizer.SortBy}">
-                                <AppBarButton.Flyout>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
                                     <Flyout>
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock Text="{x:Bind Localizer.SortBy}" FontWeight="SemiBold" Margin="0,0,0,4" VerticalAlignment="Center" />
                                             <RadioButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
                                             <RadioButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
                                             <RadioButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
                                             <RadioButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
                                         </StackPanel>
                                     </Flyout>
-                                </AppBarButton.Flyout>
-                            </AppBarButton>
-                            <AppBarButton Icon="Refresh" IsCompact="True" Height="48" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Sort" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.SortBy}" />
+                                </StackPanel>
+                            </Button>
+                            <Button  Style="{StaticResource ToolbarControl}" Command="{x:Bind VM.RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Refresh" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
-
-                        <GridView HorizontalAlignment="Center" Grid.Row="1" SelectionMode="None" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                        <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=White}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Black}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=BoardSize}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="2" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Observing}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="3" />
+                        </Grid>
+                        <ListView HorizontalAlignment="Stretch" Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                            </ListView.Background>
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="ItemClick">
                                     <core:InvokeCommandAction Command="{x:Bind VM.ObserveCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
-                            <GridView.ItemContainerTransitions>
-                                <TransitionCollection>
-                                    <RepositionThemeTransition />
-                                </TransitionCollection>
-                            </GridView.ItemContainerTransitions>
-                            <GridView.ItemsPanel>
+                            <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <ItemsWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal" />
+                                    <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
                                 </ItemsPanelTemplate>
-                            </GridView.ItemsPanel>
-                            <GridView.ItemTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="Padding" Value="0" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="igs:IgsGameInfo">
                                     <igs1:IgsObservedGameControl />
                                 </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{x:Bind Localizer.Igs_IssueAChallenge}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
-                                <RadioButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
-                                <RadioButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
-                                <RadioButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <TextBlock Margin="10,0,0,0" Text="Name: " VerticalAlignment="Center"></TextBlock>
-                                <TextBox Margin="10,0,0,0" Width="200" VerticalAlignment="Center" Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </StackPanel>
-                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                            <RadioButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                            <RadioButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Sort" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.SortBy}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
+                                    <Flyout>
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox Margin="0,0,0,12" IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
+                                            <TextBlock Text="{x:Bind Localizer.Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                                            <TextBox Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Filter" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Filter}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolbarControl}" Command="{x:Bind VM.RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Refresh" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
+                        <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=IsAcceptingChallenges}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                        </Grid>
                         <ListBox Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
@@ -221,6 +301,7 @@
                                     <Setter Property="Margin" Value="0"/>
                                 </Style>
                             </ListBox.ItemContainerStyle>
+                            
                         </ListBox>
                         <Button Grid.Row="2" 
                                 Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
