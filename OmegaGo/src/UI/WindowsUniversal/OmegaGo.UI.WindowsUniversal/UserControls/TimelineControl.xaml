@@ -1,6 +1,6 @@
 ﻿<local:UserControlBase
     x:Name="layoutRoot"
-    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.TimelineControl"
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.GameTreeControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls"
@@ -32,13 +32,13 @@
         <ScrollBar x:Name="verticalBar" 
                    Grid.Column="1" Grid.Row="0"
                    Orientation="Vertical"
-                   Minimum="0" Maximum="{x:Bind TimelineHeight, Mode=OneWay}"
-                   Value="{x:Bind TimelineVerticalOffset, Mode=TwoWay}"/>
+                   Minimum="0" Maximum="{x:Bind GameTreeHeight, Mode=OneWay}"
+                   Value="{x:Bind GameTreeVerticalOffset, Mode=TwoWay}"/>
         
         <ScrollBar x:Name="horizontalBar" 
                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                    Orientation="Horizontal"
-                   Minimum="0" Maximum="{x:Bind TimelineWidth, Mode=OneWay}"
-                   Value="{x:Bind TimelineHorizontalOffset, Mode=TwoWay}"/>
+                   Minimum="0" Maximum="{x:Bind GameTreeWidth, Mode=OneWay}"
+                   Value="{x:Bind GameTreeHorizontalOffset, Mode=TwoWay}"/>
     </Grid>
 </local:UserControlBase>

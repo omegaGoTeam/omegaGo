@@ -21,7 +21,7 @@ using Windows.UI.Input;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
-    public sealed partial class TimelineControl : UserControlBase
+    public sealed partial class GameTreeControl : UserControlBase
     {
         private const int NODESIZE = 24;
         private const int NODESPACING = 4;
@@ -39,69 +39,69 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         public static readonly DependencyProperty ViewModelProperty =
                 DependencyProperty.Register(
                         "ViewModel",
-                        typeof(TimelineViewModel),
-                        typeof(TimelineControl),
-                        new PropertyMetadata(null, TimelineVMChanged));
+                        typeof(GameTreeViewModel),
+                        typeof(GameTreeControl),
+                        new PropertyMetadata(null, GameTreeVMChanged));
 
-        public static readonly DependencyProperty TimelineWidthProperty =
+        public static readonly DependencyProperty GameTreeWidthProperty =
                 DependencyProperty.Register(
-                        "TimelineWidth",
+                        "GameTreeWidth",
                         typeof(double),
-                        typeof(TimelineControl),
-                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+                        typeof(GameTreeControl),
+                        new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
 
-        public static readonly DependencyProperty TimelineHeightProperty =
+        public static readonly DependencyProperty GameTreeHeightProperty =
                 DependencyProperty.Register(
-                        "TimelineHeight",
+                        "GameTreeHeight",
                         typeof(double),
-                        typeof(TimelineControl),
-                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+                        typeof(GameTreeControl),
+                        new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
 
-        public static readonly DependencyProperty TimelineVerticalOffsetProperty =
+        public static readonly DependencyProperty GameTreeVerticalOffsetProperty =
                 DependencyProperty.Register(
-                        "TimelineVerticalOffset",
+                        "GameTreeVerticalOffset",
                         typeof(double),
-                        typeof(TimelineControl),
-                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+                        typeof(GameTreeControl),
+                        new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
         
-        public static readonly DependencyProperty TimelineHorizontalOffsetProperty =
+        public static readonly DependencyProperty GameTreeHorizontalOffsetProperty =
                 DependencyProperty.Register(
-                        "TimelineHorizontalOffset",
+                        "GameTreeHorizontalOffset",
                         typeof(double),
-                        typeof(TimelineControl),
-                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+                        typeof(GameTreeControl),
+                        new PropertyMetadata(0d, GameTreeRenderPropertyChanged));
         
-        private static void TimelineVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void GameTreeVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            TimelineControl timelineControl = d as TimelineControl;
+            GameTreeControl GameTreeControl = d as GameTreeControl;
 
-            if (timelineControl != null)
+            if (GameTreeControl != null)
             {
-                TimelineViewModel viewModel = (TimelineViewModel)e.NewValue;
-                viewModel.TimelineRedrawRequested += timelineControl.TimelineRedrawRequsted;
+                GameTreeViewModel viewModel = (GameTreeViewModel)e.NewValue;
+                viewModel.GameTreeRedrawRequested += GameTreeControl.GameTreeRedrawRequsted;
 
-                // Timeline scrolling
-                timelineControl.PointerEntered += timelineControl.TimelineControl_PointerEntered;
-                timelineControl.PointerExited += timelineControl.TimelineControl_PointerExited;
-                timelineControl.PointerWheelChanged += timelineControl.TimelineControl_PointerWheelChanged;
+                // GameTree scrolling
+                GameTreeControl.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
+                GameTreeControl.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
+                GameTreeControl.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
                 // Arrows
-                timelineControl.PointerReleased += timelineControl.TimelineControl_FocusHack;
-                timelineControl.KeyUp += timelineControl.TimelineControl_KeyUp;
+                GameTreeControl.PointerReleased += GameTreeControl.GameTreeControl_FocusHack;
+                GameTreeControl.KeyUp += GameTreeControl.GameTreeControl_KeyUp;
 
                 // Drawing
-                timelineControl.canvas.Draw += timelineControl.Canvas_Draw;
-                // Timeline scrolling and node highlighting
-                timelineControl.canvas.PointerReleased += timelineControl.Canvas_PointerReleased;
-                timelineControl.canvas.PointerMoved += timelineControl.Canvas_PointerMoved;
-                timelineControl.canvas.PointerPressed += timelineControl.Canvas_PointerPressed;
+                GameTreeControl.canvas.Draw += GameTreeControl.Canvas_Draw;
+                // GameTree scrolling and node highlighting
+                GameTreeControl.canvas.PointerReleased += GameTreeControl.Canvas_PointerReleased;
+                GameTreeControl.canvas.PointerMoved += GameTreeControl.Canvas_PointerMoved;
+                GameTreeControl.canvas.PointerPressed += GameTreeControl.Canvas_PointerPressed;
 
-                // Relaculate desired timeline size and redraw
-                timelineControl.UpdateTimelineSize();
-                timelineControl.canvas.Invalidate();
+                // Relaculate desired GameTree size and redraw
+                GameTreeControl.UpdateGameTreeSize();
+                GameTreeControl.canvas.Invalidate();
             }
         }
         
-        private void TimelineControl_PointerExited(object sender, PointerRoutedEventArgs e)
+        private void GameTreeControl_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             _isPointerDown = false;
 
@@ -109,7 +109,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             verticalBar.IndicatorMode = ScrollingIndicatorMode.None;
         }
 
-        private void TimelineControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void GameTreeControl_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             ScrollingIndicatorMode indicatorMode = ScrollingIndicatorMode.None;
 
@@ -128,17 +128,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             verticalBar.IndicatorMode = indicatorMode;
         }
 
-        private static void TimelineRenderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void GameTreeRenderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            TimelineControl timelineControl = d as TimelineControl;
+            GameTreeControl GameTreeControl = d as GameTreeControl;
 
-            if (timelineControl != null)
+            if (GameTreeControl != null)
             {
-                timelineControl.canvas.Invalidate();
+                GameTreeControl.canvas.Invalidate();
             }
         }
 
-        private int _timelineDepth;
+        private int _GameTreeDepth;
 
         private Dictionary<string, CanvasTextLayout> _textLayoutCache;
         private CanvasTextFormat _textFormat;
@@ -147,7 +147,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private double _pointerMoveDifference;
         private Point _pointerCurrentPosition = new Point();
 
-        public TimelineControl()
+        public GameTreeControl()
         {
             _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
             _textFormat = new CanvasTextFormat()
@@ -160,40 +160,40 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             this.InitializeComponent();
         }
 
-        public TimelineViewModel ViewModel
+        public GameTreeViewModel ViewModel
         {
-            get { return (TimelineViewModel)GetValue(ViewModelProperty); }
+            get { return (GameTreeViewModel)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 
-        public double TimelineWidth
+        public double GameTreeWidth
         {
-            get { return (double)GetValue(TimelineWidthProperty); }
-            set { SetValue(TimelineWidthProperty, value); }
+            get { return (double)GetValue(GameTreeWidthProperty); }
+            set { SetValue(GameTreeWidthProperty, value); }
         }
 
-        public double TimelineHeight
+        public double GameTreeHeight
         {
-            get { return (double)GetValue(TimelineHeightProperty); }
-            set { SetValue(TimelineHeightProperty, value); }
+            get { return (double)GetValue(GameTreeHeightProperty); }
+            set { SetValue(GameTreeHeightProperty, value); }
         }
 
-        public double TimelineVerticalOffset
+        public double GameTreeVerticalOffset
         {
-            get { return (double)GetValue(TimelineVerticalOffsetProperty); }
-            set { SetValue(TimelineVerticalOffsetProperty, value); }
+            get { return (double)GetValue(GameTreeVerticalOffsetProperty); }
+            set { SetValue(GameTreeVerticalOffsetProperty, value); }
         }
 
-        public double TimelineHorizontalOffset
+        public double GameTreeHorizontalOffset
         {
-            get { return (double)GetValue(TimelineHorizontalOffsetProperty); }
-            set { SetValue(TimelineHorizontalOffsetProperty, value); }
+            get { return (double)GetValue(GameTreeHorizontalOffsetProperty); }
+            set { SetValue(GameTreeHorizontalOffsetProperty, value); }
         }
         
-        private void TimelineRedrawRequsted(object sender, EventArgs e)
+        private void GameTreeRedrawRequsted(object sender, EventArgs e)
         {
             // New node could could had been added, in which case the neccessary space could change
-            UpdateTimelineSize();
+            UpdateGameTreeSize();
 
             // Issue redraw request
             canvas.Invalidate();
@@ -205,17 +205,17 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             {
                 args.DrawingSession.Transform = 
                     Matrix3x2.CreateTranslation(
-                        NODEHIGHLIGHTSTROKE - (float)TimelineHorizontalOffset, 
-                        NODEHIGHLIGHTSTROKE - (float)TimelineVerticalOffset);
+                        NODEHIGHLIGHTSTROKE - (float)GameTreeHorizontalOffset, 
+                        NODEHIGHLIGHTSTROKE - (float)GameTreeVerticalOffset);
                 int requiredHeight = DrawNode(args.DrawingSession, ViewModel.GameTree.GameTreeRoot, 0, 0, 0) + 1;
             }
         }
 
         //////
-        // Timeline Pointer input
+        // GameTree Pointer input
         //////
 
-        private void TimelineControl_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        private void GameTreeControl_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
         {
             PointerPoint pointerPoint = e.GetCurrentPoint(this);
 
@@ -224,21 +224,21 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             // Make sure we are not behind bounds, this method checks that
             if (isHorizontal)
-                SetScrollOffset(TimelineHorizontalOffset + wheelDelta, TimelineVerticalOffset);
+                SetScrollOffset(GameTreeHorizontalOffset + wheelDelta, GameTreeVerticalOffset);
             else
-                SetScrollOffset(TimelineHorizontalOffset, TimelineVerticalOffset - wheelDelta);
+                SetScrollOffset(GameTreeHorizontalOffset, GameTreeVerticalOffset - wheelDelta);
         }
 
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // If the pointer is of touch type, then allow dragging the timeline
+            // If the pointer is of touch type, then allow dragging the GameTree
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
                 HandleTouchPointerDown(e.GetCurrentPoint(canvas).Position);
         }
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            // If the pointer is of touch type, then allow dragging the timeline
+            // If the pointer is of touch type, then allow dragging the GameTree
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
                 HandleTouchPointerMove(e.GetCurrentPoint(canvas).Position);
         }
@@ -261,8 +261,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             GameTreeNode pressedNode;
 
             // Compensate position for transformation
-            pointerPosition.X = pointerPosition.X - NODEHIGHLIGHTSTROKE + TimelineHorizontalOffset;
-            pointerPosition.Y = pointerPosition.Y - NODEHIGHLIGHTSTROKE + TimelineVerticalOffset;
+            pointerPosition.X = pointerPosition.X - NODEHIGHLIGHTSTROKE + GameTreeHorizontalOffset;
+            pointerPosition.Y = pointerPosition.Y - NODEHIGHLIGHTSTROKE + GameTreeVerticalOffset;
 
             // First node is empty, ignor it
             if (ViewModel.GameTree.GameTreeRoot == null)
@@ -271,14 +271,14 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             GameTreeNode gameTreeRootNode = ViewModel.GameTree.GameTreeRoot;
             GetNodeAtPoint(pointerPosition, gameTreeRootNode, 0, 0, out pressedNode);
 
-            if (pressedNode != null && pressedNode != ViewModel.SelectedTimelineNode)
+            if (pressedNode != null && pressedNode != ViewModel.SelectedGameTreeNode)
             {
                 ViewModel.SetSelectedNode(pressedNode);
             }
         }
 
         //////
-        // Timeline drawing
+        // GameTree drawing
         //////
 
         private int DrawNode(CanvasDrawingSession drawingSession, GameTreeNode node, int depth, int offset, int parentOffset)
@@ -323,7 +323,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             }
 
             // If the current node is the selected node, draw highlight
-            if (node == ViewModel.SelectedTimelineNode)
+            if (node == ViewModel.SelectedGameTreeNode)
             {
                 drawingSession.DrawEllipse(stoneCenter, NODESIZE * 0.5f, NODESIZE * 0.5f, HighlightNodeColor, NODEHIGHLIGHTSTROKE);
             }
@@ -355,7 +355,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // Calculating measure
         private int CalculateDesiredSize(GameTreeNode node, int depth, int offset)
         {
-            _timelineDepth = Math.Max(_timelineDepth, depth);
+            _GameTreeDepth = Math.Max(_GameTreeDepth, depth);
 
             foreach (GameTreeNode childNode in node.Branches)
             {
@@ -420,7 +420,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // Keyboard arrows handling
         //////
 
-        private void TimelineControl_FocusHack(object sender, PointerRoutedEventArgs e)
+        private void GameTreeControl_FocusHack(object sender, PointerRoutedEventArgs e)
         {
             // Hack around UWP XAML Focus WTFiness
             Task.Run(
@@ -431,7 +431,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 });
         }
 
-        private void TimelineControl_KeyUp(object sender, KeyRoutedEventArgs e)
+        private void GameTreeControl_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
@@ -452,8 +452,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         
         private void SwitchToPreviousMoveNumberNode()
         {
-            GameTreeNode node = ViewModel.SelectedTimelineNode;
-            GameTreeNode nodeParent = ViewModel.SelectedTimelineNode.Parent;
+            GameTreeNode node = ViewModel.SelectedGameTreeNode;
+            GameTreeNode nodeParent = ViewModel.SelectedGameTreeNode.Parent;
             int targetMoveNumber = node.MoveNumber;
             int searchMoveNumber = targetMoveNumber;
             
@@ -499,8 +499,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void SwitchToNextMoveNumberNode()
         {
-            GameTreeNode node = ViewModel.SelectedTimelineNode;
-            GameTreeNode nodeParent = ViewModel.SelectedTimelineNode.Parent;
+            GameTreeNode node = ViewModel.SelectedGameTreeNode;
+            GameTreeNode nodeParent = ViewModel.SelectedGameTreeNode.Parent;
             int targetMoveNumber = node.MoveNumber;
             int searchMoveNumber = targetMoveNumber;
 
@@ -546,7 +546,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void SwitchToFirstChildNode()
         {
-            GameTreeNode node = ViewModel.SelectedTimelineNode;
+            GameTreeNode node = ViewModel.SelectedGameTreeNode;
 
             if (node.NextNode != null)
                 ViewModel.SetSelectedNode(node.NextNode);
@@ -554,7 +554,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void SwitchToParentNode()
         {
-            GameTreeNode node = ViewModel.SelectedTimelineNode;
+            GameTreeNode node = ViewModel.SelectedGameTreeNode;
 
             if (node.Parent != null)
                 ViewModel.SetSelectedNode(node.Parent);
@@ -564,7 +564,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // Custom scrolling implementation
         //////
 
-        private void UpdateTimelineSize()
+        private void UpdateGameTreeSize()
         {
             if (ViewModel?.GameTree == null || ViewModel?.GameTree?.GameTreeRoot == null)
                 return;
@@ -575,22 +575,22 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                             (requiredHeight - 1) * NODESPACING +
                             2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for top and bottom
 
-            double width = (_timelineDepth + 1) * NODESIZE +
-                            (_timelineDepth + 1) * NODESPACING +
+            double width = (_GameTreeDepth + 1) * NODESIZE +
+                            (_GameTreeDepth + 1) * NODESPACING +
                             2 * NODEHIGHLIGHTSTROKE;    // Add node elliptical stroke for left and right
 
-            TimelineHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
-            TimelineWidth = width - canvas.ActualWidth;     // Subtract from the entire required width what we can display
+            GameTreeHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
+            GameTreeWidth = width - canvas.ActualWidth;     // Subtract from the entire required width what we can display
 
             // Make sure we are not behing bounds (could happen when branch get deleted)
             SetScrollOffset(
-                TimelineHorizontalOffset,
-                TimelineVerticalOffset);
+                GameTreeHorizontalOffset,
+                GameTreeVerticalOffset);
         }
                 
         private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateTimelineSize();
+            UpdateGameTreeSize();
             verticalBar.ViewportSize = e.NewSize.Height;
             horizontalBar.ViewportSize = e.NewSize.Width;
         }
@@ -615,8 +615,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             // Make sure we are not behind bounds
             SetScrollOffset(
-                TimelineHorizontalOffset - horizontalDiff, 
-                TimelineVerticalOffset - verticalDiff);
+                GameTreeHorizontalOffset - horizontalDiff, 
+                GameTreeVerticalOffset - verticalDiff);
 
             _pointerCurrentPosition = pointerPosition;
         }
@@ -637,8 +637,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private void SetScrollOffset(double horizontalOffset, double verticalOffset)
         {
             // Make sure we are not behind bounds
-            TimelineHorizontalOffset = Math.Min(TimelineWidth, horizontalOffset);
-            TimelineVerticalOffset = Math.Min(TimelineHeight, verticalOffset);
+            GameTreeHorizontalOffset = Math.Min(GameTreeWidth, horizontalOffset);
+            GameTreeVerticalOffset = Math.Min(GameTreeHeight, verticalOffset);
         }
     }
 }
