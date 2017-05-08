@@ -80,9 +80,9 @@ namespace OmegaGo.Core.Sgf
         {
 
             var whitePlayerInfo = new PlayerInfo(StoneColor.White, PlayerWhite?.Value<string>(),
-                WhiteRank?.Value<string>(), WhiteTeam?.Value<string>());
+                WhiteRank?.Value<string>());
             var blackPlayerInfo = new PlayerInfo(StoneColor.Black, PlayerBlack?.Value<string>(),
-                BlackRank?.Value<string>(), BlackTeam?.Value<string>());
+                BlackRank?.Value<string>());
 
             var gameInfo = new GameInfo(whitePlayerInfo, blackPlayerInfo);
             gameInfo.NumberOfHandicapStones = Handicap?.Value<int>() ?? 0;

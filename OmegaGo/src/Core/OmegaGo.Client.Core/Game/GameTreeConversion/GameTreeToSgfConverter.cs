@@ -254,11 +254,9 @@ namespace OmegaGo.Core.Game.GameTreeConversion
             AddPropertyIfNotNullNorEmpty(_gameInfo.Date, "DT", properties);
             AddPropertyIfNotNullNorEmpty(_gameInfo.Comment, "GC", properties, true);            
             AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Name, "PB", properties);
-            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Rank, "BR", properties);
-            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Team, "BT", properties);
+            AddPropertyIfNotNullNorEmpty(_gameInfo.Black.Rank, "BR", properties);            
             AddPropertyIfNotNullNorEmpty(_gameInfo.White.Name, "PW", properties);
             AddPropertyIfNotNullNorEmpty(_gameInfo.White.Rank, "WR", properties);
-            AddPropertyIfNotNullNorEmpty(_gameInfo.White.Team, "WT", properties);
             
             properties.Add(new SgfProperty("HA", new SgfNumberValue(_gameInfo.NumberOfHandicapStones)));
             properties.Add(new SgfProperty("KM", new SgfRealValue((decimal)_gameInfo.Komi)));
