@@ -19,7 +19,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock TextAlignment="Center" Margin="0,0,0,8" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" Typography.Capitals="AllSmallCaps" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName}" />
+                    <TextBlock TextAlignment="Center" Margin="0,0,0,8" Style="{ThemeResource CaptionTextBlockStyle}" FontSize="16" TextWrapping="Wrap" Text="{x:Bind ViewModel.ServerName, Converter={StaticResource StringToUpperConverter}}" />
                     <StackPanel HorizontalAlignment="Stretch" MaxWidth="300" VerticalAlignment="Center" Grid.Row="1">
                         <navigation:TitleControl HorizontalAlignment="Center" Text="{x:Bind ViewModel.FormCaption}" />
                         <TextBlock TextAlignment="Center" Text="{x:Bind ViewModel.UsernameCaption}" Style="{ThemeResource FormHeadingTextBlockStyle}" />

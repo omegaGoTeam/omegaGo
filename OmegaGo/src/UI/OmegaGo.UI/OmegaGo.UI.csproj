@@ -63,6 +63,7 @@
     <Compile Include="Converters\EnumLocalizingConverter.cs" />
     <Compile Include="Converters\EnumSelectionConverter.cs" />
     <Compile Include="Converters\LocalizingConverter.cs" />
+    <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="Converters\TypeNameLocalizingConverter.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />

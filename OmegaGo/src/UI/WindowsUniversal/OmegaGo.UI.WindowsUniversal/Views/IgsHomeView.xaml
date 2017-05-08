@@ -103,8 +103,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" BorderBrush="{TemplateBinding Foreground}" Height="16" Width="16"  Margin="0,0,12,0">
-                                    <FontIcon x:Name="CheckGlyph" Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}" FontSize="16" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE001;" Opacity="0" Width="16"/>
+                                <Border BorderThickness="1" BorderBrush="{TemplateBinding Foreground}" Height="18" Width="18"  Margin="0,0,12,0">
+                                    <FontIcon x:Name="CheckGlyph" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}" FontSize="16" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE001;" Opacity="0" Width="16"/>
                                 </Border>
                                 <TextBlock x:Name="TextBlock" Grid.Column="1" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{TemplateBinding Text}" TextTrimming="Clip" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Grid>
