@@ -201,19 +201,32 @@ namespace OmegaGo.Core.AI.FuegoSpace
         private void FixHistory(AiGameInformation aiGameInformation)
         {
             // Fix history.
-            var trueHistory = aiGameInformation.GameTree.PrimaryMoveTimeline.ToList();
+            var trueHistory = aiGameInformation.GameTree.PrimaryTimeline.ToList();
             for (int i = 0; i < trueHistory.Count; i++)
             {
                 if (this._history.Count == i)
                 {
-                    var trueMove = trueHistory[i];
-                    this._history.Add(trueMove);
-                    string moveDescription = trueMove.Coordinates.ToIgsCoordinates();
-                    if (trueMove.Kind == MoveKind.Pass)
+                    var trueNode = trueHistory[i];
+                    foreach(var pos in trueNode.AddBlack)
                     {
-                        moveDescription = "PASS";
+                        SendCommand("play B " + pos.ToIgsCoordinates());
                     }
-                    SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " + moveDescription);
+                    foreach (var pos in trueNode.AddWhite)
+                    {
+                        SendCommand("play W " + pos.ToIgsCoordinates());
+                    }
+                    if (trueNode.Move != null && trueNode.Move.Kind != MoveKind.None)
+                    {
+                        var trueMove = trueNode.Move;
+                        this._history.Add(trueMove);
+                        string moveDescription = trueMove.Coordinates.ToIgsCoordinates();
+                        if (trueMove.Kind == MoveKind.Pass)
+                        {
+                            moveDescription = "PASS";
+                        }
+                        SendCommand("play " + (trueMove.WhoMoves == StoneColor.Black ? "B" : "W") + " " +
+                                    moveDescription);
+                    }
                 }
             }
         }
