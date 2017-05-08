@@ -177,7 +177,7 @@
     <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
-    <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\GameTreeViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />

@@ -171,10 +171,10 @@
                                     Margin="10">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:TimelineControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
+                                                      ViewModel="{x:Bind VM.GameTreeViewModel}" />
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
