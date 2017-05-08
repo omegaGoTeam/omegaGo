@@ -75,8 +75,6 @@ namespace OmegaGo.UI.ViewModels
                     {
                         var challenge = this.SelectedGameChannel as KgsChallenge;
                         await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
-                        Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(challenge));
-                        OpenInNewActiveTab<GameCreationViewModel>();
                     }
                 }
             }, () => this.SelectedGameChannel != null));

@@ -116,11 +116,7 @@ namespace OmegaGo.UI.Services.Online
         {
             Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(
                 new GameCreation.IgsIncomingMatchRequestBundle(obj));
-            var newTab = Mvx.Resolve<ITabProvider>()
-                .ShowViewModel(
-                    new MvxViewModelRequest(typeof(GameCreationViewModel), new MvxBundle(), new MvxBundle(),
-                        MvxRequestedBy.Unknown), TabNavigationType.NewBackgroundTab);
-            newTab.IsBlinking = true;
+            CreateTab<GameCreationViewModel>(TabNavigationType.NewBackgroundTab);
 
             var settings = Mvx.Resolve<IGameSettings>();
             if (settings.Audio.PlayWhenNotificationReceived)
