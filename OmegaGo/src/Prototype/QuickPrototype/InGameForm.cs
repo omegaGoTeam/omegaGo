@@ -182,6 +182,7 @@ namespace FormsPrototype
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 //connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                // connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }

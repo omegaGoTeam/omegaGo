@@ -29,6 +29,25 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
+        /// Creates a game tree with a given ruleset and root
+        /// </summary>
+        /// <param name="ruleset">Ruleset</param>
+        /// <param name="boardSize">Board size</param>
+        /// <param name="gameTreeRoot">Root</param>
+        public GameTree( IRuleset ruleset, GameBoardSize boardSize, GameTreeNode gameTreeRoot)
+        {
+            Ruleset = ruleset;
+            BoardSize = boardSize;
+            GameTreeRoot = gameTreeRoot;
+            var lastNode = gameTreeRoot;
+            while (lastNode.NextNode != null)
+            {
+                lastNode = lastNode.NextNode;
+            }
+            LastNode = lastNode;
+        }
+
+        /// <summary>
         /// Indicates that tha last node of the game tree has changed
         /// </summary>
         public event EventHandler<GameTreeNode> LastNodeChanged;

@@ -1676,6 +1676,18 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Feedback => LocalizeCaller();
 		/// <summary>
+		/// Do you want to exit analysis?
+		/// </summary>
+		public string ExitAnalyze_Caption => LocalizeCaller();
+		/// <summary>
+		/// End analysis
+		/// </summary>
+		public string ExitAnalyze_Confirm => LocalizeCaller();
+		/// <summary>
+		/// Exiting this screen will end analysis and all your changes will be lost.
+		/// </summary>
+		public string ExitAnalyze_Text => LocalizeCaller();		
+		/// <summary>
 		/// Fluffy tree depth must be at least 1.
 		/// </summary>
 		public string Validation_FluffyDepthTooSmall => LocalizeCaller();

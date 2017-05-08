@@ -1759,6 +1759,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Your opponent</source>
           <target state="translated">Tvůj soupeř</target>
         </trans-unit>
+        <trans-unit id="ExitAnalyze_Caption" translate="yes" xml:space="preserve">
+          <source>Do you want to exit analysis?</source>
+          <target state="new">Do you want to exit analysis?</target>
+        </trans-unit>
+        <trans-unit id="ExitAnalyze_Confirm" translate="yes" xml:space="preserve">
+          <source>End analysis</source>
+          <target state="new">End analysis</target>
+        </trans-unit>
+        <trans-unit id="ExitAnalyze_Text" translate="yes" xml:space="preserve">
+          <source>Exiting this screen will end analysis and all your changes will be lost.</source>
+          <target state="new">Exiting this screen will end analysis and all your changes will be lost.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
