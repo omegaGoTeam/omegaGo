@@ -86,6 +86,12 @@ namespace OmegaGo.Core.Online.Igs
                             this._loginError = "The password is incorrect.";
                             continue;
                         }
+                        if (igsLine.EntireLine.Contains("Sorry, names can be"))
+                        {
+                            this.Composure = IgsComposure.Confused;
+                            this._loginError = "Your name is too long.";
+                            continue;
+                        }
                         if (igsLine.EntireLine.Contains("This is a guest account."))
                         {
                             this.Composure = IgsComposure.Confused;
@@ -176,6 +182,11 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (code == IgsCode.Move)
                     {
+                        var heading = IgsRegex.ParseGameHeading(igsLine);
+                        if (heading != null)
+                        {
+                            this.Data.LastReceivedGameHeading = heading;
+                        }
                         if (!thisIsNotAMove)
                         {
                             HandleIncomingMove(igsLine);
@@ -202,6 +213,11 @@ namespace OmegaGo.Core.Online.Igs
 
                         if (igsLine.EntireLine ==
                             "9 You can check your score with the score command, type 'done' when finished.")
+                        {
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.Contains("accepted."))
                         {
                             weAreHandlingAnInterrupt = true;
                             continue;
@@ -242,9 +258,11 @@ namespace OmegaGo.Core.Online.Igs
                         if (igsLine.PureLine.Contains("has typed done."))
                         {
                             string username = IgsRegex.GetFirstWord(igsLine);
+                            weAreHandlingAnInterrupt = true;
                             foreach (var game in GetGamesIncluding(username))
                             {
-                                // TODO petr inform the controller that a 'done' was typed (when interface exists)
+                                var player = game.Controller.Players.First(pl => pl.Info.Name == username);
+                                game.Controller.IgsConnector.RaiseServerSaidDone(player);
                             }
                             continue;
                         }
@@ -418,8 +436,8 @@ namespace OmegaGo.Core.Online.Igs
 
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
-
-                    GameHeading heading = IgsRegex.ParseGameHeading(currentLineBatch[0]);
+                    // An outgoing match request has been accepted by another player and the game can begin.
+                    GameHeading heading = this.Data.LastReceivedGameHeading;
                     var ogi = await Commands.GetGameByIdAsync(heading.GameNumber);
                     var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this);
                     bool youAreBlack = ogi.Black.Name == _username;

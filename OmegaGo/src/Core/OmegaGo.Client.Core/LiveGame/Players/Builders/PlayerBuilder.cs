@@ -30,11 +30,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
         private string _rank = "";
 
         /// <summary>
-        /// Player's team
-        /// </summary>
-        private string _team = "";
-
-        /// <summary>
         /// Time clock for the player
         /// </summary>
         protected TimeControl TimeClock { get; private set; } = new NoTimeControl();
@@ -86,18 +81,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
             _rank = rank;
             return _concreteBuilderInstance;
         }
-
-        /// <summary>
-        /// Sets the team
-        /// </summary>
-        /// <param name="team">Team/param>
-        /// <returns>Builder</returns>
-        public TBuilderType Team(string team)
-        {
-            if (team == null) throw new ArgumentNullException(nameof(team));
-            _team = team;
-            return _concreteBuilderInstance;
-        }
+        
 
         /// <summary>
         /// Builds the player
@@ -109,6 +93,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Builders
         /// Creates player info
         /// </summary>
         /// <returns>Player info instance</returns>
-        protected PlayerInfo CreatePlayerInfo() => new PlayerInfo(Color, _name, _rank, _team);
+        protected PlayerInfo CreatePlayerInfo() => new PlayerInfo(Color, _name, _rank);
     }
 }

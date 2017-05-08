@@ -302,7 +302,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             for (int ni = BubbleNotifications.Count - 1; ni >= 0; ni--)
             {
                 var notification = BubbleNotifications[ni];
-                if (notification.FirstAppeared.AddSeconds(4) < DateTime.Now)
+                if (notification.FirstAppeared.AddSeconds(8) < DateTime.Now)
                 {
                     BubbleNotifications.RemoveAt(ni);
                 }

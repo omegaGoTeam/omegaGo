@@ -33,7 +33,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
                     var success = await Connections.Igs.LoginAsync(settings.Interface.IgsName, settings.Interface.IgsPassword);
                     if (!success)
                     {
-                        notifications.TriggerNotification(new BubbleNotification("IGS auto-login failed."));
+                        notifications.TriggerNotification(new BubbleNotification("IGS auto-login failed.", "Pandanet", NotificationType.Error));
                     }
                 }
             }
@@ -44,12 +44,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
 
             if (settings.Interface.KgsAutoLogin && settings.Interface.KgsRememberPassword)
             {
-                var success =
-                    await Connections.Kgs.LoginAsync(settings.Interface.KgsName, settings.Interface.KgsPassword);
-                if (!success)
-                {
-                    notifications.TriggerNotification(new BubbleNotification("KGS auto-login failed."));
-                }
+                await Connections.Kgs.LoginAsync(settings.Interface.KgsName, settings.Interface.KgsPassword);
             }
         }
     }

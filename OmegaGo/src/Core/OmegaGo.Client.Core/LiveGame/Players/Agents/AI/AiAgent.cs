@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using OmegaGo.Core.AI;
+using OmegaGo.Core.AI.FuegoSpace;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Rules;
 
 namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
@@ -9,17 +11,12 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
     public class AiAgent : AgentBase
     {
         private readonly IAIProgram _aiProgram;
-        private int _strength;
-        private readonly TimeSpan _timeLimit;
-
-        // TODO Petr (low importance): public for debugging purposes only
+        
         public IAIProgram AI => _aiProgram;
 
-        public AiAgent(StoneColor color, IAIProgram aiProgram, int strength, TimeSpan timeLimit) : base(color)
+        public AiAgent(StoneColor color, IAIProgram aiProgram) : base(color)
         {
             _aiProgram = aiProgram;
-            _strength = strength;
-            _timeLimit = timeLimit;
         }
 
         /// <summary>
@@ -30,11 +27,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         public override AgentType Type => AgentType.AI;
 
         public override IllegalMoveHandling IllegalMoveHandling => IllegalMoveHandling.PassInstead;
-
-        public void SetStrength(int newStrength)
-        {
-            _strength = newStrength;
-        }
 
         public override void GameInitialized()
         {
@@ -80,6 +72,14 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             }
         }
 
+        public override void GamePhaseChanged(GamePhaseType phase)
+        {
+            if (phase == GamePhaseType.Finished)
+            {
+                (AI as Fuego)?.Finished();
+            }
+            base.GamePhaseChanged(phase);
+        }
         public override void MoveIllegal(MoveResult moveResult)
         {
             throw new Exception("This should never be called.");

@@ -18,5 +18,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
         /// <param name="command">The GTP command to send.</param>
         /// <returns>Command response</returns>
         GtpResponse SendCommand(string command);
+
+        void Dispose();
     }
 }

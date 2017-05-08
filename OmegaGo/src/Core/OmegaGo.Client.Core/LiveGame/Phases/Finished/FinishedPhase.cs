@@ -24,5 +24,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
         {
             // Nothing to be done.
         }
+
     }
 }

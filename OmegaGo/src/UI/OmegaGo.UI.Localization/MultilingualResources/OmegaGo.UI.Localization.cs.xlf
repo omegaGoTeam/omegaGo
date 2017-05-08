@@ -256,7 +256,7 @@
           <target state="translated">Dub</target>
         </trans-unit>
         <trans-unit id="BackgroundColor" translate="yes" xml:space="preserve">
-          <source>Background Color</source>
+          <source>Background color</source>
           <target state="translated">Barva pozadí</target>
         </trans-unit>
         <trans-unit id="BackgroundColor_Basic" translate="yes" xml:space="preserve">
@@ -272,7 +272,7 @@
           <target state="translated" state-qualifier="tm-suggestion">Žádná</target>
         </trans-unit>
         <trans-unit id="BackgroundImage" translate="yes" xml:space="preserve">
-          <source>Background Image</source>
+          <source>Background image</source>
           <target state="translated">Obrázek na pozadí</target>
         </trans-unit>
         <trans-unit id="BackgroundImage_Forest" translate="yes" xml:space="preserve">
@@ -316,7 +316,7 @@
           <target state="translated">Virtuální deska</target>
         </trans-unit>
         <trans-unit id="StonesTheme" translate="yes" xml:space="preserve">
-          <source>Stones Theme</source>
+          <source>Stones theme</source>
           <target state="translated">Motiv kamenů</target>
         </trans-unit>
         <trans-unit id="StoneTheme_PolishedBitmap" translate="yes" xml:space="preserve">
@@ -728,15 +728,15 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Hodnost omegaGo</target>
         </trans-unit>
         <trans-unit id="IgsRank" translate="yes" xml:space="preserve">
-          <source>IGS rank</source>
-          <target state="final">Třída na IGS</target>
+          <source>Pandanet rank</source>
+          <target state="translated">Třída na IGS</target>
         </trans-unit>
         <trans-unit id="KgsRank" translate="yes" xml:space="preserve">
           <source>KGS rank</source>
           <target state="final">Třída na KGS</target>
         </trans-unit>
         <trans-unit id="ControlStyle_OperatingSystem" translate="yes" xml:space="preserve">
-          <source>Operating System</source>
+          <source>Operating system</source>
           <target state="translated">Operační systém</target>
         </trans-unit>
         <trans-unit id="ControlStyle_Wood" translate="yes" xml:space="preserve">
@@ -744,7 +744,7 @@ Heh, zkuste nechat hrát dvě Rybky proti sobě. Hra nikdy neskončí ^^ (pokud 
           <target state="translated">Dřevo</target>
         </trans-unit>
         <trans-unit id="ControlStyle" translate="yes" xml:space="preserve">
-          <source>Control Style</source>
+          <source>Control style</source>
           <target state="translated">Styl ovládacích prvků</target>
         </trans-unit>
         <trans-unit id="ControlStyle_Lite" translate="yes" xml:space="preserve">
@@ -985,8 +985,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="PureSkillQuest_Description" translate="yes" xml:space="preserve">
           <source>Win a solo game against Fuego without handicap.</source>
-          <target state="needs-review-translation">Vyhraj hru proti Fuegu bez handicapu.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Vyhraj hru proti Fuegu bez handicapu.</target>
         </trans-unit>
         <trans-unit id="PureSkillQuest_Name" translate="yes" xml:space="preserve">
           <source>Pure Skill</source>
@@ -1538,7 +1537,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Igs_LoginAlreadyInProgress" translate="yes" xml:space="preserve">
           <source>Login already in progress. Waiting...</source>
-          <target state="translated">Přihlášení již proběhí. Počkejte chvíli...</target>
+          <target state="translated">Přihlášení již probíhá. Počkejte chvíli...</target>
         </trans-unit>
         <trans-unit id="LoginFailed" translate="yes" xml:space="preserve">
           <source>Login failed.</source>
@@ -1646,7 +1645,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="Feedback" translate="yes" xml:space="preserve">
           <source>Feedback</source>
-          <target state="needs-review-translation">Feedback</target>
+          <target state="translated">Feedback</target>
         </trans-unit>
         <trans-unit id="Validation_FluffyDepthTooSmall" translate="yes" xml:space="preserve">
           <source>Fluffy tree depth must be at least 1.</source>
@@ -1735,6 +1734,30 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="ExportSGF" translate="yes" xml:space="preserve">
           <source>Export SGF</source>
           <target state="translated">Exportovat SGF</target>
+        </trans-unit>
+        <trans-unit id="BackToGame" translate="yes" xml:space="preserve">
+          <source>Back to game</source>
+          <target state="translated">Zpět ke hře</target>
+        </trans-unit>
+        <trans-unit id="Commentary" translate="yes" xml:space="preserve">
+          <source>Commentary</source>
+          <target state="translated">Komentář</target>
+        </trans-unit>
+        <trans-unit id="CreateChallenge" translate="yes" xml:space="preserve">
+          <source>Create challenge</source>
+          <target state="translated">Vytvořit výzvu</target>
+        </trans-unit>
+        <trans-unit id="NoOpponentYet" translate="yes" xml:space="preserve">
+          <source>[no opponent yet]</source>
+          <target state="translated">[zatím žádný]</target>
+        </trans-unit>
+        <trans-unit id="Send" translate="yes" xml:space="preserve">
+          <source>Send</source>
+          <target state="translated">Poslat</target>
+        </trans-unit>
+        <trans-unit id="YourOpponent" translate="yes" xml:space="preserve">
+          <source>Your opponent</source>
+          <target state="translated">Tvůj soupeř</target>
         </trans-unit>
         <trans-unit id="ExitAnalyze_Caption" translate="yes" xml:space="preserve">
           <source>Do you want to exit analysis?</source>

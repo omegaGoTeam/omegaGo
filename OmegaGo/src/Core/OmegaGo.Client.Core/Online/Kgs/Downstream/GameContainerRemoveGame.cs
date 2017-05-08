@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
@@ -12,7 +13,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public int GameId { get; set; }
         public override void Process(KgsConnection connection)
         {
-            connection.Data.Containers[ChannelId].RemoveGame(GameId);
+            connection.Data.GetChannel<KgsGameContainer>(ChannelId)?.RemoveGame(GameId);
         }
     }
 }

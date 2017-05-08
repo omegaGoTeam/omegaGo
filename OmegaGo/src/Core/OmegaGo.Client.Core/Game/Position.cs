@@ -32,6 +32,7 @@ namespace OmegaGo.Core.Game
         /// Converts SGF point to Position
         /// </summary>
         /// <param name="sgfPoint">SGF point</param>
+        /// <param name="size">Game board size is used for reversing Y coordinates.</param>
         /// <returns>Position</returns>
         internal static Position FromSgfPoint(SgfPoint sgfPoint, GameBoardSize size) => 
             new Position(sgfPoint.Column, size.Height - sgfPoint.Row - 1);

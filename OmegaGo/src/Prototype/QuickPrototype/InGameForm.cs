@@ -266,7 +266,7 @@ namespace FormsPrototype
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
             GameTreeNode whatIsShowing =
-                _game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+                _game.Controller.GameTree.PrimaryTimeline.Skip(whereWeAt).FirstOrDefault();
             _truePositions = whatIsShowing?.BoardState ?? positions;
             _lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates
@@ -511,10 +511,6 @@ namespace FormsPrototype
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           foreach (GamePlayer player in _game.Controller.Players)
-           {
-               (player.Agent as AiAgent)?.SetStrength((int) nAiStrength.Value);
-           }
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)

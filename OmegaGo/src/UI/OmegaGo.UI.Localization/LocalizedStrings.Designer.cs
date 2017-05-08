@@ -312,7 +312,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Color.
+        ///   Looks up a localized string similar to Background color.
         /// </summary>
         public static string BackgroundColor {
             get {
@@ -348,7 +348,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Image.
+        ///   Looks up a localized string similar to Background image.
         /// </summary>
         public static string BackgroundImage {
             get {
@@ -407,6 +407,15 @@ namespace OmegaGo.UI.Localization {
         public static string BackgroundImageOpacity {
             get {
                 return ResourceManager.GetString("BackgroundImageOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back to game.
+        /// </summary>
+        public static string BackToGame {
+            get {
+                return ResourceManager.GetString("BackToGame", resourceCulture);
             }
         }
         
@@ -609,6 +618,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Commentary.
+        /// </summary>
+        public static string Commentary {
+            get {
+                return ResourceManager.GetString("Commentary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure....
         /// </summary>
         public static string ConfigureEllipsis {
@@ -618,7 +636,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Control Style.
+        ///   Looks up a localized string similar to Control style.
         /// </summary>
         public static string ControlStyle {
             get {
@@ -636,7 +654,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operating System.
+        ///   Looks up a localized string similar to Operating system.
         /// </summary>
         public static string ControlStyle_OperatingSystem {
             get {
@@ -659,6 +677,15 @@ namespace OmegaGo.UI.Localization {
         public static string ControlStyleChangeInfo {
             get {
                 return ResourceManager.GetString("ControlStyleChangeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create challenge.
+        /// </summary>
+        public static string CreateChallenge {
+            get {
+                return ResourceManager.GetString("CreateChallenge", resourceCulture);
             }
         }
         
@@ -1446,7 +1473,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IGS rank.
+        ///   Looks up a localized string similar to Pandanet rank.
         /// </summary>
         public static string IgsRank {
             get {
@@ -1982,6 +2009,15 @@ namespace OmegaGo.UI.Localization {
         public static string NonSquareBoardsPermitted {
             get {
                 return ResourceManager.GetString("NonSquareBoardsPermitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [no opponent yet].
+        /// </summary>
+        public static string NoOpponentYet {
+            get {
+                return ResourceManager.GetString("NoOpponentYet", resourceCulture);
             }
         }
         
@@ -2526,6 +2562,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Send {
+            get {
+                return ResourceManager.GetString("Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Set default color.
         /// </summary>
         public static string SetDefaultColor {
@@ -2796,7 +2841,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stones Theme.
+        ///   Looks up a localized string similar to Stones theme.
         /// </summary>
         public static string StonesTheme {
             get {
@@ -3935,6 +3980,15 @@ namespace OmegaGo.UI.Localization {
         public static string YourMove {
             get {
                 return ResourceManager.GetString("YourMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your opponent.
+        /// </summary>
+        public static string YourOpponent {
+            get {
+                return ResourceManager.GetString("YourOpponent", resourceCulture);
             }
         }
     }

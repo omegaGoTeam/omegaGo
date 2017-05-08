@@ -311,9 +311,10 @@ namespace OmegaGo.Core.Online.Igs
 
         public async Task<IgsGame> AcceptMatchRequestAsync(IgsMatchRequest matchRequest)
         {
+            // We are accepting a match and it begins.
             var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.IsError) return null;
-            var heading = IgsRegex.ParseGameHeading(lines[0]);
+            var heading = this.igsConnection.Data.LastReceivedGameHeading;
             var ogi = await GetGameByIdAsync(heading.GameNumber);
             var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this.igsConnection);
             bool youAreBlack = heading.BlackName == this.igsConnection.Username;
@@ -343,7 +344,10 @@ namespace OmegaGo.Core.Online.Igs
         public async Task<bool> SayAsync(IgsGameInfo game, string chat)
         {            
             if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
-                throw new ArgumentException("You don't have this game opened on IGS.");
+            {
+                // Game is already over.
+                return false;
+            }
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
@@ -365,7 +369,10 @@ namespace OmegaGo.Core.Online.Igs
         public async Task<bool> KibitzAsync(IgsGameInfo game, string chat)
         {
             if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
-                throw new ArgumentException("You don't have this game opened on IGS.");
+            {
+                // Game is already over.
+                return false;
+            }
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");

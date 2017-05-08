@@ -13,7 +13,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Contains the last node on the tree's primary timeline
         /// </summary>
-        private GameTreeNode _lastNode = null;
+        private GameTreeNode _lastNode;
         
         /// <summary>
         /// Creates a game tree with a given ruleset
@@ -22,6 +22,10 @@ namespace OmegaGo.Core.Game
         {
             Ruleset = ruleset;
             BoardSize = boardSize;
+            GameTreeRoot = new GameTreeNode();
+            GameTreeRoot.BoardState = new GameBoard(boardSize);
+            GameTreeRoot.GroupState = new GroupState(ruleset.RulesetInfo);
+            LastNode = GameTreeRoot;
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Root of the game tree
         /// </summary>
-        public GameTreeNode GameTreeRoot { get; set; }
+        public GameTreeNode GameTreeRoot { get; }
         
         /// <summary>
         /// The LastNode is last node of the game's primary timeline and is the node where
@@ -82,15 +86,18 @@ namespace OmegaGo.Core.Game
         {
             get
             {
-                var node = GameTreeRoot;
-                while (node != null)
+                if (GameTreeRoot.Branches.Count != 0)
                 {
-                    yield return node;
-                    if (node == LastNode)
+                    var node = GameTreeRoot.Branches[0];
+                    while (node != null)
                     {
-                        yield break;
+                        yield return node;
+
+                        if (node == LastNode)
+                            yield break;
+
+                        node = node.NextNode;
                     }
-                    node = node.NextNode;
                 }
             }
         }
@@ -100,6 +107,7 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState, GroupState groupState)
         {
             return AddMoveToEndInternal(move, boardState, groupState);
@@ -111,6 +119,7 @@ namespace OmegaGo.Core.Game
         /// <param name="newBlackStones">Newly added black stones</param>
         /// <param name="newWhiteStones">Newly added white stones</param>
         /// <param name="gameBoard">Game board</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns>Newly added node</returns>
         public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard, GroupState groupState)
         {
@@ -124,6 +133,7 @@ namespace OmegaGo.Core.Game
         /// Adds a given board to the end of the tree
         /// </summary>
         /// <param name="gameBoard">Game board instance</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns>Newly added node</returns>
         public GameTreeNode AddBoardToEnd(GameBoard gameBoard, GroupState groupState)
         {
@@ -136,22 +146,14 @@ namespace OmegaGo.Core.Game
         public void RemoveLastNode()
         {
             //is there actually something to remove?
-            if (LastNode == null)
+            if (!LastNode.Equals(GameTreeRoot))
             {
-                throw new InvalidOperationException("There is no node to remove from the GameTree.");
-            }
-            //remove last node, make its parent last
-            var previousMove = LastNode.Parent;            
-            if (previousMove == null)
-            {
-                GameTreeRoot = null;
-                LastNode = null;
-            }
-            else
-            {
+                //remove last node, make its parent last
+                var previousMove = LastNode.Parent;
                 previousMove.Branches.RemoveNode(LastNode);
                 LastNode = previousMove;
             }
+            
         }
 
         /// <summary>
@@ -159,30 +161,22 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Added move</param>
         /// <param name="boardState">State of the board</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns></returns>
         private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState, GroupState groupState)
         {
             GameTreeNode node = new GameTreeNode(move) { BoardState = boardState, GroupState = groupState };
 
-            if (GameTreeRoot == null)
-            {
-                GameTreeRoot = node;
-            }
-            else
-            {
-                LastNode.Branches.Insert(0, node);
-                node.Parent = LastNode;
-                node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
-                node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
-            }
+            LastNode.Branches.Insert(0, node);
+            node.Parent = LastNode;
+            node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
+            node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
+
             if (move.WhoMoves == StoneColor.Black)
-            {
                 node.Prisoners.BlackPrisoners += move.Captures.Count();
-            }
             else
-            {
                 node.Prisoners.WhitePrisoners += move.Captures.Count();
-            }
+
             LastNode = node;
             return node;
         }
@@ -193,6 +187,15 @@ namespace OmegaGo.Core.Game
         private void OnLastNodeChanged()
         {
             LastNodeChanged?.Invoke(this, LastNode);
+        }
+
+        /// <summary>
+        /// Clears the invocation list of all events in the game tree, notably <see cref="LastNodeChanged"/>. This is called as a game ends to prevent
+        /// UI windows that no longer exist from being updated. 
+        /// </summary>
+        public void UnsubscribeEveryoneFromGameTree()
+        {
+            LastNodeChanged = null;
         }
     }
 }

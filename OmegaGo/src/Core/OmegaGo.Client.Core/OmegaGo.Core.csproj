@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\Deterministic\DeterministicAI.cs" />
+    <Compile Include="AI\Fuego\FuegoAction.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="ApplicationInfo.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
@@ -83,7 +84,8 @@
     <Compile Include="LiveGame\Connectors\UI\UiConnector.cs" />
     <Compile Include="LiveGame\Phases\GamePhaseChangedEventArgs.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\Fixed\FixedHandicapPositions.cs" />
-    <Compile Include="LiveGame\Phases\HandicapPlacement\Free\KgsHandicapPhase.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Kgs\KgsFixedHandicapPhase.cs" />
+    <Compile Include="LiveGame\Phases\HandicapPlacement\Kgs\KgsSkipHandicapPhase.cs" />
     <Compile Include="LiveGame\Phases\HandicapPlacement\HandicapPlacementType.cs" />
     <Compile Include="LiveGame\Phases\LifeAndDeath\KgsLifeAndDeathPhase.cs" />
     <Compile Include="LiveGame\Phases\Main\IgsMainPhase.cs" />
@@ -100,7 +102,6 @@
     <Compile Include="LiveGame\Phases\HandicapPlacement\Igs\IgsHandicapPlacementPhase.cs" />
     <Compile Include="LiveGame\Phases\LifeAndDeath\RemoteLifeAndDeathPhase.cs" />
     <Compile Include="LiveGame\Players\Agents\AgentEventHandler.cs" />
-    <Compile Include="LiveGame\Players\Agents\Igs\IIgsAgent.cs" />
     <Compile Include="LiveGame\Remote\Igs\IgsGameController.cs" />
     <Compile Include="LiveGame\IGame.cs" />
     <Compile Include="LiveGame\Remote\Kgs\KgsGameBuilder.cs" />
@@ -196,18 +197,24 @@
     <Compile Include="Online\Igs\Events\StoneRemovalEventArgs.cs" />
     <Compile Include="Online\Igs\Events\IgsTimeControlAdjustmentEventArgs.cs" />
     <Compile Include="Online\Igs\Structures\ScoreLine.cs" />
+    <Compile Include="Online\Kgs\Downstream\Abstract\LoginFailureResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeSubmit.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeCreated.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeProposal.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\Downstream\ChallengeJoin.cs" />
+    <Compile Include="Online\Kgs\Downstream\ChallengeDecline.cs" />
     <Compile Include="Online\Kgs\Downstream\GameUndoRequest.cs" />
     <Compile Include="Online\Kgs\Downstream\GameTimeExpired.cs" />
     <Compile Include="Online\Kgs\Downstream\Close.cs" />
     <Compile Include="Online\Kgs\Downstream\GameOver.cs" />
+    <Compile Include="Online\Kgs\Downstream\LoginFailedBadPassword.cs" />
+    <Compile Include="Online\Kgs\Downstream\LoginFailedNoSuchUser.cs" />
+    <Compile Include="Online\Kgs\Downstream\LoginSuccess.cs" />
     <Compile Include="Online\Kgs\Downstream\NotificationMessageDownstreamEvent.cs" />
     <Compile Include="Online\Kgs\KgsCoordinates.cs" />
-    <Compile Include="Online\Kgs\Structures\KgsLoginPhase.cs" />
+    <Compile Include="Online\Kgs\KgsHelpers.cs" />
+    <Compile Include="Online\Kgs\KgsLoginPhase.cs" />
     <Compile Include="Online\Kgs\KgsRegex.cs" />
     <Compile Include="Online\Kgs\Datatypes\KgsSgfProperty.cs" />
     <Compile Include="Online\Kgs\Datatypes\XY.cs" />
@@ -232,7 +239,6 @@
     <Compile Include="Online\Kgs\Downstream\GameUpdate.cs" />
     <Compile Include="Online\Kgs\Downstream\Abstract\IGameStateMessage.cs" />
     <Compile Include="Online\Kgs\Downstream\JoinComplete.cs" />
-    <Compile Include="Online\Kgs\Downstream\LoginResponse.cs" />
     <Compile Include="Online\Kgs\Downstream\GlobalGamesJoin.cs" />
     <Compile Include="Online\Kgs\Downstream\Logout.cs" />
     <Compile Include="Online\Kgs\Downstream\RoomDesc.cs" />

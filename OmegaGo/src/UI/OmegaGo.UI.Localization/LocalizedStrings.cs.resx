@@ -1155,7 +1155,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Přihlášení jako {0}...</value>
   </data>
   <data name="Igs_LoginAlreadyInProgress" xml:space="preserve">
-    <value>Přihlášení již proběhí. Počkejte chvíli...</value>
+    <value>Přihlášení již probíhá. Počkejte chvíli...</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Přihlášení se nezdařilo.</value>
@@ -1303,5 +1303,23 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="ExportSGF" xml:space="preserve">
     <value>Exportovat SGF</value>
+  </data>
+  <data name="BackToGame" xml:space="preserve">
+    <value>Zpět ke hře</value>
+  </data>
+  <data name="Commentary" xml:space="preserve">
+    <value>Komentář</value>
+  </data>
+  <data name="CreateChallenge" xml:space="preserve">
+    <value>Vytvořit výzvu</value>
+  </data>
+  <data name="NoOpponentYet" xml:space="preserve">
+    <value>[zatím žádný]</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Poslat</value>
+  </data>
+  <data name="YourOpponent" xml:space="preserve">
+    <value>Tvůj soupeř</value>
   </data>
 </root>
