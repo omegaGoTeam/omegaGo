@@ -44,12 +44,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Uncategorized
 
             if (settings.Interface.KgsAutoLogin && settings.Interface.KgsRememberPassword)
             {
-                var success =
-                    await Connections.Kgs.LoginAsync(settings.Interface.KgsName, settings.Interface.KgsPassword);
-                if (!success)
-                {
-                    notifications.TriggerNotification(new BubbleNotification("KGS auto-login failed.", "KGS", NotificationType.Error));
-                }
+                await Connections.Kgs.LoginAsync(settings.Interface.KgsName, settings.Interface.KgsPassword);
             }
         }
     }
