@@ -14,6 +14,8 @@ using Windows.System;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.Devices.Input;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Input;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -26,6 +28,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         private const int NODEHIGHLIGHTSTROKE = 2;
         private const int NODEFONTSIZE = 10;
 
+        private const double POINTERMOVETOLERANCE = 2.5d;
+
         private static readonly Color WhiteNodeColor = Colors.White;
         private static readonly Color BlackNodeColor = Colors.Black;
         private static readonly Color EmptyNodeColor = Colors.Maroon;
@@ -37,46 +41,37 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                         "ViewModel",
                         typeof(TimelineViewModel),
                         typeof(TimelineControl),
-                        new PropertyMetadata(null, TimelineChanged));
+                        new PropertyMetadata(null, TimelineVMChanged));
 
         public static readonly DependencyProperty TimelineWidthProperty =
                 DependencyProperty.Register(
                         "TimelineWidth",
                         typeof(double),
                         typeof(TimelineControl),
-                        new PropertyMetadata(0d));
+                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
 
         public static readonly DependencyProperty TimelineHeightProperty =
                 DependencyProperty.Register(
                         "TimelineHeight",
                         typeof(double),
                         typeof(TimelineControl),
-                        new PropertyMetadata(0d));
+                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
 
         public static readonly DependencyProperty TimelineVerticalOffsetProperty =
                 DependencyProperty.Register(
                         "TimelineVerticalOffset",
                         typeof(double),
                         typeof(TimelineControl),
-                        new PropertyMetadata(0d));
-
+                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+        
         public static readonly DependencyProperty TimelineHorizontalOffsetProperty =
                 DependencyProperty.Register(
                         "TimelineHorizontalOffset",
                         typeof(double),
                         typeof(TimelineControl),
-                        new PropertyMetadata(0d));
-
-        private int _timelineDepth;
-
-        private Dictionary<string, CanvasTextLayout> _textLayoutCache;
-        private CanvasTextFormat _textFormat;
-
-        private bool _isPointerDown;
-        private Point _pointerDownPosition = new Point();
-        private Point _pointerCurrentPosition = new Point();
-
-        private static void TimelineChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+                        new PropertyMetadata(0d, TimelineRenderPropertyChanged));
+        
+        private static void TimelineVMChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             TimelineControl timelineControl = d as TimelineControl;
 
@@ -84,17 +79,74 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             {
                 TimelineViewModel viewModel = (TimelineViewModel)e.NewValue;
                 viewModel.TimelineRedrawRequested += timelineControl.TimelineRedrawRequsted;
-                
-                timelineControl.PointerReleased += timelineControl.TimelineControl_PointerReleased;
+
+                // Timeline scrolling
+                timelineControl.PointerEntered += timelineControl.TimelineControl_PointerEntered;
+                timelineControl.PointerExited += timelineControl.TimelineControl_PointerExited;
+                timelineControl.PointerWheelChanged += timelineControl.TimelineControl_PointerWheelChanged;
+                // Arrows
+                timelineControl.PointerReleased += timelineControl.TimelineControl_FocusHack;
                 timelineControl.KeyUp += timelineControl.TimelineControl_KeyUp;
+
+                // Drawing
                 timelineControl.canvas.Draw += timelineControl.Canvas_Draw;
+                // Timeline scrolling and node highlighting
                 timelineControl.canvas.PointerReleased += timelineControl.Canvas_PointerReleased;
                 timelineControl.canvas.PointerMoved += timelineControl.Canvas_PointerMoved;
                 timelineControl.canvas.PointerPressed += timelineControl.Canvas_PointerPressed;
+
+                // Relaculate desired timeline size and redraw
+                timelineControl.UpdateTimelineSize();
                 timelineControl.canvas.Invalidate();
             }
         }
         
+        private void TimelineControl_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            _isPointerDown = false;
+
+            horizontalBar.IndicatorMode = ScrollingIndicatorMode.None;
+            verticalBar.IndicatorMode = ScrollingIndicatorMode.None;
+        }
+
+        private void TimelineControl_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ScrollingIndicatorMode indicatorMode = ScrollingIndicatorMode.None;
+
+            switch (e.Pointer.PointerDeviceType)
+            {
+                case PointerDeviceType.Touch:
+                    indicatorMode = ScrollingIndicatorMode.TouchIndicator;
+                    break;
+                case PointerDeviceType.Pen:
+                case PointerDeviceType.Mouse:
+                    indicatorMode = ScrollingIndicatorMode.MouseIndicator;
+                    break;
+            }
+
+            horizontalBar.IndicatorMode = indicatorMode;
+            verticalBar.IndicatorMode = indicatorMode;
+        }
+
+        private static void TimelineRenderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TimelineControl timelineControl = d as TimelineControl;
+
+            if (timelineControl != null)
+            {
+                timelineControl.canvas.Invalidate();
+            }
+        }
+
+        private int _timelineDepth;
+
+        private Dictionary<string, CanvasTextLayout> _textLayoutCache;
+        private CanvasTextFormat _textFormat;
+
+        private bool _isPointerDown;
+        private double _pointerMoveDifference;
+        private Point _pointerCurrentPosition = new Point();
+
         public TimelineControl()
         {
             _textLayoutCache = new Dictionary<string, CanvasTextLayout>();
@@ -163,31 +215,50 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // Timeline Pointer input
         //////
 
+        private void TimelineControl_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            PointerPoint pointerPoint = e.GetCurrentPoint(this);
+
+            bool isHorizontal = pointerPoint.Properties.IsHorizontalMouseWheel;
+            int wheelDelta = pointerPoint.Properties.MouseWheelDelta;
+
+            // Make sure we are not behind bounds, this method checks that
+            if (isHorizontal)
+                SetScrollOffset(TimelineHorizontalOffset + wheelDelta, TimelineVerticalOffset);
+            else
+                SetScrollOffset(TimelineHorizontalOffset, TimelineVerticalOffset - wheelDelta);
+        }
+
         private void Canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            // If the pointer is of touch type, then allow dragging the timeline
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
-                ;
-
-            HandleTouchPointerDown(e.GetCurrentPoint(canvas).Position);
+                HandleTouchPointerDown(e.GetCurrentPoint(canvas).Position);
         }
 
         private void Canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            // If the pointer is of touch type, then allow dragging the timeline
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
-                ;
-
-            HandleTouchPointerMove(e.GetCurrentPoint(canvas).Position);
+                HandleTouchPointerMove(e.GetCurrentPoint(canvas).Position);
         }
 
         private void Canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
-                ;
-
-            HandleTouchPointerUp(e.GetCurrentPoint(canvas).Position);
-
-            GameTreeNode pressedNode;
             Point pointerPosition = e.GetCurrentPoint(canvas).Position;
+
+            // If the pointer is of touch type, then check the move ammount
+            // If the move ammout tolerance is within bounds then highlight node at touch position
+            // If the pointer is mouse / pen then just highlight node position as no dragging is allowed
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+                HandleTouchPointerUp(pointerPosition);
+            else
+                HighlightNodeAtPointerPosition(pointerPosition);
+        }
+
+        private void HighlightNodeAtPointerPosition(Point pointerPosition)
+        {
+            GameTreeNode pressedNode;
 
             // Compensate position for transformation
             pointerPosition.X = pointerPosition.X - NODEHIGHLIGHTSTROKE + TimelineHorizontalOffset;
@@ -349,7 +420,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
         // Keyboard arrows handling
         //////
 
-        private void TimelineControl_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private void TimelineControl_FocusHack(object sender, PointerRoutedEventArgs e)
         {
             // Hack around UWP XAML Focus WTFiness
             Task.Run(
@@ -510,37 +581,64 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
             TimelineHeight = height - canvas.ActualHeight;  // Subtract from the entire required height what we can display
             TimelineWidth = width - canvas.ActualWidth;     // Subtract from the entire required width what we can display
-        }
 
-        private void verticalBar_Scroll(object sender, Windows.UI.Xaml.Controls.Primitives.ScrollEventArgs e)
-        {
-            this.canvas.Invalidate();
+            // Make sure we are not behing bounds (could happen when branch get deleted)
+            SetScrollOffset(
+                TimelineHorizontalOffset,
+                TimelineVerticalOffset);
         }
-
-        private void horizontalBar_Scroll(object sender, Windows.UI.Xaml.Controls.Primitives.ScrollEventArgs e)
-        {
-            this.canvas.Invalidate();
-        }
-        
+                
         private void layoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            UpdateTimelineSize();
             verticalBar.ViewportSize = e.NewSize.Height;
             horizontalBar.ViewportSize = e.NewSize.Width;
         }
 
         private void HandleTouchPointerDown(Point pointerPosition)
         {
-
+            _isPointerDown = true;
+            _pointerMoveDifference = 0;
+            _pointerCurrentPosition = pointerPosition;
         }
 
         private void HandleTouchPointerMove(Point pointerPosition)
         {
+            if (!_isPointerDown)
+                return;
 
+            double horizontalDiff = pointerPosition.X - _pointerCurrentPosition.X;
+            double verticalDiff = pointerPosition.Y - _pointerCurrentPosition.Y;
+
+            // Calculate lenght the pointer gone since last sampling (by applying standard 2D Vector Length)
+            _pointerMoveDifference += Math.Sqrt(horizontalDiff * horizontalDiff + verticalDiff * verticalDiff);
+
+            // Make sure we are not behind bounds
+            SetScrollOffset(
+                TimelineHorizontalOffset - horizontalDiff, 
+                TimelineVerticalOffset - verticalDiff);
+
+            _pointerCurrentPosition = pointerPosition;
         }
 
         private void HandleTouchPointerUp(Point pointerPosition)
         {
+            _isPointerDown = false;
+            
+            if (_pointerMoveDifference <= POINTERMOVETOLERANCE)
+                HighlightNodeAtPointerPosition(pointerPosition);
+        }
 
+        private void HandleMouseUp(Point pointerPosition)
+        {
+            HighlightNodeAtPointerPosition(pointerPosition);
+        }
+
+        private void SetScrollOffset(double horizontalOffset, double verticalOffset)
+        {
+            // Make sure we are not behind bounds
+            TimelineHorizontalOffset = Math.Min(TimelineWidth, horizontalOffset);
+            TimelineVerticalOffset = Math.Min(TimelineHeight, verticalOffset);
         }
     }
 }

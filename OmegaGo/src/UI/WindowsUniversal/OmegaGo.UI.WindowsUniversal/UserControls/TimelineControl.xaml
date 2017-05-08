@@ -11,7 +11,6 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     IsTabStop="True"
-    IsTapEnabled="True"
     SizeChanged="layoutRoot_SizeChanged">
 
     <Grid Background="#FFFDD270">
@@ -26,22 +25,20 @@
         </Grid.ColumnDefinitions>
         
         <win2d:CanvasControl x:Name="canvas"
-                             Margin="5,5,0,0"
-                             Grid.RowSpan="1"
-                             Grid.ColumnSpan="1"/>
+                             Margin="5"
+                             Grid.RowSpan="2"
+                             Grid.ColumnSpan="2"/>
 
-        <ScrollBar x:Name="verticalBar" Grid.Column="1" Grid.Row="0"
-                   Orientation="Vertical" IndicatorMode="MouseIndicator"
-                   HorizontalAlignment="Right" Minimum="0" Visibility="Visible"
-                   Maximum="{x:Bind TimelineHeight, Mode=OneWay}"
-                   Value="{x:Bind TimelineVerticalOffset, Mode=TwoWay}"
-                   Scroll="verticalBar_Scroll"/>
+        <ScrollBar x:Name="verticalBar" 
+                   Grid.Column="1" Grid.Row="0"
+                   Orientation="Vertical"
+                   Minimum="0" Maximum="{x:Bind TimelineHeight, Mode=OneWay}"
+                   Value="{x:Bind TimelineVerticalOffset, Mode=TwoWay}"/>
         
-        <ScrollBar x:Name="horizontalBar" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
-                   Orientation="Horizontal" IndicatorMode="MouseIndicator"
-                   VerticalAlignment="Bottom" Minimum="0" Visibility="Visible"
-                   Maximum="{x:Bind TimelineWidth, Mode=OneWay}"
-                   Value="{x:Bind TimelineHorizontalOffset, Mode=TwoWay}"
-                   Scroll="horizontalBar_Scroll"/>
+        <ScrollBar x:Name="horizontalBar" 
+                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                   Orientation="Horizontal"
+                   Minimum="0" Maximum="{x:Bind TimelineWidth, Mode=OneWay}"
+                   Value="{x:Bind TimelineHorizontalOffset, Mode=TwoWay}"/>
     </Grid>
 </local:UserControlBase>
