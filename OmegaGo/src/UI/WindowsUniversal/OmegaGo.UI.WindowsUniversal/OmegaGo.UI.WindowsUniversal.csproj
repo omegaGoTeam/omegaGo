@@ -156,6 +156,9 @@
     <Compile Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml.cs">
       <DependentUpon>IgsObservedGameControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Multiplayer\Igs\IgsUserListItemControl.xaml.cs">
+      <DependentUpon>IgsUserListItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Navigation\BackButton.xaml.cs">
       <DependentUpon>BackButton.xaml</DependentUpon>
     </Compile>
@@ -438,6 +441,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\Igs\IgsUserListItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

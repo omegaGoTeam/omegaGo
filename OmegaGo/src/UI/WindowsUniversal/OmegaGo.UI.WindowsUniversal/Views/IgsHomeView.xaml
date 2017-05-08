@@ -117,8 +117,27 @@
         <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
             <Setter Property="Margin" Value="12" />
         </Style>
+        
+        <Style x:Key="LobbyListViewStyle" TargetType="ListView">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </views:TransparencyViewBase.Resources>
-
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -210,7 +229,7 @@
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=BoardSize}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="2" />
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Observing}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="3" />
                         </Grid>
-                        <ListView HorizontalAlignment="Stretch" Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
+                        <ListView Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}" Style="{StaticResource LobbyListViewStyle}">
                             <ListView.Background>
                                 <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                             </ListView.Background>
@@ -219,18 +238,7 @@
                                     <core:InvokeCommandAction Command="{x:Bind VM.ObserveCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Padding" Value="0" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
+
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="igs:IgsGameInfo">
                                     <igs1:IgsObservedGameControl />
@@ -285,7 +293,7 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                        <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                        <Grid x:Name="UserListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="0.5*" />
@@ -294,15 +302,17 @@
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=IsAcceptingChallenges}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
                         </Grid>
-                        <ListBox Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            
-                        </ListBox>
+                        <ListView Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                            <ListView.ItemContainerTransitions>
+                                <TransitionCollection>
+                                </TransitionCollection>
+                            </ListView.ItemContainerTransitions>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <igs1:IgsUserListItemControl />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                         <Button Grid.Row="2" 
                                 Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
                                 Command="{Binding ChallengeSelectedPlayer}"/>

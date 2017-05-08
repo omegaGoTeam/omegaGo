@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Border Padding="12,12,12,12">
+    <Border Padding="12,12,12,12" x:Name="Container" Height="72">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -23,6 +23,7 @@
                         <Setter Target="ObserveStackPanel.(Grid.Row)" Value="0" />
                         <Setter Target="BlackColumn.Width" Value="*" />
                         <Setter Target="ObserverColumn.Width" Value="0.5*" />
+                        <Setter Target="Container.Height" Value="48" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
