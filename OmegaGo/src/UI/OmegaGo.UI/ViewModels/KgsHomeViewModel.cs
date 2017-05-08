@@ -43,8 +43,6 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.UnjoinRoomAsync(this.SelectedRoom);
-                // TODO Petr: figure out a way to inform the UI when unjoin/join happens
-                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
 
@@ -53,7 +51,6 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && !this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.JoinRoomAsync(this.SelectedRoom);
-                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
