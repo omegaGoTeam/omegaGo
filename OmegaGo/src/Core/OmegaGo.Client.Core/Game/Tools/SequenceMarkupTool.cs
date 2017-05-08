@@ -12,6 +12,7 @@ namespace OmegaGo.Core.Game.Tools
         /// Map of shadow items.
         /// </summary>
         private string[,] _shadows;
+        private GameTreeNode _currentNode;
 
         public SequenceMarkupTool(SequenceMarkupKind kind)
         {
@@ -48,14 +49,23 @@ namespace OmegaGo.Core.Game.Tools
 
         public IShadowItem GetShadowItem(IToolServices toolService)
         {
-            if (_shadows == null)
+            if (_shadows == null || !toolService.Node.Equals(_currentNode))
+            {
                 _shadows = toolService.Node.Markups.FillSequenceShadowMap(toolService.GameTree.BoardSize, SequenceMarkup);
+                _currentNode = toolService.Node;
+            }
             
             string labelText=_shadows[toolService.PointerOverPosition.X, toolService.PointerOverPosition.Y];
             if (labelText.Equals("r") || labelText.Equals("0"))
                 return new None();
             else
                 return new Label(toolService.PointerOverPosition, labelText);            
+        }
+
+        public void Set(IToolServices toolServices)
+        {
+            _shadows = toolServices.Node.Markups.FillSequenceShadowMap(toolServices.GameTree.BoardSize, SequenceMarkup);
+            _currentNode = toolServices.Node;
         }
     }
 }
