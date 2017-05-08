@@ -344,7 +344,10 @@ namespace OmegaGo.Core.Online.Igs
         public async Task<bool> SayAsync(IgsGameInfo game, string chat)
         {            
             if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
-                throw new ArgumentException("You don't have this game opened on IGS.");
+            {
+                // Game is already over.
+                return false;
+            }
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");
@@ -366,7 +369,10 @@ namespace OmegaGo.Core.Online.Igs
         public async Task<bool> KibitzAsync(IgsGameInfo game, string chat)
         {
             if (this.igsConnection.GamesYouHaveOpened.All(g => g.Info.IgsIndex != game.IgsIndex))
-                throw new ArgumentException("You don't have this game opened on IGS.");
+            {
+                // Game is already over.
+                return false;
+            }
             if (chat == null) throw new ArgumentNullException(nameof(chat));
             if (chat == "") throw new ArgumentException("Chat line must not be empty.");
             if (chat.Contains("\n")) throw new Exception("Chat lines on IGS must not contain line breaks.");

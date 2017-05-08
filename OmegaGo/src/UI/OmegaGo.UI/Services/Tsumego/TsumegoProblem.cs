@@ -5,6 +5,7 @@ using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Game;
+using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Rules;
 using OmegaGo.Core.Sgf.Properties.Values.ValueTypes;
 using OmegaGo.UI.Extensions;
@@ -49,8 +50,10 @@ namespace OmegaGo.UI.Services.Tsumego
         /// </summary>
         public GameTreeNode SpawnThisProblem()
         {
-            var tree = GameTreeConverter.FromSgfGameTree(SgfGameTree);
-            tree.ForAllDescendants((node) => node.Branches, node =>
+            var treeRoot = new SgfToGameTreeConverter(SgfGameTree).
+                Convert().
+                GameTree.GameTreeRoot;
+            treeRoot.ForAllDescendants((node) => node.Branches, node =>
             {
                 if (node.Comment != null)
                 {
@@ -79,7 +82,7 @@ namespace OmegaGo.UI.Services.Tsumego
                     node.Tsumego.MarkedPositions.Add(continuation.Move.Coordinates);
                 }
             });
-            return tree;
+            return treeRoot;
         }
 
         protected TsumegoProblem(string name, SgfGameTree tree, StoneColor colorToPlay)

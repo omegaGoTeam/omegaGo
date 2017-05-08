@@ -13,7 +13,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Contains the last node on the tree's primary timeline
         /// </summary>
-        private GameTreeNode _lastNode = null;
+        private GameTreeNode _lastNode;
         
         /// <summary>
         /// Creates a game tree with a given ruleset
@@ -26,6 +26,25 @@ namespace OmegaGo.Core.Game
             GameTreeRoot.BoardState = new GameBoard(boardSize);
             GameTreeRoot.GroupState = new GroupState(ruleset.RulesetInfo);
             LastNode = GameTreeRoot;
+        }
+
+        /// <summary>
+        /// Creates a game tree with a given ruleset and root
+        /// </summary>
+        /// <param name="ruleset">Ruleset</param>
+        /// <param name="boardSize">Board size</param>
+        /// <param name="gameTreeRoot">Root</param>
+        public GameTree( IRuleset ruleset, GameBoardSize boardSize, GameTreeNode gameTreeRoot)
+        {
+            Ruleset = ruleset;
+            BoardSize = boardSize;
+            GameTreeRoot = gameTreeRoot;
+            var lastNode = gameTreeRoot;
+            while (lastNode.NextNode != null)
+            {
+                lastNode = lastNode.NextNode;
+            }
+            LastNode = lastNode;
         }
 
         /// <summary>
@@ -92,6 +111,10 @@ namespace OmegaGo.Core.Game
                     while (node != null)
                     {
                         yield return node;
+
+                        if (node == LastNode)
+                            yield break;
+
                         node = node.NextNode;
                     }
                 }
@@ -103,6 +126,7 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Move to be added</param>
         /// <param name="boardState">Game board for the move</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         public GameTreeNode AddMoveToEnd(Move move, GameBoard boardState, GroupState groupState)
         {
             return AddMoveToEndInternal(move, boardState, groupState);
@@ -114,6 +138,7 @@ namespace OmegaGo.Core.Game
         /// <param name="newBlackStones">Newly added black stones</param>
         /// <param name="newWhiteStones">Newly added white stones</param>
         /// <param name="gameBoard">Game board</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns>Newly added node</returns>
         public GameTreeNode AddToEnd(Position[] newBlackStones, Position[] newWhiteStones, GameBoard gameBoard, GroupState groupState)
         {
@@ -127,6 +152,7 @@ namespace OmegaGo.Core.Game
         /// Adds a given board to the end of the tree
         /// </summary>
         /// <param name="gameBoard">Game board instance</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns>Newly added node</returns>
         public GameTreeNode AddBoardToEnd(GameBoard gameBoard, GroupState groupState)
         {
@@ -154,6 +180,7 @@ namespace OmegaGo.Core.Game
         /// </summary>
         /// <param name="move">Added move</param>
         /// <param name="boardState">State of the board</param>
+        /// <param name="groupState">Group state associated with that board state.</param>
         /// <returns></returns>
         private GameTreeNode AddMoveToEndInternal(Move move, GameBoard boardState, GroupState groupState)
         {
@@ -179,6 +206,15 @@ namespace OmegaGo.Core.Game
         private void OnLastNodeChanged()
         {
             LastNodeChanged?.Invoke(this, LastNode);
+        }
+
+        /// <summary>
+        /// Clears the invocation list of all events in the game tree, notably <see cref="LastNodeChanged"/>. This is called as a game ends to prevent
+        /// UI windows that no longer exist from being updated. 
+        /// </summary>
+        public void UnsubscribeEveryoneFromGameTree()
+        {
+            LastNodeChanged = null;
         }
     }
 }

@@ -30,18 +30,47 @@ namespace OmegaGo.Core.Online.Common
         /// <returns></returns>
         Task AddTime(RemoteGameInfo remoteInfo, TimeSpan additionalTime);
 
+        /// <summary>
+        /// Asks the server to undo all death marks in the Life/Death Determination Phase.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task UndoLifeDeath(RemoteGameInfo remoteInfo);
 
+        /// <summary>
+        /// Tells the server that we are satisfied with what stones are declared dead in the Life/Death Determination Phase.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task LifeDeathDone(RemoteGameInfo remoteInfo);
 
+        /// <summary>
+        /// Tells the server that the stone at POSITION and all stones in the same group should be marked dead.
+        /// </summary>
+        /// <param name="position">The position that contains a dead stone, according to the user.</param>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task LifeDeathMarkDeath(Position position, RemoteGameInfo remoteInfo);
 
+        /// <summary>
+        /// Tells the server that we wish to resign.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task Resign(RemoteGameInfo remoteInfo);
-        
+
+        /// <summary>
+        /// Tells the server that we accept the undo request made by our opponent.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task AllowUndoAsync(RemoteGameInfo remoteInfo);
 
+        /// <summary>
+        /// Tells the server that we reject the undo request made by our opponent.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task RejectUndoAsync(RemoteGameInfo remoteInfo);
 
+        /// <summary>
+        /// Tells the server that we no longer wish to receive information about a game.
+        /// </summary>
+        /// <param name="remoteInfo">The game this command concerns.</param>
         Task UnobserveAsync(RemoteGameInfo remoteInfo);
     }
 }

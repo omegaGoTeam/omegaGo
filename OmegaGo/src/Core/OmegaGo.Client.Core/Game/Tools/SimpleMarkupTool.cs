@@ -71,6 +71,12 @@ namespace OmegaGo.Core.Game.Tools
             return new None();
         }
 
+        public void Set(IToolServices toolServices)
+        {
+            _shadows = toolServices.Node.Markups.FillSimpleShadowMap(toolServices.GameTree.BoardSize, SimpleMarkup);
+            _currentNode = toolServices.Node;
+        }
+
         /// <summary>
         /// Indicates whether the given markups have the same type.
         /// </summary>

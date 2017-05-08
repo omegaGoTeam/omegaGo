@@ -271,9 +271,7 @@ namespace OmegaGo.Core.AI.FuegoSpace
             {
                 SendCommand("uct_param_player resign_threshold 0");
             }
-
-            // TODO Petr: on IGS, make it so two passes don't end a game
-
+            
             // Time settings
             string timeSettings = gameInformation.AiPlayer.Clock.GetGtpInitializationCommand();
             if (timeSettings != null)

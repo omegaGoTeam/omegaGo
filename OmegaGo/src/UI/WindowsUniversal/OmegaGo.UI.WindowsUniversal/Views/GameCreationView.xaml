@@ -160,8 +160,8 @@
                    
 
 
-                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="Your opponent" Visibility="{Binding Bundle.YouVersusOnlineVisible}" />
-                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.YouVersusOnlineVisible}"></TextBlock>
+                    <TextBlock Grid.Row="2" Style="{StaticResource Labels}" Text="{Binding Localizer.YourOpponent}" Visibility="{Binding Bundle.ShowYourOpponent}" />
+                    <TextBlock Grid.Row="2" Style="{StaticResource TimeControlDescription}" Text="{Binding OpponentName, Mode=OneWay}" Visibility="{Binding Bundle.ShowYourOpponent}"></TextBlock>
                     <Button Grid.Row="2" Style="{StaticResource Buttons}" 
                             Visibility="{x:Bind VM.Bundle.CanDeclineSingleOpponent}"
                             Command="{x:Bind VM.DeclineSingleOpponentCommand}"
@@ -196,7 +196,7 @@
                     <Slider Grid.Row="5" Style="{StaticResource Boxes}"  Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" 
                             Minimum="0" Maximum="9" StepFrequency="1" SmallChange="1" LargeChange="1" 
                             Value="{x:Bind VM.Handicap, Mode=TwoWay}" IsEnabled="{x:Bind VM.Bundle.HandicapMayBeChanged}" />
-                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
+                    <TextBlock Grid.Row="5" Text="{Binding Handicap}" Visibility="{x:Bind VM.Bundle.ShowHandicapSlider}" HorizontalAlignment="Center" Margin="2" Grid.Column="1" VerticalAlignment="Bottom" />
 
                     <TextBlock Grid.Row="6" Style="{StaticResource Labels}" Text="{x:Bind Localizer.TimeControl}" />
                     <TextBlock Grid.Row="6" Style="{StaticResource TimeControlDescription}" Text="{x:Bind VM.TimeControl.OneLineDescription, Mode=OneWay}" />
@@ -297,7 +297,7 @@
                             Visibility="{Binding Bundle.WillCreateChallenge}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Street" Margin="0,2,0,0" />
-                            <TextBlock Text="Create challenge" Margin="10,0,0,0" />
+                            <TextBlock Text="{Binding Localizer.CreateChallenge}" Margin="10,0,0,0" />
                         </StackPanel>
                     </Button>
 

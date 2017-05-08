@@ -112,7 +112,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Back => LocalizeCaller();
 		/// <summary>
-		/// Background Color
+		/// Background color
 		/// </summary>
 		public string BackgroundColor => LocalizeCaller();
 		/// <summary>
@@ -128,7 +128,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string BackgroundColor_None => LocalizeCaller();
 		/// <summary>
-		/// Background Image
+		/// Background image
 		/// </summary>
 		public string BackgroundImage => LocalizeCaller();
 		/// <summary>
@@ -432,7 +432,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string StatisticsToolTip => LocalizeCaller();
 		/// <summary>
-		/// Stones Theme
+		/// Stones theme
 		/// </summary>
 		public string StonesTheme => LocalizeCaller();
 		/// <summary>
@@ -688,7 +688,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Tsumego_YouHaveSolvedThisProblem => LocalizeCaller();
 		/// <summary>
-		/// IGS rank
+		/// Pandanet rank
 		/// </summary>
 		public string IgsRank => LocalizeCaller();
 		/// <summary>
@@ -736,7 +736,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string QuitCancel => LocalizeCaller();
 		/// <summary>
-		/// Quit game?
+		/// Quit omegaGo?
 		/// </summary>
 		public string QuitCaption => LocalizeCaller();
 		/// <summary>
@@ -744,7 +744,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string QuitConfirm => LocalizeCaller();
 		/// <summary>
-		/// Do you really want to quit the game?
+		/// Do you really want to exit the omegaGo program? All ongoing games will be cancelled.
 		/// </summary>
 		public string QuitText => LocalizeCaller();
 		/// <summary>
@@ -772,7 +772,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string ResetAllProgress => LocalizeCaller();
 		/// <summary>
-		/// Operating System
+		/// Operating system
 		/// </summary>
 		public string ControlStyle_OperatingSystem => LocalizeCaller();
 		/// <summary>
@@ -780,7 +780,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string ControlStyle_Wood => LocalizeCaller();
 		/// <summary>
-		/// Control Style
+		/// Control style
 		/// </summary>
 		public string ControlStyle => LocalizeCaller();
 		/// <summary>
@@ -992,7 +992,7 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string OnlineTraditionalQuest_Name => LocalizeCaller();
 		/// <summary>
-		/// "Win a solo game against Fuego without handicap.
+		/// Win a solo game against Fuego without handicap.
 		/// </summary>
 		public string PureSkillQuest_Description => LocalizeCaller();
 		/// <summary>
@@ -1524,6 +1524,26 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Solved => LocalizeCaller();
 		/// <summary>
+		/// Analyze mode
+		/// </summary>
+		public string AnalyzeMode => LocalizeCaller();
+		/// <summary>
+		/// Hide tabs
+		/// </summary>
+		public string HideTabs => LocalizeCaller();
+		/// <summary>
+		/// Hint
+		/// </summary>
+		public string Hint => LocalizeCaller();
+		/// <summary>
+		/// System log
+		/// </summary>
+		public string SystemLog => LocalizeCaller();
+		/// <summary>
+		/// Export SGF
+		/// </summary>
+		public string ExportSGF => LocalizeCaller();
+		/// <summary>
 		/// Connecting to Pandanet...
 		/// </summary>
 		public string Igs_ConnectingToPandanet => LocalizeCaller();
@@ -1656,25 +1676,17 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Feedback => LocalizeCaller();
 		/// <summary>
-		/// Analyze mode
+		/// Do you want to exit analysis?
 		/// </summary>
-		public string AnalyzeMode => LocalizeCaller();
+		public string ExitAnalyze_Caption => LocalizeCaller();
 		/// <summary>
-		/// Hide tabs
+		/// End analysis
 		/// </summary>
-		public string HideTabs => LocalizeCaller();
+		public string ExitAnalyze_Confirm => LocalizeCaller();
 		/// <summary>
-		/// Hint
+		/// Exiting this screen will end analysis and all your changes will be lost.
 		/// </summary>
-		public string Hint => LocalizeCaller();
-		/// <summary>
-		/// System log
-		/// </summary>
-		public string SystemLog => LocalizeCaller();
-		/// <summary>
-		/// Export SGF
-		/// </summary>
-		public string ExportSGF => LocalizeCaller();
+		public string ExitAnalyze_Text => LocalizeCaller();		
 		/// <summary>
 		/// Fluffy tree depth must be at least 1.
 		/// </summary>
@@ -1743,6 +1755,30 @@ namespace OmegaGo.UI.Services.Localization
 		/// You must select a square board.
 		/// </summary>
 		public string Validation_YouMustSelectASquareBoard => LocalizeCaller();
+		/// <summary>
+		/// Back to game
+		/// </summary>
+		public string BackToGame => LocalizeCaller();
+		/// <summary>
+		/// Commentary
+		/// </summary>
+		public string Commentary => LocalizeCaller();
+		/// <summary>
+		/// Create challenge
+		/// </summary>
+		public string CreateChallenge => LocalizeCaller();
+		/// <summary>
+		/// [no opponent yet]
+		/// </summary>
+		public string NoOpponentYet => LocalizeCaller();
+		/// <summary>
+		/// Send
+		/// </summary>
+		public string Send => LocalizeCaller();
+		/// <summary>
+		/// Your opponent
+		/// </summary>
+		public string YourOpponent => LocalizeCaller();
 
         // 
         // This file is auto-generated by LocalizerGenerator.

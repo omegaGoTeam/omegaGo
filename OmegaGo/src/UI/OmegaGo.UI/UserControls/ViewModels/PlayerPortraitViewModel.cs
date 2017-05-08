@@ -2,6 +2,7 @@
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame;
 using OmegaGo.Core.Modes.LiveGame.Players;
+using OmegaGo.Core.Modes.LiveGame.Players.Builders;
 using OmegaGo.Core.Online.Common;
 using OmegaGo.Core.Time;
 using OmegaGo.UI.Services.Localization;
@@ -23,9 +24,9 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private readonly bool _isOnline;
 
         private string _timeControlMainLine = "";
-        private string _timeControlTooltip = null;
+        private string _timeControlTooltip;
         private string _timeControlSubLine = "";
-        private int _prisonerCount = 0;
+        private int _prisonerCount;
         private IGameSettings _settings = Mvx.Resolve<IGameSettings>();
         private Localizer Localizer = (Localizer) Mvx.Resolve<ILocalizationService>();
 
@@ -33,12 +34,26 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// Creates the player portrait view model
         /// </summary>
         /// <param name="player">Player for which this portrait is applicable</param>
-        /// <param name="controller"></param>
+        /// <param name="game">Game that contains that player.</param>
         public PlayerPortraitViewModel(GamePlayer player, IGame game)
         {
             _player = player;
             _controller = game.Controller;
             _isOnline = game.Info is RemoteGameInfo;
+        }
+
+        /// <summary>
+        /// Creates light-weight version of player portrait without a game. Used with analysis mode.
+        /// </summary>
+        /// <param name="playerInfo">Player info</param>
+        public PlayerPortraitViewModel(PlayerInfo playerInfo)
+        {
+            _player = new HumanPlayerBuilder(playerInfo.Color)
+                .Name(playerInfo.Name??"")
+                .Rank(playerInfo.Rank??"")                
+                .Build();
+            _controller = null;
+            _isOnline = false;
         }
 
         /// <summary>
@@ -92,7 +107,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         
         public bool IsTurnPlayer
         {
-            get { return _controller.TurnPlayer == _player; }
+            get { return _controller?.TurnPlayer == _player; }
         }
 
         /// <summary>
@@ -109,11 +124,14 @@ namespace OmegaGo.UI.UserControls.ViewModels
             var tuple = TimeControlTranslator.TranslateSubtext(info, Clock);
             TimeControlSubLine = tuple.Subtext;
             TimeControlTooltip = tuple.Tooltip;
-            PrisonerCount =
-                _player.Info.Color == StoneColor.Black
-                    ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
-                    : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
-                ;
+            if (_controller != null)
+            {
+                PrisonerCount =
+                    _player.Info.Color == StoneColor.Black
+                        ? (_controller.GameTree.LastNode?.Prisoners.BlackPrisoners ?? 0)
+                        : (_controller.GameTree.LastNode?.Prisoners.WhitePrisoners ?? 0)
+                    ;
+            }
             RaisePropertyChanged(nameof(CapturesLine));
             RaisePropertyChanged(nameof(IsTurnPlayer));
 

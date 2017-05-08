@@ -1,12 +1,27 @@
 ﻿namespace OmegaGo.Core.Online.Kgs.Structures
 {
+    /// <summary>
+    /// Represents a KGS room which is a named container of games and challenges that may be joined and unjoined by the user.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Structures.KgsGameContainer" />
     public class KgsRoom : KgsGameContainer
     {
-        public string Description { get; set; }
+        private string _description;
 
-        public KgsRoom(int id)
+        /// <summary>
+        /// Gets or sets the description of the room.
+        /// </summary>
+        public string Description
         {
-            this.ChannelId = id;
+            get { return _description; }
+            set { _description = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public KgsRoom(int channelId)
+        {
+            this.ChannelId = channelId;
         }
     }
 }

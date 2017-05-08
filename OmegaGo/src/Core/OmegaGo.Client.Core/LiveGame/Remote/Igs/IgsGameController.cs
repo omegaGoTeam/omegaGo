@@ -22,10 +22,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
 {
     public class IgsGameController : RemoteGameController
     {
-        /// <summary>
-        /// IGS Connector
-        /// </summary>
-        internal readonly IgsConnector IgsConnector = null;
 
         /// <summary>
         /// Creates IGS game controller
@@ -50,6 +46,11 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
             Server = serverConnection;            
             InitializeServer(serverConnection);
         }
+
+        /// <summary>
+        /// IGS Connector
+        /// </summary>
+        internal readonly IgsConnector IgsConnector = null;
 
         /// <summary>
         /// Igs server connection

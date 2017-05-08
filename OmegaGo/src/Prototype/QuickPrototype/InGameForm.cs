@@ -182,6 +182,7 @@ namespace FormsPrototype
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 //connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                // connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
@@ -510,10 +511,6 @@ namespace FormsPrototype
 
         private void nAiStrength_ValueChanged(object sender, EventArgs e)
         {
-           foreach (GamePlayer player in _game.Controller.Players)
-           {
-               (player.Agent as AiAgent)?.SetStrength((int) nAiStrength.Value);
-           }
         }
 
         private void bDoneWithLifeDeathDetermination_Click(object sender, EventArgs e)
