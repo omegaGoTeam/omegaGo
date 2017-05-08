@@ -7,10 +7,11 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class JoinComplete : KgsInterruptChannelMessage
+    /// <summary>
+    /// Your user name is not on the server.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.LoginFailureResponse" />
+    class LoginFailedNoSuchUser : LoginFailureResponse
     {
-        public override void Process(KgsConnection connection)
-        {
-        }
     }
 }

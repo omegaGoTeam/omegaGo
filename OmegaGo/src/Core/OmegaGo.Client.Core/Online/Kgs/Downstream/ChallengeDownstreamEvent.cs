@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
@@ -16,13 +18,15 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     {
         public override void Process(KgsConnection connection)
         {
-            foreach (var challenge in connection.Data.Containers.SelectMany(container => container.Value.GetChallenges()))
+            var channel = connection.Data.GetChannel(this.ChannelId);
+            KgsChallenge challenge = channel as KgsChallenge;
+            if (challenge != null)
             {
-                if (challenge.ChannelId == this.ChannelId)
-                {
-                    challenge.Events.Add(this.Type);
-                  
-                }
+                challenge.Events.Add(this.Type);
+            }
+            else
+            {
+                Debug.WriteLine("That was supposed to be a challenge.");
             }
         }
     }

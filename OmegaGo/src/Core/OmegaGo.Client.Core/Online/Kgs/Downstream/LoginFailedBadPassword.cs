@@ -7,10 +7,11 @@ using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
-    class JoinComplete : KgsInterruptChannelMessage
+    /// <summary>
+    /// Your password did not match.
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.LoginFailureResponse" />
+    class LoginFailedBadPassword : LoginFailureResponse
     {
-        public override void Process(KgsConnection connection)
-        {
-        }
     }
 }

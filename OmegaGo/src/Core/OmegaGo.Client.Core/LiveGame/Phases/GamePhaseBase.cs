@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases
         /// Changes the game phase on the controller
         /// </summary>
         /// <param name="phaseType">Phase type</param>
-        public void GoToPhase(GamePhaseType phaseType)
+        protected void GoToPhase(GamePhaseType phaseType)
         {
             Controller.SetPhase(phaseType);
         }

@@ -114,7 +114,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// <summary>
         /// Asks the first player to make a move
         /// </summary>
-        private void AskFirstPlayerToMove()
+        protected virtual void AskFirstPlayerToMove()
         {
             //decides who starts the game based on handicap information
             Controller.TurnPlayer = Controller.Info.NumberOfHandicapStones > 0 ?
@@ -219,11 +219,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                 Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
                 ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
 
-                //switches players
-                Controller.SwitchTurnPlayer();
+                DetermineNextTurnPlayer();
+
                 Controller.OnDebuggingMessage("Asking " + Controller.TurnPlayer + " to make a move.");
                 Controller.TurnPlayer.Agent.PleaseMakeAMove();
             }
+        }
+
+        /// <summary>
+        /// Passes the turn to the next player who's supposed to be on turn. This will usually be the other player 
+        /// than the one who played last. In free handicap placement, this may be different.
+        /// This method should only change <see cref="GameController.TurnPlayer"/> and do nothing else.
+        /// </summary>
+        protected virtual void DetermineNextTurnPlayer()
+        {
+            //switches players
+            Controller.SwitchTurnPlayer();
         }
 
         /// <summary>

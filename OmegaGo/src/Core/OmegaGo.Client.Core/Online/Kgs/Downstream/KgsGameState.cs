@@ -42,6 +42,16 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
                         }
                     }
                 }
+                if (this.BlackDoneSent && !game.Controller.BlackDoneReceived)
+                {
+                    game.Controller.BlackDoneReceived = true;
+                    game.Controller.KgsConnector.RaiseDoneReceived(game.Controller.Players.Black);
+                }
+                if (this.WhiteDoneSent && !game.Controller.WhiteDoneReceived)
+                {
+                    game.Controller.WhiteDoneReceived = true;
+                    game.Controller.KgsConnector.RaiseDoneReceived(game.Controller.Players.White);
+                }
             }
         }
         #region Flags

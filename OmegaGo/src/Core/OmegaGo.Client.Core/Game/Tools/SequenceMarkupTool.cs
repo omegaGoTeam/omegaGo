@@ -61,5 +61,11 @@ namespace OmegaGo.Core.Game.Tools
             else
                 return new Label(toolService.PointerOverPosition, labelText);            
         }
+
+        public void Set(IToolServices toolServices)
+        {
+            _shadows = toolServices.Node.Markups.FillSequenceShadowMap(toolServices.GameTree.BoardSize, SequenceMarkup);
+            _currentNode = toolServices.Node;
+        }
     }
 }

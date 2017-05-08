@@ -17,7 +17,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         /// <summary>
         /// Gets or sets the index associated with a node. The root node of the tree has the index 0 and each games begins with this node already existing. The first node that has a move has the index 1 (unless that move was undone).
         /// </summary>
-        public int Index { get; set; }
+        public int Index { get; }
 
         /// <summary>
         /// Gets the number of edges from the root node that one must traverse to reach this node. For example, if this is a grandson
@@ -76,14 +76,14 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                 
                 case "RULES":
                     RulesDescription rules = prop;
-                    ongame.Info.BoardSize = new Game.GameBoardSize(rules.Size);
+                    ongame.Info.BoardSize = new GameBoardSize(rules.Size);
                     foreach(var player in ongame.Controller.Players)
                     {
                         player.Clock = rules.CreateTimeControl();
                     }
                     ongame.Info.NumberOfHandicapStones = rules.Handicap;
                     ongame.Info.Komi = rules.Komi;
-                    ongame.Info.RulesetType = KgsGameInfo.ConvertRuleset(rules.Rules);
+                    ongame.Info.RulesetType = KgsHelpers.ConvertRuleset(rules.Rules);
                     // TODO (Petr) ensure that even written late, these values are respected
                     break;
                 case "PLAYERNAME":
@@ -94,6 +94,10 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     break;
                 case "PHANTOMCLEAR":
                     // I don't know what to do with this yet.
+                    break;
+                case "ADDSTONE":
+                    ongame.Controller.AddHandicapStonePosition(new Position(prop.Loc.X,
+                        KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "COMMENT":
                     // "Putti [2k]: hi\n
@@ -110,6 +114,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "TIMELEFT":
@@ -122,7 +128,7 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     StoneColor color = propColor == "white" ? StoneColor.White : StoneColor.Black;
                     if (!prop.Loc.IsPass)
                     {
-                        XY whereTo = (XY) prop.Loc;
+                        XY whereTo = prop.Loc;
                         Position position = new Game.Position(whereTo.X, KgsCoordinates.TheirsToOurs(whereTo.Y, ongame.Info.BoardSize));
                         move = Move.PlaceStone(color, position);
                     }
@@ -151,6 +157,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceRevivifyGroup(
                         new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;

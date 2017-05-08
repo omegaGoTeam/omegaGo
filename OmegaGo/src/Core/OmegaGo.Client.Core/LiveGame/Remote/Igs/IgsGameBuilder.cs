@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Igs
     {
         private readonly IgsGameInfo _info;
 
-        private IgsConnection _connection = null;
+        private IgsConnection _connection;
 
         public IgsGameBuilder(IgsGameInfo info)
         {

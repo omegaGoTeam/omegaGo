@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
+using OmegaGo.Core.Modes.LiveGame.Players;
 using OmegaGo.Core.Modes.LiveGame.Players.Agents.Kgs;
 using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Modes.LiveGame.State;
@@ -36,6 +37,7 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public event EventHandler<GameEndInformation> GameEndedByServer;
 
         public event EventHandler<ChatMessage> NewChatMessageReceived;
+        public event EventHandler<GamePlayer> ServerSaysAPlayerIsDone;
 
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
             await _connection.Commands.ChatAsync(_gameController.Info, chatMessage);
         }
 
-        protected virtual void OnNewChatMessageReceived(ChatMessage e)
+        protected void OnNewChatMessageReceived(ChatMessage e)
         {
             NewChatMessageReceived?.Invoke(this, e);
         }
@@ -80,6 +82,11 @@ namespace OmegaGo.Core.LiveGame.Connectors.Kgs
         public void ForceRevivifyGroup(Position position)
         {
             LifeDeathRevivifyGroupForced?.Invoke(this, position);
+        }
+
+        public void RaiseDoneReceived(GamePlayer gamePlayer)
+        {
+            ServerSaysAPlayerIsDone?.Invoke(this, gamePlayer);
         }
 
         public void CauseUndo(int howManyUndos)
