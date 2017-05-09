@@ -243,12 +243,14 @@ namespace OmegaGo.Core.Online.Igs
                 }
                 catch
                 {
+                    Composure = IgsComposure.Disconnected;
                     return false;
                 }
                 ConnectionEstablished = true;
             }
             catch
             {
+                Composure = IgsComposure.Disconnected;
                 return false;
             }
             return true;
