@@ -353,6 +353,12 @@
                         <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
                             <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
                             <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
+                            <Button Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <PathIcon Style="{StaticResource LogoutIcon}" />
+                                    <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind Localizer.Logout, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </CommandBar.Content>
