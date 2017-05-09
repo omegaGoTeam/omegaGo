@@ -15,6 +15,7 @@
     xmlns:kgs="using:OmegaGo.UI.WindowsUniversal.DataTemplateSelectors.Multiplayer.KGS"
     xmlns:igs="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
     xmlns:multiplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer"
+    xmlns:kgs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Kgs"
     Unloaded="TransparencyViewBase_Unloaded"
     mc:Ignorable="d" 
     x:Name="ParentView">
@@ -34,6 +35,14 @@
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GameListHeader.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
@@ -117,11 +126,27 @@
                             <Grid x:Name="GameListGrid" Margin="0,0,6,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Games}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
-                                      SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="80" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=White}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Black}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                                    <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=BoardSize}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="2" />
+                                </Grid>
+                                <ListView Grid.Row="2" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
+                                       Style="{StaticResource LobbyListViewStyle}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="ItemClick">
+                                            <core:InvokeCommandAction Command="{x:Bind VM.JoinChannelCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                        </core:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="structures:KgsTrueGameChannel">
                                             <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo}" />
@@ -135,27 +160,54 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Challenges}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
-                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
+                                          Style="{StaticResource LobbyListViewStyle}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="ItemClick">
+                                            <core:InvokeCommandAction Command="{x:Bind VM.JoinChannelCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                        </core:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="structures:KgsChallenge">
+                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
                                 </ListView>
                             </Grid>
                         </Grid>
 
                         <Pivot x:Name="GamesChallengesInnerPivot" Grid.Row="1">
                             <PivotItem Header="{x:Bind Localizer.Games}">
-                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
-                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" SelectionMode="None"  ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
+                                          Style="{StaticResource LobbyListViewStyle}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="ItemClick">
+                                            <core:InvokeCommandAction Command="{x:Bind VM.JoinChannelCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                        </core:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="structures:KgsTrueGameChannel">
+                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
                                 </ListView>
                             </PivotItem>
                             <PivotItem Header="{x:Bind Localizer.Challenges}">
-                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
-                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                <ListView Grid.Row="1" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
+                                          Style="{StaticResource LobbyListViewStyle}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <core:EventTriggerBehavior EventName="ItemClick">
+                                            <core:InvokeCommandAction Command="{x:Bind VM.JoinChannelCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                        </core:EventTriggerBehavior>
+                                    </interactivity:Interaction.Behaviors>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="structures:KgsChallenge">
+                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
                                 </ListView>
                             </PivotItem>
                         </Pivot>
-                        <!--<StackPanel Grid.Row="2">
-                            <Button Command="{x:Bind VM.JoinSelectedGameChannelCommand}">Join (observe/prepare to accept)</Button>
-                        </StackPanel>-->
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{x:Bind Localizer.Rooms}">
@@ -314,6 +366,12 @@
                         <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
                             <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
                             <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
+                            <Button Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <PathIcon Style="{StaticResource LogoutIcon}" />
+                                    <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind Localizer.Logout, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </Grid>
                 </CommandBar.Content>

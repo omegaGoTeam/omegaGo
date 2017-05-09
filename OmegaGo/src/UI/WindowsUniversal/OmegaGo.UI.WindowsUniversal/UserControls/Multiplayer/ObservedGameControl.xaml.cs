@@ -17,17 +17,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer
         }
 
         public static readonly DependencyProperty GameInfoProperty = DependencyProperty.Register(
-            "GameInfo", typeof(GameInfo), typeof(ObservedGameControl), new PropertyMetadata(default(GameInfo), GameInfoChanged));
-
-        private static void GameInfoChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var control = d as ObservedGameControl;
-            if ( !control.HasObservers)
-            {
-                control.ObserverColumn.Width = 0;
-            }
-        }
-
+            "GameInfo", typeof(GameInfo), typeof(ObservedGameControl), new PropertyMetadata(default(GameInfo)));
+        
         public GameInfo GameInfo
         {
             get { return (GameInfo)GetValue(GameInfoProperty); }

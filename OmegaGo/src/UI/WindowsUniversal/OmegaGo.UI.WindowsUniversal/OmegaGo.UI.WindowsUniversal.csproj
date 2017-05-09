@@ -155,6 +155,9 @@
     <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
       <DependentUpon>MainMenuButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Multiplayer\Kgs\KgsChallengeListItemControl.xaml.cs">
+      <DependentUpon>KgsChallengeListItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Multiplayer\ObservedGameControl.xaml.cs">
       <DependentUpon>ObservedGameControl.xaml</DependentUpon>
     </Compile>
@@ -273,6 +276,9 @@
     <Content Include="Assets\Icons\Commands\Plus.scale-100.png" />
     <Content Include="Assets\Icons\Commands\Plus.scale-150.png" />
     <Content Include="Assets\Icons\Commands\Plus.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Handicap.scale-200.png" />
     <Content Include="Assets\Icons\Info\List.scale-100.png" />
     <Content Include="Assets\Icons\Info\List.scale-150.png" />
     <Content Include="Assets\Icons\Info\List.scale-200.png" />
@@ -280,6 +286,12 @@
     <Content Include="Assets\Icons\Info\Room.scale-150.png" />
     <Content Include="Assets\Icons\Info\Room.scale-200.png" />
     <Content Include="Assets\Icons\Info\RoomLarge.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Ruleset.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Timing.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
@@ -462,6 +474,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\LoginFormControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Multiplayer\Kgs\KgsChallengeListItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

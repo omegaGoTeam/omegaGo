@@ -200,8 +200,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="0.5*" />
-                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=White}" Style="{StaticResource FormHeadingTextBlockStyle}" />
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Black}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
