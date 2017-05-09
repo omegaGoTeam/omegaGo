@@ -82,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AppPackage\IAppPackageService.cs" />
     <Compile Include="Services\Audio\ISfxPlayerService.cs" />
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
@@ -176,13 +177,14 @@
     <Compile Include="UserControls\ViewModels\PlayerPortraitViewModel.cs" />
     <Compile Include="UserControls\ViewModels\PlayerSettingsViewModel.cs" />
     <Compile Include="UserControls\ViewModels\TimeControlSettingsViewModel.cs" />
-    <Compile Include="UserControls\ViewModels\TimelineViewModel.cs" />
+    <Compile Include="UserControls\ViewModels\GameTreeViewModel.cs" />
     <Compile Include="Services\Tsumego\TsumegoProblem.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewAiPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewHumanPlayer.cs" />
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="Utility\Assistant.cs" />
+    <Compile Include="ViewModels\AnalyzeOnlyViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="Models\LibraryItem.cs" />
     <Compile Include="ViewModels\LiveGameViewModel.cs" />

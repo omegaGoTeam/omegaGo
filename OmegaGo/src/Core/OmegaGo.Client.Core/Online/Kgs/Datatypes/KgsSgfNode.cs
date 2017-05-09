@@ -114,6 +114,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceKillGroup(new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;
                 case "TIMELEFT":
@@ -155,6 +157,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     {
                         ongame.Controller.SetPhase(Modes.LiveGame.Phases.GamePhaseType.LifeDeathDetermination);
                     }
+                    ongame.Controller.BlackDoneReceived = false;
+                    ongame.Controller.WhiteDoneReceived = false;
                     ongame.Controller.KgsConnector.ForceRevivifyGroup(
                         new Position(prop.Loc.X, KgsCoordinates.TheirsToOurs(prop.Loc.Y, ongame.Info.BoardSize)));
                     break;

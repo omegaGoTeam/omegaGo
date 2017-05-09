@@ -166,7 +166,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -184,18 +184,17 @@
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:TimelineControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
+                                                      ViewModel="{x:Bind VM.GameTreeViewModel}" />
                         </StackPanel>
 
                         <controls:ChatControl ViewModel="{x:Bind VM.ChatViewModel, Mode=OneWay}"
-                                              Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
-                                              ></controls:ChatControl>
+                                              Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                              Height="400" />
 
-
-                        <ListView x:Name="systemLog" Grid.Row="3"
+                        <ListView x:Name="systemLog" Grid.Row="4"
                                   Grid.Column="0"
                                   Grid.ColumnSpan="2"
                                   Margin="10" Height="400"

@@ -40,5 +40,8 @@ namespace OmegaGo.Core.Game.Tools
             toolService.PlayPassSound();
 
         }
+
+        public void Set(IToolServices toolServices) { }
+        
     }
 }

@@ -52,7 +52,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents
         /// <summary>
         /// Game state
         /// </summary>
-        protected IGameState GameState { get; private set; }
+        public IGameState GameState { get; private set; }
 
         /// <summary>
         /// Type of the agent

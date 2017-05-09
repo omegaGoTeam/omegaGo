@@ -69,6 +69,7 @@
     <Compile Include="Online\Igs\ObsoleteIgsConnectionTests.cs" />
     <Compile Include="PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sgf\Helpers\SgfPointCompressorTests.cs" />
     <Compile Include="Sgf\Parsing\SgfPropertyValuesConverterTests.cs" />
     <Compile Include="Sgf\Properties\SgfKnownPropertiesTests.cs" />
     <Compile Include="Sgf\Properties\SgfPropertyTests.cs" />

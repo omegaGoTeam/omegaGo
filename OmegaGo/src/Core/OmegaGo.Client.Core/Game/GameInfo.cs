@@ -32,6 +32,12 @@ namespace OmegaGo.Core.Game
             CountingType = countingType;
         }
 
+        public GameInfo(PlayerInfo white, PlayerInfo black)
+        {
+            White = white;
+            Black = black;
+        }
+
         /// <summary>
         /// White player
         /// </summary>
@@ -41,6 +47,31 @@ namespace OmegaGo.Core.Game
         /// Black player
         /// </summary>
         public PlayerInfo Black { get; }
+
+        /// <summary>
+        /// Game name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Copyright
+        /// </summary>
+        public string Copyright { get; set; }
+
+        /// <summary>
+        /// Date played
+        /// </summary>
+        public string Date { get; set; }
+
+        /// <summary>
+        /// Annotation
+        /// </summary>
+        public string Annotation { get; set; }
+
+        /// <summary>
+        /// Game comment
+        /// </summary>
+        public string Comment { get; set; }
 
         /// <summary>
         /// Board size
@@ -76,6 +107,5 @@ namespace OmegaGo.Core.Game
         {
             return "GameInfo: " + White + " v." + Black;
         }
-
     }
 }
