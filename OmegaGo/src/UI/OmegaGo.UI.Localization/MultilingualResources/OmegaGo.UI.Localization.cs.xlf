@@ -1872,6 +1872,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Please choose komi between -500 and 500.</source>
           <target state="new">Please choose komi between -500 and 500.</target>
         </trans-unit>
+        <trans-unit id="Validation_ExcessiveTimeError" translate="yes" xml:space="preserve">
+          <source>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </source>
+          <target state="new">A field ('{0}') has a value greater than 10000. Please choose a smaller value. </target>
+        </trans-unit>
       </group>
     </body>
   </file>

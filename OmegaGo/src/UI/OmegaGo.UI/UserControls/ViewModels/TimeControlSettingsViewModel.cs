@@ -173,6 +173,11 @@ namespace OmegaGo.UI.UserControls.ViewModels
                 error = string.Format(_localizer.Validation_TimeControlError, fieldname);
                 return false;
             }
+            if (value > 10000)
+            {
+                error = string.Format(_localizer.Validation_ExcessiveTimeError, fieldname);
+                return false;
+            }
             return true;
         }
     }

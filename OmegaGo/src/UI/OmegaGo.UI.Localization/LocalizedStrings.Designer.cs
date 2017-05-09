@@ -3831,6 +3831,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A field (&apos;{0}&apos;) has a value greater than 10000. Please choose a smaller value. .
+        /// </summary>
+        public static string Validation_ExcessiveTimeError {
+            get {
+                return ResourceManager.GetString("Validation_ExcessiveTimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fluffy tree depth must be at least 1..
         /// </summary>
         public static string Validation_FluffyDepthTooSmall {

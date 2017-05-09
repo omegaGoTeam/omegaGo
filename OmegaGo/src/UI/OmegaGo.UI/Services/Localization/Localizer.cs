@@ -1876,6 +1876,10 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Validation_BoardTooExtreme => LocalizeCaller();
 		/// <summary>
+		/// A field ('{0}') has a value greater than 10000. Please choose a smaller value. 
+		/// </summary>
+		public string Validation_ExcessiveTimeError => LocalizeCaller();
+		/// <summary>
 		/// Please choose komi between -500 and 500.
 		/// </summary>
 		public string Validation_KomiTooExtreme => LocalizeCaller();
