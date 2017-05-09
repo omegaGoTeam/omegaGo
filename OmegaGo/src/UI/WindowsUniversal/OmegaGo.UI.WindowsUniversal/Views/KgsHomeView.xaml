@@ -64,7 +64,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Pivot MaxWidth="Infinity"  Title="{x:Bind Localizer.KgsServerCaption}" Grid.Row="0" Style="{StaticResource CenteredPivotStyle}">
+            <Pivot MaxWidth="1024"  Title="{x:Bind Localizer.KgsServerCaption}" Grid.Row="0" Style="{StaticResource CenteredPivotStyle}">
                 <Pivot.TitleTemplate>
                     <DataTemplate>
                         <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
