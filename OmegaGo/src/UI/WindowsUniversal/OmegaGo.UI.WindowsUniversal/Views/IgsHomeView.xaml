@@ -179,8 +179,8 @@
                                         <StackPanel Orientation="Vertical">
                                             <RadioButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
                                             <RadioButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                            <RadioButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
                                             <RadioButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
+                                            <RadioButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
                                         </StackPanel>
                                     </Flyout>
                                 </Button.Flyout>
@@ -217,7 +217,7 @@
 
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="igs:IgsGameInfo">
-                                    <multiplayer:ObservedGameControl GameInfo="{x:Bind}" />
+                                    <multiplayer:ObservedGameControl GameInfo="{x:Bind Mode=OneWay}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
