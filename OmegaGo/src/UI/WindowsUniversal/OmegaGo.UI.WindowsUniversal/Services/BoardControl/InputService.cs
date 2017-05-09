@@ -47,8 +47,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         public void PointerUp(int x, int y)
         {
             Position pointerPosition = TranslateToBoardPosition(x, y);
+            SharedBoardControlState.PointerOverPosition = pointerPosition;
 
-            if(pointerPosition.IsDefined)
+            if (pointerPosition.IsDefined)
                 PointerTapped?.Invoke(this, pointerPosition);
         }
 
@@ -60,12 +61,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         /// <param name="y">position on y axis</param>
         public void PointerMoved(int x, int y)
         {
-            SharedBoardControlState.PointerOverPosition
-                = TranslateToBoardPosition(x, y);
+            Position pointerPosition = TranslateToBoardPosition(x, y);
+            SharedBoardControlState.PointerOverPosition = pointerPosition;
+        }
 
-            // If analyze tools are not null (there are situations where BoardControl is not used for normal game) set its pointer over position.
-            if (SharedBoardControlState.AnalyzeToolServices != null)
-                SharedBoardControlState.AnalyzeToolServices.SetPointerPosition(SharedBoardControlState.PointerOverPosition);
+        /// <summary>
+        /// Handles pointer left event.
+        /// </summary>
+        public void PointerExited()
+        {
+            SharedBoardControlState.PointerOverPosition = Position.Undefined;
         }
 
         /// <summary>
