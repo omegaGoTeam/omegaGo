@@ -93,6 +93,18 @@ namespace OmegaGo.UI.ViewModels
             return await Program.GetDeadPositions(_gameController);
         }
 
+        public bool ProvidesHintsFor(GameInfo gameInfo)
+        {
+            bool providesHints =
+                (this.ProvidesHints) &&
+                (this.Program.Capabilities.HandlesNonSquareBoards || gameInfo.BoardSize.IsSquare) &&
+                (this.Program.Capabilities.MinimumBoardSize <= gameInfo.BoardSize.Width) &&
+                (this.Program.Capabilities.MinimumBoardSize <= gameInfo.BoardSize.Height) &&
+                (this.Program.Capabilities.MaximumBoardSize >= gameInfo.BoardSize.Width) &&
+                (this.Program.Capabilities.MaximumBoardSize >= gameInfo.BoardSize.Height)
+                ;
+            return providesHints;
+        }
         private void RegisterHandlers()
         {
             _uiConnector.MoveWasPerformed += Assistant_uiConnector_MoveWasPerformed;
@@ -127,5 +139,6 @@ namespace OmegaGo.UI.ViewModels
         {
             //MoveUndone();
         }
+
     }
 }

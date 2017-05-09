@@ -182,6 +182,7 @@ namespace FormsPrototype
                 connection.Events.ErrorMessageReceived -= _igs_ErrorMessageReceived;
                 //   this._igs.UndoRequestReceived -= _igs_UndoRequestReceived;
                 //connection.Events.UndoDeclined -= _igs_UndoDeclined;
+                // connection.Events.UndoDeclined -= _igs_UndoDeclined;
             }
            // _controller.AbortGame();*/
         }
@@ -265,7 +266,7 @@ namespace FormsPrototype
             // Positions
             GameBoard positions = new GameBoard(new GameBoardSize(19));
             GameTreeNode whatIsShowing =
-                _game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(whereWeAt).FirstOrDefault();
+                _game.Controller.GameTree.PrimaryTimeline.Skip(whereWeAt).FirstOrDefault();
             _truePositions = whatIsShowing?.BoardState ?? positions;
             _lastMove = whatIsShowing?.Move.Kind == MoveKind.PlaceStone
                 ? whatIsShowing.Move.Coordinates

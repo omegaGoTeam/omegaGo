@@ -29,5 +29,6 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Finished
                 FuegoSingleton.Instance.CurrentGame = null;
             }
         }
+
     }
 }

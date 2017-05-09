@@ -8,6 +8,7 @@ using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Game.Markup;
+using OmegaGo.Core.Game.GameTreeConversion;
 
 namespace SgfConsoleParser
 {
@@ -17,8 +18,9 @@ namespace SgfConsoleParser
         {
             SgfParser sgfParser = new SgfParser();
             SgfCollection collection = sgfParser.Parse(File.ReadAllText("S:\\DELETEME\\markup.sgf"));
-            
-            GameTreeNode rootNode = GameTreeConverter.FromSgfGameTree(collection.First());
+
+            SgfToGameTreeConverter gameTreeConverter = new SgfToGameTreeConverter(collection.First());
+            GameTreeNode rootNode = gameTreeConverter.Convert().GameTree.GameTreeRoot;
             //SgfParser.Deserialize(File.ReadAllText("C:\\Users\\Martin\\Downloads\\ff4_ex.sgf"));
 
             WriteMarkup(rootNode);

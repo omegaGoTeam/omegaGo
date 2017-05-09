@@ -8,7 +8,7 @@ namespace OmegaGo.Core.Game
     /// A strongly typed collection used for storing GameTreeNode instances.
     /// Sets the Parent property of the GameTreeNode automatically.
     /// </summary>
-    public sealed class GameTreeNodeCollection : IEnumerable, IEnumerable<GameTreeNode>
+    public sealed class GameTreeNodeCollection : IEnumerable<GameTreeNode>
     {
         private readonly GameTreeNode _owner;
         private readonly List<GameTreeNode> _nodes;
@@ -50,6 +50,14 @@ namespace OmegaGo.Core.Game
             node.Parent = _owner;
         }
 
+        public int IndexOf(GameTreeNode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            return _nodes.IndexOf(node);
+        }
+
         public bool RemoveNode( GameTreeNode node )
         {
             if ( node == null )
@@ -63,11 +71,14 @@ namespace OmegaGo.Core.Game
             return removed;
         }
 
-        IEnumerator<GameTreeNode> IEnumerable<GameTreeNode>.GetEnumerator()
+        public IEnumerator<GameTreeNode> GetEnumerator()
         {
             return _nodes.GetEnumerator();
         }
 
-        public IEnumerator GetEnumerator() => _nodes.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

@@ -7,6 +7,10 @@ using OmegaGo.Core.Time.None;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
+    /// <summary>
+    /// The rules for a game. Always represented as a JSON object. This also contains string literal constants that represent
+    /// the various rulesets and time systems.
+    /// </summary>
     public class RulesDescription : IRulesDescription
     {
         #region Rules Description

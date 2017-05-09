@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
@@ -22,10 +23,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
         /// Creates chat
         /// </summary>
         /// <param name="chatService"></param>
-        public ChatViewModel(IChatService chatService)
+        /// <param name="first"></param>
+        public ChatViewModel(IChatService chatService, IRemoteConnector connector)
         {
             _chatService = chatService;
             _chatService.NewMessageReceived += ChatService_NewMessageReceived;
+            connector.ServerSaysAPlayerIsDone += Connector_ServerSaysAPlayerIsDone;
             Messages = new ObservableCollection<ChatMessage>(chatService.Messages);
         }
 
@@ -71,7 +74,14 @@ namespace OmegaGo.UI.UserControls.ViewModels
             }
             string msg = MessageText;
             MessageText = "";
-            await _chatService.SendMessageAsync(msg); 
+            await _chatService.SendMessageAsync(msg);
+        }
+
+        private void Connector_ServerSaysAPlayerIsDone(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
+        {
+            ChatService_NewMessageReceived(sender,
+                new ChatMessage("System", e + " is satisfied with the removed stones.", DateTimeOffset.Now,
+                    ChatMessageKind.Incoming));
         }
     }
 }

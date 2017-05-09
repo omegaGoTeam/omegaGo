@@ -1,7 +1,16 @@
 ﻿using System.Collections.Generic;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
+    /// <summary>
+    /// A game channel is a game currently being played, or it may be a challenge (an attempt to set up a custom game). There are several cases where game channels are described in a message, and they always contain these fields.
+    /// <para>
+    /// MESSAGE: This is always a downstream message or part of a downstream message. It should not be stored in <see cref="KgsData"/> directly. 
+    /// </para>
+    /// </summary>
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Datatypes.IRulesDescription" />
+    /// <seealso cref="OmegaGo.Core.Online.Kgs.Datatypes.IGameFlags" />
     public class GameChannel : IRulesDescription, IGameFlags
     {
         /// <summary>
@@ -130,6 +139,5 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
         {
             return ChannelId + " (" + GameType + ", in " + RoomId + ")";
         }
-
     }
 }

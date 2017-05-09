@@ -3,6 +3,9 @@ using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
+    /// <summary>
+    /// On KGS, SGF files are dynamic. A change in an SGF file is represented by an SGF Event object. Every SGF event has two mandatory fields: nodeId that is the ID of the SGF node where the event takes place, and type, that indicates what happened and what type of data is in the object.
+    /// </summary>
     public class SgfEvent
     {
         /// <summary>
@@ -87,9 +90,8 @@ namespace OmegaGo.Core.Online.Kgs.Datatypes
                     }
                     break;
                 default:
-                    // TODO Petr 
-                    throw new System.Exception("Unexpected SGF event.");
-                    // break;
+                    ongame.Controller.Server.Events.RaiseErrorNotification("Unknown event: " + Type);
+                    break;
             }
         }
 

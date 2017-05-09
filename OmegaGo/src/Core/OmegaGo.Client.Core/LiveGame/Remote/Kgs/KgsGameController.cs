@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using OmegaGo.Core.Game;
 using OmegaGo.Core.LiveGame.Connectors.Kgs;
+using OmegaGo.Core.LiveGame.Phases.HandicapPlacement.Kgs;
 using OmegaGo.Core.LiveGame.Phases.Main;
 using OmegaGo.Core.LiveGame.Remote;
 using OmegaGo.Core.Modes.LiveGame.Phases;
@@ -37,35 +39,64 @@ namespace OmegaGo.Core.Modes.LiveGame.Remote.Kgs
             KgsConnector.GameEndedByServer += KgsConnector_GameEndedByServer;
         }
 
+
+        internal KgsConnector KgsConnector { get; }
+        internal new KgsConnection Server { get; }
+        public override IChatService Chat { get; }
+        internal new KgsGameInfo Info { get; }
+        internal List<Position> HandicapPositions { get; } = new List<Position>();
+
+
         /// <summary>
         /// Gets or sets the KGS SGF node that was last given as the argument of the ACTIVATED downstream message.
         /// </summary>
         public KgsSgfNode ActivatedNode { get; set; }
+        public int DoneId { get; set; }
 
         /// <summary>
         ///     KGS SGF Nodes
         /// </summary>
         internal Dictionary<int, KgsSgfNode> Nodes = new Dictionary<int, KgsSgfNode>();
 
-        internal KgsConnector KgsConnector { get; }
-        internal new KgsConnection Server { get; }
+        protected override IGameControllerPhaseFactory PhaseFactory
+        {
+            get
+            {
+                if (this.Info.HandicapPlacementType == Phases.HandicapPlacement.HandicapPlacementType.Fixed)
+                {
+                    return
+                        new GenericPhaseFactory
+                            <InitializationPhase, KgsFixedHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
+                }
+                else
+                {
+                    return
+                        new GenericPhaseFactory
+                            <InitializationPhase, KgsSkipHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
+                }
+            }
+        }
 
-        public override IChatService Chat { get; }
-        public int DoneId { get; set; }
+        public bool BlackDoneReceived { get; set; }
 
-        /// <summary>
-        ///     KGS game info
-        /// </summary>
-        internal new KgsGameInfo Info { get; }
-
-        protected override IGameControllerPhaseFactory PhaseFactory { get; } =
-            new GenericPhaseFactory
-                <InitializationPhase, KgsHandicapPhase, KgsMainPhase, KgsLifeAndDeathPhase, FinishedPhase>();
+        public bool WhiteDoneReceived { get; set; }
 
         private void KgsConnector_GameEndedByServer(object sender, GameEndInformation e)
         {
             EndGame(e);
+        }
 
+        internal void AddHandicapStonePosition(Position position)
+        {
+            HandicapPositions.Add(position);
+            if (this.Phase == null)
+            {
+                return;
+            }
+            if (this.Phase.Type == GamePhaseType.HandicapPlacement)
+            {
+                (this.Phase as KgsFixedHandicapPhase).ResumeWorking();
+            }
         }
     }
 }

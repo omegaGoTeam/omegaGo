@@ -3,32 +3,32 @@ using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
-    public sealed class TimelineViewModel : ControlViewModelBase
+    public sealed class GameTreeViewModel : ControlViewModelBase
     {
         private GameTree _gameTree;
-        private GameTreeNode _selectedTimelineNode;
+        private GameTreeNode _selectedGameTreeNode;
         
         /// <summary>
-        /// Creates timeline view model with a given game tree.
+        /// Creates game tree view model with a given game tree.
         /// </summary>
         /// <param name="gameTree">Game tree</param>
-        public TimelineViewModel(GameTree gameTree)
+        public GameTreeViewModel(GameTree gameTree)
         {
             GameTree = gameTree;
-            GameTree.LastNodeChanged += (s, node) => OnTimelineRedrawRequested();
+            GameTree.LastNodeChanged += (s, node) => OnGameTreeRedrawRequested();
         }
         
         // Indended for the UI View.
         /// <summary>
-        /// Occurs when game tree representing the game changes and timeline should be redrawn.
+        /// Occurs when game tree representing the game changes and game tree should be redrawn.
         /// </summary>
-        public event EventHandler TimelineRedrawRequested;
+        public event EventHandler GameTreeRedrawRequested;
         
         // Intended for the ViewModel.
         /// <summary>
         /// Occurs when the selected game tree node changes.
         /// </summary>
-        internal event EventHandler<GameTreeNode> TimelineSelectionChanged;
+        internal event EventHandler<GameTreeNode> GameTreeSelectionChanged;
 
         /// <summary>
         /// Gets a value representing the game tree.
@@ -36,16 +36,16 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public GameTree GameTree
         {
             get { return _gameTree; }
-            private set { SetProperty(ref _gameTree, value); OnTimelineRedrawRequested(); }
+            private set { SetProperty(ref _gameTree, value); OnGameTreeRedrawRequested(); }
         }
 
         /// <summary>
         /// Gets a value representing the currently selected game tree node.
         /// </summary>
-        public GameTreeNode SelectedTimelineNode
+        public GameTreeNode SelectedGameTreeNode
         {
-            get { return _selectedTimelineNode; }
-            internal set { SetProperty(ref _selectedTimelineNode, value); OnTimelineRedrawRequested(); }
+            get { return _selectedGameTreeNode; }
+            internal set { SetProperty(ref _selectedGameTreeNode, value); OnGameTreeRedrawRequested(); }
         }
 
         /// <summary>
@@ -56,24 +56,24 @@ namespace OmegaGo.UI.UserControls.ViewModels
         public void SetSelectedNode(GameTreeNode node)
         {
             // Set selected node, this also rises redraw request in the UWP.UI
-            SelectedTimelineNode = node;
+            SelectedGameTreeNode = node;
             // Notify the ViewModel about the change
-            OnTimelineSelectionChanged();
+            OnGameTreeSelectionChanged();
         }
 
         internal void RaiseGameTreeChanged()
         {
-            OnTimelineRedrawRequested();
+            OnGameTreeRedrawRequested();
         }
 
-        private void OnTimelineRedrawRequested()
+        private void OnGameTreeRedrawRequested()
         {
-            TimelineRedrawRequested?.Invoke(this, EventArgs.Empty);
+            GameTreeRedrawRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnTimelineSelectionChanged()
+        private void OnGameTreeSelectionChanged()
         {
-            TimelineSelectionChanged?.Invoke(this, SelectedTimelineNode);
+            GameTreeSelectionChanged?.Invoke(this, SelectedGameTreeNode);
         }
     }
 }

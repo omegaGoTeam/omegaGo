@@ -65,8 +65,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 AnalyzeViewModel.OnNodeChanged();
                 RefreshBoard(node);
-                TimelineViewModel.SelectedTimelineNode = node;
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.SelectedGameTreeNode = node;
+                GameTreeViewModel.RaiseGameTreeChanged();
             };
             Tool = null;
 
@@ -81,10 +81,13 @@ namespace OmegaGo.UI.ViewModels
             _isSystemLogEnabled = false;
 
             // Set up Timeline
-            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => 
+            GameTreeViewModel = new GameTreeViewModel(Game.Controller.GameTree);
+            GameTreeViewModel.GameTreeSelectionChanged += (s, e) => 
             {
                 ToolServices.Node = e;
+                BoardViewModel.BoardControlState.ShowTerritory =
+                    e.Equals(Game.Controller.GameTree.LastNode) &&
+                    (GamePhase == GamePhaseType.LifeDeathDetermination || GamePhase == GamePhaseType.Finished);
                 RefreshBoard(e);
                 AnalyzeViewModel.OnNodeChanged();
             };
@@ -95,7 +98,7 @@ namespace OmegaGo.UI.ViewModels
 
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
-        public TimelineViewModel TimelineViewModel { get; }
+        public GameTreeViewModel GameTreeViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
@@ -139,8 +142,9 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedMoveIndex, value);
-                GameTreeNode whatIsShowing =
-                    Game.Controller.GameTree.GameTreeRoot?.GetTimelineView.Skip(value).FirstOrDefault();
+                GameTreeNode whatIsShowing = Game.Controller.GameTree.PrimaryTimeline.Skip(value).FirstOrDefault();
+                BoardViewModel.BoardControlState.ShowTerritory = 
+                    (_selectedMoveIndex == _maximumMoveIndex && (GamePhase == GamePhaseType.LifeDeathDetermination || GamePhase == GamePhaseType.Finished)) ? true : false;
                 RefreshBoard(whatIsShowing);
             }
         }
@@ -194,7 +198,7 @@ namespace OmegaGo.UI.ViewModels
             if (IsAnalyzeModeEnabled)
             {
                 // Notify Timeline VM that the game timeline has changed
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.RaiseGameTreeChanged();
                 await PlaySoundIfAppropriate(newNode);
                 tabInfo.IsBlinking = true;
                 return;
@@ -266,7 +270,7 @@ namespace OmegaGo.UI.ViewModels
             GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
             ToolServices.Node = currentNode;
-            TimelineViewModel.SelectedTimelineNode = currentNode;
+            GameTreeViewModel.SelectedGameTreeNode = currentNode;
         }
 
         private void DisableAnalyzeMode()
