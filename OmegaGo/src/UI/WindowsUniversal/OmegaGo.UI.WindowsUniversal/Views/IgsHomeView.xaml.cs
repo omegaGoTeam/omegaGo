@@ -97,14 +97,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             FlyoutSortGames.Hide();
             _lastGamesSortAction = SortByBlackName_Click;
-            VM.SortGames((g1, g2) => String.Compare(g1.Black.Name, g2.Black.Name, StringComparison.Ordinal));
+            VM.SortGames((g1, g2) => String.Compare(g1.Black.Name, g2.Black.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         private void SortByWhiteName_Click(object sender, RoutedEventArgs e)
         {
             FlyoutSortGames.Hide();
             _lastGamesSortAction = SortByWhiteName_Click;
-            VM.SortGames((g1, g2) => String.Compare(g1.White.Name, g2.White.Name, StringComparison.Ordinal));
+            VM.SortGames((g1, g2) => String.Compare(g1.White.Name, g2.White.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         private void SortUsersByRankAscending(object sender, RoutedEventArgs e)

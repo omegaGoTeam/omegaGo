@@ -433,7 +433,19 @@ namespace OmegaGo.Core.Online.Igs
         {
             if (currentLineBatch.Count > 0)
             {
-
+                if (currentLineBatch.Any(line => line.Code == IgsCode.Status))
+                {
+                    var infoLine = currentLineBatch.FirstOrDefault(ln => ln.Code == IgsCode.Info);
+                    if (infoLine != null)
+                    {
+                        ScoreLine scoreLine = IgsRegex.ParseObservedScoreLine(infoLine);
+                        IgsGame gameInfo = this.GamesYouHaveOpened.FirstOrDefault(gi => gi.Info.IgsIndex == scoreLine.GameId);
+                        if (gameInfo != null)
+                        {
+                            ScoreGame(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
+                        }
+                    }
+                }
                 if (currentLineBatch.Any(line => line.PureLine.EndsWith("accepted.") && line.Code == IgsCode.Info))
                 {
                     // An outgoing match request has been accepted by another player and the game can begin.

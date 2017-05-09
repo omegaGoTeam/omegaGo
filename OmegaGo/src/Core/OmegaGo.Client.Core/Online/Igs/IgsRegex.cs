@@ -32,6 +32,7 @@ namespace OmegaGo.Core.Online.Igs
         private static readonly Regex regexIncreaseTime = new Regex(@"9 Increase ([^']+)'s time by ([0-9]+) minutes");
         private static readonly Regex regexHasRunOutOfTime = new Regex(@"9 ([^ ]+) has run out of time.");
         private static readonly Regex regexKibitzHeading = new Regex(@"11 Kibitz ([^ ]+).*\[([0-9]+)\]");
+        private static Regex regexObservedScoreLine = new Regex(@"9 \{Game ([0-9]+): ([^ ]+) vs ([^ ]+) : W (.*) B (.*)\}");
 
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -168,7 +169,8 @@ empty string*/
             return new ScoreLine(match.Groups[1].Value,
                 match.Groups[3].Value,
                 match.Groups[4].Value.AsFloat(),
-                match.Groups[2].Value.AsFloat());
+                match.Groups[2].Value.AsFloat(),
+                -1);
         }
 
         internal static int ParseGameNumberFromHeading(IgsLine igsLine)
@@ -212,6 +214,23 @@ empty string*/
         {
             Match match = regexHasRunOutOfTime.Match(igsLine.EntireLine);
             return match.Groups[1].Value;
+        }
+
+        public static ScoreLine ParseObservedScoreLine(IgsLine infoLine)
+        {
+            Match match = regexObservedScoreLine.Match(infoLine.EntireLine);
+            if (match.Success)
+            {
+                return new ScoreLine(match.Groups[2].Value,
+                    match.Groups[3].Value,
+                    match.Groups[5].Value.AsFloat(),
+                    match.Groups[4].Value.AsFloat(),
+                    match.Groups[1].Value.AsInteger());
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
