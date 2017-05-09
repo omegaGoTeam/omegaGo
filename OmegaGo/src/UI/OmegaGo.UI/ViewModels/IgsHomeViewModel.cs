@@ -210,6 +210,7 @@ namespace OmegaGo.UI.ViewModels
                 {
                     LoginForm.LoginErrorMessage = Localizer.Igs_ConnectionError;
                     LoginForm.LoginErrorMessageOpacity = 1;
+                    LoginForm.FormEnabled = true;
                     ProgressPanelVisible = false;
                     return;
                 }
