@@ -16,5 +16,8 @@ namespace OmegaGo.Core.Game.Tools
                 toolService.SetNode(parent);
             }
         }
+
+        public void Set(IToolServices toolServices) { }
+        
     }
 }

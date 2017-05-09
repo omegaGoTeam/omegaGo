@@ -391,7 +391,6 @@ namespace OmegaGo.UI.ViewModels
                 return;
             }
             await Bundle.CreateChallenge(this);
-            GoBack();
         }
         private async Task AcceptChallenge()
         {

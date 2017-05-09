@@ -241,23 +241,21 @@ namespace OmegaGo.UI.ViewModels
             }
             else if (this.Game.Controller.Players.Any(pl => pl.IsHuman))
             {
-                // TODO Petr Please find a suitable name for this property.
-                bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
-                    move => 
-                    {
-                        if (move.WhoMoves == StoneColor.None) return false;
-                        return this.Game.Controller.Players[move.WhoMoves].IsHuman;
-                    });
-
-                if (value)
+                if (Game.Controller.GameTree.LastNode.Equals(Game.Controller.GameTree.GameTreeRoot))
                 {
-                    // A local human has already made a move.
-                    CanUndo = true;
+                    CanUndo = false;
                 }
                 else
                 {
-                    // No human has yet made any move.
-                    CanUndo = false;
+                    // TODO Petr Please find a suitable name for this property.
+                    bool value = this.Game.Controller.GameTree.PrimaryMoveTimeline.Any(
+                        move =>
+                        {
+                            if (move.WhoMoves == StoneColor.None) return false;
+                            return this.Game.Controller.Players[move.WhoMoves].IsHuman;
+                        });
+
+                    CanUndo = value;
                 }
             }
             else

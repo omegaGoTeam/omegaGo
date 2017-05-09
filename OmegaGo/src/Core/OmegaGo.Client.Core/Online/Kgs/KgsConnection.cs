@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -44,7 +45,7 @@ namespace OmegaGo.Core.Online.Kgs
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
         private readonly CookieContainer cookieContainer = new CookieContainer();
-        private readonly ConcurrentList<KgsRequest> requestsAwaitingResponse = new ConcurrentList<KgsRequest>();
+        private readonly List<KgsRequest> requestsAwaitingResponse = new List<KgsRequest>();
         public KgsConnection()
         {
             this.Commands = new KgsCommands(this);
@@ -62,6 +63,12 @@ namespace OmegaGo.Core.Online.Kgs
 
         public KgsEvents Events { get; }
 
+        /// <summary>
+        /// Contains information downloaded from KGS. This information is continuously updated whenever we receive
+        /// up-to-date information from KGS. Events on this member fire when the data is updated and should be used to update the UI.
+        /// That may include closing tabs that are no longer relevant, such as challenge negotiation tabs.
+        /// Methods on this member affect data stored in the member and trigger events, but they never send information to the server.
+        /// </summary>
         public KgsData Data { get; private set; }
 
         public ServerId Name => ServerId.Kgs;
@@ -132,6 +139,7 @@ namespace OmegaGo.Core.Online.Kgs
                     {
                         var message = (JObject) jToken;
                         Events.RaiseIncomingMessage(JsonResponse.FromJObject(message));
+                        Debug.WriteLine("INC:" + message.GetValue("type").Value<string>());
                         KgsRequest matchingRequest =
                             requestsAwaitingResponse.FirstOrDefault(
                                 kgs => kgs.PossibleResponseTypes.Contains(message.GetValue("type").Value<string>()));
@@ -184,6 +192,7 @@ namespace OmegaGo.Core.Online.Kgs
             this.Data = new Kgs.KgsData(this);
             LoggingIn = true;
             this._username = name;
+            Debug.WriteLine("Starting get loop");
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.StartingGetLoop);
             if (!_getLoopRunning)
             {
@@ -196,6 +205,7 @@ namespace OmegaGo.Core.Online.Kgs
                 return true;
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
+            Debug.WriteLine("Making login request");
             LoginResponse response = await MakeRequestAsync<LoginResponse>("LOGIN", new
             {
                 name = name,
@@ -204,6 +214,7 @@ namespace OmegaGo.Core.Online.Kgs
             }, new[] {"LOGIN_SUCCESS", "LOGIN_FAILED_NO_SUCH_USER", "LOGIN_FAILED_BAD_PASSWORD", "LOGIN_FAILED_KEEP_OUT"});
             if (response.Succeeded())
             {
+                Debug.WriteLine("Success. Now getting info.");
                 var roomsArray = new int[response.Rooms.Length];
                 for (int i = 0; i < response.Rooms.Length; i++)
                 {
@@ -275,11 +286,14 @@ namespace OmegaGo.Core.Online.Kgs
             var kgsRequest = new KgsRequest(possibleResponseTypes);
             requestsAwaitingResponse.Add(kgsRequest);
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Sending post request....");
             PostRequestResult postResult = await SendPostRequest(contents);
             if (postResult.Successful)
             {
-               var response = await kgsRequest.TaskCompletionSource.Task;
-               string responseText = response.ToString();
+                Debug.WriteLine("Awaiting task");
+                var response = await kgsRequest.TaskCompletionSource.Task;
+                Debug.WriteLine("Task awaited");
+                string responseText = response.ToString();
                var returnValue = response.ToObject<T>(Serializer);
                 returnValue.FullText = responseText;
                return returnValue;
@@ -312,6 +326,12 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
+        /// <summary>
+        /// Cancels all ongoing games and informs the UI that we're disconnected. Sets the <see cref="LoggedIn"/> flag.
+        /// This does not send any information to the server and should only be called in response to a connection issue
+        /// or when the server logs us out. 
+        /// </summary>
+        /// <param name="reason">The reason.</param>
         internal void LogoutAndDisconnect(string reason)
         {
 
@@ -342,11 +362,7 @@ namespace OmegaGo.Core.Online.Kgs
             return Type;
         }
     }
-
-    internal class ConcurrentList<T> : List<T>
-    {
-    }
-
+    
     internal class KgsRequest
     {
         public HashSet<string> PossibleResponseTypes;
