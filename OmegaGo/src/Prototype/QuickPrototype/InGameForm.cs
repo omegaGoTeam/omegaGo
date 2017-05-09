@@ -643,6 +643,8 @@ namespace FormsPrototype
 
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
+             * Broken after rearchitecture:
             foreach(var pl in _game.Controller.Players)
             {
                 if (pl.Agent is AiAgent)
@@ -650,7 +652,7 @@ namespace FormsPrototype
                     var fuego = (Fuego) ((AiAgent) pl.Agent).AI;
                     MessageBox.Show(fuego.SendCommand(this.tbGtp.Text).Text);
                 }
-            }
+            }*/
         }
     }
 }

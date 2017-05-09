@@ -51,8 +51,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 AnalyzeViewModel.OnNodeChanged();
                 RefreshBoard(node);
-                TimelineViewModel.SelectedTimelineNode = node;
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.SelectedGameTreeNode = node;
+                GameTreeViewModel.RaiseGameTreeChanged();
             };
             Tool = null;
 
@@ -69,8 +69,8 @@ namespace OmegaGo.UI.ViewModels
             RegisterAnalyzeTools();
 
             // Set up Timeline
-            TimelineViewModel = new TimelineViewModel(GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) =>
+            GameTreeViewModel = new GameTreeViewModel(GameTree);
+            GameTreeViewModel.GameTreeSelectionChanged += (s, e) =>
             {
                 ToolServices.Node = e;
                 RefreshBoard(e);
@@ -86,7 +86,7 @@ namespace OmegaGo.UI.ViewModels
 
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
-        public TimelineViewModel TimelineViewModel { get; }
+        public GameTreeViewModel GameTreeViewModel { get; }
 
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }

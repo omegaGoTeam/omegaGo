@@ -65,8 +65,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 AnalyzeViewModel.OnNodeChanged();
                 RefreshBoard(node);
-                TimelineViewModel.SelectedTimelineNode = node;
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.SelectedGameTreeNode = node;
+                GameTreeViewModel.RaiseGameTreeChanged();
             };
             Tool = null;
 
@@ -81,8 +81,8 @@ namespace OmegaGo.UI.ViewModels
             _isSystemLogEnabled = false;
 
             // Set up Timeline
-            TimelineViewModel = new TimelineViewModel(Game.Controller.GameTree);
-            TimelineViewModel.TimelineSelectionChanged += (s, e) => 
+            GameTreeViewModel = new GameTreeViewModel(Game.Controller.GameTree);
+            GameTreeViewModel.GameTreeSelectionChanged += (s, e) => 
             {
                 ToolServices.Node = e;
                 BoardViewModel.BoardControlState.ShowTerritory =
@@ -98,7 +98,7 @@ namespace OmegaGo.UI.ViewModels
 
 
         public AnalyzeViewModel AnalyzeViewModel { get; }
-        public TimelineViewModel TimelineViewModel { get; }
+        public GameTreeViewModel GameTreeViewModel { get; }
         public PlayerPortraitViewModel BlackPortrait { get; }
         public PlayerPortraitViewModel WhitePortrait { get; }
         
@@ -198,7 +198,7 @@ namespace OmegaGo.UI.ViewModels
             if (IsAnalyzeModeEnabled)
             {
                 // Notify Timeline VM that the game timeline has changed
-                TimelineViewModel.RaiseGameTreeChanged();
+                GameTreeViewModel.RaiseGameTreeChanged();
                 await PlaySoundIfAppropriate(newNode);
                 tabInfo.IsBlinking = true;
                 return;
@@ -270,7 +270,7 @@ namespace OmegaGo.UI.ViewModels
             GameTreeNode currentNode = Game.Controller.GameTree.LastNode; // TODO Aniko, Vita: It would be better if the current node was the node we are currently viewing, not the one that's current from the game's perspective.
 
             ToolServices.Node = currentNode;
-            TimelineViewModel.SelectedTimelineNode = currentNode;
+            GameTreeViewModel.SelectedGameTreeNode = currentNode;
         }
 
         private void DisableAnalyzeMode()

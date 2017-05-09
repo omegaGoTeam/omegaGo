@@ -254,10 +254,10 @@
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:TimelineControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="timelineControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
-                                                      ViewModel="{x:Bind VM.TimelineViewModel}" />
+                                                      ViewModel="{x:Bind VM.GameTreeViewModel}" />
                         </StackPanel>
 
 

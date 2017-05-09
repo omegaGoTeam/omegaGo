@@ -18,10 +18,6 @@ namespace OmegaGo.UI.ViewModels
     {
         private readonly IGameSettings _settings;
 
-        private ObservableCollection<KgsRoom> _allRooms = new ObservableCollection<KgsRoom>();
-
-        private ObservableCollection<KgsGameContainer> _gameContainers = new ObservableCollection<KgsGameContainer>();
-
         private IMvxCommand _joinRoomCommand;
         private IMvxCommand _createChallengeCommand;
 
@@ -32,7 +28,6 @@ namespace OmegaGo.UI.ViewModels
 
         private KgsRoom _selectedRoom;
 
-        private bool _showRobots = true;
         private IMvxCommand _unjoinRoomCommand;
 
 
@@ -48,8 +43,6 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.UnjoinRoomAsync(this.SelectedRoom);
-                // TODO Petr: figure out a way to inform the UI when unjoin/join happens
-                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
 
@@ -58,7 +51,6 @@ namespace OmegaGo.UI.ViewModels
             if (this.SelectedRoom != null && !this.SelectedRoom.Joined)
             {
                 await Connections.Kgs.Commands.JoinRoomAsync(this.SelectedRoom);
-                UpdateBindings();
             }
         }, () => this.SelectedRoom != null && !this.SelectedRoom.Joined));
         public IMvxCommand CreateChallengeCommand => _createChallengeCommand ?? (_createChallengeCommand = new MvxCommand(() =>
@@ -83,8 +75,6 @@ namespace OmegaGo.UI.ViewModels
                     {
                         var challenge = this.SelectedGameChannel as KgsChallenge;
                         await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
-                        Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(challenge));
-                        OpenInNewActiveTab<GameCreationViewModel>();
                     }
                 }
             }, () => this.SelectedGameChannel != null));

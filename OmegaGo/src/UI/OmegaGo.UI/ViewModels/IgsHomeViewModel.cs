@@ -271,6 +271,7 @@ namespace OmegaGo.UI.ViewModels
                 if (!success)
                 {
                     LoginForm.LoginErrorMessage = Localizer.Igs_ConnectionError;
+                    LoginForm.FormEnabled = true;
                     LoginForm.LoginErrorMessageVisible = true;
                     IsWorking = false;
                     return;

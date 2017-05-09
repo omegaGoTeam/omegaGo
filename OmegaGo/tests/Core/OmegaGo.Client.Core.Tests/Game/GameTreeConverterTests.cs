@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OmegaGo.Core.Game;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.Core.Tests.Sgf;
+using OmegaGo.Core.Game.GameTreeConversion;
 
 namespace OmegaGo.Core.Tests.Game
 {
@@ -17,7 +18,8 @@ namespace OmegaGo.Core.Tests.Game
         public void ComplexGameTreeCanBeConverted()
         {
             var parsedSgfTree = SgfTestHelpers.ParseFile(new SgfParser(), "Valid/ff4_ex.sgf");
-            var gameTree = GameTreeConverter.FromSgfGameTree(parsedSgfTree.First());            
+            SgfToGameTreeConverter gameTreeConverter = new SgfToGameTreeConverter(parsedSgfTree.First());
+            var gameTree = gameTreeConverter.Convert();
         }
     }
 }

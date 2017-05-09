@@ -211,6 +211,10 @@ namespace OmegaGo.Core.Online.Kgs
                 Debug.WriteLine("Posting...");
                 var result = await _httpClient.PostAsync(Uri, jsonContent);
                 Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
+                if (!result.IsSuccessStatusCode)
+                {
+                    Events.RaiseErrorNotification("HTTP " + result.StatusCode);
+                }
                 return new PostRequestResult(
                     result.IsSuccessStatusCode,
                     result.ReasonPhrase
@@ -278,6 +282,7 @@ namespace OmegaGo.Core.Online.Kgs
                 GamePlayer whoDisconnected = game.Controller.Players.FirstOrDefault(pl => pl.Info.Name == this.Username);
                 game.Controller.EndGame(GameEndInformation.CreateDisconnection(whoDisconnected, game.Controller.Players));
             }
+            this.Data.UnjoinEverything();
         }
     }
 

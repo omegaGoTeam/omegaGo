@@ -50,6 +50,14 @@ namespace OmegaGo.Core.Game
             node.Parent = _owner;
         }
 
+        public int IndexOf(GameTreeNode node)
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            return _nodes.IndexOf(node);
+        }
+
         public bool RemoveNode( GameTreeNode node )
         {
             if ( node == null )
