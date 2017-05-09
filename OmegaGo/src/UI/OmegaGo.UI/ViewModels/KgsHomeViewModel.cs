@@ -191,7 +191,7 @@ namespace OmegaGo.UI.ViewModels
             {
 
                 this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
-                this.LoginForm.LoginErrorMessageOpacity = 1;
+                this.LoginForm.LoginErrorMessageVisible = true;
             }
         }
 
