@@ -262,9 +262,23 @@ namespace OmegaGo.Core.Online.Kgs
                     yield return game;
                 }
             }
+        }     
+        
+        /// <summary>
+        /// Unjoins all joined channels. This is called after a disconnect to get rid of challenge tabs that are no longer relevant.
+        /// </summary>
+        public void UnjoinEverything()
+        {
+            foreach (var kvp in Channels)
+            {
+                if (kvp.Value.Joined)
+                {
+                    UnjoinChannel(kvp.Value.ChannelId);
+                }
+            }
         }
 
-        // Users --- not yet used
+        // Users --- not used
 
         public void AddUserToChannel(int channelId, User user)
         {
@@ -285,5 +299,6 @@ namespace OmegaGo.Core.Online.Kgs
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
 
+  
     }
 }
