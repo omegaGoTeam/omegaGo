@@ -46,6 +46,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortUsersByName(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
             VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -56,11 +57,13 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortByObservers_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
             VM.SortGames((g1, g2) => -g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
         }
 
         private void SortByHighestRank_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
             VM.SortGames((g1, g2) =>
                 -   Math.Max(
                       RankNumerizator.ConvertRankToInteger(g1.Black.Rank),
@@ -75,16 +78,19 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortByBlackName_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
             VM.SortGames((g1, g2) => String.Compare(g1.Black.Name, g2.Black.Name, StringComparison.Ordinal));
         }
 
         private void SortByWhiteName_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
             VM.SortGames((g1, g2) => String.Compare(g1.White.Name, g2.White.Name, StringComparison.Ordinal));
         }
 
         private void SortUsersByRankAscending(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
             VM.SortUsers(
                 (u1, u2) =>
                     RankNumerizator.ConvertRankToInteger(u1.Rank)
@@ -93,6 +99,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortUsersByRankDescending(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
             VM.SortUsers(
                   (u1, u2) =>
                       -RankNumerizator.ConvertRankToInteger(u1.Rank)
