@@ -3768,6 +3768,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Visibility settings.
+        /// </summary>
+        public static string VisibilitySettings {
+            get {
+                return ResourceManager.GetString("VisibilitySettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to When another player places a stone.
         /// </summary>
         public static string WhenAnotherPlayerPlacesAStone {

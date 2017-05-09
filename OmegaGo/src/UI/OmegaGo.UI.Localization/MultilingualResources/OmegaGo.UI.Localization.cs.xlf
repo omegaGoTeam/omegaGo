@@ -1770,6 +1770,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Sort</source>
           <target state="new">Sort</target>
         </trans-unit>
+        <trans-unit id="VisibilitySettings" translate="yes" xml:space="preserve">
+          <source>Visibility settings</source>
+          <target state="new">Visibility settings</target>
+        </trans-unit>
       </group>
     </body>
   </file>

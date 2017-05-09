@@ -32,7 +32,9 @@
                         <TextBlock HorizontalAlignment="Stretch" Margin="0,8,0,0" TextAlignment="Center" TextWrapping="Wrap" Visibility="{x:Bind ViewModel.LoginErrorMessageVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Style="{ThemeResource ErrorTextBlockStyle}" Text="{x:Bind ViewModel.LoginErrorMessage, Mode=OneWay}" />
                     </StackPanel>
                     <StackPanel Grid.Row="2" Margin="0,8,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                        <HyperlinkButton Click="HyperlinkButton_Click" FontSize="16" HorizontalAlignment="Center" Content="{x:Bind ViewModel.HyperlinkCaption}" />
+                        <HyperlinkButton Click="HyperlinkButton_Click" FontSize="16" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Bind ViewModel.HyperlinkCaption}" TextWrapping="Wrap" />
+                        </HyperlinkButton>
                         <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="13" HorizontalAlignment="Center" Text="{x:Bind ViewModel.ServerInformation}" />
                     </StackPanel>
                 </Grid>

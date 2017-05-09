@@ -1430,4 +1430,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Sort" xml:space="preserve">
     <value>Sort</value>
   </data>
+  <data name="VisibilitySettings" xml:space="preserve">
+    <value>Visibility settings</value>
+  </data>
 </root>

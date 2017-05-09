@@ -357,7 +357,7 @@
                     </Grid>
                 </CommandBar.Content>
                 <CommandBar.PrimaryCommands>
-                    <AppBarButton Label="{x:Bind Localizer.Settings}">
+                    <AppBarButton Label="{x:Bind Localizer.VisibilitySettings}">
                         <AppBarButton.Icon>
                             <BitmapIcon UriSource="/Assets/Icons/Commands/MultiplayerOptions.png" />
                         </AppBarButton.Icon>
