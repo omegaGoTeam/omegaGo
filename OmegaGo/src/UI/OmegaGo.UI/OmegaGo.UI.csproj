@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AppPackage\IAppPackageService.cs" />
     <Compile Include="Services\Audio\ISfxPlayerService.cs" />
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Services\GameCreation\GameCreationViewPlayer.cs" />
     <Compile Include="Utility\Rectangle.cs" />
     <Compile Include="Utility\Assistant.cs" />
+    <Compile Include="ViewModels\AnalyzeOnlyViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="Models\LibraryItem.cs" />
     <Compile Include="ViewModels\LiveGameViewModel.cs" />

@@ -2,6 +2,9 @@
 
 namespace OmegaGo.Core.Online.Kgs.Datatypes
 {
+    /// <summary>
+    /// A game summary is a permanent record of a game. Game channels come and go as games are loaded and closed, but a game summary stays for 6 months on the server (and forever in the online archives).
+    /// </summary>
     public class GameSummary
     {
         /// <summary>

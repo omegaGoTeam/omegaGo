@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     {
         public int ChannelId;
 
-        public static KgsGameInfo FromGameJoin(KgsGameJoin kgsGameJoin, KgsConnection connection)
+        public static KgsGameInfo FromGameJoin(KgsGameJoin kgsGameJoin)
         {
             var whiteInfo = new PlayerInfo(StoneColor.White,
                 kgsGameJoin.GameSummary.Players["white"].Name,
@@ -20,7 +20,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             var blackInfo = new PlayerInfo(StoneColor.Black,
                 kgsGameJoin.GameSummary.Players["black"].Name,
                 kgsGameJoin.GameSummary.Players["black"].Rank);
-            if (!IsSupportedRuleset(kgsGameJoin.Rules.Rules))
+            if (!KgsHelpers.IsSupportedRuleset(kgsGameJoin.Rules.Rules))
             {
                 return null;
             }
@@ -29,70 +29,34 @@ namespace OmegaGo.Core.Online.Kgs.Structures
                 whiteInfo,
                 blackInfo,
                 new Game.GameBoardSize(rules.Size),
-                ConvertRuleset(rules.Rules),
+                KgsHelpers.ConvertRuleset(rules.Rules),
                 rules.Handicap,
-                HandicapPlacementType.Free,
+                GetHandicapPlacementType(KgsHelpers.ConvertRuleset(rules.Rules)),
                 rules.Komi,
                 CountingType.Area,
-                connection,
                 kgsGameJoin.ChannelId);
             return kgi;
         }
 
-        private static bool IsSupportedRuleset(string rules)
+        public static HandicapPlacementType GetHandicapPlacementType(RulesetType ruleset)
         {
-            return rules == RulesDescription.RulesAga ||
-                   rules == RulesDescription.RulesChinese ||
-                   rules == RulesDescription.RulesJapanese;
-        }
-
-        public static KgsGameInfo FromChannel(GameChannel channel, KgsConnection connection)
-        {
-            if (channel.GameType !=  GameType.Free &&
-                channel.GameType != GameType.Ranked) return null;
-            
-            // TODO Petr : this only works for full games in progress so far, I think
-            var whiteInfo = new PlayerInfo(StoneColor.White, channel.Players["white"].Name,
-                channel.Players["white"].Rank ?? "??");
-            var blackInfo = new PlayerInfo(StoneColor.Black, channel.Players["black"].Name,
-                channel.Players["black"].Rank ?? "??");
-            string ruleset = channel.Rules;
-            if (ruleset == null) ruleset = RulesDescription.RulesJapanese;
-            if (!IsSupportedRuleset(ruleset)) return null;
-            var kgi = new KgsGameInfo(
-                whiteInfo,
-                blackInfo,
-                new Game.GameBoardSize(channel.Size),
-                ConvertRuleset(ruleset),
-                channel.Handicap,
-                HandicapPlacementType.Free,
-                channel.Komi,
-                CountingType.Area,
-                connection,
-                channel.ChannelId);
-            return kgi;
-        }
-
-        public static RulesetType ConvertRuleset(string rules)
-        {
-            switch (rules)
+            switch (ruleset)
             {
-                case RulesDescription.RulesAga:
-                    return RulesetType.AGA;
-                case RulesDescription.RulesChinese:
-                    return RulesetType.Chinese;
-                case RulesDescription.RulesJapanese:
-                    return RulesetType.Japanese;
+                case RulesetType.AGA:
+                case RulesetType.Japanese:
+                    return HandicapPlacementType.Fixed;
+                case RulesetType.Chinese:
+                default:
+                    return HandicapPlacementType.Free;
             }
-            throw new Exception("This ruleset is not supported in Omega Go.");
         }
 
-        private KgsGameInfo(PlayerInfo whitePlayerInfo, PlayerInfo blackPlayerInfo, GameBoardSize boardSize, RulesetType rulesetType, int numberOfHandicapStones, HandicapPlacementType handicapPlacementType, float komi, CountingType countingType, KgsConnection connection, int channelId) : base(whitePlayerInfo, blackPlayerInfo, boardSize, rulesetType, numberOfHandicapStones, handicapPlacementType, komi, countingType)
+
+        public KgsGameInfo(PlayerInfo whitePlayerInfo, PlayerInfo blackPlayerInfo, GameBoardSize boardSize, RulesetType rulesetType, int numberOfHandicapStones, HandicapPlacementType handicapPlacementType, float komi, CountingType countingType, int channelId) : base(whitePlayerInfo, blackPlayerInfo, boardSize, rulesetType, numberOfHandicapStones, handicapPlacementType, komi, countingType)
         {
             this.ChannelId = channelId;
-            this.KgsConnection = connection;
         }
-        public KgsConnection KgsConnection { get; }
+
         public override string ToString()
         {
             return this.White + " vs. " + this.Black + " [" + this.BoardSize + "]";

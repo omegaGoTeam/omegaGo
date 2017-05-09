@@ -162,7 +162,7 @@ namespace OmegaGo.Core.Modes.LiveGame
         public IGamePhase Phase => this._currentGamePhase;
 
         /// <summary>
-        ///     Gets the number of moves that have already been made. If, for examples, 3 stones were placed, and now Black is on
+        ///     Gets the number of moves that have already been made. If, for examples, 3 stones were placed, and now White is on
         ///     turn, <see cref="NumberOfMoves" /> will be 3. A pass counts as a move.
         /// </summary>
         public int NumberOfMoves => this.GameTree.PrimaryTimelineLength;

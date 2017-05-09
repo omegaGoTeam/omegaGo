@@ -121,6 +121,7 @@
     <Compile Include="Infrastructure\Tabbed\Tab.cs" />
     <Compile Include="Infrastructure\Tabbed\TabManager.cs" />
     <Compile Include="Infrastructure\Tabbed\TabProvider.cs" />
+    <Compile Include="Services\AppPackage\AppPackageService.cs" />
     <Compile Include="Services\Audio\UwpSfxPlayerService.cs" />
     <Compile Include="Services\BoardControl\FpsCounter.cs" />
     <Compile Include="Services\BoardControl\RenderUtilities.cs" />
@@ -184,6 +185,9 @@
       <DependentUpon>TimelineControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="Views\AnalyzeOnlyView.xaml.cs">
+      <DependentUpon>AnalyzeOnlyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\KgsHomeView.xaml.cs">
       <DependentUpon>KgsHomeView.xaml</DependentUpon>
     </Compile>
@@ -481,6 +485,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TimelineControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AnalyzeOnlyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

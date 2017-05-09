@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Downstream.Abstract;
+using OmegaGo.Core.Online.Kgs.Structures;
 
 namespace OmegaGo.Core.Online.Kgs.Downstream
 {
@@ -21,6 +22,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
         public override void Process(KgsConnection connection)
         {
             connection.Data.JoinRoom(this.ChannelId);
+            if (Games != null)
+            {
+                connection.Data.GetChannel<KgsRoom>(ChannelId)?.UpdateGames(Games, connection);
+            }
             foreach (var user in Users)
             {
                 connection.Data.AddUserToChannel(this.ChannelId, user);

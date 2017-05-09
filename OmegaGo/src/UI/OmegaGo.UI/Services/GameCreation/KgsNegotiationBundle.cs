@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
 using OmegaGo.UI.Services.Online;
@@ -31,14 +32,13 @@ namespace OmegaGo.UI.Services.GameCreation
         public override bool Frozen => true;
         public override bool WillCreateChallenge => false;
         public override bool AcceptableAndRefusable => true;
-        // TODO Petr: freeze komi
         public override void OnLoad(GameCreationViewModel vm)
         {
             _vm = vm;
             vm.FormTitle = Localizer.Creationg_KgsChallenge;
             vm.RefusalCaption = Localizer.UnjoinChallenge;
             vm.CustomSquareSize = Challenge.Proposal.Rules.Size.ToString();
-            vm.SelectedRuleset = KgsGameInfo.ConvertRuleset(Challenge.Proposal.Rules.Rules);
+            vm.SelectedRuleset = KgsHelpers.ConvertRuleset(Challenge.Proposal.Rules.Rules);
             foreach (var player in Challenge.Proposal.Players)
             {
                 if (player.GetName() == Connections.Kgs.Username)
@@ -109,7 +109,7 @@ namespace OmegaGo.UI.Services.GameCreation
 
         protected void ClearOpponentName()
         {
-            _opponentName = "[no opponent yet]";
+            _opponentName = Localizer.NoOpponentYet;
         }
 
         protected void RefreshStatus()
@@ -140,10 +140,8 @@ namespace OmegaGo.UI.Services.GameCreation
         private void UpdateOpponentFromProposal(KgsPlayer[] players)
         {
             var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
-            _opponentName = opponent.GetNameAndRank() ?? "[no opponent yet]";
+            _opponentName = opponent.GetNameAndRank() ?? Localizer.NoOpponentYet;
         }
-
-        // TODO Petr: updating username
 
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Localization;
 
 namespace OmegaGo.UI.Services.Quests
@@ -13,7 +14,7 @@ namespace OmegaGo.UI.Services.Quests
     /// </summary>
     internal static class Ranks
     {
-        private static readonly int[] RankLines = {100, 400, 800, 1400, 1000000 };
+        private readonly static int[] RankLines = {100, 600, 1400, 2000, 1000000 };
 
         private static int PointsToRank(int points)
         {

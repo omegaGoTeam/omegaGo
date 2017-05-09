@@ -155,8 +155,6 @@
                 </ItemsControl.Items>
             </ItemsControl>
         </ScrollViewer>
-    </Grid>
-    <Page.BottomAppBar>
         <CommandBar x:Name="BottomCommandBar" Opening="BottomCommandBar_OnOpening"  Closing="BottomCommandBar_OnClosing" Grid.Row="2">
             <CommandBar.Content>
                 <StackPanel Orientation="Horizontal">
@@ -177,8 +175,11 @@
             <AppBarButton x:Name="FeedbackButton" Label="{x:Bind Localizer.Feedback}" Command="{x:Bind VM.LaunchFeedbackCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{x:Bind VM.ShowFeedbackButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
                 <FontIcon Glyph="&#xED15;" />
             </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="EasterEggButton" Label="🐱‍🏍" HorizontalContentAlignment="Center" FontSize="20" Click="EasterEggButton_OnClick" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
-    </Page.BottomAppBar>
+    </Grid>
 </views:TransparencyViewBase>
 
 

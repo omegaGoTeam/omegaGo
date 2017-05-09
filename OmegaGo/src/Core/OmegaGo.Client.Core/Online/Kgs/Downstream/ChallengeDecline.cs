@@ -12,7 +12,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     {
         public override void Process(KgsConnection connection)
         {
-                connection.Events.RaiseErrorNotification("CHALLENGE_DECLINE");
+            connection.Events.RaiseErrorNotification("CHALLENGE_DECLINE");
 #pragma warning disable 4014
                 connection.Commands.GenericUnjoinAsync(this.ChannelId);
 #pragma warning restore 4014

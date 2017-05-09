@@ -22,6 +22,29 @@ namespace OmegaGo.Core.Game
         {
             Ruleset = ruleset;
             BoardSize = boardSize;
+            GameTreeRoot = new GameTreeNode();
+            GameTreeRoot.BoardState = new GameBoard(boardSize);
+            GameTreeRoot.GroupState = new GroupState(ruleset.RulesetInfo);
+            LastNode = GameTreeRoot;
+        }
+
+        /// <summary>
+        /// Creates a game tree with a given ruleset and root
+        /// </summary>
+        /// <param name="ruleset">Ruleset</param>
+        /// <param name="boardSize">Board size</param>
+        /// <param name="gameTreeRoot">Root</param>
+        public GameTree( IRuleset ruleset, GameBoardSize boardSize, GameTreeNode gameTreeRoot)
+        {
+            Ruleset = ruleset;
+            BoardSize = boardSize;
+            GameTreeRoot = gameTreeRoot;
+            var lastNode = gameTreeRoot;
+            while (lastNode.NextNode != null)
+            {
+                lastNode = lastNode.NextNode;
+            }
+            LastNode = lastNode;
         }
 
         /// <summary>
@@ -47,7 +70,7 @@ namespace OmegaGo.Core.Game
         /// <summary>
         /// Root of the game tree
         /// </summary>
-        public GameTreeNode GameTreeRoot { get; set; }
+        public GameTreeNode GameTreeRoot { get; }
         
         /// <summary>
         /// The LastNode is last node of the game's primary timeline and is the node where
@@ -82,15 +105,18 @@ namespace OmegaGo.Core.Game
         {
             get
             {
-                var node = GameTreeRoot;
-                while (node != null)
+                if (GameTreeRoot.Branches.Count != 0)
                 {
-                    yield return node;
-                    if (node == LastNode)
+                    var node = GameTreeRoot.Branches[0];
+                    while (node != null)
                     {
-                        yield break;
+                        yield return node;
+
+                        if (node == LastNode)
+                            yield break;
+
+                        node = node.NextNode;
                     }
-                    node = node.NextNode;
                 }
             }
         }
@@ -134,6 +160,22 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
+        /// Removes the last node from the primary timeline
+        /// </summary>
+        public void RemoveLastNode()
+        {
+            //is there actually something to remove?
+            if (!LastNode.Equals(GameTreeRoot))
+            {
+                //remove last node, make its parent last
+                var previousMove = LastNode.Parent;
+                previousMove.Branches.RemoveNode(LastNode);
+                LastNode = previousMove;
+            }
+            
+        }
+
+        /// <summary>
         /// Implementation of adding a new node into the primary timeline of the tree
         /// </summary>
         /// <param name="move">Added move</param>
@@ -144,25 +186,16 @@ namespace OmegaGo.Core.Game
         {
             GameTreeNode node = new GameTreeNode(move) { BoardState = boardState, GroupState = groupState };
 
-            if (GameTreeRoot == null)
-            {
-                GameTreeRoot = node;
-            }
-            else
-            {
-                LastNode.Branches.Insert(0, node);
-                node.Parent = LastNode;
-                node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
-                node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
-            }
+            LastNode.Branches.Insert(0, node);
+            node.Parent = LastNode;
+            node.Prisoners.BlackPrisoners = node.Parent.Prisoners.BlackPrisoners;
+            node.Prisoners.WhitePrisoners = node.Parent.Prisoners.WhitePrisoners;
+
             if (move.WhoMoves == StoneColor.Black)
-            {
-                node.Prisoners.BlackPrisoners += move.Captures.Count;
-            }
+                node.Prisoners.BlackPrisoners += move.Captures.Count();
             else
-            {
-                node.Prisoners.WhitePrisoners += move.Captures.Count;
-            }
+                node.Prisoners.WhitePrisoners += move.Captures.Count();
+
             LastNode = node;
             return node;
         }

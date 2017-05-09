@@ -219,6 +219,15 @@ namespace OmegaGo.Core.Rules
         /// <returns>Map of move results.</returns>
         public MoveResult[,] GetMoveResult(GameTreeNode currentNode)
         {
+            if (currentNode == null)
+            {
+                MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];
+                for (int x = 0; x < RulesetInfo.BoardSize.Width; x++)
+                    for (int y = 0; y < RulesetInfo.BoardSize.Height; y++)
+                        moveResults[x,y] = MoveResult.Legal;
+                return moveResults;
+            }
+
             lock (RulesetInfo)
             {
                 MoveResult[,] moveResults = new MoveResult[RulesetInfo.BoardSize.Width, RulesetInfo.BoardSize.Height];

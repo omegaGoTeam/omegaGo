@@ -29,6 +29,15 @@ namespace OmegaGo.Core.Online.Kgs
                 case "HELLO":
                     // Ignore, because we don't need this information.
                     return true;
+                case "LOGIN_FAILED_BAD_PASSWORD":
+                    HandleInterruptMessage<LoginFailedBadPassword>(message);
+                    return true;
+                case "LOGIN_FAILED_NO_SUCH_USER":
+                    HandleInterruptMessage<LoginFailedNoSuchUser>(message);
+                    return true;
+                case "LOGIN_SUCCESS":
+                    HandleInterruptMessage<LoginSuccess>(message);
+                    return true;
                 case "SUBSCRIPTION_UPDATE":
                     // Ignore, because we don't handle KGS+ account privileges.
                     return true;
@@ -106,7 +115,6 @@ namespace OmegaGo.Core.Online.Kgs
                     return true;
                 case "CHALLENGE_FINAL":
                 case "GAME_NOTIFY":
-                    //  TODO Petr: Elaborate in specific messages later.
                     HandleInterruptMessage<ChallengeDownstreamEvent>(message);
                     return true;
                 case "CLOSE":
@@ -126,6 +134,7 @@ namespace OmegaGo.Core.Online.Kgs
                 case "CHANNEL_SUBSCRIBERS_ONLY":
                 case "CHANNEL_NO_TALKING":
                 case "CANT_PLAY_TWICE":
+                case "RECONNECT":
                     HandleInterruptMessage<NotificationMessageDownstreamEvent>(message);
                     return true;
 

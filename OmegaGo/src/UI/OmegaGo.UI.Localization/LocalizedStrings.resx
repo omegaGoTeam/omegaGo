@@ -1409,6 +1409,33 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Validation_YouMustSelectASquareBoard" xml:space="preserve">
     <value>You must select a square board.</value>
   </data>
+  <data name="BackToGame" xml:space="preserve">
+    <value>Back to game</value>
+  </data>
+  <data name="Commentary" xml:space="preserve">
+    <value>Commentary</value>
+  </data>
+  <data name="CreateChallenge" xml:space="preserve">
+    <value>Create challenge</value>
+  </data>
+  <data name="NoOpponentYet" xml:space="preserve">
+    <value>[no opponent yet]</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="YourOpponent" xml:space="preserve">
+    <value>Your opponent</value>
+  </data>
+  <data name="ExitAnalyze_Caption" xml:space="preserve">
+    <value>Do you want to exit analysis?</value>
+  </data>
+  <data name="ExitAnalyze_Confirm" xml:space="preserve">
+    <value>End analysis</value>
+  </data>
+  <data name="ExitAnalyze_Text" xml:space="preserve">
+    <value>Exiting this screen will end analysis and all your changes will be lost.</value>
+  </data>
   <data name="Filter" xml:space="preserve">
     <value>Filter</value>
   </data>

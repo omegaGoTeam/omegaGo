@@ -1,4 +1,5 @@
-﻿using OmegaGo.UI.UserControls.ViewModels;
+﻿using System.Linq;
+using OmegaGo.UI.UserControls.ViewModels;
 using MvvmCross.Core.ViewModels;
 using OmegaGo.Core.Modes.LiveGame.Phases;
 using OmegaGo.Core.Modes.LiveGame.Remote;
@@ -8,6 +9,8 @@ using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using System.Threading.Tasks;
+using OmegaGo.Core.Modes.LiveGame.Connectors;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -25,7 +28,8 @@ namespace OmegaGo.UI.ViewModels
         {            
             (Game.Controller as RemoteGameController).Server.Events.UndoRequestReceived += Events_UndoRequestReceived;
             (Game.Controller as RemoteGameController).Server.Events.UndoDeclined += Events_UndoDeclined;
-            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat);
+            ChatViewModel = new ChatViewModel((Game.Controller as RemoteGameController).Chat, (Game.Controller as RemoteGameController).Connectors.First(connector => connector is IRemoteConnector) as IRemoteConnector);
+            
         }
 
         /// <summary>

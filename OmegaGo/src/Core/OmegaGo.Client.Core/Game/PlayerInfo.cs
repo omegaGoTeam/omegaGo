@@ -11,11 +11,11 @@ namespace OmegaGo.Core.Game
     {
         public PlayerInfo(StoneColor color, string name, string rank)
         {
-            Name = name;
+            Name = name ?? "";
             Rank = rank?.Trim() ?? "";
             Color = color;
         }
-
+        
         /// <summary>
         /// Gets the name of the player. This could be a player's online nickname, an AI program's name and difficulty,
         /// or the text "Local Black" or "Local White".
