@@ -8,7 +8,6 @@ using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Services.GameCreation;
@@ -92,6 +91,9 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public event Action RefreshUsersComplete;
+        public event Action RefreshGamesComplete;
+
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
@@ -165,11 +167,13 @@ namespace OmegaGo.UI.ViewModels
                 case 0:
                 {
                     await RefreshGames();
+                    RefreshGamesComplete?.Invoke();
                     break;
                 }
                 case 1:
                 {
                     await RefreshUsers();
+                    RefreshUsersComplete?.Invoke();
                     break;
                 }
                 default:
@@ -410,13 +414,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (player == null) return;
             Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(player));
-            ShowViewModel<GameCreationViewModel>();
-        }
-
-        public void StartGame(IgsGame game)
-        {
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<OnlineGameViewModel>();
+            OpenInNewActiveTab<GameCreationViewModel>();
         }
     }
 }
