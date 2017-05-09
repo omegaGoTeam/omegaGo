@@ -143,7 +143,14 @@ namespace OmegaGo.UI.Services.Online
 
         private static void Kgs_ChallengeJoined(object sender, Core.Online.Kgs.Structures.KgsChallenge e)
         {
-            Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            if (e.OwnedByUs)
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            }
+            else
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(e));
+            }
             CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
         }
 
