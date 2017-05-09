@@ -260,6 +260,15 @@
     <Content Include="Assets\Icons\Info\Dimensions.scale-100.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-150.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Enter.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Exit.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\Plus.scale-200.png" />
     <Content Include="Assets\Icons\Info\Room.scale-100.png" />
     <Content Include="Assets\Icons\Info\Room.scale-150.png" />
     <Content Include="Assets\Icons\Info\Room.scale-200.png" />

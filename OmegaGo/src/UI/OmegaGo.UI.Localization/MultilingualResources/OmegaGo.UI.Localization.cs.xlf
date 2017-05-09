@@ -1824,6 +1824,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>No room selected. Pick one from the list.</source>
           <target state="new">No room selected. Pick one from the list.</target>
         </trans-unit>
+        <trans-unit id="Join" translate="yes" xml:space="preserve">
+          <source>Join</source>
+          <target state="new">Join</target>
+        </trans-unit>
+        <trans-unit id="Unjoin" translate="yes" xml:space="preserve">
+          <source>Unjoin</source>
+          <target state="new">Unjoin</target>
+        </trans-unit>
       </group>
     </body>
   </file>

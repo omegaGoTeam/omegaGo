@@ -23,6 +23,11 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
+    <Page.Resources>
+        <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="12" />
+        </Style>
+    </Page.Resources>
     <Grid>
         <Grid IsHitTestVisible="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
             <interactivity:Interaction.Behaviors>
@@ -101,7 +106,7 @@
                         <controls:MasterDetailsView.DetailsTemplate>
                             <DataTemplate x:DataType="structures:KgsRoom">
                                 <UserControl>
-                                    <Grid Padding="12">
+                                    <Grid Padding="12,0,12,12">
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup>
                                                 <VisualState>
@@ -128,15 +133,30 @@
                                             <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
                                                 <SymbolIcon Symbol="Back" />
                                             </Button>
-                                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}" />
+                                            <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
                                         </Grid>
                                         <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                            <Button Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}">Join</Button>
-                                            <Button Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">Unjoin</Button>
-                                            <Button Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">Create challenge...</Button>
+                                            <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" />
+                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" />
+                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button Style="{StaticResource ToolbarControl}" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" />
+                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=CreateChallenge}" />
+                                                </StackPanel>
+                                            </Button>
                                         </StackPanel>
-                                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold"  Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
-                                        <ScrollViewer Grid.Row="3" Padding="12">
+                                        <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
+                                        <ScrollViewer Grid.Row="3" Padding="12" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                                             <ScrollViewer.Background>
                                                 <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                                             </ScrollViewer.Background>
@@ -147,7 +167,6 @@
                                 </UserControl>
                             </DataTemplate>
                         </controls:MasterDetailsView.DetailsTemplate>
-
                         <controls:MasterDetailsView.NoSelectionContentTemplate>
                             <DataTemplate>
                                 <UserControl>
