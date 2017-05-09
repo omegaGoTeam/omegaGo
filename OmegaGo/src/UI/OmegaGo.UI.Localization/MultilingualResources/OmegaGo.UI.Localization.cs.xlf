@@ -1860,6 +1860,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Favorite games</source>
           <target state="new">Favorite games</target>
         </trans-unit>
+        <trans-unit id="Details" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
       </group>
     </body>
   </file>

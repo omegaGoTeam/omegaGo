@@ -37,14 +37,6 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="GameListHeader.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -130,7 +122,7 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Games}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                                <Grid x:Name="GameListHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
@@ -157,10 +149,20 @@
                             <Grid x:Name="ChallengeListGrid" Margin="6,0,0,0"  Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <TextBlock Text="{x:Bind Localizer.Challenges}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                <ListView Grid.Row="1" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
+                                <Grid x:Name="ChallengeHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                                    <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Details}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                                </Grid>
+                                <ListView Grid.Row="2" IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
                                           Style="{StaticResource LobbyListViewStyle}">
                                     <interactivity:Interaction.Behaviors>
                                         <core:EventTriggerBehavior EventName="ItemClick">

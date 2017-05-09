@@ -35,5 +35,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Kgs
         }
 
         public string Author => Challenge.Proposal.Players.FirstOrDefault()?.User.Name;
+
+        public string AuthorRank => Challenge.Proposal.Players.FirstOrDefault()?.User.Rank;
     }
 }

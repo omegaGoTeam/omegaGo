@@ -1502,4 +1502,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="GlobalGamesListKind_Favourites" xml:space="preserve">
     <value>Favorite games</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>
