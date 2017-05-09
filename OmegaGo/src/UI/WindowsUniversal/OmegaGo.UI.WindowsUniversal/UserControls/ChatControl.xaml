@@ -87,7 +87,7 @@
                      Text="{Binding Path=MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="TextBox_KeyDown" />
             <Button Grid.Column="1"
                     Command="{Binding Path=SendMessageCommand}"
-                    Content="{Binding Path=Localizer.Send}"/>
+                    Content="{x:Bind Path=Localizer.Send}"/>
         </Grid>
     </Grid>
 </local:UserControlBase>
