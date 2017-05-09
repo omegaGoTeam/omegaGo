@@ -12,6 +12,8 @@ namespace OmegaGo.Core.Online.Kgs.Structures
     /// </summary>
     public class KgsChannel : INotifyPropertyChanged
     {
+        private bool _joined;
+
         /// <summary>
         /// Gets or sets the number KGS assigned to this channel. Unlike with IGS, channel ID numbers are unique and don't repeat.
         /// </summary>
@@ -20,7 +22,15 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         /// <summary>
         /// Gets or sets a value indicating whether the logged-in user is in this channel (whether this channel is joined).
         /// </summary>
-        public bool Joined { get; set; }
+        public bool Joined
+        {
+            get { return _joined; }
+            set
+            {
+                _joined = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets the users that are present in this channel. I don't think we're using this anywhere currently.

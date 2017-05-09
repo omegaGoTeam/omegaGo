@@ -4,6 +4,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using OmegaGo.UI.Services.Game;
 using System.Numerics;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
@@ -35,6 +36,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
         private static CanvasBitmap sabakiTatamiBitmap;
         private static CanvasBitmap sabakiBlackBitmap;
         private static CanvasBitmap sabakiWhiteBitmap;
+        private static int BitmapInitializationHasCommenced = 0;
         private static TaskCompletionSource<bool> BitmapInitializationCompletion = new TaskCompletionSource<bool>();
 
         private BoardControlState _sharedBoardControlState;
@@ -74,19 +76,26 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public static async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
-            blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
-            whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
-            oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
-            kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
-            spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
-            sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
-            sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
-            sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
-            sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
-            BitmapInitializationCompletion.SetResult(true);
+            if (Interlocked.CompareExchange(ref BitmapInitializationHasCommenced, 1, 0) == 0)
+            {
+                blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
+                whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
+                oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");
+                kayaBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/kaya.jpg");
+                spaceBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/space.png");
+                sabakiTatamiBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiTatami.png");
+                sabakiWhiteBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiWhite.png");
+                sabakiBlackBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBlack.png");
+                sabakiBoardBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/SabakiBoard.png");
+                BitmapInitializationCompletion.SetResult(true);
+            }
+            else
+            {
+                await BitmapInitializationCompletion.Task;
+            }
         }
 
-        public async Task CreateResources()
+        public async Task AwaitResources()
         {
             ReloadSettings();
             await BitmapInitializationCompletion.Task;

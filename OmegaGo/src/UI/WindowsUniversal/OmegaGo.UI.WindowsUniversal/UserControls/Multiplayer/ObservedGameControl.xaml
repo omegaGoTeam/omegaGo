@@ -1,0 +1,75 @@
+﻿<UserControl
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.ObservedGameControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Border Padding="12,12,12,12" x:Name="Container" Height="72">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="BlackPlayerInfo.(Grid.Column)" Value="1" />
+                        <Setter Target="BlackPlayerInfo.(Grid.Row)" Value="0" />
+                        <Setter Target="ObserveStackPanel.(Grid.Column)" Value="3" />
+                        <Setter Target="ObserveStackPanel.(Grid.Row)" Value="0" />
+                        <Setter Target="BlackColumn.Width" Value="*" />
+                        <Setter Target="Container.Height" Value="48" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0" x:Name="BlackColumn" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                            <GradientStop Color="White" Offset="0.0" />
+                            <GradientStop Color="DimGray" Offset="1.5" />
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Name, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Rank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo">
+                <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
+                    <Ellipse.Fill>
+                        <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                            <GradientStop Color="DimGray" Offset="0.0" />
+                            <GradientStop Color="Black" Offset="1.5" />
+                        </LinearGradientBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Name, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Rank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+            </StackPanel>
+            <StackPanel x:Name="DimensionsStackPanel" Width="80" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0">
+                <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
+                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind GameInfo.BoardSize, Mode=OneWay}" />
+            </StackPanel>
+            <StackPanel x:Name="ObserveStackPanel" Width="80" Visibility="{x:Bind HasObserersInfo, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1">
+                <BitmapIcon UriSource="/Assets/Icons/TitleBar/Observe.png" Width="24" HorizontalAlignment="Center" />
+                <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind NumberOfObservers, Mode=OneWay}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

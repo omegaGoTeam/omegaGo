@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="43864omegaGoTeam.omegaGoPreview" Publisher="CN=5E55BD56-A028-4D8D-9AD6-54833C528008" Version="0.7.7.0" />
+  <Identity Name="43864omegaGoTeam.omegaGoPreview" Publisher="CN=5E55BD56-A028-4D8D-9AD6-54833C528008" Version="0.12.8.0" />
   <mp:PhoneIdentity PhoneProductId="d0168f72-3a7d-4eff-b10c-9d3551f53bad" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>omegaGo Preview</DisplayName>

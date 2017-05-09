@@ -116,11 +116,7 @@ namespace OmegaGo.UI.Services.Online
         {
             Mvx.RegisterSingleton<GameCreation.GameCreationBundle>(
                 new GameCreation.IgsIncomingMatchRequestBundle(obj));
-            var newTab = Mvx.Resolve<ITabProvider>()
-                .ShowViewModel(
-                    new MvxViewModelRequest(typeof(GameCreationViewModel), new MvxBundle(), new MvxBundle(),
-                        MvxRequestedBy.Unknown), TabNavigationType.NewBackgroundTab);
-            newTab.IsBlinking = true;
+            CreateTab<GameCreationViewModel>(TabNavigationType.NewBackgroundTab);
 
             var settings = Mvx.Resolve<IGameSettings>();
             if (settings.Audio.PlayWhenNotificationReceived)
@@ -147,7 +143,14 @@ namespace OmegaGo.UI.Services.Online
 
         private static void Kgs_ChallengeJoined(object sender, Core.Online.Kgs.Structures.KgsChallenge e)
         {
-            Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            if (e.OwnedByUs)
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsChallengeManagementBundle(e));
+            }
+            else
+            {
+                Mvx.RegisterSingleton<GameCreationBundle>(new KgsJoinChallengeBundle(e));
+            }
             CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
         }
 

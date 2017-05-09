@@ -18,27 +18,29 @@ namespace OmegaGo.UI.WindowsUniversal.Helpers.UI
     {
         private Color _backgroundColor;
         private SolidColorBrush _backgroundColorBrush;
+        private ElementTheme _elementTheme;
 
         public Color BackgroundColor
         {
-            get { return AppShell.GetForCurrentView().BackgroundColor; }
+            get { return _backgroundColor; }
         }
 
         public Brush BackgroundColorBrush => _backgroundColorBrush ??
                                              (_backgroundColorBrush = new SolidColorBrush(BackgroundColor));
 
-        public ElementTheme ElementTheme => AppShell.GetForCurrentView().AppTheme;
+        public ElementTheme ElementTheme => _elementTheme;
 
         /// <summary>
         /// Updates visual settings bindings
         /// </summary>
         public void Refresh()
         {
+            _backgroundColor = AppShell.GetForCurrentView().BackgroundColor;
             RaisePropertyChanged(() => BackgroundColor);
 
             _backgroundColorBrush = null;
-            RaisePropertyChanged(()=>BackgroundColorBrush);  
-            
+            RaisePropertyChanged(()=>BackgroundColorBrush);
+            _elementTheme = AppShell.GetForCurrentView().AppTheme;
             RaisePropertyChanged(()=>ElementTheme);
         }
     }

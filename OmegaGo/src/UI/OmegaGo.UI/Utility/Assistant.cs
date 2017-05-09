@@ -90,9 +90,21 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task<IEnumerable<Position>> GetDeadPositions()
         {
-            return await Program.GetDeadPositions();
+            return await Program.GetDeadPositions(_gameController);
         }
 
+        public bool ProvidesHintsFor(GameInfo gameInfo)
+        {
+            bool providesHints =
+                (this.ProvidesHints) &&
+                (this.Program.Capabilities.HandlesNonSquareBoards || gameInfo.BoardSize.IsSquare) &&
+                (this.Program.Capabilities.MinimumBoardSize <= gameInfo.BoardSize.Width) &&
+                (this.Program.Capabilities.MinimumBoardSize <= gameInfo.BoardSize.Height) &&
+                (this.Program.Capabilities.MaximumBoardSize >= gameInfo.BoardSize.Width) &&
+                (this.Program.Capabilities.MaximumBoardSize >= gameInfo.BoardSize.Height)
+                ;
+            return providesHints;
+        }
         private void RegisterHandlers()
         {
             _uiConnector.MoveWasPerformed += Assistant_uiConnector_MoveWasPerformed;
@@ -118,14 +130,15 @@ namespace OmegaGo.UI.ViewModels
 
         private void Assistant_uiConnector_MoveWasPerformed(object sender, Move e)
         {
-            MovePerformed(e,
-                new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
-                    _gameController.GameTree));
+            //MovePerformed(e,
+              //  new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
+                //    _gameController.GameTree));
         }
 
         private void Assistant_Controller_MoveUndone(object sender, EventArgs e)
         {
-            MoveUndone();
+            //MoveUndone();
         }
+
     }
 }

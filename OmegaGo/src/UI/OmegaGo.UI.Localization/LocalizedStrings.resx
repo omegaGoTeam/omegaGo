@@ -909,7 +909,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Observe this game</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>Sort by</value>
   </data>
   <data name="SortBy_Black" xml:space="preserve">
     <value>Black's name</value>
@@ -1435,5 +1435,74 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="ExitAnalyze_Text" xml:space="preserve">
     <value>Exiting this screen will end analysis and all your changes will be lost.</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="LooksForAGame" xml:space="preserve">
+    <value>Looks for a game</value>
+  </data>
+  <data name="NameAndRank" xml:space="preserve">
+    <value>Name and rank</value>
+  </data>
+  <data name="NoUserFoundChangeFilter" xml:space="preserve">
+    <value>No user found, try changing the filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="VisibilitySettings" xml:space="preserve">
+    <value>Visibility settings</value>
+  </data>
+  <data name="RoomColon" xml:space="preserve">
+    <value>Room:</value>
+  </data>
+  <data name="Games" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="NoRoomSelectedMessage" xml:space="preserve">
+    <value>No room selected. Pick one from the list.</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Unjoin" xml:space="preserve">
+    <value>Unjoin</value>
+  </data>
+  <data name="Challenges" xml:space="preserve">
+    <value>Challenges</value>
+  </data>
+  <data name="GamesAndChallenges" xml:space="preserve">
+    <value>Games and challenges</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="ChannelColon" xml:space="preserve">
+    <value>Channel:</value>
+  </data>
+  <data name="GlobalGamesListKind_ActiveGames" xml:space="preserve">
+    <value>All observable games</value>
+  </data>
+  <data name="GlobalGamesListKind_Challenges" xml:space="preserve">
+    <value>All open challenges</value>
+  </data>
+  <data name="GlobalGamesListKind_Favourites" xml:space="preserve">
+    <value>Favorite games</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
   </data>
 </root>

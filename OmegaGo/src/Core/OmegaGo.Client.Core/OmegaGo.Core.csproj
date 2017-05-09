@@ -46,6 +46,9 @@
     <Compile Include="AI\AgentDecisionKind.cs" />
     <Compile Include="AI\Deterministic\DeterministicAI.cs" />
     <Compile Include="AI\Fuego\FuegoAction.cs" />
+    <Compile Include="AI\Fuego\OldFuegoAction.cs" />
+    <Compile Include="AI\Fuego\FuegoSingleton.cs" />
+    <Compile Include="AI\Fuego\Fuego.cs" />
     <Compile Include="AI\Fuego\GtpResponse.cs" />
     <Compile Include="ApplicationInfo.cs" />
     <Compile Include="Extensions\TimeSpanExtension.cs" />
@@ -127,7 +130,7 @@
     <Compile Include="AI\AISystems.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
     <Compile Include="AI\Defeatist\DefeatistAI.cs" />
-    <Compile Include="AI\Fuego\Fuego.cs" />
+    <Compile Include="AI\Fuego\OldFuego.cs" />
     <Compile Include="AI\Fuego\IGtpEngine.cs" />
     <Compile Include="AI\Fuego\IGtpEngineBuilder.cs" />
     <Compile Include="AI\IAIProgram.cs" />

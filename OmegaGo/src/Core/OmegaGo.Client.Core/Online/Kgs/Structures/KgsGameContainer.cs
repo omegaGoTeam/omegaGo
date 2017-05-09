@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using OmegaGo.Core.Extensions;
+using OmegaGo.Core.Modes.LiveGame.Remote.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 
 namespace OmegaGo.Core.Online.Kgs.Structures
@@ -31,9 +33,9 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
         public ObservableCollection<KgsGameChannel> AllChannelsCollection { get; } = new ObservableCollection<KgsGameChannel>();
 
-        private readonly List<KgsTrueGameChannel> Games = new List<KgsTrueGameChannel>();
-        private readonly List<KgsChallenge> Challenges = new List<KgsChallenge>();
+        public ObservableCollection<KgsChallenge> Challenges { get; } = new ObservableCollection<KgsChallenge>();
 
+        public ObservableCollection<KgsTrueGameChannel> Games { get; } = new ObservableCollection<KgsTrueGameChannel>();
 
         /// <summary>
         /// Gets all non-challenge games in this container.

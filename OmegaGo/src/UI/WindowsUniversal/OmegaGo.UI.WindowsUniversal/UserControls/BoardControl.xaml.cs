@@ -104,6 +104,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
+            await RenderService.AwaitResources();
             RenderService.Draw(
                 sender, 
                 sender.Size.Width, 
@@ -128,7 +129,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             _renderService = new RenderService(_boardControlState);
             _inputService = new InputService(_boardControlState);
 
-            await RenderService.CreateResources();
+            await RenderService.AwaitResources();
             
             canvas.Draw += canvas_Draw;
             canvas.Update += canvas_Update;

@@ -13,9 +13,11 @@ using OmegaGo.UI.WindowsUniversal.Helpers;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class IgsHomeView : TransparencyViewBase
+    public sealed partial class IgsHomeView : MultiplayerLobbyViewBase
     {
         private bool _isInitialized;
+        private Action<Object, RoutedEventArgs> _lastGamesSortAction;
+        private Action<Object, RoutedEventArgs> _lastUsersSortAction;
         public IgsHomeViewModel VM => (IgsHomeViewModel)this.ViewModel;
 
         public IgsHomeView()
@@ -38,34 +40,47 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 _isInitialized = true;
                 await VM.Initialize();
             }
+            VM.RefreshGamesComplete += VM_RefreshGamesComplete;
+            VM.RefreshUsersComplete += VM_RefreshUsersComplete;
         }
+
 
         private void IgsHomeUnloaded(object sender, RoutedEventArgs e)
         {
+            VM.RefreshGamesComplete -= VM_RefreshGamesComplete;
+            VM.RefreshUsersComplete -= VM_RefreshUsersComplete;
         }
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
+
+
+        private void VM_RefreshUsersComplete()
         {
-            VM.Logout();
+            _lastUsersSortAction?.Invoke(this, new RoutedEventArgs());
+        }
+
+        private void VM_RefreshGamesComplete()
+        {
+            _lastGamesSortAction?.Invoke(this, new RoutedEventArgs());
         }
 
         private void SortUsersByName(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
+            _lastUsersSortAction = SortUsersByName;
             VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private async void RefreshGames(object sender, RoutedEventArgs e)
-        {
-           await VM.RefreshGames();
         }
 
         private void SortByObservers_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
+            _lastGamesSortAction = SortByObservers_Click;
             VM.SortGames((g1, g2) => -g1.NumberOfObservers.CompareTo(g2.NumberOfObservers));
         }
 
         private void SortByHighestRank_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
+            _lastGamesSortAction = SortByHighestRank_Click;
             VM.SortGames((g1, g2) =>
                 -   Math.Max(
                       RankNumerizator.ConvertRankToInteger(g1.Black.Rank),
@@ -80,16 +95,22 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortByBlackName_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
+            _lastGamesSortAction = SortByBlackName_Click;
             VM.SortGames((g1, g2) => String.Compare(g1.Black.Name, g2.Black.Name, StringComparison.Ordinal));
         }
 
         private void SortByWhiteName_Click(object sender, RoutedEventArgs e)
         {
+            FlyoutSortGames.Hide();
+            _lastGamesSortAction = SortByWhiteName_Click;
             VM.SortGames((g1, g2) => String.Compare(g1.White.Name, g2.White.Name, StringComparison.Ordinal));
         }
 
         private void SortUsersByRankAscending(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
+            _lastUsersSortAction = SortUsersByRankAscending;
             VM.SortUsers(
                 (u1, u2) =>
                     RankNumerizator.ConvertRankToInteger(u1.Rank)
@@ -98,6 +119,8 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void SortUsersByRankDescending(object sender, RoutedEventArgs e)
         {
+            FlyoutSortUsers.Hide();
+            _lastUsersSortAction = SortUsersByRankDescending;
             VM.SortUsers(
                   (u1, u2) =>
                       -RankNumerizator.ConvertRankToInteger(u1.Rank)
@@ -123,5 +146,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
             this.IgsConsole.Text = log;
         }
+
     }
 }

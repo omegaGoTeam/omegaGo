@@ -21,4 +21,8 @@ namespace OmegaGo.UI.WindowsUniversal.Converters
     public class NativeBoolDoubleConverter : MvxNativeValueConverter<BoolDoubleConverter> { }
 
     public class NativeBoolNegationConverter : MvxNativeValueConverter<BoolNegationConverter> { }
+
+    public class NativeStringToUpperConverter : MvxNativeValueConverter<StringToUpperConverter> { }
+
+    public class NativeEmptyCollectionVisibilityConverter : MvxNativeValueConverter<EmptyCollectionVisibilityConverter> { }
 }
