@@ -54,10 +54,11 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             this.InitializeComponent();
         }
 
-        private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+        private async void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
         {
             if (GameBoard != null)
             {
+                await RenderService.AwaitResources();
                 RenderService.SharedBoardControlState = new BoardControlState(Rectangle.GetBoundingRectangle(GameBoard));
                 RenderService.ShowCoordinates = false;
                 RenderService.SimpleRenderService = true;
@@ -74,7 +75,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
 
         private void canvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
         {
-            args.TrackAsyncAction(RenderService.CreateResources().AsAsyncAction());
+            args.TrackAsyncAction(RenderService.AwaitResources().AsAsyncAction());
         }
     }
 }
