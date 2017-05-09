@@ -45,7 +45,7 @@ namespace OmegaGo.UI.WindowsUniversal
         protected override void InitializeFirstChance()
         {
             Mvx.LazyConstructAndRegisterSingleton<IAppDataFileService, AppDataFileService>();
-            Mvx.LazyConstructAndRegisterSingleton<IAppPackageFileService, AppPackageFileService>();                    
+            Mvx.LazyConstructAndRegisterSingleton<IAppPackageFileService, AppPackageFileService>();
             Mvx.LazyConstructAndRegisterSingleton<ITabProvider, TabProvider>();
             Mvx.LazyConstructAndRegisterSingleton<IFilePickerService, FilePickerService>();
             Mvx.LazyConstructAndRegisterSingleton<ITimerService, TimerService>();
@@ -55,7 +55,7 @@ namespace OmegaGo.UI.WindowsUniversal
             Mvx.LazyConstructAndRegisterSingleton<ISettingsService, SettingsService>();
             Mvx.LazyConstructAndRegisterSingleton<IDialogService, DialogService>();
             Mvx.LazyConstructAndRegisterSingleton<ISfxPlayerService, UwpSfxPlayerService>();
-            Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();           
+            Mvx.LazyConstructAndRegisterSingleton<IAppNotificationService, AppNotificationService>();
             base.InitializeFirstChance();
         }
 
@@ -64,8 +64,9 @@ namespace OmegaGo.UI.WindowsUniversal
         /// </summary>
         /// <param name="appShell">App shell</param>
         /// <returns>View presenter</returns>
-        protected override IMvxWindowsViewPresenter CreateViewPresenter(AppShell appShell )
+        protected override IMvxWindowsViewPresenter CreateViewPresenter(AppShell appShell)
         {
+            appShell.InitVisuals();
             return new AppShellViewPresenter(appShell);
         }
     }

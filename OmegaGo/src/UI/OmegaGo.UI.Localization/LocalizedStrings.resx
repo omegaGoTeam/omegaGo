@@ -1427,4 +1427,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="NoUserFoundChangeFilter" xml:space="preserve">
     <value>No user found, try changing the filter</value>
   </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
 </root>

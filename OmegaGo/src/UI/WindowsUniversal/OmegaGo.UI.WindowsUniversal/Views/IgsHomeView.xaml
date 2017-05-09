@@ -195,7 +195,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Style="{StaticResource ToolbarControl}">
                                 <Button.Flyout>
-                                    <Flyout>
+                                    <Flyout Placement="Bottom">
                                         <StackPanel Orientation="Vertical">
                                             <RadioButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
                                             <RadioButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
@@ -206,7 +206,7 @@
                                 </Button.Flyout>
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Sort" />
-                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.SortBy}" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Sort}" />
                                 </StackPanel>
                             </Button>
                             <Button  Style="{StaticResource ToolbarControl}" Command="{x:Bind VM.RefreshCommand}">
@@ -257,7 +257,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Style="{StaticResource ToolbarControl}">
                                 <Button.Flyout>
-                                    <Flyout>
+                                    <Flyout Placement="Bottom">
                                         <StackPanel Orientation="Vertical">
                                             <RadioButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
                                             <RadioButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
@@ -267,12 +267,12 @@
                                 </Button.Flyout>
                                 <StackPanel Orientation="Horizontal">
                                     <SymbolIcon Symbol="Sort" />
-                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.SortBy}" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Sort}" />
                                 </StackPanel>
                             </Button>
                             <Button Style="{StaticResource ToolbarControl}">
                                 <Button.Flyout>
-                                    <Flyout>
+                                    <Flyout Placement="Bottom">
                                         <StackPanel Orientation="Vertical">
                                             <CheckBox Margin="0,0,0,12" IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
                                             <TextBlock Text="{x:Bind Localizer.Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />

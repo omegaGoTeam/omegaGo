@@ -1766,6 +1766,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>No user found, try changing the filter</source>
           <target state="new">No user found, try changing the filter</target>
         </trans-unit>
+        <trans-unit id="Sort" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <target state="new">Sort</target>
+        </trans-unit>
       </group>
     </body>
   </file>

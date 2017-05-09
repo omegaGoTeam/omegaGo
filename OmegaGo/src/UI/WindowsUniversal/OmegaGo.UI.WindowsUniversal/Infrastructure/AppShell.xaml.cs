@@ -77,7 +77,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             InitCheats();
             InitNotifications();
 
-            InitFeedback();
+            InitFeedback();            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -185,6 +185,12 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 return shell;
             }
             return null;
+        }
+
+
+        public void InitVisuals()
+        {
+            RefreshVisualSettings();
         }
 
         /// <summary>
@@ -449,5 +455,6 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
                 AppTitleBar.Height = 32;
             }
         }
+
     }
 }
