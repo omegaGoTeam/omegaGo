@@ -172,13 +172,13 @@ namespace OmegaGo.UI.ViewModels
                 {
                     this.LoginForm.FormEnabled = false;
                     this.LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
-                    this.LoginForm.LoginErrorMessageOpacity = 1;
+                    this.LoginForm.LoginErrorMessageVisible = true;
 
                 }
                 else
                 {
                     this.LoginForm.LoginErrorMessage = "";
-                    this.LoginForm.LoginErrorMessageOpacity = 0;
+                    this.LoginForm.LoginErrorMessageVisible = false;
                     this.LoginForm.FormEnabled = true;
                 }
             }
@@ -191,7 +191,7 @@ namespace OmegaGo.UI.ViewModels
             {
 
                 this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
-                this.LoginForm.LoginErrorMessageOpacity = 1;
+                this.LoginForm.LoginErrorMessageVisible = true;
             }
         }
 
@@ -206,7 +206,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task AttemptLoginCommand(string username, string password)
         {
-            this.LoginForm.LoginErrorMessageOpacity = 1;
+            this.LoginForm.LoginErrorMessageVisible = true;
             this.LoginForm.FormEnabled = false;
 
             this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
@@ -228,7 +228,7 @@ namespace OmegaGo.UI.ViewModels
             if (e == KgsLoginPhase.Done)
             {
                 this.LoginForm.FormVisible = false;
-                this.LoginForm.LoginErrorMessageOpacity = 0;
+                this.LoginForm.LoginErrorMessageVisible = false;
             }
         }
         

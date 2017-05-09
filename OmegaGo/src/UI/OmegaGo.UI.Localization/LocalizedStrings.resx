@@ -909,7 +909,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
     <value>Observe this game</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by:</value>
+    <value>Sort by</value>
   </data>
   <data name="SortBy_Black" xml:space="preserve">
     <value>Black's name</value>
@@ -1435,5 +1435,29 @@ I dare you to let two Fish play against each other. The game will never end (unl
   </data>
   <data name="ExitAnalyze_Text" xml:space="preserve">
     <value>Exiting this screen will end analysis and all your changes will be lost.</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="LooksForAGame" xml:space="preserve">
+    <value>Looks for a game</value>
+  </data>
+  <data name="NameAndRank" xml:space="preserve">
+    <value>Name and rank</value>
+  </data>
+  <data name="NoUserFoundChangeFilter" xml:space="preserve">
+    <value>No user found, try changing the filter</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Sort</value>
+  </data>
+  <data name="VisibilitySettings" xml:space="preserve">
+    <value>Visibility settings</value>
   </data>
 </root>

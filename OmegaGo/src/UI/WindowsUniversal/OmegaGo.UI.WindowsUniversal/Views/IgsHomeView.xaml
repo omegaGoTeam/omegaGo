@@ -8,10 +8,136 @@
     xmlns:userControls="using:OmegaGo.UI.WindowsUniversal.UserControls"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:igs="using:OmegaGo.Core.Online.Igs"
+    xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:igs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
     Loaded="IgsHomeLoaded"
     Unloaded="IgsHomeUnloaded"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="ParentView">
+    <views:TransparencyViewBase.Resources>
+        <Style x:Key="ToggleMenuItemStyle" TargetType="ToggleMenuFlyoutItem">
+            <Setter Property="Background" Value="{ThemeResource ToggleMenuFlyoutItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ToggleMenuFlyoutItemForeground}"/>
+            <Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleMenuFlyoutItem">
+                        <Grid x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="AnimationRoot"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemBackgroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForegroundPointerOver}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="AnimationRoot"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemBackgroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForegroundPressed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="AnimationRoot"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemBackgroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemForegroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="CheckGlyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForegroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckGlyph"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="PaddingSizeStates">
+                                    <VisualState x:Name="DefaultPadding"/>
+                                    <VisualState x:Name="NarrowPadding">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Padding" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemThemePaddingNarrow}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="AnimationRoot">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" BorderBrush="{TemplateBinding Foreground}" Height="18" Width="18"  Margin="0,0,12,0">
+                                    <FontIcon x:Name="CheckGlyph" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{ThemeResource ToggleMenuFlyoutItemCheckGlyphForeground}" FontSize="16" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE001;" Opacity="0" Width="16"/>
+                                </Border>
+                                <TextBlock x:Name="TextBlock" Grid.Column="1" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{TemplateBinding Text}" TextTrimming="Clip" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="12" />
+        </Style>
+        
+        <Style x:Key="LobbyListViewStyle" TargetType="ListView">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </views:TransparencyViewBase.Resources>
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -21,95 +147,180 @@
     </Page.Transitions>
 
     <Grid>
-        <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GameListHeader.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid IsHitTestVisible="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior"
+                                Value="3"
+                                Duration="500"
+                                Delay="0"
+                                AutomaticallyStart="True"/>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay}" ComparisonCondition="Equal" Value="True">
+                    <core:CallMethodAction MethodName="Blur" TargetObject="{Binding ElementName=ParentView}" />
+                </core:DataTriggerBehavior>
+                <core:DataTriggerBehavior Binding="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay}" ComparisonCondition="Equal" Value="False">
+                    <core:CallMethodAction MethodName="Unblur" TargetObject="{Binding ElementName=ParentView}" />
+                </core:DataTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <navigation:TitleControl Grid.Row="0" Text="{x:Bind Localizer.IgsServerCaption}"></navigation:TitleControl>
-            <Pivot Name="IgsPivotControl" Grid.Row="1">
+            <Pivot Grid.Row="1" Title="{x:Bind Localizer.IgsServerCaption}" SelectedIndex="{x:Bind VM.SelectedViewIndex, Mode=TwoWay}" Style="{StaticResource CenteredPivotStyle}">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                        <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
                 <PivotItem Header="{x:Bind Localizer.Igs_SpectateAGame}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshGames" Content="{x:Bind Localizer.Igs_RefreshGames}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
-                                <RadioButton Margin="10,0,0,0" Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
-                            </StackPanel>
-                        </StackPanel>
-                        <ListBox Grid.Row="1"  SelectedItem="{Binding SelectedSpectatableGame, Mode=TwoWay}" ItemsSource="{Binding ObservableGames, Mode=OneWay}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate x:DataType="igs:IgsGameInfo">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding NumberOfObservers}"></TextBlock>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding White}" Margin="5,0,0,0" FontWeight="Bold"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="v." Margin="5,0,5,0"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding Black}" FontWeight="Bold"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding BoardSize}"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="," Margin="0,0,5,0"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding PreplayedMoveCount}"></TextBlock>
-                                            <TextBlock VerticalAlignment="Center" Text="moves" Margin="5,0,5,0"></TextBlock>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
+                                    <Flyout Placement="Bottom" x:Name="FlyoutSortGames">
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton Click="SortByObservers_Click" Content="{x:Bind Localizer.SortBy_NumberOfObservers}"/>
+                                            <RadioButton Click="SortByHighestRank_Click" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                            <RadioButton Click="SortByBlackName_Click" Content="{x:Bind Localizer.SortBy_Black}"/>
+                                            <RadioButton Click="SortByWhiteName_Click" Content="{x:Bind Localizer.SortBy_White}"/>
                                         </StackPanel>
-                                    </Grid>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Sort" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Sort}" />
+                                </StackPanel>
+                            </Button>
+                            <Button  Style="{StaticResource ToolbarControl}" Command="{x:Bind VM.RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Refresh" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        <Grid x:Name="GameListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=White}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Black}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=BoardSize}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="2" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Observing}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="3" />
+                        </Grid>
+                        <ListView Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}" Style="{StaticResource LobbyListViewStyle}">
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                            </ListView.Background>
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind VM.ObserveCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="igs:IgsGameInfo">
+                                    <igs1:IgsObservedGameControl />
                                 </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button Grid.Row="2"
-                                Content="{x:Bind Localizer.ObserveThisGame}"
-                                Command="{Binding ObserveSelectedGame}" />
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{x:Bind Localizer.Igs_IssueAChallenge}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Vertical" Grid.Row="0">
-                            <Button Click="RefreshUsers" Content="{x:Bind Localizer.Igs_RefreshUsers}"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{x:Bind Localizer.SortBy}" VerticalAlignment="Center"></TextBlock>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
-                                <RadioButton Margin="10,0,0,0" Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
-                                <TextBlock Margin="10,0,0,0" Text="Name: " VerticalAlignment="Center"></TextBlock>
-                                <TextBox Margin="10,0,0,0" Width="200" VerticalAlignment="Center" Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                            </StackPanel>
-                            <CheckBox IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
+                                    <Flyout Placement="Bottom" x:Name="FlyoutSortUsers">
+                                        <StackPanel Orientation="Vertical">
+                                            <RadioButton Click="SortUsersByName" Content="{x:Bind Localizer.SortBy_Name}"/>
+                                            <RadioButton Click="SortUsersByRankAscending" Content="{x:Bind Localizer.SortBy_RankAscending}"/>
+                                            <RadioButton Click="SortUsersByRankDescending" Content="{x:Bind Localizer.SortBy_RankDescending}"/>
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Sort" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Sort}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolbarControl}">
+                                <Button.Flyout>
+                                    <Flyout Placement="Bottom">
+                                        <StackPanel Orientation="Vertical">
+                                            <CheckBox Margin="0,0,0,12" IsChecked="{Binding OnlyShowLfgUsers, Mode=TwoWay}" Content="{x:Bind Localizer.Igs_OnlyShowLfgers}"/>
+                                            <TextBlock Text="{x:Bind Localizer.Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                                            <TextBox Text="{Binding UsernameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                    </Flyout>
+                                </Button.Flyout>
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Filter" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Filter}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource ToolbarControl}" Command="{x:Bind VM.RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Refresh" />
+                                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
-                        <ListBox Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
-                        <Button Grid.Row="2" 
-                                Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
-                                Command="{Binding ChallengeSelectedPlayer}"/>
+                        <Grid x:Name="UserListHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=NameAndRank}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=LooksForAGame}" TextTrimming="CharacterEllipsis" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                        </Grid>
+                        <ListView Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                            </ListView.Background>
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind VM.ChallengePlayerCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <igs1:IgsUserListItemControl />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind VM.ChallengeableUsers, Converter={StaticResource EmptyCollectionVisibilityConverter}, Mode=OneWay}">
+                            <Viewbox Margin="12" Width="50" Height="50">
+                                <SymbolIcon Symbol="Zoom" />
+                            </Viewbox>
+                            <TextBlock Text="{x:Bind Localizer.NoUserFoundChangeFilter}"  HorizontalAlignment="Center" />
+                        </StackPanel>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console" Name="ConsolePivotItem">
@@ -136,24 +347,54 @@
                     </Grid>
                 </PivotItem>
             </Pivot>
-            <StackPanel Grid.Row="2" Orientation="Vertical">
-                <CheckBox IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_LFG}"></CheckBox>
-                <CheckBox IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Margin="10,0,0,0" Content="{x:Bind Localizer.Igs_RefuseAll}"></CheckBox>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Padding="10,0,10,0" Text="{x:Bind Localizer.YouAreLoggedInAs}"></TextBlock>
-                    <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" FontWeight="Bold" Text="{Binding LoggedInUser, Mode=OneWay}"></TextBlock>
-                    <Button Click="Logout_Click" Content="{x:Bind Localizer.Logout}"></Button>
-                    <StackPanel Orientation="Horizontal" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                        <ProgressRing IsActive="True" Height="20" Width="20" Foreground="Blue" Margin="10,0,10,0" VerticalAlignment="Center" />
-                        <TextBlock VerticalAlignment="Center" Text="{Binding ProgressPanelText, Mode=OneWay}">
-                        Communicating with Pandanet...
-                        </TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
+            <CommandBar HorizontalContentAlignment="Stretch" IsDynamicOverflowEnabled="False" OverflowButtonVisibility="Visible" Grid.Row="3" VerticalContentAlignment="Top">
+                <CommandBar.Content>
+                    <Grid HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
+                            <Button Command="{x:Bind VM.LogoutCommand}" Margin="8,0,0,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <PathIcon Style="{StaticResource LogoutIcon}" />
+                                    <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind Localizer.Logout, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </CommandBar.Content>
+                <CommandBar.PrimaryCommands>
+                    <AppBarButton Label="{x:Bind Localizer.VisibilitySettings}">
+                        <AppBarButton.Icon>
+                            <BitmapIcon UriSource="/Assets/Icons/Commands/MultiplayerOptions.png" />
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <ToggleMenuFlyoutItem Style="{StaticResource ToggleMenuItemStyle}"  IsChecked="{Binding HumanLookingForGame, Mode=TwoWay}" Text="{x:Bind Localizer.Igs_LFG}" />
+                                <ToggleMenuFlyoutItem Style="{StaticResource ToggleMenuItemStyle}"  IsChecked="{Binding HumanRefusingAllGames, Mode=TwoWay}" Text="{x:Bind Localizer.Igs_RefuseAll}" />
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </CommandBar.PrimaryCommands>
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Command="{x:Bind VM.LogoutCommand}" Label="{x:Bind Localizer.Logout}">
+                        <AppBarButton.Icon>
+                            <PathIcon Style="{StaticResource LogoutIcon}" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+            </CommandBar>
         </Grid>
-        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" />
+        <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.4" />
+            </Border.Background>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind VM.ProgressPanelText, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
+            </StackPanel>
+        </Border>
+        <!-- Login form -->
+        <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" Visibility="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
     </Grid>
 </views:TransparencyViewBase>
 

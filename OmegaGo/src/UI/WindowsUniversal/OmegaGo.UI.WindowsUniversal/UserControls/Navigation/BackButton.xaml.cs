@@ -18,6 +18,7 @@ using OmegaGo.UI.ViewModels;
 using OmegaGo.UI.WindowsUniversal.Helpers.UI;
 using OmegaGo.UI.WindowsUniversal.Infrastructure;
 using OmegaGo.UI.WindowsUniversal.Views;
+using WindowsStateTriggers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -28,6 +29,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         public BackButton()
         {
             this.InitializeComponent();
+            ButtonHidingState.StateTriggers.Add(new DeviceFamilyStateTrigger() { DeviceFamily = DeviceFamily.Mobile });
         }
 
         public static readonly DependencyProperty FullScreenOnlyProperty = DependencyProperty.Register(

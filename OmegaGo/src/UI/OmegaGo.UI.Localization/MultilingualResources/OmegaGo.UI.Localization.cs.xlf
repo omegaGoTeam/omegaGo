@@ -1068,8 +1068,9 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <target state="translated">Pozorovat tuto hru</target>
         </trans-unit>
         <trans-unit id="SortBy" translate="yes" xml:space="preserve">
-          <source>Sort by:</source>
-          <target state="translated">Řazení podle:</target>
+          <source>Sort by</source>
+          <target state="needs-review-translation">Řazení podle:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SortBy_Black" translate="yes" xml:space="preserve">
           <source>Black's name</source>
@@ -1770,6 +1771,38 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="ExitAnalyze_Text" translate="yes" xml:space="preserve">
           <source>Exiting this screen will end analysis and all your changes will be lost.</source>
           <target state="new">Exiting this screen will end analysis and all your changes will be lost.</target>
+        </trans-unit>
+        <trans-unit id="Filter" translate="yes" xml:space="preserve">
+          <source>Filter</source>
+          <target state="new">Filter</target>
+        </trans-unit>
+        <trans-unit id="Name" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="Search" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
+        </trans-unit>
+        <trans-unit id="LooksForAGame" translate="yes" xml:space="preserve">
+          <source>Looks for a game</source>
+          <target state="new">Looks for a game</target>
+        </trans-unit>
+        <trans-unit id="NameAndRank" translate="yes" xml:space="preserve">
+          <source>Name and rank</source>
+          <target state="new">Name and rank</target>
+        </trans-unit>
+        <trans-unit id="NoUserFoundChangeFilter" translate="yes" xml:space="preserve">
+          <source>No user found, try changing the filter</source>
+          <target state="new">No user found, try changing the filter</target>
+        </trans-unit>
+        <trans-unit id="Sort" translate="yes" xml:space="preserve">
+          <source>Sort</source>
+          <target state="new">Sort</target>
+        </trans-unit>
+        <trans-unit id="VisibilitySettings" translate="yes" xml:space="preserve">
+          <source>Visibility settings</source>
+          <target state="new">Visibility settings</target>
         </trans-unit>
       </group>
     </body>

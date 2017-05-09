@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
-using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
-using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Services.Settings;
@@ -23,24 +20,55 @@ namespace OmegaGo.UI.ViewModels
     public class IgsHomeViewModel : ViewModelBase
     {
         private readonly IGameSettings _settings;
+
 #if DEBUG
         private string _usernameFilter = "Soothie";
 #else
         private string _usernameFilter = "";
 #endif
 
+        private ICommand _logoutCommand;
+        private ICommand _observeCommand;
+        private ICommand _refreshCommand;
+        private ICommand _challengePlayerCommand;
+
+        private int _selectedViewIndex;
 
         public IgsHomeViewModel(IGameSettings settings)
         {
-            this._settings = settings;
-            this.LoginForm = new IgsLoginForm(this.Localizer, _settings);
+            _settings = settings;
+            LoginForm = new IgsLoginForm(Localizer, _settings);
             LoginForm.LoginClick +=  LoginForm_LoginClick;
 
         }
 
+        /// <summary>
+        /// Logs the user out
+        /// </summary>
+        public ICommand LogoutCommand => _logoutCommand ?? (_logoutCommand = new MvxCommand(Logout));
+
+        /// <summary>
+        /// Observe game
+        /// </summary>
+        public ICommand ObserveCommand => _observeCommand ?? (_observeCommand = new MvxAsyncCommand<IgsGameInfo>(ObserveGame));
+
+        /// <summary>
+        /// Refreshes the current view
+        /// </summary>
+        public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new MvxAsyncCommand(RefreshAsync));
+
+        /// <summary>
+        /// Selected view index
+        /// </summary>
+        public int SelectedViewIndex
+        {
+            get { return _selectedViewIndex; }
+            set { SetProperty(ref _selectedViewIndex, value); }
+        }
+
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
         {
-            await this.AttemptLoginCommand(e.Username, e.Password);
+            await AttemptLoginCommand(e.Username, e.Password);
         }
 
         public async Task Initialize()
@@ -54,7 +82,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 LoginForm.FormEnabled = false;
                 LoginForm.LoginErrorMessage = Localizer.Igs_LoginAlreadyInProgress;
-                LoginForm.LoginErrorMessageOpacity = 1;
+                LoginForm.LoginErrorMessageVisible = true;
                 Connections.Igs.Events.LoginComplete += OnLoginComplete;
             }
             else if (Connections.Igs.LoggedIn)
@@ -62,6 +90,10 @@ namespace OmegaGo.UI.ViewModels
                 await EnterIgsLobbyLoggedIn();
             }
         }
+
+        public event Action RefreshUsersComplete;
+        public event Action RefreshGamesComplete;
+
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
@@ -74,15 +106,15 @@ namespace OmegaGo.UI.ViewModels
 
         private void Events_LoginPhaseChanged(object sender, IgsLoginPhase e)
         {
-            this.LoginForm.LoginErrorMessage = Localizer.GetString("IgsLoginPhase_" + e.ToString()); ;
+            LoginForm.LoginErrorMessage = Localizer.GetString("IgsLoginPhase_" + e); ;
         }
 
         private void Events_Disconnected(object sender, EventArgs e)
         {
-            this.LoginForm.FormEnabled = true;
-            this.LoginForm.FormVisible = true;
-            this.LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
-            this.LoginForm.LoginErrorMessageOpacity = 1;
+            LoginForm.FormEnabled = true;
+            LoginForm.FormVisible = true;
+            LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
+            LoginForm.LoginErrorMessageVisible = true;
 
         }
 
@@ -94,9 +126,9 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                this.LoginForm.FormEnabled = true;
-                this.LoginForm.LoginErrorMessage = Localizer.LoginFailed;
-                this.LoginForm.LoginErrorMessageOpacity = 1;
+                LoginForm.FormEnabled = true;
+                LoginForm.LoginErrorMessage = Localizer.LoginFailed;
+                LoginForm.LoginErrorMessageVisible = true;
             }
         }
 
@@ -107,14 +139,52 @@ namespace OmegaGo.UI.ViewModels
             RefillChallengeableUsersFromAllUsers();
             LoginForm.FormVisible = false;
             LoginForm.FormEnabled = true;
-            LoginForm.LoginErrorMessageOpacity = 0;
+            LoginForm.LoginErrorMessageVisible = false;
             await Connections.Igs.Commands.RequestPersonalInformationUpdate(Connections.Igs.Username);
         }
 
-   
+        private async Task ObserveGame( IgsGameInfo selectedGame )
+        {
+            if (selectedGame == null) return;
+            ShowProgressPanel(Localizer.Igs_InitiatingObservationOfAGame);
+            var onlinegame = await Connections.Igs.Commands.StartObserving(selectedGame);
+            if (onlinegame == null)
+            {
+                // TODO Petr: error report
+            }
+            else
+            {
+                Mvx.RegisterSingleton<IGame>(onlinegame);
+                OpenInNewActiveTab<ObserverGameViewModel>();
+            }
+            IsWorking = false;
+        }
+
+        private async Task RefreshAsync()
+        {
+            switch (SelectedViewIndex)
+            {
+                case 0:
+                {
+                    await RefreshGames();
+                    RefreshGamesComplete?.Invoke();
+                    break;
+                }
+                case 1:
+                {
+                    await RefreshUsers();
+                    RefreshUsersComplete?.Invoke();
+                    break;
+                }
+                default:
+                {                    
+                    return;
+                }
+            }
+        }
+
         public LoginFormViewModel LoginForm { get; }
 
-     
 
         //***************************************************************
         // STATUS BAR
@@ -126,15 +196,12 @@ namespace OmegaGo.UI.ViewModels
                 {
                     return Connections.Igs.Username;
                 }
-                else
-                {
-                    return Localizer.NotLoggedIn;
-                }
+                return Localizer.NotLoggedIn;
             }
         }
 
 
-        private bool _incomingCheckboxChange = false;
+        private bool _incomingCheckboxChange;
         private string _progressPanelText = "";
 
         private bool _humanLookingForGame;
@@ -167,13 +234,13 @@ namespace OmegaGo.UI.ViewModels
         {
             ShowProgressPanel(Localizer.TogglingOpenness);
             await Connections.Igs.Commands.ToggleAsync("open", !value);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
         private async void ToggleHumanLookingForGameTo(bool value)
         {
             ShowProgressPanel(Localizer.TogglingLFG);
             await Connections.Igs.Commands.ToggleAsync("looking", value);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         public string ProgressPanelText
@@ -182,12 +249,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _progressPanelText, value); }
 
         }
-        private bool _progressPanelVisible = false;
-        public bool ProgressPanelVisible
-        {
-            get { return _progressPanelVisible; }
-            set { SetProperty(ref _progressPanelVisible, value); }
-        }
+
         public string UsernameFilter
         {
             get { return _usernameFilter; }
@@ -198,8 +260,8 @@ namespace OmegaGo.UI.ViewModels
         }
         public async Task AttemptLoginCommand(string username, string password)
         {
-            LoginForm.LoginErrorMessageOpacity = 1;
-            ProgressPanelVisible = true;
+            LoginForm.LoginErrorMessageVisible = true;
+            IsWorking = true;
             ProgressPanelText = Localizer.Igs_ConnectingToPandanet;
             LoginForm.FormEnabled = false;
             LoginForm.LoginErrorMessage = Localizer.Igs_ConnectingToPandanet;
@@ -209,8 +271,8 @@ namespace OmegaGo.UI.ViewModels
                 if (!success)
                 {
                     LoginForm.LoginErrorMessage = Localizer.Igs_ConnectionError;
-                    LoginForm.LoginErrorMessageOpacity = 1;
-                    ProgressPanelVisible = false;
+                    LoginForm.LoginErrorMessageVisible = true;
+                    IsWorking = false;
                     return;
                 }
             }
@@ -224,15 +286,15 @@ namespace OmegaGo.UI.ViewModels
             {
                 RaisePropertyChanged(nameof(LoggedInUser));
                 LoginForm.FormVisible = false;
-                LoginForm.LoginErrorMessageOpacity = 0;
+                LoginForm.LoginErrorMessageVisible = false;
                 await EnterIgsLobbyLoggedIn();
             }
             else
             {
                 LoginForm.LoginErrorMessage = Localizer.WrongCredentials;
-                LoginForm.LoginErrorMessageOpacity = 1;
+                LoginForm.LoginErrorMessageVisible = true;
             }
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         public async void Logout()
@@ -241,27 +303,28 @@ namespace OmegaGo.UI.ViewModels
             {
                 Debug.WriteLine("You are not logged in.");
             }
-            ProgressPanelVisible = true;
+            IsWorking = true;
             ProgressPanelText = Localizer.Igs_Disconnecting;
             await Connections.Igs.DisconnectAsync();
             RaisePropertyChanged(nameof(LoggedInUser));
-            ProgressPanelVisible = false;
+            IsWorking = false;
             LoginForm.FormVisible = true;
         }
         public void ShowProgressPanel(string caption)
         {
             ProgressPanelText = caption;
-            ProgressPanelVisible = true;
+            IsWorking = true;
         }
+
         private void Pandanet_PersonalInformationUpdate(object sender, IgsUser e)
         {
             _incomingCheckboxChange = true;
-            this.HumanLookingForGame = e.LookingForAGame;
-            this.HumanRefusingAllGames = e.RejectsRequests;
+            HumanLookingForGame = e.LookingForAGame;
+            HumanRefusingAllGames = e.RejectsRequests;
             _incomingCheckboxChange = false;
         }
         //** USERS *************************************************************
-        private bool _onlyShowLfgUsers = false;
+        private bool _onlyShowLfgUsers;
         public bool OnlyShowLfgUsers
         {
             get { return _onlyShowLfgUsers; }
@@ -275,7 +338,7 @@ namespace OmegaGo.UI.ViewModels
             ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingUsers);
             allUsers = await Connections.Igs.Commands.ListOnlinePlayersAsync();
             RefillChallengeableUsersFromAllUsers();
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
         private void RefillChallengeableUsersFromAllUsers()
         {
@@ -327,7 +390,7 @@ namespace OmegaGo.UI.ViewModels
             ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingGames);
             var games = await Connections.Igs.Commands.ListGamesInProgressAsync();
             ObservableGames = new ObservableCollection<IgsGameInfo>(games);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         private ObservableCollection<IgsGameInfo> _games = new ObservableCollection<IgsGameInfo>();
@@ -344,56 +407,14 @@ namespace OmegaGo.UI.ViewModels
             list.Sort(comparison);
             ObservableGames = new ObservableCollection<IgsGameInfo>(list);
         }
+        
+        public ICommand ChallengePlayerCommand => _challengePlayerCommand ?? (_challengePlayerCommand = new MvxCommand<IgsUser>(ChallengePlayer) );
 
-        private IgsGameInfo _selectedSpectatableGame;
-        public IgsGameInfo SelectedSpectatableGame
+        private void ChallengePlayer(IgsUser player)
         {
-            get { return _selectedSpectatableGame; }
-            set {
-                SetProperty(ref _selectedSpectatableGame, value);
-                ObserveSelectedGame.RaiseCanExecuteChanged();
-            }
-        }
-        private IgsUser _selectedChallengeableUser;
-        public IgsUser SelectedChallengeableUser
-        {
-            get { return _selectedChallengeableUser; }
-            set {
-                SetProperty(ref _selectedChallengeableUser, value);
-                ChallengeSelectedPlayer.RaiseCanExecuteChanged();
-            }
-        }
-
-        private IMvxCommand _challengedSelectedPlayer;
-        public IMvxCommand ChallengeSelectedPlayer => _challengedSelectedPlayer ?? (_challengedSelectedPlayer = new MvxCommand(() =>
-        {
-            if (SelectedChallengeableUser != null)
-            {
-                Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
-                OpenInNewActiveTab<GameCreationViewModel>();
-            }
-        }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
-        private IMvxCommand _observeSelectedGame;
-        public IMvxCommand ObserveSelectedGame => _observeSelectedGame ?? (_observeSelectedGame = new MvxCommand(async () =>
-        {
-            ShowProgressPanel(Localizer.Igs_InitiatingObservationOfAGame);
-            var onlinegame = await Connections.Igs.Commands.StartObserving(SelectedSpectatableGame);
-            if (onlinegame == null)
-            {
-                // TODO Petr: error report
-            }
-            else
-            {
-                Mvx.RegisterSingleton<IGame>(onlinegame); 
-                OpenInNewActiveTab<ObserverGameViewModel>();
-            }
-            ProgressPanelVisible = false;
-        }, ()=> SelectedSpectatableGame != null));
-
-        public void StartGame(IgsGame game)
-        {
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<OnlineGameViewModel>();
+            if (player == null) return;
+            Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(player));
+            OpenInNewActiveTab<GameCreationViewModel>();
         }
     }
 }

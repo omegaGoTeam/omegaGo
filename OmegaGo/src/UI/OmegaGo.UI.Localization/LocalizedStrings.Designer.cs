@@ -1023,6 +1023,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string Filter {
+            get {
+                return ResourceManager.GetString("Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter by source.
         /// </summary>
         public static string FilterBySource {
@@ -1842,6 +1851,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looks for a game.
+        /// </summary>
+        public static string LooksForAGame {
+            get {
+                return ResourceManager.GetString("LooksForAGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main menu.
         /// </summary>
         public static string MainMenu {
@@ -1968,6 +1986,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name and rank.
+        /// </summary>
+        public static string NameAndRank {
+            get {
+                return ResourceManager.GetString("NameAndRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New game.
         /// </summary>
         public static string NewGame {
@@ -2027,6 +2063,15 @@ namespace OmegaGo.UI.Localization {
         public static string NotLoggedIn {
             get {
                 return ResourceManager.GetString("NotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No user found, try changing the filter.
+        /// </summary>
+        public static string NoUserFoundChangeFilter {
+            get {
+                return ResourceManager.GetString("NoUserFoundChangeFilter", resourceCulture);
             }
         }
         
@@ -2544,6 +2589,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string Select {
@@ -2724,7 +2778,16 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sort by:.
+        ///   Looks up a localized string similar to Sort.
+        /// </summary>
+        public static string Sort {
+            get {
+                return ResourceManager.GetString("Sort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort by.
         /// </summary>
         public static string SortBy {
             get {
@@ -3773,6 +3836,15 @@ namespace OmegaGo.UI.Localization {
         public static string Validation_YouMustSelectASquareBoard {
             get {
                 return ResourceManager.GetString("Validation_YouMustSelectASquareBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visibility settings.
+        /// </summary>
+        public static string VisibilitySettings {
+            get {
+                return ResourceManager.GetString("VisibilitySettings", resourceCulture);
             }
         }
         
