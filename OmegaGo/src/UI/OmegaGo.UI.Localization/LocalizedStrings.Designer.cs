@@ -591,6 +591,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Challenges.
+        /// </summary>
+        public static string Challenges {
+            get {
+                return ResourceManager.GetString("Challenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change....
         /// </summary>
         public static string ChangeEllipsis {
@@ -1100,6 +1109,15 @@ namespace OmegaGo.UI.Localization {
         public static string Games {
             get {
                 return ResourceManager.GetString("Games", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Games and challenges.
+        /// </summary>
+        public static string GamesAndChallenges {
+            get {
+                return ResourceManager.GetString("GamesAndChallenges", resourceCulture);
             }
         }
         
@@ -3746,6 +3764,15 @@ namespace OmegaGo.UI.Localization {
         public static string UserInterface {
             get {
                 return ResourceManager.GetString("UserInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
             }
         }
         

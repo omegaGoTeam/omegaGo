@@ -1832,6 +1832,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Unjoin</source>
           <target state="new">Unjoin</target>
         </trans-unit>
+        <trans-unit id="Challenges" translate="yes" xml:space="preserve">
+          <source>Challenges</source>
+          <target state="new">Challenges</target>
+        </trans-unit>
+        <trans-unit id="GamesAndChallenges" translate="yes" xml:space="preserve">
+          <source>Games and challenges</source>
+          <target state="new">Games and challenges</target>
+        </trans-unit>
+        <trans-unit id="Users" translate="yes" xml:space="preserve">
+          <source>Users</source>
+          <target state="new">Users</target>
+        </trans-unit>
       </group>
     </body>
   </file>

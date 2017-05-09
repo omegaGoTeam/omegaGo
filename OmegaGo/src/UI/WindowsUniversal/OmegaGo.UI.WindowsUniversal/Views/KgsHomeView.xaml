@@ -106,64 +106,90 @@
                         <controls:MasterDetailsView.DetailsTemplate>
                             <DataTemplate x:DataType="structures:KgsRoom">
                                 <UserControl>
-                                    <Grid Padding="12,0,12,12">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup>
-                                                <VisualState>
-                                                    <VisualState.StateTriggers>
-                                                        <AdaptiveTrigger MinWindowWidth="720" />
-                                                    </VisualState.StateTriggers>
-                                                    <VisualState.Setters>
-                                                        <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
-                                                    </VisualState.Setters>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="*" />
-                                        </Grid.RowDefinitions>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
-                                                <SymbolIcon Symbol="Back" />
-                                            </Button>
-                                            <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
-                                        </Grid>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                            <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
-                                                <StackPanel Orientation="Horizontal">
-                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" />
-                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" />
-                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
-                                                </StackPanel>
-                                            </Button>
-                                            <Button Style="{StaticResource ToolbarControl}" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" />
-                                                    <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=CreateChallenge}" />
-                                                </StackPanel>
-                                            </Button>
+                                    <ScrollViewer Grid.Row="3" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <StackPanel Padding="12,0,12,12">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup>
+                                                    <VisualState>
+                                                        <VisualState.StateTriggers>
+                                                            <AdaptiveTrigger MinWindowWidth="720" />
+                                                        </VisualState.StateTriggers>
+                                                        <VisualState.Setters>
+                                                            <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
+                                                        </VisualState.Setters>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
+                                                    <SymbolIcon Symbol="Back" />
+                                                </Button>
+                                                <TextBlock Grid.Column="1"  VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}"  FontWeight="SemiBold" />
+                                            </Grid>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button Margin="0,0,12,0"  Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}"  Visibility="{Binding Joined, Converter={StaticResource InvertedVisibilityConverter}}" >
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Enter.png" />
+                                                        <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Join}" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Margin="0,0,12,0" Style="{StaticResource ToolbarControl}"  Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Exit.png" />
+                                                        <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=Unjoin}" />
+                                                    </StackPanel>
+                                                </Button>
+                                                <Button Style="{StaticResource ToolbarControl}" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <BitmapIcon UriSource="/Assets/Icons/Commands/Plus.png" />
+                                                        <TextBlock Margin="8,0,0,0" Text="{Binding Source={StaticResource Localizer}, Path=CreateChallenge}" />
+                                                    </StackPanel>
+                                                </Button>
+                                            </StackPanel>
+                                            <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
+                                            <Grid Padding="12">
+                                                <Grid.Background>
+                                                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                                                </Grid.Background>
+                                                <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{Binding Description, Mode=OneWay}">
+                                                </TextBlock>
+                                            </Grid>
+                                            <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Users}" Grid.Row="2" Margin="0,0,0,8" />
+                                            <Grid Padding="12" MaxHeight="300">
+                                                <Grid.Background>
+                                                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                                                </Grid.Background>
+                                                <ScrollViewer VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+                                                    <ItemsControl Padding="12" ItemsSource="{Binding Users}">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <ItemsWrapGrid Orientation="Horizontal" />
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid Padding="8" Margin="8" Width="132">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.Background>
+                                                                        <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                                                                    </Grid.Background>
+                                                                    <TextBlock Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
+                                                                    <TextBlock Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </ScrollViewer>
+                                            </Grid>
                                         </StackPanel>
-                                        <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
-                                        <ScrollViewer Grid.Row="3" Padding="12" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                            <ScrollViewer.Background>
-                                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
-                                            </ScrollViewer.Background>
-                                            <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{Binding Description, Mode=OneWay}">
-                                            </TextBlock>
-                                        </ScrollViewer>
-                                    </Grid>
+                                    </ScrollViewer>
                                 </UserControl>
                             </DataTemplate>
                         </controls:MasterDetailsView.DetailsTemplate>

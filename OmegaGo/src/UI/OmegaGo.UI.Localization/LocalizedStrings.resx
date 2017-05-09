@@ -1481,4 +1481,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Unjoin" xml:space="preserve">
     <value>Unjoin</value>
   </data>
+  <data name="Challenges" xml:space="preserve">
+    <value>Challenges</value>
+  </data>
+  <data name="GamesAndChallenges" xml:space="preserve">
+    <value>Games and challenges</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
 </root>
