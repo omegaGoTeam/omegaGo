@@ -141,7 +141,7 @@
                                     </interactivity:Interaction.Behaviors>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="structures:KgsTrueGameChannel">
-                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo}" />
+                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo, Mode=OneWay}" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -171,7 +171,7 @@
                                     </interactivity:Interaction.Behaviors>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="structures:KgsChallenge">
-                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind}" />
+                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind Mode=OneWay}" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -189,7 +189,7 @@
                                     </interactivity:Interaction.Behaviors>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="structures:KgsTrueGameChannel">
-                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo}" />
+                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo,  Mode=OneWay}" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -204,7 +204,7 @@
                                     </interactivity:Interaction.Behaviors>
                                     <ListView.ItemTemplate>
                                         <DataTemplate x:DataType="structures:KgsChallenge">
-                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind}" />
+                                            <kgs1:KgsChallengeListItemControl Challenge="{x:Bind Mode=OneWay}" />
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>

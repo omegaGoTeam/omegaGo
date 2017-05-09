@@ -47,8 +47,8 @@
                         </LinearGradientBrush>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Name}" Margin="8,0,0,0" FontWeight="SemiBold" />
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Name, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.White.Rank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo">
                 <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
@@ -59,16 +59,16 @@
                         </LinearGradientBrush>
                     </Ellipse.Fill>
                 </Ellipse>
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Name}" Margin="8,0,0,0" FontWeight="SemiBold" />
-                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Name, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                <TextBlock VerticalAlignment="Center" Text="{x:Bind GameInfo.Black.Rank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
             <StackPanel x:Name="DimensionsStackPanel" Width="80" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0">
                 <BitmapIcon UriSource="/Assets/Icons/Info/Dimensions.png" Width="24" HorizontalAlignment="Center" />
-                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind GameInfo.BoardSize}" />
+                <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind GameInfo.BoardSize, Mode=OneWay}" />
             </StackPanel>
-            <StackPanel x:Name="ObserveStackPanel" Width="80" Visibility="{x:Bind HasObserersInfo, Converter={StaticResource VisibilityConverter}}" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1">
+            <StackPanel x:Name="ObserveStackPanel" Width="80" Visibility="{x:Bind HasObserersInfo, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="2" Grid.Row="1">
                 <BitmapIcon UriSource="/Assets/Icons/TitleBar/Observe.png" Width="24" HorizontalAlignment="Center" />
-                <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind NumberOfObservers}" />
+                <TextBlock Margin="8,0,0,0" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{x:Bind NumberOfObservers, Mode=OneWay}" />
             </StackPanel>
         </Grid>
     </Border>
