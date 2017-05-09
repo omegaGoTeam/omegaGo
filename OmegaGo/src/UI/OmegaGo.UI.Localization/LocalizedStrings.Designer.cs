@@ -1797,6 +1797,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Looks for a game.
+        /// </summary>
+        public static string LooksForAGame {
+            get {
+                return ResourceManager.GetString("LooksForAGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main menu.
         /// </summary>
         public static string MainMenu {
@@ -1932,6 +1941,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name and rank.
+        /// </summary>
+        public static string NameAndRank {
+            get {
+                return ResourceManager.GetString("NameAndRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New game.
         /// </summary>
         public static string NewGame {
@@ -1982,6 +2000,15 @@ namespace OmegaGo.UI.Localization {
         public static string NotLoggedIn {
             get {
                 return ResourceManager.GetString("NotLoggedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No user found, try changing the filter.
+        /// </summary>
+        public static string NoUserFoundChangeFilter {
+            get {
+                return ResourceManager.GetString("NoUserFoundChangeFilter", resourceCulture);
             }
         }
         

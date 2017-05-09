@@ -1754,6 +1754,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Search</source>
           <target state="new">Search</target>
         </trans-unit>
+        <trans-unit id="LooksForAGame" translate="yes" xml:space="preserve">
+          <source>Looks for a game</source>
+          <target state="new">Looks for a game</target>
+        </trans-unit>
+        <trans-unit id="NameAndRank" translate="yes" xml:space="preserve">
+          <source>Name and rank</source>
+          <target state="new">Name and rank</target>
+        </trans-unit>
+        <trans-unit id="NoUserFoundChangeFilter" translate="yes" xml:space="preserve">
+          <source>No user found, try changing the filter</source>
+          <target state="new">No user found, try changing the filter</target>
+        </trans-unit>
       </group>
     </body>
   </file>

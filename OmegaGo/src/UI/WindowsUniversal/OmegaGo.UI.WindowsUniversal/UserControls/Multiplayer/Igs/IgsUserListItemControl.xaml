@@ -11,31 +11,16 @@
     d:DesignWidth="400">
 
     <Border Padding="12,12,12,12">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="0.5*" />
-                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Text="{Binding Name}" Margin="0" FontWeight="SemiBold" />
                 <TextBlock VerticalAlignment="Center" Text="{Binding Rank}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
             </StackPanel>
-            <SymbolIcon Symbol="Accept" Visibility="{Binding LookingForAGame, Converter={StaticResource VisibilityConverter}}" Grid.Column="1" />
-            <Button Content="Challenge..." Grid.Column="2" />
+            <SymbolIcon Symbol="Accept" Visibility="{Binding LookingForAGame, Converter={StaticResource VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Left" />
         </Grid>
     </Border>
 </userControls:UserControlBase>

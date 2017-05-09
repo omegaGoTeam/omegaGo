@@ -1418,4 +1418,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="LooksForAGame" xml:space="preserve">
+    <value>Looks for a game</value>
+  </data>
+  <data name="NameAndRank" xml:space="preserve">
+    <value>Name and rank</value>
+  </data>
+  <data name="NoUserFoundChangeFilter" xml:space="preserve">
+    <value>No user found, try changing the filter</value>
+  </data>
 </root>

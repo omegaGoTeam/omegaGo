@@ -155,7 +155,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="GameListHeader.Visibility" Value="Visible" />
-                        <Setter Target="UserListHeader.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -293,29 +292,35 @@
                                 </StackPanel>
                             </Button>
                         </StackPanel>
-                        <Grid x:Name="UserListHeader" Visibility="Collapsed" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
+                        <Grid x:Name="UserListHeader" Visibility="Visible" Grid.Row="1" Margin="12,0,12,8" HorizontalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="0.5*" />
-                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Name}" Style="{StaticResource FormHeadingTextBlockStyle}" />
-                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=IsAcceptingChallenges}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=NameAndRank}" Style="{StaticResource FormHeadingTextBlockStyle}" />
+                            <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=LooksForAGame}" TextTrimming="CharacterEllipsis" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="1" />
                         </Grid>
-                        <ListView Grid.Row="1" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
-                            <ListView.ItemContainerTransitions>
-                                <TransitionCollection>
-                                </TransitionCollection>
-                            </ListView.ItemContainerTransitions>
+                        <ListView Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ChallengeableUsers, Mode=OneWay}"  SelectedItem="{Binding SelectedChallengeableUser, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                            <ListView.Background>
+                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                            </ListView.Background>
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="ItemClick">
+                                    <core:InvokeCommandAction Command="{x:Bind VM.ChallengePlayerCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <igs1:IgsUserListItemControl />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Button Grid.Row="2" 
-                                Content="{x:Bind Localizer.Igs_ChallengeSelectedPlayer}"
-                                Command="{Binding ChallengeSelectedPlayer}"/>
+                        <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind VM.ChallengeableUsers, Converter={StaticResource EmptyCollectionVisibilityConverter}, Mode=OneWay}">
+                            <Viewbox Margin="12" Width="50" Height="50">
+                                <SymbolIcon Symbol="Zoom" />
+                            </Viewbox>
+                            <TextBlock Text="{x:Bind Localizer.NoUserFoundChangeFilter}"  HorizontalAlignment="Center" />
+                        </StackPanel>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="Console" Visibility="{x:Bind VM.ConsoleVisible}">
@@ -347,11 +352,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Top" Height="48">
                             <FontIcon VerticalAlignment="Center" Glyph="&#xE2AF;" FontFamily="Segoe MDL2 Assets" />
-                            <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{Binding LoggedInUser, Mode=OneWay}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Height="48" HorizontalAlignment="Right" Visibility="{Binding ProgressPanelVisible, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
-                            <ProgressRing IsActive="True" Height="20" Width="20" Margin="0,0,8,0" VerticalAlignment="Center" />
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" Text="{Binding ProgressPanelText, Mode=OneWay}" />
+                            <TextBlock VerticalAlignment="Center" Margin="8,0,0,0" Text="{x:Bind VM.LoggedInUser, Mode=OneWay}"/>
                         </StackPanel>
                     </Grid>
                 </CommandBar.Content>
@@ -377,7 +378,15 @@
                 </CommandBar.SecondaryCommands>
             </CommandBar>
         </Grid>
-
+        <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.4" />
+            </Border.Background>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind VM.ProgressPanelText, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
+            </StackPanel>
+        </Border>
         <!-- Login form -->
         <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" Visibility="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
     </Grid>

@@ -13,4 +13,5 @@
     <converters:NativeBoolNegationConverter x:Key="BoolNegationConverter" />
     <converters:ItemClickEventArgsConverter x:Key="ItemClickEventArgsConverter" />
     <converters:NativeStringToUpperConverter x:Key="StringToUpperConverter" />
+    <converters:NativeEmptyCollectionVisibilityConverter x:Key="EmptyCollectionVisibilityConverter" />
 </ResourceDictionary>

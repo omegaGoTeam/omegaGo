@@ -31,6 +31,7 @@ namespace OmegaGo.UI.ViewModels
         private ICommand _logoutCommand;
         private ICommand _observeCommand;
         private ICommand _refreshCommand;
+        private ICommand _challengePlayerCommand;
 
         private int _selectedViewIndex;
 
@@ -154,7 +155,7 @@ namespace OmegaGo.UI.ViewModels
                 Mvx.RegisterSingleton<IGame>(onlinegame);
                 OpenInNewActiveTab<ObserverGameViewModel>();
             }
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         private async Task RefreshAsync()
@@ -229,13 +230,13 @@ namespace OmegaGo.UI.ViewModels
         {
             ShowProgressPanel(Localizer.TogglingOpenness);
             await Connections.Igs.Commands.ToggleAsync("open", !value);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
         private async void ToggleHumanLookingForGameTo(bool value)
         {
             ShowProgressPanel(Localizer.TogglingLFG);
             await Connections.Igs.Commands.ToggleAsync("looking", value);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         public string ProgressPanelText
@@ -244,12 +245,7 @@ namespace OmegaGo.UI.ViewModels
             set { SetProperty(ref _progressPanelText, value); }
 
         }
-        private bool _progressPanelVisible;
-        public bool ProgressPanelVisible
-        {
-            get { return _progressPanelVisible; }
-            set { SetProperty(ref _progressPanelVisible, value); }
-        }
+
         public string UsernameFilter
         {
             get { return _usernameFilter; }
@@ -261,7 +257,7 @@ namespace OmegaGo.UI.ViewModels
         public async Task AttemptLoginCommand(string username, string password)
         {
             LoginForm.LoginErrorMessageVisible = true;
-            ProgressPanelVisible = true;
+            IsWorking = true;
             ProgressPanelText = Localizer.Igs_ConnectingToPandanet;
             LoginForm.FormEnabled = false;
             LoginForm.LoginErrorMessage = Localizer.Igs_ConnectingToPandanet;
@@ -272,7 +268,7 @@ namespace OmegaGo.UI.ViewModels
                 {
                     LoginForm.LoginErrorMessage = Localizer.Igs_ConnectionError;
                     LoginForm.LoginErrorMessageVisible = true;
-                    ProgressPanelVisible = false;
+                    IsWorking = false;
                     return;
                 }
             }
@@ -294,7 +290,7 @@ namespace OmegaGo.UI.ViewModels
                 LoginForm.LoginErrorMessage = Localizer.WrongCredentials;
                 LoginForm.LoginErrorMessageVisible = true;
             }
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         public async void Logout()
@@ -303,18 +299,19 @@ namespace OmegaGo.UI.ViewModels
             {
                 Debug.WriteLine("You are not logged in.");
             }
-            ProgressPanelVisible = true;
+            IsWorking = true;
             ProgressPanelText = Localizer.Igs_Disconnecting;
             await Connections.Igs.DisconnectAsync();
             RaisePropertyChanged(nameof(LoggedInUser));
-            ProgressPanelVisible = false;
+            IsWorking = false;
             LoginForm.FormVisible = true;
         }
         public void ShowProgressPanel(string caption)
         {
             ProgressPanelText = caption;
-            ProgressPanelVisible = true;
+            IsWorking = true;
         }
+
         private void Pandanet_PersonalInformationUpdate(object sender, IgsUser e)
         {
             _incomingCheckboxChange = true;
@@ -337,7 +334,7 @@ namespace OmegaGo.UI.ViewModels
             ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingUsers);
             allUsers = await Connections.Igs.Commands.ListOnlinePlayersAsync();
             RefillChallengeableUsersFromAllUsers();
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
         private void RefillChallengeableUsersFromAllUsers()
         {
@@ -389,7 +386,7 @@ namespace OmegaGo.UI.ViewModels
             ShowProgressPanel(Localizer.IgsLoginPhase_RefreshingGames);
             var games = await Connections.Igs.Commands.ListGamesInProgressAsync();
             ObservableGames = new ObservableCollection<IgsGameInfo>(games);
-            ProgressPanelVisible = false;
+            IsWorking = false;
         }
 
         private ObservableCollection<IgsGameInfo> _games = new ObservableCollection<IgsGameInfo>();
@@ -406,34 +403,15 @@ namespace OmegaGo.UI.ViewModels
             list.Sort(comparison);
             ObservableGames = new ObservableCollection<IgsGameInfo>(list);
         }
+        
+        public ICommand ChallengePlayerCommand => _challengePlayerCommand ?? (_challengePlayerCommand = new MvxCommand<IgsUser>(ChallengePlayer) );
 
-        private IgsGameInfo _selectedSpectatableGame;
-        public IgsGameInfo SelectedSpectatableGame
+        private void ChallengePlayer(IgsUser player)
         {
-            get { return _selectedSpectatableGame; }
-            set {
-                SetProperty(ref _selectedSpectatableGame, value);
-            }
+            if (player == null) return;
+            Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(player));
+            ShowViewModel<GameCreationViewModel>();
         }
-        private IgsUser _selectedChallengeableUser;
-        public IgsUser SelectedChallengeableUser
-        {
-            get { return _selectedChallengeableUser; }
-            set {
-                SetProperty(ref _selectedChallengeableUser, value);
-                ChallengeSelectedPlayer.RaiseCanExecuteChanged();
-            }
-        }
-
-        private IMvxCommand _challengedSelectedPlayer;
-        public IMvxCommand ChallengeSelectedPlayer => _challengedSelectedPlayer ?? (_challengedSelectedPlayer = new MvxCommand(() =>
-        {
-            if (SelectedChallengeableUser != null)
-            {
-                Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(SelectedChallengeableUser));
-                ShowViewModel<GameCreationViewModel>();
-            }
-        }, ()=>SelectedChallengeableUser !=null && !SelectedChallengeableUser.RejectsRequests));
 
         public void StartGame(IgsGame game)
         {
