@@ -102,7 +102,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             InputService.PointerExited();
         }
 
-        private void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        private async void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             await RenderService.AwaitResources();
             RenderService.Draw(
