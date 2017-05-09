@@ -365,6 +365,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Height = sender.Height;
+            DraggableTitleBarArea.Height = sender.Height;
             RightTitleBarMask.Width = sender.SystemOverlayRightInset;
             UpdateTitleBarLayout();
         }
