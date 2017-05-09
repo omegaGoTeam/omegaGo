@@ -152,8 +152,6 @@
                                 <MenuFlyoutItem Text="{x:Bind Localizer.Resign}" Command="{x:Bind VM.ResignCommand}" />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.Hint}" Command="{x:Bind VM.GetHintCommand}" />
                                 <MenuFlyoutSeparator />
-                                <ToggleMenuFlyoutItem Text="Chat" />
-                                <MenuFlyoutSeparator />
                                 <MenuFlyoutItem Text="{x:Bind Localizer.AnalyzeMode}" Command="{x:Bind VM.EnableAnalyzeModeCommand}" />
                                 <ToggleMenuFlyoutItem x:Name="focusButton" Text="{x:Bind Localizer.HideTabs}" Click="focusButton_Click" />
                                 <MenuFlyoutSeparator />
