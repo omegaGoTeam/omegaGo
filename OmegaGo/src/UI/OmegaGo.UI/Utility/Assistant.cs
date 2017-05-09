@@ -90,7 +90,7 @@ namespace OmegaGo.UI.ViewModels
 
         public async Task<IEnumerable<Position>> GetDeadPositions()
         {
-            return await Program.GetDeadPositions();
+            return await Program.GetDeadPositions(_gameController);
         }
 
         public bool ProvidesHintsFor(GameInfo gameInfo)
@@ -130,14 +130,14 @@ namespace OmegaGo.UI.ViewModels
 
         private void Assistant_uiConnector_MoveWasPerformed(object sender, Move e)
         {
-            MovePerformed(e,
-                new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
-                    _gameController.GameTree));
+            //MovePerformed(e,
+              //  new AiGameInformation(_gameInfo, e.WhoMoves, _gameController.Players[e.WhoMoves],
+                //    _gameController.GameTree));
         }
 
         private void Assistant_Controller_MoveUndone(object sender, EventArgs e)
         {
-            MoveUndone();
+            //MoveUndone();
         }
 
     }

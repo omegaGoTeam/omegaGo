@@ -30,6 +30,10 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
 
         public override void GameInitialized()
         {
+            if (AI is Fuego)
+            {
+                (AI as Fuego).Initialize(this);
+            }
         }
         
         public override async void PleaseMakeAMove()
@@ -50,6 +54,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
             if (respondingToWhatNode != GameState.GameTree.LastNode)
             {
                 // Ignore. That result is now obsolete.
+                _aiProgram.YourMoveWasRejected();
                 return;
             }
             switch (decision.Kind)
@@ -76,7 +81,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Players.Agents.AI
         {
             if (phase == GamePhaseType.Finished)
             {
-                (AI as Fuego)?.Finished();
+                (AI as OldFuego)?.Finished();
             }
             base.GamePhaseChanged(phase);
         }

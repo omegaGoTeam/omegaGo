@@ -186,6 +186,22 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
             //are we about to enter life and death phase?
             if (processingResult.Result == MoveResult.StartLifeAndDeath)
             {
+                if (player.Clock.IsViolating())
+                {
+                    if (HandleLocalClockOut(player))
+                    {
+                        return;
+                    }
+                }
+
+                //applies the legal move
+                Controller.OnDebuggingMessage(Controller.TurnPlayer + " moves: " + move);
+                ApplyMove(move, processingResult.NewBoard, processingResult.NewGroupState);
+
+                //switches players
+                Controller.SwitchTurnPlayer();
+
+                // moves next
                 GoToPhase(GamePhaseType.LifeDeathDetermination);
                 return;
             }

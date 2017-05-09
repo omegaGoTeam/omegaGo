@@ -10,7 +10,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 {
     public class KgsGameInfo : RemoteGameInfo
     {
-        public int ChannelId;
+        public readonly int ChannelId;
 
         public static KgsGameInfo FromGameJoin(KgsGameJoin kgsGameJoin)
         {
@@ -60,6 +60,21 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         public override string ToString()
         {
             return this.White + " vs. " + this.Black + " [" + this.BoardSize + "]";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is KgsGameInfo && this.Equals(obj as KgsGameInfo);
+        }
+
+        protected bool Equals(KgsGameInfo other)
+        {
+            return ChannelId == other.ChannelId;
+        }
+
+        public override int GetHashCode()
+        {
+            return ChannelId;
         }
     }
 }
