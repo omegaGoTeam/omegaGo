@@ -91,6 +91,9 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
+        public event Action RefreshUsersComplete;
+        public event Action RefreshGamesComplete;
+
         public override Task<bool> CanCloseViewModelAsync()
         {
             Connections.Igs.Events.PersonalInformationUpdate -= Pandanet_PersonalInformationUpdate;
@@ -164,11 +167,13 @@ namespace OmegaGo.UI.ViewModels
                 case 0:
                 {
                     await RefreshGames();
+                    RefreshGamesComplete?.Invoke();
                     break;
                 }
                 case 1:
                 {
                     await RefreshUsers();
+                    RefreshUsersComplete?.Invoke();
                     break;
                 }
                 default:
