@@ -79,7 +79,10 @@ namespace OmegaGo.UI.ViewModels
             => _requestUndoDeathMarksCommand ??
             (_requestUndoDeathMarksCommand = new MvxCommand(RequestUndoDeathMarks, () => GamePhase == GamePhaseType.LifeDeathDetermination));
 
-        public IMvxCommand GetHintCommand => _getHintCommand ?? (_getHintCommand = new MvxCommand(GetHint, () => Assistant.ProvidesHints));
+        public IMvxCommand GetHintCommand => _getHintCommand ??
+                                             (_getHintCommand =
+                                                 new MvxCommand(GetHint,
+                                                     () => Assistant.ProvidesHintsFor(this.Game.Info)));
 
 
         public bool CanPass
