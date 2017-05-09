@@ -13,6 +13,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:igs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
+    xmlns:multiplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer"
     Loaded="IgsHomeLoaded"
     mc:Ignorable="d"
     x:Name="ParentView">
@@ -216,7 +217,7 @@
 
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="igs:IgsGameInfo">
-                                    <igs1:IgsObservedGameControl />
+                                    <multiplayer:ObservedGameControl GameInfo="{x:Bind}" />
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

@@ -448,7 +448,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             {
                 var minRightContentWidth = RightTitleBarMask.Width + FeedbackButton.ActualWidth +
                                            MinimumTouchAreaSize; //leeway for dragging
-                TabListContainer.MaxWidth = Window.Current.Bounds.Width - minRightContentWidth;
+
+                var tabListWidth = Window.Current.Bounds.Width - minRightContentWidth;
+                if (tabListWidth < 0)
+                {
+                    tabListWidth = 100;
+                }
+                TabListContainer.MaxWidth = tabListWidth;
             }
             else
             {

@@ -1490,4 +1490,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Users" xml:space="preserve">
     <value>Users</value>
   </data>
+  <data name="ChannelColon" xml:space="preserve">
+    <value>Channel:</value>
+  </data>
+  <data name="GlobalGamesListKind_ActiveGames" xml:space="preserve">
+    <value>All observable games</value>
+  </data>
+  <data name="GlobalGamesListKind_Challenges" xml:space="preserve">
+    <value>All open challenges</value>
+  </data>
+  <data name="GlobalGamesListKind_Favourites" xml:space="preserve">
+    <value>Favorite games</value>
+  </data>
 </root>

@@ -1844,6 +1844,22 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Users</source>
           <target state="new">Users</target>
         </trans-unit>
+        <trans-unit id="ChannelColon" translate="yes" xml:space="preserve">
+          <source>Channel:</source>
+          <target state="new">Channel:</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_ActiveGames" translate="yes" xml:space="preserve">
+          <source>All observable games</source>
+          <target state="new">All observable games</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_Challenges" translate="yes" xml:space="preserve">
+          <source>All open challenges</source>
+          <target state="new">All open challenges</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_Favourites" translate="yes" xml:space="preserve">
+          <source>Favorite games</source>
+          <target state="new">Favorite games</target>
+        </trans-unit>
       </group>
     </body>
   </file>

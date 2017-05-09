@@ -100,17 +100,32 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        public ObservableCollection<KgsGameChannel> SelectedGameContainerChannels
+        public ObservableCollection<KgsChallenge> SelectedGameContainerChallenges
         {
             get
             {
                 if (this.SelectedGameContainer == null)
                 {
-                    return new ObservableCollection<KgsGameChannel>();
+                    return new ObservableCollection<KgsChallenge>();
                 }
                 else
                 {
-                    return this.SelectedGameContainer.AllChannelsCollection;
+                    return this.SelectedGameContainer.Challenges;
+                }
+            }
+        }
+
+        public ObservableCollection<KgsTrueGameChannel> SelectedGameContainerGames
+        {
+            get
+            {
+                if (this.SelectedGameContainer == null)
+                {
+                    return new ObservableCollection<KgsTrueGameChannel>();
+                }
+                else
+                {
+                    return this.SelectedGameContainer.Games;
                 }
             }
         }
@@ -120,8 +135,9 @@ namespace OmegaGo.UI.ViewModels
             get { return _selectedGameContainer; }
             set
             {
-                SetProperty(ref _selectedGameContainer, value);
-                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChannels));
+                SetProperty(ref _selectedGameContainer, value);                
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChallenges));
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerGames));
             }
         }
 
@@ -238,6 +254,10 @@ namespace OmegaGo.UI.ViewModels
         {
             RaisePropertyChanged(nameof(AllRooms));
             RaisePropertyChanged(nameof(GameContainers));
+            if (SelectedGameContainer == null)
+            {
+                SelectedGameContainer = GameContainers.FirstOrDefault();
+            }
             RaisePropertyChanged(nameof(LoggedInUser));
         }
 

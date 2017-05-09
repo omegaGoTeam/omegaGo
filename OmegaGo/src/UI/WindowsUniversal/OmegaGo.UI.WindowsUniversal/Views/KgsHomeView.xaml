@@ -12,6 +12,9 @@
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:structures="using:OmegaGo.Core.Online.Kgs.Structures"
+    xmlns:kgs="using:OmegaGo.UI.WindowsUniversal.DataTemplateSelectors.Multiplayer.KGS"
+    xmlns:igs="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
+    xmlns:multiplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer"
     Unloaded="TransparencyViewBase_Unloaded"
     mc:Ignorable="d" 
     x:Name="ParentView">
@@ -29,6 +32,19 @@
         </Style>
     </Page.Resources>
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GamesChallengesInnerPivot.Visibility" Value="Collapsed" />
+                        <Setter Target="GamesChallengesInnerGrid.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid IsHitTestVisible="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
@@ -47,13 +63,13 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Pivot Title="{x:Bind Localizer.KgsServerCaption}" Grid.Row="0" Style="{StaticResource CenteredPivotStyle}">
+            <Pivot MaxWidth="Infinity"  Title="{x:Bind Localizer.KgsServerCaption}" Grid.Row="0" Style="{StaticResource CenteredPivotStyle}">
                 <Pivot.TitleTemplate>
                     <DataTemplate>
                         <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
                     </DataTemplate>
                 </Pivot.TitleTemplate>
-                <PivotItem Header="{x:Bind Localizer.Games}">
+                <PivotItem Header="{x:Bind Localizer.GamesAndChallenges}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -61,17 +77,85 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
-                            <BitmapIcon UriSource="/Assets/Icons/Info/Room.png" />
-                            <TextBlock VerticalAlignment="Center" Margin="8,0,8,0" Text="{x:Bind Localizer.RoomColon}" />
-                            <ComboBox ItemsSource="{x:Bind VM.GameContainers, Mode=OneWay}"
-                                  SelectedItem="{x:Bind VM.SelectedGameContainer, Mode=TwoWay}" />
+                            <BitmapIcon UriSource="/Assets/Icons/Info/Channel.png" Margin="0,0,8,0" />
+                            <ComboBox Width="250" x:Name="GameContainerComboBox" ItemsSource="{x:Bind VM.GameContainers, Mode=OneWay}"
+                                  SelectedItem="{x:Bind VM.SelectedGameContainer, Mode=TwoWay}">
+                                <ComboBox.Resources>
+                                    <DataTemplate x:Key="KgsGlobalChannelTemplate">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox>
+                                                <BitmapIcon UriSource="/Assets/Icons/Info/List.png" Margin="0,0,8,0" />
+                                            </Viewbox>
+                                            <TextBlock Grid.Column="1" Text="{Binding Kind, Converter={StaticResource ConcreteEnumLocalizingConverter}}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                    <DataTemplate x:Key="KgsRoomChannelTemplate">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox>
+                                                <BitmapIcon UriSource="/Assets/Icons/Info/Room.png" Margin="0,0,8,0" />
+                                            </Viewbox>
+                                            <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.Resources>
+                            </ComboBox>
                         </StackPanel>
-                        <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChannels, Mode=OneWay}"
-                             SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
-                        </ListView>
-                        <StackPanel Grid.Row="2">
+
+                        <Grid Grid.Row="1" x:Name="GamesChallengesInnerGrid" Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="GameListGrid" Margin="0,0,6,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{x:Bind Localizer.Games}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
+                                      SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="structures:KgsTrueGameChannel">
+                                            <multiplayer:ObservedGameControl GameInfo="{x:Bind GameInfo}" />
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+                            <Grid x:Name="ChallengeListGrid" Margin="6,0,0,0"  Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{x:Bind Localizer.Challenges}" Margin="0,0,0,8" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
+                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                </ListView>
+                            </Grid>
+                        </Grid>
+
+                        <Pivot x:Name="GamesChallengesInnerPivot" Grid.Row="1">
+                            <PivotItem Header="{x:Bind Localizer.Games}">
+                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerGames, Mode=OneWay}"
+                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                </ListView>
+                            </PivotItem>
+                            <PivotItem Header="{x:Bind Localizer.Challenges}">
+                                <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChallenges, Mode=OneWay}"
+                                          SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                                </ListView>
+                            </PivotItem>
+                        </Pivot>
+                        <!--<StackPanel Grid.Row="2">
                             <Button Command="{x:Bind VM.JoinSelectedGameChannelCommand}">Join (observe/prepare to accept)</Button>
-                        </StackPanel>
+                        </StackPanel>-->
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{x:Bind Localizer.Rooms}">
@@ -106,20 +190,20 @@
                         <controls:MasterDetailsView.DetailsTemplate>
                             <DataTemplate x:DataType="structures:KgsRoom">
                                 <UserControl>
-                                    <ScrollViewer Grid.Row="3" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                                        <StackPanel Padding="12,0,12,12">
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup>
-                                                    <VisualState>
-                                                        <VisualState.StateTriggers>
-                                                            <AdaptiveTrigger MinWindowWidth="720" />
-                                                        </VisualState.StateTriggers>
-                                                        <VisualState.Setters>
-                                                            <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
-                                                        </VisualState.Setters>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
+                                    <ScrollViewer VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState>
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="720" />
+                                                    </VisualState.StateTriggers>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <StackPanel x:Name="DetailPanel"  Padding="12,0,12,12">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto" />
@@ -151,7 +235,7 @@
                                                 </Button>
                                             </StackPanel>
                                             <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
-                                            <Grid Padding="12">
+                                            <Grid Padding="12" Margin="0,0,0,8">
                                                 <Grid.Background>
                                                     <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                                                 </Grid.Background>
@@ -159,12 +243,12 @@
                                                 </TextBlock>
                                             </Grid>
                                             <TextBlock Style="{ThemeResource FormHeadingTextBlockStyle}" Text="{Binding Source={StaticResource Localizer}, Path=Users}" Grid.Row="2" Margin="0,0,0,8" />
-                                            <Grid Padding="12" MaxHeight="300">
+                                            <Grid Padding="4" MaxHeight="300">
                                                 <Grid.Background>
                                                     <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
                                                 </Grid.Background>
-                                                <ScrollViewer VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
-                                                    <ItemsControl Padding="12" ItemsSource="{Binding Users}">
+                                                <ScrollViewer VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                                    <ItemsControl ItemsSource="{Binding Users}">
                                                         <ItemsControl.ItemsPanel>
                                                             <ItemsPanelTemplate>
                                                                 <ItemsWrapGrid Orientation="Horizontal" />
@@ -172,14 +256,11 @@
                                                         </ItemsControl.ItemsPanel>
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid Padding="8" Margin="8" Width="132">
+                                                                <Grid Margin="8" Width="120">
                                                                     <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <Grid.Background>
-                                                                        <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
-                                                                    </Grid.Background>
                                                                     <TextBlock Margin="0,0,8,0" TextTrimming="CharacterEllipsis"  Text="{Binding Name}" />
                                                                     <TextBlock Text="{Binding Rank}" Grid.Column="1" Opacity="0.5" />
                                                                 </Grid>

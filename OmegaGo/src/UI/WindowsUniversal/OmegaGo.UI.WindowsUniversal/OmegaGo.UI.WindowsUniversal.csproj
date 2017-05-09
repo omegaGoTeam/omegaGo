@@ -98,6 +98,7 @@
     <Compile Include="Converters\ItemClickEventArgsConverter.cs" />
     <Compile Include="Converters\NativeConverters.cs" />
     <Compile Include="DataTemplateSelectors\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplateSelectors\Multiplayer\KGS\KgsGameContainerDataTemplateSelector.cs" />
     <Compile Include="DebugTrace.cs" />
     <Compile Include="Extensions\Colors\BackgroundColorExtensions.cs" />
     <Compile Include="Extensions\Colors\MvxColorExtensions.cs" />
@@ -154,8 +155,8 @@
     <Compile Include="UserControls\MainMenu\MainMenuButton.xaml.cs">
       <DependentUpon>MainMenuButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml.cs">
-      <DependentUpon>IgsObservedGameControl.xaml</DependentUpon>
+    <Compile Include="UserControls\Multiplayer\ObservedGameControl.xaml.cs">
+      <DependentUpon>ObservedGameControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Multiplayer\Igs\IgsUserListItemControl.xaml.cs">
       <DependentUpon>IgsUserListItemControl.xaml</DependentUpon>
@@ -257,6 +258,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Channel.scale-200.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-100.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-150.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-200.png" />
@@ -269,6 +273,9 @@
     <Content Include="Assets\Icons\Commands\Plus.scale-100.png" />
     <Content Include="Assets\Icons\Commands\Plus.scale-150.png" />
     <Content Include="Assets\Icons\Commands\Plus.scale-200.png" />
+    <Content Include="Assets\Icons\Info\List.scale-100.png" />
+    <Content Include="Assets\Icons\Info\List.scale-150.png" />
+    <Content Include="Assets\Icons\Info\List.scale-200.png" />
     <Content Include="Assets\Icons\Info\Room.scale-100.png" />
     <Content Include="Assets\Icons\Info\Room.scale-150.png" />
     <Content Include="Assets\Icons\Info\Room.scale-200.png" />
@@ -458,7 +465,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Multiplayer\Igs\IgsObservedGameControl.xaml">
+    <Page Include="UserControls\Multiplayer\ObservedGameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

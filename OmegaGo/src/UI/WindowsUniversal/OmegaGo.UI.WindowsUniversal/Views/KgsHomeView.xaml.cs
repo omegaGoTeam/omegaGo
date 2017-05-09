@@ -9,9 +9,11 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online;
 using OmegaGo.Core.Online.Igs.Structures;
+using OmegaGo.Core.Online.Kgs.Structures;
 using OmegaGo.UI.Extensions;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.UserControls.ViewModels;
+using OmegaGo.UI.WindowsUniversal.DataTemplateSelectors.Multiplayer.KGS;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
@@ -22,6 +24,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public KgsHomeView()
         {
             this.InitializeComponent();
+            GameContainerComboBox.ItemTemplateSelector = new KgsGameContainerComboBoxTemplateSelector(GameContainerComboBox);
         }
 
         private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
@@ -48,7 +51,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             {
                 grid.Visibility = e == MasterDetailsViewState.Details ? Visibility.Collapsed : Visibility.Visible;
             }
-            
+
         }
     }
 }

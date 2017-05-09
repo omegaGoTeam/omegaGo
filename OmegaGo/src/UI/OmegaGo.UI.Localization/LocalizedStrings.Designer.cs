@@ -618,6 +618,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel:.
+        /// </summary>
+        public static string ChannelColon {
+            get {
+                return ResourceManager.GetString("ChannelColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string CloseFlyout {
@@ -1136,6 +1145,33 @@ namespace OmegaGo.UI.Localization {
         public static string GettingStrongerQuest_Name {
             get {
                 return ResourceManager.GetString("GettingStrongerQuest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All observable games.
+        /// </summary>
+        public static string GlobalGamesListKind_ActiveGames {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_ActiveGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All open challenges.
+        /// </summary>
+        public static string GlobalGamesListKind_Challenges {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_Challenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite games.
+        /// </summary>
+        public static string GlobalGamesListKind_Favourites {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_Favourites", resourceCulture);
             }
         }
         
