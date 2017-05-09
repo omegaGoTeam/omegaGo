@@ -1864,6 +1864,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Details</source>
           <target state="new">Details</target>
         </trans-unit>
+        <trans-unit id="Validation_BoardTooExtreme" translate="yes" xml:space="preserve">
+          <source>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</source>
+          <target state="new">Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</target>
+        </trans-unit>
+        <trans-unit id="Validation_KomiTooExtreme" translate="yes" xml:space="preserve">
+          <source>Please choose komi between -500 and 500.</source>
+          <target state="new">Please choose komi between -500 and 500.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
