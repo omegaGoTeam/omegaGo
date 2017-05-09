@@ -8,7 +8,6 @@ using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
-using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
 using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Igs.Structures;
 using OmegaGo.UI.Services.GameCreation;
@@ -410,13 +409,7 @@ namespace OmegaGo.UI.ViewModels
         {
             if (player == null) return;
             Mvx.RegisterSingleton<GameCreationBundle>(new IgsOutgoingChallengeBundle(player));
-            ShowViewModel<GameCreationViewModel>();
-        }
-
-        public void StartGame(IgsGame game)
-        {
-            Mvx.RegisterSingleton<IGame>(game);
-            ShowViewModel<OnlineGameViewModel>();
+            OpenInNewActiveTab<GameCreationViewModel>();
         }
     }
 }
