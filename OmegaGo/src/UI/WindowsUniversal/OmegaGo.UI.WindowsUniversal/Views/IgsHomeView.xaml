@@ -1,4 +1,4 @@
-﻿<views:TransparencyViewBase
+﻿<views:MultiplayerLobbyViewBase
     x:Class="OmegaGo.UI.WindowsUniversal.Views.IgsHomeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,7 +14,6 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:igs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
     Loaded="IgsHomeLoaded"
-    Unloaded="IgsHomeUnloaded"
     mc:Ignorable="d"
     x:Name="ParentView">
     <views:TransparencyViewBase.Resources>
@@ -390,5 +389,5 @@
         <!-- Login form -->
         <userControls:LoginFormControl ViewModel="{x:Bind VM.LoginForm}" Visibility="{x:Bind VM.LoginForm.FormVisible, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
     </Grid>
-</views:TransparencyViewBase>
+</views:MultiplayerLobbyViewBase>
 

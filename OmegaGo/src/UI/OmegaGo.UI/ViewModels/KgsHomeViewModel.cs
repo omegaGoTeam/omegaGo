@@ -98,6 +98,18 @@ namespace OmegaGo.UI.ViewModels
 
         public ObservableCollection<KgsRoom> AllRooms => Connections.Kgs.Data.AllRooms;
 
+        public string LoggedInUser
+        {
+            get
+            {
+                if (Connections.Kgs.LoggedIn)
+                {
+                    return Connections.Kgs.Username;
+                }
+                return Localizer.NotLoggedIn;
+            }
+        }
+
         public ObservableCollection<KgsGameChannel> SelectedGameContainerChannels
         {
             get
@@ -236,6 +248,7 @@ namespace OmegaGo.UI.ViewModels
         {
             RaisePropertyChanged(nameof(AllRooms));
             RaisePropertyChanged(nameof(GameContainers));
+            RaisePropertyChanged(nameof(LoggedInUser));
         }
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)

@@ -197,6 +197,7 @@
     <Compile Include="Views\LocalGameView.xaml.cs">
       <DependentUpon>LocalGameView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MultiplayerLobbyViewBase.cs" />
     <Compile Include="Views\ObserverGameView.xaml.cs">
       <DependentUpon>ObserverGameView.xaml</DependentUpon>
     </Compile>

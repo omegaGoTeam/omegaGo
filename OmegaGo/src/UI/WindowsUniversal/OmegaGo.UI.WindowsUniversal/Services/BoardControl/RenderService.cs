@@ -74,6 +74,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
         public static async Task CreateResourcesAsync(ICanvasResourceCreator sender)
         {
+            if (BitmapInitializationCompletion.Task.IsCompleted) return;
             blackStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/black.png");
             whiteStoneBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/white.png");
             oakBitmap = await CanvasBitmap.LoadAsync(sender, "Assets/Textures/oak.jpg");

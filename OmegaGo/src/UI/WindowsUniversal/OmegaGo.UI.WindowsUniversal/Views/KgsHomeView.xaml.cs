@@ -12,7 +12,7 @@ using OmegaGo.UI.UserControls.ViewModels;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class KgsHomeView : TransparencyViewBase
+    public sealed partial class KgsHomeView : MultiplayerLobbyViewBase
     {
         public KgsHomeViewModel VM => (KgsHomeViewModel)this.ViewModel;
 
