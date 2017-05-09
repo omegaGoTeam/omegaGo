@@ -1460,4 +1460,25 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="VisibilitySettings" xml:space="preserve">
     <value>Visibility settings</value>
   </data>
+  <data name="RoomColon" xml:space="preserve">
+    <value>Room:</value>
+  </data>
+  <data name="Games" xml:space="preserve">
+    <value>Games</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Rooms</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="NoRoomSelectedMessage" xml:space="preserve">
+    <value>No room selected. Pick one from the list.</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="Unjoin" xml:space="preserve">
+    <value>Unjoin</value>
+  </data>
 </root>

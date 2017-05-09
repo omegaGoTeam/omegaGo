@@ -9,6 +9,9 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:structures="using:OmegaGo.Core.Online.Kgs.Structures"
     Unloaded="TransparencyViewBase_Unloaded"
     mc:Ignorable="d" 
     x:Name="ParentView">
@@ -36,82 +39,147 @@
                 </core:DataTriggerBehavior>
             </interactivity:Interaction.Behaviors>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Pivot Grid.Row="0">
-                <PivotItem Header="Games">
+            <Pivot Title="{x:Bind Localizer.KgsServerCaption}" Grid.Row="0" Style="{StaticResource CenteredPivotStyle}">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                        <navigation:TitleControl HorizontalAlignment="Center" Text="{Binding}" />
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
+                <PivotItem Header="{x:Bind Localizer.Games}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0">
-                            <TextBlock VerticalAlignment="Center" Margin="0,0,10,0">Show:</TextBlock>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+                            <BitmapIcon UriSource="/Assets/Icons/Info/Room.png" />
+                            <TextBlock VerticalAlignment="Center" Margin="8,0,8,0" Text="{x:Bind Localizer.RoomColon}" />
                             <ComboBox ItemsSource="{x:Bind VM.GameContainers, Mode=OneWay}"
-                                  SelectedItem="{x:Bind VM.SelectedGameContainer, Mode=TwoWay}">
-                                <ComboBoxItem>All games in progress</ComboBoxItem>
-                                <ComboBoxItem>All challenges</ComboBoxItem>
-                                <ComboBoxItem>Joined Room 1</ComboBoxItem>
-                                <ComboBoxItem>Joined Room 2</ComboBoxItem>
-                                <ComboBoxItem>Joined Room 3</ComboBoxItem>
-                            </ComboBox>
+                                  SelectedItem="{x:Bind VM.SelectedGameContainer, Mode=TwoWay}" />
                         </StackPanel>
-                        <ListBox Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChannels, Mode=OneWay}"
-                             SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
+                        <ListView Grid.Row="1" ItemsSource="{x:Bind VM.SelectedGameContainerChannels, Mode=OneWay}"
+                             SelectedItem="{x:Bind VM.SelectedGameChannel, Mode=TwoWay}" Style="{StaticResource LobbyListViewStyle}">
+                        </ListView>
                         <StackPanel Grid.Row="2">
                             <Button Command="{x:Bind VM.JoinSelectedGameChannelCommand}">Join (observe/prepare to accept)</Button>
                         </StackPanel>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="Rooms">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <TextBlock>All rooms:</TextBlock>
-                            <ListBox Grid.Row="1" Width="400" ItemsSource="{x:Bind VM.AllRooms, Mode=OneWay}"
-                                 SelectedItem="{x:Bind VM.SelectedRoom, Mode=TwoWay}">
-                                <ListBox.ItemContainerStyle>
-                                    <Style TargetType="ListBoxItem">
-                                        <Setter Property="Padding" Value="10, 1, 0, 1"/>
-                                        <Setter Property="Margin" Value="0"/>
-                                    </Style>
-                                </ListBox.ItemContainerStyle>
-                            </ListBox>
-                        </Grid>
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <StackPanel Orientation="Horizontal" Grid.Row="0">
-                                <Button Command="{x:Bind VM.JoinRoomCommand}">Join</Button>
-                                <Button Command="{x:Bind VM.UnjoinRoomCommand}">Unjoin</Button>
-                                <Button Command="{x:Bind VM.CreateChallengeCommand}">Create challenge...</Button>
-                            </StackPanel>
-                            <TextBlock Grid.Row="1" MaxHeight="300" TextWrapping="Wrap" IsTextSelectionEnabled="True"
-                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                 Text="{x:Bind VM.SelectedRoom.Description, Mode=OneWay}">
-                            </TextBlock>
-                        </Grid>
-                    </Grid>
+                <PivotItem Header="{x:Bind Localizer.Rooms}">
+                    <controls:MasterDetailsView x:Name="RoomsMasterDetail" Foreground="Black"
+                                                ItemsSource="{x:Bind VM.AllRooms, Mode=OneWay}"
+                                                SelectedItem="{x:Bind VM.SelectedRoom, Mode=TwoWay}"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                ViewStateChanged="RoomsMasterDetail_OnViewStateChanged"
+                                                MasterPaneWidth="300">
+                        <controls:MasterDetailsView.MasterPaneBackground>
+                            <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                        </controls:MasterDetailsView.MasterPaneBackground>
+                        <controls:MasterDetailsView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </controls:MasterDetailsView.ItemContainerStyle>
+                        <controls:MasterDetailsView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="12" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" Margin="0,0,8,0" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <SymbolIcon Symbol="Accept" Grid.Column="1" Visibility="{Binding Joined, Converter={StaticResource VisibilityConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </controls:MasterDetailsView.ItemTemplate>
+                        <controls:MasterDetailsView.DetailsTemplate>
+                            <DataTemplate x:DataType="structures:KgsRoom">
+                                <UserControl>
+                                    <Grid Padding="12">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState>
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="720" />
+                                                    </VisualState.StateTriggers>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button x:Name="DetailBackButton" Margin="0,0,12,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
+                                                <SymbolIcon Symbol="Back" />
+                                            </Button>
+                                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="0,4,0,4" Style="{ThemeResource SubtitleTextBlockStyle}" Text="{Binding Name, Mode=OneWay}" />
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                            <Button Command="{Binding ElementName=ParentView, Path=VM.JoinRoomCommand}">Join</Button>
+                                            <Button Command="{Binding ElementName=ParentView, Path=VM.UnjoinRoomCommand}">Unjoin</Button>
+                                            <Button Command="{Binding ElementName=ParentView, Path=VM.CreateChallengeCommand}">Create challenge...</Button>
+                                        </StackPanel>
+                                        <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" FontWeight="SemiBold"  Text="{Binding Source={StaticResource Localizer}, Path=Description}" Grid.Row="2" Margin="0,0,0,8" />
+                                        <ScrollViewer Grid.Row="3" Padding="12">
+                                            <ScrollViewer.Background>
+                                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
+                                            </ScrollViewer.Background>
+                                            <TextBlock TextWrapping="Wrap" IsTextSelectionEnabled="True" Text="{Binding Description, Mode=OneWay}">
+                                            </TextBlock>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </UserControl>
+                            </DataTemplate>
+                        </controls:MasterDetailsView.DetailsTemplate>
+
+                        <controls:MasterDetailsView.NoSelectionContentTemplate>
+                            <DataTemplate>
+                                <UserControl>
+                                    <Grid Padding="12">
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup>
+                                                <VisualState>
+                                                    <VisualState.StateTriggers>
+                                                        <AdaptiveTrigger MinWindowWidth="720" />
+                                                    </VisualState.StateTriggers>
+                                                    <VisualState.Setters>
+                                                        <Setter Target="DetailBackButton.Visibility" Value="Collapsed" />
+                                                    </VisualState.Setters>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                        <Button x:Name="DetailBackButton" VerticalAlignment="Top"
+                                            Style="{StaticResource TitleBarBackButtonStyle}" Background="Transparent" FontFamily="Segoe MDL2 Assets" Click="CloseDetail">
+                                            <SymbolIcon Symbol="Back" />
+                                        </Button>
+                                        <StackPanel Padding="12" HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                            <Viewbox Width="50" Height="50">
+                                                <BitmapIcon UriSource="/Assets/Icons/Info/RoomLarge.png"  />
+                                            </Viewbox>
+                                            <TextBlock TextWrapping="Wrap" Margin="0,12,0,0" Text="{Binding Source={StaticResource Localizer}, Path=NoRoomSelectedMessage}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </UserControl>
+                            </DataTemplate>
+                        </controls:MasterDetailsView.NoSelectionContentTemplate>
+                    </controls:MasterDetailsView>
                 </PivotItem>
             </Pivot>
             <CommandBar HorizontalContentAlignment="Stretch" IsDynamicOverflowEnabled="False" OverflowButtonVisibility="Visible" Grid.Row="1" VerticalContentAlignment="Top">

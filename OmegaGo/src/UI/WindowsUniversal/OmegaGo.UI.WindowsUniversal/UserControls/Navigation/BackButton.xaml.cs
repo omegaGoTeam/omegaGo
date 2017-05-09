@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -29,7 +30,11 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         public BackButton()
         {
             this.InitializeComponent();
-            ButtonHidingState.StateTriggers.Add(new DeviceFamilyStateTrigger() { DeviceFamily = DeviceFamily.Mobile });
+            if (!DesignMode.DesignModeEnabled)
+            {
+                ButtonHidingState.StateTriggers.Add(
+                    new DeviceFamilyStateTrigger() { DeviceFamily = DeviceFamily.Mobile });
+            }
         }
 
         public static readonly DependencyProperty FullScreenOnlyProperty = DependencyProperty.Register(
@@ -37,7 +42,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
 
         public bool FullScreenOnly
         {
-            get { return (bool) GetValue(FullScreenOnlyProperty); }
+            get { return (bool)GetValue(FullScreenOnlyProperty); }
             set { SetValue(FullScreenOnlyProperty, value); }
         }
 
@@ -47,7 +52,7 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls.Navigation
         public void BackRequested()
         {
             //handle the back navigation request using view model
-            ( this.FindAncestor<ViewBase>()?.ViewModel as ViewModelBase)?.GoBack();
+            (this.FindAncestor<ViewBase>()?.ViewModel as ViewModelBase)?.GoBack();
         }
     }
 }

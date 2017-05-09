@@ -260,6 +260,10 @@
     <Content Include="Assets\Icons\Info\Dimensions.scale-100.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-150.png" />
     <Content Include="Assets\Icons\Info\Dimensions.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Room.scale-200.png" />
+    <Content Include="Assets\Icons\Info\RoomLarge.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />

@@ -116,26 +116,6 @@
         <Style x:Key="ToolbarControl" TargetType="FrameworkElement">
             <Setter Property="Margin" Value="12" />
         </Style>
-        
-        <Style x:Key="LobbyListViewStyle" TargetType="ListView">
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel Orientation="Vertical" HorizontalAlignment="Stretch" />
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemContainerStyle">
-                <Setter.Value>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="Padding" Value="0" />
-                    </Style>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </views:TransparencyViewBase.Resources>
     <Page.Transitions>
         <TransitionCollection>
@@ -228,9 +208,6 @@
                             <TextBlock Text="{Binding Source={StaticResource Localizer}, Path=Observing}" Style="{StaticResource FormHeadingTextBlockStyle}" Grid.Column="3" />
                         </Grid>
                         <ListView Grid.Row="2" SelectionMode="None" Padding="0,0,0,0" IsItemClickEnabled="True" ItemsSource="{Binding ObservableGames, Mode=OneWay}" Style="{StaticResource LobbyListViewStyle}">
-                            <ListView.Background>
-                                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.8" />
-                            </ListView.Background>
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="ItemClick">
                                     <core:InvokeCommandAction Command="{x:Bind VM.ObserveCommand}" InputConverter="{StaticResource ItemClickEventArgsConverter}" />

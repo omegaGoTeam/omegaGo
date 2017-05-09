@@ -1804,6 +1804,26 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Visibility settings</source>
           <target state="new">Visibility settings</target>
         </trans-unit>
+        <trans-unit id="RoomColon" translate="yes" xml:space="preserve">
+          <source>Room:</source>
+          <target state="new">Room:</target>
+        </trans-unit>
+        <trans-unit id="Games" translate="yes" xml:space="preserve">
+          <source>Games</source>
+          <target state="new">Games</target>
+        </trans-unit>
+        <trans-unit id="Rooms" translate="yes" xml:space="preserve">
+          <source>Rooms</source>
+          <target state="new">Rooms</target>
+        </trans-unit>
+        <trans-unit id="Description" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <target state="new">Description</target>
+        </trans-unit>
+        <trans-unit id="NoRoomSelectedMessage" translate="yes" xml:space="preserve">
+          <source>No room selected. Pick one from the list.</source>
+          <target state="new">No room selected. Pick one from the list.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
