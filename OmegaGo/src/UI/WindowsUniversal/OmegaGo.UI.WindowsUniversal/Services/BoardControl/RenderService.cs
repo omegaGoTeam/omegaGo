@@ -187,12 +187,18 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
             // Draw all stones for given game state
             DrawStones(gameState, session);
 
-
+            Position pointerPosition = _sharedBoardControlState.PointerOverPosition;
             // Mouse over position special case
-            if (_sharedBoardControlState.PointerOverPosition.IsDefined)
+            if (pointerPosition.IsDefined)
             {
                 if (SharedBoardControlState.IsAnalyzeModeEnabled)
                 {
+                    // Set actual pointer position for the tools
+                    // This has to be done here and not in InputService because we might get caught in race condition
+                    // - pointerPosition.IsDefined returns true and in mean time user moves pointer outside of the board and IToolServices advertises Position.Undefined
+                    // - and finally in this step we ask ITool for its shadow. ITools should not worry about handling Position.Undefined for GetShadow
+                    SharedBoardControlState.AnalyzeToolServices.SetPointerPosition(pointerPosition);
+
                     // Analyze mode is enabled, draw selected tool shadow item.
                     DrawAnalyzeToolShadow(session, SharedBoardControlState.AnalyzeModeTool);
                 }
@@ -202,9 +208,9 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     // But it would be slow, you can implement caching to check for each intersection only once
                     if (_sharedBoardControlState.PointerOverShadowColor != StoneColor.None && (
                         _sharedBoardControlState.TEMP_MoveLegality == null ||
-                        _sharedBoardControlState.TEMP_MoveLegality[this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y] == MoveResult.Legal))
+                        _sharedBoardControlState.TEMP_MoveLegality[pointerPosition.X, pointerPosition.Y] == MoveResult.Legal))
                     {
-                        DrawStone(session, this.SharedBoardControlState.PointerOverPosition.X, this.SharedBoardControlState.PointerOverPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
+                        DrawStone(session, pointerPosition.X, pointerPosition.Y, _sharedBoardControlState.PointerOverShadowColor, 0.5);
                     }
                 }
             }

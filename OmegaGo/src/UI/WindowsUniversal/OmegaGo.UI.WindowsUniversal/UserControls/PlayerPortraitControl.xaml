@@ -9,11 +9,11 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance viewModels:PlayerPortraitViewModel, IsDesignTimeCreatable=False}"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    RequestedTheme="Light">
 
     <Grid>
-        <Border BorderBrush="Black" Background="{x:Bind Color}" BorderThickness="1" CornerRadius="15">
-        </Border>
+        <Border BorderBrush="Black" Background="{x:Bind Color}" BorderThickness="1" CornerRadius="15" />
         <!--
         I think this was a neat idea but is too distracting.
         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="15" Visibility="{x:Bind Path=ViewModel.IsTurnPlayer, Mode=OneWay}">
@@ -37,11 +37,11 @@
                                 </LinearGradientBrush>
                             </Ellipse.Fill>
                         </Ellipse>
-                        <TextBlock FontSize="20"  Text="{x:Bind Path=ViewModel.Name, Mode=OneWay}" TextWrapping="Wrap" />
+                        <TextBlock FontSize="20" Text="{x:Bind Path=ViewModel.Name, Mode=OneWay}" TextWrapping="Wrap" />
                     </StackPanel>
-                    <TextBlock Text="{x:Bind Path=ViewModel.CapturesLine, Mode=OneWay}" HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{x:Bind Path=ViewModel.CapturesLine, Mode=OneWay}" HorizontalAlignment="Center" />
                     <TextBlock HorizontalAlignment="Center" FontSize="18" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlMainLine, Mode=OneWay}" />
-                    <TextBlock HorizontalAlignment="Center" FontSize="14"  TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlSubLine, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Path=ViewModel.TimeControlTooltip, Mode=OneWay}" />
+                    <TextBlock HorizontalAlignment="Center" FontSize="14" TextWrapping="Wrap" Text="{x:Bind Path=ViewModel.TimeControlSubLine, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind Path=ViewModel.TimeControlTooltip, Mode=OneWay}" />
                 </StackPanel>
             </Border>
         </Border>
