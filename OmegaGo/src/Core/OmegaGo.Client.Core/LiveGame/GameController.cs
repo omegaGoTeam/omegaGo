@@ -191,11 +191,16 @@ namespace OmegaGo.Core.Modes.LiveGame
         /// <param name="endInformation">Game end info</param>
         public void EndGame(GameEndInformation endInformation)
         {
+            UnsubscribePlayerEvents();
+
+            if (Phase != null && Phase.Type == GamePhaseType.Finished)
+            {
+                // Game has already ended.
+                return;
+            }
             OnDebuggingMessage("Game ended: " + endInformation);
             OnGameEnded(endInformation);
             SetPhase(GamePhaseType.Finished);
-
-            UnsubscribePlayerEvents();
         }
 
 
