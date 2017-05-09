@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using OmegaGo.Core.Modes.LiveGame;
@@ -21,7 +23,7 @@ namespace OmegaGo.UI.ViewModels
         private IMvxCommand _joinRoomCommand;
         private IMvxCommand _createChallengeCommand;
 
-        private IMvxCommand _joinSelectedGameChannelCommand;
+        private IMvxCommand _joinChannelCommand;
 
         private KgsGameContainer _selectedGameContainer;
         private KgsGameChannel _selectedGameChannel;
@@ -61,24 +63,23 @@ namespace OmegaGo.UI.ViewModels
                 OpenInNewActiveTab<GameCreationViewModel>();
             }
         }, () => this.SelectedRoom != null && this.SelectedRoom.Joined));
-        public IMvxCommand JoinSelectedGameChannelCommand
-            => _joinSelectedGameChannelCommand ?? (_joinSelectedGameChannelCommand = new MvxCommand(async () =>
-            {
-                if (this.SelectedGameChannel != null)
-                {
-                    if (this.SelectedGameChannel is KgsTrueGameChannel)
-                    {
-                        var trueChannel = this.SelectedGameChannel as KgsTrueGameChannel;
-                        await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
-                    }
-                    else if (this.SelectedGameChannel is KgsChallenge)
-                    {
-                        var challenge = this.SelectedGameChannel as KgsChallenge;
-                        await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
-                    }
-                }
-            }, () => this.SelectedGameChannel != null));
+        public ICommand JoinChannelCommand
+            => _joinChannelCommand ?? (_joinChannelCommand = new MvxAsyncCommand<KgsChannel>(JoinChannelAsync));
 
+        private async Task JoinChannelAsync(KgsChannel channel)
+        {
+            if (channel is KgsTrueGameChannel)
+            {
+                var trueChannel = channel as KgsTrueGameChannel;
+                await Connections.Kgs.Commands.ObserveGameAsync(trueChannel.GameInfo);
+            }
+            else if (channel is KgsChallenge)
+            {
+                var challenge = channel as KgsChallenge;
+                await Connections.Kgs.Commands.JoinAndSubmitSelfToChallengeAsync(challenge);
+            }
+        }
+        
         public IMvxCommand LogoutCommand
             => new MvxCommand(async () => { await Connections.Kgs.Commands.LogoutAsync(); });
 
@@ -88,17 +89,44 @@ namespace OmegaGo.UI.ViewModels
 
         public ObservableCollection<KgsRoom> AllRooms => Connections.Kgs.Data.AllRooms;
 
-        public ObservableCollection<KgsGameChannel> SelectedGameContainerChannels
+        public string LoggedInUser
+        {
+            get
+            {
+                if (Connections.Kgs.LoggedIn)
+                {
+                    return Connections.Kgs.Username;
+                }
+                return Localizer.NotLoggedIn;
+            }
+        }
+
+        public ObservableCollection<KgsChallenge> SelectedGameContainerChallenges
         {
             get
             {
                 if (this.SelectedGameContainer == null)
                 {
-                    return new ObservableCollection<KgsGameChannel>();
+                    return new ObservableCollection<KgsChallenge>();
                 }
                 else
                 {
-                    return this.SelectedGameContainer.AllChannelsCollection;
+                    return this.SelectedGameContainer.Challenges;
+                }
+            }
+        }
+
+        public ObservableCollection<KgsTrueGameChannel> SelectedGameContainerGames
+        {
+            get
+            {
+                if (this.SelectedGameContainer == null)
+                {
+                    return new ObservableCollection<KgsTrueGameChannel>();
+                }
+                else
+                {
+                    return this.SelectedGameContainer.Games;
                 }
             }
         }
@@ -109,7 +137,8 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameContainer, value);
-                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChannels));
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerChallenges));
+                RaisePropertyChanged(nameof(KgsHomeViewModel.SelectedGameContainerGames));
             }
         }
 
@@ -119,7 +148,6 @@ namespace OmegaGo.UI.ViewModels
             set
             {
                 SetProperty(ref _selectedGameChannel, value);
-                this.JoinSelectedGameChannelCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -138,7 +166,6 @@ namespace OmegaGo.UI.ViewModels
             this.JoinRoomCommand.RaiseCanExecuteChanged();
             this.UnjoinRoomCommand.RaiseCanExecuteChanged();
             this.CreateChallengeCommand.RaiseCanExecuteChanged();
-            this.JoinSelectedGameChannelCommand.RaiseCanExecuteChanged();
         }
 
         public LoginFormViewModel LoginForm { get; }
@@ -221,11 +248,16 @@ namespace OmegaGo.UI.ViewModels
                 this.LoginForm.LoginErrorMessageVisible = false;
             }
         }
-        
+
         private void UpdateBindings()
         {
             RaisePropertyChanged(nameof(AllRooms));
             RaisePropertyChanged(nameof(GameContainers));
+            if (SelectedGameContainer == null)
+            {
+                SelectedGameContainer = GameContainers.FirstOrDefault();
+            }
+            RaisePropertyChanged(nameof(LoggedInUser));
         }
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)

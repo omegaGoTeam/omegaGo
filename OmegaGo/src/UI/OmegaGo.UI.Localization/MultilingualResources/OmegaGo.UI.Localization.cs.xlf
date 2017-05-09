@@ -1804,6 +1804,66 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Visibility settings</source>
           <target state="new">Visibility settings</target>
         </trans-unit>
+        <trans-unit id="RoomColon" translate="yes" xml:space="preserve">
+          <source>Room:</source>
+          <target state="new">Room:</target>
+        </trans-unit>
+        <trans-unit id="Games" translate="yes" xml:space="preserve">
+          <source>Games</source>
+          <target state="new">Games</target>
+        </trans-unit>
+        <trans-unit id="Rooms" translate="yes" xml:space="preserve">
+          <source>Rooms</source>
+          <target state="new">Rooms</target>
+        </trans-unit>
+        <trans-unit id="Description" translate="yes" xml:space="preserve">
+          <source>Description</source>
+          <target state="new">Description</target>
+        </trans-unit>
+        <trans-unit id="NoRoomSelectedMessage" translate="yes" xml:space="preserve">
+          <source>No room selected. Pick one from the list.</source>
+          <target state="new">No room selected. Pick one from the list.</target>
+        </trans-unit>
+        <trans-unit id="Join" translate="yes" xml:space="preserve">
+          <source>Join</source>
+          <target state="new">Join</target>
+        </trans-unit>
+        <trans-unit id="Unjoin" translate="yes" xml:space="preserve">
+          <source>Unjoin</source>
+          <target state="new">Unjoin</target>
+        </trans-unit>
+        <trans-unit id="Challenges" translate="yes" xml:space="preserve">
+          <source>Challenges</source>
+          <target state="new">Challenges</target>
+        </trans-unit>
+        <trans-unit id="GamesAndChallenges" translate="yes" xml:space="preserve">
+          <source>Games and challenges</source>
+          <target state="new">Games and challenges</target>
+        </trans-unit>
+        <trans-unit id="Users" translate="yes" xml:space="preserve">
+          <source>Users</source>
+          <target state="new">Users</target>
+        </trans-unit>
+        <trans-unit id="ChannelColon" translate="yes" xml:space="preserve">
+          <source>Channel:</source>
+          <target state="new">Channel:</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_ActiveGames" translate="yes" xml:space="preserve">
+          <source>All observable games</source>
+          <target state="new">All observable games</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_Challenges" translate="yes" xml:space="preserve">
+          <source>All open challenges</source>
+          <target state="new">All open challenges</target>
+        </trans-unit>
+        <trans-unit id="GlobalGamesListKind_Favourites" translate="yes" xml:space="preserve">
+          <source>Favorite games</source>
+          <target state="new">Favorite games</target>
+        </trans-unit>
+        <trans-unit id="Details" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
       </group>
     </body>
   </file>

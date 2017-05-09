@@ -21,7 +21,7 @@ namespace OmegaGo.Core.Extensions
         /// </summary>
         /// <param name="list">The list to randomize.</param>
         public static void Shuffle<T>(this IList<T> list)
-        {            
+        {
             int n = list.Count;
             while (n > 1)
             {
@@ -44,6 +44,23 @@ namespace OmegaGo.Core.Extensions
             if (addedItem != null)
             {
                 list.Add(addedItem);
+            }
+        }
+
+        /// <summary>
+        /// Removes all items matching a given predicate
+        /// </summary>
+        /// <typeparam name="T">List type</typeparam>
+        /// <param name="list">List</param>
+        /// <param name="predicate">Filter</param>
+        public static void RemoveAll<T>(this IList<T> list, Func<T, bool> predicate)
+        {
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (predicate(list[i]))
+                {
+                    list.RemoveAt(i);
+                }
             }
         }
     }

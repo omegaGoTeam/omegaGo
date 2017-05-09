@@ -365,6 +365,7 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             AppTitleBar.Height = sender.Height;
+            DraggableTitleBarArea.Height = sender.Height;
             RightTitleBarMask.Width = sender.SystemOverlayRightInset;
             UpdateTitleBarLayout();
         }
@@ -447,7 +448,13 @@ namespace OmegaGo.UI.WindowsUniversal.Infrastructure
             {
                 var minRightContentWidth = RightTitleBarMask.Width + FeedbackButton.ActualWidth +
                                            MinimumTouchAreaSize; //leeway for dragging
-                TabListContainer.MaxWidth = Window.Current.Bounds.Width - minRightContentWidth;
+
+                var tabListWidth = Window.Current.Bounds.Width - minRightContentWidth;
+                if (tabListWidth < 0)
+                {
+                    tabListWidth = 100;
+                }
+                TabListContainer.MaxWidth = tabListWidth;
             }
             else
             {

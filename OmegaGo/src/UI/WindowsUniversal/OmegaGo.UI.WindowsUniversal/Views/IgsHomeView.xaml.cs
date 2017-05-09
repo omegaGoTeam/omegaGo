@@ -13,7 +13,7 @@ using OmegaGo.UI.WindowsUniversal.Helpers;
 
 namespace OmegaGo.UI.WindowsUniversal.Views
 {
-    public sealed partial class IgsHomeView : TransparencyViewBase
+    public sealed partial class IgsHomeView : MultiplayerLobbyViewBase
     {
         private bool _isInitialized;
         private Action<Object, RoutedEventArgs> _lastGamesSortAction;
@@ -68,11 +68,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             FlyoutSortUsers.Hide();
             _lastUsersSortAction = SortUsersByName;
             VM.SortUsers((u1, u2) => string.Compare(u1.Name, u2.Name, StringComparison.OrdinalIgnoreCase));
-        }
-
-        private async void RefreshGames(object sender, RoutedEventArgs e)
-        {
-           await VM.RefreshGames();
         }
 
         private void SortByObservers_Click(object sender, RoutedEventArgs e)
@@ -152,14 +147,5 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             this.IgsConsole.Text = log;
         }
 
-        public void Blur()
-        {
-            BlurBehavior.Value = 3;
-        }
-
-        public void Unblur()
-        {
-            BlurBehavior.Value = 0;
-        }
     }
 }

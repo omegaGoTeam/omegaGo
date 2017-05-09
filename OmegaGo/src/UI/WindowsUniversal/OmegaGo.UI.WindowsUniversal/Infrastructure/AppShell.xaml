@@ -73,7 +73,7 @@
                 UseSharedDevice="True"
                     >
             </win2d:CanvasControl>
-            <Grid Grid.Row="0" x:Name="TitleBar" Visibility="Visible">
+            <Grid Grid.Row="0" x:Name="TitleBar" Height="32" Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" x:Name="TabTitleBarColumn" />
                     <ColumnDefinition Width="*" x:Name="DraggableTitleBarColumn"/>
@@ -104,7 +104,7 @@
                         <SolidColorBrush Color="{x:Bind BackgroundColor, Mode=OneWay}" Opacity="0.8" />
                     </Border.Background>
                 </Border>
-                <Grid Grid.Column="1" HorizontalAlignment="Stretch" x:Name="DraggableTitleBarArea" Background="Transparent">
+                <Grid Grid.Column="1" HorizontalAlignment="Stretch" Height="32" x:Name="DraggableTitleBarArea" Background="Transparent">
 
                 </Grid>
                 <StackPanel Grid.Column="1" x:Name="TitleBarRightContent" HorizontalAlignment="Right" Orientation="Horizontal">

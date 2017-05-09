@@ -591,6 +591,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Challenges.
+        /// </summary>
+        public static string Challenges {
+            get {
+                return ResourceManager.GetString("Challenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change....
         /// </summary>
         public static string ChangeEllipsis {
@@ -605,6 +614,15 @@ namespace OmegaGo.UI.Localization {
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel:.
+        /// </summary>
+        public static string ChannelColon {
+            get {
+                return ResourceManager.GetString("ChannelColon", resourceCulture);
             }
         }
         
@@ -821,6 +839,24 @@ namespace OmegaGo.UI.Localization {
         public static string DeleteWarning {
             get {
                 return ResourceManager.GetString("DeleteWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -1086,6 +1122,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Games.
+        /// </summary>
+        public static string Games {
+            get {
+                return ResourceManager.GetString("Games", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Games and challenges.
+        /// </summary>
+        public static string GamesAndChallenges {
+            get {
+                return ResourceManager.GetString("GamesAndChallenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Win a solo game against Fuego..
         /// </summary>
         public static string GettingStrongerQuest_Description {
@@ -1100,6 +1154,33 @@ namespace OmegaGo.UI.Localization {
         public static string GettingStrongerQuest_Name {
             get {
                 return ResourceManager.GetString("GettingStrongerQuest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All observable games.
+        /// </summary>
+        public static string GlobalGamesListKind_ActiveGames {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_ActiveGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All open challenges.
+        /// </summary>
+        public static string GlobalGamesListKind_Challenges {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_Challenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Favorite games.
+        /// </summary>
+        public static string GlobalGamesListKind_Favourites {
+            get {
+                return ResourceManager.GetString("GlobalGamesListKind_Favourites", resourceCulture);
             }
         }
         
@@ -1541,6 +1622,15 @@ namespace OmegaGo.UI.Localization {
         public static string JapaneseSecondsPerPeriodLabel {
             get {
                 return ResourceManager.GetString("JapaneseSecondsPerPeriodLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join.
+        /// </summary>
+        public static string Join {
+            get {
+                return ResourceManager.GetString("Join", resourceCulture);
             }
         }
         
@@ -2058,6 +2148,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No room selected. Pick one from the list..
+        /// </summary>
+        public static string NoRoomSelectedMessage {
+            get {
+                return ResourceManager.GetString("NoRoomSelectedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to [not logged in].
         /// </summary>
         public static string NotLoggedIn {
@@ -2549,6 +2648,24 @@ namespace OmegaGo.UI.Localization {
         public static string RewardColon {
             get {
                 return ResourceManager.GetString("RewardColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room:.
+        /// </summary>
+        public static string RoomColon {
+            get {
+                return ResourceManager.GetString("RoomColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rooms.
+        /// </summary>
+        public static string Rooms {
+            get {
+                return ResourceManager.GetString("Rooms", resourceCulture);
             }
         }
         
@@ -3660,6 +3777,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unjoin.
+        /// </summary>
+        public static string Unjoin {
+            get {
+                return ResourceManager.GetString("Unjoin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string UnjoinChallenge {
@@ -3683,6 +3809,15 @@ namespace OmegaGo.UI.Localization {
         public static string UserInterface {
             get {
                 return ResourceManager.GetString("UserInterface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Users.
+        /// </summary>
+        public static string Users {
+            get {
+                return ResourceManager.GetString("Users", resourceCulture);
             }
         }
         
