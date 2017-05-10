@@ -3948,6 +3948,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please choose a board size 100x100 or smaller. Your computer might not handle a larger board..
+        /// </summary>
+        public static string Validation_BoardTooExtreme {
+            get {
+                return ResourceManager.GetString("Validation_BoardTooExtreme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A field (&apos;{0}&apos;) has a value greater than 10000. Please choose a smaller value. .
+        /// </summary>
+        public static string Validation_ExcessiveTimeError {
+            get {
+                return ResourceManager.GetString("Validation_ExcessiveTimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fluffy tree depth must be at least 1..
         /// </summary>
         public static string Validation_FluffyDepthTooSmall {
@@ -3962,6 +3980,15 @@ namespace OmegaGo.UI.Localization {
         public static string Validation_FuegoGamesTooFew {
             get {
                 return ResourceManager.GetString("Validation_FuegoGamesTooFew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose komi between -500 and 500..
+        /// </summary>
+        public static string Validation_KomiTooExtreme {
+            get {
+                return ResourceManager.GetString("Validation_KomiTooExtreme", resourceCulture);
             }
         }
         

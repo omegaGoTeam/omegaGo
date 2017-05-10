@@ -245,7 +245,7 @@ namespace OmegaGo.UI.ViewModels
                     SetProperty(ref _customWidth, parsed);
                     SetCustomBoardSize();
                 }
-            } // TODO Martin: do verification in game creation view
+            } 
         }
 
         public string CustomHeight
@@ -255,7 +255,7 @@ namespace OmegaGo.UI.ViewModels
             {
                 SetProperty(ref _customHeight, int.Parse(value));
                 SetCustomBoardSize();
-            } // TODO Martin: do verification in game creation view
+            } 
         }
         public bool UseRecommendedKomi
         {
@@ -470,6 +470,11 @@ namespace OmegaGo.UI.ViewModels
                 ValidationErrorMessage = Localizer.Validation_YouMustHave2x2OrGreater;
                 return false;
             }
+            if (SelectedGameBoardSize.Width > 100 || SelectedGameBoardSize.Height > 100)
+            {
+                ValidationErrorMessage = Localizer.Validation_BoardTooExtreme;
+                return false;
+            }
             float compensation;
             if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))
             {
@@ -488,6 +493,11 @@ namespace OmegaGo.UI.ViewModels
                         ValidationErrorMessage = Localizer.Validation_YouMustHaveSmallerKomi;
                         return false;
                     }
+                }
+                if (compensation < -500 || compensation > 500)
+                {
+                    ValidationErrorMessage = Localizer.Validation_KomiTooExtreme;
+                    return false;
                 }
             }
             else

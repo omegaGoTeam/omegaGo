@@ -1,0 +1,2887 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1250">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<title>omegaGo User Guide</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+@font-face
+	{font-family:"MS Gothic";
+	panose-1:2 11 6 9 7 2 5 8 2 4;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Calibri Light";
+	panose-1:2 15 3 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@MS Gothic";
+	panose-1:2 11 6 9 7 2 5 8 2 4;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:2 2 6 9 4 2 5 8 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:0cm;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+h1
+	{mso-style-link:"Nadpis 1 Char";
+	margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#2E74B5;
+	font-weight:normal;}
+h2
+	{mso-style-link:"Nadpis 2 Char";
+	margin-top:2.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:13.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#2E74B5;
+	font-weight:normal;}
+h3
+	{mso-style-link:"Nadpis 3 Char";
+	margin-top:2.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#1F4D78;
+	font-weight:normal;}
+p.MsoToc1, li.MsoToc1, div.MsoToc1
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:0cm;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoToc2, li.MsoToc2, div.MsoToc2
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:11.0pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoToc3, li.MsoToc3, div.MsoToc3
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:5.0pt;
+	margin-left:22.0pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Záhlaví Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Zápatí Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoTitle, li.MsoTitle, div.MsoTitle
+	{mso-style-link:"Název Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:28.0pt;
+	font-family:"Calibri Light",sans-serif;
+	letter-spacing:-.5pt;}
+p.MsoTitleCxSpFirst, li.MsoTitleCxSpFirst, div.MsoTitleCxSpFirst
+	{mso-style-link:"Název Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:28.0pt;
+	font-family:"Calibri Light",sans-serif;
+	letter-spacing:-.5pt;}
+p.MsoTitleCxSpMiddle, li.MsoTitleCxSpMiddle, div.MsoTitleCxSpMiddle
+	{mso-style-link:"Název Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:28.0pt;
+	font-family:"Calibri Light",sans-serif;
+	letter-spacing:-.5pt;}
+p.MsoTitleCxSpLast, li.MsoTitleCxSpLast, div.MsoTitleCxSpLast
+	{mso-style-link:"Název Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:28.0pt;
+	font-family:"Calibri Light",sans-serif;
+	letter-spacing:-.5pt;}
+a:link, span.MsoHyperlink
+	{color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:#954F72;
+	text-decoration:underline;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:36.0pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:36.0pt;
+	line-height:107%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.MsoTocHeading, li.MsoTocHeading, div.MsoTocHeading
+	{margin-top:12.0pt;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:0cm;
+	margin-bottom:.0001pt;
+	line-height:107%;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Calibri Light",sans-serif;
+	color:#2E74B5;}
+span.NzevChar
+	{mso-style-name:"Název Char";
+	mso-style-link:Název;
+	font-family:"Calibri Light",sans-serif;
+	letter-spacing:-.5pt;}
+span.Nadpis1Char
+	{mso-style-name:"Nadpis 1 Char";
+	mso-style-link:"Nadpis 1";
+	font-family:"Calibri Light",sans-serif;
+	color:#2E74B5;}
+span.Nadpis2Char
+	{mso-style-name:"Nadpis 2 Char";
+	mso-style-link:"Nadpis 2";
+	font-family:"Calibri Light",sans-serif;
+	color:#2E74B5;}
+span.ZhlavChar
+	{mso-style-name:"Záhlaví Char";
+	mso-style-link:Záhlaví;}
+span.ZpatChar
+	{mso-style-name:"Zápatí Char";
+	mso-style-link:Zápatí;}
+span.Nadpis3Char
+	{mso-style-name:"Nadpis 3 Char";
+	mso-style-link:"Nadpis 3";
+	font-family:"Calibri Light",sans-serif;
+	color:#1F4D78;}
+.MsoChpDefault
+	{font-family:"Calibri",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:107%;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=CS link="#0563C1" vlink="#954F72">
+
+<div class=WordSection1>
+
+<p class=MsoTitleCxSpFirst align=center style='text-align:center'><font size=6
+face="Calibri Light"><span style='font-size:28.0pt'><img width=300 height=300
+src="omegaGo%20User%20Guide_soubory/image001.png"></span></font></p>
+
+<p class=MsoTitleCxSpLast align=center style='text-align:center'><font size=6
+face="Calibri Light"><span lang=EN-US style='font-size:28.0pt'>User Guide</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>&nbsp;</span></font></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Go</span></font></b><span
+lang=EN-US> is an ancient game which, from its forgotten origins in China,
+spread first to the rest of East Asia, and then to the entire world. How
+ancient? Historians aren't sure; it has a definite history of over 2500 years,
+but it might possibly be older. </span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Yet <b><span style='font-weight:bold'>Go</span></b> endured
+and is still popular even today. With <b><span style='font-weight:bold'>omegaGo</span></b>,
+whether you are a beginner or an advanced player, you may delve into the world
+of <b><span style='font-weight:bold'>Go</span></b> and enjoy the fun of its
+strategic gameplay.</span></font></p>
+
+<h1><a name="_Toc482089544"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Features</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>With <b><span style='font-weight:bold'>omegaGo</span></b>,
+you may:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Play Go against another player on
+the same device, over the Internet, or against an AI program</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Learn the basics of Go in a
+tutorial</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Keep track of your games and
+victories</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Earn points and titles by
+completing quests</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Solve life and death puzzles to
+practice your game</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Connect to an online server of
+your choice – Pandanet or KGS</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>View and edit SGF files</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+color=black face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:Symbol;color:black'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Learn about Go in an extensive
+help library</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+color=black face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:Symbol;color:black'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Play in Czech or English</span></p>
+
+<p class=MsoTocHeading><font size=5 color=black face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%;color:windowtext'>&nbsp;</span></font></p>
+
+<font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:"Calibri",sans-serif'><br clear=all style='page-break-before:
+always'>
+</span></font>
+
+<p class=MsoNormal><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%;font-family:"Calibri Light",sans-serif;
+color:#2E74B5'>&nbsp;</span></font></p>
+
+<p class=MsoTocHeading><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Table of Contents</span></font></p>
+
+<p class=MsoToc1><a href="#_Toc482089544"><span lang=EN-US>Features</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>1</span></font></a></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089545"><span lang=EN-US>System Requirements</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>3</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089546"><span lang=EN-US>Installation</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>3</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089547"><span lang=EN-US>About this document</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>3</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089548"><span lang=EN-US>Navigating and tabs</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>4</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089549"><span lang=EN-US>Keyboard shortcuts</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>4</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089550"><span lang=EN-US>Main menu</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>5</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089551"><span lang=EN-US>Tutorial</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'> </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>6</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089552"><span lang=EN-US>Singleplayer Mode
+and Quests</span><font color=black><span style='color:windowtext;display:none;
+text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>7</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089553"><span lang=EN-US>Points and quests</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>7</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089554"><span lang=EN-US>The quests</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>8</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089555"><span lang=EN-US>Tsumego</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>9</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089556"><span lang=EN-US>Creating a game</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>11</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089557"><span lang=EN-US>Methods of creating
+a game</span><font color=black><span style='color:windowtext;display:none;
+text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>12</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089558"><span lang=EN-US>Ingame screen</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>14</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089559"><span lang=EN-US>Gameplay</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>15</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089560"><span lang=EN-US>Control menu</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>15</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089561"><span lang=EN-US>Analyze mode</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>16</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089562"><span lang=EN-US>Chat</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>17</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089563"><span lang=EN-US>Online play</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>17</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089564"><span lang=EN-US>Logging in</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>18</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089565"><span lang=EN-US>Disconnecting</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>18</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089566"><span lang=EN-US>Pandanet</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>18</span></font></a></span></font></p>
+
+<p class=MsoToc2><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089567"><span lang=EN-US>KGS</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>20</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089568"><span lang=EN-US>Library</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>22</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089569"><span lang=EN-US>Statistics</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>23</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089570"><span lang=EN-US>Settings</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>24</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089571"><span lang=EN-US>Help</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>27</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089572"><span lang=EN-US>AI programs</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>28</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089573"><span lang=EN-US>Troubleshooting</span><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>28</span></font></a></span></font></p>
+
+<p class=MsoToc1><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><a href="#_Toc482089574"><span lang=EN-US>About the
+developers</span><font color=black><span style='color:windowtext;display:none;
+text-decoration:none'>. </span></font><font
+color=black><span style='color:windowtext;display:none;text-decoration:none'>29</span></font></a></span></font></p>
+
+<p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
+
+<font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:"Calibri",sans-serif'><br clear=all style='page-break-before:
+always'>
+</span></font>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>&nbsp;</span></font></p>
+
+<h1><a name="_Toc482089545"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>System Requirements</span></font></a></h1>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Minimum system
+requirements:</span></font></b></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>OS: Windows 10 Anniversary Update</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Processor: x86, x64 or ARM</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Memory: 1 GB RAM</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Storage: 200 MB</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>A Microsoft account</span></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Note:</span></font></b></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>A desktop PC, a mobile phone and a
+tablet that satisfy the above requirements will always run omegaGo. XBox One
+may run the game with limitations.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Any device capable of running the
+Windows 10 operating system can run omegaGo.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>A more powerful processor and
+additional RAM memory will allow the AI programs to be faster and stronger.</span></p>
+
+<h1><a name="_Toc482089546"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Installation</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The game may normally only be installed via <i><span
+style='font-style:italic'>Windows Store</span></i>. To install it that way,
+find the game in the Store (search for “omegaGo”) and acquire the game by
+clicking <b><span style='font-weight:bold'>Get the game</span></b>.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If you don’t have a Microsoft account or for some
+other reason don’t want to use the Store, you may install the game via <i><span
+style='font-style:italic'>sideloading</span></i>, although this is a
+complicated process. Contact the developers at </span><a
+href="mailto:omegagoteam@outlook.com"><font size=2 face=Arial><span lang=EN-US
+style='font-size:9.5pt;line-height:107%;font-family:"Arial",sans-serif'>omegagoteam@outlook.com</span></font></a></font><span
+lang=EN-US> to receive assistance. </span></p>
+
+<h1><a name="_Toc482089547"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>About this document</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The game can be played on desktop computer, mobile
+devices and on XBox One.  These device families use different means of
+interaction, but in this document, for consistency, we’ll use desktop controls
+(“click a button”, “move mouse over a button”) but equivalent actions do the
+same thing on other device families.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>This document is available only in English and will
+use English titles on buttons and such.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>This document describes omegaGo as a client
+application. It doesn't explain the rules of Go as a board game, but it does
+point you to the tutorial and to help pages that do explain them.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Screenshots are all taken in the default theme
+settings and reflect the game as it was in May 2017. The game may have been
+updated since then so the screenshots may be a little out of date. </span></font></p>
+
+<font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:"Calibri",sans-serif'><br clear=all style='page-break-before:
+always'>
+</span></font>
+
+<p class=MsoNormal><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%;font-family:"Calibri Light",sans-serif;
+color:#2E74B5'>&nbsp;</span></font></p>
+
+<h1><a name="_Toc482089548"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Navigating and tabs</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>omegaGo uses a tabbed interface. Each tab you have
+open contains a screen. The application first starts with the main menu screen
+opened in a single tab. You may switch between tabs by clicking them or by
+using keyboard shortcuts on desktop.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=24 id="Obrázek 1"
+src="omegaGo%20User%20Guide_soubory/image002.png"></span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>To create a new tab, click the &quot;plus&quot; button
+in the tab row or press Ctrl+T on desktop. To close a tab, click the
+&quot;x&quot; button in the tab or press Ctrl+W on desktop. Some actions or
+events will open new tabs on their own, such as when you receive a match
+request. Some actions or events may also open that new tab in the foreground,
+making it active, such as when you start observing a game.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Tabs remember their navigation history. You may click
+the back arrow button on some screens to go back to the previous screen. You
+may also right-click the tab and select &quot;Go back&quot;. Finally, on
+desktop, you may press Esc to return to the previous screen. You cannot go back
+from an ingame screen (you must close it instead). Going back from the main
+menu screen will close the tab.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Closing the last tab will prompt you whether you want
+to close the application.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=171
+src="omegaGo%20User%20Guide_soubory/image003.jpg"></span></font><span
+lang=EN-US>Some events will cause a tab to blink. For example, if a move is
+made in a game that you're observing, the tab with that game will begin to
+blink. Blinking will stop when you switch to that tab. If that tab was already
+open, the blinking won't even start.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=28 id="Obrázek 3"
+src="omegaGo%20User%20Guide_soubory/image004.jpg"></span></font><span
+lang=EN-US>The title bar also contains a feedback button. Clicking it will open
+the Feedback Hub which allows you to submit comments to the developers.</span></p>
+
+<h1><a name="_Toc482089549"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Keyboard shortcuts</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>On desktop, you may use the following keyboard
+shortcuts:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Esc</span></b> to return to the previous screen.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Alt+Enter</span></b> to toggle fullscreen mode.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Ctrl+T</span></b> to create a new tab with Main menu open.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Shift+T</span></b> and <b><span style='font-weight:bold'>Ctrl+Shift+T</span></b>
+to move between open tabs.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Ctrl+1</span></b> to <b><span style='font-weight:bold'>Ctrl+9</span></b>
+to switch to the tab with that index.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Press <b><span style='font-weight:
+bold'>Ctrl+W</span></b> to close the current tab.</span></p>
+
+<h1><a name="_Toc482089550"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Main menu</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image005.jpg"></span></font><span
+lang=EN-US>Each button has a tooltip that appears if you move your mouse over
+it. </span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Tutorial
+</span></b><span lang=EN-US>will send you to the start of the tutorial. You may
+choose to not have this button in the main menu by using an option in settings.
+</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Singleplayer</span></b><span
+lang=EN-US> will send you to the singleplayer menu</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Local
+game </span></b><span lang=EN-US>will allow you to set parameters for a
+non-online game (a demo board, or play against an AI)</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Pandanet</span></b><span
+lang=EN-US> will send you to the Pandanet lobby</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>KGS </span></b><span
+lang=EN-US>will send you to the KGS lobby</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Game
+library</span></b><span lang=EN-US> will send you to the library</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Statistics</span></b><span
+lang=EN-US> will send you to the statistics screen</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Settings</span></b><span
+lang=EN-US> will send you to the settings screen</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Help </span></b><span
+lang=EN-US>will send you to the help screen</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>There are a few additional buttons in the main menu:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The button in the top right corner
+(on Windows desktop only) toggles fullscreen mode. The fullscreen mode is
+actually just windowed borderless so feel free to alt-tab at will!</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The button in the bottom left
+corner allows you to change the game language (you may switch between Czech and
+English).</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face="Courier New"><span lang=EN-US style='font-size:11.0pt;line-height:
+107%;font-family:"Courier New"'>o<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></font></span></font><span
+lang=EN-US>The option “Auto” will select a language based on the display
+language of your operating system</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The button next to it determines
+whether sound effects are muted. If sound waves are shown, then sound effects
+are not muted.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The feedback button in the bottom
+right corner of the menu will open the Feedback Hub. You may use this to send
+feedback to the developers. You may also send an email to </span><a
+href="mailto:omegagoteam@outlook.com"><span lang=EN-US>omegagoteam@outlook.com</span></a><span
+lang=EN-US> instead.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>There is also a hidden creature in
+the bottom right corner of the menu. He's attempting to live a happy life.
+Please don’t disturb him.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If you press Esc while in the main menu (desktop
+only), you will be prompted whether you want to exit the application. The only
+other ways to exit the application are by clicking the ‘X’ button in the window
+border or by pressing Alt+F4 (desktop only).</span></font></p>
+
+<h1><a name="_Toc482089551"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Tutorial</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image006.jpg"></span></font><span
+lang=EN-US>The tutorial will introduce you to the game of Go. You don’t need to
+know anything about Go to play the tutorial.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>To exit the tutorial on desktop, you must use the Esc
+key. Leaving the tutorial will abandon your progress. But don’t worry, the
+tutorial isn’t long.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the tutorial screen, from top to bottom, you can
+see:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Sensei’s instructions. Read them
+to learn about Go and to know what to do.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The game board. The tutorial is
+explained on a 9x9 game board. You can interact with this board when the sensei
+allows it.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>A choice dialog. Sometimes, you
+can respond to sensei in two different ways. Here you may select your answer.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>A “Next” button. Sometimes, all
+you need to progress is to click a button.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>To progress in the tutorial, depending on what the
+sensei says, you must:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Select a sentence to speak;</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Click the button; or</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Select a position on the game
+board.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Sometimes, sensei will helpfully highlight a position
+on the game board for you to select. When that happens, you can only progress
+by clicking the highlighted tile. Sometimes, however, you will be on your own.
+If you don’t know where to click, reread the sensei’s instructions, and if
+worst comes to worst, click randomly?</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The tutorial is available in both Czech and English.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>At the end of the tutorial, you will be returned to
+the main menu.</span></font></p>
+
+<h1><a name="_Toc482089552"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Singleplayer Mode and
+Quests</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image007.jpg"></span></font><span
+lang=EN-US>The singleplayer menu is a hub screen from where you may move to
+several other screens.</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Click <b><span style='font-weight:
+bold'>Tutorial</span></b> to go to the start of the tutorial (this is also
+accessible from the main menu).</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Click <b><span style='font-weight:
+bold'>Solve puzzles</span></b> to go to the tsumego menu screen where you can
+select tsumego problems to solve.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Click <b><span style='font-weight:
+bold'>Play against AI </span></b>to start a new local game against an AI
+program. This has the same effect as when you click &quot;Local game&quot; from
+the main menu, except that your opponent is preselected as Fuego, the AI
+program we recommend.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Click <b><span style='font-weight:
+bold'>Statistics</span></b> to go to the statistics screen.</span></p>
+
+<h2><a name="_Toc482089553"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Points and quests</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the singleplayer menu, you may also view your <b><span
+style='font-weight:bold'>points total</span></b>. You start with 0 points.
+Completing and winning games will earn you points, but you will gain the most
+points by completing <b><span style='font-weight:bold'>quests</span></b>. </span></font><img
+width=149 height=58 src="omegaGo%20User%20Guide_soubory/image008.jpg"
+align=left hspace=12><span lang=EN-US>Whenever you gain points, that will be
+shown in a notification bubble in the top right corner of the window.</span></p>
+
+<p class=MsoNormal align=right style='text-align:right'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>&nbsp;</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Points and quests are an optional part of the game.
+Earning points will not cause any additional features of the game to become
+available and there is little push for you to earn them. It is only up to you!</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>By earning points, you may be granted <b><span
+style='font-weight:bold'>ranks</span></b>. You start at the rank Omega Novice.
+You will &quot;rank up&quot; when you have 100 points and be granted the next
+rank. You may continue earning up until you are granted the rank of Omega
+Graduate at which point you are probably very skilled and working to win
+real-life Go tournaments! Your current rank and the points total that you need
+to acchieve the next rank are also shown in the singleplayer menu.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may have up to 3 &quot;quests&quot; active at a
+time. You start with 1 quest. Every midnight, local time, you will receive an
+additional random quest, even if omegaGo is not running. However, you cannot
+accumulate more than 3 quests as that would violate the restriction of having
+at most 3 active quests.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Your quests are shown in the singleplayer menu and
+contain information about how they can be completed. Clicking the <b><span
+style='font-weight:bold'>Try this now</span></b> button in the quest will take
+you to a screen where that quest can be completed. Successfully completing a
+quest will earn you points specified in its reward. For some quests, this
+button is not available. For example, the <i><span style='font-style:italic'>Traditional</span></i>
+quest requires you to play on a 19x19 board but it's up to you whether you want
+to play against an AI, play a hotseat game or play against online players. The
+poor button wouldn't know where to send you!</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Once per day, you may also <b><span style='font-weight:
+bold'>replace</span></b> one of your quests. Replacing a quest will destroy it,
+but you will immediately receive a different randomly selected quest. A day is
+the period of time between local midnight and the next local midnight.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>All of your currently active quests are guaranteed to
+be distinct (except for a special hidden quest that may sometimes show up!). </span></font></p>
+
+<h2><a name="_Toc482089554"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>The quests</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Quests vary by difficulty with more difficult quests
+offering more points. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>This table summarizes all quests:</span></font></p>
+
+<table class=MsoTable15Grid4Accent1 border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none'>
+ <tr>
+  <td width=211 valign=top bgcolor="#FFFF00" style='width:158.45pt;border:solid #5B9BD5 1.0pt;
+  border-right:none;background:#5B9BD5;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><b><font size=2 color=white face=Calibri><span lang=EN-US
+  style='font-size:11.0pt;color:white;font-weight:bold'>Quest name</span></font></b></p>
+  </td>
+  <td width=186 valign=top bgcolor="#FFFF00" style='width:139.15pt;border-top:
+  solid #5B9BD5 1.0pt;border-left:none;border-bottom:solid #5B9BD5 1.0pt;
+  border-right:none;background:#5B9BD5;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><b><font size=2 color=white face=Calibri><span lang=EN-US
+  style='font-size:11.0pt;color:white;font-weight:bold'>Short description</span></font></b></p>
+  </td>
+  <td width=204 valign=top bgcolor="#FFFF00" style='width:153.2pt;border:solid #5B9BD5 1.0pt;
+  border-left:none;background:#5B9BD5;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><b><font size=2 color=white face=Calibri><span lang=EN-US
+  style='font-size:11.0pt;color:white;font-weight:bold'>Difficulty</span></font></b></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Epic</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  on 25x25.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Extreme</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Getting
+  Stronger</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Win
+  against Fuego.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Easy</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Great
+  Learner</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Solve
+  20 problems.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Hard</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Hidden
+  Quest!</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Lose
+  a quest due to update.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Extreme</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Pandanet
+  Challenge</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  3 Pandanet games.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Hard</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>KGS
+  Challenge</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  3 KGS games.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Hard</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Learner</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Solve
+  5 problems.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Easy</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Net
+  Traditional</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  1 online 19x19 game.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Hard</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Pure
+  Skill</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Win
+  against Fuego on even.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Extreme</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Human
+  &gt; Computer</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Win
+  3 solo games.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Medium</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Traditional</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  on 19x19.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Easy</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Total
+  Mastery</span></font></p>
+  </td>
+  <td width=186 valign=top style='width:139.15pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Defeat
+  Fuego w/ 3 stones.</span></font></p>
+  </td>
+  <td width=204 valign=top style='width:153.2pt;border-top:none;border-left:
+  none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Extreme++</span></font></p>
+  </td>
+ </tr>
+ <tr>
+  <td width=211 valign=top bgcolor="#33FF00" style='width:158.45pt;border:solid #9CC2E5 1.0pt;
+  border-top:none;background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Uneven
+  Strength</span></font></p>
+  </td>
+  <td width=186 valign=top bgcolor="#33FF00" style='width:139.15pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Play
+  with handicap.</span></font></p>
+  </td>
+  <td width=204 valign=top bgcolor="#33FF00" style='width:153.2pt;border-top:
+  none;border-left:none;border-bottom:solid #9CC2E5 1.0pt;border-right:solid #9CC2E5 1.0pt;
+  background:#DEEAF6;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+  normal'><font size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt'>Medium</span></font></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>&nbsp;</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The difficulties and point rewards may be changed in
+the future in balance patches. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If the game updates to a newer version but you already
+had a quest active, if that quest no longer exists in the new version, your
+quest will transform into a hidden quest with extra large rewards! Thank you
+for updating the game!</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>When completing quests, it is recommended you follow
+the spirit of the tasks. For example, you might be able to complete quests more
+quickly by playing on a 2x2 board but that can hardly be called “playing Go”.</span></font></p>
+
+<h1><a name="_Toc482089555"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Tsumego</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>A <b><span style='font-weight:bold'>tsumego problem</span></b>
+(also called simply &quot;tsumego&quot; and sometimes &quot;a Go puzzle&quot;
+or &quot;a life-and-death problem&quot;) is a puzzle where you are presented
+with a Go board state and your objective is to kill an enemy group or to ensure
+your own group lives. Tsumego problems can be found in print or in computer
+applications such as this one.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Advanced Go players agree that solving tsumego
+problems is a good way to improve your strength and skill level.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image009.jpg"></span></font><b><span
+lang=EN-US style='font-weight:bold'>Accessing problems: </span></b><span
+lang=EN-US>From the singleplayer menu, click <b><span style='font-weight:bold'>Solve
+puzzles</span></b> to move to the tsumego menu screen where you will see all
+available problems. A check mark means that you have already solved that
+problem previously. Select a problem to open it.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image010.jpg"></span></font><span
+lang=EN-US>Once you open a problem, you will have the following controls on
+screen:</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>1.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If the <b><span style='font-weight:
+bold'>Show possibles moves</span></b> box is checked, the program will advise
+you by highlighting possible moves that you can make. Making a move outside of
+the highlighted positions will always be wrong, but not all highlighted
+positions are correct, either. Having this box checked will greatly decrease
+the difficulty of the problems.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>2.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The <b><span style='font-weight:
+bold'>Previous problem</span></b> and <b><span style='font-weight:bold'>Next
+problem</span></b> buttons will cause the current problem to be temporarily
+abandoned and will open another problem.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>3.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The <b><span style='font-weight:
+bold'>Undo last move</span></b> button will revert the last move you made. Any
+moves made automatically by the game after the last move made by you are
+reverted as well.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>4.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>After that button, you will see <b><span
+style='font-weight:bold'>Correct! </span></b>or <b><span style='font-weight:
+bold'>Wrong! </span></b>if you made moves that already guarantee that your
+objective will succeed or fail. As soon as you can see the <b><span
+style='font-weight:bold'>Correct!</span></b> box, the problem is considered
+solved.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Click positions on the board to make moves. After each
+of your moves, unless the problem is already over (one way or the other), the
+game will make a move for your opponent. It will make the best possible
+response to your move.  </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may solve the same puzzle as many times as you
+want but only the first time will count towards progress on your quests and
+only the first success will be counted in your statistics.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If you believe you have found an alternate solution to
+a puzzle that is not accepted by the app, please send us a message at </span><a
+href="mailto:omegagoteam@outlook.com"><font size=2 face=Arial><span lang=EN-US
+style='font-size:9.5pt;line-height:107%;font-family:"Arial",sans-serif'>omegagoteam@outlook.com</span></font></a></font><span
+lang=EN-US>. Mention the name of the problem please.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The bar on the left contains additional information
+about tsumego or about the specific problem, but if you don't need that
+information, you may ignore it. You generally won't need the information.</span></font></p>
+
+<h1><a name="_Toc482089556"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Creating a game</span></font></a><span
+lang=EN-US> </span></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>When you're setting up a game or when you're deciding
+whether to accept or refuse a game, you will be presented with a screen such as
+this:</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image011.jpg"></span></font><span
+lang=EN-US>You will note a number of options. Some of them might not be visible
+or enabled under some circumstances. For example, when you're looking at a KGS
+challenge, you won't be able to change the board size (you're not the challenge
+creator) and when you're playing on Pandanet, your time control options will be
+limited because the server doesn't support all time control systems that
+omegaGo supports.</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Board
+size.</span></b><span lang=EN-US> Determines the size of the Go board. If you
+don't want to play on a standard size board, you may click <b><span
+style='font-weight:bold'>Custom...</span></b> to use any size you want (with
+reason; your computer probably won't handle a 100x100 board very well). Servers
+have strict limitations on permitted board sizes and require the board to be
+square. Most AI programs also need a square board size.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Ruleset.</span></b><span
+lang=EN-US> Determines whether the game will use Chinese, Japanese or AGA
+rules.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Black
+player.</span></b><span lang=EN-US> Determines whether the black player is a
+human playing on this device or an AI program and if so, what program. Some AI
+programs are configurable, see the section &quot;AI programs&quot; for details.
+To configure an AI program, click the button <b><span style='font-weight:bold'>More...</span></b>.
+</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>White
+player</span></b><span lang=EN-US>.<b><span style='font-weight:bold'> </span></b>As
+above, except for white.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Switch
+colors.</span></b><span lang=EN-US> Pressing this button will exchange the
+values in the <i><span style='font-style:italic'>Black player</span></i> and <i><span
+style='font-style:italic'>White player </span></i>fields. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Handicap.</span></b><span
+lang=EN-US> Determines the number of black handicap stones that will be placed
+on the board automatically as the game begins.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Time
+control.</span></b><span lang=EN-US> Shows the time control system used for the
+game. Click the button next to it to change it. Several time control systems
+are available: <i><span style='font-style:italic'>no time control, absolute
+timing, japanese byo-yomi </span></i>and <i><span style='font-style:italic'>canadian
+byo-yomi. </span></i>All systems are explained in the form. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Komi. </span></b><span
+lang=EN-US>Determines the amount of points that will be added to white's score
+as compensation for playing second. Komi may be negative. Komi must be a
+half-integer, such as &quot;0&quot;, &quot;2&quot; or &quot;7.5&quot;.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Submission
+button.</span></b><span lang=EN-US> The button at the bottom of the form will
+validate the form and if the validation succeeds, the game will be created.
+What exactly happens depends on how you came to the form (see further down). </span></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Validation.</span></font></b><span
+lang=EN-US> You cannot start a game with invalid values. If you entered
+unsupported values in some of the form fields, you will be  told when you
+submit the form, and the form will not submit. This will happen, for example,
+when you put a non-integer value into a field that requires integers.</span></p>
+
+<h2><a name="_Toc482089557"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Methods of creating a game</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>There are several methods of how a game can come to
+exist.</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>1.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Local.
+</span></b><span lang=EN-US>A local game may be created from the main menu or
+from the singleplayer menu. In this case, the submission button will create and
+open that game in a new tab. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle><font size=2 face=Calibri><span
+style='font-size:11.0pt;line-height:107%'><img border=0 width=250 height=273
+id="Obrázek 11" src="omegaGo%20User%20Guide_soubory/image012.jpg"></span></font></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>2.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Pandanet
+Challenge.</span></b><span lang=EN-US> You may challenge a Pandanet player from
+the Pandanet lobby. In that case, you will be limited to options that Pandanet
+supports and instead of selecting an AI (or Human) for each color, you will
+choose which color you want to play yourself. Your opponent's name will also be
+displayed. The submission button will issue the challenge to that player and
+close the form.<br>
+</span><img border=0 width=282 height=200 id="Obrázek 13"
+src="omegaGo%20User%20Guide_soubory/image013.jpg"></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>3.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Pandanet
+Incoming Challenge.</span></b><span lang=EN-US> When a player challenges you on
+Pandanet, a new blinking tab will appear with that challenge. You will not be
+able to change any values on that form. There will be two buttons, one to
+accept and one to reject the challenge. Accepting will create the game and open
+it in a new tab. Both buttons will close the form.<br>
+</span><img border=0 width=291 height=200 id="Obrázek 12"
+src="omegaGo%20User%20Guide_soubory/image014.jpg"></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>4.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>KGS
+Setup Challenge. </span></b><span lang=EN-US>You may create an open KGS
+challenge in a KGS room. You will be limited to options that KGS supports in
+much the same way Pandanet challenge works, except that it won't be for a
+specific opponent. The submission button will close the form and create that
+challenge. A new tab with that challenge will open immediately and then you
+will need to wait for a challenger.<br>
+</span><img border=0 width=291 height=185 id="Obrázek 14"
+src="omegaGo%20User%20Guide_soubory/image015.jpg"></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>5.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>KGS
+Challenge.</span></b><span lang=EN-US> When you create or join a challenge, you
+will be shown the challenge's properties but you won't be able to change them.
+Your opponent's name will be shown. Both players need to accept the challenge
+for it to be created. When both do, the game will be created and the challenge
+form will close.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>a.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If you joined the challenge of
+another player, you will be able to accept it (after they accept your
+challenge) or remove yourself from the challenge.</span><span lang=EN-US> </span><img
+border=0 width=289 height=197 id="Obrázek 15"
+src="omegaGo%20User%20Guide_soubory/image016.jpg"></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>b.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If you created the challenge, you
+will be able to accept a challenger as your opponent, cancel the challenge
+altogether or decline only that particular challenger, but leave the challenge
+open for other players.</span><br>
+<br>
+</p>
+
+<h1><a name="_Toc482089558"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Ingame screen</span></font></a><span
+lang=EN-US> </span></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=354
+src="omegaGo%20User%20Guide_soubory/image017.png"></span></font><span
+lang=EN-US>Depending on the game mode, some controls might not be available.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>1 – <b><span style='font-weight:bold'>Go board.</span></b>
+Click on intersections to make moves or to remove stones during the Stone
+Removal Phase.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>2 –<b><span style='font-weight:bold'> Control menu. </span></b>Additional
+actions can be performed from here.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>3 – <b><span style='font-weight:bold'>Side bar.</span></b>
+Contains information about the game, chat window and offers actions.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>4 – <b><span style='font-weight:bold'>Player
+information.</span></b> For each player, their color, name, number of captures
+and remaining time is displayed. If you move mouse over the small line of text
+under the remaining time display, a tooltip will show up giving details. This
+information always reflects the current state of the game, not the game as it
+existed in the past or while analyzing.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>5 – <b><span style='font-weight:bold'>Turn player.</span></b>
+Says which player is on turn.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>6 – <b><span style='font-weight:bold'>Pass. </span></b>Click
+this button to pass.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>7 – <b><span style='font-weight:bold'>Undo. </span></b>Click
+this button to move one move backwards. All moves after your just-before-last
+move will be undone, including all moves by an AI opponent or online player.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>8 – <b><span style='font-weight:bold'>Chat.</span></b>
+Type a line in the box and press Enter or click <b><span style='font-weight:
+bold'>Send</span></b> to send a message to your opponent. Chat only appears
+when playing online.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>9 – <b><span style='font-weight:bold'>Timeline. </span></b>Move
+left to see board state from the past of the game, or move fully to the right
+to see the current board state of the game. You cannot make moves when you’re
+not in the last node – you cannot change history. If you want to do so anyway,
+use the Undo button.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If the omegaGo window is smaller, you might see a
+different arrangement of controls, or the side bar might be below the game
+board rather than to the right. You may scroll up and down.</span></font></p>
+
+<h2><a name="_Toc482089559"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Gameplay</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>When it’s your turn to play, click an empty
+intersection on the board to make a move there. Illegal moves won’t be
+accepted. You may also click <b><span style='font-weight:bold'>Pass</span></b>
+to pass. If you’re playing online, the move won’t be made until the server
+confirms it. In that case, wait a moment until the placed stone appears.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>When both players passed in a row (three passes are
+needed on Pandanet and in some situations under AGA rules), the game moves to
+Stone Removal Phase. While in this phase, click stones to mark them as removed
+(dead). Additionally, when playing on KGS, you may click a removed stone to
+bring it back in the game. Removing a stone might cause other stones to be
+removed as well – this depends on the server. In local games, all stones in the
+same group will be removed.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=354
+src="omegaGo%20User%20Guide_soubory/image018.jpg"></span></font><span
+lang=EN-US>In this phase, you may use buttons to revert all stone removals
+(except on KGS), to confirm that you’re satisfied with the removed stones or to
+return back to the game. Returning back to the game is not possible on
+Pandanet.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>When you confirm that you’re satisfied (or when both
+players confirm if it’s an online game), the game is scored and the results are
+shown and the game is over.</span></font></p>
+
+<h2><a name="_Toc482089560"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Control menu</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The following options may be available in the control
+menu:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>1.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Resign.</span></b><span
+lang=EN-US> Causes you to lose the game. There is no confirmation window.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><b><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-weight:bold'>2.<font size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font></b><b><span lang=EN-US style='font-weight:bold'>Get
+Hint.</span></b><span lang=EN-US> Asks your assistant to recommend a move for
+you. This may take a couple of seconds.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><b><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-weight:bold'>3.<font size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font></b><b><span lang=EN-US style='font-weight:bold'>Analyze
+Mode.</span></b><span lang=EN-US> Enters the Analyze Mode, where you can plan
+your moves ahead of time or look at what the game would look like if you made
+different moves. To exit Analyze mode, click <b><span style='font-weight:bold'>Back
+to game</span></b> in the side bar.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><b><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-weight:bold'>4.<font size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font></b><b><span lang=EN-US style='font-weight:bold'>Hide
+tabs. </span></b><span lang=EN-US>Hides the title bar and the tabs so that
+there’s more space for the board. They reappear when you click the button again
+or when you switch to a non-game tab.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><b><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-weight:bold'>5.<font size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font></b><b><span lang=EN-US style='font-weight:bold'>Save
+SGF.</span></b><span lang=EN-US> Saves the current game tree as an SGF file
+into the library.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><b><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-weight:bold'>6.<font size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font></b><b><span lang=EN-US style='font-weight:bold'>System
+log.</span></b><span lang=EN-US> Shows a system log of game events in the side
+bar. The system log is in English only, and may be incomprehensible to many
+people.</span></p>
+
+<h2><a name="_Toc482089561"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Analyze mode</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In Analyze mode, the timeline is hidden and replaced
+with a game tree and with analyze tools. Analyze mode functions as an SGF
+editor. You may add markup, add or remove variations and comment on moves. But
+you can also plan your moves ahead of time by switching between Analyze mode
+and game mode during a game.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=354
+src="omegaGo%20User%20Guide_soubory/image019.png"></span></font><span
+lang=EN-US>1 – <b><span style='font-weight:bold'>Stone Placement Tool.</span></b>
+Select this to place stones of alternating colors on the board.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>2 – <b><span style='font-weight:bold'>Delete Branch.</span></b>
+Click this to remove the branch starting with the current move from the game
+tree. Moves that are part of the game cannot be removed (these are the moves
+from the beginning of the game, in a straight line, until the last real
+non-analyze move).</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>3 – <b><span style='font-weight:bold'>Letter Tool.</span></b>
+Add letters to points on the board. You will always add the letter that’s as
+closest to A alphabetically as possible while not yet being on the board. At
+most 26 letters can be on the board.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>4 – <b><span style='font-weight:bold'>Number Tool.</span></b>
+Add numbers to points on the board. This functions as Letter Tool, except that
+you can place unlimited numbers.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>5 – <b><span style='font-weight:bold'>Markup Tools.</span></b>
+Select this to place markup symbols (square, triangle, circle and x) to points
+on the board. Attempting to place a symbol on a point that already has a symbol
+will instead remove the symbol that’s there.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>6 – <b><span style='font-weight:bold'>Back to game.</span></b>
+Exits Analyze mode and returns you to the current move of the game. This button
+is not available if you loaded the game tree from the Library instead of
+clicking <b><span style='font-weight:bold'>Analyze mode</span></b> while in a
+game.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>7 – <b><span style='font-weight:bold'>Pass.</span></b>
+Add a “Pass” move to the current branch. Use this to switch between colors
+without making a move of the other color.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>8 – <b><span style='font-weight:bold'>Commentary box.</span></b>
+Type in comments on the current move.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>9 – <b><span style='font-weight:bold'>Game tree. </span></b>Shows
+the game tree. Click a move to see that move on the board and edit it. The game
+moves from left to right. The move that’s the most top left is the first move.
+The move you’re currently viewing and editing is highlighted. </span></font></p>
+
+<h2><a name="_Toc482089562"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Chat</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In online games, you may chat with your opponent. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If it’s a game you’re playing, you, you opponent and
+any users who download the game record from the server, will be able to see you
+chat. In addition, any KGS spectators will be able to see your chat.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If it’s a game you’re spectating, only you and other
+spectators will be able to see your chat. Players will be able to see your chat
+only when the game is over, if they download the game record from KGS. This is
+called “kibitzing”.</span></font></p>
+
+<h1><a name="_Toc482089563"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Online play</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may play against other players on Internet Go
+servers. Two servers are supported – Pandanet (also known as IGS) and the KGS
+Go Server. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Playing against other human players is very fun and
+you will find suitably strong opponents regardless of your skill level on both
+supported servers if you are willing to play on the full 19x19 board. </span></font></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>User account
+required. </span></font></b><span lang=EN-US>For both servers, you will need a
+user account. The sections below describe how to get one.</span></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Rank measures your
+skill level.</span></font></b><span lang=EN-US> Each online server maintains
+your &quot;rank&quot;, a level of skill measured from around &quot;30 kyu&quot;
+(the weakest skill level) up to &quot;1 kyu&quot; (a very strong level), after
+which the order reverses and the next rank is called &quot;1 dan&quot; and this
+goes up to &quot;9 dan&quot; which is the strong rank measured by online
+servers. </span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>&quot;kyu&quot; and &quot;dan&quot; are words from
+Japanese. The lowest rank for the Pandanet server is 17 kyu. This means that
+when you first log in to your Pandanet account and view the Statistics screen,
+you will note that your Pandanet rank is &quot;17k&quot; (&quot;k&quot; is an
+abbreviation for &quot;kyu&quot;).</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Your rank rises and falls automatically as you win and
+lose games. More information about the rating system may be found on the
+official websites of both servers.</span></font></p>
+
+<h2><a name="_Toc482089564"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Logging in</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=263 id="Obrázek 24"
+src="omegaGo%20User%20Guide_soubory/image020.jpg"></span></font><span
+lang=EN-US>The login screen for each server will ask you for your username and
+password. It will remember your username for that server, and if you check the <b><span
+style='font-weight:bold'>Remember password</span></b> button, it will also
+remember that. These credentials will be roamed and shared between all of your
+devices where you have omegaGo installed.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may also check <b><span style='font-weight:bold'>Login
+at startup</span></b> to automatically log in to that server when you launch
+omegaGo. If that login fails, you will be notified with a bubble notification
+in the top right corner of the window.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may be logged in to both servers at the same time.</span></font></p>
+
+<h2><a name="_Toc482089565"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Disconnecting</span></font></a></h2>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>If you log out or are disconnected, either because you
+lost internet connection, the server went offline or because you logged in at
+another device, all ongoing games will be cancelled and you won't be able to
+return to them.</span></font></p>
+
+<h2><a name="_Toc482089566"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>Pandanet</span></font></a></h2>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Registration</span></font></h3>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>To get a Pandanet account, click the link on the
+Pandanet login screen. You will be taken to a web page where you can create an
+account, then you must confirm your email address, and then you can log in to
+your account in omegaGo.</span></font></p>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Lobby</span></font></h3>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the lobby, you may find games to observe or
+challenge players to a game.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=433
+src="omegaGo%20User%20Guide_soubory/image021.jpg"></span></font><span
+lang=EN-US>At the bottom of the screen, you will find a command bar the
+following buttons:</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Logout.</span></b><span
+lang=EN-US> You will be logged out of Pandanet.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Looking
+for a game.</span></b><span lang=EN-US> If you check this, you are more likely
+to receive match requests from other players. You will find in the Visibility
+submenu in the bottom right of the screen.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Refuse
+all incoming match requests.</span></b><span lang=EN-US> If you check this,
+other Pandanet users will not be able to send you match requests. You will find
+in the Visibility submenu in the bottom right of the screen.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the <b><span style='font-weight:bold'>Spectate a
+game</span></b> tab, you can see a list of games in progress on Pandanet. Use
+the <b><span style='font-weight:bold'>Refresh</span></b> button to download an
+up-to-date list of games. You may sort the games by various criteria.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Left-click a game to start watching the game in a new
+tab. If that doesn't happen, the game you selected probably ceased to exist
+since then. Refresh the list to see it updated.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the <b><span style='font-weight:bold'>Issue a
+challenge </span></b>tab, you can see a list of users currently logged in to
+Pandanet. Use the <b><span style='font-weight:bold'>Refresh</span></b> button
+to download an up-to-date list of logged-in users. You may sort the players by
+various criteria and filter by name.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Left-click a user to open a form where you can set up<a
+name="_GoBack"></a> a challenge. If the setup fails, that user probably logged
+off in the meantime. Refresh the list to see it updated.</span></font></p>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Notes</span></font></h3>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Not all Pandanet
+features are supported.</span></font></b><span lang=EN-US> Some Pandanet
+features, such as automatch or <i><span style='font-style:italic'>nmatch </span></i>or<i><span
+style='font-style:italic'> </span></i>rooms are not supported by omegaGo.</span></p>
+
+<h2><a name="_Toc482089567"><font size=4 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:13.0pt;line-height:107%'>KGS</span></font></a></h2>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Registration</span></font></h3>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>To get a KGS account, click the link on the KGS login
+screen. This will let you download the official Java-based client for KGS.
+Launch it, click <b><span style='font-weight:bold'>Play on KGS</span></b>, then
+login as a guest. The name that you enter will be your permanent KGS username.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=474 height=365 id="Obrázek 28"
+src="omegaGo%20User%20Guide_soubory/image022.png"></span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>From the main menu of that client, select
+User-Register.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=377
+src="omegaGo%20User%20Guide_soubory/image023.jpg"></span></font><span
+lang=EN-US>Then fill in the form and complete the registration process.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Then you will be able to log in with your account to
+KGS using omegaGo. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>This process may seem arcane, but it is the only way
+to register a new KGS account. The KGS administrators do have plans to create a
+registration web form in the future, though, so fingers crossed!</span></font></p>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Lobby</span></font></h3>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the lobby, you may browse, join and exit rooms. You
+may also browse and join games and challenges.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=601 height=387 id="Obrázek 2"
+src="omegaGo%20User%20Guide_soubory/image024.jpg"></span></font></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Logout. </span></font></b><span
+lang=EN-US>At the bottom of the screen, you may use the <b><span
+style='font-weight:bold'>Logout</span></b> button to logout from KGS.</span></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Refreshing.</span></font></b><span
+lang=EN-US> Data in the lobby is not updated automatically on the fly. Use the <b><span
+style='font-weight:bold'>Refresh</span></b> button in the bottom right to
+reload up-to-date data.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the <b><span style='font-weight:bold'>Games and
+challenges</span></b> tab, you may select a <b><span style='font-weight:bold'>game
+container </span></b>to view the games and challenges within. </span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may then select a game or a challenge in the list
+below. Left-clicking a game or a challenge will cause you to join it. If it's a
+game, you will be an observer. If it's a challenge, you will be the challenger.
+</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>In the <b><span style='font-weight:bold'>Rooms</span></b>
+tab, you may view the list of KGS rooms. Selecting a joined room will give you
+a description of the room. You may <b><span style='font-weight:bold'>join</span></b>
+and <b><span style='font-weight:bold'>unjoin</span></b> rooms. Joining persists
+across launches. If you join a room, you will still be a member of that room
+when you log out. You may <b><span style='font-weight:bold'>create a public
+challenge</span></b> inside rooms that you have joined. This is described in
+the section on creating a game.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=601 height=387 id="Obrázek 4"
+src="omegaGo%20User%20Guide_soubory/image025.jpg"></span></font></p>
+
+<h3><font size=3 color="#1f4d78" face="Calibri Light"><span lang=EN-US
+style='font-size:12.0pt;line-height:107%'>Notes</span></font></h3>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Not all KGS features
+are supported.</span></font></b><span lang=EN-US> Some KGS features, such as
+audio chat, automatch or simul-games, are not supported by omegaGo. Games that
+are no supported (such as teaching games) will not even be shown in the
+interface. </span></p>
+
+<p class=MsoNormal><b><font size=2 face=Calibri><span lang=EN-US
+style='font-size:11.0pt;line-height:107%;font-weight:bold'>Desynchronization.</span></font></b><span
+lang=EN-US> On rare occasions, such as when your opponent requests an undo
+while placing handicap stones, or when they return to the main gameplay phase
+of a game after it was already concluded, a desynchronization error may occur
+if that feature of KGS is not supported by omegaGo. This is something we want
+to address in the future.</span></p>
+
+<h1><a name="_Toc482089568"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Library</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=433
+src="omegaGo%20User%20Guide_soubory/image026.jpg"></span></font><span
+lang=EN-US>In the library, you may view game records (&quot;SGF files&quot;) of
+games you saved from omegaGo. You may also import and open SGF files you
+obtained from elsewhere. omegaGo keeps its library of SGF files in a single
+folder.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You have these global options in this screen:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Load
+SGF file.</span></b><span lang=EN-US> This will prompt you to select an SGF
+file on your device. The file will be imported into omegaGo's library.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Refresh.</span></b><span
+lang=EN-US> This will reload SGF files from omegaGo's library folder.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Open folder
+in Explorer.</span></b><span lang=EN-US> This will open File Explorer with
+omegaGo's library folder open. You may move SGF file from this folder or into
+this folder. This is useful when you want to perform a mass import or a mass
+delete/mass export. When you're done, click <b><span style='font-weight:bold'>Refresh</span></b>
+to make omegaGo reload the contents of the library folder.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>After you select an SGF file from the library, you may
+perform these actions on it:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Open.</span></b><span
+lang=EN-US> Opens the file as a game tree that's shown in Analyze Mode in the
+ingame screen. You won't be able to play it, but all options of an SGF editor
+will be available.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Delete.</span></b><span
+lang=EN-US> Asks for a confirmation. If confirmed, the selected file will be
+permanently deleted from the library.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Export.</span></b><span
+lang=EN-US> This will copy the selected file to a location you choose on your
+device.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>There are limitations on permitted SGF files. For
+example, only SGF files that represent a single game tree of a Go game are
+supported. You will be told if an imported SGF file is not supported.</span></font></p>
+
+<h1><a name="_Toc482089569"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Statistics</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=433
+src="omegaGo%20User%20Guide_soubory/image027.jpg"></span></font><span
+lang=EN-US>Here you may view the number of games of various types that you
+played and your number of victories. You will also see your current number of
+points and your omegaGo rank and your rank on online servers.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Available statistics:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Total
+games played: </span></b><span lang=EN-US>Number of completed games played on
+this device</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Solo
+games played: </span></b><span lang=EN-US>Counts only games of a human against
+an AI.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Online
+games played: </span></b><span lang=EN-US>Counts only games of a human against
+a Pandanet or KGS opponent.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Total
+games won: </span></b><span lang=EN-US>Number of won games played on this
+device. This excludes all hotseat games.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Solo
+games won:</span></b><span lang=EN-US> Counts only games of a human against an
+AI.<b><span style='font-weight:bold'> </span></b></span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Online
+games won: </span></b><span lang=EN-US>Counts only games of a human against a
+Pandanet or KGS opponent.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Tsumego
+problems solved: </span></b><span lang=EN-US>A problem is counted as solved
+even if you didn’t get it right on the first try.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Quests
+completed:</span></b><span lang=EN-US> Number of quests that you completed and
+received points for.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Points:
+</span></b><span lang=EN-US>Your current points total.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>omegaGo
+Rank: </span></b><span lang=EN-US>The rank associated with your number of
+points. Increasing your rank has no in-game benefits. But it looks cool!</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Pandanet
+rank: </span></b><span lang=EN-US>The rank of the Pandanet account that last
+logged in to Pandanet on this device using omegaGo</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>KGS
+rank: </span></b><span lang=EN-US>The rank of the KGS account that last logged
+in to KGS on this device using omegaGo</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may also click <b><span style='font-weight:bold'>Reset
+all progress</span></b> which will pop up a confirmation dialog. If you confirm,
+all statistics will be reset to zero, you will lose all points and omegaGo
+rank, but you will keep your current quests. This will also delete information
+on what tsumego problems you have solved.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Pandanet rank and KGS rank sometimes have symbols
+appended to them. The symbol &quot;?&quot; Means that the server is merely
+estimating your rank and isn't sure yet until you play more games. The rank
+&quot;NR&quot; means &quot;not ranked&quot;. It will change as you play games.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Pandanet and KGS ranks are updated whenever you log in
+to those servers using omegaGo.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The statistics are saved on your device and will not
+migrate to other systems where you use omegaGo. </span></font></p>
+
+<h1><a name="_Toc482089570"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Settings</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412
+src="omegaGo%20User%20Guide_soubory/image028.jpg"></span></font><span
+lang=EN-US>In this screen, you may change display settings, audio settings,
+language and settings related to AI programs.</span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Theme.</span></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Board
+theme.</span></b><span lang=EN-US> Sets the texture of the Go board.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Stones
+theme. </span></b><span lang=EN-US>Sets the visual style of Go stones.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Background
+image.</span></b><span lang=EN-US> Sets the picture that's display beneath all
+screens.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Background
+image opacity.</span></b><span lang=EN-US> Determines how much is the picture
+visible. A less visible picture will not distract you as much but also won't be
+as pretty. It's your call!</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Background
+color.</span></b><span lang=EN-US> Sets the overall color and tone of the
+program. Try changing it from time to time to make your experience fresh!</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Set
+default color. </span></b><span lang=EN-US>Click this button to return the
+background color to the default.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Control
+style.</span></b><span lang=EN-US> Sets the style of buttons. Your color
+setting does not affect buttons.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Theme.</span></b><span
+lang=EN-US> You may select a <i><span style='font-style:italic'>Dark</span></i>
+or <i><span style='font-style:italic'>Light</span></i> theme. This determines
+whether the text color is white (in dark theme) or black (in light theme). If
+you choose a dark color as your background, you probably want the dark theme.
+If you choose a light color, choose the light theme.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-top:0cm;margin-right:0cm;
+margin-bottom:0cm;margin-left:72.0pt;margin-bottom:.0001pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>&nbsp;</span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>Here’s
+how the game can look like with a different style:</span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt'><font
+size=2 face=Calibri><span style='font-size:11.0pt;line-height:107%'><img
+border=0 width=602 height=433 id="Obrázek 21"
+src="omegaGo%20User%20Guide_soubory/image029.jpg"></span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Display.</span></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Fullscreen
+mode</span></b><span lang=EN-US>. If checked, the game will occupy the entire
+screen of a single monitor. This is the “borderless windowed” mode, i.e. the
+window frame will be hidden, but you can alt-tab as normal. Fullscreen mode
+setting is not remembered and should be set manually each time. You may use
+Alt+Enter to toggle fullscreen mode.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Highlight
+last move. </span></b><span lang=EN-US>If checked, the last stone placed on the
+board will be highlighted. We strongly recommend you leave this checked as it
+will be help you make sense of the board state.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Show
+coordinates.</span></b><span lang=EN-US> If checked, letters and numbers will
+be shown along the sides of the board to identify coordinates. On
+standard-sized boards (9x9, 13x13 and 19x19), star points are always shown,
+even if this is unchecked.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Show
+the tutorial button in main menu.</span></b><span lang=EN-US> If unchecked, the
+button <i><span style='font-style:italic'>Tutorial</span></i> will be hidden
+from the main menu. You can always access the tutorial from the singleplayer
+menu.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Audio.</span></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Mute
+all.</span></b><span lang=EN-US> If checked, the game will never play any
+sounds. This may also be toggled from the main menu.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Sound
+effects volume.</span></b><span lang=EN-US> Sets the volume of all sound
+effects played by the game. Your system volume and per-app volume also affect
+it. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>When I
+place stone.</span></b><span lang=EN-US> If checked, a sound effect will play
+when you place a stone in play mode or in Analyze mode. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>When
+another player places a stone.</span></b><span lang=EN-US> As above, except
+that the sound will be played in response to an AI program’s move and in
+response to a move received from your online opponent.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>When I
+receive a notification.</span></b><span lang=EN-US> If checked, a sound will be
+played when the game needs your attention, for example, when a game concludes
+or when you are issued a match request by an online player.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Language.
+</span></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>On this tab, you may switch
+between Czech and English. After a switch, you need to close omegaGo and launch
+it again to see this apply. The <i><span style='font-style:italic'>Auto</span></i>
+language means the language of your Windows system. If that language is not
+supported, then it defaults to English.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Some data in the game may not be
+available in Czech and will always display in English. This concerns the help
+pages, information provided by the AI programs, names and descriptions of
+tsumego problems and possibly chatting with your opponent.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Artificial
+intelligence.</span></b></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Assistant
+AI program.</span></b><span lang=EN-US> Select and configure the AI program
+that will provide hints in-game (if you want them). We recommend you always use
+Fuego as the AI program. See the section “AI programs” for more information.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Enable
+hints.</span></b><span lang=EN-US> If unchecked, you will not be able to ask
+for hints in a game.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Enable
+even in online games.</span></b><span lang=EN-US> If unchecked, you will not be
+able to ask for hints in a game against an online opponent. Using hints in
+online games’ ranked mode is frowned upon.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><br>
+</span></font><b><span lang=EN-US style='font-weight:bold'>Roaming: </span></b><span
+lang=EN-US>Most<b><span style='font-weight:bold'> </span></b>of these settings
+persist across launches and across devices. If you set your theme on one
+computer, you will see the same theme when you launch omegaGo using the same
+Microsoft account on another computer. Audio settings, however, stay with the
+device.</span></p>
+
+<h1><a name="_Toc482089571"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Help</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span style='font-size:11.0pt;
+line-height:107%'><img border=0 width=602 height=412 id=picture
+src="omegaGo%20User%20Guide_soubory/image030.jpg"></span></font><span
+lang=EN-US>In the help screen, you may view documents with information about
+the game of Go, its history, its rules and also information about this
+application and view credits and license attributions.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>The menu button in the top left of the screen toggles
+the display of the selection menu.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>These documents are in English only.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Some of the information comes from Sensei's library,
+an online resource we recommend. Other pages come from our team. </span></font></p>
+
+<font size=5 color="#2e74b5" face="Calibri Light"><span lang=EN-US
+style='font-size:16.0pt;line-height:107%;font-family:"Calibri Light",sans-serif;
+color:#2E74B5'><br clear=all style='page-break-before:always'>
+</span></font>
+
+<h1><font size=5 color="#2e74b5" face="Calibri Light"><span lang=EN-US
+style='font-size:16.0pt;line-height:107%'>&nbsp;</span></font></h1>
+
+<h1><a name="_Toc482089572"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>AI programs</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>omegaGo ships with several AI programs that you may
+play against. Each program has some limitations on what games it can play. Most
+programs, for example, only support square boards. Each program is described,
+along with its limitations, when you select it in the Settings menu or when
+you're creating a local game and click the <b><span style='font-weight:bold'>More</span></b>
+button.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>There are the following programs:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Defeatist.</span></b><span
+lang=EN-US> It resigns immediately.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Random</span></b><span
+lang=EN-US>. Makes random moves.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Fish.</span></b><span
+lang=EN-US> Also makes random moves, but differently.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Puppy.</span></b><span
+lang=EN-US> Uses a simple heuristic to select the best move.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Fluffy.</span></b><span
+lang=EN-US> Uses the minimax algorithm to select the best move.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Fuego</span></b><span
+lang=EN-US>. An advanced Monte Carlo AI program.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>For most users, there will be no reason to play
+against any program other than Fuego. Fuego is the most fully-featured program
+in the game and its difficulty is configurable. We recommend you use other
+programs only if Fuego does not support your game configuration.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Fluffy is configurable. You may set the depth of its
+minimax tree. We recommend a depth of about 3 for a fast yet intelligent
+opponent.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Fuego is configurable. You may set three values:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Ponder.
+</span></b><span lang=EN-US>Whether Fuego should think during its opponent's
+turn. We recommend leaving this on.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Allow
+resign.</span></b><span lang=EN-US> Whether Fuego is permitted to resign when
+the situation appears hopeless (its win percentage drops below a certain
+value).</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt'><font size=2
+face=Symbol><span lang=EN-US style='font-size:11.0pt;line-height:107%;
+font-family:Symbol'>·<font size=1 face="Times New Roman"><span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><b><span lang=EN-US style='font-weight:bold'>Playouts.</span></b><span
+lang=EN-US> The number of games Fuego will try playing before giving a result.
+A greater number means more thinking time but also a better move. If you set a
+very large number, such as several million, Fuego may take up to ten seconds to
+make a move.</span></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>AI programs can be your opponents or assistants. If
+Fuego is your assistant, it will additionally try to determine what stones
+should be removed at the end of a local game and automatically mark them
+removed. You may override its decision, however.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>You may ask your assistant to tell you where you
+should make a move or whether you should resign by using the <b><span
+style='font-weight:bold'>Get Hint</span></b> button in the ingame screen's
+control menu. This button may be disabled depending on your settings.</span></font></p>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>Two AI programs may play against each other, in which
+case you're only a spectator. You will, however, perform the Stone Removal
+Phase yourself (although if Fuego is your assistant, it will help).</span></font></p>
+
+<h1><a name="_Toc482089573"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>Troubleshooting</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>These answers may help you when something doesn’t work
+right:</span></font></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>1.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>I don’t know how to play online.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>a.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>To play online on Pandanet, you
+must first create an account here:</span><br>
+<a href="http://pandanet-igs.com/igs_users/register"><span lang=EN-US>http://pandanet-igs.com/igs_users/register</span><font
+color=black><span style='color:windowtext;text-decoration:none'><br>
+</span></font></a><span lang=EN-US>Then, you must confirm it by clicking on the
+link in your mailbox, and only then you may use your username and password to
+login using omegaGo.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>2.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>The game crashed. What to do?</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>a.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If you can easily reproduce the
+crash (for example, it happens every time you perform a specific action),
+please tell us about it at </span><a href="mailto:omegagoteam@outlook.com"><font
+size=2 face=Arial><span lang=EN-US style='font-size:9.5pt;line-height:107%;
+font-family:"Arial",sans-serif'>omegagoteam@outlook.com</span></font></a><span
+lang=EN-US> and we’ll fix it as soon as possible. Until then, avoid that action
+if possible.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>b.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If it seems to happen randomly,
+but it only happens while you’re playing Fuego, then it’s probably because of a
+bug in the AI program. There’s little that can be done about that. Endure the
+crashes, please ^^. </span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>c.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Otherwise, start the game again
+and hope it doesn’t reoccur. If automatic crash reporting is enabled in your
+system (it probably is), then we’ll know about the crash and we’ll try to
+figure out what’s wrong.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='text-indent:-18.0pt'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>3.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>I am confused by the rules.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>a.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>First, if you haven't already, try
+playing the tutorial.</span></p>
+
+<p class=MsoListParagraphCxSpMiddle style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>b.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Second, read the
+&quot;Introduction to Go&quot; page in the Help screen.</span></p>
+
+<p class=MsoListParagraphCxSpLast style='margin-left:72.0pt;text-indent:-18.0pt'><font
+size=2 face=Calibri><span lang=EN-US style='font-size:11.0pt;line-height:107%'>c.<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>If that doesn't help, you're
+probably confused either by the concept of &quot;two eyes&quot; or by the stone
+removal phase (we also call it life/death determination phase). If you're a
+technical type, try reading &quot;Comprehensive Rules of Go&quot; in the Help
+screen. Otherwise, you may try solving a couple of tsumego problems. If all
+else fails, find a human teacher. There is a Go club in most cities and Go
+players are usually very enthusiastic about teaching!</span></p>
+
+<h1><a name="_Toc482089574"><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%'>About the developers</span></font></a></h1>
+
+<p class=MsoNormal><font size=2 face=Calibri><span lang=EN-US style='font-size:
+11.0pt;line-height:107%'>This application was developed by the following team
+members as a team software project in </span><a href="http://cuni.cz/"><span
+lang=EN-US>Charles University</span></a></font><span lang=EN-US> in 2016-2017: </span></p>
+
+<p class=MsoListParagraphCxSpFirst style='text-indent:-18.0pt;line-height:normal'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:10.0pt;font-family:Symbol'>·<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Petr Hudeček</span></p>
+
+<p class=MsoListParagraphCxSpLast style='text-indent:-18.0pt;line-height:normal'><font
+size=2 face=Symbol><span lang=EN-US style='font-size:10.0pt;font-family:Symbol'>·<font
+size=1 face="Times New Roman"><span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></font></span></font><span lang=EN-US>Vítězslav Imrýšek</span></p>
+
+<ul type=disc>
+ <li class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+     lang=EN-US style='font-size:11.0pt'>Anikó Kuklis</span></font></li>
+ <li class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+     lang=EN-US style='font-size:11.0pt'>Martin Zikmund</span></font></li>
+</ul>
+
+<p class=MsoNormal style='margin-left:18.0pt;line-height:normal'><font size=2
+face=Calibri><span lang=EN-US style='font-size:11.0pt'>&nbsp;</span></font></p>
+
+<p class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+lang=EN-US style='font-size:11.0pt'>The original idea was contributed by Martin
+Dvo</span></font><span lang=EN-US>řák.</span></p>
+
+<p class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+lang=EN-US style='font-size:11.0pt'>&nbsp;</span></font></p>
+
+<p class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+lang=EN-US style='font-size:11.0pt'>Additional credits and licensing
+information is available in-game, in the Help screen on the page Credits.</span></font></p>
+
+<p class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+lang=EN-US style='font-size:11.0pt'>&nbsp;</span></font></p>
+
+<p class=MsoNormal style='line-height:normal'><font size=2 face=Calibri><span
+lang=EN-US style='font-size:11.0pt'>We’ll be very happy to hear any bug
+reports, feature requests, praise or other feedback at the address </span><a
+href="mailto:omegagoteam@outlook.com"><font size=2 face=Arial><span lang=EN-US
+style='font-size:9.5pt;font-family:"Arial",sans-serif'>omegagoteam@outlook.com</span></font></a></font><span
+lang=EN-US>. See you there!</span></p>
+
+<p class=MsoNormal><font size=5 color="#2e74b5" face="Calibri Light"><span
+lang=EN-US style='font-size:16.0pt;line-height:107%;font-family:"Calibri Light",sans-serif;
+color:#2E74B5'>&nbsp;</span></font></p>
+
+<h1><font size=5 color="#2e74b5" face="Calibri Light"><span lang=EN-US
+style='font-size:16.0pt;line-height:107%'>&nbsp;</span></font></h1>
+
+</div>
+
+</body>
+
+</html>

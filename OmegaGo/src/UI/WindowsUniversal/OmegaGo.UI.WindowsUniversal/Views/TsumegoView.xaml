@@ -92,8 +92,8 @@
                             <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentNodeStatus}"></TextBlock>
                             <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_CurrentProblemStatus}"></TextBlock>
                             <TextBlock Style="{StaticResource ContentStyle}" Text="{Binding Path=CurrentProblemPermanentlySolved}"></TextBlock>
-                            <TextBlock Style="{StaticResource CaptionStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoCaption}"></TextBlock>
-                            <TextBlock Style="{StaticResource ContentStyle}" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoText}"></TextBlock>
+                            <TextBlock Style="{StaticResource CaptionStyle}" FontSize="14" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoCaption}"></TextBlock>
+                            <TextBlock Style="{StaticResource ContentStyle}" FontSize="14" Text="{x:Bind Localizer.Tsumego_HowToSolveTsumegoText}"></TextBlock>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

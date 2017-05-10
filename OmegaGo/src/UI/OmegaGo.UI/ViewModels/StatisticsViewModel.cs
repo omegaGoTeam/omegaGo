@@ -30,10 +30,15 @@ namespace OmegaGo.UI.ViewModels
             _dialogService = dialogService;
         }
 
+        private ObservableCollection<StatisticsItem> _statisticsItems;
         /// <summary>
         /// Statistics
         /// </summary>
-        public ObservableCollection<StatisticsItem> StatisticsItems { get; private set; }
+        public ObservableCollection<StatisticsItem> StatisticsItems
+        {
+            get { return _statisticsItems; }
+            set { SetProperty(ref _statisticsItems, value); }
+        }
 
         /// <summary>
         /// Resets all progress
