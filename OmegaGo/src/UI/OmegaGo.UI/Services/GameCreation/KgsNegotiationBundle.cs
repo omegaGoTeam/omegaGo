@@ -35,10 +35,22 @@ namespace OmegaGo.UI.Services.GameCreation
         public override void OnLoad(GameCreationViewModel vm)
         {
             _vm = vm;
+           
+            Connections.Kgs.Events.Unjoin += Events_Unjoin;
+            Challenge.StatusChanged += Challenge_StatusChanged;
+            RefreshStatus();
+            base.OnLoad(vm);
+        }
+
+        protected void LoadProposalDataIntoForm()
+        {
+            var vm = _vm;
             vm.FormTitle = Localizer.Creationg_KgsChallenge;
             vm.RefusalCaption = Localizer.UnjoinChallenge;
             vm.CustomSquareSize = Challenge.Proposal.Rules.Size.ToString();
             vm.SelectedRuleset = KgsHelpers.ConvertRuleset(Challenge.Proposal.Rules.Rules);
+            vm.IsRankedGame = Challenge.Proposal.GameType == GameType.Ranked;
+            vm.IsPubliclyListedGame = Challenge.Proposal.Global;
             foreach (var player in Challenge.Proposal.Players)
             {
                 if (player.GetName() == Connections.Kgs.Username)
@@ -74,10 +86,7 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.CompensationString = Challenge.Proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
             vm.UseRecommendedKomi = false;
             UpdateTimeControlFromRules(Challenge.Proposal.Rules);
-            Connections.Kgs.Events.Unjoin += Events_Unjoin;
-            Challenge.StatusChanged += Challenge_StatusChanged;
             RefreshStatus();
-            base.OnLoad(vm);
         }
 
         private void UpdateTimeControlFromRules(RulesDescription rules)
