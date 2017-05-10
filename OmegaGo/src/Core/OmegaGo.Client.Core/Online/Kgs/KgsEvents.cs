@@ -31,7 +31,7 @@ namespace OmegaGo.Core.Online.Kgs
         public event EventHandler<User> PersonalInformationUpdate;
         public event EventHandler<KgsLoginPhase> LoginPhaseChanged;
         public event EventHandler<GameInfo> UndoRequestReceived;
-        public event EventHandler<bool> LoginComplete;
+        public event EventHandler<LoginResult> LoginEnded;
 
 #pragma warning disable CS0067 // KGS does not have a command for declining undos. To decline an undo, you're supposed to just ignore it.
         public event EventHandler<GameInfo> UndoDeclined;
@@ -71,9 +71,9 @@ namespace OmegaGo.Core.Online.Kgs
             OutgoingRequest?.Invoke(this, request);
         }
 
-        internal void RaiseLoginComplete(bool success)
+        internal void RaiseLoginComplete(LoginResult result)
         {
-            LoginComplete?.Invoke(this, success);
+            LoginEnded?.Invoke(this, result);
         }
 
         internal void RaiseGameJoined(KgsGame ongame)

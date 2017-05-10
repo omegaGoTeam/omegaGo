@@ -1864,6 +1864,18 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Details</source>
           <target state="new">Details</target>
         </trans-unit>
+        <trans-unit id="KgsBadPassword" translate="yes" xml:space="preserve">
+          <source>That is a wrong password for this user.</source>
+          <target state="new">That is a wrong password for this user.</target>
+        </trans-unit>
+        <trans-unit id="KgsBadUsername" translate="yes" xml:space="preserve">
+          <source>There is no user with this name.</source>
+          <target state="new">There is no user with this name.</target>
+        </trans-unit>
+        <trans-unit id="KgsConnectionFailure" translate="yes" xml:space="preserve">
+          <source>Connection failure. Check your internet connection and try again.</source>
+          <target state="new">Connection failure. Check your internet connection and try again.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

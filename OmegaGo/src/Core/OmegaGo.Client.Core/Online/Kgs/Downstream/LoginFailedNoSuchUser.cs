@@ -10,8 +10,13 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
     /// <summary>
     /// Your user name is not on the server.
     /// </summary>
-    /// <seealso cref="OmegaGo.Core.Online.Kgs.Downstream.Abstract.LoginFailureResponse" />
-    class LoginFailedNoSuchUser : LoginFailureResponse
+    /// <seealso cref="KgsInterruptResponse" />
+    class LoginFailedNoSuchUser : KgsInterruptResponse
     {
+        public override void Process(KgsConnection connection)
+        {
+            connection.LoggingIn = false;
+            connection.Events.RaiseLoginComplete(LoginResult.FailureUserDoesNotExist);
+        }
     }
 }
