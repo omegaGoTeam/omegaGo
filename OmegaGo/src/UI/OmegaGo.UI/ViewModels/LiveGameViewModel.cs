@@ -17,6 +17,7 @@ using MvvmCross.Core.ViewModels;
 using System.Threading.Tasks;
 using System;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.GameTools;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -56,6 +57,8 @@ namespace OmegaGo.UI.ViewModels
             // Register tool services
             ToolServices = 
                 new GameToolServices(
+                    Localizer,
+                    dialogService,
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
             ToolServices.PassSoundShouldBePlayed += ToolServices_PassSoundShouldBePlayed;
@@ -264,6 +267,7 @@ namespace OmegaGo.UI.ViewModels
             Tool = AnalyzeViewModel.SelectedTool;
 
             BoardViewModel.Tool = Tool;
+            BoardViewModel.IsShadowDrawingEnabled = true;
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)

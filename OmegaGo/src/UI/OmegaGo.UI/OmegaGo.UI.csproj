@@ -89,6 +89,7 @@
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
+    <Compile Include="Services\GameTools\GameToolServices.cs" />
     <Compile Include="Services\Help\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />
     <Compile Include="Services\Feedback\IFeedbackService.cs" />

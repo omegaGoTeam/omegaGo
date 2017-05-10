@@ -44,6 +44,8 @@ namespace OmegaGo.UI.Services.Game
 
             _boardColor = new MvxColor(0xFD, 0xD2, 0x70, 0xFF);
             _highlightColor = new MvxColor(0xFF, 0xFF, 0xFF, 0x60);
+
+            IsShadowDrawingEnabled = true;
         }
 
         public BoardControlState(GameBoardSize boardSize) 
@@ -72,6 +74,8 @@ namespace OmegaGo.UI.Services.Game
         public bool IsAnalyzeModeEnabled { get; set; }
         public ITool AnalyzeModeTool { get; set; }
         public IToolServices AnalyzeToolServices { get; set; }
+        // Not applicable to Analyze mode
+        public bool IsShadowDrawingEnabled { get; set; }
         public bool TsumegoMode { get; }
         public int LeftPadding { get; set; }
         public int TopPadding { get; set; }
