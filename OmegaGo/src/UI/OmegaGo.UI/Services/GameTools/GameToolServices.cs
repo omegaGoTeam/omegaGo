@@ -122,7 +122,7 @@ namespace OmegaGo.UI.Services.GameTools
             switch(message)
             {
                 case ToolMessage.BranchDeletionConfirmation:
-                    bool result = await _dialogService.ShowConfirmationDialogAsync(_localizer.BranchDeletionConfirmationText, _localizer.BranchDeletionConfirmationTitle, "Ok", "Cancel");
+                    bool result = await _dialogService.ShowConfirmationDialogAsync(_localizer.BranchDeletionConfirmationText, _localizer.BranchDeletionConfirmationTitle, _localizer.Delete, _localizer.No);
                     return result ? ToolConfirmationResult.Ok : ToolConfirmationResult.Cancel;
                 case ToolMessage.BranchDeletionError:
                     var task = _dialogService.ShowAsync(_localizer.BranchDeletionErrorText, _localizer.BranchDeletionErrorTitle);
