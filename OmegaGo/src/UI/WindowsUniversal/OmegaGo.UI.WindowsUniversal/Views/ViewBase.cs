@@ -92,6 +92,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             //Set view model as Data Context by default
             DataContext = ViewModel;
+            AppShell.FocusModeOn = false;
         }
 
     }
