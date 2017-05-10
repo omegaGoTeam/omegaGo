@@ -33,7 +33,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
             {
                 return null;
             }
-            KgsChallenge challenge = new Structures.KgsChallenge(channel.InitialProposal, channel.ChannelId);
+            KgsChallenge challenge = new KgsChallenge(channel.InitialProposal, channel.ChannelId);
             if (channel.InitialProposal.GameType != GameType.Free &&
                 channel.InitialProposal.GameType != GameType.Ranked) return null;
 
@@ -49,8 +49,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
 
             return Proposal.Players[0].User.Name + " proposes " + Proposal.Rules.ToShortDescription();
         }
-
-     
+        
 
         public void RaiseStatusChanged()
         {

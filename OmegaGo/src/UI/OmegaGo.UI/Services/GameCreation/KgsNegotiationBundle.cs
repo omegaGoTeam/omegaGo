@@ -20,7 +20,6 @@ namespace OmegaGo.UI.Services.GameCreation
         protected KgsNegotiationBundle(KgsChallenge challenge)
         {
             Challenge = challenge;
-            UpdateOpponentFromProposal(challenge.Proposal.Players);
         }
 
         protected KgsChallenge Challenge { get; }
@@ -35,7 +34,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public override void OnLoad(GameCreationViewModel vm)
         {
             _vm = vm;
-            LoadProposalDataIntoForm();
+            LoadProposalDataIntoForm(Challenge.Proposal);
            
             Connections.Kgs.Events.Unjoin += Events_Unjoin;
             Challenge.StatusChanged += Challenge_StatusChanged;
@@ -43,16 +42,17 @@ namespace OmegaGo.UI.Services.GameCreation
             base.OnLoad(vm);
         }
 
-        protected void LoadProposalDataIntoForm()
+        private void LoadProposalDataIntoForm(Proposal proposal)
         {
             var vm = _vm;
             vm.FormTitle = Localizer.Creationg_KgsChallenge;
             vm.RefusalCaption = Localizer.UnjoinChallenge;
-            vm.CustomSquareSize = Challenge.Proposal.Rules.Size.ToString();
-            vm.SelectedRuleset = KgsHelpers.ConvertRuleset(Challenge.Proposal.Rules.Rules);
-            vm.IsRankedGame = Challenge.Proposal.GameType == GameType.Ranked;
-            vm.IsPubliclyListedGame = Challenge.Proposal.Global;
-            foreach (var player in Challenge.Proposal.Players)
+            vm.CustomSquareSize = proposal.Rules.Size.ToString();
+            vm.SelectedRuleset = KgsHelpers.ConvertRuleset(proposal.Rules.Rules);
+            vm.IsRankedGame = proposal.GameType == GameType.Ranked;
+            vm.IsPubliclyListedGame = proposal.Global;
+            UpdateOpponentFromProposal(proposal.Players);
+            foreach (var player in proposal.Players)
             {
                 if (player.GetName() == Connections.Kgs.Username)
                 {
@@ -79,14 +79,14 @@ namespace OmegaGo.UI.Services.GameCreation
                     }
                 }
             }
-            if (Challenge.Proposal.Nigiri)
+            if (proposal.Nigiri)
             {
                 vm.SelectedColor = Core.Game.StoneColor.None;
             }
-            vm.Handicap = Challenge.Proposal.Rules.Handicap;
-            vm.CompensationString = Challenge.Proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
+            vm.Handicap = proposal.Rules.Handicap;
+            vm.CompensationString = proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
             vm.UseRecommendedKomi = false;
-            UpdateTimeControlFromRules(Challenge.Proposal.Rules);
+            UpdateTimeControlFromRules(proposal.Rules);
             RefreshStatus();
         }
 
@@ -126,7 +126,11 @@ namespace OmegaGo.UI.Services.GameCreation
         {
             if (Challenge.IncomingChallenge != null)
             {
-                UpdateOpponentFromProposal(Challenge.IncomingChallenge.Players);
+                LoadProposalDataIntoForm(Challenge.IncomingChallenge);
+            }
+            if (Challenge.CreatorsNewProposal != null)
+            {
+                LoadProposalDataIntoForm(Challenge.CreatorsNewProposal);
             }
             _vm.OpponentName = _opponentName;
             _vm.AcceptChallengeCommand.RaiseCanExecuteChanged();
@@ -151,6 +155,7 @@ namespace OmegaGo.UI.Services.GameCreation
         {
             var opponent = players.FirstOrDefault(player => player.GetName() != Connections.Kgs.Username);
             _opponentName = opponent.GetNameAndRank() ?? Localizer.NoOpponentYet;
+            _vm.OpponentName = _opponentName;
         }
 
         public override async Task RefuseChallenge(GameCreationViewModel gameCreationViewModel)
