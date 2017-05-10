@@ -99,7 +99,18 @@ namespace OmegaGo.Core.Game
         }
 
         /// <summary>
-        /// Gets the primary timeline. The primary timeline is the list of nodes from the root up until the LastNode.
+        /// Gets the primary timeline moves
+        /// </summary>
+        public IEnumerable<Move> PrimaryMoveTimelineWithRoot
+        {
+            get
+            {
+                return PrimaryTimelineWithRoot.Select(node => node.Move);
+            }
+        }
+
+        /// <summary>
+        /// Gets the primary timeline. The primary timeline is the list of nodes from the root (excluding) up until the LastNode.
         /// </summary>
         public IEnumerable<GameTreeNode> PrimaryTimeline
         {
@@ -117,6 +128,26 @@ namespace OmegaGo.Core.Game
 
                         node = node.NextNode;
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the primary timeline. The primary timeline is the list of nodes from the root (including) up until the LastNode.
+        /// </summary>
+        public IEnumerable<GameTreeNode> PrimaryTimelineWithRoot
+        {
+            get
+            {
+                var node = GameTreeRoot;
+                while (node != null)
+                {
+                    yield return node;
+
+                    if (node == LastNode)
+                        yield break;
+
+                    node = node.NextNode;
                 }
             }
         }

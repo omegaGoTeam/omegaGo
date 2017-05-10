@@ -546,6 +546,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure that you want to delete the selected branch?.
+        /// </summary>
+        public static string BranchDeletionConfirmationText {
+            get {
+                return ResourceManager.GetString("BranchDeletionConfirmationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete branch.
+        /// </summary>
+        public static string BranchDeletionConfirmationTitle {
+            get {
+                return ResourceManager.GetString("BranchDeletionConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected branch cannot be deleted because its part of the primary timeline..
+        /// </summary>
+        public static string BranchDeletionErrorText {
+            get {
+                return ResourceManager.GetString("BranchDeletionErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete branch.
+        /// </summary>
+        public static string BranchDeletionErrorTitle {
+            get {
+                return ResourceManager.GetString("BranchDeletionErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Minutes per period:.
         /// </summary>
         public static string CanadianMinutesPerPeriodLabel {

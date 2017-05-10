@@ -1982,6 +1982,22 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>This game is ranked</source>
           <target state="new">This game is ranked</target>
         </trans-unit>
+        <trans-unit id="BranchDeletionConfirmationText" translate="yes" xml:space="preserve">
+          <source>Are you sure that you want to delete the selected branch?</source>
+          <target state="translated">Určitě chcete smazat vybranou větev?</target>
+        </trans-unit>
+        <trans-unit id="BranchDeletionConfirmationTitle" translate="yes" xml:space="preserve">
+          <source>Delete branch</source>
+          <target state="translated">Smazat větev</target>
+        </trans-unit>
+        <trans-unit id="BranchDeletionErrorText" translate="yes" xml:space="preserve">
+          <source>Selected branch cannot be deleted because its part of the primary timeline.</source>
+          <target state="translated">Vybraná větev nemůže být smazána, protože je součástí hlavní časové osy.</target>
+        </trans-unit>
+        <trans-unit id="BranchDeletionErrorTitle" translate="yes" xml:space="preserve">
+          <source>Delete branch</source>
+          <target state="translated">Smazat větev</target>
+        </trans-unit>
       </group>
     </body>
   </file>

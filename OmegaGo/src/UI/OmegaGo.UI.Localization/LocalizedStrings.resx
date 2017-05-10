@@ -1595,4 +1595,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="CheckboxRankedGame" xml:space="preserve">
     <value>This game is ranked</value>
   </data>
+  <data name="BranchDeletionConfirmationText" xml:space="preserve">
+    <value>Are you sure that you want to delete the selected branch?</value>
+  </data>
+  <data name="BranchDeletionConfirmationTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
+  <data name="BranchDeletionErrorText" xml:space="preserve">
+    <value>Selected branch cannot be deleted because its part of the primary timeline.</value>
+  </data>
+  <data name="BranchDeletionErrorTitle" xml:space="preserve">
+    <value>Delete branch</value>
+  </data>
 </root>

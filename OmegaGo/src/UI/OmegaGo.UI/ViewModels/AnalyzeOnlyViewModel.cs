@@ -14,6 +14,7 @@ using OmegaGo.UI.Services.Quests;
 using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Timer;
 using OmegaGo.UI.UserControls.ViewModels;
+using OmegaGo.UI.Services.GameTools;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -46,7 +47,7 @@ namespace OmegaGo.UI.ViewModels
             _ruleset = new ChineseRuleset(analyzeBundle.GameInfo.BoardSize);
 
             // Register tool services
-            ToolServices = new GameToolServices(_ruleset, analyzeBundle.GameTree);
+            ToolServices = new GameToolServices(Localizer, dialogService, _ruleset, analyzeBundle.GameTree);
             ToolServices.NodeChanged += (s, node) =>
             {
                 AnalyzeViewModel.OnNodeChanged();

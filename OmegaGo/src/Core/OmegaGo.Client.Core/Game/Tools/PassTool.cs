@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Rules;
+using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
@@ -38,7 +39,6 @@ namespace OmegaGo.Core.Game.Tools
 
             toolService.SetNode(newNode);
             toolService.PlayPassSound();
-
         }
 
         public void Set(IToolServices toolServices) { }
