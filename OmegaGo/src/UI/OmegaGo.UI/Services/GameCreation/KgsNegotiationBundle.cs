@@ -35,6 +35,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public override void OnLoad(GameCreationViewModel vm)
         {
             _vm = vm;
+            LoadProposalDataIntoForm();
            
             Connections.Kgs.Events.Unjoin += Events_Unjoin;
             Challenge.StatusChanged += Challenge_StatusChanged;
