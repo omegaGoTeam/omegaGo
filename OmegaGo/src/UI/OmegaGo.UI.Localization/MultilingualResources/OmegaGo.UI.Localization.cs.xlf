@@ -1896,6 +1896,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Open SGF file</source>
           <target state="new">Open SGF file</target>
         </trans-unit>
+        <trans-unit id="Export" translate="yes" xml:space="preserve">
+          <source>Export</source>
+          <target state="new">Export</target>
+        </trans-unit>
       </group>
     </body>
   </file>

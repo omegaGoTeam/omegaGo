@@ -18,16 +18,11 @@ namespace OmegaGo.UI.Services.Files
         /// <returns>File contents or null</returns>
         Task<FileInfo> PickAndReadFileAsync( params string[] extensions );
 
-        Task PickAndWriteSgfFileAsync(string filename, string contents);
-    }
-    public class FileInfo
-    {
-        public string Name { get; }
-        public string Contents { get; }
-        public FileInfo(string name, string contents)
-        {
-            Name = name;
-            Contents = contents;
-        }
+        /// <summary>
+        /// Suggested file name
+        /// </summary>
+        /// <param name="suggestedFileName">Suggested file name</param>
+        /// <param name="contents">Text to write in the file</param>        
+        Task PickAndWriteFileAsync(string suggestedFileName, string contents);
     }
 }

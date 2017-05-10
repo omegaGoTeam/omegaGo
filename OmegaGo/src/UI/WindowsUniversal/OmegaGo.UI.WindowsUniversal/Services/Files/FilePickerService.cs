@@ -37,11 +37,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
             return null;
         }
-        public async Task PickAndWriteSgfFileAsync(string filename, string contents)
+
+        public async Task PickAndWriteFileAsync(string suggestedFileName, string contents)
         {
             //prepare file picker
             FileSavePicker fileSave = new FileSavePicker();
-            fileSave.SuggestedFileName = filename;
+            fileSave.SuggestedFileName = suggestedFileName;
             fileSave.SuggestedStartLocation = PickerLocationId.Desktop;
             fileSave.FileTypeChoices.Add("SGF", new List<string>() {".sgf"});
             var file = await fileSave.PickSaveFileAsync();

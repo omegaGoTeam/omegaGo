@@ -6,6 +6,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:actions="using:OmegaGo.UI.WindowsUniversal.Behaviors.Actions"
     x:Name="MainView"
     mc:Ignorable="d">
 
@@ -60,7 +63,7 @@
             </Button>
             <Button Margin="8,0,0,0" Command="{x:Bind VM.ImportSgfFileCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportFile.png" />
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" />
                     <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.ImportSgfFile}" />
                 </StackPanel>
             </Button>
@@ -78,19 +81,26 @@
             </Button>
         </StackPanel>
 
-        <ListView x:Name="GameListView"
+        <ListView x:Name="GameListView" IsItemClickEnabled="True" SelectionMode="None"
                   Grid.Row="2"
-                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}">
+                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Padding="15" Background="WhiteSmoke" CornerRadius="15">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <actions:OpenAttachedFlyoutAction />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                         <FlyoutBase.AttachedFlyout>
-                            <Flyout>
+                            <Flyout Placement="Bottom">
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <AppBarButton Icon="OpenFile" IsCompact="False" Label="{x:Bind Localizer.Open}" Command="{x:Bind VM.OpenItemCommand}" />
-                                        <AppBarButton Icon="Delete" IsCompact="False" Label="{x:Bind Localizer.Delete}" Command="{x:Bind VM.DeleteItemCommand}"  />
-                                        <AppBarButton Icon="" Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />
+                                        <AppBarButton Icon="OpenFile" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Open}" Command="{Binding ElementName=MainView, Path=VM.OpenItemCommand}" />
+                                        <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}"  />
+                                        <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}">
+                                            <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                                        </AppBarButton>
                                     </StackPanel>
                                 </Grid>
                             </Flyout>
@@ -123,7 +133,7 @@
         <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
             <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />
             <AppBarButton Command="{x:Bind VM.ImportSgfFileCommand}" Label="{x:Bind Localizer.ImportSgfFile}">
-                <BitmapIcon UriSource="/Assets/Icons/Commands/ImportFile.png" />
+                <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" />
             </AppBarButton>
             <AppBarButton Icon="Refresh" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
             <AppBarButton Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Label="{x:Bind Localizer.OpenLibraryInExplorer}">
@@ -137,7 +147,7 @@
             </Border.Background>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
-                <TextBlock Text="{x:Bind Localizer.LoadingEllipsis, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind VM.LoadingText, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
             </StackPanel>
         </Border>
     </Grid>

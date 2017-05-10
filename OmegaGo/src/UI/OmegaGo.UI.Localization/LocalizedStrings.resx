@@ -1529,4 +1529,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="OpenSgfFile" xml:space="preserve">
     <value>Open SGF file</value>
   </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
 </root>

@@ -12,6 +12,7 @@ using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Files;
+using OmegaGo.UI.Utility.Collections;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -23,19 +24,22 @@ namespace OmegaGo.UI.ViewModels
         private readonly IFilePickerService _filePicker;
         private readonly IAppDataFileService _appDataFileService;
 
-        private ObservableCollection<LibraryItem> _gameList = new ObservableCollection<LibraryItem>(); 
-        
+        // Commands 
+
+        //global
         private ICommand _openSgfFileCommand;
         private ICommand _openLibraryInExplorerCommand;
         private ICommand _importSgfFileCommand;
         private ICommand _refreshLibraryCommand;
 
+        //item specific
         private ICommand _deleteItemCommand;
         private ICommand _exportItemCommand;
         private ICommand _openItemCommand;
+        
+        // Property backing fields
 
-
-        private LibraryItem _selectedItem;
+        private string _loadingText;        
 
         public LibraryViewModel(IFilePickerService filePicker, IAppDataFileService appDataFileService, IDialogService dialogService)
         {
@@ -66,14 +70,14 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Command that opens library in the file explorer
         /// </summary>
-        public ICommand OpenLibraryInExplorerCommand => _openLibraryInExplorerCommand ?? 
-                                                        (_openLibraryInExplorerCommand = new MvxAsyncCommand( OpenLibraryInExplorerAsync ));
+        public ICommand OpenLibraryInExplorerCommand => _openLibraryInExplorerCommand ??
+                                                        (_openLibraryInExplorerCommand = new MvxAsyncCommand(OpenLibraryInExplorerAsync));
 
         /// <summary>
         /// Command that opens a library item for analysis
         /// </summary>
         public ICommand OpenItemCommand => _openItemCommand ??
-                                              (_openItemCommand = new MvxCommand(OpenItemAsync));
+                                              (_openItemCommand = new MvxAsyncCommand(OpenItemAsync));
 
         /// <summary>
         /// Command that deletes a library item
@@ -85,23 +89,22 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Command that exports a library item
         /// </summary>
-        public ICommand ExportItemCommand => _exportItemCommand ?? 
-                                                (_exportItemCommand = new MvxAsyncCommand(ExportItemAsync));                
+        public ICommand ExportItemCommand => _exportItemCommand ??
+                                                (_exportItemCommand = new MvxAsyncCommand(ExportItemAsync));
 
-
-        public ObservableCollection<LibraryItem> GameList
+        /// <summary>
+        /// Text displayed when library loads
+        /// </summary>
+        public string LoadingText
         {
-            get { return _gameList; }
-            set { SetProperty(ref _gameList, value); }
+            get { return _loadingText; }
+            set { SetProperty(ref _loadingText, value); }
         }
 
-        private bool _loadingPanelVisible;
-
-        public bool LoadingPanelVisible
-        {
-            get { return _loadingPanelVisible; }
-            set { SetProperty(ref _loadingPanelVisible, value); }
-        }
+        /// <summary>
+        /// List of library items
+        /// </summary>
+        public RangeCollection<LibraryItem> LibraryItems { get; } = new RangeCollection<LibraryItem>();
 
         /// <summary>
         /// Initialization of the ViewModel
@@ -112,17 +115,45 @@ namespace OmegaGo.UI.ViewModels
         }
 
         /// <summary>
+        /// Opens a SGF file into analysis
+        /// </summary>
+        /// <returns></returns>
+        private async Task OpenFile()
+        {
+            
+        }
+
+        /// <summary>
         /// Imports a SGF file into library
         /// </summary>
         /// <returns></returns>
-        private Task ImportSgfFileAsync()
+        private async Task ImportSgfFileAsync()
         {
-            throw new NotImplementedException();
+            //var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
+            //if (fileContents == null)
+            //{
+            //    return;
+            //}
+            //var p = new SgfParser();
+            //try
+            //{
+            //    p.Parse(fileContents.Contents);
+            //    await _appDataFileService.WriteFileAsync(SgfFolderName, fileContents.Name, fileContents.Contents);
+            //    await RefreshListAsync();
+            //}
+            //catch (Exception e)
+            //{
+            //    await _dialogService.ShowAsync(e.ToString(), Localizer.ErrorParsingSgfFile);
+            //}
         }
 
+        /// <summary>
+        /// Refreshes the library contents
+        /// </summary>
+        /// <returns></returns>
         private async Task RefreshListAsync()
         {
-            LoadingPanelVisible = true;
+            IsWorking = true;
             await _appDataFileService.EnsureFolderExistsAsync(SgfFolderName);
             var files = await _appDataFileService.EnumerateFilesInFolderAsync(SgfFolderName);
             if (!files.Any())
@@ -169,9 +200,9 @@ namespace OmegaGo.UI.ViewModels
                     // Do not show.
                 }
             }
-            // TODO Petr: Sort by date.
-            GameList = new ObservableCollection<LibraryItem>(list);
-            LoadingPanelVisible = false;
+            // TODO Petr: Sort by date.            
+            LibraryItems.ReplaceCollection(list);            
+            IsWorking = false;
         }
 
         /// <summary>
@@ -183,73 +214,33 @@ namespace OmegaGo.UI.ViewModels
         }
 
 
-        private void OpenItemAsync()
+        private async Task OpenItemAsync()
         {
-            throw new NotImplementedException();
+            //// TODO Petr: When Analyze Mode is done
+            //var bundle = new AnalyzeOnlyViewModel.NavigationBundle(SelectedItem.GameTree, SelectedItem.GameInfo);
+            //Mvx.RegisterSingleton(bundle);
+            //ShowViewModel<AnalyzeOnlyViewModel>();
         }
 
 
-        private Task DeleteItemAsync()
+        private async Task DeleteItemAsync()
         {
-            throw new NotImplementedException();
+            //if (
+            //    await
+            //        _dialogService.ShowConfirmationDialogAsync(
+            //            Localizer.DeleteWarning,
+            //            String.Format(Localizer.DeleteQuestion, SelectedItem.Filename),
+            //            Localizer.DeleteCommand, Localizer.No))
+            //{
+            //    await _appDataFileService.DeleteFileAsync(SgfFolderName, SelectedItem.Filename);
+            //    await RefreshListAsync();
+            //}
         }
 
-        private Task ExportItemAsync()
+        private async Task ExportItemAsync()
         {
-            throw new NotImplementedException();
+            //await _filePicker.PickAndWriteFileAsync(SelectedItem.Filename, SelectedItem.Content);
         }
-
-        private void Open()
-        {
-            // TODO Petr: When Analyze Mode is done
-            var bundle = new AnalyzeOnlyViewModel.NavigationBundle(SelectedItem.GameTree, SelectedItem.GameInfo);
-            Mvx.RegisterSingleton(bundle);
-            ShowViewModel<AnalyzeOnlyViewModel>();
-        }
-
-        private async Task Delete()
-        {
-            if (SelectedItem != null)
-            {
-                if (
-                    await
-                        _dialogService.ShowConfirmationDialogAsync(
-                            Localizer.DeleteWarning,
-                            String.Format(Localizer.DeleteQuestion, SelectedItem.Filename),
-                            Localizer.DeleteCommand, Localizer.No))
-                {
-                    await _appDataFileService.DeleteFileAsync(SgfFolderName, SelectedItem.Filename);
-                    await RefreshListAsync();
-                }
-            }
-        }
-
-        private async Task Export()
-        {
-            if (SelectedItem != null)
-            {
-                await _filePicker.PickAndWriteSgfFileAsync(SelectedItem.Filename, SelectedItem.Content);
-            }
-        }
-
-        private async Task OpenFile()
-        {
-            var fileContents = await _filePicker.PickAndReadFileAsync(".sgf");
-            if (fileContents == null)
-            {
-                return;
-            }
-            var p = new SgfParser();
-            try
-            {
-                p.Parse(fileContents.Contents);
-                await _appDataFileService.WriteFileAsync(SgfFolderName, fileContents.Name, fileContents.Contents);
-                await RefreshListAsync();
-            }
-            catch (Exception e)
-            {
-                await _dialogService.ShowAsync(e.ToString(), Localizer.ErrorParsingSgfFile);
-            }
-        }
+       
     }
 }
