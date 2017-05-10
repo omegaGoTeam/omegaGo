@@ -15,9 +15,9 @@
     xmlns:kgs="using:OmegaGo.UI.WindowsUniversal.DataTemplateSelectors.Multiplayer.KGS"
     xmlns:igs="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Igs"
     xmlns:multiplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer"
-    xmlns:kgs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Kgs"
-    Unloaded="TransparencyViewBase_Unloaded"
+    xmlns:kgs1="using:OmegaGo.UI.WindowsUniversal.UserControls.Multiplayer.Kgs"    
     mc:Ignorable="d" 
+    Loaded="KgsHomeView_OnLoaded"
     x:Name="ParentView">
 
     <Page.Transitions>
