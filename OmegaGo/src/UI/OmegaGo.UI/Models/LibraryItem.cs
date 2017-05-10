@@ -1,38 +1,44 @@
 using System;
 using OmegaGo.Core.Game;
 
-namespace OmegaGo.UI.ViewModels
+namespace OmegaGo.UI.Models
 {
+    /// <summary>
+    /// Represents a library item.
+    /// Public setters allow for JSON serialization
+    /// </summary>
     public class LibraryItem
     {
-        public LibraryItem(GameTree gameTree, GameInfo gameInfo, string filename, int moveCount, string date, string black, string white,
-            string comment, string content)
+        public LibraryItem()
         {
-            Content = content;
-            GameTree = gameTree;
-            GameInfo = gameInfo;
-            Filename = filename;
+            
+        }
+
+        public LibraryItem(string fileName, int moveCount, string date, string black, string white, string comment, long fileSize, DateTimeOffset fileLastModified)
+        {
+            FileName = fileName;
             MoveCount = moveCount;
             Date = date;
             Black = black;
             White = white;
             Comment = comment;
+            FileSize = fileSize;
+            FileLastModified = fileLastModified;
         }
 
-        public string Content { get; }
+        public string FileName { get; set; }
+        public int MoveCount { get; set; }
+        public string Date { get; set; }
+        public string Black { get; set; }
+        public string White { get; set; }
+        public string Comment { get; set; }
 
-        public GameInfo GameInfo { get; }
-        public GameTree GameTree { get; }
-        public string Filename { get; }
-        public int MoveCount { get; }
-        public string Date { get; }
-        public string Black { get; }
-        public string White { get; }
-        public string Comment { get; }
+        public long FileSize { get; set; }
+        public DateTimeOffset FileLastModified { get; set; }
 
         public override string ToString()
         {
-            return Filename + Environment.NewLine + Comment;
+            return FileName + Environment.NewLine + Comment;
         }
     }
 }

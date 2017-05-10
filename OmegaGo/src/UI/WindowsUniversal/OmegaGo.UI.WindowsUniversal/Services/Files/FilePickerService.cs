@@ -14,7 +14,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
     /// </summary>
     class FilePickerService : IFilePickerService
     {
-        public async Task<FileInfo> PickAndReadFileAsync(params string[] extensions)
+        public async Task<FileContentInfo> PickAndReadFileAsync(params string[] extensions)
         {
             //prepare file picker
             FileOpenPicker fileOpen = new FileOpenPicker();
@@ -28,7 +28,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 try
                 {
                     string contents = await FileIO.ReadTextAsync(file);
-                    return new FileInfo(file.Name, contents);
+                    return new FileContentInfo(file.Name, contents);
                 }
                 catch
                 {

@@ -89,6 +89,7 @@
     <Compile Include="Services\Audio\SfxId.cs" />
     <Compile Include="Services\Audio\AudioFilePack.cs" />
     <Compile Include="Services\Audio\Sounds.cs" />
+    <Compile Include="Services\Files\FileContentInfo.cs" />
     <Compile Include="Services\Files\FileInfo.cs" />
     <Compile Include="Services\Help\EmbeddedResourceReading.cs" />
     <Compile Include="Services\Dialogs\IDialogService.cs" />

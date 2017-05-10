@@ -12,16 +12,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         private readonly string _rootFolderPath = ApplicationData.Current.LocalFolder.Path;
         private readonly StorageFolder _rootFolder = ApplicationData.Current.LocalFolder;
 
-        public async Task<string> ReadFileAsync(string folder, string filePath)
+        public async Task<string> ReadFileAsync(string filePath, string folder = null)
         {
-            var storageFolder = await _rootFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
+            StorageFolder storageFolder = folder == null ? _rootFolder : await _rootFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
             var storageFile = await storageFolder.GetFileAsync(filePath);
             return await FileIO.ReadTextAsync(storageFile);
         }
 
-        public async Task WriteFileAsync(string folder, string filePath, string fileContent)
+        public async Task WriteFileAsync(string filePath, string fileContent, string folder = null)
         {
-            var storageFolder = await _rootFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
+            StorageFolder storageFolder = folder == null ? _rootFolder : await _rootFolder.CreateFolderAsync(folder, CreationCollisionOption.OpenIfExists);
             var storageFile = await storageFolder.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(storageFile, fileContent);
         }
@@ -38,15 +38,16 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
         }
 
-        public async Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath)
+        public async Task<IEnumerable<FileInfo>> EnumerateFilesInFolderAsync(string folderPath)
         {
             var storageFolder = await _rootFolder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
-            List<string> filenames = new List<string>();
+            List<FileInfo> fileInfos = new List<FileInfo>();
             foreach (var storageFile in await storageFolder.GetFilesAsync())
             {
-                filenames.Add(storageFile.Name);
+                var properties = await storageFile.GetBasicPropertiesAsync();
+                fileInfos.Add(new FileInfo(storageFile.Name, properties.Size, properties.DateModified));
             }
-            return filenames;
+            return fileInfos;
         }
 
         public async Task LaunchFolderAsync(string folderPath)
@@ -61,12 +62,12 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             await storageFile.DeleteAsync();
         }
 
-        public async Task<bool> FileExistsAsync(string subfolderName, string filename)
-        {            
-            var subfolder = await _rootFolder.CreateFolderAsync(subfolderName, CreationCollisionOption.OpenIfExists);
+        public async Task<bool> FileExistsAsync(string filename, string subfolderName = null)
+        {
+            StorageFolder storageFolder = subfolderName == null ? _rootFolder : await _rootFolder.CreateFolderAsync(subfolderName, CreationCollisionOption.OpenIfExists);
             try
             {
-                await subfolder.GetFileAsync(filename);
+                await storageFolder.GetFileAsync(filename);
                 return true;
             }
             catch (Exception)

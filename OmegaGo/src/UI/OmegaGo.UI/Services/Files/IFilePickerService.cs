@@ -16,7 +16,7 @@ namespace OmegaGo.UI.Services.Files
         /// </summary>
         /// <param name="extensions">Allowed file extensions</param>
         /// <returns>File contents or null</returns>
-        Task<FileInfo> PickAndReadFileAsync( params string[] extensions );
+        Task<FileContentInfo> PickAndReadFileAsync( params string[] extensions );
 
         /// <summary>
         /// Suggested file name
