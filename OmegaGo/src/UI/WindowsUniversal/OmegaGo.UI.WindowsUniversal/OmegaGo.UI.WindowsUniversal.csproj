@@ -185,8 +185,8 @@
     <Compile Include="UserControls\SimpleBoardControl.xaml.cs">
       <DependentUpon>SimpleBoardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TimelineControl.xaml.cs">
-      <DependentUpon>TimelineControl.xaml</DependentUpon>
+    <Compile Include="UserControls\GameTreeControl.xaml.cs">
+      <DependentUpon>GameTreeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Views\AnalyzeOnlyView.xaml.cs">
@@ -521,7 +521,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\TimelineControl.xaml">
+    <Page Include="UserControls\GameTreeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

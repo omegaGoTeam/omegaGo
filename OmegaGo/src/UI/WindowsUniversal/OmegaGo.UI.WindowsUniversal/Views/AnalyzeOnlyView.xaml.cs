@@ -34,11 +34,31 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public AnalyzeOnlyView()
         {
             this.InitializeComponent();
+            this.KeyUp += View_KeyUp;
         }
-
+        
         private void focusButton_Click(object sender, RoutedEventArgs e)
         {
             AppShell.FocusModeOn = !AppShell.FocusModeOn;
+        }
+
+        private void View_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Windows.System.VirtualKey.Left:
+                    gameTreeControl.GoToParentNode();
+                    break;
+                case Windows.System.VirtualKey.Right:
+                    gameTreeControl.GoToFirstChildNode();
+                    break;
+                case Windows.System.VirtualKey.Up:
+                    gameTreeControl.GoToPreviousLevelNode();
+                    break;
+                case Windows.System.VirtualKey.Down:
+                    gameTreeControl.GoToNextLevelNode();
+                    break;
+            }
         }
     }
 }
