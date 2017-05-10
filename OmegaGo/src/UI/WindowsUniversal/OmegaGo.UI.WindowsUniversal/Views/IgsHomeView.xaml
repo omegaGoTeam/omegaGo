@@ -364,10 +364,10 @@
         </Grid>
         <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="2">
             <Border.Background>
-                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="0.4" />
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{ThemeResource LoadingViewOpacity}" />
             </Border.Background>
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
+                <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
                 <TextBlock Text="{x:Bind VM.ProgressPanelText, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
             </StackPanel>
         </Border>

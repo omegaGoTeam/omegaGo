@@ -16,24 +16,66 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TopCommandPanel.Visibility" Value="Visible" />
+                        <Setter Target="BottomCommandBar.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TopCommandPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="BottomCommandBar.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <navigation:TitleControl
+
+        <navigation:TitleControl HorizontalAlignment="Center"
                    Grid.Row="0"
                    Text="{x:Bind Localizer.GameLibrary}"
-                   Margin="0,20,0,0" />
-
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Padding="5">
-            <Button Content="{x:Bind Localizer.LoadSgfFileEllipsis}" Command="{x:Bind VM.OpenFileCommand}" />
-            <Button Content="{x:Bind Localizer.Refresh}" Command="{x:Bind Path=VM.RefreshCommand}" Margin="5,0,0,0" />
-            <Button Content="{x:Bind Localizer.OpenLibraryInExplorer}" Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Margin="5,0,0,0" />
+                   Margin="0,12,0,0" />
+        <StackPanel x:Name="TopCommandPanel" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="8">
+            <Button Command="{x:Bind VM.OpenSgfFileCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xE7C3;" />
+                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenSgfFile}" />
+                </StackPanel>
+            </Button>
+            <Button Margin="8,0,0,0" Command="{x:Bind VM.ImportSgfFileCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportFile.png" />
+                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.ImportSgfFile}" />
+                </StackPanel>
+            </Button>
+            <Button Command="{x:Bind Path=VM.RefreshCommand}" Margin="8,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Refresh" />
+                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.Refresh}" />
+                </StackPanel>
+            </Button>
+            <Button Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Margin="8,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="&#xED43;" />
+                    <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenLibraryInExplorer}" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <ListView x:Name="GameListView"
@@ -68,20 +110,36 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" Background="White" BorderThickness="1" Visibility="{x:Bind VM.LoadingPanelVisible, Mode=OneWay}">
-            <StackPanel Orientation="Horizontal" Padding="15">
-                <ProgressRing IsActive="True"></ProgressRing>
-                <TextBlock Margin="10,0,0,0" Text="{x:Bind Localizer.LoadingEllipsis}"></TextBlock>
-            </StackPanel>
-        </Border>
-        
-        <Grid Grid.Row="3" Padding="5">
+        <!--<Grid Grid.Row="3" Padding="5">
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.SelectedItemColon}"></TextBlock>
                 <Button Content="{x:Bind Localizer.OpenCommand}" Command="{x:Bind VM.OpenCommand}" />
                 <Button Content="{x:Bind Localizer.DeleteCommand}" Command="{x:Bind VM.DeleteCommand}"  />
                 <Button Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />
             </StackPanel>
-        </Grid>
+        </Grid>-->
+
+        <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
+            <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}">
+                <FontIcon Glyph="&#xE7C3;" />
+            </AppBarButton>
+            <AppBarButton Command="{x:Bind VM.ImportSgfFileCommand}" Label="{x:Bind Localizer.ImportSgfFile}">
+                <BitmapIcon UriSource="/Assets/Icons/Commands/ImportFile.png" />
+            </AppBarButton>
+            <AppBarButton Icon="Refresh" Label="{x:Bind Localizer.Refresh}" Command="{x:Bind VM.RefreshCommand}" />
+            <AppBarButton Command="{x:Bind Path=VM.OpenLibraryInExplorerCommand}" Label="{x:Bind Localizer.OpenLibraryInExplorer}">
+                <FontIcon Glyph="&#xED43;" />
+            </AppBarButton>
+        </CommandBar>
+
+        <Border Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind VM.IsWorking, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" Grid.RowSpan="4">
+            <Border.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{ThemeResource LoadingViewOpacity}" />
+            </Border.Background>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ProgressRing Width="50" Height="50" IsActive="{x:Bind VM.IsWorking, Mode=OneWay}" HorizontalAlignment="Center" />
+                <TextBlock Text="{x:Bind Localizer.LoadingEllipsis, Mode=OneWay}" Margin="12" HorizontalAlignment="Center" />
+            </StackPanel>
+        </Border>
     </Grid>
 </views:TransparencyViewBase>

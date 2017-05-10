@@ -1888,6 +1888,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Connection failure. Check your internet connection and try again.</source>
           <target state="new">Connection failure. Check your internet connection and try again.</target>
         </trans-unit>
+        <trans-unit id="ImportSgfFile" translate="yes" xml:space="preserve">
+          <source>Import SGF file</source>
+          <target state="new">Import SGF file</target>
+        </trans-unit>
+        <trans-unit id="OpenSgfFile" translate="yes" xml:space="preserve">
+          <source>Open SGF file</source>
+          <target state="new">Open SGF file</target>
+        </trans-unit>
       </group>
     </body>
   </file>

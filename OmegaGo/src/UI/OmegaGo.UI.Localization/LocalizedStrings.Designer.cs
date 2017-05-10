@@ -1599,6 +1599,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import SGF file.
+        /// </summary>
+        public static string ImportSgfFile {
+            get {
+                return ResourceManager.GetString("ImportSgfFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input.
         /// </summary>
         public static string InputPanel {
@@ -2324,6 +2333,15 @@ namespace OmegaGo.UI.Localization {
         public static string OpenLibraryInExplorer {
             get {
                 return ResourceManager.GetString("OpenLibraryInExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open SGF file.
+        /// </summary>
+        public static string OpenSgfFile {
+            get {
+                return ResourceManager.GetString("OpenSgfFile", resourceCulture);
             }
         }
         

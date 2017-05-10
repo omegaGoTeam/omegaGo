@@ -1523,4 +1523,10 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Validation_KomiTooExtreme" xml:space="preserve">
     <value>Please choose komi between -500 and 500.</value>
   </data>
+  <data name="ImportSgfFile" xml:space="preserve">
+    <value>Import SGF file</value>
+  </data>
+  <data name="OpenSgfFile" xml:space="preserve">
+    <value>Open SGF file</value>
+  </data>
 </root>
