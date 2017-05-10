@@ -322,7 +322,7 @@
                 BorderBrush="Black" BorderThickness="1"
                 Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
             <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
-                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=TwoWay}"/>
+                    Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=OneWay}"/>
         </Border>
     </Grid>
 </views:TransparencyViewBase>
