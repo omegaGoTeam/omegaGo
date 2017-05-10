@@ -54,7 +54,7 @@
         <StackPanel x:Name="TopCommandPanel" Visibility="Collapsed"  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="8">
             <Button Command="{x:Bind VM.OpenSgfFileCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <FontIcon Glyph="&#xE7C3;" />
+                    <SymbolIcon Symbol="OpenFile" />
                     <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.OpenSgfFile}" />
                 </StackPanel>
             </Button>
@@ -80,11 +80,21 @@
 
         <ListView x:Name="GameListView"
                   Grid.Row="2"
-                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}"
-                  SelectedItem="{x:Bind Path=VM.SelectedItem, Mode=TwoWay}">
+                  ItemsSource="{x:Bind Path=VM.GameList, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border Padding="15" Background="WhiteSmoke" CornerRadius="15" >
+                    <Border Padding="15" Background="WhiteSmoke" CornerRadius="15">
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout>
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <AppBarButton Icon="OpenFile" IsCompact="False" Label="{x:Bind Localizer.Open}" Command="{x:Bind VM.OpenItemCommand}" />
+                                        <AppBarButton Icon="Delete" IsCompact="False" Label="{x:Bind Localizer.Delete}" Command="{x:Bind VM.DeleteItemCommand}"  />
+                                        <AppBarButton Icon="" Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />
+                                    </StackPanel>
+                                </Grid>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
                         <StackPanel>
                             <TextBlock Text="{Binding Filename}" FontWeight="Bold" />
                             <StackPanel Orientation="Horizontal">
@@ -110,19 +120,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <!--<Grid Grid.Row="3" Padding="5">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Margin="0,0,10,0" Text="{x:Bind Localizer.SelectedItemColon}"></TextBlock>
-                <Button Content="{x:Bind Localizer.OpenCommand}" Command="{x:Bind VM.OpenCommand}" />
-                <Button Content="{x:Bind Localizer.DeleteCommand}" Command="{x:Bind VM.DeleteCommand}"  />
-                <Button Content="{x:Bind Localizer.ExportCommand}" Command="{x:Bind VM.ExportCommand}"  />
-            </StackPanel>
-        </Grid>-->
-
         <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
-            <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}">
-                <FontIcon Glyph="&#xE7C3;" />
-            </AppBarButton>
+            <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />
             <AppBarButton Command="{x:Bind VM.ImportSgfFileCommand}" Label="{x:Bind Localizer.ImportSgfFile}">
                 <BitmapIcon UriSource="/Assets/Icons/Commands/ImportFile.png" />
             </AppBarButton>

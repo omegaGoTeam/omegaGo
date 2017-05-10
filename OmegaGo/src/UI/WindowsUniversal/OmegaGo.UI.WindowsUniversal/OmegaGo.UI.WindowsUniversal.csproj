@@ -260,9 +260,15 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ExportFromLibrary.scale-200.png" />
     <Content Include="Assets\Icons\Commands\ImportFile.scale-100.png" />
     <Content Include="Assets\Icons\Commands\ImportFile.scale-150.png" />
     <Content Include="Assets\Icons\Commands\ImportFile.scale-200.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-100.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-150.png" />
+    <Content Include="Assets\Icons\Commands\ImportToLibrary.scale-200.png" />
     <Content Include="Assets\Icons\Commands\MultiplayerOptions.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-100.png" />
     <Content Include="Assets\Icons\Info\Channel.scale-150.png" />
