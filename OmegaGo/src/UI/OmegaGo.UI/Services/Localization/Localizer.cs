@@ -1980,6 +1980,14 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string Validation_KomiTooExtreme => LocalizeCaller();
 		/// <summary>
+		/// Show in list of all games
+		/// </summary>
+		public string CheckboxPublicGame => LocalizeCaller();
+		/// <summary>
+		/// This game is ranked
+		/// </summary>
+		public string CheckboxRankedGame => LocalizeCaller();
+		/// <summary>
 		/// Are you sure that you want to delete the selected branch?
 		/// </summary>
 		public string BranchDeletionConfirmationText => LocalizeCaller();
@@ -1989,14 +1997,11 @@ namespace OmegaGo.UI.Services.Localization
 		public string BranchDeletionConfirmationTitle => LocalizeCaller();
 		/// <summary>
 		/// Selected branch cannot be deleted because its part of the primary timeline.
-		/// Show in list of all games
 		/// </summary>
-		public string CheckboxPublicGame => LocalizeCaller();
 		public string BranchDeletionErrorText => LocalizeCaller();
 		/// <summary>
-		/// This game is ranked
+		/// Delete branch
 		/// </summary>
-		public string CheckboxRankedGame => LocalizeCaller();
 		public string BranchDeletionErrorTitle => LocalizeCaller();
 
         // 
