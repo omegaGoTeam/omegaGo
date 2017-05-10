@@ -48,7 +48,8 @@ namespace OmegaGo.UI.ViewModels
             : base (gameSettings, questsManager, dialogService)
         {
             Game.Controller.MoveUndone += Controller_MoveUndone;
-            
+
+            TimelineChanged += (s, e) => UpdateCanPassAndUndo();
 
             // AI Assistant Service 
             _assistant = new Assistant(gameSettings, UiConnector, Game.Controller, Game.Info);
@@ -172,6 +173,9 @@ namespace OmegaGo.UI.ViewModels
             }
 
             // Otherwise do a normal move
+            if (IsTimelineInPast)
+                return;
+
             if (Game?.Controller.Phase.Type == GamePhaseType.LifeDeathDetermination)
             {
                 UiConnector.RequestLifeDeathKillGroup(position);
@@ -235,6 +239,13 @@ namespace OmegaGo.UI.ViewModels
 
         protected void UpdateCanPassAndUndo()
         {
+            if(IsTimelineInPast)
+            {
+                CanUndo = false;
+                CanPass = false;
+                return;
+            }
+
             CanPass = (this.Game?.Controller?.TurnPlayer?.IsHuman ?? false) ? true : false;
             // TODO Petr this allows to undo before the beginning of the game and causes exception
             if (this.Game?.Controller?.GameTree == null)
