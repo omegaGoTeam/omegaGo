@@ -254,7 +254,7 @@
                                     Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityConverter}, Mode=OneWay}">
                             <controls:AnalyzeControl  x:Name="analyzeControl"
                                                       ViewModel="{x:Bind VM.AnalyzeViewModel}" />
-                            <controls:GameTreeControl x:Name="timelineControl"
+                            <controls:GameTreeControl x:Name="gameTreeControl"
                                                       HorizontalAlignment="Stretch"
                                                       Height="200"
                                                       ViewModel="{x:Bind VM.GameTreeViewModel}" />
@@ -290,7 +290,8 @@
                 HorizontalAlignment="Stretch"
                 BorderBrush="Black" BorderThickness="1"
                 Visibility="{x:Bind VM.IsAnalyzeModeEnabled, Converter={StaticResource boolVisibilityInvertedConverter}, Mode=OneWay}">
-            <Slider Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
+            <Slider x:Name="gameTimelineSlider" 
+                    Value="{x:Bind VM.SelectedMoveIndex, Mode=TwoWay}" 
                     Minimum="0" Maximum="{x:Bind VM.MaximumMoveIndex, Mode=OneWay}"/>
         </Border>
     </Grid>

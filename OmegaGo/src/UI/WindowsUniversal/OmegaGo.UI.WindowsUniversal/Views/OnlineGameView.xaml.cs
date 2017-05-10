@@ -1,8 +1,7 @@
-﻿using OmegaGo.Core.Game;
-using OmegaGo.Core.Modes.LiveGame.Players.Agents.Local;
-using OmegaGo.UI.ViewModels;
+﻿using OmegaGo.UI.ViewModels;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -16,6 +15,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public OnlineGameView()
         {
             this.InitializeComponent();
+            this.KeyUp += View_KeyUp;
         }
 
         public OnlineGameViewModel VM => (OnlineGameViewModel)ViewModel;
@@ -23,10 +23,44 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         public override string TabTitle => Localizer.OnlineGame;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/OnlineGame.png");
-
+        
         private void focusButton_Click(object sender, RoutedEventArgs e)
         {
             AppShell.FocusModeOn = !AppShell.FocusModeOn;
+        }
+
+        private void View_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (VM.IsAnalyzeModeEnabled)
+            {
+                switch (e.Key)
+                {
+                    case Windows.System.VirtualKey.Left:
+                        gameTreeControl.GoToParentNode();
+                        break;
+                    case Windows.System.VirtualKey.Right:
+                        gameTreeControl.GoToFirstChildNode();
+                        break;
+                    case Windows.System.VirtualKey.Up:
+                        gameTreeControl.GoToPreviousLevelNode();
+                        break;
+                    case Windows.System.VirtualKey.Down:
+                        gameTreeControl.GoToNextLevelNode();
+                        break;
+                }
+            }
+            else
+            {
+                switch (e.Key)
+                {
+                    case Windows.System.VirtualKey.Left:
+                        gameTimelineSlider.Value--;
+                        break;
+                    case Windows.System.VirtualKey.Right:
+                        gameTimelineSlider.Value++;
+                        break;
+                }
+            }
         }
     }
 }
