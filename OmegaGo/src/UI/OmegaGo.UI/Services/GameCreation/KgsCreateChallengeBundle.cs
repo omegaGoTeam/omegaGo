@@ -8,6 +8,7 @@ using MvvmCross.Platform;
 using OmegaGo.Core.Extensions;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Localization;
 using OmegaGo.UI.Services.Notifications;
 using OmegaGo.UI.Services.Online;
@@ -85,7 +86,7 @@ namespace OmegaGo.UI.Services.GameCreation
             await Connections.Kgs.Commands.CreateChallenge(_room, false, false,
                     rules, vm.SelectedColor);
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new Notifications.BubbleNotification("Challenge is being created...", null, NotificationType.Info));
+                .TriggerNotification(new Notifications.BubbleNotification(LocalizedStrings.ChallengeIsBeingCreated, null, NotificationType.Info));
             vm.CloseSelf();
         }
     }

@@ -17,6 +17,8 @@ using OmegaGo.UI.Services.Settings;
 using OmegaGo.UI.Services.Quests;
 using OmegaGo.Core.AI;
 using System.Threading.Tasks;
+using OmegaGo.UI.Localization;
+
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -328,18 +330,18 @@ namespace OmegaGo.UI.ViewModels
                 switch (hint.Kind)
                 {
                     case AgentDecisionKind.Resign:
-                        title = "You should resign.";
-                        content = "The assistant recommends you to resign.\n\nExplanation: " + hint.Explanation;
+                        title = LocalizedStrings.YouShouldResign;
+                        content = LocalizedStrings.ResignExplanation + " " + hint.Explanation;
                         break;
                     case AgentDecisionKind.Move:
                         title = hint.Move.ToString();
                         if (hint.Move.Kind == MoveKind.Pass)
                         {
-                            content = "You should pass.\n\nExplanation: " + hint.Explanation;
+                            content = LocalizedStrings.YouShouldPassExplanation + " " + hint.Explanation;
                         }
                         else
                         {
-                            content = "You should place a stone at " + hint.Move.Coordinates + ".\n\nExplanation: " +
+                            content = String.Format(LocalizedStrings.YouShouldPlayExplanation, hint.Move.Coordinates) + " " +
                                       hint.Explanation;
                         }
                         break;
@@ -347,8 +349,8 @@ namespace OmegaGo.UI.ViewModels
             }
             else
             {
-                title = "Hint unavailable";
-                content = "Hint cannot be given because Fuego is occupied elsewhere.";
+                title = LocalizedStrings.HintUnavailable;
+                content = LocalizedStrings.HintUnavailableExplanation;
             }
             await DialogService.ShowAsync(content, title);
             

@@ -1069,8 +1069,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="SortBy" translate="yes" xml:space="preserve">
           <source>Sort by</source>
-          <target state="needs-review-translation">Řazení podle:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Řazení podle:</target>
         </trans-unit>
         <trans-unit id="SortBy_Black" translate="yes" xml:space="preserve">
           <source>Black's name</source>
@@ -1762,107 +1761,194 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         </trans-unit>
         <trans-unit id="ExitAnalyze_Caption" translate="yes" xml:space="preserve">
           <source>Do you want to exit analysis?</source>
-          <target state="new">Do you want to exit analysis?</target>
+          <target state="translated">Opustit režim analýzy?</target>
         </trans-unit>
         <trans-unit id="ExitAnalyze_Confirm" translate="yes" xml:space="preserve">
           <source>End analysis</source>
-          <target state="new">End analysis</target>
+          <target state="translated">Ukončit analýzu</target>
         </trans-unit>
         <trans-unit id="ExitAnalyze_Text" translate="yes" xml:space="preserve">
           <source>Exiting this screen will end analysis and all your changes will be lost.</source>
-          <target state="new">Exiting this screen will end analysis and all your changes will be lost.</target>
+          <target state="translated">Opuštění této obrazovky ukončí analýzu a všechny neuložené změny budou ztraceny.</target>
         </trans-unit>
         <trans-unit id="Filter" translate="yes" xml:space="preserve">
           <source>Filter</source>
-          <target state="new">Filter</target>
+          <target state="translated">Filtrovat</target>
         </trans-unit>
         <trans-unit id="Name" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="new">Name</target>
+          <target state="translated">Jméno</target>
         </trans-unit>
         <trans-unit id="Search" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="translated">Hledat</target>
         </trans-unit>
         <trans-unit id="LooksForAGame" translate="yes" xml:space="preserve">
           <source>Looks for a game</source>
-          <target state="new">Looks for a game</target>
+          <target state="translated">Hledá hru</target>
         </trans-unit>
         <trans-unit id="NameAndRank" translate="yes" xml:space="preserve">
           <source>Name and rank</source>
-          <target state="new">Name and rank</target>
+          <target state="translated">Jméno a třída</target>
         </trans-unit>
         <trans-unit id="NoUserFoundChangeFilter" translate="yes" xml:space="preserve">
           <source>No user found, try changing the filter</source>
-          <target state="new">No user found, try changing the filter</target>
+          <target state="translated">Žádný uživatel nenalezen, zkuste změnit filtr.</target>
         </trans-unit>
         <trans-unit id="Sort" translate="yes" xml:space="preserve">
           <source>Sort</source>
-          <target state="new">Sort</target>
+          <target state="translated">Řazení</target>
         </trans-unit>
         <trans-unit id="VisibilitySettings" translate="yes" xml:space="preserve">
           <source>Visibility settings</source>
-          <target state="new">Visibility settings</target>
+          <target state="translated">Nastavení viditelnosti</target>
         </trans-unit>
         <trans-unit id="RoomColon" translate="yes" xml:space="preserve">
           <source>Room:</source>
-          <target state="new">Room:</target>
+          <target state="translated">Pokoj:</target>
         </trans-unit>
         <trans-unit id="Games" translate="yes" xml:space="preserve">
           <source>Games</source>
-          <target state="new">Games</target>
+          <target state="translated">Hry</target>
         </trans-unit>
         <trans-unit id="Rooms" translate="yes" xml:space="preserve">
           <source>Rooms</source>
-          <target state="new">Rooms</target>
+          <target state="translated">Pokoje</target>
         </trans-unit>
         <trans-unit id="Description" translate="yes" xml:space="preserve">
           <source>Description</source>
-          <target state="new">Description</target>
+          <target state="translated">Popis</target>
         </trans-unit>
         <trans-unit id="NoRoomSelectedMessage" translate="yes" xml:space="preserve">
           <source>No room selected. Pick one from the list.</source>
-          <target state="new">No room selected. Pick one from the list.</target>
+          <target state="translated">Žádný pokoj není vybrán. Vyberte jeden ze seznamu.</target>
         </trans-unit>
         <trans-unit id="Join" translate="yes" xml:space="preserve">
           <source>Join</source>
-          <target state="new">Join</target>
+          <target state="translated">Připojit se</target>
         </trans-unit>
         <trans-unit id="Unjoin" translate="yes" xml:space="preserve">
           <source>Unjoin</source>
-          <target state="new">Unjoin</target>
+          <target state="translated">Odejít</target>
         </trans-unit>
         <trans-unit id="Challenges" translate="yes" xml:space="preserve">
           <source>Challenges</source>
-          <target state="new">Challenges</target>
+          <target state="translated">Výzvy</target>
         </trans-unit>
         <trans-unit id="GamesAndChallenges" translate="yes" xml:space="preserve">
           <source>Games and challenges</source>
-          <target state="new">Games and challenges</target>
+          <target state="translated">Hry v výzvy</target>
         </trans-unit>
         <trans-unit id="Users" translate="yes" xml:space="preserve">
           <source>Users</source>
-          <target state="new">Users</target>
+          <target state="translated">Uživatelé</target>
         </trans-unit>
         <trans-unit id="ChannelColon" translate="yes" xml:space="preserve">
           <source>Channel:</source>
-          <target state="new">Channel:</target>
+          <target state="translated">Kanál:</target>
         </trans-unit>
         <trans-unit id="GlobalGamesListKind_ActiveGames" translate="yes" xml:space="preserve">
           <source>All observable games</source>
-          <target state="new">All observable games</target>
+          <target state="translated">Všechny pozorovatelné hry</target>
         </trans-unit>
         <trans-unit id="GlobalGamesListKind_Challenges" translate="yes" xml:space="preserve">
           <source>All open challenges</source>
-          <target state="new">All open challenges</target>
+          <target state="translated">Všechny otevřené výzvy</target>
         </trans-unit>
         <trans-unit id="GlobalGamesListKind_Favourites" translate="yes" xml:space="preserve">
           <source>Favorite games</source>
-          <target state="new">Favorite games</target>
+          <target state="translated">Oblíbené hry</target>
         </trans-unit>
         <trans-unit id="Details" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Podrobnosti</target>
+        </trans-unit>
+        <trans-unit id="AGameWithFuegoAlreadyOpen" translate="yes" xml:space="preserve">
+          <source>A game with Fuego is already open.</source>
+          <target state="translated">Fuego již v nějaké otevřené hře hraje.</target>
+        </trans-unit>
+        <trans-unit id="ChallengeIsBeingCreated" translate="yes" xml:space="preserve">
+          <source>Requesting challenge creation...</source>
+          <target state="translated">Žádám o vytvoření výzvy...</target>
+        </trans-unit>
+        <trans-unit id="ChallengeToXSent" translate="yes" xml:space="preserve">
+          <source>Challenge to {0} sent.</source>
+          <target state="translated">Výzva uživateli {0} odeslána.</target>
+        </trans-unit>
+        <trans-unit id="HintUnavailable" translate="yes" xml:space="preserve">
+          <source>Hint unavailable</source>
+          <target state="translated">Nápověda není k dispozici</target>
+        </trans-unit>
+        <trans-unit id="HintUnavailableExplanation" translate="yes" xml:space="preserve">
+          <source>Hint cannot be given because Fuego is occupied elsewhere.</source>
+          <target state="translated">Nelze použít nápovědu, protože Fuego má právě práci u jiné hry.</target>
+        </trans-unit>
+        <trans-unit id="HyphenOutgoingChallenge" translate="yes" xml:space="preserve">
+          <source>- outgoing challenge</source>
+          <target state="translated">- odchozí výzva</target>
+        </trans-unit>
+        <trans-unit id="KGSAlert" translate="yes" xml:space="preserve">
+          <source>KGS Message</source>
+          <target state="translated">Zpráva KGS</target>
+        </trans-unit>
+        <trans-unit id="KGSChannelAlreadyJoined" translate="yes" xml:space="preserve">
+          <source>You are already in that game or challenge.</source>
+          <target state="translated">K této hře nebo výzvě jste se již připojili.</target>
+        </trans-unit>
+        <trans-unit id="KGSReconnect" translate="yes" xml:space="preserve">
+          <source>You have just logged in elsewhere.</source>
+          <target state="translated">Právě jste se přihlásili odjinud.</target>
+        </trans-unit>
+        <trans-unit id="KGSTechnicalMessage" translate="yes" xml:space="preserve">
+          <source>KGS Technical Message</source>
+          <target state="translated">Technická zpráva KGS</target>
+        </trans-unit>
+        <trans-unit id="KGSYouCantPlayTwice" translate="yes" xml:space="preserve">
+          <source>You cannot play two KGS games at a time.</source>
+          <target state="translated">Nemůžeš hrát dvě hry na KGS současně.</target>
+        </trans-unit>
+        <trans-unit id="PandanetError" translate="yes" xml:space="preserve">
+          <source>Pandanet Error</source>
+          <target state="translated">Pandanet</target>
+        </trans-unit>
+        <trans-unit id="ResignExplanation" translate="yes" xml:space="preserve">
+          <source>The assistant recommends you to resign.\n\nExplanation:</source>
+          <target state="translated">Asistent doporučuje hru vzdát.\n\nVysvětlení (v angličtině):</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">translate as The assistant recommends you to resign.\n\nExplanation (in English):</note>
+        </trans-unit>
+        <trans-unit id="System" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">Systém</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">The source of informational chat messages.</note>
+        </trans-unit>
+        <trans-unit id="XDeclinedYourMatchRequest" translate="yes" xml:space="preserve">
+          <source>{0} declined your match request.</source>
+          <target state="translated">{0} odmítl tvoji žádost o hru.</target>
+        </trans-unit>
+        <trans-unit id="XIsSatisfiedWithTheRemovedStones" translate="yes" xml:space="preserve">
+          <source>{0} is satisfied with the removed stones.</source>
+          <target state="translated">{0} je spokojen s odebranými kameny.</target>
+        </trans-unit>
+        <trans-unit id="YouAreObservingAProfessionalGame" translate="yes" xml:space="preserve">
+          <source>You are observing a professional game.</source>
+          <target state="translated">Pozorujete profesionální hru.</target>
+        </trans-unit>
+        <trans-unit id="YouAreWatchingAProfessionalGameTitledX" translate="yes" xml:space="preserve">
+          <source>You are watching a named professional game. This is the game title:\n\n{0}</source>
+          <target state="translated">Sledujete pojmenovanou profesionální hru. Hra se jmenuje:\n\n{0}</target>
+        </trans-unit>
+        <trans-unit id="YouShouldPassExplanation" translate="yes" xml:space="preserve">
+          <source>You should pass.\n\nExplanation:</source>
+          <target state="translated">Asistent doporučuje pass.\n\nVysvětlení (v angličtině):</target>
+        </trans-unit>
+        <trans-unit id="YouShouldPlayExplanation" translate="yes" xml:space="preserve">
+          <source>You should place a stone at {0}.\n\nExplanation:</source>
+          <target state="translated">Asistent doporučuje položit kámen na {0}.\n\nVysvětlení (v angličtině):</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">{0} is coordinates, such as "B2".</note>
+        </trans-unit>
+        <trans-unit id="YouShouldResign" translate="yes" xml:space="preserve">
+          <source>You should resign.</source>
+          <target state="translated">Vzdej se.</target>
         </trans-unit>
         <trans-unit id="Validation_BoardTooExtreme" translate="yes" xml:space="preserve">
           <source>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</source>

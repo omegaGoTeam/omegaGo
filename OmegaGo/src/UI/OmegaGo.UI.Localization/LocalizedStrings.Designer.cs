@@ -80,6 +80,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A game with Fuego is already open..
+        /// </summary>
+        public static string AGameWithFuegoAlreadyOpen {
+            get {
+                return ResourceManager.GetString("AGameWithFuegoAlreadyOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
         ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
         /// </summary>
@@ -591,11 +600,29 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requesting challenge creation....
+        /// </summary>
+        public static string ChallengeIsBeingCreated {
+            get {
+                return ResourceManager.GetString("ChallengeIsBeingCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Challenges.
         /// </summary>
         public static string Challenges {
             get {
                 return ResourceManager.GetString("Challenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Challenge to {0} sent..
+        /// </summary>
+        public static string ChallengeToXSent {
+            get {
+                return ResourceManager.GetString("ChallengeToXSent", resourceCulture);
             }
         }
         
@@ -1329,6 +1356,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hint unavailable.
+        /// </summary>
+        public static string HintUnavailable {
+            get {
+                return ResourceManager.GetString("HintUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hint cannot be given because Fuego is occupied elsewhere..
+        /// </summary>
+        public static string HintUnavailableExplanation {
+            get {
+                return ResourceManager.GetString("HintUnavailableExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hotseat games played.
         /// </summary>
         public static string HotseatGamesPlayed {
@@ -1352,6 +1397,15 @@ namespace OmegaGo.UI.Localization {
         public static string HumanDescription {
             get {
                 return ResourceManager.GetString("HumanDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - outgoing challenge.
+        /// </summary>
+        public static string HyphenOutgoingChallenge {
+            get {
+                return ResourceManager.GetString("HyphenOutgoingChallenge", resourceCulture);
             }
         }
         
@@ -1635,6 +1689,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KGS Message.
+        /// </summary>
+        public static string KGSAlert {
+            get {
+                return ResourceManager.GetString("KGSAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to That is a wrong password for this user..
         /// </summary>
         public static string KgsBadPassword {
@@ -1667,6 +1730,15 @@ namespace OmegaGo.UI.Localization {
         public static string KgsChallengeQuest_Name {
             get {
                 return ResourceManager.GetString("KgsChallengeQuest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are already in that game or challenge..
+        /// </summary>
+        public static string KGSChannelAlreadyJoined {
+            get {
+                return ResourceManager.GetString("KGSChannelAlreadyJoined", resourceCulture);
             }
         }
         
@@ -1743,6 +1815,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have just logged in elsewhere..
+        /// </summary>
+        public static string KGSReconnect {
+            get {
+                return ResourceManager.GetString("KGSReconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KGS Go Server.
         /// </summary>
         public static string KgsServerCaption {
@@ -1761,11 +1842,29 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KGS Technical Message.
+        /// </summary>
+        public static string KGSTechnicalMessage {
+            get {
+                return ResourceManager.GetString("KGSTechnicalMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to KGS Username.
         /// </summary>
         public static string KgsUsernameCaption {
             get {
                 return ResourceManager.GetString("KgsUsernameCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot play two KGS games at a time..
+        /// </summary>
+        public static string KGSYouCantPlayTwice {
+            get {
+                return ResourceManager.GetString("KGSYouCantPlayTwice", resourceCulture);
             }
         }
         
@@ -2337,6 +2436,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pandanet Error.
+        /// </summary>
+        public static string PandanetError {
+            get {
+                return ResourceManager.GetString("PandanetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pass.
         /// </summary>
         public static string Pass {
@@ -2666,6 +2774,15 @@ namespace OmegaGo.UI.Localization {
         public static string Resign {
             get {
                 return ResourceManager.GetString("Resign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The assistant recommends you to resign.\n\nExplanation:.
+        /// </summary>
+        public static string ResignExplanation {
+            get {
+                return ResourceManager.GetString("ResignExplanation", resourceCulture);
             }
         }
         
@@ -3098,6 +3215,15 @@ namespace OmegaGo.UI.Localization {
         public static string SwitchColors {
             get {
                 return ResourceManager.GetString("SwitchColors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string System {
+            get {
+                return ResourceManager.GetString("System", resourceCulture);
             }
         }
         
@@ -4155,6 +4281,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} declined your match request..
+        /// </summary>
+        public static string XDeclinedYourMatchRequest {
+            get {
+                return ResourceManager.GetString("XDeclinedYourMatchRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is satisfied with the removed stones..
+        /// </summary>
+        public static string XIsSatisfiedWithTheRemovedStones {
+            get {
+                return ResourceManager.GetString("XIsSatisfiedWithTheRemovedStones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         public static string Yes {
@@ -4169,6 +4313,24 @@ namespace OmegaGo.UI.Localization {
         public static string YouAreLoggedInAs {
             get {
                 return ResourceManager.GetString("YouAreLoggedInAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are observing a professional game..
+        /// </summary>
+        public static string YouAreObservingAProfessionalGame {
+            get {
+                return ResourceManager.GetString("YouAreObservingAProfessionalGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are watching a named professional game. This is the game title:\n\n{0}.
+        /// </summary>
+        public static string YouAreWatchingAProfessionalGameTitledX {
+            get {
+                return ResourceManager.GetString("YouAreWatchingAProfessionalGameTitledX", resourceCulture);
             }
         }
         
@@ -4250,6 +4412,33 @@ namespace OmegaGo.UI.Localization {
         public static string YourOpponent {
             get {
                 return ResourceManager.GetString("YourOpponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should pass.\n\nExplanation:.
+        /// </summary>
+        public static string YouShouldPassExplanation {
+            get {
+                return ResourceManager.GetString("YouShouldPassExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should place a stone at {0}.\n\nExplanation:.
+        /// </summary>
+        public static string YouShouldPlayExplanation {
+            get {
+                return ResourceManager.GetString("YouShouldPlayExplanation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should resign..
+        /// </summary>
+        public static string YouShouldResign {
+            get {
+                return ResourceManager.GetString("YouShouldResign", resourceCulture);
             }
         }
     }
