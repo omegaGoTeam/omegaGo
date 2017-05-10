@@ -98,6 +98,8 @@ namespace OmegaGo.UI.ViewModels
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
 
             Game.Controller.MoveUndone += (s, e) => { UpdateTimeline(); };
+
+            // When timeline selected node changes, check whether its not in the past. If it is then disable shadow stones.
             TimelineChanged += (s, e) => BoardViewModel.BoardControlState.IsShadowDrawingEnabled = !IsTimelineInPast;
         }
 

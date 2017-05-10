@@ -1466,4 +1466,16 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="YouShouldResign" xml:space="preserve">
     <value>Vzdej se.</value>
   </data>
+  <data name="BranchDeletionConfirmationText" xml:space="preserve">
+    <value>Určitě chcete smazat vybranou větev?</value>
+  </data>
+  <data name="BranchDeletionConfirmationTitle" xml:space="preserve">
+    <value>Smazat větev</value>
+  </data>
+  <data name="BranchDeletionErrorText" xml:space="preserve">
+    <value>Vybraná větev nemůže být smazána, protože je součástí hlavní časové osy.</value>
+  </data>
+  <data name="BranchDeletionErrorTitle" xml:space="preserve">
+    <value>Smazat větev</value>
+  </data>
 </root>
