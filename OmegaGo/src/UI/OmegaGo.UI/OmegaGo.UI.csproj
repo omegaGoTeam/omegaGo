@@ -286,6 +286,7 @@
     <EmbeddedResource Include="Services\Help\Data\comprules.html" />
     <EmbeddedResource Include="Services\Help\Data\humour.html" />
     <Content Include="LICENSE.txt" />
+    <Content Include="Services\Help\Data\omegaGo User Guide.html" />
     <Content Include="Services\Quests\ABOUT.txt" />
     <Content Include="Services\Quests\QuestCooldownSpecification.txt" />
     <Content Include="Services\Tutorial\DOCUMENTATION.txt" />
