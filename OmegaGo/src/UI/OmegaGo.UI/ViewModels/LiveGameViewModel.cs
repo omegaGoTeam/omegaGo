@@ -98,6 +98,7 @@ namespace OmegaGo.UI.ViewModels
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
 
             Game.Controller.MoveUndone += (s, e) => { UpdateTimeline(); };
+            TimelineChanged += (s, e) => BoardViewModel.BoardControlState.IsShadowDrawingEnabled = !IsTimelineInPast;
         }
 
         public event EventHandler TimelineChanged;
