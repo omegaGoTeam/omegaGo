@@ -35,7 +35,7 @@
                         <HyperlinkButton Click="HyperlinkButton_Click" FontSize="16" HorizontalAlignment="Center">
                             <TextBlock Text="{x:Bind ViewModel.HyperlinkCaption}" TextWrapping="Wrap" />
                         </HyperlinkButton>
-                        <TextBlock TextWrapping="Wrap" TextAlignment="Center" FontSize="13" HorizontalAlignment="Center" Text="{x:Bind ViewModel.ServerInformation}" />
+                        <TextBlock MaxWidth="350"  TextWrapping="Wrap" TextAlignment="Center" FontSize="13" HorizontalAlignment="Center" Text="{x:Bind ViewModel.ServerInformation}" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

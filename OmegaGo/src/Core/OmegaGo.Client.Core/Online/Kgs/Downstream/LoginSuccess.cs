@@ -44,7 +44,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             connection.LoggedIn = true;
             connection.LoggingIn = false;
             connection.Events.RaiseLoginPhaseChanged(KgsLoginPhase.Done);
-            connection.Events.RaiseLoginComplete(true);
+            connection.Events.RaiseLoginComplete(LoginResult.Success);
         }
     }
     class Friend

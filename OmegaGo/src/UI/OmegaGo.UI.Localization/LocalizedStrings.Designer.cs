@@ -1635,6 +1635,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to That is a wrong password for this user..
+        /// </summary>
+        public static string KgsBadPassword {
+            get {
+                return ResourceManager.GetString("KgsBadPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no user with this name..
+        /// </summary>
+        public static string KgsBadUsername {
+            get {
+                return ResourceManager.GetString("KgsBadUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Finish 3 games on the KGS server..
         /// </summary>
         public static string KgsChallengeQuest_Description {
@@ -1649,6 +1667,15 @@ namespace OmegaGo.UI.Localization {
         public static string KgsChallengeQuest_Name {
             get {
                 return ResourceManager.GetString("KgsChallengeQuest_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection failure. Check your internet connection and try again..
+        /// </summary>
+        public static string KgsConnectionFailure {
+            get {
+                return ResourceManager.GetString("KgsConnectionFailure", resourceCulture);
             }
         }
         

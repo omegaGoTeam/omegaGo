@@ -198,12 +198,16 @@ namespace OmegaGo.Core.Online.Kgs
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             Debug.WriteLine("Making login request");
-            await MakeUnattendedRequestAsync("LOGIN", new
+            if (!await MakeUnattendedRequestAsync("LOGIN", new
             {
                 Name = name,
                 Password = password,
                 Locale = "en_US"
-            });
+            }))
+            {
+                LoggingIn = false;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
+            }
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
@@ -278,9 +282,12 @@ namespace OmegaGo.Core.Online.Kgs
         /// <param name="reason">The reason.</param>
         internal void LogoutAndDisconnect(string reason)
         {
-
+            bool disconnectionIsNotRedundant = this.LoggedIn || this.LoggingIn;
             this.LoggedIn = false;
-            this.Events.RaiseDisconnection(reason);
+            if (disconnectionIsNotRedundant)
+            {
+                this.Events.RaiseDisconnection(reason);
+            }
             foreach(var game in this.Data.Games.ToList())
             {
                 GamePlayer whoDisconnected = game.Controller.Players.FirstOrDefault(pl => pl.Info.Name == this.Username);

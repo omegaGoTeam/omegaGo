@@ -175,7 +175,7 @@ namespace OmegaGo.UI.ViewModels
             Connections.Kgs.Events.LoginPhaseChanged += Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection += Events_Disconnection;
             Connections.Kgs.Data.SomethingChanged += MinorBindingsUpdate;
-            Connections.Kgs.Events.LoginComplete += Events_LoginComplete;
+            Connections.Kgs.Events.LoginEnded += EventsLoginEnded;
 
             if (Connections.Kgs.LoggedIn)
             {
@@ -201,15 +201,27 @@ namespace OmegaGo.UI.ViewModels
             }
         }
 
-        private void Events_LoginComplete(object sender, bool success)
+        private void EventsLoginEnded(object sender, LoginResult result)
         {
             this.LoginForm.FormEnabled = true;
-            if (!success)
+            string msg;
+            switch (result)
             {
-
-                this.LoginForm.LoginErrorMessage = "The username or password you entered is incorrect.";
-                this.LoginForm.LoginErrorMessageVisible = true;
+                case LoginResult.Success:
+                    return;
+                case LoginResult.FailureUserDoesNotExist:
+                    msg = Localizer.KgsBadUsername;
+                    break;
+                case LoginResult.FailureWrongPassword:
+                    msg = Localizer.KgsBadPassword;
+                    break;
+                case LoginResult.FailureBadConnection:
+                default:
+                    msg = Localizer.KgsConnectionFailure;
+                    break;
             }
+            this.LoginForm.LoginErrorMessage = msg;
+            this.LoginForm.LoginErrorMessageVisible = true;
         }
 
         public override Task<bool> CanCloseViewModelAsync()
@@ -217,17 +229,8 @@ namespace OmegaGo.UI.ViewModels
             Connections.Kgs.Events.LoginPhaseChanged -= Events_LoginPhaseChanged;
             Connections.Kgs.Events.Disconnection -= Events_Disconnection;
             Connections.Kgs.Data.SomethingChanged -= MinorBindingsUpdate;
-            Connections.Kgs.Events.LoginComplete -= Events_LoginComplete;
+            Connections.Kgs.Events.LoginEnded -= EventsLoginEnded;
             return base.CanCloseViewModelAsync();
-        }
-
-        public async Task AttemptLoginCommand(string username, string password)
-        {
-            this.LoginForm.LoginErrorMessageVisible = true;
-            this.LoginForm.FormEnabled = false;
-
-            this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
-            await Connections.Kgs.LoginAsync(username, password);
         }
 
         private void Events_Disconnection(object sender, string e)
@@ -262,7 +265,12 @@ namespace OmegaGo.UI.ViewModels
 
         private async void LoginForm_LoginClick(object sender, LoginEventArgs e)
         {
-            await AttemptLoginCommand(e.Username, e.Password);
+            string username = e.Username;
+            this.LoginForm.LoginErrorMessageVisible = true;
+            this.LoginForm.FormEnabled = false;
+
+            this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
+            await Connections.Kgs.LoginAsync(username, e.Password);
         }
     }
 }

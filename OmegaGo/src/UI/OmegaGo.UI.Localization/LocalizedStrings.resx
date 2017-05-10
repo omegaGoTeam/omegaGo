@@ -1505,6 +1505,15 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="KgsBadPassword" xml:space="preserve">
+    <value>That is a wrong password for this user.</value>
+  </data>
+  <data name="KgsBadUsername" xml:space="preserve">
+    <value>There is no user with this name.</value>
+  </data>
+  <data name="KgsConnectionFailure" xml:space="preserve">
+    <value>Connection failure. Check your internet connection and try again.</value>
+  </data>
   <data name="Validation_BoardTooExtreme" xml:space="preserve">
     <value>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</value>
   </data>
