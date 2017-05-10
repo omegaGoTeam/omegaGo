@@ -55,6 +55,8 @@ namespace OmegaGo.UI.ViewModels
         private string _validationErrorMessage = "";
         private string _compensationString;
         private int _selectedColorIndex = 0;
+        private bool _isRankedGame = false;
+        private bool _isPubliclyListedGame = false;
         private ObservableCollection<TimeControlStyle> _timeControlStyles =
             new ObservableCollection<TimeControlStyle>
             {
@@ -261,6 +263,24 @@ namespace OmegaGo.UI.ViewModels
         {
             get { return _useRecommendedKomi; }
             set { SetProperty(ref _useRecommendedKomi, value);
+                SetDefaultCompensation();
+            }
+        }
+        public bool IsRankedGame
+        {
+            get { return _isRankedGame; }
+            set
+            {
+                SetProperty(ref _isRankedGame, value);
+                SetDefaultCompensation();
+            }
+        }
+        public bool IsPubliclyListedGame
+        {
+            get { return _isPubliclyListedGame; }
+            set
+            {
+                SetProperty(ref _isPubliclyListedGame, value);
                 SetDefaultCompensation();
             }
         }

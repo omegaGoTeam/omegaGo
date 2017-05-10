@@ -654,6 +654,24 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show in list of all games.
+        /// </summary>
+        public static string CheckboxPublicGame {
+            get {
+                return ResourceManager.GetString("CheckboxPublicGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This game is ranked.
+        /// </summary>
+        public static string CheckboxRankedGame {
+            get {
+                return ResourceManager.GetString("CheckboxRankedGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
         public static string CloseFlyout {

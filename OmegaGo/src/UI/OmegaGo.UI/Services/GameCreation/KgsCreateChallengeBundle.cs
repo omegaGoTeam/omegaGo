@@ -81,9 +81,8 @@ namespace OmegaGo.UI.Services.GameCreation
                     rules.TimeSystem = RulesDescription.TimeSystemNone;
                     break;
             }
-
-            // TODO Petr change these 'false's
-            await Connections.Kgs.Commands.CreateChallenge(_room, false, false,
+            
+            await Connections.Kgs.Commands.CreateChallenge(_room, vm.IsRankedGame, vm.IsPubliclyListedGame,
                     rules, vm.SelectedColor);
             Mvx.Resolve<IAppNotificationService>()
                 .TriggerNotification(new Notifications.BubbleNotification(LocalizedStrings.ChallengeIsBeingCreated, null, NotificationType.Info));
