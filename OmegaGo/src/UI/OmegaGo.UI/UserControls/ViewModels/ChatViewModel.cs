@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using OmegaGo.Core.Modes.LiveGame.Connectors;
+using OmegaGo.UI.Localization;
 
 namespace OmegaGo.UI.UserControls.ViewModels
 {
@@ -80,7 +81,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private void Connector_ServerSaysAPlayerIsDone(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
         {
             ChatService_NewMessageReceived(sender,
-                new ChatMessage("System", e + " is satisfied with the removed stones.", DateTimeOffset.Now,
+                new ChatMessage("System", String.Format(LocalizedStrings.XIsSatisfiedWithTheRemovedStones, e), DateTimeOffset.Now,
                     ChatMessageKind.Incoming));
         }
     }

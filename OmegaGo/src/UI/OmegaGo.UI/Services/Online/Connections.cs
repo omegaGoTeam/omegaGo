@@ -12,6 +12,7 @@ using OmegaGo.Core.Online.Igs;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Localization;
 using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.GameCreation;
 using OmegaGo.UI.Services.Notifications;
@@ -93,14 +94,14 @@ namespace OmegaGo.UI.Services.Online
         private static void Pandanet_ErrorMessageReceived(object sender, string e)
         {
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new BubbleNotification(e, "Pandanet Error", NotificationType.Alert));
+                .TriggerNotification(new BubbleNotification(e, LocalizedStrings.PandanetError, NotificationType.Alert));
 
         }
 
         private static void Pandanet_MatchRequestDeclined(object sender, string e)
         {
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new BubbleNotification(e + " declined your match request.", null, NotificationType.Alert));
+                .TriggerNotification(new BubbleNotification(String.Format(LocalizedStrings.XDeclinedYourMatchRequest, e), null, NotificationType.Alert));
         }
 
         private static void Pandanet_MatchRequestAccepted(object sender, Core.Modes.LiveGame.Remote.Igs.IgsGame e)
@@ -154,10 +155,26 @@ namespace OmegaGo.UI.Services.Online
             CreateTab<GameCreationViewModel>(TabNavigationType.NewForegroundTab);
         }
 
-        private static void KgsNotificationErrorMessage(object sender, string e)
+        private static void KgsNotificationErrorMessage(object sender, string message)
         {
+            string title = LocalizedStrings.KGSTechnicalMessage;
+            switch (message)
+            {
+                case "CHANNEL_ALREADY_JOINED":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSChannelAlreadyJoined;
+                    break;
+                case "RECONNECT":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSReconnect;
+                    break;
+                case "CANT_PLAY_TWICE":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.KGSYouCantPlayTwice;
+                    break;
+            }
             Mvx.Resolve<IAppNotificationService>()
-                .TriggerNotification(new BubbleNotification(e, "KGS Technical Message", NotificationType.Alert));
+                .TriggerNotification(new BubbleNotification(message, title, NotificationType.Alert));
         }
 
         private static void Kgs_GameJoined(object sender, KgsGame e)

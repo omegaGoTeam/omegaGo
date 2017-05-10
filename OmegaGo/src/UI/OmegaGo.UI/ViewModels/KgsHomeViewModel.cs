@@ -226,7 +226,6 @@ namespace OmegaGo.UI.ViewModels
             this.LoginForm.LoginErrorMessageVisible = true;
             this.LoginForm.FormEnabled = false;
 
-            this.LoginForm.LoginErrorMessage = "Logging in as " + username + "...";
             await Connections.Kgs.LoginAsync(username, password);
         }
 
@@ -234,7 +233,7 @@ namespace OmegaGo.UI.ViewModels
         {
             this.LoginForm.FormVisible = true;
             this.LoginForm.FormEnabled = true;
-            this.LoginForm.LoginErrorMessage = "You have been disconnected.";
+            this.LoginForm.LoginErrorMessage = Localizer.YouHaveBeenDisconnected;
         }
 
 

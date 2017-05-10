@@ -1322,4 +1322,148 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="YourOpponent" xml:space="preserve">
     <value>Tvůj soupeř</value>
   </data>
+  <data name="ExitAnalyze_Caption" xml:space="preserve">
+    <value>Opustit režim analýzy?</value>
+  </data>
+  <data name="ExitAnalyze_Confirm" xml:space="preserve">
+    <value>Ukončit analýzu</value>
+  </data>
+  <data name="ExitAnalyze_Text" xml:space="preserve">
+    <value>Opuštění této obrazovky ukončí analýzu a všechny neuložené změny budou ztraceny.</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filtrovat</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="LooksForAGame" xml:space="preserve">
+    <value>Hledá hru</value>
+  </data>
+  <data name="NameAndRank" xml:space="preserve">
+    <value>Jméno a třída</value>
+  </data>
+  <data name="NoUserFoundChangeFilter" xml:space="preserve">
+    <value>Žádný uživatel nenalezen, zkuste změnit filtr.</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>Řazení</value>
+  </data>
+  <data name="VisibilitySettings" xml:space="preserve">
+    <value>Nastavení viditelnosti</value>
+  </data>
+  <data name="RoomColon" xml:space="preserve">
+    <value>Pokoj:</value>
+  </data>
+  <data name="Games" xml:space="preserve">
+    <value>Hry</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Pokoje</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="NoRoomSelectedMessage" xml:space="preserve">
+    <value>Žádný pokoj není vybrán. Vyberte jeden ze seznamu.</value>
+  </data>
+  <data name="Join" xml:space="preserve">
+    <value>Připojit se</value>
+  </data>
+  <data name="Unjoin" xml:space="preserve">
+    <value>Odejít</value>
+  </data>
+  <data name="Challenges" xml:space="preserve">
+    <value>Výzvy</value>
+  </data>
+  <data name="GamesAndChallenges" xml:space="preserve">
+    <value>Hry v výzvy</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Uživatelé</value>
+  </data>
+  <data name="ChannelColon" xml:space="preserve">
+    <value>Kanál:</value>
+  </data>
+  <data name="GlobalGamesListKind_ActiveGames" xml:space="preserve">
+    <value>Všechny pozorovatelné hry</value>
+  </data>
+  <data name="GlobalGamesListKind_Challenges" xml:space="preserve">
+    <value>Všechny otevřené výzvy</value>
+  </data>
+  <data name="GlobalGamesListKind_Favourites" xml:space="preserve">
+    <value>Oblíbené hry</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Podrobnosti</value>
+  </data>
+  <data name="AGameWithFuegoAlreadyOpen" xml:space="preserve">
+    <value>Fuego již v nějaké otevřené hře hraje.</value>
+  </data>
+  <data name="ChallengeIsBeingCreated" xml:space="preserve">
+    <value>Žádám o vytvoření výzvy...</value>
+  </data>
+  <data name="ChallengeToXSent" xml:space="preserve">
+    <value>Výzva uživateli {0} odeslána.</value>
+  </data>
+  <data name="HintUnavailable" xml:space="preserve">
+    <value>Nápověda není k dispozici</value>
+  </data>
+  <data name="HintUnavailableExplanation" xml:space="preserve">
+    <value>Nelze použít nápovědu, protože Fuego má právě práci u jiné hry.</value>
+  </data>
+  <data name="HyphenOutgoingChallenge" xml:space="preserve">
+    <value>- odchozí výzva</value>
+  </data>
+  <data name="KGSAlert" xml:space="preserve">
+    <value>Zpráva KGS</value>
+  </data>
+  <data name="KGSChannelAlreadyJoined" xml:space="preserve">
+    <value>K této hře nebo výzvě jste se již připojili.</value>
+  </data>
+  <data name="KGSReconnect" xml:space="preserve">
+    <value>Právě jste se přihlásili odjinud.</value>
+  </data>
+  <data name="KGSTechnicalMessage" xml:space="preserve">
+    <value>Technická zpráva KGS</value>
+  </data>
+  <data name="KGSYouCantPlayTwice" xml:space="preserve">
+    <value>Nemůžeš hrát dvě hry na KGS současně.</value>
+  </data>
+  <data name="PandanetError" xml:space="preserve">
+    <value>Pandanet</value>
+  </data>
+  <data name="ResignExplanation" xml:space="preserve">
+    <value>Asistent doporučuje hru vzdát.\n\nVysvětlení (v angličtině):</value>
+    <comment>translate as The assistant recommends you to resign.\n\nExplanation (in English):</comment>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>Systém</value>
+    <comment>The source of informational chat messages.</comment>
+  </data>
+  <data name="XDeclinedYourMatchRequest" xml:space="preserve">
+    <value>{0} odmítl tvoji žádost o hru.</value>
+  </data>
+  <data name="XIsSatisfiedWithTheRemovedStones" xml:space="preserve">
+    <value>{0} je spokojen s odebranými kameny.</value>
+  </data>
+  <data name="YouAreObservingAProfessionalGame" xml:space="preserve">
+    <value>Pozorujete profesionální hru.</value>
+  </data>
+  <data name="YouAreWatchingAProfessionalGameTitledX" xml:space="preserve">
+    <value>Sledujete pojmenovanou profesionální hru. Hra se jmenuje:\n\n{0}</value>
+  </data>
+  <data name="YouShouldPassExplanation" xml:space="preserve">
+    <value>Asistent doporučuje pass.\n\nVysvětlení (v angličtině):</value>
+  </data>
+  <data name="YouShouldPlayExplanation" xml:space="preserve">
+    <value>Asistent doporučuje položit kámen na {0}.\n\nVysvětlení (v angličtině):</value>
+    <comment>{0} is coordinates, such as "B2".</comment>
+  </data>
+  <data name="YouShouldResign" xml:space="preserve">
+    <value>Vzdej se.</value>
+  </data>
 </root>
