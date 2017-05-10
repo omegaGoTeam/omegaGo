@@ -32,6 +32,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         private void View_KeyUp(object sender, KeyRoutedEventArgs e)
         {
+            // If the event comes from timeline slider, just ignor it. Slider is able to do "speedy navigation".
+            if (e.OriginalSource == gameTimelineSlider)
+                return;
+            
             if (VM.IsAnalyzeModeEnabled)
             {
                 switch (e.Key)
