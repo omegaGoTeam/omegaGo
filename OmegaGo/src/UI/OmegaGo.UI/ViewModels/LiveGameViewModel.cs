@@ -17,6 +17,7 @@ using MvvmCross.Core.ViewModels;
 using System.Threading.Tasks;
 using System;
 using OmegaGo.UI.Services.Audio;
+using OmegaGo.UI.Services.GameTools;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -55,6 +56,8 @@ namespace OmegaGo.UI.ViewModels
             // Register tool services
             ToolServices = 
                 new GameToolServices(
+                    Localizer,
+                    dialogService,
                     Game.Controller.Ruleset, 
                     Game.Controller.GameTree);
             ToolServices.PassSoundShouldBePlayed += ToolServices_PassSoundShouldBePlayed;
@@ -95,6 +98,9 @@ namespace OmegaGo.UI.ViewModels
                 .StartTimer(TimeSpan.FromMilliseconds(100), UpdatePortraits);
 
             Game.Controller.MoveUndone += (s, e) => { UpdateTimeline(); };
+
+            // When timeline selected node changes, check whether its not in the past. If it is then disable shadow stones.
+            TimelineChanged += (s, e) => BoardViewModel.BoardControlState.IsShadowDrawingEnabled = !IsTimelineInPast;
         }
 
         public event EventHandler TimelineChanged;
@@ -273,6 +279,7 @@ namespace OmegaGo.UI.ViewModels
             Tool = AnalyzeViewModel.SelectedTool;
 
             BoardViewModel.Tool = Tool;
+            BoardViewModel.IsShadowDrawingEnabled = true;
             BoardViewModel.IsMarkupDrawingEnabled = true;
 
             // Set current game node to ToolServices and Timeline VM (for node highlight)

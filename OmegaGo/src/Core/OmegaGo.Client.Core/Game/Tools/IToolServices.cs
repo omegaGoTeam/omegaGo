@@ -1,4 +1,5 @@
 ﻿using OmegaGo.Core.Rules;
+using System.Threading.Tasks;
 
 namespace OmegaGo.Core.Game.Tools
 {
@@ -36,6 +37,8 @@ namespace OmegaGo.Core.Game.Tools
         /// </summary>
         /// <param name="position">target position to set</param>
         void SetPointerPosition(Position position);
+
+        Task<ToolConfirmationResult> ShowMessage(ToolMessage message);
 
         /// <summary>
         /// Causes the "pass" sound effect to be played.

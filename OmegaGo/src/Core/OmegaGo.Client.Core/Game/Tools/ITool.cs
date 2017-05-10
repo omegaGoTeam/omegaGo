@@ -1,4 +1,6 @@
 ﻿
+using System.Threading.Tasks;
+
 namespace OmegaGo.Core.Game.Tools
 {
     /// <summary>

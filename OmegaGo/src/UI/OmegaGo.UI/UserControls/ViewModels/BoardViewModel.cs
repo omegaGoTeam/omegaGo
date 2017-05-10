@@ -77,14 +77,19 @@ namespace OmegaGo.UI.UserControls.ViewModels
             get { return _boardControlState.AnalyzeModeTool; }
             set { _boardControlState.AnalyzeModeTool = value; }
         }
-
-        // TODO Is this the correct location for this?
+        
         public bool IsMarkupDrawingEnabled
         {
             get { return _boardControlState.IsAnalyzeModeEnabled; }
             internal set { _boardControlState.IsAnalyzeModeEnabled = value; }
         }
-        
+
+        public bool IsShadowDrawingEnabled
+        {
+            get { return _boardControlState.IsShadowDrawingEnabled; }
+            internal set { _boardControlState.IsShadowDrawingEnabled = value; }
+        }
+
         public void BoardTap(Position position)
         {
             BoardTapped?.Invoke(this, position);

@@ -189,7 +189,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
 
             Position pointerPosition = _sharedBoardControlState.PointerOverPosition;
             // Mouse over position special case
-            if (pointerPosition.IsDefined)
+            if (pointerPosition.IsDefined && _sharedBoardControlState.IsShadowDrawingEnabled)
             {
                 if (SharedBoardControlState.IsAnalyzeModeEnabled)
                 {
