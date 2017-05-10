@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using MvvmCross.WindowsUWP.Views;
 using Windows.UI.Xaml.Navigation;
 using OmegaGo.UI.ViewModels;
@@ -22,10 +23,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     public class ViewBase : MvxWindowsPage
     {
         private AppShell _appShell = null;
-        private Localizer _localizer = null;       
+        private Localizer _localizer = null;
 
         public ViewBase()
-        {           
+        {
             Loading += ViewBase_Loading;
         }
 
@@ -54,7 +55,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         /// <summary>
         /// Gets the app shell for the current window
         /// </summary>
-        public AppShell AppShell => _appShell ?? (_appShell = AppShell.GetForCurrentView());        
+        public AppShell AppShell => _appShell ?? (_appShell = AppShell.GetForCurrentView());
 
         /// <summary>
         /// Localizer for the ViewModel
@@ -92,7 +93,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         {
             //Set view model as Data Context by default
             DataContext = ViewModel;
-            AppShell.FocusModeOn = false;
+            if (!DesignMode.DesignModeEnabled)
+            {
+                AppShell.FocusModeOn = false;
+            }
         }
 
     }
