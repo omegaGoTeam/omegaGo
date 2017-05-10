@@ -1505,4 +1505,13 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="Validation_BoardTooExtreme" xml:space="preserve">
+    <value>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</value>
+  </data>
+  <data name="Validation_ExcessiveTimeError" xml:space="preserve">
+    <value>A field ('{0}') has a value greater than 10000. Please choose a smaller value. </value>
+  </data>
+  <data name="Validation_KomiTooExtreme" xml:space="preserve">
+    <value>Please choose komi between -500 and 500.</value>
+  </data>
 </root>
