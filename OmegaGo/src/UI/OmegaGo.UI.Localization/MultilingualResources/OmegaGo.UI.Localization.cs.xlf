@@ -1974,6 +1974,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Connection failure. Check your internet connection and try again.</source>
           <target state="new">Connection failure. Check your internet connection and try again.</target>
         </trans-unit>
+        <trans-unit id="CheckboxPublicGame" translate="yes" xml:space="preserve">
+          <source>Show in list of all games</source>
+          <target state="new">Show in list of all games</target>
+        </trans-unit>
+        <trans-unit id="CheckboxRankedGame" translate="yes" xml:space="preserve">
+          <source>This game is ranked</source>
+          <target state="new">This game is ranked</target>
+        </trans-unit>
       </group>
     </body>
   </file>

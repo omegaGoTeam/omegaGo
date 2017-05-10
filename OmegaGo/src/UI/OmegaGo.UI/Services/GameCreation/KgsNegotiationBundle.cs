@@ -87,7 +87,6 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.CompensationString = proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
             vm.UseRecommendedKomi = false;
             UpdateTimeControlFromRules(proposal.Rules);
-            RefreshStatus();
         }
 
         private void UpdateTimeControlFromRules(RulesDescription rules)
