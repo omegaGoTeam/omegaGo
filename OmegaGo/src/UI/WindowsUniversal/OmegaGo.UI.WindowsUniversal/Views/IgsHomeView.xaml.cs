@@ -1,6 +1,7 @@
 ﻿
 using OmegaGo.UI.ViewModels;
 using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Primitives;
 using OmegaGo.Core.Modes.LiveGame.Remote.Igs;
@@ -42,6 +43,10 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             }
             VM.RefreshGamesComplete += VM_RefreshGamesComplete;
             VM.RefreshUsersComplete += VM_RefreshUsersComplete;
+            if (!VM.LoginForm.FormVisible)
+            {                
+                Unblur();
+            }
         }
 
 

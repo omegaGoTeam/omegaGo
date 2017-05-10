@@ -27,11 +27,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             GameContainerComboBox.ItemTemplateSelector = new KgsGameContainerComboBoxTemplateSelector(GameContainerComboBox);
         }
 
-        private void TransparencyViewBase_Unloaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-
         public override string TabTitle => Localizer.KgsServerCaption;
 
         public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Multiplayer.png");
@@ -52,6 +47,14 @@ namespace OmegaGo.UI.WindowsUniversal.Views
                 grid.Visibility = e == MasterDetailsViewState.Details ? Visibility.Collapsed : Visibility.Visible;
             }
 
+        }
+
+        private void KgsHomeView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!VM.LoginForm.FormVisible)
+            {
+                Unblur();
+            }
         }
     }
 }
