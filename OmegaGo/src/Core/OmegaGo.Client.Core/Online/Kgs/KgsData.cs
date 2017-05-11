@@ -299,6 +299,11 @@ namespace OmegaGo.Core.Online.Kgs
             Channels[channelId].Users.RemoveWhere(kgsUser => kgsUser.Name == user.Name);
         }
 
-  
+
+        public KgsTrueGameChannel CreateGame(KgsTrueGameChannel game)
+        {
+            Channels[game.ChannelId] = game;
+            return game;
+        }
     }
 }
