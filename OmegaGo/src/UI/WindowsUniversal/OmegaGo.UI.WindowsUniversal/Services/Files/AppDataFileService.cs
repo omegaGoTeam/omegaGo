@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -38,16 +39,18 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
         }
 
-        public async Task<IEnumerable<FileInfo>> EnumerateFilesInFolderAsync(string folderPath)
+        public async Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath)
         {
             var storageFolder = await _rootFolder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
-            List<FileInfo> fileInfos = new List<FileInfo>();
-            foreach (var storageFile in await storageFolder.GetFilesAsync())
-            {
-                var properties = await storageFile.GetBasicPropertiesAsync();
-                fileInfos.Add(new FileInfo(storageFile.Name, properties.Size, properties.DateModified));
-            }
-            return fileInfos;
+            return (await storageFolder.GetFilesAsync()).Select(f => f.Name);
+        }
+
+        public async Task<FileInfo> GetFileInfoAsync(string fileName, string subfolder = null)
+        {
+            StorageFolder storageFolder = subfolder == null ? _rootFolder : await _rootFolder.CreateFolderAsync(subfolder, CreationCollisionOption.OpenIfExists);
+            var storageFile = await storageFolder.GetFileAsync(fileName);
+            var basicInfo = await storageFile.GetBasicPropertiesAsync();
+            return new FileInfo(fileName, basicInfo.Size, basicInfo.DateModified);
         }
 
         public async Task LaunchFolderAsync(string folderPath)

@@ -32,7 +32,15 @@ namespace OmegaGo.UI.Services.Files
         /// </summary>
         /// <param name="folderPath">The folder that should have its files enumerated.</param>
         /// <returns>List of files</returns>
-        Task<IEnumerable<FileInfo>> EnumerateFilesInFolderAsync(string folderPath);
+        Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath);
+
+        /// <summary>
+        /// Retrieves basic file info
+        /// </summary>
+        /// <param name="fileName">File name</param>
+        /// <param name="subfolder">Subfolder (null for root)</param>
+        /// <returns>File info</returns>
+        Task<FileInfo> GetFileInfoAsync(string fileName, string subfolder = null);
 
         /// <summary>
         /// Launches File Explorer opened to the specified folder.

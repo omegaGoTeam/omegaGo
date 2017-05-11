@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OmegaGo.Core.Game;
 
 namespace OmegaGo.UI.Models
@@ -11,34 +12,23 @@ namespace OmegaGo.UI.Models
     {
         public LibraryItem()
         {
-            
+
         }
 
-        public LibraryItem(string fileName, int moveCount, string date, string black, string white, string comment, long fileSize, DateTimeOffset fileLastModified)
+        public LibraryItem(string fileName, LibraryItemGame[] games, ulong fileSize, DateTimeOffset fileLastModified)
         {
             FileName = fileName;
-            MoveCount = moveCount;
-            Date = date;
-            Black = black;
-            White = white;
-            Comment = comment;
+            Games = games;
             FileSize = fileSize;
             FileLastModified = fileLastModified;
         }
 
         public string FileName { get; set; }
-        public int MoveCount { get; set; }
-        public string Date { get; set; }
-        public string Black { get; set; }
-        public string White { get; set; }
-        public string Comment { get; set; }
 
-        public long FileSize { get; set; }
+        public LibraryItemGame[] Games { get; set; }
+
+        public ulong FileSize { get; set; }
+
         public DateTimeOffset FileLastModified { get; set; }
-
-        public override string ToString()
-        {
-            return FileName + Environment.NewLine + Comment;
-        }
     }
 }

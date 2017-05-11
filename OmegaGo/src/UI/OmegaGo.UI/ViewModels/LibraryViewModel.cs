@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using MvvmCross.Platform.Core;
 using Newtonsoft.Json;
 using OmegaGo.Core.Game.GameTreeConversion;
+using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.UI.Models;
 using OmegaGo.UI.Services.Dialogs;
@@ -164,16 +166,19 @@ namespace OmegaGo.UI.ViewModels
             IsWorking = true;
             await _appDataFileService.EnsureFolderExistsAsync(SgfFolderName);
             var files = await _appDataFileService.EnumerateFilesInFolderAsync(SgfFolderName);
-            var fileInfos = files as FileInfo[] ?? files.ToArray();
-            var list = new List<LibraryItem>();
-            _totalLibraryItems = fileInfos.Count();
-            List<Task> libraryLoadTasks = new List<Task>();
-            foreach (var file in fileInfos)
+            var fileNames = files as string[] ?? files.ToArray();
+            _totalLibraryItems = fileNames.Count();
+            List<Task<LibraryItem>> libraryLoadTasks = new List<Task<LibraryItem>>();
+            foreach (var fileName in fileNames)
             {
-                libraryLoadTasks.Add(Task.Run(() => LoadLibraryItemAsync(file)));
+                libraryLoadTasks.Add(Task.Run(() => LoadLibraryItemAsync(fileName)));
             }
-            LibraryItems.ReplaceCollection(list);
-            await SaveLibraryCacheAsync();
+
+            //get the resuts, include only non-null items
+            var results = (await Task.WhenAll(libraryLoadTasks)).Where(i => i != null).ToList();
+
+            LibraryItems.ReplaceCollection(results);
+            await SaveLibraryCacheAsync(results);
             IsWorking = false;
         }
 
@@ -240,19 +245,50 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// Stores current library cache to disk
         /// </summary>        
-        private async Task SaveLibraryCacheAsync()
+        private async Task SaveLibraryCacheAsync(IEnumerable<LibraryItem> libraryState)
         {
-            await _appDataFileService.WriteFileAsync(CacheFolderName, JsonConvert.SerializeObject(_cachedItemsDictionary.Values), CacheFolderName);
+            await _appDataFileService.WriteFileAsync(CacheFolderName, JsonConvert.SerializeObject(libraryState), CacheFolderName);
         }
 
-        private async Task LoadLibraryItemAsync(FileInfo fileInfo)
+        /// <summary>
+        /// Loads a library item
+        /// </summary>
+        /// <param name="fileName">File name</param>        
+        private async Task<LibraryItem> LoadLibraryItemAsync(string fileName)
         {
-            string content = await _appDataFileService.ReadFileAsync(file.Name, SgfFolderName);
+
+            FileInfo info = await _appDataFileService.GetFileInfoAsync(fileName, SgfFolderName);
+
+            //check if the file was cached
+            if (_cachedItemsDictionary.ContainsKey(fileName))
+            {
+                var libraryItem = _cachedItemsDictionary[fileName];
+                if (libraryItem.FileSize == info.Size && libraryItem.FileLastModified == info.LastModified)
+                {
+                    //the file didn't change since the last retrieval, just add to results
+                    return libraryItem;
+                }
+            }
+
+            //load the library item in full
+            string content = await _appDataFileService.ReadFileAsync(fileName, SgfFolderName);
             try
             {
-                var parsed = p.Parse(content);
-                var firstTree = parsed.GameTrees.First();
-                var conversionResult = new SgfToGameTreeConverter(firstTree).ConvertPrimaryTimelineOnly();
+                SgfParser parser = new SgfParser();
+                var sgfCollection = parser.Parse(content);
+
+                foreach (var tree in sgfCollection.GameTrees)
+                {
+                    SgfGameInfoSearcher searcher = new SgfGameInfoSearcher(tree);
+                    var sgfGameInfo = searcher.GetGameInfo();
+                    var comment = sgfGameInfo.GameComment.Value<string>() ?? "";
+                    var blackName = sgfGameInfo.PlayerBlack.Value<string>() ?? "";
+                    var whiteName = sgfGameInfo.PlayerWhite.Value<string>() ?? "";
+                    
+                }
+
+                var firstTree = sgfCollection.GameTrees.First();
+                var conversionResult = new SgfToGameTreeConverter(firstTree).();
                 var trueTree = conversionResult.GameTree;
                 var rootNode = trueTree.GameTreeRoot;
                 int moveCount = 0;
@@ -273,7 +309,8 @@ namespace OmegaGo.UI.ViewModels
             }
             catch
             {
-                // Do not show.
+                //invalid item, ignore
+                return null;
             }
         }
     }
