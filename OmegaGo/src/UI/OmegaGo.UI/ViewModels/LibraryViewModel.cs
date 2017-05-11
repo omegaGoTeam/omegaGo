@@ -32,6 +32,7 @@ namespace OmegaGo.UI.ViewModels
         private readonly IFilePickerService _filePicker;
         private readonly IAppDataFileService _appDataFileService;
 
+        private static readonly object _libraryRefreshLock = new object();
         private readonly object _progressLock = new object();
 
         // Commands 
@@ -167,7 +168,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>
         /// <returns></returns>
         private async Task RefreshListAsync()
-        {
+        {            
             IsWorking = true;
             UpdateProgressText();
             //load cache

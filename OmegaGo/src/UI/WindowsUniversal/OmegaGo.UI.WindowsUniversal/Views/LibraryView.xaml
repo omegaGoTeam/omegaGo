@@ -9,6 +9,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:actions="using:OmegaGo.UI.WindowsUniversal.Behaviors.Actions"
+    xmlns:library="using:OmegaGo.UI.Models.Library"
     x:Name="MainView"
     mc:Ignorable="d">
 
@@ -19,7 +20,7 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -85,7 +86,7 @@
                   Grid.Row="2"
                   ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="library:LibraryItemViewModel">
                     <Border Padding="15" Background="WhiteSmoke" CornerRadius="15">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
@@ -106,24 +107,34 @@
                             </Flyout>
                         </FlyoutBase.AttachedFlyout>
                         <StackPanel>
-                            <TextBlock Text="{Binding Filename}" FontWeight="Bold" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Localizer.WhiteColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                <TextBlock Text="{Binding White}" FontWeight="Bold" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Localizer.BlackColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                <TextBlock Text="{Binding Black}" FontWeight="Bold" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                <TextBlock Text="{Binding Date}" FontWeight="Bold" />
-                            </StackPanel>
-                            <TextBlock Text="{Binding Comment}" />
+                            <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" />
+                            <TextBlock Text="{x:Bind GameCount}" />
+                            <FlipView ItemsSource="{x:Bind Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+                                <FlipView.ItemTemplate>
+                                    <DataTemplate x:DataType="library:LibraryItemGame">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                                <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Localizer.WhiteColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                                <TextBlock Text="{Binding White}" FontWeight="Bold" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Localizer.BlackColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                                <TextBlock Text="{Binding Black}" FontWeight="Bold" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                                <TextBlock Text="{Binding Date}" FontWeight="Bold" />
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Comment}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </FlipView.ItemTemplate>
+                            </FlipView>
+
                         </StackPanel>
                     </Border>
                 </DataTemplate>
