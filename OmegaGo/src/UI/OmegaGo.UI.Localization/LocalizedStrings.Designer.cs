@@ -80,6 +80,42 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add 1 minute.
+        /// </summary>
+        public static string Add1Minute {
+            get {
+                return ResourceManager.GetString("Add1Minute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds 1 minute to your opponent&apos;s clock.
+        /// </summary>
+        public static string Add1MinuteTooltip {
+            get {
+                return ResourceManager.GetString("Add1MinuteTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add 5 minutes.
+        /// </summary>
+        public static string Add5Minutes {
+            get {
+                return ResourceManager.GetString("Add5Minutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adds 5 minutes to your opponent&apos;s clock.
+        /// </summary>
+        public static string Add5MinutesTooltip {
+            get {
+                return ResourceManager.GetString("Add5MinutesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A game with Fuego is already open..
         /// </summary>
         public static string AGameWithFuegoAlreadyOpen {
