@@ -26,6 +26,7 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             {
                 connection.Data.GetChannel<KgsRoom>(ChannelId)?.UpdateGames(Games, connection);
             }
+            (connection.Data.GetChannel(this.ChannelId) as KgsRoom).Users.Clear();
             foreach (var user in Users)
             {
                 connection.Data.AddUserToChannel(this.ChannelId, user);
