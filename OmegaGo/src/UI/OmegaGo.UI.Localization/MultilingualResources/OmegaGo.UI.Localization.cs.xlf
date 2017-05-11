@@ -1900,6 +1900,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Export</source>
           <target state="new">Export</target>
         </trans-unit>
+        <trans-unit id="LibraryLoadingFormatString" translate="yes" xml:space="preserve">
+          <source>Loading... {0} of {1}</source>
+          <target state="new">Loading... {0} of {1}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

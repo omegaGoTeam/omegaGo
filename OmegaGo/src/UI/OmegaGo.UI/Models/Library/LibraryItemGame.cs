@@ -1,4 +1,4 @@
-namespace OmegaGo.UI.Models
+namespace OmegaGo.UI.Models.Library
 {
     /// <summary>
     /// Represents a single game in a library item

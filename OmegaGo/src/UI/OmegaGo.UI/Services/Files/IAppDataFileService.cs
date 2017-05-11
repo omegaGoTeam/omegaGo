@@ -25,14 +25,15 @@ namespace OmegaGo.UI.Services.Files
         /// If the specified path does not exist within the app data folder, it is created.
         /// </summary>
         Task EnsureFolderExistsAsync(string folderPath);
-        
+
         /// <summary>
         /// Gets the list of all files within the given folder that's inside the app's local folder. The filenames returned are given relative
         /// to their immediate parent folder, i.e. they contain no backslashes.
         /// </summary>
         /// <param name="folderPath">The folder that should have its files enumerated.</param>
+        /// <param name="extension">Optional - restrict to a given file extension</param>
         /// <returns>List of files</returns>
-        Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath);
+        Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath, string extension = null);
 
         /// <summary>
         /// Retrieves basic file info

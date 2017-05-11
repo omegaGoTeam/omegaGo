@@ -1851,6 +1851,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading... {0} of {1}.
+        /// </summary>
+        public static string LibraryLoadingFormatString {
+            get {
+                return ResourceManager.GetString("LibraryLoadingFormatString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept removed stones.
         /// </summary>
         public static string LifeDeathDone {

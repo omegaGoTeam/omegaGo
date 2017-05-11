@@ -15,6 +15,7 @@ using OmegaGo.Core.Game.GameTreeConversion;
 using OmegaGo.Core.Sgf;
 using OmegaGo.Core.Sgf.Parsing;
 using OmegaGo.UI.Models;
+using OmegaGo.UI.Models.Library;
 using OmegaGo.UI.Services.Dialogs;
 using OmegaGo.UI.Services.Files;
 using OmegaGo.UI.Utility.Collections;
@@ -30,6 +31,8 @@ namespace OmegaGo.UI.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IFilePickerService _filePicker;
         private readonly IAppDataFileService _appDataFileService;
+
+        private readonly object _progressLock = new object();
 
         // Commands 
 
@@ -49,7 +52,9 @@ namespace OmegaGo.UI.ViewModels
         private string _loadingText;
 
         private Dictionary<string, LibraryItem> _cachedItemsDictionary = null;
+
         private int _totalLibraryItems = 0;
+        private int _loadedLibraryItems = 0;
 
         public LibraryViewModel(IFilePickerService filePicker, IAppDataFileService appDataFileService, IDialogService dialogService)
         {
@@ -63,7 +68,7 @@ namespace OmegaGo.UI.ViewModels
         /// Command thata opens an external file for analysis
         /// </summary>
         public ICommand OpenSgfFileCommand => _openSgfFileCommand ??
-                                           (_openSgfFileCommand = new MvxCommand(async () => await OpenFile()));
+                                           (_openSgfFileCommand = new MvxAsyncCommand(OpenSgfFileAsync));
 
         /// <summary>
         /// Command that imports SGF file into library
@@ -114,7 +119,7 @@ namespace OmegaGo.UI.ViewModels
         /// <summary>
         /// List of library items
         /// </summary>
-        public RangeCollection<LibraryItem> LibraryItems { get; } = new RangeCollection<LibraryItem>();
+        public RangeCollection<LibraryItemViewModel> LibraryItems { get; } = new RangeCollection<LibraryItemViewModel>();
 
         /// <summary>
         /// Initialization of the ViewModel
@@ -128,7 +133,7 @@ namespace OmegaGo.UI.ViewModels
         /// Opens a SGF file into analysis
         /// </summary>
         /// <returns></returns>
-        private async Task OpenFile()
+        private async Task OpenSgfFileAsync()
         {
 
         }
@@ -164,20 +169,38 @@ namespace OmegaGo.UI.ViewModels
         private async Task RefreshListAsync()
         {
             IsWorking = true;
+            UpdateProgressText();
+            //load cache
+            await LoadLibraryCacheAsync();
+
+            //load all file names
             await _appDataFileService.EnsureFolderExistsAsync(SgfFolderName);
             var files = await _appDataFileService.EnumerateFilesInFolderAsync(SgfFolderName);
             var fileNames = files as string[] ?? files.ToArray();
-            _totalLibraryItems = fileNames.Count();
+            _totalLibraryItems = fileNames.Length;
             List<Task<LibraryItem>> libraryLoadTasks = new List<Task<LibraryItem>>();
             foreach (var fileName in fileNames)
             {
+                //load each library item
                 libraryLoadTasks.Add(Task.Run(() => LoadLibraryItemAsync(fileName)));
             }
 
             //get the resuts, include only non-null items
-            var results = (await Task.WhenAll(libraryLoadTasks)).Where(i => i != null).ToList();
+            var allLoadingTask = Task.WhenAll(libraryLoadTasks);
 
-            LibraryItems.ReplaceCollection(results);
+            //report progress periodically
+            while (await Task.WhenAny(allLoadingTask, Task.Delay(300)) != allLoadingTask)
+            {
+                //report progress
+                UpdateProgressText();
+            }
+
+            var rawResults = await allLoadingTask;
+
+            //clean up results from invalid files
+            var results = rawResults.Where(i => i != null).OrderByDescending(i => i.FileLastModified).ToList();
+
+            LibraryItems.ReplaceCollection(results.Select(li => new LibraryItemViewModel(li)));
             await SaveLibraryCacheAsync(results);
             IsWorking = false;
         }
@@ -224,7 +247,6 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>        
         private async Task LoadLibraryCacheAsync()
         {
-
             //read cache from disk
             List<LibraryItem> cachedItems = new List<LibraryItem>();
             if (await _appDataFileService.FileExistsAsync(LibraryCacheFileName, CacheFolderName))
@@ -247,7 +269,7 @@ namespace OmegaGo.UI.ViewModels
         /// </summary>        
         private async Task SaveLibraryCacheAsync(IEnumerable<LibraryItem> libraryState)
         {
-            await _appDataFileService.WriteFileAsync(CacheFolderName, JsonConvert.SerializeObject(libraryState), CacheFolderName);
+            await _appDataFileService.WriteFileAsync(LibraryCacheFileName, JsonConvert.SerializeObject(libraryState), CacheFolderName);
         }
 
         /// <summary>
@@ -265,52 +287,97 @@ namespace OmegaGo.UI.ViewModels
                 var libraryItem = _cachedItemsDictionary[fileName];
                 if (libraryItem.FileSize == info.Size && libraryItem.FileLastModified == info.LastModified)
                 {
+                    lock (_progressLock)
+                    {
+                        _loadedLibraryItems++;
+                    }
                     //the file didn't change since the last retrieval, just add to results
                     return libraryItem;
                 }
             }
 
-            //load the library item in full
+            //load the library item in full on different thread
+
             string content = await _appDataFileService.ReadFileAsync(fileName, SgfFolderName);
             try
             {
                 SgfParser parser = new SgfParser();
                 var sgfCollection = parser.Parse(content);
-
+                List<LibraryItemGame> games = new List<LibraryItemGame>(sgfCollection.Count());
                 foreach (var tree in sgfCollection.GameTrees)
                 {
                     SgfGameInfoSearcher searcher = new SgfGameInfoSearcher(tree);
                     var sgfGameInfo = searcher.GetGameInfo();
-                    var comment = sgfGameInfo.GameComment.Value<string>() ?? "";
-                    var blackName = sgfGameInfo.PlayerBlack.Value<string>() ?? "";
-                    var whiteName = sgfGameInfo.PlayerWhite.Value<string>() ?? "";
-                    
+                    var comment = sgfGameInfo.GameComment?.Value<string>() ?? "";
+                    var blackName = sgfGameInfo.PlayerBlack?.Value<string>() ?? "";
+                    var whiteName = sgfGameInfo.PlayerWhite?.Value<string>() ?? "";
+                    var date = sgfGameInfo.Date?.Value<string>() ?? "";
+                    var moves = CountPrimaryLineMoves(tree);
+                    var libraryItemGame = new LibraryItemGame(moves, date, blackName, whiteName, comment);
+                    games.Add(libraryItemGame);
                 }
 
-                var firstTree = sgfCollection.GameTrees.First();
-                var conversionResult = new SgfToGameTreeConverter(firstTree).();
-                var trueTree = conversionResult.GameTree;
-                var rootNode = trueTree.GameTreeRoot;
-                int moveCount = 0;
-                var node = rootNode;
-                while (node.Branches.Any())
+                var libraryItem = new LibraryItem(fileName, games.ToArray(), info.Size, info.LastModified);
+                lock (_progressLock)
                 {
-                    moveCount++;
-                    node = node.Branches[0];
+                    _loadedLibraryItems++;
                 }
-
-                list.Add(new LibraryItem(trueTree, conversionResult.GameInfo, file, moveCount,
-                    firstTree.GetPropertyInSequence("DT")?.Value<string>(),
-                    firstTree.GetPropertyInSequence("PB")?.Value<string>(),
-                    firstTree.GetPropertyInSequence("PW")?.Value<string>(),
-                    rootNode.Comment?.Substring(0, Math.Min(200, rootNode.Comment.Length)) ?? "",
-                    content
-                ));
+                return libraryItem;
             }
             catch
             {
                 //invalid item, ignore
+                lock (_progressLock)
+                {
+                    _loadedLibraryItems++;
+                }
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Counts the number of moves in the primary timeline of a SGF game tree
+        /// </summary>
+        /// <param name="gameTree">SGF game tree</param>
+        /// <returns>Number of moves</returns>
+        private int CountPrimaryLineMoves(SgfGameTree gameTree)
+        {
+            if (gameTree == null) return 0;
+            int moveCount = 0;
+            var currentNode = gameTree;
+            while (currentNode != null)
+            {
+                foreach (var node in currentNode.Sequence)
+                {
+                    //black move
+                    if (node.Properties.ContainsKey("B"))
+                    {
+                        moveCount++;
+                    }
+                    //white move
+                    if (node.Properties.ContainsKey("W"))
+                    {
+                        moveCount++;
+                    }
+                }
+                currentNode = currentNode.Children.FirstOrDefault();
+            }
+            return moveCount;
+        }
+
+        /// <summary>
+        /// Updates the displayed loading progress
+        /// </summary>
+        private void UpdateProgressText()
+        {
+            if (_loadedLibraryItems == 0)
+            {
+                LoadingText = Localizer.Loading;
+            }
+            else
+            {
+                LoadingText = string.Format(Localizer.LibraryLoadingFormatString, _loadedLibraryItems,
+                    _totalLibraryItems);
             }
         }
     }

@@ -28,7 +28,8 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
                 try
                 {
                     string contents = await FileIO.ReadTextAsync(file);
-                    return new FileContentInfo(file.Name, contents);
+                    var basicProperties = await file.GetBasicPropertiesAsync();
+                    return new FileContentInfo(file.Name, basicProperties.Size, basicProperties.DateModified, contents);
                 }
                 catch
                 {

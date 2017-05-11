@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.System;
 using OmegaGo.UI.Services.Files;
+using FileInfo = OmegaGo.UI.Services.Files.FileInfo;
 
 namespace OmegaGo.UI.WindowsUniversal.Services.Files
 {
@@ -39,18 +42,27 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
             }
         }
 
-        public async Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath)
+        public async Task<IEnumerable<string>> EnumerateFilesInFolderAsync(string folderPath, string extension = null)
         {
-            var storageFolder = await _rootFolder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists);
-            return (await storageFolder.GetFilesAsync()).Select(f => f.Name);
+            var storageFolder = await _rootFolder.CreateFolderAsync(folderPath, CreationCollisionOption.OpenIfExists).AsTask().ConfigureAwait(false);
+            var files = Directory.GetFiles(storageFolder.Path).Select(Path.GetFileName);
+            if (extension != null)
+            {
+                return files.Where(f => f.EndsWith(extension));
+            }
+            return files.AsEnumerable();
         }
 
-        public async Task<FileInfo> GetFileInfoAsync(string fileName, string subfolder = null)
+        public Task<FileInfo> GetFileInfoAsync(string fileName, string subfolder = null)
         {
-            StorageFolder storageFolder = subfolder == null ? _rootFolder : await _rootFolder.CreateFolderAsync(subfolder, CreationCollisionOption.OpenIfExists);
-            var storageFile = await storageFolder.GetFileAsync(fileName);
-            var basicInfo = await storageFile.GetBasicPropertiesAsync();
-            return new FileInfo(fileName, basicInfo.Size, basicInfo.DateModified);
+            var folderPath = _rootFolder.Path;
+            if (subfolder != null)
+            {
+                folderPath = Path.Combine(folderPath, subfolder);
+            }
+            var filePath = Path.Combine(folderPath, fileName);
+            var fileInfo = new System.IO.FileInfo(filePath);
+            return Task.FromResult(new FileInfo(fileName, (ulong)fileInfo.Length, fileInfo.LastWriteTimeUtc));
         }
 
         public async Task LaunchFolderAsync(string folderPath)
@@ -68,15 +80,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Files
         public async Task<bool> FileExistsAsync(string filename, string subfolderName = null)
         {
             StorageFolder storageFolder = subfolderName == null ? _rootFolder : await _rootFolder.CreateFolderAsync(subfolderName, CreationCollisionOption.OpenIfExists);
-            try
-            {
-                await storageFolder.GetFileAsync(filename);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return await storageFolder.TryGetItemAsync(filename) != null;
         }
     }
 }

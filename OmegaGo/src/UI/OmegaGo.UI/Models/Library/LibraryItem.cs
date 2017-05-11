@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
-using OmegaGo.Core.Game;
 
-namespace OmegaGo.UI.Models
+namespace OmegaGo.UI.Models.Library
 {
     /// <summary>
     /// Represents a library item.
