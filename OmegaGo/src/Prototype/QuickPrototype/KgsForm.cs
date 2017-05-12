@@ -276,7 +276,7 @@ namespace FormsPrototype
             KgsRoom room = (KgsRoom)this.lbRooms.SelectedItem;
             if (room != null)
             {
-                await this.kgs.Commands.CreateChallenge(room, false, false, new OmegaGo.Core.Online.Kgs.Datatypes.RulesDescription() {
+                await this.kgs.Commands.CreateChallenge(room,true, false, new OmegaGo.Core.Online.Kgs.Datatypes.RulesDescription() {
                             Rules = RulesDescription.RulesChinese,
                             Size = 7,
                             Komi = 6.5f,
