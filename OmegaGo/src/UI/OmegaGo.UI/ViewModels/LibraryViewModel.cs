@@ -310,11 +310,22 @@ namespace OmegaGo.UI.ViewModels
                     SgfGameInfoSearcher searcher = new SgfGameInfoSearcher(tree);
                     var sgfGameInfo = searcher.GetGameInfo();
                     var comment = sgfGameInfo.GameComment?.Value<string>() ?? "";
+                    if (comment == "")
+                    {
+                        //try to find a comment in first node
+                        var firstNode = tree.Sequence.FirstOrDefault();
+                        if (firstNode != null)
+                        {
+                            comment = firstNode["C"]?.Value<string>() ?? "";
+                        }
+                    }
                     var blackName = sgfGameInfo.PlayerBlack?.Value<string>() ?? "";
+                    var blackRank = sgfGameInfo.BlackRank?.Value<string>() ?? "";
                     var whiteName = sgfGameInfo.PlayerWhite?.Value<string>() ?? "";
+                    var whiteRank = sgfGameInfo.WhiteRank?.Value<string>() ?? "";
                     var date = sgfGameInfo.Date?.Value<string>() ?? "";
                     var moves = CountPrimaryLineMoves(tree);
-                    var libraryItemGame = new LibraryItemGame(moves, date, blackName, whiteName, comment);
+                    var libraryItemGame = new LibraryItemGame(moves, date, blackName, blackRank, whiteName, whiteRank, comment);
                     games.Add(libraryItemGame);
                 }
 

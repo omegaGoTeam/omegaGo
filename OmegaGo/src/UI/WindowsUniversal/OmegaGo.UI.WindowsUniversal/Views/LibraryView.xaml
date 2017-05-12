@@ -21,6 +21,91 @@
         </TransitionCollection>
     </Page.Transitions>
 
+    <Page.Resources>
+        <DataTemplate x:DataType="library:LibraryItemViewModel" x:Key="LargeLibraryItemTemplate">
+            <Border Width="300" Height="300" Padding="12">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="Tapped">
+                        <actions:OpenAttachedFlyoutAction />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+                <Border.ContextFlyout>
+                    <Flyout Placement="Bottom">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}"  />
+                                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}">
+                                    <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                                </AppBarButton>
+                            </StackPanel>
+                        </Grid>
+                    </Flyout>
+                </Border.ContextFlyout>
+                <Border.Background>
+                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
+                </Border.Background>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Margin="0,0,0,12" />
+                    <FlipView Grid.Row="1" ItemsSource="{x:Bind Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+                        <FlipView.ItemTemplate>
+                            <DataTemplate x:DataType="library:LibraryItemGame">
+                                <Grid Background="#33000000" Padding="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
+                                            <Ellipse.Fill>
+                                                <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                                    <GradientStop Color="White" Offset="0.0" />
+                                                    <GradientStop Color="DimGray" Offset="1.5" />
+                                                </LinearGradientBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind WhiteName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind WhiteRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo">
+                                        <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
+                                            <Ellipse.Fill>
+                                                <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                                    <GradientStop Color="DimGray" Offset="0.0" />
+                                                    <GradientStop Color="Black" Offset="1.5" />
+                                                </LinearGradientBrush>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind BlackName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind BlackRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                        <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                        <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                        <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
+                                        <TextBlock Text="{Binding Date}" FontWeight="Bold" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Comment}" Grid.Row="3" />
+                                    <AppBarButton Grid.Row="4" Icon="OpenFile" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Open}" Command="{Binding ElementName=MainView, Path=VM.OpenItemCommand}" />
+                                </Grid>
+                            </DataTemplate>
+                        </FlipView.ItemTemplate>
+                    </FlipView>
+
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -82,64 +167,9 @@
             </Button>
         </StackPanel>
 
-        <ListView x:Name="GameListView" IsItemClickEnabled="True" SelectionMode="None"
+        <GridView x:Name="GameListView" IsItemClickEnabled="True" SelectionMode="None"
                   Grid.Row="2"
-                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="library:LibraryItemViewModel">
-                    <Border Padding="15" Background="WhiteSmoke" CornerRadius="15">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Tapped">
-                                <actions:OpenAttachedFlyoutAction />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                        <FlyoutBase.AttachedFlyout>
-                            <Flyout Placement="Bottom">
-                                <Grid>
-                                    <StackPanel Orientation="Horizontal">
-                                        <AppBarButton Icon="OpenFile" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Open}" Command="{Binding ElementName=MainView, Path=VM.OpenItemCommand}" />
-                                        <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}"  />
-                                        <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}">
-                                            <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
-                                        </AppBarButton>
-                                    </StackPanel>
-                                </Grid>
-                            </Flyout>
-                        </FlyoutBase.AttachedFlyout>
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" />
-                            <TextBlock Text="{x:Bind GameCount}" />
-                            <FlipView ItemsSource="{x:Bind Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
-                                <FlipView.ItemTemplate>
-                                    <DataTemplate x:DataType="library:LibraryItemGame">
-                                        <StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                                <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Localizer.WhiteColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                                <TextBlock Text="{Binding White}" FontWeight="Bold" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Localizer.BlackColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                                <TextBlock Text="{Binding Black}" FontWeight="Bold" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                                <TextBlock Text="{Binding Date}" FontWeight="Bold" />
-                                            </StackPanel>
-                                            <TextBlock Text="{Binding Comment}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </FlipView.ItemTemplate>
-                            </FlipView>
-
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource LargeLibraryItemTemplate}" />
 
         <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
             <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />
