@@ -33,6 +33,7 @@ namespace OmegaGo.Core.Online.Igs
         private static readonly Regex regexHasRunOutOfTime = new Regex(@"9 ([^ ]+) has run out of time.");
         private static readonly Regex regexKibitzHeading = new Regex(@"11 Kibitz ([^ ]+).*\[([0-9]+)\]");
         private static Regex regexObservedScoreLine = new Regex(@"9 \{Game ([0-9]+): ([^ ]+) vs ([^ ]+) : W (.*) B (.*)\}");
+        private static Regex regexWhatObservedGameWasResigned = new Regex(@"9 {Game ([0-9]+):.*");
 
         // http://regexstorm.net/tester
         public static bool IsIrrelevantInterruptLine(IgsLine line)
@@ -230,6 +231,12 @@ empty string*/
             {
                 return null;
             }
+        }
+
+        public static int WhatObservedGameWasResigned(IgsLine igsLine)
+        {
+            Match match = regexWhatObservedGameWasResigned.Match(igsLine.EntireLine);
+            return match.Groups[1].Value.AsInteger();
         }
     }
 }

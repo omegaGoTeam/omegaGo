@@ -109,18 +109,11 @@ namespace OmegaGo.Core.Online.Igs
             }
         }
 
-        public async Task AreYouThere()
+        public void AreYouThere()
         {
             if (this.igsConnection.LoggedIn)
             {
-                var response = await this.igsConnection.MakeRequestAsync("ayt");
-                if (response.Any(line => line.PureLine.Contains("yes")))
-                {
-                }
-                else
-                {
-                    throw new Exception("We did not receive the correct response.");
-                }
+                this.igsConnection.MakeUnattendedRequest("ayt");
             }
         }
 

@@ -615,5 +615,15 @@ namespace OmegaGo.Core.Online.Igs
             GetConnector(game.Info).ForceLifeDeathKillGroup(deadPosition);
         }
 
+        private void ResignObservedGame(int gameInWhichSomebodyResigned, StoneColor whoResigned)
+        {
+            var game = GamesYouHaveOpened.FirstOrDefault(gm => gm.Info.IgsIndex == gameInWhichSomebodyResigned);
+            if (game != null)
+            {
+                game.Controller.EndGame(GameEndInformation.CreateResignation(game.Controller.Players[whoResigned],
+                    game.Controller.Players));
+                DestroyGame(game.Info);
+            }
+        }
     }
 }

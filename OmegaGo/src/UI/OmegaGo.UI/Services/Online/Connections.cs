@@ -88,7 +88,7 @@ namespace OmegaGo.UI.Services.Online
             _igsConnection.Events.MatchRequestDeclined += Pandanet_MatchRequestDeclined;
             _igsConnection.Events.ErrorMessageReceived += Pandanet_ErrorMessageReceived;
             Mvx.Resolve<ITimerService>()
-                .StartTimer(TimeSpan.FromSeconds(10), async () => { await _igsConnection.Commands.AreYouThere(); });
+                .StartTimer(TimeSpan.FromSeconds(10), () => { _igsConnection.Commands.AreYouThere(); });
         }
 
         private static void Pandanet_ErrorMessageReceived(object sender, string e)
