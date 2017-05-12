@@ -27,6 +27,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
         /// <param name="rect">The rectangle (size about 100x35) where this component should display.</param>
         public void Draw(CanvasDrawingSession session, Rect rect)
         {
+#if DEBUG
             session.FillRectangle(rect, Colors.CornflowerBlue);
             session.DrawText(fpsString, new Vector2((int)rect.X + 5, (int)rect.Y + 2), Colors.Black);
             framesSinceLastSecond++;
@@ -36,6 +37,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.BoardControl
                 framesSinceLastSecond = 0;
                 lastFpsEmit = DateTime.Now;
             }
+#endif
         }
     }
 }
