@@ -76,10 +76,8 @@ namespace OmegaGo.UI.UserControls.ViewModels
 
             string msg = MessageText;
             MessageText = "";
-
-            Messages.Add(new ChatMessage("test user", msg, DateTimeOffset.Now, ChatMessageKind.Outgoing));
-
-            //await _chatService.SendMessageAsync(msg);
+            
+            await _chatService.SendMessageAsync(msg);
         }
 
         private void Connector_ServerSaysAPlayerIsDone(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
