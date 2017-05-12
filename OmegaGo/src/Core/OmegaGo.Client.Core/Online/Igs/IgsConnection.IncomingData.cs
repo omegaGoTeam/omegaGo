@@ -247,6 +247,20 @@ namespace OmegaGo.Core.Online.Igs
                             }
                             continue;
                         }
+                        if (igsLine.PureLine.Contains("White resigns.}"))
+                        {
+                            int gameInWhichSomebodyResigned = IgsRegex.WhatObservedGameWasResigned(igsLine);
+                            ResignObservedGame(gameInWhichSomebodyResigned, StoneColor.White);
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
+                        if (igsLine.PureLine.Contains("Black resigns.}"))
+                        {
+                            int gameInWhichSomebodyResigned = IgsRegex.WhatObservedGameWasResigned(igsLine);
+                            ResignObservedGame(gameInWhichSomebodyResigned, StoneColor.Black);
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
                         if (igsLine.PureLine.Contains("has resigned the game"))
                         {
                             string whoResigned = IgsRegex.WhoResignedTheGame(igsLine);
