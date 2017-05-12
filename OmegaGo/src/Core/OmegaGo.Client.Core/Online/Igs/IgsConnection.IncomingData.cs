@@ -210,6 +210,12 @@ namespace OmegaGo.Core.Online.Igs
                     }
                     if (!interruptIsImpossible)
                     {
+                        if (igsLine.PureLine == "yes")
+                        {
+                            // This is "ayt" response, ignore it.
+                            weAreHandlingAnInterrupt = true;
+                            continue;
+                        }
 
                         if (igsLine.EntireLine ==
                             "9 You can check your score with the score command, type 'done' when finished.")
