@@ -45,6 +45,8 @@ namespace OmegaGo.UI.Services.GameCreation
         /// </summary>
         public abstract bool Playable { get; }
 
+        public virtual bool IsKgsChallengeCreation => false;
+
         /// <summary>
         /// Gets a value indicating whether this form represents something that can be accepted or refused (such as a match request). 
         /// </summary>
