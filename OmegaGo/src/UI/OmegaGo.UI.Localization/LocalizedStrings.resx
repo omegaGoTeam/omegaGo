@@ -1607,4 +1607,10 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="BranchDeletionErrorTitle" xml:space="preserve">
     <value>Delete branch</value>
   </data>
+  <data name="Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="GameTree" xml:space="preserve">
+    <value>Game tree</value>
+  </data>
 </root>

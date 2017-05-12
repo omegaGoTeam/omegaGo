@@ -690,6 +690,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chat.
+        /// </summary>
+        public static string Chat {
+            get {
+                return ResourceManager.GetString("Chat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show in list of all games.
         /// </summary>
         public static string CheckboxPublicGame {
@@ -1217,6 +1226,15 @@ namespace OmegaGo.UI.Localization {
         public static string GamesAndChallenges {
             get {
                 return ResourceManager.GetString("GamesAndChallenges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game tree.
+        /// </summary>
+        public static string GameTree {
+            get {
+                return ResourceManager.GetString("GameTree", resourceCulture);
             }
         }
         

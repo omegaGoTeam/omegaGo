@@ -196,7 +196,7 @@
 
                         <controls:ChatControl ViewModel="{x:Bind VM.ChatViewModel, Mode=OneWay}"
                                               Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                                              Height="400" />
+                                              Margin="10" Height="400" />
 
                         <ListView x:Name="systemLog" Grid.Row="4"
                                   Grid.Column="0"

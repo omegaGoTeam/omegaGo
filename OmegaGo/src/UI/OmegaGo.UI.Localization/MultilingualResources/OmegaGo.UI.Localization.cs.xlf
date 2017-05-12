@@ -1998,6 +1998,14 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Delete branch</source>
           <target state="translated">Smazat větev</target>
         </trans-unit>
+        <trans-unit id="Chat" translate="yes" xml:space="preserve">
+          <source>Chat</source>
+          <target state="translated">Konverzace</target>
+        </trans-unit>
+        <trans-unit id="GameTree" translate="yes" xml:space="preserve">
+          <source>Game tree</source>
+          <target state="translated">Herní strom</target>
+        </trans-unit>
       </group>
     </body>
   </file>

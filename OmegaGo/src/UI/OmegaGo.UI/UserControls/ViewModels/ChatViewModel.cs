@@ -21,10 +21,10 @@ namespace OmegaGo.UI.UserControls.ViewModels
         private MvxAsyncCommand _sendMessageCommand;
 
         /// <summary>
-        /// Creates chat
+        /// Initializes a new instance of chat view model.
         /// </summary>
-        /// <param name="chatService"></param>
-        /// <param name="first"></param>
+        /// <param name="chatService">a chat service that should be used</param>
+        /// <param name="connector">a connector that provides information about opponents stone removal acceptance</param>
         public ChatViewModel(IChatService chatService, IRemoteConnector connector)
         {
             _chatService = chatService;
@@ -38,12 +38,12 @@ namespace OmegaGo.UI.UserControls.ViewModels
                                                      () => !string.IsNullOrEmpty(MessageText)));
 
         /// <summary>
-        /// All chat messages
+        /// A collection of all chat messages.
         /// </summary>
         public ObservableCollection<ChatMessage> Messages { get; }
 
         /// <summary>
-        /// Text of the message
+        /// Text of the currently composed message.
         /// </summary>
         public string MessageText
         {
@@ -56,7 +56,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         }             
 
         /// <summary>
-        /// Handles new incoming chat message
+        /// Handles new incoming chat message.
         /// </summary>
         private void ChatService_NewMessageReceived(object sender, ChatMessage e)
         {            
@@ -64,7 +64,7 @@ namespace OmegaGo.UI.UserControls.ViewModels
         }
 
         /// <summary>
-        /// Sends a chat message
+        /// Sends a chat message.
         /// </summary>
         /// <returns></returns>
         private async Task SendMessageAsync()
@@ -73,15 +73,23 @@ namespace OmegaGo.UI.UserControls.ViewModels
             {
                 return;
             }
+
             string msg = MessageText;
             MessageText = "";
-            await _chatService.SendMessageAsync(msg);
+
+            Messages.Add(new ChatMessage("test user", msg, DateTimeOffset.Now, ChatMessageKind.Outgoing));
+
+            //await _chatService.SendMessageAsync(msg);
         }
 
         private void Connector_ServerSaysAPlayerIsDone(object sender, Core.Modes.LiveGame.Players.GamePlayer e)
         {
-            ChatService_NewMessageReceived(sender,
-                new ChatMessage("System", String.Format(LocalizedStrings.XIsSatisfiedWithTheRemovedStones, e), DateTimeOffset.Now,
+            ChatService_NewMessageReceived(
+                sender,
+                new ChatMessage(
+                    "System", 
+                    String.Format(LocalizedStrings.XIsSatisfiedWithTheRemovedStones, e), 
+                    DateTimeOffset.Now,
                     ChatMessageKind.Incoming));
         }
     }
