@@ -1904,6 +1904,26 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Loading... {0} of {1}</source>
           <target state="new">Loading... {0} of {1}</target>
         </trans-unit>
+        <trans-unit id="Analyze" translate="yes" xml:space="preserve">
+          <source>Analyze</source>
+          <target state="new">Analyze</target>
+        </trans-unit>
+        <trans-unit id="Game1" translate="yes" xml:space="preserve">
+          <source>game</source>
+          <target state="new">game</target>
+        </trans-unit>
+        <trans-unit id="Game2" translate="yes" xml:space="preserve">
+          <source>games</source>
+          <target state="new">games</target>
+        </trans-unit>
+        <trans-unit id="Game5" translate="yes" xml:space="preserve">
+          <source>games</source>
+          <target state="new">games</target>
+        </trans-unit>
+        <trans-unit id="ErrorSavingFile" translate="yes" xml:space="preserve">
+          <source>Error saving file</source>
+          <target state="new">Error saving file</target>
+        </trans-unit>
       </group>
     </body>
   </file>

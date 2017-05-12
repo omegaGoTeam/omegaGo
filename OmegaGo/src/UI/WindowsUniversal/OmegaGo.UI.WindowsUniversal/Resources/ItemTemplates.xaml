@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ItemsPanelTemplate x:Key="GridItemsPanelTemplate">
+        <ItemsWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal" />
+    </ItemsPanelTemplate>
+    <ItemsPanelTemplate x:Key="ListItemsPanelTemplate">
+        <VirtualizingStackPanel HorizontalAlignment="Stretch" />
+    </ItemsPanelTemplate>
+</ResourceDictionary>

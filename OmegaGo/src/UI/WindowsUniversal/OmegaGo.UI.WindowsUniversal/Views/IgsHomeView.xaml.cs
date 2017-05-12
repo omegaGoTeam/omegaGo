@@ -44,8 +44,12 @@ namespace OmegaGo.UI.WindowsUniversal.Views
             VM.RefreshGamesComplete += VM_RefreshGamesComplete;
             VM.RefreshUsersComplete += VM_RefreshUsersComplete;
             if (!VM.LoginForm.FormVisible)
-            {                
+            {
                 Unblur();
+            }
+            else
+            {
+                Blur();
             }
         }
 

@@ -8,14 +8,6 @@
     xmlns:mainMenu="using:OmegaGo.UI.WindowsUniversal.UserControls.MainMenu"
     xmlns:windowsStateTriggers="using:WindowsStateTriggers"
     mc:Ignorable="d">
-    <Page.Resources>
-        <ItemsPanelTemplate x:Key="GridPanel">
-            <ItemsWrapGrid HorizontalAlignment="Stretch" Orientation="Horizontal" />
-        </ItemsPanelTemplate>
-        <ItemsPanelTemplate x:Key="ListPanel">
-            <VirtualizingStackPanel HorizontalAlignment="Stretch" />
-        </ItemsPanelTemplate>
-    </Page.Resources>
 
     <Page.Transitions>
         <TransitionCollection>
@@ -43,7 +35,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource ListPanel}" />
+                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource ListItemsPanelTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -51,7 +43,7 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource GridPanel}" />
+                        <Setter Target="MenuItemsControl.ItemsPanel" Value="{StaticResource GridItemsPanelTemplate}" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -72,7 +64,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
 
 
-            <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListPanel}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ItemsControl x:Name="MenuItemsControl" ItemsPanel="{StaticResource ListItemsPanelTemplate}" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ItemsControl.ItemContainerTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using MvvmCross.Core.ViewModels;
 
@@ -17,6 +18,8 @@ namespace OmegaGo.UI.Models.Library
         }
 
         public string FileName => _wrappedItem.FileName;
+
+        public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FileName);
 
         public int GameCount => _wrappedItem.Games.Length;
 

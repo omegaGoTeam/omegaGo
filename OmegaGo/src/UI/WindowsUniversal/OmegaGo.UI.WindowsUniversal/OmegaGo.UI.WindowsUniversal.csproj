@@ -150,6 +150,9 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Library\LibraryItemGameControl.xaml.cs">
+      <DependentUpon>LibraryItemGameControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\LoginFormControl.xaml.cs">
       <DependentUpon>LoginFormControl.xaml</DependentUpon>
     </Compile>
@@ -289,6 +292,9 @@
     <Content Include="Assets\Icons\Info\Handicap.scale-100.png" />
     <Content Include="Assets\Icons\Info\Handicap.scale-150.png" />
     <Content Include="Assets\Icons\Info\Handicap.scale-200.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-100.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-150.png" />
+    <Content Include="Assets\Icons\Info\Label.scale-200.png" />
     <Content Include="Assets\Icons\Info\List.scale-100.png" />
     <Content Include="Assets\Icons\Info\List.scale-150.png" />
     <Content Include="Assets\Icons\Info\List.scale-200.png" />
@@ -302,6 +308,9 @@
     <Content Include="Assets\Icons\Info\Timing.scale-100.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-150.png" />
     <Content Include="Assets\Icons\Info\Timing.scale-200.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-100.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-150.png" />
+    <Content Include="Assets\Icons\TitleBar\Analyze.scale-200.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-100.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-150.png" />
     <Content Include="Assets\Icons\TitleBar\Game.scale-200.png" />
@@ -434,6 +443,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Resources\ItemTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="Resources\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -480,6 +494,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Library\LibraryItemGameControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

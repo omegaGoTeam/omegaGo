@@ -1535,4 +1535,19 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="LibraryLoadingFormatString" xml:space="preserve">
     <value>Loading... {0} of {1}</value>
   </data>
+  <data name="Analyze" xml:space="preserve">
+    <value>Analyze</value>
+  </data>
+  <data name="ErrorSavingFile" xml:space="preserve">
+    <value>Error saving file</value>
+  </data>
+  <data name="Game1" xml:space="preserve">
+    <value>game</value>
+  </data>
+  <data name="Game2" xml:space="preserve">
+    <value>games</value>
+  </data>
+  <data name="Game5" xml:space="preserve">
+    <value>games</value>
+  </data>
 </root>

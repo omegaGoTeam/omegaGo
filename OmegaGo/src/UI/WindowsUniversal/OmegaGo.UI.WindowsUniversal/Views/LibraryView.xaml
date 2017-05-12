@@ -10,6 +10,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:actions="using:OmegaGo.UI.WindowsUniversal.Behaviors.Actions"
     xmlns:library="using:OmegaGo.UI.Models.Library"
+    xmlns:library1="using:OmegaGo.UI.WindowsUniversal.UserControls.Library"
     x:Name="MainView"
     mc:Ignorable="d">
 
@@ -22,87 +23,82 @@
     </Page.Transitions>
 
     <Page.Resources>
-        <DataTemplate x:DataType="library:LibraryItemViewModel" x:Key="LargeLibraryItemTemplate">
-            <Border Width="300" Height="300" Padding="12">
+        <DataTemplate x:Key="SmallLibraryItemTemplate">
+            <Border HorizontalAlignment="Stretch" Padding="12" IsRightTapEnabled="True" IsTapEnabled="True">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
                         <actions:OpenAttachedFlyoutAction />
                     </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="RightTapped">
+                        <actions:OpenAttachedFlyoutAction />
+                    </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
-                <Border.ContextFlyout>
-                    <Flyout Placement="Bottom">
-                        <Grid>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout Placement="Full">
+                        <ContentControl ContentTemplate="{StaticResource LargeLibraryItemTemplate}" Content="{Binding}" />
+                        <!--<Grid>
                             <StackPanel Orientation="Horizontal">
-                                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}"  />
-                                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}">
+                                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" CommandParameter="{Binding}" />
+                                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" CommandParameter="{Binding}">
                                     <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
                                 </AppBarButton>
                             </StackPanel>
-                        </Grid>
+                        </Grid>-->
                     </Flyout>
-                </Border.ContextFlyout>
-                <Border.Background>
-                    <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
-                </Border.Background>
+                </FlyoutBase.AttachedFlyout>
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind FileName}" FontWeight="SemiBold" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Margin="0,0,0,12" />
-                    <FlipView Grid.Row="1" ItemsSource="{x:Bind Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
-                        <FlipView.ItemTemplate>
-                            <DataTemplate x:DataType="library:LibraryItemGame">
-                                <Grid Background="#33000000" Padding="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
-                                            <Ellipse.Fill>
-                                                <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
-                                                    <GradientStop Color="White" Offset="0.0" />
-                                                    <GradientStop Color="DimGray" Offset="1.5" />
-                                                </LinearGradientBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind WhiteName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind WhiteRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo">
-                                        <Ellipse Stroke="Black" Width="16" Height="16" Margin="0,0,0,0">
-                                            <Ellipse.Fill>
-                                                <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
-                                                    <GradientStop Color="DimGray" Offset="0.0" />
-                                                    <GradientStop Color="Black" Offset="1.5" />
-                                                </LinearGradientBrush>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind BlackName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
-                                        <TextBlock VerticalAlignment="Center" Text="{x:Bind BlackRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                        <TextBlock Text="{Binding Localizer.MovesColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                        <TextBlock Text="{Binding MoveCount}" FontWeight="Bold" />
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                        <TextBlock Text="{Binding Localizer.DateColon, ElementName=MainView}" Padding="0,0,10,0"></TextBlock>
-                                        <TextBlock Text="{Binding Date}" FontWeight="Bold" />
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Comment}" Grid.Row="3" />
-                                    <AppBarButton Grid.Row="4" Icon="OpenFile" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Open}" Command="{Binding ElementName=MainView, Path=VM.OpenItemCommand}" />
-                                </Grid>
-                            </DataTemplate>
-                        </FlipView.ItemTemplate>
-                    </FlipView>
-
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding FileName}" />
+                    <StackPanel Orientation="Horizontal" Opacity="0.5" HorizontalAlignment="Center" Grid.Column="1">
+                        <TextBlock>
+                            <Run Text="{Binding GameCount}" />                            
+                            <Run Text="{Binding GameCount, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
+                        </TextBlock>
+                    </StackPanel>
                 </Grid>
             </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="LargeLibraryItemTemplate">
+            <Grid Width="250" Height="250">
+                <Border>
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
+                    </Border.Background>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding FileName}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Margin="0,0,0,8" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
+                            <TextBlock>
+                            <Run Text="{Binding GameCount}" />                            
+                            <Run Text="{Binding GameCount, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <FlipView Grid.Row="2" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+                            <FlipView.ItemTemplate>
+                                <DataTemplate x:DataType="library:LibraryItemGame">
+                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGame}" />
+                                </DataTemplate>
+                            </FlipView.ItemTemplate>
+                        </FlipView>
+                    </Grid>
+                </Border>
+                <CommandBar Background="Transparent" Style="{StaticResource OpenDownCommandBar}" ClosedDisplayMode="Minimal" Grid.Row="0">
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" CommandParameter="{Binding}" />
+                        <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" CommandParameter="{Binding}">
+                            <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </Grid>
         </DataTemplate>
     </Page.Resources>
 
@@ -111,11 +107,13 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
+                        <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TopCommandPanel.Visibility" Value="Visible" />
                         <Setter Target="BottomCommandBar.Visibility" Value="Collapsed" />
+                        <Setter Target="LibraryGridView.Visibility" Value="Visible" />
+                        <Setter Target="LibraryListView.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -125,6 +123,8 @@
                     <VisualState.Setters>
                         <Setter Target="TopCommandPanel.Visibility" Value="Collapsed" />
                         <Setter Target="BottomCommandBar.Visibility" Value="Visible" />
+                        <Setter Target="LibraryGridView.Visibility" Value="Collapsed" />
+                        <Setter Target="LibraryListView.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -149,7 +149,7 @@
             </Button>
             <Button Margin="8,0,0,0" Command="{x:Bind VM.ImportSgfFileCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" />
+                    <BitmapIcon UriSource="/Assets/Icons/Commands/ImportToLibrary.png" Width="20" Height="20" />
                     <TextBlock Margin="8,0,0,0" Text="{x:Bind Localizer.ImportSgfFile}" />
                 </StackPanel>
             </Button>
@@ -167,9 +167,34 @@
             </Button>
         </StackPanel>
 
-        <GridView x:Name="GameListView" IsItemClickEnabled="True" SelectionMode="None"
-                  Grid.Row="2"
-                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource LargeLibraryItemTemplate}" />
+        <GridView Padding="12,0" x:Name="LibraryGridView" Visibility="Collapsed" HorizontalAlignment="Center" IsItemClickEnabled="False" SelectionMode="None"
+                  Grid.Row="2"                 
+                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource LargeLibraryItemTemplate}">
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="12" />
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
+
+        <ListView Margin="12,0" x:Name="LibraryListView" Visibility="Collapsed" IsItemClickEnabled="False" SelectionMode="None" Grid.Row="2"
+                  ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource SmallLibraryItemTemplate}">
+            <ListView.Background>
+                <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
+            </ListView.Background>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+
 
         <CommandBar x:Name="BottomCommandBar" Grid.Row="3" IsDynamicOverflowEnabled="True">
             <AppBarButton Command="{x:Bind VM.OpenSgfFileCommand}" Label="{x:Bind Localizer.OpenSgfFile}" Icon="OpenFile" />

@@ -195,6 +195,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Analyze.
+        /// </summary>
+        public static string Analyze {
+            get {
+                return ResourceManager.GetString("Analyze", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Analyze mode.
         /// </summary>
         public static string AnalyzeMode {
@@ -942,6 +951,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error saving file.
+        /// </summary>
+        public static string ErrorSavingFile {
+            get {
+                return ResourceManager.GetString("ErrorSavingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Return to game.
         /// </summary>
         public static string Exit_ReturnToGame {
@@ -1100,6 +1118,33 @@ namespace OmegaGo.UI.Localization {
         public static string Game {
             get {
                 return ResourceManager.GetString("Game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to game.
+        /// </summary>
+        public static string Game1 {
+            get {
+                return ResourceManager.GetString("Game1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to games.
+        /// </summary>
+        public static string Game2 {
+            get {
+                return ResourceManager.GetString("Game2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to games.
+        /// </summary>
+        public static string Game5 {
+            get {
+                return ResourceManager.GetString("Game5", resourceCulture);
             }
         }
         

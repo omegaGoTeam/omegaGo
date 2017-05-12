@@ -1,0 +1,92 @@
+﻿<UserControl
+    x:Class="OmegaGo.UI.WindowsUniversal.UserControls.Library.LibraryItemGameControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:OmegaGo.UI.WindowsUniversal.UserControls.Library"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="150"
+    d:DesignWidth="200">
+    <Grid Padding="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Padding="8" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel >
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4" Visibility="{x:Bind Game.Name, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}">
+                    <BitmapIcon UriSource="/Assets/Icons/Info/Label.png" Width="20" Height="20" Margin="0,0,8,0" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" />
+                    <TextBlock Visibility="{x:Bind Game.Name, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}" Margin="0" MaxLines="2" Text="{x:Bind Game.Name, Mode=OneWay}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" FontWeight="SemiBold" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" Margin="0,0,0,4" VerticalAlignment="Center" Visibility="{x:Bind Game.WhiteName, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}">
+                    <Ellipse Stroke="Black" Width="16" Height="16" Margin="2">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                <GradientStop Color="White" Offset="0.0" />
+                                <GradientStop Color="DimGray" Offset="1.5" />
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Game.WhiteName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Game.WhiteRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  Margin="0,0,0,4" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" x:Name="BlackPlayerInfo" Visibility="{x:Bind Game.BlackName, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}">
+                    <Ellipse Stroke="Black" Width="16" Height="16" Margin="2">
+                        <Ellipse.Fill>
+                            <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                <GradientStop Color="DimGray" Offset="0.0" />
+                                <GradientStop Color="Black" Offset="1.5" />
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Game.BlackName, Mode=OneWay}" Margin="8,0,0,0" FontWeight="SemiBold" />
+                    <TextBlock VerticalAlignment="Center" Text="{x:Bind Game.BlackRank, Mode=OneWay}" Margin="8,0,0,0" FontWeight="Normal" Opacity="0.5" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <Viewbox Width="20" Height="20" Margin="0,0,8,0" HorizontalAlignment="Center">
+                        <Grid HorizontalAlignment="Center" Padding="0">
+                            <Ellipse HorizontalAlignment="Left" Stroke="{ThemeResource ApplicationForegroundThemeBrush}" Width="16" Height="16" Margin="0">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                        <GradientStop Color="White" Offset="0.0" />
+                                        <GradientStop Color="DimGray" Offset="1.5" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse HorizontalAlignment="Left" Stroke="{ThemeResource ApplicationForegroundThemeBrush}" Width="16" Height="16" Margin="6,0,0,0">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                        <GradientStop Color="DimGray" Offset="0.0" />
+                                        <GradientStop Color="Black" Offset="1.5" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse HorizontalAlignment="Left" Stroke="{ThemeResource ApplicationForegroundThemeBrush}" Width="16" Height="16" Margin="12,0,0,0">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0.2,.2" EndPoint="1,1">
+                                        <GradientStop Color="White" Offset="0.0" />
+                                        <GradientStop Color="DimGray" Offset="1.5" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock Text="{x:Bind Game.MoveCount, Mode=OneWay}" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4" Visibility="{x:Bind Game.Date, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}">
+                    <SymbolIcon Symbol="Calendar" Margin="0,0,8,0" />
+                    <TextBlock Text="{x:Bind Game.Date, Mode=OneWay}"/>
+                </StackPanel>
+                <TextBlock Visibility="{x:Bind Game.Comment, Converter={StaticResource NonEmptyStringVisibilityConverter}, Mode=OneWay}" MaxLines="3" Text="{x:Bind Game.Comment, Mode=OneWay}" TextTrimming="CharacterEllipsis" Grid.Row="3" TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+        <Button Grid.Row="1" Margin="0" Command="{x:Bind OpenGameCommand, Mode=OneWay}" HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal">
+                <BitmapIcon UriSource="/Assets/Icons/TitleBar/Analyze.png" Width="20" Height="20" Margin="0,0,8,0" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding Source={StaticResource Localizer}, Path=Analyze}" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>

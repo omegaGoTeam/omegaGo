@@ -28,7 +28,7 @@ namespace OmegaGo.UI.WindowsUniversal.Views
 
         public override string TabTitle => Localizer.AnalyzeMode;
 
-        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Observe.png");
+        public override Uri TabIconUri => new Uri("ms-appx:///Assets/Icons/TitleBar/Analyze.png");
 
 
         public AnalyzeOnlyView()

@@ -8,7 +8,11 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-
+    <UserControl.Resources>
+        <Style TargetType="BitmapIcon">
+            <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        </Style>
+    </UserControl.Resources>
     <Border Padding="12">
         <Grid >
             <Grid.ColumnDefinitions>

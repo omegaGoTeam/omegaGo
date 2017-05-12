@@ -5,8 +5,9 @@ namespace OmegaGo.UI.Models.Library
     /// </summary>
     public class LibraryItemGame
     {
-        public LibraryItemGame(int moveCount, string date, string blackName, string blackRank, string whiteName, string whiteRank, string comment)
+        public LibraryItemGame( string name, int moveCount, string date, string blackName, string blackRank, string whiteName, string whiteRank, string comment)
         {
+            Name = name;
             MoveCount = moveCount;
             Date = date;
             BlackName = blackName;
@@ -16,6 +17,7 @@ namespace OmegaGo.UI.Models.Library
             Comment = comment;
         }
 
+        public string Name { get; set; }
         public int MoveCount { get; set; }
         public string Date { get; set; }
         public string BlackName { get; set; }
