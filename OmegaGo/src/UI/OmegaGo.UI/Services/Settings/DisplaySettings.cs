@@ -29,7 +29,9 @@ namespace OmegaGo.UI.Services.Settings
             get
             {
                 int theSetting = GetSetting(nameof(BoardTheme), () => (int)BoardTheme.OakWood, SettingLocality.Roamed);
-                return (BoardTheme)theSetting;
+                BoardTheme theme= (BoardTheme)theSetting;
+                if (theSetting < 0 || theSetting > 3) theme = BoardTheme.KayaWood;
+                return theme;
             }
             set { SetSetting(nameof(BoardTheme), (int)value, SettingLocality.Roamed); }
         }

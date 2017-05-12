@@ -5,7 +5,6 @@
         SolidColor,
         OakWood,
         KayaWood,
-        VirtualBoard,
         SabakiBoard
     }
 }
