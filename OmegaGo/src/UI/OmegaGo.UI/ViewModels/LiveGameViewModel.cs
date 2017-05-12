@@ -255,18 +255,23 @@ namespace OmegaGo.UI.ViewModels
             if (Tool != null)
                 Tool.Execute(ToolServices);
         }
-        
+
         protected void UpdateTimeline(bool setToLast = false)
         {
             var primaryTimeline = Game.Controller.GameTree.PrimaryMoveTimelineWithRoot;
             int newMaximumTimelineIndex = primaryTimeline.Count() - 1;
-            
+
             if (setToLast || SelectedMoveIndex == MaximumMoveIndex || SelectedMoveIndex >= newMaximumTimelineIndex)
             {
+                // We have to keep the order as setting the selected move index fires timelinechanged event.
+                // Inheriting classes then use the IsTimelineInPast, which relies on the SelectedMoveIndex and MaximumMoveIndex.
+                MaximumMoveIndex = newMaximumTimelineIndex;
                 SelectedMoveIndex = newMaximumTimelineIndex;
             }
-
-            MaximumMoveIndex = newMaximumTimelineIndex;
+            else
+            {
+                MaximumMoveIndex = newMaximumTimelineIndex;
+            }
         }
 
         ////////////////
