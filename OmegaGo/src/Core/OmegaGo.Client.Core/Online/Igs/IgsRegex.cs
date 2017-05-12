@@ -204,10 +204,9 @@ empty string*/
         {
             if (secondValueStones == -1)
             {
-                return new CanadianTimeInformation(TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
+                return new CanadianTimeInformation(true, TimeSpan.FromSeconds(firstValueTime), TimeSpan.Zero, 0);
             }
-            return new CanadianTimeInformation(TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime),
-                secondValueStones);
+            return new CanadianTimeInformation(false, TimeSpan.Zero, TimeSpan.FromSeconds(firstValueTime), secondValueStones);
         }
 
         public static string WhoRanOutOfTime(IgsLine igsLine)
