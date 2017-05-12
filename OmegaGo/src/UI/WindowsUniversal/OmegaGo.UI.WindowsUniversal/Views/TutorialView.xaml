@@ -6,9 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
+    xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
     x:Name="TutorialViewPage"
-    xmlns:win2d="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    Loaded="TutorialViewPage_Loaded"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -19,10 +18,15 @@
         </TransitionCollection>
     </Page.Transitions>
 
+    <Page.Resources>
+        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
+        <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
@@ -46,153 +50,59 @@
                     <SolidColorBrush Opacity="0.7" Color="LightBlue" />
                 </Border.Background>
                 <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Name="SenseisLine" FontSize="18" Width="{Binding Path=ActualWidth, ElementName=TheBorder}"
-                   TextWrapping="Wrap" TextTrimming="None" VerticalAlignment="Top">
-            Sensei says something.
-                    </TextBlock>
+                    <TextBlock  Name="SenseisLine" FontSize="18" 
+                                Width="{Binding Path=ActualWidth, ElementName=TheBorder}"
+                                TextWrapping="Wrap" TextTrimming="None" 
+                                VerticalAlignment="Top"
+                                Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" />
                 </Viewbox>
             </Border>
         </Border>
-     
+
         <Border BorderThickness="2"
                 BorderBrush="Black"
                 CornerRadius="20"
                 HorizontalAlignment="Center"
                 Name="MakeYourChoiceDialog"
                 Grid.Row="1"
-                VerticalAlignment="Center">
+                VerticalAlignment="Center"
+                Visibility="{x:Bind VM.IsChoiceDialogVisible, Mode=OneWay}">
             <Grid>
-                <Border
-                Name="Mask"
-                Background="LightBlue"
-                CornerRadius="20"/>
+                <Border Name="Mask"
+                        Background="LightBlue"
+                        CornerRadius="20"/>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel HorizontalAlignment="Center" Margin="20">
-                    <TextBlock FontSize="26" HorizontalAlignment="Center"
-                               Text="{Binding Path=Text, ElementName=SenseisLine}" TextWrapping="Wrap">
-                    </TextBlock>
-                    <Button Name="Option1" Click="Option1_Click" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
-                        <TextBlock Name="Option1Text" TextWrapping="Wrap">
-                            I choose option 1
+                    <StackPanel HorizontalAlignment="Center" Margin="20">
+                        <TextBlock FontSize="26" HorizontalAlignment="Center"
+                               Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" TextWrapping="Wrap">
                         </TextBlock>
-                    </Button>
-                    <Button Name="Option2" Click="Option2_Click" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
-                        <TextBlock Name="Option2Text" TextWrapping="Wrap">
-                            I choose option 2
-                        </TextBlock>
-                    </Button>
+                        <Button Name="Option1" Command="{x:Bind VM.Option1Command}" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
+                            <TextBlock Name="Option1Text" TextWrapping="Wrap" Text="{x:Bind VM.Option1Text, Mode=OneWay}" />
+                        </Button>
+                        <Button Name="Option2" Command="{x:Bind VM.Option2Command}" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
+                            <TextBlock Name="Option2Text" TextWrapping="Wrap" Text="{x:Bind VM.Option2Text, Mode=OneWay}" />
+                        </Button>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
         </Border>
-        <Button Grid.Row="1"
-                        Name="ButtonNext"
-                        Content="{x:Bind Localizer.Tutorial_Next}"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Background="White"
-                        BorderBrush="Black"
-                        BorderThickness="3"
-                        FontWeight="Bold"
-                        MinWidth="200"
-                        MinHeight="100"
-                        FontSize="26"
-                        Margin="10" Click="Next_Click">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-                        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
-                        <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
-                        <Setter Property="Padding" Value="8,4,8,4" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-                        <Setter Property="FontWeight" Value="Normal" />
-                        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-                        <Setter Property="UseSystemFocusVisuals" Value="True" />
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Grid x:Name="RootGrid" 
-                          Background="{TemplateBinding Background}">
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualState x:Name="Normal">
-                                                    <Storyboard>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="PointerOver">
-                                                    <Storyboard>
 
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                     Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Wheat" />
-                                                        </ObjectAnimationUsingKeyFrames>
-
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Pressed">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                     Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Gainsboro" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Disabled">
-                                                    <Storyboard>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                     Storyboard.TargetProperty="Background">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="Foreground">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                     Storyboard.TargetProperty="BorderBrush">
-                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </VisualState>
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
-                                        <ContentPresenter x:Name="ContentPresenter"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Content="{TemplateBinding Content}"
-                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            AutomationProperties.AccessibilityView="Raw"/>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style> 
-            </Button.Style>
-        </Button>
+        <Border Grid.Row="1" 
+                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                BorderThickness="3"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Visibility="{x:Bind VM.IsNextButtonVisible, Mode=OneWay}">
+            <Button Name="ButtonNext"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    MinWidth="200"
+                    MinHeight="100"
+                    Command="{x:Bind VM.NextButtonCommand}">
+                <TextBlock x:Name="buttonNextText" 
+                           FontWeight="Bold"
+                           Text="{x:Bind VM.NextButtonText, Mode=OneWay}"
+                           Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            </Button>
+        </Border>
     </Grid>
 </views:TransparencyViewBase>
