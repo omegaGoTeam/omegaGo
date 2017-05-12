@@ -288,7 +288,7 @@
                               Visibility="{x:Bind VM.Bundle.IsKgs}" IsChecked="{x:Bind VM.IsRankedGame, Mode=TwoWay}"></CheckBox>
                     <CheckBox Grid.Row="10" Style="{StaticResource Boxes}" Content="{x:Bind Localizer.CheckboxPublicGame}"
                               IsEnabled="{Binding Bundle.Frozen, Converter={StaticResource BoolNegationConverter}}"
-                              Visibility="{x:Bind VM.Bundle.IsKgs}" IsChecked="{x:Bind VM.IsPubliclyListedGame, Mode=TwoWay}"></CheckBox>
+                              Visibility="{x:Bind VM.Bundle.IsKgsChallengeCreation}" IsChecked="{x:Bind VM.IsPubliclyListedGame, Mode=TwoWay}"></CheckBox>
 
                     <Button Grid.Row="11" Command="{Binding Path=NavigateToGameCommand}"
                             HorizontalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3"
