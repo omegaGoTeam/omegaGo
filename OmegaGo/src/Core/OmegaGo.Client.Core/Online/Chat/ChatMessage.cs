@@ -20,10 +20,12 @@ namespace OmegaGo.Core.Online.Chat
 
         public ChatMessage(string userName, string text, DateTimeOffset time, ChatMessageKind kind)
         {
+#if DEBUG
             if (String.IsNullOrWhiteSpace(userName))
                 throw new ArgumentException("Chat senders must have names.", nameof(userName));
             if (String.IsNullOrWhiteSpace(text))
                 throw new ArgumentException("Chat messages can't be empty.", nameof(text));
+#endif
             this.UserName = userName;
             this.Text = text;
             this.Time = time;
