@@ -40,6 +40,10 @@ namespace OmegaGo.Core.Online.Kgs.Downstream
             KgsGameInfo info = KgsGameInfo.FromGameJoin(this);
             if (info == null) return;
             var channel = connection.Data.GetChannel(this.ChannelId);
+            if (channel == null)
+            {
+                channel = connection.Data.CreateGame(KgsTrueGameChannel.FromGameInfo(info, this.ChannelId));
+            }
 
 
             var blackPlayer = new KgsPlayerBuilder(Game.StoneColor.Black, connection)

@@ -355,9 +355,6 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                 case BoardTheme.KayaWood:
                     bitmapToDraw = kayaBitmap;
                     break;
-                case BoardTheme.VirtualBoard:
-                    bitmapToDraw = spaceBitmap;
-                    break;
                 case BoardTheme.SabakiBoard:
                     bitmapToDraw = sabakiBoardBitmap;
                     break;
@@ -534,7 +531,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     _halfSize,                                                 // y1
                     _halfSize + i * _cellSize,                             // x2
                     _cellSize * boardHeight - _halfSize,                  // y2
-                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black, _boardLineThickness);
+                    Colors.Black, _boardLineThickness);
             }
 
             // Draw horizontal lines
@@ -544,7 +541,7 @@ namespace OmegaGo.UI.WindowsUniversal.Services.Game
                     _halfSize + i * _cellSize,                             // y2
                     _cellSize * boardWidth - _halfSize,                   // x2
                     _halfSize + i * _cellSize,                             // y2
-                    _boardTheme == BoardTheme.VirtualBoard ? Colors.Cyan : Colors.Black, _boardLineThickness);
+                    Colors.Black, _boardLineThickness);
             }
         }
 

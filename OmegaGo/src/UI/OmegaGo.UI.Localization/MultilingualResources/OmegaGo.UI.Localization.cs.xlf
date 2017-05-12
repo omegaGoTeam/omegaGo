@@ -2006,6 +2006,22 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <source>Game tree</source>
           <target state="translated">Herní strom</target>
         </trans-unit>
+        <trans-unit id="Add1Minute" translate="yes" xml:space="preserve">
+          <source>Add 1 minute</source>
+          <target state="new">Add 1 minute</target>
+        </trans-unit>
+        <trans-unit id="Add1MinuteTooltip" translate="yes" xml:space="preserve">
+          <source>Adds 1 minute to your opponent's clock</source>
+          <target state="new">Adds 1 minute to your opponent's clock</target>
+        </trans-unit>
+        <trans-unit id="Add5Minutes" translate="yes" xml:space="preserve">
+          <source>Add 5 minutes</source>
+          <target state="new">Add 5 minutes</target>
+        </trans-unit>
+        <trans-unit id="Add5MinutesTooltip" translate="yes" xml:space="preserve">
+          <source>Adds 5 minutes to your opponent's clock</source>
+          <target state="new">Adds 5 minutes to your opponent's clock</target>
+        </trans-unit>
       </group>
     </body>
   </file>

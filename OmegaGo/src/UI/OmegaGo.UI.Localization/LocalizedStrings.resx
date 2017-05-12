@@ -1613,4 +1613,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="GameTree" xml:space="preserve">
     <value>Game tree</value>
   </data>
+  <data name="Add1Minute" xml:space="preserve">
+    <value>Add 1 minute</value>
+  </data>
+  <data name="Add1MinuteTooltip" xml:space="preserve">
+    <value>Adds 1 minute to your opponent's clock</value>
+  </data>
+  <data name="Add5Minutes" xml:space="preserve">
+    <value>Add 5 minutes</value>
+  </data>
+  <data name="Add5MinutesTooltip" xml:space="preserve">
+    <value>Adds 5 minutes to your opponent's clock</value>
+  </data>
 </root>

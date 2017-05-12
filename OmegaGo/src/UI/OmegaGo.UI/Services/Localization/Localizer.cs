@@ -2004,6 +2004,22 @@ namespace OmegaGo.UI.Services.Localization
 		/// </summary>
 		public string BranchDeletionErrorTitle => LocalizeCaller();
 		/// <summary>
+		/// Add 1 minute
+		/// </summary>
+		public string Add1Minute => LocalizeCaller();
+		/// <summary>
+		/// Adds 1 minute to your opponent's clock
+		/// </summary>
+		public string Add1MinuteTooltip => LocalizeCaller();
+		/// <summary>
+		/// Add 5 minutes
+		/// </summary>
+		public string Add5Minutes => LocalizeCaller();
+		/// <summary>
+		/// Adds 5 minutes to your opponent's clock
+		/// </summary>
+		public string Add5MinutesTooltip => LocalizeCaller();
+		/// <summary>
 		/// Chat
 		/// </summary>
 		public string Chat => LocalizeCaller();

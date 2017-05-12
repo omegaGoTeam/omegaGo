@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using OmegaGo.Core.Annotations;
@@ -35,7 +36,7 @@ namespace OmegaGo.Core.Online.Kgs.Structures
         /// <summary>
         /// Gets the users that are present in this channel. I don't think we're using this anywhere currently.
         /// </summary>
-        public HashSet<KgsUser> Users { get; } = new HashSet<KgsUser>();
+        public ObservableCollection<KgsUser> Users { get; } = new ObservableCollection<KgsUser>();
 
         public override string ToString()
         {

@@ -38,7 +38,8 @@ namespace OmegaGo.Core.Online.Kgs
     /// <seealso cref="OmegaGo.Core.Online.Common.IServerConnection" />
     public class KgsConnection : IServerConnection
     {
-        private const string Uri = "https://metakgs.org/api/access";
+        private const string Uri = "https://gokgs.com/json/access";
+        private const string SecondaryUri = "https://metakgs.org/api/access";
         private string _username;
         private bool _getLoopRunning;
         private readonly HttpClient _httpClient;
@@ -198,6 +199,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             Events.RaiseLoginPhaseChanged(KgsLoginPhase.MakingLoginRequest);
             Debug.WriteLine("Making login request");
+          
             if (!await MakeUnattendedRequestAsync("LOGIN", new
             {
                 Name = name,
@@ -208,6 +210,10 @@ namespace OmegaGo.Core.Online.Kgs
                 LoggingIn = false;
                 Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
             }
+            await MakeUnattendedRequestAsync("SYNC_REQUEST", new
+            {
+                CallbackKey = 7
+            });
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {

@@ -439,10 +439,12 @@ namespace OmegaGo.Core.Online.Igs
                     if (infoLine != null)
                     {
                         ScoreLine scoreLine = IgsRegex.ParseObservedScoreLine(infoLine);
-                        IgsGame gameInfo = this.GamesYouHaveOpened.FirstOrDefault(gi => gi.Info.IgsIndex == scoreLine.GameId);
-                        if (gameInfo != null)
-                        {
-                            ScoreGame(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
+                        if (scoreLine != null) {
+                            IgsGame gameInfo = this.GamesYouHaveOpened.FirstOrDefault(gi => gi.Info.IgsIndex == scoreLine.GameId);
+                            if (gameInfo != null)
+                            {
+                                ScoreGame(gameInfo, scoreLine.BlackScore, scoreLine.WhiteScore);
+                            }
                         }
                     }
                 }
