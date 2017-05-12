@@ -23,27 +23,24 @@
     </Page.Transitions>
 
     <Page.Resources>
+        <Style x:Key="NonScrollFlyoutPresenter" TargetType="FlyoutPresenter">
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
         <DataTemplate x:Key="SmallLibraryItemTemplate">
-            <Border HorizontalAlignment="Stretch" Padding="12" IsRightTapEnabled="True" IsTapEnabled="True">
+            <Border HorizontalAlignment="Stretch" Padding="12" IsRightTapEnabled="True" IsTapEnabled="True" Background="Transparent">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="Tapped">
                         <actions:OpenAttachedFlyoutAction />
                     </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="RightTapped">
-                        <actions:OpenAttachedFlyoutAction />
-                    </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
                 <FlyoutBase.AttachedFlyout>
-                    <Flyout Placement="Full">
-                        <ContentControl ContentTemplate="{StaticResource LargeLibraryItemTemplate}" Content="{Binding}" />
-                        <!--<Grid>
-                            <StackPanel Orientation="Horizontal">
-                                <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" CommandParameter="{Binding}" />
-                                <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" CommandParameter="{Binding}">
-                                    <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
-                                </AppBarButton>
-                            </StackPanel>
-                        </Grid>-->
+                    <Flyout FlyoutPresenterStyle="{StaticResource NonScrollFlyoutPresenter}">
+                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource LargeLibraryItemTemplate}" />
                     </Flyout>
                 </FlyoutBase.AttachedFlyout>
                 <Grid>
@@ -62,43 +59,7 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="LargeLibraryItemTemplate">
-            <Grid Width="250" Height="250">
-                <Border>
-                    <Border.Background>
-                        <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />
-                    </Border.Background>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding FileName}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" TextAlignment="Center" MaxLines="1" TextTrimming="CharacterEllipsis" Margin="0,0,0,8" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" Margin="0,0,0,8">
-                            <TextBlock>
-                            <Run Text="{Binding GameCount}" />                            
-                            <Run Text="{Binding GameCount, Converter={StaticResource PluralizingConverter}, ConverterParameter=Game}" />
-                            </TextBlock>
-                        </StackPanel>
-                        <FlipView Grid.Row="2" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
-                            <FlipView.ItemTemplate>
-                                <DataTemplate x:DataType="library:LibraryItemGame">
-                                    <library1:LibraryItemGameControl Game="{x:Bind}" OpenGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGame}" />
-                                </DataTemplate>
-                            </FlipView.ItemTemplate>
-                        </FlipView>
-                    </Grid>
-                </Border>
-                <CommandBar Background="Transparent" Style="{StaticResource OpenDownCommandBar}" ClosedDisplayMode="Minimal" Grid.Row="0">
-                    <CommandBar.SecondaryCommands>
-                        <AppBarButton Icon="Delete" IsCompact="False" Label="{Binding Source={StaticResource Localizer}, Path=Delete}" Command="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" CommandParameter="{Binding}" />
-                        <AppBarButton Label="{Binding Source={StaticResource Localizer}, Path=Export}" Command="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" CommandParameter="{Binding}">
-                            <BitmapIcon UriSource="/Assets/Icons/Commands/ExportFromLibrary.png" />
-                        </AppBarButton>
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
-            </Grid>
+            <library1:LibraryItemControl ViewModel="{Binding Mode=OneWay}" AnalyzeGameCommand="{Binding ElementName=MainView, Path=VM.AnalyzeLibraryItemGame}" ExportCommand="{Binding ElementName=MainView, Path=VM.ExportItemCommand}" DeleteCommand="{Binding ElementName=MainView, Path=VM.DeleteItemCommand}" />
         </DataTemplate>
     </Page.Resources>
 
@@ -167,7 +128,7 @@
             </Button>
         </StackPanel>
 
-        <GridView Padding="12,0" x:Name="LibraryGridView" Visibility="Collapsed" HorizontalAlignment="Center" IsItemClickEnabled="False" SelectionMode="None"
+        <GridView Padding="12,0" x:Name="LibraryGridView" ItemsPanel="{ThemeResource GridItemsPanelTemplate}" Visibility="Collapsed" HorizontalContentAlignment="Center" HorizontalAlignment="Center" IsItemClickEnabled="False" SelectionMode="None"
                   Grid.Row="2"                 
                   ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource LargeLibraryItemTemplate}">
             <GridView.ItemContainerTransitions>
@@ -182,7 +143,7 @@
             </GridView.ItemContainerStyle>
         </GridView>
 
-        <ListView Margin="12,0" x:Name="LibraryListView" Visibility="Collapsed" IsItemClickEnabled="False" SelectionMode="None" Grid.Row="2"
+        <ListView Margin="12,0" x:Name="LibraryListView" Visibility="Collapsed" IsItemClickEnabled="True" SelectionMode="None" Grid.Row="2"
                   ItemsSource="{x:Bind Path=VM.LibraryItems, Mode=OneWay}" ItemTemplate="{StaticResource SmallLibraryItemTemplate}">
             <ListView.Background>
                 <SolidColorBrush Color="{Binding Source={StaticResource VisualSettings}, Path=BackgroundColor}" Opacity="{StaticResource PagePanelOpacity}" />

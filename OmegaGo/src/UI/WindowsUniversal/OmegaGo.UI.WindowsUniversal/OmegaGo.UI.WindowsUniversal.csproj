@@ -150,6 +150,9 @@
     <Compile Include="UserControls\ChatControl.xaml.cs">
       <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Library\LibraryItemControl.xaml.cs">
+      <DependentUpon>LibraryItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Library\LibraryItemGameControl.xaml.cs">
       <DependentUpon>LibraryItemGameControl.xaml</DependentUpon>
     </Compile>
@@ -494,6 +497,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Library\LibraryItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
