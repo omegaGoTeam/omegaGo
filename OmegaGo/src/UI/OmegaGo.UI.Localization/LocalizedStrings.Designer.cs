@@ -663,6 +663,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The game cannot be ranked. It will be created as a non-ranked game..
+        /// </summary>
+        public static string CantPlayRanked {
+            get {
+                return ResourceManager.GetString("CantPlayRanked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cell size.
         /// </summary>
         public static string CellSize {

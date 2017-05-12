@@ -1619,4 +1619,7 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="Add5MinutesTooltip" xml:space="preserve">
     <value>Adds 5 minutes to your opponent's clock</value>
   </data>
+  <data name="CantPlayRanked" xml:space="preserve">
+    <value>The game cannot be ranked. It will be created as a non-ranked game.</value>
+  </data>
 </root>

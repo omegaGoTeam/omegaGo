@@ -172,6 +172,10 @@ namespace OmegaGo.UI.Services.Online
                     title = LocalizedStrings.KGSAlert;
                     message = LocalizedStrings.KGSYouCantPlayTwice;
                     break;
+                case "CHALLENGE_CANT_PLAY_RANKED":
+                    title = LocalizedStrings.KGSAlert;
+                    message = LocalizedStrings.CantPlayRanked;
+                    break;
             }
             Mvx.Resolve<IAppNotificationService>()
                 .TriggerNotification(new BubbleNotification(message, title, NotificationType.Alert));
