@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Localization;
 
 namespace OmegaGo.UI.ViewModels
 {
@@ -490,10 +491,28 @@ namespace OmegaGo.UI.ViewModels
                 ValidationErrorMessage = Localizer.Validation_YouMustHave2x2OrGreater;
                 return false;
             }
-            if (SelectedGameBoardSize.Width > 100 || SelectedGameBoardSize.Height > 100)
+            if (SelectedGameBoardSize.Width > 52 || SelectedGameBoardSize.Height > 52)
             {
                 ValidationErrorMessage = Localizer.Validation_BoardTooExtreme;
                 return false;
+            }
+            if (Handicap != 0)
+            {
+                if (SelectedGameBoardSize.IsSquare)
+                {
+                    if (SelectedGameBoardSize.Width != 9 &&
+                        SelectedGameBoardSize.Width != 13 &&
+                        SelectedGameBoardSize.Width != 19)
+                    {
+                        ValidationErrorMessage = LocalizedStrings.Validation_ImproperHandicapForSize;
+                        return false;
+                    }
+                }
+                else
+                {
+                    ValidationErrorMessage = LocalizedStrings.Validation_ImproperHandicapForSize;
+                    return false;
+                }
             }
             float compensation;
             if (float.TryParse(CompensationString, NumberStyles.Any, CultureInfo.InvariantCulture, out compensation))

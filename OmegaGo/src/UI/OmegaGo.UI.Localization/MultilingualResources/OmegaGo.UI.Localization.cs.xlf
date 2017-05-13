@@ -1951,8 +1951,8 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
           <target state="translated">Vzdej se.</target>
         </trans-unit>
         <trans-unit id="Validation_BoardTooExtreme" translate="yes" xml:space="preserve">
-          <source>Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</source>
-          <target state="new">Please choose a board size 100x100 or smaller. Your computer might not handle a larger board.</target>
+          <source>Please choose a board size of 52x52 or smaller.</source>
+          <target state="new">Please choose a board size of 52x52 or smaller.</target>
         </trans-unit>
         <trans-unit id="Validation_KomiTooExtreme" translate="yes" xml:space="preserve">
           <source>Please choose komi between -500 and 500.</source>
@@ -2025,6 +2025,10 @@ Doporučejeme používat pouze tuto umělou inteligenci.</target>
         <trans-unit id="CantPlayRanked" translate="yes" xml:space="preserve">
           <source>The game cannot be ranked. It will be created as a non-ranked game.</source>
           <target state="new">The game cannot be ranked. It will be created as a non-ranked game.</target>
+        </trans-unit>
+        <trans-unit id="Validation_ImproperHandicapForSize" translate="yes" xml:space="preserve">
+          <source>Handicap is supported only for 9x9, 13x13 and 19x19.</source>
+          <target state="new">Handicap is supported only for 9x9, 13x13 and 19x19.</target>
         </trans-unit>
       </group>
     </body>
