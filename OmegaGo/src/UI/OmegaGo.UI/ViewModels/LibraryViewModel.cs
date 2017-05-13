@@ -17,7 +17,7 @@ namespace OmegaGo.UI.ViewModels
 {
     public class LibraryViewModel : ViewModelBase
     {
-        private const string SgfFolderName = "Library";
+        public const string SgfFolderName = "Library";
         private readonly IDialogService _dialogService;
         private readonly IFilePickerService _filePicker;
         private readonly IAppDataFileService _appDataFileService;
