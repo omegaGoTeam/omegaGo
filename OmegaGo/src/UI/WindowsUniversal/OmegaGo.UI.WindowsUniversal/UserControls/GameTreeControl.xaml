@@ -41,7 +41,10 @@
                              Margin="5"
                              Grid.Row="1"
                              Grid.RowSpan="2"
-                             Grid.ColumnSpan="2"/>
+                             Grid.ColumnSpan="2"
+                             ManipulationMode="None"
+                             IsHoldingEnabled="False"
+                             IsRightTapEnabled="False"/>
 
         <ScrollBar x:Name="verticalBar" 
                    Grid.Column="1" Grid.Row="1"

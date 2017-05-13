@@ -7,6 +7,8 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using OmegaGo.Core.Game;
 using System;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Input;
+using Windows.Devices.Input;
 
 namespace OmegaGo.UI.WindowsUniversal.UserControls
 {
@@ -15,6 +17,8 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
     /// </summary>
     public sealed partial class BoardControl : UserControlBase
     {
+        private const int TOUCHOFFSET = -25;
+
         private BoardControlState _boardControlState;
         private InputService _inputService;
         private RenderService _renderService;
@@ -76,32 +80,43 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
             return availableSize;
         }        
 
-        private void canvas_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void canvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
+            Point pointerPosition = GetPointerPosition(e);
 
             InputService.PointerDown((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
-        private void canvas_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void canvas_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
+            Point pointerPosition = GetPointerPosition(e);
 
             InputService.PointerUp((int)pointerPosition.X, (int)pointerPosition.Y);
         }
-
-        private void canvas_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        
+        private void canvas_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
+            Point pointerPosition = GetPointerPosition(e);
 
             InputService.PointerMoved((int)pointerPosition.X, (int)pointerPosition.Y);
         }
 
-        private void Canvas_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void Canvas_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             InputService.PointerExited();
         }
 
+        // Helper method to offset touch pointer position for better stone shadow visibility.
+        private Point GetPointerPosition(PointerRoutedEventArgs e)
+        {
+            Point pointerPosition = e.GetCurrentPoint(canvas).Position;
+
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Touch)
+                pointerPosition.Y += TOUCHOFFSET;
+
+            return pointerPosition;
+        }
+        
         private async void canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             await RenderService.AwaitResources();

@@ -135,9 +135,9 @@ namespace OmegaGo.UI.WindowsUniversal.UserControls
                 viewModel.GameTreeRedrawRequested += GameTreeControl.GameTreeRedrawRequsted;
 
                 // GameTree scrolling
-                GameTreeControl.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
-                GameTreeControl.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
-                GameTreeControl.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
+                GameTreeControl.canvas.PointerEntered += GameTreeControl.GameTreeControl_PointerEntered;
+                GameTreeControl.canvas.PointerExited += GameTreeControl.GameTreeControl_PointerExited;
+                GameTreeControl.canvas.PointerWheelChanged += GameTreeControl.GameTreeControl_PointerWheelChanged;
 
                 // Arrows handling
                 // This control has public methods to navigate using arrow keys.
