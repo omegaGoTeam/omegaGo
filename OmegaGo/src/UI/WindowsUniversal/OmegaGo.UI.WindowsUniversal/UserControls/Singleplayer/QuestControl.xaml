@@ -35,14 +35,14 @@
                 <!-- Buttons -->
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <Button Visibility="{Binding Quest.TryThisNowButtonVisible, Converter={StaticResource VisibilityConverter}}" Tag="{Binding}"
-                            Click="TryThisNow_Click" ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNowTooltip}">
+                            ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNowTooltip}">
                         <StackPanel Orientation="Vertical">
                             <FontIcon Glyph="&#xE768;"/>
                             <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_TryThisNow}"/>
                         </StackPanel>
                     </Button>
                     <Button Visibility="{Binding ElementName=SingleplayerViewLayout, Path=VM.ExchangeIsPossible, Converter={StaticResource VisibilityConverter}, Mode=OneWay}" Tag="{Binding}"
-                            Click="ExchangeQuest_Click" ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_ReplaceTooltip}">
+                            ToolTipService.ToolTip="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_ReplaceTooltip}">
                         <StackPanel Orientation="Vertical">
                             <FontIcon Glyph="&#xE72C;"/>
                             <TextBlock Text="{Binding ElementName=SingleplayerViewLayout, Path=Localizer.Quest_Replace}"/>

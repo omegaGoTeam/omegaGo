@@ -7,6 +7,7 @@
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:quests="using:OmegaGo.UI.Services.Quests"
     xmlns:navigation="using:OmegaGo.UI.WindowsUniversal.UserControls.Navigation"
+    xmlns:singleplayer="using:OmegaGo.UI.WindowsUniversal.UserControls.Singleplayer"
     x:Name="SingleplayerViewLayout"
     Loaded="TransparencyViewBase_Loaded"
     mc:Ignorable="d">
@@ -54,7 +55,7 @@
                           ItemsSource="{Binding ActiveQuests}">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="quests:ActiveQuest">
-                           
+                           <singleplayer:QuestControl />
                         </DataTemplate>
                     </GridView.ItemTemplate>
                     <!-- A grid view maybe won't work... we need larger LastViewItems -->
