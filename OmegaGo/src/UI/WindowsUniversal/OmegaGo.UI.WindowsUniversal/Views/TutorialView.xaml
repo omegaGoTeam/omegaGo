@@ -6,8 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="using:OmegaGo.UI.WindowsUniversal.Views"
     xmlns:controls="using:OmegaGo.UI.WindowsUniversal.UserControls"
-    xmlns:converters="using:OmegaGo.UI.WindowsUniversal.Converters"
-    x:Name="TutorialViewPage"
     mc:Ignorable="d">
 
     <Page.Transitions>
@@ -18,90 +16,102 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <Page.Resources>
-        <converters:NativeInvertedVisibilityConverter x:Key="boolVisibilityInvertedConverter" />
-        <converters:NativeVisibilityConverter x:Key="boolVisibilityConverter" />
-    </Page.Resources>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:BoardControl  ViewModel="{x:Bind Path=VM.BoardViewModel, Mode=OneWay}"
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Compact">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="senseisLine.FontSize" Value="16" />
+                        <Setter Target="senseisMessageTextBlock.FontSize" Value="16" />
+                        <Setter Target="option1Text.FontSize" Value="16" />
+                        <Setter Target="option2Text.FontSize" Value="16" />
+                        <Setter Target="buttonNextText.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600" MinWindowHeight="600" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="senseisLine.FontSize" Value="16" />
+                        <Setter Target="senseisMessageTextBlock.FontSize" Value="26" />
+                        <Setter Target="option1Text.FontSize" Value="26" />
+                        <Setter Target="option2Text.FontSize" Value="26" />
+                        <Setter Target="buttonNextText.FontSize" Value="26" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <controls:BoardControl  Grid.Row="1"
+                                ViewModel="{x:Bind VM.BoardViewModel, Mode=OneWay}"
                                 HorizontalAlignment="Stretch"
-                                Grid.Row="1"
-                                Tapped="BoardControl_Tapped"
-                                VerticalAlignment="Stretch"/>
+                                VerticalAlignment="Stretch"
+                                Tapped="BoardControl_Tapped"/>
 
-        <Border BorderThickness="2"
-                BorderBrush="Black"
-                CornerRadius="20"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Margin="5"
-                Grid.Row="0"
-                MaxWidth="600"
-                Height="100"
-                Name="TheBorder"
-                Grid.Column="0">
-            <Border CornerRadius="20" >
-                <Border.Background>
-                    <SolidColorBrush Opacity="0.7" Color="LightBlue" />
-                </Border.Background>
-                <Viewbox Stretch="Uniform" StretchDirection="Both" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock  Name="SenseisLine" FontSize="18" 
-                                Width="{Binding Path=ActualWidth, ElementName=TheBorder}"
-                                TextWrapping="Wrap" TextTrimming="None" 
-                                VerticalAlignment="Top"
-                                Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" />
-                </Viewbox>
-            </Border>
+        <Border x:Name="senseisLineBorder" Grid.Row="0" Grid.Column="0" 
+                Margin="5" Padding="5"
+                MaxWidth="600" Height="100"
+                HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                BorderThickness="2" BorderBrush="Black"
+                CornerRadius="20" SizeChanged="Viewbox_SizeChanged">
+            <Border.Background>
+                <SolidColorBrush Opacity="0.7" Color="LightBlue" />
+            </Border.Background>
+            <Viewbox Stretch="Uniform" 
+                     HorizontalAlignment="Stretch">
+                <TextBlock  x:Name="senseisLine" 
+                            TextWrapping="WrapWholeWords" TextTrimming="None" TextAlignment="Center"
+                            Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" />
+            </Viewbox>
         </Border>
 
-        <Border BorderThickness="2"
-                BorderBrush="Black"
-                CornerRadius="20"
-                HorizontalAlignment="Center"
-                Name="MakeYourChoiceDialog"
+        <Border x:Name="MakeYourChoiceDialog"
                 Grid.Row="1"
-                VerticalAlignment="Center"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                BorderThickness="2"
+                Background="LightBlue"
+                BorderBrush="Black"
+                CornerRadius="20"
                 Visibility="{x:Bind VM.IsChoiceDialogVisible, Mode=OneWay}">
-            <Grid>
-                <Border Name="Mask"
-                        Background="LightBlue"
-                        CornerRadius="20"/>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel HorizontalAlignment="Center" Margin="20">
-                        <TextBlock FontSize="26" HorizontalAlignment="Center"
-                               Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" TextWrapping="Wrap">
-                        </TextBlock>
-                        <Button Name="Option1" Command="{x:Bind VM.Option1Command}" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
-                            <TextBlock Name="Option1Text" TextWrapping="Wrap" Text="{x:Bind VM.Option1Text, Mode=OneWay}" />
-                        </Button>
-                        <Button Name="Option2" Command="{x:Bind VM.Option2Command}" HorizontalAlignment="Stretch" FontSize="26" Padding="50,10,50,10" Margin="20">
-                            <TextBlock Name="Option2Text" TextWrapping="Wrap" Text="{x:Bind VM.Option2Text, Mode=OneWay}" />
-                        </Button>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel HorizontalAlignment="Center" Margin="20">
+                    <TextBlock  x:Name="senseisMessageTextBlock"
+                                    HorizontalAlignment="Center"
+                                    Text="{x:Bind VM.SenseisMessage, Mode=OneWay}" TextWrapping="Wrap">
+                    </TextBlock>
+                    <Button Command="{x:Bind VM.Option1Command}" HorizontalAlignment="Stretch" Padding="50,10,50,10" Margin="20">
+                        <TextBlock x:Name="option1Text" TextWrapping="Wrap" Text="{x:Bind VM.Option1Text, Mode=OneWay}" />
+                    </Button>
+                    <Button Command="{x:Bind VM.Option2Command}" HorizontalAlignment="Stretch" Padding="50,10,50,10" Margin="20">
+                        <TextBlock x:Name="option2Text" TextWrapping="Wrap" Text="{x:Bind VM.Option2Text, Mode=OneWay}" />
+                    </Button>
+                </StackPanel>
+            </ScrollViewer>
         </Border>
 
-        <Border Grid.Row="1" 
+        <Border x:Name="nextButtonBorder" 
+                Grid.Row="1" 
                 Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                 BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                 BorderThickness="3"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                 Visibility="{x:Bind VM.IsNextButtonVisible, Mode=OneWay}">
-            <Button Name="ButtonNext"
+            <Button x:Name="buttonNext"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    MinWidth="200"
-                    MinHeight="100"
+                    Padding="20"
                     Command="{x:Bind VM.NextButtonCommand}">
                 <TextBlock x:Name="buttonNextText" 
                            FontWeight="Bold"
-                           Text="{x:Bind VM.NextButtonText, Mode=OneWay}"
-                           Style="{ThemeResource SubheaderTextBlockStyle}"/>
+                           Text="{x:Bind VM.NextButtonText, Mode=OneWay}"/>
             </Button>
         </Border>
     </Grid>

@@ -8,7 +8,6 @@ namespace OmegaGo.UI.WindowsUniversal.Views
     // ReSharper disable once UnusedMember.Global
     public sealed partial class TutorialView
     {
-        private bool _isInitialized = false;
         public TutorialViewModel VM => (TutorialViewModel)this.ViewModel;
 
         public TutorialView()
@@ -23,6 +22,11 @@ namespace OmegaGo.UI.WindowsUniversal.Views
         private void BoardControl_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             this.VM.TapBoardControl();
+        }
+
+        private void Viewbox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            senseisLine.MaxWidth = e.NewSize.Width;
         }
     }
 }
