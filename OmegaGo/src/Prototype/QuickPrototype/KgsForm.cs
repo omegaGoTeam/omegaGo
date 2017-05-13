@@ -224,7 +224,7 @@ namespace FormsPrototype
         {
             if (this.lbContainerChallenges.SelectedItem != null)
             {
-                var challenge = await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
+                await this.kgs.Commands.JoinAndSubmitSelfToChallengeAsync((KgsChallenge)this.lbContainerChallenges.SelectedItem);
             }
         }
         

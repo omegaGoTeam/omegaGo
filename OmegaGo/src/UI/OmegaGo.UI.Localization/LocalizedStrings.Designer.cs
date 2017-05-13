@@ -125,6 +125,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Allow undo.
+        /// </summary>
+        public static string AgreeWithUndo {
+            get {
+                return ResourceManager.GetString("AgreeWithUndo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The strongest AI program in this game, the Defeatist will resign the first time it gets the chance to. You are simply not worth its time.
         ///After you make your first move, or even before that, the AI will conclude that it&apos;s much stronger than you and just resign in order to not play a game with a foregone conclusion..
         /// </summary>
@@ -1001,6 +1010,15 @@ namespace OmegaGo.UI.Localization {
         public static string Difficulty {
             get {
                 return ResourceManager.GetString("Difficulty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refuse undo.
+        /// </summary>
+        public static string DisagreeWithUndo {
+            get {
+                return ResourceManager.GetString("DisagreeWithUndo", resourceCulture);
             }
         }
         
@@ -4101,7 +4119,7 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please choose a board size 100x100 or smaller. Your computer might not handle a larger board..
+        ///   Looks up a localized string similar to Please choose a board size of 52x52 or smaller..
         /// </summary>
         public static string Validation_BoardTooExtreme {
             get {
@@ -4133,6 +4151,15 @@ namespace OmegaGo.UI.Localization {
         public static string Validation_FuegoGamesTooFew {
             get {
                 return ResourceManager.GetString("Validation_FuegoGamesTooFew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handicap is supported only for 9x9, 13x13 and 19x19..
+        /// </summary>
+        public static string Validation_ImproperHandicapForSize {
+            get {
+                return ResourceManager.GetString("Validation_ImproperHandicapForSize", resourceCulture);
             }
         }
         
@@ -4497,6 +4524,15 @@ namespace OmegaGo.UI.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have requested an undo..
+        /// </summary>
+        public static string YouHaveRequestedAnUndo {
+            get {
+                return ResourceManager.GetString("YouHaveRequestedAnUndo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You have won..
         /// </summary>
         public static string YouHaveWon {
@@ -4538,6 +4574,15 @@ namespace OmegaGo.UI.Localization {
         public static string YourOpponent {
             get {
                 return ResourceManager.GetString("YourOpponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your opponent requested his or her last move to be undone..
+        /// </summary>
+        public static string YourOppRequestedAnUndo {
+            get {
+                return ResourceManager.GetString("YourOppRequestedAnUndo", resourceCulture);
             }
         }
         

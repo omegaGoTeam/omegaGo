@@ -64,6 +64,7 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
         /// </summary>
         public void Undo(int howManyMoves)
         {
+            Controller.OnDebuggingMessage("Undoing " + howManyMoves + " moves:");
             //is there a move to undo?
             for (int i = 0; i < howManyMoves; i++)
             {
@@ -76,9 +77,13 @@ namespace OmegaGo.Core.Modes.LiveGame.Phases.Main
                     }
                     Controller.OnMoveUndone();
                     Controller.SwitchTurnPlayer();
+                    Controller.OnDebuggingMessage("Move undone.");
+                }
+                else
+                {
+                    Controller.OnDebuggingMessage("Undo failed.");
                 }
             }
-
             Controller.TurnPlayer.Agent.PleaseMakeAMove();
             
         }

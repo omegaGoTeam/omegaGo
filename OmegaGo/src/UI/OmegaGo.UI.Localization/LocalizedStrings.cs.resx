@@ -1466,6 +1466,30 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   <data name="YouShouldResign" xml:space="preserve">
     <value>Vzdej se.</value>
   </data>
+  <data name="Validation_BoardTooExtreme" xml:space="preserve">
+    <value>Prosím vyberte velikost 52x52 nebo menší.</value>
+  </data>
+  <data name="Validation_KomiTooExtreme" xml:space="preserve">
+    <value>Prosím zvolte komi mezi -500 a 500.</value>
+  </data>
+  <data name="Validation_ExcessiveTimeError" xml:space="preserve">
+    <value>Jedno pole ('{0}') má hodnotu větší než 10 000. Prosím zvolte nižší hodnotu.</value>
+  </data>
+  <data name="KgsBadPassword" xml:space="preserve">
+    <value>Zadaný uživatel má jiné heslo.</value>
+  </data>
+  <data name="KgsBadUsername" xml:space="preserve">
+    <value>Uživatel s tímto jménem neexistuje.</value>
+  </data>
+  <data name="KgsConnectionFailure" xml:space="preserve">
+    <value>Chyba připojení. Zkontrolujte své připojení k internetu a zkuste znovu.</value>
+  </data>
+  <data name="CheckboxPublicGame" xml:space="preserve">
+    <value>Zobrazit v seznamu všech her</value>
+  </data>
+  <data name="CheckboxRankedGame" xml:space="preserve">
+    <value>Tato hra je hodnocená (ranked)</value>
+  </data>
   <data name="BranchDeletionConfirmationText" xml:space="preserve">
     <value>Určitě chcete smazat vybranou větev?</value>
   </data>
@@ -1483,6 +1507,33 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="GameTree" xml:space="preserve">
     <value>Herní strom</value>
+  </data>
+  <data name="Add1Minute" xml:space="preserve">
+    <value>Přidat 1 minutu</value>
+  </data>
+  <data name="Add1MinuteTooltip" xml:space="preserve">
+    <value>Přidá 1 minutu soupeři k dobru</value>
+  </data>
+  <data name="Add5Minutes" xml:space="preserve">
+    <value>Přidat 5 minut</value>
+  </data>
+  <data name="Add5MinutesTooltip" xml:space="preserve">
+    <value>Přidá 5 minut soupeři k dobru</value>
+  </data>
+  <data name="CantPlayRanked" xml:space="preserve">
+    <value>Hra nemůže být hodnocená. Bude vytvořená jako volná hra.</value>
+  </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Povolit vrácení tahu</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Odmítnout vrácení tahu</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>Požádali jste soupeře o vrácení tahu.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Váš soupeř požádal o vrácení tahu.</value>
   </data>
   <data name="UseTouchInputOffset" xml:space="preserve">
     <value>Přidat posunutí k dotykovému ovládání, aby šly lépe vidět stínové prvky na herní ploše.</value>

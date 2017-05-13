@@ -210,10 +210,15 @@ namespace OmegaGo.Core.Online.Kgs
                 LoggingIn = false;
                 Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
             }
-            await MakeUnattendedRequestAsync("SYNC_REQUEST", new
+            if (!await MakeUnattendedRequestAsync("SYNC_REQUEST", new
             {
                 CallbackKey = 7
-            });
+            }))
+            {
+
+                LoggingIn = false;
+                Events.RaiseLoginComplete(LoginResult.FailureBadConnection);
+            }
         }
         private async Task<PostRequestResult> SendPostRequest(string jsonContents)
         {
@@ -222,7 +227,6 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-                Debug.WriteLine("Posting...");
                 var result = await _httpClient.PostAsync(Uri, jsonContent);
                 Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
                 if (!result.IsSuccessStatusCode)
@@ -254,6 +258,7 @@ namespace OmegaGo.Core.Online.Kgs
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Post: " + type);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }

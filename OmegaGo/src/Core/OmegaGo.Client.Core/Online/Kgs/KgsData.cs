@@ -41,11 +41,7 @@ namespace OmegaGo.Core.Online.Kgs
         /// </summary>
         public ObservableCollection<KgsRoom> AllRooms { get; } = new ObservableCollection<KgsRoom>();
 
-        public delegate void KgsDataUpdate<in T>(T concernedItem);
 
-        public event KgsDataUpdate<KgsChannel> ChannelJoined;
-        public event KgsDataUpdate<KgsChannel> ChannelUnjoined;
-        public event Action SomethingChanged;
 
         /// <summary>
         /// Gets the channel with the specified channel ID, if it exists and if it has the appropriate type.
@@ -101,6 +97,7 @@ namespace OmegaGo.Core.Online.Kgs
             }
             KgsChannel channel = Channels[channelId];
             channel.Joined = false;
+            _kgsConnection.Events.RaiseUnjoin(channel);
             if (channel is KgsGameContainer)
             {
                 KgsGameContainer container = channel as KgsGameContainer;
@@ -113,11 +110,10 @@ namespace OmegaGo.Core.Online.Kgs
                     _joinedGames.Remove(channel.ChannelId);
                 }
             }
-            ChannelUnjoined?.Invoke(channel);
-            SomethingChanged?.Invoke();
+            SomethingChanged();
 
             // Old:
-            _kgsConnection.Events.RaiseUnjoin(channel);
+            _kgsConnection.Events.RaiseChannelUnjoined(channel);
         }
 
 
@@ -133,8 +129,8 @@ namespace OmegaGo.Core.Online.Kgs
                 Channels.Add(channel.ChannelId, channel);
             }
             channel.Joined = true;
-            ChannelJoined?.Invoke(channel);
-            SomethingChanged?.Invoke();
+            _kgsConnection.Events.RaiseChannelJoined(channel);
+            SomethingChanged();
         }
 
         public void EnsureChannelExists(KgsChannel channel)
@@ -328,5 +324,10 @@ namespace OmegaGo.Core.Online.Kgs
             Channels[game.ChannelId] = game;
             return game;
         }
+        private void SomethingChanged()
+        {
+            this._kgsConnection.Events.RaiseSomethingChanged();
+        }
+
     }
 }

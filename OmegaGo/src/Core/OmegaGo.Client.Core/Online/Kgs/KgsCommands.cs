@@ -203,20 +203,52 @@ namespace OmegaGo.Core.Online.Kgs
             });
         }
 
-        public async Task<KgsChallenge> JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
+        public async Task JoinAndSubmitSelfToChallengeAsync(KgsChallenge selectedItem)
         {
             // Join
+            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
+            ChallengeWaiter waiter = new Kgs.KgsCommands.ChallengeWaiter(kgsConnection, selectedItem.ChannelId, simpleProposal);
+            this.kgsConnection.Events.ChannelJoined += waiter.Joined;
+            this.kgsConnection.Events.ChannelUnjoined += waiter.Unjoined;
             await kgsConnection.MakeUnattendedRequestAsync("JOIN_REQUEST", new
             {
                 ChannelId = selectedItem.ChannelId
             });
-            await kgsConnection.WaitUntilJoinedAsync(selectedItem.ChannelId);
 
+        }
+        
+        class ChallengeWaiter
+        {
+            private readonly KgsConnection _connection;
+            private readonly int _channelId;
+            private readonly object _simpleProposal;
 
-            var simpleProposal = SubmitOurselvesIntoProposal(selectedItem);
-
-            await kgsConnection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", simpleProposal);
-            return selectedItem;
+            public async void Joined(KgsChannel channel)
+            {
+                if (channel.ChannelId == _channelId)
+                {
+                    EndThis();
+                    await _connection.MakeUnattendedRequestAsync("CHALLENGE_SUBMIT", _simpleProposal);
+                }
+            }
+            public void Unjoined(KgsChannel channel)
+            {
+                if (channel.ChannelId == _channelId)
+                {
+                    EndThis();
+                }
+            }
+            private void EndThis()
+            {
+                _connection.Events.ChannelJoined -= Joined;
+                _connection.Events.ChannelUnjoined -= Unjoined;
+            }
+            public ChallengeWaiter(KgsConnection connection, int channelId, object simpleProposal)
+            {
+                _connection = connection;
+                _channelId = channelId;
+                _simpleProposal = simpleProposal;
+            }
         }
 
         private object SubmitOurselvesIntoProposal(KgsChallenge selectedItem)

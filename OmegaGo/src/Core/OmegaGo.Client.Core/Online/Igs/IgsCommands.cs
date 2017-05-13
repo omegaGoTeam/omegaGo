@@ -307,6 +307,12 @@ namespace OmegaGo.Core.Online.Igs
             // We are accepting a match and it begins.
             var lines = await MakeRequestAsync(matchRequest.AcceptCommand);
             if (lines.IsError) return null;
+            if (lines.Any(ln => ln.Code == IgsCode.Info && ln.PureLine.Contains("Requesting")))
+            {
+                this.igsConnection.Events.OnErrorMessageReceived("Requesting " + matchRequest.OpponentName +
+                                                                 " to confirm match.");
+                return null;
+            }
             var heading = this.igsConnection.Data.LastReceivedGameHeading;
             var ogi = await GetGameByIdAsync(heading.GameNumber);
             var builder = GameBuilder.CreateOnlineGame(ogi).Connection(this.igsConnection);

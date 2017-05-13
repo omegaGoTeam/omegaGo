@@ -218,18 +218,8 @@
                                             Content="{x:Bind Localizer.Pass}" Command="{x:Bind VM.PassCommand}" 
                                             HorizontalAlignment="Stretch"
                                             Opacity="{x:Bind VM.CanPass, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
-                                    <Button Grid.Column="1" Margin="5"
-                                            Content="{x:Bind Localizer.Undo}" Command="{x:Bind VM.UndoCommand}" 
-                                            HorizontalAlignment="Stretch"
-                                            Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
+                                    
                                 </Grid>
-
-                                <Button Margin="5"
-                                        Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
-                                        HorizontalAlignment="Stretch" />
-                                <Button Margin="5"
-                                        Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
-                                        HorizontalAlignment="Stretch"/>
                             </StackPanel>
 
                             <StackPanel x:Name="mainCommands" Orientation="Vertical" 
@@ -251,16 +241,16 @@
                                             Opacity="{x:Bind VM.CanUndo, Mode=OneWay, Converter={StaticResource boolDoubleConverter}}"/>
                                 </Grid>
                                 <Border Margin="5" Visibility="{x:Bind VM.OutgoingUndoInProgress, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
-                                    <TextBlock Margin="5" HorizontalAlignment="Center" Text="You have requested an undo." TextWrapping="Wrap"></TextBlock>
+                                    <TextBlock Margin="5" HorizontalAlignment="Center" Text="{x:Bind Localizer.YouHaveRequestedAnUndo}" TextWrapping="Wrap"></TextBlock>
                                 </Border>
                                 <Border Margin="5" Visibility="{x:Bind VM.CanAgreeOrDisagreeUndo, Mode=OneWay}" BorderBrush="Black" BorderThickness="1">
                                     <StackPanel>
-                                        <TextBlock Text="Your opponent requested his or her last move to be undone." TextWrapping="Wrap" Margin="5"></TextBlock>
+                                        <TextBlock Text="{x:Bind Localizer.YourOppRequestedAnUndo}" TextWrapping="Wrap" Margin="5"></TextBlock>
                                         <Button Margin="5"
-                                                Content="Agree With Undo" Command="{x:Bind VM.AgreeUndoCommand}" 
+                                                Content="{x:Bind Localizer.AgreeWithUndo}" Command="{x:Bind VM.AgreeUndoCommand}" 
                                                 HorizontalAlignment="Stretch" />
                                         <Button Margin="5"
-                                                Content="Disagree With Undo" Command="{x:Bind VM.DisagreeUndoCommand}" 
+                                                Content="{x:Bind Localizer.DisagreeWithUndo}" Command="{x:Bind VM.DisagreeUndoCommand}" 
                                                 HorizontalAlignment="Stretch"/>
                                     </StackPanel>
                                 </Border>

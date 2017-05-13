@@ -24,7 +24,7 @@ namespace OmegaGo.UI.Services.GameCreation
         public override GameCreationFormStyle Style => GameCreationFormStyle.OutgoingIgs;
         public override bool AcceptableAndRefusable => false;
         public override bool WillCreateChallenge => true;
-        public override bool CanReturn => true;
+        public override bool CanReturn => false;
         public override bool Frozen => false;
         public override string TabTitle => selectedChallengeableUser.Name + LocalizedStrings.HyphenOutgoingChallenge;
 
