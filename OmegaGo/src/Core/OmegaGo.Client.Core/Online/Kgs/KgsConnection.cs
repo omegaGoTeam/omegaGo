@@ -222,7 +222,6 @@ namespace OmegaGo.Core.Online.Kgs
             {
                 var jsonContent = new StringContent(jsonContents,
                 Encoding.UTF8, "application/json");
-                Debug.WriteLine("Posting...");
                 var result = await _httpClient.PostAsync(Uri, jsonContent);
                 Debug.WriteLine("Post result content: " + await result.Content.ReadAsStringAsync());
                 if (!result.IsSuccessStatusCode)
@@ -254,6 +253,7 @@ namespace OmegaGo.Core.Online.Kgs
             jo.Add("type", type.ToUpper());
             string contents = jo.ToString();
             Events.RaiseOutgoingRequest(contents);
+            Debug.WriteLine("Post: " + type);
             PostRequestResult postResult = await SendPostRequest(contents);
             return postResult.Successful;
         }
