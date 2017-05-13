@@ -4,9 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MvvmCross.Platform;
 using OmegaGo.Core.Online.Kgs;
 using OmegaGo.Core.Online.Kgs.Datatypes;
 using OmegaGo.Core.Online.Kgs.Structures;
+using OmegaGo.UI.Infrastructure.Tabbed;
+using OmegaGo.UI.Services.Audio;
 using OmegaGo.UI.Services.Online;
 using OmegaGo.UI.ViewModels;
 
@@ -51,6 +54,7 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.SelectedRuleset = KgsHelpers.ConvertRuleset(proposal.Rules.Rules);
             vm.IsRankedGame = proposal.GameType == GameType.Ranked;
             vm.IsPubliclyListedGame = proposal.Global;
+            string previousOpponent = vm.OpponentName;
             UpdateOpponentFromProposal(proposal.Players);
             foreach (var player in proposal.Players)
             {
@@ -86,6 +90,15 @@ namespace OmegaGo.UI.Services.GameCreation
             vm.Handicap = proposal.Rules.Handicap;
             vm.CompensationString = proposal.Rules.Komi.ToString(CultureInfo.InvariantCulture);
             vm.UseRecommendedKomi = false;
+            if (previousOpponent != vm.OpponentName)
+            {
+                Sounds.ChallengerChanged.PlayAsync();
+                var tab = Mvx.Resolve<ITabProvider>().GetTabForViewModel(vm);
+                if (tab != null)
+                {
+                    tab.IsBlinking = true;
+                }
+            }
             UpdateTimeControlFromRules(proposal.Rules);
         }
 
