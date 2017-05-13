@@ -1628,4 +1628,16 @@ I dare you to let two Fish play against each other. The game will never end (unl
   <data name="CantPlayRanked" xml:space="preserve">
     <value>The game cannot be ranked. It will be created as a non-ranked game.</value>
   </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Allow undo</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Refuse undo</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>You have requested an undo.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Your opponent requested his or her last move to be undone.</value>
+  </data>
 </root>

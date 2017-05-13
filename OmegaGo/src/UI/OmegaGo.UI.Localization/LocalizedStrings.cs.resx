@@ -1380,7 +1380,7 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
     <value>Výzvy</value>
   </data>
   <data name="GamesAndChallenges" xml:space="preserve">
-    <value>Hry v výzvy</value>
+    <value>Hry a výzvy</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Uživatelé</value>
@@ -1483,5 +1483,17 @@ Doporučejeme používat pouze tuto umělou inteligenci.</value>
   </data>
   <data name="GameTree" xml:space="preserve">
     <value>Herní strom</value>
+  </data>
+  <data name="AgreeWithUndo" xml:space="preserve">
+    <value>Povolit vrácení tahu</value>
+  </data>
+  <data name="DisagreeWithUndo" xml:space="preserve">
+    <value>Odmítnout vrácení tahu</value>
+  </data>
+  <data name="YouHaveRequestedAnUndo" xml:space="preserve">
+    <value>Požádali jste soupeře o vrácení tahu.</value>
+  </data>
+  <data name="YourOppRequestedAnUndo" xml:space="preserve">
+    <value>Váš soupeř požádal o vrácení tahu.</value>
   </data>
 </root>
