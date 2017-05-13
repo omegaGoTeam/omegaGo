@@ -424,8 +424,8 @@ namespace OmegaGo.UI.ViewModels
             {
                 Mvx.RegisterSingleton<IGame>(game);
                 OpenInNewActiveTab<OnlineGameViewModel>();
-                this.CloseSelf();
             }
+            this.CloseSelf();
         }
 
         private async Task DeclineSingleOpponent()
